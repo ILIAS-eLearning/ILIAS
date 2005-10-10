@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * survey script used to call the survey objects
 *
@@ -30,107 +29,11 @@
 *
 * @package survey
 */
-/*define("ILIAS_MODULE", "survey");
-chdir("..");
-require_once "./include/inc.header.php";
 
-// for security
-unset($id);
-
-//determine call mode for object classes
-//TODO: don't use same var $id for both
-if (isset($_GET["obj_id"]))
-{
-	$call_by_reference = false;
-	$id = $_GET["obj_id"];
-}
-else
-{
-	$call_by_reference = true;
-	$id = $_GET["ref_id"];
-}
-
-// exit if no valid ID was given
-if (!isset($_GET["ref_id"]))
-{
-	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
-}
-if (!isset($_GET["type"]))
-{
-	if ($call_by_reference)
-	{
-		$obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-	}
-	else
-	{
-		$obj = $ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-	}
-
-	$_GET["type"] = $obj->getType();
-}
-
-// determine command
-if (($cmd = $_GET["cmd"]) == "gateway")
-{
-	// surpress warning if POST is not set
-	@$cmd = key($_POST["cmd"]);
-
-}
-
-if (empty($cmd)) // if no cmd is given default to first property
-{
-	$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
-}
-
-if ($_GET["cmd"] == "post")
-{
-	$cmd = key($_POST["cmd"]);
-	unset($_GET["cmd"]);
-}
-
-// determine object type
-if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
-{
-	$obj_type = $_POST["new_type"];
-}
-elseif ($_GET["new_type"])
-{
-	$obj_type = $_GET["new_type"];
-}
-else
-{
-	$obj_type = $_GET["type"];
-}
-// call gui object method
-$method = $cmd."Object";
-$class_name = $objDefinition->getClassName($obj_type);
-$module = $objDefinition->getModule($obj_type);
-$module_dir = ($module == "")
-	? ""
-	: $module."/";
-
-$class_constr = "ilObj".$class_name."GUI";
-require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-switch ($_GET["cmd"]) 
-{
-	case "run":
-	case "evaluation":
-	case "evaluationdetails":
-	case "evaluationuser":
-		$prepare_output = false;
-		break;
-	default:
-		$prepare_output = true;
-		break;
-}
-$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
-$obj->$method();
-$tpl->show();*/
 define("ILIAS_MODULE", "survey");
 chdir("..");
-require_once "./include/inc.header.php";
-require_once "./survey/classes/class.ilObjSurveyGUI.php";
-
+include_once "./include/inc.header.php";
+include_once "./survey/classes/class.ilObjSurveyGUI.php";
 unset($id);
 
 //determine call mode for object classes
@@ -161,10 +64,20 @@ switch ($_GET["cmd"])
 		$prepare_output = true;
 		break;
 }
+
+switch ($ilCtrl->getCmd())
+{
+	case "start":
+	case "previous":
+	case "next":
+	case "resume":
+		$prepare_output = false;
+		break;
+}
+
 $ilCtrl->setTargetScript("survey.php");
 $ilCtrl->getCallStructure("ilobjsurveygui");
 $qp_gui =& new ilObjSurveyGUI("", $_GET["ref_id"], true, $prepare_output);
 $ilCtrl->forwardCommand($qp_gui);
-
 $tpl->show();
 ?>

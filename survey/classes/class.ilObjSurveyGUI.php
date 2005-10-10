@@ -28,6 +28,7 @@
 * @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version  $Id$
 *
+* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI
 *
 * @extends ilObjectGUI
@@ -41,12 +42,6 @@ include_once "./classes/class.ilSearch.php";
 include_once "./classes/class.ilObjUser.php";
 include_once "./classes/class.ilObjGroup.php";
 include_once "./survey/classes/class.SurveySearch.php";
-
-define ("TYPE_XLS", "latin1");
-define ("TYPE_XLS_MAC", "macos");
-define ("TYPE_SPSS", "csv");
-define ("TYPE_PRINT", "prnt");
-
 
 class ilObjSurveyGUI extends ilObjectGUI
 {
@@ -68,7 +63,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->setTabTargetScript("survey.php");
 		}
-		if ($a_prepare_output) {
+		if ($a_prepare_output) 
+		{
 			$this->prepareOutput();
 		}
 
@@ -76,16 +72,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, "ref_id");
 	}
 
-	/**
-	* Returns the calling script of the GUI class
-	*
-	* @access	public
-	*/
-	function getCallingScript()
-	{
-		return "survey.php";
-	}
-	
 	/**
 	* execute command
 	*/
@@ -107,9 +93,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 				$this->ctrl->forwardCommand($md_gui);
 				break;
+			
+			case "ilsurveyevaluationgui":
+				$this->setAdminTabs();
+				include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
+				$eval_gui = new ilSurveyEvaluationGUI($this->object);
+				$ret =& $this->ctrl->forwardCommand($eval_gui);
+				break;
 
 			default:
-				if (($cmd != "run") and ($cmd != "evaluation") and ($cmd != "evaluationdetails") and ($cmd != "evaluationuser"))
+				if (($cmd != "run") && ($cmd != "start"))
 				{
 					$this->setAdminTabs();
 				}
@@ -194,14 +187,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "properties");
 	}
 
-/**
-* Creates the form output for running the survey
-*
-* Creates the form output for running the survey
-*
-* @access public
-*/
-	function runObject() {
+	function resumeObject()
+	{
+		$this->startObject(true);
+	}
+	
+	function startObject($resume = false)
+	{
 		global $ilUser;
 		global $rbacsystem;
 
@@ -209,13 +201,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			// only with read access it is possible to run the test
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if ($_POST["cmd"]["exit"])
-		{
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel",ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH)."/repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
 		}
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
@@ -234,7 +219,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($this->object->getAnonymize())
 		{
-			if ($_POST["cmd"]["resume"])
+			if ($resume)
 			{
 				$anonymize_key = $this->object->getAnonymousId($_POST["anonymous_id"]);
 				if ($anonymize_key)
@@ -248,313 +233,430 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 		}
+		
 		$direction = 0;
+		$error_messages = array();
+
+		if ($this->object->getAnonymize())
+		{
+			if ($this->object->checkSurveyCode($_POST["anonymous_id"]))
+			{
+				$_SESSION["anonymous_id"] = $_POST["anonymous_id"];
+			}
+			else
+			{
+				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
+				$this->ctrl->redirect($this, "run");
+			}
+		}
+		
+		$activepage = "";
+		if ($resume)
+		{
+			$activepage = $this->object->getLastActivePage($ilUser->id);
+			$direction = 0;
+		}
+
+		$page = $this->object->getNextPage($activepage, $direction);
+		$constraint_true = 0;
+		// check for constraints
+		if (count($page[0]["constraints"]))
+		{
+			while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"])))
+			{
+				$constraint_true = 1;
+				foreach ($page[0]["constraints"] as $constraint)
+				{
+					$working_data = $this->object->loadWorkingData($constraint["question"], $ilUser->id);
+					$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
+				}
+				if ($constraint_true == 0)
+				{
+					$page = $this->object->getNextPage($page[0]["question_id"], $direction);
+				}
+			}
+		}
+
+		$qid = "";
+		if ($page === 0)
+		{
+			$this->runShowIntroductionPage();
+			return;
+		}
+		else if ($page === 1)
+		{
+			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
+			$this->runShowFinishedPage();
+			return;
+		}
+		else
+		{
+			$this->outNavigationButtons("top", $page);
+			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
+			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
+			$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
+			$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
+			$this->tpl->setCurrentBlock("percentage");
+			$this->tpl->setVariable("PERCENTAGE", (int)(($page[0]["position"])*200));
+			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($page[0]["position"])*100));
+			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+			$this->tpl->parseCurrentBlock();
+			if (count($page) > 1)
+			{
+				$this->tpl->setCurrentBlock("questionblock_title");
+				$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $this->lng->txt("questionblock") . ": " . $page[0]["questionblock_title"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			foreach ($page as $data)
+			{
+				$this->tpl->setCurrentBlock("survey_content");
+				if ($data["heading"])
+				{
+					$this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
+				}
+				$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
+				$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
+				$question_gui->object->setObligatory($data["obligatory"]);
+				$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
+				$qid = "&qid=" . $data["question_id"];
+				$this->tpl->parse("survey_content");
+			}
+			$this->outNavigationButtons("bottom", $page);
+		}
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $qid);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function previousObject()
+	{
+		$this->navigate("previous");
+	}
+	
+	function nextObject()
+	{
+		$this->navigate("next");
+	}
+	
+/**
+* Survey navigation
+*
+* Survey navigation
+*
+* @access private
+*/
+	function navigate($navigationDirection = "next") {
+		global $ilUser;
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->ref_id)) 
+		{
+			// only with read access it is possible to run the test
+			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		$this->setLocator();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+
+		// check users input when it is a metric question
 		$page_error = 0;
 		$error_messages = array();
-		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"])
+		$page = $this->object->getNextPage($_GET["qid"], 0);
+		foreach ($page as $data)
 		{
-			if (($_POST["cmd"]["start"]) || ($_POST["cmd"]["resume"]))
-			{
-				if ($this->object->getAnonymize())
-				{
-					if ($this->object->checkSurveyCode($_POST["anonymous_id"]))
-					{
-						$_SESSION["anonymous_id"] = $_POST["anonymous_id"];
-					}
-					else
-					{
-						sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
-						$this->ctrl->redirect($this, "run");
-					}
-				}
-			}
-			$activepage = "";
-			$direction = 0;
-			if ($_POST["cmd"]["resume"])
-			{
-				$activepage = $this->object->getLastActivePage($ilUser->id);
-				$direction = 0;
-			}
-			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["next"])
-			{
-				// check users input when it is a metric question
-				$page = $this->object->getNextPage($_GET["qid"], 0);
-				foreach ($page as $data)
-				{
-					$save_answer = 0;
-					$error = 0;
-					if (strcmp($data["type_tag"], "qt_metric") == 0)
-					{
-						// there is a metric question -> check input
-						$variables =& $this->object->getVariables($data["question_id"]);
-						$entered_value = $_POST[$data["question_id"] . "_metric_question"];
-						// replace german notation with international notation
-						$entered_value = str_replace(",", ".", $entered_value);
-						$_POST[$data["question_id"] . "_metric_question"] = $entered_value;
-						if (((($entered_value < $variables[0]->value1) or (($entered_value > $variables[0]->value2) and ($variables[0]->value2 > 0)))) && $data["obligatory"])
-						{
-							// there is an error: value is not in bounds
-							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
-							$error = 1;
-						}
-						if (!is_numeric($entered_value) && ($data["obligatory"]))
-						{
-							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_not_a_value");
-							$error = 1;
-						}
-						if ((strcmp($entered_value, "") == 0) && ($data["obligatory"]))
-						{
-							// there is an error: value is not in bounds
-							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
-							$error = 1;
-						}
-						if (($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)) && ($data["obligatory"]))
-						{
-							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_floating_point");
-							$error = 1;
-						}
-						if (($error == 0) && (strcmp($entered_value, "") != 0))
-						{
-							$save_answer = 1;
-						}
-					}
-					if (strcmp($data["type_tag"], "qt_nominal") == 0)
-					{
-						$variables =& $this->object->getVariables($data["question_id"]);
-						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and ($data["obligatory"]))
-						{
-							// none of the radio buttons was checked
-							$error_messages[$data["question_id"]] = $this->lng->txt("nominal_question_not_checked");
-							$error = 1;
-						}
-						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and (!$data["obligatory"])) {
-							$save_answer = 0;
-						}
-						else
-						{
-							$save_answer = 1;
-						}
-					}
-					if (strcmp($data["type_tag"], "qt_ordinal") == 0)
-					{
-						$variables =& $this->object->getVariables($data["question_id"]);
-						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && ($data["obligatory"]))
-						{
-							// none of the radio buttons was checked
-							$error_messages[$data["question_id"]] = $this->lng->txt("ordinal_question_not_checked");
-							$error = 1;
-						}
-						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && !$error)
-						{
-							$save_answer = 0;
-						}
-						else
-						{
-							$save_answer = 1;
-						}
-					}
-					if (strcmp($data["type_tag"], "qt_text") == 0)
-					{
-						$variables =& $this->object->getVariables($data["question_id"]);
-						if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && ($data["obligatory"]))
-						{
-							// none of the radio buttons was checked
-							$error_messages[$data["question_id"]] = $this->lng->txt("text_question_not_filled_out");
-							$error = 1;
-						}
-						if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && (!$data["obligatory"]))
-						{
-							$save_answer = 0;
-						}
-						else
-						{
-							$save_answer = 1;
-							$maxchars = SurveyTextQuestion::_getMaxChars($data["question_id"]);
-							if ($maxchars)
-							{
-								$_POST[$data["question_id"] . "_text_question"] = substr($_POST[$data["question_id"] . "_text_question"], 0, $maxchars);
-							}
-						}
-					}
-					$page_error += $error;
-					if ((!$error) && ($save_answer))
-					{
-						// save user input
-						$this->object->deleteWorkingData($data["question_id"], $ilUser->id);
-						switch ($data["type_tag"])
-						{
-							case "qt_nominal":
-								if ($data["subtype"] == SUBTYPE_MCSR)
-								{
-									$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
-								}
-								else
-								{
-									if (is_array($_POST[$data["question_id"] . "_value"]))
-									{
-										foreach ($_POST[$data["question_id"] . "_value"] as $value)
-										{
-											$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $value);
-										}
-									}
-									else
-									{
-										$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"]);
-									}
-								}
-								break;
-							case "qt_ordinal":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
-								break;
-							case "qt_metric":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_metric_question"]);
-								break;
-							case "qt_text":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
-								break;
-						}
-					}
-				}
-			}
-			if ($page_error)
-			{
-				if ($page_error == 1)
-				{
-					sendInfo($this->lng->txt("svy_page_error"));
-				}
-				else
-				{
-					sendInfo($this->lng->txt("svy_page_errors"));
-				}
-			}
+			$page_error += $this->saveActiveQuestionData($data, $error_messages);
+		}
 
-			if ($_POST["cmd"]["previous"])
+		if ($page_error)
+		{
+			if ($page_error == 1)
 			{
-				$activepage = $_GET["qid"];
-				if (!$page_error)
-				{
-					$direction = -1;
-				}
+				sendInfo($this->lng->txt("svy_page_error"));
 			}
-			else if ($_POST["cmd"]["next"])
+			else
 			{
+				sendInfo($this->lng->txt("svy_page_errors"));
+			}
+		}
+
+		$direction = 0;
+		switch ($navigationDirection)
+		{
+			case "next":
+			default:
 				$activepage = $_GET["qid"];
 				if (!$page_error)
 				{
 					$direction = 1;
 				}
-			}
-
-			$page = $this->object->getNextPage($activepage, $direction);
-			$constraint_true = 0;
-			// check for constraints
-			if (count($page[0]["constraints"]))
-			{
-				while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"])))
+				break;
+			case "previous":
+				$activepage = $_GET["qid"];
+				if (!$page_error)
 				{
-					$constraint_true = 1;
-					foreach ($page[0]["constraints"] as $constraint)
-					{
-						$working_data = $this->object->loadWorkingData($constraint["question"], $ilUser->id);
-						$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
-					}
-					if ($constraint_true == 0)
-					{
-						$page = $this->object->getNextPage($page[0]["question_id"], $direction);
-					}
+					$direction = -1;
+				}
+				break;
+		}
+
+		$page = $this->object->getNextPage($activepage, $direction);
+		$constraint_true = 0;
+
+		// check for constraints
+		if (count($page[0]["constraints"]))
+		{
+			while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"])))
+			{
+				$constraint_true = 1;
+				foreach ($page[0]["constraints"] as $constraint)
+				{
+					$working_data = $this->object->loadWorkingData($constraint["question"], $ilUser->id);
+					$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
+				}
+				if ($constraint_true == 0)
+				{
+					$page = $this->object->getNextPage($page[0]["question_id"], $direction);
 				}
 			}
+		}
 
-			$qid = "";
-			if ($page === 0)
+		$qid = "";
+		if ($page === 0)
+		{
+			$this->runShowIntroductionPage();
+			return;
+		}
+		else if ($page === 1)
+		{
+			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
+			$this->runShowFinishedPage();
+			return;
+		}
+		else
+		{
+			$this->outNavigationButtons("top", $page);
+			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
+			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
+			$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
+			$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
+			$this->tpl->setCurrentBlock("percentage");
+			$this->tpl->setVariable("PERCENTAGE", (int)(($page[0]["position"])*200));
+			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($page[0]["position"])*100));
+			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+			$this->tpl->parseCurrentBlock();
+			if (count($page) > 1)
 			{
-				$this->runShowIntroductionPage();
-				return;
+				$this->tpl->setCurrentBlock("questionblock_title");
+				$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $this->lng->txt("questionblock") . ": " . $page[0]["questionblock_title"]);
+				$this->tpl->parseCurrentBlock();
 			}
-			else if ($page === 1)
+			foreach ($page as $data)
 			{
-				$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
-				$this->runShowFinishedPage();
-				return;
+				$this->tpl->setCurrentBlock("survey_content");
+				if ($data["heading"])
+				{
+					$this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
+				}
+				$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
+				$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
+				$question_gui->object->setObligatory($data["obligatory"]);
+				$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
+				$qid = "&qid=" . $data["question_id"];
+				$this->tpl->parse("survey_content");
+			}
+			$this->outNavigationButtons("bottom", $page);
+		}
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $qid);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function saveActiveQuestionData(&$data, &$error_messages)
+	{
+		$page_error = 0;
+		$save_answer = 0;
+		$error = 0;
+
+		if (strcmp($data["type_tag"], "qt_metric") == 0)
+		{
+			// there is a metric question -> check input
+			$variables =& $this->object->getVariables($data["question_id"]);
+			$entered_value = $_POST[$data["question_id"] . "_metric_question"];
+			// replace german notation with international notation
+			$entered_value = str_replace(",", ".", $entered_value);
+			$_POST[$data["question_id"] . "_metric_question"] = $entered_value;
+			if (((($entered_value < $variables[0]->value1) or (($entered_value > $variables[0]->value2) and ($variables[0]->value2 > 0)))) && $data["obligatory"])
+			{
+				// there is an error: value is not in bounds
+				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
+				$error = 1;
+			}
+			if (!is_numeric($entered_value) && ($data["obligatory"]))
+			{
+				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_not_a_value");
+				$error = 1;
+			}
+			if ((strcmp($entered_value, "") == 0) && ($data["obligatory"]))
+			{
+				// there is an error: value is not in bounds
+				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
+				$error = 1;
+			}
+			if (($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)) && ($data["obligatory"]))
+			{
+				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_floating_point");
+				$error = 1;
+			}
+			if (($error == 0) && (strcmp($entered_value, "") != 0))
+			{
+				$save_answer = 1;
+			}
+		}
+		if (strcmp($data["type_tag"], "qt_nominal") == 0)
+		{
+			$variables =& $this->object->getVariables($data["question_id"]);
+			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and ($data["obligatory"]))
+			{
+				// none of the radio buttons was checked
+				$error_messages[$data["question_id"]] = $this->lng->txt("nominal_question_not_checked");
+				$error = 1;
+			}
+			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and (!$data["obligatory"])) {
+				$save_answer = 0;
 			}
 			else
 			{
-				$this->outNavigationButtons("top", $page);
-				$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
-				$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
-				$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
-				$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
-				$this->tpl->setCurrentBlock("percentage");
-				$this->tpl->setVariable("PERCENTAGE", (int)(($page[0]["position"])*200));
-				$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($page[0]["position"])*100));
-				$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-				$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-				$this->tpl->parseCurrentBlock();
-				if (count($page) > 1)
-				{
-					$this->tpl->setCurrentBlock("questionblock_title");
-					$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $this->lng->txt("questionblock") . ": " . $page[0]["questionblock_title"]);
-					$this->tpl->parseCurrentBlock();
-				}
-				foreach ($page as $data)
-				{
-					$this->tpl->setCurrentBlock("survey_content");
-					if ($data["heading"])
-					{
-						$this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
-					}
-					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
-					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
-					$question_gui->object->setObligatory($data["obligatory"]);
-					$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
-					$qid = "&qid=" . $data["question_id"];
-					$this->tpl->parse("survey_content");
-				}
-				$this->outNavigationButtons("bottom", $page);
+				$save_answer = 1;
 			}
-			$this->tpl->setCurrentBlock("content");
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $qid);
-			$this->tpl->parseCurrentBlock();
 		}
-		else
+		if (strcmp($data["type_tag"], "qt_ordinal") == 0)
 		{
-			$this->runShowIntroductionPage();
+			$variables =& $this->object->getVariables($data["question_id"]);
+			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && ($data["obligatory"]))
+			{
+				// none of the radio buttons was checked
+				$error_messages[$data["question_id"]] = $this->lng->txt("ordinal_question_not_checked");
+				$error = 1;
+			}
+			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && !$error)
+			{
+				$save_answer = 0;
+			}
+			else
+			{
+				$save_answer = 1;
+			}
 		}
-	}
+		if (strcmp($data["type_tag"], "qt_text") == 0)
+		{
+			$variables =& $this->object->getVariables($data["question_id"]);
+			if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && ($data["obligatory"]))
+			{
+				// none of the radio buttons was checked
+				$error_messages[$data["question_id"]] = $this->lng->txt("text_question_not_filled_out");
+				$error = 1;
+			}
+			if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && (!$data["obligatory"]))
+			{
+				$save_answer = 0;
+			}
+			else
+			{
+				$save_answer = 1;
+				$maxchars = SurveyTextQuestion::_getMaxChars($data["question_id"]);
+				if ($maxchars)
+				{
+					$_POST[$data["question_id"] . "_text_question"] = substr($_POST[$data["question_id"] . "_text_question"], 0, $maxchars);
+				}
+			}
+		}
 
+		$page_error += $error;
+		if ((!$error) && ($save_answer))
+		{
+			// save user input
+			$this->object->deleteWorkingData($data["question_id"], $ilUser->id);
+			switch ($data["type_tag"])
+			{
+				case "qt_nominal":
+					if ($data["subtype"] == SUBTYPE_MCSR)
+					{
+						$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
+					}
+					else
+					{
+						if (is_array($_POST[$data["question_id"] . "_value"]))
+						{
+							foreach ($_POST[$data["question_id"] . "_value"] as $value)
+							{
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $value);
+							}
+						}
+						else
+						{
+							$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"]);
+						}
+					}
+					break;
+				case "qt_ordinal":
+					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
+					break;
+				case "qt_metric":
+					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_metric_question"]);
+					break;
+				case "qt_text":
+					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
+					break;
+			}
+		}
+		return $page_error;
+	}
+	
 /**
-* Creates the navigation buttons for a survey
+* Creates the form output for running the survey
 *
-* Creates the navigation buttons for a survey.
-* Runs twice to generate a top and a bottom navigation to
-* ease the use of long forms.
+* Creates the form output for running the survey
 *
 * @access public
 */
-	function outNavigationButtons($navigationblock = "top", $page)
-	{
-		$prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
-		$this->tpl->setCurrentBlock($navigationblock . "_prev");
-		if ($prevpage === 0)
+	function runObject() {
+		global $ilUser;
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->ref_id)) 
 		{
-			$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
+			// only with read access it is possible to run the test
+			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
 		}
-		else
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		$this->setLocator();
+
+		if (!empty($title))
 		{
-			$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
+			$this->tpl->setVariable("HEADER", $title);
 		}
-		$this->tpl->parseCurrentBlock();
-		$nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
-		$this->tpl->setCurrentBlock($navigationblock . "_next");
-		if ($nextpage === 1)
-		{
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
-		}
-		else
-		{
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
-		}
-		$this->tpl->parseCurrentBlock();
+
+		$this->runShowIntroductionPage();
 	}
 
 /**
@@ -697,6 +799,47 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_FINISHED", $this->lng->txt("survey_finished"));
 		$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function exitObject()
+	{
+		$path = $this->tree->getPathFull($this->object->getRefID());
+		ilUtil::redirect($this->getReturnLocation("cancel",ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH)."/repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+	}
+	
+/**
+* Creates the navigation buttons for a survey
+*
+* Creates the navigation buttons for a survey.
+* Runs twice to generate a top and a bottom navigation to
+* ease the use of long forms.
+*
+* @access public
+*/
+	function outNavigationButtons($navigationblock = "top", $page)
+	{
+		$prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
+		$this->tpl->setCurrentBlock($navigationblock . "_prev");
+		if ($prevpage === 0)
+		{
+			$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
+		}
+		$this->tpl->parseCurrentBlock();
+		$nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
+		$this->tpl->setCurrentBlock($navigationblock . "_next");
+		if ($nextpage === 1)
+		{
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -2415,969 +2558,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 	/**
-	* Print the survey evaluation
+	* Redirects the evaluation object call to the ilSurveyEvaluationGUI class
 	*
-	* Print the survey evaluation
+	* Redirects the evaluation object call to the ilSurveyEvaluationGUI class
 	*
-	* @access private
+	* @access	private
 	*/
-	function printEvaluationObject()
+	function evaluationObject()
 	{
-		if (strcmp($_POST["evaltype"], "user") == 0)
-		{
-			$this->evaluationuserObject(1);
-		}
-		else
-		{
-			$this->evaluationObject($_POST["detail"], 1);
-		}
-		exit;
-	}
+		include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
+		$eval_gui = new ilSurveyEvaluationGUI($this->object);
+		$this->ctrl->setCmdClass(get_class($eval_gui));
+		$this->ctrl->setCmd("evaluation");
 
-	/**
-	* Print the survey evaluation for a selected user
-	*
-	* Print the survey evaluation for a selected user
-	*
-	* @access private
-	*/
-	function evaluationuserObject($print = 0)
-	{
-		if (!is_array($_POST))
-		{
-			$_POST = array();
-		}
-		include_once './classes/Spreadsheet/Excel/Writer.php';
-		$format_bold = "";
-		$format_percent = "";
-		$format_datetime = "";
-		$format_title = "";
-		$format_title_plain = "";
-		if ($print)
-		{
-			unset($_POST["export_format"]);
-		}
-		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
-		$surveyname = preg_replace("/\s/", "_", $object_title);
-
-		if (!$_POST["export_format"])
-		{
-			$_POST["export_format"] = TYPE_PRINT;
-		}
-
-		$eval =& $this->object->getEvaluationForAllUsers();
-		if (!$print)
-		{
-			$this->setEvalTabs();
-			sendInfo();
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", true);
-		}
-		else
-		{
-			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluationuser_preview.html", true, true);
-		}
-		$counter = 0;
-		$classes = array("tblrow1top", "tblrow2top");
-		$csvrow = array();
-		$questions =& $this->object->getSurveyQuestions(true);
-		$this->tpl->setCurrentBlock("headercell");
-		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
-		$this->tpl->parseCurrentBlock();
-		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-		{
-			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
-			$this->tpl->parseCurrentBlock();
-		}
-		if (array_key_exists("export_format", $_POST))
-		{
-			array_push($csvrow, $this->lng->txt("username"));
-			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-			{
-				array_push($csvrow, $this->lng->txt("gender"));
-			}
-		}
-		$char = "A";
-		$cellcounter = 1;
-		foreach ($questions as $question_id => $question_data)
-		{
-			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $char);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("legendrow");
-			$this->tpl->setVariable("TEXT_KEY", $char++);
-			$this->tpl->setVariable("TEXT_VALUE", $question_data["title"]);
-			if (array_key_exists("export_format", $_POST))
-			{
-				array_push($csvrow, $question_data["title"]);
-				switch ($question_data["questiontype_fi"])
-				{
-					case 1:
-						if ($question_data["subtype"] == SUBTYPE_MCMR)
-						{
-							foreach ($question_data["answers"] as $cat => $cattext)
-							{
-								array_push($csvrow, ($cat+1) . " - $cattext");
-							}
-						}
-						break;
-					case 2:
-					case 3:
-					case 4:
-						break;
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		$csvfile = array();
-		array_push($csvfile, $csvrow);
-
-		foreach ($eval as $user_id => $resultset)
-		{
-			$csvrow = array();
-			$this->tpl->setCurrentBlock("bodycell");
-			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["name"]);
-			array_push($csvrow, $resultset["name"]);
-			$this->tpl->parseCurrentBlock();
-			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-			{
-				$this->tpl->setCurrentBlock("bodycell");
-				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["gender"]);
-				array_push($csvrow, $resultset["gender"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			foreach ($questions as $question_id => $question_data)
-			{
-				// csv output
-				if (array_key_exists("export_format", $_POST))
-				{
-					switch ($question_data["questiontype_fi"])
-					{
-						case 1:
-							// nominal question
-							if (count($resultset["answers"][$question_id]))
-							{
-								if ($question_data["subtype"] == SUBTYPE_MCMR)
-								{
-									array_push($csvrow, "");
-									foreach ($question_data["answers"] as $cat => $cattext)
-									{
-										$found = 0;
-										foreach ($resultset["answers"][$question_id] as $answerdata)
-										{
-											if (strcmp($cat, $answerdata["value"]) == 0)
-											{
-												$found = 1;
-											}
-										}
-										if ($found)
-										{
-											array_push($csvrow, "1");
-										}
-										else
-										{
-											array_push($csvrow, "0");
-										}
-									}
-								}
-								else
-								{
-									array_push($csvrow, $resultset["answers"][$question_id][0]["value"]);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-								if ($question_data["subtype"] == SUBTYPE_MCMR)
-								{
-									foreach ($question_data["answers"] as $cat => $cattext)
-									{
-										array_push($csvrow, "");
-									}
-								}
-							}
-							break;
-						case 2:
-							// ordinal question
-							if (count($resultset["answers"][$question_id]))
-							{
-								foreach ($resultset["answers"][$question_id] as $key => $answer)
-								{
-									array_push($csvrow, $answer["value"]);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-							}
-							break;
-						case 3:
-							// metric question
-							if (count($resultset["answers"][$question_id]))
-							{
-								foreach ($resultset["answers"][$question_id] as $key => $answer)
-								{
-									array_push($csvrow, $answer["value"]);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-							}
-							break;
-						case 4:
-							// text question
-							if (count($resultset["answers"][$question_id]))
-							{
-								foreach ($resultset["answers"][$question_id] as $key => $answer)
-								{
-									array_push($csvrow, $answer["textanswer"]);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-							}
-							break;
-					}
-				}
-				// html output
-				if (count($resultset["answers"][$question_id]))
-				{
-					$answervalues = array();
-					foreach ($resultset["answers"][$question_id] as $key => $answer)
-					{
-						switch ($question_data["questiontype_fi"])
-						{
-							case 1:
-								// nominal question
-								if (strcmp($answer["value"], "") != 0)
-								{
-									array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
-								}
-								break;
-							case 2:
-								// ordinal question
-								array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
-								break;
-							case 3:
-								// metric question
-								array_push($answervalues, $answer["value"]);
-								break;
-							case 4:
-								// text question
-								array_push($answervalues, $answer["textanswer"]);
-								break;
-						}
-					}
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("TEXT_BODY_CELL", join($answervalues, "<br />"));
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("skipped"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->parse("row");
-			$counter++;
-			array_push($csvfile, $csvrow);
-		}
-		if (!$print)
-		{
-			$this->tpl->setCurrentBlock("adm_content");
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("__global__");
-			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
-			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-			$this->tpl->setVariable("PRINT_TYPE", "summary");
-		}
-		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$this->tpl->setVariable("TEXT_EXCEL_MAC", $this->lng->txt("exp_type_excel_mac"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
-		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_LEGEND", $this->lng->txt("legend"));
-		$this->tpl->setVariable("TEXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
-		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
-		$this->tpl->parseCurrentBlock();
-		switch ($_POST["export_format"])
-		{
-			case TYPE_XLS:
-			case TYPE_XLS_MAC:
-				// Let's send the file
-				// Creating a workbook
-				include_once ("./classes/class.ilExcelUtils.php");
-				$workbook = new Spreadsheet_Excel_Writer();
-
-				// sending HTTP headers
-				$workbook->send("$surveyname.xls");
-
-				// Creating a worksheet
-				$format_bold =& $workbook->addFormat();
-				$format_bold->setBold();
-				$format_percent =& $workbook->addFormat();
-				$format_percent->setNumFormat("0.00%");
-				$format_datetime =& $workbook->addFormat();
-				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-				$format_title =& $workbook->addFormat();
-				$format_title->setBold();
-				$format_title->setColor('black');
-				$format_title->setPattern(1);
-				$format_title->setFgColor('silver');
-				$format_title_plain =& $workbook->addFormat();
-				$format_title_plain->setColor('black');
-				$format_title_plain->setPattern(1);
-				$format_title_plain->setFgColor('silver');
-				// Creating a worksheet
-				$mainworksheet =& $workbook->addWorksheet();
-				$row = 0;
-				foreach ($csvfile as $csvrow)
-				{
-					$col = 0;
-					if ($row == 0)
-					{
-						foreach ($csvrow as $text)
-						{
-							$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]), $format_title);
-						}
-					}
-					else
-					{
-						foreach ($csvrow as $text)
-						{
-							if (preg_match("/\d+/", $text))
-							{
-								$mainworksheet->writeNumber($row, $col++, $text);
-							}
-							else
-							{
-								$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]));
-							}
-						}
-					}
-					$row++;
-				}
-				$workbook->close();
-				exit();
-				break;
-			case TYPE_SPSS:
-				$csv = "";
-				$separator = ";";
-				foreach ($csvfile as $csvrow)
-				{
-					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
-					$csv .= join($csvrow, $separator) . "\n";
-				}
-				ilUtil::deliverData($csv, "$surveyname.csv");
-				exit();
-				break;
-		}
-		if ($print)
-		{
-			$this->tpl->show();
-		}
+		$ret =& $this->executeCommand();
+		return $ret;
 	}
 	
-	/**
-	* Show the detailed evaluation
-	*
-	* Show the detailed evaluation
-	*
-	* @access private
-	*/
-	function evaluationdetailsObject()
-	{
-		$this->evaluationObject(1);
-	}
-	
-	/**
-	* Creates the evaluation form
-	*
-	* Creates the evaluation form
-	*
-	* @access	public
-	*/
-	function evaluationObject($details = 0, $print = 0)
-	{
-		global $ilUser;
-
-		include_once './classes/Spreadsheet/Excel/Writer.php';
-		$format_bold = "";
-		$format_percent = "";
-		$format_datetime = "";
-		$format_title = "";
-		if ($print)
-		{
-			unset($_POST["export_format"]);
-		}
-		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
-		$surveyname = preg_replace("/\s/", "_", $object_title);
-
-		if (!$_POST["export_format"])
-		{
-			$_POST["export_format"] = TYPE_PRINT;
-		}
-		switch ($_POST["export_format"])
-		{
-			case TYPE_XLS:
-			case TYPE_XLS_MAC:
-				// Creating a workbook
-				$workbook = new Spreadsheet_Excel_Writer();
-
-				// sending HTTP headers
-				$workbook->send("$surveyname.xls");
-
-				// Creating a worksheet
-				$format_bold =& $workbook->addFormat();
-				$format_bold->setBold();
-				$format_percent =& $workbook->addFormat();
-				$format_percent->setNumFormat("0.00%");
-				$format_datetime =& $workbook->addFormat();
-				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-				$format_title =& $workbook->addFormat();
-				$format_title->setBold();
-				$format_title->setColor('black');
-				$format_title->setPattern(1);
-				$format_title->setFgColor('silver');
-				// Creating a worksheet
-				include_once ("./classes/class.ilExcelUtils.php");
-				$mainworksheet =& $workbook->addWorksheet();
-				$mainworksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 2, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 3, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 4, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 5, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 6, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 7, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 8, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 9, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
-				break;
-			case (TYPE_SPSS || TYPE_PRINT):
-				$csvfile = array();
-				$csvrow = array();
-				array_push($csvrow, $this->lng->txt("title"));
-				array_push($csvrow, $this->lng->txt("question"));
-				array_push($csvrow, $this->lng->txt("question_type"));
-				array_push($csvrow, $this->lng->txt("users_answered"));
-				array_push($csvrow, $this->lng->txt("users_skipped"));
-				array_push($csvrow, $this->lng->txt("mode"));
-
-				//array_push($csvrow, $this->lng->txt("mode_text"));
-
-
-				array_push($csvrow, $this->lng->txt("mode_nr_of_selections"));
-				array_push($csvrow, $this->lng->txt("median"));
-				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
-				array_push($csvfile, $csvrow);
-				break;
-		}
-
-		if (!$print)
-		{
-			$this->setEvalTabs();
-			sendInfo();
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
-		}
-		else
-		{
-			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
-		}
-		$counter = 0;
-		$classes = array("tblrow1", "tblrow2");
-		$questions =& $this->object->getSurveyQuestions();
-		foreach ($questions as $data)
-		{
-			$eval = $this->object->getEvaluation($data["question_id"], $ilUser->id);
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("QUESTION_TITLE", ($counter+1) . ". " . $data["title"]);
-			$maxlen = 37;
-			if (strlen($data["questiontext"]) > $maxlen + 3)
-			{
-				$questiontext = substr($data["questiontext"], 0, $maxlen) . "...";
-			}
-			else
-			{
-				$questiontext = $data["questiontext"];
-			}
-			$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
-			$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
-			$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
-			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($eval["QUESTION_TYPE"]));
-			$this->tpl->setVariable("MODE", $eval["MODE"]);
-			$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
-			$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
-			$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
-			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			switch ($_POST["export_format"])
-			{
-				case TYPE_XLS:
-				case TYPE_XLS_MAC:
-					include_once ("./classes/class.ilExcelUtils.php");
-					$mainworksheet->writeString($counter+1, 0, ilExcelUtils::_convert_text($data["title"], $_POST["export_format"]));
-					$mainworksheet->writeString($counter+1, 1, ilExcelUtils::_convert_text($data["questiontext"], $_POST["export_format"]));
-					$mainworksheet->writeString($counter+1, 2, ilExcelUtils::_convert_text($this->lng->txt($eval["QUESTION_TYPE"]), $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
-					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
-					preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
-					switch ($eval["QUESTION_TYPE"])
-					{
-						case "qt_metric":
-							$mainworksheet->write($counter+1, 5, $eval["MODE"]);
-							$mainworksheet->write($counter+1, 6, $eval["MODE"]);
-							break;
-						default:
-							$mainworksheet->write($counter+1, 5, $matches[1]);
-							$mainworksheet->write($counter+1, 6, $matches[2]);
-							break;
-					}
-					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
-					$mainworksheet->write($counter+1, 8, $eval["MEDIAN"]);
-					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
-					break;
-				case (TYPE_SPSS || TYPE_PRINT):
-					$csvrow = array();
-					array_push($csvrow, $data["title"]);
-					array_push($csvrow, $data["questiontext"]);
-					array_push($csvrow, $this->lng->txt($eval["QUESTION_TYPE"]));
-					array_push($csvrow, $eval["USERS_ANSWERED"]);
-					array_push($csvrow, $eval["USERS_SKIPPED"]);
-					array_push($csvrow, $eval["MODE"]);
-					array_push($csvrow, $eval["MODE_NR_OF_SELECTIONS"]);
-					array_push($csvrow, $eval["MEDIAN"]);
-					array_push($csvrow, $eval["ARITHMETIC_MEAN"]);
-					array_push($csvfile, $csvrow);
-					break;
-			}
-			$this->tpl->parseCurrentBlock();
-			if ($details)
-			{
-				$printDetail = array();
-				switch ($_POST["export_format"])
-				{
-					case TYPE_XLS:
-					case TYPE_XLS_MAC:
-						include_once ("./classes/class.ilExcelUtils.php");
-						$worksheet =& $workbook->addWorksheet();
-						$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
-						$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($data["title"], $_POST["export_format"]));
-						$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
-						$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($data["questiontext"], $_POST["export_format"]));
-						$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
-						$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($eval["QUESTION_TYPE"]), $_POST["export_format"]));
-						$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
-						$worksheet->write(3, 1, $eval["USERS_ANSWERED"]);
-						$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
-						$worksheet->write(4, 1, $eval["USERS_SKIPPED"]);
-						$rowcounter = 5;
-						break;
-					case TYPE_PRINT:
-						array_push($printDetail, $this->lng->txt("title"));
-						array_push($printDetail, $data["title"]);
-						array_push($printDetail, $this->lng->txt("question"));
-						array_push($printDetail, $data["questiontext"]);
-						array_push($printDetail, $this->lng->txt("question_type"));
-						array_push($printDetail, $this->lng->txt($eval["QUESTION_TYPE"]));
-						array_push($printDetail, $this->lng->txt("users_answered"));
-						array_push($printDetail, $eval["USERS_ANSWERED"]);
-						array_push($printDetail, $this->lng->txt("users_skipped"));
-						array_push($printDetail, $eval["USERS_SKIPPED"]);
-						break;
-				}
-				$this->tpl->setCurrentBlock("detail");
-				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-				$this->tpl->setVariable("TEXT_QUESTION_TEXT", $this->lng->txt("question"));
-				$this->tpl->setVariable("QUESTION_TEXT", $data["questiontext"]);
-				$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("question_type"));
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($eval["QUESTION_TYPE"]));
-				$this->tpl->setVariable("TEXT_USERS_ANSWERED", $this->lng->txt("users_answered"));
-				$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
-				$this->tpl->setVariable("TEXT_USERS_SKIPPED", $this->lng->txt("users_skipped"));
-				$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
-				switch ($eval["QUESTION_TYPE"])
-				{
-					case "qt_ordinal":
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-							case TYPE_XLS_MAC:
-								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[1]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[2]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("median"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MEDIAN"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("categories"), $format_bold);
-								$worksheet->write($rowcounter, 1, $this->lng->txt("title"), $format_title);
-								$worksheet->write($rowcounter, 2, $this->lng->txt("value"), $format_title);
-								$worksheet->write($rowcounter, 3, $this->lng->txt("category_nr_selected"), $format_title);
-								$worksheet->write($rowcounter++, 4, $this->lng->txt("percentage_of_selections"), $format_title);
-								break;
-						}
-						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
-						$this->tpl->setVariable("MODE", $eval["MODE"]);
-						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
-						$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
-						$this->tpl->setVariable("TEXT_MEDIAN", $this->lng->txt("median"));
-						$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
-						$this->tpl->setVariable("TEXT_CATEGORIES", $this->lng->txt("categories"));
-						$categories = "";
-						foreach ($eval["variables"] as $key => $value)
-						{
-							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
-								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
-								switch ($_POST["export_format"])
-								{
-									case TYPE_XLS:
-									case TYPE_XLS_MAC:
-										$worksheet->write($rowcounter, 1, $value["title"]);
-										$worksheet->write($rowcounter, 2, $key+1);
-										$worksheet->write($rowcounter, 3, $value["selected"]);
-										$worksheet->write($rowcounter++, 4, $value["percentage"], $format_percent);
-										break;
-								}
-						}
-						$categories = "<ol>$categories</ol>";
-						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
-						
-						// display chart for ordinal question for array $eval["variables"]
-						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
-						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
-							"&type=bars" . 
-							"&x=" . urlencode($this->lng->txt("answers")) . 
-							"&y=" . urlencode($this->lng->txt("users_answered")) . 
-							"&arr=".base64_encode(serialize($eval["variables"])));
-						switch ($_POST["export_format"])
-						{
-							case TYPE_PRINT:
-								array_push($printDetail, $this->lng->txt("mode"));
-								array_push($printDetail, $eval["MODE"]);
-								array_push($printDetail, $this->lng->txt("mode_nr_of_selections"));
-								array_push($printDetail, $eval["MODE_NR_OF_SELECTIONS"]);
-								array_push($printDetail, $this->lng->txt("median"));
-								array_push($printDetail, $eval["MEDIAN"]);
-								array_push($printDetail, $this->lng->txt("categories"));
-								array_push($printDetail, $categories);
-								break;
-						}
-						break;
-					case "qt_nominal":
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-							case TYPE_XLS_MAC:
-								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[1]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[2]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("categories"), $format_bold);
-								$worksheet->write($rowcounter, 1, $this->lng->txt("title"), $format_title);
-								$worksheet->write($rowcounter, 2, $this->lng->txt("value"), $format_title);
-								$worksheet->write($rowcounter, 3, $this->lng->txt("category_nr_selected"), $format_title);
-								$worksheet->write($rowcounter++, 4, $this->lng->txt("percentage_of_selections"), $format_title);
-								break;
-						}
-						array_push($printDetail, $this->lng->txt("subtype"));
-						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
-						$charttype = "bars";
-						switch ($data["subtype"])
-						{
-							case SUBTYPE_MCSR:
-								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("multiple_choice_single_response"));
-								array_push($printDetail, $this->lng->txt("multiple_choice_single_response"));
-								break;
-							case SUBTYPE_MCMR:
-								$charttype = "pie";
-								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("multiple_choice_multiple_response"));
-								array_push($printDetail, $this->lng->txt("multiple_choice_multiple_response"));
-								break;
-						}
-						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
-						$this->tpl->setVariable("MODE", $eval["MODE"]);
-						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
-						$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
-						$this->tpl->setVariable("TEXT_CATEGORIES", $this->lng->txt("categories"));
-						$categories = "";
-						foreach ($eval["variables"] as $key => $value)
-						{
-							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
-								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
-							switch ($_POST["export_format"])
-							{
-								case TYPE_XLS:
-								case TYPE_XLS_MAC:
-									$worksheet->write($rowcounter, 1, $value["title"]);
-									$worksheet->write($rowcounter, 2, $key+1);
-									$worksheet->write($rowcounter, 3, $value["selected"]);
-									$worksheet->write($rowcounter++, 4, $value["percentage"], $format_percent);
-									break;
-							}
-						}
-						$categories = "<ol>$categories</ol>";
-						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
-
-						// display chart for nominal question for array $eval["variables"]
-						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
-						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
-							"&type=$charttype" . 
-							"&x=" . urlencode($this->lng->txt("answers")) . 
-							"&y=" . urlencode($this->lng->txt("users_answered")) . 
-							"&arr=".base64_encode(serialize($eval["variables"])));
-
-						switch ($_POST["export_format"])
-						{
-							case TYPE_PRINT:
-								array_push($printDetail, $this->lng->txt("mode"));
-								array_push($printDetail, $eval["MODE"]);
-								array_push($printDetail, $this->lng->txt("mode_nr_of_selections"));
-								array_push($printDetail, $eval["MODE_NR_OF_SELECTIONS"]);
-								array_push($printDetail, $this->lng->txt("categories"));
-								array_push($printDetail, $categories);
-								break;
-						}
-						break;
-					case "qt_metric":
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-							case TYPE_XLS_MAC:
-								$worksheet->write($rowcounter, 0, $this->lng->txt("subtype"), $format_bold);
-								switch ($data["subtype"])
-								{
-									case SUBTYPE_NON_RATIO:
-										$worksheet->write($rowcounter++, 1, $this->lng->txt("non_ratio"), $format_bold);
-										break;
-									case SUBTYPE_RATIO_NON_ABSOLUTE:
-										$worksheet->write($rowcounter++, 1, $this->lng->txt("ratio_non_absolute"), $format_bold);
-										break;
-									case SUBTYPE_RATIO_ABSOLUTE:
-										$worksheet->write($rowcounter++, 1, $this->lng->txt("ratio_absolute"), $format_bold);
-										break;
-								}
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("median"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MEDIAN"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("arithmetic_mean"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["ARITHMETIC_MEAN"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("values"), $format_bold);
-								$worksheet->write($rowcounter, 1, $this->lng->txt("value"), $format_title);
-								$worksheet->write($rowcounter, 2, $this->lng->txt("category_nr_selected"), $format_title);
-								$worksheet->write($rowcounter++, 3, $this->lng->txt("percentage_of_selections"), $format_title);
-								break;
-						}
-						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
-						array_push($printDetail, $this->lng->txt("subtype"));
-						switch ($data["subtype"])
-						{
-							case SUBTYPE_NON_RATIO:
-								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("non_ratio"));
-								array_push($printDetail, $this->lng->txt("non_ratio"));
-								break;
-							case SUBTYPE_RATIO_NON_ABSOLUTE:
-								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("ratio_non_absolute"));
-								array_push($printDetail, $this->lng->txt("ratio_non_absolute"));
-								break;
-							case SUBTYPE_RATIO_ABSOLUTE:
-								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("ratio_absolute"));
-								array_push($printDetail, $this->lng->txt("ratio_absolute"));
-								break;
-						}
-						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
-						$this->tpl->setVariable("MODE", $eval["MODE"]);
-						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
-						$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
-						$this->tpl->setVariable("TEXT_MEDIAN", $this->lng->txt("median"));
-						$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
-						$this->tpl->setVariable("TEXT_ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
-						$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
-						$this->tpl->setVariable("TEXT_VALUES", $this->lng->txt("values"));
-						$values = "";
-						foreach ($eval["values"] as $key => $value)
-						{
-							$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" .
-								$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-								$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
-							switch ($_POST["export_format"])
-							{
-								case TYPE_XLS:
-								case TYPE_XLS_MAC:
-									$worksheet->write($rowcounter, 1, $value["value"]);
-									$worksheet->write($rowcounter, 2, $value["selected"]);
-									$worksheet->write($rowcounter++, 3, $value["percentage"], $format_percent);
-									break;
-							}
-						}
-						$values = "<ol>$values</ol>";
-						$this->tpl->setVariable("VALUE_VALUES", $values);
-
-						// display chart for metric question for array $eval["values"]
-						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
-						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
-							"&type=bars" . 
-							"&x=" . urlencode($this->lng->txt("answers")) . 
-							"&y=" . urlencode($this->lng->txt("users_answered")) . 
-							"&arr=".base64_encode(serialize($eval["values"])));
-
-						switch ($_POST["export_format"])
-						{
-							case TYPE_PRINT:
-								array_push($printDetail, $this->lng->txt("mode"));
-								array_push($printDetail, $eval["MODE"]);
-								array_push($printDetail, $this->lng->txt("mode_nr_of_selections"));
-								array_push($printDetail, $eval["MODE_NR_OF_SELECTIONS"]);
-								array_push($printDetail, $this->lng->txt("median"));
-								array_push($printDetail, $eval["MEDIAN"]);
-								array_push($printDetail, $this->lng->txt("values"));
-								array_push($printDetail, $values);
-								break;
-						}
-						break;
-					case "qt_text":
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-							case TYPE_XLS_MAC:
-								$worksheet->write($rowcounter, 0, $this->lng->txt("given_answers"), $format_bold);
-								break;
-						}
-						$this->tpl->setVariable("TEXT_TEXTVALUES", $this->lng->txt("given_answers"));
-						$textvalues = "";
-						foreach ($eval["textvalues"] as $textvalue)
-						{
-							$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
-							switch ($_POST["export_format"])
-							{
-								case TYPE_XLS:
-								case TYPE_XLS_MAC:
-									$worksheet->write($rowcounter++, 1, $textvalue);
-									break;
-							}
-						}
-						$textvalues = "<ul>$textvalues</ul>";
-						$this->tpl->setVariable("VALUE_TEXTVALUES", $textvalues);
-						switch ($_POST["export_format"])
-						{
-							case TYPE_PRINT:
-								array_push($printDetail, $this->lng->txt("given_answers"));
-								array_push($printDetail, $textvalues);
-								break;
-						}
-						break;
-				}
-
-				if ($_POST["export_format"]==TYPE_PRINT)
-				{
-					$printdetail_file = array();
-					array_push($printdetail_file, $printDetail);
-					$s_question = $counter+1;
-					$_SESSION[$this->lng->txt("question").$s_question] = $printdetail_file;
-					$this->tpl->setVariable("PRINT_ACTION", $this->getCallingScript() . "?ref_id=" . $_GET["ref_id"] . "&cmd=printEvaluation&".$this->lng->txt("question")."=".$s_question);
-					$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-					$this->tpl->setVariable("PRINT_IMAGE", ilUtil::getImagePath("icon_print.gif"));
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			$counter++;
-		}
-		if ($_POST["export_format"]==TYPE_PRINT)
-		{
-			$_SESSION["print_eval"] = $csvfile;
-		}
-
-
-		switch ($_POST["export_format"])
-		{
-			case TYPE_XLS:
-			case TYPE_XLS_MAC:
-				// Let's send the file
-				$workbook->close();
-				exit();
-				break;
-			case TYPE_SPSS:
-				$csv = "";
-				$separator = ";";
-				foreach ($csvfile as $csvrow)
-				{
-					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
-					$csv .= join($csvrow, $separator) . "\n";
-				}
-				ilUtil::deliverData($csv, "$surveyname.csv");
-				exit();
-				break;
-		}
-		if (!$print)
-		{
-			$this->tpl->setCurrentBlock("adm_content");
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("__global__");
-			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
-			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-			$this->tpl->setVariable("PRINT_TYPE", "summary");
-		}
-		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("QUESTION_TEXT", $this->lng->txt("question"));
-		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("USERS_ANSWERED", $this->lng->txt("users_answered"));
-		$this->tpl->setVariable("USERS_SKIPPED", $this->lng->txt("users_skipped"));
-		$this->tpl->setVariable("MODE", $this->lng->txt("mode"));
-		$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
-		$this->tpl->setVariable("MEDIAN", $this->lng->txt("median"));
-		$this->tpl->setVariable("ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
-		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$this->tpl->setVariable("TEXT_EXCEL_MAC", $this->lng->txt("exp_type_excel_mac"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
-		$this->tpl->setVariable("VALUE_DETAIL", $details);
-		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
-		if ($details)
-		{
-			$this->tpl->setVariable("CMD_EXPORT", "evaluationdetails");
-		}
-		else
-		{
-			$this->tpl->setVariable("CMD_EXPORT", "evaluation");
-		}
-		$this->tpl->parseCurrentBlock();
-		if ($print)
-		{
-			$this->tpl->show();
-		}
-	}
-
 	/**
 	* Creates the search output for the user/group search form
 	*
@@ -4874,45 +4071,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$_SESSION["constraintstructure"] = $structure;
 	}
 
-	/**
-	* Set the tabs for the evaluation output
-	*
-	* Set the tabs for the evaluation output
-	*
-	* @access private
-	*/
-	function setEvalTabs()
-	{
-		global $rbacsystem;
-
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		$tabs_gui->addTarget(
-			"svy_eval_cumulated", 
-			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluation"), 
-			array("evaluation"),	
-			""
-		);
-
-		$tabs_gui->addTarget(
-			"svy_eval_detail", 
-			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationdetails"), 
-			array("evaluationdetails"),	
-			""
-		);
-		
-		$tabs_gui->addTarget(
-			"svy_eval_user", 
-			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationuser"), 
-			array("evaluationuser"),	
-			""
-		);
-		
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-	
-	
 	/**
 	* adds tabs to tab gui object
 	*
