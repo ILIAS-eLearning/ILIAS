@@ -376,7 +376,7 @@ a.il_ContainerItemCommand
 	color: black;
 	white-space: nowrap;
 	background-color:#E6ECF8;
-	font-size:0.7em;
+	font-size: 70%;
 }
 
 div.il_ContainerItemCommands
@@ -390,7 +390,7 @@ div.il_ItemProperties
 	margin-top: 2px;
 	margin-bottom: 5px;
 	text-align:left;
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 div.il_Preconditions
@@ -412,12 +412,12 @@ a.il_ItemProperty:hover {
 span.il_ItemAlertProperty
 {
 	color: #C04000;
-	#font-size: 0.8em;
+	#font-size: 80%;
 }
 
 span.il_ItemProperty,
 {
-	#font-size: 0.8em;
+	#font-size: 80%;
 }
 
 td.il_ContainerBlockHeader
@@ -446,8 +446,8 @@ table.il_ContainerBlock
 div.il_PDTitle
 {
 	font-family: "Times New Roman", Times, Palatino, "Palatino Linotype", serif;
-	font-size: 1.5em;
-	line-height: 1.6em;
+	font-size: 150%;
+	line-height: 160%;
 	color: #606060;
 	letter-spacing: 0.1em;
 	word-spacing: -0.1em;
@@ -486,7 +486,7 @@ td.il_PDBlockSubHeader
 	background-image: url(blueshadow2/images/TableHeader.gif);
 	background-repeat:repeat-x;
 	font-weight: bold;
-	font-size:1em;
+	font-size: 100%;
 	padding: 2px;
 	background-color: #F0F0F0;
 	
@@ -573,7 +573,7 @@ table.il_Locator
 div.il_Locator {
 	padding: 4px 15px;
 	vertical-align:top;
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 a.il_LocatorLink, a.il_LocatorLink:link, a.il_LocatorLink:visited, a.il_LocatorLink:hover
@@ -647,7 +647,7 @@ a.tabinactive
 	display:block;
 	background:url("blueshadow2/images/TabInactiveLeft.gif") no-repeat left top;
     padding: 3px 8px;
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 li.tabactive
@@ -669,7 +669,7 @@ a.tabactive
 	display:block;
 	background:url("blueshadow2/images/TabActiveLeft.gif") no-repeat left top;
     padding: 3px 8px;
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 /*  Commented Backslash Hack
@@ -713,7 +713,7 @@ a.subtabinactive
 	display:block;
 	background:url("blueshadow2/images/SubTabInactiveLeft.gif") no-repeat left top;
     padding: 3px 10px;
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 li.subtabactive
@@ -731,7 +731,7 @@ a.subtabactive
 	display:block;
 	background:url("blueshadow2/images/SubTabActiveLeft.gif") no-repeat left top;
     padding: 3px 10px;
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 /*  Commented Backslash Hack
@@ -799,19 +799,19 @@ div.il_Description, td.il_Description
 {
 	margin-top:2px;
 	margin-bottom:5px;
-	font-size: 0.9em;
+	font-size: 90%;
 	#font-style: italic;
 	text-align:left;
 }
 div.il_Description_no_margin, td.il_Description_no_margin
 {
-	font-size: 0.9em;
+	font-size: 90%;
 	font-style: italic;
 	text-align:left;
 }
 div.il_info
 {
-	font-size: 0.9em;
+	font-size: 90%;
 	text-align:left;
 }
 
@@ -864,7 +864,7 @@ a.ilMainHeader
 	border-width: 1px;
 	border-color: #B0B0B0;
 	background-color: #E6ECF8;
-	font-size:0.9em;
+	font-size:90%;
 }
 
 div.ilLogin
@@ -890,18 +890,18 @@ div.il_Footer
 {
 	margin-top:30px;
 	margin-bottom:10px;
-	font-size: 0.9em;
+	font-size: 90%;
 	text-align:center;
 }
 
 h1 {
 	margin-top:2px;
 	margin-bottom:5px;
-	font-size: 1.2em;
+	font-size: 120%;
 }
 
 h2 {
-	#font-size: 1.2em;
+	#font-size: 120%;
 	color:#222222;
 	background-color: #E2EAF4;
 	border-width:1px;
@@ -930,24 +930,24 @@ td.ilInvisibleBorder
 
 /* ------- Helptext --------- */
 span.il_Helptext {
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 /* ----------------- alternative text styles ------------- */
 .small {
 	text-decoration:none;
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 .smallgreen {
 	text-decoration:none;
-	font-size: 0.9em;
+	font-size: 90%;
 	color:green;
 }
 
 .smallred {
 	text-decoration:none;
-	font-size: 0.9em;
+	font-size: 90%;
 	color:red;
 }
 
@@ -978,7 +978,7 @@ div.Access {
 
 .asterisk {
 	color:red;
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 .default {
@@ -1000,7 +1000,7 @@ div.Access {
 .subtitle {
 	font-style:italic;
 	font-weight:normal;
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 .questiontext {
@@ -1022,7 +1022,7 @@ a:link, a:visited {
 
 a:hover {
 	color:#000000;
-	#font-size:0.9em;
+	#font-size: 90%;
 }
 
 /* ------------------- mail links ----------- */
@@ -1064,7 +1064,7 @@ td.btn {
 
 a.btn:link, a.btn:visited {
 	text-decoration:none;
-	#font-size: 0.8em;
+	font-size: 90%;
 }
 
 
@@ -1081,7 +1081,7 @@ input.submit, a.submit {
 	border-style:solid;
 	padding:2px;
 	text-decoration:none;
-	#font-size: 0.8em;
+	font-size: 90%;
 	font-weight:bold;
 	cursor:pointer;
 }
@@ -1094,7 +1094,7 @@ input.submit_disabled, a.submit_disabled {
 	border-style:solid;
 	padding:2px;
 	text-decoration:none;
-	#font-size: 0.8em;
+	font-size: 90%;
 	font-weight:bold;
 	cursor:pointer;
 }
@@ -1119,7 +1119,7 @@ a.ilEditSubmit {
 	margin: 0px;
 	background-image: none;
 	text-decoration: none;
-	#font-size: 0.8em;
+	font-size: 80%;
 	line-height: 14px;
 	font-weight:bold;
 	cursor:pointer;
@@ -1135,7 +1135,7 @@ input.ilEditSubmit {
 	margin: 0px;
 	background-image: none;
 	text-decoration: none;
-	#font-size: 0.8em;
+	font-size: 80%;
 	line-height: 14px;
 	font-weight:bold;
 	cursor:pointer;
@@ -1147,7 +1147,7 @@ input.ilEditHelpline {
 	padding:3px;
 	background-image: none;
 	text-decoration:none;
-	#font-size: 0.8em;
+	font-size: 80%;
 }
 
 input.tblrow1, input.tblrow2
@@ -1167,7 +1167,7 @@ textarea {
 	border-style:inset;
 	padding:3px;
 	text-decoration:none;
-	#font-size: 0.8em;
+	#font-size: 80%;
 }
 
 input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
@@ -1195,7 +1195,7 @@ select.ilEditSelect {
 	padding:1px;
 	background-image: none;
 	text-decoration:none;
-	#font-size: 0.8em;
+	font-size: 80%;
 }
 
 /* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
@@ -1237,7 +1237,7 @@ div.dp_Menu
 	#border-color:#E0C8A0;
 	background-color: #EBEBEB;
 	width: 152px;
-	font-size:0.9em;
+	font-size: 90%;
 }
 
 td.even
@@ -1257,28 +1257,28 @@ td.uneven
 td.today
 {
 	text-align: center;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #E0E0FF;
 }
 
 td.chosenDate
 {
 	text-align: center;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #FFE0E0;
 }
 
 td.date
 {
 	text-align: center;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #F7F7F7;
 }
 
 td.prevMonth
 {
 	text-align: center;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #DFDFDF;
 }
 
@@ -1287,7 +1287,7 @@ td.todayMO
 	height: 40px;
 	text-align: center;
 	vertical-align: top;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #E0E0FF;
 }
 
@@ -1296,7 +1296,7 @@ td.chosenDateMO
 	height: 40px;
 	text-align: center;
 	vertical-align: top;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color:  #FFE0E0;
 }
 
@@ -1305,7 +1305,7 @@ td.dateMO
 	height: 40px;
 	text-align: center;
 	vertical-align: top;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #F7F7F7;
 }
 
@@ -1314,7 +1314,7 @@ td.prevMonthMO
 	height: 40px;
 	text-align: center;
 	vertical-align: top;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #DFDFDF;
 }
 
@@ -1322,7 +1322,7 @@ td.evenMO
 {
 	color:#222222;
 	background-color:#F7F7F7;
-	font-size: 0.9em;
+	font-size: 90%;
 	padding: 3px;
 }
 
@@ -1330,7 +1330,7 @@ td.unevenMO
 {
 	color:#222222;
 	background-color:#EEEEEE;
-	font-size: 0.9em;
+	font-size: 90%;
 	padding: 3px;
 }
 
@@ -1338,60 +1338,60 @@ td.weeknumber
 {
 	color: #5F5F5F;
 	background-color: none;
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 a.weekLink
 {
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 td.appointmentConfTitle
 {
-	#font-size: 1.2em;
+	#font-size: 120%;
 	font-style: italic;
 }
 
 td.doubleComment
 {
-	font-size: 0.8em;
+	font-size: 80%;
 	color: #FF0000;
 	font-weight: bold;
 }
 
 td.il_CalMonth
 {
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 td.il_CalNextMonth
 {
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 td.il_CalNextMonth
 {
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 td.il_CalShortMonth
 {
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 td.il_CalShortWeek
 {
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 td.il_CalShortDayOfWeek
 {
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 td.il_CalDay
 {
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
 /* --- content styles (will move to content.css) --- */
@@ -1445,14 +1445,14 @@ td.ilc_LMNavigation
 	border-bottom-width: 1px;
 	background-image: url(blueshadow2/images/TableHeader.gif);
 	margin-bottom: 0px;
-	#font-size: 0.6em;
+	#font-size: 60%;
 }
 
 div.ilc_DefinitionHeader
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	#font-size: 1.3em;
+	#font-size: 130%;
 	padding-bottom: 5px;
 	padding-top: 5px;
 	border-bottom-width: 1px;
@@ -1495,7 +1495,7 @@ table.ilc_FileList
 
 th.ilc_FileList
 {
-	#font-size: 0.8em;
+	#font-size: 80%;
 	text-align: left;
 	padding: 3px;
 }
@@ -1564,7 +1564,7 @@ div.ilc_Question
 
 .questionTitle {
 	border-bottom: thin solid #333333;
-	#font-size: 0.8em;
+	#font-size: 80%;
 	font-weight: bold;
 	padding-bottom: 0.5em;
 }
@@ -1613,7 +1613,7 @@ div.imagebox
 }
 
 .questionblockTitle {
-	#font-size: 0.8em;
+	#font-size: 80%;
 	color:#222222;
 	background-color: #F0F0F0;
 	border-width:1px;
@@ -1629,6 +1629,6 @@ div.imagebox
 .questionheading {
 	margin-top:2px;
 	margin-bottom:5px;
-	#font-size: 0.8em;
+	#font-size: 80%;
 	font-weight: bold;
 }
