@@ -5273,3 +5273,19 @@ crs#:#import_crs#:#Import Kurs
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#chat_active_in#:#Aktiv in chat:
 common#:#chat_invite#:#Chat
+common#:#links_dynamic#:#Dynamische Parameter
+common#:#links_dynamic_info#:#Wenn aktiviert, können Web-Links dynamische Parameter wie z.B die ILIAS Benutzer-Id oder der Benutzername hinzugefügt werden.
+common#:#links_not_available#:#Nicht vorhanden
+common#:#links_dyn_parameter#:#Dynamische Parameter
+common#:#links_existing_params#:#Vorhandene Parameter:
+common#:#links_add_param#:#Parameter hinzufügen:
+common#:#links_name#:#Parameter Name
+common#:#links_value#:#Parameter Wert
+common#:#links_user_id#:#ILIAS Benutzer-Id
+common#:#links_user_name#:#ILIAS Benutzername
+common#:#links_session_id#:#ILIAS Session-Id
+common#:#links_select_one#:#- Bitte treffen Sie eine Auswahl -
+common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-Id an den Web-Link anhängen.
+common#:#links_no_value_given#:#Bitte wählen Sie einen Parameterwert aus.
+common#:#links_no_name_given#:#Bitte geben Sie einen Parameternamen ein.
+common#:#links_parameter_deleted#:#Der Parameter wurde gelöscht.

@@ -397,6 +397,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				
 				// soap
 				$settings["soap_user_administration"] = $_POST["soap_user_administration"];
+
+				// dynamic links
+				$settings["links_dynamic"] = $_POST["links_dynamic"];
 			}
 			else // all required fields ok
 			{
@@ -476,6 +479,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// write ini settings
 				$this->ilias->ini->write();
+
+				// links dynamic
+				$this->ilias->setSetting('links_dynamic',$_POST['links_dynamic']);
 
 				$settings = $this->ilias->getAllSettings();
 
@@ -584,6 +590,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_WEBSERVICES",$this->lng->txt('webservices'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION",$this->lng->txt('soap_user_administration'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION_DESC",$this->lng->txt('soap_user_administration_desc'));
+
+		$this->tpl->setVariable("TXT_DYNAMIC_LINKS",$this->lng->txt('links_dynamic'));
+		$this->tpl->setVariable("INFO_DYNAMIC_LINKS",$this->lng->txt('links_dynamic_info'));
+		
 
 		// forums
 		$this->tpl->setVariable("TXT_FORUMS",$this->lng->txt('obj_frm'));
@@ -710,6 +720,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("JS_EDIT","checked=\"checked\"");
 		}
 
+		if($settings['links_dynamic'])
+		{
+			$this->tpl->setVariable("LINKS_DYNAMIC_CHECKED","checked=\"checked\"");
+		}
 
         // registration
 		if ($settings["passwd_auto_generate"])

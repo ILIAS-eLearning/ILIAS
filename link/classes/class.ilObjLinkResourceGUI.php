@@ -113,6 +113,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		include_once './classes/class.ilTableGUI.php';
+		include_once './link/classes/class.ilParameterAppender.php';
 
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
@@ -141,6 +142,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($items as $item_id => $item)
 		{
+			if(ilParameterAppender::_isEnabled())
+			{
+				$item = ilParameterAppender::_append($item);
+			}
 			if(strlen($item['description']))
 			{
 				$tpl->setCurrentBlock("description");
@@ -186,6 +191,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		include_once './classes/class.ilTableGUI.php';
+		include_once 'link/classes/class.ilParameterAppender.php';
+		
 
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -223,7 +230,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
-		$tpl->setVariable("COLUMN_COUNTS",7);
+		$tpl->setVariable("COLUMN_COUNTS",ilParameterAppender::_isEnabled() ? 8 : 7);
 		$tpl->parseCurrentBlock();
 		
 
@@ -237,6 +244,36 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($items as $item_id => $item)
 		{
+			if(ilParameterAppender::_isEnabled())
+			{
+				$params_list = array();
+				foreach($params = ilParameterAppender::_getParams($item['link_id']) as $id => $param)
+				{
+					$txt_param = $param['name'];
+					switch($param['value'])
+					{
+						case LINKS_USER_ID:
+							$txt_param .= '=IL_USER_ID';
+							break;
+
+						case LINKS_SESSION_ID:
+							$txt_param .= '=IL_SESSION_ID';
+							break;
+						
+						case LINKS_LOGIN:
+							$txt_param .= '=IL_LOGIN';
+							break;
+					}
+					$params_list[] = $txt_param;
+				}
+				$tpl->setCurrentBlock("params");
+				$tpl->setVariable("DYN_PARAM",count($params_list) ? 
+								  implode('<br />',$params_list) :
+								  $this->lng->txt('links_not_available'));
+				$tpl->parseCurrentBlock();
+			}			
+
+
 			if(strlen($item['description']))
 			{
 				$tpl->setCurrentBlock("description");
@@ -289,30 +326,66 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// create table
 		$tbl = new ilTableGUI();
 
+
+
+
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr.gif",$this->lng->txt("web_resources"));
-		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("title"),
-								   $this->lng->txt("target"),
-								   $this->lng->txt('valid'),
-								   $this->lng->txt('active'),
-								   $this->lng->txt('disable_check'),
-								   $this->lng->txt('details')));
-		$tbl->setHeaderVars(array("",
-								  "title",
-								  "target",
-								  "valid",
-								  "active",
-								  "disable_check",
-								  ""),array("ref_id" => $this->object->getRefId(),
-											"cmd" => 'editItems'));
-		$tbl->setColumnWidth(array("",
-								   "50%",
-								   "30%",
-								   "5%",
-								   "5%",
-								   "5%",
-								   "5%"));
+
+		if(!ilParameterAppender::_isEnabled())
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt("title"),
+									   $this->lng->txt("target"),
+									   $this->lng->txt('valid'),
+									   $this->lng->txt('active'),
+									   $this->lng->txt('disable_check'),
+									   $this->lng->txt('details')));
+			$tbl->setHeaderVars(array("",
+									  "title",
+									  "target",
+									  "valid",
+									  "active",
+									  "disable_check",
+									  ""),array("ref_id" => $this->object->getRefId(),
+												"cmd" => 'editItems'));
+			$tbl->setColumnWidth(array("",
+									   "50%",
+									   "30%",
+									   "5%",
+									   "5%",
+									   "5%",
+									   "5%"));
+ 		}
+		else
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt("title"),
+									   $this->lng->txt("target"),
+									   $this->lng->txt("links_dyn_parameter"),
+									   $this->lng->txt('valid'),
+									   $this->lng->txt('active'),
+									   $this->lng->txt('disable_check'),
+									   $this->lng->txt('details')));
+			
+			$tbl->setHeaderVars(array("",
+									  "title",
+									  "target",
+									  "parameter",
+									  "valid",
+									  "active",
+									  "disable_check",
+									  ""),array("ref_id" => $this->object->getRefId(),
+												"cmd" => 'editItems'));
+			$tbl->setColumnWidth(array("",
+									   "40%",
+									   "20%",
+									   "20%",
+									   "5%",
+									   "5%",
+									   "5%",
+									   "5%"));
+		}
 		$tbl->disable('linkbar');
 		$tbl->disable('numinfo');
 		$tbl->enable('sort');
@@ -481,6 +554,64 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("MODIFIED",date('Y-m-d H:i:s',$item['last_update']));
 		$this->tpl->setVariable("TXT_LAST_CHECK",$this->lng->txt('webr_last_check'));
 
+		// add dynamic params
+		include_once('link/classes/class.ilParameterAppender.php');
+
+		if(ilParameterAppender::_isEnabled())
+		{
+			$counter = 0;
+			foreach($params = ilParameterAppender::_getParams($item['link_id']) as $id => $param)
+			{
+				if(!$counter++)
+				{
+					$this->tpl->setCurrentBlock("header_info");
+					$this->tpl->setVariable("TXT_PARAM_EXIST",$this->lng->txt('links_existing_params'));
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("show_params");
+				
+				$txt_param = $param['name'];
+				switch($param['value'])
+				{
+					case LINKS_USER_ID:
+						$txt_param .= '=IL_USER_ID';
+						break;
+
+					case LINKS_SESSION_ID:
+						$txt_param .= '=IL_SESSION_ID';
+						break;
+						
+					case LINKS_LOGIN:
+						$txt_param .= '=IL_LOGIN';
+						break;
+				}
+				$this->tpl->setVariable("PARAMETER",$txt_param);
+				
+				// Delete link
+				$this->ctrl->setParameter($this,'param_id',$id);
+				$this->tpl->setVariable("DEL_TARGET",$this->ctrl->getLinkTarget($this,'deleteParameter'));
+				$this->tpl->setVariable("TXT_DELETE",$this->lng->txt('delete'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("params");
+			$this->tpl->setVariable("TXT_ADD_PARAM",$this->lng->txt('links_add_param'));
+			$this->tpl->setVariable("TXT_DYNAMIC",$this->lng->txt('links_dynamic'));
+			$this->tpl->setVariable("TXT_NAME",$this->lng->txt('links_name'));
+			$this->tpl->setVariable("TXT_VALUE",$this->lng->txt('links_value'));
+			$this->tpl->setVariable("DYNAMIC_INFO",$this->lng->txt('link_dynamic_info'));
+
+			$this->tpl->setVariable("NAME",$_POST['name'] ? ilUtil::prepareFormOutput($_POST['name'],true) : '');
+			$this->tpl->setVariable("VAL_SEL",ilUtil::formSelect((int) $_POST['value'],
+																 'value',
+																 ilParameterAppender::_getOptionSelect(),
+																 false,
+																 true));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		
+
 		if($item['last_check'])
 		{
 			$last_check = date('Y-m-d H:i:s',$item['last_check']);
@@ -499,8 +630,32 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		return true;
 	}
 
+	function deleteParameterObject()
+	{
+		if(!((int) $_GET['param_id']))
+		{
+			sendInfo('No parameter id given');
+			$this->editItemObject();
+
+			return false;
+		}
+
+		include_once 'link/classes/class.ilParameterAppender.php';
+
+		$appender = new ilParameterAppender($this->object->getId());
+		$appender->delete((int) $_GET['param_id']);
+
+		sendInfo($this->lng->txt('links_parameter_deleted'));
+
+		$this->editItemObject();
+		return true;
+	}
+
+
 	function updateItemObject()
 	{
+		include_once 'link/classes/class.ilParameterAppender.php';
+
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'write'
@@ -515,7 +670,32 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			$this->editItemObject();
 			return false;
 		}
-		
+		if(ilParameterAppender::_isEnabled())
+		{
+			$appender =& new ilParameterAppender($this->object->getId());
+			$appender->setName(ilUtil::stripSlashes($_POST['name']));
+			$appender->setValue(ilUtil::stripSlashes($_POST['value']));
+			
+			if(!$appender->validate())
+			{
+				switch($appender->getErrorCode())
+				{
+					case LINKS_ERR_NO_NAME:
+						sendInfo($this->lng->txt('links_no_name_given'));
+						$this->editItemObject();
+						return false;
+
+					case LINKS_ERR_NO_VALUE:
+						sendInfo($this->lng->txt('links_no_value_given'));
+						$this->editItemObject();
+						return false;
+
+					default:
+						break;
+				}
+			}
+		}
+
 		$this->object->initLinkResourceItemsObject();
 
 		$this->object->items_obj->readItem($_SESSION['webr_item_id']);
@@ -527,6 +707,11 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->object->items_obj->setValidStatus($_POST['valid']);
 		$this->object->items_obj->setDisableCheckStatus($_POST['disable']);
 		$this->object->items_obj->update();
+
+		if(is_object($appender))
+		{
+			$appender->add($_SESSION['webr_item_id']);
+		}
 
 		unset($_SESSION['webr_item_id']);
 		sendInfo($this->lng->txt('webr_item_updated'));
@@ -567,6 +752,26 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT",'addItem');
 		$this->tpl->setVariable("CMD_CANCEL",'editItems');
 
+		// Params
+		include_once('link/classes/class.ilParameterAppender.php');
+
+		if(ilParameterAppender::_isEnabled())
+		{
+			$this->tpl->setCurrentBlock("params");
+			$this->tpl->setVariable("TXT_DYNAMIC",$this->lng->txt('links_dynamic'));
+			$this->tpl->setVariable("TXT_NAME",$this->lng->txt('links_name'));
+			$this->tpl->setVariable("TXT_VALUE",$this->lng->txt('links_value'));
+			$this->tpl->setVariable("DYNAMIC_INFO",$this->lng->txt('links_dynamic_info'));
+
+			$this->tpl->setVariable("NAME",$_POST['name'] ? ilUtil::prepareFormOutput($_POST['name'],true) : '');
+			$this->tpl->setVariable("VAL_SEL",ilUtil::formSelect((int) $_POST['value'],
+																 'value',
+																 ilParameterAppender::_getOptionSelect(),
+																 false,
+																 true));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("ACTIVE_CHECK",ilUtil::formCheckBox(1,'active',1));
 		$this->tpl->setVariable("CHECK_CHECK",ilUtil::formCheckBox(0,'disable_check',1));
 	
@@ -574,6 +779,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 	function addItemObject()
 	{
+		include_once('link/classes/class.ilParameterAppender.php');
+
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'read'
@@ -591,13 +798,42 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			$this->showAddItemObject();
 			return false;
 		}
+		if(ilParameterAppender::_isEnabled())
+		{
+			$appender =& new ilParameterAppender($this->object->getId());
+			$appender->setName(ilUtil::stripSlashes($_POST['name']));
+			$appender->setValue(ilUtil::stripSlashes($_POST['value']));
+			
+			if(!$appender->validate())
+			{
+				switch($appender->getErrorCode())
+				{
+					case LINKS_ERR_NO_NAME:
+						sendInfo($this->lng->txt('links_no_name_given'));
+						$this->showAddItemObject();
+						return false;
+
+					case LINKS_ERR_NO_VALUE:
+						sendInfo($this->lng->txt('links_no_name_given'));
+						$this->showAddItemObject();
+						return false;
+
+					default:
+						break;
+				}
+			}
+		}
 		$this->object->items_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->items_obj->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->object->items_obj->setTarget(ilUtil::stripSlashes($_POST['target']));
 		$this->object->items_obj->setActiveStatus($_POST['active']);
 		$this->object->items_obj->setDisableCheckStatus($_POST['disable_check']);
-		$this->object->items_obj->add();
+		$link_id = $this->object->items_obj->add();
 
+		if(is_object($appender))
+		{
+			$appender->add($link_id);
+		}
 		$this->editItemsObject();
 	}
 
