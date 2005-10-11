@@ -213,7 +213,12 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	function __readLink()
 	{
 		include_once './link/classes/class.ilLinkResourceItems.php';
-		
+		include_once './link/classes/class.ilParameterAppender.php';
+
+		if(ilParameterAppender::_isEnabled())
+		{
+			return $this->link_data = ilParameterAppender::_append(ilLinkResourceItems::_getFirstLink($this->obj_id));
+		}
 		return $this->link_data = ilLinkResourceItems::_getFirstLink($this->obj_id);
 	}
 } // END class.ilObjTestListGUI

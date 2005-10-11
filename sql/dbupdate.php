@@ -8788,3 +8788,13 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#541>
+CREATE TABLE IF NOT EXISTS `webr_params` (
+  `param_id` int(11) NOT NULL auto_increment,
+  `webr_id` int(11) NOT NULL default '0',
+  `link_id` int(11) NOT NULL default '0',
+  `name` char(128)  NOT NULL default '',
+  `value` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`param_id`),
+  KEY `link_id` (`link_id`)
+) TYPE = MyISAM;

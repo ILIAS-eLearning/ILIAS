@@ -29,6 +29,54 @@
 			</td>
 			<td class="option_value"><input name="target" size="40" style="width:300px;" value="{TARGET}" /></td>
 		  </tr>
+		  <!-- BEGIN params -->
+		  <tr>
+			<td class="option">{TXT_DYNAMIC}</td>
+			<td class="option_value">
+			  <table>
+				<!-- BEGIN show_params -->
+				<!-- BEGIN header_info -->
+				<tr>
+				  <td colspan="2">
+					<b>{TXT_PARAM_EXIST}</b>
+				  </td>
+				</tr>
+				<!-- END header_info -->
+				<tr>
+				  <td>
+					{PARAMETER}
+				  </td>
+				  <td>
+					<a class="il_ContainerItemCommand" href="{DEL_TARGET}">{TXT_DELETE}</a>
+				  </td>
+				</tr>
+				<!-- END show_params -->
+				<tr>
+				  <td colspan="2">
+					<b>{TXT_ADD_PARAM}</b>
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+					{TXT_NAME}
+				  </td>
+				  <td>
+					<input name="name" value="{NAME}" size="12" maxlength="127" />
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+					{TXT_VALUE}
+				  </td>
+				  <td>
+					{VAL_SEL}
+				  </td>
+				</tr>
+			  </table>
+			  <br /><span class="subtitle">{DYNAMIC_INFO}</span>
+			</td>			
+		  </tr>
+		  <!-- END params -->
 		  <tr>
 			<td class="option" width="30%">
 			  {TXT_ACTIVE}

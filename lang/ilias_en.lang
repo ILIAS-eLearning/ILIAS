@@ -5325,3 +5325,19 @@ crs#:#import_crs#:#Import course
 common#:#chat_users_active#:#Active users
 common#:#chat_active_in#:#Active in chat:
 common#:#chat_invite#:#Chat
+common#:#links_dynamic#:#Dynamic Web Links parameters
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
+common#:#links_not_available#:#Not available
+common#:#links_dyn_parameter#:#Dynamic parameters
+common#:#links_existing_params#:#Existing parameters:
+common#:#links_add_param#:#Add parameter:
+common#:#links_name#:#Parameter name
+common#:#links_value#:#Parameter value
+common#:#links_user_id#:#ILIAS user id
+common#:#links_user_name#:#ILIAS username
+common#:#links_session_id#:#ILIAS session id
+common#:#links_select_one#:#- Select one -
+common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
+common#:#links_no_value_given#:#Please choose a parameter value.
+common#:#links_no_name_given#:#Please choose a parameter name.
+common#:#links_parameter_deleted#:#Parameter deleted.

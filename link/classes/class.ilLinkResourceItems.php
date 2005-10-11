@@ -305,6 +305,8 @@ class ilLinkResourceItems
 
 		$this->db->query($query);
 
+		$link_id = $this->db->getLastInsertId();
+
 		if($a_update_history)
 		{
 			include_once("classes/class.ilHistory.php");
@@ -312,7 +314,7 @@ class ilLinkResourceItems
 									$this->getTitle());
 		}
 
-		return true;
+		return $link_id;
 	}
 	function readItem($a_link_id)
 	{
