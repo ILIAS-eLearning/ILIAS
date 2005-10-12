@@ -1,11 +1,18 @@
 {STATUSLINE}
 <table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
 <!--<div class="invisible_border">-->
-<div class="il_Header"><h1><!-- BEGIN header_image --><!-- END header_image -->{HEADER}</h1>
-<div class="il_Tab">
+<div class="il_Header">
+	<!-- BEGIN tree_icons -->
+		<!-- BEGIN top -->
+		<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" align="right" border="0"></a>&nbsp;
+		<!-- END top -->
+		<!-- BEGIN tree_mode -->
+		<a class="{CLASS_TREE}" href="{LINK_MODE}" target="bottom"><img src="{IMG_TREE}" align="right" border="0"></a>
+		<!-- END tree_mode -->
+	<!-- END tree_icons -->
+	<h1 ><!-- BEGIN header_image --><!-- END header_image -->{HEADER}</h1>
+</div>
 {TABS}
-</div>
-</div>
 <br/>
 {BUTTONS}
 {MESSAGE}

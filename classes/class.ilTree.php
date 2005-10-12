@@ -334,7 +334,7 @@ class ilTree
 		$r = $this->ilDB->query($q);
 
 		$count = $r->numRows();
-		
+
 
 		if ($count > 0)
 		{
@@ -375,7 +375,7 @@ class ilTree
 		}
 		return $filtered ? $filtered : array();
 	}
-		
+
 
 	/**
 	* get child nodes of given node by object type
@@ -407,12 +407,12 @@ class ilTree
 		{
 			$childs[] = $this->fetchNodeData($row);
 		}
-		
+
 
 		return $childs;
 	}
-	
-	
+
+
 	/**
 	* insert new node with node_id under parent node with parent_id
 	* @access	public
@@ -436,7 +436,7 @@ class ilTree
 				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 			}
 		}
-			
+
 
 		if (!isset($a_node_id) or !isset($a_parent_id))
 		{
@@ -502,7 +502,7 @@ class ilTree
 				{
 					ilDBx::_unlockTables();
 				}
-				
+
 				break;
 
 			case IL_LAST_NODE:
@@ -518,7 +518,7 @@ class ilTree
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
 				$res = $this->ilDB->query($q);
 				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
-				
+
 				if ($r->parent == NULL)
 				{
 					if($this->__isMainTree())
@@ -635,7 +635,7 @@ class ilTree
 
 			$this->log->write($message,$this->log->FATAL);
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
-		}				
+		}
 
 	    $subtree = array();
 
@@ -710,7 +710,7 @@ class ilTree
 				$this->log->write($message,$this->log->FATAL);
 				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 			}
-				
+
 		}
 		$diff = $a_node["rgt"] - $a_node["lft"] + 1;
 
@@ -1128,7 +1128,7 @@ class ilTree
 		{
 			$translation_type = $objDefinition->getTranslationType($data["type"]);
 		}
-		
+
 		if ($translation_type == "sys")
 		{
 			if ($data["type"] == "rolf" and $data["obj_id"] != ROLE_FOLDER_ID)
@@ -1138,7 +1138,7 @@ class ilTree
 				$data["title"] = $lng->txt("obj_".$data["type"]."_local");
 			}
 			else
-			{			
+			{
 				$data["title"] = $lng->txt("obj_".$data["type"]);
 				$data["description"] = $lng->txt("obj_".$data["type"]."_desc");
 				$data["desc"] = $lng->txt("obj_".$data["type"]."_desc");
@@ -1151,7 +1151,7 @@ class ilTree
 				 "AND lang_code = '".$this->lang_code."' ".
 				 "AND NOT lang_default = 1";
 			$r = $this->ilDB->query($q);
-			
+
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 			if ($row)
@@ -1307,7 +1307,7 @@ class ilTree
 			$this->log->write($message,$this->log->FATAL);
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-	
+
 		if (!isset($a_tree_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::addTree(): No tree_id given! ",$this->ilErr->WARNING);
@@ -1317,7 +1317,7 @@ class ilTree
 		{
 			$a_node_id = $a_tree_id;
 		}
-		
+
 		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.", child, parent, lft, rgt, depth) ".
 			 "VALUES ".
 			 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
@@ -1903,7 +1903,7 @@ class ilTree
 		{
 			$lft_childs[$row->child] = $row->parent;
 			++$counter;
-		} 
+		}
 
 		// CHECK FOR DUPLICATE CHILD IDS
 		if($counter != count($lft_childs))
@@ -1946,7 +1946,7 @@ class ilTree
 			$this->log->write($message,$this->log->FATAL);
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-		
+
 		// GET ALL CHILDS
 		$query = "SELECT * FROM ".$this->table_tree." ".
 			"WHERE parent = '".$a_node_id."'";
@@ -1994,7 +1994,7 @@ class ilTree
 			}
 		}
 		return true;
-	}		
-		
+	}
+
 } // END class.tree
 ?>

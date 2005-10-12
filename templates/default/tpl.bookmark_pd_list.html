@@ -1,19 +1,22 @@
 <table class="il_PDBlock">
 	<tr>
-		<td class="il_PDBlockHeader" colspan="2"><div>{TXT_BM_HEADER}</div>
+		<td class="il_PDBlockHeader" colspan="2">
+		{TXT_BM_HEADER}
+		<div class="il_ContainerItemCommands" style="float:right;"><a href="{LINK_BKM_MODE}"><img src="{IMG_BKM_TREE}" border="0" hspace="0" align="middle"></a>&nbsp;<a class="il_ContainerItemCommand" href="{LINK_BKM_DETAILS}">{TXT_BKM_DETAILS}</a></div>
 		</td>
 	</tr>
-<!-- BEGIN tbl_bm_row -->
-<tr class="{ROWCOL}">
-	<td class="std" width="1"><img border="0" vspace="0" align="left" src="{IMG_BM}" /></td>
-    <td class="std" ><a href="{BM_LINK}" class="navigation" target="{BM_TARGET}">{BM_TITLE}</a>
-    </td>
-</tr>
-<!-- END tbl_bm_row -->
-<!-- BEGIN tbl_no_bm -->
-  <tr class="{ROWCOL}" colspan="2">
-    <td class="std">{TXT_NO_BM}</td>
-  </tr>
-<!-- END tbl_no_bm -->
+	<!-- BEGIN tbl_bm_row -->
+	<tr class="{ROWCOL}">
+		<td class="std" width="1"><img border="0" vspace="0" align="left" src="{IMG_BM}" /></td>
+		<td class="std" ><a href="{BM_LINK}" class="navigation" target="{BM_TARGET}" title="{BM_TOOLTIP}">{BM_TITLE}</a>
+		<!-- BEGIN tbl_bm_desc --><br />{BM_DESCRIPTION}<!-- END tbl_bm_desc -->
+		</td>
+	</tr>
+	<!-- END tbl_bm_row -->
+	<!-- BEGIN tbl_no_bm -->
+	<tr class="{ROWCOL}" colspan="2">
+		<td class="std">{TXT_NO_BM}</td>
+	</tr>
+	<!-- END tbl_no_bm -->
 </table>
 
