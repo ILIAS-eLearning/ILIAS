@@ -5341,5 +5341,5 @@ common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user 
 common#:#links_no_value_given#:#Please choose a parameter value.
 common#:#links_no_name_given#:#Please choose a parameter name.
 common#:#links_parameter_deleted#:#Parameter deleted.
-common#:#bkm_import#:#Import bookmarks
+common#:#bkm_import#:#Import bookmarks.
 common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.
