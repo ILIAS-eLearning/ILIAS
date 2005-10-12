@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -116,7 +116,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				if (($isBuyable && ilPaymentObject::_hasAccess($this->ref_id) == false) ||
 					$showViewInFrameset)
 				{
-					$frame = ilFrameTargetInfo::_getFrame("MainContent");
+					//$frame = ilFrameTargetInfo::_getFrame("MainContent");
+					$frame = "ilContObj".$this->obj_id;
 				}
 				else
 				{
