@@ -284,9 +284,9 @@ class ilUtil
 		{
 			$str .= " disabled=\"disabled\"";
 		}
-		
+
 		$array_var = false;
-		
+
 		if (substr($varname,-2) == "[]")
 		{
 			$array_var = true;
@@ -301,7 +301,7 @@ class ilUtil
 		{
 			$varname_id = $varname;
 		}
-		
+
 		// dirty removal of other "[]" in string
 		$varname_id = ereg_replace("\[","_",$varname_id);
 		$varname_id = ereg_replace("\]","",$varname_id);
@@ -332,10 +332,10 @@ class ilUtil
 	      {
 		$str .= " checked=\"checked\"";
 	      }
-	    
+
 	    $str .= " value=\"".$value."\"";
 	    $str .= " id=\"".$value."\" />\n";
-	  
+
 	    return $str;
 
 	  }
@@ -358,7 +358,7 @@ class ilUtil
 		}
 
 		$str .= " value=\"".$value."\"";
-		
+
 		$str .= " id=\"".$value."\" />\n";
 
 		return $str;
@@ -494,9 +494,9 @@ class ilUtil
 	function getObjectsByOperations($a_type,$a_operation,$a_checkpath = true)
 	{
 		global $ilDB, $rbacsystem, $tree;
-		
+
 		$objects = array();
-		
+
 		// return if root node ist not accessible
 		if ($a_checkpath === true and !$rbacsystem->checkAccess('read', ROOT_FOLDER_ID, $a_type))
 		{
@@ -511,7 +511,7 @@ class ilUtil
 			 "AND tree.tree = 1";
 
 		$r = $ilDB->query($q);
-		
+
 		// check the desired operation of all found nodes
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -520,7 +520,7 @@ class ilUtil
 				$objects[] = $row;
 			}
 		}
-		
+
 		// check access of nodes up in the tree for all accessible nodes
 		if ($a_checkpath === true)
 		{
@@ -530,7 +530,7 @@ class ilUtil
 			foreach ($objects as $key => $node)
 			{
 				$path = $tree->getPathId($node["ref_id"],ROOT_FOLDER_ID);
-				
+
 				array_push($nodes_checked,$node["ref_id"]);
 				array_push($nodes_passed,$node["ref_id"]);
 
@@ -544,7 +544,7 @@ class ilUtil
 //echo "<br/>".$i." already passed";
 							continue;
 						}
-						
+
 						if (!in_array($path[$i],$nodes_checked))
 						{
 						    array_push($nodes_checked,$path[$i]);
@@ -567,7 +567,7 @@ class ilUtil
 			} // end foreach
 //var_dump("<pre>",$nodes_checked,$nodes_passed,"</pre>");
 		}
-		
+
 		unset($nodes_checked);
 		unset($nodes_passed);
 
@@ -947,7 +947,7 @@ class ilUtil
 			return false;
 		}
 		// due to bug in php does not work
-		//if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd)) 
+		//if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd))
 
 		if (!preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~]+$/", $a_passwd))
 		{
@@ -1206,7 +1206,7 @@ class ilUtil
 		}
 
 		// If the user is not in a course or a group, he has no associated users.
-		if (count($groups_and_courses_of_user) == 0) 
+		if (count($groups_and_courses_of_user) == 0)
 		{
 			$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login ".
 			"FROM usr_session ".
@@ -1331,7 +1331,7 @@ class ilUtil
 		}
 
 		// real unzip
-		if ($overvwrite) 
+		if ($overvwrite)
 		{
 			$unzipcmd = $unzip." ".ilUtil::escapeShellArg($file);
 		}
@@ -1553,8 +1553,8 @@ class ilUtil
 		ilUtil::readFile( $a_file );
 		exit;
 	}
-	
-	
+
+
 	/**
 	* there are some known problems with the original readfile method, which
 	* sometimes truncates delivered files regardless of php.ini setting
@@ -1575,7 +1575,7 @@ class ilUtil
 			$buffer = fread($handle, $chunksize);
 			print $buffer;
 		}
-		return fclose($handle); 
+		return fclose($handle);
 	}
 
 	/**
@@ -1728,12 +1728,12 @@ class ilUtil
 				}
 			}
 		}
-		
+
 		umask(0000);
 		foreach ($dirs as $dirindex => $dir)
 		{
 			// starting with the longest existing path
-			if ($dirindex >= $found_index) 
+			if ($dirindex >= $found_index)
 			{
 				if (! file_exists($dir))
 				{
@@ -1775,17 +1775,17 @@ class ilUtil
 		$current_dir = opendir($a_dir);
 
 		$files = array();
-		
+
 		// this extra loop has been necessary because of a strange bug
 		// at least on MacOS X. A looped readdir() didn't work
-		// correctly with larger directories 
+		// correctly with larger directories
 		// when an unlink happened inside the loop. Getting all files
 		// into the memory first solved the problem.
 		while($entryname = readdir($current_dir))
 		{
 			$files[] = $entryname;
 		}
-		
+
 		foreach($files as $file)
 		{
 			if(is_dir($a_dir."/".$file) and ($file != "." and $file!=".."))
@@ -2288,6 +2288,7 @@ class ilUtil
 	{
 		global $log, $PHP_SELF;
 //$log->write("redirect FROM:".$PHP_SELF." to ".$a_script);
+			//vd($a_script);
 		header("Location: ".$a_script);
 		exit();
 	}
@@ -2531,7 +2532,7 @@ class ilUtil
 	}
 
 	function replaceUrlParameterString ($url, $parametersArray) {
-		
+
 		foreach ($parametersArray as $paramName => $paramValue ) {
 			$url = ilUtil::KT_replaceParam($url, $paramName, $paramValue);
 		}
@@ -2560,7 +2561,7 @@ class ilUtil
 					$pw.= $consonants[rand(0,strlen($consonants)-1)];
 					$next = 2;
                     break;
-                    
+
                     case 2:
 					$pw.= $vowels[rand(0,strlen($vowels)-1)];
 					$next = 1;
@@ -2573,16 +2574,16 @@ class ilUtil
 
          return $ret;
     }
-	
+
 	function removeTrailingPathSeparators($path)
 	{
 		$path = preg_replace("/[\/\\\]+$/", "", $path);
 		return $path;
 	}
-	
+
 	/**
 	 * convert php arrays to javascript arrays
-	 * 
+	 *
 	 * @author gigi@orsone.com
 	 * @access	public
 	 * @param	array
@@ -2601,7 +2602,7 @@ class ilUtil
    			if(is_string($datum)) $data[$k] = "'" . $datum . "'";
    			if(is_array($datum)) $data[$k] = array_php2js($datum);
    		}
-   		
+
    		return "[" . implode(', ', $data) . "]";
    	}
 
@@ -2691,8 +2692,8 @@ class ilUtil
 			return move_uploaded_file($a_file, $a_target);
 		}
 	}
-	
-	
+
+
 	/**
 	 *	 make time object from mysql_date_time
 	 */
@@ -2702,10 +2703,10 @@ class ilUtil
   		list($std, $min, $sec) = explode(":", $uhrzeit);
   		return mktime ((int) $std, (int) $min, (int) $sec, (int) $monat, (int) $tag, (int) $jahr);
 	 }
-	
+
 /**
 * Convertes an array for CSV usage
-* 
+*
 * Processes an array as a CSV row and converts the array values to correct CSV
 * values. The "converted" array is returned
 *
@@ -2771,7 +2772,7 @@ class ilUtil
 	{
 		return(preg_match("/^[a-z]+([a-z0-9-]*[a-z0-9]+)?(\.([a-z]+([a-z0-9-]*[a-z0-9]+)?)+)*$/",$a_str));
 	}
-	
+
 	// validates an IP address (example: 192.168.1.1)
 	function isIPv4($a_str)
 	{

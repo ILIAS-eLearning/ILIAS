@@ -1,13 +1,12 @@
 <tr>
-	<td valign="top" class="{ROWCOL}" width="1">{CHECKBOX}</td>
-	<td valign="top" class="{ROWCOL}" width="1" nowrap="nowrap">
+	<td valign="top" class="{ROWCOL}" width="1%">{CHECKBOX}</td>
+	<td valign="top" class="{ROWCOL}" width="1%" nowrap="nowrap">
 	<img src="{IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
 	</td>
 	<td valign="top" class="{ROWCOL}">
 	<a href="{LINK_TARGET}" target="{FRAME_TARGET}">{TXT_TITLE}</a>
-	</td>
-	<td valign="top" class="{ROWCOL}">
-	<a style="font-size:10px;" href="{LINK_TARGET}" target="_new">{TXT_TARGET}</a>
+	<!-- BEGIN description --><br />{TXT_DESCRIPTION}<!-- END description -->
+	<!-- BEGIN target --><br /><span class="small"><a href="{LINK_TARGET}" target="_blank">{TXT_TARGET}</a></span><!-- END target -->
 	</td>
 	<td valign="top" class="{ROWCOL}">
 	<!-- BEGIN edit -->
