@@ -91,4 +91,12 @@ if ($this->isAdmin())
 	$this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("delete")));
 	$this->tpl->parseCurrentBlock();
 }
+
+// ilias-NIC
+$this->tpl->setCurrentBlock("tab");
+$this->tpl->setVariable("TAB_TYPE",$tab == "tools" ? "tabactive" : "tabinactive");
+$this->tpl->setVariable("TAB_LINK","setup.php?cmd=tools");
+$this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("tools")));
+$this->tpl->parseCurrentBlock();
+
 ?>
