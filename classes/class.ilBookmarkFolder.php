@@ -83,18 +83,18 @@ class ilBookmarkFolder
 	{
 		global $ilias;
 
-		$q = "SELECT * FROM bookmark_data WHERE obj_id = '".$this->id."'";
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".$this->ilias->db->quote($this->getId());
 		$bmf_set = $this->ilias->db->query($q);
 		if ($bmf_set->numRows() == 0)
 		{
-			$message = "ilBookmarkFolder::read(): Bookmark Folder with id ".$this->id." not found!";
+			$message = "ilBookmarkFolder::read(): Bookmark Folder with id ".$this->getId()." not found!";
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 		else
 		{
 			$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->setTitle($bmf["title"]);
-			$this->setParent($this->tree->getParentId($this->id));
+			$this->setParent($this->tree->getParentId($this->getId()));
 		}
 	}
 
@@ -103,7 +103,7 @@ class ilBookmarkFolder
 	*/
 	function delete()
 	{
-		$q = "DELETE FROM bookmark_data WHERE obj_id = '".$this->getId()."'";
+		$q = "DELETE FROM bookmark_data WHERE obj_id = ".$this->ilias->db->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
@@ -113,7 +113,7 @@ class ilBookmarkFolder
 	function createNewBookmarkTree()
 	{
 		global $ilDB;
-		
+
 		/*
 		$q = "INSERT INTO bookmark_data (user_id, title, target, type) ".
 			"VALUES ('".$this->tree->getTreeId()."','dummy_folder','','bmf')";
@@ -129,20 +129,29 @@ class ilBookmarkFolder
 	*/
 	function create()
 	{
-		$q = 	"INSERT INTO bookmark_data (user_id, title, target, type) ".
-				"VALUES ('".$_SESSION["AccountId"]."','".$this->getTitle()."','','bmf')";
+		$q = sprintf(
+				"INSERT INTO bookmark_data (user_id, title, type) ".
+				"VALUES (%s,%s,%s)",
+				$this->ilias->db->quote($_SESSION["AccountId"]),
+				$this->ilias->db->quote($this->getTitle()),
+				$this->ilias->db->quote('bmf')
+			);
+
 		$this->ilias->db->query($q);
-
 		$this->setId($this->ilias->db->getLastInsertId());
-
 		$this->tree->insertNode($this->getId(), $this->getParent());
 	}
-
 	function update()
 	{
-		$q = "UPDATE bookmark_data SET title = '".$this->getTitle()."' WHERE obj_id = '".$this->getId()."'";
+		$q = sprintf(
+				"UPDATE bookmark_data SET title=%s ".
+				"WHERE obj_id=%s",
+				$this->ilias->db->quote($this->getTitle()),
+				$this->ilias->db->quote($this->getId())
+			);
 		$this->ilias->db->query($q);
 	}
+
 
 	function getId()
 	{
@@ -184,7 +193,7 @@ class ilBookmarkFolder
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".$ilDB->quote($a_bmf_id);
 		$bmf_set = $ilDB->query($q);
 		$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
-		
+
 		return $bmf["title"];
 	}
 
@@ -226,6 +235,23 @@ class ilBookmarkFolder
 		}
 		return $objects;
 	}
+	/**
+	* static
+	*/
+	function getObject($a_id)
+	{
+		$a_tree_id = $_SESSION["AccountId"];
+		$tree = new ilTree($a_tree_id);
+		$tree->setTableNames('bookmark_tree','bookmark_data');
+
+		if(empty($a_id))
+		{
+			$a_id = $tree->getRootId();
+		}
+
+		$object = $tree->getNodeData($a_id);
+		return $object;
+	}
 
 	function isRootFolder($a_id)
 	{
@@ -251,7 +277,7 @@ class ilBookmarkFolder
 
 		return $tree->getRootId();
 	}
-	
+
 	function _getParentId($a_id)
 	{
 		$a_tree_id = $_SESSION["AccountId"];

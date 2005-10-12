@@ -49,6 +49,13 @@ class ilBookmarkExplorer extends ilExplorer
 	var $root_id;
 
 	/**
+	 * allowed object types
+	 * @var array object types
+	 * @access private
+	 */
+	var $allowed_types;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -61,6 +68,7 @@ class ilBookmarkExplorer extends ilExplorer
 		$this->tree->setTableNames('bookmark_tree','bookmark_data');
 		$this->root_id = $this->tree->readRootId();
 		$this->user_id = $a_user_id;
+		$this->allowed_types= array ('bmf','dum');
 	}
 
 	/**
@@ -84,11 +92,12 @@ class ilBookmarkExplorer extends ilExplorer
 		{
 			if ($options["visible"] and $key != 0)
 			{
+
 				$this->formatObject($options["child"],$options);
 			}
 			if($key == 0)
 			{
-				$this->formatHeader($options["child"],$options);
+				//$this->formatHeader($options["child"],$options);
 			}
 		}
 
@@ -109,7 +118,7 @@ class ilBookmarkExplorer extends ilExplorer
 		global $lng;
 		static $counter = 0;
 
-		if ($objects =  $this->tree->getChilds($a_parent,"title,type"))
+		if ($objects =  $this->tree->getChilds($a_parent,"type DESC,title"))
 		{
 //			var_dump("<pre>",$objects,"</pre");
 			$tab = ++$a_depth - 2;
@@ -125,7 +134,7 @@ class ilBookmarkExplorer extends ilExplorer
 
 			foreach ($objects as $key => $object)
 			{
-				if ($object["type"] != "bmf" && $object["type"] != "dum")
+				if (!in_array($object["type"],$this->allowed_types))
 				{
 					continue;
 				}
@@ -136,9 +145,14 @@ class ilBookmarkExplorer extends ilExplorer
 					//$data = $this->tree->getParentNodeData($object["child"]);
 					$parent_index = $this->getIndex($object);
 				}
+				// Store targets for Bookmarks
+				if ($object["type"]=='bm') {
+					$this->bm_targets[$object["child"]]=$object["target"];
+				};
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
 				$this->format_options["$counter"]["title"] = $object["title"];
+				$this->format_options["$counter"]["description"] = $object["description"];
 				$this->format_options["$counter"]["type"] = $object["type"];
 				$this->format_options["$counter"]["depth"] = $tab;
 				$this->format_options["$counter"]["container"] = false;
@@ -178,7 +192,116 @@ class ilBookmarkExplorer extends ilExplorer
 			} //foreach
 		} //if
 	} //function
+	/**
+	* Overwritten method from class.Explorer.php to use Tooltips
+	* recursive method
+	* Creates output
+	* recursive method
+	* @access	private
+	* @param	integer
+	* @param	array
+	* @return	string
+	*/
+	function formatObject($a_node_id,$a_option,$a_obj_id = 0)
+	{
+		global $lng;
+		if (!isset($a_node_id) or !is_array($a_option))
+		{
+			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
+									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+		}
 
+		$tpl = new ilTemplate("tpl.tree_tooltip.html", true, true);
+
+		foreach ($a_option["tab"] as $picture)
+		{
+				//$tpl->touchBlock("checkbox");
+				//$tpl->parseCurrentBlock();
+
+
+			if ($picture == 'plus')
+			{
+				$target = $this->createTarget('+',$a_node_id);
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_NAME", $a_node_id);
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
+				$tpl->parseCurrentBlock();
+			}
+
+			if ($picture == 'minus')
+			{
+				$target = $this->createTarget('-',$a_node_id);
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_NAME", $a_node_id);
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
+				$tpl->parseCurrentBlock();
+			}
+
+			if ($picture == 'blank' or $picture == 'winkel'
+			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
+			{
+				$picture = "blank";
+				$tpl->setCurrentBlock("lines");
+				$tpl->setVariable("IMGPATH_LINES", $this->getImage("browser/".$picture.".gif"));
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($this->output_icons)
+		{
+			$tpl->setCurrentBlock("icon");
+			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".gif", $a_option["type"], $a_obj_id));
+			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
+			$this->iconList[] = "iconid_".$a_node_id;
+			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($this->isClickable($a_option["type"], $a_node_id,$a_obj_id))	// output link
+		{
+			$tpl->setCurrentBlock("link");
+			//$target = (strpos($this->target, "?") === false) ?
+			//	$this->target."?" : $this->target."&";
+			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+			if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "")
+			{
+				$tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
+			}
+			if (($tooltip = $this->buildToolTip($a_node_id, $a_option["type"],$a_option["description"])) != "")
+			{
+				$tpl->setVariable("TOOLTIP", 'title="'.ilUtil::prepareFormOutput($tooltip).'"');
+			}
+			$tpl->setVariable("LINK_NAME", $a_node_id);
+			$tpl->setVariable("TITLE", ilUtil::prepareFormOutput(ilUtil::shortenText(
+				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
+				$this->textwidth, true)));
+			$tpl->setVariable("DESC",
+				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]));
+			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
+			if ($frame_target != "")
+			{
+				$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
+			}
+			$tpl->parseCurrentBlock();
+		}
+		else			// output text only
+		{
+			$tpl->setCurrentBlock("text");
+			$tpl->setVariable("OBJ_TITLE",ilUtil::prepareFormOutput(ilUtil::shortenText(
+				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true)));
+			$tpl->setVariable("OBJ_DESC",
+				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("row");
+		$tpl->parseCurrentBlock();
+
+		$this->output[] = $tpl->get();
+	}
 	/**
 	* overwritten method from base class
 	* @access	public
@@ -195,7 +318,11 @@ class ilBookmarkExplorer extends ilExplorer
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);
 		$tpl->setVariable("TITLE", $lng->txt("bookmarks_of")." ".$ilias->account->getFullname());
-		$tpl->setVariable("LINK_TARGET", $this->target."?".$this->target_get."=1");
+		$sep = (is_int(strpos($this->target, "?")))
+			? "&"
+			: "?";
+
+		$tpl->setVariable("LINK_TARGET", $this->target.$sep.$this->target_get."=1");
 		$tpl->setVariable("TARGET", " target=\"content\"");
 		$tpl->parseCurrentBlock();
 
@@ -229,20 +356,88 @@ class ilBookmarkExplorer extends ilExplorer
 		$this->expanded = $_SESSION["mexpand"];
 	}
 	/**
-	* Creates Get Parameter
-	* @access	private
-	* @param	string
-	* @param	integer
-	* @return	string
+	* overwritten method from base class
+	* get link target
 	*/
-	function createTarget($a_type,$a_child)
+	function buildLinkTarget($a_node_id, $a_type)
 	{
-		// SET expand parameter:
-		//     positive if object is expanded
-		//     negative if object is compressed
-		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
-
-		return $_SERVER["PATH_INFO"]."?cmd=explorer&mexpand=".$a_child;
+		switch ($a_type) {
+			case 'bm':
+				// return stored Bookmark target;
+				return $this->bm_targets[$a_node_id];
+				break;
+			default:
+				$target = (strpos($this->target, "?") === false)
+					? $this->target."?"
+					: $this->target."&";
+				return $target.$this->target_get."=".$a_node_id.$this->params_get;
+		}
 	}
-} // END class.ilMailExplorer
+	/**
+	* overwritten method from base class
+	* buid link target
+	*/
+	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+	{
+		switch ($a_type) {
+			case 'bm':
+				// return _blank for Bookmarks;
+				return '_blank';
+				break;
+			default:
+				return '';
+		}
+	}
+	/**
+	* buid tooltip
+	*/
+	function buildToolTip($a_node_id, $a_type, $a_desc)
+	{
+		if ($this->show_details!='y' && !empty($a_desc))
+		{
+			return $a_desc;
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	/**
+	* set the alowed object types
+	* @access	private
+	* @param	array		arraye of object types
+	*/
+	function setAllowedTypes($a_types)
+	{
+		$this->allowed_types = $a_types;
+	}
+	/**
+	* set details mode
+	* @access	public
+	* @param	string		y or n
+	*/
+	function setShowDetails($s_details)
+	{
+		$this->show_details = $s_details;
+	}
+
+	/**
+	* overwritten method from base class
+	* buid decription
+	*/
+	function buildDescription($a_desc, $a_id, $a_type)
+	{
+		if ($this->show_details=='y' && !empty($a_desc))
+		{
+			return '<br>'.ilUtil::prepareFormOutput($a_desc);
+
+		}
+		else
+		{
+			return "";
+		}
+
+	}
+}
 ?>

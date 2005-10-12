@@ -162,7 +162,7 @@ class ilExplorer
 	* @access private
 	*/
 	var $filter_mode;
-	
+
 	/**
 	* expand entire tree regardless of values in $expanded
 	* @var boolean
@@ -337,7 +337,7 @@ class ilExplorer
 			$this->is_clickable[$a_type] = "n";
 		}
 	}
-	
+
 	function isVisible($a_ref_id,$a_type)
 	{
 		global $rbacsystem;
@@ -460,7 +460,7 @@ class ilExplorer
 						{
 							 $this->format_options["$counter"]["tab"][] = 'blank';
 						}
-						
+
 						// fix explorer (sometimes explorer disappears)
 						if ($parent_index == 0)
 						{
@@ -520,7 +520,7 @@ class ilExplorer
 	{
 		return true;
 	}
-	
+
 	/**
 	* force expansion of node
 	*/
@@ -678,7 +678,7 @@ class ilExplorer
 
 		$this->output[] = $tpl->get();
 	}
-	
+
 	/**
 	* get image path (may be overwritten by derived classes)
 	*/
@@ -697,7 +697,7 @@ class ilExplorer
 			: $this->target."&";
 		return $target.$this->target_get."=".$a_node_id.$this->params_get;
 	}
-	
+
 	/**
 	* get onclick event handling (may be overwritten by derived classes)
 	*/
@@ -852,14 +852,14 @@ class ilExplorer
 
 	/**
 	* adds item to the filter
-	* @access	public 
+	* @access	public
 	* @param	string		object type to add
 	* @return	boolean
 	*/
 	function addFilter($a_item)
 	{
 		$ispresent = 0;
-		
+
 		if (is_array($this->filter))
 		{
 			//run through filter
@@ -884,7 +884,7 @@ class ilExplorer
 
 		return true;
 	}
-	
+
 	/**
 	* removes item from the filter
 	* @access	public
@@ -954,7 +954,7 @@ class ilExplorer
 		}
 		$this->expanded = $_SESSION[$this->expand_variable];
 	}
-	
+
 	/**
 	* force expandAll. if true all nodes are expanded regardless of the values
 	* in $expanded (default: false)
@@ -1032,12 +1032,12 @@ class ilExplorer
 
 		// cut off adm node
 		isset($match) ? array_splice($a_nodes,$match,1) : "";
-		
+
 		$a_nodes = ilUtil::sortArray($a_nodes,$this->order_column,$this->order_direction);
-		
+
 		// append adm node to end of list
 		isset ($match) ? array_push($a_nodes,$adm_node) : "";
-		
+
 		return $a_nodes;
 	}
 } // END class.ilExplorer
