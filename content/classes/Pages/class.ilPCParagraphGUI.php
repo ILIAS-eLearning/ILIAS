@@ -424,10 +424,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->updated = $this->content_obj->setText(
 			$this->content_obj->input2xml(stripslashes($_POST["par_content"]),
 				$_POST["usedwsiwygeditor"]));
-
+//echo "<br>PARupdate2";
 		if ($this->updated !== true)
 		{
-//echo "Did not update!";
 			$ilBench->stop("Editor","Paragraph_update");
 			$this->edit();
 			return;

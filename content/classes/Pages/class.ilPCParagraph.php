@@ -85,6 +85,7 @@ class ilPCParagraph extends ilPageContent
 		// DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
 		$temp_dom = @domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$a_text.'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
+
 		//$this->text = $a_text;
 		// remove all childs
 		if(empty($error))
@@ -464,7 +465,7 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
 		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
 		$blob = ereg_replace("<NR>"," ",$blob);*/
-//echo htmlentities($a_text);
+//echo "<br>-".htmlentities($a_text)."-";
 		//$a_text = nl2br($a_text);
 		//$a_text = addslashes($a_text);
 		return $a_text;
