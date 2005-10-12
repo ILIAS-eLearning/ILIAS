@@ -56,7 +56,7 @@ class ilPersonalDesktopGUI
         $this->lng =& $lng;
         $this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
-		
+
 		// catch hack attempts
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
@@ -71,15 +71,18 @@ class ilPersonalDesktopGUI
 	{
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
-
 		switch($next_class)
 		{
 			// bookmarks
 			case "ilbookmarkadministrationgui":
-				$this->getStandardTemplates();
-				$this->setTabs();
 				include_once("classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
+				if ($bookmark_gui->getMode() == 'tree') {
+					$this->getTreeModeTemplates();
+				} else {
+					$this->getStandardTemplates();
+				}
+				$this->setTabs();
 				$ret =& $this->ctrl->forwardCommand($bookmark_gui);
 				break;
 
@@ -108,7 +111,7 @@ class ilPersonalDesktopGUI
 		}
 		return true;
 	}
-	
+
 	/**
 	* get standard templates
 	*/
@@ -119,38 +122,48 @@ class ilPersonalDesktopGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 	}
-	
+	/**
+	* get tree mode templates
+	*/
+	function getTreeModeTemplates()
+	{
+		// add template for content
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_tree_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+	}
+
 	/**
 	* show desktop
 	*/
 	function show()
-	{	
+	{
 		// add template for content
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
-		
+
 		// set locator
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
 		$this->tpl->parseCurrentBlock();
-		
+
 		// catch feedback message
 		sendInfo();
 
 		// display infopanel if something happened
 		infoPanel();
-		
+
 		$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
-		
+
 		// to do: not nice; get rid of this include
 		//global $tpl, $lng, $ilias;
 		//include "./include/inc.personaldesktop_buttons.php";
-		
+
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 		// output
@@ -162,38 +175,38 @@ class ilPersonalDesktopGUI
 		$this->tpl->show();
 	}
 
-	
+
 	/**
 	* show profile of other user
 	*/
 	function showUserProfile()
-	{	
+	{
 		// add template for content
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
-		
+
 		// set locator
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
 		$this->tpl->parseCurrentBlock();
-		
+
 		// catch feedback message
 		sendInfo();
 
 		// display infopanel if something happened
 		infoPanel();
-		
+
 		$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
-		
+
 		include_once("classes/class.ilObjUserGUI.php");
 		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 		$this->tpl->setVariable("ADM_CONTENT", $user_gui->getPublicProfile());
-		
+
 		$this->tpl->show();
 	}
 
@@ -203,11 +216,11 @@ class ilPersonalDesktopGUI
 	function dropItem()
 	{
 		global $ilUser;
-		
+
 		$ilUser->dropDesktopItem($_GET["item_ref_id"], $_GET["type"]);
 		$this->show();
 	}
-	
+
 	/**
 	* copied from usr_personaldesktop.php
 	*/
@@ -220,14 +233,14 @@ class ilPersonalDesktopGUI
 		}
 		$this->show();
 	}
-	
+
 	/**
 	* show details for selected items
 	*/
 	function showSelectedItemsDetails()
 	{
 		global $ilUser;
-		
+
 		$ilUser->writePref("pd_selected_items_details", "y");
 		$this->show();
 	}
@@ -238,45 +251,45 @@ class ilPersonalDesktopGUI
 	function hideSelectedItemsDetails()
 	{
 		global $ilUser;
-		
+
 		$ilUser->writePref("pd_selected_items_details", "n");
 		$this->show();
 	}
 
-	
+
 	/**
 	* show details for users online
 	*/
 	function showUsersOnlineDetails()
 	{
 		global $ilUser;
-		
+
 		$ilUser->writePref('show_users_online_details','y');
 		$this->show();
 	}
-	
+
 	/**
 	* hide details for users online
 	*/
 	function hideUsersOnlineDetails()
 	{
 		global $ilUser;
-		
+
 		$ilUser->writePref('show_users_online_details','n');
 		$this->show();
 	}
 
-	
+
 	/**
 	 * display selected items
 	 */
 	function displaySelectedItems()
 	{
-			
+
 		$html = "";
-		
+
 		$html.= $this->getSelectedItemsBlockHTML();
-		
+
 		if ($html != "")
 		{
 			$this->tpl->setCurrentBlock("selected_items");
@@ -293,11 +306,11 @@ class ilPersonalDesktopGUI
 	function getSelectedItemsBlockHTML()
 	{
 		global $ilUser;
-		
+
 		include_once './classes/class.ilRepositoryExplorer.php';
 
 		global $rbacsystem, $objDefinition, $ilBench;
-		
+
 		$output = false;
 		$types = array(
 			array("title" => $this->lng->txt("objs_cat"), "types" => "cat"),
@@ -319,16 +332,16 @@ class ilPersonalDesktopGUI
 			array("title" => $this->lng->txt("objs_icrs"), "types" => "icrs"),
 			array("title" => $this->lng->txt("objs_icla"), "types" => "icla")
 		);
-		
+
 		//$html = "";
-		
+
 		$tpl =& $this->newBlockTemplate();
-		
+
 		foreach ($types as $type)
 		{
 			$type = $type["types"];
 			$title = $type["title"];
-			
+
 			$items = $this->ilias->account->getDesktopItems($type);
 			$item_html = array();
 
@@ -351,9 +364,9 @@ class ilPersonalDesktopGUI
 						}
 					}
 				}
-			
+
 				foreach($items as $item)
-				{					
+				{
 					// get list gui class for each object type
 					if ($cur_obj_type != $item["type"])
 					{
@@ -375,7 +388,7 @@ class ilPersonalDesktopGUI
 					}
 					// render item row
 					$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
-	
+
 					$html = $item_list_gui->getListItemHTML($item["ref_id"],
 						$item["obj_id"], $item["title"], $item["description"]);
 					$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
@@ -420,7 +433,7 @@ class ilPersonalDesktopGUI
 				}
 			}
 		}
-		
+
 		if ($output)
 		{
 			$tpl->setCurrentBlock("pd_header_row");
@@ -437,10 +450,10 @@ class ilPersonalDesktopGUI
 			}
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		return $tpl->get();
     }
-	
+
 	/**
 	* adds a header row to a block template
 	*
@@ -470,7 +483,7 @@ class ilPersonalDesktopGUI
 		{
 			$a_tpl->setCurrentBlock("container_header_row");
 		}
-		
+
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
@@ -490,7 +503,7 @@ class ilPersonalDesktopGUI
 			? "row_type_2"
 			: "row_type_1";
 		$a_tpl->touchBlock($this->cur_row_type);
-		
+
 		if ($a_image_type != "")
 		{
 			if (!is_array($a_image_type))
@@ -503,7 +516,7 @@ class ilPersonalDesktopGUI
 				$icon = ilUtil::getImagePath("icon_lm.gif");
 				$title = $this->lng->txt("learning_resource");
 			}
-			
+
 			// custom icon
 			if ($this->ilias->getSetting("custom_icons") &&
 				in_array($a_image_type, array("cat","grp","crs")))
@@ -534,7 +547,7 @@ class ilPersonalDesktopGUI
 	{
 		$this->cur_row_type = "";
 	}
-	
+
 	/**
 	* returns a new list block template
 	*
@@ -626,7 +639,7 @@ class ilPersonalDesktopGUI
 		$mail_data = $umail->getMailsOfFolder($inbox);
 		$mail_counter = $umail->getMailCounterData();
 		$unreadmails = 0;
-		
+
 
 		foreach ($mail_data as $mail)
 		{
@@ -634,7 +647,7 @@ class ilPersonalDesktopGUI
 			if($mail["m_status"]== 'unread')
 			{
 				//echo $mail["m_status"];
-				
+
 				$this->tpl->setCurrentBlock("tbl_mails");
 				$this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
 				$this->tpl->setVariable("NEW_MAIL",$this->lng->txt("email"));
@@ -848,7 +861,7 @@ class ilPersonalDesktopGUI
                 $this->tpl->parseCurrentBlock();
             }
         }
-		
+
 		$this->ctrl->clearParameters($this);
     }
 
@@ -905,7 +918,7 @@ class ilPersonalDesktopGUI
             return $output;
         }
     }
-	
+
 	/**
 	* set personal desktop tabs
 	*/
@@ -914,15 +927,15 @@ class ilPersonalDesktopGUI
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
 		$script_name = basename($_SERVER["SCRIPT_NAME"]);
-		
+
 		$command = $_GET["cmd"] ? $_GET["cmd"] : "";
-		
+
 		if (ereg("whois",$command) or $script_name == "profile.php")
 		{
 			$who_is_online = true;
 		}
-		
-		
+
+
 		// personal desktop home
 		$inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
 			(strtolower($_GET["cmdClass"]) == "ilpersonaldesktopgui" ||
@@ -930,14 +943,14 @@ class ilPersonalDesktopGUI
 			? "tabactive"
 			: "tabinactive";
 		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTarget($this), $this->lng->txt("overview"));
-		
+
 		// user profile
 		$inc_type = (strtolower($_GET["cmdClass"]) == "ilpersonalprofilegui")
 			? "tabactive"
 			: "tabinactive";
 		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPersonalProfileGUI"),
 			$this->lng->txt("personal_profile"));
-		
+
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
 			// user calendar
@@ -956,28 +969,28 @@ class ilPersonalDesktopGUI
 			$inhalt1[] = array($inc_type,
 				$this->ctrl->getLinkTargetByClass("ilbookmarkadministrationgui"),
 				$this->lng->txt("bookmarks"));
-		
+
 		}
-		
+
 		include_once "./payment/classes/class.ilPaymentVendors.php";
 		include_once "./payment/classes/class.ilPaymentTrustees.php";
 		include_once "./payment/classes/class.ilPaymentShoppingCart.php";
 		include_once "./payment/classes/class.ilPaymentBookings.php";
-		
+
 		if(ilPaymentShoppingCart::_hasEntries($this->ilias->account->getId()) or
 		   ilPaymentBookings::_getCountBookingsByCustomer($this->ilias->account->getId()))
-											  
+
 		{
 			$this->lng->loadLanguageModule('payment');
 			$inhalt1[] = array('tabinactive',"./payment/payment.php", $this->lng->txt('paya_shopping_cart'));
-		}	
+		}
 		if(ilPaymentVendors::_isVendor($this->ilias->account->getId()) or
 		   ilPaymentTrustees::_hasAccess($this->ilias->account->getId()))
 		{
 			$this->lng->loadLanguageModule('payment');
 			$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$this->lng->txt('paya_header'));
 		}
-		
+
 		for ( $i=0; $i<sizeof($inhalt1); $i++)
 		{
 			if ($inhalt1[$i][1] != "")
@@ -989,11 +1002,11 @@ class ilPersonalDesktopGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		$this->tpl->setCurrentBlock("tabs");
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	/**
 	* workaround for menu in calendar only
 	*/
@@ -1001,7 +1014,7 @@ class ilPersonalDesktopGUI
 	{
 		$this->ctrl->redirectByClass("ilpersonalprofilegui");
 	}
-	
+
 	/**
 	* workaround for menu in calendar only
 	*/

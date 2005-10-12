@@ -48,6 +48,7 @@ class ilBookmark
 	var $tree;
 
 	var $title;
+	var $description;
 	var $target;
 	var $id;
 	var $parent;
@@ -88,7 +89,7 @@ class ilBookmark
 	{
 		global $ilias;
 
-		$q = "SELECT * FROM bookmark_data WHERE obj_id = '".$this->id."'";
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".$this->ilias->db->quote($this->getId());
 		$bm_set = $this->ilias->db->query($q);
 		if ($bm_set->numRows() == 0)
 		{
@@ -99,6 +100,7 @@ class ilBookmark
 		{
 			$bm = $bm_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->setTitle($bm["title"]);
+			$this->setDescription($bm["description"]);
 			$this->setTarget($bm["target"]);
 			$this->setParent($this->tree->getParentId($this->id));
 		}
@@ -109,28 +111,38 @@ class ilBookmark
 	*/
 	function delete()
 	{
-		$q = "DELETE FROM bookmark_data WHERE obj_id = '".$this->getId()."'";
+		$q = "DELETE FROM bookmark_data WHERE obj_id = ".$this->ilias->db->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
 
 	function create()
 	{
-		$q = 	"INSERT INTO bookmark_data (user_id, title, target, type) ".
-				"VALUES ('".$_SESSION["AccountId"]."','".$this->getTitle().
-				"','".$this->getTarget()."','bm')";
+		$q = sprintf(
+				"INSERT INTO bookmark_data (user_id, title,description, target, type) ".
+				"VALUES (%s,%s,%s,%s,%s)",
+				$this->ilias->db->quote($_SESSION["AccountId"]),
+				$this->ilias->db->quote($this->getTitle()),
+				$this->ilias->db->quote($this->getDescription()),
+				$this->ilias->db->quote($this->getTarget()),
+				$this->ilias->db->quote('bm')
+			);
 
 		$this->ilias->db->query($q);
-
 		$this->setId($this->ilias->db->getLastInsertId());
-
 		$this->tree->insertNode($this->getId(), $this->getParent());
 	}
 
 	function update()
 	{
-		$q = "UPDATE bookmark_data SET title = '".$this->getTitle().
-			"', target = '".$this->getTarget()."' WHERE obj_id = '".$this->getId()."'";
+		$q = sprintf(
+				"UPDATE bookmark_data SET title=%s,description=%s,target=%s ".
+				"WHERE obj_id=%s",
+				$this->ilias->db->quote($this->getTitle()),
+				$this->ilias->db->quote($this->getDescription()),
+				$this->ilias->db->quote($this->getTarget()),
+				$this->ilias->db->quote($this->getId())
+			);
 		$this->ilias->db->query($q);
 	}
 
@@ -144,14 +156,14 @@ class ilBookmark
 	{
 		$this->id = $a_id;
 	}
-	
+
 	function getId()
 	{
 		return $this->id;
 	}
 
 	/**
-	* set description
+	* set title
 	* @access	public
  	* @param	string
 	*/
@@ -163,6 +175,20 @@ class ilBookmark
 	function getTitle()
 	{
 		return $this->title;
+	}
+	/**
+	* set description
+	* @access	public
+ 	* @param	string
+	*/
+	function setDescription($a_str)
+	{
+		$this->description = $a_str;
+	}
+
+	function getDescription()
+	{
+		return $this->description;
 	}
 
 	/**
@@ -180,12 +206,12 @@ class ilBookmark
 	{
 		return $this->target;
 	}
-	
+
 	function setParent($a_parent_id)
 	{
 		$this->parent = $a_parent_id;
 	}
-	
+
 	function getParent()
 	{
 		return $this->parent;

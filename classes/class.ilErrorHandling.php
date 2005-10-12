@@ -70,21 +70,21 @@ class ilErrorHandling extends PEAR
 	function ilErrorHandling()
 	{
 		$this->PEAR();
-		
+
 		// init vars
 		$this->DEBUG_ENV = true;
 		$this->FATAL	 = 1;
 		$this->WARNING	 = 2;
 		$this->MESSAGE	 = 3;
-		
+
 		$this->error_obj = false;
 	}
-	
+
 	function getLastError()
 	{
 		return $this->error_obj;
 	}
-	
+
 	/**
 	* defines what has to happen in case of error
 	* @access	private
@@ -99,7 +99,8 @@ class ilErrorHandling extends PEAR
 		if ($_SESSION["message"])
 		{
 			$m = "Fatal Error: Called raise error two times.<br>".
-				"First error: ".$_SESSION["message"];
+				"First error: ".$_SESSION["message"].'<br>'.
+				"Last Error:". $a_error_obj->getMessage();
 			//return;
 			$log->logError($a_error_obj->getCode(), $m);
 			unset($_SESSION["message"]);
