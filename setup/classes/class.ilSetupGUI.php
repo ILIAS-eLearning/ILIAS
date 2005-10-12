@@ -334,6 +334,14 @@ class ilSetupGUI extends ilSetup
 				ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
 				break;
 
+			case "tools":
+				$this->displayTools();
+				break;
+				
+			case "reloadStructure":
+				$this->reloadControlStructure();
+				break;
+
 			default:
 				$this->displayError($this->lng->txt("unknown_command"));
 				break;
@@ -2318,6 +2326,51 @@ class ilSetupGUI extends ilSetup
 		
 		$this->checkPanelMode();
 	}
+	
+	/**
+	 * display tools
+	 */
+	function displayTools()
+	{
+		$this->checkDisplayMode();
+		
+		// output
+		sendInfo();
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_tools.html");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
+		$this->tpl->setVariable("TXT_TOOLS", $this->lng->txt("tools"));
+		$this->tpl->setVariable("TXT_CTRL_STRUCTURE", $this->lng->txt("ctrl_structure"));
+		$this->tpl->setVariable("TXT_RELOAD", $this->lng->txt("reload"));
+		$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",
+			$this->lng->txt("ctrl_structure_desc"));
+
+		$this->tpl->parseCurrentBlock();
+		
+		//$this->checkPanelMode();
+	}
+
+	/**
+	* reload control structure
+	*/
+	function reloadControlStructure()
+	{
+		global $ilCtrlStructureReader;
+		
+		if (!$this->client->db_installed)
+		{
+			sendInfo($this->lng->txt("no_db"), true);
+			$this->displayTools();
+			return;
+		}
+		
+		// referencing does not work in dbupdate-script
+		$GLOBALS["ilDB"] = new ilDbx($this->client->dsn);
+		$ilCtrlStructureReader->getStructure();
+		sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
+		$this->displayTools();
+	}
+
+
 	
 	/**
 	 * display change password form and process form input

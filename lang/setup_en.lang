@@ -5,6 +5,7 @@
 * @modulegroup  language
 * @author       Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version      $Id$
+* @version      $Id$
 */
 
 	+-----------------------------------------------------------------------------+
@@ -60,6 +61,12 @@ choose_password#:#Please choose a password
 city#:#City, State
 clean_command#:#Clean Command
 client#:#Client
+tools#:#Tools
+ctrl_structure#:#Control Structure
+reload#:#Reload
+lang_bg#:#Bulgarian
+ctrl_structure_reloaded#:#Control Structure Reloaded.
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. 
 client_access_mode_changed#:#Client's access mode changed
 client_data#:#Client Information
 client_id#:#Client ID
