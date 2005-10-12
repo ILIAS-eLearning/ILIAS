@@ -5289,5 +5289,5 @@ common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die 
 common#:#links_no_value_given#:#Bitte wählen Sie einen Parameterwert aus.
 common#:#links_no_name_given#:#Bitte geben Sie einen Parameternamen ein.
 common#:#links_parameter_deleted#:#Der Parameter wurde gelöscht.
-ommon#:#bkm_import#:#Bookmarks importieren
+common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
