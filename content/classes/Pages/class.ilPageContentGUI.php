@@ -279,6 +279,11 @@ class ilPageContentGUI
 			}
 			$this->tpl->setVariable("MESSAGE", $error_str);
 		}
+		else if($this->updated != "")
+		{
+			$this->tpl->setVariable("MESSAGE", "<b>Validation Error(s):</b><br />".
+				$this->updated."<br />");
+		}
 	}
 	
 	/**

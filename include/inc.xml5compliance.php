@@ -21,6 +21,18 @@
 */
 
 
+function staticxmlerror($errno, $errstr, $errfile, $errline, $errcontext, $ret = false)
+{
+   static $errs = array();
+
+   if ($ret === true) {
+       return $errs;
+   }
+
+   $tag = 'DOMDocument::validate(): ';
+   $errs[] = str_replace($tag, '', $errstr);
+}
+
 function domxml_open_file($filename)
 {
 	return new php4DOMDocument($filename);
@@ -29,9 +41,14 @@ function domxml_open_file($filename)
 /*
 * ##added
 */
-function domxml_open_mem($str)
+function domxml_open_mem($str, $mode = DOMXML_LOAD_PARSING, &$error = NULL)
 {
-	return new php4DOMDocument($str, false);
+	$doc = new php4DOMDocument($str, false);
+	if (!$doc->success)
+	{
+		$error = $doc->error;
+	}
+	return $doc;
 }
 
 function xpath_eval($xpath_context,$eval_str)
@@ -88,13 +105,32 @@ class php4DOMDocument
 	function php4DOMDocument($source, $file = true)
 	{
 		$this->myDOMDocument=new DOMDocument();
+		
+		// temporary set error handler
+		set_error_handler('staticxmlerror');
+		$old = ini_set('html_errors', false);
+
 		if ($file)
 		{
-			$this->myDOMDocument->load($source);
+			$this->success = @$this->myDOMDocument->load($source);
 		}
 		else
 		{
-			$this->myDOMDocument->loadXML($source);
+			$this->success = @$this->myDOMDocument->loadXML($source);
+		}
+				
+		// Restore error handling
+		ini_set('html_errors', $old);
+		restore_error_handler();
+		
+		if (!$this->success)
+		{
+			$this->error_arr = staticxmlerror(null, null, null, null, null, true);
+			foreach($this->error_arr as $error)
+			{
+				$error = str_replace("DOMDocument::loadXML():", "", $error);
+				$this->error.= $error."<br />";
+			}
 		}
 	}
 
