@@ -8799,4 +8799,4 @@ CREATE TABLE IF NOT EXISTS `webr_params` (
   KEY `link_id` (`link_id`)
 ) TYPE = MyISAM;
 <#542>
-ALTER TABLE bookmark_data ADD description varchar(255) NOT NULL DEFAULT '' COMMENT '' COLLATE utf8_general_ci AFTER title
+ALTER TABLE bookmark_data ADD description varchar(255) NOT NULL DEFAULT '' COMMENT '' COLLATE utf8_general_ci AFTER title;
