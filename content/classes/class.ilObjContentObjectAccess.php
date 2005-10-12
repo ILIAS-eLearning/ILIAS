@@ -68,6 +68,14 @@ class ilObjContentObjectAccess extends ilObjectAccess
 				break;
 				
 			case "continue":
+			
+				// no continue command for anonymous user
+				if ($ilUser->getId() == ANONYMOUS_USER_ID)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
+					return false;
+				}
+			
 				if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id)
 					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
