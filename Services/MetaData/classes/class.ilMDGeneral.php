@@ -367,11 +367,13 @@ class ilMDGeneral extends ilMDBase
 		$writer->xmlStartTag('General',array('Structure' => $this->getStructure()));
 
 		// Identifier
+		$first = true;
 		foreach($this->getIdentifierIds() as $id)
 		{
 			$ide =& $this->getIdentifier($id);
 			$ide->setExportMode($this->getExportMode());
 			$ide->toXML($writer);
+			$first = false;
 		}
 		
 		// TItle
