@@ -85,7 +85,7 @@ class ilRepositoryGUI
 
 		$this->ctrl->saveParameter($this, array("ref_id"));
 		if (!ilUtil::isAPICall())
-			$this->ctrl->setReturn($this,"ShowList");
+			$this->ctrl->setReturn($this,"");
 
 		// determine current ref id and mode
 		//if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
@@ -250,9 +250,10 @@ class ilRepositoryGUI
 
 		$cmd = $this->ctrl->getCmd();
 //echo "-$cmd-".$_GET["cmd"];
-		if ($cmd == "frameset" && $_SESSION["il_rep_mode"] == "tree")
+		if (($cmd == "frameset" || $_GET["rep_frame"] == 1) && $_SESSION["il_rep_mode"] == "tree")
 		{
 			$next_class = "";
+			$cmd = "frameset";
 		}
 		else if ($cmd == "frameset" && $_SESSION["il_rep_mode"] != "tree")
 		{
@@ -399,7 +400,7 @@ class ilRepositoryGUI
 					else
 					{
 //echo "A-$cmd-$obj_type-";
-						$cmd = $this->ctrl->getCmd("ShowList");
+						$cmd = $this->ctrl->getCmd("");
 					}
 					//$next_class = "";
 				}
@@ -427,6 +428,16 @@ class ilRepositoryGUI
 	function frameset()
 	{
 		$this->tpl = new ilTemplate("tpl.rep_frameset.html", false, false);
+		if ($_GET["rep_frame"] == 1)
+		{
+			$this->tpl->setVariable("SRC_CONTENT",
+				str_replace("rep_frame", "rep_frame_done", $_SERVER["REQUEST_URI"]));
+		}
+		else
+		{
+			$this->tpl->setVariable("SRC_CONTENT",
+				"repository.php?getlast=true&ref_id=".$this->cur_ref_id);
+		}
 		$this->tpl->setVariable("REF_ID",$this->cur_ref_id);
 		$this->tpl->show();
 	}
@@ -455,26 +466,6 @@ class ilRepositoryGUI
 		// set header
 		$this->setHeader($a_tabs_out);
 	}
-
-	/**
-	* show list (tree or flat, depending on current mode)
-	*/
-/*
-	function showList()
-	{
-		$this->showFlatList();
-		switch ($this->mode)
-		{
-			case "tree":
-				$this->showTree();
-				break;
-
-			default:
-				$this->showFlatList();
-				break;
-		}
-	}
-*/
 
 
 	/**
@@ -1944,7 +1935,7 @@ class ilRepositoryGUI
 				{
 					sendInfo($this->lng->txt("no_access_link_object"),true);
 					
-					$this->ctrl->redirect($this,'showList');
+					$this->ctrl->redirect($this,'');
 				}
 			}
 			// call recursive copy link method
@@ -2046,6 +2037,7 @@ class ilRepositoryGUI
 		return true;
 	}
 
+/*
 	function addToClipboard()
 	{
 		// check preconditions (dirty implementation, should merged with linkObject & cutObject in ilObjectGUI)
@@ -2123,6 +2115,9 @@ class ilRepositoryGUI
 		sendInfo($this->lng->txt($message),true);
 		$this->showList();
 	}
+*/
+
 } // END class.ilRepository
+
 
 ?>
