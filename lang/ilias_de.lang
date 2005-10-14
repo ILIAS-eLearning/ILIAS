@@ -4907,9 +4907,9 @@ search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_type#:#Suchart
 search#:#search_user#:#Benutzer
 search#:#until#:#bis
-survey#:#add_category#:#Kategorie hinzufügen
+survey#:#add_category#:#Antwort hinzufügen
 survey#:#add_heading#:#Überschrift hinzufügen
-survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Kategorien hinzufügen wollen.
+survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
@@ -4938,12 +4938,12 @@ survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, u
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
-survey#:#category#:#Kategorie
-survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
-survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
-survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
+survey#:#category#:#Antwort
+survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?
+survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
+survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Antwort ausgewählt haben
 survey#:#chart#:#Diagramm
-survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Kategorie auswählen, um eine Phrase speichern zu können!
+survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangscodes
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
@@ -5040,10 +5040,10 @@ survey#:#exp_type_csv#:#Comma separated value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
 survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#export_data_as#:#Exportieren als
-survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
-survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien hinzufügen können!
-survey#:#fill_out_all_required_fields_delete_category#:#Bitte füllen Sie alle benötigten Felder aus, bevor Sie Kategorien löschen!
-survey#:#fill_out_all_required_fields_move_category#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie Kategorien verschieben!
+survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Antworten aus, bevor Sie eine neue Antwort erzeugen!
+survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen können!
+survey#:#fill_out_all_required_fields_delete_category#:#Bitte füllen Sie alle benötigten Felder aus, bevor Sie Antworten löschen!
+survey#:#fill_out_all_required_fields_move_category#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie Antworten verschieben!
 survey#:#fill_out_all_required_fields_save_phrase#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie eine Phrase speichern!
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragentypen
@@ -5104,8 +5104,8 @@ survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl
 survey#:#new_survey_codes#:#neue Zugangscode(s) für die Umfrage
 survey#:#next_question_rows#:#Fragen %d - %d von %d >>
 survey#:#no_available_constraints#:#Es sind keine Beschränkungen definiert!
-survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
-survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kategorie zum Verschieben aus!
+survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
+survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Antwort zum Verschieben aus!
 survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Beschränkungen zu bearbeiten!
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
@@ -5127,7 +5127,7 @@ survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
-survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Kategorie ausgewählt haben
+survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwort ausgewählt haben
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
 survey#:#preview#:#Vorschau
@@ -5171,8 +5171,8 @@ survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Umfrage fortsetzen
 survey#:#save_obligatory_state#:#Pflichteingaben speichern
 survey#:#save_phrase#:#Als Phrase speichern
-survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Kategorien aus, um diese in einer neuen Phrase speichern zu können!
-survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Kategorien für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
+survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Antworten aus, um diese in einer neuen Phrase speichern zu können!
+survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
 survey#:#search_field_all#:#In allen Feldern suchen
 survey#:#search_for#:#Suchen nach
 survey#:#search_groups#:#Gruppen
@@ -5188,7 +5188,7 @@ survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die 
 survey#:#select_questionpool_short#:#Fragenpool für Umfrage
 survey#:#select_relation#:#Relation auswählen
 survey#:#select_svy_option#:#--- Bitte wählen Sie eine Umfrage ---
-survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Kategorien zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
+survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Antworten zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
 survey#:#selection#:#Auswahl
