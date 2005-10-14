@@ -4952,9 +4952,9 @@ search#:#search_tst_svy#:#Tests/Surveys
 search#:#search_type#:#Search type
 search#:#search_user#:#Users
 search#:#until#:#up to
-survey#:#add_category#:#Add category
+survey#:#add_category#:#Add answer
 survey#:#add_heading#:#Add heading
-survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.
+survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
@@ -4983,12 +4983,12 @@ survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
 survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
-survey#:#category#:#Category
-survey#:#category_delete_confirm#:#Are you sure you want to delete the following categories?
-survey#:#category_delete_select_none#:#Please check at least one category to delete it!
-survey#:#category_nr_selected#:#Number of users that selected this category
+survey#:#category#:#Answer
+survey#:#category_delete_confirm#:#Are you sure you want to delete the following answers?
+survey#:#category_delete_select_none#:#Please check at least one answer to delete it!
+survey#:#category_nr_selected#:#Number of users that selected this answer
 survey#:#chart#:#Chart
-survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!
+survey#:#check_category_to_save_phrase#:#You must select a least one answer to save a phrase!
 survey#:#codes#:#Access codes
 survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
@@ -5088,10 +5088,10 @@ survey#:#exp_type_csv#:#Comma separated value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
 survey#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
 survey#:#export_data_as#:#Export data as
-survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
-survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
-survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!
-survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!
+survey#:#fill_out_all_category_fields#:#Please fill out all answer fields before you add a new one!
+survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add answers!
+survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete answers!
+survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move answers!
 survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#All question types
@@ -5152,8 +5152,8 @@ survey#:#multiple_choice_single_response#:#Multiple choice (single response)
 survey#:#new_survey_codes#:#new survey access code(s)
 survey#:#next_question_rows#:#Questions %d - %d of %d >>
 survey#:#no_available_constraints#:#There are no preconditions defined!
-survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!
-survey#:#no_category_selected_for_move#:#Please check at least one category to move it!
+survey#:#no_category_selected_for_deleting#:#Please select a least one answer if you want to delete answers!
+survey#:#no_category_selected_for_move#:#Please check at least one answer to move it!
 survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the preconditions!
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
@@ -5175,7 +5175,7 @@ survey#:#or#:#or
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
-survey#:#percentage_of_selections#:#Percentage of users that selected this category
+survey#:#percentage_of_selections#:#Percentage of users that selected this answer
 survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
@@ -5220,8 +5220,8 @@ survey#:#resume_survey#:#Resume the survey
 survey#:#save_back_to_survey#:#Save and go back to the survey
 survey#:#save_obligatory_state#:#Save obligatory states
 survey#:#save_phrase#:#Save as phrase
-survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!
-survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
+survey#:#save_phrase_categories_not_checked#:#Please check at least two answers to save answers in a new phrase!
+survey#:#save_phrase_introduction#:#If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
 survey#:#search_field_all#:#Search in all fields
 survey#:#search_for#:#Search for
 survey#:#search_groups#:#Groups
@@ -5237,7 +5237,7 @@ survey#:#select_questionpool#:#Please select a question pool to store the create
 survey#:#select_questionpool_short#:#Question pool for Survey
 survey#:#select_relation#:#Select a relation
 survey#:#select_svy_option#:#--- Please select a survey ---
-survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
+survey#:#select_target_position_for_move#:#Please select a target position to move the answers and press one of the insert buttons!
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 survey#:#select_value#:#Select a value
 survey#:#selection#:#Selection
