@@ -133,7 +133,6 @@ with this content
 
 JAVABIN=/usr/bin/java
 ILIASDIR=/var/www/ilias		# Type in the root directory of your ILIAS installation
-USER=wwwrun				    # Replace with the useranme who should run the rpcserver
 
 case "$1" in
 	start)
@@ -143,7 +142,7 @@ case "$1" in
 			exit 1
 		fi
 		echo "Starting RPC server"
-		su -c "$JAVABIN -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.properties" $USER &
+		$JAVABIN -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.properties $USER &
 		echo $! > /tmp/rpcserver.pid
 		;;
 
