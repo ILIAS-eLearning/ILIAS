@@ -510,6 +510,10 @@ class ilObjectListGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
+			// workaround for repository frameset
+			$this->default_command["link"] = 
+				$this->appendRepositoryFrameParameter($this->default_command["link"]);
+
 			// the default command is linked with the title
 			$this->tpl->setCurrentBlock("item_title_linked");
 			$this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
@@ -854,6 +858,10 @@ class ilObjectListGUI
 			{
 				if (!$command["default"] === true)
 				{
+					// workaround for repository frameset
+					$command["link"] = 
+						$this->appendRepositoryFrameParameter($command["link"]);
+					
 					$cmd_link = $command["link"];
 					$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
 						$command["frame"]);
@@ -893,6 +901,24 @@ class ilObjectListGUI
 				$this->insertSubscribeCommand();
 			}
 		}
+	}
+
+	/**
+	* workaround: all links into the repository (from outside)
+	* must tell repository to setup the frameset
+	*/
+	function appendRepositoryFrameParameter($a_link)
+	{
+		$script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
+
+		if (substr($script,0,14) != "repository.php" &&
+			is_int(strpos($a_link,"repository.php")))
+		{
+			$a_link = 
+				ilUtil::appendUrlParameterString($a_link, "rep_frame=1");
+		}
+		
+		return $a_link;
 	}
 
 	/**
