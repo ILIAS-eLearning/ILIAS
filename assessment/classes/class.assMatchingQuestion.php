@@ -641,12 +641,73 @@ class ASS_MatchingQuestion extends ASS_Question
 		return $clone->id;
 	}
 
+	/**
+	* Copies an ASS_MatchingQuestion
+	*
+	* Copies an ASS_MatchingQuestion
+	*
+	* @access public
+	*/
+	function copyObject($target_questionpool, $title = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		include_once ("./assessment/classes/class.assQuestion.php");
+		$original_id = ASS_Question::_getOriginalId($this->id);
+		$clone->id = -1;
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		$source_questionpool = $this->getObjId();
+		$clone->setObjId($target_questionpool);
+		$clone->saveToDb();
+
+		// copy question page content
+		$clone->copyPageOfQuestion($original_id);
+
+		// duplicate the image
+		$clone->copyImages($original_id, $source_questionpool);
+		return $clone->id;
+	}
+
 	function duplicateImages($question_id)
 	{
 		if ($this->get_matching_type() == MT_TERMS_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
 			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+			if (!file_exists($imagepath))
+			{
+				ilUtil::makeDirParents($imagepath);
+			}
+			foreach ($this->matchingpairs as $answer)
+			{
+				$filename = $answer->getPicture();
+				if (!copy($imagepath_original . $filename, $imagepath . $filename))
+				{
+					print "image could not be duplicated!!!! ";
+				}
+				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
+				{
+					print "image thumbnail could not be duplicated!!!! ";
+				}
+			}
+		}
+	}
+
+	function copyImages($question_id, $source_questionpool)
+	{
+		if ($this->get_matching_type() == MT_TERMS_PICTURES)
+		{
+			$imagepath = $this->getImagePath();
+			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+			$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
 			if (!file_exists($imagepath))
 			{
 				ilUtil::makeDirParents($imagepath);

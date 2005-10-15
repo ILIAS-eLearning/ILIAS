@@ -296,6 +296,41 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		return $clone->id;
 	}
 
+	/**
+	* Copies an ASS_ImagemapQuestion object
+	*
+	* Copies an ASS_ImagemapQuestion object
+	*
+	* @access public
+	*/
+	function copyObject($target_questionpool, $title = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		include_once ("./assessment/classes/class.assQuestion.php");
+		$original_id = ASS_Question::_getOriginalId($this->id);
+		$clone->id = -1;
+		$source_questionpool = $this->getObjId();
+		$clone->setObjId($target_questionpool);
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		$clone->saveToDb();
+
+		// copy question page content
+		$clone->copyPageOfQuestion($original_id);
+
+		// duplicate the image
+		$clone->copyImage($original_id, $source_questionpool);
+		return $clone->id;
+	}
+	
 	function duplicateImage($question_id)
 	{
 		$imagepath = $this->getImagePath();
@@ -306,6 +341,22 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$filename = $this->get_image_filename();
 		if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
 			print "image could not be duplicated!!!! ";
+		}
+	}
+
+	function copyImage($question_id, $source_questionpool)
+	{
+		$imagepath = $this->getImagePath();
+		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
+		if (!file_exists($imagepath)) 
+		{
+			ilUtil::makeDirParents($imagepath);
+		}
+		$filename = $this->get_image_filename();
+		if (!copy($imagepath_original . $filename, $imagepath . $filename)) 
+		{
+			print "image could not be copied!!!! ";
 		}
 	}
 

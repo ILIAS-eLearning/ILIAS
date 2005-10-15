@@ -858,7 +858,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
 			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
+			$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
+			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 			$this->tpl->parseCurrentBlock();
+			if (array_key_exists("qpl_clipboard", $_SESSION))
+			{
+				$this->tpl->setCurrentBlock("pastebutton");
+				$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("Footer");
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 			$this->tpl->parseCurrentBlock();
@@ -981,6 +989,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("Emptytable");
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
 			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				$counter++;
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
@@ -1173,6 +1192,63 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 	}
 
+	/**
+	* paste questios from the clipboard into the question pool
+	*/
+	function pasteObject()
+	{
+		if (array_key_exists("qpl_clipboard", $_SESSION))
+		{
+			$this->object->pasteFromClipboard();
+			sendInfo($this->lng->txt("qpl_paste_success"), true);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("qpl_paste_no_objects"), true);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+
+	/**
+	* copy one or more question objects to the clipboard
+	*/
+	function copyObject()
+	{
+		if (count($_POST["q_id"]) > 0)
+		{
+			foreach ($_POST["q_id"] as $key => $value)
+			{
+				$this->object->copyToClipboard($value);
+			}
+			sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("qpl_copy_select_none"), true);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* mark one or more question objects for moving
+	*/
+	function moveObject()
+	{
+		if (count($_POST["q_id"]) > 0)
+		{
+			foreach ($_POST["q_id"] as $key => $value)
+			{
+				$this->object->moveToClipboard($value);
+			}
+			sendInfo($this->lng->txt("qpl_move_insert_clipboard"), true);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("qpl_move_select_none"), true);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+	
 	/*
 	* list all export files
 	*/
@@ -1208,8 +1284,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("ass_export_files"));
 
-		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("ass_file"),
-			$this->lng->txt("ass_size"), $this->lng->txt("date") ));
+		$tbl->setHeaderNames(array("", $this->lng->txt("ass_file"),
+		$this->lng->txt("ass_size"), $this->lng->txt("date") ));
 		$tbl->enabled["sort"] = false;
 		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
 
@@ -1260,6 +1336,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 				$this->tpl->parseCurrentBlock();
 			}
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
 		} //if is_array
 		else
 		{

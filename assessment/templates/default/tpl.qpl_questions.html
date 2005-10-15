@@ -7,7 +7,7 @@
 </table>
 <table class="fullwidth">
 <tr class="tblheader">
-<td><input type="checkbox" name="chb_check_all" value="1" onclick="setCheckboxes('form_questions', 'q_id', document.form_questions.chb_check_all.checked);" /></td>
+<td></td>
 <td>{QUESTION_TITLE}</td>
 <td>{QUESTION_EDIT}</td>
 <td>{QUESTION_PREVIEW}</td>
@@ -51,6 +51,12 @@
 <!-- BEGIN Emptytable -->
 <tr><td class="option_value" colspan="10">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
+<!-- BEGIN selectall -->
+<tr>
+	<td class="{COLOR_CLASS}"><input type="checkbox" name="chb_check_all" value="1" id="chb_check_all" onclick="setCheckboxes('form_questions', 'q_id', document.form_questions.chb_check_all.checked);" /></td>
+	<td class="{COLOR_CLASS}" colspan="9"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
 <!-- BEGIN Footer -->
 <tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="9">{A_BUTTONS}</td></tr>
 <!-- END Footer -->

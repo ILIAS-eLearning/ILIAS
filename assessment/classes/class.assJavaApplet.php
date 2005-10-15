@@ -655,6 +655,41 @@ class ASS_JavaApplet extends ASS_Question
 		return $clone->id;
 	}
 
+	/**
+	* Copies an ASS_JavaApplet object
+	*
+	* Copies an ASS_JavaApplet object
+	*
+	* @access public
+	*/
+	function copyObject($target_questionpool, $title = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		include_once ("./assessment/classes/class.assQuestion.php");
+		$original_id = ASS_Question::_getOriginalId($this->id);
+		$clone->id = -1;
+		$source_questionpool = $this->getObjId();
+		$clone->setObjId($target_questionpool);
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		$clone->saveToDb();
+
+		// copy question page content
+		$clone->copyPageOfQuestion($original_id);
+
+		// duplicate the image
+		$clone->copyApplet($original_id, $source_questionpool);
+		return $clone->id;
+	}
+	
 	function duplicateApplet($question_id)
 	{
 		$javapath = $this->getJavaPath();
@@ -666,6 +701,21 @@ class ASS_JavaApplet extends ASS_Question
 		$filename = $this->getJavaAppletFilename();
 		if (!copy($javapath_original . $filename, $javapath . $filename)) {
 			print "java applet could not be duplicated!!!! ";
+		}
+	}
+
+	function copyApplet($question_id, $source_questionpool)
+	{
+		$javapath = $this->getJavaPath();
+		$javapath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $javapath);
+		$javapath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $javapath_original);
+		if (!file_exists($javapath))
+		{
+			ilUtil::makeDirParents($javapath);
+		}
+		$filename = $this->getJavaAppletFilename();
+		if (!copy($javapath_original . $filename, $javapath . $filename)) {
+			print "java applet could not be copied!!!! ";
 		}
 	}
 

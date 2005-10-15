@@ -329,6 +329,10 @@ assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
 assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it
+assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
+assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
+assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
+assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
@@ -341,6 +345,8 @@ assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI fi
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.
 assessment#:#qpl_online_property#:#Online
 assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
+assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
+assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
