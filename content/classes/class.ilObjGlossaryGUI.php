@@ -1429,6 +1429,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $rbacsystem;
 
 		// list definitions
 		$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "listTerms")
@@ -1454,9 +1455,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			 array("exportList", "viewExportLog"), get_class($this));
 
 		// permissions
-		$tabs_gui->addTarget("permission_settings",
-			$this->ctrl->getLinkTarget($this, "perm"), "perm",
-			get_class($this));
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("permission_settings",
+				$this->ctrl->getLinkTarget($this, "perm"),
+				array("perm", "info"),
+				get_class($this));
+		}
 
 	}
 
