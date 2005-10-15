@@ -477,11 +477,6 @@ components:
     Solaris systems the init scripts can usually be found in /etc/init.d, the
     links in the runlevel specific directories like /etc/rc3.d.
 
-    If you are using RedHat Linux, the standard MySQL init script may not stop
-    the MySQL daemon properly. Please see appendix A for a modified version
-    using RedHat specific init functions. In RedHat you may use chkconfig --add
-    to create the runlevel specific links automatically.
-
     It is recommended not to run the mysql daemon as root. The daemon user can
     be set in /etc/rc.d/init.d/mysql.server. On many Linux/Unix system you may
     create a daemon user account and group by entering:
@@ -700,11 +695,6 @@ components:
     Please check the default runlevel for your system in /etc/inittab. On
     Solaris systems the init scripts can usually be found in /etc/init.d, the
     links in the runlevel specific directories like /etc/rc3.d.
-
-    If you are using RedHat Linux, the standard Apache start/stop script may not
-    work properly. Please see APPENDIX A for a modified version using RedHat
-    specific init functions. Use chkconfig --add to create runlevel specific
-    links.
 
     Please change /opt/ilias/config/httpd.conf according to your needs, e.g. set
     a daemon user/group like 'wwwrun' (default: nobody/nobody) to run the httpd
