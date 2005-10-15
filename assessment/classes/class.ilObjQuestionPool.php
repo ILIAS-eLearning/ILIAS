@@ -603,16 +603,52 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function duplicateQuestion($question_id)
 	{
-		global $ilUser;
-
 		$question =& $this->createQuestion("", $question_id);
-		$counter = 2;
-		while ($question->object->questionTitleExists($question->object->getTitle() . " ($counter)"))
+		$newtitle = $question->object->getTitle(); 
+		if ($question->object->questionTitleExists($this->getId(), $question->object->getTitle()))
 		{
-			$counter++;
+			$counter = 2;
+			while ($question->object->questionTitleExists($this->getId(), $question->object->getTitle() . " ($counter)"))
+			{
+				$counter++;
+			}
+			$newtitle = $question->object->getTitle() . " ($counter)";
 		}
-
-		$question->object->duplicate(false, $question->object->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
+		$question->object->duplicate(false, $newtitle);
+	}
+	
+	/**
+	* Copies a question into another question pool
+	*
+	* Copies a question into another question pool
+	*
+	* @param integer $question_id Database id of the question
+	* @param integer $questionpool_to Database id of the target questionpool
+	* @access public
+	*/
+	function copyQuestion($question_id, $questionpool_to)
+	{
+		$question_gui =& $this->createQuestion("", $question_id);
+		if ($question_gui->object->getObjId() == $questionpool_to)
+		{
+			// the question is copied into the same question pool
+			$this->duplicateQuestion($question_id);
+		}
+		else
+		{
+			// the question is copied into another question pool
+			$newtitle = $question_gui->object->getTitle(); 
+			if ($question_gui->object->questionTitleExists($this->getId(), $question_gui->object->getTitle()))
+			{
+				$counter = 2;
+				while ($question_gui->object->questionTitleExists($this->getId(), $question_gui->object->getTitle() . " ($counter)"))
+				{
+					$counter++;
+				}
+				$newtitle = $question_gui->object->getTitle() . " ($counter)";
+			}
+			$question_gui->object->copyObject($this->getId(), $newtitle);
+		}
 	}
 
 	/**
@@ -1166,6 +1202,103 @@ class ilObjQuestionPool extends ilObject
 			return $row["online"];
 		}
 		return 0;
+	}
+	
+	/**
+	* Copies a question to the clipboard
+	*
+	* Copies a question to the clipboard
+	*
+	* @param integer $question_id Object id of the question
+	* @access private
+	*/
+	function pasteFromClipboard()
+	{
+		global $ilDB;
+
+		if (array_key_exists("qpl_clipboard", $_SESSION))
+		{
+			foreach ($_SESSION["qpl_clipboard"] as $question_object)
+			{
+				if (strcmp($question_object["action"], "move") == 0)
+				{
+					$query = sprintf("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
+						$ilDB->quote($question_object["question_id"])
+					);
+					$result = $ilDB->query($query);
+					if ($result->numRows() == 1)
+					{
+						$page = new ilPageObject("qpl", $question_object["question_id"]);
+						$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+						$source_questionpool = $row["obj_fi"];
+						// change the questionpool id in the qpl_questions table
+						$query = sprintf("UPDATE qpl_questions SET obj_fi = %s WHERE question_id = %s",
+							$ilDB->quote($this->getId() . ""),
+							$ilDB->quote($question_object["question_id"])
+						);
+						$ilDB->query($query);
+						
+						// change page object of question and set the correct parent id
+						$query = sprintf("UPDATE page_object SET parent_id = %s WHERE page_id = %s",
+							$ilDB->quote($this->getId() . ""),
+							$ilDB->quote($question_object["question_id"])
+						);
+						$ilDB->query($query);
+						
+						// move question data to the new target directory
+						$source_path = CLIENT_WEB_DIR . "/assessment/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
+						if (@is_dir($source_path))
+						{
+							$target_path = CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/";
+							if (!@is_dir($target_path))
+							{
+								ilUtil::makeDirParents($target_path);
+							}
+							@rename($source_path, $target_path . $question_object["question_id"]);
+						}
+					}
+				}
+				else
+				{
+					$this->copyQuestion($question_object["question_id"], $this->getId());
+				}
+			}
+		}
+		unset($_SESSION["qpl_clipboard"]);
+	}
+	
+	/**
+	* Copies a question to the clipboard
+	*
+	* Copies a question to the clipboard
+	*
+	* @param integer $question_id Object id of the question
+	* @access private
+	*/
+	function copyToClipboard($question_id)
+	{
+		if (!array_key_exists("qpl_clipboard", $_SESSION))
+		{
+			$_SESSION["qpl_clipboard"] = array();
+		}
+		$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "copy");
+	}
+	
+	/**
+	* Moves a question to the clipboard
+	*
+	* Moves a question to the clipboard
+	*
+	* @param integer $question_id Object id of the question
+	* @access private
+	*/
+	function moveToClipboard($question_id)
+	{
+		if (!array_key_exists("qpl_clipboard", $_SESSION))
+		{
+			$_SESSION["qpl_clipboard"] = array();
+		}
+		$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
 	}
 	
 } // END class.ilObjQuestionPool

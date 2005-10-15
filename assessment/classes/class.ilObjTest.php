@@ -34,7 +34,6 @@
 
 require_once "./classes/class.ilObject.php";
 require_once "./assessment/classes/class.assMarkSchema.php";
-//require_once "./classes/class.ilMetaData.php";
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assClozeTest.php";
 require_once "./assessment/classes/class.assImagemapQuestion.php";
@@ -3021,98 +3020,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns a result for a condition check on the class
-* 
-* Calculates the results of a test for a given user
-* and returns true if the user passed the test, else false
-*
-* @param integer $a_exc_id object id of the test object
-* @param string $a_operator The operator which should be checked
-* @param mixed $a_value ???
-* @return boolean True if the test was passed, False otherwise
-* @access public
-*/
-/*
-  MOVED TO ilObjTestAccess
-
-	function _checkCondition($a_exc_id,$a_operator,$a_value)
-	{
-		global $ilias;
-
-		switch($a_operator)
-		{
-			case 'passed':
-				$result = ilObjTest::_getTestResult($ilias->account->getId(), $a_exc_id);
-				if ($result["test"]["passed"])
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-				break;
-
-			case 'finished':
-				return ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
-
-			case 'not_finished':
-				return !ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
-
-			default:
-				return true;
-		}
-		return true;
-
-	}
-*/
-
-	/**
-	* assign a meta data object to glossary object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-*/
-
-	/**
-	* get meta data object of glossary object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
-
-	/**
-	* init meta data object if needed
-	*/
-/*
-	function initMeta()
-	{
-		if (!is_object($this->meta_data))
-		{
-			if ($this->getId())
-			{
-				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}
-			else
-			{
-				$new_meta =& new ilMetaData();
-			}
-			$this->assignMetaData($new_meta);
-		}
-	}
-*/
-
-/**
 * Returns the number of persons who started the test
 *
 * Returns the number of persons who started the test
@@ -4760,41 +4667,6 @@ class ilObjTest extends ilObject
 		return $this->mark_schema->checkMarks();
 	}
 	
-	/**
-	* Set the title and the description for the meta data
-	*/
-/*
-	function updateTitleAndDescription()
-	{
-		$this->initMeta();
-		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
-	}
-*/
-
-	/**
-	* update meta data only
-	*/
-/*
-	function updateMetaData()
-	{
-		$this->initMeta();
-		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
-	}
-*/
-
 /**
 * Returns the available tests for the active user
 *

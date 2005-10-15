@@ -280,9 +280,10 @@ class ASS_Question
 	* @return boolean The result of the title check
 	* @access public
 	*/
-	function questionTitleExists($title)
+	function questionTitleExists($questionpool_id, $title)
 	{
-		$query = sprintf("SELECT * FROM qpl_questions WHERE title = %s",
+		$query = sprintf("SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
+			$this->ilias->db->quote($questionpool_id . ""),
 			$this->ilias->db->quote($title)
 			);
 		$result = $this->ilias->db->query($query);

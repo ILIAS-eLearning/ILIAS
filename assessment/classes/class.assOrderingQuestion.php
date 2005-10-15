@@ -627,6 +627,42 @@ class ASS_OrderingQuestion extends ASS_Question
 		return $clone->id;
 	}
 
+	/**
+	* Copies an ASS_OrderingQuestion object
+	*
+	* Copies an ASS_OrderingQuestion object
+	*
+	* @access public
+	*/
+	function copyObject($target_questionpool, $title = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		include_once ("./assessment/classes/class.assQuestion.php");
+		$original_id = ASS_Question::_getOriginalId($this->id);
+		$clone->id = -1;
+		$source_questionpool = $this->getObjId();
+		$clone->setObjId($target_questionpool);
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		
+		$clone->saveToDb();
+
+		// copy question page content
+		$clone->copyPageOfQuestion($original_id);
+
+		// duplicate the image
+		$clone->copyImages($original_id, $source_questionpool);
+		return $clone->id;
+	}
+	
 	function duplicateImages($question_id)
 	{
 		if ($this->get_ordering_type() == OQ_PICTURES)
@@ -644,6 +680,29 @@ class ASS_OrderingQuestion extends ASS_Question
 				}
 				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg")) {
 					print "image thumbnail could not be duplicated!!!! ";
+				}
+			}
+		}
+	}
+
+	function copyImages($question_id, $source_questionpool)
+	{
+		if ($this->get_ordering_type() == OQ_PICTURES)
+		{
+			$imagepath = $this->getImagePath();
+			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+			$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
+			if (!file_exists($imagepath)) {
+				ilUtil::makeDirParents($imagepath);
+			}
+			foreach ($this->answers as $answer)
+			{
+				$filename = $answer->get_answertext();
+				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
+					print "image could not be copied!!!! ";
+				}
+				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg")) {
+					print "image thumbnail could not be copied!!!! ";
 				}
 			}
 		}

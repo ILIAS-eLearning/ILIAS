@@ -434,6 +434,39 @@ class ASS_TextQuestion extends ASS_Question
 	}
 
 	/**
+	* Copies an ASS_TextQuestion object
+	*
+	* Copies an ASS_TextQuestion object
+	*
+	* @access public
+	*/
+	function copyObject($target_questionpool, $title = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		include_once ("./assessment/classes/class.assQuestion.php");
+		$original_id = ASS_Question::_getOriginalId($this->id);
+		$clone->id = -1;
+		$source_questionpool = $this->getObjId();
+		$clone->setObjId($target_questionpool);
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		$clone->saveToDb();
+
+		// copy question page content
+		$clone->copyPageOfQuestion($original_id);
+
+		return $clone->id;
+	}
+	
+	/**
 	* Gets the text question
 	*
 	* Gets the question string of the ASS_TextQuestion object

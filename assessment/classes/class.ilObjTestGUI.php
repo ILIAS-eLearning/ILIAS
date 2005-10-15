@@ -882,7 +882,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->setScoreReporting($data["score_reporting"]);
 		}
-		
 		$this->object->setReportingDate($data["reporting_date"]);
 		$this->object->setNrOfTries($data["nr_of_tries"]);
 		$this->object->setStartingTime($data["starting_time"]);
@@ -2390,7 +2389,13 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("tst_no_questions_available"));
 			$this->tpl->parseCurrentBlock();
 		} else {
-			if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
+			if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) 
+			{
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$counter++;
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
