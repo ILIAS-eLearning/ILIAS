@@ -639,6 +639,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $rbacsystem;
+		
 		if ($this->ctrl->getCmd() == "delete")
 		{
 			return;
@@ -671,9 +673,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			 "", "ilmdeditorgui");
 
 		// perm
-		$tabs_gui->addTarget("perm_settings",
-			$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
-			get_class($this));
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
+				get_class($this));
+		}
 
 		// owner
 /*

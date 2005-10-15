@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -284,14 +284,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->permObject();
 	}
 	
-	/**
-	* info permissions
-	*/
-	function info()
-	{
-		$this->infoObject();
-	}
-
 	/**
 	* info permissions
 	*/
@@ -654,6 +646,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $rbacsystem;
+		
 		// properties
 		$tabs_gui->addTarget("properties",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",
@@ -670,9 +664,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			get_class($this));
 
 		// perm
-		$tabs_gui->addTarget("perm_settings",
-			$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
-			get_class($this));
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
+				get_class($this));
+		}
 
 		// owner
 		/*
