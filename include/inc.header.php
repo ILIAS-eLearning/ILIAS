@@ -124,6 +124,16 @@ $ilias =& new ILIAS($_COOKIE["ilClientId"]);
 $GLOBALS['ilias'] =& $ilias;
 $ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 
+// trace function calls in debug mode
+if (DEVMODE)
+{
+	if (function_exists("xdebug_start_trace"))
+	{
+		xdebug_start_trace("/tmp/test.txt");
+	}
+}
+
+
 require_once './classes/class.ilHTTPS.php';
 
 $https =& new ilHTTPS();
