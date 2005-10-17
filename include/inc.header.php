@@ -129,7 +129,7 @@ if (DEVMODE)
 {
 	if (function_exists("xdebug_start_trace"))
 	{
-		xdebug_start_trace("/tmp/test.txt");
+		//xdebug_start_trace("/tmp/test.txt");
 	}
 }
 

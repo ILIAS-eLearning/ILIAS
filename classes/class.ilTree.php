@@ -1162,9 +1162,9 @@ class ilTree
 			}
 		}
 
-		$data["title"] = ilUtil::stripSlashes($data["title"]);
-		$data["description"] = ilUtil::stripSlashes($data["description"]);
-		$data["desc"] = ilUtil::stripSlashes($data["desc"]);
+		$data["title"] = $data["title"];
+		$data["description"] = $data["description"];
+		$data["desc"] = $data["desc"];
 		/*
 		$data = array(
 					"ref_id"		=> $a_row->ref_id,

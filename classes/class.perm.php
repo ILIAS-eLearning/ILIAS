@@ -156,9 +156,9 @@ function fetchObjectData($a_row)
 					"obj_id"		=> $a_row->obj_id,
 					"ref_id"		=> $a_row->ref_id,
 					"type"			=> $a_row->type,
-					"title"			=> ilUtil::stripSlashes($a_row->title),
-					"description"	=> ilUtil::stripSlashes($a_row->description),	// for compability only
-					"desc"			=> ilUtil::stripSlashes($a_row->description),
+					"title"			=> $a_row->title,
+					"description"	=> $a_row->description,	// for compability only
+					"desc"			=> $a_row->description,
 					"usr_id"		=> $a_row->owner,	// compability
 					"owner"			=> $a_row->owner,
 					"create_date"	=> $a_row->create_date,

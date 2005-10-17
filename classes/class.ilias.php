@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -418,6 +418,7 @@ class ILIAS
 	*/
 	function getSetting($a_keyword, $a_default_value = false)
 	{
+
 		if ($a_keyword == "ilias_version")
 		{
 			return ILIAS_VERSION;
@@ -429,7 +430,8 @@ class ILIAS
 		if ($res->numRows() > 0)
 		{
 			$row = $res->fetchRow();
-			return ilUtil::stripSlashes($row[0]);
+			return $row[0];
+			//return ilUtil::stripSlashes($row[0]);
 		}
 		else
 		{
@@ -464,7 +466,8 @@ class ILIAS
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$arr[$row["keyword"]] = ilUtil::stripSlashes($row["value"]);
+			$arr[$row["keyword"]] = $row["value"];
+			//$arr[$row["keyword"]] = ilUtil::stripSlashes($row["value"]);
 		}
 
 		return $arr;
