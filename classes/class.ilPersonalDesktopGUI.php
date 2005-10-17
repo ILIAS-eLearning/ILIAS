@@ -33,7 +33,7 @@ include_once "classes/class.ilPersonalDesktopGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI
 *
 * @package content
 */
@@ -102,6 +102,15 @@ class ilPersonalDesktopGUI
 				$ret =& $this->ctrl->forwardCommand($user_gui);
 				break;
 
+			// pd notes
+			case "ilpdnotesgui":
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once("classes/class.ilPDNotesGUI.php");
+				$pd_notes_gui = new ilPDNotesGUI();
+				$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
+				break;
+				
 			default:
 				$this->getStandardTemplates();
 				$this->setTabs();
@@ -961,6 +970,14 @@ class ilPersonalDesktopGUI
 					: "tabinactive";
 				$inhalt1[] = array($inc_type,"dateplaner.php",$this->lng->txt("calendar"));
 			}
+
+			// user bookmarks
+			$inc_type = (strtolower($_GET["cmdClass"]) == "ilpdnotesgui")
+				? "tabactive"
+				: "tabinactive";
+			$inhalt1[] = array($inc_type,
+				$this->ctrl->getLinkTargetByClass("ilpdnotesgui"),
+				$this->lng->txt("private_notes"));
 
 			// user bookmarks
 			$inc_type = (strtolower($_GET["cmdClass"]) == "ilbookmarkadministrationgui")
