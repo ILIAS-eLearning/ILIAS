@@ -23,17 +23,17 @@
 
 include_once("classes/class.ilTableGUI.php");
 //include_once("classes/class.ilObjGroupGUI.php");	// costs 887816 Bytes
-include_once("classes/class.ilObjFolderGUI.php");	// costs 137416 Bytes
-include_once("classes/class.ilObjFolder.php");
-include_once("classes/class.ilObjFileGUI.php");		// costs 122224 Bytes
-include_once("classes/class.ilObjFile.php");
+//include_once("classes/class.ilObjFolderGUI.php");	// costs 137416 Bytes
+//include_once("classes/class.ilObjFolder.php");
+//include_once("classes/class.ilObjFileGUI.php");		// costs 122224 Bytes
+//include_once("classes/class.ilObjFile.php");
 include_once("classes/class.ilTabsGUI.php");
 //include_once("classes/class.ilObjUserGUI.php");		// costs 789880 Bytes
 //include_once("classes/class.ilObjUserFolderGUI.php");	// costs 737696 Bytes
-include_once("classes/class.ilObjRoleGUI.php");			// costs 827840 Bytes
+//include_once("classes/class.ilObjRoleGUI.php");			// costs 827840 Bytes
 include_once("payment/classes/class.ilPaymentObject.php");
-include_once("./ilinc/classes/class.ilObjiLincCourseGUI.php");		// costs 715832 Bytes
-include_once("./ilinc/classes/class.ilObjiLincClassroomGUI.php");	// costs > 348488 Bytes
+//include_once("./ilinc/classes/class.ilObjiLincCourseGUI.php");		// costs 715832 Bytes
+//include_once("./ilinc/classes/class.ilObjiLincClassroomGUI.php");	// costs > 348488 Bytes
 
 
 /**
