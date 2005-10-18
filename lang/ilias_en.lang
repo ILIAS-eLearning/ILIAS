@@ -4963,6 +4963,7 @@ survey#:#add_heading#:#Add heading
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
+survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
@@ -4989,6 +4990,7 @@ survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
 survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
+survey#:#categories#:#Answers
 survey#:#category#:#Answer
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following answers?
 survey#:#category_delete_select_none#:#Please check at least one answer to delete it!
@@ -5104,6 +5106,7 @@ survey#:#filter_all_question_types#:#All question types
 survey#:#filter_all_questionpools#:#All question pools
 survey#:#filter_show_question_types#:#Show question types
 survey#:#filter_show_questionpools#:#Show question pools
+survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.
 survey#:#found_questions#:#Found questions
 survey#:#geometric_mean#:#Geometric mean
 survey#:#given_answers#:#Given answers
@@ -5206,6 +5209,7 @@ survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
 survey#:#qt_ordinal#:#Ordinal question
 survey#:#qt_text#:#Essay
+survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Preconditions
 survey#:#question_obligatory#:#The question is obligatory!
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!

@@ -574,6 +574,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 					$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ", "));
 					$this->tpl->parseCurrentBlock();
 				}
+				$counter++;
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
+				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("Footer");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("TEXT_DELETE", $this->lng->txt("delete"));
@@ -698,6 +703,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function resetObject()
 	{
 		$this->questionsObject();
+		$_POST["filter_text"] = "";
 	}
 	
 	/**
@@ -745,30 +751,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
     $this->tpl->parseCurrentBlock();
     
-  // create edit buttons & table footer
-  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-      $this->tpl->setCurrentBlock("standard");
-      $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-      $this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
-      $this->tpl->setVariable("COPY", $this->lng->txt("copy"));
-      $this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
-      $this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
-			if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
-			{
-	      $this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
-			}
-      $this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
-      $this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
-      $this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("Footer");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-			$this->tpl->parseCurrentBlock();
-	}    
-    
-		if ($_POST["cmd"]["reset"])
-		{
-			$_POST["filter_text"] = "";
-		}
 		$startrow = 0;
 		if ($_GET["prevrow"])
 		{
@@ -891,11 +873,40 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 
     // if there are no questions, display a message
-    if ($counter == 0) {
+    if ($counter == 0) 
+		{
       $this->tpl->setCurrentBlock("Emptytable");
       $this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
       $this->tpl->parseCurrentBlock();
     }
+		else
+		{
+			// create edit buttons & table footer
+			if ($rbacsystem->checkAccess('write', $this->ref_id)) 
+			{
+					$this->tpl->setCurrentBlock("selectall");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("standard");
+					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+					$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
+					$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
+					$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
+					$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
+					if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
+					{
+						$this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
+					}
+					$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
+					$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("Footer");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->parseCurrentBlock();
+			}    
+		}
     
 	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
 			// "create question" form
@@ -1080,7 +1091,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("svy_export_files"));
 
-		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("svy_file"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("svy_file"),
 			$this->lng->txt("svy_size"), $this->lng->txt("date") ));
 
 		$tbl->enabled["sort"] = false;
@@ -1134,6 +1145,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 				$this->tpl->parseCurrentBlock();
 			}
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
 		} //if is_array
 		else
 		{
@@ -1611,7 +1626,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
 			 "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",
 			 "insertBeforeCategory", "insertAfterCategory", "confirmDeleteCategory",
-			 "cancelDeleteCategory"
+			 "cancelDeleteCategory", "categories", "saveCategories", 
+			 "savePhrase", "addPhrase"
 			 ),
 			 "", "", $force_active);
 			 

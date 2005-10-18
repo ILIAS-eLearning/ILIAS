@@ -4,7 +4,7 @@
 <!-- END mark_actions -->
 <table class="std">
 <tr class="tblheader">
-  <td class="std"><input type="checkbox" name="chb_check_all" value="1" onclick="setCheckboxes('frm_marks', 'cb_', document.frm_marks.chb_check_all.checked);" /></td>
+  <td class="std"></td>
   <td class="std">{HEADER_SHORT}</td>
   <td class="std">{HEADER_OFFICIAL}</td>
   <td class="std">{HEADER_PERCENTAGE}</td>
@@ -22,8 +22,14 @@
 <!-- BEGIN Emptyrow -->
 <tr><td class="{ROW_CLASS}"><td class="{ROW_CLASS}" colspan="5">{EMPTY_ROW}</td></tr>
 <!-- END Emptyrow -->
+<!-- BEGIN selectall -->
+<tr class="{ROW_CLASS}">
+	<td class="{ROW_CLASS}"><input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="setCheckboxes('frm_marks', 'cb_', document.frm_marks.chb_check_all.checked);" /></td>
+	<td class="{ROW_CLASS}" colspan="4"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
 <!-- BEGIN Footer -->
-<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="4"><input class="submit" type="submit" name="cmd[deleteMarkSteps]" value="{BUTTON_DELETE}" /></td></tr>
+<tr><td class="submit">{ARROW}</td><td class="submit" colspan="4"><input class="submit" type="submit" name="cmd[deleteMarkSteps]" value="{BUTTON_DELETE}" /></td></tr>
 <!-- END Footer -->
 </table>
 <!-- BEGIN ects -->

@@ -3,7 +3,7 @@
 <form name="form_phrases" method="POST" action="{FORM_ACTION}">
 <table class="fullwidth">
 <tr class="tblheader">
-<td><input type="checkbox" name="chb_check_all" value="1" onclick="setCheckboxes('form_phrases', 'phrase_', document.form_phrases.chb_check_all.checked);" /></td>
+<td></td>
 <td>{TEXT_PHRASE_TITLE}</td>
 <td>{TEXT_PHRASE_CONTENT}</td>
 </tr>
@@ -17,8 +17,14 @@
 <!-- BEGIN Emptytable -->
 <tr><td class="option_value" colspan="3">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
+<!-- BEGIN selectall -->
+<tr class="{COLOR_CLASS}">
+	<td class="{COLOR_CLASS}"><input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="setCheckboxes('form_phrases', 'phrase_', document.form_phrases.chb_check_all.checked);" /></td>
+	<td class="{COLOR_CLASS}" colspan="2"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
 <!-- BEGIN Footer -->
-<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="9"><input type="submit" class="submit" name="cmd[deletePhrase]" value="{TEXT_DELETE}" /></td></tr>
+<tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[deletePhrase]" value="{TEXT_DELETE}" /></td></tr>
 <!-- END Footer -->
 </table>
 </form>

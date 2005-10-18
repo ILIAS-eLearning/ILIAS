@@ -53,28 +53,6 @@
 <!-- END material_title -->
 	</td>
 </tr>
-<tr><td colspan="5" class="option">
-<!-- BEGIN move_buttons -->
-<input type="submit" class="submit" name="cmd[insertBeforeCategory]" value="{INSERT_BEFORE}" />
-<input type="submit" class="submit" name="cmd[insertAfterCategory]" value="{INSERT_AFTER}" />
-<!-- END move_buttons -->
-<input type="submit" class="submit" name="cmd[moveCategory]" value="{MOVE}" />
-<input type="submit" class="submit" name="cmd[deleteCategory]" value="{DELETE}" />
-<input name="cmd[addPhrase]" type="submit" class="submit" id="add_phrase" value="{VALUE_ADD_PHRASE}" />
-<input name="cmd[addCategory]" type="submit" class="submit" id="add_category" value="{VALUE_ADD_CATEGORY}" />
-<input name="cmd[savePhrase]" type="submit" class="submit" id="save_phrase" value="{VALUE_SAVE_PHRASE}" />
-</td>
-<!-- BEGIN categories -->
-<tr>
-  <td class="option">
-<!-- BEGIN cat_selector -->
-	<input type="checkbox" name="chb_category_{CATEGORY_ORDER}" value="{CATEGORY_ORDER}" />
-<!-- END cat_selector -->
-	</td>
-  <td class="option_value" colspan="3"><input name="category_{CATEGORY_ORDER}" type="text" id="category_{CATEGORY_ORDER}" size="50" value="{VALUE_CATEGORY}" /></td>
-  <td class="option_value"><input type="text" name="number" value="{CATEGORY_NUMBER}" size="3" disabled="disabled"/></td>
-</tr>
-<!-- END categories -->
 <tr><td colspan="5" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
