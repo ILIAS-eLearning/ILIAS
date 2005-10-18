@@ -200,7 +200,7 @@ class ilDBx extends PEAR
 		$r = $this->query("SELECT LAST_INSERT_ID()");
 		$row = $r->fetchRow();
 
-		return $row[0];
+		return $row[0] ? $row[0] : false;
 	}
 
 	/**

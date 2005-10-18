@@ -504,7 +504,7 @@ class ilObjCourse extends ilContainer
 		// put here crs specific stuff
 		$new_course =& ilObjectFactory::getInstanceByRefId($new_ref_id);
 
-		$new_course->__initDefaultRoles();
+		$new_course->initDefaultRoles();
 		$new_course->initCourseMemberObject();
 		$new_course->members_obj->add($this->ilias->account,$new_course->members_obj->ROLE_ADMIN);
 		$new_course->__createDefaultSettings();
@@ -867,7 +867,7 @@ class ilObjCourse extends ilContainer
 
 
 	// RBAC METHODS
-	function __initDefaultRoles()
+	function initDefaultRoles()
 	{
 		global $rbacadmin,$rbacreview;
 

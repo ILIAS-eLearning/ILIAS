@@ -248,6 +248,19 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS excludeCourseMember(). Excludes an user from an existing course.');
+
+		// isAssignedToCourse()
+		$this->server->register('isAssignedToCourse',
+								array('sid' => 'xsd:string',
+									  'course_id' => 'xsd:int',
+									  'user_id' => 'xsd:int'),
+								array('role' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#isAssignedToCourse',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS isAssignedToCourse(). Checks whether an user is assigned to a given course. '.
+								'Returns 0 => not assigned, 1 => course admin, 2 => course member or 3 => course tutor');
 								
 		// getCourseXML($sid,$course_id)
 		$this->server->register('getCourseXML',
@@ -273,6 +286,60 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS updateCourse(). Update course settings, assigned members, tutors, administrators with a '.
 								'given xml description');
 
+		// Object administration
+		$this->server->register('getObjectByReference',
+								array('sid' => 'xsd:string',
+									  'reference_id' => 'xsd:int'),
+								array('object_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getObjectByReference',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getObjectByReference(). Get XML-description of an ILIAS object ');
+								
+		$this->server->register('getObjectsByTitle',
+								array('sid' => 'xsd:string',
+									  'title' => 'xsd:string'),
+								array('object_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getObjectsByTitle',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getObjectsByTitle(). Get XML-description of an ILIAS object with given title');
+
+		$this->server->register('addObject',
+								array('sid' => 'xsd:string',
+									  'target_id' => 'xsd:int',
+									  'object_xml' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addObject',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addObject. Create new object based on xml description under a given node '.
+								'("category,course,group or folder)');
+		
+
+		$this->server->register('addReference',
+								array('sid' => 'xsd:string',
+									  'source_id' => 'xsd:int',
+									  'target_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addReference',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addReference. Create new link of given object to new object ');
+
+		$this->server->register('deleteObject',
+								array('sid' => 'xsd:string',
+									  'reference_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#deleteObject',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS deleteObject. Stores object in trash. If multiple references exist, only the reference is deleted ');
 		return true;
 	}
 		

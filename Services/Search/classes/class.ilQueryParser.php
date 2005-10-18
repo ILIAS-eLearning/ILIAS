@@ -32,9 +32,14 @@
 * @package ilias-search
 *
 */
+define('QP_COMBINATION_AND','and');
+define('QP_COMBINATION_OR','or');
+
 class ilQueryParser
 {
 	var $lng = null;
+
+	var $min_word_length = 0;
 
 
 	var $query_str;
@@ -50,12 +55,24 @@ class ilQueryParser
 	{
 		global $lng;
 
+		define(MIN_WORD_LENGTH,3);
+
 		$this->lng =& $lng;
 
 		$this->query_str = $a_query_str;
 		$this->message = '';
+
+		$this->min_word_length = MIN_WORD_LENGTH;
 	}
 
+	function setMinWordLength($a_length)
+	{
+		$this->min_word_length = $a_length;
+	}
+	function getMinWordLength()
+	{
+		return $this->min_word_length;
+	}
 
 	function setMessage($a_msg)
 	{
@@ -137,7 +154,7 @@ class ilQueryParser
 			{
 				continue;
 			}
-			if(strlen(trim($word)) < 3)
+			if(strlen(trim($word)) < $this->getMinWordLength())
 			{
 				$this->setMessage($this->lng->txt('search_minimum_three'));
 				continue;

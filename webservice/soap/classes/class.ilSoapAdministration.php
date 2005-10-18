@@ -61,10 +61,7 @@ class ilSoapAdministration
 			$this->error_method = NUSOAP;
 		}
 	}
-		
 
-		
-		
 	// PROTECTED
 	function __checkSession($sid)
 	{

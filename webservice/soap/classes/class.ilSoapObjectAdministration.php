@@ -1,0 +1,357 @@
+<?php
+  /*
+   +-----------------------------------------------------------------------------+
+   | ILIAS open source                                                           |
+   +-----------------------------------------------------------------------------+
+   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+   |                                                                             |
+   | This program is free software; you can redistribute it and/or               |
+   | modify it under the terms of the GNU General Public License                 |
+   | as published by the Free Software Foundation; either version 2              |
+   | of the License, or (at your option) any later version.                      |
+   |                                                                             |
+   | This program is distributed in the hope that it will be useful,             |
+   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+   | GNU General Public License for more details.                                |
+   |                                                                             |
+   | You should have received a copy of the GNU General Public License           |
+   | along with this program; if not, write to the Free Software                 |
+   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+   +-----------------------------------------------------------------------------+
+  */
+
+
+  /**
+   * Soap object administration methods
+   *
+   * @author Stefan Meyer <smeyer@databay.de>
+   * @version $Id$
+   *
+   * @package ilias
+   */
+include_once './webservice/soap/classes/class.ilSoapAdministration.php';
+
+class ilSoapObjectAdministration extends ilSoapAdministration
+{
+	function ilSoapObjectAdministration()
+	{
+		parent::ilSoapAdministration();
+	}
+		
+	function getObjectByReference($sid,$a_ref_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($a_ref_id))
+		{
+			return $this->__raiseError('No valid reference id given. Please choose an existing reference id of an ILIAS object',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		
+		if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($a_ref_id,false))
+		{
+			return $this->__raiseError('Cannot create object instance!','Server');
+		}
+		
+		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+
+		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->setObjects(array($tmp_obj));
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+
+		return $this->__raiseError('Cannot create object xml !','Server');
+	}
+
+	function getObjectsByTitle($sid,$a_title)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!strlen($a_title))
+		{
+			return $this->__raiseError('No valid query string given.',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		include_once './Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser =& new ilQueryParser($a_title);
+		$query_parser->setMinWordLength(0);
+		$query_parser->setCombination(QP_COMBINATION_AND);
+		$query_parser->parse();
+		if(!$query_parser->validate())
+		{
+			return $this->__raiseError($query_parser->getMessage(),
+									   'Client');
+		}
+		
+		include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
+
+		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+		$object_search->setFields(array('title'));
+		$res =& $object_search->performSearch();
+
+		$objs = array();
+		foreach($res->getEntries() as $entry)
+		{
+			$objs[] = ilObjectFactory::getInstanceByObjId($entry['obj_id'],false);
+		}
+		if(!count($objs))
+		{
+			return '';
+		}
+
+		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+
+		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->setObjects($objs);
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+
+		return $this->__raiseError('Cannot create object xml !','Server');
+	}
+
+	function addObject($sid,$a_target_id,$a_xml)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!strlen($a_xml))
+		{
+			return $this->__raiseError('No valid xml string given.',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
+		{
+			return $this->__raiseError('No valid target given.',
+									   'Client');
+		}
+		$allowed_types = array('cat','grp','crs','fold');
+		if(!in_array($target_obj->getType(),$allowed_types))
+		{
+			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
+									   'Client');
+		}
+
+		$allowed_subtypes = $objDefinition->getSubObjects($target_obj->getType());
+
+		foreach($allowed_subtypes as $row)
+		{
+			if($row['name'] != 'rolf')
+			{
+				$allowed[] = $row['name'];
+			}
+		}
+
+		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
+
+		$xml_parser =& new ilObjectXMLParser($a_xml);
+		$xml_parser->startParsing();
+
+		foreach($xml_parser->getObjectData() as $object_data)
+		{
+			// Check possible subtype
+			if(!in_array($object_data['type'],$allowed))
+			{
+				return $this->__raiseError('Objects of type: '.$object_data['type'].' are not allowed to be subobjects of type '.
+										   $target_obj->getType().'!',
+										   'Client');
+			}
+			if(!$rbacsystem->checkAccess('create',$a_target_id,$object_data['type']))
+			{
+				return $this->__raiseError('No permission to create objects of type '.$object_data['type'].'!',
+										   'Client');
+			}
+			if($object_data['type'] == 'crs')
+			{
+				return $this->__raiseError('Cannot create course objects. Use method addCourse() ',
+										   'Client');
+			}
+
+			// Check preconditions
+			switch($object_data['type'])
+			{
+				case 'grp':
+					if(ilUtil::groupNameExists($object_data['title']))
+					{
+						return $this->__raiseError('A group with name '.$object_data['title'].' already exists!',
+												   'Client');
+					}
+					break;
+			}
+
+
+			// call gui object method
+			$class_name = $objDefinition->getClassName($object_data['type']);
+			$module = $objDefinition->getModule($object_data['type']);
+			$module_dir = ($module == "")
+				? ""
+				: $module."/";
+			
+			$class_constr = "ilObj".$class_name;
+			require_once("./".$module_dir."classes/class.ilObj".$class_name.".php");
+
+			$newObj = new $class_constr();
+
+			$newObj->setType($object_data['type']);
+			$newObj->setTitle($object_data['title']);
+			$newObj->setDescription($object_data['description']);
+			$newObj->create(); // true for upload
+			$newObj->createReference();
+			$newObj->putInTree($a_target_id);
+			$newObj->setPermissions($a_target_id);
+			$newObj->initDefaultRoles();
+
+			switch($object_data['type'])
+			{
+				case 'grp':
+					// Add member
+					$newObj->addMember($object_data['owner'] ? $object_data['owner'] : $ilUser->getId(),
+									   $newObj->getDefaultAdminRole());
+					break;
+
+				case 'lm':
+				case 'dbk':
+					$newObj->createLMTree();
+					break;
+
+			}					
+
+		}
+		return true;
+	}
+
+	function addReference($sid,$a_source_id,$a_target_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($a_source_id))
+		{
+			return $this->__raiseError('No source id given.',
+									   'Client');
+		}
+		if(!is_numeric($a_target_id))
+		{
+			return $this->__raiseError('No target id given.',
+									   'Client');
+		}
+
+		include_once './include/inc.header.php';
+
+		if(!$source_obj =& ilObjectFactory::getInstanceByRefId($a_source_id,false))
+		{
+			return $this->__raiseError('No valid source id given.',
+									   'Client');
+		}
+		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
+		{
+			return $this->__raiseError('No valid target id given.',
+									   'Client');
+		}
+
+		if(!$objDefinition->allowLink($source_obj->getType()))
+		{
+			return $this->__raiseError('Linking of object type: '.$source_obj->getType().' is not allowed',
+									   'Client');
+		}
+
+		$allowed_subtypes = $objDefinition->getSubObjects($target_obj->getType());
+		foreach($allowed_subtypes as $row)
+		{
+			if($row['name'] != 'rolf')
+			{
+				$allowed[] = $row['name'];
+			}
+		}
+		if(!in_array($source_obj->getType(),$allowed))
+		{
+			return $this->__raiseError('Objects of type: '.$source_obj->getType().' are not allowed to be subobjects of type '.
+									   $target_obj->getType().'!',
+									   'Client');
+		}
+
+		// Permission checks
+		if(!$rbacsystem->checkAccess('create',$target_obj->getRefId(),$source_obj->getType()))
+		{
+			return $this->__raiseError('No permission to create objects of type '.$source_obj->getType().'!',
+									   'Client');
+		}
+		if(!$rbacsystem->checkAccess('delete',$source_obj->getRefId()))
+		{
+			return $this->__raiseError('No permission to link object with id: '.$source_obj->getRefId().'!',
+									   'Client');
+		}
+
+		// Finally link it to target position
+		
+		$new_ref_id = $source_obj->createReference();
+		$source_obj->putInTree($target_obj->getRefId());
+		$source_obj->setPermissions($target_obj->getRefId());
+		$source_obj->initDefaultRoles();
+		
+		return true;
+	}
+
+	function deleteObject($sid,$reference_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($reference_id))
+		{
+			return $this->__raiseError('No reference id given.',
+									   'Client');
+		}
+		include_once './include/inc.header.php';
+
+		if(!$del_obj =& ilObjectFactory::getInstanceByRefId($reference_id,false))
+		{
+			return $this->__raiseError('No valid reference id given.',
+									   'Client');
+		}
+		if(!$rbacsystem->checkAccess('delete',$del_obj->getRefId()))
+		{
+			return $this->__raiseError('No permission to delete object with id: '.$del_obj->getRefId().'!',
+									   'Client');
+		}
+
+		
+		// Delete tree
+		$subnodes = $tree->getSubtree($tree->getNodeData($reference_id));
+			
+		foreach($subnodes as $subnode)
+		{
+			$rbacadmin->revokePermission($subnode["child"]);
+			// remove item from all user desktops
+			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
+		}
+		
+		$tree->saveSubTree($reference_id);
+		$tree->deleteTree($tree->getNodeData($reference_id));
+	}
+		
+}
+?>
