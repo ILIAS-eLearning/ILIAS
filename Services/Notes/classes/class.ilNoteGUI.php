@@ -34,15 +34,21 @@ class ilNoteGUI
 {
 	
 	/**
-	* constructor
+	* constructor, specifies notes set
+	*
+	* @param	$a_rep_obj_id	int		object id of repository object (0 for personal desktop)
+	* @param	$a_obj_id		int		subobject id (0 for repository items, user id for personal desktop)
+	* @param	$a_obj_type		string	"pd" for personal desktop
+	* @param	$a_include_subobjects	string		include all subobjects of rep object (e.g. pages)
 	*/
-	function ilNoteGUI($a_rep_obj_id, $a_obj_id, $a_obj_type)
+	function ilNoteGUI($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_include_subobjects = false)
 	{
 		global $ilCtrl;
 		
 		$this->rep_obj_id = $a_rep_obj_id;
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_obj_type;
+		$this->inc_sub = $a_include_subobjects;
 		
 		$this->ctrl =& $ilCtrl;
 		
@@ -50,6 +56,23 @@ class ilNoteGUI
 		$this->edit_note_form = false;
 		$this->private_enabled = false;
 		$this->public_enabled = false;
+		$this->enable_hiding = true;
+	}
+	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd("getNotesHTML");
+		$next_class = $this->ctrl->getNextClass($this);
+		
+		switch($next_class)
+		{
+			default:
+				return $this->$cmd();
+				break;
+		}
 	}
 	
 	/**
@@ -69,21 +92,12 @@ class ilNoteGUI
 	}
 
 	/**
-	* execute command
+	* enable hiding
 	*/
-	function &executeCommand()
+	function enableHiding($a_enable = true)
 	{
-		$cmd = $this->ctrl->getCmd("getNotesHTML");
-		$next_class = $this->ctrl->getNextClass($this);
-		
-		switch($next_class)
-		{
-			default:
-				return $this->$cmd();
-				break;
-		}
+		$this->enable_hiding = $a_enable;
 	}
-	
 	
 	/***
 	* get note lists html code
@@ -115,7 +129,8 @@ class ilNoteGUI
 			? "private"
 			: "public";
 		
-		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id, $this->obj_type, $a_type);
+		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
+			$this->obj_type, $a_type, $this->inc_sub);
 		
 		$tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
 		
@@ -142,12 +157,13 @@ class ilNoteGUI
 		{
 			$tpl->setCurrentBlock("add_note_btn");
 			$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("add_note"));
-			$tpl->setVariable("LINK_ADD_NOTE", $ilCtrl->getLinkTargetByClass("ilnotegui", "addNoteForm"));
+			$tpl->setVariable("LINK_ADD_NOTE", $ilCtrl->getLinkTargetByClass("ilnotegui", "addNoteForm").
+				"#note_edit");
 			$tpl->parseCurrentBlock();
 		}
 		
 		// show show/hide button for note list
-		if (count($notes) > 0)
+		if (count($notes) > 0 && $this->enable_hiding)
 		{
 			if ($ilUser->getPref("notes_".$suffix) == "n")
 			{
@@ -169,6 +185,10 @@ class ilNoteGUI
 		if ($this->add_note_form && $a_type == $_GET["note_type"])
 		{
 			$tpl->setCurrentBlock("edit_note");
+			$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
+			$tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+			$tpl->setVariable("NOTE_SUBJECT", "");
+			$tpl->setVariable("SUB_NOTE", "sub_note");
 			$tpl->setVariable("TA_NOTE", "note");
 			$tpl->setVariable("NOTE_CONTENT", "");
 			$tpl->setVariable("BTN_ADD_NOTE", "addNote");
@@ -187,7 +207,7 @@ class ilNoteGUI
 		}
 
 		// list all notes
-		if ($ilUser->getPref("notes_".$suffix) != "n")
+		if ($ilUser->getPref("notes_".$suffix) != "n" || !$this->enable_hiding)
 		{
 			foreach($notes as $note)
 			{
@@ -195,6 +215,11 @@ class ilNoteGUI
 					&& $a_type == $_GET["note_type"])
 				{
 					$tpl->setCurrentBlock("edit_note_form");
+					$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
+					$tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+					$tpl->setVariable("NOTE_SUBJECT",
+						ilUtil::prepareFormOutput($note->getSubject()));
+					$tpl->setVariable("SUB_NOTE", "sub_note");
 					$tpl->setVariable("TA_NOTE", "note");
 					$tpl->setVariable("NOTE_CONTENT",
 						ilUtil::prepareFormOutput($note->getText()));
@@ -234,7 +259,8 @@ class ilNoteGUI
 						$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
 						$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
 						$tpl->setVariable("LINK_EDIT_NOTE",
-							$ilCtrl->getLinkTargetByClass("ilnotegui", "editNoteForm"));
+							$ilCtrl->getLinkTargetByClass("ilnotegui", "editNoteForm")
+							."#note_edit");
 						$tpl->parseCurrentBlock();
 					}
 					
@@ -275,8 +301,10 @@ class ilNoteGUI
 							break;
 					}
 					$tpl->setVariable("TXT_DATE", $lng->txt("date"));
+					$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
 					$tpl->setVariable("VAL_DATE", $note->getCreationDate());
 					$tpl->setVariable("NOTE_TEXT", nl2br($note->getText()));
+					$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("note_row");
@@ -284,6 +312,83 @@ class ilNoteGUI
 			}
 		}
 				
+		return $tpl->get();
+	}
+	
+	/**
+	* notes overview on personal desktop
+	* shows 10 recent notes
+	*/
+	function _getPDOverviewNoteListHTML()
+	{
+		global $lng, $ilUser, $ilCtrl;
+		
+		//$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id, $this->obj_type, $a_type);
+		
+		$tpl = new ilTemplate("tpl.pd_notes_overview.html", true, true, "Services/Notes");
+		$tpl->setVariable("TXT_NOTES", $lng->txt("notes"));
+		$showdetails = $ilUser->getPref('show_pd_notes_details') == 'y';
+		// add details link
+		if ($showdetails)
+		{
+			$tpl->setCurrentBlock("hide_details");
+			$tpl->setVariable("LINK_HIDE_DETAILS",
+				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
+					"hidePDNotesDetails"));
+			$tpl->setVariable("TXT_HIDE_DETAILS",
+				$this->lng->txt("hide_details"));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setCurrentBlock("show_details");
+			$tpl->setVariable("LINK_SHOW_DETAILS",
+				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
+					"showPDNotesDetails"));
+			$tpl->setVariable("TXT_SHOW_DETAILS",
+				$this->lng->txt("show_details"));
+			$tpl->parseCurrentBlock();
+		}
+
+		// get last ten notes
+		include_once("Services/Notes/classes/class.ilNote.php");
+		$notes = ilNote::_getLastNotesOfUser();
+
+		foreach($notes as $note)
+		{
+			$rowclass = ($rowclass != "tblrow1")
+				? "tblrow1"
+				: "tblrow2";
+			$tpl->setCurrentBlock("note");
+			$tpl->setVariable("ROWCLASS", $rowclass);
+			$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
+			switch ($note->getLabel())
+			{
+				case IL_NOTE_UNLABELED:
+					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_unlabeled.gif"));
+					break;
+					
+				case IL_NOTE_IMPORTANT:
+					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_important.gif"));
+					break;
+					
+				case IL_NOTE_QUESTION:
+					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
+					break;
+			}
+
+			// details
+			if ($showdetails)
+			{
+				$tpl->setVariable("NOTE_TEXT", $note->getText());
+				$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
+				$tpl->setVariable("VAL_DATE", $note->getCreationDate());
+			}
+			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("note_row");
+			$tpl->parseCurrentBlock();
+		}
+		
 		return $tpl->get();
 	}
 	
@@ -325,14 +430,15 @@ class ilNoteGUI
 	function addNote()
 	{
 		global $ilUser;
-		
+
 		if($_POST["note"] != "")
 		{
 			$note = new ilNote();
-			$note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id);
+			$note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id);			
 			$note->setType($_GET["note_type"]);
 			$note->setAuthor($ilUser->getId());
 			$note->setText(ilUtil::stripSlashes($_POST["note"]));
+			$note->setSubject(ilUtil::stripSlashes($_POST["sub_note"]));
 			$note->setLabel($_POST["note_label"]);
 			$note->create();
 		}
@@ -352,6 +458,7 @@ class ilNoteGUI
 		//$note->setType(IL_NOTE_PRIVATE);
 		//$note->setAuthor($ilUser->getId());
 		$note->setText(ilUtil::stripSlashes($_POST["note"]));
+		$note->setSubject(ilUtil::stripSlashes($_POST["sub_note"]));
 		$note->setLabel($_POST["note_label"]);
 		$note->update();
 		

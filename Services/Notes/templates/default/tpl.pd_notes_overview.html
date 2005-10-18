@@ -1,0 +1,38 @@
+<table class="il_PDBlock">
+<tr>
+	<td class="il_PDBlockHeader">
+		<div style="float:left;">{TXT_NOTES}</div>
+		<div class="il_ContainerItemCommands" style="float:right;">
+		<!-- BEGIN show_details -->
+		<a class="il_ContainerItemCommand" href="{LINK_SHOW_DETAILS}">{TXT_SHOW_DETAILS}</a>
+		<!-- END show_details -->
+		<!-- BEGIN hide_details -->
+		<a class="il_ContainerItemCommand" href="{LINK_HIDE_DETAILS}">{TXT_HIDE_DETAILS}</a>
+		<!-- END hide_details -->
+		<!-- BEGIN add_note_btn -->
+		<a class="il_ContainerItemCommand" href="{LINK_ADD_NOTE}">{TXT_ADD_NOTE}</a>
+		<!-- END add_note_btn -->
+		</div>
+	</td>
+</tr>
+<!-- BEGIN note_row -->
+<!-- BEGIN note -->
+<tr class="{ROWCLASS}">
+	<td class="std"><a name="note_edit" />
+	<div class="il_ContainerItemCommands" style="float:right;">
+	<!-- BEGIN edit_note -->
+	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
+	<!-- END edit_note -->
+	</div>
+	<img src="{IMG_NOTE}" border="0" />
+	<b>{VAL_SUBJECT}
+	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
+		</b><br /><div class="il_Description">{NOTE_TEXT}</div>
+	<div class="il_Description">{TXT_CREATED} {VAL_DATE}
+	<!-- BEGIN last_edit -->, {TXT_LAST_EDIT} {DATE_LAST_EDIT}
+	<!-- END last_edit --></div>
+	</td>
+</tr>
+<!-- END note -->
+<!-- END note_row -->
+</table>

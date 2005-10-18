@@ -28,6 +28,8 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI
+*
 * @package application
 */
 
@@ -58,6 +60,8 @@ class ilPDNotesGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
+		
+		$this->ctrl->saveParameter($this, "rel_obj");
 	}
 
 	/**
@@ -69,6 +73,11 @@ class ilPDNotesGUI
 
 		switch($next_class)
 		{
+			case "ilnotegui":
+				$this->displayHeader();
+				$this->view();		// forwardCommand is invoked in view() method
+				break;
+				
 			default:
 				$cmd = $this->ctrl->getCmd("view");
 				$this->displayHeader();
@@ -116,8 +125,90 @@ class ilPDNotesGUI
 	*/
 	function view()
 	{
+		global $ilUser, $lng;
+		
 		//$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.table.html")
-		$this->tpl->setVariable("ADM_CONTENT", "Work in progress...");;
+		include_once("Services/Notes/classes/class.ilNoteGUI.php");
+		
+		if ($_GET["rel_obj"] > 0)
+		{
+			$notes_gui = new ilNoteGUI($_GET["rel_obj"], 0,
+				ilObject::_lookupType($_GET["rel_obj"]),true);
+		}
+		else
+		{
+			$notes_gui = new ilNoteGUI(0, $ilUser->getId(), "pd");
+		}
+				
+		$notes_gui->enablePrivateNotes();
+		$notes_gui->enableHiding(false);
+
+		$next_class = $this->ctrl->getNextClass($this);
+		if ($next_class == "ilnotegui")
+		{
+			$html = $this->ctrl->forwardCommand($notes_gui);
+		}
+		else
+		{
+			$html = $notes_gui->getNotesHTML();
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pd_notes.html", "Services/Notes");
+		
+		// output related item selection (if more than one)
+		include_once("Services/Notes/classes/class.ilNote.php");
+		$rel_objs = ilNote::_getRelatedObjectsOfUser();
+		if (count($rel_objs) > 1 ||
+			($rel_obj[0]["type"] != "pd" && $rel_obj[0]["type"] != ""))
+		{
+			foreach($rel_objs as $obj)
+			{
+				$this->tpl->setCurrentBlock("related_option");
+				$this->tpl->setVariable("VAL_RELATED",
+					$obj["rep_obj_id"]);
+//echo "-".$obj["rep_obj_id"]."-";
+				if ($obj["rep_obj_id"] > 0)
+				{
+					$type = ilObject::_lookupType($obj["rep_obj_id"]);
+					$type_str = (in_array($type, array("lm", "htlm", "sahs", "dbk")))
+						? $lng->txt("learning_resource")
+						: $lng->txt("obj_".$obj["obj_type"]);
+					$this->tpl->setVariable("TXT_RELATED", $type_str.": ".
+						ilObject::_lookupTitle($obj["rep_obj_id"]));
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_RELATED",
+						$lng->txt("personal_desktop"));
+				}
+				if ($obj["rep_obj_id"] == $_GET["rel_obj"])
+				{
+					$this->tpl->setVariable("SEL", 'selected="selected"');
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("related_selection");
+			$this->tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
+			$this->tpl->setVariable("TXT_RELATED_TO", $lng->txt("related_to"));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		// output notes
+		$this->tpl->setVariable("NOTES", $html);
+		$this->tpl->parseCurrentBlock();
+
+	}
+	
+	/**
+	* change related object
+	*/
+	function changeRelatedObject()
+	{
+		$this->ctrl->setParameter($this, "rel_obj", $_POST["rel_obj"]);
+		$this->ctrl->redirect($this);
 	}
 
 }

@@ -958,6 +958,7 @@ common#:#show_public_notes#:#Show public notes
 common#:#show_private_notes#:#Show private notes
 common#:#hide_public_notes#:#Hide public notes
 common#:#hide_private_notes#:#Hide private notes
+common#:#note#:#Note
 common#:#calendar#:#Calendar
 common#:#cancel#:#Cancel
 common#:#cannot_find_xml#:#Cannot find any XML-file.
@@ -1108,7 +1109,7 @@ common#:#country#:#Country
 common#:#course#:#Course
 common#:#courses#:#Courses
 common#:#create#:#Create
-common#:#create_date#:#Created On
+common#:#create_date#:#Created on
 common#:#create_export_file#:#Create export file
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
@@ -2356,6 +2357,7 @@ common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
 common#:#permission_settings#:#Permission settings
 common#:#person_title#:#Title
+common#:#related_to#:#Related to
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
