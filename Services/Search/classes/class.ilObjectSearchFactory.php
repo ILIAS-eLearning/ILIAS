@@ -44,7 +44,7 @@ class ilObjectSearchFactory
 	 */
 	function &_getObjectSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
 
 		$search_settings = new ilSearchSettings();
 
@@ -73,7 +73,7 @@ class ilObjectSearchFactory
 	 */
 	function &_getMetaDataSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$search_settings = new ilSearchSettings();
 
@@ -116,7 +116,7 @@ class ilObjectSearchFactory
 	 */
 	function &_getForumSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$search_settings = new ilSearchSettings();
 
@@ -145,7 +145,7 @@ class ilObjectSearchFactory
 	 */
 	function &_getGlossaryDefinitionSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$search_settings = new ilSearchSettings();
 
@@ -172,7 +172,7 @@ class ilObjectSearchFactory
 	 */
 	function &_getExerciseSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$search_settings = new ilSearchSettings();
 
@@ -201,7 +201,7 @@ class ilObjectSearchFactory
 	 */
 	function &_getTestSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$search_settings = new ilSearchSettings();
 
@@ -229,7 +229,7 @@ class ilObjectSearchFactory
 	 */
 	function &_getMediaPoolSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$search_settings = new ilSearchSettings();
 

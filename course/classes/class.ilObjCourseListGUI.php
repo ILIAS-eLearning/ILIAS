@@ -63,7 +63,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->commands = ilObjCourseAccess::_getCommands();
 	}
 
-
 	/**
 	* inititialize new item
 	*

@@ -178,7 +178,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->__initDefaultRoles();
+		$newObj->initDefaultRoles();
 
 		// Copy xml file
 		include_once 'course/classes/class.ilFileDataCourse.php';
@@ -1126,7 +1126,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacadmin;
 
 		$newObj =& parent::saveObject();
-		$newObj->__initDefaultRoles();
+		$newObj->initDefaultRoles();
 		$newObj->initCourseMemberObject();
 		$newObj->members_obj->add($this->ilias->account,$newObj->members_obj->ROLE_ADMIN);
 		

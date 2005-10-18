@@ -23,30 +23,47 @@
 
 
 /**
-* soap server
+* adapter class for nusoap server
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
 * @package ilias
 */
-chdir('../..');
 
-global $HTTP_RAW_POST_DATA;
-
-#if(substr(phpversion(),0,1) == '5' and $HTTP_RAW_POST_DATA)
-#{
-#	include_once './webservice/soap/classes/class.ilSoapUserAdministrationAdapter.php';
-#
-#	$server =& new ilSoapUserAdministrationAdapter();
-#	$server->start();
-#}
-#else
+class ilSoapUserAdministrationAdapter
 {
-	include_once './webservice/soap/classes/class.ilNusoapUserAdministrationAdapter.php';
-	
-	$server =& new ilNusoapUserAdministrationAdapter();
-	$server->start();
-	break;
+	/*
+	 * @var object Nusoap-Server
+	 */
+	var $server = null;
+
+    
+    function ilSoapUserAdministrationAdapter($a_use_wsdl = true)
+    {
+		$this->server =& new SoapServer(null,array('uri' => 'http://pluto-lx/~smeyer/ilias36/webservice/soap/server.php?wsdl'));
+
+		$this->__registerMethods();
+
+
+    }
+
+	function start()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'POST')
+		{
+			$this->server->handle();
+		}
+	}
+
+	// PRIVATE
+	function __registerMethods()
+	{
+		include_once './webservice/soap/include/inc.soap_functions.php';
+
+		$this->server->addFunction(SOAP_FUNCTIONS_ALL);
+		var_dump("<pre>",$this->server->getFunctions(),"<pre>");
+
+	}
 }
 ?>

@@ -2332,9 +2332,10 @@ class ilUtil
 		"WHERE title = '".addslashes($a_group_name)."' ".
 		"AND type = 'grp'".
 		$clause;
+
 		$r = $ilDB->query($q);
 
-		if ($r->numRows() == 1)
+		if ($r->numRows())
 		{
 			return true;
 		}

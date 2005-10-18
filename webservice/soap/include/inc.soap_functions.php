@@ -121,6 +121,15 @@ function assignCourseMember($sid,$course_id,$user_id,$type)
 
 	return $sca->assignCourseMember($sid,$course_id,$user_id,$type);
 }
+function isAssignedToCourse($sid,$course_id,$user_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+
+	$sca =& new ilSoapCourseAdministration();
+
+	return $sca->isAssignedToCourse($sid,$course_id,$user_id);
+}
+	
 function excludeCourseMember($sid,$course_id,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
@@ -144,6 +153,51 @@ function updateCourse($sid,$course_id,$xml)
 	$sca =& new ilSoapCourseAdministration();
 
 	return $sca->updateCourse($sid,$course_id,$xml);
-}	
+}
+
+function getObjectByReference($sid,$a_ref_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getObjectByReference($sid,$a_ref_id);
+}
+	
+function getObjectsByTitle($sid,$a_title)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getObjectsByTitle($sid,$a_title);
+}
+
+function addObject($sid,$a_target_id,$a_xml)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->addObject($sid,$a_target_id,$a_xml);
+}
+
+function addReference($sid,$a_source_id,$a_target_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->addReference($sid,$a_source_id,$a_target_id);
+}
+
+function deleteObject($sid,$reference_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->deleteObject($sid,$reference_id);
+}
 	
 ?>

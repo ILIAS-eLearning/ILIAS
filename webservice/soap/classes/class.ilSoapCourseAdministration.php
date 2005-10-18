@@ -73,7 +73,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$newObj->createReference();
 		$newObj->putInTree($target_id);
 		$newObj->setPermissions($target_id);
-		$newObj->__initDefaultRoles();
+		$newObj->initDefaultRoles();
 
 		include_once 'course/classes/class.ilCourseXMLParser.php';
 
@@ -262,6 +262,64 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		return true;
 	}
+
+	
+	function isAssignedToCourse($sid,$course_id,$user_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($course_id))
+		{
+			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
+									   'Client');
+		}
+		// Include main header
+		include_once './include/inc.header.php';
+
+		global $rbacsystem;
+
+		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		{
+			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+		}
+
+		if(ilObject::_lookupType($user_id) != 'usr')
+		{
+			return $this->__raiseError('Invalid user id. User with id "'. $user_id.' does not exist','Client');
+		}
+
+		if(!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id,false))
+		{
+			return $this->__raiseError('Cannot create course instance!','Server');
+		}
+
+		if(!$rbacsystem->checkAccess('write',$course_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to write to course','Server');
+		}
+
+		include_once './course/classes/class.ilCourseMembers.php';
+
+		$crs_members = new ilCourseMembers($tmp_course);
+		
+		if($crs_members->isAdmin($user_id))
+		{
+			return $crs_members->ROLE_ADMIN;
+		}
+		if($crs_members->isTutor($user_id))
+		{
+			return $crs_members->ROLE_TUTOR;
+		}
+		if($crs_members->isMember($user_id))
+		{
+			return $crs_members->ROLE_MEMBER;
+		}
+
+		return 0;
+	}
+
 
 	function getCourseXML($sid,$course_id)
 	{
