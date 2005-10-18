@@ -235,254 +235,6 @@ class SurveyQuestionGUI {
 		$this->editQuestion();
 	}
 	
-	/**
-	* Creates an output for the confirmation to delete categories
-	*
-	* Creates an output for the confirmation to delete categories
-	*
-	* @access public
-	*/
-	function deleteCategory()
-	{
-		$result = $this->writePostData();
-		if ($result == 0)
-		{
-			$delete_categories = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-					array_push($delete_categories, $matches[1]);
-				}
-			}
-			if (count($delete_categories))
-			{
-				sendInfo($this->lng->txt("category_delete_confirm"));
-				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_confirm_remove_categories.html", true);
-				$rowclass = array("tblrow1", "tblrow2");
-				$counter = 0;
-				foreach ($_POST as $key => $value) {
-					if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-						$this->tpl->setCurrentBlock("row");
-						$this->tpl->setVariable("TXT_TITLE", $_POST["category_$matches[1]"]);
-						$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->setCurrentBlock("hidden");
-						$this->tpl->setVariable("HIDDEN_NAME", $key);
-						$this->tpl->setVariable("HIDDEN_VALUE", $value);
-						$this->tpl->parseCurrentBlock();
-						$counter++;
-					}
-				}
-		
-				// set the id to return to the selected question
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "id");
-				$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
-				$this->tpl->parseCurrentBlock();
-				
-				$this->tpl->setCurrentBlock("adm_content");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
-				$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				sendInfo($this->lng->txt("category_delete_select_none"));
-				$this->editQuestion();
-			}
-		}
-		else
-		{
-			// You cannot add answers before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_delete_category"));
-			$this->editQuestion();
-		}
-	}
-	
-/**
-* Removes selected categories from the question
-*
-* Removes selected categories from the question
-*
-* @access public
-*/
-	function confirmDeleteCategory() {
-		$delete_categories = array();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-				array_push($delete_categories, $matches[1]);
-			}
-		}
-		if (count($delete_categories))
-		{
-			$this->object->removeCategories($delete_categories);
-		}
-		$this->object->saveToDb();
-		$this->ctrl->redirect($this, "editQuestion");
-	}
-
-	function moveCategory()
-	{
-		$result = $this->writePostData();
-		if ($result == 0)
-		{
-			$checked_move = 0;
-			foreach ($_POST as $key => $value) 
-			{
-				if (preg_match("/chb_category_(\d+)/", $key, $matches))
-				{
-					$checked_move++;
-					$this->tpl->setCurrentBlock("move");
-					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
-					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			if ($checked_move)
-			{
-				$this->tpl->setCurrentBlock("move_buttons");
-				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-				$this->tpl->parseCurrentBlock();
-				sendInfo($this->lng->txt("select_target_position_for_move"));
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_category_selected_for_move"));
-			}
-		}
-		else
-		{
-			// You cannot add answers before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_move_category"));
-		}
-		$this->editQuestion();
-	}
-	
-	function addCategory()
-	{
-		$result = $this->writePostData();
-		if ($result == 0)
-		{
-			// Check for blank fields before a new category field is inserted
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/category_(\d+)/", $key, $matches)) {
-					if (!$value) {
-						$_POST["cmd"]["addCategory"] = "";
-						sendInfo($this->lng->txt("fill_out_all_category_fields"));
-					}
-				}
-			}
-		}
-		else
-		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"));
-			$_POST["cmd"]["addCategory"] = "";
-		}
-		$this->editQuestion();
-	}
-	
-	function insertBeforeCategory()
-	{
-		$result = $this->writePostData();
-		$array1 = array();
-		$array2 = array();
-	
-		// Move selected categories
-		$move_categories = array();
-		$selected_category = -1;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/^move_(\d+)$/", $key, $matches))
-			{
-				array_push($move_categories, $value);
-				array_push($array2, ilUtil::stripSlashes($_POST["category_$value"]));
-			}
-			if (preg_match("/^chb_category_(\d+)/", $key, $matches))
-			{
-				if ($selected_category < 0)
-				{
-					// take onley the first checked category (if more categories are checked)
-					$selected_category = $matches[1];
-				}
-			}
-		}
-
-    // Add all categories from the form into the object
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/^category_(\d+)/", $key, $matches)) {
-				if (!in_array($matches[1], $move_categories) or ($selected_category < 0))
-				{
-					array_push($array1, ilUtil::stripSlashes($value));
-				}
-			}
-		}
-
-		if ($selected_category >= 0)
-		{
-			// Delete all existing categories and create new categories from the form data
-			$this->object->flushCategories();
-			$array_pos = array_search($_POST["category_$selected_category"], $array1);
-			$part1 = array_slice($array1, 0, $array_pos);
-			$part2 = array_slice($array1, $array_pos);
-			$array1 = array_merge($part1, $array2, $part2);
-			$this->object->addCategoryArray($array1);
-			$this->object->saveToDb();
-		}
-		$this->editQuestion();
-	}
-	
-	function insertAfterCategory()
-	{
-		$result = $this->writePostData();
-		$array1 = array();
-		$array2 = array();
-	
-		// Move selected categories
-		$move_categories = array();
-		$selected_category = -1;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/^move_(\d+)$/", $key, $matches))
-			{
-				array_push($move_categories, $value);
-				array_push($array2, ilUtil::stripSlashes($_POST["category_$value"]));
-			}
-			if (preg_match("/^chb_category_(\d+)/", $key, $matches))
-			{
-				if ($selected_category < 0)
-				{
-					// take onley the first checked category (if more categories are checked)
-					$selected_category = $matches[1];
-				}
-			}
-		}
-
-    // Add all categories from the form into the object
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/^category_(\d+)/", $key, $matches)) {
-				if (!in_array($matches[1], $move_categories) or ($selected_category < 0))
-				{
-					array_push($array1, ilUtil::stripSlashes($value));
-				}
-			}
-		}
-
-		if ($selected_category >= 0)
-		{
-			// Delete all existing categories and create new categories from the form data
-			$this->object->flushCategories();
-			$array_pos = array_search($_POST["category_$selected_category"], $array1);
-			$part1 = array_slice($array1, 0, $array_pos + 1);
-			$part2 = array_slice($array1, $array_pos + 1);
-			$array1 = array_merge($part1, $array2, $part2);
-			$this->object->addCategoryArray($array1);
-			$this->object->saveToDb();
-		}
-		$this->editQuestion();
-	}
-	
 	function cancel()
 	{
 		if ($_GET["calling_survey"])
@@ -502,71 +254,6 @@ class SurveyQuestionGUI {
 	}
 
 /**
-* Creates an output for the addition of phrases
-*
-* Creates an output for the addition of phrases
-*
-* @access public
-*/
-  function addPhrase($hasError = false) 
-	{
-		if (!$hasError)
-		{
-			$result = $this->writePostData();
-			if ($result > 0)
-			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields"));
-				$this->editQuestion();
-				return;
-			}
-			$this->object->saveToDb();
-			$this->ctrl->setParameterByClass(get_class($this), "q_id", $this->object->getId());
-			$this->ctrl->setParameterByClass("ilobjsurveyquestionpoolgui", "q_id", $this->object->getId());
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", true);
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-		$this->tpl->parseCurrentBlock();
-
-		$phrases =& $this->object->getAvailablePhrases();
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($phrases as $phrase_id => $phrase_array)
-		{
-			$this->tpl->setCurrentBlock("phraserow");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-			$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
-			$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
-			$categories =& $this->object->getCategoriesForPhrase($phrase_id);
-			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
-		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
-		$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Cancels the form adding a phrase
-*
-* Cancels the form adding a phrase
-*
-* @access public
-*/
-	function cancelViewPhrase() {
-		$this->ctrl->redirect($this, "editQuestion");
-	}
-
-/**
 * Cancels the form adding a phrase
 *
 * Cancels the form adding a phrase
@@ -575,224 +262,6 @@ class SurveyQuestionGUI {
 */
 	function cancelDeleteCategory() {
 		$this->ctrl->redirect($this, "editQuestion");
-	}
-
-/**
-* Adds a selected phrase
-*
-* Adds a selected phrase
-*
-* @access public
-*/
-	function addSelectedPhrase() {
-		if (strcmp($_POST["phrases"], "") == 0)
-		{
-			sendInfo($this->lng->txt("select_phrase_to_add"));
-			$this->addPhrase(true);
-		}
-		else
-		{
-			if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
-			{
-				$this->object->addPhrase($_POST["phrases"]);
-			}
-			else
-			{
-				$this->addStandardNumbers();
-				return;
-			}
-			$this->editQuestion();
-		}
-	}
-
-/**
-* Creates an output for the addition of standard numbers
-*
-* Creates an output for the addition of standard numbers
-*
-* @access public
-*/
-  function addStandardNumbers() 
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", true);
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
-		$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
-		$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
-		$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
-		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
-		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Cancels the form adding standard numbers
-*
-* Cancels the form adding standard numbers
-*
-* @access public
-*/
-	function cancelStandardNumbers() {
-		$this->ctrl->redirect($this, "editQuestion");
-	}
-
-/**
-* Insert standard numbers to the question
-*
-* Insert standard numbers to the question
-*
-* @access public
-*/
-	function insertStandardNumbers() {
-		if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
-		{
-			sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
-			$this->addStandardNumbers();
-		}
-		else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
-		{
-			sendInfo($this->lng->txt("upper_limit_must_be_greater"));
-			$this->addStandardNumbers();
-		}
-		else
-		{
-			$this->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
-			$this->editQuestion();
-		}
-	}
-
-/**
-* Creates an output to save a phrase
-*
-* Creates an output to save a phrase
-*
-* @access public
-*/
-  function savePhrase($hasError = false) 
-	{
-		if (!$hasError)
-		{
-			$result = $this->writePostData();
-		}
-		else
-		{
-			$result = 0;
-		}
-
-		$categories_checked = 0;
-		foreach ($_POST as $key => $value) 
-		{
-			if (preg_match("/chb_category_(\d+)/", $key, $matches)) 
-			{
-				$categories_checked++;
-			}
-		}
-
-		if ($categories_checked == 0)
-		{
-			sendInfo($this->lng->txt("check_category_to_save_phrase"));
-			$this->editQuestion();
-			return;
-		}
-		
-		if ($result == 0)
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", true);
-			$rowclass = array("tblrow1", "tblrow2");
-			$counter = 0;
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("TXT_TITLE", $_POST["category_$matches[1]"]);
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("hidden");
-					$this->tpl->setVariable("HIDDEN_NAME", $key);
-					$this->tpl->setVariable("HIDDEN_VALUE", $value);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("hidden");
-					$this->tpl->setVariable("HIDDEN_NAME", "category_$matches[1]");
-					$this->tpl->setVariable("HIDDEN_VALUE", $_POST["category_$matches[1]"]);
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-			}
-	
-			// set the id to return to the selected question
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id");
-			$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
-			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("SAVE_PHRASE_INTRODUCTION", $this->lng->txt("save_phrase_introduction"));
-			$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("enter_phrase_title"));
-			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
-			$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
-			$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_save_phrase"));
-		}
-	}
-
-/**
-* Cancels the form saving a phrase
-*
-* Cancels the form saving a phrase
-*
-* @access public
-*/
-	function cancelSavePhrase() {
-		$this->ctrl->redirect($this, "editQuestion");
-	}
-
-/**
-* Save a new phrase to the database
-*
-* Save a new phrase to the database
-*
-* @access public
-*/
-	function confirmSavePhrase() {
-		if (!$_POST["phrase_title"])
-		{
-			sendInfo($this->lng->txt("qpl_savephrase_empty"));
-			$this->savePhrase(true);
-			return;
-		}
-		if ($this->object->phraseExists($_POST["phrase_title"]))
-		{
-			sendInfo($this->lng->txt("qpl_savephrase_exists"));
-			$this->savePhrase(true);
-			return;
-		}
-
-		$save_categories = array();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-				array_push($save_categories, $matches[1]);
-			}
-		}
-		if (count($save_categories))
-		{
-			$this->object->savePhrase($save_categories, $_POST["phrase_title"]);
-			sendInfo($this->lng->txt("phrase_saved"));
-		}
-		$this->editQuestion();
 	}
 
 	function addMaterial()
@@ -971,13 +440,28 @@ class SurveyQuestionGUI {
 			$tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
 				array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
-				"addPG", "moveCategory", "deleteCategory", "addPhrase", "addCategory",
-				"editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
-				"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
-				"cancelSavePhrase", "insertBeforeCategory", "insertAfterCategory",
-				"confirmDeleteCategory", "cancelDeleteCategory"
+				"addPG", "addPhrase",
+				"editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
 				),
 				"$guiclass");
+		}
+		
+		switch ($guiclass)
+		{
+			case "surveynominalquestiongui":
+			case "surveyordinalquestiongui":
+				$tabs_gui->addTarget("categories",
+					$this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
+					array("categories", "addCategory", "insertBeforeCategory",
+						"insertAfterCategory", "moveCategory", "deleteCategory",
+						"saveCategories", "savePhrase", "addPhrase",
+						"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
+						"cancelSavePhrase",
+						"confirmDeleteCategory", "cancelDeleteCategory"
+					),
+					$guiclass
+				);
+				break;
 		}
 		
 		if ($_GET["q_id"])
@@ -998,5 +482,179 @@ class SurveyQuestionGUI {
 //		echo "<br>end setQuestionTabs<br>";
 	}
 
+/**
+* Adds a category to the question
+*
+* Adds a category to the question
+*
+* @access private
+*/
+	function addCategory()
+	{
+		$result = $this->writeCategoryData();
+		if ($result == false)
+		{
+			sendInfo($this->lng->txt("fill_out_all_category_fields"));
+		}
+		$_SESSION["spl_modified"] = true;
+		$this->categories($result);
+	}
+	
+/**
+* Saves the categories
+*
+* Saves the categories
+*
+* @access private
+*/
+	function saveCategories()
+	{
+		$this->writeCategoryData(true);
+		$_SESSION["spl_modified"] = false;
+		sendInfo($this->lng->txt("saved_successfully"), true);
+		$this->ctrl->redirect($this, "categories");
+	}
+
+/**
+* Recreates the categories from the POST data
+*
+* Recreates the categories from the POST data and
+* saves it (optionally) to the database.
+*
+* @param boolean $save If set to true the POST data will be saved to the database
+* @access private
+*/
+	function writeCategoryData($save = false)
+	{
+    // Delete all existing categories and create new categories from the form data
+    $this->object->categories->flushCategories();
+		$complete = true;
+		$array1 = array();
+    // Add all categories from the form into the object
+		foreach ($_POST as $key => $value) 
+		{
+			if (preg_match("/^category_(\d+)/", $key, $matches)) 
+			{
+				$array1[$matches[1]] = ilUtil::stripSlashes($value);
+				if (strlen($array1[$matches[1]]) == 0) $complete = false;
+			}
+		}
+		$this->object->categories->addCategoryArray($array1);
+		if ($save)
+		{	
+			$this->object->saveCategoriesToDb();
+		}
+		return $complete;
+	}
+	
+/**
+* Removes one or more categories
+*
+* Removes one or more categories
+*
+* @access private
+*/
+	function deleteCategory()
+	{
+		$this->writeCategoryData();
+		$nothing_selected = true;
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]))
+			{
+				$nothing_selected = false;
+				$this->object->categories->removeCategories($_POST["chb_category"]);
+			}
+		}
+		if ($nothing_selected) sendInfo($this->lng->txt("category_delete_select_none"));
+		$_SESSION["spl_modified"] = true;
+		$this->categories();
+	}
+	
+/**
+* Selects one or more categories for moving
+*
+* Selects one or more categories for moving
+*
+* @access private
+*/
+	function moveCategory()
+	{
+		$this->writeCategoryData();
+		$nothing_selected = true;
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]))
+			{
+				$nothing_selected = false;
+				sendInfo($this->lng->txt("select_target_position_for_move"));
+				$_SESSION["spl_move"] = $_POST["chb_category"];
+			}
+		}
+		if ($nothing_selected) sendInfo($this->lng->txt("no_category_selected_for_move"));
+		$this->categories();
+	}
+	
+/**
+* Inserts categories which are selected for moving before the selected category
+*
+* Inserts categories which are selected for moving before the selected category
+*
+* @access private
+*/
+	function insertBeforeCategory()
+	{
+		$result = $this->writeCategoryData();
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]) == 1)
+			{
+				// one entry is selected, moving is allowed
+				$this->object->categories->removeCategories($_SESSION["spl_move"]);
+				$newinsertindex = $this->object->categories->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
+				if ($newinsertindex === false) $newinsertindex = 0;
+				$move_categories = $_SESSION["spl_move"];
+				natsort($move_categories);
+				foreach (array_reverse($move_categories) as $index)
+				{
+					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex);
+				}
+			}
+		}
+		$_SESSION["spl_modified"] = true;
+		unset($_SESSION["spl_move"]);
+		$this->categories();
+	}
+	
+/**
+* Inserts categories which are selected for moving before the selected category
+*
+* Inserts categories which are selected for moving before the selected category
+*
+* @access private
+*/
+	function insertAfterCategory()
+	{
+		$result = $this->writeCategoryData();
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]) == 1)
+			{
+				// one entry is selected, moving is allowed
+				$this->object->categories->removeCategories($_SESSION["spl_move"]);
+				$newinsertindex = $this->object->categories->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
+				if ($newinsertindex === false) $newinsertindex = 0;
+				$move_categories = $_SESSION["spl_move"];
+				natsort($move_categories);
+				foreach (array_reverse($move_categories) as $index)
+				{
+					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex+1);
+				}
+			}
+		}
+		$_SESSION["spl_modified"] = true;
+		unset($_SESSION["spl_move"]);
+		$this->categories();
+	}
 }
 ?>

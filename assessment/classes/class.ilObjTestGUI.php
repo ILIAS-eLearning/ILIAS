@@ -315,7 +315,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("ass_export_files"));
 
-		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("ass_file"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("ass_file"),
 			$this->lng->txt("ass_size"), $this->lng->txt("date") ));
 
 		$tbl->enabled["sort"] = false;
@@ -330,18 +330,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
-		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$this->tpl->parseCurrentBlock();
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -370,6 +358,21 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->tpl->parseCurrentBlock();
 			}
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
+			// delete button
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+			$this->tpl->parseCurrentBlock();	
 		} //if is_array
 		else
 		{
@@ -1473,15 +1476,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
 		$this->tpl->parseCurrentBlock();
 
-		// create edit buttons & table footer
-		$this->tpl->setCurrentBlock("selection");
-		$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("Footer");
-		$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-		$this->tpl->parseCurrentBlock();
-
 		$this->tpl->setCurrentBlock("QTab");
 
 		$startrow = 0;
@@ -1577,12 +1571,29 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		// if there are no questions, display a message
-		if ($counter == 0) {
+		if ($counter == 0) 
+		{
 			$this->tpl->setCurrentBlock("Emptytable");
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
 			$this->tpl->parseCurrentBlock();
 		}
-
+		else
+		{
+			// create edit buttons & table footer
+			$this->tpl->setCurrentBlock("selection");
+			$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$counter++;
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("Footer");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->parseCurrentBlock();
+		}
 		// define the sort column parameters
 		$sort = array(
 			"title" => $_GET["sort"]["title"],
@@ -2384,11 +2395,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter++;
 			}
 		}
-		if ($counter == 0) {
+		if ($counter == 0) 
+		{
 			$this->tpl->setCurrentBlock("Emptytable");
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("tst_no_questions_available"));
 			$this->tpl->parseCurrentBlock();
-		} else {
+		} 
+		else 
+		{
 			if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) 
 			{
 				$this->tpl->setCurrentBlock("selectall");
@@ -2623,13 +2637,21 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
-		if (count($marks) == 0) {
+		if (count($marks) == 0) 
+		{
 			$this->tpl->setCurrentBlock("Emptyrow");
 			$this->tpl->setVariable("EMPTY_ROW", $this->lng->txt("tst_no_marks_defined"));
 			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
-		} else {
+		} 
+		else 
+		{
 			if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+				$this->tpl->setCurrentBlock("selectall");
+				$counter++;
+				$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("Footer");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("BUTTON_EDIT", $this->lng->txt("edit"));

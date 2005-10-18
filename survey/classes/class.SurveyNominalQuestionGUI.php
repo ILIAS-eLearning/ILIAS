@@ -81,27 +81,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
   function editQuestion() {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
-    // output of existing single response answers
-		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-			$this->tpl->setCurrentBlock("cat_selector");
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("categories");
-			$category = $this->object->getCategory($i);
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
-			$this->tpl->setVariable("VALUE_CATEGORY", $category);
-			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			$this->tpl->parseCurrentBlock();
-		}
-		if (strcmp($_POST["cmd"]["addCategory"], "") != 0) {
-			// Create template for a new category
-			$this->tpl->setCurrentBlock("categories");
-			$this->tpl->setVariable("CATEGORY_ORDER", $this->object->getCategoryCount());
-			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			$this->tpl->parseCurrentBlock();
-		}
-
 		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
 		switch ($this->object->getOrientation())
 		{
@@ -159,9 +138,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		$questiontext = $this->object->getQuestiontext();
 		$questiontext = str_replace("<br />", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
-		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
-		$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-		$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 		$this->tpl->setVariable("TXT_SR", $this->lng->txt("multiple_choice_single_response"));
 		$this->tpl->setVariable("TXT_MR", $this->lng->txt("multiple_choice_multiple_response"));
 		if ($this->object->getSubtype() == SUBTYPE_MCSR)
@@ -216,8 +192,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		{
 			case 0:
 				// vertical orientation
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-					$category = $this->object->getCategory($i);
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+					$category = $this->object->categories->getCategory($i);
 					if ($this->object->getSubtype() == SUBTYPE_MCSR)
 					{
 						$this->tpl->setCurrentBlock("nominal_row_sr");
@@ -263,9 +239,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 				// horizontal orientation
 				if ($this->object->getSubtype() == SUBTYPE_MCSR)
 				{
-					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
-						$category = $this->object->getCategory($i);
+						$category = $this->object->categories->getCategory($i);
 						$this->tpl->setCurrentBlock("radio_col_nominal");
 						$this->tpl->setVariable("VALUE_NOMINAL", $i);
 						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
@@ -281,9 +257,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 						}
 						$this->tpl->parseCurrentBlock();
 					}
-					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
-						$category = $this->object->getCategory($i);
+						$category = $this->object->categories->getCategory($i);
 						$this->tpl->setCurrentBlock("text_col_nominal");
 						$this->tpl->setVariable("VALUE_NOMINAL", $i);
 						$this->tpl->setVariable("TEXT_NOMINAL", $category);
@@ -293,9 +269,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 				}
 				else
 				{
-					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
-						$category = $this->object->getCategory($i);
+						$category = $this->object->categories->getCategory($i);
 						$this->tpl->setCurrentBlock("checkbox_col_nominal");
 						$this->tpl->setVariable("VALUE_NOMINAL", $i);
 						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
@@ -311,9 +287,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 						}
 						$this->tpl->parseCurrentBlock();
 					}
-					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
-						$category = $this->object->getCategory($i);
+						$category = $this->object->categories->getCategory($i);
 						$this->tpl->setCurrentBlock("text_col_nominal_mr");
 						$this->tpl->setVariable("VALUE_NOMINAL", $i);
 						$this->tpl->setVariable("TEXT_NOMINAL", $category);
@@ -324,8 +300,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 				break;
 			case 2:
 				// combobox output
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-					$category = $this->object->getCategory($i);
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("comborow_nominal");
 					$this->tpl->setVariable("TEXT_NOMINAL", $category);
 					$this->tpl->setVariable("VALUE_NOMINAL", $i);
@@ -419,32 +395,95 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 			$this->object->setObligatory(0);
 		}
 
-    // Delete all existing categories and create new categories from the form data
-    $this->object->flushCategories();
-
-		$array1 = array();
-    // Add all categories from the form into the object
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/^category_(\d+)/", $key, $matches)) {
-				array_push($array1, ilUtil::stripSlashes($value));
-			}
-		}
-		$this->object->addCategoryArray($array1);
-		
-		if ($saved) {
+		if ($saved) 
+		{
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
-			$this->object->saveToDb();
+			$this->object->saveToDb("", false);
 		}
     return $result;
   }
+	
+/**
+* Creates the form to edit the question categories
+*
+* Creates the form to edit the question categories
+*
+* @access private
+*/
+	function categories($add = false)
+	{
+		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal_answers.html", true);
+    // output of existing single response answers
+		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+		{
+			$this->tpl->setCurrentBlock("cat_selector");
+			$this->tpl->setVariable("CATEGORY_ORDER", $i);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("categories");
+			$category = $this->object->categories->getCategory($i);
+			$this->tpl->setVariable("CATEGORY_ORDER", $i);
+			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
+			$this->tpl->setVariable("VALUE_CATEGORY", $category);
+			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if ($add)
+		{
+			// Create template for a new category
+			$this->tpl->setCurrentBlock("categories");
+			$this->tpl->setVariable("CATEGORY_ORDER", $this->object->categories->getCategoryCount());
+			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
+			$this->tpl->parseCurrentBlock();
+		}
 
+		if (is_array($_SESSION["spl_move"]))
+		{
+			if (count($_SESSION["spl_move"]))
+			{
+				$this->tpl->setCurrentBlock("move_buttons");
+				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
+				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		if ($this->object->categories->getCategoryCount() == 0)
+		{
+			if (!$add)
+			{
+				$this->tpl->setCurrentBlock("nocategories");
+				$this->tpl->setVariable("NO_CATEGORIES", $this->lng->txt("question_contains_no_categories"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("existingcategories");
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		if ($_SESSION["spl_modified"])
+		{
+			$this->tpl->setVariable("FORM_DATA_MODIFIED_PRESS_SAVE", $this->lng->txt("form_data_modified_press_save"));
+		}
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	function setQuestionTabs()
 	{
 		$this->setQuestionTabsForClass("surveynominalquestiongui");
 	}
-
 }
 ?>

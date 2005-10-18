@@ -72,76 +72,16 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 	}
 
 /**
-* Creates an output for the confirmation to delete categories
+* Creates an output of the edit form for the question
 *
-* Creates an output for the confirmation to delete categories
+* Creates an output of the edit form for the question
 *
 * @access public
 */
-  function showDeleteCategoryForm() 
+  function editQuestion() 
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_confirm_remove_categories.html", true);
-		$rowclass = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->setVariable("TXT_TITLE", $_POST["category_$matches[1]"]);
-				$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", $key);
-				$this->tpl->setVariable("HIDDEN_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-		}
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Creates an output of the edit form for the question
-*
-* Creates an output of the edit form for the question
-*
-* @access public
-*/
-  function editQuestion() {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_ordinal.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
-    // output of existing single response answers
-		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-			$this->tpl->setCurrentBlock("cat_selector");
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("categories");
-			$category = $this->object->getCategory($i);
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
-			$this->tpl->setVariable("VALUE_CATEGORY", $category);
-			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			$this->tpl->parseCurrentBlock();
-		}
-		if (strcmp($_POST["cmd"]["addCategory"], "") != 0) {
-			// Create template for a new category
-			$this->tpl->setCurrentBlock("categories");
-			$this->tpl->setVariable("CATEGORY_ORDER", $this->object->getCategoryCount());
-			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			$this->tpl->parseCurrentBlock();
-		}
-
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
 			"st" => $this->lng->txt("obj_st"),
@@ -188,7 +128,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 		$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));
 		$this->tpl->setVariable("TXT_HORIZONTAL", $this->lng->txt("horizontal"));
 		$this->tpl->setVariable("TXT_COMBOBOX", $this->lng->txt("combobox"));
-		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
@@ -196,11 +135,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 		$questiontext = $this->object->getQuestiontext();
 		$questiontext = str_replace("<br />", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
-		$this->tpl->setVariable("VALUE_SAVE_PHRASE", $this->lng->txt("save_phrase"));
-		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
-		$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-		$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -245,8 +179,8 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 		{
 			case 0:
 				// vertical orientation
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-					$category = $this->object->getCategory($i);
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("ordinal_row");
 					$this->tpl->setVariable("TEXT_ORDINAL", $category);
 					$this->tpl->setVariable("VALUE_ORDINAL", $i);
@@ -266,9 +200,9 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 				break;
 			case 1:
 				// horizontal orientation
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
-					$category = $this->object->getCategory($i);
+					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("radio_col_ordinal");
 					$this->tpl->setVariable("VALUE_ORDINAL", $i);
 					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
@@ -284,9 +218,9 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 					}
 					$this->tpl->parseCurrentBlock();
 				}
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
-					$category = $this->object->getCategory($i);
+					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("text_col_ordinal");
 					$this->tpl->setVariable("VALUE_ORDINAL", $i);
 					$this->tpl->setVariable("TEXT_ORDINAL", $category);
@@ -296,8 +230,8 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 				break;
 			case 2:
 				// combobox output
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-					$category = $this->object->getCategory($i);
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("comborow");
 					$this->tpl->setVariable("TEXT_ORDINAL", $category);
 					$this->tpl->setVariable("VALUE_ORDINAL", $i);
@@ -389,18 +323,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 			$this->object->setObligatory(0);
 		}
 
-    // Delete all existing categories and create new categories from the form data
-    $this->object->flushCategories();
-
-		$array1 = array();
-    // Add all categories from the form into the object
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/^category_(\d+)/", $key, $matches)) {
-				array_push($array1, ilUtil::stripSlashes($value));
-			}
-		}
-		$this->object->addCategoryArray($array1);
-		
 		if ($saved) {
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be
@@ -411,10 +333,331 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
     return $result;
   }
 
+/**
+* Creates the form to edit the question categories
+*
+* Creates the form to edit the question categories
+*
+* @access private
+*/
+	function categories($add = false)
+	{
+		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_ordinal_answers.html", true);
+    // output of existing single response answers
+		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+		{
+			$this->tpl->setCurrentBlock("cat_selector");
+			$this->tpl->setVariable("CATEGORY_ORDER", $i);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("categories");
+			$category = $this->object->categories->getCategory($i);
+			$this->tpl->setVariable("CATEGORY_ORDER", $i);
+			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
+			$this->tpl->setVariable("VALUE_CATEGORY", $category);
+			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if ($add)
+		{
+			// Create template for a new category
+			$this->tpl->setCurrentBlock("categories");
+			$this->tpl->setVariable("CATEGORY_ORDER", $this->object->categories->getCategoryCount());
+			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
+			$this->tpl->parseCurrentBlock();
+		}
 
+		if (is_array($_SESSION["spl_move"]))
+		{
+			if (count($_SESSION["spl_move"]))
+			{
+				$this->tpl->setCurrentBlock("move_buttons");
+				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
+				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		if ($this->object->categories->getCategoryCount() == 0)
+		{
+			if (!$add)
+			{
+				$this->tpl->setCurrentBlock("nocategories");
+				$this->tpl->setVariable("NO_CATEGORIES", $this->lng->txt("question_contains_no_categories"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("existingcategories");
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+			$this->tpl->setVariable("VALUE_SAVE_PHRASE", $this->lng->txt("save_phrase"));
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
+		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		if ($_SESSION["spl_modified"])
+		{
+			$this->tpl->setVariable("FORM_DATA_MODIFIED_PRESS_SAVE", $this->lng->txt("form_data_modified_press_save"));
+		}
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	function setQuestionTabs()
 	{
 		$this->setQuestionTabsForClass("surveyordinalquestiongui");
 	}
+
+/**
+* Creates an output for the addition of phrases
+*
+* Creates an output for the addition of phrases
+*
+* @access public
+*/
+  function addPhrase() 
+	{
+		$this->writeCategoryData(true);
+		$this->ctrl->setParameterByClass(get_class($this), "q_id", $this->object->getId());
+		$this->ctrl->setParameterByClass("ilobjsurveyquestionpoolgui", "q_id", $this->object->getId());
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", true);
+
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+		$this->tpl->parseCurrentBlock();
+
+		$phrases =& $this->object->getAvailablePhrases();
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($phrases as $phrase_id => $phrase_array)
+		{
+			$this->tpl->setCurrentBlock("phraserow");
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
+			$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
+			$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
+			$categories =& $this->object->getCategoriesForPhrase($phrase_id);
+			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
+		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
+		$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
+* Cancels the form adding a phrase
+*
+* Cancels the form adding a phrase
+*
+* @access public
+*/
+	function cancelViewPhrase() 
+	{
+		$this->ctrl->redirect($this, "categories");
+	}
+
+/**
+* Adds a selected phrase
+*
+* Adds a selected phrase
+*
+* @access public
+*/
+	function addSelectedPhrase() 
+	{
+		if (strcmp($_POST["phrases"], "") == 0)
+		{
+			sendInfo($this->lng->txt("select_phrase_to_add"));
+			$this->addPhrase();
+		}
+		else
+		{
+			if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
+			{
+				$this->object->addPhrase($_POST["phrases"]);
+				$this->object->saveCategoriesToDb();
+			}
+			else
+			{
+				$this->addStandardNumbers();
+				return;
+			}
+			$this->ctrl->redirect($this, "categories");
+		}
+	}
+	
+/**
+* Creates an output for the addition of standard numbers
+*
+* Creates an output for the addition of standard numbers
+*
+* @access public
+*/
+  function addStandardNumbers() 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", true);
+
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ADD_STANDARD_NUMBERS", $this->lng->txt("add_standard_numbers"));
+		$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
+		$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
+		$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
+		$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
+		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+* Cancels the form adding standard numbers
+*
+* Cancels the form adding standard numbers
+*
+* @access public
+*/
+	function cancelStandardNumbers() 
+	{
+		$this->ctrl->redirect($this, "categories");
+	}
+
+/**
+* Insert standard numbers to the question
+*
+* Insert standard numbers to the question
+*
+* @access public
+*/
+	function insertStandardNumbers() {
+		if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
+		{
+			sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
+			$this->addStandardNumbers();
+		}
+		else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
+		{
+			sendInfo($this->lng->txt("upper_limit_must_be_greater"));
+			$this->addStandardNumbers();
+		}
+		else
+		{
+			$this->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
+			$this->object->saveCategoriesToDb();
+			$this->ctrl->redirect($this, "categories");
+		}
+	}
+
+/**
+* Creates an output to save a phrase
+*
+* Creates an output to save a phrase
+*
+* @access public
+*/
+  function savePhrase() 
+	{
+		$this->writeCategoryData(true);
+		$nothing_selected = true;
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]))
+			{
+				$nothing_selected = false;
+				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", true);
+				$rowclass = array("tblrow1", "tblrow2");
+				$counter = 0;
+				foreach ($_POST["chb_category"] as $category)
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("TXT_TITLE", $this->object->categories->getCategory($category));
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("hidden");
+					$this->tpl->setVariable("HIDDEN_NAME", "chb_category[]");
+					$this->tpl->setVariable("HIDDEN_VALUE", $category);
+					$this->tpl->parseCurrentBlock();
+				}
+			
+				$this->tpl->setCurrentBlock("adm_content");
+				$this->tpl->setVariable("SAVE_PHRASE_INTRODUCTION", $this->lng->txt("save_phrase_introduction"));
+				$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("enter_phrase_title"));
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
+				$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
+				$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+				$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
+				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		if ($nothing_selected)
+		{
+			sendInfo($this->lng->txt("check_category_to_save_phrase"), true);
+			$this->ctrl->redirect($this, "categories");
+		}
+	}
+
+/**
+* Cancels the form saving a phrase
+*
+* Cancels the form saving a phrase
+*
+* @access public
+*/
+	function cancelSavePhrase() 
+	{
+		$this->ctrl->redirect($this, "categories");
+	}
+
+/**
+* Save a new phrase to the database
+*
+* Save a new phrase to the database
+*
+* @access public
+*/
+	function confirmSavePhrase() 
+	{
+		if (!$_POST["phrase_title"])
+		{
+			sendInfo($this->lng->txt("qpl_savephrase_empty"));
+			$this->savePhrase();
+			return;
+		}
+		
+		if ($this->object->phraseExists($_POST["phrase_title"]))
+		{
+			sendInfo($this->lng->txt("qpl_savephrase_exists"));
+			$this->savePhrase();
+			return;
+		}
+
+		$this->object->savePhrase($_POST["chb_category"], $_POST["phrase_title"]);
+		sendInfo($this->lng->txt("phrase_saved"), true);
+		$this->ctrl->redirect($this, "categories");
+	}
+
 }
 ?>

@@ -1,0 +1,46 @@
+<p><em>{FORM_DATA_MODIFIED_PRESS_SAVE}</em></p>
+<form name="frm_nominal" action="{FORM_ACTION}" method="post" enctype="multipart/form-data">
+<table class="std">
+<tr>
+	<td colspan="3" class="option">
+		<div align="right"><input type="submit" class="submit" name="cmd[addCategory]" id="add_category" value="{VALUE_ADD_CATEGORY}" /></div>
+	</td>
+</tr>
+<!-- BEGIN categories -->
+<tr>
+  <td class="option" width="20">
+<!-- BEGIN cat_selector -->
+	<input type="checkbox" name="chb_category[]" value="{CATEGORY_ORDER}" />
+<!-- END cat_selector -->
+	</td>
+  <td class="option_value"><input name="category_{CATEGORY_ORDER}" type="text" id="category_{CATEGORY_ORDER}" size="50" value="{VALUE_CATEGORY}" /></td>
+  <td class="option_value"><input type="text" name="number" value="{CATEGORY_NUMBER}" size="3" disabled="disabled"/></td>
+</tr>
+<!-- END categories -->
+<!-- BEGIN existingcategories -->
+<tr>
+	<td class="submit" width="20">{ARROW}</td>
+	<td class="submit" colspan="2">
+		<input type="submit" class="submit" name="cmd[moveCategory]" value="{MOVE}" />
+		<input type="submit" class="submit" name="cmd[deleteCategory]" value="{DELETE}" />
+<!-- BEGIN move_buttons -->
+		<input type="submit" class="submit" name="cmd[insertBeforeCategory]" value="{INSERT_BEFORE}" />
+		<input type="submit" class="submit" name="cmd[insertAfterCategory]" value="{INSERT_AFTER}" />
+<!-- END move_buttons -->
+	</td>
+</tr>
+<!-- END existingcategories -->
+<!-- BEGIN nocategories -->
+<tr>
+	<td colspan="3" class="option_value">{NO_CATEGORIES}</td>
+</tr>
+<!-- END nocategories -->
+<tr>
+	<td colspan="3" class="submit">
+		<div align="right">
+			<input name="cmd[saveCategories]" type="submit" class="submit" id="save" value="{SAVE}" />
+		</div>
+	</td>
+</tr>
+</table>
+</form>
