@@ -1,7 +1,7 @@
 <form action="{FORMACTION}" name="post" method="post">
 <table class="fullwidth">
 <tr class="tblheader">
-	<td class="std">
+	<td class="std" colspan="2">
 		<div style="float:left;">{TXT_NOTES}</div>
 		<div class="il_ContainerItemCommands" style="float:right;">
 		<!-- BEGIN show_notes -->
@@ -19,12 +19,19 @@
 <!-- BEGIN note_row -->
 <!-- BEGIN edit_note_form -->
 <tr class="std">
-	<td class="std">
-	<textarea name="{TA_NOTE}" style="width:95%" rows="12" wrap="virtual">{NOTE_CONTENT}</textarea>
+	<td class="option" width="1px"><a name="note_edit" />{TXT_SUBJECT}</td>
+	<td class="option_value" >
+		<input type="text" style="width:95%" maxlength="200" name="{SUB_NOTE}" value="{NOTE_SUBJECT}" />
+	</td>
+</tr>
+<tr class="std">
+	<td class="option" width="1px">{TXT_NOTE}</td>
+	<td class="option_value">
+		<textarea name="{TA_NOTE}" style="width:95%" rows="7" wrap="virtual">{NOTE_CONTENT}</textarea>
 	</td>
 </tr>
 <tr>
-	<td class="submit" style="text-align:right;">
+	<td class="submit" style="text-align:right;" colspan="2">
 		<select name="note_label">
 			<option value="{VAL_LABEL_NONE}" {SEL_NONE}>{TXT_LABEL_NONE}</option>
 			<option value="{VAL_LABEL_QUESTION}" {SEL_QUESTION}>{TXT_LABEL_QUESTION}</option>
@@ -38,19 +45,19 @@
 <!-- END edit_note_form -->
 <!-- BEGIN note -->
 <tr class="{ROWCLASS}">
-	<td class="std">
+	<td class="std" colspan="2">
 	<div class="il_ContainerItemCommands" style="float:right;">
 	<!-- BEGIN edit_note -->
 	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
 	<!-- END edit_note -->
 	</div>
 	<img src="{IMG_NOTE}" border="0" />
-	<b>{VAL_DATE} 
-	<!-- BEGIN author -->, {VAL_AUTHOR}<!-- END author -->  
-	</b><br />
-	{NOTE_TEXT}
-	<!-- BEGIN last_edit --><div class="subtitle" style="text-align:right">{TXT_LAST_EDIT} {DATE_LAST_EDIT}</div>
-	<!-- END last_edit -->
+	<b>{VAL_SUBJECT}
+	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
+		</b><br /><div style="margin-top:4px;">{NOTE_TEXT}</div>
+	<div class="subtitle" style="text-align:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}
+	<!-- BEGIN last_edit -->, {TXT_LAST_EDIT} {DATE_LAST_EDIT}
+	<!-- END last_edit --></div>
 	</td>
 </tr>
 <!-- END note -->

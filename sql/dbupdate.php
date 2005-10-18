@@ -8804,3 +8804,9 @@ ALTER TABLE bookmark_data ADD description varchar(255) NOT NULL DEFAULT '' AFTER
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#544>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#545>
+ALTER TABLE note ADD subject varchar(200) NOT NULL DEFAULT '';

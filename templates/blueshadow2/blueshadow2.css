@@ -41,9 +41,6 @@ input.marked {
 	background: #FFFFCC;
 }
 
-textarea {
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-}
 
 input.fullwidth {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
@@ -56,10 +53,6 @@ input.fullwidth_marked {
 	background: #FFFFCC
 }
 
-textarea.fullwidth {
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	width: 98%
-}
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
@@ -355,8 +348,10 @@ td.submit {
 	vertical-align:top;
 	border-top-width:1px;
 	border-top-color:#D0D0D0;
-	#border-top-color:#E0C8A0;
 	border-top-style:solid;
+	border-bottom-width:1px;
+	border-bottom-color:#D0D0D0;
+	border-bottom-style:solid;
 
 }
 
@@ -1158,7 +1153,9 @@ input.tblrow1, input.tblrow2
 	padding:0px;
 }
 
-textarea {
+textarea
+{
+	font-family:Verdana,Arial,Helvetica,sans-serif;
 	background-color:#ffffff;
 	color:#000000;
 	border-width:1px;
@@ -1167,8 +1164,14 @@ textarea {
 	border-style:inset;
 	padding:3px;
 	text-decoration:none;
-	#font-size: 80%;
+	font-size: 100%;
 }
+
+textarea.fullwidth
+{
+	width: 98%;
+}
+
 
 input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
 	color:#000000;

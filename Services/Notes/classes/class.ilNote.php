@@ -75,18 +75,13 @@ class ilNote
 	*
 	* @param	$a_type		string		type of the object (e.g st,pg,crs ...)
 	* @param	$a_rep_obj_id	int		object id (NOT ref_id!) of repository object (e.g for page objects
-	*									the obj_id of the learning module; for media objects this
-	*									is set to 0, because their object id are not assigned to ref ids)
-	* @param	$a_obj_id	int			object id (e.g for structure objects the obj_id of the structure object)
+	*									the obj_id of the learning module; for personal desktop this
+	*									is set to 0)
+	* @param	$a_obj_id	int			object id (e.g for page objects the obj_id of the page object)
 	*									for, this is set to 0 for normal repository objects like forums ...
 	*/
 	function setObject($a_obj_type, $a_rep_obj_id, $a_obj_id = 0)
-	{
-		if ($a_obj_id == 0)
-		{
-			$a_obj_id = $a_rep_obj_id;
-		}
-		
+	{		
 		$this->rep_obj_id = $a_rep_obj_id;
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_obj_type;
@@ -159,6 +154,26 @@ class ilNote
 	{
 		return $this->text;
 	}
+
+	/**
+	* set subject
+	*
+	* @param	string		text
+	*/
+	function setSubject($a_subject)
+	{
+		$this->subject = $a_subject;
+	}
+
+	/**
+	* get subject
+	*
+	* @return	string	subject
+	*/
+	function getSubject()
+	{
+		return $this->subject;
+	}
 	
 	/**
 	* set creation date
@@ -225,13 +240,14 @@ class ilNote
 		global $ilDB;
 		
 		$q = "INSERT INTO note (rep_obj_id, obj_id, obj_type, type,".
-			"author, text, label, creation_date) VALUES (".
+			"author, text, subject, label, creation_date) VALUES (".
 			$ilDB->quote($this->rep_obj_id).",".
 			$ilDB->quote($this->obj_id).",".
 			$ilDB->quote($this->obj_type).",".
 			$ilDB->quote($this->type).",".
 			$ilDB->quote($this->author).",".
 			$ilDB->quote($this->text).",".
+			$ilDB->quote($this->subject).",".
 			$ilDB->quote($this->label).",".
 			"now())";
 		$ilDB->query($q);
@@ -251,6 +267,7 @@ class ilNote
 			"type = ".$ilDB->quote($this->type).",".
 			"author = ".$ilDB->quote($this->author).",".
 			"text = ".$ilDB->quote($this->text).",".
+			"subject = ".$ilDB->quote($this->subject).",".
 			"update_date = now(),".
 			"label = ".$ilDB->quote($this->label).
 			"WHERE id =".$ilDB->quote($this->getId());
@@ -281,6 +298,7 @@ class ilNote
 		$this->setType($a_note_rec["type"]);
 		$this->setAuthor($a_note_rec["author"]);
 		$this->setText($a_note_rec["text"]);
+		$this->setSubject($a_note_rec["subject"]);
 		$this->setLabel($a_note_rec["label"]);
 		$this->setCreationDate($a_note_rec["creation_date"]);
 		$this->setUpdateDate($a_note_rec["update_date"]);
@@ -316,18 +334,26 @@ class ilNote
 		return $note_rec["update_date"];
 	}
 	
-	function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_type = IL_NOTE_PRIVATE)
+	/**
+	* get all notes related to a specific object
+	*/
+	function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
+		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false)
 	{
 		global $ilDB, $ilUser;
 		
 		$author_where = ($a_type == IL_NOTE_PRIVATE)
 			? " AND author = ".$ilDB->quote($ilUser->getId())
 			: "";
+
+		$sub_where = (!$a_incl_sub)
+			? " AND obj_id = ".$ilDB->quote($a_obj_id).
+			  " AND obj_type = ".$ilDB->quote($a_obj_type)
+			: "";
 		
 		$q = "SELECT * FROM note WHERE ".
 			" rep_obj_id = ".$ilDB->quote($a_rep_obj_id).
-			" AND obj_id = ".$ilDB->quote($a_obj_id).
-			" AND obj_type = ".$ilDB->quote($a_obj_type).
+			$sub_where.
 			" AND type = ".$ilDB->quote($a_type).
 			$author_where.
 			" ORDER BY creation_date DESC";
@@ -344,5 +370,55 @@ class ilNote
 		
 		return $notes;
 	}
+
+	/**
+	* get last notes of current user
+	*/
+	function _getLastNotesOfUser()
+	{
+		global $ilDB, $ilUser;
+		
+		$q = "SELECT * FROM note WHERE ".
+			" type = ".$ilDB->quote(IL_NOTE_PRIVATE).
+			" AND author = ".$ilDB->quote($ilUser->getId()).
+			" ORDER BY creation_date DESC LIMIT 10";
+
+		$ilDB->quote($q);
+		$set = $ilDB->query($q);
+		$notes = array();
+		while($note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$cnt = count($notes);
+			$notes[$cnt] = new ilNote();
+			$notes[$cnt]->setAllData($note_rec);
+		}
+		
+		return $notes;
+	}
+	
+	/**
+	* get all related objects for user
+	*/
+	function _getRelatedObjectsOfUser()
+	{
+		global $ilDB, $ilUser;
+		
+		$q = "SELECT DISTINCT rep_obj_id, obj_type FROM note WHERE ".
+			" type = ".$ilDB->quote(IL_NOTE_PRIVATE).
+			" AND author = ".$ilDB->quote($ilUser->getId()).
+			" ORDER BY rep_obj_id";
+
+		$ilDB->quote($q);
+		$set = $ilDB->query($q);
+		$reps = array();
+		while($rep_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"],
+				"obj_type" =>$rep_rec["obj_type"]);
+		}
+		
+		return $reps;
+	}
+
 }
 ?>

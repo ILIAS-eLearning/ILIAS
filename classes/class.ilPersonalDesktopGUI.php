@@ -179,6 +179,7 @@ class ilPersonalDesktopGUI
 		$this->displaySelectedItems();
 		$this->displaySystemMessages();
 		$this->displayMails();
+		$this->displayNotes();
 		$this->displayUsersOnline();
 		$this->displayBookmarks();
 		$this->tpl->show();
@@ -288,6 +289,27 @@ class ilPersonalDesktopGUI
 		$this->show();
 	}
 
+	/**
+	* show details for personal notes
+	*/
+	function showPDNotesDetails()
+	{
+		global $ilUser;
+
+		$ilUser->writePref('show_pd_notes_details','y');
+		$this->show();
+	}
+
+	/**
+	* hide details for personal notes
+	*/
+	function hidePDNotesDetails()
+	{
+		global $ilUser;
+
+		$ilUser->writePref('show_pd_notes_details','n');
+		$this->show();
+	}
 
 	/**
 	 * display selected items
@@ -694,7 +716,18 @@ class ilPersonalDesktopGUI
 	}
 
 
+    /**
+	 * display private notes
+	 */
+    function displayNotes()
+    {
+        global $ilias;
 
+		//$users_notes = $ilias->account->getPref("show_notes");
+		include_once("Services/Notes/classes/class.ilNoteGUI.php");
+		$html = ilNoteGUI::_getPDOverviewNoteListHTML(); 
+		$this->tpl->setVariable("NOTES", $html);
+	}
 
     /**
 	 * display users online
@@ -944,6 +977,7 @@ class ilPersonalDesktopGUI
 			$who_is_online = true;
 		}
 
+		// to do: use ilTabsGUI here!
 
 		// personal desktop home
 		$inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
@@ -971,8 +1005,9 @@ class ilPersonalDesktopGUI
 				$inhalt1[] = array($inc_type,"dateplaner.php",$this->lng->txt("calendar"));
 			}
 
-			// user bookmarks
-			$inc_type = (strtolower($_GET["cmdClass"]) == "ilpdnotesgui")
+			// private notes
+			$inc_type = (strtolower($_GET["cmdClass"]) == "ilpdnotesgui" ||
+				strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? "tabactive"
 				: "tabinactive";
 			$inhalt1[] = array($inc_type,
