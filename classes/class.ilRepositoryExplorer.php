@@ -354,25 +354,26 @@ class ilRepositoryExplorer extends ilExplorer
 		switch ($a_type)
 		{
 			case "crs":
-				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
-				$tmp_obj->initCourseMemberObject();
+				include_once './course/classes/class.ilObjCourse.php';
 
-				if(!$tmp_obj->isActivated() and !$rbacsystem->checkAccess('write',$a_ref_id))
+				// Has to be replaced by ilAccess calls
+				if(!ilObjCourse::_isActivated($a_obj_id) and !$rbacsystem->checkAccess('write',$a_ref_id))
 				{
-					unset($tmp_obj);
 					return false;
 				}
+				
+				include_once './course/classes/class.ilCourseMembers.php';
 
+				if(ilCourseMembers::_isBlocked($a_obj_id,$ilUser->getId()))
+				{
+					return false;
+				}
 				if(($rbacsystem->checkAccess('join',$a_ref_id) or
-				   $rbacsystem->checkAccess('read',$a_ref_id)) and
-				   !$tmp_obj->members_obj->isBlocked($ilUser->getId()))
+					$rbacsystem->checkAccess('read',$a_ref_id)))
 				{
 					return true;
 				}
-				
-				unset($tmp_obj);
 				return false;
-				break;
 
 			// visible groups can allways be clicked; group processing decides
 			// what happens next
