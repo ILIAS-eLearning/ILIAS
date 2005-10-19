@@ -41,7 +41,6 @@
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./assessment/classes/class.assQuestionGUI.php";
 require_once "./assessment/classes/class.ilObjQuestionPool.php";
-//require_once "./classes/class.ilMetaDataGUI.php";
 
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
@@ -154,9 +153,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->lng->loadLanguageModule("content");
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
-
 				$page =& new ilPageObject("qpl", $_GET["q_id"]);
 				$page_gui =& new ilPageObjectGUI($page);
+				if (strlen($this->ctrl->getCmd()) == 0)
+				{
+					$this->ctrl->setCmdClass(get_class($page_gui));
+					$this->ctrl->setCmd("preview");
+				}
 				$page_gui->setQuestionXML($question->to_xml(false, false, true));
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
