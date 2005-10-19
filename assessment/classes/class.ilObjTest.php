@@ -4667,6 +4667,23 @@ class ilObjTest extends ilObject
 		return $this->mark_schema->checkMarks();
 	}
 	
+	function updateMetaData()
+	{
+		global $ilUser;
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md_gen =& $md->getGeneral();
+		if ($md_gen == false)
+		{
+			include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+			$md_creator = new ilMDCreator($this->getId(),0,$this->getType());
+			$md_creator->setTitle($this->getTitle());
+			$md_creator->setTitleLanguage($ilUser->getPref('language'));
+			$md_creator->create();
+		}
+		parent::updateMetaData();
+	}
+	
 /**
 * Returns the available tests for the active user
 *
