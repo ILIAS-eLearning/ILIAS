@@ -1435,8 +1435,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// cancel/confirm button
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
-			"deleteExportFile"  => $this->lng->txt("confirm"));
+		$buttons = array(
+			"deleteExportFile"  => $this->lng->txt("confirm"),
+			"cancelDeleteExportFile"  => $this->lng->txt("cancel")
+		);
 		foreach ($buttons as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");

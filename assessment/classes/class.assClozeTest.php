@@ -552,98 +552,55 @@ class ASS_ClozeTest extends ASS_Question
 	*/
 	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
 	{
-		if (!empty($this->domxml))
-		{
-			$this->domxml->free();
-		}
-		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
-		$this->domxml = domxml_open_mem($xml_header);
-		$root = $this->domxml->document_element();
-		// qti ident
-		$qtiIdent = $this->domxml->create_element("item");
-		$qtiIdent->set_attribute("ident", "il_".IL_INST_ID."_qst_".$this->getId());
-		$qtiIdent->set_attribute("title", $this->getTitle());
-		$root->append_child($qtiIdent);
+		include_once("./classes/class.ilXmlWriter.php");
+		$a_xml_writer = new ilXmlWriter;
+		// set xml header
+		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlStartTag("questestinterop");
+		$attrs = array(
+			"ident" => "il_".IL_INST_ID."_qst_".$this->getId(),
+			"title" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("item", $attrs);
 		// add question description
-		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiIdent->append_child($qtiComment);
+		$a_xml_writer->xmlElement("qticomment", NULL, $this->getComment());
 		// add estimated working time
-		$qtiDuration = $this->domxml->create_element("duration");
 		$workingtime = $this->getEstimatedWorkingTime();
-		$qtiDurationText = $this->domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]));
-		$qtiDuration->append_child($qtiDurationText);
-		$qtiIdent->append_child($qtiDuration);
-
+		$duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
+		$a_xml_writer->xmlElement("duration", NULL, $duration);
 		// add ILIAS specific metadata
-		$qtiItemmetadata = $this->domxml->create_element("itemmetadata");
-		$qtiMetadata = $this->domxml->create_element("qtimetadata");
-		
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("ILIAS_VERSION");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node($this->ilias->getSetting("ilias_version"));
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("QUESTIONTYPE");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node(CLOZE_TEST_IDENTIFIER);
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("AUTHOR");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node($this->getAuthor());
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("TEXTGAP_RATING");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node($this->getTextgapRating());
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		
-		$qtiItemmetadata->append_child($qtiMetadata);
-		$qtiIdent->append_child($qtiItemmetadata);
+		$a_xml_writer->xmlStartTag("itemmetadata");
+		$a_xml_writer->xmlStartTag("qtimetadata");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "ILIAS_VERSION");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->ilias->getSetting("ilias_version"));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "QUESTIONTYPE");
+		$a_xml_writer->xmlElement("fieldentry", NULL, CLOZE_TEST_IDENTIFIER);
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlEndTag("qtimetadata");
+		$a_xml_writer->xmlEndTag("itemmetadata");
 		
 		// PART I: qti presentation
-		$qtiPresentation = $this->domxml->create_element("presentation");
-		$qtiPresentation->set_attribute("label", $this->getTitle());
+		$attrs = array(
+			"label" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
-		$qtiFlow = $this->domxml->create_element("flow");
-
+		$a_xml_writer->xmlStartTag("flow");
 		$text_parts = preg_split("/\<gap.*?\<\/gap\>/", $this->get_cloze_text());
 		// add material with question text to presentation
 		for ($i = 0; $i <= $this->get_gap_count(); $i++)
 		{
 			// n-th text part
-			$qtiMaterial = $this->domxml->create_element("material");
-			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($text_parts[$i]);
-			$qtiMatText->append_child($qtiMatTextText);
-			$qtiMaterial->append_child($qtiMatText);
-			$qtiFlow->append_child($qtiMaterial);
+			$a_xml_writer->xmlStartTag("material");
+			$a_xml_writer->xmlElement("mattext", NULL, $text_parts[$i]);
+			$a_xml_writer->xmlEndTag("material");
 
 			if ($i < $this->get_gap_count())
 			{
@@ -652,40 +609,42 @@ class ASS_ClozeTest extends ASS_Question
 				if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 				{
 					// comboboxes
-					$qtiResponseStr = $this->domxml->create_element("response_str");
-					$qtiResponseStr->set_attribute("ident", "gap_$i");
-					$qtiResponseStr->set_attribute("rcardinality", "Single");
+					$attrs = array(
+						"ident" => "gap_$i",
+						"rcardinality" => "Single"
+					);
+					$a_xml_writer->xmlStartTag("response_str", $attrs);
 					$solution = $this->getSuggestedSolution($i);
 					if (count($solution))
 					{
 						if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 						{
-							$qtiMaterial = $this->domxml->create_element("material");
-							$qtiMaterial->set_attribute("label", "suggested_solution");
-							$qtiMatText = $this->domxml->create_element("mattext");
+							$attrs = array(
+								"label" => "suggested_solution"
+							);
+							$a_xml_writer->xmlStartTag("material", $attrs);
 							$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
 							if (strcmp($matches[1], "") != 0)
 							{
 								$intlink = $solution["internal_link"];
 							}
-							$qtiMatTextText = $this->domxml->create_text_node($intlink);
-							$qtiMatText->append_child($qtiMatTextText);
-							$qtiMaterial->append_child($qtiMatText);
-							$qtiResponseStr->append_child($qtiMaterial);
+							$a_xml_writer->xmlElement("mattext", NULL, $intlink);
+							$a_xml_writer->xmlEndTag("material");
 						}
 					}
 					
-					$qtiRenderChoice = $this->domxml->create_element("render_choice");
-					// shuffle output
+					$attrs = array();
 					if ($gap[0]->get_shuffle())
 					{
-						$qtiRenderChoice->set_attribute("shuffle", "Yes");
+						$attrs = array("shuffle" => "Yes");
 					}
 					else
 					{
-						$qtiRenderChoice->set_attribute("shuffle", "No");
+						$attrs = array("shuffle" => "No");
 					}
+					$a_xml_writer->xmlStartTag("render_choice", $attrs);
 
+					// shuffle output
 					$gkeys = array_keys($gap);
 					if ($this->getshuffle() && $a_shuffle)
 					{
@@ -696,66 +655,68 @@ class ASS_ClozeTest extends ASS_Question
 					foreach ($gkeys as $key)
 					{
 						$value = $gap[$key];
-						$qtiResponseLabel = $this->domxml->create_element("response_label");
-						$qtiResponseLabel->set_attribute("ident", $key);
-						$qtiMaterial = $this->domxml->create_element("material");
-						$qtiMatText = $this->domxml->create_element("mattext");
-						$tmpvalue = $value->get_answertext();
-						$qtiMatTextText = $this->domxml->create_text_node($tmpvalue);
-						$qtiMatText->append_child($qtiMatTextText);
-						$qtiMaterial->append_child($qtiMatText);
-						$qtiResponseLabel->append_child($qtiMaterial);
-						$qtiRenderChoice->append_child($qtiResponseLabel);
+						$attrs = array(
+							"ident" => $key
+						);
+						$a_xml_writer->xmlStartTag("response_label", $attrs);
+						$a_xml_writer->xmlStartTag("material");
+						$a_xml_writer->xmlElement("mattext", NULL, $value->get_answertext());
+						$a_xml_writer->xmlEndTag("material");
+						$a_xml_writer->xmlEndTag("response_label");
 					}
-					$qtiResponseStr->append_child($qtiRenderChoice);
-					$qtiFlow->append_child($qtiResponseStr);
+					$a_xml_writer->xmlEndTag("render_choice");
+					$a_xml_writer->xmlEndTag("response_str");
 				}
 				else
 				{
 					// text fields
-					$qtiResponseStr = $this->domxml->create_element("response_str");
-					$qtiResponseStr->set_attribute("ident", "gap_$i");
-					$qtiResponseStr->set_attribute("rcardinality", "Single");
+					$attrs = array(
+						"ident" => "gap_$i",
+						"rcardinality" => "Single"
+					);
+					$a_xml_writer->xmlStartTag("response_str", $attrs);
 					$solution = $this->getSuggestedSolution($i);
 					if (count($solution))
 					{
 						if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 						{
-							$qtiMaterial = $this->domxml->create_element("material");
-							$qtiMaterial->set_attribute("label", "suggested_solution");
-							$qtiMatText = $this->domxml->create_element("mattext");
+							$attrs = array(
+								"label" => "suggested_solution"
+							);
+							$a_xml_writer->xmlStartTag("material", $attrs);
 							$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
 							if (strcmp($matches[1], "") != 0)
 							{
 								$intlink = $solution["internal_link"];
 							}
-							$qtiMatTextText = $this->domxml->create_text_node($intlink);
-							$qtiMatText->append_child($qtiMatTextText);
-							$qtiMaterial->append_child($qtiMatText);
-							$qtiResponseStr->append_child($qtiMaterial);
+							$a_xml_writer->xmlElement("mattext", NULL, $intlink);
+							$a_xml_writer->xmlEndTag("material");
 						}
 					}
-					$qtiRenderFib = $this->domxml->create_element("render_fib");
-					$qtiRenderFib->set_attribute("fibtype", "String");
-					$qtiRenderFib->set_attribute("prompt", "Box");
-					$qtiRenderFib->set_attribute("columns", $this->getColumnSize($gap));
-					$qtiResponseLabel = $this->domxml->create_element("response_label");
-					$qtiResponseLabel->set_attribute("ident", $i);
-					$qtiRenderFib->append_child($qtiResponseLabel);
-					$qtiResponseStr->append_child($qtiRenderFib);
-					$qtiFlow->append_child($qtiResponseStr);
+					$attrs = array(
+						"fibtype" => "String",
+						"prompt" => "Box",
+						"columns" => $this->getColumnSize($gap)
+					);
+					$a_xml_writer->xmlStartTag("render_fib");
+					$attrs = array(
+						"ident" => $i
+					);
+					$a_xml_writer->xmlEndTag("render_fib");
+					$a_xml_writer->xmlEndTag("response_str");
 				}
 			}
 		}
-		$qtiPresentation->append_child($qtiFlow);
-		$qtiIdent->append_child($qtiPresentation);
+		$a_xml_writer->xmlEndTag("flow");
+		$a_xml_writer->xmlEndTag("presentation");
 
 		// PART II: qti resprocessing
-		$qtiResprocessing = $this->domxml->create_element("resprocessing");
-		$qtiOutcomes = $this->domxml->create_element("outcomes");
-		$qtiDecvar = $this->domxml->create_element("decvar");
-		$qtiOutcomes->append_child($qtiDecvar);
-		$qtiResprocessing->append_child($qtiOutcomes);
+		$a_xml_writer->xmlStartTag("resprocessing");
+		$a_xml_writer->xmlStartTag("outcomes");
+		$a_xml_writer->xmlStartTag("decvar");
+		$a_xml_writer->xmlEndTag("decvar");
+		$a_xml_writer->xmlEndTag("outcomes");
+
 		// add response conditions
 		for ($i = 0; $i < $this->get_gap_count(); $i++)
 		{
@@ -764,39 +725,35 @@ class ASS_ClozeTest extends ASS_Question
 			{
 				foreach ($gap as $index => $answer)
 				{
-					$qtiRespcondition = $this->domxml->create_element("respcondition");
-					$qtiRespcondition->set_attribute("continue", "Yes");
+					$attrs = array(
+						"continue" => "Yes"
+					);
+					$a_xml_writer->xmlStartTag("respcondition", $attrs);
 					// qti conditionvar
-					$qtiConditionvar = $this->domxml->create_element("conditionvar");
+					$a_xml_writer->xmlStartTag("conditionvar");
 
 					if (!$answer->isStateSet())
 					{
-						$qtinot = $this->domxml->create_element("not");
+						$a_xml_writer->xmlStartTag("not");
 					}
-					
-					$qtiVarequal = $this->domxml->create_element("varequal");
-					$qtiVarequal->set_attribute("respident", "gap_$i");
-					$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
-					$qtiVarequal->append_child($qtiVarequalText);
+
+					$attrs = array(
+						"respident" => "gap_$i"
+					);
+					$a_xml_writer->xmlElement("varequal", $attrs, $answer->get_answertext());
 					if (!$answer->isStateSet())
 					{
-						$qtiConditionvar->append_child($qtinot);
-						$qtinot->append_child($qtiVarequal);
+						$a_xml_writer->xmlEndTag("not");
 					}
-					else
-					{
-						$qtiConditionvar->append_child($qtiVarequal);
-					}
+					$a_xml_writer->xmlEndTag("conditionvar");
 					// qti setvar
-					$qtiSetvar = $this->domxml->create_element("setvar");
-					$qtiSetvar->set_attribute("action", "Add");
-					$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
-					$qtiSetvar->append_child($qtiSetvarText);
+					$attrs = array(
+						"action" => "Add"
+					);
+					$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
 					// qti displayfeedback
-					$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
-					$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
 					$linkrefid = "";
-					if ($answer->isStateSet())
+					if ($answer->get_points() > 0)
 					{
 						$linkrefid = "$i" . "_True";
 					}
@@ -804,43 +761,45 @@ class ASS_ClozeTest extends ASS_Question
 					{
 						$linkrefid = "$i" . "_False_$index";
 					}
-					$qtiDisplayfeedback->set_attribute("linkrefid", $linkrefid);
-					$qtiRespcondition->append_child($qtiConditionvar);
-					$qtiRespcondition->append_child($qtiSetvar);
-					$qtiRespcondition->append_child($qtiDisplayfeedback);
-					$qtiResprocessing->append_child($qtiRespcondition);
+					$attrs = array(
+						"feedbacktype" => "Response",
+						"linkrefid" => $linkrefid
+					);
+					$a_xml_writer->xmlElement("displayfeedback", $attrs);
+					$a_xml_writer->xmlEndTag("respcondition");
 				}
 			}
 			else
 			{
 				foreach ($gap as $index => $answer)
 				{
-					$qtiRespcondition = $this->domxml->create_element("respcondition");
-					$qtiRespcondition->set_attribute("continue", "Yes");
+					$attrs = array(
+						"continue" => "Yes"
+					);
+					$a_xml_writer->xmlStartTag("respcondition", $attrs);
 					// qti conditionvar
-					$qtiConditionvar = $this->domxml->create_element("conditionvar");
-					$qtiVarequal = $this->domxml->create_element("varequal");
-					$qtiVarequal->set_attribute("respident", "gap_$i");
-					$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
-					$qtiVarequal->append_child($qtiVarequalText);
-					$qtiConditionvar->append_child($qtiVarequal);
+					$a_xml_writer->xmlStartTag("conditionvar");
+					$attrs = array(
+						"respident" => "gap_$i"
+					);
+					$a_xml_writer->xmlElement("varequal", $attrs, $answer->get_answertext());
+					$a_xml_writer->xmlEndTag("conditionvar");
 					// qti setvar
-					$qtiSetvar = $this->domxml->create_element("setvar");
-					$qtiSetvar->set_attribute("action", "Add");
-					$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
-					$qtiSetvar->append_child($qtiSetvarText);
+					$attrs = array(
+						"action" => "Add"
+					);
+					$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
 					// qti displayfeedback
-					$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
-					$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
-					$qtiDisplayfeedback->set_attribute("linkrefid", "$i" . "_True_$index");
-					$qtiRespcondition->append_child($qtiConditionvar);
-					$qtiRespcondition->append_child($qtiSetvar);
-					$qtiRespcondition->append_child($qtiDisplayfeedback);
-					$qtiResprocessing->append_child($qtiRespcondition);
+					$attrs = array(
+						"feedbacktype" => "Response",
+						"linkrefid" => "$i" . "_True_$index"
+					);
+					$a_xml_writer->xmlElement("displayfeedback", $attrs);
+					$a_xml_writer->xmlEndTag("respcondition");
 				}
 			}
 		}
-		$qtiIdent->append_child($qtiResprocessing);
+		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
 		for ($i = 0; $i < $this->get_gap_count(); $i++)
@@ -850,7 +809,6 @@ class ASS_ClozeTest extends ASS_Question
 			{
 				foreach ($gap as $index => $answer)
 				{
-					$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
 					$linkrefid = "";
 					if ($answer->isStateSet())
 					{
@@ -860,26 +818,24 @@ class ASS_ClozeTest extends ASS_Question
 					{
 						$linkrefid = "$i" . "_False_$index";
 					}
-					$qtiItemfeedback->set_attribute("ident", $linkrefid);
-					$qtiItemfeedback->set_attribute("view", "All");
+					$attrs = array(
+						"ident" => $linkrefid,
+						"view" => "All"
+					);
+					$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
 					// qti flow_mat
-					$qtiFlowmat = $this->domxml->create_element("flow_mat");
-					$qtiMaterial = $this->domxml->create_element("material");
-					$qtiMattext = $this->domxml->create_element("mattext");
-					// Insert response text for right/wrong answers here!!!
-					$qtiMattextText = $this->domxml->create_text_node("");
-					$qtiMattext->append_child($qtiMattextText);
-					$qtiMaterial->append_child($qtiMattext);
-					$qtiFlowmat->append_child($qtiMaterial);
-					$qtiItemfeedback->append_child($qtiFlowmat);
-					$qtiIdent->append_child($qtiItemfeedback);
+					$a_xml_writer->xmlStartTag("flow_mat");
+					$a_xml_writer->xmlStartTag("material");
+					$a_xml_writer->xmlElement("mattext");
+					$a_xml_writer->xmlEndTag("material");
+					$a_xml_writer->xmlEndTag("flow_mat");
+					$a_xml_writer->xmlEndTag("itemfeedback");
 				}
 			}
 			else
 			{
 				foreach ($gap as $index => $answer)
 				{
-					$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
 					$linkrefid = "";
 					if ($answer->isStateSet())
 					{
@@ -889,32 +845,32 @@ class ASS_ClozeTest extends ASS_Question
 					{
 						$linkrefid = "$i" . "_False_$index";
 					}
-					$qtiItemfeedback->set_attribute("ident", $linkrefid);
-					$qtiItemfeedback->set_attribute("view", "All");
+					$attrs = array(
+						"ident" => $linkrefid,
+						"view" => "All"
+					);
+					$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
 					// qti flow_mat
-					$qtiFlowmat = $this->domxml->create_element("flow_mat");
-					$qtiMaterial = $this->domxml->create_element("material");
-					$qtiMattext = $this->domxml->create_element("mattext");
-					// Insert response text for right/wrong answers here!!!
-					$qtiMattextText = $this->domxml->create_text_node("");
-					$qtiMattext->append_child($qtiMattextText);
-					$qtiMaterial->append_child($qtiMattext);
-					$qtiFlowmat->append_child($qtiMaterial);
-					$qtiItemfeedback->append_child($qtiFlowmat);
-					$qtiIdent->append_child($qtiItemfeedback);
+					$a_xml_writer->xmlStartTag("flow_mat");
+					$a_xml_writer->xmlStartTag("material");
+					$a_xml_writer->xmlElement("mattext");
+					$a_xml_writer->xmlEndTag("material");
+					$a_xml_writer->xmlEndTag("flow_mat");
+					$a_xml_writer->xmlEndTag("itemfeedback");
 				}
 			}
 		}
+		
+		$a_xml_writer->xmlEndTag("item");
+		$a_xml_writer->xmlEndTag("questestinterop");
 
-		$xml = $this->domxml->dump_mem(true);
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		if (!$a_include_header)
 		{
 			$pos = strpos($xml, "?>");
 			$xml = substr($xml, $pos + 2);
 		}
-//echo htmlentities($xml);
 		return $xml;
-
 	}
 
 	/**
