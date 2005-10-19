@@ -154,7 +154,7 @@ function updateCourse($sid,$course_id,$xml)
 
 	return $sca->updateCourse($sid,$course_id,$xml);
 }
-
+// Object admninistration
 function getObjectByReference($sid,$a_ref_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
@@ -199,5 +199,78 @@ function deleteObject($sid,$reference_id)
 
 	return $soa->deleteObject($sid,$reference_id);
 }
+// Rbac Tree functions
+function getOperations($sid)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->getOperations($sid);
+}
+
+
+function addUserRoleEntry($sid,$user_id,$role_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->addUserRoleEntry($sid,$user_id,$role_id);
+}	
 	
+function deleteUserRoleEntry($sid,$user_id,$role_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->deleteUserRoleEntry($sid,$user_id,$role_id);
+}
+
+function revokePermissions($sid,$ref_id,$role_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->revokePermissions($sid,$ref_id,$role_id);
+}
+
+function grantPermissions($sid,$ref_id,$role_id,$permissions)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->grantPermissions($sid,$ref_id,$role_id,$permissions);
+}
+
+function getLocalRoles($sid,$ref_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->getLocalRoles($sid,$ref_id);
+}
+
+function getUserRoles($sid,$user_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->getUserRoles($sid,$user_id);
+}
+
+function addRole($sid,$target_id,$obj_xml)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->addRole($sid,$target_id,$obj_xml);
+}
+
 ?>

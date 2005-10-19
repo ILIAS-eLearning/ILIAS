@@ -340,6 +340,137 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS deleteObject. Stores object in trash. If multiple references exist, only the reference is deleted ');
+
+		$this->server->register('addUserRoleEntry',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:int',
+									  'role_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addUserRoleEntry',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addUserRoleEntry. Assign user to role.');
+								
+		$this->server->register('deleteUserRoleEntry',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:int',
+									  'role_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#deleteUserRoleEntry',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS deleteUserRoleEntry. Deassign user from role.');
+
+
+		// Add complex type for operations e.g array(array('name' => 'read','ops_id' => 2),...)
+		$this->server->wsdl->addComplexType('ilOperation',
+											'complexType',
+											'struct',
+											'all',
+											'',
+											array('ops_id' => array('name' => 'ops_id',
+																	'type' => 'xsd:int'),
+												  'operation' => array('name' => 'operation',
+																	   'type' => 'xsd:string'),
+												  'description' => array('name' => 'description',
+																		 'type' => 'xsd:string')));
+		// Now create an array of ilOperations
+		$this->server->wsdl->addComplexType('ilOperations',
+											'complexType',
+											'array',
+											'',
+											'SOAP-ENC:Array',
+											array(),
+											array(array('ref' => 'SOAP-ENC:arrayType',
+														'wsdl:arrayType' => 'tns:ilOperation[]')),
+											'tns:ilOperation');
+		$this->server->register('getOperations',
+								array('sid' => 'xsd:string'),
+								array('operations' => 'tns:ilOperations'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getOperations',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getOperations(): get complete set of RBAC operations.');
+
+		$this->server->register('revokePermissions',
+								array('sid' => 'xsd:string',
+									  'ref_id' => 'xsd:int',
+									  'role_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#revokePermissions',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS revokePermissions(): Revoke all permissions for a specific role on an object.');
+
+		$this->server->wsdl->addComplexType('ilOperationIds',
+											'complexType',
+											'array',
+											'',
+											'SOAP-ENC:Array',
+											array(),
+											array(array('ref' => 'SOAP-ENC:arrayType',
+														'wsdl:arrayType' => 'xsd:int[]')),
+											'xsd:int');
+
+		$this->server->wsdl->addComplexType('intArray',
+											'complexType',
+											'array',
+											'',
+											'SOAP-ENC:Array',
+											array(),
+											array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:int[]')),
+											'xsd:int');
+
+		$this->server->register('grantPermissions',
+								array('sid' => 'xsd:string',
+									  'ref_id' => 'xsd:int',
+									  'role_id' => 'xsd:int',
+									  'operations' => 'tns:intArray'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#grantPermissions',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS grantPermissions(): Grant permissions for a specific role on an object. '.
+								'(Substitutes existing permission settings)');
+
+		$this->server->register('getLocalRoles',
+								array('sid' => 'xsd:string',
+									  'ref_id' => 'xsd:int'),
+								array('role_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getLocalRoles',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getLocalRoles(): Get all local roles assigned to an specific object. ');
+								
+		$this->server->register('getUserRoles',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:int'),
+								array('role_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getLocalRoles',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getUserRoles(): Get all local roles assigned to an specific user. ');
+
+		$this->server->register('addRole',
+								array('sid' => 'xsd:string',
+									  'target_id' => 'xsd:int',
+									  'obj_xml' => 'xsd:string'),
+								array('role_ids' => 'tns:intArray'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addRole',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addRole(): Creates new role under given node');
+
+								
+
 		return true;
 	}
 		
