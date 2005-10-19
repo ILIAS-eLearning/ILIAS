@@ -132,228 +132,169 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
 	{
-		if (!empty($this->domxml))
-		{
-			$this->domxml->free();
-		}
-		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
-		$this->domxml = domxml_open_mem($xml_header);
-		$root = $this->domxml->document_element();
-
-		// qti comment with version information
-		$qtiComment = $this->domxml->create_element("qticomment");
-
-		// qti ident
-		$qtiIdent = $this->domxml->create_element("item");
-		$qtiIdent->set_attribute("ident", "il_".IL_INST_ID."_qst_".$this->getId());
-		$qtiIdent->set_attribute("title", $this->getTitle());
-		$root->append_child($qtiIdent);
-
+		include_once("./classes/class.ilXmlWriter.php");
+		$a_xml_writer = new ilXmlWriter;
+		// set xml header
+		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlStartTag("questestinterop");
+		$attrs = array(
+			"ident" => "il_".IL_INST_ID."_qst_".$this->getId(),
+			"title" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("item", $attrs);
 		// add question description
-		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiIdent->append_child($qtiComment);
-
+		$a_xml_writer->xmlElement("qticomment", NULL, $this->getComment());
 		// add estimated working time
-		$qtiDuration = $this->domxml->create_element("duration");
 		$workingtime = $this->getEstimatedWorkingTime();
-		$qtiDurationText = $this->domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]));
-		$qtiDuration->append_child($qtiDurationText);
-		$qtiIdent->append_child($qtiDuration);
-
+		$duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
+		$a_xml_writer->xmlElement("duration", NULL, $duration);
 		// add ILIAS specific metadata
-		$qtiItemmetadata = $this->domxml->create_element("itemmetadata");
-		$qtiMetadata = $this->domxml->create_element("qtimetadata");
-		
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("ILIAS_VERSION");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node($this->ilias->getSetting("ilias_version"));
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("itemmetadata");
+		$a_xml_writer->xmlStartTag("qtimetadata");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "ILIAS_VERSION");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->ilias->getSetting("ilias_version"));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "QUESTIONTYPE");
+		$a_xml_writer->xmlElement("fieldentry", NULL, JAVAAPPLET_QUESTION_IDENTIFIER);
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlEndTag("qtimetadata");
+		$a_xml_writer->xmlEndTag("itemmetadata");
 
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("QUESTIONTYPE");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node(JAVAAPPLET_QUESTION_IDENTIFIER);
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("AUTHOR");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node($this->getAuthor());
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		
-		$qtiItemmetadata->append_child($qtiMetadata);
-		$qtiIdent->append_child($qtiItemmetadata);
-		
 		// PART I: qti presentation
-		$qtiPresentation = $this->domxml->create_element("presentation");
-		$qtiPresentation->set_attribute("label", $this->getTitle());
-
+		$attrs = array(
+			"label" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
-		$qtiFlow = $this->domxml->create_element("flow");
-
+		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$qtiMaterial = $this->domxml->create_element("material");
-		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatTextText = $this->domxml->create_text_node($this->getQuestion());
-		$qtiMatText->append_child($qtiMatTextText);
-		$qtiMaterial->append_child($qtiMatText);
-		$qtiFlow->append_child($qtiMaterial);
-
+		$a_xml_writer->xmlStartTag("material");
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
+		$a_xml_writer->xmlEndTag("material");
 		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 			{
-				$qtiMaterial = $this->domxml->create_element("material");
-				$qtiMaterial->set_attribute("label", "suggested_solution");
-				$qtiMatText = $this->domxml->create_element("mattext");
+				$a_xml_writer->xmlStartTag("material");
 				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
 				if (strcmp($matches[1], "") != 0)
 				{
 					$intlink = $solution["internal_link"];
 				}
-				$qtiMatTextText = $this->domxml->create_text_node($intlink);
-				$qtiMatText->append_child($qtiMatTextText);
-				$qtiMaterial->append_child($qtiMatText);
-				$qtiFlow->append_child($qtiMaterial);
+				$attrs = array(
+					"label" => "suggested_solution"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $intlink);
+				$a_xml_writer->xmlEndTag("material");
 			}
 		}
-		
-		$qtiMaterial = $this->domxml->create_element("material");
-		$qtiMatApplet = $this->domxml->create_element("matapplet");
-		$qtiMatApplet->set_attribute("label", "applet data");
-		$qtiMatApplet->set_attribute("uri", $this->getJavaAppletFilename());
-		$qtiMatApplet->set_attribute("height", $this->getJavaHeight());
-		$qtiMatApplet->set_attribute("width", $this->getJavaWidth());
-		$qtiMatApplet->set_attribute("embedded", "base64");
+
+		$a_xml_writer->xmlStartTag("material");
+		$attrs = array(
+			"label" => "applet data",
+			"uri" => $this->getJavaAppletFilename(),
+			"height" => $this->getJavaHeight(),
+			"width" => $this->getJavaWidth(),
+			"embedded" => "base64"
+		);
 		$javapath = $this->getJavaPath() . $this->getJavaAppletFilename();
 		$fh = @fopen($javapath, "rb");
 		if ($fh == false)
 		{
-			//global $ilErr;
-			//$ilErr->raiseError($this->lng->txt("error_open_java_file"), $ilErr->MESSAGE);
 			return;
 		}
 		$javafile = fread($fh, filesize($javapath));
 		fclose($fh);
 		$base64 = base64_encode($javafile);
-		$qtiBase64Data = $this->domxml->create_text_node($base64);
-		$qtiMatApplet->append_child($qtiBase64Data);
-		$qtiMaterial->append_child($qtiMatApplet);
+		$a_xml_writer->xmlElement("matapplet", $attrs, $base64);
+
 		if ($this->buildParamsOnly())
 		{
 			if ($this->java_code)
 			{
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", "java_code");
-				$qtiAppletParams = $this->domxml->create_text_node($this->java_code);
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
+				$attrs = array(
+					"label" => "java_code"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $this->java_code);
 			}
 			foreach ($this->parameters as $key => $value)
 			{
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", $value["name"]);
-				$qtiAppletParams = $this->domxml->create_text_node($value["value"]);
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
+				$attrs = array(
+					"label" => $value["name"]
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $value["value"]);
 			}
 			if ($test_output)
 			{
 				require_once "./assessment/classes/class.ilObjTest.php";
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", "test_type");
-				$qtiAppletParams = $this->domxml->create_text_node(ilObjTest::_getTestType($test_output));
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", "test_id");
-				$qtiAppletParams = $this->domxml->create_text_node($test_output);
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", "question_id");
-				$qtiAppletParams = $this->domxml->create_text_node($this->getId());
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", "user_id");
+				$attrs = array(
+					"label" => "test_type"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, ilObjTest::_getTestType($test_output));
+				$attrs = array(
+					"label" => "test_id"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $test_output);
+				$attrs = array(
+					"label" => "question_id"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $this->getId());
+				$attrs = array(
+					"label" => "user_id"
+				);
 				global $ilUser;
-				$qtiAppletParams = $this->domxml->create_text_node($ilUser->id);
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", "points_max");
-				$qtiAppletParams = $this->domxml->create_text_node($this->getPoints());
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
-				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatText->set_attribute("label", "post_url");
-				$qtiAppletParams = $this->domxml->create_text_node(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
-				$qtiMatText->append_child($qtiAppletParams);
-				$qtiMaterial->append_child($qtiMatText);
+				$a_xml_writer->xmlElement("mattext", $attrs, $ilUser->id);
+				$attrs = array(
+					"label" => "points_max"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $this->getPoints());
+				$attrs = array(
+					"label" => "post_url"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
+
 				$info = $this->getReachedInformation($ilUser->id, $test_output);
 				foreach ($info as $kk => $infodata)
 				{
-					$qtiMatText->append_child($qtiAppletParams);
-					$qtiMaterial->append_child($qtiMatText);
-					$qtiMatText = $this->domxml->create_element("mattext");
-					$qtiMatText->set_attribute("label", "value_" . $infodata["order"] . "_1");
-					$qtiAppletParams = $this->domxml->create_text_node($infodata["value1"]);
-					$qtiMatText->append_child($qtiAppletParams);
-					$qtiMaterial->append_child($qtiMatText);
-					$qtiMatText->append_child($qtiAppletParams);
-					$qtiMaterial->append_child($qtiMatText);
-					$qtiMatText = $this->domxml->create_element("mattext");
-					$qtiMatText->set_attribute("label", "value_" . $infodata["order"] . "_2");
-					$qtiAppletParams = $this->domxml->create_text_node($infodata["value2"]);
-					$qtiMatText->append_child($qtiAppletParams);
-					$qtiMaterial->append_child($qtiMatText);
+					$attrs = array(
+						"label" => "value_" . $infodata["order"] . "_1"
+					);
+					$a_xml_writer->xmlElement("mattext", $attrs, $infodata["value1"]);
+					$attrs = array(
+						"label" => "value_" . $infodata["order"] . "_2"
+					);
+					$a_xml_writer->xmlElement("mattext", $attrs, $infodata["value2"]);
 				}
 			}
 		}
+		$a_xml_writer->xmlEndTag("material");
+		$a_xml_writer->xmlStartTag("material");
+		$attrs = array(
+			"label" => "points"
+		);
+		$a_xml_writer->xmlElement("mattext", $attrs, $this->getPoints());
+		$a_xml_writer->xmlEndTag("material");
 
-		$qtiFlow->append_child($qtiMaterial);
+		$a_xml_writer->xmlEndTag("flow");
+		$a_xml_writer->xmlEndTag("presentation");
+		
+		$a_xml_writer->xmlEndTag("item");
+		$a_xml_writer->xmlEndTag("questestinterop");
 
-		// add available points as material
-		$qtiMaterial = $this->domxml->create_element("material");
-		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatText->set_attribute("label", "points");
-		$qtiMatTextText = $this->domxml->create_text_node($this->getPoints());
-		$qtiMatText->append_child($qtiMatTextText);
-		$qtiMaterial->append_child($qtiMatText);
-		$qtiFlow->append_child($qtiMaterial);
-
-		$qtiPresentation->append_child($qtiFlow);
-		$qtiIdent->append_child($qtiPresentation);
-
-		$xml = $this->domxml->dump_mem(true);
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		if (!$a_include_header)
 		{
 			$pos = strpos($xml, "?>");
 			$xml = substr($xml, $pos + 2);
 		}
-//echo htmlentities($xml);
 		return $xml;
-
 	}
 
 	/**

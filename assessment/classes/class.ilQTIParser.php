@@ -2450,7 +2450,7 @@ class ilQTIParser extends ilSaxParser
 				{
 					$this->mattext->setContent($a_data);
 				}
-				if (($this->in_presentation) && (!$this->in_response))
+				if (($this->in_presentation) && (!$this->in_response) && (strlen($this->mattext->getLabel()) == 0))
 				{
 					// question text
 					$this->item->setQuestiontext($a_data);
