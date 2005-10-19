@@ -44,7 +44,10 @@ class Session {
 */    
     function Session($sessionName="SESSID") {
         $this->sendNoCacheHeader();
-
+        
+        // force 4 hash bits per character for session_id	// Sascha Hofmann (2005-10-19)
+		ini_set("session.hash_bits_per_character","4");
+		
         //  Session-Namen setzen, Session initialisieren   
         session_name(isset($sessionName)
             ? $sessionName
