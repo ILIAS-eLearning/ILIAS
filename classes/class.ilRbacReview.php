@@ -424,7 +424,7 @@ class ilRbacReview
 		if (!count($role_arr))
 		{
 			$message = get_class($this)."::assignedRoles(): No assigned roles found or user does not exist!";
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			#$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		return $role_arr;
@@ -632,6 +632,28 @@ class ilRbacReview
 
 		return $childs[0] ? $childs[0] : array();
 	}
+
+	/**
+	* get all possible operations 
+	* @access	public
+	* @return	array	array of operation_id
+	*/
+	function getOperations()
+	{
+
+		$query = "SELECT * FROM rbac_operations ORDER BY ops_id ";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ops[] = array('ops_id' => $row->ops_id,
+						   'operation' => $row->operation,
+						   'description' => $row->description);
+		}
+
+		return $ops ? $ops : array();
+	}
+
 
 	/**
 	* get all possible operations of a specific role

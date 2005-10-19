@@ -29,7 +29,7 @@
 * @version $Id$
 *
 * @extends ilSaxParser
-* @package course
+* @package common
 */
 
 include_once 'classes/class.ilSaxParser.php';
@@ -157,9 +157,11 @@ class ilObjectXMLParser extends ilSaxParser
 				break;
 
 			case 'CreateDate':
+				$this->__addProperty('create_date',trim($this->cdata));
 				break;
 
 			case 'LastUpdate':
+				$this->__addProperty('last_update',trim($this->cdata));
 				break;
 				
 			case 'ImportId':
@@ -167,6 +169,7 @@ class ilObjectXMLParser extends ilSaxParser
 				break;
 
 			case 'References':
+				$this->__addReference(trim($this->cdata));
 				break;
 		}
 
@@ -183,7 +186,6 @@ class ilObjectXMLParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
-		// call meta data handler
 		if($a_data != "\n")
 		{
 			// Replace multiple tabs with one space
@@ -199,6 +201,14 @@ class ilObjectXMLParser extends ilSaxParser
 	function __addProperty($a_name,$a_value)
 	{
 		$this->object_data[$this->curr_obj][$a_name] = $a_value;
+	}
+
+	function __addReference($a_value)
+	{
+		if($a_value)
+		{
+			$this->object_data[$this->curr_obj]['references'][] = $a_value;
+		}
 	}
 
 }
