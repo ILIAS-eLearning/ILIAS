@@ -1298,9 +1298,9 @@ class ilQTIParser extends ilSaxParser
 								case "response":
 									$response = $presentation->response[$entry["index"]];
 									$rendertype = $response->getRenderType();
-									switch (get_class($response->getRenderType()))
+									switch (strtolower(get_class($response->getRenderType())))
 									{
-										case "ilQTIRenderChoice":
+										case "ilqtirenderchoice":
 											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
 											foreach ($rendertype->response_labels as $response_label)
@@ -1426,12 +1426,12 @@ class ilQTIParser extends ilSaxParser
 									$response = $presentation->response[$entry["index"]];
 									$rendertype = $response->getRenderType(); 
 									array_push($questiontext, "<<" . $response->getIdent() . ">>");
-									switch (get_class($response->getRenderType()))
+									switch (strtolower(get_class($response->getRenderType())))
 									{
-										case "ilQTIRenderFib":
+										case "ilqtirenderfib":
 											array_push($gaps, array("ident" => $response->getIdent(), "type" => "text", "answers" => array()));
 											break;
-										case "ilQTIRenderChoice":
+										case "ilqtirenderchoice":
 											$answers = array();
 											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
@@ -1603,9 +1603,9 @@ class ilQTIParser extends ilSaxParser
 								case "response":
 									$response = $presentation->response[$entry["index"]];
 									$rendertype = $response->getRenderType();
-									switch (get_class($rendertype))
+									switch (strtolower(get_class($rendertype)))
 									{
-										case "ilQTIRenderChoice":
+										case "ilqtirenderchoice":
 											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
 											foreach ($rendertype->response_labels as $response_label)
@@ -1808,9 +1808,9 @@ class ilQTIParser extends ilSaxParser
 								case "response":
 									$response = $presentation->response[$entry["index"]];
 									$rendertype = $response->getRenderType(); 
-									switch (get_class($rendertype))
+									switch (strtolower(get_class($rendertype)))
 									{
-										case "ilQTIRenderChoice":
+										case "ilqtirenderchoice":
 											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
 											foreach ($rendertype->response_labels as $response_label)
@@ -1980,9 +1980,9 @@ class ilQTIParser extends ilSaxParser
 								case "response":
 									$response = $presentation->response[$entry["index"]];
 									$rendertype = $response->getRenderType(); 
-									switch (get_class($rendertype))
+									switch (strtolower(get_class($rendertype)))
 									{
-										case "ilQTIRenderHotspot":
+										case "ilqtirenderhotspot":
 											foreach ($rendertype->material as $mat)
 											{
 												foreach ($mat->matimage as $matimage)
@@ -2235,9 +2235,9 @@ class ilQTIParser extends ilSaxParser
 								case "response":
 									$response = $presentation->response[$entry["index"]];
 									$rendertype = $response->getRenderType(); 
-									switch (get_class($rendertype))
+									switch (strtolower(get_class($rendertype)))
 									{
-										case "ilQTIRenderFib":
+										case "ilqtirenderfib":
 											$maxchars = $rendertype->getMaxchars();
 											break;
 									}
