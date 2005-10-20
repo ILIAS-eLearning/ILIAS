@@ -652,8 +652,27 @@ class ilRbacReview
 		}
 
 		return $ops ? $ops : array();
-	}
+ 	}
 
+	/**
+	* get one operation by operation id
+	* @access	public
+	* @return	array data of operation_id
+	*/
+	function getOperation($ops_id)
+	{
+		$query = "SELECT * FROM rbac_operations WHERE ops_id = '".ilUtil::prepareDBString($ops_id)."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ops = array('ops_id' => $row->ops_id,
+						 'operation' => $row->operation,
+						 'description' => $row->description);
+		}
+
+		return $ops ? $ops : array();
+	}
 
 	/**
 	* get all possible operations of a specific role
@@ -737,6 +756,23 @@ class ilRbacReview
 		return $ops_id ? $ops_id : array();
 	}
 
+	/**
+	* all possible operations of a type
+	* @access	public
+	* @param	integer		object_ID of type
+	* @return	array		valid operation_IDs
+	*/
+	function getOperationsOnTypeString($a_type)
+	{
+		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = '".ilUtil::prepareDBString($a_type)."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $this->getOperationsOnType($row->obj_id);
+		}
+		return false;
+	}
 	/**
 	* get all objects in which the inheritance of role with role_id was stopped
 	* the function returns all reference ids of objects containing a role folder.

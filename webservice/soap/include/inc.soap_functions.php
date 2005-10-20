@@ -78,6 +78,16 @@ function updateUser($sid,$user_data)
 
 	return $sua->updateUser($sid,$user_data);
 }
+
+function updatePassword($sid,$user_id,$new_password)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->updatePassword($sid,$user_id,$new_password);
+}
+	
 function addUser($sid,$user_data,$global_role_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
@@ -199,6 +209,24 @@ function deleteObject($sid,$reference_id)
 
 	return $soa->deleteObject($sid,$reference_id);
 }
+
+function searchObjects($sid,$types,$key,$combination)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->searchObjects($sid,$types,$key,$combination);
+}	
+
+function getTreeChilds($sid,$ref_id,$types)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getTreeChilds($sid,$ref_id,$types);
+}	
 // Rbac Tree functions
 function getOperations($sid)
 {
@@ -272,5 +300,15 @@ function addRole($sid,$target_id,$obj_xml)
 
 	return $soa->addRole($sid,$target_id,$obj_xml);
 }
+
+function getObjectTreeOperations($sid,$ref_id,$user_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->getObjectTreeOperations($sid,$ref_id,$user_id);
+}
+	
 
 ?>

@@ -571,6 +571,26 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* replaces password with new md5 hash
+	* @param	string	new password as md5
+	* @return	boolean	true on success; otherwise false
+	* @access	public
+	*/
+	function replacePassword($new_md5)
+	{
+		$this->passwd_type = IL_PASSWD_MD5;
+		$this->passwd = $new_md5;
+
+		$q = "UPDATE usr_data SET ".
+			 "passwd='".$this->passwd."' ".
+			 "WHERE usr_id='".$this->id."'";
+
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+
+	/**
 	* updates password
 	* @param	string	old password as plaintext
 	* @param	string	new password1 as plaintext

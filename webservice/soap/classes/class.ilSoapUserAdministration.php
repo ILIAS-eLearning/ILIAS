@@ -165,8 +165,32 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$user_obj->update();
 
 		return true;
-	}		
+	}
 
+	function updatePassword($sid,$user_id,$new_password)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
+
+		if(!$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false))
+		{
+			return $this->__raiseError('No valid user_id given.','Client');
+		}
+
+		$tmp_user->replacePassword($new_password);
+
+		return true;
+	}
 
 	function addUser($sid,$user_data,$global_role_id)
 	{
