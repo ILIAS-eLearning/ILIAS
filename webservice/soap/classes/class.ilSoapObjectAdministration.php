@@ -126,6 +126,130 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		return $this->__raiseError('Cannot create object xml !','Server');
 	}
 
+	function searchObjects($sid,$types,$key,$combination)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_array($types))
+		{
+			return $this->__raiseError('Types must be an array of object types.',
+									   'Client');
+		}
+		if($combination != 'and' and $combination != 'or')
+		{
+			return $this->__raiseError('No valid combination given. Must be "and" or "or".',
+									   'Client');
+		}
+			
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		include_once './Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser =& new ilQueryParser($key);
+		$query_parser->setMinWordLength(3);
+		$query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
+		$query_parser->parse();
+		if(!$query_parser->validate())
+		{
+			return $this->__raiseError($query_parser->getMessage(),
+									   'Client');
+		}
+
+		include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
+
+		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+		$object_search->setFilter($types);
+		$res =& $object_search->performSearch();
+
+
+		// Limit to 30 objects
+		$counter = 0;
+		$objs = array();
+		foreach($res->getEntries() as $entry)
+		{
+			if(++$counter == 30)
+			{
+				break;
+			}
+			$objs[] = ilObjectFactory::getInstanceByObjId($entry['obj_id'],false);
+		}
+		if(!count($objs))
+		{
+			return '';
+		}
+
+		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+
+		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->setObjects($objs);
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+
+		return $this->__raiseError('Cannot create object xml !','Server');
+	}
+
+	function getTreeChilds($sid,$ref_id,$types)
+	{
+		$all = false;
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
+		{
+			return $this->__raiseError('No valid reference id given.',
+									   'Client');
+		}
+		if(!$types)
+		{
+			$all = true;
+		}
+		$filter = is_array($types) ? $types : array();
+
+		foreach($tree->getChilds($ref_id,'title') as $child)
+		{
+			if($all or in_array($child['type'],$types))
+			{
+				if($tmp = ilObjectFactory::getInstanceByRefId($child['ref_id'],false))
+				{
+					$objs[] = $tmp;
+				}
+			}
+		}
+
+		if(!$objs)
+		{
+			return '';
+		}
+
+		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+
+		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->setObjects($objs);
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+
+		return $this->__raiseError('Cannot create object xml !','Server');
+	}
+
+		
+		
+			
+	
+
 	function addObject($sid,$a_target_id,$a_xml)
 	{
 		if(!$this->__checkSession($sid))

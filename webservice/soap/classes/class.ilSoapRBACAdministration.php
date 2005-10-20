@@ -325,7 +325,47 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		return $new_roles ? $new_roles : array();
 	}
-				
+
+	function getObjectTreeOperations($sid,$ref_id,$user_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
 		
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
+		{
+			return $this->__raiseError('No valid ref id given. Please choose an existing reference id of an ILIAS object',
+									   'Client');
+		}
+		if(!$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false))
+		{
+			return $this->__raiseError('No valid user id given.',
+									   'Client');
+		}
+
+		$ops = $rbacreview->getOperationsOnTypeString($tmp_obj->getType());
+		$ops_data = array();
+		foreach(ilObject::_getAllReferences($tmp_obj->getId()) as $all_ref_id)
+		{
+			foreach($ops as $ops_id)
+			{
+				$op_data = $rbacreview->getOperation($ops_id);
+				if($rbacsystem->checkAccessOfUser($user_id,$op_data['operation'],$all_ref_id))
+				{
+					$ops_data[$ops_id] = $op_data;
+				}
+			}
+		}
+		
+		foreach($ops_data as $data)
+		{
+			$ret_data[] = $data;
+		}
+		return $ret_data ? $ret_data : array();
+	}
 }
 ?>

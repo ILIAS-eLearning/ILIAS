@@ -80,6 +80,27 @@ class ilNusoapUserAdministrationAdapter
 
 	function __registerMethods()
 	{
+
+		// Add useful complex types. E.g. array("a","b") or array(1,2)
+		$this->server->wsdl->addComplexType('intArray',
+											'complexType',
+											'array',
+											'',
+											'SOAP-ENC:Array',
+											array(),
+											array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:int[]')),
+											'xsd:int');
+
+
+		$this->server->wsdl->addComplexType('stringArray',
+											'complexType',
+											'array',
+											'',
+											'SOAP-ENC:Array',
+											array(),
+											array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')),
+											'xsd:string');
+
 		// It's not possible to register classes in nusoap
 		
 		// login()
@@ -177,6 +198,18 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS updateUser(). Updates all user data. '.
 								'Use getUser(), then modify desired fields and finally start the updateUser() call.');
+		// Update password
+		$this->server->register('updatePassword',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:int',
+									  'new_password' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#updatePassword',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS updatePassword(). Updates password of given user. Password must be MD5 hash');
+								
 
 		// addUser()
 		$this->server->register('addUser',
@@ -307,6 +340,33 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getObjectsByTitle(). Get XML-description of an ILIAS object with given title');
 
+		$this->server->register('searchObjects',
+								array('sid' => 'xsd:string',
+									  'types' => 'tns:stringArray',
+									  'key' => 'xsd:string',
+									  'combination' => 'xsd:string'),
+								array('object_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#searchObjects',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS searchObjects(): Searches for objects. Key is within "title" or "description" '.
+								'Typical calls are searchObject($sid,array("lm","crs"),"\"this and that\"","and"); ');
+
+		$this->server->register('getTreeChilds',
+								array('sid' => 'xsd:string',
+									  'ref_id' => 'xsd:int',
+									  'types' => 'tns:stringArray'),
+								array('object_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getTreeChilds',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getTreeChilds(): Get all child objects of a given object.'.
+								'Choose array of types to filter the output. Choose empty type array to receive all object types');
+
+
+
 		$this->server->register('addObject',
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
@@ -416,15 +476,6 @@ class ilNusoapUserAdministrationAdapter
 														'wsdl:arrayType' => 'xsd:int[]')),
 											'xsd:int');
 
-		$this->server->wsdl->addComplexType('intArray',
-											'complexType',
-											'array',
-											'',
-											'SOAP-ENC:Array',
-											array(),
-											array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:int[]')),
-											'xsd:int');
-
 		$this->server->register('grantPermissions',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
@@ -469,7 +520,18 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addRole(): Creates new role under given node');
 
-								
+		$this->server->register('getObjectTreeOperations',
+								array('sid' => 'xsd:string',
+									  'ref_id' => 'xsd:int',
+									  'user_id' => 'xsd:int'),
+								array('operations' => 'tns:ilOperations'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getPermissionsForObject',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getObjectTreeOperations(): Get all granted permissions for all references of '.
+								'an object for a specific user. Returns array of granted operations or empty array');
+
 
 		return true;
 	}
