@@ -25,6 +25,7 @@
 * Explorer View for Bookmarks
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Manfred Thaler <manfred.thaler@endo7.com>
 * @version $Id$
 *
 * @package ilias-core

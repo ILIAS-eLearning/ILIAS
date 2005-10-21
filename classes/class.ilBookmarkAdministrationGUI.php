@@ -127,6 +127,9 @@ class ilBookmarkAdministrationGUI
 			case "export":
 				$this->export();
 				break;
+			case "sendmail":
+				$this->sendmail();
+				break;
 			default:
 				$this->view();
 				break;
@@ -701,7 +704,7 @@ class ilBookmarkAdministrationGUI
 	/**
 	* export bookmarks
 	*/
-	function export()
+	function export($deliver=true)
 	{
 		if (!isset($_POST["id"]))
 		{
@@ -716,11 +719,40 @@ class ilBookmarkAdministrationGUI
 		require_once ("classes/class.ilBookmarkImportExport.php");
 		$html_content=ilBookmarkImportExport::_exportBookmark ($export_ids,true,
 			$this->lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname());
-		ilUtil::deliverData($html_content, 'bookmarks.html', "application/save", $charset = "");
-		//echo '<pre>fff'.htmlspecialchars($html_content).'</pre>';
-
+		if ($deliver)
+		{
+			ilUtil::deliverData($html_content, 'bookmarks.html', "application/save", $charset = "");
+		}
+		else
+		{
+			return $html_content;
+		}
 	}
+	/**
+	* send  bookmarks as attachment
+	*/
+	function sendmail()
+	{
+		global $ilUser;
+		include_once 'classes/class.ilFileDataMail.php';
+		require_once "classes/class.ilFormatMail.php";
+		$mfile = new ilFileDataMail($ilUser->getId());
+		$umail = new ilFormatMail($ilUser->getId());
 
+
+		$html_content=$this->export(false);
+		$tempfile=ilUtil::ilTempnam();
+		$fp=fopen($tempfile,'w');
+		fwrite($fp, $html_content);
+		fclose($fp);
+		$filename='bookmarks.html';
+		$mfile->copyAttachmentFile($tempfile,$filename);
+		$umail->savePostData($ilUser->getId(),array($filename),
+						 '','','','','',
+						 '',
+						 '');
+		ilUtil::redirect('mail_frameset.php?target='.urlencode("mail_new.php?type=attach"));
+	}
 	/**
 	* display deletion conformation screen
 	*/
@@ -925,6 +957,7 @@ class ilBookmarkAdministrationGUI
 		$actions = array(
 				"delete"=>$this->lng->txt("delete"),
 				"export"=>$this->lng->txt("export"),
+				"sendmail"=>$this->lng->txt("bkm_sendmail"),
 		);
 
 		if (count($d) > 0)

@@ -22,7 +22,6 @@
 */
 /**
 * bookmark import export
-* (note: this class handles personal bookmarks folders only)
 *
 * @author Manfred Thaler <manfred.thaler@endo7.com>
 * @version $Id$
@@ -137,8 +136,8 @@ class ilBookmarkImportExport
 		$htmlCont.='<!-- Created by ilias - www.ilias.de -->'."\n";
 		$htmlCont.='<!-- on '.date('r').' -->'."\n\n";
 		$htmlCont.='<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">'."\n";
-		$htmlCont.='<TITLE>'.$title.'</TITLE>'."\n";
-		$htmlCont.='<H1>'.$title.'</H1>'."\n\n";
+		$htmlCont.='<TITLE>'.ilUtil::prepareFormOutput($title).'</TITLE>'."\n";
+		$htmlCont.='<H1>'.ilUtil::prepareFormOutput($title).'</H1>'."\n\n";
 		$htmlCont.='<DL><p>'."\n";
 		foreach ($obj_ids as $obj_id) {
 			$object=ilBookmarkFolder::getObject($obj_id);
