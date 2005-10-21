@@ -338,7 +338,7 @@ class ilNote
 	* get all notes related to a specific object
 	*/
 	function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
-		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false)
+		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "")
 	{
 		global $ilDB, $ilUser;
 		
@@ -363,6 +363,17 @@ class ilNote
 		$notes = array();
 		while($note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
+			if ($a_filter != "")
+			{
+				if (!is_array($a_filter))
+				{
+					$a_filter = array($a_filter);
+				}
+				if (!in_array($note_rec["id"], $a_filter))
+				{
+					continue;
+				}
+			}
 			$cnt = count($notes);
 			$notes[$cnt] = new ilNote();
 			$notes[$cnt]->setAllData($note_rec);
