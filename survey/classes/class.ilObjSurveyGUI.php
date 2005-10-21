@@ -2582,7 +2582,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("svy_export_files"));
 
-		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("svy_file"),
+		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setChecked('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("svy_file"),
 			$this->lng->txt("svy_size"), $this->lng->txt("date") ));
 
 		$tbl->enabled["sort"] = false;

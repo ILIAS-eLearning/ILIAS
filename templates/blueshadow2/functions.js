@@ -70,14 +70,14 @@ function CheckAllBoxes(form){
 }
 
 /**
- * Checks/unchecks all checkboxes
+ * Checks/unchecks checkboxes
  *
  * @param   string   the form name
+ * @param   string   the checkbox name (or the first characters of the name, if unique)
  * @param   boolean  whether to check or to uncheck the element
- *
  * @return  boolean  always true
  */
-function setCheckboxes(the_form, checkbox_name, do_check)
+function setChecked(the_form, checkbox_name, do_check)
 {
 	for (var i=0;i<document.forms[the_form].elements.length;i++)
 	{

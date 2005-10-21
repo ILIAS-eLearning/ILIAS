@@ -30,7 +30,7 @@
 <!-- BEGIN user_result -->
 <h2>{TEXT_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_user_select_check_all" value="1" onclick="setCheckboxes('formuserselect', 'user_select', document.formuserselect.chb_user_select_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_user_select_check_all" value="1" onclick="setChecked('formuserselect', 'user_select', document.formuserselect.chb_user_select_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
 <!-- BEGIN user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="user_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -44,7 +44,7 @@
 <!-- BEGIN group_result -->
 <h2>{TEXT_GROUP_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_group_select_check_all" value="1" onclick="setCheckboxes('formuserselect', 'group_select', document.formuserselect.chb_group_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_group_select_check_all" value="1" onclick="setChecked('formuserselect', 'group_select', document.formuserselect.chb_group_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
 <!-- BEGIN group_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="group_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
@@ -57,7 +57,7 @@
 <!-- BEGIN selected_user_result -->
 <h2>{TEXT_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_selected_users_check_all" value="1" onclick="setCheckboxes('formuserselect', 'selected_users', document.formuserselect.chb_selected_users_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_selected_users_check_all" value="1" onclick="setChecked('formuserselect', 'selected_users', document.formuserselect.chb_selected_users_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
 <!-- BEGIN selected_user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="selected_users[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -73,7 +73,7 @@
 <!-- BEGIN selected_group_result -->
 <h2>{TEXT_GROUP_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_selected_groups_check_all" value="1" onclick="setCheckboxes('formuserselect', 'selected_groups', document.formuserselect.chb_selected_groups_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_selected_groups_check_all" value="1" onclick="setChecked('formuserselect', 'selected_groups', document.formuserselect.chb_selected_groups_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
 <!-- BEGIN selected_group_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="selected_groups[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>

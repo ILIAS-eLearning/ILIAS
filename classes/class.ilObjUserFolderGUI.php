@@ -1958,7 +1958,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("userfolder_export_files"));
 
-		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("userfolder_export_file"),
+		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setChecked('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("userfolder_export_file"),
 			$this->lng->txt("userfolder_export_file_size"), $this->lng->txt("date") ));
 
 		$tbl->enabled["sort"] = false;
