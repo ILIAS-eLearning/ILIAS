@@ -1300,18 +1300,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
-		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$this->tpl->parseCurrentBlock();
-
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
@@ -1342,6 +1330,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("selectall");
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
+
+			// delete button
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
 			$this->tpl->parseCurrentBlock();
 		} //if is_array
 		else
@@ -1407,7 +1407,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "export");
 		}
 
 		//$this->setTabs();
