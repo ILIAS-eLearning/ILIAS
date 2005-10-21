@@ -5291,3 +5291,4 @@ common#:#links_no_name_given#:#Bitte geben Sie einen Parameternamen ein.
 common#:#links_parameter_deleted#:#Der Parameter wurde gelöscht.
 common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
+common#:#bkm_sendmail#:#Als Anhang versenden

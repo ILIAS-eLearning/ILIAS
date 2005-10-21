@@ -26,6 +26,7 @@
 * (note: this class handles personal bookmarks folders only)
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Manfred Thaler <manfred.thaler@endo7.com>
 * @version $Id$
 *
 * @package application
