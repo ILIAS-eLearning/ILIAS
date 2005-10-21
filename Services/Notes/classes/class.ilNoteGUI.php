@@ -129,8 +129,13 @@ class ilNoteGUI
 			? "private"
 			: "public";
 		
+		if ($this->delete_note)
+		{
+			$filter = $_GET["note_id"];
+		}
+		
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
-			$this->obj_type, $a_type, $this->inc_sub);
+			$this->obj_type, $a_type, $this->inc_sub, $filter);
 		
 		$tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
 		
@@ -155,11 +160,14 @@ class ilNoteGUI
 		// show add new note button
 		if (!$this->add_note_form && !$this->edit_note_form)
 		{
-			$tpl->setCurrentBlock("add_note_btn");
-			$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("add_note"));
-			$tpl->setVariable("LINK_ADD_NOTE", $ilCtrl->getLinkTargetByClass("ilnotegui", "addNoteForm").
-				"#note_edit");
-			$tpl->parseCurrentBlock();
+			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
+			{						// are displayed
+				$tpl->setCurrentBlock("add_note_btn");
+				$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("add_note"));
+				$tpl->setVariable("LINK_ADD_NOTE", $ilCtrl->getLinkTargetByClass("ilnotegui", "addNoteForm").
+					"#note_edit");
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		// show show/hide button for note list
@@ -255,6 +263,18 @@ class ilNoteGUI
 					// edit note button
 					if ($note->getAuthor() == $ilUser->getId())
 					{
+						// only private notes can be deleted
+						if ($a_type == IL_NOTE_PRIVATE)
+						{
+							$tpl->setCurrentBlock("delete_note");
+							$tpl->setVariable("TXT_DELETE_NOTE", $lng->txt("delete"));
+							$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
+							$tpl->setVariable("LINK_DELETE_NOTE",
+								$ilCtrl->getLinkTargetByClass("ilnotegui", "deleteNote")
+								."#note_edit");
+							$tpl->parseCurrentBlock();
+						}
+
 						$tpl->setCurrentBlock("edit_note");
 						$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
 						$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
@@ -471,6 +491,15 @@ class ilNoteGUI
 	function editNoteForm()
 	{
 		$this->edit_note_form = true;
+		return $this->getNotesHTML();
+	}
+
+	/**
+	* get notes list including add note area
+	*/ 
+	function deleteNote()
+	{
+		$this->delete_note = true;
 		return $this->getNotesHTML();
 	}
 	
