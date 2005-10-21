@@ -1,3 +1,17 @@
+<script type="text/javascript">
+<!--
+function setCheckboxes(a_form, a_varname, a_elements, a_check)
+{
+	for(i=0;i<a_elements.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_varname + a_elements[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_varname + a_elements[i]].checked = a_check;
+    	}
+    }
+
+    return true;
+}
+//-->
+</script>
 <!-- BEGIN tbl_form_header -->
 <form action="{FORMACTION}" name="ObjectItems" method="post" target="{ACTIONTARGET}">
 <!-- END tbl_form_header -->
