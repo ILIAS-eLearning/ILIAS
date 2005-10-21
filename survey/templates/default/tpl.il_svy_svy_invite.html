@@ -51,7 +51,7 @@
 <!-- BEGIN user_result -->
 <h2>{TEXT_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_user_select_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_user_select_check_all" value="1" onclick="setChecked('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
 <!-- BEGIN user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="user_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -65,7 +65,7 @@
 <!-- BEGIN group_result -->
 <h2>{TEXT_GROUP_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_group_select_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_group_select_check_all" value="1" onclick="setChecked('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
 <!-- BEGIN group_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="group_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
@@ -78,7 +78,7 @@
 <!-- BEGIN invited_user_result -->
 <h2>{TEXT_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_users_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'invited_users', document.frm_invitation.chb_invited_users_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_users_check_all" value="1" onclick="setChecked('frm_invitation', 'invited_users', document.frm_invitation.chb_invited_users_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
 <!-- BEGIN invited_user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_users[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -94,7 +94,7 @@
 <!-- BEGIN invited_group_result -->
 <h2>{TEXT_GROUP_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_groups_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'invited_groups', document.frm_invitation.chb_invited_groups_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_groups_check_all" value="1" onclick="setChecked('frm_invitation', 'invited_groups', document.frm_invitation.chb_invited_groups_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
 <!-- BEGIN invited_group_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_groups[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>

@@ -1733,7 +1733,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		if (!$force_active)
 		{
-			$force_active = ($this->ctrl->getCmdClass() == strtolower(get_class($this)) &&
+			$force_active = (strtolower($this->ctrl->getCmdClass()) == strtolower(get_class($this)) &&
 				$this->ctrl->getCmd() == "")
 				? true
 				: false;

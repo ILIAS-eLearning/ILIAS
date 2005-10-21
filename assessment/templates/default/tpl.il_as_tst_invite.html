@@ -30,7 +30,7 @@
 <!-- BEGIN user_result -->
 <h2>{TEXT_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_user_select_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td><td class="std">{TEXT_CLIENT_IP}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_user_select_check_all" value="1" onclick="setChecked('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td><td class="std">{TEXT_CLIENT_IP}</td></tr>
 <!-- BEGIN user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="user_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -45,7 +45,7 @@
 <!-- BEGIN group_result -->
 <h2>{TEXT_GROUP_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_group_select_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_group_select_check_all" value="1" onclick="setChecked('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
 <!-- BEGIN group_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="group_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
@@ -58,7 +58,7 @@
 <!-- BEGIN role_result -->
 <h2>{TEXT_ROLE_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_role_select_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'role_select', document.frm_invitation.chb_role_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_role_select_check_all" value="1" onclick="setChecked('frm_invitation', 'role_select', document.frm_invitation.chb_role_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
 <!-- BEGIN role_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="role_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
@@ -71,7 +71,7 @@
 <!-- BEGIN invited_user_result -->
 <h2>{TEXT_INVITED_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_users_check_all" value="1" onclick="setCheckboxes('frm_invitation', 'invited_users', document.frm_invitation.chb_invited_users_check_all.checked);" /></td><td class="std">{TEXT_IV_LOGIN}</td><td class="std">{TEXT_IV_FIRSTNAME}</td><td class="std">{TEXT_IV_LASTNAME}</td><td class="std">{TEXT_IV_CLIENT_IP}</td><td class="std">{TEXT_IV_TEST_STARTED}</td><td class="std">{TEXT_IV_TEST_FINISHED}</td></tr>
+<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_users_check_all" value="1" onclick="setChecked('frm_invitation', 'invited_users', document.frm_invitation.chb_invited_users_check_all.checked);" /></td><td class="std">{TEXT_IV_LOGIN}</td><td class="std">{TEXT_IV_FIRSTNAME}</td><td class="std">{TEXT_IV_LASTNAME}</td><td class="std">{TEXT_IV_CLIENT_IP}</td><td class="std">{TEXT_IV_TEST_STARTED}</td><td class="std">{TEXT_IV_TEST_FINISHED}</td></tr>
 <!-- BEGIN invited_user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_users[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="10%">{VALUE_IV_LOGIN}</td>
