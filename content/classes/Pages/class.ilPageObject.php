@@ -1824,7 +1824,7 @@ class ilPageObject
 
 			// fix for ie explorer which is not able to produce empty line feeds with <br /><br />; 
 			// workaround: add a space after each br.
-			$newcontent = str_replace("\n", "<br/> ", $rows);
+			$newcontent = str_replace("\n", "<br/>", $rows);
 						
 			$context_node->set_content($newcontent);
 			if ($outputmode != "presentation" && is_object($this->offline_handler)
