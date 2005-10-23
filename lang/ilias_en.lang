@@ -165,6 +165,7 @@ assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
 assessment#:#create_imagemap#:#Create an Image map
 assessment#:#create_new#:#Create new
+assessment#:#definition#:#Definition
 assessment#:#delete_area#:#Delete area
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
@@ -307,6 +308,7 @@ assessment#:#passed_official#:#passed
 assessment#:#passed_short#:#passed
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
 assessment#:#percentile#:#Percentile
+assessment#:#picture#:#Picture
 assessment#:#please_select#:#-- please select --
 assessment#:#points#:#Points
 assessment#:#points_short#:#Pt.
@@ -413,6 +415,7 @@ assessment#:#statistical_data#:#Statistical data
 assessment#:#statistics#:#Statistics
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
 assessment#:#symbol#:#Symbol
+assessment#:#term#:#Term
 assessment#:#test_cancelled#:#The test was cancelled
 assessment#:#text_answers_saved#:#Essay points modified!
 assessment#:#text_gap#:#Text gap
