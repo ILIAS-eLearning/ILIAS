@@ -21,43 +21,63 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjRootFolderAccess
-*
+* Class ilObjRootFolderListGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
+* $Id$
 *
-* @package AccessControl
+* @extends ilObjectListGUI
 */
-class ilObjRootFolderAccess extends ilObjectAccess
+
+
+include_once "class.ilObjectListGUI.php";
+
+class ilObjRootFolderListGUI extends ilObjectListGUI
 {
 	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	function _getCommands()
+	* constructor
+	*
+	*/
+	function ilObjRootFolderListGUI()
 	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "render", "lang_var" => "show",
-				"default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
-		
-		return $commands;
+		$this->ilObjectListGUI();
 	}
 
-}
+	/**
+	* initialisation
+	*/
+	function init()
+	{
+		$this->delete_enabled = true;
+		$this->cut_enabled = true;
+		$this->subscribe_enabled = true;
+		$this->link_enabled = false;
+		$this->payment_enabled = false;
+		$this->type = "root";
+		$this->gui_class_name = "ilobjrootfoldergui";
 
+		// general commands array
+		include_once('class.ilObjRootFolderAccess.php');
+		$this->commands = ilObjRootFolderAccess::_getCommands();
+	}
+
+	/**
+	* Get command link url.
+	*
+	* @param	int			$a_ref_id		reference id
+	* @param	string		$a_cmd			command
+	*
+	*/
+	function getCommandLink($a_cmd)
+	{
+		// separate method for this line
+		$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+
+		return $cmd_link;
+	}
+
+
+} // END class.ilObjRootFolderGUI
 ?>

@@ -98,8 +98,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
+			$force_active = ($_GET["cmd"] == "edit")
+				? true
+				: false;
 			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
+				, "", $force_active);
 		}
 
 		if($rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))

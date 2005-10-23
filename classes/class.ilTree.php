@@ -1584,6 +1584,29 @@ class ilTree
 	}
 
 	/**
+	* get left value of given node
+	* @access	public
+	* @param	integer	node id
+	* @return	integer	left value
+	*/
+	function getLeftValue($a_node_id)
+	{
+		if (!isset($a_node_id))
+		{
+			$this->ilErr->raiseError(get_class($this)."::getLeftValued(): No node_id given! ",$this->ilErr->WARNING);
+		}
+
+		$q = "SELECT lft FROM ".$this->table_tree." ".
+			 "WHERE child='".$a_node_id."' ".
+			 "AND ".$this->tree_pk."='".$this->tree_id."'";
+		$r = $this->ilDB->query($q);
+
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return $row->lft;
+	}
+
+	/**
 	* get sequence number of node in sibling sequence
 	* @access	public
 	* @param	array		node

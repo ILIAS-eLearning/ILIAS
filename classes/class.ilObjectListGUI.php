@@ -47,6 +47,7 @@ class ilObjectListGUI
 	var $description_enabled = true;
 	var $preconditions_enabled = true;
 	var $properties_enabled = true;
+	var $commands_enabled = true;
 
 
 	/**
@@ -294,6 +295,28 @@ class ilObjectListGUI
 	{
 		return $this->path_enabled;
 	}
+	
+	/**
+	* En/disable commands
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableCommands($a_status)
+	{
+		$this->commands_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getCommandsStatus()
+	{
+		return $this->commands_enabled;
+	}
 
 	/**
 	* @param string title
@@ -495,7 +518,7 @@ class ilObjectListGUI
 	*/
 	function insertTitle()
 	{
-		if (!$this->default_command)
+		if (!$this->default_command || !$this->getCommandsStatus())
 		{
 			$this->tpl->setCurrentBlock("item_title");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
@@ -846,6 +869,10 @@ class ilObjectListGUI
 	*/
 	function insertCommands()
 	{
+		if (!$this->getCommandsStatus())
+		{
+			return;
+		}
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);

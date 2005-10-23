@@ -1092,14 +1092,42 @@ class ilBookmarkAdministrationGUI
 			$this->ctrl->getLinkTarget($this,$cmd));
 		$tpl->setVariable("TXT_BKM_DETAILS", $text);
 
-		$tpl->setVariable("CLASS_BKM_TREE","");
-		$tpl->setVariable("LINK_BKM_MODE",
-				$this->ctrl->getLinkTarget($this,'setPdFlatMode'));
-		$tpl->setVariable("IMG_BKM_TREE",ilUtil::getImagePath("ic_flatview.gif"));
+		//$tpl->setVariable("CLASS_BKM_TREE","");
+		//$tpl->setVariable("LINK_BKM_MODE",
+		//		$this->ctrl->getLinkTarget($this,'setPdFlatMode'));
+		//$tpl->setVariable("IMG_BKM_TREE",ilUtil::getImagePath("ic_flatview.gif"));
+		$this->insertBlockFooter($tpl);
 
 		$tpl->parseCurrentBlock();
 		return $tpl->get();
 	}
+
+	/**
+	* block footer
+	*/
+	function insertBlockFooter(&$tpl)
+	{
+		// flat
+		$tpl->setCurrentBlock("footer_link");
+		$tpl->setVariable("HREF_FOOT_LINK", $this->ctrl->getLinkTarget($this,'setPdFlatMode'));
+		$tpl->setVariable("TXT_FOOT_LINK", $this->lng->txt("flatview"));
+		$tpl->parseCurrentBlock();
+		$tpl->touchBlock("footer_item");
+		
+		$tpl->touchBlock("footer_separator");
+		$tpl->touchBlock("footer_item");
+
+		// as tree
+		$tpl->setCurrentBlock("footer_link");
+		$tpl->setVariable("HREF_FOOT_LINK", $this->ctrl->getLinkTarget($this,'setPdTreeMode'));
+		$tpl->setVariable("TXT_FOOT_LINK", $this->lng->txt("treeview"));
+		$tpl->parseCurrentBlock();
+		$tpl->touchBlock("footer_item");
+
+		$tpl->setCurrentBlock("block_footer");
+		$tpl->parseCurrentBlock();
+	}
+	
 	/**
 	* get flat bookmark list for personal desktop
 	*/
@@ -1209,10 +1237,12 @@ class ilBookmarkAdministrationGUI
 			$this->ctrl->getLinkTarget($this,$cmd));
 		$tpl->setVariable("TXT_BKM_DETAILS", $text);
 
-		$tpl->setVariable("CLASS_BKM_TREE","");
-		$tpl->setVariable("LINK_BKM_MODE",
-				$this->ctrl->getLinkTarget($this,'setPdTreeMode'));
-		$tpl->setVariable("IMG_BKM_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		//$tpl->setVariable("CLASS_BKM_TREE","");
+		//$tpl->setVariable("LINK_BKM_MODE",
+		//		$this->ctrl->getLinkTarget($this,'setPdTreeMode'));
+		//$tpl->setVariable("IMG_BKM_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		
+		$this->insertBlockFooter($tpl);
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
