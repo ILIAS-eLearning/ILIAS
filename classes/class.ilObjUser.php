@@ -2311,471 +2311,71 @@ class ilObjUser extends ilObject
 	*
 	* note: the implementation of this method is not good style (directly
 	* reading tables object_data and object_reference), must be revised someday...
-	* (maybe it should be a method in all object classes)
 	*/
-	function getDesktopItems($a_types)
+	function getDesktopItems($a_types = "")
 	{
-		global $ilUser, $rbacsystem;
+		global $ilUser, $rbacsystem, $tree;
 
 		
-		if (!is_array($a_types))
+		if ($a_types == "")
 		{
-			$a_types = array($a_types);
-		}
-		$items = array();
-		$foundsurveys = array();
-		foreach($a_types as $a_type)
-		{
-			$q = "SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-				", object_data AS obj WHERE ".
+			$q = "SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ".
+				" FROM desktop_item AS it, object_reference AS oref ".
+					", object_data AS obj".
+				" WHERE ".
 				"it.item_id = oref.ref_id AND ".
 				"oref.obj_id = obj.obj_id AND ".
-				"it.type = '$a_type' AND ".
-				"it.user_id = '".$this->getId()."' ".
-				"ORDER BY title";
+				"it.user_id = '".$this->getId()."'";
 
 			$item_set = $this->ilias->db->query($q);
 			while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-					array("ref_id" => $item_rec["ref_id"], 
-					"obj_id" => $item_rec["obj_id"], "type" => $a_type,
-					"title" => $item_rec["title"], "description" => $item_rec["description"]);
-			}
-			
-			
-/* old stuff					
-			switch ($a_type)
-			{
-				case "lm":
-				case "glo":
-				case "tst":
-				case "svy":
-				case "dbk":
-				case "sahs":
-				case "htlm":
-				case "mep":
-				case "spl":
-				case "qpl":
-					$q = "SELECT obj.description, oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = '$a_type' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						// check wether objects are online
-						$skip = false;
-						$continue_link = "";
-						switch($a_type)
-						{
-							case "lm":
-							case "dbk":
-								include_once("content/classes/class.ilObjContentObject.php");
-								if (!ilObjContentObject::_lookupOnline($item_rec["obj_id"]))
-								{
-									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-									{
-										$skip = true;
-									}
-								}
-								break;
-
-							case "htlm":
-								include_once("content/classes/class.ilObjFileBasedLM.php");
-								if (!ilObjFileBasedLM::_lookupOnline($item_rec["obj_id"]))
-								{
-									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-									{
-										$skip = true;
-									}
-								}
-								break;
-
-							case "sahs":
-								include_once("content/classes/class.ilObjSAHSLearningModule.php");
-								if (!ilObjSAHSLearningModule::_lookupOnline($item_rec["obj_id"]))
-								{
-									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-									{
-										$skip = true;
-									}
-								}
-								break;
-
-							case "glo":
-								include_once("content/classes/class.ilObjGlossary.php");
-								if (!ilObjGlossary::_lookupOnline($item_rec["obj_id"]))
-								{
-									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-									{
-										$skip = true;
-									}
-								}
-								break;
-						}
-
-						if($a_type == "glo")
-						{
-							$link = "content/glossary_presentation.php?ref_id=".$item_rec["ref_id"].
-								"&obj_id=".$item_rec["parameters"];
-							$edit_link = "content/glossary_edit.php?ref_id=".$item_rec["ref_id"].
-								"&obj_id=".$item_rec["parameters"];
-							$target = "bottom";
-						}
-						elseif ($a_type == "sahs")
-						{
-							$link = "content/sahs_presentation.php?ref_id=".$item_rec["ref_id"].
-								"&obj_id=".$item_rec["parameters"];
-							$edit_link = "content/sahs_edit.php?ref_id=".$item_rec["ref_id"];
-							$target = "ilContObj".$item_rec["obj_id"];
-						}
-						elseif ($a_type == "htlm")
-						{
-							$link = "content/fblm_presentation.php?ref_id=".$item_rec["ref_id"];
-							$edit_link = "content/fblm_edit.php?ref_id=".$item_rec["ref_id"];
-							$target = "ilContObj".$item_rec["obj_id"];
-						}
-						elseif ($a_type == "tst")
-						{
-							$link = "assessment/test.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
-							$target = "bottom";
-							$whereclause .= sprintf("obj_fi = %s OR ", $this->ilias->db->quote($item_rec["obj_id"]));
-							$edit_link = "";
-						}
-						elseif ($a_type == "svy")
-						{
-							$link = "survey/survey.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
-							$target = "bottom";
-							$edit_link = "";
-							array_push($foundsurveys, $item_rec["obj_id"]);
-						}
-						elseif ($a_type == "mep")
-						{
-							$link = "content/mep_edit.php?ref_id=".$item_rec["ref_id"];
-							$target = "bottom";
-							$edit_link = "";
-						}
-						elseif ($a_type == "qpl")
-						{
-							$link = "assessment/questionpool.php?ref_id=".$item_rec["ref_id"];
-							$target = "bottom";
-							$edit_link = "";
-						}
-						elseif ($a_type == "spl")
-						{
-							$link = "survey/questionpool.php?ref_id=".$item_rec["ref_id"];
-							$target = "bottom";
-							$edit_link = "";
-						}
-						else
-						{
-							if ($item_rec["parameters"] != "")
-							{
-								$continue_link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
-									"&obj_id=".$item_rec["parameters"];
-							}
-							$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"];
-							$edit_link = "content/lm_edit.php?ref_id=".$item_rec["ref_id"];
-							$target = "ilContObj".$item_rec["obj_id"];
-						}
-
-						if (!$skip)
-						{
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-								array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-								"parameters" => $item_rec["parameters"], "description" => $item_rec["description"],
-								"link" => $link, "target" => $target, "edit_link" => $edit_link,
-								"continue_link" => $continue_link);
-						}
-					}
-					break;
-
-				case "frm":
-					include_once './classes/class.ilRepositoryExplorer.php';
-
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'frm' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-								   "description" => $item_rec["description"],
-								   "link" => 'repository.php?ref_id='.$item_rec['ref_id'], "target" => "bottom");
-
-						if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-						{
-							$items[$item_rec["title"].$a_type.
-								   $item_rec["ref_id"]]["edit_link"] = 'repository.php?ref_id='.$item_rec['ref_id'].'&cmd=edit';
-						}
-					}
-					break;
-
-				case "cat":
-				case "fold":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = '$a_type' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "repository.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
-
-                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-                                                {
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmd=edit&ref_id=".$item_rec["ref_id"];
-                                                }
-					}
-					break;
-
-				case "webr":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = '$a_type' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-								   "description" => $item_rec["description"],
-								   "link" => "link/link_resources.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
-
-						if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-						{
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = 
-								"link/link_resources.php?cmd=edit&ref_id=".$item_rec["ref_id"];
-						}
-					}
-					break;
-				case "grp":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = '$a_type' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjgroupgui", "target" => "bottom");
-
-                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-                                                {
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmdClass=ilobjgroupgui&cmd=edit&ref_id=".$item_rec["ref_id"];
-                                                }
-					}
-					break;
-				case "crs":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'crs' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-								   "description" => $item_rec["description"],
-								   "link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjcoursegui", "target" => "bottom");
-						
-						if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-						{
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = 
-								"repository.php?cmdClass=ilobjcoursegui&ref_id=".$item_rec["ref_id"];
-						}
-					}
-					break;
-				case "file":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'file' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "repository.php?cmd=sendfile&ref_id=".$item_rec["ref_id"]);
-
-                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-                                                {
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$item_rec["ref_id"];
-                                                }
-					}
-					break;
-
-				case "exc":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'exc' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "exercise.php?cmd=view&ref_id=".$item_rec["ref_id"], "target" => "bottom");
-
-                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-                                                {
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "exercise.php?cmd=edit&ref_id=".$item_rec["ref_id"];
-                                                }
-					}
-					break;
-
-
-				case "chat":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'chat' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "chat/chat_rep.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
-
-                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-                                                {
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "chat/chat_rep.php?cmd=edit&ref_id=".$item_rec["ref_id"];
-                                                }
-					}
-					break;
-					case "icrs":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'icrs' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjilinccoursegui", "target" => "bottom");
-
-					}
-					break;
-					case "icla":
-					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-						", object_data AS obj WHERE ".
-						"it.item_id = oref.ref_id AND ".
-						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'icla' AND ".
-						"it.user_id = '".$this->getId()."' ".
-						"ORDER BY title";
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						// heavy workaround by setting cmdNode manually !!!
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "repository.php?cmd=join&ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjilincclassroomgui&cmdNode=60", "target" => "_blank");
-
-					}
-					break;
-			}
-			if ($a_type == "svy" && !empty($foundsurveys))
-			{
-				$query = sprintf("SELECT survey_finished.state, survey_survey.obj_fi, object_reference.ref_id FROM survey_finished, survey_survey, object_reference WHERE survey_finished.survey_fi = survey_survey.survey_id AND object_reference.obj_id = survey_survey.obj_fi AND survey_survey.obj_fi IN (%s)",
-					join($foundsurveys, ",")
-				);
-				$result = $this->ilias->db->query($query);
-				$states = array();
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				if ($tree->isInTree($item_rec["ref_id"]))
 				{
-					if (strcmp($row["state"], "") == 0)
-					{
-						$states[$row["ref_id"]] = $row["state"];
-					}
-					else
-					{
-						$states[$row["ref_id"]] = (int)$row["state"];
-					}
-
-                                }
-				foreach ($items as $key => $value)
-				{
-					$items[$key]["finished"] = $states[$value["id"]];
+					$parent_ref = $tree->getParentId($item_rec["ref_id"]);
+					$par_left = $tree->getLeftValue($parent_ref);
+					$par_left = sprintf("%010d", $par_left);
+					$items[$par_left.$item_rec["title"].$item_rec["ref_id"]] =
+						array("ref_id" => $item_rec["ref_id"], 
+							"obj_id" => $item_rec["obj_id"],
+							"type" => $item_rec["type"],
+							"title" => $item_rec["title"],
+							"description" => $item_rec["description"],
+							"parent_ref" => $parent_ref);
 				}
 			}
-			if ($a_type == "tst")
-			{
-				$whereclause = preg_replace("/ OR $/", "", $whereclause);
-				if ($whereclause) {
-					$status_array = array();
-					$whereclause = "WHERE ($whereclause) AND ";
-					$q = sprintf("SELECT tst_tests.test_type_fi, tst_tests.starting_time, object_reference.ref_id as id, tst_tests.nr_of_tries, tst_active.tries FROM tst_tests, tst_active, object_reference $whereclause tst_tests.test_id = tst_active.test_fi AND object_reference.obj_id = tst_tests.obj_fi AND tst_active.user_fi = %s",
-						$this->ilias->db->quote($ilUser->id)
-					);
-					$item_set = $this->ilias->db->query($q);
-					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_OBJECT)) {
-						$status_array[$item_rec->id] = $item_rec;
-					}
-					foreach ($items as $key => $value) {
-						$items[$key]["nr_of_tries"] = $status_array[$value["id"]]->nr_of_tries;
-						$items[$key]["used_tries"] = $status_array[$value["id"]]->tries;
-						if ($status_array[$value["id"]]->test_type_fi == 1) {
-							// assessment test. check starting time
-							if ($status_array[$value["id"]]->starting_time) {
-								preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $status_array[$value["id"]]->starting_time, $matches);
-								$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-								$now = mktime();
-								if ($now < $epoch_time) {
-									$items[$key]["starting_time_not_reached"] = 1;
-								}
-							}
-						}
-					}
-				}
-			}
-*/
+			ksort($items);
 		}
-		ksort($items);
+		else
+		{
+			if (!is_array($a_types))
+			{
+				$a_types = array($a_types);
+			}
+			$items = array();
+			$foundsurveys = array();
+			foreach($a_types as $a_type)
+			{
+				$q = "SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					", object_data AS obj WHERE ".
+					"it.item_id = oref.ref_id AND ".
+					"oref.obj_id = obj.obj_id AND ".
+					"it.type = '$a_type' AND ".
+					"it.user_id = '".$this->getId()."' ".
+					"ORDER BY title";
+	
+				$item_set = $this->ilias->db->query($q);
+				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+						array("ref_id" => $item_rec["ref_id"], 
+						"obj_id" => $item_rec["obj_id"], "type" => $a_type,
+						"title" => $item_rec["title"], "description" => $item_rec["description"]);
+				}
+				
+			}
+			ksort($items);
+		}
 		return $items;
 	}
 

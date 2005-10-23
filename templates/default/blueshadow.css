@@ -152,6 +152,14 @@ table.ilPDSelectedItemBlock {
 	border-width:0px;
 }
 
+td.il_BlockFooter {
+	color:#222222;
+	background-color:#D8D8D8;
+	text-align:right;
+	font-size: 10px;
+	padding:2px;
+}
+
 table.fullwidth_nowrap {
 	color:#222222;
 	background-color:#bbbbbb;
@@ -358,6 +366,7 @@ div.il_ItemProperties
 {
 	margin-top: 5px;
 	font-size: 13px;
+	font-weight: normal;
 	text-align:left;
 }
 

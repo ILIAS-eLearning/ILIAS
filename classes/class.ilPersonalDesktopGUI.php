@@ -312,6 +312,29 @@ class ilPersonalDesktopGUI
 	}
 
 	/**
+	* order desktop items by location
+	*/
+	function orderPDItemsByLocation()
+	{
+		global $ilUser;
+
+		$ilUser->writePref("pd_order_items", "location");
+		$this->show();
+	}
+
+	/**
+	* order desktop items by Type
+	*/
+	function orderPDItemsByType()
+	{
+		global $ilUser;
+
+		$ilUser->writePref("pd_order_items", "type");
+		$this->show();
+	}
+
+	
+	/**
 	 * display selected items
 	 */
 	function displaySelectedItems()
@@ -336,12 +359,69 @@ class ilPersonalDesktopGUI
 	 */
 	function getSelectedItemsBlockHTML()
 	{
-		global $ilUser;
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench;
+		
+		$tpl =& $this->newBlockTemplate();
+		
+		switch ($ilUser->getPref("pd_order_items"))
+		{
+			case "location":
+				$ok = $this->getSelectedItemsPerLocation($tpl);
+				break;
+				
+			default:
+				$ok = $this->getSelectedItemsPerType($tpl);
+				break;
+		}
 
-		include_once './classes/class.ilRepositoryExplorer.php';
 
-		global $rbacsystem, $objDefinition, $ilBench;
+		if ($ok)
+		{
+			$tpl->setCurrentBlock("pd_header_row");
+			$tpl->setVariable("PD_BLOCK_HEADER_CONTENT", $this->lng->txt("selected_items"));
+			if ($ilUser->getPref("pd_selected_items_details") == "y")
+			{
+				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("hide_details"));
+				$tpl->setVariable("LINK_SEL_ITEMS_MODE", $this->ctrl->getLinkTarget($this, "hideSelectedItemsDetails"));
+			}
+			else
+			{
+				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("show_details"));
+				$tpl->setVariable("LINK_SEL_ITEMS_MODE", $this->ctrl->getLinkTarget($this, "showSelectedItemsDetails"));
+			}
+			$tpl->parseCurrentBlock();
+			
+			// sort by type
+			$tpl->setCurrentBlock("footer_link");
+			$tpl->setVariable("HREF_FOOT_LINK", $this->ctrl->getLinkTarget($this, "orderPDItemsByType"));
+			$tpl->setVariable("TXT_FOOT_LINK", $this->lng->txt("by_type"));
+			$tpl->parseCurrentBlock();
+			$tpl->touchBlock("footer_item");
+			
+			$tpl->touchBlock("footer_separator");
+			$tpl->touchBlock("footer_item");
+	
+			// sort by location
+			$tpl->setCurrentBlock("footer_link");
+			$tpl->setVariable("HREF_FOOT_LINK", $this->ctrl->getLinkTarget($this, "orderPDItemsByLocation"));
+			$tpl->setVariable("TXT_FOOT_LINK", $this->lng->txt("by_location"));
+			$tpl->parseCurrentBlock();
+			$tpl->touchBlock("footer_item");
+	
+			$tpl->setCurrentBlock("block_footer");
+			$tpl->parseCurrentBlock();
+		}
+		
+		return $tpl->get();
+    }
 
+	/**
+	* get selected items per type
+	*/
+	function getSelectedItemsPerType(&$tpl)
+	{
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench;
+		
 		$output = false;
 		$types = array(
 			array("title" => $this->lng->txt("objs_cat"), "types" => "cat"),
@@ -363,10 +443,6 @@ class ilPersonalDesktopGUI
 			array("title" => $this->lng->txt("objs_icrs"), "types" => "icrs"),
 			array("title" => $this->lng->txt("objs_icla"), "types" => "icla")
 		);
-
-		//$html = "";
-
-		$tpl =& $this->newBlockTemplate();
 
 		foreach ($types as $type)
 		{
@@ -465,25 +541,120 @@ class ilPersonalDesktopGUI
 			}
 		}
 
-		if ($output)
+		return $output;
+	}
+
+	/**
+	* get selected items per type
+	*/
+	function getSelectedItemsPerLocation(&$tpl)
+	{
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench;
+		
+		$output = false;
+
+		$items = $this->ilias->account->getDesktopItems();
+		$item_html = array();
+
+		if (count($items) > 0)
 		{
-			$tpl->setCurrentBlock("pd_header_row");
-			$tpl->setVariable("PD_BLOCK_HEADER_CONTENT", $this->lng->txt("selected_items"));
-			if ($ilUser->getPref("pd_selected_items_details") == "y")
+			foreach($items as $item)
 			{
-				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("hide_details"));
-				$tpl->setVariable("LINK_SEL_ITEMS_MODE", $this->ctrl->getLinkTarget($this, "hideSelectedItemsDetails"));
+//echo "1";
+				// get list gui class for each object type
+				if ($cur_obj_type != $item["type"])
+				{
+					$item_list_gui =& $this->getItemListGUI($item["type"]);
+					
+					$item_list_gui->enableDelete(false);
+					$item_list_gui->enableCut(false);
+					$item_list_gui->enablePayment(false);
+					$item_list_gui->enableLink(false);
+					if ($ilUser->getPref("pd_selected_items_details") != "y")
+					{
+//echo "3";
+						$item_list_gui->enableDescription(false);
+						$item_list_gui->enableProperties(false);
+						$item_list_gui->enablePreconditions(false);
+					}
+				}
+				// render item row
+				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
+
+				$html = $item_list_gui->getListItemHTML($item["ref_id"],
+					$item["obj_id"], $item["title"], $item["description"]);
+				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
+				if ($html != "")
+				{
+					$item_html[] = array("html" => $html, "item_ref_id" => $item["ref_id"],
+						"item_obj_id" => $item["obj_id"], "parent_ref" => $item["parent_ref"],
+						"type" => $item["type"]);
+				}
 			}
-			else
+
+			// output block for resource type
+			if (count($item_html) > 0)
 			{
-				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("show_details"));
-				$tpl->setVariable("LINK_SEL_ITEMS_MODE", $this->ctrl->getLinkTarget($this, "showSelectedItemsDetails"));
+				$cur_parent_ref = 0;
+				
+				// content row
+				foreach($item_html as $item)
+				{
+					// add a parent header row for each new parent
+					if ($cur_parent_ref != $item["parent_ref"])
+					{
+						if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
+						{
+							$this->addParentRow($tpl, $item["parent_ref"], false);
+						}
+						else
+						{
+							$this->addParentRow($tpl, $item["parent_ref"]);
+						}
+						$this->resetRowType();
+						$cur_parent_ref = $item["parent_ref"];
+					}
+
+					//if ($ilUser->getPref("pd_selected_items_details") != "y" ||
+					//	$this->ilias->getSetting("icon_position_in_lists") == "item_rows")
+					//{
+						$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $item["type"]);
+					//}
+					//else
+					//{
+					//	$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"]);
+					//}
+					$output = true;
+				}
 			}
-			$tpl->parseCurrentBlock();
 		}
 
-		return $tpl->get();
-    }
+		return $output;
+	}
+
+	/**
+	* get item list gui class for type
+	*/
+	function &getItemListGUI($a_type)
+	{
+		global $objDefinition;
+//echo "<br>+$a_type+";
+		if (!is_object($this->item_list_guis[$a_type]))
+		{
+			$class = $objDefinition->getClassName($a_type);
+			$location = $objDefinition->getLocation($a_type);
+			$full_class = "ilObj".$class."ListGUI";
+//echo "<br>-".$location."/class.".$full_class.".php"."-";
+			include_once($location."/class.".$full_class.".php");
+			$item_list_gui = new $full_class();
+			$this->item_list_guis[$a_type] =& $item_list_gui;
+		}
+		else
+		{
+			$item_list_gui =& $this->item_list_guis[$a_type];
+		}
+		return $item_list_gui;
+	}
 
 	/**
 	* adds a header row to a block template
@@ -516,6 +687,78 @@ class ilPersonalDesktopGUI
 		}
 
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->touchBlock("container_row");
+	}
+
+	/**
+	* adds a header row to a block template
+	*
+	* @param	object		$a_tpl		block template
+	* @param	string		$a_type		object type
+	* @access	private
+	*/
+	function addParentRow(&$a_tpl, $a_ref_id, $a_show_image = true)
+	{
+		global $tree;
+		
+		$par_id = ilObject::_lookupObjId($a_ref_id);
+		$type = ilObject::_lookupType($par_id);
+		if (!in_array($type, array("lm", "dbk", "sahs", "htlm")))
+		{
+			$icon = ilUtil::getImagePath("icon_".$type.".gif");
+		}
+		else
+		{
+			$icon = ilUtil::getImagePath("icon_lm.gif");
+		}
+
+		// custom icon
+		if ($this->ilias->getSetting("custom_icons") &&
+			in_array($type, array("cat","grp","crs")))
+		{
+			require_once("classes/class.ilContainer.php");
+			if (($path = ilContainer::_lookupIconPath($par_id, "small")) != "")
+			{
+				$icon = $path;
+			}
+		}
+
+		if ($tree->getRootId() != $par_id)
+		{
+			$title = ilObject::_lookupTitle($par_id);
+		}
+		else
+		{
+			$title = $this->lng->txt("repository");
+		}
+		
+		$item_list_gui =& $this->getItemListGUI($type);
+					
+		$item_list_gui->enableDelete(false);
+		$item_list_gui->enableCut(false);
+		$item_list_gui->enablePayment(false);
+		$item_list_gui->enableLink(false);
+		$item_list_gui->enableDescription(false);
+		$item_list_gui->enableProperties(false);
+		$item_list_gui->enablePreconditions(false);
+		$item_list_gui->enablePath(true);
+		$item_list_gui->enableCommands(false);
+		$html = $item_list_gui->getListItemHTML($a_ref_id,
+			$par_id, $title, "");
+
+		if ($a_show_image)
+		{
+			$a_tpl->setCurrentBlock("container_header_row_image");
+			$a_tpl->setVariable("HEADER_IMG", $icon);
+			$a_tpl->setVariable("HEADER_ALT", $title);
+		}
+		else
+		{
+			$a_tpl->setCurrentBlock("container_header_row");
+		}
+		
+		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $html);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}

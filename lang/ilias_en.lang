@@ -1247,7 +1247,7 @@ common#:#edit_roleassignment#:#Edit role assignment
 common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
-common#:#email#:#Email
+common#:#email#:#Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
@@ -2228,6 +2228,8 @@ common#:#obj_owner#:#This Object is owned by
 common#:#obj_pays#:#Payment settings
 common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
+common#:#by_type#:#Order by type
+common#:#by_location#:#Order by location
 common#:#obj_qpl#:#Question Pool Test
 common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
@@ -3465,7 +3467,7 @@ crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
 crs#:#crs_contact#:#Contact
 crs#:#crs_contact_consultation#:#Consultation
-crs#:#crs_contact_email#:#Email
+crs#:#crs_contact_email#:#Mail
 crs#:#crs_contact_name#:#Name
 crs#:#crs_contact_phone#:#Telephone
 crs#:#crs_contact_responsibility#:#Responsibility

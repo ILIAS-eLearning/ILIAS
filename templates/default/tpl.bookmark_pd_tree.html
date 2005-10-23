@@ -2,7 +2,7 @@
 	<tr>
 		<td class="il_PDBlockHeader">
 			<div style="float:left">{TXT_BM_HEADER}</div>
-			<div class="il_ContainerItemCommands" style="float:right;"><a href="{LINK_BKM_MODE}"><img src="{IMG_BKM_TREE}" border="0" hspace="0" align="middle"></a>&nbsp;<a class="il_ContainerItemCommand" href="{LINK_BKM_DETAILS}">{TXT_BKM_DETAILS}</a></div>
+			<div class="il_ContainerItemCommands" style="float:right;"><a class="il_ContainerItemCommand" href="{LINK_BKM_DETAILS}">{TXT_BKM_DETAILS}</a></div>
 		</td>
 	</tr>
 	<tr>
@@ -10,10 +10,22 @@
 		{EXPLORER}
 	</td>
 	</tr>
-<!-- BEGIN tbl_no_bm -->
-  <tr class="{ROWCOL}">
-    <td class="std">{TXT_NO_BM}</td>
-  </tr>
-<!-- END tbl_no_bm -->
+	<!-- BEGIN tbl_no_bm -->
+	  <tr class="{ROWCOL}">
+		<td class="std">{TXT_NO_BM}</td>
+	  </tr>
+	<!-- END tbl_no_bm -->
+	<!-- BEGIN block_footer -->
+	<tr>
+		<td class="il_BlockFooter" colspan="2">
+		<!-- BEGIN footer_item -->
+		<!-- BEGIN footer_separator --> | <!-- END footer_separator -->
+		<!-- BEGIN footer_link -->
+			<a style="font-weight:normal;" href="{HREF_FOOT_LINK}">{TXT_FOOT_LINK}</a>
+		<!-- END footer_link -->
+		<!-- END footer_item -->
+		</td>
+	</tr>
+	<!-- END block_footer -->
 </table>
 
