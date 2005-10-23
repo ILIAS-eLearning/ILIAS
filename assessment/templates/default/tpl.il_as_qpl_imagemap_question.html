@@ -91,6 +91,14 @@
 	<input type="hidden" name="area_{ANSWER_ORDER}" id="area_{ANSWER_ORDER}" value="{AREA}"></td>
 </tr>
 <!-- END answers -->
+<!-- BEGIN selectall -->
+<tr>
+	<td class="{COLOR_CLASS}">
+		<input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="setChecked('frm_imagemap', 'cb_', document.frm_imagemap.chb_check_all.checked);" />
+	</td>
+	<td colspan="5" class="{COLOR_CLASS}"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
 <!-- BEGIN QFooter -->
 <tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="5"><input type="submit" class="submit" name="cmd[deletearea]" value="{DELETE_AREA}" /></td></tr>
 <!-- END QFooter -->

@@ -42,38 +42,56 @@
 		<td class="option"><label for="matching_type">{TEXT_TYPE}:</label></td>
 		<td class="option_value" colspan="5"><select name="matching_type" id="matching_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_TERMS_PICTURES}</option><option value="1"{SELECTED_DEFINITIONS}>{TEXT_TYPE_TERMS_DEFINITIONS}</option></select></td>
 	</tr>
+</table>
+<table class="fullwidth">
 	<tr>
 		<td colspan="6" class="option"><input name="cmd[addPair]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 	</tr>
-	<!-- BEGIN answers -->
+	<!-- BEGIN answerhead -->
 	<tr>
-		<td class="option">{TEXT_MATCHING_PAIR} {VALUE_ANSWER_COUNTER}:</td>
+		<td class="tblheader"></td>
+		<td class="tblheader">{PICTURE_OR_DEFINITION}</td>
+		<td class="tblheader"></td>
+		<td class="tblheader">{TERM}</td>
+		<td class="tblheader">{TEXT_POINTS}</td>
+	</tr>
+	<!-- END answerhead -->
+	<!-- BEGIN answers -->
+	<tr class="{COLOR_CLASS}">
+		<td class="{COLOR_CLASS}" width="20"><input type="checkbox" value="{ANSWER_ORDER}" name="chb_answer[]" /></td>
+		<!--td class="option">{TEXT_MATCHING_PAIR} {VALUE_ANSWER_COUNTER}:</td-->
 		<!-- BEGIN definitions -->
-		<td class="option_value" width="25%"><input class="fullwidth" name="definition_{ANSWER_ORDER}_{DEFINITION_ID}" type="text" id="definition_{ANSWER_ORDER}_{DEFINITION_ID}" size="20" value="{VALUE_DEFINITION}" /></td>
+		<td class="{COLOR_CLASS}" width="25%"><input class="fullwidth" name="definition_{ANSWER_ORDER}_{DEFINITION_ID}" type="text" id="definition_{ANSWER_ORDER}_{DEFINITION_ID}" size="20" value="{VALUE_DEFINITION}" /></td>
 		<!-- END definitions -->
 		<!-- BEGIN pictures -->
-		<td class="option_value">
-		<!-- BEGIN imageupload -->
-		{UPLOADED_IMAGE}<br />
-		<!-- END imageupload -->
+		<td class="{COLOR_CLASS}">
 		<input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
 		<input type="hidden" name="picture_{ANSWER_ORDER}_{PICTURE_ID}" value="{IMAGE_FILENAME}" />
 		<input name="picture_{ANSWER_ORDER}_{PICTURE_ID}" type="file" id="picture_{ANSWER_ORDER}_{PICTURE_ID}" size="20" value="{VALUE_PICTURE}" />
 		<input type="submit" class="submit" name="cmd[upload]" value="{UPLOAD}" />
+		<!-- BEGIN imageupload -->
+		<br />{UPLOADED_IMAGE}
+		<!-- END imageupload -->
 		</td>
 		<!-- END pictures -->
-		<td class="option_value">{TEXT_MATCHES}</td>
-		<td class="option_value" width="25%"><input class="fullwidth" name="term_{ANSWER_ORDER}_{TERM_ID}" type="text" id="term_{ANSWER_ORDER}_{TERM_ID}" size="20" value="{VALUE_TERM}" /></td>
-		<td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHINGPAIR_POINTS}" /></td>
-		<td class="option_value">
-		<!-- BEGIN deletebutton -->
-		<div align="right"><input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" /></div>
-		<!-- END deletebutton -->
-		</td>
+		<td class="{COLOR_CLASS}"><div align="center">{TEXT_MATCHES}</div></td>
+		<td class="{COLOR_CLASS}" width="25%"><input class="fullwidth" name="term_{ANSWER_ORDER}_{TERM_ID}" type="text" id="term_{ANSWER_ORDER}_{TERM_ID}" size="20" value="{VALUE_TERM}" /></td>
+		<td class="{COLOR_CLASS}"><input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHINGPAIR_POINTS}" /></td>
 	</tr>
 	<!-- END answers -->
+	<!-- BEGIN selectall -->
 	<tr>
-		<td colspan="6" class="submit">
+		<td class="{COLOR_CLASS}">
+			<input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="setChecked('frm_matching', 'chb_answer', document.frm_matching.chb_check_all.checked);" />
+		</td>
+		<td colspan="4" class="{COLOR_CLASS}"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+	</tr>
+	<!-- END selectall -->
+	<!-- BEGIN QFooter -->
+	<tr><td class="submit">{ARROW}</td><td class="submit" colspan="5"><input type="submit" class="submit" name="cmd[delete]" value="{DELETE}" /></td></tr>
+	<!-- END QFooter -->
+	<tr>
+		<td colspan="5" class="submit">
 		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 		<div align="right">
 		<input name="cmd[save]" type="submit" class="submit" id="save_multiple_choice" value="{SAVE}" /> <input name="cmd[saveEdit]" type="submit" class="submit" value="{SAVE_EDIT}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />

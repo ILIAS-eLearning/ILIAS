@@ -91,25 +91,23 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function editQuestion($has_error = 0)
+	function editQuestion($has_error = 0, $delete = false)
 	{
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_matching");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
 
+		$tblrow = array("tblrow1top", "tblrow2top");
 		// Vorhandene Anworten ausgeben
 		for ($i = 0; $i < $this->object->get_matchingpair_count(); $i++)
 		{
-			$this->tpl->setCurrentBlock("deletebutton");
-			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("ANSWER_ORDER", $i);
-			$this->tpl->parseCurrentBlock();
 			$thispair = $this->object->get_matchingpair($i);
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
 				$this->tpl->setCurrentBlock("pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
 				$this->tpl->setVariable("PICTURE_ID", $thispair->getPictureId());
+				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 				$filename = $thispair->getPicture();
 				if ($filename)
 				{
@@ -126,17 +124,41 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
 				$this->tpl->setVariable("DEFINITION_ID", $thispair->getDefinitionId());
 				$this->tpl->setVariable("VALUE_DEFINITION", htmlspecialchars($thispair->getDefinition()));
+				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			}
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
-			$this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
-			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("ANSWER_ORDER", $i);
 			$this->tpl->setVariable("TERM_ID", $thispair->getTermId());
 			$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($thispair->getTerm()));
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", $thispair->getPoints()));
+			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($this->object->get_matchingpair_count())
+		{
+			$this->tpl->setCurrentBlock("answerhead");
+			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+			$this->tpl->setVariable("TERM", $this->lng->txt("term"));
+			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+			{
+				$this->tpl->setVariable("PICTURE_OR_DEFINITION", $this->lng->txt("picture"));
+			}
+			else
+			{
+				$this->tpl->setVariable("PICTURE_OR_DEFINITION", $this->lng->txt("definition"));
+			}
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$i++;
+			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("QFooter");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" />");
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->parseCurrentBlock();
 		}
 		// call to other question data i.e. estimated working time block
@@ -183,6 +205,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TERM_ID", $add_random_id);
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", 0));
+			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
 		else if ($this->ctrl->getCmd() == "addPair")
@@ -206,7 +229,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		
 		$this->tpl->setCurrentBlock("HeadContent");
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
-		if (preg_match("/delete_(\d+)/", $this->ctrl->getCmd()))
+		if ($delete)
 		{
 			if ($this->object->get_matchingpair_count() > 0)
 			{
@@ -340,16 +363,16 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	function delete()
 	{
 		$this->writePostData();
-
-		// Delete a matching pair if the delete button was pressed
-		foreach ($_POST["cmd"] as $key => $value)
+		if (is_array($_POST["chb_answer"]))
 		{
-			if (preg_match("/delete_(\d+)/", $key, $matches))
+			$deleteanswers = $_POST["chb_answer"];
+			rsort($deleteanswers);
+			foreach ($deleteanswers as $value)
 			{
-				$this->object->delete_matchingpair($matches[1]);
+				$this->object->delete_matchingpair($value);
 			}
 		}
-		$this->editQuestion();
+		$this->editQuestion(0, true);
 	}
 
 	/**

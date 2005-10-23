@@ -226,21 +226,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		}
 		else
 		{
-			if ($this->object->get_answer_count())
-			{
-				$this->tpl->setCurrentBlock("QFooter");
-				$this->tpl->setVariable("DELETE_AREA", $this->lng->txt("delete_area"));
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" />");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("answerheader");
-				$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
-				$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("TEXT_SHAPE", $this->lng->txt("shape"));
-				$this->tpl->setVariable("TEXT_COORDINATES", $this->lng->txt("coordinates"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$tblrow = array("tblrow1", "tblrow2");
+			$tblrow = array("tblrow1top", "tblrow2top");
 			for ($i = 0; $i < $this->object->get_answer_count(); $i++)
 			{
 				$this->tpl->setCurrentBlock("answers");
@@ -272,6 +258,25 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("COORDINATES", $coords);
 				$this->tpl->setVariable("AREA", $answer->get_area());
 				$this->tpl->setVariable("TEXT_SHAPE", strtoupper($answer->get_area()));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($this->object->get_answer_count())
+			{
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$i++;
+				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("QFooter");
+				$this->tpl->setVariable("DELETE_AREA", $this->lng->txt("delete_area"));
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" />");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("answerheader");
+				$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
+				$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
+				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+				$this->tpl->setVariable("TEXT_SHAPE", $this->lng->txt("shape"));
+				$this->tpl->setVariable("TEXT_COORDINATES", $this->lng->txt("coordinates"));
 				$this->tpl->parseCurrentBlock();
 			}
 			// call to other question data i.e. estimated working time block
