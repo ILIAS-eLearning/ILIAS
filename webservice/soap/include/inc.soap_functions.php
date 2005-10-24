@@ -309,6 +309,31 @@ function getObjectTreeOperations($sid,$ref_id,$user_id)
 
 	return $soa->getObjectTreeOperations($sid,$ref_id,$user_id);
 }
-	
+
+function addGroup($sid,$target_id,$group_xml)
+{
+	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+	$soa =& new ilSoapGroupAdministration();
+
+	return $soa->addGroup($sid,$target_id,$group_xml);
+}
+
+function groupExists($sid,$title)
+{
+	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+	$soa =& new ilSoapGroupAdministration();
+
+	return $soa->addGroup($sid,$title);
+}
+function getGroup($sid,$ref_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+	$soa =& new ilSoapGroupAdministration();
+
+	return $soa->getGroup($sid,$ref_id);
+}
 
 ?>

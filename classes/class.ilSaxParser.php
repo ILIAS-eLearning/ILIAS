@@ -33,7 +33,7 @@
 * @extends PEAR
 * @package ilias-core
 */
-class ilSaxParser extends PEAR
+class ilSaxParser
 {
 	/**
 	 * XML-Content type 'file' or 'string'

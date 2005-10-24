@@ -128,6 +128,174 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	}
 
+	function listExportFilesObject()
+	{
+		global $rbacsystem;
+
+		$this->lng->loadLanguageModule('content');
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
+
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->__exportMenu();
+
+		$this->object->__initFileObject();
+		$export_files = $this->object->file_obj->getExportFiles();
+		
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_export_file_row.html");
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		$tbl->setTitle($this->lng->txt("cont_export_files"));
+		$tbl->setHeaderNames(array("", $this->lng->txt("type"),
+			$this->lng->txt("cont_file"),
+			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
+
+		$cols = array("", "type", "file", "size", "date");
+		$header_params = array("ref_id" => $_GET["ref_id"],
+							   "cmd" => "listExportFiles", "cmdClass" => strtolower(get_class($this)));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
+		
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+		$tbl->disable("sort");
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+
+		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+		$tbl->render();
+		foreach($export_files as $exp_file)
+		{
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
+			
+			$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+
+			$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
+			$this->tpl->setVariable("TXT_TYPE", $exp_file["type"]);
+			$this->tpl->setVariable("CHECKBOX_ID",$exp_file["file"]);
+
+			$file_arr = explode("__", $exp_file["file"]);
+			$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+			$this->tpl->parseCurrentBlock();
+		}
+		if(!count($export_files))
+		{
+			$tbl->disable('footer');
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function __exportMenu()
+	{
+		// create xml export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportXML"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function exportXMLObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
+
+		$this->object->exportXML();
+		
+		$this->listExportFilesObject();
+
+		return true;
+	}
+
+	function confirmDeleteExportFileObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
+
+		if(!count($_POST['file']))
+		{
+			sendInfo('grp_select_one_file');
+		}
+		else
+		{
+			$this->object->deleteExportFiles($_POST['file']);
+			sendInfo('grp_deleted_export_files');
+		}
+
+		$this->listExportFilesObject();
+
+		return true;
+	}
+
+	function downloadExportFileObject()
+	{
+		if(!count($_POST['file']))
+		{
+			sendInfo('grp_select_one_file');
+			$this->listExportFilesObject();
+			return false;
+		}
+		if(count($_POST['file']) > 1)
+		{
+			sendInfo('grp_select_one_file_only');
+			$this->listExportFilesObject();
+			return false;
+		}
+		
+		$this->object->downloadExportFile($_POST['file'][0]);
+		
+		// If file wasn't sent
+		sendInfo('grp_error_sending_file');
+		
+		return true;
+	}
+			
+
 	/**
 	* create new object form
 	*/
@@ -237,6 +405,30 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("SELECT_GROUPSTATUS", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 		$this->tpl->setVariable("TXT_GROUP_STATUS_DESC", $this->lng->txt("group_status_desc"));
+
+		// IMPORT
+		$this->tpl->setCurrentBlock("create");
+		$this->tpl->setVariable("TXT_IMPORT_GRP", $this->lng->txt("import_grp"));
+		$this->tpl->setVariable("TXT_GRP_FILE", $this->lng->txt("file"));
+		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+
+		// use the smaller one as limit
+		$max_filesize=min($umf, $pms);
+		if (!$max_filesize) 
+			$max_filesize=max($umf, $pms);
+	
+		// gives out the limit as a littel notice :)
+		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("fileinfo");
+		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
+		$this->tpl->parseCurrentBlock();
 	}
 
 
@@ -1344,6 +1536,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tabs_gui->addTarget("group_new_registrations",
 				$this->ctrl->getLinkTarget($this, "ShownewRegistrations"), "ShownewRegistrations", get_class($this));
 		}
+		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget('export',
+								 $this->ctrl->getLinkTarget($this,'listExportFiles'),
+								 array('listExportFiles','exportXML','confirmDeleteExportFile','downloadExportFile'),
+								 get_class($this));
+		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
@@ -1371,84 +1570,22 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	// IMPORT FUNCTIONS
 
-	function importObject()
+	function importFileObject()
 	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"],"grp"))
+		if(!is_array($_FILES['xmldoc']))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("import_file_not_valid"));
+			$this->createObject();
+			return false;
 		}
+		
+		include_once 'classes/class.ilObjGroup.php';
 
-		$this->getTemplateFile("import","grp");
+		$message = ilObjGroup::_importFromFile($_FILES['xmldoc'],$this->ref_id);
+		sendInfo($message,true);
+		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 
-		$this->tpl->setVariable("FORMACTION","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway&new_type=grp");
-		$this->tpl->setVariable("TXT_IMPORT_GROUP",$this->lng->txt("group_import"));
-		$this->tpl->setVariable("TXT_IMPORT_FILE",$this->lng->txt("group_import_file"));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("BTN_IMPORT",$this->lng->txt("import"));
-
-		return true;
-	}
-
-	function performImportObject()
-	{
-
-		$this->__initFileObject();
-
-		if(!$this->file_obj->storeUploadedFile($_FILES["importFile"]))	// STEP 1 save file in ...import/mail
-		{
-			$this->message = $this->lng->txt("import_file_not_valid"); 
-			$this->file_obj->unlinkLast();
-		}
-		else if(!$this->file_obj->unzip())
-		{
-			$this->message = $this->lng->txt("cannot_unzip_file");			// STEP 2 unzip uplaoded file
-			$this->file_obj->unlinkLast();
-		}
-		else if(!$this->file_obj->findXMLFile())						// STEP 3 getXMLFile
-		{
-			$this->message = $this->lng->txt("cannot_find_xml");
-			$this->file_obj->unlinkLast();
-		}
-		else if(!$this->__initParserObject($this->file_obj->getXMLFile()) or !$this->parser_obj->startParsing())
-		{
-			$this->message = $this->lng->txt("import_parse_error").":<br/>"; // STEP 5 start parsing
-		}
-
-		// FINALLY CHECK ERROR
-		if(!$this->message)
-		{
-			sendInfo($this->lng->txt("import_grp_finished"),true);
-			ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
-		}
-		else
-		{
-			sendInfo($this->message);
-			$this->importObject();
-		}
-	}
-
-
-	// PRIVATE IMPORT METHODS
-	function __initFileObject()
-	{
-		include_once "classes/class.ilFileDataImportGroup.php";
-
-		$this->file_obj =& new ilFileDataImportGroup();
-
-		return true;
-	}
-
-	function __initParserObject($a_xml_file)
-	{
-		include_once "classes/class.ilGroupImportParser.php";
-
-		$this->parser_obj =& new ilGroupImportParser($a_xml_file,$this->ref_id);
-
-		return true;
-	}
-	
+	}	
 	// METHODS FOR COURSE CONTENT INTERFACE
 	function initCourseContentInterface()
 	{

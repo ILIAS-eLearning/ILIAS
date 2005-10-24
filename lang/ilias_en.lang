@@ -5361,3 +5361,7 @@ common#:#links_parameter_deleted#:#Parameter deleted.
 common#:#bkm_import#:#Import bookmarks
 common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.
 common#:#bkm_sendmail#:#Send as attachment
+common#:#import_group#:#Import group
+common#:#grp_select_one_file#:#Please select one file.
+common#:#grp_select_one_file_only#:#Please select exactly one file.
+common#:#grp_deleted_export_files#:#Deleted selected files.

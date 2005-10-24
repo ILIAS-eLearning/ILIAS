@@ -3,7 +3,9 @@
 <!-- $Id$ -->
 
 <!-- GROUP -->
-<!ELEMENT group (title,description,owner,admin*,member*,file*,folder*)>
+<!-- Added registration as optional due to BC to ILIAS 2 export -->
+<!ELEMENT group (title,description,owner?,registration?,admin*,member*,file*,folder*)>
+<!-- type is 'open' or 'closed' will be ignored for updates
 <!ATTLIST group
     exportVersion CDATA #REQUIRED
     id CDATA #REQUIRED
@@ -33,6 +35,17 @@
 <!ATTLIST member
     id CDATA #REQUIRED
 >
+
+<!-- Registration settings -->
+<!ELEMENT registration (password?,expiration?)>
+<!-- type is 'enabled' 'disabled' or 'password' -->
+<!ATTLIST registration
+    type CDATA #REQUIRED
+>
+<!-- Password -->
+<!ELEMENT password (#PCDATA)>
+<!ELEMENT expiration (#PCDATA)>
+
 
 <!-- FILE stored in objects directory with filename "id" -->
 <!ELEMENT file EMPTY>

@@ -50,11 +50,12 @@ class ilGroupImportParser extends ilSaxParser
 	 * @access	public
 	 */
 
-	function ilGroupImportParser($a_xml_file,$a_parent_id)
+	function ilGroupImportParser($a_xml,$a_parent_id)
 	{
-		define('EXPORT_VERSION',1);
+		define('EXPORT_VERSION',2);
 
-		parent::ilSaxParser($a_xml_file);
+		parent::ilSaxParser();
+		$this->setXMLContent($a_xml);
 
 		// SET MEMBER VARIABLES
 		$this->__pushParentId($a_parent_id);
@@ -95,7 +96,8 @@ class ilGroupImportParser extends ilSaxParser
 	function startParsing()
 	{
 		parent::startParsing();
-		return true;
+
+		return is_object($this->group_obj) ? $this->group_obj->getRefId() : false;
 	}
 
 
@@ -124,8 +126,15 @@ class ilGroupImportParser extends ilSaxParser
 				
 				break;
 
+			case 'title':
+				break;
+
 			case "owner":
 				$this->group_data["owner"] = $a_attribs["id"];
+				break;
+
+			case 'registration':
+				$this->group_data['registration_type'] = $a_attribs['type'];
 				break;
 
 			case "admin":
@@ -161,11 +170,19 @@ class ilGroupImportParser extends ilSaxParser
 		switch($a_name)
 		{
 			case "title":
-				$this->group_data["title"] = $this->cdata;
+				$this->group_data["title"] = trim($this->cdata);
 				break;
 
 			case "description":
-				$this->group_data["description"] = $this->cdata;
+				$this->group_data["description"] = trim($this->cdata);
+				break;
+
+			case 'password':
+				$this->group_data['password'] = trim($this->cdata);
+				break;
+
+			case 'expiration':
+				$this->group_data['expiration'] = trim($this->cdata);
 				break;
 				
 			case "folder":
@@ -173,7 +190,7 @@ class ilGroupImportParser extends ilSaxParser
 				break;
 
 			case "folderTitle":
-				$this->folder = $this->cdata;
+				$this->folder = trim($this->cdata);
 				$this->__saveFolder();
 				break;
 
@@ -218,6 +235,24 @@ class ilGroupImportParser extends ilSaxParser
 		$this->group_obj->setTitle($this->group_data["title"]);
 		$this->group_obj->setDescription($this->group_data["description"]);
 
+		switch($this->group_data['registration_type'])
+		{
+			case 'disabled':
+				$flag = 0;
+				break;
+
+			case 'enabled':
+				$flag = 1;
+				break;
+
+			case 'password':
+				$flag = 2;
+				break;
+
+			default:
+				$flag = 0;
+		}
+		$this->group_obj->setRegistrationFlag($flag);
 		// CREATE IT
 		$this->group_obj->create();
 		$this->group_obj->createReference();
@@ -226,7 +261,29 @@ class ilGroupImportParser extends ilSaxParser
 
 
 		// SET GROUP SPECIFIC DATA
-		$this->group_obj->setRegistrationFlag(0);
+		switch($this->group_data['registration_type'])
+		{
+			case 'disabled':
+				$flag = 0;
+				break;
+
+			case 'enabled':
+				$flag = 1;
+				break;
+
+			case 'password':
+				$flag = 2;
+				break;
+
+			default:
+				$flag = 0;
+		}
+		$this->group_obj->setRegistrationFlag($flag);
+		if($this->group_data['expiration'])
+		{
+			$this->group_obj->setExpirationDateTime(date('Y.m.d H:i:s',$this->group_data['expiration']));
+		}
+		$this->group_obj->setPassword($this->group_data['password']);
 		$this->group_obj->setGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
 		
 		// ASSIGN ADMINS/MEMBERS
