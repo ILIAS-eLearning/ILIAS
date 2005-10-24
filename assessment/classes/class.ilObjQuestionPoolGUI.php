@@ -314,7 +314,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// start verification of QTI files
 		include_once "./assessment/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI);
+		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
 		$result = $qtiParser->startParsing();
 		$founditems =& $qtiParser->getFoundItems();
 		

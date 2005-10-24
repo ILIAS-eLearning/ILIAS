@@ -585,7 +585,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$qti_file = ilObjTest::_getImportDirectory()."/".$subdir."/". str_replace("test", "qti", $subdir).".xml";
 		// start verification of QTI files
 		include_once "./assessment/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI);
+		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
 		$result = $qtiParser->startParsing();
 		$founditems =& $qtiParser->getFoundItems();
 		
@@ -706,7 +706,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// start parsing of QTI files
 		include_once "./assessment/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $_POST["qpl_id"], $_POST["ident"], $newObj);
+		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $_POST["qpl_id"], $_POST["ident"]);
+		$qtiParser->setTestObject($newObj);
 		$result = $qtiParser->startParsing();
 		$newObj->saveToDb();
 		
