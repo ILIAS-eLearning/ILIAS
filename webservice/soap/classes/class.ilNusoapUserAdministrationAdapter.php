@@ -371,25 +371,25 @@ class ilNusoapUserAdministrationAdapter
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
 									  'object_xml' => 'xsd:string'),
-								array('success' => 'xsd:boolean'),
+								array('ref_id' => 'xsd:int'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#addObject',
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS addObject. Create new object based on xml description under a given node '.
-								'("category,course,group or folder)');
+								'("category,course,group or folder). Return created reference id of the new object.' );
 		
 
 		$this->server->register('addReference',
 								array('sid' => 'xsd:string',
 									  'source_id' => 'xsd:int',
 									  'target_id' => 'xsd:int'),
-								array('success' => 'xsd:boolean'),
+								array('ref_id' => 'xsd:int'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#addReference',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS addReference. Create new link of given object to new object ');
+								'ILIAS addReference. Create new link of given object to new object. Return the new reference id');
 
 		$this->server->register('deleteObject',
 								array('sid' => 'xsd:string',
@@ -518,7 +518,8 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#addRole',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS addRole(): Creates new role under given node');
+								'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS '.
+								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created.');
 
 		$this->server->register('getObjectTreeOperations',
 								array('sid' => 'xsd:string',
