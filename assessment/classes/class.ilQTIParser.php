@@ -97,8 +97,7 @@ class ilQTIParser extends ilSaxParser
 	* @access	public
 	*/
 	//  TODO: The following line gets me an parse error in PHP 4, but I found no hint that pass-by-reference is forbidden in PHP 4 ????
-	//	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "", &$a_tst_object = "")
-	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "", $a_tst_object = "")
+	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
 	{
 		global $lng;
 
@@ -114,11 +113,6 @@ class ilQTIParser extends ilSaxParser
 		}
 		
 		$this->lng =& $lng;
-		$this->tst_object =& $a_tst_object;
-		if (is_object($a_tst_object))
-		{
-			$this->tst_id = $this->tst_object->getId();
-		}
 		$this->hasRootElement = FALSE;
 		$this->import_mapping = array();
 		$this->assessments = array();
@@ -156,6 +150,15 @@ class ilQTIParser extends ilSaxParser
 		$this->in_assessment = FALSE;
 		$this->characterbuffer = "";
 		$this->metadata = array("label" => "", "entry" => "");
+	}
+	
+	function setTestObject(&$a_tst_object)
+	{
+		$this->tst_object =& $a_tst_object;
+		if (is_object($a_tst_object))
+		{
+			$this->tst_id = $this->tst_object->getId();
+		}
 	}
 
 	function setParserMode($a_mode = IL_MO_PARSE_QTI)
