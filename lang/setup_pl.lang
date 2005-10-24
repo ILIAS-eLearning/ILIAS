@@ -78,6 +78,9 @@ create#:#Twórz
 create_datadir_failed#:#Nie udało się utworzyć katalogu danych
 create_new_client#:#Twórz nowego klienta
 create_webdir_failed#:#Nie udało się utworzyć katalogu WWW
+ctrl_structure#:#Kontrola struktury
+ctrl_structure_desc#:#Nie aktywuj tej funkcji dopóki nie zaktualizujesz systemu i nie załadujesz poprawek.
+ctrl_structure_reloaded#:#Kontrola struktury przeładowana.
 data_path#:#Ścieżka do danych
 database#:#Baza danych
 database_create#:#Twórz bazę danych
@@ -153,7 +156,7 @@ id#:#ID
 ilias_db_mode#:#Tryb pracy bazy danych ILIAS
 ilias_homepage#:#Strona domowa ILIAS
 ilias_nic#:#Rejestracja w NIC
-ilias_nic_id#:#NIC ID
+ilias_nic_id#:#ID NIC
 ilias_setup#:#Instalowanie ILIAS3
 ilias_version#:#wersja ILIAS
 include_local#:#włącznie z lokalnym plikiem językowym przy uaktualnianiu języka
@@ -205,6 +208,7 @@ intro_install#:#To jest główna strona instalatora ILIAS 3. Stąd można wywoł
 ip_address#:#Adres IP
 java_path#:#Ścieżka do Javy
 java_path_comment#:#wymagany dla modułów nauczania SCORM.
+lang_bg#:#Bułgarski
 lang_cs#:#Czeski
 lang_da#:#Duński
 lang_de#:#Niemiecki
@@ -333,6 +337,7 @@ pre_php_version_5#:#ILIAS 3 nie był jeszcze testowany z PHP 5. Możesz użyć t
 pre_php_version_unknown#:#Instalator ILIAS nie zna tej wersji. Możesz użyć tej wersji na własne ryzyko!
 preliminaries#:#Proces instalacji
 prev#:#Poprzedni
+reload#:#Przeładuj
 required_field#:#wymagane pola
 reset#:#Przywróć
 root_access#:#dostęp root-a
@@ -388,6 +393,7 @@ step#:#Krok
 street#:#Ulica
 submit#:#Wykonaj
 title#:#Tytuł
+tools#:#Narzędzia
 unknown_client_id#:#Nieznany klient
 unknown_command#:#Nieznana komenda
 unknown_display_mode#:#Nieznany tryb wyświetlania
