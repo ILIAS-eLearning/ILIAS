@@ -36,8 +36,6 @@ include_once 'classes/class.ilSaxParser.php';
 
 class ilObjectXMLParser extends ilSaxParser
 {
-	var $lng;
-
 	var $object_data = array();
 
 	/**
@@ -51,12 +49,8 @@ class ilObjectXMLParser extends ilSaxParser
 	*/
 	function ilObjectXMLParser($a_xml_data = '')
 	{
-		global $lng;
-
 		parent::ilSaxParser();
 		$this->setXMLContent($a_xml_data);
-
-		$this->lng =& $lng;
 	}
 
 	function getObjectData()

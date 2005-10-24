@@ -336,29 +336,47 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		global $rbacsystem;
+
+
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
 			return $this->__raiseError('No valid ref id given. Please choose an existing reference id of an ILIAS object',
 									   'Client');
 		}
+
 		if(!$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false))
 		{
 			return $this->__raiseError('No valid user id given.',
 									   'Client');
 		}
 
-		$ops = $rbacreview->getOperationsOnTypeString($tmp_obj->getType());
-		$ops_data = array();
-		foreach(ilObject::_getAllReferences($tmp_obj->getId()) as $all_ref_id)
+
+		// check visible for all upper tree entries
+		if(!$ilAccess->checkAccessOfUser($tmp_user->getId(),'visible','view',$tmp_obj->getRefId()))
 		{
-			foreach($ops as $ops_id)
+			return array();
+		}
+		$op_data = $rbacreview->getOperation(2);
+		$ops_data[] = $op_data;
+
+		if(!$ilAccess->checkAccessOfUser($tmp_user->getId(),'read','view',$tmp_obj->getRefId()))
+		{
+			return $ops_data;
+		}
+
+
+		$ops_data = array();
+		$ops = $rbacreview->getOperationsOnTypeString($tmp_obj->getType());
+		foreach($ops as $ops_id)
+		{
+			$op_data = $rbacreview->getOperation($ops_id);
+
+			if($rbacsystem->checkAccessOfUser($user_id,$op_data['operation'],$tmp_obj->getRefId()))
 			{
-				$op_data = $rbacreview->getOperation($ops_id);
-				if($rbacsystem->checkAccessOfUser($user_id,$op_data['operation'],$all_ref_id))
-				{
-					$ops_data[$ops_id] = $op_data;
-				}
+				$ops_data[$ops_id] = $op_data;
 			}
+
 		}
 		
 		foreach($ops_data as $data)
