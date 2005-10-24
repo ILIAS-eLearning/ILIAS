@@ -48,6 +48,8 @@ class ilObjectListGUI
 	var $preconditions_enabled = true;
 	var $properties_enabled = true;
 	var $commands_enabled = true;
+	var $cust_prop = array();
+	var $cust_commands = array();
 
 
 	/**
@@ -439,6 +441,41 @@ class ilObjectListGUI
 
 		return $props;
 	}
+	
+	/**
+	* add custom property
+	*/
+	function addCustomProperty($a_property = "", $a_value = "",
+		$a_alert = false, $a_newline = false)
+	{
+		$this->cust_prop[] = array("property" => $a_property, "value" => $a_value,
+			"alert" => $a_alert, "newline" => $a_newline);
+	}
+	
+	/**
+	* get custom properties
+	*/
+	function getCustomProperties($a_prop)
+	{
+		if (is_array($this->cust_prop))
+		{
+			foreach($this->cust_prop as $prop)
+			{
+				$a_prop[] = $prop;
+			}
+		}
+		return $a_prop;
+	}
+	
+	/**
+	* add a custom command
+	*/
+	function addCustomCommand($a_link, $a_lang_var, $a_frame = "")
+	{
+		$this->cust_commands[] =
+			array("link" => $a_link, "lang_var" => $a_lang_var,
+			"frame" => $a_frame);
+	}
 
 
 	/**
@@ -609,6 +646,7 @@ class ilObjectListGUI
 		global $ilAccess, $lng;
 
 		$props = $this->getProperties($a_item);
+		$props = $this->getCustomProperties($props);
 
 		// add no item access note in public section
 		// for items that are visible but not readable
@@ -899,6 +937,16 @@ class ilObjectListGUI
 					// with the item title in insertTitle
 					$this->default_command = $command;
 				}
+			}
+		}
+
+		// custom commands
+		if (is_array($this->cust_commands))
+		{
+			foreach ($this->cust_commands as $command)
+			{
+				$this->insertCommand($command["link"], $this->lng->txt($command["lang_var"]),
+					$command["frame"]);
 			}
 		}
 
