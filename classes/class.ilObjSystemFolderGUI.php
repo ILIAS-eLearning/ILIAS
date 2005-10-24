@@ -426,6 +426,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					}
 				}*/
 				// set default view target
+				/*
 				if ($_POST["open_views_inside_frameset"] == "1")
 				{
 					$this->ilias->ini->setVariable("layout","view_target","frame");
@@ -433,7 +434,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				else
 				{
 					$this->ilias->ini->setVariable("layout","view_target","window");
-				}
+				}*/
 
 				// modules
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
@@ -510,7 +511,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ABSOLUTE_PATH", $this->lng->txt("absolute_path"));
 		$this->tpl->setVariable("TXT_INST_NAME", $this->lng->txt("inst_name"));
 		$this->tpl->setVariable("TXT_INST_INFO", $this->lng->txt("inst_info"));
-		$this->tpl->setVariable("TXT_OPEN_VIEWS_INSIDE_FRAMESET", $this->lng->txt("open_views_inside_frameset"));
+		//$this->tpl->setVariable("TXT_OPEN_VIEWS_INSIDE_FRAMESET", $this->lng->txt("open_views_inside_frameset"));
 		$this->tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $this->lng->txt("feedback_recipient"));
 		$this->tpl->setVariable("TXT_ERROR_RECIPIENT", $this->lng->txt("error_recipient"));
 		$this->tpl->setVariable("TXT_HEADER_TITLE", $this->lng->txt("header_title"));
@@ -676,7 +677,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}*/
 
 		// default view target
-		$view_target = $this->ilias->ini->readVariable("layout","view_target");
+		/*$view_target = $this->ilias->ini->readVariable("layout","view_target");
 		if ($view_target == "frame") 
 		{
 			$this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","checked=\"checked\"");
@@ -684,7 +685,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		else
 		{
 			$this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","");
-		}
+		}*/
  
 		if ($settings["pub_section"])
 		{
