@@ -265,15 +265,17 @@ class ilObjectGUI
 		// temp. for groups and systemfolder
 		// TODO: use this style for all objects
 		if (($this->object->getType() == "grp" or $this->object->getType() == "adm"
-			or $this->object->getType() == "sty" or $this->object->getType() == "svy"
-			or $this->object->getType() == "spl" or $this->object->getType() == "tst"
-			or $this->object->getType() == "qpl" or $this->object->getType() == "exc") &&
-			(
-				$this->ctrl->getTargetScript() != 'adm_object.php' ||
-				$this->object->getType() == "sty" ||
-				$this->object->getType() == "adm"
-			)
-		)
+			 or $this->object->getType() == "sty" or $this->object->getType() == "svy"
+			 or $this->object->getType() == "spl" or $this->object->getType() == "tst"
+			 or $this->object->getType() == "qpl" or $this->object->getType() == "exc"
+			 or $this->object->getType() == 'trac')
+			 &&
+			 (
+				 $this->ctrl->getTargetScript() != 'adm_object.php' ||
+				 $this->object->getType() == "sty" ||
+				 $this->object->getType() == "adm"
+				 )
+				)
 		{
 			include_once "./classes/class.ilTabsGUI.php";
 			$tabs_gui =& new ilTabsGUI();
