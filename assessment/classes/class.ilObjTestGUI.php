@@ -766,6 +766,10 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$data["random_test"] = ilUtil::stripSlashes($_POST["chb_random"]);
 			}
+			if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+			{
+				$data["random_test"] = "1";
+			}
 		}
 		else
 		{
@@ -952,14 +956,25 @@ class ilObjTestGUI extends ilObjectGUI
 		$total = $this->object->evalTotalPersons();
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST  || $data["sel_test_types"] == TYPE_ONLINE_TEST)
 		{
-    		// fixed settings
-    		$this->object->setScoreReporting(1);
-    		$this->object->setSequenceSettings(0);
-    		$this->object->setNrOfTries(1);
-    		$this->object->setRandomTest(0);
-    	}
+   		// fixed settings
+			$this->object->setScoreReporting(1);
+			$this->object->setSequenceSettings(0);
+			$this->object->setNrOfTries(1);
+			$this->object->setRandomTest(0);
+    }
+		if ($total == 0)
+		{
+			$this->tpl->setCurrentBlock("change_button");
+			$this->tpl->setVariable("BTN_CHANGE", $this->lng->txt("change"));
+			$this->tpl->parseCurrentBlock();
+		}
 		
-		if (($data["sel_test_types"] == TYPE_ONLINE_TEST) || ($data["sel_test_types"] == TYPE_ASSESSMENT) || (($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST) && strlen($data["sel_test_types"]) == 0)) 
+		if (
+			($data["sel_test_types"] == TYPE_ONLINE_TEST) || 
+			($data["sel_test_types"] == TYPE_ASSESSMENT) || 
+			($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST) || 
+			(($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST) && strlen($data["sel_test_types"]) == 0)
+		) 
 		{
 			$this->lng->loadLanguageModule("jscalendar");
 			$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
@@ -1069,7 +1084,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["title"] = $this->object->getTitle();
 		$data["description"] = $this->object->getDescription();
 		
-		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST))
+		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST) || ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST))
 		{
 			$this->tpl->setCurrentBlock("starting_time");
 			$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
@@ -1212,8 +1227,14 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TEXT_RANDOM_TEST", $this->lng->txt("tst_random_test"));
 		$this->tpl->setVariable("TEXT_RANDOM_TEST_DESCRIPTION", $this->lng->txt("tst_random_test_description"));
-		if ($data["random_test"]) {
+		if ($data["random_test"]) 
+		{
 			$this->tpl->setVariable("CHECKED_RANDOM_TEST", " checked=\"checked\"");
+		}
+		if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
+		{
+			$this->tpl->setVariable("CHECKED_RANDOM_TEST", " checked=\"checked\"");
+			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 		}
 
 		$this->tpl->setVariable("HEADING_SCORING", $this->lng->txt("tst_heading_scoring"));
