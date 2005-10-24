@@ -218,6 +218,39 @@ class ilCourseContentInterface
 
 				#if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]) and 
 				#	($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
+
+				$tpl->setCurrentBlock("tbl_content");
+
+				//}
+				//$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
+
+				// ACTIVATION
+				$buyable = ilPaymentObject::_isBuyable($this->cci_ref_id);
+				if (($rbacsystem->checkAccess('write',$this->cci_ref_id) ||
+					 $buyable == false) &&
+					$cont_data["activation_unlimited"])
+				{
+					//$activation = $this->lng->txt("crs_unlimited");
+					$activation = "";
+				}
+				else if ($buyable)
+				{
+					if (is_array($activation = ilPaymentObject::_getActivation($this->cci_ref_id)))
+					{
+						$activation = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$activation["activation_start"]).
+							" ".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$activation["activation_end"]);
+					}
+					else
+					{
+						$activation = "N/A";
+					}
+				}
+				else
+				{
+					$activation = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$cont_data["activation_start"]).
+						" ".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
+				}
+				//$tpl->setVariable("ACTIVATION_END",$activation);
 				
 				// get item list gui object
 				if (!is_object ($this->list_gui[$cont_data["type"]]))
@@ -234,6 +267,26 @@ class ilCourseContentInterface
 				{
 					$item_list_gui =& $this->list_gui[$cont_data["type"]];
 				}
+				
+				// add activation custom property
+				if ($activation != "")
+				{
+					$item_list_gui->addCustomProperty($this->lng->txt("activation"), $activation,
+						false, true);
+				}
+				
+				if($write_perm)
+				{
+					//$tpl->setVariable("TXT_ACT_EDIT", $this->lng->txt("edit"));
+					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",$this->cci_client_obj->object->getRefId());
+					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
+					//$tpl->setVariable("LINK_ACT_EDIT",
+					//	$this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit"));
+					$item_list_gui->addCustomCommand(
+						$this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit"),
+						"activation");
+				}
+				
 				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
 					$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
 
@@ -273,20 +326,7 @@ class ilCourseContentInterface
 							$images[] = $tmp_array;
 						}
 					}
-					
-					if ($rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
-					{
-						/*
-						$tmp_array["gif"] = ilUtil::getImagePath("delete.gif");
-						$tmp_array["lng"] = $this->lng->txt("delete");
-						$this->cci_client_obj->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$cont_data["child"]);
-						$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTargetByClass("ilRepositoryGUI","delete");
-						$tmp_array["tar"] = "";
-
-						$images[] = $tmp_array;
-						*/
-					}
-					
+										
 					foreach($images as $key => $image)
 					{
 						$tpl->setCurrentBlock("img");
@@ -298,13 +338,6 @@ class ilCourseContentInterface
 					}
 					unset($images);
 					
-					//$tmp_array["gif"] = ilUtil::getImagePath("edit.gif");
-					$tpl->setVariable("TXT_ACT_EDIT", $this->lng->txt("edit"));
-					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",$this->cci_client_obj->object->getRefId());
-					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
-					$tpl->setVariable("LINK_ACT_EDIT",
-						$this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit"));
-
 					$tpl->setCurrentBlock("options");
 					$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 					$tpl->parseCurrentBlock();
@@ -312,42 +345,11 @@ class ilCourseContentInterface
 
 				if(strlen($html))
 				{
-					$tpl->setCurrentBlock("tbl_content");
-
 					// change row color
 					$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 					$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
 					$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-					//}
-					//$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-
-					// ACTIVATION
-					$buyable = ilPaymentObject::_isBuyable($this->cci_ref_id);
-					if (($rbacsystem->checkAccess('write',$this->cci_ref_id) ||
-						 $buyable == false) &&
-						$cont_data["activation_unlimited"])
-					{
-						$txt = $this->lng->txt("crs_unlimited");
-					}
-					else if ($buyable)
-					{
-						if (is_array($activation = ilPaymentObject::_getActivation($this->cci_ref_id)))
-						{
-							$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$activation["activation_start"]).
-								"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$activation["activation_end"]);
-						}
-						else
-						{
-							$txt = "N/A";
-						}
-					}
-					else
-					{
-						$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$cont_data["activation_start"]).
-							"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
-					}
-					$tpl->setVariable("ACTIVATION_END",$txt);
-
+					$tpl->setCurrentBlock("tbl_content");
 					$tpl->parseCurrentBlock();
 					$num++;
 				}
@@ -364,22 +366,23 @@ class ilCourseContentInterface
 		if($write_perm)
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
-									   $this->lng->txt("activation"),""));
-			$tbl->setHeaderVars(array("type","title","activation","options"), 
+									   ""));
+			$tbl->setHeaderVars(array("type","title","options"), 
 								array("ref_id" => $this->cci_course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursegui",
 									  "cmdNode" => $_GET["cmdNode"]));
-			$tbl->setColumnWidth(array("1","","","24"));
+			$tbl->setColumnWidth(array("1px","100%","24px"));
+			$tbl->disable("header");
 		}
 		else
 		{
-			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
-									   $this->lng->txt("activation")));
-			$tbl->setHeaderVars(array("type","title","activation","options"), 
+			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title")));
+			$tbl->setHeaderVars(array("type","title"), 
 								array("ref_id" => $this->cci_course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursegui",
 									  "cmdNode" => $_GET["cmdNode"]));
-			$tbl->setColumnWidth(array("1%","89%","20%"));
+			$tbl->setColumnWidth(array("1px",""));
+			$tbl->disable("header");
 		}
 
 		$tbl->setLimit($_GET["limit"]);

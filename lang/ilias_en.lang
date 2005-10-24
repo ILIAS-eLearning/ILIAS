@@ -3496,7 +3496,7 @@ crs#:#crs_end#:#End
 crs#:#crs_export#:#Course export
 crs#:#crs_file_name#:#File name
 crs#:#crs_free_places#:#Available places
-crs#:#crs_from#:#From:
+crs#:#crs_from#:#From
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_assign#:#Change assignment
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
@@ -3717,7 +3717,7 @@ crs#:#crs_test_status_complete#:#Complete
 crs#:#crs_test_status_not_complete#:#Not complete
 crs#:#crs_test_status_random#:#Random test
 crs#:#crs_time#:#Subscription time
-crs#:#crs_to#:#To:
+crs#:#crs_to#:#To
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
