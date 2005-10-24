@@ -38,6 +38,11 @@ require_once "class.ilContainer.php";
 
 class ilObjGroup extends ilContainer
 {
+	/**
+	* Group file object for handling of export files
+	*/
+	var $file_obj = null;
+
 	var $m_grpStatus;
 
 	var $m_roleMemberId;
@@ -576,6 +581,18 @@ class ilObjGroup extends ilContainer
 		return $datetime;
 	}
 
+	function getExpirationTimestamp()
+	{
+		$query = "SELECT * FROM grp_data WHERE grp_id = '".$this->getId()."'";
+
+		$res = $this->ilias->db->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$datetime = $row["expiration"];
+
+		return ($timest = ilFormat::datetime2unixTS($datetime)) ? $timest : 0;
+	}
+		
+
 	function registrationPossible()
 	{
 		$datetime = $this->getExpirationDateTime();
@@ -1003,6 +1020,96 @@ class ilObjGroup extends ilContainer
 		return true;
 	}
 
+
+	function exportXML()
+	{
+		include_once 'classes/class.ilGroupXMLWriter.php';
+
+		$xml_writer = new ilGroupXMLWriter($this);
+		$xml_writer->start();
+		
+		$xml = $xml_writer->getXML();
+
+		$name = time().'__'.$this->ilias->getSetting('inst_id').'__grp_'.$this->getId();
+
+		$this->__initFileObject();
+		
+		$this->file_obj->addGroupDirectory();
+		$this->file_obj->addDirectory($name);
+		$this->file_obj->writeToFile($xml,$name.'/'.$name.'.xml');
+		$this->file_obj->zipFile($name,$name.'.zip');
+		$this->file_obj->deleteDirectory($name);
+
+		return true;
+	}
+
+	function deleteExportFiles($a_files)
+	{
+		$this->__initFileObject();
+		
+		foreach($a_files as $file)
+		{
+			$this->file_obj->deleteFile($file);
+		}
+		return true;
+	}
+
+	function downloadExportFile($file)
+	{
+		$this->__initFileObject();
+
+		if($abs_name = $this->file_obj->getExportFile($file))
+		{
+			ilUtil::deliverFile($abs_name,$file);
+			// Not reached
+		}
+		return false;
+	}
+
+	/**
+	 * Static used for importing a group from xml string
+	 *
+	 * @param	xml string
+	 * @static
+	 * @access	public
+	 */
+
+	function _importFromXMLString($xml,$parent_id)
+	{
+		include_once 'classes/class.ilGroupImportParser.php';
+
+		$import_parser = new ilGroupImportParser($xml,$parent_id);
+
+		return $import_parser->startParsing();
+	}
+
+	/**
+	 * Static used for importing an group from xml zip file
+	 *
+	 * @param	xml file array structure like $_FILE from upload
+	 * @static
+	 * @access	public
+	 */
+	function _importFromFile($file,$parent_id)
+	{
+		global $lng;
+
+		include_once 'classes/class.ilFileDataGroup.php';
+		
+		$file_obj = new ilFileDataGroup(null);
+		$file_obj->addImportDirectory();
+		$file_obj->createImportFile($_FILES["xmldoc"]["tmp_name"],$_FILES['xmldoc']['name']);
+		$file_obj->unpackImportFile();
+
+		if(!$file_obj->validateImportFile())
+		{
+			return $lng->txt("import_file_not_valid");
+		}
+		$ref_id = ilObjGroup::_importFromXMLString(file_get_contents($file_obj->getImportFile()),$parent_id);
+
+		return $lng->txt("import_grp_finished");
+	}
+
 	/**
 	 * STATIC METHOD
 	 * search for group data. This method is called from class.ilSearch
@@ -1088,5 +1195,21 @@ class ilObjGroup extends ilContainer
 		
 		return true;
 	}
+
+	// Private / Protected
+	function __initFileObject()
+	{
+		if($this->file_obj)
+		{
+			return $this->file_obj;
+		}
+		else
+		{
+			include_once 'classes/class.ilFileDataGroup.php';
+
+			return $this->file_obj = new ilFileDataGroup($this);
+		}
+	}
+
 } //END class.ilObjGroup
 ?>
