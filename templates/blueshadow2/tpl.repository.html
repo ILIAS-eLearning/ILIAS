@@ -1,13 +1,9 @@
-<style>
-body { margin:0px; }
-</style>
 {STATUSLINE}
 <div class="il_Header" style="float:left;">
 	<h1><!-- BEGIN header_image --><img align="middle" border="0" src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
-	{HEADER}</h1>
-	<span class="Description">{H_DESCRIPTION}</span>
-</div>
-<div style="float:right; margin-right:15px;">
+{HEADER}</h1><div class="il_Description">{H_DESCRIPTION}</div></div>
+<!-- BEGIN tree_icons -->
+<div style="float:right; margin-right:15px; margin-top:5px;">
 	<!-- BEGIN top -->
 	<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" border="0"></a>&nbsp;
 	<!-- END top -->
@@ -15,9 +11,10 @@ body { margin:0px; }
 	<a class="{CLASS_TREE}" href="{LINK_MODE}" target="bottom"><img src="{IMG_TREE}" border="0"></a>
 	<!-- END tree_mode -->
 </div><div style="clear:both;"></div>
+<!-- END tree_icons -->
 {TABS}
+<div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
 <table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder" style="padding-top:0px;">
-{SUB_TABS}<br />
 <form class="il_Form" action="{H_FORMACTION}" method="post">
 	<!-- BEGIN commands -->
 	<div style="text-align:right;">
