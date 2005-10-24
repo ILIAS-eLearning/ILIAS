@@ -471,9 +471,10 @@ class ilCourseContentInterface
 				$this->tpl->setVariable("CONTINUE_LINK_START",'./content/lm_presentation.php?ref_id='.$tmp_obj->getRefId().'&obj_id='.
 										$continue_data[$tmp_obj->getRefId()]['lm_page_id']);
 
-				$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
-					'' :
-					'ilContObj'.$cont_data[$obj_id]['obj_page_id'];
+				//$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
+				//	'' :
+				//	'ilContObj'.$cont_data[$obj_id]['obj_page_id'];
+				$target = '';
 					
 				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
 				$this->tpl->setVariable("TXT_CONTINUE_START",$this->lng->txt('continue_work'));
@@ -992,9 +993,10 @@ class ilCourseContentInterface
 				$this->tpl->setVariable("CONTINUE_LINK_LMS",'./content/lm_presentation.php?ref_id='.$lm_id.'&obj_id='.
 										$cont_data[$lm_id]['lm_page_id']);
 
-				$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
-					'' :
-					'ilContObj'.$cont_data[$lm_id]['lm_page_id'];
+				//$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
+				//	'' :
+				//	'ilContObj'.$cont_data[$lm_id]['lm_page_id'];
+				$target = '';
 					
 				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
 				$this->tpl->setVariable("TXT_CONTINUE_LMS",$this->lng->txt('continue_work'));

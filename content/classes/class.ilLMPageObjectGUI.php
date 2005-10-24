@@ -96,7 +96,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
-				$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+				//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+				$showViewInFrameset = true;
 
 				$this->ctrl->setReturn($this, "view");
 				//require_once("content/classes/class.ilContObjLocatorGUI.php");

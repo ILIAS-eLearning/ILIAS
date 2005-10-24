@@ -274,7 +274,8 @@ class ilRepositoryExplorer extends ilExplorer
 			case "sahs":
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
-				$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
+				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
+				$showViewInFrameset = true;
 
 				if ($showViewInFrameset) 
 				{
@@ -300,7 +301,8 @@ class ilRepositoryExplorer extends ilExplorer
 				return "";
 
 			case "tst":
-				$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
+				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
+				$showViewInFrameset = true;
 				if ($showViewInFrameset) 
 				{
 	  				return "bottom";

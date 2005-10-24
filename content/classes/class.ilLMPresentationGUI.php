@@ -791,7 +791,8 @@ class ilLMPresentationGUI
 
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
-		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		$showViewInFrameset = true;
 
 
 		$ilBench->start("ContentPresentation", "ilMainMenu");
@@ -884,7 +885,9 @@ class ilLMPresentationGUI
 	{
 		global $rbacsystem;
 
-		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		$showViewInFrameset = true;
+		
 		if ($showViewInFrameset)
 		{
 			$buttonTarget = "bottom";
@@ -1441,7 +1444,8 @@ class ilLMPresentationGUI
 			$framestr = (!empty($_GET["frame"]))
 				? "frame=".$_GET["frame"]."&"
 				: "";
-			$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+			//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+			$showViewInFrameset = true;
 			$link = "<br /><a href=\"".
 				$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]).
 				"\">".$this->lng->txt("cont_skip_chapter")."</a>";
@@ -1460,7 +1464,8 @@ class ilLMPresentationGUI
 	{
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
-		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		$showViewInFrameset = true;
 
 		if ($a_layoutframes == "")
 		{
@@ -1817,7 +1822,8 @@ class ilLMPresentationGUI
 
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
-		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		$showViewInFrameset = true;
 
 		if($pre_node != "")
 		{
