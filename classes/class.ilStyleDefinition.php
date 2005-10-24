@@ -176,6 +176,17 @@ class ilStyleDefinition extends ilSaxParser
 				break;
 		}
 	}
+	
+	function styleExists($skin, $style)
+	{
+		if (is_file("templates/".$skin."/template.xml") &&
+			is_file("templates/".$skin."/".$style.".css")
+			)
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	* end tag handler
