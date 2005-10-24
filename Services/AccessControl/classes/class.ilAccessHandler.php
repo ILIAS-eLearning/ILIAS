@@ -416,7 +416,8 @@ class ilAccessHandler
 
 		$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
 
-		if ($a_permission == "read")
+		if ($a_permission == "read" &&
+			!$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id))
 		{
 			if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
 			{
