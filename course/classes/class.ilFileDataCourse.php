@@ -278,7 +278,7 @@ class ilFileDataCourse extends ilFileData
 		}
 		else
 		{
-			$this->ilias->raiseError("Exercise directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Course directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
 		}
 	}
 	/**

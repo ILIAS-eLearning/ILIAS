@@ -5292,3 +5292,7 @@ common#:#links_parameter_deleted#:#Der Parameter wurde gelöscht.
 common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
 common#:#bkm_sendmail#:#Als Anhang versenden
+common#:#import_group#:#Gruppe importieren
+common#:#grp_select_one_file#:#Bitte wählen Sie eine Datei aus.
+common#:#grp_select_one_file_only#:#Bitte wählen Sie genau eine Datei aus.
+common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.

@@ -497,7 +497,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getLocalRoles',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getLocalRoles(): Get all local roles assigned to an specific object. ');
+								'ILIAS getLocalRoles(): Get all local roles assigned to an specific object.');
 								
 		$this->server->register('getUserRoles',
 								array('sid' => 'xsd:string',
@@ -532,6 +532,41 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getObjectTreeOperations(): Get all granted permissions for all references of '.
 								'an object for a specific user. Returns array of granted operations or empty array');
+
+		$this->server->register('addGroup',
+								array('sid' => 'xsd:string',
+									  'target_id' => 'xsd:int',
+									  'group_xml' => 'xsd:string'),
+								array('ref_id' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addGroup',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addGroup(): Add grop according to valid group XML '.
+								'@See ilias_group_0_1.dtd');
+
+		$this->server->register('groupExists',
+								array('sid' => 'xsd:string',
+									  'title' => 'xsd:title'),
+								array('exists' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#groupExists',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addGroup(): Check if group with given name exists. ');
+
+
+		$this->server->register('getGroup',
+								array('sid' => 'xsd:string',
+									  'ref_id' => 'xsd:int'),
+								array('group_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getGroup',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getGroup(): get xml description of grouip with given reference id.');
+								
+
 
 
 		return true;

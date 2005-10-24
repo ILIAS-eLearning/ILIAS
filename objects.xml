@@ -36,7 +36,7 @@
 <object name="cat" class_name="Category" location="classes" checkbox="1" inherit="1" translate="db" rbac="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="crs">crs</subobj>
-	<subobj name="grp" import="1">grp</subobj>
+	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
@@ -77,7 +77,7 @@
 </object>
 <object name="crs" class_name="Course" location="course/classes" module="course" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="fold">fold</subobj>
-	<subobj name="grp" import="1">grp</subobj>
+	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
 	<subobj name="lm">lm</subobj>
@@ -107,7 +107,7 @@
 </object>
 <object name="fold" class_name="Folder" location="classes" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="fold">fold</subobj>
-	<subobj name="grp" import="1">grp</subobj>
+	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
 	<subobj name="lm">lm</subobj>
@@ -143,7 +143,7 @@
 </object>
 <object name="grp" class_name="Group" location="classes" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="fold">fold</subobj>
-	<subobj name="grp" import="1">grp</subobj>
+	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
 	<subobj name="lm">lm</subobj>
@@ -391,10 +391,11 @@
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
 </object>
-<object name="trac" class_name="SysUserTracking" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
+<object name="trac" class_name="UserTracking" location="Services/Tracking/classes" module="Services/Tracking" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="trackingDataQueryForm">tracking_data</property>
 	<property name="settings">settings</property>
 	<property name="manageData">manage_tracking_data</property>
+	<property name="learningProgress">learning_progress</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="assf" class_name="AssessmentFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
