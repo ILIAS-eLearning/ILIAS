@@ -204,8 +204,42 @@ $GLOBALS['ilUser'] =& $ilias->account;
 $ilCtrl = new ilCtrl();
 $GLOBALS['ilCtrl'] =& $ilCtrl;
 
+
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
+
+// load style definitions
+$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
+$styleDefinition = new ilStyleDefinition();
+$GLOBALS['styleDefinition'] =& $styleDefinition;
+$styleDefinition->startParsing();
+$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
+
+// set theme for login
+if (in_array($script, array("login.php", "register.php", "view_usr_agreement.php")))
+{
+	if ($_GET['skin']  && $_GET['style'])
+	{
+		include_once("classes/class.ilObjStyleSettings.php");
+		if ($styleDefinition->styleExists($_GET['skin'], $_GET['style']) &&
+			ilObjStyleSettings::_lookupActivatedStyle($_GET['skin'], $_GET['style']))
+		{
+			$_SESSION['skin'] = $_GET['skin'];
+			$_SESSION['style'] = $_GET['style'];
+		}
+	}
+	if ($_SESSION['skin'] && $_SESSION['style'])
+	{
+		include_once("classes/class.ilObjStyleSettings.php");
+		if ($styleDefinition->styleExists($_SESSION['skin'], $_SESSION['style']) &&
+			ilObjStyleSettings::_lookupActivatedStyle($_SESSION['skin'], $_SESSION['style']))
+		{
+			$ilias->account->skin = $_SESSION['skin'];
+			$ilias->account->prefs['style'] = $_SESSION['style'];
+		}
+	}
+}
+
 
 // check ilias 2 password, if authentication failed
 // only if AUTH_LOCAL
@@ -397,12 +431,6 @@ if ( !isset($_SESSION["locator_level"]) )
 $ilias_locator = new ilLocatorGUI();
 $GLOBALS['ilias_locator'] =& $ilias_locator;
 
-// load style definitions
-$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
-$styleDefinition = new ilStyleDefinition();
-$GLOBALS['styleDefinition'] =& $styleDefinition;
-$styleDefinition->startParsing();
-$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
 
 //navigation things
 /*
