@@ -35,6 +35,8 @@ require_once "./tracking/classes/class.ilUserTracking.php";
 require_once "./classes/class.ilUtil.php";
 require_once "./assessment/classes/class.ilObjTest.php";
 
+die("This script call is deprecated");
+
 
 switch ($_GET["cmd"])
 {

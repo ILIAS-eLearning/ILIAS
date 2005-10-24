@@ -1351,8 +1351,8 @@ class ilLMPresentationGUI
 		$this->tpl->parseCurrentBlock();
 
 		// track user access to page
-		require_once "./tracking/classes/class.ilUserTracking.php";
-		ilUserTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
+		include_once "Services/Tracking/classes/class.ilTracking.php";
+		ilTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
 			$page_id, "pg", "read");
 
 		$ilBench->stop("ContentPresentation", "ilPage");
