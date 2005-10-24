@@ -8810,3 +8810,9 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#545>
 ALTER TABLE note ADD subject varchar(200) NOT NULL DEFAULT '';
+<#546>
+INSERT INTO `tst_test_type` ( `test_type_id` , `type_tag` ) VALUES ('5', 'tt_varying_randomtest');
+ALTER TABLE `tst_solutions` ADD `pass` INT DEFAULT '0' NOT NULL AFTER `points` ;
+ALTER TABLE `tst_test_random_question` ADD `pass` INT DEFAULT '0' NOT NULL AFTER `sequence` ;
+ALTER TABLE `tst_test_result` ADD `pass` INT DEFAULT '0' NOT NULL AFTER `points` ;
+
