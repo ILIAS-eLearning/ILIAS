@@ -729,7 +729,7 @@
 		<subchar><xsl:value-of select="$subchar"/></subchar> -->
 
 		 <xsl:if test="$subchar = $filetype or $filetype=''">
-			 <a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0"/></a>
+			 <span style="margin-left: 5px"><a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0"/></a></span>
 		 </xsl:if>
 </xsl:template>
 
