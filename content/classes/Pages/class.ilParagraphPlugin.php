@@ -18,21 +18,40 @@
 	var $directory;
 	
 	/**
+	 * plugin description 
+	 *
+	 * @var string
+	 */
+	var $description;
+	
+	/**
 	 * switch, which activates the plugin, defaults to false
 	 */
 	var $active;
-	
+		
+
 	/**
-	 * constructor creates a ParagraphPlugin 
+	 * create paragraph plugin instance
+	 *
+	 * @param string $directory  relative sub directory name, e.g. edit
+	 * @param string $title      title of plugin 
+	 * @param string $filetype   filetype to which the plugin will be applied
+	 * @param string $link       link which to start when clicking on plugin
+	 * @param string $description plugin description
+	 * @param boolean $active     activate plugin or not
+	 * @return ilParagraphPlugin
 	 */
-	function ilParagraphPlugin ($directory, $title, $filetype, $link) {
-		$this->directory = $directory;
+	function ilParagraphPlugin ($directory, $title, $filetype, $link, $description = "", $active = FALSE) {
+       	$this->directory = $directory;
 		$this->properties = array ("filetype" => "", "title" => "", "link" => "");
 		$this->setTitle($title);
 		$this->setFileType($filetype);
 		$this->setLink ($link);
-		$this->active = false;		
+		$this->setActive($active);		
+		$this->setDescription($description);
 	}
+	
+	
 	
 	/**
 	 * returns a string representation used to active a plugin in page.xsl
@@ -67,7 +86,7 @@
 	 */
 	function setImage ($image) {
 		$image = str_replace (array("|","#"), array ("_","_"),$image);
-		$this->properties["image"] = $this->getResourceURL()."/".$image;
+		$this->properties["image"] = $this->getTemplateURL()."/".$image;
 	}
 	
 	/** 
@@ -101,6 +120,14 @@
 		return $this->getPluginDir()."/templates";	
 	}
 	
+    /**
+     * return template url
+     *
+     */
+	
+	function getTemplateURL () {
+	    return $this->getPluginURL()."/templates";
+	}
 	/**
 	 * return class directory
 	 */
@@ -143,6 +170,24 @@
 	 */
 	function setActive ($bool) {
 		$this->active = ($bool)?true:false;
+	}
+	
+	/**
+	 * set plugin description
+	 *
+	 * @param string $description
+	 */
+	function setDescription ($description) {
+	    $this->description = $description;
+	}
+	
+	/**
+	 * returns
+	 *
+	 * @return description
+	 */
+	function getDescription () {
+	    return $this->description;
 	}
 }
  

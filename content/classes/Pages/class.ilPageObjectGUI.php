@@ -649,6 +649,12 @@ class ilPageObjectGUI
 			$enable_split_next = "n";
 		}
 		
+     /* 
+		$paragraph_plugins = new ilParagraphPlugins();
+		$paragraph_plugins->initialize ();					
+		$paragraph_plugins = $paragraph_plugins->serializeToString();
+		print_r($paragraph_plugins);*/
+		
 		if ($this->getOutputMode() == "presentation")
 		{
 			if (!session_is_registered("paragraph_plugins")) {
@@ -663,11 +669,10 @@ class ilPageObjectGUI
 		
 		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
 
-		//$paragraph_plugins = "java122#animate#http://www.mps.de#jeliot.gif|php3#edit#http://www.edit.de#edit.gif";
+        //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+        //echo "-".$this->sourcecode_download_script.":";
 		
-//$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-//echo "-".$this->sourcecode_download_script.":";
-		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
+        $params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
 						 'img_add' => $add_path,
