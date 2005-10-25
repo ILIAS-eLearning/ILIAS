@@ -728,7 +728,7 @@
 		 <image><xsl:value-of select="$image"/></image>
 		<subchar><xsl:value-of select="$subchar"/></subchar> -->
 
-		 <xsl:if test="$subchar = $filetype or $filetype=''">
+		 <xsl:if test="$subchar = $filetype or $filetype='-1'">
 			 <span style="margin-left: 5px"><a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0"/></a></span>
 		 </xsl:if>
 </xsl:template>
