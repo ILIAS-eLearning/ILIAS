@@ -2,6 +2,18 @@
 /**
  * This class describes plugin
  * 
+ *  * use the following plugin directory structure
+ * 
+ * 
+ * -- content
+ *      -- plugins
+ *              -- classes              (contains helpful classes like this)
+ *              -- plugin1              (plugin with name "plugin1")
+ *                      -- classes      (classes needed for plugin)
+ *                      -- ressources   (bin ressources for plugin, jars etc...)
+ *                      -- templates    (ilias templates, etc.)
+
+ * 
  */
  
  class ilParagraphPlugin {
@@ -55,7 +67,10 @@
 	
 	/**
 	 * returns a string representation used to active a plugin in page.xsl
+	 * 
 	 * all properties separatad by #
+	 * 
+	 * @return returns serialized string
 	 */
 	function serializeToString (){		
 		return implode("#",$this->properties);
@@ -99,7 +114,7 @@
 	}	
 	
 	/**
-	 * return title
+	 * @return title
 	 */
 	
 	function getTitle () {
@@ -107,21 +122,21 @@
 	}
 		
 	/**
-	 * return plugin directory
+	 * @return absolute plugin directory
 	 */
 	function getPluginDir () {
 		return ILIAS_ABSOLUTE_PATH."/content/plugins"."/".$this->directory;
 	}
 	
 	/**
-	 * return template directory
+	 * @return  absolute template directory
 	 */
 	function getTemplateDir () {
 		return $this->getPluginDir()."/templates";	
 	}
 	
     /**
-     * return template url
+     * @return template url
      *
      */
 	
@@ -129,14 +144,14 @@
 	    return $this->getPluginURL()."/templates";
 	}
 	/**
-	 * return class directory
+	 * @return  absolute class directory
 	 */
 	function getClassDir () {
 		return $this->getPluginDir()."/classes";	
 	}
 	
 	/**
-	 * return resource directory
+	 * @return absolute resource directory
 	 */
 	
 	function getResourceDir () {
@@ -144,7 +159,7 @@
 	}
 	
 	/**
-	 * return resource url
+	 * @return resource url
 	 */
 	
 	function getResourceURL () {
@@ -152,14 +167,14 @@
 	}
 	
 	/**
-	 * return plugin url
+	 * @return plugin url
 	 */
 	function getPluginURL () {
 		return ILIAS_HTTP_PATH."/content/plugins/".$this->directory;	
 	}
 	
 	/**
-	 * return true if plugin is active
+	 * @return true if plugin is active
 	 */
 	function isActive() {
 		return $this->active;
@@ -167,6 +182,7 @@
 	
 	/**
 	 * sets active to value bool
+	 * @param boolean sets active
 	 */
 	function setActive ($bool) {
 		$this->active = ($bool)?true:false;
@@ -182,12 +198,21 @@
 	}
 	
 	/**
-	 * returns
+	 * returns description of plugin
 	 *
 	 * @return description
 	 */
 	function getDescription () {
 	    return $this->description;
+	}
+	
+	/**
+	 * returns plugin directory name
+	 *
+	 * @return string directory name of plugin
+	 */
+	function getDirectory () {
+	    return $this->directory;
 	}
 }
  
