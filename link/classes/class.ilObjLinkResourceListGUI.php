@@ -217,7 +217,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 
 		if(ilParameterAppender::_isEnabled())
 		{
-			return $this->link_data = ilParameterAppender::_append(ilLinkResourceItems::_getFirstLink($this->obj_id));
+			return $this->link_data = ilParameterAppender::_append($tmp =& ilLinkResourceItems::_getFirstLink($this->obj_id));
 		}
 		return $this->link_data = ilLinkResourceItems::_getFirstLink($this->obj_id);
 	}

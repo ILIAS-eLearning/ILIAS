@@ -114,6 +114,11 @@ class ilParameterAppender
 		{
 			return false;
 		}
+		if(!strlen($this->getName() or !strlen($this->getValue())))
+		{
+			return false;
+		}
+
 		$query = "INSERT INTO webr_params ".
 			"SET webr_id = '".$this->getObjId()."', ".
 			"link_id = '".$a_link_id."', ".
