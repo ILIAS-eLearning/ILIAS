@@ -243,7 +243,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		{
 			if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
 			{
-				$objs[] =& $tmp_obj;
+				$objs[] = $tmp_obj;
 			}
 		}
 		if(count($objs))
