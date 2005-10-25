@@ -646,7 +646,7 @@ class ASS_ClozeTest extends ASS_Question
 
 					// shuffle output
 					$gkeys = array_keys($gap);
-					if ($this->getshuffle() && $a_shuffle)
+					if ($gap[0]->get_shuffle() && $a_shuffle)
 					{
 						$gkeys = $this->pcArrayShuffle($gkeys);
 					}
