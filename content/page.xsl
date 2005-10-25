@@ -653,7 +653,7 @@
 	<xsl:if test="$href != '-1'">
 		<tr><td colspan="2"><div>
 		<a href="{$href}"><img src="{$img_path}/download.gif" align="middle" alt="{$downloadtitle}" border="0"/></a>
-<!--		
+
 		<xsl:if test="$paragraph_plugins != '-1' and $subchar != '-1'">		
 			<xsl:call-template name="plugins">
 				<xsl:with-param name="pluginsString" select="$paragraph_plugins"/>
@@ -661,14 +661,13 @@
 				<xsl:with-param name="par_vars" select="concat('&amp;download=',$encoded_download_script,'&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
 			</xsl:call-template>
 		</xsl:if>
--->
 		
 		</div></td></tr>		
 	</xsl:if>
 </xsl:template>
 
-<!--
-	<xsl:template name="plugins">
+<!-- plugins for code paragraphs -->
+<xsl:template name="plugins">
 		<xsl:param name="pluginsString" select="'-1'"/>
 		<xsl:param name="subchar" select="'-1'"/>
 		<xsl:param name="par_vars" select="''"/>
@@ -696,9 +695,10 @@
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>		
-	</xsl:template>
+</xsl:template>
 	
-	<xsl:template name="plugin">
+<!-- defines content plugin -->
+<xsl:template name="plugin">
 		<xsl:param name="pluginString" select="'-1'"/>		
 		<xsl:param name="subchar" select="'-1'"/>		
 		<xsl:param name="par_vars" select="''"/>
@@ -720,19 +720,19 @@
 		</xsl:variable>		
 		<xsl:variable name="link" select="concat(string($linkNode),$par_vars)"/>
 		<xsl:variable name="image" select="substring-after($rest2,'#')"/>
--->
+
 		
 <!--		<filetype><xsl:value-of select="$filetype"/></filetype>
 		<title><xsl:value-of select="$title"/></title>
 		<link><xsl:value-of select="$link"/></link>
 		 <image><xsl:value-of select="$image"/></image>
 		<subchar><xsl:value-of select="$subchar"/></subchar> -->
-<!--
-		 <xsl:if test="$subchar = $filetype">
+
+		 <xsl:if test="$subchar = $filetype or $filetype=''">
 			 <a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0"/></a>
 		 </xsl:if>
-	</xsl:template>
--->
+</xsl:template>
+
 
 <!-- Emph, Strong, Comment, Quotation -->
 <xsl:template match="Emph|Strong|Comment|Quotation">
