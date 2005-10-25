@@ -206,6 +206,8 @@ class ilCourseContentInterface
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html","course");
 		$cont_num = count($cont_arr);
+		
+		$this->container->clearAdminCommandsDetermination();
 
 		// render table content data
 		if ($cont_num > 0)
@@ -268,6 +270,14 @@ class ilCourseContentInterface
 					$item_list_gui =& $this->list_gui[$cont_data["type"]];
 				}
 				
+				// show administration command buttons (or not)
+				if (!$this->container->isActiveAdministrationPanel())
+				{
+					$item_list_gui->enableDelete(false);
+					$item_list_gui->enableLink(false);
+					$item_list_gui->enableCut(false);
+				}
+				
 				// add activation custom property
 				if ($activation != "")
 				{
@@ -289,6 +299,9 @@ class ilCourseContentInterface
 				
 				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
 					$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
+					
+				$this->container->determineAdminCommands($cont_data['ref_id'],
+					$item_list_gui->adminCommandsIncluded());
 
 				if(strlen($html))
 				{
@@ -339,14 +352,22 @@ class ilCourseContentInterface
 					unset($images);
 					
 					$tpl->setCurrentBlock("options");
-					$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+					$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
 					$tpl->parseCurrentBlock();
  				} // END write perm
 
 				if(strlen($html))
 				{
+					if ($this->container->isActiveAdministrationPanel())
+					{
+						$tpl->setCurrentBlock("block_row_check");
+						$tpl->setVariable("ITEM_ID", $cont_data['ref_id']);
+						$tpl->parseCurrentBlock();
+						//$nbsp = false;
+					}
+
 					// change row color
-					$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+					$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
 					$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
 					$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 					$tpl->setCurrentBlock("tbl_content");
@@ -392,13 +413,17 @@ class ilCourseContentInterface
 		// footer
 		$tbl->disable("footer");
 		$tbl->disable('sort');
+		$tbl->disable("form");
 
 		// render table
 		$tbl->setTemplate($tpl);
 		$tbl->render();
 
-		$this->tpl->setVariable("CONTENT_TABLE", $tpl->get());
-
+		$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this->container));
+		$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", $tpl->get());
+		$this->container->showAdministrationPanel($this->tpl);
+		
 		return true;
 	}
 	
