@@ -25,6 +25,7 @@ include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 include_once("./content/classes/Pages/class.ilPageObject.php");
 include_once("./content/classes/class.ilEditClipboardGUI.php");
 include_once("./content/classes/Pages/class.ilParagraphPlugins.php");
+include_once("./content/classes/Pages/class.ilParagraphPlugin.php");
 include_once("./classes/class.ilDOMUtil.php");
 
 
@@ -649,23 +650,23 @@ class ilPageObjectGUI
 			$enable_split_next = "n";
 		}
 		
-     /* 
+      
 		$paragraph_plugins = new ilParagraphPlugins();
-		$paragraph_plugins->initialize ();					
-		$paragraph_plugins = $paragraph_plugins->serializeToString();
-		print_r($paragraph_plugins);*/
+		$paragraph_plugins->initialize ();							
 		
-		if ($this->getOutputMode() == "presentation")
+/*        if (!session_is_registered("paragraph_plugins")) 
 		{
-			if (!session_is_registered("paragraph_plugins")) {
-				$paragraph_plugins = new ilParagraphPlugins();
-				$paragraph_plugins->initialize ();					
-				$paragraph_plugins = $paragraph_plugins->serializeToString();
-				$_SESSION ["paragraph_plugins"] =$paragraph_plugins; 
-			} else 
-				$paragraph_plugins = $_SESSION ["paragraph_plugins"];	
+			$paragraph_plugins = new ilParagraphPlugins();
+			$paragraph_plugins->initialize ();									
+			$_SESSION ["paragraph_plugins"] = $paragraph_plugins; 
+		} 
+*/		
+			    	
+        if ($this->getOutputMode() == "presentation")
+		{		    
+	        $paragraph_plugin_string = $paragraph_plugins->serializeToString();
+	        $_SESSION ["paragraph_plugins"] = $paragraph_plugins; 
 		}
-		
 		
 		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
 
@@ -692,7 +693,7 @@ class ilPageObjectGUI
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
 						 'javascript' => $sel_js_mode,
-						 'paragraph_plugins' => $paragraph_plugins);
+						 'paragraph_plugins' => $paragraph_plugin_string);
 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
