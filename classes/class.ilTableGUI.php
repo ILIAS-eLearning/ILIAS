@@ -79,7 +79,7 @@ class ilTableGUI
 							"sort"			=>  true,
 							"hits"          =>  false
 						);
-						
+
 	// tpl styles (only one so far)
 	var $styles = array(
 							"table"		=> "fullwidth"
@@ -100,6 +100,7 @@ class ilTableGUI
 		$this->ilias =& $ilias;
 		$this->header_vars = array();
 		$this->header_params = array();
+		$this->enabled["form"] = true;
 		if ($this->global_tpl)
 		{
 			$this->tpl =& $tpl;
@@ -596,7 +597,10 @@ class ilTableGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->touchBlock("tbl_form_footer");
+		if ($this->enabled["form"])
+		{
+			$this->tpl->touchBlock("tbl_form_footer");
+		}
 
 		if (!$this->global_tpl)
 		{

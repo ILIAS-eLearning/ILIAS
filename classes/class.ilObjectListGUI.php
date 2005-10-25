@@ -373,7 +373,7 @@ class ilObjectListGUI
 		$this->setTitle($a_title);
 		$this->setDescription($a_description);
 		#$this->description = $a_description;
-		
+				
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
 	}
@@ -1114,6 +1114,10 @@ class ilObjectListGUI
 		$ilBench->start("ilObjectListGUI", "8000_insert_path");
 		$this->insertPath();
 		$ilBench->stop("ilObjectListGUI", "8000_insert_path");
+
+		// reset properties and commands
+		$this->cust_prop = array();
+		$this->cust_commands = array();
 
 		return $this->tpl->get();
 	}

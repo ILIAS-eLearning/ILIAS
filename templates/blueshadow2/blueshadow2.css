@@ -613,7 +613,7 @@ div.il_MainMenu
 div.il_Tab
 {
 	margin-top: 0px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	margin-left: 0px;
 	margin-right: 0px;
     float:left;
@@ -688,15 +688,13 @@ div.il_SubTab
     float:left;
     width:100%;
 	padding-left:0px;
+	margin-bottom: 10px;
     line-height:normal;
 }
 
 ul.il_SubTab
 {
-	margin-top: 5px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-	margin-right: 0px;
+	margin: 0px;
 	padding: 0px 0px;
 	list-style:none;
 }

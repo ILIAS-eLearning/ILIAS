@@ -2638,7 +2638,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		elseif($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$force_active = ($_GET["cmd"] == "")
+			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "view")
 				? true
 				: false;
 			$tabs_gui->addTarget('view_content',

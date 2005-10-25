@@ -149,9 +149,19 @@ class ilContainerGUI extends ilObjectGUI
 		$html = $this->renderItemList();
 		$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
 		$ilBench->stop("ilContainerGUI", "0200_renderItemList");
+		
+		$this->showAdministrationPanel($tpl);
+		
+		$this->html = $tpl->get();
+		
+		$ilBench->stop("ilContainerGUI", "0000__renderObject");
+	}
 
-		// this has to be more "generalized" (moved out of this method) if
-		// more list methods are implemented
+	/**
+	* show administration panel
+	*/
+	function showAdministrationPanel(&$tpl)
+	{
 		if ($this->isActiveAdministrationPanel())
 		{
 			$tpl->setCurrentBlock("admin_button_off");
@@ -205,10 +215,6 @@ class ilContainerGUI extends ilObjectGUI
 				$this->lng->txt("admin_panel_enable"));
 			$tpl->parseCurrentBlock();
 		}
-
-		$this->html = $tpl->get();
-		
-		$ilBench->stop("ilContainerGUI", "0000__renderObject");
 	}
 
 	/**
@@ -259,7 +265,7 @@ class ilContainerGUI extends ilObjectGUI
 		include_once("classes/class.ilObjectListGUIFactory.php");
 
 		$html = "";
-		$this->adminCommands = false;
+		$this->clearAdminCommandsDetermination();
 		
 		switch ($a_type)
 		{
@@ -309,6 +315,8 @@ class ilContainerGUI extends ilObjectGUI
 							}
 							// render item row
 							$ilBench->start("ilContainerGUI", "0210_getListHTML");
+							
+							// show administration command buttons (or not)
 							if (!$this->isActiveAdministrationPanel())
 							{
 								$item_list_gui->enableDelete(false);
@@ -321,20 +329,8 @@ class ilContainerGUI extends ilObjectGUI
 								
 							// check wheter any admin command is allowed for
 							// the items
-							if (!$this->adminCommands)
-							{
-								if (!$this->isActiveAdministrationPanel())
-								{
-									if ($this->rbacsystem->checkAccess("delete", $item["ref_id"]))
-									{
-										$this->adminCommands = true;
-									}
-								}
-								else
-								{
-									$this->adminCommands = $item_list_gui->adminCommandsIncluded();
-								}
-							}
+							$this->determineAdminCommands($item["ref_id"],
+								$item_list_gui->adminCommandsIncluded());
 							$ilBench->stop("ilContainerGUI", "0210_getListHTML");
 							if ($html != "")
 							{
@@ -389,6 +385,35 @@ class ilContainerGUI extends ilObjectGUI
 		}
 
 		return $html;
+	}
+
+	/**
+	* cleaer administration commands determination
+	*/
+	function clearAdminCommandsDetermination()
+	{
+		$this->adminCommands = false;
+	}
+	
+	/**
+	* determin admin commands
+	*/
+	function determineAdminCommands($a_ref_id, $a_admin_com_included_in_list = false)
+	{
+		if (!$this->adminCommands)
+		{
+			if (!$this->isActiveAdministrationPanel())
+			{
+				if ($this->rbacsystem->checkAccess("delete", $a_ref_id))
+				{
+					$this->adminCommands = true;
+				}
+			}
+			else
+			{
+				$this->adminCommands = $a_admin_com_included_in_list;
+			}
+		}
 	}
 
 	/**
