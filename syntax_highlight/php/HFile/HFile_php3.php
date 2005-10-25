@@ -122,6 +122,7 @@ $this->keywords          	= array(
 			"bcsub" => "2", 
 			"bin2hex" => "2", 
 			"BinDec" => "2", 
+			"class" => "2", 
 			"Ceil" => "2", 
 			"chdir" => "2", 
 			"checkdate" => "2", 
