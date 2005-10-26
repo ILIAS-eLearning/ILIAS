@@ -1619,7 +1619,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html")
 	{
-		global $ilias, $tpl;
+		global $ilias, $tpl, $ilBench;
 
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
@@ -1636,6 +1636,7 @@ class ilObjContentObject extends ilObject
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		
 		// export content style sheet
+		$ilBench->start("ExportHTML", "exportContentStyle");
 		if ($this->getStyleSheetId() < 1)
 		{
 			$cont_stylesheet = "content/content.css";
@@ -1646,6 +1647,7 @@ class ilObjContentObject extends ilObject
 			$style = new ilObjStyleSheet($this->getStyleSheetId());
 			$style->writeCSSFile($a_target_dir."/content.css");
 		}
+		$ilBench->stop("ExportHTML", "exportContentStyle");
 		
 		// export syntax highlighting style
 		$syn_stylesheet = "content/syntaxhighlight.css";
@@ -1660,12 +1662,17 @@ class ilObjContentObject extends ilObject
 		$lm_gui->setExportFormat($a_export_format);
 
 		// export pages
+		$ilBench->start("ExportHTML", "exportHTMLPages");
 		$this->exportHTMLPages($lm_gui, $a_target_dir);
+		$ilBench->stop("ExportHTML", "exportHTMLPages");
 		
 		// export glossary terms
+		$ilBench->start("ExportHTML", "exportHTMLGlossaryTerms");
 		$this->exportHTMLGlossaryTerms($lm_gui, $a_target_dir);
+		$ilBench->stop("ExportHTML", "exportHTMLGlossaryTerms");
 		
 		// export all media objects
+		$ilBench->start("ExportHTML", "exportHTMLMediaObjects");
 		foreach ($this->offline_mobs as $mob)
 		{
 			$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_new");
@@ -1673,14 +1680,18 @@ class ilObjContentObject extends ilObject
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["obj_id"]  = $a_mob_id;
 		$_GET["cmd"] = "";
+		$ilBench->stop("ExportHTML", "exportHTMLMediaObjects");
 		
 		// export all file objects
+		$ilBench->start("ExportHTML", "exportHTMLFileObjects");
 		foreach ($this->offline_files as $file)
 		{
 			$this->exportHTMLFile($a_target_dir, $file);
 		}
+		$ilBench->stop("ExportHTML", "exportHTMLFileObjects");
 		
 		// export table of contents
+		$ilBench->start("ExportHTML", "exportHTMLTOC");
 		if ($this->isActiveTOC())
 		{
 			$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -1698,8 +1709,10 @@ class ilObjContentObject extends ilObject
 			fwrite($fp, $content);
 			fclose($fp);
 		}
+		$ilBench->stop("ExportHTML", "exportHTMLTOC");
 
 		// export images
+		$ilBench->start("ExportHTML", "exportHTMLImages");
 		$image_dir = $a_target_dir."/images";
 		ilUtil::makeDir($image_dir);
 		ilUtil::makeDir($image_dir."/browser");
@@ -1721,7 +1734,8 @@ class ilObjContentObject extends ilObject
 			$image_dir."/nav_arr_R.gif");
 			
 		copy(ilUtil::getImagePath("download.gif", false, "filesystem"),
-			$image_dir."/download.gif");			
+			$image_dir."/download.gif");
+		$ilBench->stop("ExportHTML", "exportHTMLImages");
 			
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -1729,6 +1743,7 @@ class ilObjContentObject extends ilObject
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		
 		// zip everything
+		$ilBench->start("ExportHTML", "zip");
 		if ($a_zip_file)
 		{
 			// zip it all
@@ -1739,6 +1754,7 @@ class ilObjContentObject extends ilObject
 			ilUtil::zip($a_target_dir, $zip_file);
 			ilUtil::delDir($a_target_dir);
 		}
+		$ilBench->stop("ExportHTML", "zip");
 	}
 	
 	/**
@@ -1872,7 +1888,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTMLPages(&$a_lm_gui, $a_target_dir)
 	{
-		global $tpl;
+		global $tpl, $ilBench;
 				
 		$pages = ilLMPageObject::getPageList($this->getId());
 		
@@ -1887,7 +1903,10 @@ class ilObjContentObject extends ilObject
 		
 		foreach ($pages as $page)
 		{
+			$ilBench->start("ExportHTML", "exportHTMLPage");
+			$ilBench->start("ExportHTML", "exportPageHTML");
 			$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
+			$ilBench->stop("ExportHTML", "exportPageHTML");
 			
 			// get all media objects of page
 			include_once("content/classes/Media/class.ilObjMediaObject.php");
@@ -1905,8 +1924,8 @@ class ilObjContentObject extends ilObject
 			include_once("classes/class.ilObjFile.php");
 			$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"]);
 			$this->offline_files = array_merge($this->offline_files, $pg_files);
-
 			
+			$ilBench->stop("ExportHTML", "exportHTMLPage");
 		}
 		$this->offline_mobs = $mobs;
 		$this->offline_int_links = $int_links;
@@ -1919,7 +1938,8 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportPageHTML(&$a_lm_gui, $a_target_dir, $a_lm_page_id, $a_frame = "")
 	{
-		global $ilias, $tpl;
+		global $ilias, $tpl, $ilBench;
+		
 //echo "<br>B: export Page HTML ($a_lm_page_id)"; flush();
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -1927,8 +1947,7 @@ class ilObjContentObject extends ilObject
 
 		$_GET["obj_id"] = $a_lm_page_id;
 		$_GET["frame"] = $a_frame;
-		$content =& $a_lm_gui->layout("main.xml", false);
-		
+
 		if ($a_frame == "")
 		{
 			if ($nid = ilLMObject::_lookupNID($a_lm_gui->lm->getId(), $a_lm_page_id, "pg"))
@@ -1957,7 +1976,13 @@ class ilObjContentObject extends ilObject
 		{
 			return;
 		}
-		
+
+		$ilBench->start("ExportHTML", "layout");
+		$ilBench->start("ExportHTML", "layout_".$a_frame);
+		$content =& $a_lm_gui->layout("main.xml", false);
+		$ilBench->stop("ExportHTML", "layout_".$a_frame);
+		$ilBench->stop("ExportHTML", "layout");
+
 		// open file
 		if (!($fp = @fopen($file,"w+")))
 		{
@@ -1980,7 +2005,10 @@ class ilObjContentObject extends ilObject
 		}
 
 		// write frames of frameset
+		$ilBench->start("ExportHTML", "getCurrentFrameSet");
 		$frameset = $a_lm_gui->getCurrentFrameSet();
+		$ilBench->stop("ExportHTML", "getCurrentFrameSet");
+		
 		foreach ($frameset as $frame)
 		{				
 			$this->exportPageHTML($a_lm_gui, $a_target_dir, $a_lm_page_id, $frame);

@@ -682,9 +682,14 @@ class ilCtrl
 
 	function redirect(&$a_gui_obj, $a_cmd = "")
 	{
+		global $ilBench;
+		
 //echo "<br>class:".get_class($a_gui_obj).":";
 		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd);
-//echo "<br>script:$script:";
+		if  (is_object($ilBench))
+		{
+			$ilBench->save();
+		}
 		ilUtil::redirect($script);
 	}
 
