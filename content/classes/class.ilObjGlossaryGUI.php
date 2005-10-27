@@ -975,7 +975,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$file = explode(":", $_POST["file"][0]);
 		$export_dir = $this->object->getExportDirectory($file[0]);
 		ilUtil::deliverFile($export_dir."/".$file[1],
-			$_POST["file"][0]);
+			$file[1]);
 	}
 
 	/**
