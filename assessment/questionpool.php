@@ -55,7 +55,7 @@ else
 // exit if no valid ID was given
 if (!isset($_GET["ref_id"]))
 {
-	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
+	$ilias->raiseError("No valid ID given! Action aborted", $ilias->error_obj->MESSAGE);
 }
 
 if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_GET["create"])) 
