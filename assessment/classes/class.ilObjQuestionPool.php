@@ -32,16 +32,6 @@
 * @package assessment
 */
 
-require_once "./classes/class.ilObjectGUI.php";
-//require_once "./classes/class.ilMetaData.php";
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assClozeTestGUI.php";
-require_once "./assessment/classes/class.assImagemapQuestionGUI.php";
-require_once "./assessment/classes/class.assJavaAppletGUI.php";
-require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
-require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
-require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
-
 class ilObjQuestionPool extends ilObject
 {
 	/**
@@ -317,6 +307,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function deleteQuestion($question_id)
 	{
+		include_once "./assessment/classes/class.assQuestion.php";
 		$question = new ASS_Question();
 		$question->delete($question_id);
 	}
@@ -543,6 +534,13 @@ class ilObjQuestionPool extends ilObject
 
 	function &createQuestion($question_type, $question_id = -1)
 	{
+		include_once "./assessment/classes/class.assClozeTestGUI.php";
+		include_once "./assessment/classes/class.assImagemapQuestionGUI.php";
+		include_once "./assessment/classes/class.assJavaAppletGUI.php";
+		include_once "./assessment/classes/class.assMatchingQuestionGUI.php";
+		include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
+		include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
+
 		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = $this->getQuestiontype($question_id);
