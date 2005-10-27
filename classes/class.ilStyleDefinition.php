@@ -51,7 +51,7 @@ class ilStyleDefinition extends ilSaxParser
 		{
 			$a_template_id = $ilias->account->skin;
 		}
-//echo "<br>parse:"."./templates/".$a_template_id."/template.xml".":";
+
 		parent::ilSaxParser("./templates/".$a_template_id."/template.xml");
 	}
 

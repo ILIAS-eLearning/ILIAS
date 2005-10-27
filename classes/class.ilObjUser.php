@@ -144,7 +144,6 @@ class ilObjUser extends ilObject
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
 							  );*/
-
 		if (!empty($a_user_id))
 		{
 			$this->setId($a_user_id);
@@ -159,14 +158,7 @@ class ilObjUser extends ilObject
 			$this->prefs["language"] = $this->ilias->ini->readVariable("language","default");
 
 			//skin and pda support
-			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE") > 0)
-			{
-				$this->skin = "pda";
-			}
-			else
-			{
-			 	$this->skin = $this->ilias->ini->readVariable("layout","skin");
-			}
+			$this->skin = $this->ilias->ini->readVariable("layout","skin");
 
 			$this->prefs["skin"] = $this->skin;
 			$this->prefs["show_users_online"] = "y";
@@ -226,19 +218,11 @@ class ilObjUser extends ilObject
 			{
 				$this->prefs["skin"] = $this->oldPrefs["skin"];
 			}
-
-			//pda support
-			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE") > 0)
-			{
-				$this->skin = "pda";
-			}
-			else
-			{
-				$this->skin = $this->prefs["skin"];
-			}
+			
+			$this->skin = $this->prefs["skin"];
 
 			//check style-setting (skins could have more than one stylesheet
-			if ($this->prefs["style"] == "" || file_exists($this->ilias->tplPath."/".$this->skin."/".$this->prefs["style"].".css") == false)
+			if ($this->prefs["style"] == "" || !file_exists($this->ilias->tplPath."/".$this->skin."/".$this->prefs["style"].".css"))
 			{
 				//load default (css)
 		 		$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
@@ -831,15 +815,7 @@ class ilObjUser extends ilObject
 			$this->ilias->db->query($q);
 		}
 	}
-/*
-	function selectUserpref()
-	{
-		$q="SELECT FROM urs_pref ".
-			"WHERE usr_id='".$this->id."'";
-		this->ilias->db->query($q);
-		echo "Hallo World";
-	}
-*/
+
 	/**
 	* set a user preference
 	* @param	string	name of parameter
