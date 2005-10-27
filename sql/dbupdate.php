@@ -8815,4 +8815,18 @@ INSERT INTO `tst_test_type` ( `test_type_id` , `type_tag` ) VALUES ('5', 'tt_var
 ALTER TABLE `tst_solutions` ADD `pass` INT DEFAULT '0' NOT NULL AFTER `points` ;
 ALTER TABLE `tst_test_random_question` ADD `pass` INT DEFAULT '0' NOT NULL AFTER `sequence` ;
 ALTER TABLE `tst_test_result` ADD `pass` INT DEFAULT '0' NOT NULL AFTER `points` ;
-
+<#547>
+ALTER TABLE object_reference ADD COLUMN deleted datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
+<#548>
+CREATE INDEX obj_del ON object_reference(deleted);
+<#549>
+<?php
+$query = "SELECT * FROM tree WHERE tree < 0";
+$result = $ilDB->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q = "UPDATE object_reference SET deleted=now() WHERE ref_id='".
+		$row["child"]."'";
+	$ilDB->query($q);
+}
+?>

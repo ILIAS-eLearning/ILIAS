@@ -168,12 +168,15 @@ $GLOBALS['log'] =& $log;
 $ilLog =& $log;
 $GLOBALS['ilLog'] =& $ilLog;
 
+//echo "1-".$ilias->account->skin."-";
+
 //authenticate & start session
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 $ilBench->start("Core", "HeaderInclude_Authentication");
 $ilias->auth->start();
 $ilias->setAuthError($ilErr->getLastError());
 $ilBench->stop("Core", "HeaderInclude_Authentication");
+
 
 // force login ; workaround for hsu
 if ($_GET["cmd"] == "force_login")
@@ -183,7 +186,6 @@ if ($_GET["cmd"] == "force_login")
 	$ilias->auth->start();
 	$ilias->setAuthError($ilErr->getLastError());
 }
-
 
 // load object definitions
 $ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
@@ -204,20 +206,19 @@ $GLOBALS['ilUser'] =& $ilias->account;
 $ilCtrl = new ilCtrl();
 $GLOBALS['ilCtrl'] =& $ilCtrl;
 
-
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
-
-// load style definitions
-$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
-$styleDefinition = new ilStyleDefinition();
-$GLOBALS['styleDefinition'] =& $styleDefinition;
-$styleDefinition->startParsing();
-$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
 
 // set theme for login
 if (in_array($script, array("login.php", "register.php", "view_usr_agreement.php")))
 {
+	// load style definitions
+	$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
+	$styleDefinition = new ilStyleDefinition();
+	$GLOBALS['styleDefinition'] =& $styleDefinition;
+	$styleDefinition->startParsing();
+	$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
+	
 	if ($_GET['skin']  && $_GET['style'])
 	{
 		include_once("classes/class.ilObjStyleSettings.php");
@@ -431,6 +432,12 @@ if ( !isset($_SESSION["locator_level"]) )
 $ilias_locator = new ilLocatorGUI();
 $GLOBALS['ilias_locator'] =& $ilias_locator;
 
+// load style definitions
+$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
+$styleDefinition = new ilStyleDefinition();
+$GLOBALS['styleDefinition'] =& $styleDefinition;
+$styleDefinition->startParsing();
+$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
 
 //navigation things
 /*
