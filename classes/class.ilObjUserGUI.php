@@ -379,7 +379,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// skin & style selection
 		$templates = $styleDefinition->getAllTemplates();
 		//$this->ilias->getSkins();
-		
+
 		// preselect previous chosen skin/style otherwise default skin/style
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
 		{
@@ -390,8 +390,8 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else
 		{
-			$selected_style = $this->object->prefs["style"];
-			$selected_skin = $this->object->skin;
+			$selected_style = $this->ilias->ini->readVariable("layout","style");;
+			$selected_skin = $this->ilias->ini->readVariable("layout","skin");;
 		}
 		include_once("classes/class.ilObjStyleSettings.php");
 		foreach ($templates as $template)
