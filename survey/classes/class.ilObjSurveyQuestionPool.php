@@ -32,13 +32,6 @@
 * @package survey
 */
 
-include_once "./classes/class.ilObjectGUI.php";
-include_once "./survey/classes/class.SurveyNominalQuestion.php";
-include_once "./survey/classes/class.SurveyTextQuestion.php";
-include_once "./survey/classes/class.SurveyMetricQuestion.php";
-include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
-include_once "./survey/classes/class.SurveyQuestion.php";
-
 class ilObjSurveyQuestionPool extends ilObject
 {
 	/**
@@ -58,13 +51,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		$this->type = "spl";
 		$this->ilObject($a_id,$a_call_by_reference);
-/*
-		if ($a_id == 0)
-		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-		}
-*/
 	}
 
 	/**
@@ -74,17 +60,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		parent::create();
 		$this->createMetaData();
-/*
-		if (!$a_upload)
-		{
-			$this->meta_data->setId($this->getId());
-			$this->meta_data->setType($this->getType());
-			$this->meta_data->setTitle($this->getTitle());
-			$this->meta_data->setDescription($this->getDescription());
-			$this->meta_data->setObject($this);
-			$this->meta_data->create();
-		}
-*/
 	}
 
 	/**
@@ -355,7 +330,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		//return $this->title;
 		return parent::getTitle();
-		//return $this->meta_data->getTitle();
 	}
 
 	/**
@@ -364,77 +338,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-//		$this->meta_data->setTitle($a_title);
 	}
-
-	/**
-	* assign a meta data object to survey question pool object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-*/
-
-	/**
-	* get meta data object of survey question pool object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
-
-	/**
-	* init meta data object if needed
-	*/
-/*
-	function initMeta()
-	{
-		if (!is_object($this->meta_data))
-		{
-			if ($this->getId())
-			{
-				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}
-			else
-			{
-				$new_meta =& new ilMetaData();
-			}
-			$this->assignMetaData($new_meta);
-		}
-	}
-*/
-
-	/**
-	* update meta data only
-	*/
-/*
-	function updateMetaData()
-	{
-		$this->initMeta();
-		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
-	}
-*/
 
 /**
 * Removes a question from the question pool
@@ -449,6 +353,7 @@ class ilObjSurveyQuestionPool extends ilObject
     if ($question_id < 1)
       return;
 
+		include_once "./survey/classes/class.SurveyQuestion.php";
 		$question = new SurveyQuestion();
 		$question->delete($question_id);
 	}
@@ -562,6 +467,10 @@ class ilObjSurveyQuestionPool extends ilObject
   function duplicateQuestion($question_id, $obj_id = "") {
 		global $ilUser;
 		
+		include_once "./survey/classes/class.SurveyNominalQuestion.php";
+		include_once "./survey/classes/class.SurveyTextQuestion.php";
+		include_once "./survey/classes/class.SurveyMetricQuestion.php";
+		include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 		$questiontype = $this->getQuestiontype($question_id);
 		switch ($questiontype)
 		{
@@ -847,6 +756,10 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function to_xml($questions)
 	{
+		include_once "./survey/classes/class.SurveyNominalQuestion.php";
+		include_once "./survey/classes/class.SurveyTextQuestion.php";
+		include_once "./survey/classes/class.SurveyMetricQuestion.php";
+		include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 		if (!is_array($questions))
 		{
 			$questions =& $this->getQuestions();
@@ -904,11 +817,13 @@ class ilObjSurveyQuestionPool extends ilObject
 		$qtiFieldlabel->append_child($qtiFieldlabelText);
 		$qtiFieldentry = $domxml->create_element("fieldentry");
 
-// to do: export meta data
-/*
-		$this->initMeta();
-		$metadata = $this->meta_data->nested_obj->dom->dump_mem(0);
-*/
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		include_once "./classes/class.ilXmlWriter.php";
+		$md = new ilMD($this->getId(),0, $this->getType());
+		$writer = new ilXmlWriter();
+		$md->toXml($writer);
+		$metadata = $writer->xmlDumpMem();
+
 		$qtiFieldentryText = $domxml->create_CDATA_Section($metadata);
 		$qtiFieldentry->append_child($qtiFieldentryText);
 		$qtiMetadatafield->append_child($qtiFieldlabel);
@@ -941,6 +856,10 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function importObject($source)
 	{
+		include_once "./survey/classes/class.SurveyNominalQuestion.php";
+		include_once "./survey/classes/class.SurveyTextQuestion.php";
+		include_once "./survey/classes/class.SurveyMetricQuestion.php";
+		include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 		$metadata = "";
 		if (is_file($source))
 		{
@@ -1019,29 +938,6 @@ class ilObjSurveyQuestionPool extends ilObject
 			if ($metadata)
 			{
 // to do: import meta data
-/*
-				include_once("./classes/class.ilNestedSetXML.php");
-				$nested = new ilNestedSetXML();
-				$nested->dom = domxml_open_mem($metadata);
-				$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
-				if (is_array($nodes))
-				{
-					$nodes[0]["Entry"] = "il__" . $this->getType() . "_" . $this->getId();
-					$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
-				}
-				$nodes = $nested->getDomContent("//MetaData/General", "Title");
-				if (is_array($nodes))
-				{
-					$this->setTitle($nodes[0]["value"]);
-				}
-				$nodes = $nested->getDomContent("//MetaData/General", "Description");
-				if (is_array($nodes))
-				{
-					$this->setDescription($nodes[0]["value"]);
-				}
-				$xml = $nested->dom->dump_mem(0);
-				$nested->import($xml, $this->getId(), $this->getType());
-*/
 			}
 
 		}

@@ -399,7 +399,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 												$material = $response_label->first_child();
 												$mattext = $material->first_child();
 												$shuf = 0;
-												$this->addCategoryWithIndex($mattext->get_content(), $response_label->get_attribute("ident"));
+												$this->categories->addCategoryAtPosition($mattext->get_content(), $response_label->get_attribute("ident"));
 											}
 											break;
 										case "material":
