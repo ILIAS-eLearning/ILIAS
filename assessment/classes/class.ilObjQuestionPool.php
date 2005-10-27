@@ -52,13 +52,6 @@ class ilObjQuestionPool extends ilObject
 		$this->type = "qpl";
 		$this->ilObject($a_id,$a_call_by_reference);
 		$this->setOnline(0);
-/*
-		if ($a_id == 0)
-		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-		}
-*/
 	}
 
 	/**
@@ -412,7 +405,6 @@ class ilObjQuestionPool extends ilObject
 	function getDescription()
 	{
 		return parent::getDescription();
-		//return $this->meta_data->getDescription();
 	}
 
 	/**
@@ -421,7 +413,6 @@ class ilObjQuestionPool extends ilObject
 	function setDescription($a_description)
 	{
 		parent::setDescription($a_description);
-//		$this->meta_data->setDescription($a_description);
 	}
 
 	/**
@@ -440,77 +431,7 @@ class ilObjQuestionPool extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-//		$this->meta_data->setTitle($a_title);
 	}
-
-	/**
-	* assign a meta data object to glossary object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-*/
-
-	/**
-	* get meta data object of glossary object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
-
-	/**
-	* init meta data object if needed
-	*/
-/*
-	function initMeta()
-	{
-		if (!is_object($this->meta_data))
-		{
-			if ($this->getId())
-			{
-				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}
-			else
-			{
-				$new_meta =& new ilMetaData();
-			}
-			$this->assignMetaData($new_meta);
-		}
-	}
-*/
-
-	/**
-	* update meta data only
-	*/
-/*
-	function updateMetaData()
-	{
-		$this->initMeta();
-		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
-	}
-*/
 
 	/**
 	* Checks whether the question is in use or not
