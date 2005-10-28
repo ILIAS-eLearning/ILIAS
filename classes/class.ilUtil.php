@@ -66,7 +66,7 @@ class ilUtil
 	{
 		global $ilias, $styleDefinition;
 
-		if(defined("ILIAS_MODULE") and !defined("KEEP_IMAGE_PATH") and $mode != "filesystem")
+		if(defined("ILIAS_MODULE") and $mode != "filesystem")
 		{
 			// added to find path for MODULES like Services/Search
 			$base = '';
@@ -90,7 +90,10 @@ class ilUtil
 
 		if (is_object($styleDefinition))
 		{
+
 			$st_image_dir = $styleDefinition->getImageDirectory($ilias->account->prefs["style"]);
+			#var_dump("<pre>",$st_image_dir,$ilias->account->prefs["style"],"<pre>");
+
 			$user_skin_and_style = $base.$ilias->account->skin."/".
 			$st_image_dir.
 			"/images/".$img;

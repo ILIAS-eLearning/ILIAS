@@ -438,6 +438,28 @@ class ilObject
 		return $this->owner;
 	}
 
+	/**
+	* get object owner
+	*
+	* @access	public
+	* @return	integer	owner id
+	*/
+	function _lookupOwner($a_ref_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT owner FROM object_data AS obd LEFT JOIN object_reference AS obr USING(obj_id) ".
+			"WHERE obr.ref_id = '".$a_ref_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->owner;
+		}
+		return 0;
+	}
+
+
 	/*
 	* get full name of object owner
 	*

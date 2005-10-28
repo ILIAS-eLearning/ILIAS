@@ -28,49 +28,20 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPGUI:
+* @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
 *
 */
 
-include_once "classes/class.ilObjectGUI.php";
+include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 
-define("LP_MODE_PERSONAL_DESKTOP",1);
-define("LP_MODE_ADMINISTRATION",2);
-define("LP_MODE_REPOSITORY",3);
-
-/* Base class for all Learning progress gui classes.
- * Defines modes 
-
-class ilLPGUI
+class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 {
-	var $tpl = null;
-	var $ctrl = null;
-
-	var $ref_id = null;
-
-
-	/**
-	* Call this constructor with ref_id of the context in which the GUI has been started.
-	* This is used for different output behaviour.
-	* E.G 
-	* ref_id = TRACKING_ID = 17: learning progress called from administration => 'listOfObjects'
-	* ref_id = 0:			   : learning progress called from personal desktop => 'listOfObjects', 'listOfProgress' ...
-	* ref_id = crs || lm ...   : learning progress called from repository => 'listOfProgress', 'listOfSettings'
-	*
-	*/
-	function ilLPGUI($a_ref_id)
+	function ilLearningProgressGUI($a_mode)
 	{
-		global $tpl,$ilCtrl;
-
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-
-		$this->ref_id = $a_ref_id;
-
-		$this->_parseMode();
+		parent::ilLearningProgressBaseGUI($a_mode);
 	}
 
 	/**
@@ -78,21 +49,35 @@ class ilLPGUI
 	*/
 	function &executeCommand()
 	{
-		$next_class = $this->ctrl->getNextClass();
-		$this->ctrl->setReturn($this, "show");
+		$this->ctrl->setReturn($this, "");
 
-		switch($next_class)
+		switch($this->__getNextClass())
 		{
-			default:
-				$cmd = $this->ctrl->getCmd("view");
-				$this->$cmd();
+			case 'illplistofobjectsgui':
+
+				include_once 'Services/Tracking/classes/class.ilLPListOfObjectsGUI.php';
+
+				$loo_gui = new ilLPListOfObjectsGUI($this->getMode());
+				$this->ctrl->forwardCommand($loo_gui);
 				break;
+
+			default:
+				die("No mode given");
 		}
 		return true;
 	}
 
-	function __parseMode()
+	function __getNextClass()
 	{
+		if(strlen($next_class = $this->ctrl->getNextClass()))
+		{
+			return $next_class;
+		}
+		switch($this->getMode())
+		{
+			case LP_MODE_ADMINISTRATION:
+				return 'illplistofobjectsgui';
+		}
 	}
 }
 ?>

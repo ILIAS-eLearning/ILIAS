@@ -456,6 +456,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// Create settings
 		$forumObj->setDefaultView((int) $_POST['sort']);
+		$forumObj->setAnonymized((int) $_POST['anonymized']);
 		$forumObj->createSettings();
 
 		// setup rolefolder & default local roles (moderator)

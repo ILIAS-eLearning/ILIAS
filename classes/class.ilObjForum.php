@@ -46,6 +46,12 @@ class ilObjForum extends ilObject
 	var $default_view = 1;
 
 	/**
+	* Defines if a forum is anonymized or not
+	* @access	private
+	*/
+	var $anonymized = false;
+
+	/**
 	* Forum object
 	* @var		object Forum
 	* @access	private
@@ -102,6 +108,14 @@ class ilObjForum extends ilObject
 		return $this->default_view = (int) $a_default_view;
 	}
 
+	function isAnonymized()
+	{
+		return $this->anonymized ? true : false;
+	}
+	function setAnonymized($a_status)
+	{
+		$this->anonymized = $a_status ? true : false;
+	}
 	// METHODS FOR UN-READ STATUS
 	function getCountUnread($a_usr_id,$a_thread_id = 0)
 	{
@@ -448,7 +462,8 @@ class ilObjForum extends ilObject
 
 			$query = "REPLACE INTO frm_settings ".
 				"SET obj_id = '".$this->getId()."', ".
-				"default_view = '".$this->getDefaultView()."'";
+				"default_view = '".$this->getDefaultView()."', ".
+				"anonymized = '".($this->isAnonymized() ? 1 : 0)."'";
 
 			$this->ilias->db->query($query);
 		
@@ -480,7 +495,8 @@ class ilObjForum extends ilObject
 		// COPY settings
 		$query = "INSERT INTO frm_settings ".
 			"SET obj_id = '".$forumObj->getId()."', ".
-			"default_view = '".$this->getDefaultView()."'";
+			"default_view = '".$this->getDefaultView()."', ".
+			"anonymized = '".($this->isAnonymized() ? 1 : 0)."'";
 		$this->ilias->db->query($query);
 		
 
@@ -741,8 +757,8 @@ class ilObjForum extends ilObject
 	{
 		$query = "INSERT INTO frm_settings ".
 			"SET obj_id = '".$this->getId()."', ".
-			"default_view = '".$this->getDefaultView()."'";
-
+			"default_view = '".$this->getDefaultView()."', ".
+			"anonymized = '".($this->isAnonymized() ? 1 : 0) ."'";
 		$this->ilias->db->query($query);
 
 		return true;
@@ -759,6 +775,7 @@ class ilObjForum extends ilObject
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->default_view = $row->default_view;
+			$this->anonymized = $row->anonymized ? true : false;
 		}
 		return true;
 	}

@@ -298,7 +298,8 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT distinct A.obj_id,A.type,A.title FROM object_data as A,object_data as B WHERE A.type = ".$ilDB->quote($a_type)." AND A.obj_id = B.owner AND B.type=".$ilDB->quote($type);
+		$q = "SELECT distinct A.obj_id,A.type,A.title FROM object_data as A,object_data as B WHERE A.type = ".
+			$ilDB->quote($a_type)." AND A.obj_id = B.owner AND B.type=".$ilDB->quote($type);
 		//echo $q;
 		$author = $ilDB->query($q);
 		$all = array();

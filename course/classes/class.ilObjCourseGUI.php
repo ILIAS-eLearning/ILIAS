@@ -2634,27 +2634,30 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
 		{
 			$tabs_gui->addTarget('learners_view',
-				$this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
+								 $this->ctrl->getLinkTarget($this, "cciObjectives"),
+								 array('cciObjectives'),
+								 get_class($this));
 		}
 		elseif($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "view")
-				? true
-				: false;
 			$tabs_gui->addTarget('view_content',
-				$this->ctrl->getLinkTarget($this, ""), array("", "view","addToDesk","removeFromDesk"), get_class($this),
-					"", $force_active);
+								 $this->ctrl->getLinkTarget($this, ""),
+								 array("", "view","addToDesk","removeFromDesk",'cciEdit','listConditions'));
 		}
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
 		{
 			$tabs_gui->addTarget('edit_content',
-				$this->ctrl->getLinkTarget($this, 'cciObjectivesEdit'), "", get_class($this));
+								 $this->ctrl->getLinkTarget($this,'cciObjectivesEdit'),
+								 "cciObjectivesEdit",
+								 get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_details",
-								 $this->ctrl->getLinkTarget($this, "details"), "details", get_class($this));
+								 $this->ctrl->getLinkTarget($this, "details"),
+								 "details",
+								 get_class($this));
 		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
@@ -2671,15 +2674,18 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
-				 "", "ilmdeditorgui");
+								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
+								 "",
+								 "ilmdeditorgui");
 		}
 
 		// member list
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("members",
-								 $this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
+								 $this->ctrl->getLinkTarget($this, "members"), 
+								 "members",
+								 get_class($this));
 		}
 		
 		// course archives
@@ -2729,7 +2735,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		   and !$this->object->members_obj->isMember($this->ilias->account->getId()))
 		{
 			$tabs_gui->addTarget("join",
-								 $this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+								 $this->ctrl->getLinkTarget($this, "view"), 
+								 array("view",'join',''),
+								 "");
 		}			
 
 		if($rbacsystem->checkAccess('leave',$this->ref_id) and 

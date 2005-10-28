@@ -28,71 +28,50 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPGUI:
-*
-* @extends ilObjectGUI
-* @package ilias-core
+* @package ilias-tracking
 *
 */
-
-include_once "classes/class.ilObjectGUI.php";
 
 define("LP_MODE_PERSONAL_DESKTOP",1);
 define("LP_MODE_ADMINISTRATION",2);
 define("LP_MODE_REPOSITORY",3);
 
 /* Base class for all Learning progress gui classes.
- * Defines modes 
+ * Defines modes for presentation according to the context in which it was called
+ * E.g: mode LP_MODE_PERSONAL_DESKTOP displays only listOfObjects.
+ */
 
-class ilLPGUI
+class ilLearningProgressBaseGUI 
 {
 	var $tpl = null;
 	var $ctrl = null;
 
-	var $ref_id = null;
+	var $mode = 0;
 
-
-	/**
-	* Call this constructor with ref_id of the context in which the GUI has been started.
-	* This is used for different output behaviour.
-	* E.G 
-	* ref_id = TRACKING_ID = 17: learning progress called from administration => 'listOfObjects'
-	* ref_id = 0:			   : learning progress called from personal desktop => 'listOfObjects', 'listOfProgress' ...
-	* ref_id = crs || lm ...   : learning progress called from repository => 'listOfProgress', 'listOfSettings'
-	*
-	*/
-	function ilLPGUI($a_ref_id)
+	function ilLearningProgressBaseGUI($a_mode)
 	{
 		global $tpl,$ilCtrl;
 
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 
-		$this->ref_id = $a_ref_id;
-
-		$this->_parseMode();
+		$this->mode = $a_mode;
+	}
+	
+	function getMode()
+	{
+		return $this->mode;
 	}
 
-	/**
-	* execute command
-	*/
-	function &executeCommand()
+	// Protected
+	function __getDefaultCommand()
 	{
-		$next_class = $this->ctrl->getNextClass();
-		$this->ctrl->setReturn($this, "show");
-
-		switch($next_class)
+		if(strlen($cmd = $this->ctrl->getCmd()))
 		{
-			default:
-				$cmd = $this->ctrl->getCmd("view");
-				$this->$cmd();
-				break;
+			return $cmd;
 		}
-		return true;
+		return 'show';
 	}
 
-	function __parseMode()
-	{
-	}
 }
 ?>

@@ -96,6 +96,16 @@ class ilRbacSystem
 	function checkAccessOfUser($a_user_id, $a_operations, $a_ref_id, $a_type = "")
 	{
 		global $ilUser, $rbacreview;
+
+
+		// DISABLED 
+		// Check For owner
+		// Owners do always have full access to their objects
+		#if($a_user_id == ilObject::_lookupOwner($a_ref_id))
+		#{
+		#	return true;
+		#}
+
 		
 		// get roles
 		if ($a_user_id == $ilUser->getId())
