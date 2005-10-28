@@ -1842,6 +1842,32 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Returns if the previous results should be hidden for a learner
+* 
+* Returns if the previous results should be hidden for a learner
+*
+* @param integer The test id
+* @return integer 1 if the previous results should be hidden, 0 otherwise
+* @access public
+* @see $hide_previous_results
+*/
+  function _getHidePreviousResults($test_id) 
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT hide_previous_results FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["hide_previous_results"];
+		}
+		return 0;
+  }
+
+/**
 * Returns the processing time for the test
 * 
 * Returns the processing time for the test
@@ -3837,29 +3863,37 @@ class ilObjTest extends ilObject
     switch ($question_type) 
 		{
       case "qt_multiple_choice_sr":
+				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
         $question =& new ASS_MultipleChoiceGUI();
         $question->object->set_response(RESPONSE_SINGLE);
         break;
       case "qt_multiple_choice_mr":
+				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
         $question =& new ASS_MultipleChoiceGUI();
         $question->object->set_response(RESPONSE_MULTIPLE);
         break;
       case "qt_cloze":
+				include_once "./assessment/classes/class.assClozeTestGUI.php";
         $question =& new ASS_ClozeTestGUI();
         break;
       case "qt_matching":
+				include_once "./assessment/classes/class.assMatchingQuestionGUI.php";
         $question =& new ASS_MatchingQuestionGUI();
         break;
       case "qt_ordering":
+				include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
         $question =& new ASS_OrderingQuestionGUI();
         break;
       case "qt_imagemap":
+				include_once "./assessment/classes/class.assImagemapQuestionGUI.php";
         $question =& new ASS_ImagemapQuestionGUI();
         break;
 			case "qt_javaapplet":
+				include_once "./assessment/classes/class.assJavaAppletGUI.php";
 				$question =& new ASS_JavaAppletGUI();
 				break;
 			case "qt_text":
+				include_once "./assessment/classes/class.assTextQuestionGUI.php";
 				$question =& new ASS_TextQuestionGUI();
 				break;
     }

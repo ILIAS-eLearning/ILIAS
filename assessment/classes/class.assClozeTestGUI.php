@@ -622,7 +622,17 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		// set solutions
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id))
+			{
+				$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			}
+			else
+			{
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
+			}
 	
 			if (is_array($solutions)) 
 			{

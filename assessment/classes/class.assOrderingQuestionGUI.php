@@ -491,7 +491,17 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$solution_script = "";
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id))
+			{
+				$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			}
+			else
+			{
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
+			}
 			$solution_script .= "";//"resetValues();\n";
 			$jssolutions = array();
 			foreach ($solutions as $idx => $solution_value)
