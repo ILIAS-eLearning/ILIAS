@@ -927,52 +927,6 @@ class SurveyQuestion {
 		}
 	}
 
-
-/**
-* Checks whether the question is in use or not
-*
-* Checks whether the question is in use or not
-*
-* @return boolean The number of datasets which are affected by the use of the query.
-* @access public
-*/
-	function isInUse() {
-/*		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
-			$this->ilias->db->quote("$this->id")
-		);
-		$result = $this->ilias->db->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		return $row->solution_count;
-*/	}
-	
-/**
-* Removes all references to the question in executed surveys in case the question has been changed
-*
-* Removes all references to the question in executed surveys in case the question has been changed.
-* If a question was changed it cannot be guaranteed that the content and the meaning of the question
-* is the same as before. So we have to delete all already started or completed surveys using that question.
-* Therefore we have to delete all references to that question in tst_solutions and the tst_active
-* entries which were created for the user and survey in the tst_solutions entry.
-*
-* @access public
-*/
-	function removeAllQuestionReferences() {
-/*		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			// Mark all surveys containing this question as "not started"
-			$querychange = sprintf("DELETE FROM tst_active WHERE user_fi = %s AND survey_fi = %s",
-				$this->ilias->db->quote("$result->user_fi"),
-				$this->ilias->db->quote("$result->survey_fi")
-			);
-			$changeresult = $this->ilias->db->query($querychange);
-		}
-		// delete all resultsets for this question
-		$querydelete = sprintf("DELETE FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
-		$deleteresult = $this->ilias->db->query($querydelete);
-	}
-*/}
-
 /**
 * Saves a category to the database
 *

@@ -425,17 +425,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Creates an output of the user's solution
-	*
-	* Creates an output of the user's solution
-	*
-	* @access public
-	*/
-	function outUserSolution($user_id, $test_id)
-	{
-	}
-	
-	/**
 	* check input fields
 	*/
 	function checkInput()

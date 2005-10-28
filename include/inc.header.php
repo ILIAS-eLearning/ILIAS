@@ -258,6 +258,19 @@ if (AUTH_CURRENT == AUTH_LOCAL && !$ilias->auth->getAuth() && $script == "login.
 	}
 }
 
+if (strpos($_SERVER["SCRIPT_FILENAME"], "save_java_question_result") !== FALSE)
+{
+	// dirty hack for the saving of java applet questions in tests. Unfortunately
+	// some changes in this file for ILIAS 3.6 caused this script to stop at the
+	// following check (worked in ILIAS <= 3.5).
+	// So we return here, because it's only necessary to get the $ilias class for
+	// the database connection
+	// TODO: Find out what happens here. Talk to Alex Killing
+	$lng = new ilLanguage($_SESSION['lang']);
+	$GLOBALS['lng'] =& $lng;
+	return;
+}
+
 if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 {
 	$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");

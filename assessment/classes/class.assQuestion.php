@@ -787,7 +787,7 @@ class ASS_Question
 		global $ilDB;
 
 		$points = 0;
-		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($test_id . ""),
 			$ilDB->quote($question_id . "")
@@ -816,7 +816,7 @@ class ASS_Question
 		global $ilDB;
 
 		$points = 0;
-		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$ilDB->quote($user_id),
 			$ilDB->quote($test_id),
 			$ilDB->quote($this->getId())
@@ -858,7 +858,7 @@ class ASS_Question
 		global $ilUser;
     $db =& $ilDB->db;
 		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id);
-		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
+		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, pass, points) VALUES (%s, %s, %s, 0, %s)",
 			$db->quote($ilUser->id . ""),
 			$db->quote($test_id . ""),
 			$db->quote($this->getId() . ""),
@@ -963,7 +963,7 @@ class ASS_Question
 
 		$db =& $ilDB->db;
 
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$db->quote($ilUser->id),
 			$db->quote($test_id),
 			$db->quote($this->getId())
@@ -1161,15 +1161,10 @@ class ASS_Question
 			array_push($found_id, $row->question_id);
 		}
 
-		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE pass = 0 AND question_fi IN (%s)",
 			join($found_id, ","));
 		$result = $ilDB->query($query);
 
-/*		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
-			join($found_id, ","));
-
-		$result = $ilDB->query($query);
-*/
 		return $result->numRows();
 	}
 
@@ -1197,13 +1192,9 @@ class ASS_Question
 		{
 			array_push($found_id, $row->question_id);
 		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE pass = 0 AND question_fi IN (%s)",
 			join($found_id, ","));
 		$result = $ilDB->query($query);
-/*		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
-			join($found_id, ",")
-		);
-		$result = $ilDB->query($query);*/
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{

@@ -610,64 +610,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Creates an output of the user's solution
-	*
-	* Creates an output of the user's solution
-	*
-	* @access public
-	*/
-	function outUserSolution($user_id, $test_id)
-	{
-		$results = $this->object->getReachedInformation($user_id, $test_id);
-		$user_order = array();
-		foreach ($results as $key => $value)
-		{
-			$user_order[$value["order"]] = $value["answer_id"];
-		}
-		ksort($user_order);
-		$user_order = array_values($user_order);
-		
-		$answer_order = array();
-		foreach ($this->answers as $key => $answer)
-		{
-			$answer_order[$answer->get_solution_order()] = $key;
-		}
-		ksort($answer_order);
-		$answer_order = array_values($answer_order);
-		foreach ($this->object->answers as $key => $answer)
-		{
-			$this->tpl->setCurrentBlock("tablerow");
-			$array_key = array_search($key);
-			if ($user_order[$array_key] == $answer_order[$array_key])
-			{
-				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("right.png", true));
-				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_right"));
-			}
-			else
-			{
-				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("wrong.png", true));
-				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_wrong"));
-			}
-			if ($this->object->get_ordering_type() == OQ_PICTURES)
-			{
-				$extension = "jpg";
-				if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $answer->get_answertext(), $matches))
-				{
-					$extension = $matches[1];
-				}
-				$answertext = "<img src=\"" . $this->object->getImagePathWeb() . $answer->get_answertext() . ".thumb.jpg\" alt=\"" . $this->lng->txt("selected_image") . "\" />";
-			}
-			else
-			{
-				$answertext = "&quot;<em>" . $answer->get_answertext() . "</em>&quot;";
-			}
-			$this->tpl->setVariable("ANSWER_DESCRIPTION", $answertext);
-			$this->tpl->setVariable("ANSWER_DESCRIPTION_CONNECTOR", $this->lng->txt("with_order") . " &quot;<em>" . $results[$key]["order"] . "</em>&quot;");
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-
-	/**
 	* check input fields
 	*/
 	function checkInput()

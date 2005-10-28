@@ -32,8 +32,8 @@
 */
 define("ILIAS_MODULE", "assessment");
 chdir("..");
-require_once "./include/inc.header.php";
-require_once "./assessment/classes/class.ilObjTestGUI.php";
+include_once "./include/inc.header.php";
+include_once "./assessment/classes/class.ilObjTestGUI.php";
 
 unset($id);
 

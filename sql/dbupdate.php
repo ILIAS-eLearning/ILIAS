@@ -8830,3 +8830,6 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 	$ilDB->query($q);
 }
 ?>
+<#550>
+ALTER TABLE `tst_tests` ADD `hide_previous_results` ENUM( '0', '1' ) DEFAULT '0' NOT NULL AFTER `nr_of_tries` ;
+

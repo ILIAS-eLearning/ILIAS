@@ -685,7 +685,8 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*/
 	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, &$formaction, $show_question_page=true, $show_solution_only = false, $ilUser = null)
 	{
-		if (!is_object($ilUser)) {
+		if (!is_object($ilUser)) 
+		{
 			global $ilUser;
 		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"IMAGEMAP_QUESTION", $is_postponed,"", !$show_question_page);
@@ -802,17 +803,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("IMAGEMAP_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
-	/**
-	* Creates an output of the user's solution
-	*
-	* Creates an output of the user's solution
-	*
-	* @access public
-	*/
-	function outUserSolution($user_id, $test_id)
-	{
-	}
-	
 	/**
 	* check input fields
 	*/
