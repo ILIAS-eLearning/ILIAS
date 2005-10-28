@@ -32,7 +32,7 @@
 * @extends ilObjectGUI
 * @package ilias-core
 *
-* @ilCtrl_Calls ilObjUserTrackingGUI: ilLPGUI
+* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI
 */
 
 include_once "classes/class.ilObjectGUI.php";
@@ -65,6 +65,23 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 	}
 
+	function executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass();
+		$this->ctrl->setReturn($this, "show");
+
+		switch($next_class)
+		{
+			default:
+				$cmd = $this->ctrl->getCmd();
+				$cmd .= "Object";
+				$this->$cmd();
+				break;
+		}
+		
+		return true;
+	}		
+
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
@@ -78,20 +95,27 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 															"trackingDataQueryForm"),
 								 "trackingDataQueryForm",
 								 get_class($this));
+			$tabs_gui->addTarget("learning_progress",
+								 $this->ctrl->getLinkTarget($this,
+															"learningProgress"),
+								 "learning_progress",
+								 "illearningprogressgui");
 		}
 	}
 
 
 	function learningProgressObject()
 	{
-		include_once './Services/Tracking/classes/class.ilLPGUI.php';
+		include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
+		$lp_gui = new ilLearningProgressGUI(LP_MODE_ADMINISTRATION);
 
-		$this->ctrl->setTargetScript("./adm_object.php");
-		$this->ctrl->getCallStructure("ilObjUserTrackingGUI");
+		// Horror
+		$this->ctrl->current_node = 1;
+		$this->ctrl->setCmd('show');
+		$ret =& $this->ctrl->forwardCommand($lp_gui);
 
-
-		$ret =& $this->ctrl->forwardCommand(new ilLPGUI());
+		return false;
 	}
 
 	/**

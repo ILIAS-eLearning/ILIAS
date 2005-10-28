@@ -105,6 +105,23 @@ class ilTabsGUI
 	}
 
 	/**
+	* Activate a specific tab identified by name
+	* This method overrides the definition in YOUR_OBJECT::getTabs() and deactivates all other tabs.
+	*
+	* @param	string		$a_text			menu item text
+	* @param	boolean		
+	*/
+	function activate($a_text)
+	{
+		for($i = 0; $i < count($this->target);$i++)
+		{
+			$this->target[$i]['activate'] = $this->target[$i]['text'] == $a_text;
+		}
+		return true;
+	}
+
+
+	/**
 	* get tabs code as html
 	*/
 	function getHTML()

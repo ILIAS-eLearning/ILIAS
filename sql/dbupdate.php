@@ -8879,5 +8879,16 @@ CREATE TABLE IF NOT EXISTS `ut_lp_settings` (
   `mode` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`lps_id`),
   KEY `obj_id` (`obj_id`)
-) TYPE=MyISAM  AUTO_INCREMENT=1 ;
-        
+) TYPE=MyISAM  AUTO_INCREMENT=1;
+<#557>
+CREATE TABLE `frm_notification` (
+  `notification_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `frm_id` int(11) NOT NULL default '0',
+  `thread_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`notification_id`)
+	) TYPE=MyISAM  AUTO_INCREMENT=1;
+<#558>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

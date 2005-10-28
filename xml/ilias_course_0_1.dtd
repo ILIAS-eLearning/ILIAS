@@ -1,21 +1,21 @@
 <!-- Course dtd. -->
 <!-- For MetaData definition have a look at ilias_co.dtd.
     Maybe we should use an include and store the MetaData definistion in a single file -->
-<!ELEMENT Course (MetaData?,Admin*,Tutor*,Member*,Subscriber*,WaitingList*,Settings)>
+<!ELEMENT Course (MetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?)>
 <!ATTLIST Course
     exportVersion CDATA #REQUIRED
-    id CDATA #REQUIRED
+    id CDATA #IMPLIED
 >
 <!-- All course admins
     id: Id is ILIAS user id. User must exist in ILIAS database
-    status: In the moment "0" (No notifications for new subsciptions) or "1" (Notification). Default => "0"
-    passed: "No" (User hasn't passed the course) or "Yes" (Passed)
+    notification: In the moment "0" (No notifications for new subsciptions) or "1" (Notification). Default => "0"
+    passed: "No" (User hasn't passed the course) or "Yes" (Passed) => Default is 'no'
 -->    
 <!ELEMENT Admin EMPTY>
 <!ATTLIST Admin
     id CDATA #REQUIRED
-    notification (Yes | No) #REQUIRED
-    passed (Yes | No) #REQUIRED
+    notification (Yes | No) #IMPLIED
+    passed (Yes | No) #IMPLIED
 >
 <!-- All course tutors
     @see element Admin
@@ -33,8 +33,8 @@
 <!ELEMENT Member EMPTY>
 <!ATTLIST Member
     id CDATA #REQUIRED
-    blocked (Yes | No) #REQUIRED
-    passed (Yes | No) #REQUIRED
+    blocked (Yes | No) #IMPLIED
+    passed (Yes | No) #IMPLIED
 >
 <!-- All users whose registration isn't finished and needs a confirmation by a course admin or tutor
     id: user id. User must exist in ILIAS database.
@@ -55,7 +55,7 @@
     subscriptionTime CDATA #REQUIRED
 >
 <!-- Description of course settings -->
-<!ELEMENT Settings (Availability,Syllabus?,Contact?,Registration,Sort,Archive)>
+<!ELEMENT Settings (Availability?,Syllabus?,Contact?,Registration?,Sort?,Archive?)>
 
 <!-- Availability -->
 <!ELEMENT Availability (NotAvailable | Unlimited | TemporarilyAvailable)>
@@ -103,8 +103,8 @@
 -->
 <!ATTLIST Registration
     registrationType (Confirmation | Direct | Password) #IMPLIED
-    maxMembers CDATA #REQUIRED
-    notification (Yes | No) #REQUIRED
+    maxMembers CDATA #IMPLIED
+    notification (Yes | No) #IMPLIED
 >
 
 <!-- Sort order of course items -->
