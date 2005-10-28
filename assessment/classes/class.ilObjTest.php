@@ -32,17 +32,18 @@
 * @package assessment
 */
 
-require_once "./classes/class.ilObject.php";
-require_once "./assessment/classes/class.assMarkSchema.php";
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assClozeTest.php";
-require_once "./assessment/classes/class.assImagemapQuestion.php";
-require_once "./assessment/classes/class.assJavaApplet.php";
-require_once "./assessment/classes/class.assMatchingQuestion.php";
-require_once "./assessment/classes/class.assMultipleChoice.php";
-require_once "./assessment/classes/class.assOrderingQuestion.php";
-require_once "./classes/class.ilObjAssessmentFolder.php";
-require_once "./classes/class.ilSearch.php";
+include_once "./classes/class.ilObject.php";
+include_once "./assessment/classes/class.assMarkSchema.php";
+include_once "./assessment/classes/class.assQuestion.php";
+include_once "./assessment/classes/class.assClozeTest.php";
+include_once "./assessment/classes/class.assImagemapQuestion.php";
+include_once "./assessment/classes/class.assJavaApplet.php";
+include_once "./assessment/classes/class.assMatchingQuestion.php";
+include_once "./assessment/classes/class.assMultipleChoice.php";
+include_once "./assessment/classes/class.assOrderingQuestion.php";
+include_once "./assessment/classes/class.assTextQuestion.php";
+include_once "./classes/class.ilObjAssessmentFolder.php";
+include_once "./classes/class.ilSearch.php";
 
 
 define("TEST_FIXED_SEQUENCE", 0);
@@ -3886,25 +3887,32 @@ class ilObjTest extends ilObject
 
 			switch ($question_type) {
 				case "qt_cloze":
+					include_once "./assessment/classes/class.assClozeTest.php";
 					$question = new ASS_ClozeTest();
 					break;
 				case "qt_matching":
+					include_once "./assessment/classes/class.assMatchingQuestion.php";
 					$question = new ASS_MatchingQuestion();
 					break;
 				case "qt_ordering":
+					include_once "./assessment/classes/class.assOrderingQuestion.php";
 					$question = new ASS_OrderingQuestion();
 					break;
 				case "qt_imagemap":
+					include_once "./assessment/classes/class.assImagemapQuestion.php";
 					$question = new ASS_ImagemapQuestion();
 					break;
 				case "qt_multiple_choice_sr":
 				case "qt_multiple_choice_mr":
+					include_once "./assessment/classes/class.assMultipleChoice.php";
 					$question = new ASS_MultipleChoice();
 					break;
 				case "qt_javaapplet":
+					include_once "./assessment/classes/class.assJavaApplet.php";
 					$question = new ASS_JavaApplet();
 					break;
 				case "qt_text":
+					include_once "./assessment/classes/class.assTextQuestion.php";
 					$question = new ASS_TextQuestion();
 					break;
 

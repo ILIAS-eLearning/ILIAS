@@ -615,7 +615,6 @@ class ASS_Question
 	*/
 	function createPageObject()
 	{
-//		$qpl_id = ilObject::_lookupObjectId($this->getRefId());
 		$qpl_id = $this->getObjId();
 
 		include_once "./content/classes/Pages/class.ilPageObject.php";
@@ -859,6 +858,7 @@ class ASS_Question
     global $ilDB;
 		global $ilUser;
 		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id);
+		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s, %s)",
 			$ilDB->quote($ilUser->id . ""),
@@ -933,6 +933,7 @@ class ASS_Question
 	*/
 	function getJavaPathWeb()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -947,6 +948,7 @@ class ASS_Question
 	*/
 	function getImagePathWeb()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -1595,6 +1597,7 @@ class ASS_Question
 		{
 			$type = $matches[1];
 			$target_id = $matches[2];
+			include_once "./classes/class.ilUtil.php";
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":
