@@ -8833,3 +8833,51 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 <#550>
 ALTER TABLE `tst_tests` ADD `hide_previous_results` ENUM( '0', '1' ) DEFAULT '0' NOT NULL AFTER `nr_of_tries` ;
 
+<#551>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#552>
+ALTER TABLE `frm_settings` ADD `anonymized` TINYINT( 1 ) DEFAULT '0' NOT NULL AFTER `default_view`;
+
+<#553>
+CREATE TABLE IF NOT EXISTS `ut_learning_progress` (
+  `lp_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `obj_type` char(4)  NOT NULL default '',
+  `obj_id` int(11) NOT NULL default '0',
+  `spent_time` int(10) NOT NULL default '0',
+  `access_time` int(10) NOT NULL default '0',
+  `visits` int(4) NOT NULL default '0',
+  PRIMARY KEY  (`lp_id`),
+  KEY `user_obj` (`user_id`,`obj_id`)
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
+
+<#554>
+
+CREATE TABLE IF NOT EXISTS `ut_login` (
+  `usr_id` int(11) NOT NULL default '0',
+  `login_time` int(10) NOT NULL default '0'
+) TYPE=MyISAM;
+
+<#555>
+CREATE TABLE IF NOT EXISTS `ut_lp_filter` (
+  `lpf_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `shown` text  NOT NULL,
+  `hidden` text  NOT NULL,
+  `mode` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`lpf_id`),
+  KEY `user_id` (`user_id`)
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
+
+<#556>
+CREATE TABLE IF NOT EXISTS `ut_lp_settings` (
+  `lps_id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL default '0',
+  `obj_type` char(4) NOT NULL default '',
+  `mode` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`lps_id`),
+  KEY `obj_id` (`obj_id`)
+) TYPE=MyISAM  AUTO_INCREMENT=1 ;
+        
