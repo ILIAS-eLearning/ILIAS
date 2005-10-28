@@ -2721,13 +2721,24 @@ class ilObjTest extends ilObject
 * @return array The question id's of the questions already worked through
 * @access	public
 */
-	function &getWorkedQuestions()
+	function &getWorkedQuestions($pass = NULL)
 	{
 		global $ilUser;
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = 0 GROUP BY question_fi",
-			$this->ilias->db->quote($ilUser->id),
-			$this->ilias->db->quote($this->getTestId())
-		);
+		if (is_null($pass))
+		{
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = 0 GROUP BY question_fi",
+				$this->ilias->db->quote($ilUser->id),
+				$this->ilias->db->quote($this->getTestId())
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = %s GROUP BY question_fi",
+				$this->ilias->db->quote($ilUser->id . ""),
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($pass . "")
+			);
+		}
 		$result = $this->ilias->db->query($query);
 		$result_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -5268,15 +5279,21 @@ class ilObjTest extends ilObject
 * @return string The answer text
 * @access public
 */
-	function getTextAnswer($user_id, $question_id)
+	function getTextAnswer($user_id, $question_id, $pass = NULL)
 	{
 		$res = "";
 		if (($user_id) && ($question_id))
 		{
-			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
+			if (is_null($pass))
+			{
+				include_once "./assessment/classes/class.assQuestion.php";
+				$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $this->getTestId());
+			}
+			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$this->ilias->db->quote($user_id . ""),
 				$this->ilias->db->quote($this->getTestId() . ""),
-				$this->ilias->db->quote($question_id . "")
+				$this->ilias->db->quote($question_id . ""),
+				$this->ilias->db->quote($pass . "")
 			);
 			$result = $this->ilias->db->query($query);
 			if ($result->numRows() == 1)
@@ -5515,32 +5532,6 @@ class ilObjTest extends ilObject
 		$insertresult = $this->ilias->db->query($query);
 	}
 	
-/**
-* Gets the 
-* 
-* Gets the 
-*
-* @return array The question id's of the questions already worked through
-* @access	public
-*/
-	function &getAllSolutionValues()
-	{
-		global $ilUser;
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = 0 GROUP BY question_fi",
-			$this->ilias->db->quote($ilUser->id),
-			$this->ilias->db->quote($this->getTestId())
-		);
-		$result = $this->ilias->db->query($query);
-		
-		$result_array = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			array_push($result_array, $row->question_fi);
-		}
-		return $result_array;
-	}
-	
-
 	/**
 	 * gets TestType equals Online Test
 	 * 

@@ -444,7 +444,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function isInUse($question_id)
 	{
-		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s AND pass = 0",
+		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote("$question_id"));
 
 		$result = $this->ilias->db->query($query);
