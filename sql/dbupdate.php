@@ -8892,3 +8892,7 @@ CREATE TABLE `frm_notification` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#559>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
