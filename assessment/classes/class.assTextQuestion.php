@@ -602,15 +602,20 @@ class ASS_TextQuestion extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 
 		$points = 0;
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$this->ilias->db->quote($user_id),
-			$this->ilias->db->quote($test_id),
-			$this->ilias->db->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
 		);
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows() == 1)
@@ -654,13 +659,14 @@ class ASS_TextQuestion extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedInformation($user_id, $test_id)
+	function getReachedInformation($user_id, $test_id, $pass = NULL)
 	{
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-		$this->ilias->db->quote($user_id),
-		$this->ilias->db->quote($test_id),
-		$this->ilias->db->quote($this->getId())
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
 		);
 		$result = $this->ilias->db->query($query);
 		$user_result = array();
@@ -690,10 +696,13 @@ class ASS_TextQuestion extends ASS_Question
 
 		$db =& $ilDB->db;
 
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$db->quote($ilUser->id),
-			$db->quote($test_id),
-			$db->quote($this->getId())
+		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+		
+		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$db->quote($ilUser->id . ""),
+			$db->quote($test_id . ""),
+			$db->quote($this->getId() . ""),
+			$db->quote($pass . "")
 		);
 		$result = $db->query($query);
 
@@ -702,11 +711,12 @@ class ASS_TextQuestion extends ASS_Question
 		{
 			$text = substr($text, 0, $this->getMaxNumOfChars()); 
 		}
-		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
-			$db->quote($ilUser->id),
-			$db->quote($test_id),
-			$db->quote($this->getId()),
-			$db->quote($text)
+		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
+			$db->quote($ilUser->id . ""),
+			$db->quote($test_id . ""),
+			$db->quote($this->getId() . ""),
+			$db->quote($text . ""),
+			$db->quote($pass . "")
 		);
 		$result = $db->query($query);
     parent::saveWorkingData($test_id);
