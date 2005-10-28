@@ -231,7 +231,7 @@ class ilObjTestAccess extends ilObjectAccess
 * @return array An array containing the test results for the given user
 * @access public
 */
-	function &_getTestResult($user_id, $test_obj_id) 
+	function &_getTestResult($user_id, $test_obj_id, $pass = NULL) 
 	{
 		global $ilDB;
 		
@@ -253,25 +253,44 @@ class ilObjTestAccess extends ilObjectAccess
 				array_push($test_result["marks"], $row);
 			}
 			// count points
-			$query = sprintf("SELECT qpl_questions.*, tst_test_result.points AS reached_points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s",
-				$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($test_obj_id) . ""),
-				$ilDB->quote($user_id . "")
-			);
+//			$query = sprintf("SELECT qpl_questions.*, tst_test_result.points AS reached_points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s",
+//				$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($test_obj_id) . ""),
+//				$ilDB->quote($user_id . "")
+//			);
+			$test_id = ilObjTestAccess::_getTestIDFromObjectID($test_obj_id);
+			if (is_null($pass))
+			{
+				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s AND tst_test_result.pass = %s",
+					$ilDB->quote($test_id . ""),
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote("0")
+				);
+			}
+			else
+			{
+				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s AND tst_test_result.pass = %s",
+					$ilDB->quote($test_id . ""),
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote($pass . "")
+				);
+			}
 			$result = $ilDB->query($query);
 			$max_points = 0;
 			$reached_points = 0;
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
+				include_once "./assessment/classes/class.assQuestion.php";
+				$preached = ASS_Question::_getReachedPoints($user_id, $test_id, $row["question_id"], $pass)
 				$max_points += $row["points"];
 				switch ($tst_marks[0]["count_system"])
 				{
 					case 0: // COUNT_PARTIAL_SOLUTIONS
-						$reached_points += $row["reached_points"];
+						$reached_points += $preached;
 						break;
 					case 1: // COUNT_CORRECT_SOLUTIONS
-						if ($row["reached_points"] == $row["points"])
+						if ($preached == $row["points"])
 						{
-							$reached_points += $row["reached_points"];
+							$reached_points += $preached;
 						}
 						break;
 				}
