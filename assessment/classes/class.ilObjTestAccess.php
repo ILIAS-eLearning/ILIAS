@@ -280,7 +280,7 @@ class ilObjTestAccess extends ilObjectAccess
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$preached = ASS_Question::_getReachedPoints($user_id, $test_id, $row["question_id"], $pass)
+				$preached = ASS_Question::_getReachedPoints($user_id, $test_id, $row["question_id"], $pass);
 				$max_points += $row["points"];
 				switch ($tst_marks[0]["count_system"])
 				{
