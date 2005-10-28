@@ -239,10 +239,12 @@ class ASS_OrderingQuestion extends ASS_Question
 		if ($test_output)
 		{
 			// create array keys from an existing solution
-			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s AND pass = 0 ORDER BY value2",
-				$ilDB->quote($test_output),
-				$ilDB->quote($ilUser->id),
-				$ilDB->quote($this->getId())
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s AND pass = %s ORDER BY value2",
+				$ilDB->quote($test_output . ""),
+				$ilDB->quote($ilUser->id . ""),
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($pass . "")
 			);
 			$queryres = $ilDB->query($query);
 			if ($queryres->numRows() == count($this->answers))
@@ -903,16 +905,21 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 		
 		$found_value1 = array();
 		$found_value2 = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$ilDB->quote($user_id),
-			$ilDB->quote($test_id),
-			$ilDB->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		$user_order = array();
@@ -976,14 +983,19 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedInformation($user_id, $test_id)
+	function getReachedInformation($user_id, $test_id, $pass = NULL)
 	{
 		$found_value1 = array();
 		$found_value2 = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$this->ilias->db->quote($user_id),
-			$this->ilias->db->quote($test_id),
-			$this->ilias->db->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
 		);
 		$result = $this->ilias->db->query($query);
 		$user_result = array();
@@ -1121,10 +1133,13 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			$db =& $ilDB->db;
 	
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-				$db->quote($ilUser->id),
-				$db->quote($test_id),
-				$db->quote($this->getId())
+			$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+				$db->quote($ilUser->id . ""),
+				$db->quote($test_id . ""),
+				$db->quote($this->getId() . ""),
+				$db->quote($pass . "")
 			);
 			$result = $db->query($query);
 			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
@@ -1134,12 +1149,13 @@ class ASS_OrderingQuestion extends ASS_Question
 				$ordervalue = 1;
 				foreach ($orderarray as $index)
 				{
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-						$db->quote($ilUser->id),
-						$db->quote($test_id),
-						$db->quote($this->getId()),
-						$db->quote($index),
-						$db->quote($ordervalue)
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+						$db->quote($ilUser->id . ""),
+						$db->quote($test_id . ""),
+						$db->quote($this->getId() . ""),
+						$db->quote($index . ""),
+						$db->quote($ordervalue . ""),
+						$db->quote($pass . "")
 					);
 					$result = $db->query($query);
 					$ordervalue++;
@@ -1153,12 +1169,13 @@ class ASS_OrderingQuestion extends ASS_Question
 					{
 						if (!(preg_match("/initial_value_\d+/", $value)))
 						{
-							$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-								$db->quote($ilUser->id),
-								$db->quote($test_id),
-								$db->quote($this->getId()),
-								$db->quote($matches[1]),
-								$db->quote($value)
+							$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+								$db->quote($ilUser->id . ""),
+								$db->quote($test_id . ""),
+								$db->quote($this->getId() . ""),
+								$db->quote($matches[1] . ""),
+								$db->quote($value . ""),
+								$db->quote($pass . "")
 							);
 							$result = $db->query($query);
 						}
@@ -1242,17 +1259,23 @@ class ASS_OrderingQuestion extends ASS_Question
 		return $array;
 	}
 	
-	function createRandomSolution($test_id, $user_id)
+	function createRandomSolution($test_id, $user_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
 
 		$db =& $ilDB->db;
 
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$db->quote($user_id),
-			$db->quote($test_id),
-			$db->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		
+		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$db->quote($user_id . ""),
+			$db->quote($test_id . ""),
+			$db->quote($this->getId() . ""),
+			$db->quote($pass . "")
 		);
 		$result = $db->query($query);
 
@@ -1260,12 +1283,13 @@ class ASS_OrderingQuestion extends ASS_Question
 		$orders = $this->pc_array_shuffle($orders);
 		foreach ($this->answers as $key => $value)
 		{
-			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($user_id),
-				$db->quote($test_id),
-				$db->quote($this->getId()),
-				$db->quote($key),
-				$db->quote(array_pop($orders))
+			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($user_id . ""),
+				$db->quote($test_id . ""),
+				$db->quote($this->getId() . ""),
+				$db->quote($key . ""),
+				$db->quote(array_pop($orders) . ""),
+				$db->quote($pass . "")
 			);
 			$result = $db->query($query);
 		}
