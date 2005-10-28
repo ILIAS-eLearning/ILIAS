@@ -893,15 +893,20 @@ class ASS_MultipleChoice extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 		
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$ilDB->quote($user_id),
-			$ilDB->quote($test_id),
-			$ilDB->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -973,14 +978,19 @@ class ASS_MultipleChoice extends ASS_Question
 	* @return boolean
 	* @access public
 	*/
-	function wasAnsweredByUser($user_id, $test_id)
+	function wasAnsweredByUser($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$ilDB->quote($user_id),
-			$ilDB->quote($test_id),
-			$ilDB->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1009,13 +1019,18 @@ class ASS_MultipleChoice extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedInformation($user_id, $test_id)
+	function getReachedInformation($user_id, $test_id, $pass = NULL)
 	{
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-		$this->ilias->db->quote($user_id),
-		$this->ilias->db->quote($test_id),
-		$this->ilias->db->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
 		);
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1064,50 +1079,56 @@ class ASS_MultipleChoice extends ASS_Question
 
 		$db =& $ilDB->db;
 
+		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+
 		if ($this->response == RESPONSE_SINGLE)
 		{
-			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-				$db->quote($ilUser->id),
-				$db->quote($test_id),
-				$db->quote($this->getId())
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+				$db->quote($ilUser->id . ""),
+				$db->quote($test_id . ""),
+				$db->quote($this->getId() . ""),
+				$db->quote($pass . "")
 			);
 			$result = $db->query($query);
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			$update = $row->solution_id;
 			if ($update)
 			{
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s AND pass = 0",
+				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
 					$db->quote($_POST["multiple_choice_result"]),
 					$db->quote($update));
 			}
 			else
 			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
 					$db->quote($this->getId()),
-					$db->quote($_POST["multiple_choice_result"])
+					$db->quote($_POST["multiple_choice_result"]),
+					$db->quote($pass . "")
 				);
 			}
 			$result = $db->query($query);
 		}
 		else
 		{
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-				$db->quote($ilUser->id),
-				$db->quote($test_id),
-				$db->quote($this->getId())
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+				$db->quote($ilUser->id . ""),
+				$db->quote($test_id . ""),
+				$db->quote($this->getId() . ""),
+				$db->quote($pass . "")
 			);
 			$result = $db->query($query);
 			foreach ($_POST as $key => $value)
 			{
 				if (preg_match("/^multiple_choice_result_(\d+)/", $key, $matches))
 				{
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
 						$db->quote($ilUser->id),
 						$db->quote($test_id),
 						$db->quote($this->getId()),
-						$db->quote($value)
+						$db->quote($value),
+						$db->quote($pass . "")
 					);
 					$result = $db->query($query);
 				}
@@ -1173,7 +1194,7 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 	}
 
-	function createRandomSolution($test_id, $user_id)
+	function createRandomSolution($test_id, $user_id, $pass = NULL)
 	{
 		mt_srand((double)microtime()*1000000);
 		$answer = mt_rand(0, count($this->answers)-1);
@@ -1183,39 +1204,46 @@ class ASS_MultipleChoice extends ASS_Question
 
 		$db =& $ilDB->db;
 
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
 		if ($this->response == RESPONSE_SINGLE)
 		{
-			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$db->quote($user_id),
 				$db->quote($test_id),
-				$db->quote($this->getId())
+				$db->quote($this->getId()),
+				$db->quote($pass . "")
 			);
 			$result = $db->query($query);
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			$update = $row->solution_id;
 			if ($update)
 			{
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s AND pass = 0",
+				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
 					$db->quote($answer),
 					$db->quote($update));
 			}
 			else
 			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
 					$db->quote($user_id),
 					$db->quote($test_id),
 					$db->quote($this->getId()),
-					$db->quote($answer)
+					$db->quote($answer),
+					$db->quote($pass . "")
 				);
 			}
 			$result = $db->query($query);
 		}
 		else
 		{
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$db->quote($user_id),
 				$db->quote($test_id),
-				$db->quote($this->getId())
+				$db->quote($this->getId()),
+				$db->quote($pass . "")
 			);
 			$result = $db->query($query);
 			$answerarray = array();
@@ -1226,11 +1254,12 @@ class ASS_MultipleChoice extends ASS_Question
 			}
 			foreach ($answerarray as $key => $value)
 			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
 					$db->quote($user_id),
 					$db->quote($test_id),
 					$db->quote($this->getId()),
-					$db->quote($key)
+					$db->quote($key),
+					$db->quote($pass . "")
 				);
 				$result = $db->query($query);
 			}

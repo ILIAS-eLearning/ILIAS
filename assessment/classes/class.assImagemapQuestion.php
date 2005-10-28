@@ -937,16 +937,21 @@ class ASS_ImagemapQuestion extends ASS_Question {
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 		
     $found_values = array();
-    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-      $ilDB->quote($user_id),
-      $ilDB->quote($test_id),
-      $ilDB->quote($this->getId())
-    );
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
+		);
     $result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -1002,12 +1007,18 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @param integer $test_id The database Id of the test containing the question
 * @access public
 */
-  function getReachedInformation($user_id, $test_id) {
+  function getReachedInformation($user_id, $test_id, $pass = NULL) 
+	{
     $found_values = array();
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-      $this->ilias->db->quote($user_id),
-      $this->ilias->db->quote($test_id),
-      $this->ilias->db->quote($this->getId())
+      $this->ilias->db->quote($user_id . ""),
+      $this->ilias->db->quote($test_id . ""),
+      $this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
     );
     $result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1054,18 +1065,22 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		global $ilUser;
     $db =& $ilDB->db;
 
-    $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-      $db->quote($ilUser->id),
-      $db->quote($test_id),
-      $db->quote($this->getId())
+		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+		
+    $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+      $db->quote($ilUser->id . ""),
+      $db->quote($test_id . ""),
+      $db->quote($this->getId() . ""),
+			$db->quote($pass . "")
     );
     $result = $db->query($query);
 
-		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
 			$db->quote($ilUser->id),
 			$db->quote($test_id),
 			$db->quote($this->getId()),
-			$db->quote($_GET["selImage"])
+			$db->quote($_GET["selImage"]),
+			$db->quote($pass . "")
 		);
 		$result = $db->query($query);
     parent::saveWorkingData($test_id);

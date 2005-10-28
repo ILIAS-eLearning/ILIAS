@@ -1421,44 +1421,49 @@ class ASS_ClozeTest extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 		
     $found_value1 = array();
     $found_value2 = array();
-    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $ilDB->quote($user_id),
-      $ilDB->quote($test_id),
-      $ilDB->quote($this->getId())
-    );
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
+		);
     $result = $ilDB->query($query);
 		$user_result = array();
-    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		{
 			if (strcmp($data->value2, "") != 0)
 			{
-				if ($data->pass >= $user_result[$data->value1]["pass"])
-				{
-					$user_result[$data->value1] = array(
-						"gap_id" => $data->value1,
-						"value" => $data->value2,
-						"pass" => $data->pass
-					);
-				}
+				$user_result[$data->value1] = array(
+					"gap_id" => $data->value1,
+					"value" => $data->value2
+				);
 			}
     }
     $points = 0;
     $counter = 0;
-		foreach ($user_result as $gap_id => $value) {
+		foreach ($user_result as $gap_id => $value) 
+		{
 			if ($this->gaps[$gap_id][0]->get_cloze_type() == CLOZE_TEXT) 
 			{
-				$gapmaxpoints = 0;
+				$foundsolution = 0;
 				foreach ($this->gaps[$gap_id] as $k => $v) 
 				{
-					$getpoints = $this->getTextgapPoints($v->get_answertext(), $value["value"], $v->get_points());
-					if ($getpoints > $gapmaxpoints) $gapmaxpoints = $getpoints;
+					if ((strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) && (!$foundsolution)) 
+					{
+						$points += $v->get_points();
+						$foundsolution = 1;
+					}
 				}
-				$points += $gapmaxpoints;
 			} 
 			else 
 			{
@@ -1507,21 +1512,26 @@ class ASS_ClozeTest extends ASS_Question
 * @param integer $test_id The database Id of the test containing the question
 * @access public
 */
-  function getReachedInformation($user_id, $test_id) {
+  function getReachedInformation($user_id, $test_id, $pass = NULL) 
+	{
     $found_value1 = array();
     $found_value2 = array();
 		$pass = array();
-    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->quote($user_id),
-      $this->ilias->db->quote($test_id),
-      $this->ilias->db->quote($this->getId())
-    );
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
+		);
     $result = $this->ilias->db->query($query);
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
       array_push($found_value1, $data->value1);
       array_push($found_value2, $data->value2);
-			array_push($pass, $data->pass);
     }
     $counter = 1;
 		$user_result = array();
@@ -1533,8 +1543,7 @@ class ASS_ClozeTest extends ASS_Question
 					"gap" => "$counter",
 					"points" => 0,
 					"true" => 0,
-					"value" => $found_value2[$key],
-					"pass" => 0
+					"value" => $found_value2[$key]
 				);
         foreach ($this->gaps[$value] as $k => $v) 
 				{
@@ -1544,8 +1553,7 @@ class ASS_ClozeTest extends ASS_Question
 							"gap" => "$counter",
 							"points" => $v->get_points(),
 							"true" => 1,
-							"value" => $found_value2[$key],
-							"pass" => $pass[$key]
+							"value" => $found_value2[$key]
 						);
           }
         }
@@ -1556,8 +1564,7 @@ class ASS_ClozeTest extends ASS_Question
 					"gap" => "$counter",
 					"points" => 0,
 					"true" => 0,
-					"value" => $found_value2[$key],
-					"pass" => $pass[$key]
+					"value" => $found_value2[$key]
 				);
         if ($this->gaps[$value][$found_value1[$key]]->isStateSet()) 
 				{
@@ -1566,10 +1573,7 @@ class ASS_ClozeTest extends ASS_Question
         }
       }
 			$counter++;
-			if ($solution["pass"] >= $user_result[$value]["pass"])
-			{
-				$user_result[$value] = $solution;
-			}
+			$user_result[$value] = $solution;
     }
     return $user_result;
   }
@@ -1622,7 +1626,8 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $answers
 */
-  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) {
+  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) 
+	{
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
