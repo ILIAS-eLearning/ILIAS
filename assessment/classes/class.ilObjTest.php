@@ -1283,21 +1283,24 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function saveRandomQuestion($question_id) 
+	function saveRandomQuestion($question_id, $pass = NULL) 
 	{
 		global $ilUser;
 		
-		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s AND pass = 0",
+		if (is_null($pass)) $pass = 0;
+		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s AND pass = %s",
 			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($ilUser->id . "")
+			$this->ilias->db->quote($ilUser->id . ""),
+			$this->ilias->db->quote($pass . "")
 		);
 		$result = $this->ilias->db->query($query);
 		
-		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, test_fi, user_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, test_fi, user_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 			$this->ilias->db->quote($this->getTestId() . ""),
 			$this->ilias->db->quote($ilUser->id . ""),
 			$this->ilias->db->quote($question_id . ""),
-			$this->ilias->db->quote(($result->numRows()+1) . "")
+			$this->ilias->db->quote(($result->numRows()+1) . ""),
+			$this->ilias->db->quote($pass . "")
 		);
 		$result = $this->ilias->db->query($query);
 	}
@@ -1454,7 +1457,7 @@ class ilObjTest extends ilObject
 * @param integer $user_id The user id of the test user (necessary for random tests)
 * @access	public
 */
-	function loadQuestions($user_id = "") 
+	function loadQuestions($user_id = "", $pass = NULL) 
 	{
 		global $ilUser;
 		
@@ -1466,9 +1469,11 @@ class ilObjTest extends ilObject
 		}
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = 0 ORDER BY sequence",
+			if (is_null($pass)) $pass = 0;
+			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
 				$db->quote($this->test_id . ""),
-				$db->quote($user_id . "")
+				$db->quote($user_id . ""),
+				$db->quote($pass . "")
 			);
 		}
 		else
@@ -2473,15 +2478,17 @@ class ilObjTest extends ilObject
 * @return array An array containing the already existing questions
 * @access	public
 */
-	function &getExistingQuestions() 
+	function &getExistingQuestions($pass = NULL) 
 	{
 		global $ilUser;
 		$existing_questions = array();
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.pass = 0",
+			if (is_null($pass)) $pass = 0;
+			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.pass = %s",
 				$this->ilias->db->quote($this->getTestId() . ""),
-				$this->ilias->db->quote($ilUser->id . "")
+				$this->ilias->db->quote($ilUser->id . ""),
+				$this->ilias->db->quote($pass . "")
 			);
 		}
 		else
@@ -2756,14 +2763,16 @@ class ilObjTest extends ilObject
 * @return array An array containing the id's as keys and the database row objects as values
 * @access public
 */
-	function &getAllQuestions()
+	function &getAllQuestions($pass = NULL)
 	{
 		global $ilUser;
 		
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.user_fi = %s AND tst_test_random_question.pass = 0 AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")",
-				$this->ilias->db->quote($ilUser->id . "")
+			if (is_null($pass)) $pass = 0;
+			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.user_fi = %s AND tst_test_random_question.pass = %s AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")",
+				$this->ilias->db->quote($ilUser->id . ""),
+				$this->ilias->db->quote($pass . "")
 			);
 		}
 		else
