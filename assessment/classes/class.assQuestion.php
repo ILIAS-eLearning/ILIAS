@@ -1801,6 +1801,35 @@ class ASS_Question
 		}
 		return $result;
 	}
+	
+/**
+* Returns the maximum pass a users question solution
+*
+* Returns the maximum pass a users question solution
+*
+* @param return integer The maximum pass of the users solution
+* @access public
+*/
+	function getSolutionMaxPass($user_id, $test_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . "")
+		);
+    $result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["maxpass"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
 }
 
 ?>

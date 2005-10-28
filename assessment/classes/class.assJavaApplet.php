@@ -790,15 +790,20 @@ class ASS_JavaApplet extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 		
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$ilDB->quote($user_id),
-			$ilDB->quote($test_id),
-			$ilDB->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		$points = 0;
@@ -839,13 +844,18 @@ class ASS_JavaApplet extends ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedInformation($user_id, $test_id)
+	function getReachedInformation($user_id, $test_id, $pass = NULL)
 	{
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$this->ilias->db->quote($user_id),
-			$this->ilias->db->quote($test_id),
-			$this->ilias->db->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
 		);
 		$result = $this->ilias->db->query($query);
 		$counter = 1;
@@ -1012,55 +1022,7 @@ class ASS_JavaApplet extends ASS_Question
 	{
     parent::saveWorkingData($test_id);
 		return true;
-		/*    global $ilDB;
-			global $ilUser;
-	    $db =& $ilDB->db;
-
-    	if ($this->response == RESPONSE_SINGLE) {
-			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-				$db->quote($ilUser->id),
-				$db->quote($test_id),
-				$db->quote($this->getId())
-			);
-			$result = $db->query($query);
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-			$update = $row->solution_id;
-			if ($update) {
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s AND pass = 0",
-					$db->quote($_POST["multiple_choice_result"]),
-					$db->quote($update)
-				);
-			} else {
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
-					$db->quote($ilUser->id),
-					$db->quote($test_id),
-					$db->quote($this->getId()),
-					$db->quote($_POST["multiple_choice_result"])
-				);
-			}
-      $result = $db->query($query);
-    } else {
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-				$db->quote($ilUser->id),
-				$db->quote($test_id),
-				$db->quote($this->getId())
-			);
-			$result = $db->query($query);
-      foreach ($_POST as $key => $value) {
-        if (preg_match("/multiple_choice_result_(\d+)/", $key, $matches)) {
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
-						$db->quote($ilUser->id),
-						$db->quote($test_id),
-						$db->quote($this->getId()),
-						$db->quote($value)
-					);
-          $result = $db->query($query);
-        }
-      }
-    }
-    //parent::saveWorkingData($limit_to);
-		return true;
-*/  }
+  }
 
 	/**
 	* Gets the java applet file name
