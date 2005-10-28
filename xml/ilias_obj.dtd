@@ -11,6 +11,8 @@
 <!ELEMENT CreateDate (#PCDATA)>
 <!ELEMENT LastUpdate (#PCDATA)>
 <!ELEMENT ImportId (#PCDATA)>
-<!ELEMENT References (#PCDATA)>
-
-
+<!ELEMENT References (Operation*)>
+<!ATTLIST References
+    ref_id CDATA #REQUIRED
+>
+<!ELEMENT Operation (#PCDATA)>

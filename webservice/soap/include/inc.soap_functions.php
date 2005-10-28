@@ -165,13 +165,13 @@ function updateCourse($sid,$course_id,$xml)
 	return $sca->updateCourse($sid,$course_id,$xml);
 }
 // Object admninistration
-function getObjectByReference($sid,$a_ref_id)
+function getObjectByReference($sid,$a_ref_id,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
 	$soa =& new ilSoapObjectAdministration();
 
-	return $soa->getObjectByReference($sid,$a_ref_id);
+	return $soa->getObjectByReference($sid,$a_ref_id,$user_id);
 }
 	
 function getObjectsByTitle($sid,$a_title)
@@ -210,13 +210,13 @@ function deleteObject($sid,$reference_id)
 	return $soa->deleteObject($sid,$reference_id);
 }
 
-function searchObjects($sid,$types,$key,$combination)
+function searchObjects($sid,$types,$key,$combination,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
 	$soa =& new ilSoapObjectAdministration();
 
-	return $soa->searchObjects($sid,$types,$key,$combination);
+	return $soa->searchObjects($sid,$types,$key,$combination,$user_id);
 }	
 
 function getTreeChilds($sid,$ref_id,$types)
@@ -300,7 +300,16 @@ function addRole($sid,$target_id,$obj_xml)
 
 	return $soa->addRole($sid,$target_id,$obj_xml);
 }
+/*
+function addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id);
+}
+*/
 function getObjectTreeOperations($sid,$ref_id,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';

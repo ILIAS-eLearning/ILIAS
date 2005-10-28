@@ -104,6 +104,27 @@ class ilAbstractSearch
 			$this->object_types = $a_filter;
 		}
 	}
+
+	/**
+	* Append object type to filter
+	* @param string obj_type e.g. 'role'
+	* @access public
+	*/
+	function appendToFilter($a_type)
+	{
+		if(is_array($this->object_types))
+		{
+			if(in_array($a_type,$this->object_types))
+			{
+				return false;
+			}
+		}
+		$this->object_types[] = $a_type;
+		
+		return true;
+	}
+
+
 	/**
 	* get object type to search in
 	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
