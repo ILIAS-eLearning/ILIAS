@@ -608,15 +608,17 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$solutionoutput = preg_replace("/name=\"gap/", "name=\"solution_gap", $solutionoutput);
 		
 		// if wants question only then strip everything around question element
-		if (!$show_question_page) {		 
+		if (!$show_question_page) 
+		{
 			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		}
 		
 		// if wants solution only then strip the question element from output
-		if ($show_solution_only) {
+		if ($show_solution_only) 
+		{
 			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
 		}
-		//echo htmlentities ($output);
+
 		// set solutions
 		if ($test_id)
 		{
@@ -630,7 +632,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					
 					$repl_str = "dummy=\"tgap_".$solution_value->value1."\"";
 					//
-					/* $output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."]", $output); */
 					if (!$show_question_page)
 					{
 						$output = $this->replaceInputElements($repl_str, $solution_value->value2, $output,"[","]");						
@@ -850,9 +851,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->saveToDb();
 		$this->editQuestion();
 	}
-		
 
-
-	
 }
 ?>
