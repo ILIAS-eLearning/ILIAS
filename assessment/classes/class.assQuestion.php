@@ -957,19 +957,38 @@ class ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function &getSolutionValues($test_id, $ilUser)
+	function &getSolutionValues($test_id, $ilUser, $pass = NULL)
 	{
 		global $ilDB;
 
-		$db =& $ilDB->db;
-
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$db->quote($ilUser->id),
-			$db->quote($test_id),
-			$db->quote($this->getId())
-			);
-		$result = $db->query($query);
 		$values = array();
+		
+		if (is_null($pass))
+		{
+			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+				$ilDB->quote($ilUser->id . ""),
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($this->getId() . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$pass = $row["maxpass"];
+			}
+			else
+			{
+				return $values;
+			}
+		}		
+
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($ilUser->id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
 		while	($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			array_push($values, $row);
