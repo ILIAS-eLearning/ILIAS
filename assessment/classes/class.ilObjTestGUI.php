@@ -840,6 +840,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["enable_processing_time"] = "0";
 		}
+		if ($_POST["chb_hide_previous_results"])
+		{
+			$data["hide_previous_results"] = "1";
+		}
+		else
+		{
+			$data["hide_previous_results"] = "0";
+		}
 
 		if ($data["enable_processing_time"])
 		{
@@ -897,6 +905,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
+		$this->object->setHidePreviousResults($data["hide_previous_results"]);
 		
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
 		{
@@ -904,6 +913,11 @@ class ilObjTestGUI extends ilObjectGUI
     		$this->object->setSequenceSettings(0);
     		$this->object->setNrOfTries(1);
     		$this->object->setRandomTest(0);
+		}
+		
+		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		{
+			$this->object->setHidePreviousResults(1);
 		}
 
 //		$this->object->updateTitleAndDescription();
@@ -1064,6 +1078,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["score_reporting"] = $this->object->getScoreReporting();
 		$data["reporting_date"] = $this->object->getReportingDate();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
+		$data["hide_previous_results"] = $this->object->getHidePreviousResults();
 
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 		$data["processing_time"] = $this->object->getProcessingTime();
@@ -1214,6 +1229,20 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
 			}
+		}
+		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS", $this->lng->txt("tst_hide_previous_results"));
+		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS_DESCRIPTION", $this->lng->txt("tst_hide_previous_results_description"));
+		if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
+		{
+			$data["hide_previous_results"] = 1;
+		}
+		if ($data["hide_previous_results"] == 1)
+		{
+			$this->tpl->setVariable("CHECKED_HIDE_PREVIOUS_RESULTS",  " checked=\"checked\"");
+		}
+		if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
+		{
+			$this->tpl->setVariable("DISABLE_HIDE_PREVIOUS_RESULTS", " disabled=\"disabled\"");
 		}
 		$this->tpl->setVariable("HEADING_SESSION", $this->lng->txt("tst_session_settings"));
 		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
@@ -1538,7 +1567,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
+				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
 				$this->tpl->parseCurrentBlock();
@@ -2933,6 +2962,16 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TEXT_INFO_COL2", $num_of);
 		$this->tpl->parseCurrentBlock();
+		if ((($this->object->getNrOfTries() == 0) || ($this->object->getNrOfTries() > 1)) && ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST))
+		{
+			if ($this->object->getHidePreviousResults() == 1)
+			{
+				$this->tpl->setCurrentBlock("info_row");
+				$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_hide_previous_results") . ":");
+				$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt("tst_hide_previous_results_introduction"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 
 		if ($num_of != 1)
 		{
@@ -3354,7 +3393,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$test_id = $this->object->getTestId();
 		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
-//		$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
 		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
 		
@@ -3369,8 +3407,7 @@ class ilObjTestGUI extends ilObjectGUI
 			default:
 				$question_gui->outWorkingForm($test_id, "", 1);
 		}
-//		$this->tpl->setCurrentBlock("result_description");
-//		$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->getCallingScript() . $this->getAddParameter());
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));

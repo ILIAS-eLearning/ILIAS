@@ -1,11 +1,11 @@
 <?php
 define("ILIAS_MODULE", "assessment");
 chdir("..");
-require_once "./include/inc.header.php";
+include_once "./include/inc.header.php";
 if ($_POST["test_id"] > 0)
 {
 	global $ilDB;
-	$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+	$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 		$ilDB->quote($_POST["user_id"]),
 		$ilDB->quote($_POST["test_id"]),
 		$ilDB->quote($_POST["question_id"])

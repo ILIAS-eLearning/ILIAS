@@ -1030,6 +1030,12 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setNrOfTries($this->metadata["entry"]);
 							}
 							break;
+						case "hide_previous_results":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setHidePreviousResults($this->metadata["entry"]);
+							}
+							break;
 						case "random_test":
 							if (is_object($this->tst_object))
 							{

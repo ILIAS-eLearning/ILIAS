@@ -199,6 +199,16 @@ class ilObjTest extends ilObject
   var $nr_of_tries;
 
 /**
+* Tells ILIAS to hide the previous results of a learner in a later test pass
+* 
+* Tells ILIAS to hide the previous results of a learner in a later test pass
+* The default is 0 which shows the previous results in the next pass.
+*
+* @var integer
+*/
+  var $hide_previous_results;
+
+/**
 * The maximum processing time as hh:mm:ss string
 * 
 * The maximum processing time as hh:mm:ss string the user is allowed to do.
@@ -329,6 +339,7 @@ class ilObjTest extends ilObject
 		$this->score_reporting = REPORT_AFTER_TEST;
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
+		$this->hide_previous_results = 0;
 		$this->starting_time = "";
 		$this->ending_time = "";
 		$this->processing_time = "00:00:00";
@@ -1065,7 +1076,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
         $db->quote($this->author . ""),
         $db->quote($this->test_type . ""),
@@ -1073,6 +1084,7 @@ class ilObjTest extends ilObject
         $db->quote($this->sequence_settings . ""),
         $db->quote($this->score_reporting . ""),
         $db->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$db->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
         $db->quote($this->processing_time . ""),
 				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date . ""),
@@ -1116,13 +1128,14 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
         $db->quote($this->sequence_settings . ""), 
         $db->quote($this->score_reporting . ""), 
-        $db->quote(sprintf("%d", $this->nr_of_tries) . ""), 
+        $db->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$db->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
         $db->quote($this->processing_time . ""),
 				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date . ""), 
@@ -1274,7 +1287,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		
-		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s",
+		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s AND pass = 0",
 			$this->ilias->db->quote($this->getTestId() . ""),
 			$this->ilias->db->quote($ilUser->id . "")
 		);
@@ -1407,6 +1420,7 @@ class ilObjTest extends ilObject
 				$this->sequence_settings = $data->sequence_settings;
 				$this->score_reporting = $data->score_reporting;
 				$this->nr_of_tries = $data->nr_of_tries;
+				$this->setHidePreviousResults($data->hide_previous_results);
 				$this->processing_time = $data->processing_time;
 				$this->enable_processing_time = $data->enable_processing_time;
 				$this->reporting_date = $data->reporting_date;
@@ -1452,7 +1466,7 @@ class ilObjTest extends ilObject
 		}
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi ORDER BY sequence",
+			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = 0 ORDER BY sequence",
 				$db->quote($this->test_id . ""),
 				$db->quote($user_id . "")
 			);
@@ -1808,6 +1822,20 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Returns if the previous results should be hidden for a learner
+* 
+* Returns if the previous results should be hidden for a learner
+*
+* @return integer 1 if the previous results should be hidden, 0 otherwise
+* @access public
+* @see $hide_previous_results
+*/
+  function getHidePreviousResults() 
+	{
+    return $this->hide_previous_results;
+  }
+
+/**
 * Returns the processing time for the test
 * 
 * Returns the processing time for the test
@@ -1896,6 +1924,27 @@ class ilObjTest extends ilObject
   function setNrOfTries($nr_of_tries = 0) 
 	{
     $this->nr_of_tries = $nr_of_tries;
+  }
+
+/**
+* Sets the status of the visibility of previous learner results
+* 
+* Sets the status of the visibility of previous learner results
+**
+* @param integer $hide_previous_results 1 if the previous results should be hidden.
+* @access public
+* @see $hide_previous_results
+*/
+  function setHidePreviousResults($hide_previous_results = 0) 
+	{
+		if ($hide_previous_results)
+		{
+			$this->hide_previous_results = 1;
+		}
+		else
+		{
+			$this->hide_previous_results = 0;
+		}
   }
 
 /**
@@ -2430,7 +2479,7 @@ class ilObjTest extends ilObject
 		$existing_questions = array();
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id",
+			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.pass = 0",
 				$this->ilias->db->quote($this->getTestId() . ""),
 				$this->ilias->db->quote($ilUser->id . "")
 			);
@@ -2675,7 +2724,7 @@ class ilObjTest extends ilObject
 	function &getWorkedQuestions()
 	{
 		global $ilUser;
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s GROUP BY question_fi",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = 0 GROUP BY question_fi",
 			$this->ilias->db->quote($ilUser->id),
 			$this->ilias->db->quote($this->getTestId())
 		);
@@ -2702,7 +2751,7 @@ class ilObjTest extends ilObject
 		
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")",
+			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.user_fi = %s AND tst_test_random_question.pass = 0 AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")",
 				$this->ilias->db->quote($ilUser->id . "")
 			);
 		}
@@ -3238,8 +3287,7 @@ class ilObjTest extends ilObject
 		$first_date = getdate($first_visit);
 		$last_date = getdate($last_visit);
 		$qworkedthrough = 0;
-		$query_worked_through = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s",
-		//$query_worked_through = sprintf("SELECT DISTINCT(question_fi) FROM tst_solutions WHERE user_fi = %s AND test_fi = %s",
+		$query_worked_through = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = 0",
 			$this->ilias->db->quote("$user_id"),
 			$this->ilias->db->quote($this->getTestId())
 		);
@@ -4285,6 +4333,17 @@ class ilObjTest extends ilObject
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
 		$qtiMetadata->append_child($qtiMetadatafield);
+		// hide previous results
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("hide_previous_results");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getHidePreviousResults()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
 		// random test
 		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
 		$qtiFieldLabel = $domxml->create_element("fieldlabel");
@@ -4785,6 +4844,7 @@ class ilObjTest extends ilObject
 		$newObj->reporting_date = $original->getReportingDate();
 		$newObj->test_type = $original->getTestType();
 		$newObj->nr_of_tries = $original->getNrOfTries();
+		$newObj->setHidePreviousResults($original->getHidePreviousResults());
 		$newObj->processing_time = $original->getProcessingTime();
 		$newObj->enable_processing_time = $original->getEnableProcessingTime();
 		$newObj->starting_time = $original->getStartingTime();
@@ -5213,7 +5273,7 @@ class ilObjTest extends ilObject
 		$res = "";
 		if (($user_id) && ($question_id))
 		{
-			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 				$this->ilias->db->quote($user_id . ""),
 				$this->ilias->db->quote($this->getTestId() . ""),
 				$this->ilias->db->quote($question_id . "")
@@ -5466,7 +5526,7 @@ class ilObjTest extends ilObject
 	function &getAllSolutionValues()
 	{
 		global $ilUser;
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s GROUP BY question_fi",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = 0 GROUP BY question_fi",
 			$this->ilias->db->quote($ilUser->id),
 			$this->ilias->db->quote($this->getTestId())
 		);
@@ -5685,6 +5745,25 @@ class ilObjTest extends ilObject
 			}
 		}
 		return $resultarray;
+	}
+	
+	function _getPass($user_id, $test_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT tries FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["tries"];
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 } // END class.ilObjTest

@@ -872,7 +872,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		
 		$found_value1 = array();
 		$found_value2 = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$ilDB->quote($user_id),
 			$ilDB->quote($test_id),
 			$ilDB->quote($this->getId())
@@ -934,7 +934,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	{
 		$found_value1 = array();
 		$found_value2 = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$this->ilias->db->quote($user_id),
 			$this->ilias->db->quote($test_id),
 			$this->ilias->db->quote($this->getId())
@@ -1097,7 +1097,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			$db =& $ilDB->db;
 	
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->getId())
@@ -1226,7 +1226,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		global $ilUser;
 		$db =& $ilDB->db;
 
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$db->quote($user_id),
 			$db->quote($test_id),
 			$db->quote($this->getId())

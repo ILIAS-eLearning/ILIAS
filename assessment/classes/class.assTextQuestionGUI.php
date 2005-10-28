@@ -242,8 +242,6 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", $this->lng->txt("tst_no_solution_available"), $output);			
 		}
 		
-		
-		//echo htmlentities ($output);
 		// set solutions
 		if ($test_id)
 		{
@@ -265,17 +263,6 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION", $output);
 	}
 
-	/**
-	* Creates an output of the user's solution
-	*
-	* Creates an output of the user's solution
-	*
-	* @access public
-	*/
-	function outUserSolution($user_id, $test_id)
-	{
-	}
-	
 	function addSuggestedSolution()
 	{
 		$_SESSION["subquestion_index"] = 0;

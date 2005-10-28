@@ -795,7 +795,7 @@ class ASS_JavaApplet extends ASS_Question
 		global $ilDB;
 		
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$ilDB->quote($user_id),
 			$ilDB->quote($test_id),
 			$ilDB->quote($this->getId())
@@ -842,7 +842,7 @@ class ASS_JavaApplet extends ASS_Question
 	function getReachedInformation($user_id, $test_id)
 	{
 		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$this->ilias->db->quote($user_id),
 			$this->ilias->db->quote($test_id),
 			$this->ilias->db->quote($this->getId())
@@ -1017,7 +1017,7 @@ class ASS_JavaApplet extends ASS_Question
 	    $db =& $ilDB->db;
 
     	if ($this->response == RESPONSE_SINGLE) {
-			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->getId())
@@ -1026,7 +1026,7 @@ class ASS_JavaApplet extends ASS_Question
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			$update = $row->solution_id;
 			if ($update) {
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s AND pass = 0",
 					$db->quote($_POST["multiple_choice_result"]),
 					$db->quote($update)
 				);
@@ -1040,7 +1040,7 @@ class ASS_JavaApplet extends ASS_Question
 			}
       $result = $db->query($query);
     } else {
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->getId())

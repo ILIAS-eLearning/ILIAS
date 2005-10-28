@@ -239,7 +239,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		if ($test_output)
 		{
 			// create array keys from an existing solution
-			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s ORDER BY value2",
+			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s AND pass = 0 ORDER BY value2",
 				$ilDB->quote($test_output),
 				$ilDB->quote($ilUser->id),
 				$ilDB->quote($this->getId())
@@ -909,7 +909,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		
 		$found_value1 = array();
 		$found_value2 = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$ilDB->quote($user_id),
 			$ilDB->quote($test_id),
 			$ilDB->quote($this->getId())
@@ -980,7 +980,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	{
 		$found_value1 = array();
 		$found_value2 = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$this->ilias->db->quote($user_id),
 			$this->ilias->db->quote($test_id),
 			$this->ilias->db->quote($this->getId())
@@ -1121,7 +1121,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			$db =& $ilDB->db;
 	
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->getId())
@@ -1249,7 +1249,7 @@ class ASS_OrderingQuestion extends ASS_Question
 
 		$db =& $ilDB->db;
 
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
 			$db->quote($user_id),
 			$db->quote($test_id),
 			$db->quote($this->getId())

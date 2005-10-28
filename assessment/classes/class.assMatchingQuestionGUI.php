@@ -679,51 +679,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Creates an output of the user's solution
-	*
-	* Creates an output of the user's solution
-	*
-	* @access public
-	*/
-	function outUserSolution($user_id, $test_id)
-	{
-		$results = $this->object->getReachedInformation($user_id, $test_id);
-		foreach ($results as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("tablerow");
-			if ($value["true"])
-			{
-				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("right.png", true));
-				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_right"));
-			}
-			else
-			{
-				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("wrong.png", true));
-				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_wrong"));
-			}
-			$term = "";
-			$definition = "";
-			foreach ($this->object->matchingpairs as $answerkey => $answer)
-			{
-				if ($answer->getDefinitionId() == $value["definition"])
-				{
-					$definition = $answer->getDefinition();
-				}
-				if ($answer->getTermId() == $value["term"])
-				{
-					$term = $answer->getTerm();
-				}
-			}
-			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
-			{
-				$definition = $this->lng->txt("selected_image");
-			}
-			$this->tpl->setVariable("ANSWER_DESCRIPTION", "&quot;<em>" . $definition . "</em>&quot; " . $this->lng->txt("matches") . " &quot;<em>" . $term . "</em>&quot;");
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-	
-	/**
 	* check input fields
 	*/
 	function checkInput()

@@ -1437,10 +1437,14 @@ class ASS_ClozeTest extends ASS_Question
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			if (strcmp($data->value2, "") != 0)
 			{
-				$user_result[$data->value1] = array(
-					"gap_id" => $data->value1,
-					"value" => $data->value2
-				);
+				if ($data->pass >= $user_result[$data->value1]["pass"])
+				{
+					$user_result[$data->value1] = array(
+						"gap_id" => $data->value1,
+						"value" => $data->value2,
+						"pass" => $data->pass
+					);
+				}
 			}
     }
     $points = 0;
@@ -1453,10 +1457,6 @@ class ASS_ClozeTest extends ASS_Question
 				{
 					$getpoints = $this->getTextgapPoints($v->get_answertext(), $value["value"], $v->get_points());
 					if ($getpoints > $gapmaxpoints) $gapmaxpoints = $getpoints;
-/*					if ((strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) && (!$foundsolution)) {
-						$points += $v->get_points();
-						$foundsolution = 1;
-					}*/
 				}
 				$points += $gapmaxpoints;
 			} 
@@ -1510,34 +1510,42 @@ class ASS_ClozeTest extends ASS_Question
   function getReachedInformation($user_id, $test_id) {
     $found_value1 = array();
     $found_value2 = array();
+		$pass = array();
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
       $this->ilias->db->quote($user_id),
       $this->ilias->db->quote($test_id),
       $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
-    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		{
       array_push($found_value1, $data->value1);
       array_push($found_value2, $data->value2);
+			array_push($pass, $data->pass);
     }
     $counter = 1;
 		$user_result = array();
-    foreach ($found_value1 as $key => $value) {
+    foreach ($found_value1 as $key => $value) 
+		{
       if ($this->gaps[$value][0]->get_cloze_type() == CLOZE_TEXT) 
 			{
 				$solution = array(
 					"gap" => "$counter",
 					"points" => 0,
 					"true" => 0,
-					"value" => $found_value2[$key]
+					"value" => $found_value2[$key],
+					"pass" => 0
 				);
-        foreach ($this->gaps[$value] as $k => $v) {
-          if (strcmp(strtolower($v->get_answertext()), strtolower($found_value2[$key])) == 0) {
+        foreach ($this->gaps[$value] as $k => $v) 
+				{
+          if (strcmp(strtolower($v->get_answertext()), strtolower($found_value2[$key])) == 0) 
+					{
 						$solution = array(
 							"gap" => "$counter",
 							"points" => $v->get_points(),
 							"true" => 1,
-							"value" => $found_value2[$key]
+							"value" => $found_value2[$key],
+							"pass" => $pass[$key]
 						);
           }
         }
@@ -1548,15 +1556,20 @@ class ASS_ClozeTest extends ASS_Question
 					"gap" => "$counter",
 					"points" => 0,
 					"true" => 0,
-					"value" => $found_value2[$key]
+					"value" => $found_value2[$key],
+					"pass" => $pass[$key]
 				);
-        if ($this->gaps[$value][$found_value1[$key]]->isStateSet()) {
+        if ($this->gaps[$value][$found_value1[$key]]->isStateSet()) 
+				{
 					$solution["points"] = $this->gaps[$value][$found_value1[$key]]->get_points();
 					$solution["true"] = 1;
         }
       }
 			$counter++;
-			$user_result[$value] = $solution;
+			if ($solution["pass"] >= $user_result[$value]["pass"])
+			{
+				$user_result[$value] = $solution;
+			}
     }
     return $user_result;
   }
@@ -1614,21 +1627,26 @@ class ASS_ClozeTest extends ASS_Question
 		global $ilUser;
     $db =& $ilDB->db;
 
-    $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		include_once "./assessment/classes/class.ilObjTest.php";
+		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+		
+    $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
       $db->quote($ilUser->id),
       $db->quote($test_id),
-      $db->quote($this->getId())
+      $db->quote($this->getId()),
+			$db->quote($pass . "")
     );
     $result = $db->query($query);
 
     foreach ($_POST as $key => $value) {
       if (preg_match("/^gap_(\d+)/", $key, $matches)) {
-        $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
           $db->quote($this->getId()),
           $db->quote($matches[1]),
-          $db->quote(ilUtil::stripSlashes($value))
+          $db->quote(ilUtil::stripSlashes($value)),
+					$db->quote($pass . "")
         );
         $result = $db->query($query);
       }

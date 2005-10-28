@@ -329,7 +329,7 @@ class ilObjAssessmentFolder extends ilObject
 		if ($with_user_actions)
 		{
 			require_once "./assessment/classes/class.ilObjTest.php";
-			$query = sprintf("SELECT tst_solutions.*, tst_solutions.TIMESTAMP + 0 AS TIMESTAMP14 FROM tst_solutions WHERE test_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s",
+			$query = sprintf("SELECT tst_solutions.*, tst_solutions.TIMESTAMP + 0 AS TIMESTAMP14 FROM tst_solutions WHERE test_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND tst_solutions.pass = 0",
 				$this->ilias->db->quote(ilObjTest::_getTestIDFromObjectID($test_id)),
 				$this->ilias->db->quote($ts_from . ""),
 				$this->ilias->db->quote($ts_to . "")

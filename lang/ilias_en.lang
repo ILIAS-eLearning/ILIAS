@@ -451,6 +451,9 @@ assessment#:#tst_finished#:#Finished
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
+assessment#:#tst_hide_previous_results#:#Hide previous results
+assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
+assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
