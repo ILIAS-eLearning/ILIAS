@@ -51,6 +51,15 @@ class ilInfoScreenGUI
 		$this->ctrl =& $ilCtrl;
 		$this->gui_object =& $a_gui_object;
 		$this->sec_nr = 0;
+		$this->private_notes_enabled = false;
+	}
+	
+	/**
+	* enable notes
+	*/
+	function enablePrivateNotes($a_enable = true)
+	{
+		$this->private_notes_enabled = $a_enable;
 	}
 	
 	/**
@@ -106,8 +115,46 @@ class ilInfoScreenGUI
 				}
 			}
 		}
+		
+		// notes section
+		if ($this->private_notes_enabled)
+		{
+			$html = $this->showNotesSection();
+			$tpl->setCurrentBlock("notes");
+			$tpl->setVariable("NOTES", $html);
+			$tpl->parseCurrentBlock();
+		}
+		
 		return $tpl->get();
 	}
+	
+	
+	/**
+	* show notes section
+	*/
+	function showNotesSection()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+
+		include_once("Services/Notes/classes/class.ilNoteGUI.php");
+		$notes_gui = new ilNoteGUI($this->gui_object->object->getId(), 0,
+			$this->gui_object->object->getType());
+		
+		$notes_gui->enablePrivateNotes();
+		//$notes_gui->enablePublicNotes();
+
+		if ($next_class == "ilnotegui")
+		{
+			$html = $this->ctrl->forwardCommand($notes_gui);
+		}
+		else
+		{	
+			$html = $notes_gui->getNotesHTML();
+		}
+		
+		return $html;
+	}
+
 }
 
 ?>

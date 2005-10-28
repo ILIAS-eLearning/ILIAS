@@ -29,7 +29,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilNoteGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -248,6 +248,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
 		
 		// syllabus section
 		$info->addSection($this->lng->txt("crs_syllabus"));
@@ -1065,7 +1066,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		switch ($a_tab)
 		{
 			case "properties":
-				$tab_gui->addTarget("edit_properties",
+				$tab_gui->addTarget("crs_settings",
 					$this->ctrl->getLinkTarget($this,'edit'),
 					"edit", get_class($this));
 				$tab_gui->addTarget("preconditions",
@@ -2655,10 +2656,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			$tabs_gui->addTarget("crs_details",
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
+			$tabs_gui->addTarget("info_short",
 								 $this->ctrl->getLinkTarget($this, "details"),
 								 "details",
-								 get_class($this));
+								 get_class($this),"", $force_active);
 		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
@@ -3966,6 +3970,10 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case "ilnotegui":
+				$ret =& $this->detailsObject();
+				break;
+
 			case 'ilmdeditorgui':
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
