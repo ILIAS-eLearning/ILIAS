@@ -238,8 +238,16 @@ class ASS_OrderingQuestion extends ASS_Question
 
 		if ($test_output)
 		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_output))
+			{
+				$pass = ilObjTest::_getPass($ilUser->id, $test_output);
+			}
+			else
+			{
+				$pass = $this->getSolutionMaxPass($user_id, $test_output);
+			}
 			// create array keys from an existing solution
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
 			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s AND pass = %s ORDER BY value2",
 				$ilDB->quote($test_output . ""),
 				$ilDB->quote($ilUser->id . ""),
