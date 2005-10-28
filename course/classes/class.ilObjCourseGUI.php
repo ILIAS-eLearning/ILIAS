@@ -245,87 +245,88 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_details.html","course");
 
-
-		$this->tpl->setVariable("TITLE",$this->lng->txt("crs_details"));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("crs_details"));
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
 		
-		// SET TXT VARIABLES
-		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("crs_syllabus"));
-		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt("crs_contact"));
-		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("crs_contact_name"));
-		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("crs_contact_responsibility"));
-		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("crs_contact_email"));
-		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("crs_contact_phone"));
-		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("crs_contact_consultation"));
-		$this->tpl->setVariable("TXT_DATES",$this->lng->txt("crs_dates"));
-		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("crs_activation"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_subscription"));
-		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("crs_archive"));
-
-		// FILL
-		$this->tpl->setVariable("SYLLABUS",nl2br($this->object->getSyllabus() ? 
-												 $this->object->getSyllabus() : 
-												 $this->lng->txt("crs_not_available")));
-
-		$this->tpl->setVariable("CONTACT_NAME",$this->object->getContactName() ? 
-								$this->object->getContactName() : 
-								$this->lng->txt("crs_not_available"));
-		$this->tpl->setVariable("CONTACT_RESPONSIBILITY",$this->object->getContactResponsibility() ? 
-								$this->object->getContactResponsibility() : 
-								$this->lng->txt("crs_not_available"));
-		$this->tpl->setVariable("CONTACT_PHONE",$this->object->getContactPhone() ? 
-								$this->object->getContactPhone() : 
-								$this->lng->txt("crs_not_available"));
-		$this->tpl->setVariable("CONTACT_CONSULTATION",nl2br($this->object->getContactConsultation() ? 
-								$this->object->getContactConsultation() : 
-								$this->lng->txt("crs_not_available")));
+		// syllabus section
+		$info->addSection($this->lng->txt("crs_syllabus"));
+		$info->addProperty("",  nl2br($this->object->getSyllabus() ? 
+			 $this->object->getSyllabus() : 
+			 $this->lng->txt("crs_not_available")));
+			 
+		// contact
+		$info->addSection($this->lng->txt("crs_contact"));			
+		$info->addProperty($this->lng->txt("crs_contact_name"),
+			$this->object->getContactName() ? 
+			$this->object->getContactName() : 
+			$this->lng->txt("crs_not_available"));
+		$info->addProperty($this->lng->txt("crs_contact_responsibility"),
+			$this->object->getContactResponsibility() ? 
+			$this->object->getContactResponsibility() : 
+			$this->lng->txt("crs_not_available"));
+		$info->addProperty($this->lng->txt("crs_contact_phone"),
+			$this->object->getContactPhone() ? 
+			$this->object->getContactPhone() : 
+			$this->lng->txt("crs_not_available"));
 		if($this->object->getContactEmail())
 		{
-			$this->tpl->setCurrentBlock("email_link");
-			$this->tpl->setVariable("EMAIL_LINK","mail_new.php?type=new&rcp_to=".$this->object->getContactEmail());
-			$this->tpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
-			$this->tpl->parseCurrentBlock();
+			$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , "course");
+			$etpl->setVariable("EMAIL_LINK","mail_new.php?type=new&rcp_to=".$this->object->getContactEmail());
+			$etpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
+			$info->addProperty($this->lng->txt("crs_contact_email"),
+				$etpl->get());
 		}
-		else
-		{
-			$this->tpl->setCurrentBlock("no_mail");
-			$this->tpl->setVariable("NO_CONTACT_EMAIL",$this->object->getContactEmail());
-			$this->tpl->parseCurrentBlock();
-		}
+		$info->addProperty($this->lng->txt("crs_contact_consultation"),
+			nl2br($this->object->getContactConsultation() ? 
+			$this->object->getContactConsultation() : 
+			$this->lng->txt("crs_not_available")));
+			
+		//	
+		// access
+		//
+		$info->addSection($this->lng->txt("access"));
+		
+		// activation
 		if($this->object->getActivationUnlimitedStatus())
 		{
-			$this->tpl->setVariable("ACTIVATION",$this->lng->txt('crs_unlimited'));
+			$info->addProperty($this->lng->txt("crs_activation"),
+				$this->lng->txt('crs_unlimited'));
 		}
 		else
 		{
-			$str = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getActivationStart())." ".
-				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getActivationEnd());
-			$this->tpl->setVariable("ACTIVATION",$str);
+			$info->addProperty($this->lng->txt("crs_activation"),
+				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getActivationStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getActivationEnd()));
 		}
+		
+		// subscription
 		if($this->object->getSubscriptionUnlimitedStatus())
 		{
-			$this->tpl->setVariable("SUBSCRIPTION",$this->lng->txt('crs_unlimited'));
+			$info->addProperty($this->lng->txt("crs_subscription"),
+				$this->lng->txt('crs_unlimited'));
 		}
 		else
 		{
-			$str = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getSubscriptionStart())." ".
-				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getSubscriptionEnd());
-			$this->tpl->setVariable("SUBSCRIPTION",$str);
+			$info->addProperty($this->lng->txt("crs_subscription"),
+				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getSubscriptionStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getSubscriptionEnd()));
 		}
+		
+		// archive
 		if($this->object->getArchiveType() == $this->object->ARCHIVE_DISABLED)
 		{
-			$this->tpl->setVariable("ARCHIVE",$this->lng->txt('crs_archive_disabled'));
+			$info->addProperty($this->lng->txt("crs_archive"),
+				$this->lng->txt('crs_archive_disabled'));
 		}
 		else
 		{
-			$str = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveStart())." ".
-				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveEnd());
-			$this->tpl->setVariable("ARCHIVE",$str);
+			$info->addProperty($this->lng->txt("crs_archive"),
+				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveEnd()));
 		}
-			
+
+		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML());
 	}
 
 	function listStructureObject()

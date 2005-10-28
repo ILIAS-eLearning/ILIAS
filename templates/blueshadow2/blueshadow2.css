@@ -740,6 +740,54 @@ a.subtabactive
 	a.subtabinactive a.subtabactive {float:none;}
 /* End IE5-Mac hack */
 
+
+/* InfoScreen */
+
+table.il_InfoScreen
+{
+	color:#222222;
+	background-color:#FFFFFF;
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#CACACA;
+}
+
+th.il_InfoScreen
+{
+	text-align:left;
+}
+
+div.il_InfoScreenSection
+{
+	margin: 10px 4px 8px 4px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#909090;
+	color:#909090;
+	font-weight:normal;
+	font-size:130%
+}
+
+td.il_InfoScreenProperty
+{
+	border-right-width:1px;
+	border-right-style:solid;
+	border-right-color:#909090;
+	text-align: right;
+	padding: 3px 10px 3px 4px;
+	vertical-align: top;
+	color:#909090;
+}
+
+td.il_InfoScreenPropertyValue
+{
+	padding: 3px 4px 3px 10px;
+	vertical-align: top;
+}
+
 /* Explorer */
 
 div.il_Explorer
