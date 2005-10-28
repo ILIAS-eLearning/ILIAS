@@ -5287,7 +5287,7 @@ class ilObjTest extends ilObject
 			if (is_null($pass))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $this->getTestId());
+				$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $this->getTestId());
 			}
 			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$this->ilias->db->quote($user_id . ""),

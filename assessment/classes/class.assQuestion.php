@@ -21,15 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assClozeTestGUI.php";
-require_once "./assessment/classes/class.assImagemapQuestionGUI.php";
-require_once "./assessment/classes/class.assJavaAppletGUI.php";
-require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
-require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
-require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
-require_once "./assessment/classes/class.assTextQuestionGUI.php";
-require_once "./content/classes/Pages/class.ilPageObject.php";
-
 define("LIMIT_NO_LIMIT", 0);
 define("LIMIT_TIME_ONLY", 1);
 
@@ -627,6 +618,7 @@ class ASS_Question
 //		$qpl_id = ilObject::_lookupObjectId($this->getRefId());
 		$qpl_id = $this->getObjId();
 
+		include_once "./content/classes/Pages/class.ilPageObject.php";
 		$this->page = new ilPageObject("qpl", 0);
 		$this->page->setId($this->getId());
 		$this->page->setParentId($qpl_id);
@@ -782,15 +774,20 @@ class ASS_Question
 	* @param integer $question_id The database Id of the question
 	* @access public static
 	*/
-	function _getReachedPoints($user_id, $test_id, $question_id)
+	function _getReachedPoints($user_id, $test_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
 
 		$points = 0;
-		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
+		if (is_null($pass))
+		{
+			$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($test_id . ""),
-			$ilDB->quote($question_id . "")
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
@@ -811,15 +808,20 @@ class ASS_Question
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedPoints($user_id, $test_id)
+	function getReachedPoints($user_id, $test_id, $pass = NULL)
 	{
 		global $ilDB;
 
 		$points = 0;
-		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
-			$ilDB->quote($user_id),
-			$ilDB->quote($test_id),
-			$ilDB->quote($this->getId())
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+		}
+		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
@@ -856,15 +858,16 @@ class ASS_Question
 	{
     global $ilDB;
 		global $ilUser;
-    $db =& $ilDB->db;
 		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id);
-		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, pass, points) VALUES (%s, %s, %s, 0, %s)",
-			$db->quote($ilUser->id . ""),
-			$db->quote($test_id . ""),
-			$db->quote($this->getId() . ""),
-			$db->quote($reached_points . "")
+		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s, %s)",
+			$ilDB->quote($ilUser->id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . ""),
+			$ilDB->quote($reached_points . "")
 		);
-    $result = $db->query($query);
+    $result = $ilDB->query($query);
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
@@ -1116,6 +1119,7 @@ class ASS_Question
 			return;
 		}
 
+		include_once "./content/classes/Pages/class.ilPageObject.php";
 		$page = new ilPageObject("qpl", $question_id);
 		$page->delete();
 		
@@ -1211,7 +1215,7 @@ class ASS_Question
 		{
 			array_push($found_id, $row->question_id);
 		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE pass = 0 AND question_fi IN (%s)",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
 			join($found_id, ","));
 		$result = $ilDB->query($query);
 		$answers = array();
@@ -1265,6 +1269,7 @@ class ASS_Question
 	{
 		if ($a_q_id > 0)
 		{
+			include_once "./content/classes/Pages/class.ilPageObject.php";
 			$page = new ilPageObject("qpl", $a_q_id);
 
 			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id,
@@ -1277,6 +1282,7 @@ class ASS_Question
 
 	function getPageOfQuestion()
 	{
+		include_once "./content/classes/Pages/class.ilPageObject.php";
 		$page = new ilPageObject("qpl", $this->id);
 		return $page->getXMLContent();
 	}
@@ -1719,25 +1725,32 @@ class ASS_Question
 			$question_type = ASS_Question::_getQuestionType($question_id);
 			switch ($question_type) {
 				case "qt_cloze":
+					include_once "./assessment/classes/class.assClozeTest.php";
 					$question = new ASS_ClozeTest();
 					break;
 				case "qt_matching":
+					include_once "./assessment/classes/class.assMatchingQuestion.php";
 					$question = new ASS_MatchingQuestion();
 					break;
 				case "qt_ordering":
+					include_once "./assessment/classes/class.assOrderingQuestion.php";
 					$question = new ASS_OrderingQuestion();
 					break;
 				case "qt_imagemap":
+					include_once "./assessment/classes/class.assImagemapQuestion.php";
 					$question = new ASS_ImagemapQuestion();
 					break;
 				case "qt_multiple_choice_sr":
 				case "qt_multiple_choice_mr":
+					include_once "./assessment/classes/class.assMultipleChoice.php";
 					$question = new ASS_MultipleChoice();
 					break;
 				case "qt_javaapplet":
+					include_once "./assessment/classes/class.assJavaApplet.php";
 					$question = new ASS_JavaApplet();
 					break;
 				case "qt_text":
+					include_once "./assessment/classes/class.assTextQuestion.php";
 					$question = new ASS_TextQuestion();
 					break;
 			}

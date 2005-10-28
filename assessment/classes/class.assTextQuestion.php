@@ -532,15 +532,20 @@ class ASS_TextQuestion extends ASS_Question
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function setReachedPoints($user_id, $test_id, $points)
+	function setReachedPoints($user_id, $test_id, $points, $pass = NULL)
 	{
 		if (($points > 0) && ($points <= $this->getPoints()))
 		{
-			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
+			if (is_null($pass))
+			{
+				$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			}
+			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$this->ilias->db->quote($points . ""),
 				$this->ilias->db->quote($user_id . ""),
 				$this->ilias->db->quote($test_id . ""),
-				$this->ilias->db->quote($this->getId() . "")
+				$this->ilias->db->quote($this->getId() . ""),
+				$this->ilias->db->quote($pass . "")
 			);
 			$result = $this->ilias->db->query($query);
 			return true;
@@ -563,17 +568,23 @@ class ASS_TextQuestion extends ASS_Question
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function _setReachedPoints($user_id, $test_id, $question_id, $points, $maxpoints)
+	function _setReachedPoints($user_id, $test_id, $question_id, $points, $maxpoints, $pass = NULL)
 	{
 		global $ilDB;
 		
 		if (($points > 0) && ($points <= $maxpoints))
 		{
-			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
+			if (is_null($pass))
+			{
+				include_once "./assessment/classes/class.assQuestion.php";
+				$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $test_id);
+			}
+			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$ilDB->quote($points . ""),
 				$ilDB->quote($user_id . ""),
 				$ilDB->quote($test_id . ""),
-				$ilDB->quote($question_id . "")
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($pass . "")
 			);
 			$result = $this->ilias->db->query($query);
 
