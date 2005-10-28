@@ -42,7 +42,9 @@ class ilObjectXMLWriter extends ilXmlWriter
 	var $ilias;
 
 	var $xml;
+	var $enable_operations = false;
 	var $objects = array();
+	var $user_id = 0;
 
 	/**
 	* constructor
@@ -58,6 +60,27 @@ class ilObjectXMLWriter extends ilXmlWriter
 		parent::ilXmlWriter();
 
 		$this->ilias =& $ilias;
+	}
+
+	function setUserId($a_id)
+	{
+		$this->user_id = $a_id;
+	}
+	function getUserId()
+	{
+		return $this->user_id;
+	}
+
+	function enableOperations($a_status)
+	{
+		$this->enable_operations = $a_status;
+		
+		return true;
+	}
+
+	function enabledOperations()
+	{
+		return $this->enable_operations;
 	}
 
 	function setObjects($objects)
@@ -97,7 +120,6 @@ class ilObjectXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __appendObject(&$object)
 	{
-		
 		$this->xmlStartTag('Object',
 						   array('type' => $object->getType(),
 								 'obj_id' => $object->getId()));
@@ -110,9 +132,30 @@ class ilObjectXMLWriter extends ilXmlWriter
 		
 		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
 		{
-			$this->xmlElement('References',null,$ref_id);
+			$this->xmlStartTag('References',array('ref_id' => $ref_id));
+			$this->__appendOperations($ref_id,$object->getType());
+			$this->xmlEndTag('References');
 		}
 		$this->xmlEndTag('Object');
+	}
+
+	function __appendOperations($a_ref_id,$a_type)
+	{
+		global $ilAccess,$rbacreview;
+
+		if($this->enabledOperations())
+		{
+			foreach($rbacreview->getOperationsOnTypeString($a_type) as $ops_id)
+			{
+				$operation = $rbacreview->getOperation($ops_id);
+
+				if($ilAccess->checkAccessOfUser($this->getUserId(),$operation['operation'],'view',$a_ref_id))
+				{
+					$this->xmlElement('Operation',null,$operation['operation']);
+				}
+			}
+		}
+		return true;
 	}
 	
 

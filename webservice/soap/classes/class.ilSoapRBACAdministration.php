@@ -326,6 +326,72 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		return $new_roles ? $new_roles : array();
 	}
 
+	function addRoleFromTemplate($sid,$target_id,$role_xml,$template_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
+		{
+			return $this->__raiseError('No valid ref id given. Please choose an existing reference id of an ILIAS object',
+									   'Client');
+		}
+		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
+		
+		$xml_parser =& new ilObjectXMLParser($role_xml);
+		$xml_parser->startParsing();
+
+		foreach($xml_parser->getObjectData() as $object_data)
+		{
+
+			if($rbacreview->roleExists($object_data['title']))
+			{
+				return $this->__raiseError('The rolename must be unique. A role with name '.$object_data['title'].' already exists',
+										   'Client');
+			}
+			// check if role title has il_ prefix
+			if(substr($object_data['title'],0,3) == "il_")
+			{
+				return $this->__raiseError('Rolenames are not allowed to start with "il_" ',
+										   'Client');
+			}
+
+			$rolf_data = $rbacreview->getRoleFolderOfObject($target_id);
+			if (!$rolf_id = $rolf_data["child"])
+			{
+				// can the current object contain a rolefolder?
+				$subobjects = $objDefinition->getSubObjects($tmp_obj->getType());
+				if(!isset($subobjects["rolf"]))
+				{
+					return $this->__raiseError('Cannot create role at this position',
+											   'Client');
+				}
+
+				// CHECK ACCESS 'create' rolefolder
+				if (!$rbacsystem->checkAccess('create',$target_id,'rolf'))
+				{
+					return $this->__raiseError('No permission to create role folders',
+											   'Client');
+				}
+
+				// create a rolefolder
+				$rolf_obj = $tmp_obj->createRoleFolder();
+				$rolf_id = $rolf_obj->getRefId();
+			}
+			$rolf_obj =& ilObjectFactory::getInstanceByRefId($rolf_id);
+			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description']);
+
+			$new_roles[] = $role_obj->getId();
+		}
+
+		return $new_roles ? $new_roles : array();
+	}
+
 	function getObjectTreeOperations($sid,$ref_id,$user_id)
 	{
 		if(!$this->__checkSession($sid))

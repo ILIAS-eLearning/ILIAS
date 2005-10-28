@@ -39,7 +39,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		parent::ilSoapAdministration();
 	}
 		
-	function getObjectByReference($sid,$a_ref_id)
+	function getObjectByReference($sid,$a_ref_id,$user_id)
 	{
 		if(!$this->__checkSession($sid))
 		{
@@ -62,6 +62,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+		if($user_id)
+		{
+			$xml_writer->setUserId($user_id);
+			$xml_writer->enableOperations(true);
+		}
 		$xml_writer->setObjects(array($tmp_obj));
 		if($xml_writer->start())
 		{
@@ -102,6 +107,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
 		$object_search->setFields(array('title'));
+		$object_search->appendToFilter('role');
+		$object_search->appendToFilter('rolt');
 		$res =& $object_search->performSearch();
 
 		$objs = array();
@@ -126,7 +133,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		return $this->__raiseError('Cannot create object xml !','Server');
 	}
 
-	function searchObjects($sid,$types,$key,$combination)
+	function searchObjects($sid,$types,$key,$combination,$user_id)
 	{
 		if(!$this->__checkSession($sid))
 		{
@@ -163,6 +170,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
 		$object_search->setFilter($types);
+		$object_search->appendToFilter('role');
+		$object_search->appendToFilter('rolt');
+
 		$res =& $object_search->performSearch();
 
 
@@ -185,6 +195,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+
+		if($user_id)
+		{
+			$xml_writer->setUserId($user_id);
+			$xml_writer->enableOperations(true);
+		}
 		$xml_writer->setObjects($objs);
 		if($xml_writer->start())
 		{

@@ -322,13 +322,15 @@ class ilNusoapUserAdministrationAdapter
 		// Object administration
 		$this->server->register('getObjectByReference',
 								array('sid' => 'xsd:string',
-									  'reference_id' => 'xsd:int'),
+									  'reference_id' => 'xsd:int',
+									  'user_id' => 'xsd:int'),
 								array('object_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getObjectByReference',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getObjectByReference(). Get XML-description of an ILIAS object ');
+								'ILIAS getObjectByReference(). Get XML-description of an ILIAS object. If a user id is given, '.
+								'this methods also checks the permissions of that user on the object.');
 								
 		$this->server->register('getObjectsByTitle',
 								array('sid' => 'xsd:string',
@@ -344,14 +346,17 @@ class ilNusoapUserAdministrationAdapter
 								array('sid' => 'xsd:string',
 									  'types' => 'tns:stringArray',
 									  'key' => 'xsd:string',
-									  'combination' => 'xsd:string'),
+									  'combination' => 'xsd:string',
+									  'user_id' => 'xsd:int'),
 								array('object_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#searchObjects',
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS searchObjects(): Searches for objects. Key is within "title" or "description" '.
-								'Typical calls are searchObject($sid,array("lm","crs"),"\"this and that\"","and"); ');
+								'Typical calls are searchObject($sid,array("lm","crs"),"\"this and that\"","and"); '.
+								' If an optional user id is given, this methods also return the permissions for that user '.
+								'on the found objects');
 
 		$this->server->register('getTreeChilds',
 								array('sid' => 'xsd:string',
@@ -520,7 +525,21 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS '.
 								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created.');
-
+		/*
+		$this->server->register('addRoleFromTemplate',
+								array('sid' => 'xsd:string',
+									  'target_id' => 'xsd:int',
+									  'obj_xml' => 'xsd:string',
+									  'role_template_id' => 'xsd:int'),
+								array('role_ids' => 'tns:intArray'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addRole',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS '.
+								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created. '.
+								'In addition to addRole the template permissions will be copied from the given role template');
+		*/
 		$this->server->register('getObjectTreeOperations',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
