@@ -113,7 +113,14 @@ class DefaultTestCommandControl extends CommandControl {
 
 		if (($_POST["cmd"]["showresults"]) or ($_GET["sortres"]))
 		{
-			$this->gui->outTestResults();
+			if ($this->obj->getTestType() == TYPE_VARYING_RANDOMTEST)
+			{
+				$this->gui->outVaryingTestResults();
+			}
+			else
+			{
+				$this->gui->outTestResults();
+			}
 			return true;
 		}
 		
