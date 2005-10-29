@@ -4706,6 +4706,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("REPOSITORY", $this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("test_user_name");
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $ilUser->getFullname()));
@@ -6453,6 +6455,18 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl->parseCurrentBlock();				
 	}
 	
+	/**
+	* Returns to the repository
+	*
+	* Returns to the repository
+	*
+	* @access	public
+	*/
+	function repositoryObject()
+	{
+		$path = $this->tree->getPathFull($this->object->getRefID());
+		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+	}
 	
 	function isMaxProcessingTimeReached () {
 		global $ilUser;
