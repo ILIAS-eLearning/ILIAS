@@ -766,7 +766,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$data["random_test"] = ilUtil::stripSlashes($_POST["chb_random"]);
 			}
-			if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+			if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
 			{
 				$data["random_test"] = "1";
 			}
@@ -918,9 +918,9 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			$this->object->setHidePreviousResults(1);
+			$this->object->setRandomTest(1);
 		}
 
-//		$this->object->updateTitleAndDescription();
 		$this->update = $this->object->update();
 		$this->object->saveToDb(true);
 
@@ -2872,7 +2872,19 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// finish test
 			
-			if ($this->object->isOnlineTest() && !$this->object->isActiveTestSubmitted($ilUser->getId())) {
+			if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+			{
+				// create a new set of random questions if more passes are allowed
+				$actualpass = $this->object->_getPass($ilUser->id, $this->object->getTestId());
+				$maxpass = $this->object->getNrOfTries();
+				if (($maxpass == 0) || (($actualpass+1) < ($maxpass)))
+				{
+					$this->object->generateRandomQuestions($actualpass+1);
+				}
+			}
+			
+			if ($this->object->isOnlineTest() && !$this->object->isActiveTestSubmitted($ilUser->getId())) 
+			{
 				$this->outTestSummary();
 				return;
 			}

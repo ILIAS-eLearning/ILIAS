@@ -129,46 +129,8 @@ class DefaultTestCommandControl extends CommandControl {
 			
 		if ($_POST["cmd"]["start"] && $this->obj->isRandomTest())
 		{
-			if ($this->obj->getRandomQuestionCount() > 0)
-			{
-				$qpls =& $this->obj->getRandomQuestionpools();
-				$rndquestions = $this->obj->randomSelectQuestions($this->obj->getRandomQuestionCount(), 0, 1, $qpls);
-				$allquestions = array();
-				foreach ($rndquestions as $question_id)
-				{
-					array_push($allquestions, $question_id);
-				}
-				srand ((float)microtime()*1000000);
-				shuffle($allquestions);
-				foreach ($allquestions as $question_id)
-				{
-					$this->obj->saveRandomQuestion($question_id);
-				}
-				$this->obj->loadQuestions();
-			}
-			else
-			{
-				$qpls =& $this->obj->getRandomQuestionpools();
-				$allquestions = array();
-				foreach ($qpls as $key => $value)
-				{
-					if ($value["count"] > 0)
-					{
-						$rndquestions = $this->obj->randomSelectQuestions($value["count"], $value["qpl"], 1);
-						foreach ($rndquestions as $question_id)
-						{
-							array_push($allquestions, $question_id);
-						}
-					}
-				}
-				srand ((float)microtime()*1000000);
-				shuffle($allquestions);
-				foreach ($allquestions as $question_id)
-				{
-					$this->obj->saveRandomQuestion($question_id);
-				}
-				$this->obj->loadQuestions();
-			}
+			$this->obj->generateRandomQuestions();
+			$this->obj->loadQuestions();
 		}
 			
 		// create new time dataset and set start time

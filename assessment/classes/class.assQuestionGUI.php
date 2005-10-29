@@ -553,9 +553,9 @@ class ASS_QuestionGUI
 					// first save
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+					sendInfo($this->lng->txt("msg_obj_modified"), true);
 					$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 				}
-				$this->editQuestion();
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
 					sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
@@ -564,6 +564,7 @@ class ASS_QuestionGUI
 				{
 					sendInfo($this->lng->txt("msg_obj_modified"), false);
 				}
+				$this->editQuestion();
 	//			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 	//			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 			}

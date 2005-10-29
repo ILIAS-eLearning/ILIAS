@@ -1305,6 +1305,56 @@ class ilObjTest extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 	}
+	
+/**
+* Generates new random questions for the active user
+*
+* Generates new random questions for the active user
+*
+* @access private
+* @see $questions
+*/
+	function generateRandomQuestions($pass = NULL)
+	{
+		if ($this->getRandomQuestionCount() > 0)
+		{
+			$qpls =& $this->getRandomQuestionpools();
+			$rndquestions = $this->randomSelectQuestions($this->getRandomQuestionCount(), 0, 1, $qpls);
+			$allquestions = array();
+			foreach ($rndquestions as $question_id)
+			{
+				array_push($allquestions, $question_id);
+			}
+			srand ((float)microtime()*1000000);
+			shuffle($allquestions);
+			foreach ($allquestions as $question_id)
+			{
+				$this->saveRandomQuestion($question_id, $pass);
+			}
+		}
+		else
+		{
+			$qpls =& $this->getRandomQuestionpools();
+			$allquestions = array();
+			foreach ($qpls as $key => $value)
+			{
+				if ($value["count"] > 0)
+				{
+					$rndquestions = $this->randomSelectQuestions($value["count"], $value["qpl"], 1);
+					foreach ($rndquestions as $question_id)
+					{
+						array_push($allquestions, $question_id);
+					}
+				}
+			}
+			srand ((float)microtime()*1000000);
+			shuffle($allquestions);
+			foreach ($allquestions as $question_id)
+			{
+				$this->saveRandomQuestion($question_id, $pass);
+			}
+		}
+	}
 
 	/**
 	* Saves the total amount of a tests random questions to the database
@@ -1470,7 +1520,10 @@ class ilObjTest extends ilObject
 		}
 		if ($this->isRandomTest())
 		{
-			if (is_null($pass)) $pass = 0;
+			if (is_null($pass))
+			{
+				$pass = $this->_getPass($ilUser->id, $this->getTestId());
+			}
 			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
 				$db->quote($this->test_id . ""),
 				$db->quote($user_id . ""),
@@ -2916,7 +2969,8 @@ class ilObjTest extends ilObject
 				$postponed = preg_replace("/^,/", "", $postponed);
 			}
 			$tries = $old_active->tries;
-			if ($addTries) {
+			if ($addTries) 
+			{
 				$tries++;
 			}
 			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s WHERE user_fi = %s AND test_fi = %s",
@@ -2956,7 +3010,7 @@ class ilObjTest extends ilObject
 		//		global $ilBench;
 		if ($this->isRandomTest())
 		{
-			$this->loadQuestions($user_id);
+			$this->loadQuestions($user_id, 0);
 		}
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
