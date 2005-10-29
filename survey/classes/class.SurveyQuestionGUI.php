@@ -436,8 +436,15 @@ class SurveyQuestionGUI {
 		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
 		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
 
+		if ($_GET["q_id"])
+		{
+			$tabs_gui->addTarget("preview",
+			$this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
+			"$guiclass");
+		}
+		
 		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-			$tabs_gui->addTarget("properties",
+			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
 				array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
 				"addPG", "addPhrase",
@@ -462,13 +469,6 @@ class SurveyQuestionGUI {
 					$guiclass
 				);
 				break;
-		}
-		
-		if ($_GET["q_id"])
-		{
-			$tabs_gui->addTarget("preview",
-			$this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
-			"$guiclass");
 		}
 		
 		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());

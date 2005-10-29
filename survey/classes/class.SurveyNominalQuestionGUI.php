@@ -478,6 +478,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		{
 			$this->tpl->setVariable("FORM_DATA_MODIFIED_PRESS_SAVE", $this->lng->txt("form_data_modified_press_save"));
 		}
+		$this->tpl->setVariable("QUESTION_TEXT", ilUtil::prepareFormOutput($this->object->getQuestiontext()));
 		$this->tpl->parseCurrentBlock();
 	}
 	
