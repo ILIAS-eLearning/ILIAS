@@ -1566,6 +1566,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		global $rbacsystem;
 		
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		include_once "./assessment/classes/class.assQuestion.php";
 		$q_type = ASS_Question::getQuestionTypeFromDb($_GET["q_id"]);
 		include_once "./classes/class.ilTabsGUI.php";
 		$tabs_gui =& new ilTabsGUI();

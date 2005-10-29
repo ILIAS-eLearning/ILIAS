@@ -21,8 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestion.php";
-
 /**
 * Basic GUI class for assessment questions
 *
@@ -71,6 +69,7 @@ class ASS_QuestionGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "q_id");
 
+		include_once "./assessment/classes/class.assQuestion.php";
 		$this->object = new ASS_Question();
 	}
 
@@ -239,6 +238,7 @@ class ASS_QuestionGUI
 	*/
 	function &_getQuestionGUI($question_type, $question_id = -1)
 	{
+		include_once "./assessment/classes/class.assQuestion.php";
 		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = ASS_Question::getQuestionTypeFromDb($question_id);
@@ -247,35 +247,43 @@ class ASS_QuestionGUI
 		switch ($question_type)
 		{
 			case "qt_multiple_choice_sr":
+				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 				$question =& new ASS_MultipleChoiceGUI();
 				$question->object->set_response(RESPONSE_SINGLE);
 				break;
 
 			case "qt_multiple_choice_mr":
+				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 				$question =& new ASS_MultipleChoiceGUI();
 				$question->object->set_response(RESPONSE_MULTIPLE);
 				break;
 
 			case "qt_cloze":
+				include_once "./assessment/classes/class.assClozeTestGUI.php";
 				$question =& new ASS_ClozeTestGUI();
 				break;
 
 			case "qt_matching":
+				include_once "./assessment/classes/class.assMatchingQuestionGUI.php";
 				$question =& new ASS_MatchingQuestionGUI();
 				break;
 
 			case "qt_ordering":
+				include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 				$question =& new ASS_OrderingQuestionGUI();
 				break;
 
 			case "qt_imagemap":
+				include_once "./assessment/classes/class.assImagemapQuestionGUI.php";
 				$question =& new ASS_ImagemapQuestionGUI();
 				break;
 
 			case "qt_javaapplet":
+				include_once "./assessment/classes/class.assJavaAppletGUI.php";
 				$question =& new ASS_JavaAppletGUI();
 				break;
 			case "qt_text":
+				include_once "./assessment/classes/class.assTextQuestionGUI.php";
 				$question =& new ASS_TextQuestionGUI();
 				break;
 		}
@@ -289,6 +297,7 @@ class ASS_QuestionGUI
 
 	function _getGUIClassNameForId($a_q_id)
 	{
+		include_once "./assessment/classes/class.assQuestion.php";
 		$q_type =  ASS_Question::getQuestionTypeFromDb($a_q_id);
 		$class_name = ASS_QuestionGUI::_getClassNameForQType($q_type);
 		return $class_name;
