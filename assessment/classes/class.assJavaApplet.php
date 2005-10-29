@@ -256,11 +256,26 @@ class ASS_JavaApplet extends ASS_Question
 				);
 				$a_xml_writer->xmlElement("mattext", $attrs, $this->getPoints());
 				$attrs = array(
+					"label" => "pass"
+				);
+				include_once "./assessment/classes/class.ilObjTest.php";
+				$pass = ilObjTest::_getPass($ilUser->id, $test_output);
+				$a_xml_writer->xmlElement("mattext", $attrs, $pass);
+				$attrs = array(
 					"label" => "post_url"
 				);
 				$a_xml_writer->xmlElement("mattext", $attrs, ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
 
-				$info = $this->getReachedInformation($ilUser->id, $test_output);
+				$info = array();
+				if (ilObjTest::_getHidePreviousResults($test_output))
+				{
+					$info = $this->getReachedInformation($ilUser->id, $test_output, $pass);
+				}
+				else
+				{
+					$pass = $this->getSolutionMaxPass($user_id, $test_output);
+					$info = $this->getReachedInformation($ilUser->id, $test_output, $pass);
+				}
 				foreach ($info as $kk => $infodata)
 				{
 					$attrs = array(
