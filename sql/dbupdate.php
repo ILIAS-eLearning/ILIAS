@@ -8896,3 +8896,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#560>
+ALTER TABLE `tst_tests` ADD `pass_scoring` ENUM( '0', '1' ) DEFAULT '0' NOT NULL AFTER `mc_scoring` ;

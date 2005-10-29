@@ -757,6 +757,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["count_system"] = $_POST["count_system"];
 			$data["mc_scoring"] = $_POST["mc_scoring"];
+			$data["pass_scoring"] = $_POST["pass_scoring"];
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
 			if (!strlen($_POST["chb_random"]))
 			{
@@ -777,6 +778,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["random_test"] = $this->object->random_test;
 			$data["count_system"] = $this->object->getCountSystem();
 			$data["mc_scoring"] = $this->object->getMCScoring();
+			$data["pass_scoring"] = $this->object->getPassScoring();
 		}
 		if ($data["sel_test_types"] != $this->object->getTestType())
 		{
@@ -882,6 +884,10 @@ class ilObjTestGUI extends ilObjectGUI
 				0
 			);
 		}
+		if ($data["nr_of_tries"] == 1)
+		{
+			$data["pass_scoring"] = SCORE_LAST_PASS;
+		}
 		$this->object->setTestType($data["sel_test_types"]);
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
@@ -890,6 +896,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
+		$this->object->setPassScoring($data["pass_scoring"]);
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
 		{
 			$this->object->setScoreReporting(REPORT_AFTER_TEST);
@@ -1085,6 +1092,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["random_test"] = $this->object->isRandomTest();
 		$data["count_system"] = $this->object->getCountSystem();
 		$data["mc_scoring"] = $this->object->getMCScoring();
+		$data["pass_scoring"] = $this->object->getPassScoring();
 		if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
 		{
 			$proc_time = $this->object->getEstimatedWorkingTime();
@@ -1290,6 +1298,18 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("SELECTED_STANDARD", " selected=\"selected\"");
 		}
 
+		$this->tpl->setVariable("TEXT_PASS_SCORING", $this->lng->txt("tst_pass_scoring"));
+		$this->tpl->setVariable("TEXT_LASTPASS", $this->lng->txt("tst_pass_last_pass"));
+		$this->tpl->setVariable("TEXT_BESTPASS", $this->lng->txt("tst_pass_best_pass"));
+		if ($data["pass_scoring"] == SCORE_BEST_PASS)
+		{
+			$this->tpl->setVariable("SELECTED_BESTPASS", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SELECTED_LASTPASS", " selected=\"selected\"");
+		}
+		
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
@@ -1299,6 +1319,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("DISABLE_COUNT_SYSTEM", " disabled=\"disabled\"");
 			$this->tpl->setVariable("DISABLE_MC_SCORING", " disabled=\"disabled\"");
+			$this->tpl->setVariable("DISABLE_PASS_SCORING", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_TEST_TYPES", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 		}

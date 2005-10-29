@@ -67,6 +67,9 @@ define("COUNT_CORRECT_SOLUTIONS", 1);
 define("SCORE_ZERO_POINTS_WHEN_UNANSWERED", 0);
 define("SCORE_STANDARD_SCORE_SYSTEM", 1);
 
+define("SCORE_LAST_PASS", 0);
+define("SCORE_BEST_PASS", 1);
+
 class ilObjTest extends ilObject
 {
 /**
@@ -319,6 +322,13 @@ class ilObjTest extends ilObject
 */
 	var $mc_scoring;
 
+/**
+* Defines which pass should be used for scoring
+*
+* @var integer
+*/
+	var $pass_scoring;
+
 	/**
 	* Constructor
 	* @access	public
@@ -351,7 +361,8 @@ class ilObjTest extends ilObject
 		$this->random_test = 0;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
-		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED; 
+		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
+		$this->pass_scoring = SCORE_LAST_PASS;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->create_simple_schema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -1077,7 +1088,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, pass_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
         $db->quote($this->author . ""),
         $db->quote($this->test_type . ""),
@@ -1103,6 +1114,7 @@ class ilObjTest extends ilObject
 				$random_question_count,
 				$db->quote($this->count_system . ""),
 				$db->quote($this->mc_scoring . ""),
+				$db->quote($this->getPassScoring() . ""),
         $db->quote($created)
       );
       
@@ -1129,7 +1141,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, pass_scoring = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
@@ -1153,6 +1165,7 @@ class ilObjTest extends ilObject
 				$db->quote("$complete"),
 				$db->quote($this->count_system . ""),
 				$db->quote($this->mc_scoring . ""),
+				$db->quote($this->getPassScoring() . ""),
         $db->quote($this->test_id)
       );
       $result = $db->query($query);
@@ -1495,6 +1508,7 @@ class ilObjTest extends ilObject
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->count_system = $data->count_system;
 				$this->mc_scoring = $data->mc_scoring;
+				$this->setPassScoring($data->pass_scoring);
 				$this->loadQuestions();
 			}
 		}
@@ -1815,6 +1829,20 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Gets the pass scoring type
+* 
+* Gets the pass scoring type
+*
+* @return integer The pass scoring type
+* @access public
+* @see $pass_scoring
+*/
+  function getPassScoring() 
+	{
+    return $this->pass_scoring;
+  }
+
+/**
 * Gets the scoring type for multiple choice questions
 * 
 * Gets the scoring type for multiple choice questions
@@ -2118,6 +2146,28 @@ class ilObjTest extends ilObject
   function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED) 
 	{
     $this->mc_scoring = $a_mc_scoring;
+  }
+  
+/**
+* Sets the pass scoring
+*
+* Sets the pass scoring
+*
+* @param integer $a_pass_scoring The pass scoring type
+* @access public
+* @see $pass_scoring
+*/
+  function setPassScoring($a_pass_scoring = SCORE_LAST_PASS) 
+	{ 
+		switch ($a_pass_scoring)
+		{
+			case SCORE_BEST_PASS:
+				$this->pass_scoring = SCORE_BEST_PASS;
+				break;
+			default:
+				$this->pass_scoring = SCORE_LAST_PASS;
+				break;
+		}
   }
   
 /**
@@ -4420,6 +4470,17 @@ class ilObjTest extends ilObject
 		$qtiFieldLabel->append_child($qtiFieldLabelText);
 		$qtiFieldEntry = $domxml->create_element("fieldentry");
 		$qtiFieldEntryText = $domxml->create_text_node($this->getMCScoring());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// pass scoring
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("pass_scoring");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getPassScoring());
 		$qtiFieldEntry->append_child($qtiFieldEntryText);
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
