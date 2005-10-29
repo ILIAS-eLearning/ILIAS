@@ -3005,12 +3005,13 @@ class ilObjTest extends ilObject
 	* @return array An array containing the test results for the given user
 	* @access public
 	*/
-	function &getTestResult($user_id)
+	function &getTestResult($user_id, $pass = NULL)
 	{
 		//		global $ilBench;
 		if ($this->isRandomTest())
 		{
-			$this->loadQuestions($user_id, 0);
+			if (is_null($pass)) $pass = 0;
+			$this->loadQuestions($user_id, $pass);
 		}
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
@@ -5843,6 +5844,16 @@ class ilObjTest extends ilObject
 		return $resultarray;
 	}
 	
+/**
+* Retrieves the actual pass of a given user for a given test
+* 
+* Retrieves the actual pass of a given user for a given test
+*
+* @param integer $user_id The user id
+* @param integer $test_id The test id
+* @return integer The pass of the user for the given test
+* @access public
+*/
 	function _getPass($user_id, $test_id)
 	{
 		global $ilDB;
@@ -5855,6 +5866,70 @@ class ilObjTest extends ilObject
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			return $row["tries"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+/**
+* Retrieves the number of answered questions for a given user in a given test
+* 
+* Retrieves the number of answered questions for a given user in a given test
+*
+* @param integer $user_id The user id
+* @param integer $test_id The test id
+* @param integer $pass The pass of the test (optional)
+* @return integer The number of answered questions
+* @access public
+*/
+	function getAnsweredQuestionCount($user_id, $test_id, $pass = NULL)
+	{
+		global $ilDB;
+		if (is_null($pass)) $pass = 0;
+		$query = sprintf("SELECT COUNT(test_result_id) AS answered FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["answered"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+/**
+* Retrieves the number of answered questions for a given user in a given test
+* 
+* Retrieves the number of answered questions for a given user in a given test
+*
+* @param integer $user_id The user id
+* @param integer $test_id The test id
+* @param integer $pass The pass of the test
+* @return timestamp The SQL timestamp of the finished pass
+* @access public
+*/
+	function getPassFinishDate($user_id, $test_id, $pass)
+	{
+		global $ilDB;
+		if (is_null($pass)) $pass = 0;
+		$query = sprintf("SELECT tst_test_result.TIMESTAMP + 0 AS TIMESTAMP14 FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s ORDER BY tst_test_result.TIMESTAMP DESC",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["TIMESTAMP14"];
 		}
 		else
 		{

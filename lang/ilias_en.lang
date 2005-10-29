@@ -304,6 +304,7 @@ assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
 assessment#:#participants#:#Participants
+assessment#:#pass#:#Pass
 assessment#:#passed_official#:#passed
 assessment#:#passed_short#:#passed
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
@@ -427,6 +428,7 @@ assessment#:#tst_all_user_data_deleted#:#All user data of this test has been del
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
+assessment#:#tst_answered_questions#:#Answered questions
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!

@@ -2897,8 +2897,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->outIntroductionPage($maxprocessingtimereached);
 			}
 			else
-			{					
-				$this->outTestResults();
+			{
+				if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+				{
+					$this->outVaryingTestResults();
+				}
+				else
+				{
+					$this->outTestResults();
+				}
 			}
 			// Update objectives
 			include_once './course/classes/class.ilCourseObjectiveResult.php';
@@ -4651,13 +4658,73 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 /**
+* Output of the learner overview for a varying random test
+*
+* Output of the learner overview for a varying random test
+*
+* @access public
+*/
+	function outVaryingTestResults()
+	{
+		global $ilUser;
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
+		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_varying_results.html", true);
+		$user_id = $ilUser->id;
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		$reached_pass = $this->object->_getPass($ilUser->id, $this->object->getTestId());
+		for ($pass = 0; $pass <= $reached_pass; $pass++)
+		{
+			$finishdate = $this->object->getPassFinishDate($ilUser->id, $this->object->getTestId(), $pass);
+			if ($finishdate > 0)
+			{
+				$result_array =& $this->object->getTestResult($user_id, $pass);
+				if (!$result_array["test"]["total_max_points"])
+				{
+					$percentage = 0;
+				}
+				else
+				{
+					$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+				}
+				$total_max = $result_array["test"]["total_max_points"];
+				$total_reached = $result_array["test"]["total_reached_points"];
+				$this->tpl->setCurrentBlock("result_row");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
+				$this->tpl->setVariable("VALUE_PASS", $pass + 1);
+				$this->tpl->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
+				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($ilUser->id, $this->object->getTestId(), $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
+				$this->tpl->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
+				$this->tpl->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$this->tpl->setCurrentBlock("results");
+		$this->tpl->setVariable("PASS_COUNTER", $this->lng->txt("pass"));
+		$this->tpl->setVariable("DATE", $this->lng->txt("date"));
+		$this->tpl->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
+		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+		$this->tpl->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("test_user_name");
+		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $ilUser->getFullname()));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Output of the learners view of an existing test
 *
 * Output of the learners view of an existing test
 *
 * @access public
 */
-	function outTestResults($print = false) {
+	function outTestResults($print = false) 
+	{
 		global $ilUser;
 
 		function sort_percent($a, $b) {
