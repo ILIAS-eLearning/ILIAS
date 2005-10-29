@@ -1060,6 +1060,12 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setMCScoring($this->metadata["entry"]);
 							}
 							break;
+						case "pass_scoring":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setPassScoring($this->metadata["entry"]);
+							}
+							break;
 						case "reporting_date":
 							if (is_object($this->tst_object))
 							{
