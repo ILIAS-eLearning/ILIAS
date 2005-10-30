@@ -2312,17 +2312,21 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function deleteResults($user_id = "",$a_delete_active = false) 
+	function deleteResults($user_id = "") 
 	{
-		if ($user_id) {
-			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s",
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($user_id)
+		if ($user_id) 
+		{
+			$pass = $this->_getPass($user_id, $this->getTestId());
+			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND pass = %s",
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($user_id . ""),
+				$this->ilias->db->quote($pass . "")
 			);
 			$result = $this->ilias->db->query($query);
-			$query = sprintf("DELETE FROM tst_test_result WHERE test_fi = %s AND user_fi = %s",
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($user_id)
+			$query = sprintf("DELETE FROM tst_test_result WHERE test_fi = %s AND user_fi = %s AND pass = %s",
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($user_id . ""),
+				$this->ilias->db->quote($pass . "")
 			);
 			$result = $this->ilias->db->query($query);
 			$sequence_arr = array_flip($this->questions);
@@ -2340,16 +2344,6 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($user_id)
 			);
 			$result = $this->ilias->db->query($query);
-			
-
-			if($a_delete_active)
-			{
-				$query = "DELETE FROM tst_active ".
-					"WHERE user_fi = '".$user_id."' ".
-					"AND test_fi = '".$this->getTestId()."'";
-
-				$this->ilias->db->query($query);
-			}
 		}
 	}
 	
@@ -2715,7 +2709,6 @@ class ilObjTest extends ilObject
 
 		$active = $this->getActiveTestUser();
 		$sequence_array = split(",", $active->sequence);
-
 		return $this->questions[$sequence_array[$sequence-1]];
 	}
 	
@@ -2931,22 +2924,22 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		global $ilUser;
-		if (!is_object ($this->active)) {
-			$db =& $ilDB->db;
-			if (!$user_id) {
-				$user_id = $ilUser->id;
-			}
-			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-				$db->quote($user_id),
-				$db->quote($this->test_id)
-			);
-		
-			$result = $db->query($query);
-			if ($result->numRows()) {
-				$this->active = $result->fetchRow(DB_FETCHMODE_OBJECT);
-			} else {
-				$this->active = null;
-			}
+		$db =& $ilDB->db;
+		if (!$user_id) {
+			$user_id = $ilUser->id;
+		}
+		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+			$db->quote($user_id),
+			$db->quote($this->test_id)
+		);
+	
+		$result = $db->query($query);
+		if ($result->numRows()) {
+			$this->active = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		} 
+		else 
+		{
+			$this->active = null;
 		}
 		return $this->active;
 	}
@@ -3005,10 +2998,12 @@ class ilObjTest extends ilObject
 		
 		$db =& $ilDB->db;
 		$old_active = $this->getActiveTestUser();
-		if ($old_active) {
+		if ($old_active) 
+		{
 			$sequence = $old_active->sequence;
 			$postponed = $old_active->postponed;
-			if ($postpone) {
+			if ($postpone) 
+			{
 				$sequence_array = split(",", $sequence);
 				$postpone_sequence = $sequence_array[$postpone-1];
 				$question_id = $this->questions[$postpone_sequence];
@@ -3031,7 +3026,9 @@ class ilObjTest extends ilObject
 				$db->quote($ilUser->id),
 				$db->quote($this->test_id)
 			);
-		} else {
+		}
+		else 
+		{
 			$sequence_arr = array_flip($this->questions);
 			$sequence = join($sequence_arr, ",");
 			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, sequence, postponed, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
@@ -3108,7 +3105,7 @@ class ilObjTest extends ilObject
 			$info =& ASS_Question::_getQuestionInfo($value);
 			$row = array(
 				"nr" => "$key",
-				"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $value . "\">" . ilUtil::prepareFormOutput($info["title"]) . "</a>",
+				"title" => ilUtil::prepareFormOutput($info["title"]),
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
@@ -3250,7 +3247,7 @@ class ilObjTest extends ilObject
 	function canViewResults()
 	{
 		$result = true;
-		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST)
+		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST || $this->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			if ($this->getReportingDate())
 			{
@@ -4125,7 +4122,7 @@ class ilObjTest extends ilObject
 */
 	function startingTimeReached()
 	{
-		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST) 
+		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST || $this->getTestType() == TYPE_VARYING_RANDOMTEST) 
 		{
 			if ($this->getStartingTime()) 
 			{

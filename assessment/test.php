@@ -65,6 +65,7 @@ switch ($_GET["cmd"])
 		$prepare_output = true;
 		break;
 }
+if (strcmp($ilCtrl->getCmdClass(), "iltestoutputgui") == 0) $prepare_output = false;
 $ilCtrl->setTargetScript("test.php");
 $ilCtrl->getCallStructure("ilobjtestgui");
 $tst_gui =& new ilObjTestGUI("", $_GET["ref_id"], true, $prepare_output);

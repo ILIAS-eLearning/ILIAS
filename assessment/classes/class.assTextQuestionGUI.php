@@ -232,7 +232,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		if (!is_object($ilUser)) {
 			global $ilUser;
 		}
-		$output = $this->outQuestionPage("", $is_postponed,"", !$show_question_page);
+		$output = $this->outQuestionPage("", $is_postponed, $test_id);
 		
 		if (!$show_question_page)
 			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);

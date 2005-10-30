@@ -519,7 +519,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		if (!is_object($ilUser)) {
 			global $ilUser;
 		}
-		$output = $this->outQuestionPage(($show_solution_only)?"":"MATCHING_QUESTION", $is_postponed, "", !$show_question_page);
+		$output = $this->outQuestionPage(($show_solution_only)?"":"MATCHING_QUESTION", $is_postponed, $test_id);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
 
