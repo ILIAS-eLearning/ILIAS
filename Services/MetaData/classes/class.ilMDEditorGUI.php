@@ -97,6 +97,256 @@ class ilMDEditorGUI
 
 		return true;
 	}
+	
+	/*
+	 * list quick edit screen
+	 */
+	function listQuickEdit()
+	{
+		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
+		{
+			$this->md_section = $this->md_obj->addGeneral();
+			$this->md_section->save();
+		}
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
+		
+		$this->__setTabs('meta_quickedit');
+
+		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_quick_edit.html','Services/MetaData');
+
+		$this->ctrl->setReturn($this,'listGeneral');
+		$this->ctrl->setParameter($this,'section','meta_general');
+		$this->tpl->setVariable("EDIT_ACTION",$this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable("TXT_QUICK_EDIT", $this->lng->txt("meta_quickedit"));
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+		$this->tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+		$this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+
+		// Language
+		$first = true;
+		foreach($ids = $this->md_section->getLanguageIds() as $id)
+		{
+			$md_lan = $this->md_section->getLanguage($id);
+			
+			if ($first)
+			{
+				$this->tpl->setCurrentBlock("language_head");
+				$this->tpl->setVariable("ROWSPAN_LANG", count($ids));
+				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->parseCurrentBlock();
+				$first = false;
+			}
+
+			if (count($ids) > 1)
+			{
+				$this->ctrl->setParameter($this,'meta_index',$id);
+				$this->ctrl->setParameter($this,'meta_path','meta_language');
+
+				$this->tpl->setCurrentBlock("language_delete");
+				$this->tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("language_loop");
+			$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect('gen_language['.$id.'][language]',
+																						$md_lan->getLanguageCode()));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// TITLE
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("VAL_TITLE",ilUtil::prepareFormOutput($this->md_section->getTitle()));
+		$this->tpl->setVariable("VAL_TITLE_LANGUAGE",$this->__showLanguageSelect('gen_title_language',
+																			   $this->md_section->getTitleLanguageCode()));
+
+		// DESCRIPTION
+		foreach($ids = $this->md_section->getDescriptionIds() as $id)
+		{ 
+			$md_des = $this->md_section->getDescription($id);
+
+			if (count($ids) > 1)
+			{
+				$this->ctrl->setParameter($this,'meta_index',$id);
+				$this->ctrl->setParameter($this,'meta_path','meta_description');
+
+				$this->tpl->setCurrentBlock("description_delete");
+				$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("description_loop");
+			$this->tpl->setVariable("DESCRIPTION_LOOP_NO",$id);
+			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($md_des->getDescription()));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("gen_description[".$id.'][language]', 
+																				  $md_des->getDescriptionLanguageCode()));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// KEYWORD
+		$first = true;
+		foreach($ids = $this->md_section->getKeywordIds() as $id)
+		{
+			$md_key = $this->md_section->getKeyword($id);
+			
+			if ($first)
+			{
+				$this->tpl->setCurrentBlock("keyword_head");
+				$this->tpl->setVariable("ROWSPAN_KEYWORD", count($ids));
+				$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+				$this->tpl->parseCurrentBlock();
+				$first = false;
+			}
+
+
+			if(count($ids) > 1)
+			{
+				$this->ctrl->setParameter($this,'meta_index',$id);
+				$this->ctrl->setParameter($this,'meta_path','meta_keyword');
+
+				$this->tpl->setCurrentBlock("keyword_delete");
+				$this->tpl->setVariable("KEYWORD_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+				$this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("keyword_loop");
+			$this->tpl->setVariable("KEYWORD_LOOP_NO",$id);
+			$this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+			$this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($md_key->getKeyword()));
+			$this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+			$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("gen_keyword[".$id.'][language]',
+																					   $md_key->getKeywordLanguageCode()));
+
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// Lifecycle...
+		// Authors
+		$this->tpl->setVariable("TXT_AUTHORS",$this->lng->txt('authors'));
+		
+		
+		// Rights...
+		// Copyright
+		if(is_object($this->md_section = $this->md_obj->getRights()))
+		{
+			$this->tpl->setVariable("COPYRIGHT_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
+		}
+		$this->tpl->setVariable("TXT_COPYRIGHT",$this->lng->txt('meta_copyright'));
+
+		// Educational...
+		// Typical learning time
+		if(is_object($this->md_section = $this->md_obj->getEducational()))
+		{
+			$this->tpl->setVariable("VAL_TYPICAL_LEARN_TIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
+		}
+		$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
+		
+		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+	}
+
+	/**
+	* update quick edit properties
+	*/
+	function updateQuickEdit()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		// General values
+		$this->md_section = $this->md_obj->getGeneral();
+		$this->md_section->setTitle(ilUtil::stripSlashes($_POST['gen_title']));
+		$this->md_section->setTitleLanguage(new ilMDLanguageItem($_POST['gen_title_language']));
+		$this->md_section->update();
+
+		// Language
+		if(is_array($_POST['gen_language']))
+		{
+			foreach($_POST['gen_language'] as $id => $data)
+			{
+				$md_lan = $this->md_section->getLanguage($id);
+				$md_lan->setLanguage(new ilMDLanguageItem($data['language']));
+				$md_lan->update();
+			}
+		}
+		// Description
+		if(is_array($_POST['gen_description']))
+		{
+			foreach($_POST['gen_description'] as $id => $data)
+			{
+				$md_des = $this->md_section->getDescription($id);
+				$md_des->setDescription(ilUtil::stripSlashes($data['description']));
+				$md_des->setDescriptionLanguage(new ilMDLanguageItem($data['language']));
+				$md_des->update();
+			}
+		}
+		// Keyword
+		if(is_array($_POST['gen_keyword']))
+		{
+			foreach($_POST['gen_keyword'] as $id => $data)
+			{
+				$md_key = $this->md_section->getKeyword($id);
+
+				$md_key->setKeyword(ilUtil::stripSlashes($data['keyword']));
+				$md_key->setKeywordLanguage(new ilMDLanguageItem($data['language']));
+				$md_key->update();
+			}
+		}
+		$this->callListeners('General');
+		
+		//Rights...
+		// Copyright
+		if ($_POST["rights_copyright"] != "")
+		{
+			if(!is_object($this->md_section = $this->md_obj->getRights()))
+			{
+				$this->md_section = $this->md_obj->addRights();
+				$this->md_section->save();
+			}
+			$this->md_section->setCopyrightAndOtherRestrictions("Yes");
+			$this->md_section->setDescription(ilUtil::stripSlashes($_POST["rights_copyright"]));
+			$this->md_section->update();
+		}
+		else
+		{
+			if(is_object($this->md_section = $this->md_obj->getRights()))
+			{
+				$this->md_section->setCopyrightAndOtherRestrictions("No");
+				$this->md_section->setDescription("");
+				$this->md_section->update();
+			}
+		}
+
+		//Educational...
+		// Typical Learning Time
+		if ($_POST["edu_typical_learn_time"] != "")
+		{
+			if(!is_object($this->md_section = $this->md_obj->getEducational()))
+			{
+				$this->md_section = $this->md_obj->addEducational();
+				$this->md_section->save();
+			}
+			$this->md_section->setTypicalLearningTime(ilUtil::stripSlashes($_POST["edu_typical_learn_time"]));
+			$this->md_section->update();
+		}
+		else
+		{
+			if(is_object($this->md_section = $this->md_obj->getEducational()))
+			{
+				$this->md_section->setTypicalLearningTime("");
+				$this->md_section->update();
+			}
+		}
+		
+		// Redirect here to read new title and description
+		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
+		$this->ctrl->redirect($this,'listSection');
+	}
 
 	/*
 	 * list general sections
@@ -296,6 +546,9 @@ class ilMDEditorGUI
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
 	}
 
+	/**
+	* update general section
+	*/
 	function updateGeneral()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -2051,7 +2304,7 @@ class ilMDEditorGUI
 				return $this->listClassification();
 
 			default:
-				return $this->listGeneral();
+				return $this->listQuickEdit();
 		}
 	}		
 
@@ -2078,7 +2331,8 @@ class ilMDEditorGUI
 
 	function __setTabs($a_active)
 	{
-		$tabs = array('meta_general' => 'listGeneral',
+		$tabs = array('meta_quickedit' => 'listQuickEdit',
+					  'meta_general' => 'listGeneral',
 					  'meta_lifecycle' => 'listLifecycle',
 					  'meta_meta_metadata'	=> 'listMetaMetadata',
 					  'meta_technical' => 'listTechnical',
