@@ -41,10 +41,10 @@ class ilMDGeneral extends ilMDBase
 	}
 	function getPossibleSubelements()
 	{
-		$subs['Identifier'] = 'meta_identifier';
-		$subs['Language'] = 'meta_language';
-		$subs['Description'] = 'meta_description';
 		$subs['Keyword'] = 'meta_keyword';
+		$subs['Language'] = 'meta_language';
+		$subs['Identifier'] = 'meta_identifier';
+		$subs['Description'] = 'meta_description';
 
 		return $subs;
 	}

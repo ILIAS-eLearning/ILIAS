@@ -1761,7 +1761,6 @@ common#:#info_not_assigned#:#not assigned
 common#:#info_permission_origin#:#Original position
 common#:#info_permission_source#:#effective from*
 common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
-common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
 common#:#info_trash#:#Deleted Objects
 common#:#info_view_of_user#:#User
@@ -4411,7 +4410,7 @@ meta#:#meta_delete#:#Delete
 meta#:#meta_description#:#Description
 meta#:#meta_diagramm#:#Diagram
 meta#:#meta_difficulty#:#Difficulty
-meta#:#meta_dificult#:#Difficult
+meta#:#meta_difficult#:#Difficult
 meta#:#meta_draft#:#Draft
 meta#:#meta_duration#:#Duration
 meta#:#meta_easy#:#Easy
