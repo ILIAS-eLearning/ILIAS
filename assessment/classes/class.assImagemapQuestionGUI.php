@@ -689,7 +689,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		{
 			global $ilUser;
 		}
-		$output = $this->outQuestionPage(($show_solution_only)?"":"IMAGEMAP_QUESTION", $is_postponed,"", !$show_question_page);
+		$output = $this->outQuestionPage(($show_solution_only)?"":"IMAGEMAP_QUESTION", $is_postponed, $test_id);
 //		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
 //		$solutionoutput = $matches[1];
 

@@ -469,7 +469,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			global $ilUser;
 		}
 		
-		$output = $this->outQuestionPage(($show_solution_only)?"":"ORDERING_QUESTION", $is_postponed,$test_id, !$show_question_page);
+		$output = $this->outQuestionPage(($show_solution_only)?"":"ORDERING_QUESTION", $is_postponed,$test_id);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
 		
