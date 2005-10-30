@@ -138,10 +138,23 @@ class ilMDEditorGUI
 		$this->tpl->setVariable("STRUCTURE_VAL_".strtoupper($this->md_section->getStructure())," selected=selected");
 
 		// Identifier
+		$first = true;
 		foreach($ids = $this->md_section->getIdentifierIds() as $id)
 		{
 			$md_ide = $this->md_section->getIdentifier($id);
 
+			// 
+			if ($first)
+			{
+				$this->tpl->setCurrentBlock("id_head");
+				$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+				$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
+				$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
+				$this->tpl->setVariable("ROWSPAN_ID", count($ids));
+				$this->tpl->parseCurrentBlock();
+				$first = false;
+			}
+			
 			if(count($ids) > 1)
 			{
 				$this->ctrl->setParameter($this,'meta_index',$id);
@@ -162,11 +175,8 @@ class ilMDEditorGUI
 				$this->tpl->setVariable("DISABLE_IDENT", ' disabled="disabled" ');
 			}
 			$this->tpl->setVariable("IDENTIFIER_LOOP_NO", $id);
-			$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
-			$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
 			$this->tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG", 
 									ilUtil::prepareFormOutput($md_ide->getCatalog()));
-			$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
 			$this->tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY", 
 									ilUtil::prepareFormOutput($md_ide->getEntry()));
 			$this->tpl->parseCurrentBlock();
@@ -174,9 +184,19 @@ class ilMDEditorGUI
 
 
 		// Language
+		$first = true;
 		foreach($ids = $this->md_section->getLanguageIds() as $id)
 		{
 			$md_lan = $this->md_section->getLanguage($id);
+			
+			if ($first)
+			{
+				$this->tpl->setCurrentBlock("language_head");
+				$this->tpl->setVariable("ROWSPAN_LANG", count($ids));
+				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->parseCurrentBlock();
+				$first = false;
+			}
 
 			if (count($ids) > 1)
 			{
@@ -189,8 +209,6 @@ class ilMDEditorGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("language_loop");
-			$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-			$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 			$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect('gen_language['.$id.'][language]',
 																						$md_lan->getLanguageCode()));
 			$this->tpl->parseCurrentBlock();
@@ -231,9 +249,20 @@ class ilMDEditorGUI
 		}
 
 		// KEYWORD
+		$first = true;
 		foreach($ids = $this->md_section->getKeywordIds() as $id)
 		{
 			$md_key = $this->md_section->getKeyword($id);
+			
+			if ($first)
+			{
+				$this->tpl->setCurrentBlock("keyword_head");
+				$this->tpl->setVariable("ROWSPAN_KEYWORD", count($ids));
+				$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+				$this->tpl->parseCurrentBlock();
+				$first = false;
+			}
+
 
 			if(count($ids) > 1)
 			{
@@ -248,7 +277,6 @@ class ilMDEditorGUI
 			
 			$this->tpl->setCurrentBlock("keyword_loop");
 			$this->tpl->setVariable("KEYWORD_LOOP_NO",$id);
-			$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
 			$this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
 			$this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($md_key->getKeyword()));
 			$this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
@@ -683,12 +711,6 @@ class ilMDEditorGUI
 				
 				$this->tpl->setCurrentBlock("contribute_entity_loop");
 
-				$this->ctrl->setParameter($this,'section_element','meta_entity');
-				$this->ctrl->setParameter($this,'meta_index',$con_id);
-				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD",$this->ctrl->getLinkTarget($this,'addSectionElement'));
-				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD",$this->lng->txt('add'));
-
-
 				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO",$con_id);
 				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO",$ent_id);
 				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY",ilUtil::prepareFormOutput($md_ent->getEntity()));
@@ -696,6 +718,13 @@ class ilMDEditorGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("contribute_loop");
+			
+			$this->ctrl->setParameter($this,'section_element','meta_entity');
+			$this->ctrl->setParameter($this,'meta_index',$con_id);
+			$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD",$this->ctrl->getLinkTarget($this,'addSectionElement'));
+			$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD",
+				$this->lng->txt('add')." ".$this->lng->txt('meta_entity'));
+
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN",2 + count($ent_ids));
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE",$this->lng->txt('meta_contribute'));
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE",$this->lng->txt('meta_role'));
@@ -1091,7 +1120,7 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("TXT_LOW", $this->lng->txt("meta_low"));
 			$this->tpl->setVariable("TXT_MEDIUM", $this->lng->txt("meta_medium"));
 			$this->tpl->setVariable("TXT_HIGH", $this->lng->txt("meta_high"));
-			$this->tpl->setVariable("TXT_VERYHIGH", $this->lng->txt("meta_very_low"));
+			$this->tpl->setVariable("TXT_VERYHIGH", $this->lng->txt("meta_very_high"));
 			$this->tpl->setVariable("TXT_TEACHER", $this->lng->txt("meta_teacher"));
 			$this->tpl->setVariable("TXT_AUTHOR", $this->lng->txt("meta_author"));
 			$this->tpl->setVariable("TXT_LEARNER", $this->lng->txt("meta_learner"));
@@ -1107,8 +1136,19 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
 
 			/* TypicalAgeRange */
+			$first = true;
 			foreach($ids = $this->md_section->getTypicalAgeRangeIds() as $id)
 			{
+				if ($first)
+				{
+					$this->tpl->setCurrentBlock("agerange_head");
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE",
+						$this->lng->txt("meta_typical_age_range"));
+					$this->tpl->setVariable("ROWSPAN_AGERANGE", count($ids));
+					$this->tpl->parseCurrentBlock();
+					$first = false;
+				}
+					
 				$md_age = $this->md_section->getTypicalAgeRange($id);
 				
 				$this->ctrl->setParameter($this, 'meta_index', $id);
@@ -1121,7 +1161,6 @@ class ilMDEditorGUI
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setCurrentBlock("typicalagerange_loop");
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE", $this->lng->txt("meta_typical_age_range"));
 				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
 				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
 				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_NO", $id);
@@ -1137,8 +1176,18 @@ class ilMDEditorGUI
 			}
 
 			/* Description */
+			$first = true;
 			foreach($ids = $this->md_section->getDescriptionIds() as $id)
 			{
+				if ($first)
+				{
+					$this->tpl->setCurrentBlock("desc_head");
+					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+					$this->tpl->setVariable("ROWSPAN_DESC", count($ids));
+					$this->tpl->parseCurrentBlock();
+					$first = false;
+				}
+
 				$md_des = $this->md_section->getDescription($id);
 				
 				$this->ctrl->setParameter($this, 'meta_index', $id);
@@ -1146,7 +1195,6 @@ class ilMDEditorGUI
 				
 				$this->tpl->setCurrentBlock("description_loop");
 				$this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
-				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
 				$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($md_des->getDescription()));
 				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
@@ -1165,16 +1213,24 @@ class ilMDEditorGUI
 
 
 			/* Language */
+			$first = true;
 			foreach($ids = $this->md_section->getLanguageIds() as $id)
 			{
+				if ($first)
+				{
+					$this->tpl->setCurrentBlock("language_head");
+					$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+					$this->tpl->setVariable("ROWSPAN_LANG", count($ids));
+					$this->tpl->parseCurrentBlock();
+					$first = false;
+				}
+				
 				$md_lang = $this->md_section->getLanguage($id);
 				
 				$this->ctrl->setParameter($this, 'meta_index', $id);
 				$this->ctrl->setParameter($this, 'meta_path', 'educational_language');
 
 				$this->tpl->setCurrentBlock("language_loop");
-				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE",
 					$this->__showLanguageSelect('educational[Language]['.$id.']',
 						$md_lang->getLanguageCode()));
@@ -2005,7 +2061,7 @@ class ilMDEditorGUI
 	{
 		if(count($subs = $this->md_section->getPossibleSubelements()))
 		{
-			$subs = array_merge(array('' => 'meta_please_select'),$subs);
+			//$subs = array_merge(array('' => 'meta_please_select'),$subs);
 
 			$this->tpl->setCurrentBlock("subelements");
 			$this->tpl->setVariable("SEL_SUBELEMENTS",ilUtil::formSelect('','section_element',$subs));
