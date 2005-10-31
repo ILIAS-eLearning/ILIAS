@@ -1,6 +1,6 @@
-<div class="il_Locator">
-<table border="0" cellpadding="0" cellspacing="0" width="100%" >
-<tr><td>
+<table class="il_Locator" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="left"><div class="il_Locator">
 	<span class="il_LocatorTitle">{TXT_LOCATOR}</span>
 	<!-- BEGIN locator_item -->
 	<!-- BEGIN locator_separator_prefix -->
@@ -14,12 +14,15 @@
 	</td>
 </tr>
 </table>
-</div>
 {STATUSLINE}
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-<div class="il_Header"><h1><!-- BEGIN header_image --><img align="middle" border="0" src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
-{HEADER}</h1>
+<div class="il_HeaderOuter">
+<div class="il_Header">
+<div class="il_HeaderInner">
+	<h1><!-- BEGIN header_image --><img align="middle" border="0" src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
+	{HEADER}</h1><div class="il_Description">{H_DESCRIPTION}</div></div>
+	<div style="clear:both;"></div>
 {TABS}
 </div>
-</td></tr></table>
-<div style="margin-left:15px;">{SUB_TABS}</div><br />
+</div>
+<div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
+
