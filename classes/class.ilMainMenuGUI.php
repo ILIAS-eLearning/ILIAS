@@ -284,10 +284,10 @@ class ilMainMenuGUI
 
 		if ($this->start_template == true)
 		{
-			if(is_file("./templates/".$ilias->account->skin."/tpl.start.html"))
-			{
+			//if(is_file("./templates/".$ilias->account->skin."/tpl.start.html"))
+			//{
 				$script = "./start.php?script=".rawurlencode($script);
-			}
+			//}
 		}
 		if (defined("ILIAS_MODULE"))
 		{
