@@ -490,6 +490,7 @@ assessment#:#tst_nr_of_tries_of_user#:#Tries already completed
 assessment#:#tst_pass_scoring#:#Multiple pass scoring
 assessment#:#tst_pass_last_pass#:#Score the last pass of a user
 assessment#:#tst_pass_best_pass#:#Score the best pass of a user
+assessment#:#tst_pass_details#:#Show details
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_print#:#Test & Assessment Print View
