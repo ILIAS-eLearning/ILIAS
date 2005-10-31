@@ -543,18 +543,22 @@ td.il_no_style {
 }
 
 /* locator */
-div.il_Locator {
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	font-size:13px;
+table.il_Locator
+{
 	vertical-align:top;
 	text-align:left;
 	background-color: #E0E0E0;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #909090;
+}
+
+div.il_Locator {
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	font-size:13px;
 }
 
 span.il_LocatorTitle
