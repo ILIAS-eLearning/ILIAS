@@ -1085,6 +1085,7 @@ common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
+common#:#info_short#:#Info
 common#:#close_window#:#Close window
 common#:#comma_separated#:#Comma Separated
 common#:#comment#:#comment
