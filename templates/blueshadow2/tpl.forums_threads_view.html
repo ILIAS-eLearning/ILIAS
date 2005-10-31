@@ -1,18 +1,23 @@
-<style>
-body { margin:0px; }
-</style>
 {STATUSLINE}
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-<!--<div class="invisible_border">-->
-<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
-<div class="il_Tab">
+<div class="il_Header" style="float:left;">
+	<h1><!-- BEGIN header_image --><img align="middle" border="0" src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
+{TXT_PAGEHEADLINE}</h1><div class="il_Description">{H_DESCRIPTION}</div></div>
+<!-- BEGIN tree_icons -->
+<div style="float:right; margin-right:15px;">
+	<!-- BEGIN top -->
+	<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" border="0"></a>&nbsp;
+	<!-- END top -->
+	<!-- BEGIN tree_mode -->
+	<a class="{CLASS_TREE}" href="{LINK_MODE}" target="bottom"><img src="{IMG_TREE}" border="0"></a>
+	<!-- END tree_mode -->
+</div><div style="clear:both;"></div>
+<!-- END tree_icons -->
 {TABS}
-</div>
-</div>
+<div style="margin-left:15px;">{SUB_TABS}</div>
+<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
 {NO_BTN}
 {MESSAGE}
 <!--{COUNT_POST}-->
-<br />
 {THREAD_MENU}
 <br />
 <!-- BEGIN posttable -->
