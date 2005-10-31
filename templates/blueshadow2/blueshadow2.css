@@ -1,9 +1,5 @@
 body {
 	color:#222222;
-	#background-color:#F9F9F9;
-	#background-color:#FFFFFF;
-	#background-color: #F0F2FF;
-	#background-color:#FDFBF7;
 	background-color:#F0F2FF;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	margin:10px;
@@ -592,7 +588,7 @@ a.il_LocatorLink:hover
 
 span.il_LocatorTitle
 {
-	font-weight: bold;
+	display: none;
 }
 
 /* form */

@@ -53,6 +53,7 @@ $frm->setForumId($forumObj->getId());
 $frm->setForumRefId($forumObj->getRefId());
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
+//$tpl->setVariable("CONTENT", "kk");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");

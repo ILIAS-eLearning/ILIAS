@@ -91,7 +91,8 @@ if(!$_SESSION[$session_name])
 {
 	$_SESSION[$session_name] = $forumObj->getDefaultView() == 1 ? 'tree' : 'flat';
 }
-if (file_exists($startfilename) and ($_SESSION[$session_name] == "tree"))
+
+if ($_SESSION[$session_name] == "tree")
 {
 	$tpl = new ilTemplate("tpl.forums_frameset.html", false, false);
 	if(isset($_GET["target"]))
