@@ -451,6 +451,7 @@ div.il_PDTitle
 	color: #606060;
 	letter-spacing: 0.1em;
 	word-spacing: -0.1em;
+	white-space: nowrap;
 }
 
 table.il_PDBlock
@@ -604,6 +605,7 @@ form.il_Form
 div.il_MainMenu
 {
 	line-height: 22px;
+	white-space: nowrap;
 }
 
 div.il_Tab
