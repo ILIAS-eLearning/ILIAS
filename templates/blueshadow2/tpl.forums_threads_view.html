@@ -1,0 +1,191 @@
+<style>
+body { margin:0px; }
+</style>
+{STATUSLINE}
+<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
+<!--<div class="invisible_border">-->
+<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
+<div class="il_Tab">
+{TABS}
+</div>
+</div>
+{NO_BTN}
+{MESSAGE}
+<!--{COUNT_POST}-->
+<br />
+{THREAD_MENU}
+<br />
+<!-- BEGIN posttable -->
+<table class="fullwidth">
+<tr class="tblheader">
+  <td class="std" width="25%">{TXT_AUTHOR}</td>
+  <td class="std">{TXT_POST}</td>
+</tr>
+<!-- BEGIN posts_row -->
+<tr>
+	<td valign="top" width="25%" class="{ROWCOL}">
+	<table border="0" cellpadding="0" cellspacing="0"><tr>
+	<td width="80px" valign="top">
+	<!-- BEGIN usr_image -->
+	<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
+	<br />
+	<!-- END usr_image -->
+	{AUTHOR}
+	</td>
+
+	<td valign="top" nowrap="1"><span class="small">{TXT_REGISTERED}<br />{REGISTERED_SINCE}
+	<br/>{TXT_NUM_POSTS} {NUM_POSTS}</span>
+	</td></tr></table>
+
+	</td>
+
+ <td class="{ROWCOL}">
+<a name="{POST_ANKER}"></a>{SUBJECT}<br />
+ <span class="small">{TXT_CREATE_DATE}: {POST_DATE}</span>
+ {SPACER}
+ {POST}<br/>
+ {POST_UPDATE}
+ {SPACER}
+ <!-- BEGIN reply_cell -->
+ <span class="small">[{REPLY_BUTTON}]&nbsp;</span>
+ <!-- END reply_cell -->
+ <!-- BEGIN edit_cell -->
+ <span class="small">[{EDIT_BUTTON}]&nbsp;</span>
+ <!-- END edit_cell -->
+   <!-- BEGIN print_cell -->
+ <span class="small">[{PRINT_BUTTON}]&nbsp;</span>
+ <!-- END print_cell -->
+  <!-- BEGIN del_cell -->
+ <span class="small">[{DEL_BUTTON}]&nbsp;</span>
+ <!-- END del_cell -->
+  <!-- BEGIN cens_cell -->
+ <span class="small">[{CENS_BUTTON}]&nbsp;</span>
+ <!-- END cens_cell -->
+  <!-- BEGIN read_cell -->
+ <span class="small">[{READ_BUTTON}]&nbsp;</span>
+<!-- END read_cell -->					 
+	<!-- BEGIN attachments -->
+		<span class="small">
+		<div align="right">
+			<b>{TXT_ATTACHMENTS_DOWNLOAD}:</b>
+			<!-- BEGIN attachment_download_row -->
+			<a href="{HREF_DOWNLOAD}">
+			<img src="{DOWNLOAD_IMGPATH}/images/icon_attachment.gif" alt="{TXT_DOWNLOAD_ATTACHMENT}" title="{TXT_DOWNLOAD_ATTACHMENT}" border="0" />
+			</a>
+			<!-- END attachment_download_row -->
+		</div>
+		</span>
+	<!-- END attachments -->
+	<br/>
+	<!-- BEGIN kill_cell -->
+	<form name="formular2" action="{DEL_FORMACTION}" target="{DEL_FORM_TARGET}" method="post">
+	{KILL_SPACER}<a name="{KILL_ANKER}"></a>
+	<p class="warning">{TXT_KILL}</p>
+	<input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
+	&nbsp;&nbsp;
+	<input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
+	</form>
+	<br/>
+	<!-- END kill_cell -->
+
+	<!-- BEGIN censorship_cell -->
+	<form name="formular3" action="{CENS_FORMACTION}" method="post">
+	{CENS_SPACER}<a name="{CENS_ANKER}"></a>
+		<table class="std">
+		<tr>
+			<td valign="top">{TXT_CENS_COMMENT}<br>
+			<textarea id="{TXT_CENS_MESSAGE}" name="formData[cens_message]" cols="50" rows="5" wrap=virtual style="width:550px; height=80px">{CENS_MESSAGE}</textarea></td>
+		</tr>
+		</table>
+	<p class="warning">{TXT_CENS}</p>
+	<input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
+	&nbsp;&nbsp;
+	<input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
+	</form>
+	<br/>
+	<!-- END censorship_cell -->
+
+ <!-- BEGIN reply_post -->
+<a name="{REPLY_ANKER}"></a>
+<table class="std">
+	<tr>
+		<td>
+			<form name="formular1" action="{FORMACTION}" enctype="multipart/form-data" method="post" onSubmit="return isEmpty(this, 'all', '')">
+								<table class="std">
+								  <tr>
+									<td><br/><p><b>{TXT_FORM_SUBJECT}</b></p></td>
+								  </tr>
+								  <tr>
+									<td><input type="text" name="subject" value="{SUBJECT_VALUE}" size="32" maxlength="64"></td>
+								  </tr>
+								  <tr>
+									<td><br/><p><b>{TXT_FORM_HEADER}</b></p></td>
+								  </tr>
+			<tr>
+			    <td valign="top">
+				<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:550px; height=250px">{FORM_MESSAGE}</textarea></td>
+			</tr>
+							<!-- BEGIN reply_attachment -->
+						  <tr>
+							<td><b>{TXT_ATTACHMENTS_ADD}</b></td>
+						  </tr>
+						  <tr>
+							<td class="std"  align="right">
+								<input class="submit" type="file" name="userfile" />
+							</td>
+						  </tr>
+							<!-- END reply_attachment -->
+			<tr>
+									<td>
+									  <table width="100%">
+										<tr>
+								  <!-- BEGIN notify -->
+								  <td><input type="checkbox" name="notify" value="1" {NOTIFY_CHECKED} />{NOTIFY}</td>					
+								  <!-- END notify -->
+										  <td align="right" nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/></td>
+										</tr>
+									  </table>
+									</td>
+								  </tr>
+			</table>
+		</td>
+	</tr>
+<!-- BEGIN reply_attachment_edit -->
+				  <tr>
+					<td>
+					  <form action="{FILE_DELETE_ACTION}" method="post">
+						<table class="std" width="100%">
+							<tr>
+							  <td><b>{TXT_ATTACHMENTS_EDIT}</b></td>
+							</tr>
+							<!-- BEGIN ATTACHMENT_EDIT_ROW -->
+							<tr>
+							  <td class="std"  align="left">{CHECK_FILE}&nbsp;<b>{FILENAME}</b></td>
+							</tr>
+							<!-- END ATTACHMENT_EDIT_ROW -->
+							<tr>
+							  <td class="std" align="right">
+								<input class="submit" type="submit" name="cmd[delete_file]" value="{ATTACHMENT_EDIT_DELETE}"/>
+							  </td>
+							</tr>
+						</table>
+					  </form>
+					</td>
+				  </tr>
+<!-- END reply_attachment_edit -->
+</table>
+<!-- END reply_post -->
+ </td>
+</tr>
+<!-- END posts_row -->
+<!-- BEGIN posts_no -->
+<tr>
+ <td colspan="2">{TXT_MSG_NO_POSTS_AVAILABLE}</td>
+</tr>
+<!-- END posts_no -->
+</table>
+<!-- END posttable -->
+<br />
+{THREAD_MENU}
+<!--</div>-->
+</td></tr></table>
