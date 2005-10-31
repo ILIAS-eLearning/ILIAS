@@ -765,14 +765,6 @@ class ilRepositoryGUI
 
 		if (is_array($subobj))
 		{
-			//if($this->tree->checkForParentType($this->cur_ref_id,'crs'))
-			//{
-			//	$this->tpl->setCurrentBlock("get_from_repos");
-			//	$this->tpl->setVariable("GET_REPOS_CMD",'linkSelector');
-			//	$this->tpl->setVariable("TXT_GET_REPOS",$this->lng->txt('link'));
-			//	$this->tpl->parseCurrentBlock();
-			//}
-
 			$this->tpl->parseCurrentBlock("add_commands");
 			$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
 				"&cmd=post");
