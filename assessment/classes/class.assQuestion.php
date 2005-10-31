@@ -1186,7 +1186,7 @@ class ASS_Question
 			array_push($found_id, $row->question_id);
 		}
 
-		$query = sprintf("SELECT * FROM tst_test_result WHERE pass = 0 AND question_fi IN (%s)",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
 			join($found_id, ","));
 		$result = $ilDB->query($query);
 
