@@ -56,8 +56,8 @@ $start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.start.h
 // to last repository position right after login
 $start_script = (!empty($_GET["script"])) ? $_GET["script"] : $default_start_script;
 
-if (file_exists($start_template))
-{
+//if (file_exists($start_template))
+//{
 	$tpl = new ilTemplate("tpl.start.html", true, true);
 
 	if ($_POST['change_lang_to'] != "")
@@ -68,10 +68,10 @@ if (file_exists($start_template))
 	$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 	$tpl->setVariable("SCRIPT", $start_script);
 	$tpl->show();
-}
-else
-{
-	ilUtil::redirect($start_script);
-}
+//}
+//else
+//{
+//	ilUtil::redirect($start_script);
+//}
 
 ?>
