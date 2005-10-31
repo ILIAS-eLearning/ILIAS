@@ -579,10 +579,35 @@ form.il_Form
 div.il_Tab
 {
 	line-height: 22px;
+	float:left;
+	line-height:normal;
+}
+
+ul.il_Tab
+{
+	margin: 0px;
+	padding: 0px;
+	list-style:none;
+}
+
+li.tabinactive
+{
+	float:left;
+	margin: 0px 5px 0px 0px;
+	padding: 0px;
+}
+
+li.tabactive
+{
+	float:left;
+	margin: 0px 5px 0px 0px;
+	padding: 0px;
 }
 
 a.tabactive
 {
+	float: left;
+	display:block;
 	padding-top:1px;
 	padding-left:5px;
 	padding-right:5px;
@@ -599,6 +624,8 @@ a.tabactive
 
 a.tabinactive
 {
+	float: left;
+	display:block;
 	padding-top:1px;
 	padding-left:5px;
 	padding-right:5px;

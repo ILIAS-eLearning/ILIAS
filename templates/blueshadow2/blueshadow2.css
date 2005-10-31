@@ -617,7 +617,6 @@ div.il_Tab
 	padding-left:0px;
     line-height:normal;
 	background:#F0F2FF url(blueshadow2/images/TabBack.gif) repeat-x bottom;
-    #background:#FFFFFF url(blueshadow2/images/TabBack.gif) repeat-x bottom;
 }
 
 ul.il_Tab
@@ -637,7 +636,6 @@ li.tabinactive
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #B0B0B0;
-	#border-bottom-color:#E0C8A0;
 }
 
 a.tabinactive
