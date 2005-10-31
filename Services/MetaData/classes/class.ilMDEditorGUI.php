@@ -230,6 +230,25 @@ class ilMDEditorGUI
 		// Lifecycle...
 		// Authors
 		$this->tpl->setVariable("TXT_AUTHORS",$this->lng->txt('authors'));
+		$this->tpl->setVariable("TXT_COMMA_SEP",$this->lng->txt('comma_separated'));
+		if(is_object($this->md_section = $this->md_obj->getLifecycle()))
+		{
+			$sep = $ent_str = "";
+			foreach(($ids = $this->md_section->getContributeIds()) as $con_id)
+			{
+				$md_con = $this->md_section->getContribute($con_id);
+				if ($md_con->getRole() == "Author")
+				{
+					foreach($ent_ids = $md_con->getEntityIds() as $ent_id)
+					{
+						$md_ent = $md_con->getEntity($ent_id);
+						$ent_str = $ent_str.$sep.$md_ent->getEntity();
+						$sep = ", ";
+					}
+				}
+			}
+			$this->tpl->setVariable("AUTHORS_VAL", ilUtil::prepareFormOutput($ent_str));
+		}
 		
 		
 		// Rights...
@@ -340,6 +359,81 @@ class ilMDEditorGUI
 			{
 				$this->md_section->setTypicalLearningTime("");
 				$this->md_section->update();
+			}
+		}
+		
+		//Lifecycle...
+		// Authors
+		if ($_POST["life_authors"] != "")
+		{
+			if(!is_object($this->md_section = $this->md_obj->getLifecycle()))
+			{
+				$this->md_section = $this->md_obj->addLifecycle();
+				$this->md_section->save();
+			}
+			
+			// determine all entered authors
+			$auth_arr = explode(",", $_POST["life_authors"]);
+			for($i = 0; $i < count($auth_arr); $i++)
+			{
+				$auth_arr[$i] = trim($auth_arr[$i]);
+			}
+			
+			$md_con_author = "";
+			
+			// update existing author entries (delete if not entered)
+			foreach(($ids = $this->md_section->getContributeIds()) as $con_id)
+			{
+				$md_con = $this->md_section->getContribute($con_id);
+				if ($md_con->getRole() == "Author")
+				{
+					foreach($ent_ids = $md_con->getEntityIds() as $ent_id)
+					{
+						$md_ent = $md_con->getEntity($ent_id);
+						
+						// entered author already exists
+						if (in_array($md_ent->getEntity(), $auth_arr))
+						{
+							unset($auth_arr[array_search($md_ent->getEntity(), $auth_arr)]);
+						}
+						else  // existing author has not been entered again -> delete
+						{
+							$md_ent->delete();
+						}
+					}
+					$md_con_author = $md_con;
+				}
+			}
+			
+			// insert enterd, but not existing authors
+			if (count($auth_arr) > 0)
+			{
+				if (!is_object($md_con_author))
+				{
+					$md_con_author = $this->md_section->addContribute();
+					$md_con_author->setRole("Author");
+					$md_con_author->save();
+				}
+				foreach ($auth_arr as $auth)
+				{
+					$md_ent = $md_con_author->addEntity();
+					$md_ent->setEntity(ilUtil::stripSlashes($auth));
+					$md_ent->save();
+				}
+			}
+		}
+		else	// nothing has been entered: delete all author contribs
+		{
+			if(is_object($this->md_section = $this->md_obj->getLifecycle()))
+			{
+				foreach(($ids = $this->md_section->getContributeIds()) as $con_id)
+				{
+					$md_con = $this->md_section->getContribute($con_id);
+					if ($md_con->getRole() == "Author")
+					{
+						$md_con->delete();
+					}
+				}
 			}
 		}
 		
@@ -982,8 +1076,8 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE",$this->lng->txt('meta_contribute'));
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE",$this->lng->txt('meta_role'));
 			$this->tpl->setVariable("SEL_CONTRIBUTE_ROLE",ilMDUtilSelect::_getRoleSelect($md_con->getRole(),
-																					"met_contribute[".$con_id."][Role]",
-																					array(0 => $this->lng->txt('meta_please_select'))));
+				"met_contribute[".$con_id."][Role]",
+				array(0 => $this->lng->txt('meta_please_select'))));
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE",$this->lng->txt('meta_date'));
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_NO",$con_id);
 			$this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE",ilUtil::prepareFormOutput($md_con->getDate()));
