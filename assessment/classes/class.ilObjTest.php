@@ -2996,6 +2996,7 @@ class ilObjTest extends ilObject
 		global $ilDB;
 		global $ilUser;
 		
+		if ($lastindex < 1) $lastindex = 1;
 		$db =& $ilDB->db;
 		$old_active = $this->getActiveTestUser();
 		if ($old_active) 
@@ -3055,9 +3056,9 @@ class ilObjTest extends ilObject
 	function &getTestResult($user_id, $pass = NULL)
 	{
 		//		global $ilBench;
+		if (is_null($pass)) $pass = 0;
 		if ($this->isRandomTest())
 		{
-			if (is_null($pass)) $pass = 0;
 			$this->loadQuestions($user_id, $pass);
 		}
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
@@ -3079,7 +3080,7 @@ class ilObjTest extends ilObject
 		{
 			$max_points = ASS_Question::_getMaximumPoints($value);
 			$total_max_points += $max_points;
-			$reached_points = ASS_Question::_getReachedPoints($user_id, $this->getTestId(), $value);
+			$reached_points = ASS_Question::_getReachedPoints($user_id, $this->getTestId(), $value, $pass);
 			$total_reached_points += $reached_points;
 			if ($max_points > 0)
 			{

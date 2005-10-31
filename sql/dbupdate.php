@@ -8902,3 +8902,5 @@ ALTER TABLE `tst_tests` ADD `pass_scoring` ENUM( '0', '1' ) DEFAULT '0' NOT NULL
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#562>
+ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi` , ADD UNIQUE  `user_fi` (  `user_fi` ,  `test_fi` ,  `question_fi` ,  `pass` );
