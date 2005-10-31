@@ -137,7 +137,8 @@ class ilPersonalDesktopGUI
 	function getTreeModeTemplates()
 	{
 		// add template for content
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_tree_content.html");
+		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_tree_content.html");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 	}

@@ -445,7 +445,7 @@ class ilRepositoryGUI
 	function prepareOutput($a_tabs_out = true)
 	{
 		// output objects
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.repository.html");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// output tabs

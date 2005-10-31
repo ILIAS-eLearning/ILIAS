@@ -150,7 +150,8 @@ class ilBookmarkAdministrationGUI
 	*/
 	function explorer()
 	{
-		$this->tpl->addBlockFile("ADM_TREE_CONTENT", "adm_tree_content", "tpl.bookmark_explorer.html");
+		$this->tpl->setCurrentBlock("left_column");
+		$this->tpl->addBlockFile("LEFT_CONTENT", "adm_tree_content", "tpl.bookmark_explorer.html");
 		$exp = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this),$_SESSION["AccountId"]);
 		$exp->setAllowedTypes(array('dum','bmf'));
 		$exp->setTargetGet("bmf_id");
