@@ -1,22 +1,43 @@
 {STATUSLINE}
-<div class="il_Header" style="float:left;">
+<div class="il_HeaderOuter">
+<div class="il_Header">
+<div class="il_HeaderInner">
 	<h1><!-- BEGIN header_image --><img align="middle" border="0" src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
-{HEADER}</h1><div class="il_Description">{H_DESCRIPTION}</div></div>
-<!-- BEGIN tree_icons -->
-<div style="float:right; margin-right:15px;  margin-top:5px;">
-	<!-- BEGIN top -->
-	<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" border="0"></a>&nbsp;
-	<!-- END top -->
-	<!-- BEGIN tree_mode -->
-	<a class="{CLASS_TREE}" href="{LINK_MODE}" target="bottom"><img src="{IMG_TREE}" border="0"></a>
-	<!-- END tree_mode -->
-</div><div style="clear:both;"></div>
-<!-- END tree_icons -->
+	{HEADER}</h1><div class="il_Description">{H_DESCRIPTION}</div></div>
+	<!-- BEGIN tree_icons -->
+	<div style="float:right; margin-right:15px;  margin-top:5px;">
+		<!-- BEGIN top -->
+		<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" border="0"></a>&nbsp;
+		<!-- END top -->
+		<!-- BEGIN tree_mode -->
+		<a class="{CLASS_TREE}" href="{LINK_MODE}" target="bottom"><img src="{IMG_TREE}" border="0"></a>
+		<!-- END tree_mode -->
+	</div><div style="clear:both;"></div>
+	<!-- END tree_icons -->
 {TABS}
+</div>
+</div>
 <div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
+<table class="il_ColumnLayout">
+<!-- BEGIN left_column -->
+<td class="il_LeftColumn">{LEFT_CONTENT}</td>
+<!-- END left_column -->
+<td class="il_CenterColumn">
+	<!-- BEGIN commands -->
+	<form class="il_Form" action="{H_FORMACTION}" method="post">
+	<div style="text-align:right; margin-bottom:10px;">
+	{SELECT_OBJTYPE_REPOS}
+	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
+	</div>
+	</form>
+	<!-- END commands -->
 {BUTTONS}
 {MESSAGE}
 {ADM_CONTENT}
+{OBJECTS}
 {SYSTEMSETTINGS}
-</td></tr></table>
+</td>
+<!-- BEGIN right_column -->
+<td class="il_RightColumn">{RIGHT_CONTENT}</td>
+<!-- END right_column -->
+</tr></table>

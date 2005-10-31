@@ -866,8 +866,17 @@ div.il_info
 
 /* ---------------- headlines ------------------ */
 
+div.il_HeaderOuter
+{
+}
+
 div.il_Header
 {
+}
+
+div.il_HeaderInner
+{
+	float:left;
 	margin-left:15px;
 	margin-right:15px;
 	margin-top:12px;
@@ -875,28 +884,9 @@ div.il_Header
 	color:#222222;
 }
 
-table.ilHeader
-{
-	margin-top:2px;
-	margin-bottom:5px;
-	color:#222222;
-	background-color: #DBE6F4;
-	border-width:1px;
-	border-color:#CACACA;
-	#border-color:#E0C8A0;
-	border-style:outset;
-	padding:7px;
-	background-image: url(images/cellpic5.gif);
-	background-repeat:repeat-x;
-}
-
 div.ilMainHeader
 {
-	#background-image: url(blueshadow2/images/HeaderBackground.gif);
-	#background-image: url(blueshadow2/images/HeaderBackground2.gif);
 	background-image: url(blueshadow2/images/HeaderBackground3.gif);
-	#background-image: url(blueshadow2/images/HeaderBackground4.gif);
-	#background-image: url(blueshadow2/images/HeaderBackground5.gif);
 	background-repeat: repeat-x;
 	background-color: #F0F0F0;
 }
@@ -975,6 +965,35 @@ div.invisible_border {
 td.ilInvisibleBorder
 {
 	padding:15px;
+}
+
+/* --- column table -- */
+table.il_ColumnLayout
+{
+	color:#222222;
+	background-color:#F0F2FF;
+	width:100%;
+	border-spacing:0px;
+}
+
+td.il_LeftColumn
+{
+	padding-left:15px;
+	vertical-align:top;
+}
+
+td.il_CenterColumn
+{
+	padding-right:15px;
+	padding-left:15px;
+	vertical-align:top;
+}
+
+td.il_RightColumn
+{
+	padding-left:15px;
+	padding-left:15px;
+	vertical-align:top;
 }
 
 /* ------- Helptext --------- */

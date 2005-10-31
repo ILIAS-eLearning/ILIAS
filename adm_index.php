@@ -44,19 +44,19 @@ if(!ilMainMenuGUI::_checkAdministrationPermission())
 }
 
 //look if there is a file tpl.adm.html (containing a frameset)
-$start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html"; 
+//$start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html"; 
 
-if (file_exists($start_template))
-{
+//if (file_exists($start_template))
+//{
 	$tpl = new ilTemplate("tpl.adm.html", false, false);
 	$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 	$tpl->setVariable("REF_ID", ROOT_FOLDER_ID);
 	$tpl->parseCurrentBlock();
 	$tpl->show();
-}
-else
-{
-	header("location: adm_object.php?expand=1");
-	exit;
-}
+//}
+//else
+//{
+//	header("location: adm_object.php?expand=1");
+//	exit;
+//}
 ?>
