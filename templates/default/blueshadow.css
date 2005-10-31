@@ -428,6 +428,7 @@ div.il_PDTitle
 	color: #606060;
 	letter-spacing: 0.1em;
 	word-spacing: -0.1em;
+	white-space: nowrap;
 }
 
 table.il_PDBlock
@@ -575,6 +576,12 @@ form.il_Form
 }
 
 /* Tabs */
+
+div.il_MainMenu
+{
+	line-height: 22px;
+	white-space: nowrap;
+}
 
 div.il_Tab
 {
@@ -830,16 +837,17 @@ a.ilMainHeader
 
 div.ilLogin
 {
-	padding-top:0px;
+	padding-top:2px;
 	padding-left:5px;
 	padding-right:5px;
-	padding-bottom:0px;
+	padding-bottom:2px;
 	margin-top:2px;
 	margin-bottom:2px;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #909090;
 	background-color: #EBEBEB;
+	white-space: nowrap;
 }
 
 div.il_Footer
