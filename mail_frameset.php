@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -87,7 +87,7 @@ if (isset($_GET["viewmode"]))
 {
 	$_SESSION["viewmode"] = $_GET["viewmode"];
 }
-if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
+if ($_SESSION["viewmode"] == "tree")
 {
 	$tpl = new ilTemplate("tpl.mail_frameset.html", false, false);
 	if(isset($_GET["target"]))
