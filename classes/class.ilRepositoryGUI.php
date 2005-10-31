@@ -559,9 +559,6 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("content");
 
-		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
-			"&cmd=post");
-
 		if ($this->cur_ref_id != $this->tree->getRootId() && $a_tabs_out)
 		{
 			$par_id = $this->tree->getParentId($this->cur_ref_id);
@@ -776,7 +773,9 @@ class ilRepositoryGUI
 			//	$this->tpl->parseCurrentBlock();
 			//}
 
-			$this->tpl->parseCurrentBlock("commands");
+			$this->tpl->parseCurrentBlock("add_commands");
+			$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
+				"&cmd=post");
 			// possible subobjects
 			$opts = ilUtil::formSelect("", "new_type", $subobj);
 			$this->tpl->setVariable("SELECT_OBJTYPE_REPOS", $opts);
