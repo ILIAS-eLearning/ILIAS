@@ -4,7 +4,7 @@ div.ilc_PageTitle
 {
 	margin-top: 5px;
 	margin-bottom: 20px;
-	font-size: 18px;
+	font-size: 140%;
 	padding-bottom: 3px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -15,7 +15,7 @@ div.ilc_BacklinkTitle
 {
 	margin-top: 20px;
 	margin-bottom: 10x;
-	font-size: 14px;
+	font-size: 100%;
 	font-style: italic;
 	padding-top: 3px;
 	border-top-width: 1px;
@@ -107,9 +107,14 @@ div.ilc_LMNavigation
 
 div.ilc_Page
 {
-	background-color:#EEEEEE;
+	background-color:#FFFFFF;
 	margin: 0px;
 	padding: 0px;
+}
+
+table.ilc_Page
+{
+	background-color:#FFFFFF;
 }
 
 td.ilc_Cell1
@@ -159,26 +164,23 @@ p.ilc_List
 
 p.ilc_Headline1
 {
-	margin-top: 15px;
+	margin-top: 20px;
 	margin-bottom: 10px;
-	font-size: 22px;
-	font-weight: bold;
+	font-size: 140%;
 }
 
 p.ilc_Headline2
 {
-	margin-top: 15px;
+	margin-top: 20px;
 	margin-bottom: 10px;
-	font-size: 18px;
-	font-weight: bold;
+	font-size: 130%;
 }
 
 p.ilc_Headline3
 {
-	margin-top: 15px;
+	margin-top: 20px;
 	margin-bottom: 10px;
-	font-size: 14px;
-	font-weight: bold;
+	font-size: 120%;
 }
 
 p.ilc_Example

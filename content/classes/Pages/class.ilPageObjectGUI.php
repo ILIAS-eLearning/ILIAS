@@ -459,7 +459,15 @@ class ilPageObjectGUI
 				}
 				else
 				{
-					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", "content");
+					// presentation
+					if($this->getOutputMode() != 'preview')
+					{
+						$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", "content");
+					}
+					else	// preview
+					{
+						$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_preview.html", "content");
+					}
 				}
 			}
 			if ($this->getOutputMode() != "presentation" &&
