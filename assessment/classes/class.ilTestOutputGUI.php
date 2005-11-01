@@ -1037,7 +1037,7 @@ class ilTestOutputGUI
 		{
 //			if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 //			{
-				$this->outResultsOverview();
+				$this->outResults();
 //			}
 //			else
 //			{
@@ -1409,6 +1409,18 @@ class ilTestOutputGUI
 		return $result;
 	}
 	
+	function outResults()
+	{
+		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		{
+			$this->outResultsOverview();
+		}
+		else
+		{
+			$this->outTestResults();
+		}
+	}
+	
 /**
 * Output of the learner overview for a varying random test
 *
@@ -1420,6 +1432,10 @@ class ilTestOutputGUI
 	{
 		global $ilUser;
 		
+		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+		{
+			$this->ctrl->redirect($this, "outIntroductionPage");
+		}
 		$this->prepareOutput();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_varying_results.html", true);
@@ -1532,7 +1548,6 @@ class ilTestOutputGUI
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", true);
-		if (is_null($pass)) $pass = 0;
 		$result_array =& $this->object->getTestResult($user_id, $pass);
 
 		if (!$result_array["test"]["total_max_points"])
@@ -1639,7 +1654,14 @@ class ilTestOutputGUI
 			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
 		}
 		$this->tpl->setVariable("USER_FEEDBACK", $mark);
-		$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_results_back_overview"));
+		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		{
+			$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_results_back_overview"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_results_back_introduction"));
+		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("test_user_name");
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $ilUser->getFullname()));
@@ -1651,7 +1673,7 @@ class ilTestOutputGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function outShowAnswers ($isForm, &$ilUser) 
+	function outShowAnswers($isForm, &$ilUser) 
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);		
 		$this->outShowAnswersDetails($isForm, $ilUser);
@@ -1773,7 +1795,7 @@ class ilTestOutputGUI
 			if ($this->object->isOnlineTest())
 				$this->outTestSummary();
 			else
-				$this->outResultsOverview();
+				$this->outResults();
 		}
 	}
 	
@@ -1791,7 +1813,7 @@ class ilTestOutputGUI
 			if ($this->object->isOnlineTest())
 				$this->outTestSummary();
 			else					
-				$this->outResultsOverview();
+				$this->outResults();
 		}
 	}		
 		
