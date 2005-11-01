@@ -205,7 +205,7 @@ th.il_invisible, td.il_invisible {
 	font-size:14px;
 	font-weight:bold;
 	background-color: #C0C0C0;
-	background-image: url(images/cellpic5.gif);
+	background-image: url(blueshadow/images/cellpic5.gif);
 }
 
 .tblheader {
@@ -219,7 +219,7 @@ tr.tblheader {
 	font-size:13px;
 	font-weight:bold;
 	background-color:#e3e3e3;
-	background-image:url(images/cellpic1.gif);
+	background-image:url(blueshadow/images/cellpic1.gif);
 	background-repeat:repeat-x;
 }
 
@@ -234,7 +234,7 @@ tr.tblfooter {
 	font-size:13px;
 	font-weight:normal;
 	background-color:#e3e3e3;
-	background-image:url(images/cellpic1.gif);
+	background-image:url(blueshadow/images/cellpic1.gif);
 	background-repeat:repeat-x;
 }
 
@@ -401,7 +401,7 @@ span.il_ItemProperty,
 
 td.il_ContainerBlockHeader
 {
-	background-image: url(images/cellpic5.gif);
+	background-image: url(blueshadow/images/cellpic5.gif);
 	background-color:#e5e5e5;
 	font-weight: bold;
 	padding: 2px;
@@ -446,7 +446,7 @@ table.il_PDBlock
 
 td.il_PDBlockHeader
 {
-	background-image: url(images/cellpic5.gif);
+	background-image: url(blueshadow/images/cellpic5.gif);
 	background-repeat: repeat-x;
 	font-weight: bold;
 	padding: 3px;
@@ -464,7 +464,7 @@ td.il_PDBlockSubHeader
 	font-size:13px;
 	font-weight:bold;
 	background-color:#e3e3e3;
-	background-image:url(images/cellpic1.gif);
+	background-image:url(blueshadow/images/cellpic1.gif);
 	background-repeat:repeat-x;
 	
 	border-top-width:1px;
@@ -679,7 +679,7 @@ a.subtabinactive
 {
 	float: left;
 	display:block;
-	background:url("images/SubTabInactiveLeft.gif") no-repeat left top;
+	background:url("blueshadow/images/SubTabInactiveLeft.gif") no-repeat left top;
     padding: 3px 10px;
 }
 
@@ -696,7 +696,7 @@ a.subtabactive
 {
 	float: left;
 	display:block;
-	background:url("images/SubTabActiveLeft.gif") no-repeat left top;
+	background:url("blueshadow/images/SubTabActiveLeft.gif") no-repeat left top;
     padding: 3px 10px;
 }
 
@@ -810,13 +810,13 @@ table.ilHeader
 	border-color:#E0E0F0;
 	border-style:outset;
 	padding:7px;
-	background-image: url(images/cellpic5.gif);
+	background-image: url(blueshadow/images/cellpic5.gif);
 	background-repeat:repeat-x;
 }
 
 div.ilMainHeader
 {
-	background-image: url(images/HeaderBackground.gif);
+	background-image: url(blueshadow/images/HeaderBackground.gif);
 	background-repeat: no-repeat;
 	background-color: #F0F0F0;
 }
@@ -874,7 +874,7 @@ h2 {
 	padding:3px;
 	margin-top:25px;
 	margin-bottom:0px;
-	background-image: url(images/cellpic5.gif);
+	background-image: url(blueshadow/images/cellpic5.gif);
 }
 
 /* ----------------- invisible border ------------- */
@@ -1571,7 +1571,7 @@ div.imagebox
 	padding: 10px;
 	margin-top:25px;
 	margin-bottom:0px;
-	background-image: url(images/cellpic5.gif);
+	background-image: url(blueshadow/images/cellpic5.gif);
 }
 
 .questionheading {

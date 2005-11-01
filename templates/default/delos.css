@@ -205,7 +205,7 @@ th.il_invisible, td.il_invisible {
 	color:#222222;
 	font-weight:bold;
 	background-color: #EDEDED;
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 	background-repeat:repeat-x;
 }
 
@@ -219,8 +219,8 @@ tr.tblheader {
 	font-weight:bold;
 	#background-color:#F0F0F0;
 	background-color: #E2EAF4;
-	#background-image:url(blueshadow2/images/TableHeader.gif);
-	background-image:url(blueshadow2/images/TableHeaderBlue.gif);
+	#background-image:url(images/TableHeader.gif);
+	background-image:url(images/TableHeaderBlue.gif);
 	background-repeat:repeat-x;
 	
 	border-top-width:1px;
@@ -239,7 +239,7 @@ tr.tblfooter {
 	color:#000000;
 	font-weight:normal;
 	background-color:#EDEDED;
-	background-image:url(blueshadow2/images/TableHeader.gif);
+	background-image:url(images/TableHeader.gif);
 	background-repeat:repeat-x;
 }
 
@@ -344,7 +344,7 @@ td.boxed {
 }
 
 td.submit {
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 	background-color:#EDEDED;
 	background-repeat: repeat-x;
 	color:#222222;
@@ -422,7 +422,7 @@ span.il_ItemProperty,
 
 td.il_ContainerBlockHeader
 {
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 	background-color:#EDEDED;
 	background-repeat: repeat-x;
 	font-weight: bold;
@@ -470,7 +470,7 @@ table.il_PDBlock
 
 td.il_PDBlockHeader
 {
-	background-image: url(blueshadow2/images/TableHeaderBlue.gif);
+	background-image: url(images/TableHeaderBlue.gif);
 	background-repeat:repeat-x;
 	font-weight: bold;
 	padding: 3px;
@@ -484,7 +484,7 @@ td.il_PDBlockHeader
 
 td.il_PDBlockSubHeader
 {
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 	background-repeat:repeat-x;
 	font-weight: bold;
 	font-size: 100%;
@@ -566,7 +566,7 @@ td.il_no_style {
 table.il_Locator
 {
 	background-color: #E2EAF4;
-	background-image: url(blueshadow2/images/TableHeaderBlue.gif);
+	background-image: url(images/TableHeaderBlue.gif);
 	background-repeat: repeat-x;
 }
 
@@ -618,7 +618,7 @@ div.il_Tab
     width:100%;
 	padding-left:0px;
     line-height:normal;
-	background:#F0F2FF url(blueshadow2/images/TabBack.gif) repeat-x bottom;
+	background:#F0F2FF url(images/TabBack.gif) repeat-x bottom;
 }
 
 ul.il_Tab
@@ -631,7 +631,7 @@ ul.il_Tab
 li.tabinactive
 {
 	float:left;
-	background:url("blueshadow2/images/TabInactiveRight.gif")
+	background:url("images/TabInactiveRight.gif")
 		no-repeat right top;
 	margin:0;
 	padding:0;
@@ -644,7 +644,7 @@ a.tabinactive
 {
 	float: left;
 	display:block;
-	background:url("blueshadow2/images/TabInactiveLeft.gif") no-repeat left top;
+	background:url("images/TabInactiveLeft.gif") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
 }
@@ -652,7 +652,7 @@ a.tabinactive
 li.tabactive
 {
 	float:left;
-	background:url("blueshadow2/images/TabActiveRight.gif")
+	background:url("images/TabActiveRight.gif")
 		no-repeat right top;
 	margin:0;
 	padding:0;
@@ -666,7 +666,7 @@ a.tabactive
 {
 	float: left;
 	display:block;
-	background:url("blueshadow2/images/TabActiveLeft.gif") no-repeat left top;
+	background:url("images/TabActiveLeft.gif") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
 }
@@ -698,7 +698,7 @@ ul.il_SubTab
 li.subtabinactive
 {
 	float:left;
-	#background:url("blueshadow2/images/TabInactiveRight.gif")
+	#background:url("images/TabInactiveRight.gif")
 	#	no-repeat right top;
 	margin:0;
 	padding:0;
@@ -708,7 +708,7 @@ a.subtabinactive
 {
 	float: left;
 	display:block;
-	background:url("blueshadow2/images/SubTabInactiveLeft.gif") no-repeat left top;
+	background:url("images/SubTabInactiveLeft.gif") no-repeat left top;
     padding: 3px 10px;
 	font-size: 80%;
 }
@@ -716,7 +716,7 @@ a.subtabinactive
 li.subtabactive
 {
 	float:left;
-	#background:url("blueshadow2/images/TabActiveRight.gif")
+	#background:url("images/TabActiveRight.gif")
 	#	no-repeat right top;
 	margin:0;
 	padding:0;
@@ -726,7 +726,7 @@ a.subtabactive
 {
 	float: left;
 	display:block;
-	background:url("blueshadow2/images/SubTabActiveLeft.gif") no-repeat left top;
+	background:url("images/SubTabActiveLeft.gif") no-repeat left top;
     padding: 3px 10px;
 	font-size: 80%;
 }
@@ -815,7 +815,7 @@ div.il_ExplorerHeader
 	padding-bottom:1px;
 	vertical-align:top;
 	text-align:left;
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 	background-color:#EDEDED;
 	background-repeat: repeat-x;
 	border-width: 1px;
@@ -882,7 +882,7 @@ div.il_HeaderInner
 
 div.ilMainHeader
 {
-	background-image: url(blueshadow2/images/HeaderBackground3.gif);
+	background-image: url(images/HeaderBackground3.gif);
 	background-repeat: repeat-x;
 	background-color: #F0F0F0;
 }
@@ -945,7 +945,7 @@ h2 {
 	padding:3px;
 	margin-top:25px;
 	margin-bottom:0px;
-	background-image: url(blueshadow2/images/TableHeaderBlue.gif);
+	background-image: url(images/TableHeaderBlue.gif);
 	background-repeat:repeat-x;
 }
 
@@ -1499,7 +1499,7 @@ table.ilc_LMNavigation {
 	padding: 0px;
 	#background-color:#FFFFFF;
 	#background-color: #E6ECF8;
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 	background-repeat:repeat-x;
 	background-color: #EDEDED;
 	width:100%;
@@ -1515,7 +1515,7 @@ td.ilc_LMNavigation
 	border-right-width: 0px;
 	border-top-width: 1px;
 	border-bottom-width: 1px;
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 	backgrounf-color: #EDEDED;
 	margin-bottom: 0px;
 	#font-size: 60%;
@@ -1696,7 +1696,7 @@ div.imagebox
 	padding: 10px;
 	margin-top:25px;
 	margin-bottom:0px;
-	background-image: url(blueshadow2/images/TableHeader.gif);
+	background-image: url(images/TableHeader.gif);
 }
 
 .questionheading {
