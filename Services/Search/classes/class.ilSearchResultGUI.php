@@ -382,12 +382,13 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 		parent::prepareOutput();
 		
 		// SHOW ADD FOLDER
-		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setCurrentBlock("add_commands");
 		// possible subobjects
 		$opts = ilUtil::formSelect("", "new_type", array("folder"));
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("BTN_NAME", "create");
 		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		$this->tpl->setVariable("H_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("header_image");
@@ -395,7 +396,6 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->ctrl->setParameter($this,'folder_id',$this->folder_obj->getFolderId());
-		$this->tpl->setVariable("H_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('search_search_results'));
 
 		$this->tpl->addBlockFile("TABS","tabs","tpl.tabs.html");
