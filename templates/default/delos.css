@@ -910,10 +910,7 @@ div.ilLogin
 	padding-bottom:0px;
 	margin-top:2px;
 	margin-bottom:2px;
-	#border-width: 1px;
-	#border-style: solid;
-	#border-color: #B0B0B0;
-	#background-color: #E6ECF8;
+	white-space: nowrap;
 }
 
 span.il_menu
