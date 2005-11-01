@@ -8904,3 +8904,41 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#562>
 ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi` , ADD UNIQUE  `user_fi` (  `user_fi` ,  `test_fi` ,  `question_fi` ,  `pass` );
+<#563>
+<?php
+	// set user's style to delos (if it has been blueshadow)
+	$query = "SELECT u1.usr_id, u1.value as skin, u2.value as style ".
+		"FROM usr_pref AS u1, usr_pref AS u2 ".
+		"WHERE u1.usr_id = u2.usr_id AND u1.keyword = 'skin' AND u2.keyword = 'style' ";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		if (($row["skin"] == "default" && $row["style"] == "blueshadow") ||
+			$row["skin"] == "blueshadow2" && $row["style"] == "blueshadow2")
+		{
+			$q = "UPDATE usr_pref SET value = 'default' WHERE ".
+				" usr_id = '".$row["usr_id"]."' AND ".
+				" keyword = 'skin'";
+			$ilDB->query($q);
+			$q = "UPDATE usr_pref SET value = 'delos' WHERE ".
+				" usr_id = '".$row["usr_id"]."' AND ".
+				" keyword = 'style'";
+			$ilDB->query($q);
+		}
+	}
+?>
+<#564>
+<?php
+	// set system default style to delos (if it has been blueshadow)
+	$ini = new ilIniFile(CLIENT_WEB_DIR."/client.ini.php");
+	$ini->read();
+	if (($ini->readVariable("layout","skin") == "default" &&
+		$ini->readVariable("layout","style") == "blueshadow") ||
+		($ini->readVariable("layout","skin") == "blueshadow2" &&
+		$ini->readVariable("layout","style") == "blueshadow2"))
+	{
+		$ini->setVariable("layout", "skin", "default");
+		$ini->setVariable("layout", "style", "delos");
+		$ini->write();
+	}
+?>
