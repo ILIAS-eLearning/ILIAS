@@ -3056,7 +3056,6 @@ class ilObjTest extends ilObject
 	function &getTestResult($user_id, $pass = NULL)
 	{
 		//		global $ilBench;
-		if (is_null($pass)) $pass = 0;
 		if ($this->isRandomTest())
 		{
 			$this->loadQuestions($user_id, $pass);
