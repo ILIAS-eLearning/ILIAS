@@ -8947,3 +8947,23 @@ ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi` , ADD UNIQUE  `user_fi` (  
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#566>
+CREATE TABLE style_data
+(
+	id INT NOT NULL,
+	uptodate TINYINT(2) DEFAULT 0
+);
+<#567>
+<?php
+	// create style data record for each style
+	$query = "SELECT * FROM object_data ".
+		"WHERE type='sty' ";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
+			"('".$row["obj_id"]."','0')";
+		$ilDB->query($q);
+	}
+?>
+

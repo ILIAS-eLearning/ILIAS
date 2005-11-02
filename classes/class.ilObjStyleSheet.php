@@ -77,6 +77,38 @@ class ilObjStyleSheet extends ilObject
 		$this->ilias->raiseError("Operation ilObjStyleSheet::createReference() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
+	function setUpToDate($a_up_to_date = true)
+	{
+		$this->up_to_date = $a_up_to_date;
+	}
+	
+	function getUpToDate()
+	{
+		return $this->up_to_date;
+	}
+	
+	function _writeUpToDate($a_id, $a_up_to_date)
+	{
+		global $ilDB;
+
+		$q = "UPDATE style_data SET uptodate = ".$ilDB->quote((int) $a_up_to_date).
+			" WHERE id = ".$ilDB->quote($a_id);
+		$ilDB->query($q);
+	}
+	
+	function _lookupUpToDate($a_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM style_data ".
+			" WHERE id = ".$ilDB->quote($a_id);
+		$res = $ilDB->query($q);
+		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return (boolean) $sty["uptodate"];
+	}
+
+	
 	/**
 	* assign meta data object
 	*/
@@ -95,6 +127,8 @@ class ilObjStyleSheet extends ilObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		$def = array(
@@ -212,8 +246,13 @@ class ilObjStyleSheet extends ilObject
 			$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
 				"('".$this->getId()."','".$sty["tag"]."','".$sty["class"].
 				"','".$sty["parameter"]."','".$sty["value"]."')";
-			$this->ilias->db->query($q);
+			$ilDB->query($q);
 		}
+		
+		// add style_data record
+		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
+			"(".$ilDB->quote($this->getId()).", 0)";
+		$ilDB->query($q);
 
 		$this->read();
 		$this->writeCSSFile();
@@ -289,6 +328,10 @@ class ilObjStyleSheet extends ilObject
 		include_once("content/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_deleteStyleAssignments($this->getId());
 		
+		// delete style data record
+		$q = "DELETE FROM style_data WHERE id = ".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+
 	}
 
 
@@ -297,6 +340,8 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
 		$q = "SELECT * FROM style_parameter WHERE style_id = '".$this->getId()."' ORDER BY tag, class ";
@@ -323,6 +368,12 @@ class ilObjStyleSheet extends ilObject
 		{
 			$this->style[] = $tag;
 		}
+		
+		$q = "SELECT * FROM style_data WHERE id = ".$ilDB->quote($this->getId());
+		$res = $ilDB->query($q);
+		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setUpToDate((boolean) $sty["uptodate"]);
+		
 	}
 
 	/**
@@ -372,6 +423,9 @@ class ilObjStyleSheet extends ilObject
 			fwrite ($css_file, "}\n");
 		}
 		fclose($css_file);
+		
+		$this->setUpToDate(true);
+		$this->_writeUpToDate($this->getId(), true);
 	}
 
 
@@ -385,6 +439,7 @@ class ilObjStyleSheet extends ilObject
 		global $ilias;
 		
 		$rand = rand(1,999999);
+		
 		
 		// check global fixed content style
 		$fixed_style = $ilias->getSetting("fixed_content_style_id");
@@ -401,6 +456,13 @@ class ilObjStyleSheet extends ilObject
 
 		if ($a_style_id > 0)
 		{
+			// check whether file is up to date
+			if (!ilObjStyleSheet::_lookupUpToDate($a_style_id))
+			{
+				$style = new ilObjStyleSheet($a_style_id);
+				$style->writeCSSFile();
+			}
+			
 			return ilUtil::getWebspaceDir("output").
 				"/css/style_".$a_style_id.".css?dummy=$rand";
 		}
@@ -550,6 +612,12 @@ class ilObjStyleSheet extends ilObject
 				$this->ilias->db->query($q);
 			}
 		}
+		
+		// add style_data record
+		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
+			"(".$ilDB->quote($this->getId()).", 0)";
+		$ilDB->query($q);
+		
 		$this->update();
 		$this->read();
 		$this->writeCSSFile();
