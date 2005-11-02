@@ -8942,3 +8942,8 @@ ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi` , ADD UNIQUE  `user_fi` (  
 		$ini->write();
 	}
 ?>
+<#565>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
