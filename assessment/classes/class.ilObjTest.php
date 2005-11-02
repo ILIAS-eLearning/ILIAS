@@ -3395,7 +3395,20 @@ class ilObjTest extends ilObject
 	{
 //		global $ilBench;
 		
-		$test_result =& $this->getTestResult($user_id);
+		$pass = NULL;
+		if ($this->getTestType() == TYPE_VARYING_RANDOMTEST)
+		{
+			if ($this->getPassScoring() == SCORE_BEST_PASS)
+			{
+				$pass = $this->_getBestPass($user_id, $this->getTestId());
+			}
+			else
+			{
+				$pass = $this->_getPass($user_id, $this->getTestId())-1;
+				if ($pass < 0) $pass = 0;
+			}
+		}
+		$test_result =& $this->getTestResult($user_id, $pass);
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
 			$this->ilias->db->quote($this->getTestId()),
 			$this->ilias->db->quote($user_id)
@@ -3436,9 +3449,11 @@ class ilObjTest extends ilObject
 		$first_date = getdate($first_visit);
 		$last_date = getdate($last_visit);
 		$qworkedthrough = 0;
-		$query_worked_through = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = 0",
+		if (is_null($pass)) $pass = 0;
+		$query_worked_through = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
 			$this->ilias->db->quote("$user_id"),
-			$this->ilias->db->quote($this->getTestId())
+			$this->ilias->db->quote($this->getTestId()),
+			$this->ilias->db->quote($pass . "")
 		);
 		$worked_through_result = $this->ilias->db->query($query_worked_through);
 		if (!$worked_through_result->numRows())
@@ -3600,7 +3615,20 @@ class ilObjTest extends ilObject
 		$maximum_points = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
-			$res =& $this->getTestResult($row->user_fi);
+			$pass = NULL;
+			if ($this->getTestType() == TYPE_VARYING_RANDOMTEST)
+			{
+				if ($this->getPassScoring() == SCORE_BEST_PASS)
+				{
+					$pass = $this->_getBestPass($row->user_fi, $this->getTestId());
+				}
+				else
+				{
+					$pass = $this->_getPass($row->user_fi, $this->getTestId())-1;
+					if ($pass < 0) $pass = 0;
+				}
+			}
+			$res =& $this->getTestResult($row->user_fi, $pass);
 			if ((!$res["test"]["total_reached_points"]) or (!$res["test"]["total_max_points"])) 
 			{
 				$percentage = 0.0;
@@ -5929,6 +5957,43 @@ class ilObjTest extends ilObject
 		{
 			return 0;
 		}
+	}
+	
+/**
+* Retrieves the best pass of a given user for a given test
+* 
+* Retrieves the best pass of a given user for a given test
+*
+* @param integer $user_id The user id
+* @param integer $test_id The test id
+* @return integer The best pass of the user for the given test
+* @access public
+*/
+	function _getBestPass($user_id, $test_id)
+	{
+		global $ilDB;
+		$lastpass = ilObjTest::_getPass($user_id, $test_id);
+		$bestpass = 0;
+		$maxpoints = 0;
+		for ($i = 0; $i <= $lastpass; $i++)
+		{
+			$query = sprintf("SELECT SUM(points) AS maxpoints FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($i . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				if ($row["maxpoints"] > $maxpoints)
+				{
+					$maxpoints = $row["maxpoints"];
+					$bestpass = $i;
+				}
+			}
+		}
+		return $bestpass;
 	}
 	
 /**
