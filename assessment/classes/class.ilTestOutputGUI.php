@@ -962,6 +962,19 @@ class ilTestOutputGUI
 		}
 	}
 	
+	function summary()
+	{
+		$this->saveQuestionSolution();
+		$this->outTestSummary();
+	}
+
+	function backFromSummary()
+	{
+		$this->sequence = $this->getSequence();
+		$this->object->setActiveTestUser($this->sequence);
+		$this->outTestPage();
+	}
+
 	function postpone()
 	{
 		$this->saveQuestionSolution();
@@ -1069,10 +1082,8 @@ class ilTestOutputGUI
 		// update working time and set saveResult state
 		$this->updateWorkingTime();
 					
-		
 		if ($this->handleCommands())
 			return;
-
 		if ($this->isMaxProcessingTimeReached())
 		{
 			$this->maxProcessingTimeReached();
@@ -1238,6 +1249,7 @@ class ilTestOutputGUI
 			if ($this->object->isActiveTestSubmitted()) return "";
 		}
 		$sequence = $_GET["sequence"];
+		if (!$sequence) $sequence = 1;
 		$saveResult = $this->saveResult;
 		
 		if (isset($_POST["cmd"]["next"]) && $saveResult == true)
@@ -1317,14 +1329,6 @@ class ilTestOutputGUI
 				$value = ($_POST["cmd"]["resetsolved"])?0:1;			
 				$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
 				$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
-			}
-			
-			
-			if ($_POST["cmd"]["summary"] )//&& 
-				//(!$this->canSaveResult() || ($this->canSaveResult() && $this->gui->saveResults))) 
-			{
-				$this->outTestSummary();
-				return true;
 			}
 		}		
 		return false;
@@ -2107,7 +2111,8 @@ class ilTestOutputGUI
 	*
 	* @access public
 	*/
-	function outTestSummary() {
+	function outTestSummary() 
+	{
 		global $ilUser;
 
 		function sort_title($a, $b) {
@@ -2165,6 +2170,7 @@ class ilTestOutputGUI
 			return ($a["solved"] < $b["solved"]) ? $smaller : $greater;
 		}
 
+		$this->prepareOutput();
 		$add_parameter = $this->getAddParameter()."&"."sequence=".$_GET["sequence"];
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_summary.html", true);
 		$user_id = $ilUser->id;
@@ -2258,7 +2264,8 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
 		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
 		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);	
+		$this->ctrl->saveParameter($this, "sequence", $_GET["sequence"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));		
 		$this->tpl->parseCurrentBlock();
 		
