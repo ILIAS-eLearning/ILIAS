@@ -79,6 +79,9 @@ create#:#Creare
 create_datadir_failed#:#Crearea directorului de date nu a reusit
 create_new_client#:#Creare client nou
 create_webdir_failed#:#Crearea directorului web nu a reusit
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#calea catre date
 database#:#baza de date
 database_create#:#Creare baza de date
@@ -205,6 +208,7 @@ intro_install#:#Aceasta este pagina principala a configurarii ILIAS 3. De aici p
 ip_address#:#Adresa IP
 java_path#:#Calea catre Java
 java_path_comment#:#Necesar pentru Modulele de invatare SCORM
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Ceha
 lang_da#:#Daneza
 lang_de#:#Germana
@@ -333,6 +337,7 @@ pre_php_version_5#:#ILIAS 3 nu a fost inca testat cu PHP 5. Folositi-l pe riscul
 pre_php_version_unknown#:#Configurarea ILIAS nu cunoaste aceasta versiune. Folositi-o pe riscul dumneavoastra!
 preliminaries#:#Preliminarii
 prev#:#Precedent
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#Campuri obligatorii
 reset#:#Reset
 root_access#:#Acces root
@@ -388,6 +393,7 @@ step#:#Pas
 street#:#Strada
 submit#:#Trimite
 title#:#Titlu
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Client necunoscut
 unknown_command#:#Comanda necunoscuta
 unknown_display_mode#:#Mod de afisare necunoscut

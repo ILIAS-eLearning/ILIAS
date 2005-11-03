@@ -78,6 +78,9 @@ create#:#criar###07 Apr 2005 content changed
 create_datadir_failed#:#Criação da directoria de dados falhou###07 Apr 2005 content changed
 create_new_client#:#Criar novo cliente###07 Apr 2005 content changed
 create_webdir_failed#:#Criação da directoria web falhou###07 Apr 2005 content changed
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#caminho para os dados###07 Apr 2005 content changed
 database#:#base de dados###07 Apr 2005 content changed
 database_create#:#Criar base de dados###07 Apr 2005 content changed
@@ -205,6 +208,7 @@ intro_install#:#Esta é a página principal do setup do ILIAS 3. Daqui você pod
 ip_address#:#Endereço IP###07 Apr 2005 content changed
 java_path#:#Caminho para o Java###07 Apr 2005 content changed
 java_path_comment#:#necessário para os Módulos de Aprendizagem SCORM###07 Apr 2005 content changed
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Czech###new variable 09 Mar 2004
 lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Alemão###07 Apr 2005 content changed
@@ -333,6 +337,7 @@ pre_php_version_5#:#O ILIAS 3 ainda não foi testado com o PHP 5. Use com o seu 
 pre_php_version_unknown#:#O setup do ILIAS não conhece esta versão. Use com o seu risco.###07 Apr 2005 content changed
 preliminaries#:#Preliminários###07 Apr 2005 content changed
 prev#:#Anterior###07 Apr 2005 content changed
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#campos necessários###07 Apr 2005 content changed
 reset#:#Redefinir###07 Apr 2005 content changed
 root_access#:#acesso root###07 Apr 2005 content changed
@@ -388,6 +393,7 @@ step#:#Passo###07 Apr 2005 content changed
 street#:#Rua###07 Apr 2005 content changed
 submit#:#Submeter###07 Apr 2005 content changed
 title#:#Título###07 Apr 2005 content changed
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Cliente Desconhecido###07 Apr 2005 content changed
 unknown_command#:#Comando desconhecido###07 Apr 2005 content changed
 unknown_display_mode#:#Modo de mostragem desconhecido###07 Apr 2005 content changed

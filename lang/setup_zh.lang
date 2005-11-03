@@ -94,6 +94,9 @@ create#:#创建 ###07 Apr 2005 content changed
 create_datadir_failed#:#创建数据目录失败 ###07 Apr 2005 content changed
 create_new_client#:#创建新客户 ###07 Apr 2005 content changed
 create_webdir_failed#:#创建web目录失败 ###07 Apr 2005 content changed
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#数据路径###07 Apr 2005 content changed
 database#:#数据库 ###07 Apr 2005 content changed
 database_create#:#创建数据库 ###07 Apr 2005 content changed
@@ -221,6 +224,7 @@ intro_install#:#这是ILIAS 3安装程序主页。从这里可以一步步进行
 ip_address#:#IP地址###07 Apr 2005 content changed
 java_path#:#Java路径 ###07 Apr 2005 content changed
 java_path_comment#:#用于SCORM学习模块 ###07 Apr 2005 content changed
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Czech###09 Mar 2004 new variable
 lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#德语 ###07 Apr 2005 content changed
@@ -349,6 +353,7 @@ pre_php_version_5#:#ILIAS 3尚未用PHP 5测试。如若使用，责任自负。
 pre_php_version_unknown#:#ILIAS安装程序不知此版本。如若使用，责任自负。###07 Apr 2005 content changed
 preliminaries#:#预备 ###07 Apr 2005 content changed
 prev#:#前一个###07 Apr 2005 content changed
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#必添域 ###07 Apr 2005 content changed
 reset#:#重置 ###07 Apr 2005 content changed
 root_access#:#根访问 ###07 Apr 2005 content changed
@@ -404,6 +409,7 @@ step#:#步骤###07 Apr 2005 content changed
 street#:#街 ###07 Apr 2005 content changed
 submit#:#提交 ###07 Apr 2005 content changed
 title#:#标题 ###07 Apr 2005 content changed
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#未知客户 ###07 Apr 2005 content changed
 unknown_command#:#未知命令 ###07 Apr 2005 content changed
 unknown_display_mode#:#未知显示模式###07 Apr 2005 content changed

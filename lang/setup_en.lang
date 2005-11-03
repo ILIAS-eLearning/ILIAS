@@ -61,12 +61,6 @@ choose_password#:#Please choose a password
 city#:#City, State
 clean_command#:#Clean Command
 client#:#Client
-tools#:#Tools
-ctrl_structure#:#Control Structure
-reload#:#Reload
-lang_bg#:#Bulgarian
-ctrl_structure_reloaded#:#Control Structure Reloaded.
-ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. 
 client_access_mode_changed#:#Client's access mode changed
 client_data#:#Client Information
 client_id#:#Client ID
@@ -86,6 +80,9 @@ create#:#create
 create_datadir_failed#:#Creation of data directory failed
 create_new_client#:#Create new client
 create_webdir_failed#:#Creation of web directory failed
+ctrl_structure#:#Control Structure
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. 
+ctrl_structure_reloaded#:#Control Structure Reloaded.
 data_path#:#data path
 database#:#database
 database_create#:#Create database
@@ -213,6 +210,7 @@ intro_install#:#This is the main page of ILIAS 3 setup. From here you can step t
 ip_address#:#IP address
 java_path#:#Path to Java
 java_path_comment#:#required for SCORM Learning modules
+lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
 lang_de#:#German
@@ -341,6 +339,7 @@ pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own ris
 pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!
 preliminaries#:#Preliminaries
 prev#:#Previous
+reload#:#Reload
 required_field#:#required fields
 reset#:#Reset
 root_access#:#root access
@@ -396,6 +395,7 @@ step#:#Step
 street#:#Street
 submit#:#Submit
 title#:#Title
+tools#:#Tools
 unknown_client_id#:#Unknown Client
 unknown_command#:#Unknown command
 unknown_display_mode#:#Unknown display mode

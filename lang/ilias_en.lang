@@ -41,17 +41,12 @@ administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
-common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
-common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.
-common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
-common#:#grp_mail_subj_new_subscription#:#New subscription
-common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
@@ -99,7 +94,6 @@ administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0=unlimited)
-assessment#:#tst_show_answer_print_sheet#:#Answers Printview
 assessment#:#action#:#Action
 assessment#:#add_answer#:#Add answer
 assessment#:#add_answer_tf#:#Add true/false answers
@@ -328,14 +322,12 @@ assessment#:#qpl_assessment_of_questions#:#Assessment of questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.
+assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
+assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
 assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it
-assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
-assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
-assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
-assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
@@ -346,10 +338,12 @@ assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question 
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.
+assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
+assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
 assessment#:#qpl_online_property#:#Online
 assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
-assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
+assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
@@ -487,11 +481,11 @@ assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed
-assessment#:#tst_pass_scoring#:#Multiple pass scoring
-assessment#:#tst_pass_last_pass#:#Score the last pass of a user
+assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the best pass of a user
 assessment#:#tst_pass_details#:#Show details
-assessment#:#tst_participating_users#:#Participating Users
+assessment#:#tst_pass_last_pass#:#Score the last pass of a user
+assessment#:#tst_pass_scoring#:#Multiple pass scoring
 assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print
@@ -544,6 +538,7 @@ assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
 assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
+assessment#:#tst_show_answer_print_sheet#:#Answers Printview
 assessment#:#tst_show_answer_sheet#:#show answers
 assessment#:#tst_show_results#:#Show test results
 assessment#:#tst_signature#:#Signature
@@ -671,6 +666,8 @@ bibitem#:#bibitem_unpublished#:#Unpublished
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Where published
 bibitem#:#bibitem_year#:#Year
+chat#:#cancel_talk#:#Cancel address
+chat#:#cancel_whisper#:#Cancel whisper
 chat#:#chat_access_blocked#:#You are excluded from these chatrooms
 chat#:#chat_active#:#Active
 chat#:#chat_active_users#:#Further users (present)
@@ -821,6 +818,7 @@ common#:#add_author#:#Add Author
 common#:#add_condition#:#Create new association
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
+common#:#add_note#:#Add Note
 common#:#add_translation#:#Add translation
 common#:#add_user#:#Add local user
 common#:#added_new_condition#:#Created new condition.
@@ -953,10 +951,15 @@ common#:#average_time#:#Average time
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
+common#:#basic_settings#:#Basic Settings
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Settings
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographical Data
+common#:#big_icon#:#Big Icon
+common#:#bkm_import#:#Import bookmarks
+common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.
+common#:#bkm_sendmail#:#Send as attachment
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Folder
 common#:#bookmark_edit#:#Edit Bookmark
@@ -969,12 +972,9 @@ common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
+common#:#by_location#:#Order by location
+common#:#by_type#:#Order by type
 common#:#bytes#:#Bytes
-common#:#show_public_notes#:#Show public notes
-common#:#show_private_notes#:#Show private notes
-common#:#hide_public_notes#:#Hide public notes
-common#:#hide_private_notes#:#Hide private notes
-common#:#note#:#Note
 common#:#calendar#:#Calendar
 common#:#cancel#:#Cancel
 common#:#cannot_find_xml#:#Cannot find any XML-file.
@@ -1050,12 +1050,15 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#chat#:#Chat
+common#:#chat_active_in#:#Active in chat:
 common#:#chat_add#:#Add Chat
 common#:#chat_delete#:#Delete chat
 common#:#chat_edit_permission#:#Change permission settings
+common#:#chat_invite#:#Chat
 common#:#chat_moderate#:#Moderate chat
 common#:#chat_new#:#New Chat
 common#:#chat_read#:#Read/Write access to chat
+common#:#chat_users_active#:#Active users
 common#:#chat_visible#:#Chat is visible
 common#:#chat_write#:#Edit chat
 common#:#check#:#Check
@@ -1086,7 +1089,6 @@ common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
-common#:#info_short#:#Info
 common#:#close_window#:#Close window
 common#:#comma_separated#:#Comma Separated
 common#:#comment#:#comment
@@ -1187,6 +1189,8 @@ common#:#cur_number_rec#:#Current number of records
 common#:#current_ip#:#Current IP:
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
 common#:#current_password#:#Current Password
+common#:#custom_icon_size_big#:#Custom icon size (big)
+common#:#custom_icon_size_small#:#Custom icon size (small)
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
 common#:#daily#:#daily
@@ -1266,6 +1270,8 @@ common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
 common#:#enable_calendar#:#Enable Calendar
+common#:#enable_custom_icons#:#Enable custom icons
+common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.
 common#:#enable_js_edit#:#Enable JavaScript Editing
@@ -1351,8 +1357,6 @@ common#:#extt_ilinc_customer_id#:#Customer ID
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com
 common#:#extt_ilinc_enable#:#Enable LearnLinc support
 common#:#extt_ilinc_protocol_port#:#Protocol & Port
-common#:#http#:#HTTP
-common#:#ssl#:#SSL (HTTPS)
 common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
 common#:#extt_ilinc_server#:#Server
@@ -1560,6 +1564,7 @@ common#:#grp_create_svy#:#Create Survey
 common#:#grp_create_tst#:#Create Test
 common#:#grp_create_webr#:#Create Web Resource
 common#:#grp_delete#:#Delete Group
+common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group?
 common#:#grp_edit#:#Edit Group
@@ -1575,6 +1580,10 @@ common#:#grp_header_edit_members#:#Edit members
 common#:#grp_join#:#User may join Group
 common#:#grp_leave#:#User may leave Group
 common#:#grp_list_users#:#List users
+common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.
+common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
+common#:#grp_mail_subj_new_subscription#:#New subscription
+common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
@@ -1594,6 +1603,8 @@ common#:#grp_register#:#Register
 common#:#grp_registration_completed#:#Registration completed
 common#:#grp_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search
+common#:#grp_select_one_file#:#Please select one file.
+common#:#grp_select_one_file_only#:#Please select exactly one file.
 common#:#grp_visible#:#Group is visible
 common#:#grp_write#:#Edit Group
 common#:#guest#:#Guest
@@ -1602,6 +1613,8 @@ common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide#:#hide
 common#:#hide_details#:#Hide Details
+common#:#hide_private_notes#:#Hide private notes
+common#:#hide_public_notes#:#Hide public notes
 common#:#hide_structure#:#Disable Structured-View
 common#:#hist_dbk:pg_create#:#Page created
 common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]
@@ -1642,6 +1655,7 @@ common#:#htlm_new#:#New HTML Learning Module
 common#:#htlm_read#:#Read HTML Learning Module
 common#:#htlm_visible#:#HTML Learning Module is visible
 common#:#htlm_write#:#Edit HTML Learning Module
+common#:#http#:#HTTP
 common#:#http_not_possible#:#This server is not supporting http requests.
 common#:#http_path#:#Http Path
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
@@ -1651,6 +1665,11 @@ common#:#icla_add#:#Add LearnLinc Classroom
 common#:#icla_deleted#:#LearnLinc classroom(s) deleted
 common#:#icla_edit#:#Edit LearnLinc Classroom
 common#:#icla_new#:#New LearnLinc Classroom
+common#:#icon_settings#:#Icon Settings
+common#:#icons_in_header#:#Header row
+common#:#icons_in_item_rows#:#Item rows
+common#:#icons_in_typed_lists#:#Icon position in item lists
+common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.
 common#:#icrs#:#LearnLinc Seminar
 common#:#icrs_add#:#Add LearnLinc Seminar
 common#:#icrs_added#:#LearnLinc Seminar added
@@ -1679,6 +1698,7 @@ common#:#il_grp_member#:#Group member
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc Seminar member
 common#:#ilias_version#:#ILIAS version
+common#:#ilinc_add_user#:#Add user(s)
 common#:#ilinc_classroom_always_open#:#Classroom is always open
 common#:#ilinc_classroom_closed#:#Classroom is closed
 common#:#ilinc_classroom_open#:#Classroom is open
@@ -1689,25 +1709,25 @@ common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following u
 common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?
 common#:#ilinc_docent#:#Instructor
 common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator
 common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.
 common#:#ilinc_err_member_could_not_be_removed#:#User could not be removed. Please verify all dependencies of that user.
 common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.
 common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !
+common#:#ilinc_header_edit_users#:#Edit list of involved users
 common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Involved Users
-common#:#ilinc_manage_course_documents#:#Materials
-common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
-common#:#ilinc_msg_membership_annulled#:#Subscription cancelled
-common#:#ilinc_msg_member_assigned#:#User(s) assigned
-common#:#ilinc_mem_send_mail#:#Send user a message
-common#:#ilinc_mem_change_status#:#Change user's status
-common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar
-common#:#ilinc_add_user#:#Add user(s)
-common#:#ilinc_header_edit_users#:#Edit list of involved users
-common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled
+common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.
 common#:#ilinc_mail_subj_neW_subscription#:#New subscription
-common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.
+common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled
+common#:#ilinc_manage_course_documents#:#Materials
+common#:#ilinc_mem_change_status#:#Change user's status
+common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar
+common#:#ilinc_mem_send_mail#:#Send user a message
+common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
+common#:#ilinc_msg_member_assigned#:#User(s) assigned
+common#:#ilinc_msg_membership_annulled#:#Subscription cancelled
 common#:#ilinc_no_docent_assigned#:#Not assigned
 common#:#ilinc_notset#:#Not set
 common#:#ilinc_remark#:#Remark
@@ -1715,14 +1735,13 @@ common#:#ilinc_server_not_active#:#iLinc server not activated
 common#:#ilinc_student#:#Participant
 common#:#ilinc_upload_pic_linktext#:#Upload
 common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
 common#:#import#:#Import
 common#:#import_alm#:#Import AICC Package
-common#:#import_categories#:#Import Categories
 common#:#import_cat_localrol#:#Create local role for every new category
 common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set
+common#:#import_categories#:#Import Categories
 common#:#import_dbk#:#Import Digilib Book
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#Import File
@@ -1730,6 +1749,7 @@ common#:#import_file_not_valid#:#The import file is not valid.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_forum_finished#:#The forum has been imported.
 common#:#import_glossary#:#Import Glossary
+common#:#import_group#:#Import group
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import ILIAS Learning module
@@ -1742,6 +1762,7 @@ common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
 common#:#import_users#:#Import Users
 common#:#import_warning_log#:#Import warning log
+common#:#important#:#Important
 common#:#imported#:#imported
 common#:#in#:#in
 common#:#in_use#:#User Language
@@ -1766,6 +1787,7 @@ common#:#info_not_assigned#:#not assigned
 common#:#info_permission_origin#:#Original position
 common#:#info_permission_source#:#effective from*
 common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
+common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
 common#:#info_trash#:#Deleted Objects
 common#:#info_view_of_user#:#User
@@ -1853,6 +1875,7 @@ common#:#languages_already_uninstalled#:#Selected language(s) are already uninst
 common#:#languages_updated#:#All installed languages have been updated
 common#:#last_access#:#Last access:
 common#:#last_change#:#Last Change
+common#:#last_edited_on#:#Last edited on
 common#:#last_update#:#Last Update
 common#:#last_visit#:#Last Visit
 common#:#lastname#:#Last name
@@ -1871,20 +1894,13 @@ common#:#ldap_server#:#LDAP Server URL
 common#:#ldap_tls#:#Use LDAP TLS
 common#:#ldap_v2#:#LDAPv2
 common#:#ldap_v3#:#LDAPv3
-common#:#notes#:#Notes
-common#:#public_notes#:#Public Notes
-common#:#private_notes#:#Private Notes
-common#:#add_note#:#Add Note
-common#:#unlabeled#:#Unlabeled
-common#:#important#:#Important
-common#:#last_edited_on#:#Last edited on
 common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
 common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
-common#:#learning_resources#:#Learning Resources
 common#:#learning_resource#:#Learning Resource
+common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#link_check#:#Link check
@@ -1894,9 +1910,25 @@ common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
 common#:#link_check_subject#:#[ILIAS 3] Link check
 common#:#link_checker_refreshed#:#Refreshed view
+common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
 common#:#link_selected_items#:#Link selected items
 common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
+common#:#links_add_param#:#Add parameter:
+common#:#links_dyn_parameter#:#Dynamic parameters
+common#:#links_dynamic#:#Dynamic Web Links parameters
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
+common#:#links_existing_params#:#Existing parameters:
+common#:#links_name#:#Parameter name
+common#:#links_no_name_given#:#Please choose a parameter name.
+common#:#links_no_value_given#:#Please choose a parameter value.
+common#:#links_not_available#:#Not available
+common#:#links_parameter_deleted#:#Parameter deleted.
+common#:#links_select_one#:#- Select one -
+common#:#links_session_id#:#ILIAS session id
+common#:#links_user_id#:#ILIAS user id
+common#:#links_user_name#:#ILIAS username
+common#:#links_value#:#Parameter value
 common#:#list_of_pages#:#Pages List
 common#:#list_of_questions#:#Question List
 common#:#literature#:#Literature
@@ -2080,6 +2112,7 @@ common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_file#:#You didn't choose a file
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
+common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
@@ -2192,6 +2225,8 @@ common#:#not_accessed_yet#:#Not accessed yet
 common#:#not_implemented_yet#:#Not implemented yet
 common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#You are not logged in
+common#:#note#:#Note
+common#:#notes#:#Notes
 common#:#num_users#:#Number of users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
@@ -2241,8 +2276,6 @@ common#:#obj_owner#:#This Object is owned by
 common#:#obj_pays#:#Payment settings
 common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
-common#:#by_type#:#Order by type
-common#:#by_location#:#Order by location
 common#:#obj_qpl#:#Question Pool Test
 common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
@@ -2375,7 +2408,6 @@ common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
 common#:#permission_settings#:#Permission settings
 common#:#person_title#:#Title
-common#:#related_to#:#Related to
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
@@ -2403,12 +2435,14 @@ common#:#predefined_template#:#Predefined role template
 common#:#presentation_options#:#Presentation Options
 common#:#previous#:#previous
 common#:#print#:#Print
+common#:#private_notes#:#Private Notes
 common#:#profile#:#Profile
 common#:#profile_changed#:#Your profile has changed
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
 common#:#pub_section#:#Public Area
 common#:#public#:#public
+common#:#public_notes#:#Public Notes
 common#:#public_profile#:#Public Profile
 common#:#publication#:#Publication
 common#:#publication_date#:#Publication Date
@@ -2452,6 +2486,7 @@ common#:#registered_users#:#registered Users
 common#:#registration#:#New account registration
 common#:#registration_disabled#:#Only available when using local authentication
 common#:#registration_expired#:#Registration period expired...
+common#:#related_to#:#Related to
 common#:#remove#:#Remove
 common#:#remove_personal_picture#:#Remove
 common#:#remove_translation#:#Remove translation
@@ -2654,11 +2689,14 @@ common#:#show_details#:#Show Details
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
+common#:#show_private_notes#:#Show private notes
+common#:#show_public_notes#:#Show public notes
 common#:#show_structure#:#Enable Structured-View
 common#:#show_users_online#:#Show active users
 common#:#signature#:#Signature
 common#:#size#:#Size
 common#:#skin_style#:#Default Skin / Style
+common#:#small_icon#:#Small Icon
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#External user administration (SOAP)
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.
@@ -2672,6 +2710,7 @@ common#:#spl_read#:#Read access to Question Pool for Survey
 common#:#spl_upload_file#:#Upload file
 common#:#spl_visible#:#Question Pool for Survey is visible
 common#:#spl_write#:#Edit Question Pool for Survey
+common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#a chapter
 common#:#st_add#:#Add chapter
 common#:#st_added#:#Chapter added
@@ -2726,6 +2765,7 @@ common#:#system_information#:#System Information
 common#:#system_language#:#System Language
 common#:#system_message#:#System Message
 common#:#system_style_settings#:#System Style Settings
+common#:#system_styles#:#System Styles
 common#:#table_mail_import#:#Mail import
 common#:#target#:#Target
 common#:#tax#:#Taxonomy
@@ -2814,6 +2854,7 @@ common#:#uncheck_all#:#Uncheck all
 common#:#uninstall#:#Uninstall
 common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
+common#:#unlabeled#:#Unlabeled
 common#:#unread#:#Unread
 common#:#unread_lowercase#:#unread
 common#:#unselected#:#Unselected
@@ -2890,18 +2931,7 @@ common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts
-common#:#icons_in_typed_lists#:#Icon position in item lists
-common#:#icons_in_header#:#Header row
-common#:#icons_in_item_rows#:#Item rows
-common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.
-common#:#system_styles#:#System Styles
-common#:#basic_settings#:#Basic Settings
 common#:#usrf_create_user#:#Create new user account
-common#:#enable_custom_icons#:#Enable custom icons
-common#:#custom_icon_size_big#:#Custom icon size (big)
-common#:#custom_icon_size_small#:#Custom icon size (small)
-common#:#width_x_height#:#Width x Height
-common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#usrf_delete#:#Delete user accounts
 common#:#usrf_edit_permission#:#Change access to user accounts
 common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
@@ -2910,9 +2940,6 @@ common#:#usrf_read#:#Read access to user accounts
 common#:#usrf_read_users#:#Role assignment for local administrators
 common#:#usrf_visible#:#User accounts are visible
 common#:#usrf_write#:#Edit user accounts
-common#:#icon_settings#:#Icon Settings
-common#:#big_icon#:#Big Icon
-common#:#small_icon#:#Small Icon
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
@@ -2981,6 +3008,7 @@ common#:#weekly#:#weekly
 common#:#weeks#:#Weeks
 common#:#welcome#:#Welcome
 common#:#who_is_online#:#Who is online?
+common#:#width_x_height#:#Width x Height
 common#:#with#:#with
 common#:#write#:#Write
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.
@@ -3070,8 +3098,6 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_confirm_delete#:#really delete ?
 content#:#cont_content#:#Content
-content#:#cont_public_notes#:#Public Notes
-content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
@@ -3283,6 +3309,8 @@ content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Preview
 content#:#cont_print_view#:#Print View
 content#:#cont_public_access#:#Public access
+content#:#cont_public_notes#:#Public Notes
+content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.
 content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
@@ -3559,6 +3587,7 @@ crs#:#crs_mem_change_status#:#Change status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Member
 crs#:#crs_member_blocked#:#Member (blocked)
+crs#:#crs_member_of#:#Member of course:
 crs#:#crs_member_unblocked#:#Member (unblocked)
 crs#:#crs_member_updated#:#The member has been updated
 crs#:#crs_members_deleted#:#Deleted members
@@ -3752,6 +3781,7 @@ crs#:#crs_waiting_list#:#Waiting list
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Your position on the waiting list
 crs#:#edit_content#:#Edit content
+crs#:#import_crs#:#Import course
 crs#:#learners_view#:#Learners view
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
 crs_#:#crs_archives#:#Archives
@@ -4147,6 +4177,7 @@ mail#:#mail_sure_delete#:#Are sure you want to delete the marked mail
 mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
+mail#:#mail_to#:#To
 mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Following users have no valid email address
 mail#:#search_bc_recipient#:#Search BCC Recipient
@@ -4406,18 +4437,17 @@ meta#:#meta_competency#:#Competency
 meta#:#meta_contentprovider#:#Content provider
 meta#:#meta_context#:#Context
 meta#:#meta_contribute#:#Contribute
+meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
 meta#:#meta_cost#:#Cost
-meta#:#meta_copyright#:#Copyright
-meta#:#meta_quickedit#:#Quick Edit
 meta#:#meta_coverage#:#Coverage
 meta#:#meta_creator#:#Creator
 meta#:#meta_date#:#Date
 meta#:#meta_delete#:#Delete
 meta#:#meta_description#:#Description
 meta#:#meta_diagramm#:#Diagram
-meta#:#meta_difficulty#:#Difficulty
 meta#:#meta_difficult#:#Difficult
+meta#:#meta_difficulty#:#Difficulty
 meta#:#meta_draft#:#Draft
 meta#:#meta_duration#:#Duration
 meta#:#meta_easy#:#Easy
@@ -4648,6 +4678,7 @@ meta#:#meta_problem_statement#:#Problem Statement
 meta#:#meta_publisher#:#Publisher
 meta#:#meta_purpose#:#Purpose
 meta#:#meta_questionnaire#:#Questionnaire
+meta#:#meta_quickedit#:#Quick Edit
 meta#:#meta_reference#:#Reference
 meta#:#meta_references#:#References
 meta#:#meta_relation#:#Relation
@@ -4922,6 +4953,7 @@ search#:#search_area#:#Search area
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_below#:#Beneath:
 search#:#search_change#:#Change
+search#:#search_choose_object_type#:#Please choose one object type.
 search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content
 search#:#search_dbk_content#:#Digital Library (content)
@@ -4932,11 +4964,13 @@ search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
 search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_group#:#Groups
+search#:#search_hits#:#Found in:
 search#:#search_in_magazin#:#In the repository
 search#:#search_in_result#:#Search within results
 search#:#search_inactive#:#Include inactive users
 search#:#search_index#:#Indexed search
 search#:#search_like_info#:#Choose this option to get best results.
+search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
 search#:#search_lm_content#:#Learning materials (content)
 search#:#search_lm_meta#:#Learning materials (metadata)
 search#:#search_lucene#:#Lucene search
@@ -5275,10 +5309,10 @@ survey#:#select_value#:#Select a value
 survey#:#selection#:#Selection
 survey#:#set_filter#:#Set filter
 survey#:#skipped#:#skipped
-survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#spl_general_properties#:#General properties
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
+survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey
@@ -5346,37 +5380,3 @@ survey#:#view_constraints_introduction#:#You are viewing the preconditions of th
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-crs#:#crs_member_of#:#Member of course:
-search#:#search_choose_object_type#:#Please choose one object type.
-search#:#search_hits#:#Found in:
-search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
-chat#:#cancel_whisper#:#Cancel whisper
-chat#:#cancel_talk#:#Cancel address
-mail#:#mail_to#:#To
-crs#:#import_crs#:#Import course
-common#:#chat_users_active#:#Active users
-common#:#chat_active_in#:#Active in chat:
-common#:#chat_invite#:#Chat
-common#:#links_dynamic#:#Dynamic Web Links parameters
-common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
-common#:#links_not_available#:#Not available
-common#:#links_dyn_parameter#:#Dynamic parameters
-common#:#links_existing_params#:#Existing parameters:
-common#:#links_add_param#:#Add parameter:
-common#:#links_name#:#Parameter name
-common#:#links_value#:#Parameter value
-common#:#links_user_id#:#ILIAS user id
-common#:#links_user_name#:#ILIAS username
-common#:#links_session_id#:#ILIAS session id
-common#:#links_select_one#:#- Select one -
-common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
-common#:#links_no_value_given#:#Please choose a parameter value.
-common#:#links_no_name_given#:#Please choose a parameter name.
-common#:#links_parameter_deleted#:#Parameter deleted.
-common#:#bkm_import#:#Import bookmarks
-common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.
-common#:#bkm_sendmail#:#Send as attachment
-common#:#import_group#:#Import group
-common#:#grp_select_one_file#:#Please select one file.
-common#:#grp_select_one_file_only#:#Please select exactly one file.
-common#:#grp_deleted_export_files#:#Deleted selected files.
