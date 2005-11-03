@@ -762,23 +762,8 @@ class ilTestEvaluationGUI
 			$titlerow_user = array();
 			if ($this->object->isRandomTest())
 			{
-				if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
-				{
-					if ($this->object->getPassScoring() == SCORE_BEST_PASS)
-					{
-						$pass = $this->object->_getBestPass($key, $this->object->getTestId());
-					}
-					else
-					{
-						$pass = $this->object->_getPass($key, $this->object->getTestId()-1);
-						if ($pass < 0) $pass = 0;
-					}
-					$this->object->loadQuestions($key, $pass);
-				}
-				else
-				{
-					$this->object->loadQuestions($key);
-				}
+				$counted_pass = ilObjTest::_getResultPass($key, $this->object->getTestId());
+				$this->object->loadQuestions($key, $counted_pass);
 				$titlerow_user = $titlerow_without_questions;
 				$i = 1;
 				foreach ($stat_eval as $key1 => $value1)
@@ -1333,6 +1318,7 @@ class ilTestEvaluationGUI
 		{
 			$this->ctrl->redirect($this, "eval_stat");
 		}
+		$counted_pass = ilObjTest::_getResultPass($user_id, $this->object->getTestId());
 		$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_overview.html", true);
 		$color_class = array("tblrow1", "tblrow2");
@@ -1355,7 +1341,14 @@ class ilTestEvaluationGUI
 				$total_max = $result_array["test"]["total_max_points"];
 				$total_reached = $result_array["test"]["total_reached_points"];
 				$this->tpl->setCurrentBlock("result_row");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
+				if ($pass == $counted_pass)
+				{
+					$this->tpl->setVariable("COLOR_CLASS", "tblrowmarked");
+				}
+				else
+				{
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
+				}
 				$this->tpl->setVariable("VALUE_PASS", $pass + 1);
 				$this->tpl->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
 				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($user_id, $this->object->getTestId(), $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
@@ -1675,14 +1668,14 @@ class ilTestEvaluationGUI
 			array("eval_a"),
 			"", "");
 
-		$force_active = ($_GET["etype"] == "all") ? true	: false;
+		$force_active = (is_numeric($_GET["uid"]) && $_GET["etype"] == "all") ? true	: false;
 		$tabs_gui->addTarget("eval_all_users", 
 			$this->ctrl->getLinkTargetByClass(get_class($this), "eval_stat"), 
 			array("eval_stat", "evalAllUsers", "evalUserDetail"),	
 			"", "", $force_active
 		);
 		
-		$force_active = ($_GET["etype"] == "selected") ? true	: false;
+		$force_active = (is_numeric($_GET["uid"]) && $_GET["etype"] == "selected") ? true	: false;
 		$tabs_gui->addTarget("eval_selected_users", 
 			$this->ctrl->getLinkTargetByClass(get_class($this), "evalStatSelected"), 
 			array("evalStatSelected", "evalSelectedUsers", "searchForEvaluation",
