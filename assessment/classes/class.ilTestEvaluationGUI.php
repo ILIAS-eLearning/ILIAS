@@ -1492,27 +1492,12 @@ class ilTestEvaluationGUI
 				$this->tpl->setCurrentBlock("question");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				if ($this->object->isOnlineTest())
+				//if ($this->object->isOnlineTest())
 					$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
-				else
-					$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&evaluation=" . $value["qid"] . "\">" . $value["title"] . "</a>");
+				//else
+				//	$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&evaluation=" . $value["qid"] . "\">" . $value["title"] . "</a>");
 				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
-				if (preg_match("/http/", $value["solution"]))
-				{
-					$this->tpl->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
-				}
-				else
-				{
-					if ($value["solution"])
-					{
-						$this->tpl->setVariable("SOLUTION_HINT", $this->lng->txt($value["solution"]));
-					}
-					else
-					{
-						$this->tpl->setVariable("SOLUTION_HINT", "");
-					}
-				}
 				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -1523,7 +1508,6 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("COLOR_CLASS", "std");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
-		$this->tpl->setVariable("SOLUTION_HINT", "");
 		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
 		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
 		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
@@ -1541,7 +1525,6 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
 		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
@@ -1556,7 +1539,8 @@ class ilTestEvaluationGUI
 		$this->outShowAnswersDetails($isForm, $ilUser);
 	}
 	
-	function outShowAnswersDetails($isForm, &$ilUser) {
+	function outShowAnswersDetails($isForm, &$ilUser) 
+	{
 		$tpl = &$this->tpl;		 				
 		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
 		$active = $this->object->getActiveTestUser($ilUser->getId());
