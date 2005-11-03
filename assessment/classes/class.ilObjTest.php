@@ -3176,13 +3176,12 @@ class ilObjTest extends ilObject
 	* @return array An array containing the test overview for the given user
 	* @access public
 	*/
-	function &getTestSummary($user_id)
+	function &getTestSummary($user_id, $pass = NULL)
 	{
 		global $ilDB;
-		//		global $ilBench;
 		if ($this->isRandomTest())
 		{
-			$this->loadQuestions($user_id);
+			$this->loadQuestions($user_id, $pass);
 		}
 		
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run&crs_show_result=0&";
@@ -3207,8 +3206,6 @@ class ilObjTest extends ilObject
 				
 				$row = array(
 					"nr" => "$key",					
-					"href_goto" => $this->getCallingScript() . "$add_parameter&sequence=$key",
-					"href_setsolved" => $this->getCallingScript() . "$add_parameter&question_id=".$question->getId()."&set_solved=".(($solved)?"0":"1"),
 					"title" => $question->getTitle(),
 					"qid" => $question->getId(),
 					"visited" => $visited,
