@@ -5045,7 +5045,7 @@ survey#:#cannot_participate_survey#:#You do not possess sufficient permissions t
 survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
 survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
-survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the survey!
 survey#:#categories#:#Answers
 survey#:#category#:#Answer
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following answers?
@@ -5062,7 +5062,7 @@ survey#:#confirm_sync_questions#:#The question you changed is a copy which has b
 survey#:#constraint_add#:#Add precondition
 survey#:#constraints#:#Preconditions
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.
-survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.
+survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey.
 survey#:#contains#:#Contains
 survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
@@ -5280,7 +5280,7 @@ survey#:#questiontype#:#Question type
 survey#:#ratio_absolute#:#Ratio-Absolute
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
 survey#:#remove_question#:#Remove
-survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?
+survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the survey?
 survey#:#reset_filter#:#Reset filter
 survey#:#resume_survey#:#Resume the survey
 survey#:#save_back_to_survey#:#Save and go back to the survey
@@ -5311,7 +5311,7 @@ survey#:#set_filter#:#Set filter
 survey#:#skipped#:#skipped
 survey#:#spl_general_properties#:#General properties
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
+survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in surveys.
 survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!

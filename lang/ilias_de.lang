@@ -143,10 +143,10 @@ assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umk
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#cloze_text#:#Lückentext-Frage
-assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
-assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
-assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 2005 new variable
-assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
+assessment#:#cloze_textgap_case_insensitive#:#Groß-/Kleinschreibung beachten
+assessment#:#cloze_textgap_case_sensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Abstand von %s
+assessment#:#cloze_textgap_rating#:#Textlücken-Bewertung
 assessment#:#code#:#Code
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?
@@ -158,7 +158,7 @@ assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Neue Imagemap erzeugen
 assessment#:#create_new#:#Erzeuge neue(n)
-assessment#:#definition#:#Definition###03 Nov 2005 new variable
+assessment#:#definition#:#Definition
 assessment#:#delete_area#:#Region löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
@@ -271,7 +271,7 @@ assessment#:#log_no_test_fields_changed#:#Ohne Änderungen gespeichert
 assessment#:#log_question_added#:#Frage hinzugefügt an Position
 assessment#:#log_question_position_changed#:#Fragenposition geändert
 assessment#:#log_question_removed#:#Frage entfernt
-assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
+assessment#:#log_user_answered_question#:#Ein/e Nutzer/in beantwortet eine Frage und erhielt %s Punkte
 assessment#:#log_user_data_removed#:#Alle Nutzereingaben wurden entfernt
 assessment#:#maintenance#:#Wartung
 assessment#:#mark_schema#:#Notenschema
@@ -297,12 +297,12 @@ assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
 assessment#:#participants#:#Teilnehmer
-assessment#:#pass#:#Pass###03 Nov 2005 new variable
+assessment#:#pass#:#Durchlauf
 assessment#:#passed_official#:#bestanden
 assessment#:#passed_short#:#bestanden
 assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!
 assessment#:#percentile#:#Perzentil
-assessment#:#picture#:#Picture###03 Nov 2005 new variable
+assessment#:#picture#:#Bild
 assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
 assessment#:#points_short#:#Pt.
@@ -321,8 +321,8 @@ assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen? Wenn Sie gesperrte Fragen löschen, werden die Resultate aller Tests, die solche Fragen beinhalten, gelöscht!
-assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###03 Nov 2005 new variable
-assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard###03 Nov 2005 new variable
+assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
+assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
 assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu löschen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_display_fullsize_image#:#Klicken Sie hier, um die Originalgrafik anzuzeigen!
@@ -331,18 +331,18 @@ assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu 
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
-assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable
+assessment#:#qpl_general_properties#:#Allgemeine Eigenschaften
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
 assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie importieren wollen.
-assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
-assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving###03 Nov 2005 new variable
-assessment#:#qpl_online_property#:#Online###03 Nov 2005 new variable
-assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
-assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###03 Nov 2005 new variable
-assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool###03 Nov 2005 new variable
+assessment#:#qpl_move_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden zum Verschieben markiert
+assessment#:#qpl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
+assessment#:#qpl_online_property#:#Online
+assessment#:#qpl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er in Tests nicht verwendet werden.
+assessment#:#qpl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie wenigstens eine Frage in die Zwischenablage.
+assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingefügt
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
@@ -406,10 +406,10 @@ assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
 assessment#:#statistical_data#:#Statistische Daten
-assessment#:#statistics#:#Statistics###03 Nov 2005 new variable
+assessment#:#statistics#:#Statistik
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
-assessment#:#term#:#Term###03 Nov 2005 new variable
+assessment#:#term#:#Term
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!
 assessment#:#text_gap#:#Text-Lücke
@@ -421,12 +421,12 @@ assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden 
 assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
-assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
+assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
-assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren.###03 Nov 2005 content changed
+assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren.
 assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
 assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
@@ -446,9 +446,9 @@ assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
-assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
-assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
-assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
+assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Durchläufen eines Tests nicht als voreingestellte Werte übernommen
+assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -481,10 +481,10 @@ assessment#:#tst_no_tries#:#keine
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Versuche
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
-assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
-assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
-assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
-assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
+assessment#:#tst_pass_best_pass#:#Den besten Testdurchlauf bewerten
+assessment#:#tst_pass_details#:#Details anzeigen
+assessment#:#tst_pass_last_pass#:#Den letzten Testdurchlauf bewerten
+assessment#:#tst_pass_scoring#:#Bewertung bei mehreren Testdurchläufen
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdruck
@@ -514,12 +514,12 @@ assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage
 assessment#:#tst_report_after_test#:#Ergebnis am Ende des Tests anzeigen
 assessment#:#tst_result_congratulations#:#Glückwunsch! Sie haben den Test bestanden.
 assessment#:#tst_result_sorry#:#Sie haben den Test leider nicht bestanden.
-assessment#:#tst_result_user_name#:#Test results for %s###03 Nov 2005 new variable
+assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_results#:#Testergebnisse
-assessment#:#tst_results_aggregated#:#Aggregated test results###03 Nov 2005 new variable
-assessment#:#tst_results_back_evaluation#:#Back to evaluation overview###03 Nov 2005 new variable
-assessment#:#tst_results_back_introduction#:#Back to introduction###03 Nov 2005 new variable
-assessment#:#tst_results_back_overview#:#Back to results overview###03 Nov 2005 new variable
+assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
+assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
+assessment#:#tst_results_back_introduction#:#Zurück zur Einleitungsseite
+assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_score_mcmr_questions#:#Multiple choice Fragen
 assessment#:#tst_score_mcmr_use_scoring_system#:#Vergabe der Punktezahl, auch wenn keine Antwort ausgewählt wurde
@@ -592,7 +592,7 @@ assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
 assessment#:#tt_online_exam#:#Online Prüfung
 assessment#:#tt_self_assessment#:#Selbsteinschätzung
-assessment#:#tt_varying_randomtest#:#Varying random test###03 Nov 2005 new variable
+assessment#:#tt_varying_randomtest#:#Wechselnder Zufallstest
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Nutzerinnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
@@ -950,7 +950,7 @@ common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
-common#:#basic_settings#:#Basic Settings###03 Nov 2005 new variable
+common#:#basic_settings#:#Grundeinstellungen
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Einstellungen
 common#:#benchmarks#:#Benchmarks
@@ -1268,7 +1268,7 @@ common#:#email#:#E-Mail###03 Nov 2005 content changed
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
-common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
+common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
@@ -5012,12 +5012,12 @@ search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_type#:#Suchart
 search#:#search_user#:#Benutzer
 search#:#until#:#bis
-survey#:#add_category#:#Antwort hinzufügen###03 Nov 2005 content changed
+survey#:#add_category#:#Antwort hinzufügen
 survey#:#add_heading#:#Überschrift hinzufügen
-survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.###03 Nov 2005 content changed
+survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
-survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
+survey#:#add_standard_numbers#:#Standardzahlen hinzufügen
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 32stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
@@ -5044,23 +5044,23 @@ survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, u
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
-survey#:#categories#:#Answers###03 Nov 2005 new variable
-survey#:#category#:#Antwort###03 Nov 2005 content changed
-survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?###03 Nov 2005 content changed
-survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!###03 Nov 2005 content changed
-survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Antwort ausgewählt haben###03 Nov 2005 content changed
+survey#:#categories#:#Antworten
+survey#:#category#:#Antwort
+survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?
+survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
+survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Antwort ausgewählt haben
 survey#:#chart#:#Diagramm
-survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!###03 Nov 2005 content changed
+survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangscodes
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten der Umfrage löschen wollen?
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
-survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
-survey#:#constraints#:#Beschränkungen###03 Nov 2005 content changed
-survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
-survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
+survey#:#constraint_add#:#Vorbedingung hinzufügen
+survey#:#constraints#:#Vorbedingungen
+survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbediungungen besitzen, da es keine vorherigen Einträge gibt
+survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.
 survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
@@ -5103,7 +5103,7 @@ survey#:#dc_verygood#:#sehr gut
 survey#:#dc_yes#:#ja
 survey#:#define_questionblock#:#Fragenblock definieren
 survey#:#description_maxchars#:#Wenn Sie nichts eintragen, ist die maximale Anzahl der einzugebenden Zeichen unbegrenzt.
-survey#:#disinvite#:#Ausladen###03 Nov 2005 content changed
+survey#:#disinvite#:#Ausladen
 survey#:#display_all_available#:#Anzeige aller verfübaren
 survey#:#dp_standard_attitude_agree5#:#Standard-Haltung (absolut einverstanden-einverstanden-unentschlossen-nicht einverstanden-absolut nicht einverstanden)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard-Haltung (einverstanden-nicht einverstanden)
@@ -5130,7 +5130,7 @@ survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate#:#Duplizieren
 survey#:#duplicate_svy#:#Umfrage duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
-survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Beschränkungen zu bearbeiten###03 Nov 2005 content changed
+survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
 survey#:#edit_heading#:#Überschrift bearbeiten
 survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
@@ -5150,17 +5150,17 @@ survey#:#exp_type_csv#:#Comma separated value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
 survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#export_data_as#:#Exportieren als
-survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Antworten aus, bevor Sie eine neue Antwort erzeugen!###03 Nov 2005 content changed
-survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen können!###03 Nov 2005 content changed
-survey#:#fill_out_all_required_fields_delete_category#:#Bitte füllen Sie alle benötigten Felder aus, bevor Sie Antworten löschen!###03 Nov 2005 content changed
-survey#:#fill_out_all_required_fields_move_category#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie Antworten verschieben!###03 Nov 2005 content changed
+survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Antworten aus, bevor Sie eine neue Antwort erzeugen!
+survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen können!
+survey#:#fill_out_all_required_fields_delete_category#:#Bitte füllen Sie alle benötigten Felder aus, bevor Sie Antworten löschen!
+survey#:#fill_out_all_required_fields_move_category#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie Antworten verschieben!
 survey#:#fill_out_all_required_fields_save_phrase#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie eine Phrase speichern!
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragentypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
 survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
 survey#:#filter_show_questionpools#:#Zeige folgende Fragenpools
-survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.###03 Nov 2005 new variable
+survey#:#form_data_modified_press_save#:#Die Formulardaten wurden verändert. Bitte speichern Sie, um die Änderungen zu behalten.
 survey#:#found_questions#:#Gefundene Fragen
 survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
@@ -5214,10 +5214,10 @@ survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachausw
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
 survey#:#new_survey_codes#:#neue Zugangscode(s) für die Umfrage
 survey#:#next_question_rows#:#Fragen %d - %d von %d >>
-survey#:#no_available_constraints#:#Es sind keine Beschränkungen definiert!###03 Nov 2005 content changed
-survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!###03 Nov 2005 content changed
-survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Antwort zum Verschieben aus!###03 Nov 2005 content changed
-survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Beschränkungen zu bearbeiten!###03 Nov 2005 content changed
+survey#:#no_available_constraints#:#Es sind keine Vorbedingungen definiert!
+survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
+survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Antwort zum Verschieben aus!
+survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Vorbedingungen zu bearbeiten!
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
 survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
@@ -5238,7 +5238,7 @@ survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
-survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwort ausgewählt haben###03 Nov 2005 content changed
+survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwort ausgewählt haben
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
 survey#:#preview#:#Vorschau
@@ -5263,13 +5263,13 @@ survey#:#qt_metric#:#Metrische Frage
 survey#:#qt_nominal#:#Nominale Frage
 survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
-survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
-survey#:#question_has_constraints#:#Beschränkungen###03 Nov 2005 content changed
+survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
+survey#:#question_has_constraints#:#Vorbedingungen
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
-survey#:#questionblock_has_constraints#:#Beschränkungen###03 Nov 2005 content changed
+survey#:#questionblock_has_constraints#:#Vorbedingungen
 survey#:#questionblocks#:#Fragenblöcke
 survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt
@@ -5278,14 +5278,14 @@ survey#:#questiontype#:#Fragentyp
 survey#:#ratio_absolute#:#Absolutskala
 survey#:#ratio_non_absolute#:#Ratioskala
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Umfrage fortsetzen
-survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
+survey#:#save_back_to_survey#:#Speichern und zurück zur Umfrage
 survey#:#save_obligatory_state#:#Pflichteingaben speichern
 survey#:#save_phrase#:#Als Phrase speichern
-survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Antworten aus, um diese in einer neuen Phrase speichern zu können!###03 Nov 2005 content changed
-survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.###03 Nov 2005 content changed
+survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Antworten aus, um diese in einer neuen Phrase speichern zu können!
+survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
 survey#:#search_field_all#:#In allen Feldern suchen
 survey#:#search_for#:#Suchen nach
 survey#:#search_groups#:#Gruppen
@@ -5301,15 +5301,15 @@ survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die 
 survey#:#select_questionpool_short#:#Fragenpool für Umfrage
 survey#:#select_relation#:#Relation auswählen
 survey#:#select_svy_option#:#--- Bitte wählen Sie eine Umfrage ---
-survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Antworten zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!###03 Nov 2005 content changed
+survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Antworten zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
 survey#:#selection#:#Auswahl
 survey#:#set_filter#:#Filter setzen
 survey#:#skipped#:#überprungen
-survey#:#spl_general_properties#:#General properties###03 Nov 2005 new variable
-survey#:#spl_online_property#:#Online###03 Nov 2005 new variable
-survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
+survey#:#spl_general_properties#:#Allgemeine Eigenschaften
+survey#:#spl_online_property#:#Online
+survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
 survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
@@ -5330,7 +5330,7 @@ survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
 survey#:#survey_previous#:#<<< Zurück
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
-survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
+survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Fragen
 survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
 survey#:#survey_skip_next#:#Überspringen und weiter >>>
@@ -5374,7 +5374,7 @@ survey#:#users_skipped#:#Übersprungen
 survey#:#value_nr_entered#:#Anzahl der Nutzerinnen, die diesen Wert angegeben haben
 survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
-survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folgenden Frage/des folgenden Fragenblocks:###03 Nov 2005 content changed
+survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folgenden Frage/des folgenden Fragenblocks:
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
