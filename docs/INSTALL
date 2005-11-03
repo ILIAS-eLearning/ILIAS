@@ -39,8 +39,9 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-BETA RELEASES ARE FOR TEST PURPOSES ONLY. DO NOT USE BETA RELEASES WITHIN
-A PRODUCTIVE ENVIRONMENT.
+ALPHA RELEASES ARE FOR TEST PURPOSES ONLY. DO NOT USE ALPHA RELEASES WITHIN
+A PRODUCTIVE ENVIRONMENT. SOME FEATURES ARE NOT FULLY IMPLEMENTED. DATA
+CORRUPTION MAY OCCUR.
 
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
@@ -223,7 +224,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.5.0_beta2.tar.gz
+    ilias-3.6.0_alpha1.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -724,7 +725,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.6.0_alpha1.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -835,13 +836,13 @@ components:
 
 3. Updating ILIAS 3
 
-PLEASE DO NOT APPLY THE FOLLOWING UPDATE PROCEDURES TO THIS BETA VERSION. THIS
+PLEASE DO NOT APPLY THE FOLLOWING UPDATE PROCEDURES TO THIS ALPHA VERSION. THIS
 VERSION IS FOR TEST PURPOSES ONLY.
 
 ---
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 beta version to
-ILIAS 3.5.0.
+ILIAS 3.6.0.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -877,7 +878,7 @@ these files.
     rm -r classes content css docs images include java lang layouts
     rm -r modules setup sql templates xml assessment chat tracking
     rm -r survey syntax_highlight course payment webservice ilinc link
-	rm -r cron Services
+	rm -r cron Services calendar
 
 You may ignore any 'no such file or directory' errors because depending on
 your current ILIAS installation some of the directories above may not exist on
@@ -888,7 +889,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta2.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.6.0_alpha1.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -898,7 +899,7 @@ copy various files and directories to your ILIAS web directory:
     cp -p * /opt/ilias/www/htdocs/ilias/
     cp -rp assessment chat classes content course /opt/ilias/www/htdocs/ilias/
     cp -rp css docs images include java lang layouts /opt/ilias/www/htdocs/ilias/
-    cp -rp modules payment setup sql survey /opt/ilias/www/htdocs/ilias/
+    cp -rp calendar payment setup sql survey /opt/ilias/www/htdocs/ilias/
     cp -rp syntax_highlight templates tracking xml /opt/ilias/www/htdocs/ilias/
     cp -rp webservice ilinc link /opt/ilias/www/htdocs/ilias/
 	cp -rp cron Services /opt/ilias/www/htdocs/ilias/
@@ -914,9 +915,10 @@ your clients. Select "Details" for every client in the client list and click on
 the "Database" button. Depending on the size of your database the update process
 may take a while.
 
-This is especially the case for an update to ILIAS 3.5.0 because all meta data
-will be converted into a new format. On big installations we recommend to set the
-following values to avoid multiple restarts of the database migration:
+This is especially the case for an update from 3.4.x or lower to 3.6.x because
+all meta data will be converted into a new format. On big installations we
+recommend to set the following values to avoid multiple restarts of the database
+migration:
 
 - Apache, httpd.conf:
   Timeout = 3600
@@ -967,8 +969,8 @@ If you run multiple ILIAS 3.4.0/3.4.1 instances on the same database server you
 have to update them all at the same time.
 
 For big installations it might be safer to update to ILIAS 3.4.3 or 3.4.4 first
-(after doing the procedure above) and then to update to ILIAS 3.5.x seperately.
-The data migration from 3.4.x to 3.5.x can take a long time because all meta
+(after doing the procedure above) and then to update to ILIAS 3.6.x seperately.
+The data migration from 3.4.x to 3.6.x can take a long time because all meta
 data has to be converted to a new format.
 
 
