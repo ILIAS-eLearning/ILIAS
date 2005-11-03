@@ -142,6 +142,10 @@ assessment#:#circle_click_center#:#Моля, кликнете в центъра 
 assessment#:#circle_click_circle#:#Моля, кликнете на точка от кръга на желаната област.
 assessment#:#close_text_hint#:#Можете да дефинирате празнина, като въведете <gap></gap> в избраната от вас позиция в текста. Натиснете бутона 'Създаване на празнини', за да добавите форма за редактиране за всяка от празнините.
 assessment#:#cloze_text#:#Затваряне на текста
+assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
+assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 2005 new variable
+assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#Код
 assessment#:#confirm_delete_all_user_data#:#Сигурни ли сте, че желаете да изтриете всички потребителски данни от теста?
 assessment#:#confirm_sync_questions#:#Въпросът, който сте променили, е копие, създадено за използване с активния тест. Желаете ли да промените и оригинала на въпроса?
@@ -152,6 +156,7 @@ assessment#:#create_date#:#Създадено
 assessment#:#create_gaps#:#Създаване на празнини
 assessment#:#create_imagemap#:#Създаване карта на изображение
 assessment#:#create_new#:#Създаване на нови
+assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#delete_area#:#Изтриване на област
 assessment#:#description_maxchars#:#Ако не бъде въведено нищо, максималният брой символи за този текстов отговор ще бъде неограничен.
 assessment#:#detail_ending_time_reached#:#Достигнали сте финалния момент на теста. Тестът не е достъпен от %s
@@ -263,6 +268,7 @@ assessment#:#log_no_test_fields_changed#:#Съхранено, но нищо не
 assessment#:#log_question_added#:#Въпросът е добавен на позиция
 assessment#:#log_question_position_changed#:#Позицията на въпроса е променена
 assessment#:#log_question_removed#:#Въпросът е премахнат
+assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
 assessment#:#log_user_data_removed#:#Всички потребителски данни са премахнати
 assessment#:#maintenance#:#Поддръжка
 assessment#:#mark_schema#:#Схема на оценките
@@ -287,10 +293,12 @@ assessment#:#no_user_or_group_selected#:#Моля, маркирайте опци
 assessment#:#or#:#или
 assessment#:#order_pictures#:#Подреждане на изображенията
 assessment#:#order_terms#:#Подреждане на термините
+assessment#:#pass#:#Pass###03 Nov 2005 new variable
 assessment#:#passed_official#:#издържал
 assessment#:#passed_short#:#издържал
 assessment#:#percentage_solved#:#Решили сте %.2f процента от този въпрос!
 assessment#:#percentile#:#Процентен резултат
+assessment#:#picture#:#Picture###03 Nov 2005 new variable
 assessment#:#please_select#:#-- моля, изберете --
 assessment#:#points#:#Точки
 assessment#:#polygon#:#Многоъгълник
@@ -306,6 +314,8 @@ assessment#:#qpl_assessment_of_questions#:#Оценка на въпросите
 assessment#:#qpl_assessment_total_of_answers#:#Общ брой отговори
 assessment#:#qpl_assessment_total_of_right_answers#:#Общ процент верни отговори (процент от максималните точки)
 assessment#:#qpl_confirm_delete_questions#:#Сигурни ли сте, че желаете да изтриете следният въпрос(и)? Ако изтриете заключен въпрос, резултатите от всички тестове, съдържащи заключения въпрос, също ще бъдат изтрити.
+assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###03 Nov 2005 new variable
+assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard###03 Nov 2005 new variable
 assessment#:#qpl_delete_rbac_error#:#Нямате права, за да изтриете този въпрос!
 assessment#:#qpl_delete_select_none#:#Моля, маркирайте поне един въпрос, за да го изтриете
 assessment#:#qpl_display_fullsize_image#:#Кликнете тук, за да се покаже първоначалното изображение!
@@ -314,10 +324,18 @@ assessment#:#qpl_edit_rbac_error#:#Нямате права, за да редак
 assessment#:#qpl_edit_select_multiple#:#Моля, маркирайте само един въпрос за редактиране
 assessment#:#qpl_edit_select_none#:#Моля, маркирайте един въпрос за редактиране
 assessment#:#qpl_export_select_none#:#Моля, маркирайте поне един въпрос, за да го експортирате
+assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
+assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
+assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving###03 Nov 2005 new variable
+assessment#:#qpl_online_property#:#Online###03 Nov 2005 new variable
+assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
+assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###03 Nov 2005 new variable
+assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool###03 Nov 2005 new variable
 assessment#:#qpl_question_is_in_use#:#Въпросът, който желаете да редактирате, съществува в %s тест(а). Ако промените този въпрос, НЯМА да се получи промяна във въпроса(ите) в теста(овете), защото системата създава копие на въпроса, когато той бъде вмъкнат в тест!
 assessment#:#qpl_questions_deleted#:#Въпросът(ите) изтрит(и).
 assessment#:#qpl_select_file_for_import#:#Трябва да изберете файл за импортиране!
@@ -378,8 +396,10 @@ assessment#:#solution_order#:#Решение за подреждането
 assessment#:#start_tag#:#Стартов прозорец
 assessment#:#starting_time_not_reached#:#Не е достигнат моментът за започване
 assessment#:#statistical_data#:#Статистически данни
+assessment#:#statistics#:#Statistics###03 Nov 2005 new variable
 assessment#:#suggested_solution_added_successfully#:#Успешно настроихте предложено решение!
 assessment#:#symbol#:#Символ
+assessment#:#term#:#Term###03 Nov 2005 new variable
 assessment#:#test_cancelled#:#Тестът беше отменен
 assessment#:#text_answers_saved#:#Точките за текстовия въпрос бяха модифицирани!
 assessment#:#text_gap#:#Текстова празнина
@@ -389,6 +409,7 @@ assessment#:#too_many_empty_parameters#:#Моля, попълнете празн
 assessment#:#true#:#Вярно
 assessment#:#tst_all_user_data_deleted#:#Всички потребителски данни за този тест бяха изтрити!
 assessment#:#tst_already_taken#:#Тестовете вече са положени
+assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
 assessment#:#tst_browse_for_questions#:#Преглед на въпроси
 assessment#:#tst_confirm_delete_results#:#Така ще изтриете всички ваши предишни въведени резултати от въпросите в този тест. Това ще нулира всички въпроси до техните стойности по подразбиране. Моля, отбележете, че не можете да нулирате броя опити, от които сте се нуждаели за този тест. Наистина ли желаете да нулирате всички ваши предишни въведени резултати?
 assessment#:#tst_confirm_delete_results_info#:#Вашите предишни въведени резултати от въпросите бяха изтрити. Успешно нулирахте теста!
@@ -407,6 +428,9 @@ assessment#:#tst_eval_total_persons#:#Общ брой хора, влезли в 
 assessment#:#tst_eval_user_answer#:#Отговор от потребителя
 assessment#:#tst_general_properties#:#Общи характеристики
 assessment#:#tst_generate_xls#:#Генериране в Excel
+assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Тестът се ползва от %d потребител(и). Не можете да редактирате или премествате въпроси в този тест!
@@ -440,6 +464,10 @@ assessment#:#tst_no_taken_tests#:#Няма положени тестове!
 assessment#:#tst_no_tries#:#няма
 assessment#:#tst_nr_of_tries#:#Макс. брой опити
 assessment#:#tst_nr_of_tries_of_user#:#Опитите вече са завършени
+assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
+assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
+assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
+assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
 assessment#:#tst_percent_solved#:#Процент решени
 assessment#:#tst_processing_time#:#Макс. време за обработка
 assessment#:#tst_question_no#:#Подреждане
@@ -463,7 +491,12 @@ assessment#:#tst_report_after_question#:#Съобщаване на резулт�
 assessment#:#tst_report_after_test#:#Съобщаване на резултата след завършването на целия тест
 assessment#:#tst_result_congratulations#:#Поздравления! Издържахте теста.
 assessment#:#tst_result_sorry#:#Съжаляваме, не издържахте теста.
+assessment#:#tst_result_user_name#:#Test results for %s###03 Nov 2005 new variable
 assessment#:#tst_results#:#Резултати от теста
+assessment#:#tst_results_aggregated#:#Aggregated test results###03 Nov 2005 new variable
+assessment#:#tst_results_back_evaluation#:#Back to evaluation overview###03 Nov 2005 new variable
+assessment#:#tst_results_back_introduction#:#Back to introduction###03 Nov 2005 new variable
+assessment#:#tst_results_back_overview#:#Back to results overview###03 Nov 2005 new variable
 assessment#:#tst_resume_test#:#Продължаване на теста
 assessment#:#tst_score_reporting#:#Съобщаване на резултата
 assessment#:#tst_score_reporting_date#:#Дата за съобщаване на резултата
@@ -479,6 +512,7 @@ assessment#:#tst_sequence_fixed#:#Последователността на въ
 assessment#:#tst_sequence_postpone#:#Обучаваният може да отложи въпрос за края на теста
 assessment#:#tst_sequence_properties#:#Характеристики на последователността
 assessment#:#tst_session_settings#:#Настройки на сесията
+assessment#:#tst_show_answer_print_sheet#:#Answers Printview###03 Nov 2005 new variable
 assessment#:#tst_show_results#:#Показване на резултатите от теста
 assessment#:#tst_start_test#:#Започване на теста
 assessment#:#tst_starting_time#:#Начален момент
@@ -524,6 +558,7 @@ assessment#:#tst_your_mark_is#:#Вашата оценка е
 assessment#:#tt_assessment#:#Тест за оценка
 assessment#:#tt_navigation_controlling#:#Тест за контролиране на навигацията от обучаемия
 assessment#:#tt_self_assessment#:#Тест за самооценка
+assessment#:#tt_varying_randomtest#:#Varying random test###03 Nov 2005 new variable
 assessment#:#unlimited#:#неограничено
 assessment#:#unlock#:#Отключване
 assessment#:#unlock_question#:#Този въпрос се използва в поне един тест и има %s подадени резултата. Ако изберете да отключите въпроса, цялостните резултати от теста на засегнатите потребители ще бъдат изтрити след съхраняването на този въпрос. Ако желаете да използвате променена версия на този въпрос, но не желаете да изтривате резултатите на потребителите от теста, можете да дублирате въпроса в набора от въпроси и да промените новата версия.
@@ -594,9 +629,12 @@ bibitem#:#bibitem_unpublished#:#Непубликуван
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Къде е публикуван
 bibitem#:#bibitem_year#:#Година
+chat#:#cancel_talk#:#Cancel address###03 Nov 2005 new variable
+chat#:#cancel_whisper#:#Cancel whisper###03 Nov 2005 new variable
 chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Активен
 chat#:#chat_active_users#:#Потребител (активен)
+###03 Nov 2005 content changed
 chat#:#chat_add_allowed_hosts#:#Моля, добавете адреса на хоста(овете), който има достъп до чат сървъра.
 chat#:#chat_add_external_ip#:#Моля, въведете външния IP на сървъра.
 chat#:#chat_add_internal_ip#:#Моля, въведете вътрешния IP на сървъра.
@@ -629,6 +667,7 @@ chat#:#chat_ilias#:#ILIAS чат модул
 chat#:#chat_inactive#:#Неактивен
 chat#:#chat_input#:#Въвеждане
 chat#:#chat_insert_message#:#Моля, вмъкнете съобщение
+###03 Nov 2005 content changed
 chat#:#chat_invitation_body#:#Покана за чат от:
 chat#:#chat_invitation_subject#:#Покана за чат
 chat#:#chat_invite_user#:#Поканете потребител
@@ -646,6 +685,7 @@ chat#:#chat_messages_deleted#:#Съобщенията бяха изтрити.
 chat#:#chat_moderator_password#:#Парола на оценителя
 chat#:#chat_navy#:#шрифт navy
 chat#:#chat_no_active_users#:#Няма присъстващи потребители.
+###03 Nov 2005 content changed
 chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Неуспешен контакт с чат сървъра.
 chat#:#chat_no_delete_public#:#Публичната чат-стая не може да бъде изтрита
@@ -656,6 +696,7 @@ chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new v
 chat#:#chat_no_write_perm#:#Няма разрешение за писане
 chat#:#chat_olive#:#шрифт olive
 chat#:#chat_online_users#:#Потребител (онлайн)
+###03 Nov 2005 content changed
 chat#:#chat_private_message#:#Частно съобщение
 chat#:#chat_public_room#:#Публична чат-стая
 chat#:#chat_purple#:#пурпурен шрифт
@@ -722,6 +763,7 @@ common#:#add_author#:#Добавяне на автор
 common#:#add_condition#:#Създаване на нова асоциация
 common#:#add_member#:#Добавяне на член
 common#:#add_members#:#Добавяне на членове
+common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#Добавяне на превод
 common#:#add_user#:#Добавяне на локален потребител
 common#:#added_new_condition#:#Създадено ново условие.
@@ -735,6 +777,7 @@ common#:#administrate_users#:#Администрирайте локален по
 common#:#administration#:#Администриране
 common#:#administrator#:#Администратор
 common#:#adopt#:#възприемане
+###03 Nov 2005 content changed
 common#:#adopt_perm_from_template#:#Възприемане на разрешителните настройки от Шаблона с ролите
 common#:#all_authors#:#Всички автори
 common#:#all_global_roles#:#Глобални роли
@@ -828,10 +871,15 @@ common#:#average_time#:#Средно време
 common#:#back#:#Назад
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Основни данни
+common#:#basic_settings#:#Basic Settings###03 Nov 2005 new variable
 common#:#benchmark#:#Еталонен модел
 common#:#benchmark_settings#:#Настройки на еталонен модел
 common#:#benchmarks#:#Еталонни модели
 common#:#bib_data#:#Библиографски данни
+common#:#big_icon#:#Big Icon###03 Nov 2005 new variable
+common#:#bkm_import#:#Import bookmarks###03 Nov 2005 new variable
+common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.###03 Nov 2005 new variable
+common#:#bkm_sendmail#:#Send as attachment###03 Nov 2005 new variable
 common#:#bm#:#Отметка
 common#:#bmf#:#Папка за отметките
 common#:#bookmark_edit#:#Редактиране на отметка
@@ -844,6 +892,8 @@ common#:#bookmarks_of#:#Отметки на
 common#:#btn_remove_system#:#Премахване от системата
 common#:#btn_undelete#:#Възстановяване на изтрити
 common#:#by#:#По
+common#:#by_location#:#Order by location###03 Nov 2005 new variable
+common#:#by_type#:#Order by type###03 Nov 2005 new variable
 common#:#calendar#:#Календар
 common#:#cancel#:#Отмяна
 common#:#cannot_find_xml#:#Не може да бъде открит никакъв XML файл.
@@ -916,11 +966,14 @@ common#:#chapter#:#Глава
 common#:#chapter_number#:#Номер на глава
 common#:#chapter_title#:#Заглавие на глава
 common#:#chat#:#Чат
+common#:#chat_active_in#:#Active in chat:###03 Nov 2005 new variable
 common#:#chat_add#:#Добавяне на чат
 common#:#chat_delete#:#Изтриване на чат
 common#:#chat_edit_permission#:#Промяна на разрешителните настройки
+common#:#chat_invite#:#Chat###03 Nov 2005 new variable
 common#:#chat_new#:#Нов чат
 common#:#chat_read#:#Достъп за четене/запис в чат
+common#:#chat_users_active#:#Active users###03 Nov 2005 new variable
 common#:#chat_visible#:#Чатът е видим
 common#:#chat_write#:#Редактиране на чат
 common#:#check#:#Маркиране
@@ -980,6 +1033,7 @@ common#:#course#:#Курс
 common#:#courses#:#Курсове
 common#:#create#:#Създаване
 common#:#create_date#:#Създадено на
+###03 Nov 2005 content changed
 common#:#create_in#:#Създаване в
 common#:#create_stylesheet#:#Създаване на стил
 common#:#cron_jobs#:#Хронологично определени задачи
@@ -1035,6 +1089,8 @@ common#:#cur_number_rec#:#Текущ брой записи
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Текуща парола
+common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
+common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Отрязване
 common#:#cutPage#:#Отрязване
 common#:#database#:#База данни
@@ -1102,9 +1158,12 @@ common#:#edit_stylesheet#:#Редактиране на стила
 common#:#edited_at#:#Редактирано на
 common#:#editor#:#Редактор
 common#:#email#:#Email
+###03 Nov 2005 content changed
 common#:#email_footer#:#<br />поддържан от ILIAS
 common#:#email_not_valid#:#Въведеният от вас email адрес е невалиден!
 common#:#enable#:#Включване
+common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
+common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
 common#:#enable_hist_user_comments#:#Включване на потребителските коментари в историята
 common#:#enable_hist_user_comments_desc#:#Дава на авторите възможността да добавят коментари в историческия архивен запис на страниците.
 common#:#enable_js_edit#:#Включване на JavaScript редактирането
@@ -1182,6 +1241,7 @@ common#:#export#:#Експортиране
 common#:#export_group_members#:#Експортиране на членовете на групата (към Microsoft Excel)
 common#:#export_html#:#експортиране като HTML файл
 common#:#export_xml#:#експортиране като XML файл
+common#:#extt_ilinc_protocol_port#:#Protocol & Port###03 Nov 2005 new variable
 common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
 common#:#faq_exercise#:#ЧЗВ упражнение
@@ -1360,6 +1420,7 @@ common#:#grp_create_spl#:#Създаване на набор от въпроси
 common#:#grp_create_svy#:#Създаване на обзор
 common#:#grp_create_tst#:#Създаване на тест
 common#:#grp_delete#:#Изтриване на група
+common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Сигурни ли сте, че желаете да освободите следния член(ове) от групата?
 common#:#grp_dismiss_myself#:#Сигурни ли сте, че желаете да се освободите от групата?
 common#:#grp_edit#:#Редактиране на група
@@ -1375,6 +1436,10 @@ common#:#grp_header_edit_members#:#Редактиране на членове
 common#:#grp_join#:#Потребителят може да се присъедини към групата
 common#:#grp_leave#:#Потребителят може да напусне групата
 common#:#grp_list_users#:#Списък на потребителите
+common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
+common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
+common#:#grp_mail_subj_new_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#grp_mem_change_status#:#Промяна статута на член
 common#:#grp_mem_leave#:#Освобождаване на член от групата
 common#:#grp_mem_send_mail#:#Изпращане на съобщение до член
@@ -1394,6 +1459,8 @@ common#:#grp_register#:#Регистриране
 common#:#grp_registration_completed#:#Регистрацията завършена
 common#:#grp_search_enter_search_string#:#Моля, въведете символен низ за търсене
 common#:#grp_search_members#:#Търсене на потребител
+common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
+common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
 common#:#grp_visible#:#Групата е видима
 common#:#grp_write#:#Редактиране на група
 common#:#guest#:#Гост
@@ -1402,6 +1469,8 @@ common#:#header_title#:#Заглавие на водач
 common#:#help#:#Помощ
 common#:#hide#:#скриване
 common#:#hide_details#:#скриване на детайлите
+common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
+common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#Изключване на структурирания изглед
 common#:#hist_dbk:pg_create#:#Страницата създадена
 common#:#hist_dbk:pg_cut#:#Страницата изрязана от глава "%1" [%2]
@@ -1440,11 +1509,17 @@ common#:#htlm_new#:#Нов HTML модул за обучение
 common#:#htlm_read#:#Четене от HTML модул за обучение
 common#:#htlm_visible#:#HTML модулът за обучение е видим
 common#:#htlm_write#:#Редактиране на HTML модул за обучение
+common#:#http#:#HTTP###03 Nov 2005 new variable
 common#:#http_not_possible#:#Този сървър не поддържа http заявки.
 common#:#http_path#:#Http път
 common#:#https_not_possible#:#Този сървър не поддържа HTTPS връзки.
 common#:#icla_deleted#:#LearnLinc classroom(s) deleted###06 Aug 2005 new variable
 common#:#icla_edit#:#Edit LearnLinc Classroom###06 Aug 2005 new variable
+common#:#icon_settings#:#Icon Settings###03 Nov 2005 new variable
+common#:#icons_in_header#:#Header row###03 Nov 2005 new variable
+common#:#icons_in_item_rows#:#Item rows###03 Nov 2005 new variable
+common#:#icons_in_typed_lists#:#Icon position in item lists###03 Nov 2005 new variable
+common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.###03 Nov 2005 new variable
 common#:#icrs_added#:#LearnLinc Seminar added###06 Aug 2005 new variable
 common#:#icrs_create_icla#:#Create LearnLinc Classrooms###06 Aug 2005 new variable
 common#:#icrs_edit#:#Edit LearnLinc Seminar###06 Aug 2005 new variable
@@ -1453,6 +1528,7 @@ common#:#identifier#:#идентификатор
 common#:#if_no_title_then_filename#:#Оставете празно, за да се изпише името на файла
 common#:#if_no_title_then_url#:#Оставете празно, за да се изпише URL
 common#:#ilias_version#:#ILIAS версия
+common#:#ilinc_add_user#:#Add user(s)###03 Nov 2005 new variable
 common#:#ilinc_classroom_always_open#:#Classroom is always open###06 Aug 2005 new variable
 common#:#ilinc_classroom_closed#:#Classroom is closed###06 Aug 2005 new variable
 common#:#ilinc_classroom_open#:#Classroom is open###06 Aug 2005 new variable
@@ -1461,13 +1537,24 @@ common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following m
 common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
 common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
 common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###03 Nov 2005 new variable
 common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
 common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
 common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
 common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
+common#:#ilinc_header_edit_users#:#Edit list of involved users###03 Nov 2005 new variable
 common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
+common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
+common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
+common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
+common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
+common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
+common#:#ilinc_msg_member_assigned#:#User(s) assigned###03 Nov 2005 new variable
+common#:#ilinc_msg_membership_annulled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
 common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
 common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
@@ -1475,11 +1562,12 @@ common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new 
 common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
 common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
 common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
 common#:#image#:#Изображение
 common#:#image_gen_unsucc#:#Генерирането на изображение неуспешно. Свържете се с вашия системен администратор и проверете пътя за конвертирането.
 common#:#import#:#Импортиране
 common#:#import_alm#:#Импортиране на AICC пакет
+common#:#import_cat_localrol#:#Create local role for every new category###03 Nov 2005 new variable
+common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set###03 Nov 2005 new variable
 common#:#import_categories#:#Импортиране на категории
 common#:#import_dbk#:#Импортиране на Digilib книга
 common#:#import_file#:#Импортиране на файл
@@ -1487,6 +1575,7 @@ common#:#import_file_not_valid#:#Импортираният файл е нева
 common#:#import_finished#:#Брой импортирани съобщения.
 common#:#import_forum_finished#:#Форумът беше импортиран.
 common#:#import_glossary#:#Импортиране на речник
+common#:#import_group#:#Import group###03 Nov 2005 new variable
 common#:#import_grp_finished#:#Импортирана група без никакви грешки
 common#:#import_hlm#:#Импортиране на HACP пакет
 common#:#import_lm#:#Импортиране на ILIAS модул за обучение
@@ -1500,6 +1589,7 @@ common#:#import_spl#:#Импортиране на набори въпроси з
 common#:#import_svy#:#Импортиране на обзор
 common#:#import_tst#:#Импортиране на тест
 common#:#import_users#:#Импортиране на потребители
+common#:#important#:#Important###03 Nov 2005 new variable
 common#:#imported#:#импортирано
 common#:#in#:#в
 common#:#in_use#:#Език на потребителя
@@ -1588,6 +1678,7 @@ common#:#languages_already_installed#:#Избраният език(ци) е (с�
 common#:#languages_already_uninstalled#:#Избраният език(ци) е (са) вече деинсталиран(и)
 common#:#languages_updated#:#Всички инсталирани езици бяха актуализирани
 common#:#last_change#:#Последна промяна
+common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
 common#:#last_update#:#Последна актуализация
 common#:#last_visit#:#Последно посещение
 common#:#lastname#:#Последно име
@@ -1611,6 +1702,7 @@ common#:#ldap_visible#:#LDAP настройките са видими
 common#:#ldap_write#:#Редактиране на LDAP настройките
 common#:#learning module#:#Модул за обучение
 common#:#learning_objects#:#Обекти за обучение
+common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
 common#:#learning_resources#:#Ресурси за обучение
 common#:#level#:#Ниво
 common#:#link#:#Линк
@@ -1621,8 +1713,24 @@ common#:#link_check_message_disabled#:#Съобщенията изключени
 common#:#link_check_message_enabled#:#Съобщенията включени
 common#:#link_check_subject#:#[ILIAS 3] Проверка на линк
 common#:#link_checker_refreshed#:#Обновен изглед
+common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.###03 Nov 2005 new variable
 common#:#linked_object#:#Обектът е свързан с линк
 common#:#linked_pages#:#Свързани с линк страници
+common#:#links_add_param#:#Add parameter:###03 Nov 2005 new variable
+common#:#links_dyn_parameter#:#Dynamic parameters###03 Nov 2005 new variable
+common#:#links_dynamic#:#Dynamic Web Links parameters###03 Nov 2005 new variable
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.###03 Nov 2005 new variable
+common#:#links_existing_params#:#Existing parameters:###03 Nov 2005 new variable
+common#:#links_name#:#Parameter name###03 Nov 2005 new variable
+common#:#links_no_name_given#:#Please choose a parameter name.###03 Nov 2005 new variable
+common#:#links_no_value_given#:#Please choose a parameter value.###03 Nov 2005 new variable
+common#:#links_not_available#:#Not available###03 Nov 2005 new variable
+common#:#links_parameter_deleted#:#Parameter deleted.###03 Nov 2005 new variable
+common#:#links_select_one#:#- Select one -###03 Nov 2005 new variable
+common#:#links_session_id#:#ILIAS session id###03 Nov 2005 new variable
+common#:#links_user_id#:#ILIAS user id###03 Nov 2005 new variable
+common#:#links_user_name#:#ILIAS username###03 Nov 2005 new variable
+common#:#links_value#:#Parameter value###03 Nov 2005 new variable
 common#:#list_of_pages#:#Списък на страниците
 common#:#list_of_questions#:#Списък на въпросите
 common#:#literature#:#Литература
@@ -1794,6 +1902,7 @@ common#:#msg_no_delete_yourself#:#Не можете да изтриете ваш
 common#:#msg_no_file#:#Не сте избрали файл
 common#:#msg_no_language_selected#:#Не е специфициран език за превода! Трябва да дефинирате език за всеки превод
 common#:#msg_no_perm_assign_role_to_user#:#Нямате разрешени права да променяте разпределението на ролята за потребителя
+common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment###03 Nov 2005 new variable
 common#:#msg_no_perm_copy#:#Нямате разрешени права да създавате копие на следния обект(и):
 common#:#msg_no_perm_create#:#Нямате разрешени права да създавате следния обект(и):
 common#:#msg_no_perm_create_object1#:#Нямате разрешени права да създавате
@@ -1893,10 +2002,13 @@ common#:#no_zip_file#:#Noне е открит zip файл.
 common#:#non_internal_local_roles_only#:#Локални роли (само дефинирани от потребители)
 common#:#none#:#Няма
 common#:#normal#:#Нормално
+common#:#not_accessed_yet#:#Not accessed yet###03 Nov 2005 new variable
 common#:#not_implemented_yet#:#Не е реализирано все още
 common#:#not_installed#:#Не е инсталирано
 common#:#not_logged_in#:#Не сте регистрирани
 ###16 Aug 2005 content changed
+common#:#note#:#Note###03 Nov 2005 new variable
+common#:#notes#:#Notes###03 Nov 2005 new variable
 common#:#number_of_accesses#:#Брой влизания
 common#:#number_of_records#:#Брой записи
 common#:#obj#:#Обект
@@ -2089,12 +2201,14 @@ common#:#preconditions#:#Предварителни условия
 common#:#presentation_options#:#Опции за представянето
 common#:#previous#:#предишни
 common#:#print#:#Отпечатване
+common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
 common#:#profile_changed#:#Вашият профил беше променен
 common#:#profile_of#:#Профил на
 common#:#properties#:#Характеристики
 common#:#pub_section#:#Публична секция
 ###19 Jul 2005 content changed
 common#:#public#:#публичи
+common#:#public_notes#:#Public Notes###03 Nov 2005 new variable
 common#:#public_profile#:#Публичен профил
 common#:#publication#:#Публикация
 common#:#publication_date#:#Дата на публикацията
@@ -2136,6 +2250,7 @@ common#:#registered_users#:#регистрирани Потребители
 common#:#registration#:#Регистрация на нов акаунт
 common#:#registration_disabled#:#Налице само, когато се използва локално идентифициране
 common#:#registration_expired#:#Регистрационният период е изтекъл...
+common#:#related_to#:#Related to###03 Nov 2005 new variable
 common#:#remove#:#Премахване
 common#:#remove_personal_picture#:#Премахване
 common#:#remove_translation#:#Премахване на превод
@@ -2288,11 +2403,14 @@ common#:#show_details#:#показване на детайлите
 common#:#show_list#:#Показване на списъка
 common#:#show_members#:#Визуализиране на членовете
 common#:#show_owner#:#Показване на притежателя
+common#:#show_private_notes#:#Show private notes###03 Nov 2005 new variable
+common#:#show_public_notes#:#Show public notes###03 Nov 2005 new variable
 common#:#show_structure#:#Включване на структуриран изглед
 common#:#show_users_online#:#Показване на потребителите онлайн
 common#:#signature#:#Подпис
 common#:#size#:#Размер
 common#:#skin_style#:#Оформление / стил по подразбиране
+common#:#small_icon#:#Small Icon###03 Nov 2005 new variable
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Външно потребителско администриране (SOAP)
 common#:#soap_user_administration_desc#:#Ако е включено, всички потребителски акаунти могат да се администрират от външен SOAP-клиент.
@@ -2306,6 +2424,7 @@ common#:#spl_read#:#Достъп за четене от набор въпрос�
 common#:#spl_upload_file#:#Зареждане на файл
 common#:#spl_visible#:#Наборът въпроси за обзора е видим
 common#:#spl_write#:#Редактиране на набор въпрос за обзор
+common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
 common#:#st_a#:#глава
 common#:#st_add#:#Добавяне на глава
 common#:#st_added#:#Главата добавена
@@ -2346,6 +2465,7 @@ common#:#system_grp#:#Системна група
 common#:#system_information#:#Системна информация
 common#:#system_language#:#Системен език
 common#:#system_message#:#Системно съобщение
+common#:#system_styles#:#System Styles###03 Nov 2005 new variable
 common#:#table_mail_import#:#Импортиране на поща
 common#:#tax#:#Таксономия
 common#:#tax_add#:#Добавяне на таксономия
@@ -2420,6 +2540,7 @@ common#:#uncheck_all#:#Отстраняване на маркировка на �
 common#:#uninstall#:#Деинсталиране
 common#:#uninstalled#:#деинсталирано.
 common#:#unknown#:#НЕИЗВЕСТНО
+common#:#unlabeled#:#Unlabeled###03 Nov 2005 new variable
 common#:#unread#:#Непрочетено
 common#:#unselected#:#Неизбрано
 common#:#unsubscribe#:#прекратяване на абонамент
@@ -2503,6 +2624,7 @@ common#:#webservices#:#Уеб-услуги
 common#:#week#:#Седмица
 common#:#welcome#:#Добре дошли
 common#:#who_is_online#:#Кой е онлайн?
+common#:#width_x_height#:#Width x Height###03 Nov 2005 new variable
 common#:#with#:#с
 common#:#write#:#Записване
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
@@ -2797,6 +2919,8 @@ content#:#cont_prerequisites#:#adlcp:предпоставки
 content#:#cont_preview#:#Преглед
 content#:#cont_print_view#:#Преглед за отпечатване
 content#:#cont_public_access#:#Публичен достъп
+content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
+content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Публикувал
 content#:#cont_purpose#:#Предназначение
 content#:#cont_ref_helptext#:#(напр., http://www.server.org/myimage.jpg)
@@ -2959,6 +3083,7 @@ crs#:#crs_cancel_subscription_body#:#Потребител прекрати аб�
 crs#:#crs_contact#:#Контакт
 crs#:#crs_contact_consultation#:#Консултация
 crs#:#crs_contact_email#:#Email
+###03 Nov 2005 content changed
 crs#:#crs_contact_name#:#Име
 crs#:#crs_contact_phone#:#Телефон
 crs#:#crs_contact_responsibility#:#Отговорност
@@ -2979,6 +3104,7 @@ crs#:#crs_end#:#Край
 crs#:#crs_export#:#Експортиране на курс
 crs#:#crs_file_name#:#Име на файл
 crs#:#crs_from#:#От:
+###03 Nov 2005 content changed
 crs#:#crs_header_archives#:#Архиви на курс
 crs#:#crs_header_delete_members#:#Изтриване на членове
 crs#:#crs_header_edit_members#:#Редактиране на членове
@@ -2995,6 +3121,7 @@ crs#:#crs_mem_change_status#:#Промяна на статуса
 crs#:#crs_mem_send_mail#:#Изпращане на поща
 crs#:#crs_member#:#Член
 crs#:#crs_member_blocked#:#Член (блокиран)
+crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Член (разблокиран)
 crs#:#crs_member_updated#:#Членът беше актуализиран
 crs#:#crs_members_deleted#:#Изтрити членове
@@ -3076,6 +3203,7 @@ crs#:#crs_sure_delete_selected_archives#:#Сигурни ли сте, че же�
 crs#:#crs_syllabus#:#Учебна програма
 crs#:#crs_time#:#Време на абонамента
 crs#:#crs_to#:#До:
+###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Наставник
 crs#:#crs_tutor_no_notify#:#Наставник (без уведомяване)
 crs#:#crs_tutor_notify#:#Наставник (със уведомяване)
@@ -3090,6 +3218,7 @@ crs#:#crs_unsubscribed_from_crs#:#Вие се абонирахте за този
 crs#:#crs_users_added#:#Добавен потребител в курса
 crs#:#crs_users_already_assigned#:#Потребителят вече е записан за този курс
 crs#:#crs_xml#:#XML
+crs#:#import_crs#:#Import course###03 Nov 2005 new variable
 crs_#:#crs_archives#:#Архиви
 dateplaner#:#DateText#:#Съобщение
 dateplaner#:#Day_long#:#Преглед на деня
@@ -3557,6 +3686,7 @@ mail#:#mail_sure_delete#:#Сигурни ли сте, че желаете да �
 mail#:#mail_sure_delete_entry#:#Сигурни ли сте, че желаете да изтриете следните записи
 mail#:#mail_sure_delete_file#:#Файлът ще бъде премахнат трайно
 mail#:#mail_sure_delete_folder#:#Папката и нейното съдържание ще бъдат премахнати трайно
+mail#:#mail_to#:#To###03 Nov 2005 new variable
 mail#:#mail_to_search#:#За търсене
 mail#:#mail_user_addr_n_valid#:#Следните потребители нямат валиден email адрес
 mail#:#search_bc_recipient#:#Търсене на BCC получател
@@ -3815,6 +3945,7 @@ meta#:#meta_collection#:#Колекция
 meta#:#meta_competency#:#Компетентност
 meta#:#meta_context#:#Контекст
 meta#:#meta_contribute#:#Принос
+meta#:#meta_copyright#:#Copyright###03 Nov 2005 new variable
 meta#:#meta_copyright_and_other_restrictions#:#Авторско право и други ограничения
 meta#:#meta_cost#:#Цена
 meta#:#meta_coverage#:#Покритие
@@ -3822,8 +3953,8 @@ meta#:#meta_date#:#Дата
 meta#:#meta_delete#:#изтриване
 meta#:#meta_description#:#Описание
 meta#:#meta_diagramm#:#Диаграма
+meta#:#meta_difficult#:#Difficult###03 Nov 2005 new variable
 meta#:#meta_difficulty#:#Трудност
-meta#:#meta_dificult#:#Труден
 meta#:#meta_draft#:#Чернова
 meta#:#meta_duration#:#Продължителност
 meta#:#meta_easy#:#Лесно
@@ -4048,6 +4179,7 @@ meta#:#meta_problem_statement#:#Изявление за проблем
 meta#:#meta_publisher#:#Публикувал
 meta#:#meta_purpose#:#Предназначение
 meta#:#meta_questionnaire#:#Въпросник
+meta#:#meta_quickedit#:#Quick Edit###03 Nov 2005 new variable
 meta#:#meta_reference#:#Референция
 meta#:#meta_references#:#Референции
 meta#:#meta_relation#:#Релация
@@ -4303,6 +4435,7 @@ pwassist#:#pwassist_update_error#:#Моля, обърнете се към ваш
 search#:#search_active#:#Включване на активните потребители
 search#:#search_all_results#:#Всички резултати
 search#:#search_and#:#и
+search#:#search_choose_object_type#:#Please choose one object type.###03 Nov 2005 new variable
 search#:#search_concatenation#:#Сливане
 search#:#search_content#:#Съдържание на страницата
 search#:#search_dbk_content#:#Дигитална библиотека (съдържание)
@@ -4311,10 +4444,12 @@ search#:#search_delete_sure#:#Обектът и неговото съдържа�
 search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Групи
+search#:#search_hits#:#Found in:###03 Nov 2005 new variable
 search#:#search_in_result#:#Търсене в резултатите
 search#:#search_inactive#:#Включване на неактивните потребители
 search#:#search_index#:#Indexed search###20 Jul 2005 new variable
 search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
+search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.###03 Nov 2005 new variable
 search#:#search_lm_content#:#Материали за обучение (съдържание)
 search#:#search_lm_meta#:#материали за обучение (метаданни)
 search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
@@ -4355,10 +4490,13 @@ search#:#search_select_one_select#:#--Изберете една папка--
 search#:#search_show_result#:#Показване
 search#:#search_user#:#Потребители
 survey#:#add_category#:#Добавяне на категория
+###03 Nov 2005 content changed
 survey#:#add_heading#:#Добавяне на заглавие
 survey#:#add_limits_for_standard_numbers#:#Моля, въведете долна и горна граница за стандартните числа, които желаете да добавите като категории.
+###03 Nov 2005 content changed
 survey#:#add_phrase#:#Добавяне на фраза
 survey#:#add_phrase_introduction#:#Моля, изберете фраза:
+survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#Вече завършихте Обзора! Не можете да влезете в него отново.
 survey#:#anonymize_anonymous_introduction#:#Този обзор анонимизира всички потребителски данни. За да получите достъп до обзора, трябва да използвате 32-знаков обзорен код, който можете да получите от създателя/поддържащия този обзор<br />Моля, въведете го в текстовото поле отдолу.
 survey#:#anonymize_key_introduction#:#Този обзор анонимизира всички потребителски данни. За да получите достъп до обзора, 32-знаков обзорен код беше създаден от системата и ще бъде изпратен до вашата ILIAS електронна поща, когато започнете обзора (след отговора на първия въпрос). Вашият код за достъп до обзора е<br /><span class="bold">%s</span>.<br />Моля, въведете го в текстовото поле отдолу.
@@ -4384,19 +4522,29 @@ survey#:#cannot_manage_phrases#:#Не притежавате достатъчн�
 survey#:#cannot_participate_survey#:#Не притежавате достатъчни разрешени права да участвате в обзора!
 survey#:#cannot_save_metaobject#:#Не притежавате достатъчни разрешени права да съхранявате метаданните!
 survey#:#cannot_switch_to_online_no_questions#:#Статусът не може да бъде променен на &quot;online&quot; , защото няма въпроси в теста!
+survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Категория
+###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#Сигурни ли сте, че желаете да изтриете следните категории?
+###03 Nov 2005 content changed
 survey#:#category_delete_select_none#:#Моля, маркирайте поне една категория, за да я изтриете!
+###03 Nov 2005 content changed
 survey#:#category_nr_selected#:#Брой потребители, избрали тази категория
+###03 Nov 2005 content changed
 survey#:#chart#:#Графика
 survey#:#check_category_to_save_phrase#:#Трябва да изберете поне една категория, за да съхраните фраза!
+###03 Nov 2005 content changed
 survey#:#codes#:#Кодове за достъп
 survey#:#combobox#:#Комбинирана клетка
 survey#:#concatenation#:#Сливане
 survey#:#confirm_delete_all_user_data#:#Сигурни ли сте, че желаете да изтриете всички потребителски данни от обзора?
 survey#:#confirm_remove_heading#:#Сигурни ли сте, че желаете да премахнете заглавния ред?
 survey#:#confirm_sync_questions#:#Промененият от вас въпрос е копие, което беше създадено за ползване с активния обзор. Желаете ли да промените също така и оригинала на въпроса?
+survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
 survey#:#constraints#:#Ограничителни условия
+###03 Nov 2005 content changed
+survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
+survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
 survey#:#contains#:#Съдържа
 survey#:#continue#:#Продължаване >>
 survey#:#create_date#:#Създадено
@@ -4440,6 +4588,7 @@ survey#:#dc_yes#:#да
 survey#:#define_questionblock#:#Дефиниране на блок въпроси
 survey#:#description_maxchars#:#Ако не е въведено нищо, максималният брой символи за този текстов отговор е неограничен.
 survey#:#disinvite#:#Отмяна на покана
+###03 Nov 2005 content changed
 survey#:#display_all_available#:#Показване на всички налични
 survey#:#dp_standard_attitude_agree5#:#Стандартно отношение (силно съгласен-съгласен-неопределено-несъгласен-силно несъгласен)
 survey#:#dp_standard_attitude_agree_disagree#:#Стандартно отношение (съгласен-несъгласен)
@@ -4467,6 +4616,7 @@ survey#:#duplicate#:#Дублиране
 survey#:#duplicate_svy#:#Дублиране на обзора
 survey#:#edit_ask_continue#:#Желаете ли да продължите и да редактирате този въпрос?
 survey#:#edit_constraints_introduction#:#Избрали сте следния(те) въпрос(и)/блок(ове) въпроси, за които да редактирате ограничителните условия
+###03 Nov 2005 content changed
 survey#:#edit_heading#:#Редактиране на заглавния ред
 survey#:#end_date#:#Крайна дата
 survey#:#end_date_reached#:#Не можете да започнете обзора. Достигната е крайната дата!
@@ -4484,9 +4634,13 @@ survey#:#evaluation_access#:#Достъп до оценяването
 survey#:#exit#:#Изход
 survey#:#export_data_as#:#Експортиране на данните като
 survey#:#fill_out_all_category_fields#:#Моля, попълнете всички полета за категории, преди да добавите ново!
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Моля, попълнете всички изисквани полета, преди да добавяте категории!
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_delete_category#:#Моля, попълнете всички изисквани полета, преди да изтривате категории!
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_move_category#:#Моля, попълнете всички изисквани полета, преди да премествате категории!
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_save_phrase#:#Моля, попълнете всички изисквани полета, преди да съхраните фраза!
 survey#:#filter#:#Филтър
 survey#:#filter_all_question_types#:#Всички типове въпроси
@@ -4495,6 +4649,7 @@ survey#:#filter_all_questionpools#:#Всички набори въпроси
 survey#:#filter_show_question_types#:#Показване на типовете въпроси
 survey#:#filter_show_questionpools#:#Показване на наборите въпроси
 ###09 Aug 2005 content changed
+survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.###03 Nov 2005 new variable
 survey#:#found_questions#:#Намерени въпроси
 survey#:#geometric_mean#:#Средногеометрично
 survey#:#given_answers#:#Дадени отговори
@@ -4543,9 +4698,13 @@ survey#:#multiple_choice_single_response#:#Избор на един от мно�
 survey#:#new_survey_codes#:#нов(и) код(ове) за достъп до обзор
 survey#:#next_question_rows#:#Въпроси %d - %d of %d >>
 survey#:#no_available_constraints#:#Няма дефинирани ограничителни условия!
+###03 Nov 2005 content changed
 survey#:#no_category_selected_for_deleting#:#Моля, изберете поне една категория, ако желаете да изтривате категории!
+###03 Nov 2005 content changed
 survey#:#no_category_selected_for_move#:#Моля, маркирайте поне една категория, за да я преместите!
+###03 Nov 2005 content changed
 survey#:#no_constraints_checked#:#Моля, изберете поне един въпрос или блок въпроси, за да редактирате ограничителните условия!
+###03 Nov 2005 content changed
 survey#:#no_question_selected_for_move#:#Моля, маркирайте поне един въпрос, за да го преместите!
 survey#:#no_question_selected_for_removal#:#Моля, маркирайте поне един въпрос или блок въпроси, за да го премахнете!
 survey#:#no_questionblocks_available#:#Няма налични блокове въпроси
@@ -4567,6 +4726,7 @@ survey#:#ordinal_question_not_checked#:#Моля, маркирайте един 
 survey#:#orientation#:#Ориентация
 survey#:#percentage_of_entered_values#:#Процент на потребителите, въвели тази стойност
 survey#:#percentage_of_selections#:#Процент на потребителите, избрали тази категория
+###03 Nov 2005 content changed
 survey#:#phrase_saved#:#Фразата беше съхранена успешно!
 survey#:#predefined_users#:#Набор от предварително дефинираните потребители
 survey#:#preview#:#Преглед
@@ -4591,12 +4751,15 @@ survey#:#qt_metric#:#Метричен въпрос
 survey#:#qt_nominal#:#Номинален въпрос
 survey#:#qt_ordinal#:#Пореден въпрос
 survey#:#qt_text#:#Текстов въпрос
+survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Ограничителни условия
+###03 Nov 2005 content changed
 survey#:#question_obligatory#:#Въпросът е задължителен!
 survey#:#question_saved_for_upload#:#Въпросът беше съхранен автоматично, за да се резервира харддисково пространство за съхранението на заредения файл. Ако сега отмените този формуляр, имайте предвид, че трябва да изтриете въпроса в набора от въпроси, ако не желаете да го запазите!
 survey#:#question_type#:#Тип въпрос
 survey#:#questionblock#:#Блок въпроси
 survey#:#questionblock_has_constraints#:#Ограничителни условия
+###03 Nov 2005 content changed
 survey#:#questionblocks#:#Блокове въпроси
 survey#:#questions#:#Въпроси
 survey#:#questions_inserted#:#Въпросът(ите) вмъкнат(и)!
@@ -4608,10 +4771,13 @@ survey#:#remove_question#:#Премахване
 survey#:#remove_questions#:#Сигурни ли сте, че желаете да премахнете следния(те) въпрос(и) и/или блок(ове) въпроси от теста?
 survey#:#reset_filter#:#Нулиране на филтъра
 survey#:#resume_survey#:#Продължаване на обзора
+survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
 survey#:#save_obligatory_state#:#Съхраняване на задължителните статуси
 survey#:#save_phrase#:#Съхраняване като фраза
 survey#:#save_phrase_categories_not_checked#:#Моля, маркирайте поне две категории, за да съхраните категориите в нова фраза!
+###03 Nov 2005 content changed
 survey#:#save_phrase_introduction#:#Ако желаете да съхраните категориите по-долу като фраза по подразбиране, моля, въведете заглавие за фразата. Имате достъп до фраза по подразбиране, когато пожелаете да добавите фраза в пореден въпрос.
+###03 Nov 2005 content changed
 survey#:#search_field_all#:#Търсене във всички полета
 survey#:#search_for#:#Търсене за
 survey#:#search_groups#:#Групи
@@ -4628,11 +4794,15 @@ survey#:#select_questionpool_short#:#Набор въпроси за обзора
 survey#:#select_relation#:#Изберете релация
 survey#:#select_svy_option#:#--- Моля, изберете обзор ---
 survey#:#select_target_position_for_move#:#Моля, изберете позиция на местоназначението за да преместите категориите и натиснете един от бутоните за вмъкване!
+###03 Nov 2005 content changed
 survey#:#select_target_position_for_move_question#:#Моля, изберете позиция на местоназначението за да преместите въпроса(ите) и натиснете един от бутоните за вмъкване!
 survey#:#select_value#:#Изберете стойност
 survey#:#selection#:#Избор
 survey#:#set_filter#:#Настройване на филтър
 survey#:#skipped#:#пропуснато
+survey#:#spl_general_properties#:#General properties###03 Nov 2005 new variable
+survey#:#spl_online_property#:#Online###03 Nov 2005 new variable
+survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
 survey#:#spl_select_file_for_import#:#Трябва да изберете файл за импортиране!
 survey#:#start_date#:#Начална дата
 survey#:#start_date_not_reached#:#Не можете да започнете обзора преди да е достигната началната дата!
@@ -4651,6 +4821,7 @@ survey#:#survey_offline_message#:#Не могат да бъдат поканен
 survey#:#survey_online_warning#:#Обзорът е онлайн. Не можете да редактирате въпросите в него!
 survey#:#survey_previous#:#<<< предишен
 survey#:#survey_question_obligatory#:#(Този въпрос е задължителен. Трябва да отговорите на него)
+survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Въпроси
 survey#:#survey_skip_finish#:#пропускане и приключване на обзора
 survey#:#survey_skip_next#:#пропускане >>>
@@ -4695,6 +4866,7 @@ survey#:#value_nr_entered#:#Брой потребители, въвели таз
 survey#:#values#:#Стойности
 survey#:#vertical#:#вертикално
 survey#:#view_constraints_introduction#:#Вие преглеждате ограничителните условия за следния въпрос/блок въпроси:
+###03 Nov 2005 content changed
 survey#:#view_phrase#:#Преглед на фраза
 survey#:#warning_question_in_use#:#Предупреждение! Въпросът, който желаете да редактирате, се използва от обзорите, изредени по-долу. Ако решите да продължите и да съхраните/приложите въпроса, всички отговори на изредените по-долу обзори ще бъдат изтрити. Ако желаете да промените въпроса и да го използвате в друг обзор, моля, изберете опцията за дублиране в браузъра на въпроса, за да създадете ново копие на този въпрос.
 survey#:#warning_question_not_complete#:#Въпросът не е пълен!

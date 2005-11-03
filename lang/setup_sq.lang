@@ -78,6 +78,9 @@ create#:#krijo
 create_datadir_failed#:#Krijimi i direktoriumit për të dhënat ka dështuar
 create_new_client#:#Krijo klient të ri
 create_webdir_failed#:#Krijimi i direktoriumit për web ka dështuar
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#shtegu për skedarin e të dhënave
 database#:#databaza
 database_create#:#Krijo databazë
@@ -201,6 +204,7 @@ intro_install#:#Kjo është faqja kryesore e programit për instalimin e ILIAS 3
 ip_address#:#IP adresa
 java_path#:#Shtegu për Java
 java_path_comment#:#kërkohet për Modul Mësimor SCORM
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Çekisht
 lang_da#:#Daneze
 lang_de#:#Gjermanisht
@@ -329,6 +333,7 @@ pre_php_version_5#:#ILIAS 3 nuk është testuar ende me PHP 5. Mund ta përdorni
 pre_php_version_unknown#:#Programi për instalim i ILIAS nuk e njeh këtë version. Mund ta përdorni pa rekomandimin tonë.
 preliminaries#:#Veprimet Preliminare
 prev#:#Prapa
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#fushat obligative
 reset#:#Rikthe
 root_access#:#qasja root
@@ -384,6 +389,7 @@ step#:#Hapi
 street#:#Rruga
 submit#:#Pranoj
 title#:#Titull
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Klient i Panjohur
 unknown_command#:#Komandë e panjohur
 unknown_display_mode#:#Mod i pamjes i panjohur

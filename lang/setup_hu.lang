@@ -78,6 +78,9 @@ create#:#létrehozás
 create_datadir_failed#:#Az adatkönyvtár létrehozása nem sikerült
 create_new_client#:#Új kliens létrehozása
 create_webdir_failed#:#A webkönyvtár létrehozása nem sikerült
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#adat elérési útvonala
 database#:#adatbázis
 database_create#:#Adatbázis létrehozása
@@ -199,6 +202,7 @@ intro_install#:#Ez az ILIAS3 setupjának főlapja. Innen le tudja folytatni az i
 ip_address#:#IP-cím
 java_path#:#Java elérési út
 java_path_comment#:#szükséges a SCORM tananyagok számára
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Cseh
 lang_da#:#Dán
 lang_de#:#Német
@@ -321,6 +325,7 @@ pre_php_version_5#:#Az ILIAS3 nem volt még tesztelve a PHP5-tel. Használja saj
 pre_php_version_unknown#:#Az ILIAS setup nem ismeri ezt a verziót. Használja saját felelősségére.
 preliminaries#:#Előzetes
 prev#:#Előző
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#szükséges mezők
 reset#:#Alaphelyzetbe állítás (reset)
 root_access#:#root hozzáférés
@@ -376,6 +381,7 @@ step#:#Lépés
 street#:#Utca, házszám, emelet/ajtó
 submit#:#Elküldés
 title#:#Cím
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Ismeretlen kliens
 unknown_command#:#Ismeretlen parancs
 unknown_display_mode#:#Ismeretlen megjelenítési mód

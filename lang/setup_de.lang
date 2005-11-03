@@ -78,6 +78,9 @@ create#:#anlegen
 create_datadir_failed#:#Erzeugung des Datenverzeichnisses fehlgeschlagen
 create_new_client#:#Neuen Mandanten anlegen
 create_webdir_failed#:#Erzeugung des Webverzeichnisses fehlgeschlagen
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#Daten-Pfad 
 database#:#Datenbank
 database_create#:#Datenbank erzeugen
@@ -205,6 +208,7 @@ intro_install#:#Das ist das Hauptmenü von ILIAS 3 Setup. Hier können Sie Schri
 ip_address#:#IP-Adresse
 java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Tschechisch
 lang_da#:#Dänisch
 lang_de#:#Deutsch
@@ -333,6 +337,7 @@ pre_php_version_5#:#ILIAS 3 wurde noch nicht getestet mit PHP 5. Benutzung also 
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
 preliminaries#:#Vorbereitende Massnahmen
 prev#:#Zurück
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#Erforderliche Angaben
 reset#:#Zurücksetzen
 root_access#:#Administrator-Zugang
@@ -388,6 +393,7 @@ step#:#Schritt
 street#:#Strasse
 submit#:#Abschicken
 title#:#Titel
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Unbekannter Mandant
 unknown_command#:#Unbekannter Befehl
 unknown_display_mode#:#Unbekannter Anzeigemodus

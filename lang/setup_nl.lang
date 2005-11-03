@@ -79,6 +79,9 @@ create#:#Creëer###07 Apr 2005 content changed
 create_datadir_failed#:#Creëren van gegevens-map mislukt###07 Apr 2005 content changed
 create_new_client#:#Creëer een nieuwe cliënt###07 Apr 2005 content changed
 create_webdir_failed#:#Creëren van een web-map is mislukt###07 Apr 2005 content changed
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#datapad###07 Apr 2005 content changed
 database#:#databank###07 Apr 2005 content changed
 database_create#:#Creëer databank###07 Apr 2005 content changed
@@ -206,6 +209,7 @@ intro_install#:#Dit is de hoofd-pagina van de setup van ILIAS 3. Vanaf hier kunt
 ip_address#:#IP-adres###07 Apr 2005 content changed
 java_path#:#Pad naar Java###07 Apr 2005 content changed
 java_path_comment#:#vereist voor SCORM les-modules###07 Apr 2005 content changed
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Tsjechisch###07 Apr 2005 content changed
 lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Duits###07 Apr 2005 content changed
@@ -334,6 +338,7 @@ pre_php_version_5#:#ILIAS 3 is nog niet getest met PHP 5. Gebruik is voor eigen 
 pre_php_version_unknown#:#ILIAS opzet kent deze versie niet. Gebruik is voor eigen risico!###07 Apr 2005 content changed
 preliminaries#:#Voorbereidende maatregelen###07 Apr 2005 content changed
 prev#:#Vorige###07 Apr 2005 content changed
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#verplichte velden###07 Apr 2005 content changed
 reset#:#Terugzetten###07 Apr 2005 content changed
 root_access#:#Toegang tot de root###07 Apr 2005 content changed
@@ -389,6 +394,7 @@ step#:#Het ILIAS-systeem is zichtbaar###07 Apr 2005 content changed
 street#:#Straat###07 Apr 2005 content changed
 submit#:#Verzend###07 Apr 2005 content changed
 title#:#Titel###07 Apr 2005 content changed
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Onbekende cliënt###07 Apr 2005 content changed
 unknown_command#:#Onbekende opdracht###07 Apr 2005 content changed
 unknown_display_mode#:#Onbekend scherm-modus###07 Apr 2005 content changed

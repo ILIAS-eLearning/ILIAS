@@ -78,6 +78,9 @@ create#:#kreiraj
 create_datadir_failed#:#Kreiranje direktorijuma podataka nije uspelo
 create_new_client#:#Kreiraj novog klijenta
 create_webdir_failed#:#Kreiranje web direktorijuma nije uspelo
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#putanja podataka
 database#:#baza podataka
 database_create#:#Kreiraj bazu podataka
@@ -201,6 +204,7 @@ intro_install#:#Ovo je glavna stranisa ILIAS 3 postavljanja. Odavde možete vide
 ip_address#:#IP adresa
 java_path#:#Putanja do Java
 java_path_comment#:#zahtevano za SCORM metode ucenja
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Ceški
 lang_da#:#Danski
 lang_de#:#Nemaci
@@ -329,6 +333,7 @@ pre_php_version_5#:#ILIAS 3 još nije testiran sa PHP 5. Koristi uz sopstveni ri
 pre_php_version_unknown#:#ILIAS postavljanje ne poznaje ovu verziju. Koristi uz sopstveni rizik.
 preliminaries#:#pripreme
 prev#:#prethodni
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#zahtevana polja
 reset#:#vracanje
 root_access#:#putanja pristup
@@ -384,6 +389,7 @@ step#:#Korak
 street#:#Ulica
 submit#:#Potvrdi
 title#:#Naslov
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Nepoznat klijent
 unknown_command#:#Nepoznata komanda
 unknown_display_mode#:#Nepoznat nacin prikazivanja

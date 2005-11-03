@@ -78,6 +78,9 @@ create#:#create###28 Nov 2003 new variable
 create_datadir_failed#:#Creation of data directory failed###05 Jan 2003 new variable
 create_new_client#:#Create new client###21 Nov 2003 new variable
 create_webdir_failed#:#Creation of web directory failed###05 Jan 2003 new variable
+ctrl_structure#:#Control Structure###03 Nov 2005 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
 data_path#:#duomenys saugomi (kelias)###07 Apr 2005 content changed
 database#:#duomenų bazė###07 Apr 2005 content changed
 database_create#:#Create database###21 Nov 2003 new variable
@@ -205,6 +208,7 @@ intro_install#:#Tai pagrindinis ILIAS 3 diegimo programos puslapis. Iš čia Jū
 ip_address#:#IP address###21 Nov 2003 new variable
 java_path#:#Path to Java###21 Nov 2003 new variable
 java_path_comment#:#required for SCORM Learning modules###05 Jan 2003 new variable
+lang_bg#:#Bulgarian###03 Nov 2005 new variable
 lang_cs#:#Czech###09 Mar 2004 new variable
 lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Vokiečių###07 Apr 2005 content changed
@@ -333,6 +337,7 @@ pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own ris
 pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!###05 Jan 2003 new variable
 preliminaries#:#Preliminariai###07 Apr 2005 content changed
 prev#:#Previous###21 Nov 2003 new variable
+reload#:#Reload###03 Nov 2005 new variable
 required_field#:#required fields###21 Nov 2003 new variable
 reset#:#Atstatyti###07 Apr 2005 content changed
 root_access#:#root access###05 Jan 2003 new variable
@@ -388,6 +393,7 @@ step#:#Step###21 Nov 2003 new variable
 street#:#Street###21 Nov 2003 new variable
 submit#:#Patvirtinti###07 Apr 2005 content changed
 title#:#Title###21 Nov 2003 new variable
+tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Unknown Client###28 Nov 2003 new variable
 unknown_command#:#Unknown command###05 Jan 2003 new variable
 unknown_display_mode#:#Unknown display mode###05 Jan 2003 new variable

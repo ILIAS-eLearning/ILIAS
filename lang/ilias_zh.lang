@@ -162,6 +162,10 @@ assessment#:#circle_click_circle#:#请点击要选取区域的周围###07 Apr 20
 assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
 assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
 assessment#:#cloze_text#:#填充测验文本###14 Sep 2004 content changed
+assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
+assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 2005 new variable
+assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#代码###19 May 2004 new variable
 assessment#:#concatenation#:#Concatenation###08 Apr 2005 new variable
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
@@ -173,6 +177,7 @@ assessment#:#create_date#:#已创建###07 Apr 2005 content changed
 assessment#:#create_gaps#:#创建间隔###07 Apr 2005 content changed
 assessment#:#create_imagemap#:#创建一图片###07 Apr 2005 content changed
 assessment#:#create_new#:#新创建###07 Apr 2005 content changed
+assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#delete_area#:#删除区域###07 Apr 2005 content changed
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
@@ -285,6 +290,7 @@ assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 20
 assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
 assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
 assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
+assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
 assessment#:#log_user_data_removed#:#Removed all user data###01 Mar 2005 new variable
 assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
@@ -310,10 +316,12 @@ assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#participants#:#Participants###08 Apr 2005 new variable
+assessment#:#pass#:#Pass###03 Nov 2005 new variable
 assessment#:#passed_official#:#passed###04 Sep 2004 new variable
 assessment#:#passed_short#:#passed###04 Sep 2004 new variable
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
 assessment#:#percentile#:#Percentile###23 Sep 2004 new variable
+assessment#:#picture#:#Picture###03 Nov 2005 new variable
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#分数###07 Apr 2005 content changed
 assessment#:#points_short#:#Pt.###13 Apr 2005 new variable
@@ -332,6 +340,8 @@ assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
+assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###03 Nov 2005 new variable
+assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard###03 Nov 2005 new variable
 assessment#:#qpl_delete_rbac_error#:#您没有删除此问题的权限！###07 Apr 2005 content changed
 assessment#:#qpl_delete_select_none#:#请至少选择一个问题删除###07 Apr 2005 content changed
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
@@ -340,10 +350,18 @@ assessment#:#qpl_edit_rbac_error#:#您没有编辑此问题的权限！###07 Apr
 assessment#:#qpl_edit_select_multiple#:#请只选择一个问题进行编辑###07 Apr 2005 content changed
 assessment#:#qpl_edit_select_none#:#请选择一个问题进行编辑###07 Apr 2005 content changed
 assessment#:#qpl_export_select_none#:#请至少选择一个问题导出###07 Apr 2005 content changed
+assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
+assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
+assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving###03 Nov 2005 new variable
+assessment#:#qpl_online_property#:#Online###03 Nov 2005 new variable
+assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
+assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###03 Nov 2005 new variable
+assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool###03 Nov 2005 new variable
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
@@ -407,8 +425,10 @@ assessment#:#solution_order#:#解答次序###07 Apr 2005 content changed
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
 assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
+assessment#:#statistics#:#Statistics###03 Nov 2005 new variable
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
+assessment#:#term#:#Term###03 Nov 2005 new variable
 assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
 assessment#:#text_gap#:#文本间隔###07 Apr 2005 content changed
@@ -420,6 +440,7 @@ assessment#:#tst_all_user_data_deleted#:#All user data of this test has been del
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
+assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
@@ -444,6 +465,9 @@ assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
 assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
 assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
+assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
@@ -476,6 +500,10 @@ assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_participating_users#:#Participating Users###08 Apr 2005 new variable
+assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
+assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
+assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
+assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
 assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_print#:#Test & Assessment Print View###08 Apr 2005 new variable
 assessment#:#tst_print_date#:#Date of Print###08 Apr 2005 new variable
@@ -505,7 +533,12 @@ assessment#:#tst_report_after_question#:#Report the score after every question i
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.###11 Mar 2004 new variable
+assessment#:#tst_result_user_name#:#Test results for %s###03 Nov 2005 new variable
 assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
+assessment#:#tst_results_aggregated#:#Aggregated test results###03 Nov 2005 new variable
+assessment#:#tst_results_back_evaluation#:#Back to evaluation overview###03 Nov 2005 new variable
+assessment#:#tst_results_back_introduction#:#Back to introduction###03 Nov 2005 new variable
+assessment#:#tst_results_back_overview#:#Back to results overview###03 Nov 2005 new variable
 assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
 assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
@@ -523,6 +556,7 @@ assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 20
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
 assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
 assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
+assessment#:#tst_show_answer_print_sheet#:#Answers Printview###03 Nov 2005 new variable
 assessment#:#tst_show_answer_sheet#:#show answers###20 Apr 2005 new variable
 assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
 assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
@@ -577,6 +611,7 @@ assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
 assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
 assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
+assessment#:#tt_varying_randomtest#:#Varying random test###03 Nov 2005 new variable
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
@@ -649,6 +684,8 @@ bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
 bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
 bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
 bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
+chat#:#cancel_talk#:#Cancel address###03 Nov 2005 new variable
+chat#:#cancel_whisper#:#Cancel whisper###03 Nov 2005 new variable
 chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
 chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
@@ -799,6 +836,7 @@ common#:#add_author#:#增加作者###07 Apr 2005 content changed
 common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#增加成员###07 Apr 2005 content changed
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
+common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#增加翻译###07 Apr 2005 content changed
 common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
@@ -931,10 +969,15 @@ common#:#average_time#:#Average time###16 Mar 2004 new variable
 common#:#back#:#返回###07 Apr 2005 content changed
 common#:#basedn#:#基本域名###07 Apr 2005 content changed
 common#:#basic_data#:#基本数据###07 Apr 2005 content changed
+common#:#basic_settings#:#Basic Settings###03 Nov 2005 new variable
 common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
 common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
 common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
 common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
+common#:#big_icon#:#Big Icon###03 Nov 2005 new variable
+common#:#bkm_import#:#Import bookmarks###03 Nov 2005 new variable
+common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.###03 Nov 2005 new variable
+common#:#bkm_sendmail#:#Send as attachment###03 Nov 2005 new variable
 common#:#bm#:#书签###07 Apr 2005 content changed
 common#:#bmf#:#书签夹###07 Apr 2005 content changed
 common#:#bookmark_edit#:#编辑书签###07 Apr 2005 content changed
@@ -947,6 +990,8 @@ common#:#bookmarks_of#:#的书签###07 Apr 2005 content changed
 common#:#btn_remove_system#:#从系统中删除###07 Apr 2005 content changed
 common#:#btn_undelete#:#恢复删除###07 Apr 2005 content changed
 common#:#by#:#由###07 Apr 2005 content changed
+common#:#by_location#:#Order by location###03 Nov 2005 new variable
+common#:#by_type#:#Order by type###03 Nov 2005 new variable
 common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#日历###07 Apr 2005 content changed
 common#:#cancel#:#撤销###07 Apr 2005 content changed
@@ -1023,12 +1068,15 @@ common#:#chapter#:#章###07 Apr 2005 content changed
 common#:#chapter_number#:#章号###07 Apr 2005 content changed
 common#:#chapter_title#:#章标题###07 Apr 2005 content changed
 common#:#chat#:#聊天室###07 Apr 2005 content changed
+common#:#chat_active_in#:#Active in chat:###03 Nov 2005 new variable
 common#:#chat_add#:#添加聊天室###07 Apr 2005 content changed
 common#:#chat_delete#:#删除聊天室###07 Apr 2005 content changed
 common#:#chat_edit_permission#:#更改权限设置###07 Apr 2005 content changed
+common#:#chat_invite#:#Chat###03 Nov 2005 new variable
 common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#新聊天室###07 Apr 2005 content changed
 common#:#chat_read#:#聊天室可“读/写”权限###07 Apr 2005 content changed
+common#:#chat_users_active#:#Active users###03 Nov 2005 new variable
 common#:#chat_visible#:#聊天室可显示###07 Apr 2005 content changed
 common#:#chat_write#:#编辑聊天室###07 Apr 2005 content changed
 common#:#check#:#检查###07 Apr 2005 content changed
@@ -1159,6 +1207,8 @@ common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#当前口令###07 Apr 2005 content changed
+common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
+common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#剪切###07 Apr 2005 content changed
 common#:#cutPage#:#剪切###07 Apr 2005 content changed
 common#:#daily#:#daily###11 Mar 2005 new variable
@@ -1238,6 +1288,8 @@ common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#您输入的电子邮件地址无效！###14 Sep 2004 content changed
 common#:#enable#:#激活###07 Apr 2005 content changed
 common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
+common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
+common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
 common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
@@ -1322,7 +1374,7 @@ common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
 common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
-common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_protocol_port#:#Protocol & Port###03 Nov 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
@@ -1530,6 +1582,7 @@ common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
 common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#删除组###07 Apr 2005 content changed
+common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？###19 Jun 2004 content changed
 common#:#grp_edit#:#编辑组###07 Apr 2005 content changed
@@ -1545,6 +1598,10 @@ common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#用户可以加入组###07 Apr 2005 content changed
 common#:#grp_leave#:#用户可以离开组###07 Apr 2005 content changed
 common#:#grp_list_users#:#List users###11 Aug 2004 new variable
+common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
+common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
+common#:#grp_mail_subj_new_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#grp_mem_change_status#:#更改组状态###07 Apr 2005 content changed
 common#:#grp_mem_leave#:#从组中删除成员###07 Apr 2005 content changed
 common#:#grp_mem_send_mail#:#给成员发消息###07 Apr 2005 content changed
@@ -1564,6 +1621,8 @@ common#:#grp_register#:#注册###07 Apr 2005 content changed
 common#:#grp_registration_completed#:#注册成功###07 Apr 2005 content changed
 common#:#grp_search_enter_search_string#:#Please enter a search string###04 Sep 2004 new variable
 common#:#grp_search_members#:#User search###11 Aug 2004 new variable
+common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
+common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
 common#:#grp_visible#:#组可视###07 Apr 2005 content changed
 common#:#grp_write#:#编辑组###07 Apr 2005 content changed
 common#:#guest#:#客人###07 Apr 2005 content changed
@@ -1572,6 +1631,8 @@ common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#帮助###07 Apr 2005 content changed
 common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#隐藏详情###07 Apr 2005 content changed
+common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
+common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#禁止结构化视图###07 Apr 2005 content changed
 common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
 common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
@@ -1612,6 +1673,7 @@ common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
 common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#http#:#HTTP###03 Nov 2005 new variable
 common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Http路径###07 Apr 2005 content changed
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
@@ -1621,6 +1683,11 @@ common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
 common#:#icla_deleted#:#LearnLinc classroom(s) deleted###06 Aug 2005 new variable
 common#:#icla_edit#:#Edit LearnLinc Classroom###06 Aug 2005 new variable
 common#:#icla_new#:#New iLinc Classroom###01 Mar 2005 new variable
+common#:#icon_settings#:#Icon Settings###03 Nov 2005 new variable
+common#:#icons_in_header#:#Header row###03 Nov 2005 new variable
+common#:#icons_in_item_rows#:#Item rows###03 Nov 2005 new variable
+common#:#icons_in_typed_lists#:#Icon position in item lists###03 Nov 2005 new variable
+common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.###03 Nov 2005 new variable
 common#:#icrs#:#iLinc Course###01 Mar 2005 new variable
 common#:#icrs_add#:#Add iLinc Course###01 Mar 2005 new variable
 common#:#icrs_added#:#LearnLinc Seminar added###06 Aug 2005 new variable
@@ -1649,6 +1716,7 @@ common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
 common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS版本###07 Apr 2005 content changed
+common#:#ilinc_add_user#:#Add user(s)###03 Nov 2005 new variable
 common#:#ilinc_classroom_always_open#:#Classroom is always open###06 Aug 2005 new variable
 common#:#ilinc_classroom_closed#:#Classroom is closed###06 Aug 2005 new variable
 common#:#ilinc_classroom_open#:#Classroom is open###06 Aug 2005 new variable
@@ -1659,14 +1727,25 @@ common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following m
 common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
 common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
 common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###03 Nov 2005 new variable
 common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
 common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
 common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
 common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
+common#:#ilinc_header_edit_users#:#Edit list of involved users###03 Nov 2005 new variable
 common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
+common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
+common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
+common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
+common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
+common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
+common#:#ilinc_msg_member_assigned#:#User(s) assigned###03 Nov 2005 new variable
+common#:#ilinc_msg_membership_annulled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
 common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
 common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
@@ -1674,11 +1753,12 @@ common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new 
 common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
 common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
 common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
 common#:#image#:#图象###07 Apr 2005 content changed
 common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。###14 Sep 2004 content changed
 common#:#import#:#导入###07 Apr 2005 content changed
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
+common#:#import_cat_localrol#:#Create local role for every new category###03 Nov 2005 new variable
+common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set###03 Nov 2005 new variable
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
 common#:#import_failure_log#:#Import failure log###09 Mar 2005 new variable
@@ -1687,6 +1767,7 @@ common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
+common#:#import_group#:#Import group###03 Nov 2005 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#导入学习模块###14 Sep 2004 content changed
@@ -1699,6 +1780,7 @@ common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#import_warning_log#:#Import warning log###09 Mar 2005 new variable
+common#:#important#:#Important###03 Nov 2005 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#于###07 Apr 2005 content changed
 common#:#in_use#:#用户语言###07 Apr 2005 content changed
@@ -1811,6 +1893,7 @@ common#:#languages_already_uninstalled#:#选择的语言已卸载###14 Sep 2004 
 common#:#languages_updated#:#所有已安装的语言已更新###07 Apr 2005 content changed
 common#:#last_access#:#Last access:###01 Mar 2005 new variable
 common#:#last_change#:#上次更改###07 Apr 2005 content changed
+common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
 common#:#last_update#:#Last Update###29 Nov 2004 new variable
 common#:#last_visit#:#上次访问###07 Apr 2005 content changed
 common#:#lastname#:#姓###07 Apr 2005 content changed
@@ -1834,6 +1917,7 @@ common#:#ldap_visible#:#LDAP设置可视###07 Apr 2005 content changed
 common#:#ldap_write#:#编辑LDAP设置###07 Apr 2005 content changed
 common#:#learning module#:#学习模块###07 Apr 2005 content changed
 common#:#learning_objects#:#学习对象###07 Apr 2005 content changed
+common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
 common#:#learning_resources#:#学习资源###07 Apr 2005 content changed
 common#:#level#:#水平###07 Apr 2005 content changed
 common#:#link#:#链接###07 Apr 2005 content changed
@@ -1844,9 +1928,25 @@ common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variab
 common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
 common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
 common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
+common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.###03 Nov 2005 new variable
 common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
 common#:#linked_object#:#The object has been linked###01 Sep 2004 new variable
 common#:#linked_pages#:#已链接页###07 Apr 2005 content changed
+common#:#links_add_param#:#Add parameter:###03 Nov 2005 new variable
+common#:#links_dyn_parameter#:#Dynamic parameters###03 Nov 2005 new variable
+common#:#links_dynamic#:#Dynamic Web Links parameters###03 Nov 2005 new variable
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.###03 Nov 2005 new variable
+common#:#links_existing_params#:#Existing parameters:###03 Nov 2005 new variable
+common#:#links_name#:#Parameter name###03 Nov 2005 new variable
+common#:#links_no_name_given#:#Please choose a parameter name.###03 Nov 2005 new variable
+common#:#links_no_value_given#:#Please choose a parameter value.###03 Nov 2005 new variable
+common#:#links_not_available#:#Not available###03 Nov 2005 new variable
+common#:#links_parameter_deleted#:#Parameter deleted.###03 Nov 2005 new variable
+common#:#links_select_one#:#- Select one -###03 Nov 2005 new variable
+common#:#links_session_id#:#ILIAS session id###03 Nov 2005 new variable
+common#:#links_user_id#:#ILIAS user id###03 Nov 2005 new variable
+common#:#links_user_name#:#ILIAS username###03 Nov 2005 new variable
+common#:#links_value#:#Parameter value###03 Nov 2005 new variable
 common#:#list_of_pages#:#页列表###07 Apr 2005 content changed
 common#:#list_of_questions#:#问题列表###07 Apr 2005 content changed
 common#:#literature#:#文献###07 Apr 2005 content changed
@@ -2030,6 +2130,7 @@ common#:#msg_no_delete_yourself#:#您不能删除您自己的用户账号。###0
 common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#未指定翻译语言！您必须为每一翻译定义一种语言###07 Apr 2005 content changed
 common#:#msg_no_perm_assign_role_to_user#:#您没有更改用户角色分配的许可###14 Sep 2004 content changed
+common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment###03 Nov 2005 new variable
 common#:#msg_no_perm_copy#:#您无权限拷贝下列对象###07 Apr 2005 content changed
 common#:#msg_no_perm_create#:#您无权限创建下列对象###07 Apr 2005 content changed
 common#:#msg_no_perm_create_object1#:#您无权限创建###07 Apr 2005 content changed
@@ -2138,9 +2239,12 @@ common#:#non_internal_local_roles_only#:#Local roles (only userdefined)###16 Sep
 common#:#none#:#无###07 Apr 2005 content changed
 common#:#normal#:#正常###07 Apr 2005 content changed
 common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
+common#:#not_accessed_yet#:#Not accessed yet###03 Nov 2005 new variable
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#未安装###07 Apr 2005 content changed
 common#:#not_logged_in#:#您未登录###07 Apr 2005 content changed
+common#:#note#:#Note###03 Nov 2005 new variable
+common#:#notes#:#Notes###03 Nov 2005 new variable
 common#:#num_users#:#Number of users###02 Mar 2005 new variable
 common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
 common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
@@ -2349,12 +2453,14 @@ common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variab
 common#:#presentation_options#:#演示选项###07 Apr 2005 content changed
 common#:#previous#:#前一个###07 Apr 2005 content changed
 common#:#print#:#打印###07 Apr 2005 content changed
+common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
 common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#您的档案已更改###07 Apr 2005 content changed
 common#:#profile_of#:#简历###07 Apr 2005 content changed
 common#:#properties#:#属性###07 Apr 2005 content changed
 common#:#pub_section#:#公共部分###07 Apr 2005 content changed
 common#:#public#:#public###23 Dec 2004 new variable
+common#:#public_notes#:#Public Notes###03 Nov 2005 new variable
 common#:#public_profile#:#公共档案###07 Apr 2005 content changed
 common#:#publication#:#公布###07 Apr 2005 content changed
 common#:#publication_date#:#公布日期###07 Apr 2005 content changed
@@ -2398,6 +2504,7 @@ common#:#registered_users#:#已注册用户###07 Apr 2005 content changed
 common#:#registration#:#新账号注册###07 Apr 2005 content changed
 common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
 common#:#registration_expired#:#注册时间已过期...###07 Apr 2005 content changed
+common#:#related_to#:#Related to###03 Nov 2005 new variable
 common#:#remove#:#撤除###25 Mar 2004 content changed
 common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#删除翻译###07 Apr 2005 content changed
@@ -2600,11 +2707,14 @@ common#:#show_details#:#显示详细情况###07 Apr 2005 content changed
 common#:#show_list#:#显示列表###07 Apr 2005 content changed
 common#:#show_members#:#显示成员###07 Apr 2005 content changed
 common#:#show_owner#:#显示拥有者###07 Apr 2005 content changed
+common#:#show_private_notes#:#Show private notes###03 Nov 2005 new variable
+common#:#show_public_notes#:#Show public notes###03 Nov 2005 new variable
 common#:#show_structure#:#激活结构化视图###07 Apr 2005 content changed
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#签名###07 Apr 2005 content changed
 common#:#size#:#Size###29 Nov 2004 new variable
 common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
+common#:#small_icon#:#Small Icon###03 Nov 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
@@ -2618,6 +2728,7 @@ common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
 common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
 common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
+common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
 common#:#st_a#:#一章###07 Apr 2005 content changed
 common#:#st_add#:#增加章###07 Apr 2005 content changed
 common#:#st_added#:#已增加章###07 Apr 2005 content changed
@@ -2672,6 +2783,7 @@ common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#系统语言###07 Apr 2005 content changed
 common#:#system_message#:#系统消息###07 Apr 2005 content changed
 common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
+common#:#system_styles#:#System Styles###03 Nov 2005 new variable
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomy###15 Jul 2004 new variable
@@ -2760,6 +2872,7 @@ common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#卸载###07 Apr 2005 content changed
 common#:#uninstalled#:#已卸载###07 Apr 2005 content changed
 common#:#unknown#:#不知###07 Apr 2005 content changed
+common#:#unlabeled#:#Unlabeled###03 Nov 2005 new variable
 common#:#unread#:#未读###07 Apr 2005 content changed
 common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Unselected###30 Aug 2004 new variable
@@ -2913,6 +3026,7 @@ common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#weeks#:#Weeks###15 Apr 2005 new variable
 common#:#welcome#:#欢迎###07 Apr 2005 content changed
 common#:#who_is_online#:#谁在线？###07 Apr 2005 content changed
+common#:#width_x_height#:#Width x Height###03 Nov 2005 new variable
 common#:#with#:#同###07 Apr 2005 content changed
 common#:#write#:#白色###07 Apr 2005 content changed
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
@@ -3213,6 +3327,8 @@ content#:#cont_prerequisites#:#adlcp先决条件###07 Apr 2005 content changed
 content#:#cont_preview#:#预览###07 Apr 2005 content changed
 content#:#cont_print_view#:#Print View###03 Sep 2004 new variable
 content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
+content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
+content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#出版者###07 Apr 2005 content changed
 content#:#cont_purpose#:#用途###07 Apr 2005 content changed
 content#:#cont_ref_helptext#:#例如， http://www.server.org/myimage.jpg)###07 Apr 2005 content changed
@@ -3489,6 +3605,7 @@ crs#:#crs_mem_change_status#:#Change status###07 Aug 2004 new variable
 crs#:#crs_mem_send_mail#:#Send mail###07 Aug 2004 new variable
 crs#:#crs_member#:#Member###07 Aug 2004 new variable
 crs#:#crs_member_blocked#:#Mitglied (unblocked)###07 Aug 2004 new variable
+crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Member (blocked)###07 Aug 2004 new variable
 crs#:#crs_member_updated#:#The member has been updated###07 Aug 2004 new variable
 crs#:#crs_members_deleted#:#Deleted members###07 Aug 2004 new variable
@@ -3682,6 +3799,7 @@ crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML###07 Aug 2004 new variable
 crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Edit content###01 Mar 2005 new variable
+crs#:#import_crs#:#Import course###03 Nov 2005 new variable
 crs#:#learners_view#:#Learners view###01 Mar 2005 new variable
 crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Archives###07 Aug 2004 new variable
@@ -4077,6 +4195,7 @@ mail#:#mail_sure_delete#:#您肯定要删除已标记的邮件吗？###14 Sep 20
 mail#:#mail_sure_delete_entry#:#您肯定要删除下列条目吗？###07 Apr 2005 content changed
 mail#:#mail_sure_delete_file#:#文件将永久删除###07 Apr 2005 content changed
 mail#:#mail_sure_delete_folder#:#文件夹及其内容将永久删除###14 Sep 2004 content changed
+mail#:#mail_to#:#To###03 Nov 2005 new variable
 mail#:#mail_to_search#:#搜索###07 Apr 2005 content changed
 mail#:#mail_user_addr_n_valid#:#下列用户无有效的邮件地址###14 Sep 2004 content changed
 mail#:#search_bc_recipient#:#搜索秘密抄送收件人###14 Sep 2004 content changed
@@ -4336,6 +4455,7 @@ meta#:#meta_competency#:#能力###07 Apr 2005 content changed
 meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
 meta#:#meta_context#:#上下文###07 Apr 2005 content changed
 meta#:#meta_contribute#:#贡献###07 Apr 2005 content changed
+meta#:#meta_copyright#:#Copyright###03 Nov 2005 new variable
 meta#:#meta_copyright_and_other_restrictions#:#版权及其它限制###07 Apr 2005 content changed
 meta#:#meta_cost#:#花费###07 Apr 2005 content changed
 meta#:#meta_coverage#:#范围###07 Apr 2005 content changed
@@ -4344,8 +4464,8 @@ meta#:#meta_date#:#日期###07 Apr 2005 content changed
 meta#:#meta_delete#:#删除###07 Apr 2005 content changed
 meta#:#meta_description#:#描述###07 Apr 2005 content changed
 meta#:#meta_diagramm#:#图表###14 Sep 2004 content changed
+meta#:#meta_difficult#:#Difficult###03 Nov 2005 new variable
 meta#:#meta_difficulty#:#难点###07 Apr 2005 content changed
-meta#:#meta_dificult#:#难点###07 Apr 2005 content changed
 meta#:#meta_draft#:#草稿###07 Apr 2005 content changed
 meta#:#meta_duration#:#持续时间###07 Apr 2005 content changed
 meta#:#meta_easy#:#容易的###07 Apr 2005 content changed
@@ -4576,6 +4696,7 @@ meta#:#meta_problem_statement#:#问题陈述###07 Apr 2005 content changed
 meta#:#meta_publisher#:#出版者###07 Apr 2005 content changed
 meta#:#meta_purpose#:#用途###07 Apr 2005 content changed
 meta#:#meta_questionnaire#:#调查表###07 Apr 2005 content changed
+meta#:#meta_quickedit#:#Quick Edit###03 Nov 2005 new variable
 meta#:#meta_reference#:#参考###07 Apr 2005 content changed
 meta#:#meta_references#:#参考###07 Apr 2005 content changed
 meta#:#meta_relation#:#关系###07 Apr 2005 content changed
@@ -4850,6 +4971,7 @@ search#:#search_area#:#Search area###20 Jun 2005 new variable
 search#:#search_area_info#:#Please select an area where the search should start.###20 Jun 2005 new variable
 search#:#search_below#:#Beneath:###20 Jun 2005 new variable
 search#:#search_change#:#Change###20 Jun 2005 new variable
+search#:#search_choose_object_type#:#Please choose one object type.###03 Nov 2005 new variable
 search#:#search_concatenation#:#连接###07 Apr 2005 content changed
 search#:#search_content#:#页内容###07 Apr 2005 content changed
 search#:#search_dbk_content#:#数字图书馆（内容）###07 Apr 2005 content changed
@@ -4860,11 +4982,13 @@ search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
 search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#组###07 Apr 2005 content changed
+search#:#search_hits#:#Found in:###03 Nov 2005 new variable
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#在结果中搜索###07 Apr 2005 content changed
 search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 search#:#search_index#:#Indexed search###20 Jul 2005 new variable
 search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
+search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.###03 Nov 2005 new variable
 search#:#search_lm_content#:#学习材料（内容）###07 Apr 2005 content changed
 search#:#search_lm_meta#:#学习材料（元数据）###14 Sep 2004 content changed
 search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
@@ -4913,6 +5037,7 @@ survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.###07 Jun 2004 new variable
 survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
 survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
+survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.###09 Dec 2004 new variable
@@ -4939,6 +5064,7 @@ survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
 survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
+survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
@@ -4951,7 +5077,10 @@ survey#:#concatenation#:#Concatenation###27 May 2004 new variable
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
+survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
 survey#:#constraints#:#Constraints###26 May 2004 new variable
+survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
+survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
 survey#:#contains#:#Contains###10 Jun 2004 new variable
 survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Created###21 May 2004 new variable
@@ -5051,6 +5180,7 @@ survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variab
 survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
 survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
 survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.###03 Nov 2005 new variable
 survey#:#found_questions#:#Found questions###10 Jun 2004 new variable
 survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
 survey#:#given_answers#:#Given answers###04 Jun 2004 new variable
@@ -5153,6 +5283,7 @@ survey#:#qt_metric#:#Metric question###21 May 2004 new variable
 survey#:#qt_nominal#:#Nominal question###21 May 2004 new variable
 survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
 survey#:#qt_text#:#Text question###21 May 2004 new variable
+survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
 survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
@@ -5170,6 +5301,7 @@ survey#:#remove_question#:#Remove###24 May 2004 new variable
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
 survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
+survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
 survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
@@ -5195,6 +5327,9 @@ survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#selection#:#Selection###22 Dec 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#skipped#:#skipped###10 Dec 2004 new variable
+survey#:#spl_general_properties#:#General properties###03 Nov 2005 new variable
+survey#:#spl_online_property#:#Online###03 Nov 2005 new variable
+survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
 survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
@@ -5215,6 +5350,7 @@ survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###0
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable
 survey#:#survey_previous#:#<<< save and previous page###01 Jun 2004 new variable
 survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###26 Nov 2004 new variable
+survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Questions###21 May 2004 new variable
 survey#:#survey_skip_finish#:#skip and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable

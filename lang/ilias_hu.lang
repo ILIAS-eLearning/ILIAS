@@ -144,6 +144,10 @@ assessment#:#circle_click_circle#:#Kattintson a kívánt terület körvonalának
 assessment#:#clientip#:#Kliens-IP
 assessment#:#close_text_hint#:#Kitöltendő üres helyet a szövegben a <gap> </gap> tag-ek megadásával hozhat létre az ön által kiválasztott helyen. A tag-ek között legyen egy szóköz! Ez után a 'Kitöltendő helyek' gombot megnyomva az egyes kitöltendő helyek szerkeszthető beviteli mezőjét veheti fel.
 assessment#:#cloze_text#:#Kiegészítendő szöveg
+assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
+assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 2005 new variable
+assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#Kód
 assessment#:#concatenation#:#Konkatenáció
 assessment#:#confirm_delete_all_user_data#:#Biztos, hogy törölni akarja a teszt minden felhasználói adatát?
@@ -155,6 +159,7 @@ assessment#:#create_date#:#Létrehozva
 assessment#:#create_gaps#:#Kitöltendő helyek
 assessment#:#create_imagemap#:#Image Map létrehozása
 assessment#:#create_new#:#új létrehozása
+assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#delete_area#:#Terület törlése
 assessment#:#description_maxchars#:#Ha nincs megadva maximális karakterszám, a válasz terjedelme nem korlátozott.
 assessment#:#detail_ending_time_reached#:#Elérte a teszt befejezési idejét. A teszt nem elérhető % óta
@@ -267,6 +272,7 @@ assessment#:#log_no_test_fields_changed#:#Mentve, de nem változott
 assessment#:#log_question_added#:#Kérdéshozzáadás helye
 assessment#:#log_question_position_changed#:#A kérdés helye megváltozott
 assessment#:#log_question_removed#:#Kérdés eltávolítva
+assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
 assessment#:#log_user_data_removed#:#Minden felhasználói adat eltávolítva
 assessment#:#maintenance#:#Karbantartás
 assessment#:#mark_schema#:#Séma megadása
@@ -292,10 +298,12 @@ assessment#:#or#:#vagy
 assessment#:#order_pictures#:#Rendezze a képeket
 assessment#:#order_terms#:#Rendezze a kifejezéseket
 assessment#:#participants#:#Résztvevők
+assessment#:#pass#:#Pass###03 Nov 2005 new variable
 assessment#:#passed_official#:#átment
 assessment#:#passed_short#:#átment
 assessment#:#percentage_solved#:#Megoldotta ezeknek a kérdéseknek %.2f százalékát.
 assessment#:#percentile#:#Százalék
+assessment#:#picture#:#Picture###03 Nov 2005 new variable
 assessment#:#please_select#:#Válasszon
 assessment#:#points#:#pont
 assessment#:#points_short#:#P.
@@ -314,6 +322,8 @@ assessment#:#qpl_assessment_of_questions#:#Kérdések kiértékelése
 assessment#:#qpl_assessment_total_of_answers#:#Válaszok összessége
 assessment#:#qpl_assessment_total_of_right_answers#:#Helyes válaszok össz. százaléka (maximum pontok százaléka)
 assessment#:#qpl_confirm_delete_questions#:#Biztosan törölni akarja a következő válasz(oka)t? Ha törli a zárolt kérdéseket, minden teszt, amely zárolt kérdést tartalmaz, törlésre kerül.
+assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###03 Nov 2005 new variable
+assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard###03 Nov 2005 new variable
 assessment#:#qpl_delete_rbac_error#:#Nincs joga törölni ezt a kérdést.
 assessment#:#qpl_delete_select_none#:#Ellenőrizzen legalább egy kérdést a törléshez.
 assessment#:#qpl_display_fullsize_image#:#Kattintson ide az eredeti képek megjelenítéséhez.
@@ -322,11 +332,18 @@ assessment#:#qpl_edit_rbac_error#:#Nincs joga szerkeszteni ezt a kérdést.
 assessment#:#qpl_edit_select_multiple#:#Csak egy kérdést ellenőrizzen a szerkesztéshez
 assessment#:#qpl_edit_select_none#:#Ellenőrizzen egy kérdést a szerkesztéshez
 assessment#:#qpl_export_select_none#:#Legalább egy kérdést ellenőrizzen az exportáláshoz
+assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
 assessment#:#qpl_imagemap_preview_missing#:#Az ILIAS nem tudja létrehozni az imagemap területeket tartalmazó ideiglenes előnézeti fájlt. Az eredeti kép látható helyette. Ez azt jelenti, hogy vagy a webszerver ImageMagick eszköze nincs helyesen konfigurálva, vagy nincs írási jogosultság az ideiglenes fájlokat tartalmazó könyvtárra. Lépjen kapcsolatba a rendszeradminisztrátorral.
 assessment#:#qpl_import_create_new_qpl#:#Kérdések új kérdésgyűjteménybe importálása
 assessment#:#qpl_import_no_items#:#Hiba: Az importfájl nem kérdéseket tartalmaz.
 assessment#:#qpl_import_non_ilias_files#:#Hiba: Az importfájl nem ILIAS rendszerrel készített QTI fájlokat tartalmaz. Vegye fel a kapcsolatot az ILIAS teammel, hogy beszerezhesse az importfájl filtert QTI fájlformátumához.
 assessment#:#qpl_import_verify_found_questions#:#Az ILIAS az alábbi kérdéseket találta az importfájlban. Válassza ki az importálni kívánt kérdéseket.
+assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
+assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving###03 Nov 2005 new variable
+assessment#:#qpl_online_property#:#Online###03 Nov 2005 new variable
+assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
+assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###03 Nov 2005 new variable
+assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool###03 Nov 2005 new variable
 assessment#:#qpl_question_is_in_use#:#A szerkesztendő kérdés %s tesztben szerepel. Ha megváltoztatja a kérdést, az a teszt(ek)ben nem fog megváltozni, mivel a rendszer másolatot hoz létre a kérdésekről, mielőtt beteszi azokat a tesztekbe.
 assessment#:#qpl_questions_deleted#:#Kérdés(ek) törölve.
 assessment#:#qpl_select_file_for_import#:#Ki kell választania egy fájlt az importáláshoz.
@@ -390,8 +407,10 @@ assessment#:#solution_order#:#Megoldási sorrend
 assessment#:#start_tag#:#Kezdő címke
 assessment#:#starting_time_not_reached#:#Nem érte el a kezdőidőt
 assessment#:#statistical_data#:#Statisztikai adatok
+assessment#:#statistics#:#Statistics###03 Nov 2005 new variable
 assessment#:#suggested_solution_added_successfully#:#Sikeresen beállított egy javasolt megoldást.
 assessment#:#symbol#:#Szimbólum
+assessment#:#term#:#Term###03 Nov 2005 new variable
 assessment#:#test_cancelled#:#A teszt törlésre került
 assessment#:#text_answers_saved#:#Esszékérdés pontok módosítva.
 assessment#:#text_gap#:#Szöveghely
@@ -403,11 +422,13 @@ assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói 
 assessment#:#tst_already_submitted#:#A teszt befejeződött és leadásra került.
 assessment#:#tst_already_taken#:#A tesztek már használatban vannak
 assessment#:#tst_answer_sheet#:#Teszt válaszlapja
+assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
 assessment#:#tst_browse_for_questions#:#Kérdések kereséssel
 assessment#:#tst_confirm_delete_results#:#Ön ebben a tesztben levő minden eddigi teszteredményét törölni szándékozik. Ez vissza fogja állítani az összes kérdést alapértelmezett értékére. Ne feledje, hogy nem fogja tudni visszaállítani a teszt végzése során eddig igénybe vett próbálkozásait. Tényleg törölni kívánja eddigi megoldásait?
 assessment#:#tst_confirm_delete_results_info#:#Korábban bevitt válaszeredményei törlésre kerültek. Sikeresen alapállapotba állította a tesztet.
 assessment#:#tst_confirm_print#:#Nyomja meg a gombot az összes kérdés pontokkal és megoldásokkal való nyomtatásához. A kérdések a lap alján lesznek.
 assessment#:#tst_confirm_submit_answers#:#Ellenőrizze megoldását. Az elküldés gomb megnyomása után már nem fogja tudni visszavonni válaszait. Használja böngészője nyomtatási funkcióját a megjelenő válaszlap kinyomtatásához.
+###03 Nov 2005 content changed
 assessment#:#tst_count_correct_solutions#:#Csak a teljes megoldások megszámlálása
 assessment#:#tst_count_partial_solutions#:#Részleges megoldások megszámlálása
 assessment#:#tst_delete_all_user_data#:#Minden felhasználói adat törlése
@@ -427,6 +448,9 @@ assessment#:#tst_finished#:#Befejezve
 assessment#:#tst_general_properties#:#Általános jellemzők
 assessment#:#tst_generate_xls#:#Létrehozás Excel-ben
 assessment#:#tst_heading_scoring#:#Pontozás
+assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
 assessment#:#tst_import_no_items#:#Hiba: Az importfájl nem kérdéseket tartalmaz.
 assessment#:#tst_import_verify_found_questions#:#Az ILIAS az alábbi kérdéseket találta a teszt importfájlban. Válassza ki azokat a kérdéseket, amelyeket be akar importálni ebbe a tesztbe.
 assessment#:#tst_in_use_edit_questions_disabled#:#A tesztet %d felhasználó használja. Nem szerkeszthet vagy helyezhet át kérdéseket a tesztben.
@@ -459,6 +483,10 @@ assessment#:#tst_no_tries#:#nincs
 assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma
 assessment#:#tst_nr_of_tries_of_user#:#Eddig hányszor töltötte ki a tesztet
 assessment#:#tst_participating_users#:#Közreműködő felhasználók
+assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
+assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
+assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
+assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
 assessment#:#tst_percent_solved#:#Megoldott százalék
 assessment#:#tst_print#:#Teszt és kiértékelés nyomtatási nézete
 assessment#:#tst_print_date#:#Nyomtatási dátum
@@ -490,6 +518,10 @@ assessment#:#tst_result_congratulations#:#Teljesítette a tesztet.
 assessment#:#tst_result_sorry#:#Sajnáljuk, nem teljesítette a tesztet.
 assessment#:#tst_result_user_name#:#%s eredményei:
 assessment#:#tst_results#:#Teszteredmények
+assessment#:#tst_results_aggregated#:#Aggregated test results###03 Nov 2005 new variable
+assessment#:#tst_results_back_evaluation#:#Back to evaluation overview###03 Nov 2005 new variable
+assessment#:#tst_results_back_introduction#:#Back to introduction###03 Nov 2005 new variable
+assessment#:#tst_results_back_overview#:#Back to results overview###03 Nov 2005 new variable
 assessment#:#tst_resume_test#:#Teszt folytatása
 assessment#:#tst_score_mcmr_questions#:#Többszörös választási lehetőségű kérdés
 assessment#:#tst_score_mcmr_use_scoring_system#:#Állítsa be a definiált pontot, még akkor is, ha a válasz nem lett bejelölve
@@ -562,6 +594,7 @@ assessment#:#tt_assessment#:#Ellenőrző teszt
 assessment#:#tt_navigation_controlling#:#Hallgatók tesztnavigálásának felügyelete
 assessment#:#tt_online_exam#:#On-line vizsga
 assessment#:#tt_self_assessment#:#Önértékelő teszt
+assessment#:#tt_varying_randomtest#:#Varying random test###03 Nov 2005 new variable
 assessment#:#unlimited#:#korlátlan
 assessment#:#unlock#:#nem zárolt
 assessment#:#unlock_question#:#Ez a kérdés legalább egy tesztben használva van, ahol % eredmény keletkezett. Ha a kérdés zárolásának feloldását választja, az érintett felhasználók befejezett teszteredményei törölve lesznek a kérdés elmentése után. Ha a kérdés egy megváltoztatott verzióját akarja használni, de nem akarja törölni a felhasználók teszteredményeit, másodpéldányt hozhat létre belőle a kérdésgyűjteményben, és azt a verziót változtathatja.
@@ -576,8 +609,6 @@ assessment#:#width#:#Szélesség
 assessment#:#with_order#:#sorrendben
 assessment#:#working_time#:#Munkával eltelt idő
 assessment#:#you_received_a_of_b_points#:#Ön %d pontot kapott a lehetséges %d pontból
-assessment#:#enhanced#:#Fokozott mód
-assessment#:#tst_anon_eval#:#Névtelen kitöltők összesített eredményei
 bibitem#:#bibitem_add#:#Hozzáadás
 bibitem#:#bibitem_author#:#Szerző
 bibitem#:#bibitem_av#:#Audiovizuális
@@ -636,12 +667,14 @@ bibitem#:#bibitem_unpublished#:#Nem publikált
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Publikálás helye
 bibitem#:#bibitem_year#:#Év
+chat#:#cancel_talk#:#Cancel address###03 Nov 2005 new variable
+chat#:#cancel_whisper#:#Cancel whisper###03 Nov 2005 new variable
 chat#:#chat_access_blocked#:#Ki van zárva ebből a csoportból
 chat#:#chat_active#:#Aktív
 chat#:#chat_active_users#:#Felhasználó (aktív)
+###03 Nov 2005 content changed
 chat#:#chat_add_allowed_hosts#:#Adja meg a chat-szerverként elérhető host címét.
 chat#:#chat_add_external_ip#:#Adja meg a szerver külső IP-címét.
-chat#:#chat_add_ip#:#Adja meg a szerver IP-jét.
 chat#:#chat_add_internal_ip#:#Adja meg a szerver belső IP-jét.
 chat#:#chat_add_moderator_password#:#Adjon meg a moderátor jelszót.
 chat#:#chat_add_port#:#Adja meg a szerverportot.
@@ -676,6 +709,7 @@ chat#:#chat_ilias#:#ILIAS chat-modul
 chat#:#chat_inactive#:#Inaktív
 chat#:#chat_input#:#Bevitel
 chat#:#chat_insert_message#:#Adjon meg egy üzenetet
+###03 Nov 2005 content changed
 chat#:#chat_invitation_body#:#Meghívás a chat-be (honnan):
 chat#:#chat_invitation_subject#:#Meghívás chat-be
 chat#:#chat_invite_user#:#Felhasználó meghívása
@@ -694,6 +728,7 @@ chat#:#chat_messages_deleted#:#Az üzenetek törlésre kerültek.
 chat#:#chat_moderator_password#:#Moderátor jelszava
 chat#:#chat_navy#:#matrózkék
 chat#:#chat_no_active_users#:#Jelenleg nincsenek felhasználók.
+###03 Nov 2005 content changed
 chat#:#chat_no_blocked#:#A nem blokkolt felhasználók elérhetők
 chat#:#chat_no_connection#:#Nem lehet kapcsolatba lépni a chat-szerverrel.
 chat#:#chat_no_delete_public#:#A nyilvános chat-szoba nem törölhető
@@ -704,6 +739,7 @@ chat#:#chat_no_users_selected#:#Egy felhasználót kell választani.
 chat#:#chat_no_write_perm#:#Nincs írási engedély
 chat#:#chat_olive#:#olajbarna
 chat#:#chat_online_users#:#Felhasználó (on-line)
+###03 Nov 2005 content changed
 chat#:#chat_private_message#:#Magánüzenet
 chat#:#chat_profile#:#Profil
 chat#:#chat_public_room#:#Nyilvános chat-szoba
@@ -733,7 +769,6 @@ chat#:#chat_rooms_deleted#:#Chat-szobá(k) törölve.
 chat#:#chat_select_one_room#:#Válasszon ki egy chat-szobát
 chat#:#chat_server_allowed#:#Engedélyezett host-ok
 chat#:#chat_server_allowed_b#:#(például 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Szerver-IP
 chat#:#chat_server_external_ip#:#Szerver belső IP-címe
 chat#:#chat_server_internal_ip#:#Szerver külső IP-címe
 chat#:#chat_server_logfile#:#Eseménynapló elérési útja
@@ -788,6 +823,7 @@ common#:#add_author#:#Szerző hozzáadása
 common#:#add_condition#:#Új kapcsolat létrehozása
 common#:#add_member#:#Tag hozzáadása
 common#:#add_members#:#Tagok hozzáadása
+common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#Fordítás hozzáadása
 common#:#add_user#:#Helyi felhasználó felvétele
 common#:#added_new_condition#:#Létrehozott új feltétel.
@@ -804,6 +840,7 @@ common#:#administrate_users#:#Helyi felhasználó adminisztrációja
 common#:#administration#:#Adminisztráció
 common#:#administrator#:#Adminisztrátor
 common#:#adopt#:#alkalmaz
+###03 Nov 2005 content changed
 common#:#adopt_perm_from_template#:#Jogosultsági beállítások alkalmazása a szerepmintából.
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#Minden szerző
@@ -888,7 +925,6 @@ common#:#auth_ldap_settings_saved#:#LDAP beállítások elmentve
 common#:#auth_local#:#ILIAS adatbázis
 common#:#auth_local_desc#:#Felhasználói autentikáció helyi ILIAS adatbázison keresztül (alapértelmezett)
 common#:#auth_mode#:#Autentikációs mód
-common#:#auth_mode_changed_to#:#Autentikációs mód megváltoztatása
 common#:#auth_mode_not_changed#:#(Semmi nem változott)
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#RADIUS-autentikáció konfigurálása
@@ -921,10 +957,15 @@ common#:#average_time#:#Átlagidő
 common#:#back#:#Vissza
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Alapadat
+common#:#basic_settings#:#Basic Settings###03 Nov 2005 new variable
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark beállítások
 common#:#benchmarks#:#Benchmarkok
 common#:#bib_data#:#Bibliográfiai adatok
+common#:#big_icon#:#Big Icon###03 Nov 2005 new variable
+common#:#bkm_import#:#Import bookmarks###03 Nov 2005 new variable
+common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.###03 Nov 2005 new variable
+common#:#bkm_sendmail#:#Send as attachment###03 Nov 2005 new variable
 common#:#bm#:#Webcím
 common#:#bmf#:#Webcímmappa
 common#:#bookmark_edit#:#Webcím szerkesztése
@@ -937,6 +978,8 @@ common#:#bookmarks_of#:#Webcímei:
 common#:#btn_remove_system#:#Eltávolítás a rendszerből
 common#:#btn_undelete#:#Törlés visszavonása
 common#:#by#:#Létrehozta
+common#:#by_location#:#Order by location###03 Nov 2005 new variable
+common#:#by_type#:#Order by type###03 Nov 2005 new variable
 common#:#bytes#:#Bájt
 common#:#calendar#:#Határidőnapló
 common#:#cancel#:#Mégsem
@@ -1013,12 +1056,15 @@ common#:#chapter#:#Fejezet
 common#:#chapter_number#:#Fejezetszám
 common#:#chapter_title#:#Fejezetcím
 common#:#chat#:#Chat
+common#:#chat_active_in#:#Active in chat:###03 Nov 2005 new variable
 common#:#chat_add#:#Chat hozzáadása
 common#:#chat_delete#:#Chat törlése
 common#:#chat_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#chat_invite#:#Chat###03 Nov 2005 new variable
 common#:#chat_moderate#:#Chat moderálása
 common#:#chat_new#:#Új chat
 common#:#chat_read#:#Olvasási/írási jog a chat-hez
+common#:#chat_users_active#:#Active users###03 Nov 2005 new variable
 common#:#chat_visible#:#Chat látható
 common#:#chat_write#:#Chat szerkesztése
 common#:#check#:#Ellenőrzés
@@ -1089,6 +1135,7 @@ common#:#course#:#Kurzus
 common#:#courses#:#Kurzusok
 common#:#create#:#Létrehozás
 common#:#create_date#:#Létrehozva
+###03 Nov 2005 content changed
 common#:#create_export_file#:#Exportfájl létrehozása
 common#:#create_in#:#Létrehozva:
 common#:#create_stylesheet#:#Stílus létrehozása
@@ -1149,6 +1196,8 @@ common#:#cur_number_rec#:#Rekordok jelenlegi száma
 common#:#current_ip#:#Jelenlegi IP:
 common#:#current_ip_alert#:#Figyelmeztetés: Ha rossz IP-t ad meg, a továbbiakban ezzel a profillal nem fog tudni kapcsolódni a rendszerhez.
 common#:#current_password#:#Jelenlegi jelszó
+common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
+common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Kivágás
 common#:#cutPage#:#Kivágás
 common#:#daily#:#napi
@@ -1224,10 +1273,13 @@ common#:#edit_stylesheet#:#Stílus szerkesztése
 common#:#edited_at#:#Szerkesztve
 common#:#editor#:#Szerkesztő
 common#:#email#:#E-mail
+###03 Nov 2005 content changed
 common#:#email_footer#:#<br />ILIAS magyar nyelvi változat
 common#:#email_not_valid#:#A megadott e-mail cím nem megfelelő.
 common#:#enable#:#Engedélyezés
 common#:#enable_calendar#:#Határidőnapló engedélyezése
+common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
+common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
 common#:#enable_hist_user_comments#:#Felhasználói megjegyzések engedélyezése a múltban
 common#:#enable_hist_user_comments_desc#:#Lehetőséget ad a szerzőknek, hogy megjegyzéseket tegyenek a lapok történetéről.
 common#:#enable_js_edit#:#JavaScript szerkesztés engedélyezése
@@ -1312,7 +1364,6 @@ common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#Ügyfél ID
 common#:#extt_ilinc_desc#:#Virtuális osztályterem biztosítása. Kereskedelmi szolgáltatás. Belépési jogosultságért és további információkért vegye fel a kapcsolatot a netucate-tel a www.netucate.com címen.
 common#:#extt_ilinc_enable#:#LearnLinc támogatás engedélyezése
-common#:#extt_ilinc_port#:#Port
 common#:#extt_ilinc_protocol_port#:#Protokol és port
 common#:#extt_ilinc_registrar_login#:#Bejelentkezési ID
 common#:#extt_ilinc_registrar_passwd#:#Jelszó
@@ -1501,7 +1552,6 @@ common#:#grp_app_send_mail#:#Küldjön a jelentkező egy üzenetet
 common#:#grp_back#:#Vissza
 common#:#grp_count_members#:#Tagok száma
 common#:#grp_create#:#Csoport létrehozása
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Minden LearnLinc szemináriumhoz kell legelább egy admihisztrátor
 common#:#grp_create_alm#:#AICC-tananyag létrehozása
 common#:#grp_create_chat#:#Chat létrehozása
 common#:#grp_create_dbk#:#Digitális könyv létrehozása
@@ -1522,6 +1572,7 @@ common#:#grp_create_svy#:#Kérdőív létrehozása
 common#:#grp_create_tst#:#Teszt létrehozása
 common#:#grp_create_webr#:#Webforrás létrehozása
 common#:#grp_delete#:#Csoport törlése
+common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Biztosan meg akar válni a csoport alábbi tagjaitól?
 common#:#grp_dismiss_myself#:#Biztosan kilép a csoportból?
 common#:#grp_edit#:#Csoport szerkesztése
@@ -1560,6 +1611,8 @@ common#:#grp_register#:#Regisztráció
 common#:#grp_registration_completed#:#A regisztráció befejeződött
 common#:#grp_search_enter_search_string#:#Adjon meg keresési szöveget
 common#:#grp_search_members#:#Felhasználói keresés
+common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
+common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
 common#:#grp_visible#:#A csoport látható
 common#:#grp_write#:#Csoport szerkesztése
 common#:#guest#:#Vendég
@@ -1568,6 +1621,8 @@ common#:#header_title#:#Fejléccím
 common#:#help#:#Segítség
 common#:#hide#:#elrejt
 common#:#hide_details#:#Részletek elrejtése
+common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
+common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#Tiltott struktúranézet
 common#:#hist_dbk:pg_create#:#Lap létrehozva
 common#:#hist_dbk:pg_cut#:#Lap  kivágása a fejezetből "%1" [%2]
@@ -1618,9 +1673,11 @@ common#:#icla_add#:#LearnLinc osztályterem felvétele
 common#:#icla_deleted#:#LearnLinc osztálytermek törölve
 common#:#icla_edit#:#LearnLinc osztályterem szerkesztése
 common#:#icla_new#:#Új LearnLinc osztályterem
-common#:#icla_read#:#Olvasási jogosultság az iLinc osztályteremhez
-common#:#icla_visible#:#iLinc osztályterem látható
-common#:#icla_write#:#iLinc osztályterem szerkesztése
+common#:#icon_settings#:#Icon Settings###03 Nov 2005 new variable
+common#:#icons_in_header#:#Header row###03 Nov 2005 new variable
+common#:#icons_in_item_rows#:#Item rows###03 Nov 2005 new variable
+common#:#icons_in_typed_lists#:#Icon position in item lists###03 Nov 2005 new variable
+common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.###03 Nov 2005 new variable
 common#:#icrs#:#LearnLinc szeminárium
 common#:#icrs_add#:#LearnLinc szeminárium felvétele
 common#:#icrs_added#:#LearnLinc szeminárium hozzáadva
@@ -1657,12 +1714,14 @@ common#:#ilinc_classrooms#:#iLinc osztálytermek
 common#:#ilinc_coursemember_status#:#Csatlakozott mint
 common#:#ilinc_courses#:#iLinc kurzusok
 common#:#ilinc_dismiss_member#:#Biztos, hogy ki akarja zárni az alábbi felhasználó(oka)t a LearnLinc szemináriumból?
+###03 Nov 2005 content changed
 common#:#ilinc_dismiss_myself#:#Biztos, hogy ki akarja zárni magát a LearnLinc szemináriumból?
 common#:#ilinc_docent#:#Oktató
 common#:#ilinc_err_administrator_required#:#A tag nem távolítható el, mivel legalább egy adminisztrátor szükséges egy LearnLinc szemináriumhoz.
 common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#A LearnLinc szemináriumoknak legalább egy adminisztrátora kell legyen
 common#:#ilinc_err_last_member#:#Az utolsó ember nem távolítható el, helyette törölje a LearnLinc szemináruimot.
 common#:#ilinc_err_member_could_not_be_removed#:#A tag nemtávolítható el. Ellenőrizze a felhasználó minden függőségét.
+###03 Nov 2005 content changed
 common#:#ilinc_err_no_permission#:#Nem rendelkezik jogosultságokkal erre a műveletre.
 common#:#ilinc_err_registration_data#:#Adjon meg jelszót, az érvényes regisztrációs periódushoz lejárati dátumot és időt.
 common#:#ilinc_header_edit_users#:#A bevont felhasználók listájának szerkesztése
@@ -1670,7 +1729,7 @@ common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Bevont felhasználók
 common#:#ilinc_mail_body_new_subscription#:#Ön feliratkozott erre a LearnLinc szemináriumra.
 common#:#ilinc_mail_body_subscription_cancelled#:#Tagsága törlésre került.
-common#:#ilinc_mail_subj_new_subscription#:#Új feliratkozás
+common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Feliratkozás törölve
 common#:#ilinc_manage_course_documents#:#Tanulási segédanyagok
 common#:#ilinc_mem_change_status#:#Felhasználó állapotának változtatása
@@ -1690,6 +1749,8 @@ common#:#image#:#Kép
 common#:#image_gen_unsucc#:#A képgenerálás sikerült. Vegye fel a kapcsolatot a rendszeradminisztrátorral, és ellenőrizze a konvertálási útvonalat.
 common#:#import#:#Import
 common#:#import_alm#:#AICC csomag importálása
+common#:#import_cat_localrol#:#Create local role for every new category###03 Nov 2005 new variable
+common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set###03 Nov 2005 new variable
 common#:#import_categories#:#Kategóriák importja
 common#:#import_dbk#:#Digitális könyvtári könyv importálása
 common#:#import_failure_log#:#Hibanapló importálása
@@ -1698,6 +1759,7 @@ common#:#import_file_not_valid#:#Az import fájl nem érvényes.
 common#:#import_finished#:#Importált üzenetek száma.
 common#:#import_forum_finished#:#A fórum importálásra került.
 common#:#import_glossary#:#Fogalomtár importálása
+common#:#import_group#:#Import group###03 Nov 2005 new variable
 common#:#import_grp_finished#:#Hiba nélkül importált csoport
 common#:#import_hlm#:#HACP csomag importja
 common#:#import_lm#:#ILIAS tananyag importja
@@ -1710,6 +1772,7 @@ common#:#import_svy#:#Kérdőív importálása
 common#:#import_tst#:#Teszt importálása
 common#:#import_users#:#Felhasználók importálása
 common#:#import_warning_log#:#Figyelmeztetési napló importálása
+common#:#important#:#Important###03 Nov 2005 new variable
 common#:#imported#:#importálva
 common#:#in#:#miben
 common#:#in_use#:#Felhasználói nyelv
@@ -1723,6 +1786,7 @@ common#:#info_assign_sure#:#Biztosan hozzá akarja rendelni az alábbi felhaszn�
 common#:#info_assigned#:#hozzárendelve
 common#:#info_available_roles#:#Rendelkezésre álló szerepek
 common#:#info_change_user_view#:#Felhasználó nézetének változtatása
+###03 Nov 2005 content changed
 common#:#info_delete_sure#:#Biztosan törölni akarja az alábbi objektum(ok)at?
 common#:#info_deleted#:#Objektum(ok) törölve
 common#:#info_enter_login_or_id#:#<i>(Bejelentkezési név vagy felhasználói ID megadása)</i>
@@ -1808,7 +1872,6 @@ common#:#lang_sq#:#Albán
 common#:#lang_sr#:#Szerb
 common#:#lang_sv#:#Svéd
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_ua#:#Ukrán
 common#:#lang_uk#:#Ukrán
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnámi
@@ -1823,6 +1886,7 @@ common#:#languages_already_uninstalled#:#A kiválasztott nyelv(ek) eltávolítá
 common#:#languages_updated#:#Minden telepített nyelv frissítésre került.
 common#:#last_access#:#Utolsó hozzáférés:
 common#:#last_change#:#Utolsó változtatás
+common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
 common#:#last_update#:#Utolsó frissítés
 common#:#last_visit#:#Utolsó látogatás
 common#:#lastname#:#Utónév
@@ -1846,6 +1910,7 @@ common#:#ldap_visible#:#LDAP beállítások láthatók
 common#:#ldap_write#:#LDAP beállítások szerkesztése
 common#:#learning module#:#Tananyag
 common#:#learning_objects#:#Tananyagok
+common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
 common#:#learning_resources#:#Tananyagok
 common#:#level#:#Szint
 common#:#link#:#Csatolás
@@ -1856,9 +1921,25 @@ common#:#link_check_message_disabled#:#Üzenetek engedélyezve
 common#:#link_check_message_enabled#:#Üzenetek engedélyezve
 common#:#link_check_subject#:#[ILIAS 3] Linkellenőrzés
 common#:#link_checker_refreshed#:#Frissített nézet
+common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.###03 Nov 2005 new variable
 common#:#link_selected_items#:#Kiválasztott tételek linkelése
 common#:#linked_object#:#Az objektum linkelve van
 common#:#linked_pages#:#Csatolt lapok
+common#:#links_add_param#:#Add parameter:###03 Nov 2005 new variable
+common#:#links_dyn_parameter#:#Dynamic parameters###03 Nov 2005 new variable
+common#:#links_dynamic#:#Dynamic Web Links parameters###03 Nov 2005 new variable
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.###03 Nov 2005 new variable
+common#:#links_existing_params#:#Existing parameters:###03 Nov 2005 new variable
+common#:#links_name#:#Parameter name###03 Nov 2005 new variable
+common#:#links_no_name_given#:#Please choose a parameter name.###03 Nov 2005 new variable
+common#:#links_no_value_given#:#Please choose a parameter value.###03 Nov 2005 new variable
+common#:#links_not_available#:#Not available###03 Nov 2005 new variable
+common#:#links_parameter_deleted#:#Parameter deleted.###03 Nov 2005 new variable
+common#:#links_select_one#:#- Select one -###03 Nov 2005 new variable
+common#:#links_session_id#:#ILIAS session id###03 Nov 2005 new variable
+common#:#links_user_id#:#ILIAS user id###03 Nov 2005 new variable
+common#:#links_user_name#:#ILIAS username###03 Nov 2005 new variable
+common#:#links_value#:#Parameter value###03 Nov 2005 new variable
 common#:#list_of_pages#:#Lapok listája
 common#:#list_of_questions#:#Kérdések listája
 common#:#literature#:#Irodalom
@@ -2037,7 +2118,6 @@ common#:#msg_may_not_contain#:#Ez az objektum feltehetőleg nem tartalmazhatja a
 common#:#msg_min_one_active_role#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen.
 common#:#msg_min_one_role#:#Minden felhasználónak legalább egy aktív globál szerepe kell legyen.
 common#:#msg_multi_language_selected#:#Ugyanazt a nyelvet választotta egy másik fordításhoz.
-common#:#msg_no_adopt_selected#:#Nincs kiválasztott szerep az alapértelmezett jogosultsági beállítások alkalmazásához innen:
 common#:#msg_no_default_language#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen.
 common#:#msg_no_delete_yourself#:#Nem törölheti a saját felhasználói fiókját.
 common#:#msg_no_file#:#Nem választott fájlt
@@ -2152,9 +2232,12 @@ common#:#non_internal_local_roles_only#:#Helyi szerepek (csak felhasználó-defi
 common#:#none#:#Semmi
 common#:#normal#:#Normál
 common#:#not_accessed#:#Nem lépett be
+common#:#not_accessed_yet#:#Not accessed yet###03 Nov 2005 new variable
 common#:#not_implemented_yet#:#Még nem megvalósított
 common#:#not_installed#:#Nem telepített
 common#:#not_logged_in#:#Ön nem jelentkezett be
+common#:#note#:#Note###03 Nov 2005 new variable
+common#:#notes#:#Notes###03 Nov 2005 new variable
 common#:#num_users#:#Felhasználók száma
 common#:#number_of_accesses#:#Hozzáférések száma
 common#:#number_of_records#:#Rekordszám
@@ -2363,12 +2446,14 @@ common#:#predefined_template#:#Előre definiált szerepsablon
 common#:#presentation_options#:#Prezentációs opciók
 common#:#previous#:#előző
 common#:#print#:#Nyomtatás
+common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
 common#:#profile#:#Profile
 common#:#profile_changed#:#Adatai változtatásra kerültek
 common#:#profile_of#:#Adatai:
 common#:#properties#:#Jellemzők
 common#:#pub_section#:#Nyilvános rész
 common#:#public#:#nyilvános
+common#:#public_notes#:#Public Notes###03 Nov 2005 new variable
 common#:#public_profile#:#Nyilvános adat
 common#:#publication#:#Publikáció
 common#:#publication_date#:#Publikáció dátuma
@@ -2412,6 +2497,7 @@ common#:#registered_users#:#regisztrált felhasználó
 common#:#registration#:#Új felhasználó regisztrációja
 common#:#registration_disabled#:#Csak akkor érhető el, ha helyi bejelentkezés van használva
 common#:#registration_expired#:#A regisztrációs periódus lejárt…
+common#:#related_to#:#Related to###03 Nov 2005 new variable
 common#:#remove#:#Eltávolítás
 common#:#remove_personal_picture#:#Eltávolítás
 common#:#remove_translation#:#Fordítás eltávolítása
@@ -2614,11 +2700,14 @@ common#:#show_details#:#Részletek mutatása
 common#:#show_list#:#Lista mutatása
 common#:#show_members#:#Tagok megjelenítése
 common#:#show_owner#:#Tulajdonos mutatása
+common#:#show_private_notes#:#Show private notes###03 Nov 2005 new variable
+common#:#show_public_notes#:#Show public notes###03 Nov 2005 new variable
 common#:#show_structure#:#Strukturált nézet engedélyezése
 common#:#show_users_online#:#Bejelentkezett felhasználók megjelenítése
 common#:#signature#:#Aláírás
 common#:#size#:#Méret
 common#:#skin_style#:#Alapértelmezett felület/stílus
+common#:#small_icon#:#Small Icon###03 Nov 2005 new variable
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Külső felhasználó adminisztráció (SOAP)
 common#:#soap_user_administration_desc#:#Ha engedélyezett, minden felhasználói számla külső SOAP-klienssel adminisztrálható.
@@ -2687,6 +2776,7 @@ common#:#system_information#:#Rendszerinformációk
 common#:#system_language#:#Rendszernyelv
 common#:#system_message#:#Rendszerüzenet
 common#:#system_style_settings#:#Rendszerstílus-beállítások
+common#:#system_styles#:#System Styles###03 Nov 2005 new variable
 common#:#table_mail_import#:#Levél importálása
 common#:#target#:#Cél
 common#:#tax#:#Osztályozás
@@ -2757,11 +2847,11 @@ common#:#tst_read#:#Olvasási elérés teszthez
 common#:#tst_run#:#Indítás
 common#:#tst_statistical_evaluation#:#Statisztikák
 common#:#tst_upload_file#:#Feltöltött fájl
+common#:#tst_user_not_invited#:#Nem valószínű, hogy leteszi ezt a vizsgát.
+common#:#tst_user_wrong_clientip#:#Nincs joga a teszt használatához
 common#:#tst_visible#:#A teszt látható
 common#:#tst_warning_test_not_complete#:#A teszt még nem befejezett.
 common#:#tst_write#:#Teszt szerkesztése
-common#:#tst_user_wrong_clientip#:#Nincs joga a teszt használatához
-common#:#tst_user_not_invited#:#Nem valószínű, hogy leteszi ezt a vizsgát.
 common#:#txt_add_object_instruction1#:#Válassza ki, hová akarja hozzáadni
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Sikeresen regisztrálta magát az ILIAS-ba. Kattintson a lenti gombra, hogy felhasználóként bejelentkezhessen.
@@ -2775,6 +2865,7 @@ common#:#uncheck_all#:#Ellenőrizetlen minden
 common#:#uninstall#:#Eltávolítás
 common#:#uninstalled#:#eltávolítva.
 common#:#unknown#:#ISMERETLEN
+common#:#unlabeled#:#Unlabeled###03 Nov 2005 new variable
 common#:#unread#:#nem olvastam
 common#:#unread_lowercase#:#olvasatlan
 common#:#unselected#:#Nem kiválasztott
@@ -2928,6 +3019,7 @@ common#:#weekly#:#heti
 common#:#weeks#:#Hetek
 common#:#welcome#:#Üdvözöljük
 common#:#who_is_online#:#Ki van on-line?
+common#:#width_x_height#:#Width x Height###03 Nov 2005 new variable
 common#:#with#:#ezzel:
 common#:#write#:#Ír
 common#:#wrong_ip_detected#:#Elérése rossz IP-cím miatt elutasítva.<br>Vegye fel a kapcsolatot a rendszeradminisztrátorral.
@@ -3228,6 +3320,8 @@ content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Előnézet
 content#:#cont_print_view#:#Nyomtatási nézet
 content#:#cont_public_access#:#Nyilvános hozzáférés
+content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
+content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Kiadó
 content#:#cont_purpose#:#Cél
 content#:#cont_ref_helptext#:#(például http://www.server.org/myimage.jpg)
@@ -3426,6 +3520,7 @@ crs#:#crs_chapter_already_assigned#:#Ezek a fejezetek már hozzárendeltek.
 crs#:#crs_contact#:#Kapcsolat
 crs#:#crs_contact_consultation#:#Konzultáció
 crs#:#crs_contact_email#:#E-mail
+###03 Nov 2005 content changed
 crs#:#crs_contact_name#:#Név
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Felelősség
@@ -3454,6 +3549,7 @@ crs#:#crs_export#:#Kurzusexport
 crs#:#crs_file_name#:#Fájlnév
 crs#:#crs_free_places#:#Elérhető helyek
 crs#:#crs_from#:#Mikortól:
+###03 Nov 2005 content changed
 crs#:#crs_grouping#:#Kurzuscsoportosítás
 crs#:#crs_grouping_assign#:#Hozzárendelés változtatása
 crs#:#crs_grouping_delete_sure#:#Valóban törölni akarja az alábbi kurzuscsoportosításokat?
@@ -3676,6 +3772,7 @@ crs#:#crs_test_status_not_complete#:#Nem befejezett
 crs#:#crs_test_status_random#:#Véletlenválasztásos teszt
 crs#:#crs_time#:#Feliratkozási idő
 crs#:#crs_to#:#Meddig:
+###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (értesítés nélkül)
 crs#:#crs_tutor_notify#:#Tutor (értesítéssel)
@@ -3697,7 +3794,9 @@ crs#:#crs_visibility_unvisible#:#Nem elérhető
 crs#:#crs_waiting_list#:#Várólista
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Az Ön helye a várólistán
+###03 Nov 2005 content changed
 crs#:#edit_content#:#Tartalom szerkesztése
+crs#:#import_crs#:#Import course###03 Nov 2005 new variable
 crs#:#learners_view#:#Hallgatói nézet
 crs#:#subscription_times_not_valid#:#A regisztrácós periódus nem érvényes.
 crs_#:#crs_archives#:#Archívok
@@ -3924,7 +4023,6 @@ dateplaner#:#wk_short#:#Hét
 dateplaner#:#year#:#Év
 forum#:#forums#:#Fórumok (Csatolt fájl neve ne tartalmazzon ékezetes karaktert, szóközt!)
 forum#:#forums_all_threads_marked_read#:#Olvasottként van megjelölve minden hozzászólás
-forum#:#forums_articles#:#Hozzászólások
 forum#:#forums_attachments#:#Csatolások
 forum#:#forums_attachments_add#:#Csatolás hozzáadása
 forum#:#forums_attachments_edit#:#Csatolás szerkesztése
@@ -3940,11 +4038,8 @@ forum#:#forums_edit_post#:#Hozzászólás szerkesztése
 forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
 forum#:#forums_info_censor_post#:#Biztosan el akarja rejteni ezt a hozzászólást?
 forum#:#forums_info_delete_post#:#Biztosan törölni akarja ezt a hozzászólást a válaszokkal együtt?
-forum#:#forums_last_post#:#Utolsó hozzászólás
 forum#:#forums_mark_read#:#Mind bejelölése olvasottnak
 forum#:#forums_new_entries#:#Új fórumbejegyzések
-forum#:#forums_moderators#:#Moderátorok
-forum#:#forums_new_articles#:#Új hozzászólások
 forum#:#forums_new_thread#:#Új téma
 forum#:#forums_not_available#:#A fórumok nem érhetők el
 forum#:#forums_overview#:#Fórumok áttekintése
@@ -3965,7 +4060,6 @@ forum#:#forums_thread_create_date#:#Készült
 forum#:#forums_thread_create_from#:#Létrehozta:
 forum#:#forums_thread_marked#:#A hozzászólás olvasottnak van megjelölve.
 forum#:#forums_thread_new_entry#:#Új téma került létrehozásra
-forum#:#forums_threads#:#Témák
 forum#:#forums_threads_not_available#:#A témák nem elérhetők
 forum#:#forums_topics_overview#:#Témák áttekintése
 forum#:#forums_your_reply#:#Az Ön válasza
@@ -4358,6 +4452,7 @@ meta#:#meta_competency#:#Kompetencia
 meta#:#meta_contentprovider#:#Tartalomgondozó
 meta#:#meta_context#:#Tartalom
 meta#:#meta_contribute#:#Közreműködő
+meta#:#meta_copyright#:#Copyright###03 Nov 2005 new variable
 meta#:#meta_copyright_and_other_restrictions#:#Szerzői jog és más megszorítások
 meta#:#meta_cost#:#Ár
 meta#:#meta_coverage#:#Terjedelem
@@ -4366,8 +4461,8 @@ meta#:#meta_date#:#Dátum
 meta#:#meta_delete#:#Törlés
 meta#:#meta_description#:#Leírás
 meta#:#meta_diagramm#:#Diagramm
+meta#:#meta_difficult#:#Difficult###03 Nov 2005 new variable
 meta#:#meta_difficulty#:#Nehézség
-meta#:#meta_dificult#:#Nehéz
 meta#:#meta_draft#:#Tervezet
 meta#:#meta_duration#:#Tartósság
 meta#:#meta_easy#:#Könnyű
@@ -4598,6 +4693,7 @@ meta#:#meta_problem_statement#:#Problémaállapot
 meta#:#meta_publisher#:#Kiadó
 meta#:#meta_purpose#:#Cél
 meta#:#meta_questionnaire#:#Kérdőív
+meta#:#meta_quickedit#:#Quick Edit###03 Nov 2005 new variable
 meta#:#meta_reference#:#Ajánlás
 meta#:#meta_references#:#Ajánlások
 meta#:#meta_relation#:#Kapcsolat
@@ -4872,6 +4968,7 @@ search#:#search_area#:#Keresési terület
 search#:#search_area_info#:#Válasszon ki egy területet, hol kezdődjön a keresés.
 search#:#search_below#:#Alatta:
 search#:#search_change#:#Változtatás
+search#:#search_choose_object_type#:#Egy objektumtípust válasszon.
 search#:#search_concatenation#:#Logikai kapcsolat
 search#:#search_content#:#Laptartalom
 search#:#search_dbk_content#:#Digitális könyvtár (kontextus)
@@ -4882,11 +4979,13 @@ search#:#search_direct#:#Direkt keresés
 search#:#search_fast_info#:#Címek, leírások és kulcsszavak keresése minden objektumtípusban
 search#:#search_full_info#:#Válassza ezt a beállítást nagy mennyiségű adathalmazban kereséshez.
 search#:#search_group#:#Csoportok
+search#:#search_hits#:#Találat ebben:
 search#:#search_in_magazin#:#A taneszköz tárolóban
 search#:#search_in_result#:#Keresés az eredmények között
 search#:#search_inactive#:#Inaktív felhasználókat is beleértve
 search#:#search_index#:#Indexelt keresés
 search#:#search_like_info#:#Válassza ezt az opciót e legjobb eredményekhez.
+search#:#search_limit_reached#:#A keresés több mint %s találatot eredményezett. Szűkítheti a keresést, hogy részletesebb eredményeket kapjon.
 search#:#search_lm_content#:#Tanulási segédanyagok (tartalom)
 search#:#search_lm_meta#:#Tanulási segédanyagok (metaadat)
 search#:#search_lucene#:#Lucene-keresés
@@ -4931,10 +5030,13 @@ search#:#search_type#:#Keresési típus
 search#:#search_user#:#Felhasználók
 search#:#until#:#meddig
 survey#:#add_category#:#Kategória felvétele
+###03 Nov 2005 content changed
 survey#:#add_heading#:#Címsor hozzáadása
 survey#:#add_limits_for_standard_numbers#:#Adjon meg egy alacsonyabb és magasabb korlátot, hogy hány kategóriát akar felvenni.
+###03 Nov 2005 content changed
 survey#:#add_phrase#:#Mondat hozzáadása
 survey#:#add_phrase_introduction#:#Válasszon egy mondatot:
+survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#A kérdőív kitöltésével végzett. Nem tud már belépni.
 survey#:#anonymize_anonymous_introduction#:#Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kérdőívkódot kell megadni, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg az alábbi szövegmezőben.
 survey#:#anonymize_key_introduction#:#A kérdőív hallgatónként csak egyszer tölthető ki. Kitöltését a kurzus befejezését követően javasoljuk.<br><br>Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kódot hozott létre a rendszer, amelyet elküld az Ön ILIAS postafiókjába, a kérdőív kitöltésének megkezdésekor (az első kérdés megválaszolása után).<br> Az Ön kérdőívhez tartozó kódja<br/><br/><span class="bold">%s</span><br/><br/>Adja meg az alábbi szövegmezőben.
@@ -4961,25 +5063,34 @@ survey#:#cannot_read_questionpool#:#Nem rendelkezik elegendő jogosultsággal a 
 survey#:#cannot_read_survey#:#Nem rendelkezik elegendő jogosultsággal a kérdőív adatainak olvasásához.
 survey#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok elmentéséhez.
 survey#:#cannot_switch_to_online_no_questions#:#Nem változtatható &quot;on-line&quot;-ra az állapot, mert nincsenek kérdések a tesztben.
+survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Kategória
+###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#Biztosan törölni akarja az alábbi kategóriá(ka)t?
+###03 Nov 2005 content changed
 survey#:#category_delete_select_none#:#Legalább egy kategóriát ellenőrizzen a törléshez.
+###03 Nov 2005 content changed
 survey#:#category_nr_selected#:#Azon felhasználók száma, akik kiválasztották ezt a kategóriát
+###03 Nov 2005 content changed
 survey#:#chart#:#Diagram
 survey#:#check_category_to_save_phrase#:#Legalább egy kategóriát kell választania a mondat elmentéséhez.
+###03 Nov 2005 content changed
 survey#:#codes#:#Hozzáférési kód
 survey#:#combobox#:#Kombinált lista
 survey#:#concatenation#:#Összefűzés
 survey#:#confirm_delete_all_user_data#:#Biztos, hogy a kérdőív minden felhasználói adatát törölni akarja?
 survey#:#confirm_remove_heading#:#Biztos, hogy el akarja távolítani a címsort?
 survey#:#confirm_sync_questions#:#A módosított kérdés az aktív kérdőívhez létrehozott kérdés másolata. A kérdés eredeti példányát is módosítani akarja?
+survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
 survey#:#constraints#:#Megszorítások
+###03 Nov 2005 content changed
+survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
+survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
 survey#:#contains#:#Tartalmazottak
 survey#:#continue#:#Folytatás >>
 survey#:#create_date#:#Létrehozva
 survey#:#create_new#:#új létrehozása
 survey#:#create_questionpool_before_add_question#:#Legalább egy kérdésgyűjteményt létre kell hoznia a kérdések eltárolására.
-survey#:#csv#:#Vesszővel elválasztott érték
 survey#:#dc_agree#:#egyetértek
 survey#:#dc_always#:#mindig
 survey#:#dc_definitelyfalse#:#definíciószerűen hamis
@@ -5018,6 +5129,7 @@ survey#:#dc_yes#:#igen
 survey#:#define_questionblock#:#Kérdésblokk definiálása
 survey#:#description_maxchars#:#Ha nem kerül megadásra a karakterek maximális száma, a válasz hossza nem korlátozott.
 survey#:#disinvite#:#Nem meghívott
+###03 Nov 2005 content changed
 survey#:#display_all_available#:#Minden elérhető megjelenítése
 survey#:#dp_standard_attitude_agree5#:#Jellemző állásfoglalás (nagyon egyetértek-egyetértek-nem eldöntött-nem értek egyet- nagyon nem értek egyet)
 survey#:#dp_standard_attitude_agree_disagree#:#Jellemző állásfoglalás (egyetértek-nem értek egyet)
@@ -5045,6 +5157,7 @@ survey#:#duplicate#:#Másodpéldány létrehozása
 survey#:#duplicate_svy#:#Kérdőív többszörözése
 survey#:#edit_ask_continue#:#Akarja folytatni és szerkeszteni ezt a kérdést?
 survey#:#edit_constraints_introduction#:#Kiválasztotta az alábbi kérdés(ek)et/kérdésblokk(ok)at a korlátozások szerkesztéséhez
+###03 Nov 2005 content changed
 survey#:#edit_heading#:#Címsor szerkesztése
 survey#:#end_date#:#Végdátum
 survey#:#end_date_reached#:#Nem kezdheti el a kérdőívet. Elmúlt a végdátum.
@@ -5059,23 +5172,26 @@ survey#:#error_retrieving_anonymous_survey#:#Nem találja a rendszer a %s kódú
 survey#:#eval_legend_link#:#Azonosítsa a feliratokat az oszlopcímek szimbólumaihoz.
 survey#:#evaluation#:#Kiértékelés
 survey#:#evaluation_access#:#Kiértékelési elérés
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Kilépés
 survey#:#exp_type_csv#:#Vesszővel tagolt szöveg (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
 survey#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
 survey#:#export_data_as#:#Adatok exportálása, mint
 survey#:#fill_out_all_category_fields#:#Töltsön ki minden kategóriamezőt, mielőtt újat vesz fel.
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Töltsön ki minden kötelező mezőt, mielőtt új kategóriát vesz fel.
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_delete_category#:#Töltsön ki minden megkívánt mezőt, mielőtt törli a kategóriákat.
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_move_category#:#Töltsön ki minden megkívánt mezőt, mielőtt áthelyezi a kategóriákat.
+###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_save_phrase#:#Töltsön ki minden megkívánt mezőt, mielőtt menti a mondatot.
 survey#:#filter#:#Szűrő
 survey#:#filter_all_question_types#:#Minden kérdéstípus
 survey#:#filter_all_questionpools#:#Minden kérdésgyűjtemény
 survey#:#filter_show_question_types#:#Kérdéstípusok megjelenítése
 survey#:#filter_show_questionpools#:#Kérdésgyűjtemények megjelenítése
-survey#:#finished#:#befejezve
+survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.###03 Nov 2005 new variable
 survey#:#found_questions#:#Talált kérdések
 survey#:#geometric_mean#:#Geometriai jelentés
 survey#:#given_answers#:#Adott válaszok
@@ -5130,9 +5246,13 @@ survey#:#multiple_choice_single_response#:#Többszörös választás (egyszeres 
 survey#:#new_survey_codes#:#új kérdőívhozzáférési kód(ok)
 survey#:#next_question_rows#:#Kérdések %d - %d a %nak(nek) >>
 survey#:#no_available_constraints#:#Nincsenek megszorítások definiálva.
+###03 Nov 2005 content changed
 survey#:#no_category_selected_for_deleting#:#Legalább egy kategóriát válasszon, ha törölni akarja a kategóriákat.
+###03 Nov 2005 content changed
 survey#:#no_category_selected_for_move#:#Legalább egy kategóriát ellenőrizzen az áthelyezéshez.
+###03 Nov 2005 content changed
 survey#:#no_constraints_checked#:#Legalább egy kérdést vagy kérdésblokkot válasszon a megszorítások szerkesztéséhez.
+###03 Nov 2005 content changed
 survey#:#no_question_selected_for_move#:#Legalább egy kérdést ellenőrizzen az áthelyezéshez.
 survey#:#no_question_selected_for_removal#:#Ellenőrizzen legalább egy kérdést vagy kérdésblokkot az eltávolításhoz.
 survey#:#no_questionblocks_available#:#Nincs elérhető kérdésblokk
@@ -5143,8 +5263,6 @@ survey#:#no_user_or_group_selected#:#Ellenőrizzen egy beállítást, amelyet ke
 survey#:#no_user_phrases_defined#:#Nincs elérhető felhasználó által definiált mondat.
 survey#:#nominal_question_not_checked#:#Ellenőrizzen egyet a felajánlott válaszok közül
 survey#:#non_ratio#:#Intervallum-skála
-survey#:#not_finished#:#nem fejeződött be
-survey#:#not_started#:#nem indult el
 survey#:#not_used#:#nem használt
 survey#:#obligatory#:#kötelező
 survey#:#off#:#kikapcsolás
@@ -5156,6 +5274,7 @@ survey#:#ordinal_question_not_checked#:#Ellenőrizzen egy felajánlott választ.
 survey#:#orientation#:#Tájékoztatás
 survey#:#percentage_of_entered_values#:#Felhasználók azon százaléka, akik ezt az értéket adták meg.
 survey#:#percentage_of_selections#:#Felhasználók azon százaléka, akik kiválasztották ezt a kategóriát.
+###03 Nov 2005 content changed
 survey#:#phrase_saved#:#A mondat sikeresen el lett mentve.
 survey#:#predefined_users#:#Előredefiniált felhasználói beállítás
 survey#:#preview#:#Előnézet
@@ -5180,12 +5299,15 @@ survey#:#qt_metric#:#Metrikus kérdés
 survey#:#qt_nominal#:#Névleges kérdés
 survey#:#qt_ordinal#:#Sorrendbe rakó kérdés
 survey#:#qt_text#:#Esszé
+survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Megszorítások
+###03 Nov 2005 content changed
 survey#:#question_obligatory#:#A kérdés kötelező.
 survey#:#question_saved_for_upload#:#A kérdés automatikusan elmentésre került, hogy lefoglalja a merevlemezen a feltöltött fájl számára szükséges helyet. Ha most kikapcsolja ezt az űrlapot, készüljön fel, hogy törölnie kell a kérdést a kérdésgyűjteményből, ha nem akarja megtartani.
 survey#:#question_type#:#Kérdéstípus
 survey#:#questionblock#:#Kérdésblokk
 survey#:#questionblock_has_constraints#:#Megszorítások
+###03 Nov 2005 content changed
 survey#:#questionblocks#:#Kérdésblokkok
 survey#:#questions#:#Kérdések
 survey#:#questions_inserted#:#Kérdés(ek) beszúrva.
@@ -5197,10 +5319,13 @@ survey#:#remove_question#:#Eltávolítás
 survey#:#remove_questions#:#Biztosan el akarja távolítani az alábbi kérdés(eke)t/kérdésblokk(ok)at a tesztből?
 survey#:#reset_filter#:#Szűrő alapállapotba állítása
 survey#:#resume_survey#:#Kérdőív folytatása
+survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
 survey#:#save_obligatory_state#:#Kötelező állapotok elmentése
 survey#:#save_phrase#:#Mentés mondatként
 survey#:#save_phrase_categories_not_checked#:#Legalább két kategóriát ellenőrizzen a kategóriák új mondatban való elmentéséhez.
+###03 Nov 2005 content changed
 survey#:#save_phrase_introduction#:#Ha el akarja menteni az alábbi kategóriákat alapértelmezett mondatokként, adjon meg mondatcímet. Alapértelmezett mondatot bárhol elérhet, ahol mondatot akar hozzáadni egy sorozathoz.
+###03 Nov 2005 content changed
 survey#:#search_field_all#:#Keresés minden mezőben
 survey#:#search_for#:#Keresendő
 survey#:#search_groups#:#Csoportok
@@ -5209,7 +5334,6 @@ survey#:#search_questions#:#Kérdések szűréssel
 survey#:#search_term#:#Fogalom keresése
 survey#:#search_type_all#:#Keresés minden kérdéstípusban
 survey#:#search_users#:#Felhasználók
-survey#:#select_max_one_item#:#Csak égy tételt válasszon ki
 survey#:#select_option#:#Válasszon ki egy beállítást
 survey#:#select_phrase_to_add#:#Válasszon ki egy mondatot a kérdéshez való hozzáadáshoz.
 survey#:#select_prior_question#:#Előzetes kérdés kiválasztása
@@ -5218,11 +5342,15 @@ survey#:#select_questionpool_short#:#Kérdésgyűjtemény kérdőívhez.
 survey#:#select_relation#:#Válasszon ki egy összefüggést.
 survey#:#select_svy_option#:#Válasszon ki egy felmérést.
 survey#:#select_target_position_for_move#:#Válasszon ki egy célpozíciót a kategóriák áthelyezéséhez és nyomja meg az egyik beszúrás gombot.
+###03 Nov 2005 content changed
 survey#:#select_target_position_for_move_question#:#Válasszon célhelyet a kérdés(ek) áthelyezéséhez és nyomja meg az egyik beszúrás gombot.
 survey#:#select_value#:#Érték kiválasztása
 survey#:#selection#:#Kiválasztás
 survey#:#set_filter#:#Szűrő beállítása
 survey#:#skipped#:#kihagyott
+survey#:#spl_general_properties#:#General properties###03 Nov 2005 new variable
+survey#:#spl_online_property#:#Online###03 Nov 2005 new variable
+survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
 survey#:#spl_select_file_for_import#:#Ki kell választania egy fájlt az importáláshoz.
 survey#:#start_date#:#Kezdődátum
 survey#:#start_date_not_reached#:#Nem kezdheti meg a kérdőívhez kitöltését a megadott kezdődátum előtt.
@@ -5243,6 +5371,7 @@ survey#:#survey_offline_message#:#Nem hívhatók meg felhasználók, mert a kér
 survey#:#survey_online_warning#:#Mivel a kérdőív on-line, nem szerkesztheti a kérdőív kérdéseit.
 survey#:#survey_previous#:#<<< előző
 survey#:#survey_question_obligatory#:#(Ezt a kérdést kötelező megválaszolnia.)
+survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Kérdések
 survey#:#survey_skip_finish#:#ugrás és a kérdőív befejezése
 survey#:#survey_skip_next#:#következő >>>
@@ -5287,10 +5416,7 @@ survey#:#value_nr_entered#:#Azon felhasználók száma, akik azt az értéket ad
 survey#:#values#:#Értékek
 survey#:#vertical#:#vertikális
 survey#:#view_constraints_introduction#:#Az alábbi kérdés/kérdésblokk megszorításait látja:
+###03 Nov 2005 content changed
 survey#:#view_phrase#:#Mondat nézete
 survey#:#warning_question_in_use#:#Figyelmeztetés: Az Ön által szerkesztendő kérdést az alább listázott kérdőívek használják. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, az alább listázott kérdőívek minden válasza törlődik. Ha meg akarja változtatni a kérdést és másik kérdőívben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, a kérdés új példányának létrehozásához.
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
-survey#:#warning_survey_not_complete#:#Nem teljes a kérdőív.
-search#:#search_choose_object_type#:#Egy objektumtípust válasszon.
-search#:#search_hits#:#Találat ebben:
-search#:#search_limit_reached#:#A keresés több mint %s találatot eredményezett. Szűkítheti a keresést, hogy részletesebb eredményeket kapjon.
