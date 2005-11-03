@@ -1546,8 +1546,6 @@ class ilTestEvaluationGUI
 		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$t = $active->submittimestamp;
 		
-		$add_parameter = $this->getAddParameter();
-		
 		// output of submit date and signature
 		if ($active->submitted)
 		{
@@ -1592,7 +1590,6 @@ class ilTestEvaluationGUI
 			$tpl->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
 
-			//$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
 			$tpl->setVariable("COUNTER_QUESTION", $counter.". ");
 			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
@@ -1618,7 +1615,7 @@ class ilTestEvaluationGUI
 			$tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("tst_submit_answers_txt"));
 			$tpl->setVariable("BTN_CANCEL", $this->lng->txt("back"));
 			$tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_answers"));
-			$tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);
+			$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$tpl->parseCurrentBlock();
 		}
 		

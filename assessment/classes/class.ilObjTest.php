@@ -431,16 +431,6 @@ class ilObjTest extends ilObject
 		return $result;
 	}
 	
-	/**
-	* Returns the calling script of the class
-	*
-	* @access	public
-	*/
-	function getCallingScript()
-	{
-		return "test.php";
-	}
-	
 /**
 	* read object data from db into object
 	* @param	boolean
@@ -3084,7 +3074,6 @@ class ilObjTest extends ilObject
 		{
 			$this->loadQuestions($user_id, $pass);
 		}
-		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
 		
@@ -3183,8 +3172,6 @@ class ilObjTest extends ilObject
 		{
 			$this->loadQuestions($user_id, $pass);
 		}
-		
-		$add_parameter = "?ref_id=$this->ref_id&cmd=run&crs_show_result=0&";
 		
 		$key = 1;
 		$result_array = array();
