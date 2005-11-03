@@ -1843,6 +1843,30 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Gets the pass scoring type
+* 
+* Gets the pass scoring type
+*
+* @return integer The pass scoring type
+* @access public
+* @see $pass_scoring
+*/
+  function _getPassScoring($test_id) 
+	{
+		global $ilDB;
+		$query = sprintf("SELECT pass_scoring FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["pass_scoring"];
+		}
+    return 0;
+  }
+
+/**
 * Gets the scoring type for multiple choice questions
 * 
 * Gets the scoring type for multiple choice questions
@@ -1855,7 +1879,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		$query = sprintf("SELECT  mc_scoring FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_Id)
+			$ilDB->quote($test_id)
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -3395,19 +3419,7 @@ class ilObjTest extends ilObject
 	{
 //		global $ilBench;
 		
-		$pass = NULL;
-		if ($this->getTestType() == TYPE_VARYING_RANDOMTEST)
-		{
-			if ($this->getPassScoring() == SCORE_BEST_PASS)
-			{
-				$pass = $this->_getBestPass($user_id, $this->getTestId());
-			}
-			else
-			{
-				$pass = $this->_getPass($user_id, $this->getTestId())-1;
-				if ($pass < 0) $pass = 0;
-			}
-		}
+		$pass = ilObjTest::_getResultPass($user_id, $this->getTestId());
 		$test_result =& $this->getTestResult($user_id, $pass);
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
 			$this->ilias->db->quote($this->getTestId()),
@@ -3615,19 +3627,7 @@ class ilObjTest extends ilObject
 		$maximum_points = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
-			$pass = NULL;
-			if ($this->getTestType() == TYPE_VARYING_RANDOMTEST)
-			{
-				if ($this->getPassScoring() == SCORE_BEST_PASS)
-				{
-					$pass = $this->_getBestPass($row->user_fi, $this->getTestId());
-				}
-				else
-				{
-					$pass = $this->_getPass($row->user_fi, $this->getTestId())-1;
-					if ($pass < 0) $pass = 0;
-				}
-			}
+			$pass = ilObjTest::_getResultPass($row->user_fi, $this->getTestId());
 			$res =& $this->getTestResult($row->user_fi, $pass);
 			if ((!$res["test"]["total_reached_points"]) or (!$res["test"]["total_max_points"])) 
 			{
@@ -5994,6 +5994,34 @@ class ilObjTest extends ilObject
 			}
 		}
 		return $bestpass;
+	}
+	
+/**
+* Retrieves the pass number that should be counted for a given user
+* 
+* Retrieves the pass number that should be counted for a given user
+*
+* @param integer $user_id The user id
+* @param integer $test_id The test id
+* @return integer The result pass of the user for the given test
+* @access public
+*/
+	function _getResultPass($user_id, $test_id)
+	{
+		$counted_pass = NULL;
+		if (strcmp(ilObjTest::_getTestType($test_id), "tt_varying_randomtest") == 0)
+		{
+			if (ilObjTest::_getPassScoring($test_id) == SCORE_BEST_PASS)
+			{
+				$counted_pass = ilObjTest::_getBestPass($user_id, $test_id);
+			}
+			else
+			{
+				$counted_pass = ilObjTest::_getPass($user_id, $test_id)-1;
+				if ($counted_pass < 0) $counted_pass = 0;
+			}
+		}
+		return $counted_pass;
 	}
 	
 /**
