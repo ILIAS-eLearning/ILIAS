@@ -411,7 +411,7 @@ assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
-assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers, um das sich öffnende Fenster auszudrucken.
+assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren.
 assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
 assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
