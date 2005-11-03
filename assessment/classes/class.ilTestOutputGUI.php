@@ -105,7 +105,8 @@ class ilTestOutputGUI
 	 * updates working time and stores state saveresult to see if question has to be stored or not
 	 */
 	
-	function updateWorkingTime() {
+	function updateWorkingTime() 
+	{
 		// todo: check update within summary and back
 		// todo: back in summary does not work
 		// todo: check working time in summary
@@ -137,6 +138,9 @@ class ilTestOutputGUI
 		}		
 	}	
 
+/**
+ * saves the user input of a question
+ */
 	function saveQuestionSolution()
 	{
 		$this->saveResult = false;
@@ -301,6 +305,13 @@ class ilTestOutputGUI
 		$ilias_locator->output();
 	}
 	
+	/**
+	* Loads the main template and adds the page title
+	*
+	* Loads the main template and adds the page title
+	*
+	* @access private
+	*/
 	function prepareOutput()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
@@ -346,10 +357,8 @@ class ilTestOutputGUI
 		}
 		
 		// todo: max_processing_reached
-		
 		$maxprocessingtimereached = $this->isMaxProcessingTimeReached();
 
-		$add_parameter = $this->getAddParameter();
 		$active = $this->object->getActiveTestUser();
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
@@ -546,7 +555,6 @@ class ilTestOutputGUI
 			// Show results in a new print frame
 			if ($this->object->isActiveTestSubmitted()) 
 			{
-				$add_parameter2 = "?ref_id=" . $_GET["ref_id"];
 				$this->tpl->setCurrentBlock("show_printview");
 				$this->tpl->setVariable("BTN_ANSWERS", $this->lng->txt("tst_show_answer_print_sheet"));	
 				$this->tpl->setVariable("PRINT_VIEW_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "answersheet"));				
@@ -640,21 +648,6 @@ class ilTestOutputGUI
 		return $this->endingTimeReached;
 	}
 
-	function getAddParameter()
-	{
-		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"] . '&crs_show_result='. (int) $_GET['crs_show_result'];
-	}
-
-	/**
-	* Returns the calling script of the GUI class
-	*
-	* @access	public
-	*/
-	function getCallingScript()
-	{
-		return "test.php";
-	}
-
 /**
 * Output of the learners view of an existing test
 *
@@ -674,6 +667,13 @@ class ilTestOutputGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+/**
+* Deletes the results of the current user for the active pass
+*
+* Deletes the results of the current user for the active pass
+*
+* @access public
+*/
 	function confirmdeleteresults()
 	{
 		global $ilUser;
@@ -683,42 +683,25 @@ class ilTestOutputGUI
 		$this->ctrl->redirect($this, "outIntroductionPage"); 
 	}
 	
+/**
+* Cancels the deletion of the results of the current user for the active pass
+*
+* Cancels the deletion of the results of the current user for the active pass
+*
+* @access public
+*/
 	function canceldeleteresults()
 	{
 		$this->ctrl->redirect($this, "outIntroductionPage"); 
 	}
 
-	function handleStartCommands()
-	{
-		global $ilUser;
-		
-		// create new time dataset and set start time
-		$active_time_id = $this->object->startWorkingTime($ilUser->id);
-		$_SESSION["active_time_id"] = $active_time_id;
-		
-		if ($_POST["chb_javascript"])
-		{
-			$ilUser->setPref("tst_javascript", 1);
-			$ilUser->writePref("tst_javascript", 1);
-		}
-		else
-		{
-			$ilUser->setPref("tst_javascript", 0);
-			$ilUser->writePref("tst_javascript", 0);
-		}
-		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
-		{
-			global $ilias;
-			
-			$ilias->auth->setIdle(0, false);					
-				
-			if (!$this->object->isActiveTestSubmitted()) 
-			{
-				$_POST["cmd"]["summary"]="1";
-			} 			
-		}
-	}
-	
+/**
+* Shows a short result overview in courses
+*
+* Shows a short result overview in courses
+*
+* @access public
+*/
 	function outShortResult($user_question_order) 
 	{
 		$this->tpl->setCurrentBlock("percentage");
@@ -835,7 +818,8 @@ class ilTestOutputGUI
 			}
 		}
 		
-		if ($this->object->isOnlineTest() && !$finish) {
+		if ($this->object->isOnlineTest() && !$finish) 
+		{
 			$this->tpl->setCurrentBlock("summary");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
 			$this->tpl->parseCurrentBlock();
@@ -844,7 +828,8 @@ class ilTestOutputGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if (!$this->object->isOnlineTest()) {
+		if (!$this->object->isOnlineTest()) 
+		{
 			$this->tpl->setCurrentBlock("cancel_test");
 			$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
 			$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
@@ -865,14 +850,17 @@ class ilTestOutputGUI
 
 		if ($finish)
 		{
-			if (!$this->object->isOnlineTest()) {
+			if (!$this->object->isOnlineTest()) 
+			{
 				$this->tpl->setCurrentBlock("next");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("next_bottom");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
 				$this->tpl->parseCurrentBlock();
-			} else {
+			} 
+			else 
+			{
 				$this->tpl->setCurrentBlock("next");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
 				$this->tpl->parseCurrentBlock();
@@ -891,13 +879,13 @@ class ilTestOutputGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		
-		
-		if ($this->object->isOnlineTest()) {
+		if ($this->object->isOnlineTest()) 
+		{
 			$solved_array = ilObjTest::_getSolvedQuestions($this->object->test_id, $ilUser->getId(), $question_gui->object->getId());
 			$solved = 0;
 			
-			if (count ($solved_array) > 0) {
+			if (count ($solved_array) > 0) 
+			{
 				$solved = array_pop($solved_array);
 				$solved = $solved->solved;
 			}			
@@ -907,7 +895,8 @@ class ilTestOutputGUI
 			 	$solved = ilUtil::getImagePath("solved.png", true);
 			 	$solved_cmd = "resetsolved";
 			 	$solved_txt = $this->lng->txt("tst_qst_resetsolved");
-			} else 
+			} 
+			else 
 			{				 
 				$solved = ilUtil::getImagePath("not_solved.png", true);
 				$solved_cmd = "setsolved";
@@ -927,6 +916,13 @@ class ilTestOutputGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+/**
+* Start a test for the first time
+*
+* Start a test for the first time
+*
+* @access public
+*/
 	function start()
 	{
 		if ($this->object->isRandomTest())
@@ -940,6 +936,13 @@ class ilTestOutputGUI
 		$this->outTestPage();
 	}
 	
+/**
+* Resume a test at the last position
+*
+* Resume a test at the last position
+*
+* @access public
+*/
 	function resume()
 	{
 		$this->handleStartCommands();
@@ -948,6 +951,45 @@ class ilTestOutputGUI
 		$this->outTestPage();
 	}
 
+/**
+* Handles some form parameters on starting and resuming a test
+*
+* Handles some form parameters on starting and resuming a test
+*
+* @access public
+*/
+	function handleStartCommands()
+	{
+		global $ilUser;
+		
+		// create new time dataset and set start time
+		$active_time_id = $this->object->startWorkingTime($ilUser->id);
+		$_SESSION["active_time_id"] = $active_time_id;
+		
+		if ($_POST["chb_javascript"])
+		{
+			$ilUser->setPref("tst_javascript", 1);
+			$ilUser->writePref("tst_javascript", 1);
+		}
+		else
+		{
+			$ilUser->setPref("tst_javascript", 0);
+			$ilUser->writePref("tst_javascript", 0);
+		}
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
+		{
+			global $ilias;
+			$ilias->auth->setIdle(0, false);					
+		}
+	}
+	
+/**
+* Set a question solved
+*
+* Set a question solved
+*
+* @access public
+*/
 	function setsolved()
 	{
 		global $ilUser;
@@ -960,6 +1002,13 @@ class ilTestOutputGUI
  		$this->outTestPage();
 	}
 
+/**
+* Set a question unsolved
+*
+* Set a question unsolved
+*
+* @access public
+*/
 	function resetsolved()
 	{
 		global $ilUser;
@@ -972,6 +1021,13 @@ class ilTestOutputGUI
 		$this->outTestPage();
 	}
 	
+/**
+* Go to the next question
+*
+* Go to the next question
+*
+* @access public
+*/
 	function next()
 	{
 		$this->saveQuestionSolution();
@@ -987,6 +1043,13 @@ class ilTestOutputGUI
 		}
 	}
 	
+/**
+* Go to the question with the active sequence
+*
+* Go to the question with the active sequence
+*
+* @access public
+*/
 	function gotoQuestion()
 	{
 		$this->sequence = $this->getSequence();	
@@ -994,19 +1057,38 @@ class ilTestOutputGUI
 		$this->outTestPage();
 	}
 	
+/**
+* Show the question summary in online exams
+*
+* Show the question summary in online exams
+*
+* @access public
+*/
 	function summary()
 	{
 		$this->saveQuestionSolution();
 		$this->outTestSummary();
 	}
 	
+/**
+* Go back to the last active question from the summary
+*
+* Go back to the last active question from the summary
+*
+* @access public
+*/
 	function backFromSummary()
 	{
-		$this->sequence = $this->getSequence();
-		$this->object->setActiveTestUser($this->sequence);
-		$this->outTestPage();
+		$this->gotoQuestion();
 	}
 
+/**
+* Postpone a question to the end of the test
+*
+* Postpone a question to the end of the test
+*
+* @access public
+*/
 	function postpone()
 	{
 		$this->saveQuestionSolution();
@@ -1016,6 +1098,13 @@ class ilTestOutputGUI
 		$this->outTestPage();
 	}
 	
+/**
+* Select an image map region in an image map question
+*
+* Select an image map region in an image map question
+*
+* @access public
+*/
 	function selectImagemapRegion()
 	{
 		$this->saveQuestionSolution();
@@ -1024,6 +1113,13 @@ class ilTestOutputGUI
 		$this->outTestPage();
 	}
 	
+/**
+* Go to the previous question
+*
+* Go to the previous question
+*
+* @access public
+*/
 	function previous()
 	{
 		$this->saveQuestionSolution();
@@ -1041,6 +1137,13 @@ class ilTestOutputGUI
 		}
 	}
 	
+/**
+* Finish the test
+*
+* Finish the test
+*
+* @access public
+*/
 	function finishTest()
 	{
 		global $ilUser;
@@ -1071,14 +1174,7 @@ class ilTestOutputGUI
 		}
 		else
 		{
-//			if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
-//			{
-				$this->outResults();
-//			}
-//			else
-//			{
-//				$this->outTestResults();
-//			}
+			$this->outResults();
 		}
 		// Update objectives
 		include_once './course/classes/class.ilCourseObjectiveResult.php';
@@ -1093,6 +1189,13 @@ class ilTestOutputGUI
 		}
 	}
 	
+/**
+* Outputs the question of the active sequence
+*
+* Outputs the question of the active sequence
+*
+* @access public
+*/
 	function outTestPage()
 	{
 		global $rbacsystem;
@@ -1114,8 +1217,6 @@ class ilTestOutputGUI
 		// update working time and set saveResult state
 		$this->updateWorkingTime();
 					
-		if ($this->handleCommands())
-			return;
 		if ($this->isMaxProcessingTimeReached())
 		{
 			$this->maxProcessingTimeReached();
@@ -1296,22 +1397,6 @@ class ilTestOutputGUI
 		}
 		
 		return $sequence;
-	}
-	
-	/**
-	 * handle standard commands like confirmation, deletes, evaluation
-	 */
-	function handleCommands()
-	{
-		global $ilUser;
-		
-		if ($_GET["evaluation"])
-		{
-			$this->outEvaluationForm();
-			return true;
-		}
-
-		return false;
 	}
 	
 	/**
@@ -1648,12 +1733,26 @@ class ilTestOutputGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+/**
+* Outputs all answers including the solutions for the active user
+*
+* Outputs all answers including the solutions for the active user
+*
+* @access public
+*/
 	function show_answers()
 	{
 		global $ilUser;
 		$this->outShowAnswers(true, $ilUser);
 	}
 	
+/**
+* Outputs all answers including the solutions for the active user
+*
+* Outputs all answers including the solutions for the active user
+*
+* @access public
+*/
 	function outShowAnswers($isForm, &$ilUser) 
 	{
 		$this->prepareOutput();
@@ -1661,14 +1760,19 @@ class ilTestOutputGUI
 		$this->outShowAnswersDetails($isForm, $ilUser);
 	}
 	
+/**
+* Outputs all answers including the solutions for the active user (output of the detail part)
+*
+* Outputs all answers including the solutions for the active user (output of the detail part)
+*
+* @access public
+*/
 	function outShowAnswersDetails($isForm, &$ilUser) 
 	{
 		$tpl = &$this->tpl;		 				
 		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
 		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$t = $active->submittimestamp;
-		
-		$add_parameter = $this->getAddParameter();
 		
 		// output of submit date and signature
 		if ($active->submitted)
@@ -1679,22 +1783,15 @@ class ilTestOutputGUI
 			$tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
 			$tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", ilUtil::date_mysql2time($t)));
 			$tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
-	
+
 			$freefieldtypes = array ("freefield_bottom" => 	array(	array ("title" => $this->lng->txt("tst_signature"), "length" => 300)));
-	/*					"freefield_top" => 		array (	array ("title" => $this->lng->txt("semester"), "length" => 300), 
-															array ("title" => $this->lng->txt("career"), "length" => 300)
-															 ),*/
-						
-			
-			
+
 			foreach ($freefieldtypes as $type => $freefields) {
 				$counter = 0;
-	
-				while ($counter < count ($freefields)) {
+
+				while ($counter < count ($freefields)) 
+				{
 					$freefield = $freefields[$counter];
-					
-					//$tpl->setCurrentBlock($type);
-				
 					$tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
 					$tpl->setVariable("VALUE_FREE_FIELD", "<img height=\"30px\" border=\"0\" src=\"".ilUtil :: getImagePath("spacer.gif", false)."\" width=\"".$freefield["length"]."px\" />");
 				
@@ -1714,13 +1811,13 @@ class ilTestOutputGUI
 			$tpl->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
 
-			//$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
 			$tpl->setVariable("COUNTER_QUESTION", $counter.". ");
 			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
 			$idx = $this->object->test_id;
 			
-			switch ($question_gui->getQuestionType()) {
+			switch ($question_gui->getQuestionType()) 
+			{
 				case "qt_imagemap" :
 					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser);
 					break;
@@ -1782,7 +1879,13 @@ class ilTestOutputGUI
 		}
 	}
 	
-	
+/**
+* Outputs a message when the maximum processing time is reached
+*
+* Outputs a message when the maximum processing time is reached
+*
+* @access public
+*/
 	function maxProcessingTimeReached()
 	{
 		sendInfo($this->lng->txt("detail_max_processing_time_reached"));
@@ -1871,8 +1974,10 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
 		
-		foreach ($users as $user_id) {
-			if ($this->object->isActiveTestSubmitted($user_id)) {
+		foreach ($users as $user_id) 
+		{
+			if ($this->object->isActiveTestSubmitted($user_id)) 
+			{
 				$this->outShowAnswersDetails(false, new ilObjUser ($user_id));
 			}
 		}
@@ -1885,8 +1990,10 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);
 		
-		foreach ($users as $user_id) {
-			if ($this->object->isActiveTestSubmitted($user_id)) {
+		foreach ($users as $user_id) 
+		{
+			if ($this->object->isActiveTestSubmitted($user_id)) 
+			{
 				$this->outPrintUserResults($user_id);			
 			}
 		}
@@ -2004,8 +2111,6 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%Y-%m-%d %H:%M:%S",$print_date));
 		
 
-		$add_parameter = $this->getAddParameter();
-		
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 
