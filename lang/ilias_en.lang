@@ -524,6 +524,7 @@ assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_result_user_name#:#Test results for %s
 assessment#:#tst_results#:#Test results
 assessment#:#tst_results_aggregated#:#Aggregated test results
+assessment#:#tst_results_back_evaluation#:#Back to evaluation overview
 assessment#:#tst_results_back_introduction#:#Back to introduction
 assessment#:#tst_results_back_overview#:#Back to results overview
 assessment#:#tst_resume_test#:#Resume the test
