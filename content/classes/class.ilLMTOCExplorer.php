@@ -46,6 +46,7 @@ class ilLMTOCExplorer extends ilLMExplorer
 	function ilLMTOCExplorer($a_target,&$a_lm_obj)
 	{
 		$this->offline = false;
+		$this->force_open_path = array();
 		parent::ilLMExplorer($a_target, $a_lm_obj);
 	}
 	
@@ -63,6 +64,15 @@ class ilLMTOCExplorer extends ilLMExplorer
 	function offlineMode()
 	{
 		return $this->offline;
+	}
+	
+	
+	/**
+	* set force open path
+	*/
+	function setForceOpenPath($a_path)
+	{
+		$this->force_open_path = $a_path;
 	}
 	
 	/**
@@ -136,6 +146,10 @@ class ilLMTOCExplorer extends ilLMExplorer
 		}
 		else
 		{
+			if (in_array($a_obj_id, $this->force_open_path))
+			{
+				return true;
+			}
 			return false;
 		}
 	}

@@ -816,15 +816,38 @@ class ilLMPresentationGUI
 	{
 		global $ilBench;
 
-
 		$ilBench->start("ContentPresentation", "ilTOC");
 		require_once("./content/classes/class.ilLMTOCExplorer.php");
+		if ($this->lm->cleanFrames())
+		{
+			$a_target = "";
+		}
 		$exp = new ilLMTOCExplorer($this->getLink($this->lm->getRefId(), "layout", "", $a_target),$this->lm);
-		$exp->setExpandTarget($this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]));
+		$exp->setExpandTarget($this->getLink($this->lm->getRefId(), $_GET["cmd"], $_GET["obj_id"], $_GET["frame"]));
 		$exp->setTargetGet("obj_id");
-		$exp->setFrameTarget($a_target);
+		if ($this->lm->cleanFrames())
+		{
+			$exp->setFrameTarget("bottom");
+		}
+		else
+		{
+			$exp->setFrameTarget($a_target);
+		}
 		$exp->addFilter("du");
 		$exp->addFilter("st");
+		
+		// force expansion
+		if ($this->lm->cleanFrames())
+		{
+			$page_id = $this->getCurrentPageId();
+			if ($page_id > 0)
+			{
+				$path = $this->lm_tree->getPathId($page_id);
+				$exp->setForceOpenPath($path);
+			}
+			$exp->highlightNode($page_id);
+		}
+		
 		$exp->setOfflineMode($this->offlineMode());
 		if ($this->lm->getTOCMode() == "pages")
 		{
@@ -1975,6 +1998,10 @@ class ilLMPresentationGUI
 					unset($attributes["template_location"]);
 					$attributes["src"] =
 						$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"]);
+					if ($attributes["name"] == "toc")
+					{
+						$attributes["src"].= "#".$_GET["obj_id"];
+					}
 					$a_content .= $this->buildTag("", "frame", $attributes);
 					$this->frames[$attributes["name"]] = $attributes["name"];
 //echo "<br>processNodes:add2 ".$attributes["name"];
@@ -2054,7 +2081,7 @@ class ilLMPresentationGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 
 		// set title header
-		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_toc"));
 
 
 		include_once ("content/classes/class.ilLMTableOfContentsExplorer.php");
@@ -2064,6 +2091,7 @@ class ilLMPresentationGUI
 		$exp->setExpandTarget($this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]));
 		$exp->setTargetGet("obj_id");
 		$exp->setOfflineMode($this->offlineMode());
+		$exp->forceExpandAll(true, false);
 
 		$tree =& $this->lm->getTree();
 		if ($_GET["lmtocexpand"] == "")

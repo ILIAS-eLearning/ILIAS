@@ -213,6 +213,8 @@ class ilExplorer
 		$this->textwidth=50;
 		$this->post_sort=true;
 		$this->setFilterMode(IL_FM_NEGATIVE);
+		$this->highlighted = "";
+		$this->show_minus = true;
 	}
 
 	/**
@@ -287,6 +289,14 @@ class ilExplorer
 	function setExpandTarget($a_exp_target)
 	{
 		$this->expand_target = $a_exp_target;
+	}
+	
+	/**
+	* set highlighted node
+	*/
+	function highlightNode($a_id)
+	{
+		$this->highlighted = $a_id;
 	}
 
 	/**
@@ -429,6 +439,12 @@ class ilExplorer
 		else
 		{
 			$objects = array();
+		}
+		
+		// force expansion (of single nodes)
+		if ($this->forceExpanded($a_obj_id) && !in_array($a_obj_id, $this->expanded))
+		{
+			$this->expanded[] = $a_obj_id;
 		}
 
 		if (count($objects) > 0)
@@ -643,6 +659,11 @@ class ilExplorer
 				$tpl->parseCurrentBlock();
 			}
 
+			if (!$this->show_minus)
+			{
+				$picture = "blank";
+			}
+			
 			if ($picture == 'minus')
 			{
 				$target = $this->createTarget('-',$a_node_id);
@@ -680,6 +701,10 @@ class ilExplorer
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+			if ($a_node_id == $this->highlighted)
+			{
+				$tpl->setVariable("A_CLASS", ' class="il_HighlightedNode" ' );
+			}
 			if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "")
 			{
 				$tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
@@ -995,9 +1020,10 @@ class ilExplorer
 	* @access	public
 	* @param	boolean
 	*/
-	function forceExpandAll($a_mode)
+	function forceExpandAll($a_mode, $a_show_minus = true)
 	{
 		$this->expand_all = (bool) $a_mode;
+		$this->show_minus = $a_show_minus;
 	}
 
 	/**

@@ -227,7 +227,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 	}
 
