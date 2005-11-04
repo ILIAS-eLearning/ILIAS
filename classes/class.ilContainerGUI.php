@@ -653,6 +653,9 @@ class ilContainerGUI extends ilObjectGUI
 	function cutObject()
 	{
 		global $rbacsystem;
+		
+		$this->ilias->raiseError("move operation does not work at the moment and is disabled",$this->ilias->error_obj->MESSAGE);
+
 //echo "CUT";
 //echo $_SESSION["referer"];
 		if (!isset($_POST["id"]))
@@ -918,12 +921,16 @@ class ilContainerGUI extends ilObjectGUI
 			// TODO: this whole put in place again stuff needs revision. Permission settings get lost.
 			foreach ($subnodes as $key => $subnode)
 			{
+$log->write("ilObjectGUI::pasteObject(), 0");
 				// first paste top_node ...
 				$rbacadmin->revokePermission($key);
+$log->write("ilObjectGUI::pasteObject(), 1");
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
+$log->write("ilObjectGUI::pasteObject(), 2");
 				$obj_data->putInTree($this->object->getRefId());
+$log->write("ilObjectGUI::pasteObject(), 3");
 				$obj_data->setPermissions($key);
-echo "hier";exit;
+$log->write("ilObjectGUI::pasteObject(), 4");
 				// log entry
 				$log->write("ilObjectGUI::pasteObject(), inserted top node. ref_id: $key,".
 					" rgt: ".$subnode[0]["rgt"].", lft: ".$subnode[0]["lft"].", parent: ".$subnode[0]["parent"].",".
