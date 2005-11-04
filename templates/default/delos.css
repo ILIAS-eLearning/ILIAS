@@ -827,6 +827,14 @@ div.il_ExplorerHeader
 	border-bottom:0px;
 }
 
+a.il_HighlightedNode
+{
+	#background-color: #F0F2FF;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-color: #909090;
+}
+
 /* Table Links */
 
 a.tblheader, a.tblheader:visited
@@ -1602,10 +1610,10 @@ a.ilc_LMMenu
 
 div.ilc_TableOfContents
 {
-	background-color:#EEEEEE;
+	background-color:#FFFFFF;
 	padding:20px;
 	border-spacing: 1px;
-	border-style: outset;
+	border-style: solid;
 	border-color: #EEEEEE;
 	border-width: 1px;
 	margin-bottom: 0px;

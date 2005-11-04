@@ -340,8 +340,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// clean frames
-		$this->tpl->setVariable("TXT_CLEAN_FRAMES", $this->lng->txt("cont_clean_frames"));
-		$this->tpl->setVariable("TXT_CLEAN_FRAMES_DESC", $this->lng->txt("cont_clean_frames_desc"));
+		$this->tpl->setVariable("TXT_CLEAN_FRAMES", $this->lng->txt("cont_synchronize_frames"));
+		$this->tpl->setVariable("TXT_CLEAN_FRAMES_DESC", $this->lng->txt("cont_synchronize_frames_desc"));
 		$this->tpl->setVariable("CBOX_CLEAN_FRAMES", "cobj_clean_frames");
 		$this->tpl->setVariable("VAL_CLEAN_FRAMES", "y");
 		if ($this->object->cleanFrames())
