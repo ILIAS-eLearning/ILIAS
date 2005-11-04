@@ -340,9 +340,13 @@ class ilExplorer
 
 	function isVisible($a_ref_id,$a_type)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilBench;
+		
+		$ilBench->start("Explorer", "setOutput_isVisible");
+		$visible = $rbacsystem->checkAccess('visible',$a_ref_id);
+		$ilBench->stop("Explorer", "setOutput_isVisible");
 
-		return $rbacsystem->checkAccess('visible',$a_ref_id);
+		return $visible;
 	}
 
 	/**
@@ -407,7 +411,7 @@ class ilExplorer
 	*/
 	function setOutput($a_parent_id, $a_depth = 1,$a_obj_id = 0)
 	{
-		global $rbacadmin, $rbacsystem;
+		global $rbacadmin, $rbacsystem, $ilBench;
 		static $counter = 0;
 
 		if (!isset($a_parent_id))
@@ -417,7 +421,10 @@ class ilExplorer
 
 		if ($this->showChilds($a_parent_id,$a_obj_id))
 		{
+//echo "<br>getChildsFor:".$a_parent_id.":";
+			$ilBench->start("Explorer", "setOutput_getChilds");
 			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+			$ilBench->stop("Explorer", "setOutput_getChilds");
 		}
 		else
 		{
@@ -426,21 +433,33 @@ class ilExplorer
 
 		if (count($objects) > 0)
 		{
-			$tab = ++$a_depth - 2;
 			// Maybe call a lexical sort function for the child objects
+			$ilBench->start("Explorer", "setOutput_sortNodes");
+			$tab = ++$a_depth - 2;
 			if ($this->post_sort)
 			{
 				$objects = $this->sortNodes($objects);
 			}
+			$ilBench->stop("Explorer", "setOutput_sortNodes");
 
+			$skip_rest = false;
+			
 			foreach ($objects as $key => $object)
 			{
+				// skip childs, if parent is not expanded
+				if (!$this->forceExpanded($object["child"]) && $skip_rest)
+				{
+					continue;
+				}
 				//ask for FILTER
 				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
 				{
+//echo "<br>--checkVisibilityOf:".$object['child'].":";
 					#if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
 					if($this->isVisible($object['child'],$object['type']) or !$this->rbac_check)
 					{
+//echo "isVisible";
+						$ilBench->start("Explorer", "setOutput_setFormatOptions");
 						if ($object["child"] != $this->tree->getRootId())
 						{
 							$parent_index = $this->getIndex($object);
@@ -476,6 +495,14 @@ class ilExplorer
 						{
 							if (!$this->forceExpanded($object["child"]))
 							{
+								// if parent is not expanded, and one child is
+								// visible we don't need more information and
+								// can skip the rest of the childs
+								if ($this->format_options["$counter"]["visible"])
+								{
+//echo "-setSkipping";
+									$skip_rest = true;
+								}
 								$this->format_options["$counter"]["visible"] = false;
 							}
 						}
@@ -496,7 +523,8 @@ class ilExplorer
 						}
 
 						++$counter;
-
+						$ilBench->stop("Explorer", "setOutput_setFormatOptions");
+						
 						// stop recursion if 2. level beyond expanded nodes is reached
 						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0)
 							or $this->forceExpanded($object["child"]))
@@ -537,6 +565,10 @@ class ilExplorer
 	*/
 	function getOutput()
 	{
+		global $ilBench;
+
+		$ilBench->start("Explorer", "getOutput");
+
 		$this->format_options[0]["tab"] = array();
 
 		$depth = $this->tree->getMaximumDepth();
@@ -559,6 +591,8 @@ class ilExplorer
 			}
 		}
 
+		$ilBench->stop("Explorer", "getOutput");
+		
 		return implode('',$this->output);
 	}
 
