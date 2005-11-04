@@ -897,7 +897,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				break;
 
 			case "ililincclassroomgui":
-			echo "hier";exit;
+			//echo "hier";exit;
 				$this->ctrl->setReturn($this, "");   // ###
 				$reg_gui = new ilRegisterGUI();
 				//$reg_gui->executeCommand();
