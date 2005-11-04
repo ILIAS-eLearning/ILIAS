@@ -550,7 +550,9 @@ class ilContainerGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"), get_class($this));
+								 $this->ctrl->getLinkTarget($this, "perm"),
+								 array("perm", "info","owner"),
+								 get_class($this));
 		}
 
 		// show clipboard
