@@ -349,6 +349,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt("allow_assign_users"));
 			$this->tpl->setVariable("ASSIGN_USERS",$assign_users);
 			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("protect_permissions");
+			$protect_permissions = $_SESSION["error_post_vars"]["Fobject"]["protect_permissions"] ? "checked=\"checked\"" : "";
+			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt("role_protect_permissions"));
+			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		// fill in saved values in case of error
@@ -398,7 +404,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
-		}		
+		}
 
 		// save
 		include_once("class.ilObjRole.php");
@@ -410,7 +416,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$roleObj->toggleAssignUsersStatus($_POST["Fobject"]["assign_users"]);
 		$roleObj->create();
 		$rbacadmin->assignRoleToFolder($roleObj->getId(), $this->rolf_ref_id,'y');
-		
+		$rbacadmin->setProtected($this->rolf_ref_id,$roleObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		sendInfo($this->lng->txt("role_added"),true);
 
 		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
@@ -425,44 +431,20 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition;
 
-
-		#$to_filter = $objDefinition->getSubobjectsToFilter();
-
 		if (!$rbacsystem->checkAccess('visible,write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$perm_def = $this->object->__getPermissionDefinitions();
+		$rbac_objects =& $perm_def[0];
+		$rbac_operations =& $perm_def[1];
 
-		// build array with all rbac object types
-		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
-			 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
-			 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
-		$r = $this->ilias->db->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			// FILTER SUBOJECTS OF adm OBJECT
-			#if(in_array($row->title,$to_filter))
-			#{
-			#	continue;
-			#}
-			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
-											    "type"		=> $row->title
-												);
-
-			$rbac_operations[$row->typ_id][$row->ops_id] = array(
-									   							"ops_id"	=> $row->ops_id,
-									  							"title"		=> $row->operation,
-																"name"		=> $this->lng->txt($row->title."_".$row->operation)
-															   );
-		}
-			
 		foreach ($rbac_objects as $key => $obj_data)
 		{
 			$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
 			$rbac_objects[$key]["ops"] = $rbac_operations[$key];
 		}
-
 
 		// for local roles display only the permissions settings for allowed subobjects
 		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
@@ -556,6 +538,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$output["txt_save"] = $this->lng->txt("save");
 		$output["check_bottom"] = ilUtil::formCheckBox(0,"recursive",1);
 		$output["message_table"] = $this->lng->txt("change_existing_objects");
+		$output["check_protected"] = ilUtil::formCheckBox($rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()),"protected",1);
+		$output["text_protected"] = $this->lng->txt("role_protect_permissions");
 
 
 /************************************/
@@ -686,6 +670,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("COL_ANZ",3);
 			$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
 			$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("tblfooter_protected");
+			$this->tpl->setVariable("COL_ANZ",3);
+			$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_protected"]);
+			$this->tpl->setVariable("MESSAGE_TABLE",$this->data["text_protected"]);
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("tblfooter_standard");
@@ -943,7 +933,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 		}// END IF RECURSIVE
 		
-
+		// set protected flag
+		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 
 		sendInfo($this->lng->txt("saved_successfully"),true);
 		if($this->ctrl->getTargetScript() == 'adm_object.php')
@@ -1178,7 +1169,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem, $rbacreview;
+		global $rbacsystem, $rbacreview, $rbacadmin;
 
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
@@ -1226,6 +1217,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
 		$this->object->toggleAssignUsersStatus($_POST["Fobject"]["assign_users"]);
+		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		$this->object->update();
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
@@ -1268,6 +1260,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 			$assign_users = ($_SESSION["error_post_vars"]["Fobject"]["assign_users"]) ? "checked=\"checked\"" : "";
+			$protect_permissions = ($_SESSION["error_post_vars"]["Fobject"]["protect_permissions"]) ? "checked=\"checked\"" : "";
 		}
 		else
 		{
@@ -1279,6 +1272,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
 			$assign_users = $this->object->getAssignUsersStatus() ? "checked=\"checked\"" : "";
+			$protect_permissions = $rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()) ? "checked=\"checked\"" : "";
 
 		}
 
@@ -1327,6 +1321,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("assign_users");
 			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt('allow_assign_users'));
 			$this->tpl->setVariable("ASSIGN_USERS",$assign_users);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("protect_permissions");
+			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt('role_protect_permissions'));
+			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
 			$this->tpl->parseCurrentBlock();
 		}
 	}

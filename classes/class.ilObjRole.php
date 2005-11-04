@@ -489,6 +489,40 @@ class ilObjRole extends ilObject
 		$row = $r->fetchRow();
 		
 		return $row[0];
-	} 
+	}
+	
+	// returns array of operation/objecttype definitions
+	// private
+	function __getPermissionDefinitions()
+	{
+		global $ilDB, $lng, $objDefinition;		
+		#$to_filter = $objDefinition->getSubobjectsToFilter();
+
+		// build array with all rbac object types
+		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
+			 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
+			 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
+		$r = $ilDB->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// FILTER SUBOJECTS OF adm OBJECT
+			#if(in_array($row->title,$to_filter))
+			#{
+			#	continue;
+			#}
+			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
+											    "type"		=> $row->title
+												);
+
+			$rbac_operations[$row->typ_id][$row->ops_id] = array(
+									   							"ops_id"	=> $row->ops_id,
+									  							"title"		=> $row->operation,
+																"name"		=> $lng->txt($row->title."_".$row->operation)
+															   );
+		}
+		
+		return array($rbac_objects,$rbac_operations);
+	}
 } // END class.ilObjRole
 ?>

@@ -292,7 +292,7 @@ class ilRbacAdmin
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops));
 
-		$q = "INSERT INTO rbac_pa (rol_id,ops_id,ref_id) ".
+		$q = "REPLACE INTO rbac_pa (rol_id,ops_id,ref_id) ".
 			 "VALUES ".
 			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
 		$this->ilDB->query($q);
@@ -311,32 +311,61 @@ class ilRbacAdmin
 	*/
 	function revokePermission($a_ref_id,$a_rol_id = 0)
 	{
+		global $rbacreview;
+
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::revokePermission(): Missing parameter! ref_id: ".$a_ref_id;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
+		
+		// in any case, get all roles in scope first
+		$roles_in_scope = $rbacreview->getParentRoleIds($a_ref_id);
 
-		// exclude system role from rbac
-		if ($a_rol_id == SYSTEM_ROLE_ID)
+		if (!$a_rol_id)
 		{
-			return true;
-		}
-
-		if ($a_rol_id)
-		{
-			$and1 = " AND rol_id = '".$a_rol_id."'";
+			$role_ids = array();
+			
+			foreach ($roles_in_scope as $role)
+			{
+				if ($role['protected'] == true)
+				{
+					continue;
+				}
+				
+				$role_ids[] = $role['obj_id'];
+			}
+			
+			// return if no role in array
+			if (!$role_ids)
+			{
+				return true;
+			}
+			
+			$q = "DELETE FROM rbac_pa ".
+				 "WHERE rol_id IN (".implode(',',$role_ids).") ".
+				 "AND ref_id ='".$a_ref_id."'";
+			$this->ilDB->query($q);
 		}
 		else
 		{
-			$and1 = "";
-		}
+			// exclude system role from rbac
+			if ($a_rol_id == SYSTEM_ROLE_ID)
+			{
+				return true;
+			}
+			
+			// exclude protected permission settings from revoking
+			if ($roles_in_scope[$a_rol_id]['protected'] == true)
+			{
+				return true;
+			}
 
-		// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
-		$q = "DELETE FROM rbac_pa ".
-			 "WHERE ref_id = '".$a_ref_id."' ".
-			 $and1;
-		$this->ilDB->query($q);
+			$q = "DELETE FROM rbac_pa ".
+				 "WHERE ref_id = '".$a_ref_id."' ".
+				 "AND rol_id = '".$a_rol_id."'";
+			$this->ilDB->query($q);
+		}
 
 		return true;
 	}
@@ -389,8 +418,10 @@ class ilRbacAdmin
  	* @param	integer		$a_dest_id			role_id destination
 	* @return	boolean 
 	*/
-	function copyRolePermission($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id)
+	function copyRolePermission($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
 	{
+		global $rbacreview;
+
 		if (!isset($a_source_id) or !isset($a_source_parent) or !isset($a_dest_id) or !isset($a_dest_parent))
 		{
 			$message = get_class($this)."::copyRolePermission(): Missing parameter! source_id: ".$a_source_id.
@@ -418,6 +449,15 @@ class ilRbacAdmin
 				 "('".$a_dest_id."','".$row->type."','".$row->ops_id."','".$a_dest_parent."')";
 			$this->ilDB->query($q);
 		}
+		
+		// copy also protection status if applicable
+		if ($a_consider_protected == true)
+		{
+			if ($rbacreview->isProtected(ROLE_FOLDER_ID,$r->obj_id))
+			{
+				$rbacadmin->setProtected($rfoldObj->getRefId(),$roleObj->getId(),'y');
+			}
+		}
 
 		return true;
 	}
@@ -430,12 +470,14 @@ class ilRbacAdmin
 	* @param	integer		$a_source1_parent	parent_id source
 	* @param	integer		$a_source2_id		role_id source
 	* @param	integer		$a_source2_parent	parent_id source
- 	* @param	integer		$a_dest_id		role_id destination
+ 	* @param	integer		$a_dest_id			role_id destination
 	* @param	integer		$a_dest_parent		parent_id destination
 	* @return	boolean 
 	*/
 	function copyRolePermissionIntersection($a_source1_id,$a_source1_parent,$a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id)
 	{
+		global $rbacreview;
+		
 		if (!isset($a_source1_id) or !isset($a_source1_parent) 
 		or !isset($a_source2_id) or !isset($a_source2_parent) 
                 or !isset($a_dest_id) or !isset($a_dest_parent))
@@ -453,6 +495,12 @@ class ilRbacAdmin
 		if ($a_dest_id == SYSTEM_ROLE_ID)
 		{
 			return true;
+		}
+		
+		if ($rbacreview->isProtected($a_source2_parent,$a_source2_id))
+		{
+			return true;
+			//return $this->copyRolePermission($a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id);
 		}
 
 		$q = "SELECT s1.type, s1.ops_id ".
@@ -656,6 +704,18 @@ class ilRbacAdmin
 			 "AND ops_id = '".$a_ops_id."'";
 		$this->ilDB->query($q);
 	
+		return true;
+	}
+	
+	function setProtected($a_ref_id,$a_role_id,$a_value)
+	{
+		// ref_id not used yet. protected permission acts 'global' for each role, regardless of any broken inheritance before
+		$q = "UPDATE rbac_fa ".
+			 "SET protected = '".$a_value."' ".
+			 //"WHERE parent = '".$a_ref_id."' ".
+			 "WHERE rol_id = '".$a_role_id."'";
+		$this->ilDB->query($q);
+		
 		return true;
 	}
 } // END class.ilRbacAdmin

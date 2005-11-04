@@ -1611,7 +1611,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_edit();
 
-		return true;;
+		return true;
 	}
 
 	function cciUpdateObject()
@@ -1628,8 +1628,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_update();
 
-		return true;;
+		return true;
 	}
+	
 	function cciMoveObject()
 	{
 		global $rbacsystem;
@@ -1644,7 +1645,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_move();
 
-		return true;;
+		return true;
 	}
 
 	function __unsetSessionVariables()
@@ -2149,6 +2150,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		return true;
 	}
+
 	// Methods for ConditionHandlerInterface
 	function initConditionHandlerGUI($item_id)
 	{

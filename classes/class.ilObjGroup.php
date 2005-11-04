@@ -667,6 +667,11 @@ class ilObjGroup extends ilContainer
 
 			foreach ($arr_relevantParentRoleIds as $parentRole)
 			{
+				if ($rbacreview->isProtected($arr_parentRoles[$parentRole]['parent'],$parentRole))
+				{
+					continue;
+				}
+				
 				$granted_permissions = array();
 
 				// Delete the linked role for the parent role
@@ -955,6 +960,8 @@ class ilObjGroup extends ilContainer
 		// create role and assign role to rolefolder...
 		$roleObj = $rfoldObj->createRole("il_grp_admin_".$this->getRefId(),"Groupadmin of group obj_no.".$this->getId());
 		$this->m_roleAdminId = $roleObj->getId();
+		// temp. workaround
+		$rbacadmin->setProtected($rfoldObj->getRefId(),$roleObj->getId(),"y");
 
 		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";

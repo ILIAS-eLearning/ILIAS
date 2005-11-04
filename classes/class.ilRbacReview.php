@@ -99,12 +99,12 @@ class ilRbacReview
 	/**
 	* Get parent roles in a path. If last parameter is set 'true'
 	* it delivers also all templates in the path
-	* @access	public
+	* @access	private
 	* @param	array	array with path_ids
 	* @param	boolean	true for role templates (default: false)
 	* @return	array	array with all parent roles (obj_ids)
 	*/
-	function getParentRoles($a_path,$a_templates = false)
+	function __getParentRoles($a_path,$a_templates,$a_keep_protected)
 	{
 		if (!isset($a_path) or !is_array($a_path))
 		{
@@ -112,49 +112,48 @@ class ilRbacReview
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$parentRoles = array();
+		$parent_roles = array();
+		$role_hierarchy = array();
 
-		$child = $this->getAllRoleFolderIds();
-		
-		// CREATE IN() STATEMENT
-		$in = " IN('";
-		$in .= implode("','",$child);
-		$in .= "') ";
-		
 		foreach ($a_path as $path)
 		{
-			//TODO: move this to tree class !!!!
-			$q = "SELECT * FROM tree ".
-				 "WHERE child ".$in.
-				 "AND parent = '".$path."'";
-			$r = $this->ilDB->query($q);
+			$rolf_id = "";
 
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			if ($rolf_id = $this->getRoleFolderIdOfObject($path))
 			{
-				$roles = $this->getRoleListByObject($row->child,$a_templates);
+				$roles = $this->getRoleListByObject($rolf_id,$a_templates);
 
 				foreach ($roles as $role)
 				{
 					$id = $role["obj_id"];
-					// TODO: need a parent here?
-					$role["parent"] = $row->child;
-					$parentRoles[$id] = $role;
+					$role["parent"] = $rolf_id;
+					$parent_roles[$id] = $role;
+					
+					if (!array_key_exists($role['obj_id'],$role_hierarchy))
+					{
+						$role_hierarchy[$id] = $rolf_id;
+					}
 				}
 			}
 		}
-
-		return $parentRoles;
+		
+		if (!$a_keep_protected)
+		{
+			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
+		}
+		
+		return $parent_roles;
 	}
 
 	/**
 	* get an array of parent role ids of all parent roles, if last parameter is set true
 	* you get also all parent templates
-	* @access	private
+	* @access	public
 	* @param	integer		ref_id of an object which is end node
 	* @param	boolean		true for role templates (default: false)
 	* @return	array       array(role_ids => role_data)
 	*/
-	function getParentRoleIds($a_endnode_id,$a_templates = false)
+	function getParentRoleIds($a_endnode_id,$a_templates = false,$a_keep_protected = false)
 	{
 		global $tree;
 
@@ -169,7 +168,7 @@ class ilRbacReview
 		// add system folder since it may not in the path
 		$pathIds[0] = SYSTEM_FOLDER_ID;
 
-		return $this->getParentRoles($pathIds,$a_templates);
+		return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
 	}
 
 	/**
@@ -191,7 +190,7 @@ class ilRbacReview
 
 		$role_list = array();
 
-		$where = $this->setTemplateFilter($a_templates);
+		$where = $this->__setTemplateFilter($a_templates);
 	
 		$q = "SELECT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
@@ -204,7 +203,7 @@ class ilRbacReview
 			$role_list[] = fetchObjectData($row);
 		}
 		
-		$role_list = $this->setRoleType($role_list);
+		$role_list = $this->__setRoleType($role_list);
 		
 		return $role_list;
 	}
@@ -219,7 +218,7 @@ class ilRbacReview
 	{
 		$role_list = array();
 
-		$where = $this->setTemplateFilter($a_templates);
+		$where = $this->__setTemplateFilter($a_templates);
 
 		$q = "SELECT DISTINCT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
@@ -233,8 +232,8 @@ class ilRbacReview
 			$role_list[] = fetchObjectData($row);
 		}
 		
-		$role_list = $this->setRoleType($role_list);
-		
+		$role_list = $this->__setRoleType($role_list);
+
 		return $role_list;
 	}
 
@@ -267,7 +266,7 @@ class ilRbacReview
 	* @param	boolean	true: with templates
 	* @return	string	where clause
 	*/
-	function setTemplateFilter($a_templates)
+	function __setTemplateFilter($a_templates)
 	{
 		if ($a_templates === true)
 		{
@@ -292,7 +291,7 @@ class ilRbacReview
 	* @param	array	role list
 	* @return	array	role list with additional entry for role_type
 	*/
-	function setRoleType($a_role_list)
+	function __setRoleType($a_role_list)
 	{
 		foreach ($a_role_list as $key => $val)
 		{
@@ -318,6 +317,15 @@ class ilRbacReview
 				{
 					$a_role_list[$key]["role_type"] = "linked";
 				}
+			}
+			
+			if ($val["protected"] == "y")
+			{
+				$a_role_list[$key]["protected"] = true;
+			}
+			else
+			{
+				$a_role_list[$key]["protected"] = false;
 			}
 		}
 		
@@ -590,10 +598,10 @@ class ilRbacReview
 
 	/**
 	* get all role folder ids
-	* @access	public
+	* @access	private
 	* @return	array
 	*/
-	function getAllRoleFolderIds()
+	function __getAllRoleFolderIds()
 	{
 		$parent = array();
 		
@@ -631,6 +639,18 @@ class ilRbacReview
 		$ilBench->stop("RBAC", "review_getRoleFolderOfObject");
 
 		return $childs[0] ? $childs[0] : array();
+	}
+	
+	function getRoleFolderIdOfObject($a_ref_id)
+	{
+		$rolf = $this->getRoleFolderOfObject($a_ref_id);
+		
+		if (!$rolf)
+		{
+			return false;
+		}
+		
+		return $rolf['ref_id'];
 	}
 
 	/**
@@ -906,7 +926,7 @@ class ilRbacReview
 			$roles[] = fetchObjectData($row);
 		}
 
-		$roles = $this->setRoleType($roles);
+		$roles = $this->__setRoleType($roles);
 
 		return $roles ? $roles : array();
 	}
@@ -966,7 +986,7 @@ class ilRbacReview
 	{
 		if (!isset($a_ref_id))
 		{
-			$message = get_class($this)."::getRolesOfRoleFolder(): No ref_id given!";
+			$message = get_class($this)."::getLinkedRolesOfRoleFolder(): No ref_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
@@ -984,6 +1004,68 @@ class ilRbacReview
 
 		return $rol_id ? $rol_id : array();
 	}
+	
+	// checks if default permission settings of role under current parent (rolefolder) are protected from changes
+	function isProtected($a_ref_id,$a_role_id)
+	{
+		$q = "SELECT protected FROM rbac_fa ".
+			 "WHERE rol_id='".$a_role_id."' ".
+			 "AND parent='".$a_ref_id."'";
+		$r = $this->ilDB->query($q);
+		$row = $r->fetchRow();
+		
+		return ilUtil::yn2tf($row[0]);
+	}
+	
+	// this method alters the protected status of role regarding the current user's role assignment
+	// and current postion in the hierarchy.
+	function __setProtectedStatus($a_parent_roles,$a_role_hierarchy,$a_ref_id)
+	{
+		global $rbacsystem,$ilUser;
+		
+		if (in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
+		{
+			$leveladmin = true;
+		}
+		else
+		{
+			$leveladmin = false;
+		}
+		
+		//var_dump($a_role_hierarchy);
+		
+		foreach ($a_role_hierarchy as $role_id => $rolf_id)
+		{
+			//echo "<br/>ROLF: ".$rolf_id." ROLE_ID: ".$role_id." (".$a_parent_roles[$role_id]['title'].") ";
+			//var_dump($leveladmin,$a_parent_roles[$role_id]['protected']);
 
+			if ($leveladmin == true)
+			{
+				$a_parent_roles[$role_id]['protected'] = false;
+				continue;
+			}
+				
+			if ($a_parent_roles[$role_id]['protected'] == true)
+			{
+				$arr_lvl_roles_user = array_intersect($_SESSION['RoleId'],array_keys($a_role_hierarchy,$rolf_id));
+				
+				foreach ($arr_lvl_roles_user as $lvl_role_id)
+				{
+					// check if role grants 'edit_permission' to rolefolder
+					if ($rbacsystem->checkPermission($a_ref_id,$lvl_role_id,'edit_permission'))
+					{
+						// user may change permissions of that higher-ranking role
+						$a_parent_roles[$role_id]['protected'] = false;
+						
+						// remember successful check
+						$leveladmin = true;
+					}
+				}
+			}
+		}
+		
+		return $a_parent_roles;
+	}
+	
 } // END class.ilRbacReview
 ?>

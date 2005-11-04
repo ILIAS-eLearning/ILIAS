@@ -40,7 +40,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjChatListGUI()
+	function ilObjGroupListGUI()
 	{
 		$this->ilObjectListGUI();
 	}
@@ -112,7 +112,5 @@ class ilObjGroupListGUI extends ilObjectListGUI
 
 		return $props;
 	}
-
-
-} // END class.ilObjCategoryGUI
+} // END class.ilObjGroupListGUI
 ?>

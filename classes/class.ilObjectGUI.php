@@ -1317,17 +1317,26 @@ class ilObjectGUI
 
 		$data = array();
 
+		$_SESSION['perm_filtered_roles'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['perm_filtered_roles'];
+
+		if ($_SESSION['perm_filtered_roles'] == 0)
+        {
+        	$_SESSION['perm_filtered_roles'] = 1;
+        }
+        
+   		// now get roles depending on filter settings
+      	$parentRoles = $this->__filterRoles($parentRoles,$_SESSION["perm_filtered_roles"]);
+
 		// GET ALL LOCAL ROLE IDS
 		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 		
-		$global_roles = $rbacreview->getGlobalRoles();
-
 		$local_roles = array();
 
-		if ($role_folder)
+		if (!empty($role_folder))
 		{
 			$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 		}
+
 		foreach ($parentRoles as $key => $r)
 		{
 			// exclude system admin role from list
@@ -1336,23 +1345,17 @@ class ilObjectGUI
 				unset($parentRoles[$key]);
 				continue;
 			}
-			
-			$r["global"] = false;
-			
-			if (in_array($r["obj_id"],$global_roles))
-			{
-				$r["global"] = true;
-			}
+
+			//var_dump($r['role_type'],$r['obj_id']);
 
 			if (!in_array($r["obj_id"],$local_roles))
 			{
-				$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
-				$r["link"] = false;
+
+				$keep_protected = $rbacreview->isProtected($r['parent'],$r['obj_id']);
+				$data['check_inherit'][] = ilUtil::formCheckBox(0,'stop_inherit[]',$r['obj_id'],$keep_protected);
 			}
 			else
 			{
-				$r["link"] = true;
-
 				// don't display a checkbox for local roles AND system role
 				if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
 				{
@@ -1361,7 +1364,7 @@ class ilObjectGUI
 				else
 				{
 					// linked local roles with stopped inheritance
-					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
+					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"],$r['protected']);
 				}
 			}
 
@@ -1381,11 +1384,10 @@ class ilObjectGUI
 
 			foreach ($parentRoles as $role)
 			{
-				$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
-				$disabled = false;
+				$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"], $operation["operation"]);
 
 				// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
-				$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
+				$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$role["protected"]);
 				$opdata["values"][] = $box;
 			}
 
@@ -1396,134 +1398,147 @@ class ilObjectGUI
 		// START DATA OUTPUT
 		/////////////////////
 		$this->getTemplateFile("perm");
-		$this->tpl->setCurrentBlock("tableheader");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("permission_settings"));
-		$this->tpl->setVariable("COLSPAN", $colspan);
-		$this->tpl->setVariable("TXT_OPERATION", $this->lng->txt("operation"));
-		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
-		$this->tpl->parseCurrentBlock();
+				
+		if ($data["roles"])
+		{
+
+		}
+
+	    $this->tpl->setCurrentBlock("filter");
+	    $this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
+	    $this->tpl->setVariable("SELECT_FILTER",$this->__buildRoleFilterSelect());
+	    $this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this)."&cmd=perm");
+	    $this->tpl->setVariable("FILTER_NAME",'view');
+	    $this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
+	    $this->tpl->parseCurrentBlock();
 
 		$num = 0;
-		//var_dump("<pre>",$data["roles"],"</pre>");
 
-		foreach ($data["roles"] as $role)
+		if (!$data["roles"])
 		{
-			$tmp_role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
-			$tmp_local_roles = array();
-			if ($tmp_role_folder)
+			sendinfo($this->lng->txt("msg_no_roles_of_type"),false);
+		}
+		else
+		{
+			$this->tpl->addBlockFile("PERM_PERMISSIONS", "permissions", "tpl.obj_perm_permissions.html");
+			$this->tpl->setCurrentBlock("tableheader");
+			$this->tpl->setVariable("TXT_TITLE2", $this->lng->txt("permission_settings"));
+			$this->tpl->setVariable("COLSPAN2", $colspan);
+			$this->tpl->setVariable("TXT_OPERATION", $this->lng->txt("operation"));
+			$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
+			$this->tpl->parseCurrentBlock();
+
+			foreach ($data["roles"] as $role)
 			{
-				$tmp_local_roles = $rbacreview->getRolesOfRoleFolder($tmp_role_folder["ref_id"]);
-			}
-			// Is it a real or linked lokal role
-			if(in_array($role['obj_id'],$tmp_local_roles))
-			{
-				$role_folder_data = $rbacreview->getRoleFolderOfObject($_GET['ref_id']);
-				$role_folder_id = $role_folder_data['ref_id'];
-
-
-				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
-
-				if($this->ctrl->getTargetScript() != 'adm_object.php')
+				$tmp_role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+				$tmp_local_roles = array();
+	
+				if ($tmp_role_folder)
 				{
-					$up_path = defined('ILIAS_MODULE') ? "../" : "";
-					$this->tpl->setVariable("LINK_ROLE_RULESET",$up_path.'role.php?cmd=perm&ref_id='.
-											$role_folder_id.'&obj_id='.$role['obj_id']);
-
-					#$this->ctrl->setParameterByClass('ilobjrolegui','obj_id',$role['obj_id']);
-					#$this->tpl->setVariable("LINK_ROLE_RULESET",
-					#						$this->ctrl->getLinkTargetByClass('ilobjrolegui','perm'));
+					$tmp_local_roles = $rbacreview->getRolesOfRoleFolder($tmp_role_folder["ref_id"]);
+				}
+				
+				// Is it a real or linked lokal role
+				if ($role['protected'] == false and in_array($role['obj_id'],$tmp_local_roles))
+				{
+					$role_folder_data = $rbacreview->getRoleFolderOfObject($_GET['ref_id']);
+					$role_folder_id = $role_folder_data['ref_id'];
+	
+	
+					$this->tpl->setCurrentBlock("ROLELINK_OPEN");
+	
+					if($this->ctrl->getTargetScript() != 'adm_object.php')
+					{
+						$up_path = defined('ILIAS_MODULE') ? "../" : "";
+						$this->tpl->setVariable("LINK_ROLE_RULESET",$up_path.'role.php?cmd=perm&ref_id='.
+												$role_folder_id.'&obj_id='.$role['obj_id']);
+	
+						#$this->ctrl->setParameterByClass('ilobjrolegui','obj_id',$role['obj_id']);
+						#$this->tpl->setVariable("LINK_ROLE_RULESET",
+						#						$this->ctrl->getLinkTargetByClass('ilobjrolegui','perm'));
+					}
+					else
+					{
+						$this->tpl->setVariable("LINK_ROLE_RULESET",'adm_object.php?cmd=perm&ref_id='.
+												$role_folder_id.'&obj_id='.$role['obj_id']);
+					}
+					$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
+					$this->tpl->parseCurrentBlock();
+	
+					$this->tpl->touchBlock("ROLELINK_CLOSE");
+				}
+	
+				$this->tpl->setCurrentBlock("ROLENAMES");
+				
+				// display human readable role names for autogenerated roles
+				include_once ('class.ilObjRole.php');
+				$this->tpl->setVariable("ROLE_NAME",str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"])));
+				
+				// display role context
+				if ($role["role_type"] == "global")
+				{
+					$this->tpl->setVariable("ROLE_CONTEXT_TYPE","global");
 				}
 				else
 				{
-					$this->tpl->setVariable("LINK_ROLE_RULESET",'adm_object.php?cmd=perm&ref_id='.
-											$role_folder_id.'&obj_id='.$role['obj_id']);
+					$rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
+					$parent_node = $this->tree->getParentNodeData($rolf[0]);
+					$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")");
+					$this->tpl->setVariable("ROLE_CONTEXT",$parent_node["title"]);
 				}
-				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->touchBlock("ROLELINK_CLOSE");
-			}
-
-			$this->tpl->setCurrentBlock("ROLENAMES");
-			
-			// display human readable role names for autogenerated roles
-			include_once ('class.ilObjRole.php');
-			$this->tpl->setVariable("ROLE_NAME",str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"])));
-			
-			/*if (substr($role["title"],0,3) == "il_")
-			{
-				$readable_title = substr($role["title"],0,strlen($role['title']) - strlen($role['obj_id']));
-				$this->tpl->setVariable("ROLE_NAME",$this->lng->txt($readable_title));
-			}
-			else
-			{
-				$this->tpl->setVariable("ROLE_NAME",$role["title"]);
-			}*/
-			
-			// display role context
-			if ($role["global"])
-			{
-				$this->tpl->setVariable("ROLE_CONTEXT_TYPE","global");
-			}
-			else
-			{
-				$rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
-				$parent_node = $this->tree->getParentNodeData($rolf[0]);
-				$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")");
-				$this->tpl->setVariable("ROLE_CONTEXT",$parent_node["title"]);
-			}
+					
 				
-			
-			$this->tpl->parseCurrentBlock();
-
-			// BLOCK CHECK INHERIT
+				$this->tpl->parseCurrentBlock();
+	
+				// BLOCK CHECK INHERIT
+				if ($this->objDefinition->stopInheritance($this->type))
+				{
+					$this->tpl->setCurrentBLock("CHECK_INHERIT");
+					$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num]);
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				$num++;
+			}
+	
+			// save num for required column span and the end of parsing
+			$colspan = $num + 1;
+			$num = 0;
+	
+			// offer option 'stop inheritance' only to those objects where this option is permitted
 			if ($this->objDefinition->stopInheritance($this->type))
 			{
-				$this->tpl->setCurrentBLock("CHECK_INHERIT");
-				$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num]);
+				$this->tpl->setCurrentBLock("STOP_INHERIT");
+				$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
 				$this->tpl->parseCurrentBlock();
 			}
-
-			$num++;
-		}
-
-		// save num for required column span and the end of parsing
-		$colspan = $num + 1;
-		$num = 0;
-
-		// offer option 'stop inheritance' only to those objects where this option is permitted
-		if ($this->objDefinition->stopInheritance($this->type))
-		{
-			$this->tpl->setCurrentBLock("STOP_INHERIT");
-			$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		foreach ($data["permission"] as $ar_perm)
-		{
-			foreach ($ar_perm["values"] as $box)
+	
+			foreach ($data["permission"] as $ar_perm)
 			{
-				// BEGIN TABLE CHECK PERM
-				$this->tpl->setCurrentBlock("CHECK_PERM");
-				$this->tpl->setVariable("CHECK_PERMISSION",$box);
-				$this->tpl->parseCurrentBlock();
-				// END CHECK PERM
-			}
-
-			// BEGIN TABLE DATA OUTER
-			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
-			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
-			$this->tpl->setVariable("CSS_ROW",$css_row);
-			$this->tpl->setVariable("PERMISSION", $this->lng->txt($this->object->getType()."_".$ar_perm["name"]));
-			if (substr($ar_perm["name"], 0, 7) == "create_")
-			{
-				if ($this->objDefinition->getDevMode(substr($ar_perm["name"], 7, strlen($ar_perm["name"]) -7)))
+				foreach ($ar_perm["values"] as $box)
 				{
-					$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
+					// BEGIN TABLE CHECK PERM
+					$this->tpl->setCurrentBlock("CHECK_PERM");
+					$this->tpl->setVariable("CHECK_PERMISSION",$box);
+					$this->tpl->parseCurrentBlock();
+					// END CHECK PERM
 				}
+	
+				// BEGIN TABLE DATA OUTER
+				$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
+				$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW",$css_row);
+				$this->tpl->setVariable("PERMISSION", $this->lng->txt($this->object->getType()."_".$ar_perm["name"]));
+				if (substr($ar_perm["name"], 0, 7) == "create_")
+				{
+					if ($this->objDefinition->getDevMode(substr($ar_perm["name"], 7, strlen($ar_perm["name"]) -7)))
+					{
+						$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
+					}
+				}
+				$this->tpl->parseCurrentBlock();
+				// END TABLE DATA OUTER
 			}
-			$this->tpl->parseCurrentBlock();
-			// END TABLE DATA OUTER
 		}
 
 		// ADD LOCAL ROLE
@@ -1532,9 +1547,8 @@ class ilObjectGUI
 		$object_types_exclude = array("adm","root","mail","objf","lngf","trac","taxf","auth", "assf",'seas');
 
 		if (!in_array($this->object->getType(),$object_types_exclude) and $this->object->getRefId() != ROLE_FOLDER_ID)
-		//if ($this->object->getRefId() != ROLE_FOLDER_ID and $rbacsystem->checkAccess('create_role',$this->object->getRefId()))
 		{
-			$this->tpl->setCurrentBlock("LOCAL_ROLE");
+			$this->tpl->addBlockFile("PERM_ADD_ROLE", "add_local_roles", "tpl.obj_perm_add_role.html");
 
 			// fill in saved values in case of error
 			$data = array();
@@ -1549,21 +1563,17 @@ class ilObjectGUI
 			}
 
 			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", $this->ctrl->getLinkTarget($this, "addRole")));
-//			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->parseCurrentBlock();
 		}
-//vd($this->link_params);
 
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
 			$this->getFormAction("permSave",$this->ctrl->getLinkTarget($this,"permSave")));
-//		$this->tpl->setVariable("FORMACTION",
-//			$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
@@ -1682,9 +1692,8 @@ class ilObjectGUI
 
 		if (is_array($_POST["perm"]))
 		{
-			foreach ($_POST["perm"] as $key => $new_role_perms)
+			foreach ($_POST["perm"] as $key => $new_role_perms) // $key enthaelt die aktuelle Role_Id
 			{
-				// $key enthaelt die aktuelle Role_Id
 				$rbacadmin->grantPermission($key,$new_role_perms,$this->ref_id);
 			}
 		}
@@ -1876,7 +1885,7 @@ class ilObjectGUI
 					}
 
 					// process clipboard information
-					if (($key == "title" || $key == "name") and isset($_SESSION["clipboard"]))
+					if (($key == "title" || $key == "name") and is_array(($_SESSION["clipboard"])))
 					{
 						// TODO: broken! fix me
 						if (in_array($ctrl["ref_id"],$_SESSION["clipboard"]["ref_ids"]))
@@ -2669,7 +2678,78 @@ class ilObjectGUI
 		
 		$this->tpl->setVariable("ADM_CONTENT",$ilInfo->getHTML());
 	}
+	
+	function __buildRoleFilterSelect()
+	{
+		$action[1] = $this->lng->txt('all_roles');
+		$action[2] = $this->lng->txt('all_global_roles');
+		$action[3] = $this->lng->txt('all_local_roles');
+		$action[4] = $this->lng->txt('linked_local_roles');
+		$action[5] = $this->lng->txt('local_roles_this_object_only');
+		
+		return ilUtil::formSelect($_SESSION['perm_filtered_roles'],"filter",$action,false,true);
+	}
+	
+	function __filterRoles($a_roles,$a_filter)
+	{
+		global $rbacreview;
 
+		switch ($a_filter)
+		{
+			case 1:	// all roles
+				return $a_roles;
+				break;
+			
+			case 2:	// all global roles
+				$arr_global_roles = $rbacreview->getGlobalRoles();
+				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_global_roles);
+
+				foreach ($arr_remove_roles as $role_id)
+				{
+					unset($a_roles[$role_id]);
+				}
+				
+				return $a_roles;
+				break;			
+
+			case 3:	// all local roles
+				$arr_global_roles = $rbacreview->getGlobalRoles();
+
+				foreach ($arr_global_roles as $role_id)
+				{
+					unset($a_roles[$role_id]);
+				}
+				
+				return $a_roles;
+				break;
+				
+			case 4:	// all roles
+				return $a_roles;
+				break;
+				
+			case 5:	// local role only at this position
+				
+				$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+		
+				if (!$role_folder)
+				{
+					return array();
+				}
+				
+				$arr_local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_local_roles);
+
+				foreach ($arr_remove_roles as $role_id)
+				{
+					unset($a_roles[$role_id]);
+				}
+
+				return $a_roles;
+				break;
+		}
+
+		return $a_roles;
+	}
 
 	function ownerObject()
 	{
@@ -2733,8 +2813,5 @@ class ilObjectGUI
 		return true;
 
 	}
-
-
-		
 } // END class.ilObjectGUI
 ?>
