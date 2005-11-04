@@ -37,6 +37,7 @@ class ilSearchResult
 {
 	var $user_id;
 	var $entries = array();
+	var $results = array();
 
 	// OBJECT VARIABLES
 	var $ilias;
@@ -53,10 +54,17 @@ class ilSearchResult
 	*/
 	function ilSearchResult($a_user_id = 0)
 	{
-		global $ilias,$ilAccess,$ilDB;
+		global $ilias,$ilAccess,$ilDB,$ilUser;
 
 		$this->ilAccess =& $ilAccess;
-		$this->user_id = $a_user_id;
+		if($a_user_id)
+		{
+			$this->user_id = $a_user_id;
+		}
+		else
+		{
+			$this->user_id = $ilUser->getId();
+		}
 		$this->db =& $ilDB;
 	}
 
@@ -227,6 +235,28 @@ class ilSearchResult
 		return $this->results ? $this->results : array();
 	}
 
+
+	/**
+	 *
+	 * Get unique results. Return an array of obj_id (No multiple results for references)
+	 * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
+	 * @access	public
+	 */
+	function getUniqueResults()
+	{
+		$obj_ids = array();
+		foreach($this->results as $result)
+		{
+			if(in_array($result['obj_id'],$obj_ids))
+			{
+				continue;
+			}
+			$obj_ids[] = $result['obj_id'];
+			$objects[] = $result;
+		}
+		return $objects ? $objects : array();
+	}
+
 	function getResultsForPresentation()
 	{
 		foreach($this->getResults() as $result)
@@ -272,10 +302,26 @@ class ilSearchResult
 			{
 				continue;
 			}
+			// Types like role, rolt, user do not need rbac checks
+			$type = ilObject::_lookupType($entry['obj_id']);
+			if($type == 'rolt' or $type == 'user' or $type == 'rolt')
+			{
+				$this->addResult($entry['obj_id'],$entry['obj_id'],$type);
+				$counter += count($entry['child']);
+				// Stop if maximum of hits is reached
+				if(++$counter > $this->search_settings->getMaxHits())
+				{
+					$this->limit_reached = true;
+					return true;
+				}
+				continue;
+			}
+
+			// Rbac objects
 			foreach(ilObject::_getAllReferences($entry['obj_id']) as $ref_id)
 			{
 				$type = ilObject::_lookupType($ref_id, true);
-				if($this->ilAccess->checkAccess('visible','',$ref_id,$type,$entry['obj_id']))
+				if($this->ilAccess->checkAccessOfUser($this->getUserId(),'visible','',$ref_id,$type,$entry['obj_id']))
 				{
 					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
 					{
