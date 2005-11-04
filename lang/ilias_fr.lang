@@ -3411,6 +3411,7 @@ content#:#cont_xml_base#:#xml:base###07 Apr 2005 content changed
 content#:#cont_year#:#Année###07 Apr 2005 content changed
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objet(s) copié(s) dans le presse-papier.###07 Apr 2005 content changed
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Modifier entrée de menu###07 Apr 2005 content changed
 content#:#lm_menu_entry_target#:#Cible###07 Apr 2005 content changed

@@ -3269,6 +3269,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Godina
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objekti su kopirani u tablicu
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Uredi unos u meni
 content#:#lm_menu_entry_target#:#Cilj 
@@ -4851,7 +4852,7 @@ survey#:#cannot_participate_survey#:#Ne posedujete potrebne dozvole za ucešce u
 survey#:#cannot_read_questionpool#:#Ne posedujete potrebne dozvole da citate bazu pitanja za anketu!###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#Ne posedujete potrebne dozvole da citate anketne podatke!
 survey#:#cannot_save_metaobject#:#Ne posedujete potrebne dozvole da snimate metapodatke!
-survey#:#cannot_switch_to_online_no_questions#:#Status ne može biti promenjen u &quot;vezano&quot; pošto nema nikakvih pitanja u testu!
+survey#:#cannot_switch_to_online_no_questions#:#Status ne može biti promenjen u &quot;vezano&quot; pošto nema nikakvih pitanja u testu!###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Kategorija###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#Da li ste sigurni da želite da obrišete sledece kategorije?###03 Nov 2005 content changed
@@ -5080,7 +5081,7 @@ survey#:#questiontype#:#Vrsta pitanja
 survey#:#ratio_absolute#:#Apsolutni kolicnik
 survey#:#ratio_non_absolute#:#Neapsolutni kolicnik
 survey#:#remove_question#:#Ukloni
-survey#:#remove_questions#:#Da li ste sigurni da želite da uklonite sledeca pitanja i/ili blokove pitanja iz testa?
+survey#:#remove_questions#:#Da li ste sigurni da želite da uklonite sledeca pitanja i/ili blokove pitanja iz testa?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Vrati filter
 survey#:#resume_survey#:#Vratite anketu
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable

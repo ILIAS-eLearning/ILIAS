@@ -3431,6 +3431,7 @@ content#:#cont_xml_base#:#basato su xml
 content#:#cont_year#:#Anno
 content#:#cont_zip_file_invalid#:#File di import non valido.<br>Il file non contiene il file '%s'.
 content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#Le seguenti risorse sono collegate con quel termine
 content#:#lm_menu_edit_entry#:#Modifica voce del menu
 content#:#lm_menu_entry_target#:#Obiettivo
@@ -5040,7 +5041,7 @@ survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al sondag
 survey#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
 survey#:#cannot_read_survey#:#Non hai i diritti per vedere i dati del sondaggio!
 survey#:#cannot_save_metaobject#:#Non hai diriti sufficienti per salvare i metadati!
-survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!
+survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Categoria###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?###03 Nov 2005 content changed
@@ -5275,7 +5276,7 @@ survey#:#questiontype#:#Tipo di domanda
 survey#:#ratio_absolute#:#con risposta frazionaria (assoluta)
 survey#:#ratio_non_absolute#:#con risposta frazionaria (non assoluta)
 survey#:#remove_question#:#Cancella
-survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?
+survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Azzera il filtro
 survey#:#resume_survey#:#Azzera il filtro
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable

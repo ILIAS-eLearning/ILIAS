@@ -3447,6 +3447,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Év
 content#:#cont_zip_file_invalid#:#A fájl nem érvényes importfájl.<br>Nem tartalmaz fájlt '%s'.
 content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#Az alábbi források linkelnek arra a fogalomra
 content#:#lm_menu_edit_entry#:#Menübejegyzés szerkesztése
 content#:#lm_menu_entry_target#:#Cél
@@ -5063,6 +5064,7 @@ survey#:#cannot_read_questionpool#:#Nem rendelkezik elegendő jogosultsággal a 
 survey#:#cannot_read_survey#:#Nem rendelkezik elegendő jogosultsággal a kérdőív adatainak olvasásához.
 survey#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok elmentéséhez.
 survey#:#cannot_switch_to_online_no_questions#:#Nem változtatható &quot;on-line&quot;-ra az állapot, mert nincsenek kérdések a tesztben.
+###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Kategória
 ###03 Nov 2005 content changed
@@ -5317,6 +5319,7 @@ survey#:#ratio_absolute#:#Abszolút skála
 survey#:#ratio_non_absolute#:#Arányskála
 survey#:#remove_question#:#Eltávolítás
 survey#:#remove_questions#:#Biztosan el akarja távolítani az alábbi kérdés(eke)t/kérdésblokk(ok)at a tesztből?
+###04 Nov 2005 content changed
 survey#:#reset_filter#:#Szűrő alapállapotba állítása
 survey#:#resume_survey#:#Kérdőív folytatása
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
