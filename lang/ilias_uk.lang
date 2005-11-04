@@ -3424,6 +3424,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Рік
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Об'єкти, скопійовані в буфер обміну.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Редагувати пункт меню
 content#:#lm_menu_entry_target#:#Ціль
@@ -5026,7 +5027,7 @@ survey#:#cannot_participate_survey#:#Ви не маєте прав щоб взя
 survey#:#cannot_read_questionpool#:#Ви не володієте достатніми правами для читання дані банку питань!###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#Ви не володієте достатніми правами для читання даних опитування!
 survey#:#cannot_save_metaobject#:#Ви не володієте достатніми правами для зберігання мета даних!
-survey#:#cannot_switch_to_online_no_questions#:#Статус не може бути змінений на &quot;онлайн&quot; тому що немає питань в тесті!
+survey#:#cannot_switch_to_online_no_questions#:#Статус не може бути змінений на &quot;онлайн&quot; тому що немає питань в тесті!###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Категорія###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#Ви впевнені що бажаєте видалити наступні категорії?###03 Nov 2005 content changed
@@ -5261,7 +5262,7 @@ survey#:#questiontype#:#Тип питання
 survey#:#ratio_absolute#:#Відношення-Абсолютне
 survey#:#ratio_non_absolute#:#Відношення-Не-Абсолютне
 survey#:#remove_question#:#Видалити
-survey#:#remove_questions#:#Ви впевнені що бажаєте видалити наступні питання та/або блоки питань з тесту?
+survey#:#remove_questions#:#Ви впевнені що бажаєте видалити наступні питання та/або блоки питань з тесту?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Скинути фільтр
 survey#:#resume_survey#:#Відновити опитування
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable

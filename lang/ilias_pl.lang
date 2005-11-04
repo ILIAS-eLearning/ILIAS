@@ -3436,6 +3436,7 @@ content#:#cont_xml_base#:#xml:baza
 content#:#cont_year#:#Rok
 content#:#cont_zip_file_invalid#:#Ten plik nie jest prawidłowym plikiem importowym.<br>Nie zawiera pliku '%s'.
 content#:#copied_to_clipboard#:#Obiekty skopiowane do schowka.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#Następujące zasoby są połączone z tym hasłem
 content#:#lm_menu_edit_entry#:#Edycja pozycji menu
 content#:#lm_menu_entry_target#:#Przeznaczenie
@@ -5045,7 +5046,7 @@ survey#:#cannot_participate_survey#:#Nie masz uprawnień do uczestnictwa w przeg
 survey#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do czytania puli pytań!
 survey#:#cannot_read_survey#:#Nie masz wystarczających uprawnień do czytania danych ankiety!
 survey#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień do zapisu meta  danych!
-survey#:#cannot_switch_to_online_no_questions#:#Status nie może być zmieniony na &quot;online&quot; ponieważ brak pytań w teście!
+survey#:#cannot_switch_to_online_no_questions#:#Status nie może być zmieniony na &quot;online&quot; ponieważ brak pytań w teście!###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Kategoria###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#Czy chcesz usunąć wybrane kategorie?###03 Nov 2005 content changed
@@ -5280,7 +5281,7 @@ survey#:#questiontype#:#Typ pytania
 survey#:#ratio_absolute#:#Współczynnik-Absolutny
 survey#:#ratio_non_absolute#:#Współczynnik-nie-Absolutny
 survey#:#remove_question#:#Usuń
-survey#:#remove_questions#:#Chcesz usunąć wybrane pytania i/lub bloki pytań z testu?
+survey#:#remove_questions#:#Chcesz usunąć wybrane pytania i/lub bloki pytań z testu?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Czyść filtr
 survey#:#resume_survey#:#Streszczenie ankiety
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable

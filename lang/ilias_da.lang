@@ -3444,6 +3444,7 @@ content#:#cont_xml_base#:#xml:base###21 Apr 2005 new variable
 content#:#cont_year#:#&aring;r
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Kopierede objekter til udklipholder.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###21 Apr 2005 new variable
 content#:#lm_menu_entry_target#:#Target###21 Apr 2005 new variable
@@ -5058,6 +5059,7 @@ survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
 survey#:#cannot_save_metaobject#:#Du har ikke de rigtige rettighedder til at gemme meta data!
 survey#:#cannot_switch_to_online_no_questions#:#Din status kan ikke bliv e&aelig;ndret til &quot;online&quot; fordi der ikke er nogen sp&oslash;rgsm&aring;l i testen!
+###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Kategori
 ###03 Nov 2005 content changed
@@ -5308,6 +5310,7 @@ survey#:#ratio_absolute#:#Ratio-Absolute###21 Apr 2005 new variable
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###21 Apr 2005 new variable
 survey#:#remove_question#:#Fjern
 survey#:#remove_questions#:#Er du sikker p&aring; at du vil fjerne f&oslash;lgende sp&oslash;rgsm&aring;l og/eller sp&oslash;rgsm&aring;lsblokke fra denne test?
+###04 Nov 2005 content changed
 survey#:#reset_filter#:#Nulstil filter
 survey#:#resume_survey#:#Genstart sp&oslash;rgeskema
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable

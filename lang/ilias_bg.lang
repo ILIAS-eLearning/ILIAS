@@ -3029,6 +3029,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Година
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Копиран(и) обект(и) в клипборда.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#lm_menu_edit_entry#:#Редактиране на запис в меню
 content#:#lm_menu_entry_target#:#Местоназначение
 content#:#lm_menu_entry_title#:#Заглавие
@@ -4522,6 +4523,7 @@ survey#:#cannot_manage_phrases#:#Не притежавате достатъчн�
 survey#:#cannot_participate_survey#:#Не притежавате достатъчни разрешени права да участвате в обзора!
 survey#:#cannot_save_metaobject#:#Не притежавате достатъчни разрешени права да съхранявате метаданните!
 survey#:#cannot_switch_to_online_no_questions#:#Статусът не може да бъде променен на &quot;online&quot; , защото няма въпроси в теста!
+###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Категория
 ###03 Nov 2005 content changed
@@ -4769,6 +4771,7 @@ survey#:#ratio_absolute#:#Съотношение-абсолютно
 survey#:#ratio_non_absolute#:#Съотношение-неабсолютно
 survey#:#remove_question#:#Премахване
 survey#:#remove_questions#:#Сигурни ли сте, че желаете да премахнете следния(те) въпрос(и) и/или блок(ове) въпроси от теста?
+###04 Nov 2005 content changed
 survey#:#reset_filter#:#Нулиране на филтъра
 survey#:#resume_survey#:#Продължаване на обзора
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable

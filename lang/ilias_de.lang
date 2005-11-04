@@ -3435,6 +3435,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
@@ -5043,7 +5044,7 @@ survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der U
 survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, um auf den Fragenpool zugreifen zu können!
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
-survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
+survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!###04 Nov 2005 content changed
 survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?
@@ -5060,7 +5061,7 @@ survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit 
 survey#:#constraint_add#:#Vorbedingung hinzufügen
 survey#:#constraints#:#Vorbedingungen
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbediungungen besitzen, da es keine vorherigen Einträge gibt
-survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.
+survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.###04 Nov 2005 content changed
 survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
@@ -5278,7 +5279,7 @@ survey#:#questiontype#:#Fragentyp
 survey#:#ratio_absolute#:#Absolutskala
 survey#:#ratio_non_absolute#:#Ratioskala
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Umfrage fortsetzen
 survey#:#save_back_to_survey#:#Speichern und zurück zur Umfrage
@@ -5309,7 +5310,7 @@ survey#:#set_filter#:#Filter setzen
 survey#:#skipped#:#überprungen
 survey#:#spl_general_properties#:#Allgemeine Eigenschaften
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
+survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.###04 Nov 2005 content changed
 survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!

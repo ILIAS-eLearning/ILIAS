@@ -3434,9 +3434,9 @@ content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
-content#:#glo_definition_abbr#:#Def.
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
+content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#The following resources linking to that term
 content#:#lm_menu_edit_entry#:#Edit menu entry
 content#:#lm_menu_entry_target#:#Target

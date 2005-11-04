@@ -2938,6 +2938,7 @@ content#:#cont_wysiwyg#:#Continut WYSIWYG
 content#:#cont_xml_base#:#xml:baza
 content#:#cont_year#:#Anul
 content#:#copied_to_clipboard#:#Obiecte copiate in clipboard.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#lm_menu_edit_entry#:#Editati intrarile din menu
 content#:#lm_menu_entry_target#:#Tinta
 content#:#lm_menu_entry_title#:#Titlu
@@ -4339,7 +4340,7 @@ survey#:#cannot_maintain_survey#:#Nu aveti permisiunea de a supraveghea sondajul
 survey#:#cannot_manage_phrases#:#Nu aveti permisiunea de a administra frazele!
 survey#:#cannot_participate_survey#:#Nu aveti permisiunea de a participa la sondaj!
 survey#:#cannot_save_metaobject#:#Nu aveti permisiunea de a salva metadatele!
-survey#:#cannot_switch_to_online_no_questions#:#Statutul nu poate fi schimbat in  &quot;online&quot; pentru ca nu exista intrebari in test!
+survey#:#cannot_switch_to_online_no_questions#:#Statutul nu poate fi schimbat in  &quot;online&quot; pentru ca nu exista intrebari in test!###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Categorie###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#Sunteti sigur/a ca doriti sa stergeti urmatoarele categorii?###03 Nov 2005 content changed
@@ -4565,7 +4566,7 @@ survey#:#questiontype#:#Tipul intrebarii
 survey#:#ratio_absolute#:#Ratie absoluta
 survey#:#ratio_non_absolute#:#Ratie non absoluta
 survey#:#remove_question#:#Eliminati
-survey#:#remove_questions#:#Sunteti sigur/a ca doriti sa eliminati urmatoarele intrebari si/sau baraje de intrebari din test?
+survey#:#remove_questions#:#Sunteti sigur/a ca doriti sa eliminati urmatoarele intrebari si/sau baraje de intrebari din test?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Resetati filtru
 survey#:#resume_survey#:#Intoarcere la sondaj
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable

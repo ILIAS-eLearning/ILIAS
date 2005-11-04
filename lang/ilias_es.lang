@@ -3435,9 +3435,9 @@ content#:#cont_width#:#Anchura
 content#:#cont_wysiwyg#:#Contenido WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Año
-content#:#glo_definition_abbr#:#Def.
 content#:#cont_zip_file_invalid#:#El fichero no es un fichero de importación válido.<br>No contiene un fichero '%s'.
 content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
@@ -5047,7 +5047,7 @@ survey#:#cannot_participate_survey#:#No tiene derechos para participar en la enc
 survey#:#cannot_read_questionpool#:#No posee suficientes permisos para leer el contenido del respositorio de preguntas
 survey#:#cannot_read_survey#:#No posee suficiente permisos para leer los datos de la encuesta
 survey#:#cannot_save_metaobject#:#No posee suficientes permisos para modificar los meta datos!
-survey#:#cannot_switch_to_online_no_questions#:#El estado no puede ser modificado a &quot;online&quot; porque no hay preguntas en el test!
+survey#:#cannot_switch_to_online_no_questions#:#El estado no puede ser modificado a &quot;online&quot; porque no hay preguntas en el test!###04 Nov 2005 content changed
 survey#:#categories#:#Respuestas
 survey#:#category#:#Categoría
 survey#:#category_delete_confirm#:#Está seguro de querer eliminar la(s) siguiente(s) categoría(s)?
@@ -5064,7 +5064,7 @@ survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha 
 survey#:#constraint_add#:#Añadir precondición
 survey#:#constraints#:#Restricciones
 survey#:#constraints_first_question_description#:#La primera entidad no podría tener ninguna precondición porque no hay preguntas previas.
-survey#:#constraints_introduction#:#Para cada entidad (una pregunta simple o un bloque de preguntas con múltiples preguntas) una o más precondiciones podrían ser definidas. Estas precondiciones derivarán de las respuestas de participantes en la encuesta, de preguntas que ya han aparecido antes en este test.
+survey#:#constraints_introduction#:#Para cada entidad (una pregunta simple o un bloque de preguntas con múltiples preguntas) una o más precondiciones podrían ser definidas. Estas precondiciones derivarán de las respuestas de participantes en la encuesta, de preguntas que ya han aparecido antes en este test.###04 Nov 2005 content changed
 survey#:#contains#:#Contiene
 survey#:#continue#:#Continuar >>
 survey#:#create_date#:#Creada
@@ -5282,7 +5282,7 @@ survey#:#questiontype#:#Tipo de pregunta
 survey#:#ratio_absolute#:#Porcentaje absoluto
 survey#:#ratio_non_absolute#:#Porcentaje no absoluto
 survey#:#remove_question#:#Eliminar
-survey#:#remove_questions#:#¿Está seguro de que quiere eliminar las siguiente(s) preguntas del test?
+survey#:#remove_questions#:#¿Está seguro de que quiere eliminar las siguiente(s) preguntas del test?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Reiniciar filtro
 survey#:#resume_survey#:#Continuar la encuesta
 survey#:#save_back_to_survey#:#Guardar y volver a la encuesta
@@ -5313,7 +5313,7 @@ survey#:#set_filter#:#Activar filtro
 survey#:#skipped#:#skipped
 survey#:#spl_general_properties#:#Propiedades generales
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Si el banco de preguntas no está online, no puede ser usado en los tests.
+survey#:#spl_online_property_description#:#Si el banco de preguntas no está online, no puede ser usado en los tests.###04 Nov 2005 content changed
 survey#:#spl_select_file_for_import#:#¡Debe seleccionar un fichero a importar!
 survey#:#start_date#:#Fecha de inicio
 survey#:#start_date_not_reached#:#No puede iniciar la encuesta hasta que se alcance la fecha de inicio

@@ -3269,6 +3269,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Viti
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objektet e kopjuara në klipbord.
+content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edito të dhënat e menysë
 content#:#lm_menu_entry_target#:#Destinacioni
@@ -4851,7 +4852,7 @@ survey#:#cannot_participate_survey#:#Nuk keni të drejta të mjaftueshme për t�
 survey#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për t'i lexuar fond-pyetjet!###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#Nuk keni të drejta të mjaftueshme për të lexuar të dhënat e kuestionerit!
 survey#:#cannot_save_metaobject#:#Nuk keni të drejta të mjaftueshme për të vendosur metadata!
-survey#:#cannot_switch_to_online_no_questions#:#Statusi nuk mund të ndërrohet në &quot;online&quot; sepse nuk ka asnjë pyetje në test!
+survey#:#cannot_switch_to_online_no_questions#:#Statusi nuk mund të ndërrohet në &quot;online&quot; sepse nuk ka asnjë pyetje në test!###04 Nov 2005 content changed
 survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Kategori###03 Nov 2005 content changed
 survey#:#category_delete_confirm#:#A jeni të sigurt për të I fshirë kategoritë në vijim?###03 Nov 2005 content changed
@@ -5080,7 +5081,7 @@ survey#:#questiontype#:#Tipi i pyetjes
 survey#:#ratio_absolute#:#Përpjesëtim-Absolut
 survey#:#ratio_non_absolute#:#Përpjesëtim-Jo-Absolut
 survey#:#remove_question#:#Largo
-survey#:#remove_questions#:#A jeni të sigurt për t'i larguar pyetjet dhe/ose grupet e pyetjeve ne vijim?
+survey#:#remove_questions#:#A jeni të sigurt për t'i larguar pyetjet dhe/ose grupet e pyetjeve ne vijim?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Rikthe në zero filtrin
 survey#:#resume_survey#:#Vazhdo kuestionerin
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
