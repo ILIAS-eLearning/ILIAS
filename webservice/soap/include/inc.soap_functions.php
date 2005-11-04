@@ -300,7 +300,6 @@ function addRole($sid,$target_id,$obj_xml)
 
 	return $soa->addRole($sid,$target_id,$obj_xml);
 }
-/*
 function addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
@@ -309,7 +308,7 @@ function addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id)
 
 	return $soa->addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id);
 }
-*/
+
 function getObjectTreeOperations($sid,$ref_id,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';

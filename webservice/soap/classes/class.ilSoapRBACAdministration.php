@@ -341,6 +341,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid ref id given. Please choose an existing reference id of an ILIAS object',
 									   'Client');
 		}
+		if(ilObject::_lookupType($template_id) != 'rolt')
+		{
+			return $this->__raiseError('No valid template id given. Please choose an existing object id of an ILIAS role template',
+									   'Client');
+		}
+
+
+
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
 		
 		$xml_parser =& new ilObjectXMLParser($role_xml);
@@ -386,8 +394,26 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			$rolf_obj =& ilObjectFactory::getInstanceByRefId($rolf_id);
 			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description']);
 
+			// Copy permssions
+			$rbacadmin->copyRolePermission($template_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
+
+			// Set object permissions according to role template 
+			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),$tmp_obj->getType(),$rolf_obj->getRefId());
+			$rbacadmin->grantPermission($role_obj->getId(),$ops,$target_id);
+			
+			// SET permissisons of role folder according to role template
+			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
+			$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
+
 			$new_roles[] = $role_obj->getId();
 		}
+
+
+		// CREATE ADMIN ROLE
+
+
+
+
 
 		return $new_roles ? $new_roles : array();
 	}

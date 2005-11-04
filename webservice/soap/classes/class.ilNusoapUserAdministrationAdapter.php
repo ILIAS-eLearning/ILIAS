@@ -528,7 +528,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS '.
 								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created.');
-		/*
+
 		$this->server->register('addRoleFromTemplate',
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
@@ -542,7 +542,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS '.
 								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created. '.
 								'In addition to addRole the template permissions will be copied from the given role template');
-		*/
+
 		$this->server->register('getObjectTreeOperations',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
