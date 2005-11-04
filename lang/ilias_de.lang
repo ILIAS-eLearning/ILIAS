@@ -1779,7 +1779,7 @@ common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht wer
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_enter_login_or_id#:#<i>(Geben Sie Benutzernamen oder Benutzer-ID ein)</i>
 common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser user_id existiert nicht###03 Aug 2005 content changed
-common#:#info_from_role#:#Gesetzt bei der Rolle
+common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz
 common#:#info_is_member#:#Benutzer ist Mitglied
 common#:#info_is_not_member#:#Benutzer ist kein Mitglied
 common#:#info_not_assigned#:#nicht zugewiesen

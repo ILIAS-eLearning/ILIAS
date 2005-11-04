@@ -256,7 +256,7 @@ class ilObjectStatusGUI
 	
 	function getPermissionInfo()
 	{
-		global $ilAccess,$lng,$rbacreview,$ilUser;
+		global $ilAccess,$lng,$rbacreview,$ilUser,$ilObjDataCache;
 
 		// icon handlers
 		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
@@ -276,7 +276,12 @@ class ilObjectStatusGUI
 			$result_set[$counter][] = $lng->txt($this->object->getType()."_".$ops['operation']);
 			
 			$list_role = "";
-			
+
+			// Check ownership
+			if($this->user->getId() == $ilObjDataCache->lookupOwner($this->object->getId()))
+			{
+				$list_role[] = $lng->txt('info_owner_of_object');
+			}
 			// get operations on object for each assigned role to user
 			foreach ($this->assigned_valid_roles as $role)
 			{

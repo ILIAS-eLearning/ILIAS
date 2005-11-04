@@ -334,13 +334,15 @@ class ilNusoapUserAdministrationAdapter
 								
 		$this->server->register('getObjectsByTitle',
 								array('sid' => 'xsd:string',
-									  'title' => 'xsd:string'),
+									  'title' => 'xsd:string',
+									  'user_id' => 'xsd:int'),
 								array('object_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getObjectsByTitle',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getObjectsByTitle(). Get XML-description of an ILIAS object with given title');
+								'ILIAS getObjectsByTitle(). Get XML-description of an ILIAS object with given title. '.
+								'If a user id is given this method also checks the permissions of that user on the object.');
 
 		$this->server->register('searchObjects',
 								array('sid' => 'xsd:string',
@@ -361,7 +363,8 @@ class ilNusoapUserAdministrationAdapter
 		$this->server->register('getTreeChilds',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
-									  'types' => 'tns:stringArray'),
+									  'types' => 'tns:stringArray',
+									  'user_id' => 'xsd:int'),
 								array('object_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getTreeChilds',

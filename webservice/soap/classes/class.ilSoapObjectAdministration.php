@@ -76,7 +76,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		return $this->__raiseError('Cannot create object xml !','Server');
 	}
 
-	function getObjectsByTitle($sid,$a_title)
+	function getObjectsByTitle($sid,$a_title,$user_id)
 	{
 		if(!$this->__checkSession($sid))
 		{
@@ -110,9 +110,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$object_search->appendToFilter('role');
 		$object_search->appendToFilter('rolt');
 		$res =& $object_search->performSearch();
+		if($user_id)
+		{
+			$res->setUserId($user_id);
+		}
+
+		$res->filter(ROOT_FOLDER_ID,true);
 
 		$objs = array();
-		foreach($res->getEntries() as $entry)
+		foreach($res->getUniqueResults() as $entry)
 		{
 			$objs[] = ilObjectFactory::getInstanceByObjId($entry['obj_id'],false);
 		}
@@ -124,6 +130,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+		if($user_id)
+		{
+			$xml_writer->setUserId($user_id);
+			$xml_writer->enableOperations(true);
+		}
 		$xml_writer->setObjects($objs);
 		if($xml_writer->start())
 		{
@@ -170,16 +181,19 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
 		$object_search->setFilter($types);
-		$object_search->appendToFilter('role');
-		$object_search->appendToFilter('rolt');
 
 		$res =& $object_search->performSearch();
+		if($user_id)
+		{
+			$res->setUserId($user_id);
+		}
+		$res->filter(ROOT_FOLDER_ID,$combination == 'and' ? true : false);
 
 
 		// Limit to 30 objects
 		$counter = 0;
 		$objs = array();
-		foreach($res->getEntries() as $entry)
+		foreach($res->getUniqueResults() as $entry)
 		{
 			if(++$counter == 30)
 			{
@@ -210,7 +224,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		return $this->__raiseError('Cannot create object xml !','Server');
 	}
 
-	function getTreeChilds($sid,$ref_id,$types)
+	function getTreeChilds($sid,$ref_id,$types,$user_id)
 	{
 		$all = false;
 
@@ -221,6 +235,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+
+		global $tree;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -253,6 +269,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		$xml_writer = new ilObjectXMLWriter();
 		$xml_writer->setObjects($objs);
+		$xml_writer->enableOperations(true);
+		if($user_id)
+		{
+			$xml_writer->setUserId($user_id);
+		}
+
 		if($xml_writer->start())
 		{
 			return $xml_writer->getXML();

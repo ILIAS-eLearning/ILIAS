@@ -174,13 +174,13 @@ function getObjectByReference($sid,$a_ref_id,$user_id)
 	return $soa->getObjectByReference($sid,$a_ref_id,$user_id);
 }
 	
-function getObjectsByTitle($sid,$a_title)
+function getObjectsByTitle($sid,$a_title,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
 	$soa =& new ilSoapObjectAdministration();
 
-	return $soa->getObjectsByTitle($sid,$a_title);
+	return $soa->getObjectsByTitle($sid,$a_title,$user_id);
 }
 
 function addObject($sid,$a_target_id,$a_xml)
@@ -219,13 +219,13 @@ function searchObjects($sid,$types,$key,$combination,$user_id)
 	return $soa->searchObjects($sid,$types,$key,$combination,$user_id);
 }	
 
-function getTreeChilds($sid,$ref_id,$types)
+function getTreeChilds($sid,$ref_id,$types,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
 	$soa =& new ilSoapObjectAdministration();
 
-	return $soa->getTreeChilds($sid,$ref_id,$types);
+	return $soa->getTreeChilds($sid,$ref_id,$types,$user_id);
 }	
 // Rbac Tree functions
 function getOperations($sid)

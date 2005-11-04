@@ -58,6 +58,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "view":
+
 				include_once 'course/classes/class.ilCourseMembers.php';
 
 				if(ilCourseMembers::_isBlocked($a_obj_id,$a_user_id))

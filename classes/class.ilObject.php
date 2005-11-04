@@ -438,28 +438,6 @@ class ilObject
 		return $this->owner;
 	}
 
-	/**
-	* get object owner
-	*
-	* @access	public
-	* @return	integer	owner id
-	*/
-	function _lookupOwner($a_ref_id)
-	{
-		global $ilDB;
-
-		$query = "SELECT owner FROM object_data AS obd LEFT JOIN object_reference AS obr USING(obj_id) ".
-			"WHERE obr.ref_id = '".$a_ref_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->owner;
-		}
-		return 0;
-	}
-
-
 	/*
 	* get full name of object owner
 	*
@@ -508,6 +486,8 @@ class ilObject
 	{
 		$this->owner = $a_owner;
 	}
+
+
 
 	/**
 	* get create date
@@ -837,13 +817,9 @@ class ilObject
 	*/
 	function _lookupTitle($a_id)
 	{
-		global $ilDB;
+		global $ilObjDataCache;
 
-		$q = "SELECT title FROM object_data WHERE obj_id = '".$a_id."'";
-		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $obj_rec["title"];
+		return $ilObjDataCache->lookupTitle($a_id);
 	}
 
 	/**
@@ -853,13 +829,9 @@ class ilObject
 	*/
 	function _lookupDescription($a_id)
 	{
-		global $ilDB;
+		global $ilObjDataCache;
 
-		$q = "SELECT description FROM object_data WHERE obj_id = '".$a_id."'";
-		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $obj_rec["description"];
+		return $ilObjDataCache->lookupDescription($a_id);
 	}
 
 	/**
@@ -869,27 +841,16 @@ class ilObject
 	*/
 	function _lookupLastUpdate($a_id)
 	{
-		global $ilDB;
+		global $ilObjDataCache;
 
-		$q = "SELECT last_update FROM object_data WHERE obj_id = '".$a_id."'";
-		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $obj_rec["last_update"];
+		return $ilObjDataCache->lookupLastUpdate($a_id);
 	}
 
 	function _lookupObjId($a_id)
 	{
-		global $ilDB;
+		global $ilObjDataCache;
 
-		$query = "SELECT obj_id FROM object_reference ".
-			"WHERE ref_id = '".$a_id."'";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->obj_id;
-		}
-		return 0;
+		return (int) $ilObjDataCache->lookupObjId($a_id);
 	}
 
 	/**
@@ -980,6 +941,14 @@ class ilObject
 	*/
 	function _lookupType($a_id,$a_reference = false)
 	{
+		global $ilObjDataCache;
+
+		if($a_reference)
+		{
+			return $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_id));
+		}
+		return $ilObjDataCache->lookupType($a_id);
+
 		global $ilDB;
 
 		if ($a_reference === true)
@@ -1037,13 +1006,9 @@ class ilObject
 	*/
 	function _lookupObjectId($a_ref_id)
 	{
-		global $ilDB;
+		global $ilObjDataCache;
 
-		$q = "SELECT obj_id FROM object_reference WHERE ref_id = '".$a_ref_id."'";
-		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $obj_rec["obj_id"];
+		return (int) $ilObjDataCache->lookupObjId($a_ref_id);
 	}
 
 	/**

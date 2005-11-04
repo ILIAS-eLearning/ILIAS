@@ -55,11 +55,12 @@ class ilObjectXMLWriter extends ilXmlWriter
 	*/
 	function ilObjectXMLWriter()
 	{
-		global $ilias;
+		global $ilias,$ilUser;
 
 		parent::ilXmlWriter();
 
 		$this->ilias =& $ilias;
+		$this->user_id = $ilUser->getId();
 	}
 
 	function setUserId($a_id)
@@ -120,9 +121,10 @@ class ilObjectXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __appendObject(&$object)
 	{
-		$this->xmlStartTag('Object',
-						   array('type' => $object->getType(),
-								 'obj_id' => $object->getId()));
+		$attrs = array('type' => $object->getType(),
+					   'obj_id' => $object->getId());
+
+		$this->xmlStartTag('Object',$attrs);
 		$this->xmlElement('Title',null,$object->getTitle());
 		$this->xmlElement('Description',null,$object->getDescription());
 		$this->xmlElement('Owner',null,$object->getOwner());
@@ -132,7 +134,10 @@ class ilObjectXMLWriter extends ilXmlWriter
 		
 		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
 		{
-			$this->xmlStartTag('References',array('ref_id' => $ref_id));
+			$attr = array('ref_id' => $ref_id);
+			$attr['accessInfo'] = $this->__getAccessInfo($object,$ref_id);
+
+			$this->xmlStartTag('References',$attr);
 			$this->__appendOperations($ref_id,$object->getType());
 			$this->xmlEndTag('References');
 		}
@@ -174,6 +179,25 @@ class ilObjectXMLWriter extends ilXmlWriter
 	{
 		$this->xmlEndTag('Objects');
 	}
+
+	function __getAccessInfo(&$object,$ref_id)
+	{
+		global $ilAccess;
+
+		include_once 'Services/AccessControl/classes/class.ilAccessHandler.php';
+
+		$ilAccess->checkAccessOfUser($this->getUserId(),'read','view',$ref_id,$object->getType(),$object->getId());
+
+		if(!$info = $ilAccess->getInfo())
+		{
+			return 'granted';
+		}
+		else
+		{
+			return $info[0]['type'];
+		}
+	}
+
 }
 
 

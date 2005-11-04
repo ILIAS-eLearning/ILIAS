@@ -1302,6 +1302,8 @@ class ilObjectGUI
 			"", "", "", true);
 		$sub_tab_gui->addTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
 			"", "", "", false);
+		$sub_tab_gui->addTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
+			"", "", "",false);
 		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());
 		
 		static $num = 0;
@@ -2657,6 +2659,8 @@ class ilObjectGUI
 			"", "", "", false);
 		$sub_tab_gui->addTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
 			"", "", "", true);
+		$sub_tab_gui->addTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
+			"", "", "",false);
 		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());
 
 		include_once('classes/class.ilObjectStatusGUI.php');
@@ -2665,5 +2669,72 @@ class ilObjectGUI
 		
 		$this->tpl->setVariable("ADM_CONTENT",$ilInfo->getHTML());
 	}
+
+
+	function ownerObject()
+	{
+		global $ilObjDataCache,$ilUser;
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		include_once("classes/class.ilTabsGUI.php");
+		$sub_tab_gui = new ilTabsGUI();
+		$sub_tab_gui->setSubTabs();
+		$sub_tab_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
+			"", "", "", false);
+		$sub_tab_gui->addTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
+			"", "", "", false);
+		$sub_tab_gui->addTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
+			"", "", "",true);
+		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_owner.html');
+
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("USERNAME",ilObjUser::_lookupLogin($this->object->getOwner()));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_usr.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('owner'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('info_owner_of_object'));
+		$this->tpl->setVariable("BTN_CHOWN",$this->lng->txt('change_owner'));
+		$this->tpl->setVariable("TXT_USERNAME",$this->lng->txt('username'));
+		$this->tpl->setVariable("CHOWN_WARNING",$this->lng->txt('chown_warning'));
+
+	}
+
+	function changeOwnerObject()
+	{
+		global $rbacsystem,$ilErr,$ilObjDataCache;
+
+		if (!$rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
+		}
+
+		if(!$user_id = ilObjUser::_lookupId($_POST['owner']))
+		{
+			sendInfo($this->lng->txt('user_not_known'));
+			$this->ownerObject();
+
+			return true;
+		}
+		$this->object->setOwner($user_id);
+		$this->object->updateOwner();
+		$ilObjDataCache->deleteCachedEntry($this->object->getId());
+		sendInfo($this->lng->txt('owner_updated'),true);
+
+		if (!$rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
+		{
+			$this->ctrl->redirect($this);
+			return true;
+		}
+		$this->ctrl->redirect($this,'owner');
+		return true;
+
+	}
+
+
+		
 } // END class.ilObjectGUI
 ?>

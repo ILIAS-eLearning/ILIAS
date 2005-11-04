@@ -100,6 +100,9 @@ require_once "classes/class.ilRbacAdmin.php";
 require_once "classes/class.ilRbacSystem.php";
 require_once "classes/class.ilRbacReview.php";
 
+// include object_data cache
+require_once "classes/class.ilObjectDataCache.php";
+
 // memory usage at this point (2005-02-09): ~3MB)
 //echo "<br>memory2:".memory_get_usage()."<br>";
 
@@ -513,6 +516,11 @@ $GLOBALS['ilBrowser'] =& $ilBrowser;
 // provide global help object
 $ilHelp = new ilHelp();
 $GLOBALS['ilHelp'] =& $ilHelp;
+
+// Start object_data cache
+$ilObjDataCache = new ilObjectDataCache();
+$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
+
 
 // utf-8 fix?
 $q = "SET NAMES utf8";
