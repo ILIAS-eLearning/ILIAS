@@ -73,4 +73,5 @@ $tpl->setVariable("ACTION", "adm_menu.php?expand=".$_GET["expand"]);
 $tpl->parseCurrentBlock();
 
 $tpl->show(false);
+$ilBench->save();
 ?>

@@ -299,6 +299,8 @@ class ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
+		global $ilBench;
+		
 		if (!isset($a_node_id))
 		{
 			$message = get_class($this)."::getChilds(): No node_id given!";
@@ -331,17 +333,21 @@ class ilTree
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 $order_clause;
 
+		//$ilBench->start("Tree", "getChilds_Query");
 		$r = $this->ilDB->query($q);
+		//$ilBench->stop("Tree", "getChilds_Query");
 
 		$count = $r->numRows();
 
 
 		if ($count > 0)
 		{
+			//$ilBench->start("Tree", "getChilds_fetchNodeData");
 			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$childs[] = $this->fetchNodeData($row);
 			}
+			//$ilBench->stop("Tree", "getChilds_fetchNodeData");
 
 			// mark the last child node (important for display)
 			$childs[$count - 1]["last"] = true;
@@ -1118,19 +1124,24 @@ class ilTree
 	*/
 	function fetchNodeData($a_row)
 	{
-		global $objDefinition, $lng;
+		global $objDefinition, $lng, $ilBench;
 
+		//$ilBench->start("Tree", "fetchNodeData_getRow");
 		$data = $a_row;
 		$data["desc"] = $a_row["description"];  // for compability
+		//$ilBench->stop("Tree", "fetchNodeData_getRow");
 
 		// multilingual support systemobjects (sys) & categories (db)
+		//$ilBench->start("Tree", "fetchNodeData_readDefinition");
 		if (is_object($objDefinition))
 		{
 			$translation_type = $objDefinition->getTranslationType($data["type"]);
 		}
+		//$ilBench->stop("Tree", "fetchNodeData_readDefinition");
 
 		if ($translation_type == "sys")
 		{
+			//$ilBench->start("Tree", "fetchNodeData_getLangData");
 			if ($data["type"] == "rolf" and $data["obj_id"] != ROLE_FOLDER_ID)
 			{
 				$data["description"] = $lng->txt("obj_".$data["type"]."_local_desc").$data["title"].$data["desc"];
@@ -1143,9 +1154,11 @@ class ilTree
 				$data["description"] = $lng->txt("obj_".$data["type"]."_desc");
 				$data["desc"] = $lng->txt("obj_".$data["type"]."_desc");
 			}
+			//$ilBench->stop("Tree", "fetchNodeData_getLangData");
 		}
 		elseif ($translation_type == "db")
 		{
+			//$ilBench->start("Tree", "fetchNodeData_getTranslation");
 			$q = "SELECT title,description FROM object_translation ".
 				 "WHERE obj_id = ".$data["obj_id"]." ".
 				 "AND lang_code = '".$this->lang_code."' ".
@@ -1160,29 +1173,8 @@ class ilTree
 				$data["description"] = ilUtil::shortenText($row->description,MAXLENGTH_OBJ_DESC,true);
 				$data["desc"] = $row->description;
 			}
+			//$ilBench->stop("Tree", "fetchNodeData_getTranslation");
 		}
-
-		$data["title"] = $data["title"];
-		$data["description"] = $data["description"];
-		$data["desc"] = $data["desc"];
-		/*
-		$data = array(
-					"ref_id"		=> $a_row->ref_id,
-					"obj_id"		=> $a_row->obj_id,
-					"type"			=> $a_row->type,
-					"title"			=> $a_row->title,
-					"description"	=> $a_row->description,
-					"owner"			=> $a_row->owner,
-					"create_date"	=> $a_row->create_date,
-					"last_update"	=> $a_row->last_update,
-					"tree"			=> $a_row->tree,
-					"child"			=> $a_row->child,
-					"parent"		=> $a_row->parent,
-					"lft"			=> $a_row->lft,
-					"rgt"			=> $a_row->rgt,
-					"depth"			=> $a_row->depth,
-					"desc"			=> $a_row->description
-					);*/
 
 		return $data ? $data : array();
 	}
