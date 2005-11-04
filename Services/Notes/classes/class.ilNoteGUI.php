@@ -104,8 +104,10 @@ class ilNoteGUI
 	*/
 	function getNotesHTML()
 	{
+		global $ilUser;
+		
 		$html = "";
-		if ($this->private_enabled)
+		if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			$html.= $this->getNoteListHTML(IL_NOTE_PRIVATE);
 		}
@@ -158,7 +160,8 @@ class ilNoteGUI
 		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 		
 		// show add new note button
-		if (!$this->add_note_form && !$this->edit_note_form)
+		if (!$this->add_note_form && !$this->edit_note_form &&
+			($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
 			{						// are displayed
@@ -182,10 +185,14 @@ class ilNoteGUI
 			}
 			else
 			{
-				$tpl->setCurrentBlock("hide_notes");
-				$tpl->setVariable("LINK_HIDE_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "hideNotes"));
-				$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("hide_".$suffix."_notes"));
-				$tpl->parseCurrentBlock();
+				// never individually hide for anonymous users
+				if (($ilUser->getId() != ANONYMOUS_USER_ID))
+				{
+					$tpl->setCurrentBlock("hide_notes");
+					$tpl->setVariable("LINK_HIDE_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "hideNotes"));
+					$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("hide_".$suffix."_notes"));
+					$tpl->parseCurrentBlock();
+				}
 			}
 		}
 		
@@ -261,7 +268,8 @@ class ilNoteGUI
 				else
 				{
 					// edit note button
-					if ($note->getAuthor() == $ilUser->getId())
+					if ($note->getAuthor() == $ilUser->getId()
+						&& ($ilUser->getId() != ANONYMOUS_USER_ID))
 					{
 						// only private notes can be deleted
 						if ($a_type == IL_NOTE_PRIVATE)
