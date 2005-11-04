@@ -1,0 +1,65 @@
+<form action="{FORMACTION}" name="objectItems" method="post">
+<table class="fullwidth">
+<!-- BEGIN tableheader -->
+<tr class="tbltitle">
+  <td colspan="{COLSPAN2}">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_TITLE2}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
+<tr class="tblheader">
+  <td class="std" width="30%" align="left">
+  </td>
+  <td class="std" align="left" colspan="100">
+{TXT_ROLES}
+
+  </td>
+</tr>
+<!-- END tableheader -->
+<tr class="tblheader" valign="top">
+
+  <td class="std" width="30%" align="left">{TXT_OPERATION}</td>
+    <!-- BEGIN ROLENAMES -->
+  <td class="std" width="15%">
+<!-- BEGIN ROLELINK_OPEN -->
+<a href="{LINK_ROLE_RULESET}" alt="{TXT_ROLE_RULESET}" title="{TXT_ROLE_RULESET}">
+<!-- END ROLELINK_OPEN -->
+{ROLE_NAME}
+<!-- BEGIN ROLELINK_CLOSE -->
+</a>
+<!-- END ROLELINK_CLOSE -->
+<br/><span class="small">{ROLE_CONTEXT_TYPE}<br/>{ROLE_CONTEXT}</span>
+  </td>
+	<!-- END ROLENAMES -->
+
+
+</tr>
+	<!-- BEGIN TABLE_DATA_OUTER -->
+<tr class="{CSS_ROW}">
+<td class="std">{PERMISSION} <span class="alert">{TXT_NOT_IMPL}</span></td>
+    <!-- BEGIN CHECK_PERM -->
+  <td class="std">{CHECK_PERMISSION}</td>
+<!-- END CHECK_PERM -->
+
+</tr>
+<!-- END TABLE_DATA_OUTER -->
+<!-- BEGIN STOP_INHERIT -->
+<tr class="std">
+	<td class="std" ><font color="red">{TXT_STOP_INHERITANCE}</font></td>
+	<!-- BEGIN CHECK_INHERIT -->
+	<td class="std">{CHECK_INHERITANCE}</td>
+	<!-- END CHECK_INHERIT -->
+</tr>
+	<!-- END STOP_INHERIT -->
+
+<tr class="std">
+  <td class="std" align="right" colspan="{COL_ANZ}">
+    <input class="submit" type="submit" value="{TXT_SAVE}" />
+  </td>
+</tr>
+</table>
+</form>

@@ -813,20 +813,20 @@ class ilContainerGUI extends ilObjectGUI
 			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
 
 			// CHECK ACCESS
-			if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
+			if (!$rbacsystem->checkAccess('create',$this->object->getRefId(), $obj_data->getType()))
 			{
 				$no_paste[] = $ref_id;
 			}
 
 			// CHECK IF REFERENCE ALREADY EXISTS
-			if ($_GET["ref_id"] == $this->tree->getParentId($obj_data->getRefId()))
+			if ($this->object->getRefId() == $this->tree->getParentId($obj_data->getRefId()))
 			{
 				$exists[] = $ref_id;
 				break;
 			}
 
 			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			if ($this->tree->isGrandChild($ref_id,$_GET["ref_id"]))
+			if ($this->tree->isGrandChild($ref_id,$this->object->getRefId()))
 			{
 				$is_child[] = $ref_id;
 			}
@@ -912,7 +912,6 @@ class ilContainerGUI extends ilObjectGUI
 				$this->tree->deleteTree($this->tree->getNodeData($ref_id));
 			}
 
-
 			// STEP 2: Move all subtrees to new location
 			$log->write("ilObjectGUI::pasteObject(), (2/3) move subtrees to new location");
 
@@ -922,9 +921,9 @@ class ilContainerGUI extends ilObjectGUI
 				// first paste top_node ...
 				$rbacadmin->revokePermission($key);
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
-				$obj_data->putInTree($_GET["ref_id"]);
+				$obj_data->putInTree($this->object->getRefId());
 				$obj_data->setPermissions($key);
-
+echo "hier";exit;
 				// log entry
 				$log->write("ilObjectGUI::pasteObject(), inserted top node. ref_id: $key,".
 					" rgt: ".$subnode[0]["rgt"].", lft: ".$subnode[0]["lft"].", parent: ".$subnode[0]["parent"].",".

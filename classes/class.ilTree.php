@@ -1800,7 +1800,7 @@ class ilTree
 	* This method is private. Always call ilTree->renumber() since it locks the tree table
  	* renumber left/right values and close the gaps in numbers
 	* (recursive)
-	* @access	public
+	* @access	private
 	* @param	integer	node_id where to start (usually the root node)
 	* @param	integer	first left value of start node (usually 1)
 	* @return	integer	current left value of recursive call

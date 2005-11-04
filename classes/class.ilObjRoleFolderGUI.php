@@ -127,8 +127,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $role_list = $rbacreview->getRoleListByObject($_GET["ref_id"],true);
         }
 
-		$rbacreview->setRoleType($role_list);
-
         $counter = 0;
         
         include_once ('class.ilObjRole.php');

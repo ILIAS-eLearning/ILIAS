@@ -82,7 +82,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
-			$this->getTemplateFile("edit",$this->type);
+			$this->getTemplateFile("edit","role");
 
 			foreach ($data["fields"] as $key => $val)
 			{
@@ -94,6 +94,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
+			
+			$this->tpl->setCurrentBlock("protect_permissions");
+			$protect_permissions = $_SESSION["error_post_vars"]["Fobject"]["protect_permissions"] ? "checked=\"checked\"" : "";
+			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt("role_protect_permissions"));
+			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
+			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
 																	   $this->rolf_ref_id."&new_type=".$this->type));
@@ -149,6 +155,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$roltObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$roltObj->create();
 		$rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id,'n');
+		$rbacadmin->setProtected($this->rolf_ref_id,$roltObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		
 		sendInfo($this->lng->txt("rolt_added"),true);
 
@@ -246,6 +253,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		$output["col_anz"] = count($rbac_objects);
 		$output["txt_save"] = $this->lng->txt("save");
+		$output["check_protected"] = ilUtil::formCheckBox($rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()),"protected",1);
+		$output["text_protected"] = $this->lng->txt("role_protect_permissions");
 
 /************************************/
 /*		adopt permissions form		*/
@@ -353,6 +362,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
 		$this->tpl->parseCurrentBlock();
 		// END ADOPT PERMISSIONS
+		
+		$this->tpl->setCurrentBlock("tblfooter_protected");
+		$this->tpl->setVariable("COL_ANZ",3);
+		$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_protected"]);
+		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["text_protected"]);
+		$this->tpl->parseCurrentBlock();
 	
 		$this->tpl->setCurrentBlock("tblfooter_standard");
 		$this->tpl->setVariable("COL_ANZ_PLUS",4);
@@ -422,6 +437,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		
 		// update object data entry (to update last modification date)
 		$this->object->update();
+		
+		// set protected flag
+		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
@@ -487,6 +505,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			}
 		
 			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
+			$protect_permissions = ($_SESSION["error_post_vars"]["Fobject"]["protect_permissions"]) ? "checked=\"checked\"" : "";
 		}
 		else
 		{
@@ -496,12 +515,18 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($this->object->getDescription()));
+			$protect_permissions = $rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()) ? "checked=\"checked\"" : "";
 		}
 
 		$obj_str = "&obj_id=".$this->obj_id;
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
+		
+		$this->tpl->setCurrentBlock("protect_permissions");
+		$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt('role_protect_permissions'));
+		$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
+		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
@@ -558,6 +583,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		$this->object->update();
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);

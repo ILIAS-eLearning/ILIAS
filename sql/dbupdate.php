@@ -8966,4 +8966,18 @@ CREATE TABLE style_data
 		$ilDB->query($q);
 	}
 ?>
+<#568>
+ALTER TABLE `rbac_fa` ADD `protected` ENUM( 'y', 'n' ) DEFAULT 'n';
+UPDATE rbac_fa SET protected = 'y' WHERE rol_id = '2'
 
+<#569>
+<?php
+// set admin templates to protected status
+$query = "SELECT * FROM object_data WHERE type='rolt' AND title IN ('il_crs_admin','il_icrs_admin','il_grp_admin','Local Administrator')";
+$result = $ilDB->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q = "UPDATE rbac_fa SET protected='y' WHERE rol_id='".$row["obj_id"]."'";
+	$ilDB->query($q);
+}
+?>
