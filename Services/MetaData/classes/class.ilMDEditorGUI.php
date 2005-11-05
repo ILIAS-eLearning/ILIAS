@@ -156,6 +156,18 @@ class ilMDEditorGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		if ($first)
+		{
+			$this->tpl->setCurrentBlock("language_head");
+			$this->tpl->setVariable("ROWSPAN_LANG", 1);
+			$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("language_loop");
+			$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect('gen_language[][language]',
+				""));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		// TITLE
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
 		$this->tpl->setVariable("VAL_TITLE",ilUtil::prepareFormOutput($this->md_section->getTitle()));
@@ -191,40 +203,45 @@ class ilMDEditorGUI
 
 		// KEYWORD
 		$first = true;
+		$keywords = array();
 		foreach($ids = $this->md_section->getKeywordIds() as $id)
 		{
 			$md_key = $this->md_section->getKeyword($id);
-			
+			$keywords[$md_key->getKeywordLanguageCode()][]
+				= $md_key->getKeyword();
+		}
+		
+		foreach($keywords as $lang => $keyword_set)
+		{
 			if ($first)
 			{
 				$this->tpl->setCurrentBlock("keyword_head");
-				$this->tpl->setVariable("ROWSPAN_KEYWORD", count($ids));
-				$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+				$this->tpl->setVariable("ROWSPAN_KEYWORD", count($keywords));
+				$this->tpl->setVariable("TXT_COMMA_SEP2",$this->lng->txt('comma_separated'));
+				$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
 				$this->tpl->parseCurrentBlock();
 				$first = false;
 			}
 
-
-			if(count($ids) > 1)
-			{
-				$this->ctrl->setParameter($this,'meta_index',$id);
-				$this->ctrl->setParameter($this,'meta_path','meta_keyword');
-
-				$this->tpl->setCurrentBlock("keyword_delete");
-				$this->tpl->setVariable("KEYWORD_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
-				$this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
 			$this->tpl->setCurrentBlock("keyword_loop");
-			$this->tpl->setVariable("KEYWORD_LOOP_NO",$id);
-			$this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-			$this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($md_key->getKeyword()));
-			$this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-			$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("gen_keyword[".$id.'][language]',
-																					   $md_key->getKeywordLanguageCode()));
-
+			$this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput(
+				implode($keyword_set, ", ")));
+			$this->tpl->setVariable("LANG", $lang);
+			$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("keyword[language][$lang]",
+																					   $lang));
 			$this->tpl->parseCurrentBlock();
+		}
+
+		if (count($keywords) == 0)
+		{
+			$this->tpl->setCurrentBlock("keyword_head");
+			$this->tpl->setVariable("ROWSPAN_KEYWORD", 1);
+			$this->tpl->setVariable("TXT_COMMA_SEP2",$this->lng->txt('comma_separated'));
+			$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("keyword_loop");
+			$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("keyword[language][$lang]",
+				$lang));
 		}
 		
 		// Lifecycle...
@@ -288,9 +305,18 @@ class ilMDEditorGUI
 		{
 			foreach($_POST['gen_language'] as $id => $data)
 			{
-				$md_lan = $this->md_section->getLanguage($id);
-				$md_lan->setLanguage(new ilMDLanguageItem($data['language']));
-				$md_lan->update();
+				if ($id > 0)
+				{
+					$md_lan = $this->md_section->getLanguage($id);
+					$md_lan->setLanguage(new ilMDLanguageItem($data['language']));
+					$md_lan->update();
+				}
+				else
+				{
+					$md_lan = $this->md_section->addLanguage();
+					$md_lan->setLanguage(new ilMDLanguageItem($data['language']));
+					$md_lan->save();
+				}
 			}
 		}
 		// Description
@@ -304,17 +330,57 @@ class ilMDEditorGUI
 				$md_des->update();
 			}
 		}
+		
+		
 		// Keyword
-		if(is_array($_POST['gen_keyword']))
+		if(is_array($_POST["keywords"]["value"]))
 		{
-			foreach($_POST['gen_keyword'] as $id => $data)
+			$new_keywords = array();
+			foreach($_POST["keywords"]["value"] as $lang => $keywords)
+			{
+				$language = $_POST["keyword"]["language"][$lang];
+				$keywords = explode(",", $keywords);
+				foreach($keywords as $keyword)
+				{
+					$new_keywords[$language][] = trim($keyword);
+				}
+			}
+			
+			// update existing author entries (delete if not entered)
+			foreach($ids = $this->md_section->getKeywordIds() as $id)
 			{
 				$md_key = $this->md_section->getKeyword($id);
 
-				$md_key->setKeyword(ilUtil::stripSlashes($data['keyword']));
-				$md_key->setKeywordLanguage(new ilMDLanguageItem($data['language']));
-				$md_key->update();
+				$lang = $md_key->getKeywordLanguageCode();
+				
+				// entered keyword already exists
+				if (is_array($new_keywords[$lang]) &&
+					in_array($md_key->getKeyword(), $new_keywords[$lang]))
+				{
+					unset($new_keywords[$lang]
+						[array_search($md_key->getKeyword(), $new_keywords[$lang])]);
+				}
+				else  // existing keyword has not been entered again -> delete
+				{
+					$md_key->delete();
+				}
 			}
+			
+			// insert entered, but not existing keywords
+			foreach ($new_keywords as $lang => $key_arr)
+			{
+				foreach($key_arr as $keyword)
+				{
+					if ($keyword != "")
+					{
+						$md_key = $this->md_section->addKeyword();
+						$md_key->setKeyword(ilUtil::stripSlashes($keyword));
+						$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
+						$md_key->save();
+					}
+				}
+			}
+
 		}
 		$this->callListeners('General');
 		
@@ -646,7 +712,7 @@ class ilMDEditorGUI
 	function updateGeneral()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
-
+		
 		// General values
 		$this->md_section = $this->md_obj->getGeneral();
 		$this->md_section->setStructure($_POST['gen_structure']);
@@ -705,6 +771,7 @@ class ilMDEditorGUI
 
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
+		$this->ctrl->setParameter($this, "section", "meta_general");
 		$this->ctrl->redirect($this,'listSection');
 	}
 
@@ -759,9 +826,6 @@ class ilMDEditorGUI
 			}
 		}
 		
-
-		
-
 		$this->listSection();
 		#sendInfo($this->lng->txt('msg_changes_ok'));
 		return true;
