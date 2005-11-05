@@ -8968,7 +8968,7 @@ CREATE TABLE style_data
 ?>
 <#568>
 ALTER TABLE `rbac_fa` ADD `protected` ENUM( 'y', 'n' ) DEFAULT 'n';
-UPDATE rbac_fa SET protected = 'y' WHERE rol_id = '2'
+UPDATE rbac_fa SET protected = 'y' WHERE rol_id = '2';
 
 <#569>
 <?php
