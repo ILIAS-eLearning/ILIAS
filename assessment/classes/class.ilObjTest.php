@@ -2301,6 +2301,69 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Removes all references to the question in executed tests in case the question has been changed
+*
+* Removes all references to the question in executed tests in case the question has been changed.
+* If a question was changed it cannot be guaranteed that the content and the meaning of the question
+* is the same as before. So we have to delete all already started or completed tests using that question.
+* Therefore we have to delete all references to that question in tst_solutions and the tst_active
+* entries which were created for the user and test in the tst_solutions entry.
+*
+* @access public
+*/
+	function removeSelectedTestResults($user_ids) 
+	{
+		global $ilDB;
+		
+		// remove test_active entries of selected users
+		foreach ($user_ids as $user_id)
+		{
+			$query = sprintf("DELETE FROM tst_active WHERE user_fi = %s",
+				$ilDB->quote($user_id . "")
+			);
+			$result = $ilDB->query($query);
+		}
+		
+		// remove selected users/groups
+		$this->clearEvalSelectedUsers();
+		$this->clearEvalSelectedGroups();
+		
+		// remove the question from tst_solutions
+		foreach ($user_ids as $user_id)
+		{
+			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s",
+				$ilDB->quote($this->getTestId() . ""),
+				$ilDB->quote($user_id . "")
+			);
+			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s AND user_fi = %s",
+				$ilDB->quote($this->getTestId() . ""),
+				$ilDB->quote($user_id . "")
+			);			
+			$query3 = sprintf("DELETE FROM tst_test_result WHERE test_fi = %s AND user_fi = %s",
+				$ilDB->quote($this->getTestId() . ""),
+				$ilDB->quote($user_id . "")
+			);
+			$result = $ilDB->query($query);
+			$result = $ilDB->query($query2);
+			$result = $ilDB->query($query3);
+	
+			if ($this->isRandomTest())
+			{
+				$query = sprintf("DELETE FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s",
+					$ilDB->quote($this->getTestId() . ""),
+					$ilDB->quote($user_id . "")
+				);
+				$result = $ilDB->query($query);
+			}
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
+			}
+		}
+	}
+	
+/**
 * Deletes all active references to this test
 *
 * Deletes all active references to this test. This is necessary, if the test has been changed to
@@ -2675,7 +2738,7 @@ class ilObjTest extends ilObject
 * @param integer $user_id The database id of the user working with the test
 * @access	public
 */
-	function startWorkingTime ($user_id) 
+	function startWorkingTime($user_id) 
 	{
 		$result = "";
 		if (!($result = $this->getActiveTestUser($user_id))) {
@@ -3560,14 +3623,14 @@ class ilObjTest extends ilObject
 */
 	function &evalTotalPersonsArray()
 	{
-		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id", 
+		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id ORDER BY usr_data.lastname", 
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
 		$persons_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$persons_array[$row->user_fi] = trim("$row->firstname $row->lastname");
+			$persons_array[$row->user_fi] = trim("$row->title $row->firstname $row->lastname");
 		}
 		return $persons_array;
 	}

@@ -2845,28 +2845,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
-	* Asks for a confirmation to delete all user data of the test object
-	*
-	* Asks for a confirmation to delete all user data of the test object
-	*
-	* @access	public
-	*/
-	function deleteAllUserDataObject()
-	{
-		sendInfo($this->lng->txt("confirm_delete_all_user_data"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
-
-		$this->tpl->setCurrentBlock("confirm_delete");
-		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-	/**
 	* Deletes all user data for the test object
 	*
 	* Deletes all user data for the test object
@@ -2891,6 +2869,32 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$this->ctrl->redirect($this, "maintenance");
 	}
+
+	/**
+	* Deletes all user data for the test object
+	*
+	* Deletes all user data for the test object
+	*
+	* @access	public
+	*/
+	function confirmDeleteSelectedUserDataObject()
+	{
+		$this->object->removeSelectedTestResults($_POST["chbUser"]);
+		sendInfo($this->lng->txt("tst_selected_user_data_deleted"), true);
+		$this->ctrl->redirect($this, "maintenance");
+	}
+	
+	/**
+	* Cancels the deletion of all user data for the test object
+	*
+	* Cancels the deletion of all user data for the test object
+	*
+	* @access	public
+	*/
+	function cancelDeleteSelectedUserDataObject()
+	{
+		$this->ctrl->redirect($this, "maintenance");
+	}
 	
 	/**
 	* Create random solutions for the test object for every registered user
@@ -2907,6 +2911,57 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "maintenance");
 	}
 
+	/**
+	* Asks for a confirmation to delete all user data of the test object
+	*
+	* Asks for a confirmation to delete all user data of the test object
+	*
+	* @access	public
+	*/
+	function deleteAllUserDataObject()
+	{
+		sendInfo($this->lng->txt("confirm_delete_all_user_data"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
+
+		$this->tpl->setCurrentBlock("confirm_delete");
+		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Asks for a confirmation to delete selected user data of the test object
+	*
+	* Asks for a confirmation to delete selected user data of the test object
+	*
+	* @access	public
+	*/
+	function deleteSingleUserResultsObject()
+	{
+		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
+
+		$this->tpl->setCurrentBlock("confirm_delete_selected");
+		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_DELETE_SELECTED", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+		
+		foreach ($_POST["chbUser"] as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("USER_ID", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	/**
 	* Creates the maintenance form for a test
 	*
@@ -2927,13 +2982,46 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
-//			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
+			$total = $this->object->evalTotalPersonsArray();
+			if (count($total))
+			{
+				$color_class = array("tblrow1", "tblrow2");
+				$counter = 0;
+				foreach ($total as $user_id => $user_name)
+				{
+					$this->tpl->setCurrentBlock("userrow");
+					$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("USER_ID", $user_id);
+					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$counter++;
+				$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("participanttable");
+				$this->tpl->setVariable("USER_NAME", $this->lng->txt("username"));
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+				$this->tpl->setVariable("DELETE", $this->lng->txt("delete_user_data"));
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("adm_content");
+				$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
+	//			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
+				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("maintenance_information");
+				$this->tpl->setVariable("MAINTENANCE_INFORMATION", $this->lng->txt("tst_maintenance_information_no_results"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		else
 		{
