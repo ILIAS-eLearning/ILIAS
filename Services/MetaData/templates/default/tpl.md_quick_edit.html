@@ -82,7 +82,8 @@
 		  <tr>
 		  	<!-- BEGIN keyword_head -->
 			 <td class="option" colspan="1" rowspan="{ROWSPAN_KEYWORD}">
-			  {KEYWORD_LOOP_TXT_KEYWORD}
+			  {KEYWORD_LOOP_TXT_KEYWORD}<br>
+			  <div class="il_Description">{TXT_COMMA_SEP2}</div>
 			</td>
 			<!-- END keyword_head -->
 			<td class="option_value">
@@ -91,7 +92,9 @@
 				<a class="il_ContainerItemCommand" href="{KEYWORD_LOOP_ACTION_DELETE}">{KEYWORD_LOOP_TXT_DELETE}</a>
 				</div>
 				<!-- END keyword_delete -->
-				<input type="text" maxlength="200" name="gen_keyword[{KEYWORD_LOOP_NO}][keyword]" value="{KEYWORD_LOOP_VAL}">
+				<textarea rows="4" cols="50" name="keywords[value][{LANG}]">{KEYWORD_LOOP_VAL}</textarea>
+				<!--<input type="text" maxlength="200" name="gen_keyword[{KEYWORD_LOOP_NO}][keyword]" value="{KEYWORD_LOOP_VAL}">
+				-->
 				{KEYWORD_LOOP_VAL_LANGUAGE}
 			</td>
 		  </tr>
