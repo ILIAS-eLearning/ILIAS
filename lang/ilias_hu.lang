@@ -1792,6 +1792,7 @@ common#:#info_deleted#:#Objektum(ok) törölve
 common#:#info_enter_login_or_id#:#<i>(Bejelentkezési név vagy felhasználói ID megadása)</i>
 common#:#info_err_user_not_exist#:#Ezzel a bejelentkezési névvel vagy felhasználói ID-vel nincs felhasználó
 common#:#info_from_role#:#Szerep által adva
+###05 Nov 2005 content changed
 common#:#info_is_member#:#A felhasználó tag
 common#:#info_is_not_member#:#A felhasználó nem tag
 common#:#info_not_assigned#:#nincs összerendelve
@@ -3098,8 +3099,6 @@ content#:#cont_choose_media_source#:#Médiaforrás választása
 content#:#cont_citation_err_one#:#Pontosan egy kiadót kell kijelölnie
 content#:#cont_citation_selection_not_valid#:#A választása nem érvényes
 content#:#cont_citations#:#Idézetek
-content#:#cont_clean_frames#:#Az összes keret frissítése lapozáskor
-content#:#cont_clean_frames_desc#:#Ezek elérhető további keretek (pl. média- vagy fogalomtárkeret), ha a felület többkeretes (pl. 3 ablakos) és a felhasználó egyik lapról egy másikra navigál.
 content#:#cont_click_br_corner#:#Kattintson a kívánt terület jobb alsó sarkára.
 content#:#cont_click_center#:#Kattintson a kívánt terület középpontjára.
 content#:#cont_click_circle#:#Kattintson a kívánt területet határoló körvonal egy pontjára.
@@ -3398,6 +3397,8 @@ content#:#cont_std_view#:#Szabvány nézet
 content#:#cont_structure#:#struktúra
 content#:#cont_style#:#Stílus
 content#:#cont_subchapters#:#Alfejezet
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Táblázat
 content#:#cont_table_border#:#Táblázatszegély
 content#:#cont_table_cellpadding#:#Táblázatcellák margója

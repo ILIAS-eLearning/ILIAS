@@ -3083,8 +3083,6 @@ content#:#cont_choose_media_source#:#Scegli una sorgente multimediale
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
-content#:#cont_clean_frames#:#Svuota i frame addizionali
-content#:#cont_clean_frames_desc#:#Con questa opzione i frame addizionali (per es. quello multimediale o quello con il glossario) vengono ripuliti se l'utente si sposta da una pagina all'altra. L'opzione vale se &#232; stato scelto un layout con pi&#249; frame (per es. quello 3window).
 content#:#cont_click_br_corner#:#Per favore, clicca nell&#039;angolo inferiore destro dell'area desiderata.
 content#:#cont_click_center#:#Per favore, clicca nel centro dell'area desiderata.
 content#:#cont_click_circle#:#Per favore, clicca in una circonferenza dell'area desiderata.
@@ -3382,6 +3380,8 @@ content#:#cont_std_view#:#Vista standard
 content#:#cont_structure#:#Struttura
 content#:#cont_style#:#Stile
 content#:#cont_subchapters#:#Paragrafi
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabella
 content#:#cont_table_border#:#Bordo tabella
 content#:#cont_table_cellpadding#:#Cell Padding della tabella

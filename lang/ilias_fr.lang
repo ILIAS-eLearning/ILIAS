@@ -3063,8 +3063,6 @@ content#:#cont_choose_media_source#:#Choisir une source de média###07 Apr 2005 
 content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une édition###07 Apr 2005 content changed
 content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide###07 Apr 2005 content changed
 content#:#cont_citations#:#Citations###07 Apr 2005 content changed
-content#:#cont_clean_frames#:#Actualiser l'affichage de tous les cadres à chaque changement de page###07 Apr 2005 content changed
-content#:#cont_clean_frames_desc#:#Cette option vide les cadres additionnels (par exemple pour un cadre de média ou de glossaire) si une présentation avec plusieurs cadres (par exemple 3window) est utilisé et que l'utilisateur passe d'une page à une autre.###07 Apr 2005 content changed
 content#:#cont_click_br_corner#:#Veuillez cliquer sur le coin inférieur droit de la zone désirée###07 Apr 2005 content changed
 content#:#cont_click_center#:#Veuillez cliquer sur le centre de la zone désirée###07 Apr 2005 content changed
 content#:#cont_click_circle#:#Veuillez cliquer sur un point de la circonférence de la zone désirée###07 Apr 2005 content changed
@@ -3362,6 +3360,8 @@ content#:#cont_std_view#:#Vue standard###07 Apr 2005 content changed
 content#:#cont_structure#:#structure###07 Apr 2005 content changed
 content#:#cont_style#:#Style###07 Apr 2005 content changed
 content#:#cont_subchapters#:#Sous-chapitres###07 Apr 2005 content changed
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tableau###07 Apr 2005 content changed
 content#:#cont_table_border#:#Bordure du tableau###07 Apr 2005 content changed
 content#:#cont_table_cellpadding#:#Largeur des cellules du tableau###07 Apr 2005 content changed

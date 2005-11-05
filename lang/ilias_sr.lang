@@ -2926,8 +2926,6 @@ content#:#cont_choose_media_source#:#Odaberite izvor medija
 content#:#cont_citation_err_one#:#Morate izabrati tacno jedno izdanje
 content#:#cont_citation_selection_not_valid#:#Vaš odabir nije validan
 content#:#cont_citations#:#Citati
-content#:#cont_clean_frames#:#Ocisti dodatne okvire navigacije
-content#:#cont_clean_frames_desc#:#Ovo uklanja dodatne okvire (npr. Okvir za medije ili recnik) ako se šema sa više okvira (npr. 3 prozora) koristi i korisnik prelazi sa jedne stranice na drugu.
 content#:#cont_click_br_corner#:#Molimo kliknite u donji desni ugao željenog podrucja.
 content#:#cont_click_center#:#Molimo kliknite u centar željenog podrucja.
 content#:#cont_click_circle#:#Molimo kliknite u opsegu tacke željenog podrucja.
@@ -3222,6 +3220,8 @@ content#:#cont_std_view#:#Standardni pregled
 content#:#cont_structure#:#Struktura
 content#:#cont_style#:#Naslov
 content#:#cont_subchapters#:#Delovi poglavlja
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabela
 content#:#cont_table_border#:#Granica tabele
 content#:#cont_table_cellpadding#:#Ispunjavanje celija u tabeli

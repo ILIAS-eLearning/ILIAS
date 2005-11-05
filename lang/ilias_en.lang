@@ -3087,8 +3087,6 @@ content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_citation_err_one#:#You must select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
-content#:#cont_synchronize_frames#:#Synchronise frames on
-content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.
@@ -3387,6 +3385,8 @@ content#:#cont_std_view#:#Standard View
 content#:#cont_structure#:#structure
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Subchapters
+content#:#cont_synchronize_frames#:#Synchronise frames on
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.
 content#:#cont_table#:#Table
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding

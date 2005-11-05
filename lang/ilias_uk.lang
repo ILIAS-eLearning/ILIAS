@@ -3075,8 +3075,6 @@ content#:#cont_choose_media_source#:#Виберіть Медіа Джерело
 content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання
 content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним
 content#:#cont_citations#:#Цитати
-content#:#cont_clean_frames#:#Очищати додаткові фрейми при навігації
-content#:#cont_clean_frames_desc#:#Це очищує додаткові фрейми (наприклад медіа або фрейм глосарію) якщо використовується вивід з додатковими фреймами (наприклад 3 віконний) та користувач переходить з однієї сторінки до іншої.
 content#:#cont_click_br_corner#:#Будь ласка клікніть на нижній правий кут бажаної області.
 content#:#cont_click_center#:#Будь ласка клікніть на центр бажаної області.
 content#:#cont_click_circle#:#Будь ласка клікніть на точку на колі вибраної області.
@@ -3375,6 +3373,8 @@ content#:#cont_std_view#:#Стандартний Вид
 content#:#cont_structure#:#структура
 content#:#cont_style#:#Стиль
 content#:#cont_subchapters#:#Підглави
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Таблиця
 content#:#cont_table_border#:#Рамка Таблиці
 content#:#cont_table_cellpadding#:#Клітинний Відступ у Таблиці

@@ -3087,8 +3087,6 @@ content#:#cont_choose_media_source#:#Escolha Fonte de Média###07 Apr 2005 conte
 content#:#cont_citation_err_one#:#Você tem de seleccionar exactamente uma edição###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#A sua selecção não é válida###07 Apr 2005 content changed
 content#:#cont_citations#:#Citações###07 Apr 2005 content changed
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
 content#:#cont_click_br_corner#:#Por favor carregue no canto inferior direito da área desejada.###07 Apr 2005 content changed
 content#:#cont_click_center#:#Por favor carregue no centro da área desejada.###07 Apr 2005 content changed
 content#:#cont_click_circle#:#Por favor carregue num ponto de círculo da área desejada.###07 Apr 2005 content changed
@@ -3387,6 +3385,8 @@ content#:#cont_std_view#:#Vista Padrão###07 Apr 2005 content changed
 content#:#cont_structure#:#estrutura###07 Apr 2005 content changed
 content#:#cont_style#:#Style###01 Mar 2005 new variable
 content#:#cont_subchapters#:#Subcapítulos###07 Apr 2005 content changed
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabela###07 Apr 2005 content changed
 content#:#cont_table_border#:#Limite da Tabela###07 Apr 2005 content changed
 content#:#cont_table_cellpadding#:#Padding das Células da Tabela###07 Apr 2005 content changed
