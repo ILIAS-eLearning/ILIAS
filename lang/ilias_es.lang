@@ -949,7 +949,7 @@ common#:#auto_registration#:#Admitir nuevos registros automáticamente
 common#:#available#:#Disponible
 common#:#available_languages#:#idiomas disponibles
 common#:#average_time#:#Tiempo medio
-common#:#back#:#atrás
+common#:#back#:#Volver
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#datos básicos
 common#:#basic_settings#:#Configuración básica
@@ -1115,7 +1115,7 @@ common#:#container#:#Contenedor
 common#:#content#:#Contenido
 common#:#content_styles#:#Estilos de Contenido
 common#:#context#:#contexto
-common#:#continue_work#:#Continuar
+common#:#continue_work#:#continuar
 common#:#cookies_howto#:#Cómo habilitar cookies
 common#:#copied_object#:#Objeto copiado
 common#:#copy#:#copiar
@@ -2599,8 +2599,8 @@ common#:#salutation#:#salutation
 common#:#salutation_f#:#Sr./Sra.
 common#:#salutation_m#:#Sr.
 common#:#save#:#guardar
-common#:#save_and_back#:#guardar y volver
-common#:#save_message#:#guardar mensaje
+common#:#save_and_back#:#Guardar y volver
+common#:#save_message#:#Guardar mensaje
 common#:#save_refresh#:#Guardar y Actualizar
 common#:#save_return#:#Guardar y Volver
 common#:#save_settings#:#Guardar Configuración
@@ -3145,7 +3145,7 @@ content#:#cont_ed_delete#:#eliminar
 content#:#cont_ed_delete_col#:#eliminar columna
 content#:#cont_ed_delete_item#:#eliminar item
 content#:#cont_ed_delete_row#:#eliminar fila
-content#:#cont_ed_edit#:#editar
+content#:#cont_ed_edit#:#Editar
 content#:#cont_ed_edit_prop#:#Editar propiedades
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#insertar código
@@ -3386,8 +3386,8 @@ content#:#cont_std_view#:#Vista estándar
 content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
-content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
-content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
+content#:#cont_synchronize_frames#:#Sincronizar 'frames'
+content#:#cont_synchronize_frames_desc#:#Esta opcion sincroniza el 'frame' de la tabla de contenidos con el 'frame' de contenidos y limpia los 'frames' adicionales en vista '3 ventanas'. Pero tambien supone una reduccion del rendimiento.
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
 content#:#cont_table_cellpadding#:#Relleno de Celdas (Tabla)
@@ -3437,7 +3437,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Año
 content#:#cont_zip_file_invalid#:#El fichero no es un fichero de importación válido.<br>No contiene un fichero '%s'.
 content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
-content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
+content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
@@ -3836,7 +3836,7 @@ dateplaner#:#app_properties#:#propiedades
 dateplaner#:#app_week#:#vista semanal
 dateplaner#:#application#:#Calendario
 dateplaner#:#apply#:#aplicar
-dateplaner#:#back#:#volver
+dateplaner#:#back#:#Volver
 dateplaner#:#begin_date#:#Comienzo de cita
 dateplaner#:#busytime#:#tiempo 'ocupado' en grupo
 dateplaner#:#c_date#:#Crear cita
@@ -3937,7 +3937,7 @@ dateplaner#:#importDates#:#Importar citas de Outlook
 dateplaner#:#inbox#:#Bandeja de entrada
 dateplaner#:#insertImportDates#:#Las siguientes citas fueron registradas con éxito:
 dateplaner#:#k_alldates#:#todas las citas
-dateplaner#:#keep#:#guardar
+dateplaner#:#keep#:#Guardar
 dateplaner#:#keyword#:#Palabra clave
 dateplaner#:#keywords#:#Palabras clave
 dateplaner#:#last_change#:#Ultima modificación
@@ -4021,7 +4021,7 @@ forum#:#forums_count_thr#:#número de cadenas
 forum#:#forums_created_by#:#creado por
 forum#:#forums_delete_file#:#eliminar adjunto
 forum#:#forums_download_attachment#:#Descargar fichero
-forum#:#forums_edit_post#:#editar mensaje
+forum#:#forums_edit_post#:#Editar mensaje
 forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
 forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este mensaje?
 forum#:#forums_info_delete_post#:#¿Está seguro de que quiere eliminar este mensaje incluyendo sus respuestas?
@@ -4740,7 +4740,7 @@ payment#:#pay_bank_data#:#Datos bancarios
 payment#:#pay_bill_no#:#Factura nº
 payment#:#pay_bmf_account_holder#:#Propietario de la cuenta
 payment#:#pay_bmf_account_number#:#Nº cuenta
-payment#:#pay_bmf_back#:#atrás
+payment#:#pay_bmf_back#:#Volver
 payment#:#pay_bmf_bank_code#:#Código del banco
 payment#:#pay_bmf_card_holder#:#Propietario de la tarjeta
 payment#:#pay_bmf_card_number#:#Nº tarjeta
@@ -5203,7 +5203,7 @@ survey#:#maxchars#:#Máximo número de caracteres
 survey#:#maximum#:#Valor Máximo
 survey#:#median#:#Mediana
 survey#:#median_between#:#entre
-survey#:#menuback#:#Atrás
+survey#:#menuback#:#Volver
 survey#:#menubacktosurvey#:#Volver a la encuesta
 survey#:#message_mail_survey_id#:#Ha comenzado la encuesta anónima &quot;%s&quot;. Para continuar esta encuesta necesita el siguiente código de 32 dígitos:<br><br><strong>%s</strong><br><br>Continuar una encuesta es únicamente posible si interrumpe la encuesta antes de finalizarla.
 survey#:#metric_question_floating_point#:#El valor introducido es un número real en coma flotante. ¡Los números reales en coma flotante no están permitidos para este tipo de pregunta!
