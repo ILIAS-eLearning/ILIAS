@@ -3921,7 +3921,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$tabs_gui->addTarget("maintenance",
 			 $this->ctrl->getLinkTarget($this,'maintenance'),
 			 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
-			 "cancelDeleteAllUserData"), 
+			 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
 			 "");
 
 		// status
