@@ -2702,8 +2702,6 @@ content#:#cont_choose_media_source#:#Избор на медиен източни
 content#:#cont_citation_err_one#:#Трябва да изберете точно един въпрос
 content#:#cont_citation_selection_not_valid#:#Изборът ви е невалиден
 content#:#cont_citations#:#Цитати
-content#:#cont_clean_frames#:#Изчистване на допълнителните рамки при навигация
-content#:#cont_clean_frames_desc#:#Това изчиства допълнителните рамки (напр. медийна или речникова рамка), ако се използват схеми с множество рамки (напр. троен прозорец) и потребителят преминава от една страница на друга.
 content#:#cont_click_br_corner#:#Моля, кликнете в долния десен ъгъл на желаната област.
 content#:#cont_click_center#:#Моля, кликнете в центъра на желаната област.
 content#:#cont_click_circle#:#Моля, кликнете на точка от кръга около желаната област.
@@ -2990,6 +2988,8 @@ content#:#cont_std_is_in_dir#:#Изтриването невъзможно. В �
 content#:#cont_std_view#:#Стандартен изглед
 content#:#cont_structure#:#структура
 content#:#cont_subchapters#:#Подглави
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Таблица
 content#:#cont_table_border#:#Очертание на таблица
 content#:#cont_table_cellpadding#:#Оформление на клетките в таблицата

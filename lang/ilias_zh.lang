@@ -3105,8 +3105,6 @@ content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new varia
 content#:#cont_citation_err_one#:#您必须确实选择一个版本###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#您的选择无效###07 Apr 2005 content changed
 content#:#cont_citations#:#引用###07 Apr 2005 content changed
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
 content#:#cont_click_br_corner#:#请点击目标区域右下角。###07 Apr 2005 content changed
 content#:#cont_click_center#:#请点击目标区域中心。###07 Apr 2005 content changed
 content#:#cont_click_circle#:#请点击目标区域圆周上一点。###07 Apr 2005 content changed
@@ -3405,6 +3403,8 @@ content#:#cont_std_view#:#标准视图###07 Apr 2005 content changed
 content#:#cont_structure#:#结构###07 Apr 2005 content changed
 content#:#cont_style#:#Style###01 Mar 2005 new variable
 content#:#cont_subchapters#:#子章节###07 Apr 2005 content changed
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#表格###07 Apr 2005 content changed
 content#:#cont_table_border#:#表格边界###07 Apr 2005 content changed
 content#:#cont_table_cellpadding#:#表格单元填料###07 Apr 2005 content changed

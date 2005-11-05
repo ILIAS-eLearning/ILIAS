@@ -1780,7 +1780,7 @@ common#:#info_delete_sure#:#Jesteś pewien, że chcesz usunąć  następujące o
 common#:#info_deleted#:#Obiekty zostały usunięte
 common#:#info_enter_login_or_id#:#<i>(Podaj nazwę użytkownika lub ID użytkownika)</i>
 common#:#info_err_user_not_exist#:#użytkownik z tym user_id nie istnieje
-common#:#info_from_role#:#Pełniący rolę
+common#:#info_from_role#:#Pełniący rolę###05 Nov 2005 content changed
 common#:#info_is_member#:#Użytkownik jest członkiem
 common#:#info_is_not_member#:#Użytkownik nie jest członkiem
 common#:#info_not_assigned#:#nie przydzielony
@@ -3087,8 +3087,6 @@ content#:#cont_choose_media_source#:#Wybierz źródło mediów
 content#:#cont_citation_err_one#:#Musisz wybrać dokładnie jedną edycję
 content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
 content#:#cont_citations#:#Cytaty
-content#:#cont_clean_frames#:#Czyść dodatkowe ramki nawigacji
-content#:#cont_clean_frames_desc#:#To czyści dodatkowe ramki (np. ramki mediów lub słownika) jeśli jest wybrany wygląd z wieloma ramkami (np. 3window) i użytkownik przechodzi z jednej strony do innej.
 content#:#cont_click_br_corner#:#Kliknij na prawy dolny róg określanej powierzchni.
 content#:#cont_click_center#:#Kliknij na środek określanej powierzchni.
 content#:#cont_click_circle#:#Kliknij na środek określanej powierzchni.
@@ -3387,6 +3385,8 @@ content#:#cont_std_view#:#Widok standardowy
 content#:#cont_structure#:#struktura
 content#:#cont_style#:#Styl
 content#:#cont_subchapters#:#Podrozdziały
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tablica
 content#:#cont_table_border#:#Ramka tablicy
 content#:#cont_table_cellpadding#:#Rozciągnięcie komórek

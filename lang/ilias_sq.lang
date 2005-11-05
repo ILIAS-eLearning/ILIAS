@@ -2926,8 +2926,6 @@ content#:#cont_choose_media_source#:#Zgjedh Burim Multimedial
 content#:#cont_citation_err_one#:#Duhet të zgjedhni saktësisht një edicion
 content#:#cont_citation_selection_not_valid#:#Përzgjedhja juaj nuk është valide
 content#:#cont_citations#:#Citatet
-content#:#cont_clean_frames#:#Largo kornizat shtesë të navigimit
-content#:#cont_clean_frames_desc#:#Kjo do të largoj kornizat shtesë (p.sh. Kornizat për media ose fjalorth) nëse pamje me shumë korniza (p.sh. 3dritare) janë duke u shfrytëzuar. 
 content#:#cont_click_br_corner#:#Ju lutem klikoni në këndin poshtë djathtas të hapësirës.
 content#:#cont_click_center#:#Ju lutem klikoni në qendër të hapësirës.
 content#:#cont_click_circle#:#Ju lutem klikoni hapësirën rrethore.
@@ -3222,6 +3220,8 @@ content#:#cont_std_view#:#Pamja Standarde
 content#:#cont_structure#:#struktura
 content#:#cont_style#:#Stili
 content#:#cont_subchapters#:#Nënkapituj
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabelë
 content#:#cont_table_border#:#Skaj i Tabelës
 content#:#cont_table_cellpadding#:#Cell Padding i Tabelës

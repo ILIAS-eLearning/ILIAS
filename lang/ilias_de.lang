@@ -1779,7 +1779,7 @@ common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht wer
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_enter_login_or_id#:#<i>(Geben Sie Benutzernamen oder Benutzer-ID ein)</i>
 common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser user_id existiert nicht###03 Aug 2005 content changed
-common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz
+common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz###05 Nov 2005 content changed
 common#:#info_is_member#:#Benutzer ist Mitglied
 common#:#info_is_not_member#:#Benutzer ist kein Mitglied
 common#:#info_not_assigned#:#nicht zugewiesen
@@ -3086,8 +3086,6 @@ content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
-content#:#cont_clean_frames#:#Zusätzliche Frames beim Navigieren leeren
-content#:#cont_clean_frames_desc#:#Damit werden bei Mehrfensteransichten alle Fenster gelöscht, wenn der Anwender zur nächsten Seite wechselt.
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
@@ -3386,6 +3384,8 @@ content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabelle
 content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen

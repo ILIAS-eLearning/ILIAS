@@ -2614,8 +2614,6 @@ content#:#cont_choose_media_source#:#Alegeti Sursa Media
 content#:#cont_citation_err_one#:#Trebuie sa selectati exact o editie
 content#:#cont_citation_selection_not_valid#:#Selectia dumneavoastra nu este valida
 content#:#cont_citations#:#Citate
-content#:#cont_clean_frames#:#Curatati frame-urile suplimentare la navigare
-content#:#cont_clean_frames_desc#:#Acest lucru curata frame-urile suplimentare (ex. Frame-urile media sau glosar) daca sunt folosite frame-uri multiple (ex. 3window) si utilizatorul navigheaza de la o pagina la alta.
 content#:#cont_click_br_corner#:#Va rugam apasati in coltul dreapta jos al ariei dorite.
 content#:#cont_click_center#:#Va rugam apasati in centrul ariei dorite.
 content#:#cont_click_circle#:#Va rugam apasati intr-un punct circular al ariei dorite.
@@ -2900,6 +2898,8 @@ content#:#cont_std_is_in_dir#:#Stergerea nu este posibila. Fisierul de vizualiza
 content#:#cont_std_view#:#Vizualizare Standard
 content#:#cont_structure#:#structura
 content#:#cont_subchapters#:#Subcapitole
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabel
 content#:#cont_table_border#:#Margine Tabelului
 content#:#cont_table_cellpadding#:#Marginea celulelor din tabel

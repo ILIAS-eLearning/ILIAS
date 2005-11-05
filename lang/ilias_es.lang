@@ -1781,7 +1781,7 @@ common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente o
 common#:#info_deleted#:#Objeto(s) eliminado(s)
 common#:#info_enter_login_or_id#:#<i>(Introduzca nombre de usuario o ID de usuario)</i>
 common#:#info_err_user_not_exist#:#El usuario con ese user_id no existe
-common#:#info_from_role#:#Permitido por el rol:
+common#:#info_from_role#:#Permitido por el rol:###05 Nov 2005 content changed
 common#:#info_is_member#:#El usuario es un miembro
 common#:#info_is_not_member#:#El usuario no es un miembro
 common#:#info_not_assigned#:#no asignado
@@ -3088,8 +3088,6 @@ content#:#cont_choose_media_source#:#Seleccionar fuente multimedia
 content#:#cont_citation_err_one#:#Debe seleccionar exactamente una edición
 content#:#cont_citation_selection_not_valid#:#Su selección no es válida
 content#:#cont_citations#:#Citas
-content#:#cont_clean_frames#:#Deshabilitar ventana adicional en la navegación
-content#:#cont_clean_frames_desc#:#Esta opción evita marcos adicionales (ej: marco multimedia o marco de glosario) si se usan plantillas con múltiples marcos (ej: 3window) y el usuario navega desde una página a otra.
 content#:#cont_click_br_corner#:#Por favor haga click en la esquina inferior derecha del área deseada
 content#:#cont_click_center#:#Por favor haga click en el centro del área deseada.
 content#:#cont_click_circle#:#Por favor haga click en un punto interno al área de círculo deseada.
@@ -3388,6 +3386,8 @@ content#:#cont_std_view#:#Vista estándar
 content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
 content#:#cont_table_cellpadding#:#Relleno de Celdas (Tabla)

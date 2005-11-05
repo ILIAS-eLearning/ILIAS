@@ -3087,8 +3087,6 @@ content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new varia
 content#:#cont_citation_err_one#:#Musíte vybrat právě jedno vydání###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#Výběr je neplatný###07 Apr 2005 content changed
 content#:#cont_citations#:#Citace###07 Apr 2005 content changed
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###16 Mar 2004 new variable
 content#:#cont_click_center#:#Please click on center of the desired area.###16 Mar 2004 new variable
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.###16 Mar 2004 new variable
@@ -3387,6 +3385,8 @@ content#:#cont_std_view#:#Standardní zobrazení###07 Apr 2005 content changed
 content#:#cont_structure#:#struktura###07 Apr 2005 content changed
 content#:#cont_style#:#Style###01 Mar 2005 new variable
 content#:#cont_subchapters#:#Podkapitoly###07 Apr 2005 content changed
+content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
+content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
 content#:#cont_table#:#Tabulka###07 Apr 2005 content changed
 content#:#cont_table_border#:#Orámování tabulky###07 Apr 2005 content changed
 content#:#cont_table_cellpadding#:#Šířka prázdného okraje uvnitř buněk tabulky###07 Apr 2005 content changed
