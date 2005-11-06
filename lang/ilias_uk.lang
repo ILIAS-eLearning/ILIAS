@@ -151,6 +151,7 @@ assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#Код
 assessment#:#concatenation#:#Об'єднання
 assessment#:#confirm_delete_all_user_data#:#Ви впервені що ви бажаєте видалити усі дані користувача по цьому тесту?
+assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#confirm_sync_questions#:#Питання що ви змінили це копія, яка була створена для використання в активному опитуванні. Чи бажаєте ви змінити оригінальне питання також?
 assessment#:#coordinates#:#Координати
 assessment#:#correct_solution_is#:#Вірне рішення є
@@ -161,6 +162,7 @@ assessment#:#create_imagemap#:#Створити карту зображення
 assessment#:#create_new#:#Створити новий
 assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#delete_area#:#Видалити область
+assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
 assessment#:#description_maxchars#:#Якщо нічого не введено максимальна кількість символів для цієї текстової відповіді необмежена.
 assessment#:#detail_ending_time_reached#:#Ви досялги кінцевого часу теста. Тест не є доступним з %s
 assessment#:#detail_max_processing_time_reached#:#Ви досягли максимально допустимого часу проходження теста!
@@ -272,6 +274,7 @@ assessment#:#log_no_test_fields_changed#:#Збережено, але змін н
 assessment#:#log_question_added#:#Питання додане на позицію
 assessment#:#log_question_position_changed#:#Позиція питання змінена
 assessment#:#log_question_removed#:#Питання видалене
+assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
 assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
 assessment#:#log_user_data_removed#:#Видалити усі дані користувача
 assessment#:#maintenance#:#Підтримка
@@ -455,6 +458,7 @@ assessment#:#tst_insert_missing_question#:#Будь ласка виберіть 
 assessment#:#tst_insert_questions#:#Ви впервені що ви бажаєте вставити наступні питання в тест?
 assessment#:#tst_insert_questions_and_results#:#Цей тест вже завершели %s осіб. Вставка питань до цього тесту видалить усі результати цих користувачів по тесту. Ви впевнені, що бажаєте вставити наступні питання в тест?
 assessment#:#tst_introduction#:#Вступ
+assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..  ###06 Nov 2005 new variable
 assessment#:#tst_mark#:#Оцінка
 assessment#:#tst_mark_create_new_mark_step#:#Створити новий шаг оцінки
 assessment#:#tst_mark_create_simple_mark_schema#:#Створити просту схему оцінок
@@ -531,6 +535,7 @@ assessment#:#tst_select_questionpool#:#Будь ласка вкажіть пул
 assessment#:#tst_select_questionpools#:#Будь ласка виберіть пул питань для зберігання імпортованих питань
 assessment#:#tst_select_random_questions#:#Виберіть пул(и) питань та кількість питань для випадкового тесту###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Будь ласка виберіть тест для дублювання
+assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully###06 Nov 2005 new variable
 assessment#:#tst_sequence#:#Послідовність
 assessment#:#tst_sequence_fixed#:#Послідовність питань зафіксовано
 assessment#:#tst_sequence_postpone#:#Учень може відкласти питання у кінець тесту

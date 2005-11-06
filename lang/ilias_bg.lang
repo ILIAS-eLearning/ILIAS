@@ -148,6 +148,7 @@ assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 
 assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#Код
 assessment#:#confirm_delete_all_user_data#:#Сигурни ли сте, че желаете да изтриете всички потребителски данни от теста?
+assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#confirm_sync_questions#:#Въпросът, който сте променили, е копие, създадено за използване с активния тест. Желаете ли да промените и оригинала на въпроса?
 assessment#:#coordinates#:#Координати
 assessment#:#correct_solution_is#:#Правилното решение е
@@ -158,6 +159,7 @@ assessment#:#create_imagemap#:#Създаване карта на изображ
 assessment#:#create_new#:#Създаване на нови
 assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#delete_area#:#Изтриване на област
+assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
 assessment#:#description_maxchars#:#Ако не бъде въведено нищо, максималният брой символи за този текстов отговор ще бъде неограничен.
 assessment#:#detail_ending_time_reached#:#Достигнали сте финалния момент на теста. Тестът не е достъпен от %s
 assessment#:#detail_max_processing_time_reached#:#Достигнали сте максимално допустимото време за обработка на теста!
@@ -268,6 +270,7 @@ assessment#:#log_no_test_fields_changed#:#Съхранено, но нищо не
 assessment#:#log_question_added#:#Въпросът е добавен на позиция
 assessment#:#log_question_position_changed#:#Позицията на въпроса е променена
 assessment#:#log_question_removed#:#Въпросът е премахнат
+assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
 assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
 assessment#:#log_user_data_removed#:#Всички потребителски данни са премахнати
 assessment#:#maintenance#:#Поддръжка
@@ -438,6 +441,7 @@ assessment#:#tst_insert_missing_question#:#Моля, изберете поне �
 assessment#:#tst_insert_questions#:#Сигурни ли сте, че желаете да вмъкнете следния въпрос(и) в теста?
 assessment#:#tst_insert_questions_and_results#:#Този тест вече е бил изпълнен от %s потребител(и). Вмъкването на въпроси в този тест ще премахне всички тестови резултати на тези потребители. Сигурни ли сте, че желаете да вмъкнете следния въпрос(и) в теста?
 assessment#:#tst_introduction#:#Въведение
+assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..  ###06 Nov 2005 new variable
 assessment#:#tst_mark#:#Оценка
 assessment#:#tst_mark_create_new_mark_step#:#Създаване на нова стъпка в оценките
 assessment#:#tst_mark_create_simple_mark_schema#:#Създаване на проста схема на оценките
@@ -507,6 +511,7 @@ assessment#:#tst_select_questionpools#:#Моля, изберете набор в
 assessment#:#tst_select_random_questions#:#Изберете набора(ите) въпроси и броя на въпросите за случайния тест
 ###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Моля, изберете тест за дублиране
+assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully###06 Nov 2005 new variable
 assessment#:#tst_sequence#:#Последователност
 assessment#:#tst_sequence_fixed#:#Последователността на въпросите е фиксирана
 assessment#:#tst_sequence_postpone#:#Обучаваният може да отложи въпрос за края на теста
