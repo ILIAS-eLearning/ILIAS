@@ -152,6 +152,7 @@ assessment#:#cloze_text#:#Đoạn văn điền chỗ trống
 assessment#:#code#:#Mã
 assessment#:#concatenation#:#Kết hợp
 assessment#:#confirm_delete_all_user_data#:#Bạn có chắc chắn muốn xóa tất cả các thông tin người sử dụng của bài kiểm tra không?
+assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#confirm_sync_questions#:#Câu hỏi bạn đã thay đổi là một bản sao được tạo ra để sử dụng với bài kiểm tra đang hoạt động. Bạn có muốn thay đổi nguyên bản của câu hỏi không?
 assessment#:#coordinates#:#Tọa độ
 assessment#:#correct_solution_is#:#Giải pháp đúng là
@@ -161,6 +162,7 @@ assessment#:#create_gaps#:#Tạo chỗ trống
 assessment#:#create_imagemap#:#Tạo một bản đồ ảnh
 assessment#:#create_new#:#Tạo mới
 assessment#:#delete_area#:#Xóa vùng
+assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
 assessment#:#description_maxchars#:#Nếu không có gì nhập vào số chữ của câu trả lời văn bản sẽ là không giới hạn.
 assessment#:#detail_ending_time_reached#:#Bạn hết thời gian làm bài. Bài kiểm tra bị khóa từ %s
 assessment#:#detail_max_processing_time_reached#:#Bạn đã hết thời gian thực hiện cho phép!
@@ -229,6 +231,7 @@ assessment#:#exp_type_spss#:#Giá trị phân tách bằng dấu phẩy (CSV)
 assessment#:#export#:#Xuất ra
 assessment#:#failed_official#:#không đạt
 assessment#:#failed_short#:#không đạt
+assessment#:#false#:#Sai
 assessment#:#fill_out_all_answer_fields#:#Hãy điền đủ các câu trả lời trước khi bạn thêm một câu mới!
 assessment#:#fill_out_all_matching_pairs#:#Hãy điền đủ các cặp tương ứng trước khi bạn thêm một câu mới!
 assessment#:#fill_out_all_required_fields_add_answer#:#Hãy điền đủ các trường bắt buộc trước khi bạn thêm các câu trả lời!
@@ -271,6 +274,7 @@ assessment#:#log_no_test_fields_changed#:#Đã ghi, nhưng không có gì thay �
 assessment#:#log_question_added#:#Câu hỏi đã thêm vào vị trí
 assessment#:#log_question_position_changed#:#Vị trí câu hỏi đã thay đổi
 assessment#:#log_question_removed#:#Câu hỏi đã xóa
+assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
 assessment#:#log_user_data_removed#:#Đã xóa tất cả thông tin người sử dụng
 assessment#:#maintenance#:#Bảo quản - bảo trì
 assessment#:#mark_schema#:#Giản đồ điểm
@@ -402,6 +406,7 @@ assessment#:#text_gap#:#Chỗ trống điền từ
 assessment#:#text_maximum_chars_allowed#:#Không nhập quá số %s kí tự. Tất cả ký tự ở trên sẽ bị cắt.
 assessment#:#time_format#:#Giờ Phút Giây
 assessment#:#too_many_empty_parameters#:#Hãy điền đủ các tham số applet của bạn trước khi thêm một tham số mới!
+assessment#:#true#:#Đúng
 assessment#:#tst_all_user_data_deleted#:#Tất cả thông tin người sử dụng của bài kiểm tra này đã được xóa!
 assessment#:#tst_already_submitted#:#Bài kiểm tra đã kết thúc và đã được nộp lên.
 assessment#:#tst_already_taken#:#Bài kiểm tra đã làm
@@ -437,6 +442,7 @@ assessment#:#tst_insert_missing_question#:#Hãy chọn ít nhất một câu h�
 assessment#:#tst_insert_questions#:#Bạn có chắc bạn muốn thêm (những) câu hỏi sau đây vào bài kiểm tra?
 assessment#:#tst_insert_questions_and_results#:#Bài kiểm tra này đã được thực hiện bởi %s người sử dụng. Thêm câu hỏi vào bài kiểm tra này sẽ hủy toàn bộ kết quả kiểm tra của những người sử dụng này. Bạn có chắc bạn muốn thêm (những) câu hỏi sau đây vào bài kiểm tra?
 assessment#:#tst_introduction#:#Giới thiệu
+assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..  ###06 Nov 2005 new variable
 assessment#:#tst_mark#:#Điểm
 assessment#:#tst_mark_create_new_mark_step#:#Tạo thang điểm mới
 assessment#:#tst_mark_create_simple_mark_schema#:#Tạo giản đồ điểm
@@ -505,6 +511,7 @@ assessment#:#tst_select_questionpool#:#Hãy chọn một thư viện câu hỏi 
 assessment#:#tst_select_questionpools#:#Hãy chọn một thư viện câu hỏi để lưu trữ câu hỏi đã nhập
 assessment#:#tst_select_random_questions#:#Chọn (các) thư viện câu hỏi và số lượng câu hỏi cho bài kiểm tra ngẫu nhiên
 assessment#:#tst_select_tsts#:#Hãy chọn một bài kiểm tra để nhân đôi
+assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully###06 Nov 2005 new variable
 assessment#:#tst_sequence#:#Trình tự
 assessment#:#tst_sequence_fixed#:#Lần lượt làm từng câu hỏi
 assessment#:#tst_sequence_postpone#:#Người học có thể hoãn một câu hỏi đến cuối bài kiểm tra
@@ -579,8 +586,6 @@ assessment#:#width#:#Độ rộng
 assessment#:#with_order#:#với thứ tự
 assessment#:#working_time#:#Thời gian làm
 assessment#:#you_received_a_of_b_points#:#Bạn đạt %d trong số %d điểm có thể
-assessment#:#false#:#Sai
-assessment#:#true#:#Đúng
 bibitem#:#bibitem_add#:#Thêm
 bibitem#:#bibitem_author#:#Tác giả
 bibitem#:#bibitem_av#:#AV
@@ -768,6 +773,8 @@ chat#:#chat_yellow#:#vàng
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Chat của tôi
 common#:#3rd_party_software#:#Phần mềm bên thứ ba
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Đường dẫn tuyệt đối
 common#:#accept_usr_agreement#:#Chấp nhận thỏa thuận sử dụng?
 common#:#access#:#Truy cập
@@ -1041,8 +1048,8 @@ common#:#cleaned_file#:#Đã diệt virus trên file.
 common#:#cleaning_failed#:#Không diệt được virus.
 common#:#clear#:#Xóa bộ nhớ đệm
 common#:#clear_clipboard#:#Xóa bộ nhớ đệm
-common#:#client#:#Máy trạm
 common#:#client ip#:#Địa chỉ IP máy trạm
+common#:#client#:#Máy trạm
 common#:#client_id#:#Tên máy trạm
 common#:#client_ip#:#Địa chỉ IP máy trạm
 common#:#clipboard#:#Bộ nhớ đệm
@@ -1076,10 +1083,10 @@ common#:#continue_work#:#Tiếp tục
 common#:#cookies_howto#:#Làm sao để cho phép cookies
 common#:#copied_object#:#Đối tượng đã sao chép
 common#:#copy#:#Sao chép
-common#:#copy_of#:#Sao chép của
-common#:#copy_to#:#đến
 common#:#copyChapter#:#Sao chép
 common#:#copyPage#:#Sao chép
+common#:#copy_of#:#Sao chép của
+common#:#copy_to#:#đến
 common#:#could_not_verify_account#:#Xin lỗi, chúng tôi không thể thẩm tra tài khoản của bạn. Hãy liên hệ quản trị hệ thống.
 common#:#count#:#Đếm
 common#:#country#:#Quốc gia
@@ -1142,7 +1149,6 @@ common#:#crs_status_pending#:#[Đang chờ đăng ký]
 common#:#crs_subscribers_assigned#:#Đã chỉ định (những) người sử dụng mới
 common#:#crs_visible#:#Nhìn thấy khóa học
 common#:#crs_write#:#Sửa khóa học
-common#:#cua#:#của
 common#:#cumulative_time#:#Thời gian lũy tích
 common#:#cur_number_rec#:#Số bản ghi hiện thời
 common#:#current_ip#:#Địa chỉ IP hiện thời:
@@ -1177,7 +1183,6 @@ common#:#dbk_new#:#Digilib Book mới
 common#:#dbk_read#:#Đọc Digilib Book
 common#:#dbk_visible#:#Nhìn thấy Digilib Book
 common#:#dbk_write#:#Sửa Digilib Book
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Cách xem kho kiến thức mặc định
 common#:#default#:#Mặc định
 common#:#default_language#:#Ngôn ngữ mặc định
@@ -1564,7 +1569,6 @@ common#:#guest#:#Khách
 common#:#guests#:#Khách
 common#:#header_title#:#Tiêu đề trên cùng
 common#:#help#:#Trợ giúp
-common#:#HH:MM#:#HH:MM
 common#:#hide#:#ẩn
 common#:#hide_details#:#ẩn chi tiết
 common#:#hide_structure#:#Khóa Xem cấu trúc
@@ -1666,7 +1670,6 @@ common#:#ilinc_id#:#LearnLinc ID
 common#:#ilinc_involved_users#:#Những người sử dụng liên quan
 common#:#ilinc_mail_body_new_subscription#:#Bạn đã đăng ký vào hội thảo chuyên đề LearnLinc.
 common#:#ilinc_mail_body_subscription_cancelled#:#Quyền thành viên của bạn đã bị hủy
-common#:#ilinc_mail_subj_new_subscription#:#Đăng ký mới
 common#:#ilinc_mail_subj_subscription_cancelled#:#Đã hủy đăng ký
 common#:#ilinc_manage_course_documents#:#Tài liệu
 common#:#ilinc_mem_change_status#:#Thay đổi trạng thái của người sử dụng
@@ -1682,7 +1685,6 @@ common#:#ilinc_server_not_active#:#Máy chủ iLinc chưa kích hoạt
 common#:#ilinc_student#:#Người tham gia
 common#:#ilinc_upload_pic_linktext#:#Tải lên
 common#:#ilinc_upload_pic_text#:#Để hiển thị ảnh của bạn trong các hội thảo chuyên đề LearnLinc hãy sử dụng liên kết này:
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Mỗi hội thảo chuyên đề LearnLinc cần ít nhất một quản trị
 common#:#image#:#Ảnh
 common#:#image_gen_unsucc#:#Sinh ảnh không thành công. Liên hệ quản trị và thẩm tra lại về đường dẫn chuyển đổi.
 common#:#import#:#Nhập
@@ -1975,7 +1977,6 @@ common#:#meta_data#:#Siêu dữ liệu
 common#:#migrate#:#Chuyển (nâng cấp)
 common#:#min_time#:#Thời gian tối thiểu
 common#:#missing#:#Thiếu
-common#:#missing_pear_library#:#Thiếu thư viện PEAR - PHP.
 common#:#mob#:#Đối tượng phương tiện truyền thông
 common#:#module#:#học phần
 common#:#modules#:#Học phần
@@ -2006,11 +2007,11 @@ common#:#month_12_long#:#Tháng Mười Hai
 common#:#month_12_short#:#T12
 common#:#monthly#:#hàng tháng
 common#:#move#:#Di chuyển
+common#:#moveChapter#:#Di chuyển chương
+common#:#movePage#:#Di chuyển trang
 common#:#move_selected_items#:#Di chuyển các mục đã chọn
 common#:#move_to#:#Di chuyển tới
 common#:#move_users_to_style#:#Di chuyển người sử dụng sang style
-common#:#moveChapter#:#Di chuyển chương
-common#:#movePage#:#Di chuyển trang
 common#:#msg_cancel#:#Đã huỷ bỏ thao tác
 common#:#msg_changes_ok#:#Thay đổi OK
 common#:#msg_clear_clipboard#:#Đã xóa sạch bộ nhớ đệm
@@ -2078,9 +2079,9 @@ common#:#msg_obj_exists#:#Đối tượng đã tồn tại trong thư mục này
 common#:#msg_obj_modified#:#Đã ghi các thay đổi.
 common#:#msg_obj_no_link#:#không được phép liên kết
 common#:#msg_obj_not_deletable_sold#:#Thanh toán đã hoạt động cho các đối tượng sau. Không thể xóa chúng.
-common#:#msg_perm_adopted_from_itself#:#Bạn không thể nhận thiết lập quyền hạn từ vai trò/vai trò mẫu hiện thời.
 common#:#msg_perm_adopted_from1#:#Thiết lập quyền hạn thừa kế từ
 common#:#msg_perm_adopted_from2#:#(Thiết lập đã ghi!)
+common#:#msg_perm_adopted_from_itself#:#Bạn không thể nhận thiết lập quyền hạn từ vai trò/vai trò mẫu hiện thời.
 common#:#msg_removed#:#Đã xóa (các) đối tượng khỏi hệ thống.
 common#:#msg_role_exists1#:#Một vai trò/vai trò mẫu với tên
 common#:#msg_role_exists2#:#đang tồn tại! Hãy chọn tên khác
@@ -2308,9 +2309,9 @@ common#:#password#:#Mật khẩu
 common#:#password_assistance_disabled#:#Trợ giúp mật khẩu chỉ có thể sử dụng được, khi xác thực người sử dụng qua cơ sở dữ liệu ILIAS nội bộ.
 common#:#password_assistance_info#:#Nếu trợ giúp mật khẩu được cho phép, những liên kết "Quên mật khẩu?" và "Quên tên đăng nhập?" sẽ hiện trên trang đăng nhập của ILIAS. Người sử dụng có thể sử dụng những liên kết này để lấy mật khẩu mới cho tài khoản của họ cũng như là tên đăng nhập, mà không cần trợ giúp từ quản trị hệ thống.
 common#:#paste#:#Dán
-common#:#paste_clipboard_items#:#Dán mục từ bộ nhớ đệm
 common#:#pasteChapter#:#Dán chương
 common#:#pastePage#:#Dán trang
+common#:#paste_clipboard_items#:#Dán mục từ bộ nhớ đệm
 common#:#path#:#Đường dẫn
 common#:#path_not_set#:#Chưa đặt đường dẫn
 common#:#path_to_babylon#:#Đường dẫn đến thư mục Babylon
@@ -2569,12 +2570,12 @@ common#:#server#:#Máy chủ
 common#:#server_data#:#Dữ liệu máy chủ
 common#:#server_software#:#Phần mềm máy chủ
 common#:#set#:#Đặt
+common#:#setSystemLanguage#:#Ngôn ngữ hệ thống
+common#:#setUserLanguage#:#Ngôn ngữ người sử dụng
 common#:#set_offline#:#Đặt Offline
 common#:#set_online#:#Đặt Online
-common#:#setSystemLanguage#:#Ngôn ngữ hệ thống
 common#:#settings#:#Thiết lập
 common#:#settings_saved#:#Đã ghi thiết lập
-common#:#setUserLanguage#:#Ngôn ngữ người sử dụng
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Cho phép hỗ trợ Shibboleth
 common#:#shib_city#:#Thuộc tính thành phố
@@ -2653,7 +2654,6 @@ common#:#subchapter_new#:#Chương con mới
 common#:#subject#:#Tiêu đề
 common#:#subject_module#:#Đơn vị môn
 common#:#submit#:#Đệ trình
-common#:#submit_login#:#Đăng nhập
 common#:#subobjects#:#Đối tượng con
 common#:#subscription#:#Đăng ký
 common#:#summary#:#Tóm tắt
@@ -2889,13 +2889,6 @@ common#:#version#:#Phiên bản
 common#:#versions#:#Phiên bản
 common#:#view#:#Xem
 common#:#view_content#:#Xem nội dung
-common#:#virus_clean_message#:#Diệt virus
-common#:#virus_cleaned#:#Đã diệt virus
-common#:#virus_infected#:#Nhiễm virus
-common#:#virus_not_cleaned#:#Không diệt được virus
-common#:#virus_not_infected#:#Không có virus
-common#:#virus_scan_error#:#Lỗi khi quét virus.
-common#:#virus_scan_message#:#Có virus trong file.
 common#:#visible#:#Nhìn thấy
 common#:#visible_layers#:#Nhìn thấy các lớp
 common#:#visitor#:#Khách
@@ -2941,12 +2934,34 @@ common#:#you_may_add_local_roles#:#Bạn có thể thêm vai trò nội bộ
 common#:#your_message#:#Thư của bạn
 common#:#zip#:#Mã bưu điện
 common#:#zipcode#:#Mã bưu điện
-common#:#toc2win#:#Nội dung chính - có hai cửa sổ
+content#:#HTML export#:#Xuất ra HTML
+content#:#PDF export#:#Xuất ra PDF
+content#:#Pages#:#Trang
 content#:#add_menu_entry#:#Thêm mục trên bảng chọn >>
 content#:#all#:#Tất cả
 content#:#all_pages#:#toàn bộ học phần
 content#:#choose_public_mode#:#Những người sử dụng chưa đăng ký có thể truy cập
 content#:#choose_public_pages#:#Chọn các trang có thể truy cập công khai
+content#:#cont_Additional#:#Bổ sung
+content#:#cont_Alphabetic#:#Theo thứ tự chữ cái A, B, ...
+content#:#cont_Circle#:#Vòng tròn
+content#:#cont_Citation#:#Trích dẫn
+content#:#cont_Code#:#Mã
+content#:#cont_Example#:#Ví dụ
+content#:#cont_Headline1#:#Tiêu đề cấp 1
+content#:#cont_Headline2#:#Tiêu đề cấp 2
+content#:#cont_Headline3#:#Tiêu đề cấp 3
+content#:#cont_List#:#Danh mục
+content#:#cont_LocalFile#:#File nội bộ
+content#:#cont_Mnemonic#:#Giúp trí nhớ
+content#:#cont_Number#:#Số
+content#:#cont_Poly#:#Đa giác
+content#:#cont_Rect#:#Hình chữ nhật
+content#:#cont_Reference#:#Tham chiếu
+content#:#cont_Remark#:#Lời bình luận
+content#:#cont_Roman#:#La Mã I, II, ...
+content#:#cont_TableContent#:#Nội dung bảng
+content#:#cont_Unordered#:#Không được sắp xếp
 content#:#cont_act_number#:#Đánh số chương
 content#:#cont_active#:#Bảng chọn hoạt động
 content#:#cont_add_area#:#Thêm vùng
@@ -2955,10 +2970,8 @@ content#:#cont_add_definition#:#Thêm định nghĩa
 content#:#cont_add_fullscreen#:#Thêm chế độ xem toàn màn hình
 content#:#cont_added_comment#:#Bình luận đã được bổ sung vào lịch sử.
 content#:#cont_added_term#:#Đã thêm thuật ngữ
-content#:#cont_Additional#:#Bổ sung
 content#:#cont_all_definitions#:#Tất cả định nghĩa
 content#:#cont_all_pages#:#Trang
-content#:#cont_Alphabetic#:#Theo thứ tự chữ cái A, B, ...
 content#:#cont_alphabetic#:#Theo thứ tự chữ cái a, b, ...
 content#:#cont_annex#:#Sáp nhập
 content#:#cont_api_adapter#:#Tên chuyển đổi API
@@ -2988,13 +3001,9 @@ content#:#cont_characteristic#:#Đặc điểm
 content#:#cont_choose_cont_obj#:#Chọn đối tượng nội dung
 content#:#cont_choose_glossary#:#Chọn bảng chú giải
 content#:#cont_choose_media_source#:#Chọn nguồn phương tiện
-content#:#cont_Circle#:#Vòng tròn
-content#:#cont_Citation#:#Trích dẫn
 content#:#cont_citation_err_one#:#Bạn phải chọn chính xác một ấn bản
 content#:#cont_citation_selection_not_valid#:#Bạn chọn không hợp lệ
 content#:#cont_citations#:#Trích dẫn
-content#:#cont_clean_frames#:#Xóa các khung bổ sung khi duyệt
-content#:#cont_clean_frames_desc#:#Xóa các khung thêm (ví dụ khung phương tiện hoặc bảng chú giải) nếu bố cục với nhiều khung (ví dụ 3window) được sử dụng và người sử dụng chuyển từ một trang sang một trang khác.
 content#:#cont_click_br_corner#:#Hãy kích chuột vào góc dưới bên phải của vùng mong muốn.
 content#:#cont_click_center#:#Hãy kích chuột vào tâm vùng mong muốn.
 content#:#cont_click_circle#:#Hãy kích chuột vào một điểm trên đường tròn của vùng mong muốn.
@@ -3002,7 +3011,6 @@ content#:#cont_click_next_or_save#:#Hãy kích chuột vào điểm tiếp theo 
 content#:#cont_click_next_point#:#Hãy kích chuột vào điểm tiếp theo của đa giác.
 content#:#cont_click_starting_point#:#Hãy kích chuột vào điểm đầu của đa giác.
 content#:#cont_click_tl_corner#:#Hãy kích chuột vào góc trên bên trái của vùng mong muốn.
-content#:#cont_Code#:#Mã
 content#:#cont_confirm_delete#:#Xóa thật ?
 content#:#cont_content#:#Nội dung
 content#:#cont_content_obj#:#Đối tượng nội dung
@@ -3091,7 +3099,6 @@ content#:#cont_edit_term#:#Sửa thuật ngữ
 content#:#cont_edition#:#Ấn bản
 content#:#cont_enable_js#:#JavaScript hoạt động
 content#:#cont_enable_media#:#Phương tiện hoạt động
-content#:#cont_Example#:#Ví dụ
 content#:#cont_example#:#ví dụ
 content#:#cont_export_files#:#Các file xuất ra
 content#:#cont_external#:#bên ngoài
@@ -3109,9 +3116,6 @@ content#:#cont_get_link#:#get link
 content#:#cont_get_orig_size#:#Đặt kích thước nguyên bản
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Thuộc tính bảng chú giải
-content#:#cont_Headline1#:#Tiêu đề cấp 1
-content#:#cont_Headline2#:#Tiêu đề cấp 2
-content#:#cont_Headline3#:#Tiêu đề cấp 3
 content#:#cont_height#:#Chiều cao
 content#:#cont_how_published#:#Xuất bản như thế nào
 content#:#cont_href#:#href
@@ -3142,7 +3146,6 @@ content#:#cont_link_int#:#Liên kết (nội)
 content#:#cont_link_select#:#Liên kết nội
 content#:#cont_link_type#:#Kiểu liên kết
 content#:#cont_linked_mobs#:#Đối tượng phương tiện truyền thông đã liên kết
-content#:#cont_List#:#Danh mục
 content#:#cont_list_files#:#Danh sách file
 content#:#cont_list_properties#:#Thuộc tính danh sách
 content#:#cont_lk_chapter#:#Chương
@@ -3159,7 +3162,6 @@ content#:#cont_lk_term#:#Bảng chú giải thuật ngữ
 content#:#cont_lk_term_new#:#Bảng chú giải thuật ngữ (khung mới)
 content#:#cont_lm_menu#:#Bảng chọn
 content#:#cont_lm_properties#:#Thuộc tính của học phần
-content#:#cont_LocalFile#:#File nội bộ
 content#:#cont_lvalue#:#Yếu tố dữ liệu
 content#:#cont_manifest#:#Khai vào bản kê
 content#:#cont_map_areas#:#Các vùng liên kết
@@ -3170,7 +3172,6 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Nguồn phương tiện
 content#:#cont_mep_structure#:#Cấu trúc thư viện phương tiện
 content#:#cont_missing_preconditions#:#Để truy cập chương "%s", bạn cần đáp ứng các điều kiện tiên quyết sau.
-content#:#cont_Mnemonic#:#Giúp trí nhớ
 content#:#cont_mob_files#:#File của đối tượng
 content#:#cont_mob_inst_prop#:#Thuộc tính hiển thị
 content#:#cont_mob_prop#:#Thuộc tính đối tượng
@@ -3196,7 +3197,6 @@ content#:#cont_none#:#Không có gì
 content#:#cont_nr_cols#:#Số cột
 content#:#cont_nr_items#:#Số mục
 content#:#cont_nr_rows#:#Số hàng
-content#:#cont_Number#:#Số
 content#:#cont_obj_removed#:#Đã xóa đối tượng.
 content#:#cont_offline#:#Phiên bản Offline
 content#:#cont_offline_files#:#Phiên bản Offline
@@ -3219,7 +3219,6 @@ content#:#cont_personal_clipboard#:#Bộ nhớ đệm cá nhân
 content#:#cont_pg_content#:#Nội dung trang
 content#:#cont_pg_title#:#Tiêu đề trang
 content#:#cont_please_select#:#hãy chọn
-content#:#cont_Poly#:#Đa giác
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Xem trước
@@ -3227,12 +3226,9 @@ content#:#cont_print_view#:#Xem kiểu trang in
 content#:#cont_public_access#:#Truy cập công khai
 content#:#cont_publisher#:#Nhà xuất bản
 content#:#cont_purpose#:#Mục đích
-content#:#cont_Rect#:#Hình chữ nhật
 content#:#cont_ref_helptext#:#(ví dụ: http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Các ảnh đã tham chiếu
-content#:#cont_Reference#:#Tham chiếu
 content#:#cont_reference#:#Tham chiếu
-content#:#cont_Remark#:#Lời bình luận
 content#:#cont_remove_fullscreen#:#Bỏ chế độ xem toàn màn hình
 content#:#cont_removeiln#:#thật sự bỏ liên kết nội bộ ?
 content#:#cont_repository_item#:#Mục trong kho kiến thức
@@ -3245,7 +3241,6 @@ content#:#cont_resize_image#:#Thay đổi kích thước phương tiện
 content#:#cont_resource#:#Tài nguyên
 content#:#cont_resource_type#:#kiểu
 content#:#cont_resources#:#Tài nguyên
-content#:#cont_Roman#:#La Mã I, II, ...
 content#:#cont_roman#:#La Mã i, ii, ...
 content#:#cont_rvalue#:#Giá trị
 content#:#cont_saved_map_area#:#Đã ghi vùng bản đồ
@@ -3314,7 +3309,6 @@ content#:#cont_table_html_import_info#:#Nhập chỉ làm việc với bảng ph
 content#:#cont_table_spreadsheet_import#:#Nhập bảng tính (Excel)
 content#:#cont_table_spreadsheet_import_info#:#Dán bảng từ ứng dụng bảng tính qua bộ nhớ đệm vào vùng văn bản.
 content#:#cont_table_width#:#Độ rộng bảng
-content#:#cont_TableContent#:#Nội dung bảng
 content#:#cont_target_within_source#:#Mục tiêu phải không ở trong đối tượng nguồn.
 content#:#cont_term#:#Thuật ngữ
 content#:#cont_terms#:#Các thuật ngữ
@@ -3339,7 +3333,6 @@ content#:#cont_tracking_items#:#Các khoản mục theo dõi
 content#:#cont_translations#:#Bản dịch
 content#:#cont_translations_assigned#:#(Các) bản dịch đã được chỉ định
 content#:#cont_tree_fixed#:#Cây cấu trúc đã được sửa chữa.
-content#:#cont_Unordered#:#Không được sắp xếp
 content#:#cont_update#:#Cập nhật
 content#:#cont_update_names#:#Tên cập nhật
 content#:#cont_upload_file#:#Tải lên File
@@ -3357,7 +3350,6 @@ content#:#cont_year#:#Năm
 content#:#cont_zip_file_invalid#:#File nhập không hợp lệ.<br>Nó không chứa một file '%s'.
 content#:#copied_to_clipboard#:#Đã sao chép (các) đối tượng vào bộ nhớ đệm.
 content#:#glo_term_used_in#:#Các tài nguyên sau liên kết tới thuật ngữ đó
-content#:#HTML export#:#Xuất ra HTML
 content#:#lm_menu_edit_entry#:#Sửa mục chọn
 content#:#lm_menu_entry_target#:#Mục tiêu
 content#:#lm_menu_entry_title#:#Tiêu đề
@@ -3369,10 +3361,8 @@ content#:#msg_entry_removed#:#Đã xóa mục chọn
 content#:#msg_entry_updated#:#Đã cập nhật mục chọn
 content#:#msg_page_no_public_access#:#Trang bạn yêu cầu không sử dụng được ở phần công khai. Chỉ những người sử dụng đã đăng ký mới có thể xem trang này. Hãy đăng nhập trước khi truy cập trang này.
 content#:#msg_page_not_public#:#Trang không công khai
-content#:#Pages#:#Trang
 content#:#pages from#:#Trang từ
 content#:#par#:#Đoạn
-content#:#PDF export#:#Xuất ra PDF
 content#:#pg#:#Trang
 content#:#public_section#:#Khu vực công khai
 content#:#read offline#:#Đọc offline
@@ -3707,6 +3697,43 @@ crs#:#edit_content#:#Sửa nội dung
 crs#:#learners_view#:#Khung nhìn người học
 crs#:#subscription_times_not_valid#:#Khoảng thời gian đăng ký không hợp lệ.
 crs_#:#crs_archives#:#File nén
+dateplaner#:#DateText#:#Thông tin
+dateplaner#:#Day_long#:#Xem cuộc hẹn
+dateplaner#:#ERROR_DATE_EXISTS#:#Cuộc hẹn này đã tồn tại.
+dateplaner#:#ERROR_DB#:#Lỗi ghi cơ sở dữ liệu!
+dateplaner#:#ERROR_DB_CONNECT#:#Cơ sở dữ liệu đã ngắt kết nối.
+dateplaner#:#ERROR_DEL_MSG#:#Đây là cuộc hẹn có định kỳ. Bạn muốn xóa một cuộc hẹn hay cả chuỗi
+dateplaner#:#ERROR_ENDDATE#:#Nhập sai ngày kết thúc. Định dạng: Ngày/Tháng/Năm
+dateplaner#:#ERROR_ENDTIME#:#Nhập sai thời điểm kết thúc. Định dạng: Giờ:Phút
+dateplaner#:#ERROR_END_START#:#Nhập sai ngày kết thúc. Ngày kết thúc bị đặt trước ngày bắt đầu.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Hãy nhập file CSV hợp lệ.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Trình duyệt của bạn không chấp nhận JavaScript.<br />Hãy tự đóng cửa sổ này sau khi thêm.<br />Cảm ơn</CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Nhập sai ngày kết thúc hẹn định kỳ. Định dạng: Ngày/Tháng/Năm
+dateplaner#:#ERROR_ROT_END_START#:#Nhập sai ngày kết thúc hẹn định kỳ. Ngày kết thúc bị đặt trước ngày bắt đầu.
+dateplaner#:#ERROR_SHORTTEXT#:#Thông tin ngắn nhập sai. Yêu cầu có thông tin ngắn.
+dateplaner#:#ERROR_STARTDATE#:#Nhập sai ngày bắt đầu. Định dạng: Ngày/Tháng/Năm
+dateplaner#:#ERROR_STARTTIME#:#Nhập sai thời điểm bắt đầu. Định dạng: Giờ:Phút
+dateplaner#:#ERROR_TS#:#Định dạng ngày không đúng
+dateplaner#:#Fr_long#:#Thứ sáu
+dateplaner#:#Fr_short#:#T6
+dateplaner#:#Language_file#:#Vietnamese
+dateplaner#:#Listbox_long#:#Danh sách hẹn
+dateplaner#:#Mo_long#:#Thứ hai
+dateplaner#:#Mo_short#:#T2
+dateplaner#:#Month_long#:#Xem theo tháng
+dateplaner#:#Sa_long#:#Thứ bảy
+dateplaner#:#Sa_short#:#T7
+dateplaner#:#Su_long#:#Chủ nhật
+dateplaner#:#Su_short#:#CN
+dateplaner#:#Text#:#Thông tin đầy đủ
+dateplaner#:#Th_long#:#Thứ năm
+dateplaner#:#Th_short#:#T5
+dateplaner#:#Tu_long#:#Thứ ba
+dateplaner#:#Tu_short#:#T3
+dateplaner#:#View#:#Xem:
+dateplaner#:#We_long#:#Thứ tư
+dateplaner#:#We_short#:#T4
+dateplaner#:#Week_long#:#Xem theo tuần
 dateplaner#:#add_data#:#Thông tin bổ sung
 dateplaner#:#app_#:#Các cuộc hẹn của nhóm
 dateplaner#:#app_date#:#thêm cuộc hẹn
@@ -3723,20 +3750,19 @@ dateplaner#:#back#:#Quay lại
 dateplaner#:#begin_date#:#Bắt đầu
 dateplaner#:#busytime#:#thời gian bận trong nhóm
 dateplaner#:#c_date#:#Tạo cuộc hẹn mới
-dateplaner#:#changedDates#:#Cuộc hẹn đã thay đổi
 dateplaner#:#changeTo#:#Thay đổi thành:
+dateplaner#:#changedDates#:#Cuộc hẹn đã thay đổi
 dateplaner#:#checkforfreetime#:#Kiểm tra tìm thời gian rỗi
 dateplaner#:#created#:#Đã tạo
 dateplaner#:#date#:#Cuộc hẹn
 dateplaner#:#date_format#:#d/m/Y H:i
 dateplaner#:#date_format_middle#:#d/m/y
-dateplaner#:#DateText#:#Thông tin
-dateplaner#:#Day_long#:#Xem cuộc hẹn
 dateplaner#:#del_all#:#xóa tất cả cuộc hẹn
 dateplaner#:#del_one#:#xóa một cuộc hẹn
 dateplaner#:#delete#:#xóa
 dateplaner#:#deletedDates#:#Cuộc hẹn đã xóa
 dateplaner#:#discard#:#loại bỏ
+dateplaner#:#dv_Grouptime#:#Thời gian rỗi
 dateplaner#:#dv_button_cancel#:#Hủy bỏ
 dateplaner#:#dv_button_delete#:#Xóa
 dateplaner#:#dv_button_insert#:#Thêm
@@ -3746,7 +3772,6 @@ dateplaner#:#dv_date_end#:#Kết thúc cuộc hẹn
 dateplaner#:#dv_date_hm#:#Giờ:Phút
 dateplaner#:#dv_enddate#:#Ngày kết thúc:
 dateplaner#:#dv_groupselect#:#Chọn nhóm:
-dateplaner#:#dv_Grouptime#:#Thời gian rỗi
 dateplaner#:#dv_groupview#:#Nhóm cuộc hẹn:
 dateplaner#:#dv_groupview_text#:#Nhóm:<br />
 dateplaner#:#dv_keywords#:#Từ khóa:
@@ -3765,26 +3790,9 @@ dateplaner#:#dv_whole_day#:#Cả ngày:
 dateplaner#:#dv_whole_rotation#:#Bạn muốn xóa toàn bộ chuỗi hẹn định kỳ? (đánh dấu vào hộp chọn)
 dateplaner#:#end_date#:#Kết thúc
 dateplaner#:#endtime_for_view#:#Thời gian kết thúc để xem:
-dateplaner#:#ERROR_DATE_EXISTS#:#Cuộc hẹn này đã tồn tại.
-dateplaner#:#ERROR_DB#:#Lỗi ghi cơ sở dữ liệu!
-dateplaner#:#ERROR_DB_CONNECT#:#Cơ sở dữ liệu đã ngắt kết nối.
-dateplaner#:#ERROR_DEL_MSG#:#Đây là cuộc hẹn có định kỳ. Bạn muốn xóa một cuộc hẹn hay cả chuỗi
-dateplaner#:#ERROR_END_START#:#Nhập sai ngày kết thúc. Ngày kết thúc bị đặt trước ngày bắt đầu.
-dateplaner#:#ERROR_ENDDATE#:#Nhập sai ngày kết thúc. Định dạng: Ngày/Tháng/Năm
-dateplaner#:#ERROR_ENDTIME#:#Nhập sai thời điểm kết thúc. Định dạng: Giờ:Phút
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Hãy nhập file CSV hợp lệ.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Trình duyệt của bạn không chấp nhận JavaScript.<br />Hãy tự đóng cửa sổ này sau khi thêm.<br />Cảm ơn</CENTER></B>
 dateplaner#:#error_minical_img#:#Không thể tạo GD-picture-stream
-dateplaner#:#ERROR_ROT_END_START#:#Nhập sai ngày kết thúc hẹn định kỳ. Ngày kết thúc bị đặt trước ngày bắt đầu.
-dateplaner#:#ERROR_ROTATIONEND#:#Nhập sai ngày kết thúc hẹn định kỳ. Định dạng: Ngày/Tháng/Năm
-dateplaner#:#ERROR_SHORTTEXT#:#Thông tin ngắn nhập sai. Yêu cầu có thông tin ngắn.
-dateplaner#:#ERROR_STARTDATE#:#Nhập sai ngày bắt đầu. Định dạng: Ngày/Tháng/Năm
-dateplaner#:#ERROR_STARTTIME#:#Nhập sai thời điểm bắt đầu. Định dạng: Giờ:Phút
-dateplaner#:#ERROR_TS#:#Định dạng ngày không đúng
 dateplaner#:#execute#:#thực hiện lựa chọn
 dateplaner#:#extra_dates#:#Hẹn cả một ngày
-dateplaner#:#Fr_long#:#Thứ sáu
-dateplaner#:#Fr_short#:#T6
 dateplaner#:#free#:#rỗi
 dateplaner#:#freetime#:#thời gian rỗi trong nhóm
 dateplaner#:#group#:#nhóm
@@ -3805,9 +3813,9 @@ dateplaner#:#help_group_l#:#Contains the groups for which the logged-in người
 dateplaner#:#help_inbox#:#Hộp thư lịch
 dateplaner#:#help_inbox_l#:#Ở đây hiện tất cả các cuộc hẹn mới, đã thay đổi và đã xóa của nhóm.
 dateplaner#:#help_keyword#:#Lựa chọn từ khóa
-dateplaner#:#help_keyword_l#:#Chứa các từ khóa mà người sử dụng có thể kết hợp với các cuộc hẹn.
 dateplaner#:#help_keywordUse#:#Lựa chọn từ khóa
 dateplaner#:#help_keywordUse_l#:#Chọn một hoặc nhiều từ khóa từ hộp thoại.<br />Mẹo: sử dụng phím CTRL để chọn nhiều mục cùng lúc.
+dateplaner#:#help_keyword_l#:#Chứa các từ khóa mà người sử dụng có thể kết hợp với các cuộc hẹn.
 dateplaner#:#help_list#:#Calendar date list
 dateplaner#:#help_list_l#:#In the date list, all dates over a given period của time are displayed.
 dateplaner#:#help_month#:#Xem tháng trên lịch
@@ -3842,9 +3850,7 @@ dateplaner#:#k_alldates#:#tất cả cuộc hẹn
 dateplaner#:#keep#:#giữ
 dateplaner#:#keyword#:#Từ khóa
 dateplaner#:#keywords#:#Từ khóa
-dateplaner#:#Language_file#:#Vietnamese
 dateplaner#:#last_change#:#Lần thay đổi gần nhất
-dateplaner#:#Listbox_long#:#Danh sách hẹn
 dateplaner#:#long_01#:#Tháng Một
 dateplaner#:#long_02#:#Tháng Hai
 dateplaner#:#long_03#:#Tháng Ba
@@ -3860,16 +3866,13 @@ dateplaner#:#long_12#:#Tháng Mười Hai
 dateplaner#:#main_dates#:#Cuộc hẹn chính trong tháng
 dateplaner#:#menue#:#Bảng chọn
 dateplaner#:#mmonth#:#tháng trước
-dateplaner#:#Mo_long#:#Thứ hai
-dateplaner#:#Mo_short#:#T2
 dateplaner#:#month#:#tháng
-dateplaner#:#Month_long#:#Xem theo tháng
 dateplaner#:#more#:#more
 dateplaner#:#mweek#:#tuần trước
 dateplaner#:#myeahr#:#năm trước
-dateplaner#:#new_doc#:#tạo cuộc hẹn mới
 dateplaner#:#newDates#:#Cuộc hẹn mới
 dateplaner#:#newKeyword#:#Mới:
+dateplaner#:#new_doc#:#tạo cuộc hẹn mới
 dateplaner#:#no_entry#:#không có cuộc hẹn nào
 dateplaner#:#o_day_date#:#cuộc hẹn 24-giờ
 dateplaner#:#of#:#của
@@ -3890,8 +3893,6 @@ dateplaner#:#r_year#:#mỗi năm
 dateplaner#:#readimportfile#:#thêm
 dateplaner#:#rotation#:#Định kỳ
 dateplaner#:#rotation_dates#:#Cuộc hẹn định kỳ
-dateplaner#:#Sa_long#:#Thứ bảy
-dateplaner#:#Sa_short#:#T7
 dateplaner#:#semester_name#:#Tên học kỳ
 dateplaner#:#short_01#:#Th1
 dateplaner#:#short_02#:#Th2
@@ -3908,24 +3909,13 @@ dateplaner#:#short_12#:#Th12
 dateplaner#:#shorttext#:#Thông tin ngắn
 dateplaner#:#singleDate#:#single date
 dateplaner#:#starttime_for_view#:#Thời gian bắt đầu để xem:
-dateplaner#:#Su_long#:#Chủ nhật
-dateplaner#:#Su_short#:#CN
-dateplaner#:#Text#:#Thông tin đầy đủ
-dateplaner#:#Th_long#:#Thứ năm
-dateplaner#:#Th_short#:#T5
 dateplaner#:#timedate#:#Thời gian / Cuộc hẹn
 dateplaner#:#timeslice#:#Thời gian:
 dateplaner#:#title#:#Lịch ILIAS
 dateplaner#:#to#:#tới
 dateplaner#:#today#:#hôm nay
-dateplaner#:#Tu_long#:#Thứ ba
-dateplaner#:#Tu_short#:#T3
-dateplaner#:#View#:#Xem:
 dateplaner#:#viewlist#:#Xem
-dateplaner#:#We_long#:#Thứ tư
-dateplaner#:#We_short#:#T4
 dateplaner#:#week#:#tuần
-dateplaner#:#Week_long#:#Xem theo tuần
 dateplaner#:#wk_short#:#Tuần
 dateplaner#:#year#:#năm
 forum#:#forums#:#Diễn đàn
@@ -3942,8 +3932,8 @@ forum#:#forums_created_by#:#Người tạo
 forum#:#forums_delete_file#:#Xóa đính kèm
 forum#:#forums_download_attachment#:#Tiêu đề tải xuống
 forum#:#forums_edit_post#:#Sửa bài
-forum#:#forums_info_censor_post#:#Bạn có chắc bạn muốn ẩn bài này?
 forum#:#forums_info_censor2_post#:#Thu hồi quyền kiểm duyệt?
+forum#:#forums_info_censor_post#:#Bạn có chắc bạn muốn ẩn bài này?
 forum#:#forums_info_delete_post#:#Bạn có chắc bạn muốn xóa bài này bao gồm cả các phản hồi?
 forum#:#forums_mark_read#:#Đánh dấu tất cả là đã đọc
 forum#:#forums_new_entries#:#Mục nhập diễn đàn mới
@@ -4368,7 +4358,6 @@ meta#:#meta_delete#:#Xóa
 meta#:#meta_description#:#Mô tả
 meta#:#meta_diagramm#:#Biểu đồ
 meta#:#meta_difficulty#:#Độ khó
-meta#:#meta_dificult#:#Khó
 meta#:#meta_draft#:#Bản thảo
 meta#:#meta_duration#:#Khoảng thời gian
 meta#:#meta_easy#:#Dễ
@@ -4542,7 +4531,6 @@ meta#:#meta_l_tr#:#Thổ Nhĩ Kỳ
 meta#:#meta_l_ts#:#Tsonga
 meta#:#meta_l_tt#:#Tatar
 meta#:#meta_l_tw#:#Twi
-meta#:#meta_l_ua#:#Ucraina
 meta#:#meta_l_ug#:#Uigur
 meta#:#meta_l_uk#:#Ucraina
 meta#:#meta_l_ur#:#Urdu
@@ -5023,27 +5011,27 @@ survey#:#define_questionblock#:#Định nghĩa khối câu hỏi
 survey#:#description_maxchars#:#Nếu không nhập gì có nghĩa là không giới hạn số ký tự.
 survey#:#disinvite#:#Hủy mời
 survey#:#display_all_available#:#Hiển thị tất cả sử dụng được
+survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
+survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)
 survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
+survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)
 survey#:#dp_standard_behaviour_certainly5#:#Standard behavior (most certainly-more positive-undecided-more negative-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Standard behavior (yes-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behavior (yes-undecided-no)
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
 survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_numbers#:#Standard numbers
 survey#:#duplicate#:#Nhân đôi
 survey#:#duplicate_svy#:#Nhân đôi khảo sát
@@ -5078,7 +5066,6 @@ survey#:#filter_all_question_types#:#Tất cả kiểu câu hỏi
 survey#:#filter_all_questionpools#:#Tất cả thư viện câu hỏi
 survey#:#filter_show_question_types#:#Hiện các kiểu câu hỏi
 survey#:#filter_show_questionpools#:#Hiện các thư viện câu hỏi
-survey#:#finished#:#hoàn thành
 survey#:#found_questions#:#Tìm thấy các câu hỏi
 survey#:#geometric_mean#:#Trung bình nhân
 survey#:#given_answers#:#Câu trả lời đã cho
@@ -5146,8 +5133,6 @@ survey#:#no_user_or_group_selected#:#Hãy đánh dấu một tùy chọn bạn t
 survey#:#no_user_phrases_defined#:#Không có cụm từ do người sử dụng định nghĩa nào sử dụng được!
 survey#:#nominal_question_not_checked#:#Hãy đánh dấu một trong các câu trả lời đã cho!
 survey#:#non_ratio#:#Vô tỷ
-survey#:#not_finished#:#chưa hoàn thành
-survey#:#not_started#:#chưa bắt đầu
 survey#:#not_used#:#không sử dụng
 survey#:#obligatory#:#bắt buộc
 survey#:#off#:#tắt
