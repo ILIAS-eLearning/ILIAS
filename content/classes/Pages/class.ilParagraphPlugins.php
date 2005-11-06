@@ -134,7 +134,7 @@ class ilParagraphPlugins {
         				echo $title."<br>";
         				echo $description."<br>";
        */ 				
-        				if (file_exists($classfile) && $active == TRUE) {
+        				if (file_exists($classfile) && $active == TRUE && !class_exists($classname)) {
         					include ($classfile);
         					$plugin = new $classname($pluginSubDir, $title, $filetype, $link, $description, $active);
         					
