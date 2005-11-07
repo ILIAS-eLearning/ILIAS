@@ -27,7 +27,7 @@ path = ./lang
 
 [layout]
 skin = default
-style = blueshadow
+style = delos
  
 [session]
 expire = 1800 
