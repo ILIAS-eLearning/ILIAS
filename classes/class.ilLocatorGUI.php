@@ -82,11 +82,57 @@ class ilLocatorGUI
 	*/
 	function ilLocatorGUI($a_display_frame = true)
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $tree;
 
 		$this->tpl		=& $tpl;
 		$this->lng		=& $lng;	
 		$this->display_frame = $a_display_frame;
+		
+		$this->items = array();
+	}
+
+	/**
+	* add repository items
+	*/
+	function addRepositoryItems($a_ref_id = 0)
+	{
+		if ($a_ref_id == 0)
+		{
+			$a_ref_id = $_GET["ref_id"];
+		}
+		
+		if ($_GET["ref_id"] > 0)
+		{
+			$tree->getPathFull($_GET["ref_id"]);
+			
+			// add item for each node on path
+			foreach ($path as $key => $row)
+			{
+				if ($row["title"] == "ILIAS")
+				{
+					$row["title"] = $this->lng->txt("repository");
+				}
+				$this->addItem($row["title"],
+					"repository.php?cmd=frameset&amp;ref_id=".$row["child"],
+					ilFrameTargetInfo::_getFrame("MainContent"));
+			}
+		}
+	}
+	
+	/**
+	* add locator 
+	*/
+	function addItem($a_title, $a_link, $a_frame = "")
+	{
+		$this->entries[] = array("title" => $a_title,
+			"link" => $a_link, "frame" => $a_frame); 
+	}
+	
+	/**
+	*
+	*/
+	function getHTML()
+	{
 	}
 	
 	/**
@@ -137,6 +183,8 @@ class ilLocatorGUI
 	
 	/**
 	* Generate locator
+	*
+	* DEPRECATED: USE getHTML (!)
 	*
 	* @param	void	-				-
 	* @return	void	-				-

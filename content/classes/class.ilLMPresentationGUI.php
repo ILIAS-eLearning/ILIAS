@@ -49,7 +49,7 @@ class ilLMPresentationGUI
 
 	function ilLMPresentationGUI()
 	{
-		global $ilias, $lng, $tpl, $rbacsystem, $ilCtrl;
+		global $ilias, $lng, $tpl, $rbacsystem, $ilCtrl, $ilAccess;
 
 		// load language vars
 		$lng->loadLanguageModule("content");
@@ -64,7 +64,8 @@ class ilLMPresentationGUI
 
 		// check read permission, payment and parent conditions
 		// todo: replace all this by ilAccess call
-		if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&
+			(!($this->ctrl->getCmd() == "infoScreen" && $ilAccess->checkAccess("visible", "", $_GET["ref_id"]))))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
@@ -2122,6 +2123,52 @@ class ilLMPresentationGUI
 		}
 
 		$ilBench->stop("ContentPresentation", "TableOfContents");
+	}
+
+	/**
+	* table of contents
+	*/
+	function infoScreen()
+	{
+		global $ilBench;
+
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+
+		// set style sheets
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
+		}
+		else
+		{
+			$style_name = $this->ilias->account->prefs["style"].".css";;
+			$this->tpl->setStyleSheetLocation("./".$style_name);
+		}
+
+		$this->tpl->getStandardTemplate();
+		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->ilLocator();
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		//$info->enablePrivateNotes();
+		
+		// syllabus section
+		$info->addSection("test");
+		$info->addProperty("",  nl2br("test"));
+
+		$this->tpl->setContent($info->getHTML());
+		
+		if ($this->offlineMode())
+		{
+			return $this->tpl->get();
+		}
+		else
+		{
+			$this->tpl->show();
+		}
+
 	}
 
 	/**

@@ -50,6 +50,7 @@ class ilObjectListGUI
 	var $commands_enabled = true;
 	var $cust_prop = array();
 	var $cust_commands = array();
+	var $info_screen_enabled = false;
 
 
 	/**
@@ -95,6 +96,7 @@ class ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
+		$this->info_screen_enabled = false;
 		$this->type = "";					// "cat", "course", ...
 		$this->gui_class_name = "";			// "ilobjcategorygui", "ilobjcoursegui", ...
 
@@ -899,6 +901,23 @@ class ilObjectListGUI
 	}
 
 	/**
+	* insert info screen command
+	*
+	*/
+	function insertInfoScreenCommand()
+	{
+		global $ilAccess;
+
+		// if read permission is given, info button is not displayed!
+		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
+		{
+			$cmd_link = $this->getCommandLink("infoScreen");
+			$cmd_frame = $this->getCommandFrame("infoScreen");
+			$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame);
+		}
+	}
+
+	/**
 	* insert all commands into html code
 	*
 	* @access	private
@@ -948,6 +967,12 @@ class ilObjectListGUI
 				$this->insertCommand($command["link"], $this->lng->txt($command["lang_var"]),
 					$command["frame"]);
 			}
+		}
+
+		// info screen commmand
+		if ($this->info_screen_enabled)
+		{
+			$this->insertInfoScreenCommand();
 		}
 
 		if (!$this->isMode(IL_LIST_AS_TRIGGER))
