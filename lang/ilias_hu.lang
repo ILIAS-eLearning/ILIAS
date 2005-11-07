@@ -775,8 +775,8 @@ chat#:#chat_rooms_deleted#:#Chat-szobá(k) törölve.
 chat#:#chat_select_one_room#:#Válasszon ki egy chat-szobát
 chat#:#chat_server_allowed#:#Engedélyezett host-ok
 chat#:#chat_server_allowed_b#:#(például 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#Szerver belső IP-címe
-chat#:#chat_server_internal_ip#:#Szerver külső IP-címe
+chat#:#chat_server_external_ip#:#Szerver külső IP-címe
+chat#:#chat_server_internal_ip#:#Szerver belső IP-címe
 chat#:#chat_server_logfile#:#Eseménynapló elérési útja
 chat#:#chat_server_loglevel#:#Naplózási szint
 chat#:#chat_server_not_active#:#A chat-szerver nem aktív
@@ -2702,7 +2702,7 @@ common#:#shib_user_default_role#:#Az alapértelmezett szerep hozzá van rendelve
 common#:#shib_visible#:#A Shibboleth beállítások láthatók
 common#:#shib_write#:#Shibboleth beállítások szerkesztése
 common#:#shib_zipcode#:#Tulajdonságok az irányítószámhoz
-common#:#show#:#Mutat
+common#:#show#:#Belépés
 common#:#show_details#:#Részletek mutatása
 common#:#show_list#:#Lista mutatása
 common#:#show_members#:#Tagok megjelenítése
