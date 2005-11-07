@@ -799,12 +799,29 @@ class ilObjForum extends ilObject
 		return $last_access;
 	}
 
+
+	/**
+	* Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0)
+	* @param    integer	user_id	A user's ID
+	* @param    integer	thread_id	ID of the thread
+	* @return	integer	Result
+	* @access	private
+	*/
+	function isNotificationEnabled($user_id, $thread_id)
+	{
+		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
+		$q .= "user_id = '" . $user_id . "' AND ";
+		$q .= "thread_id = '". $thread_id . "'";
+		return $this->ilias->db->getOne($q);
+	}
+
+
 	/**
 	* redirect script
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target)
+	function _goto($a_target, $a_thread = 0)
 	{
 		global $rbacsystem, $ilErr, $lng;
 
@@ -814,7 +831,14 @@ class ilObjForum extends ilObject
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
-			ilUtil::redirect("repository.php?ref_id=$a_target");
+			if ($a_thread != 0)
+			{
+				ilUtil::redirect("forums_frameset.php?thr_pk=".$a_thread."&ref_id=".$a_target);
+			}
+			else
+			{
+				ilUtil::redirect("repository.php?ref_id=".$a_target);
+			}
 		}
 		else
 		{

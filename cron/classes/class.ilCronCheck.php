@@ -80,6 +80,15 @@ class ilCronCheck
 			$lucene_ind->index();
 		}
 
+		// Start sending forum notifications
+		if($ilias->getSetting('cron_forum_notification'))
+		{
+			include_once './cron/classes/class.ilCronForumNotification.php';
+
+			$check_lnk =& new ilCronForumNotification();
+			$check_lnk->sendNotifications();
+
+		}
 
 	}
 }

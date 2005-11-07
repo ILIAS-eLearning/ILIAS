@@ -5384,3 +5384,16 @@ survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folge
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
+forum#:#forums_notification_is_enabled#:#Zur Zeit werden Sie bereits über neue Nachrichten zu diesem Thema benachrichtigt.
+forum#:#forums_notification_is_disabled#:#Sie werden (noch) nicht über neue Nachrichten zu diesem Thema benachrichtigt.
+forum#:#forums_enable_notification#:#Benachrichtigung starten
+forum#:#forums_disable_notification#:#Benachrichtigung beenden
+forum#:#forums_notification#:#Benachrichtigung
+forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
+forum#:#forums_notification_subject#:#Neue Nachricht in einem Foren-Thema
+forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt. 
+forum#:#forums_notification_show_post#:#Zur Nachricht gehen: %s
+common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
+common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, werden E-Mails an die Benutzer versendet, die bei bestimmten Foren-Themen benachrichtigt werden wollen, falls eine neue Nachricht vorliegt.
+forum#:#thread#:#Thema
+forum#:#new_post#:#Neue Nachricht

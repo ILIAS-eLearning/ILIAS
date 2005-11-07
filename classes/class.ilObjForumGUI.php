@@ -189,7 +189,10 @@ class ilObjForumGUI extends ilObjectGUI
 						$this->tpl->setVariable("TITLE","<a href=\"forums_frameset.php?thr_pk=".
 												$thrData["thr_pk"]."&ref_id=".$this->object->getRefId()."\">".
 												$thrData["thr_subject"]."</a>");
-				
+						if ($frm->isNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
+						{
+							$this->tpl->setVariable("NOTIFICATION_ENABLED", $this->lng->txt("forums_notification_enabled"));
+						}
 
 						$num_unread = $this->object->getCountUnread($ilUser->getId(),$thrData['thr_pk']);
 						$this->tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"].' ('.$num_unread.')');
@@ -249,6 +252,8 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_OK",$this->lng->txt("ok"));			
 				$this->tpl->setVariable("TXT_EXPORT_HTML", $this->lng->txt("export_html"));
 				$this->tpl->setVariable("TXT_EXPORT_XML", $this->lng->txt("export_xml"));
+				$this->tpl->setVariable("TXT_DISABLE_NOTIFICATION", $this->lng->txt("forums_disable_notification"));
+				$this->tpl->setVariable("TXT_ENABLE_NOTIFICATION", $this->lng->txt("forums_enable_notification"));
 				$this->tpl->setVariable("IMGPATH",$this->tpl->tplPath);
 		
 			} // if ($thrNum > 0)	

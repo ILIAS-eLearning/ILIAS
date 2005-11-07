@@ -81,7 +81,8 @@ switch($target_type)
 		
 	case "frm":
 		require_once("./classes/class.ilObjForum.php");
-		ilObjForum::_goto($target_id);
+		$target_thread = $target_arr[2];
+		ilObjForum::_goto($target_id, $target_thread);
 		break;
 		
 	case "exc":

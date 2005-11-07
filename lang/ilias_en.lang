@@ -5387,3 +5387,16 @@ survey#:#view_constraints_introduction#:#You are viewing the preconditions of th
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.
+forum#:#forums_enable_notification#:#Enable notification
+forum#:#forums_disable_notification#:#Disable notification
+forum#:#forums_notification#:#Notification
+forum#:#forums_notification_enabled#:#Notification enabled
+forum#:#forums_notification_subject#:#New post in a forum topic
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s
+forum#:#forums_notification_show_post#:#Show post: %s
+common#:#cron_forum_notification#:#Send forum notifications
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.
+forum#:#thread#:#Topic
+forum#:#new_post#:#New post

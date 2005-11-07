@@ -13,7 +13,7 @@
 <!-- BEGIN threads_row -->
 <tr class="std">
 	<td class="tblrow2" nowrap="nowrap" width="1%" valign="top"><input type="checkbox" name="forum_id[]" value="{FORUM_ID}"{CHECKBOX_CHECKED}></td>
-	<td width="60%" class="tblrow2" valign="top">{TITLE}</td>
+	<td width="60%" class="tblrow2" valign="top">{TITLE}<!-- BEGIN notification --><br><span class="small">{NOTIFICATION_ENABLED}</span><!-- END notification --></td>
 	<td width="20%" align="center" class="tblrow1" valign="top">{AUTHOR}</td>
 	<td align="center" class="tblrow2" valign="top">{NUM_POSTS}</td>
 	<td align="center" class="tblrow2" valign="top">{NEW_POSTS}</td>
@@ -42,6 +42,8 @@
 	<select name="action">
 		<option value="html">{TXT_EXPORT_HTML}</option>
 		<!-- <option value="xml">{TXT_EXPORT_XML}</option> -->
+		<option value="enable_notifications">{TXT_ENABLE_NOTIFICATION}</option>
+		<option value="disable_notifications">{TXT_DISABLE_NOTIFICATION}</option>
 	</select>
 	<input class="submit" type="submit" name="cmd[submit]" value="{TXT_OK}"/>
 	</td>
