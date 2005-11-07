@@ -1762,7 +1762,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", true);
-		$questionpools =& $this->object->getAvailableQuestionpools();
+		$questionpools =& $this->object->getAvailableQuestionpools(false, true);
 		$this->tpl->setCurrentBlock("option");
 		$this->tpl->setVariable("VALUE_OPTION", "0");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("all_available_question_pools"));
@@ -1897,7 +1897,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$total = $this->object->evalTotalPersons();
 		$add_parameter = $this->getAddParameter();
-		$available_qpl =& $this->object->getAvailableQuestionpools(true);
+		$available_qpl =& $this->object->getAvailableQuestionpools(true, true);
 		foreach ($available_qpl as $key => $value)
 		{
 			$count = ilObjQuestionPool::_getQuestionCount($key);
