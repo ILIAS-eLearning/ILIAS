@@ -423,6 +423,7 @@ assessment#:#tst_delete_results#:#Rikthe testin në vlera të paradefinuara
 assessment#:#tst_ending_time#:#Koha e përfundimit
 assessment#:#tst_enter_questionpool#:#Ju lutem shëno emrin e fondi të pyetjeve në të cilin do të ruhet pyetja e re
 assessment#:#tst_eval_no_anonymous_aggregation#:#Askush nuk ka filluar testin ende. Nuk ka ende rezultate anonime të grumbulluara
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Shih përgjigjen
 assessment#:#tst_eval_total_finished#:#Numri total i testeve të kompletuara
 assessment#:#tst_eval_total_finished_average_time#:#Koha mesatare e testeve të kompletuara

@@ -423,6 +423,7 @@ assessment#:#tst_delete_results#:#Resetuj test
 assessment#:#tst_ending_time#:#Vreme završetka
 assessment#:#tst_enter_questionpool#:#Molimo unesite naziv baze pitanja gde ce novo pitanje biti sacuvano
 assessment#:#tst_eval_no_anonymous_aggregation#:#Još uvek niko nije ušao u test. Ne postoje dostupni anonimni ukupni rezultati testova.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Prikaži odgovor
 assessment#:#tst_eval_total_finished#:#Potpuno popunjeni testovi
 assessment#:#tst_eval_total_finished_average_time#:#Prosecno vreme obrade za popunjene testove

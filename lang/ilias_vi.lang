@@ -424,6 +424,7 @@ assessment#:#tst_delete_results#:#Đặt lại bài kiểm tra
 assessment#:#tst_ending_time#:#Thời điểm kết thúc
 assessment#:#tst_enter_questionpool#:#Hãy nhập vào tên thư viện câu hỏi để ghi câu hỏi mới vào
 assessment#:#tst_eval_no_anonymous_aggregation#:#Chưa có ai vào bài kiểm tra. Không có kết quả tổng hợp ẩn danh nào của bài kiểm tra sử dụng được.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Hiện câu trả lời
 assessment#:#tst_eval_total_finished#:#Tổng số lần hoàn thành bài kiểm tra
 assessment#:#tst_eval_total_finished_average_time#:#Thời gian trung bình để hoàn thành bài kiểm tra

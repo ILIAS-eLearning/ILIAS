@@ -438,6 +438,7 @@ assessment#:#tst_delete_results#:#Test zurücksetzen
 assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
 assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests

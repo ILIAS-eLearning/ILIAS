@@ -437,6 +437,7 @@ assessment#:#tst_delete_results#:#Обнулити тест
 assessment#:#tst_ending_time#:#Кінцевий час
 assessment#:#tst_enter_questionpool#:#Будь ласка введіть ім'я пулу питань де будуть зберігатись нові питання
 assessment#:#tst_eval_no_anonymous_aggregation#:#Ніхто ще не увійшов у цей тест. Ще не має доступних анонімно зібраних результатів теста.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Показати відповідь
 assessment#:#tst_eval_total_finished#:#Загальна кількість закінчених тестів
 assessment#:#tst_eval_total_finished_average_time#:#Середній щас проходження для завершених тестів

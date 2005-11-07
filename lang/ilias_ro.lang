@@ -420,6 +420,7 @@ assessment#:#tst_delete_results#:#Resetati testul
 assessment#:#tst_ending_time#:#Timpul de terminare al testului
 assessment#:#tst_enter_questionpool#:#Va rugam introduceti numele unei baze de intrebari unde va fi stocata noua intrebare
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nimeni nu a accesat testul inca. Nu exista rezultate colective anonime disponibile.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_total_finished#:#Total teste completate
 assessment#:#tst_eval_total_finished_average_time#:#Timpul mediu de procesare al testelor completate
 assessment#:#tst_eval_total_passed#:#Total teste trecute

@@ -439,6 +439,7 @@ assessment#:#tst_delete_results#:#Wyczyść test
 assessment#:#tst_ending_time#:#Czas końca
 assessment#:#tst_enter_questionpool#:#Podaj nazwę puli pytań gdzie zostanie zapamiętane nowe pytanie
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Pokaż odpowiedź
 assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów
 assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów
