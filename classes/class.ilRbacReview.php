@@ -106,25 +106,29 @@ class ilRbacReview
 	*/
 	function __getParentRoles($a_path,$a_templates,$a_keep_protected)
 	{
+		global $log;
+		
 		if (!isset($a_path) or !is_array($a_path))
 		{
 			$message = get_class($this)."::getParentRoles(): No path given or wrong datatype!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-
+$log->write("ilRBACreview::__getParentRoles(), 0");	
 		$parent_roles = array();
 		$role_hierarchy = array();
 
 		foreach ($a_path as $path)
 		{
 			$rolf_id = "";
-
+$log->write("ilRBACreview::__getParentRoles(), 1");	
 			if ($rolf_id = $this->getRoleFolderIdOfObject($path))
 			{
+$log->write("ilRBACreview::__getParentRoles(), 2");	
 				$roles = $this->getRoleListByObject($rolf_id,$a_templates);
 
 				foreach ($roles as $role)
 				{
+$log->write("ilRBACreview::__getParentRoles(), 3");	
 					$id = $role["obj_id"];
 					$role["parent"] = $rolf_id;
 					$parent_roles[$id] = $role;
@@ -139,6 +143,7 @@ class ilRbacReview
 		
 		if (!$a_keep_protected)
 		{
+$log->write("ilRBACreview::__getParentRoles(), 4");	
 			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
 		}
 		
@@ -155,19 +160,21 @@ class ilRbacReview
 	*/
 	function getParentRoleIds($a_endnode_id,$a_templates = false,$a_keep_protected = false)
 	{
-		global $tree;
+		global $tree,$log;
 
 		if (!isset($a_endnode_id))
 		{
 			$message = get_class($this)."::getParentRoleIds(): No node_id (ref_id) given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-	
+		
+		//var_dump($a_endnode_id);exit;
+$log->write("ilRBACreview::getParentRoleIds(), 0");	
 		$pathIds  = $tree->getPathId($a_endnode_id);
 
 		// add system folder since it may not in the path
 		$pathIds[0] = SYSTEM_FOLDER_ID;
-
+$log->write("ilRBACreview::getParentRoleIds(), 1");	
 		return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
 	}
 
@@ -1021,7 +1028,7 @@ class ilRbacReview
 	// and current postion in the hierarchy.
 	function __setProtectedStatus($a_parent_roles,$a_role_hierarchy,$a_ref_id)
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem,$ilUser,$log;
 		
 		if (in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
 		{
@@ -1036,6 +1043,7 @@ class ilRbacReview
 		
 		foreach ($a_role_hierarchy as $role_id => $rolf_id)
 		{
+$log->write("ilRBACreview::__setProtectedStatus(), 0");	
 			//echo "<br/>ROLF: ".$rolf_id." ROLE_ID: ".$role_id." (".$a_parent_roles[$role_id]['title'].") ";
 			//var_dump($leveladmin,$a_parent_roles[$role_id]['protected']);
 
@@ -1051,9 +1059,11 @@ class ilRbacReview
 				
 				foreach ($arr_lvl_roles_user as $lvl_role_id)
 				{
+$log->write("ilRBACreview::__setProtectedStatus(), 1");
 					// check if role grants 'edit_permission' to rolefolder
 					if ($rbacsystem->checkPermission($a_ref_id,$lvl_role_id,'edit_permission'))
 					{
+$log->write("ilRBACreview::__setProtectedStatus(), 2");
 						// user may change permissions of that higher-ranking role
 						$a_parent_roles[$role_id]['protected'] = false;
 						

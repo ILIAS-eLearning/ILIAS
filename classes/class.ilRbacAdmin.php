@@ -309,21 +309,53 @@ class ilRbacAdmin
 	* @param	integer	role_id (optional: if you want to revoke permissions of object only for a specific role)
 	* @return	boolean
 	*/
-	function revokePermission($a_ref_id,$a_rol_id = 0)
+	function revokePermission($a_ref_id,$a_rol_id = 0,$a_keep_protected = true)
 	{
-		global $rbacreview;
+		global $rbacreview,$log;
 
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::revokePermission(): Missing parameter! ref_id: ".$a_ref_id;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
+$log->write("ilRBACadmin::revokePermission(), 0");
+
+		// bypass protected status of roles
+		if ($a_keep_protected != true)
+		{
+			// exclude system role from rbac
+			if ($a_rol_id == SYSTEM_ROLE_ID)
+			{
+				return true;
+			}
+	
+			if ($a_rol_id)
+			{
+				$and1 = " AND rol_id = '".$a_rol_id."'";
+			}
+			else
+			{
+				$and1 = "";
+			}
+	
+			// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
+			$q = "DELETE FROM rbac_pa ".
+				 "WHERE ref_id = '".$a_ref_id."' ".
+				 $and1;
+			$this->ilDB->query($q);
+	
+			return true;
+		}
 		
+		// consider protected status of roles
+	
 		// in any case, get all roles in scope first
 		$roles_in_scope = $rbacreview->getParentRoleIds($a_ref_id);
 
 		if (!$a_rol_id)
 		{
+$log->write("ilRBACadmin::revokePermission(), 1");
+
 			$role_ids = array();
 			
 			foreach ($roles_in_scope as $role)
@@ -349,6 +381,7 @@ class ilRbacAdmin
 		}
 		else
 		{
+$log->write("ilRBACadmin::revokePermission(), 2");	
 			// exclude system role from rbac
 			if ($a_rol_id == SYSTEM_ROLE_ID)
 			{
