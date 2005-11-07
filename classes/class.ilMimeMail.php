@@ -96,7 +96,7 @@ class ilMimeMail
 
 	function ilMimeMail()
 	{
-		$this->autoCheck( true );
+		$this->autoCheck( false);
 		$this->boundary= "--" . md5( uniqid("myboundary") );
 	}
 

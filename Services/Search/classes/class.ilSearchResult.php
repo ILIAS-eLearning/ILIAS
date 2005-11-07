@@ -304,7 +304,7 @@ class ilSearchResult
 			}
 			// Types like role, rolt, user do not need rbac checks
 			$type = ilObject::_lookupType($entry['obj_id']);
-			if($type == 'rolt' or $type == 'user' or $type == 'rolt')
+			if($type == 'rolt' or $type == 'user' or $type == 'role')
 			{
 				$this->addResult($entry['obj_id'],$entry['obj_id'],$type);
 				$counter += count($entry['child']);

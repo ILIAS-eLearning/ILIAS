@@ -68,7 +68,6 @@ class ilObjectSearch extends ilAbstractSearch
 		{
 			$this->search_result->addEntry($row->obj_id,$row->type,$this->__prepareFound($row));
 		}
-
 		return $this->search_result;
 	}
 
