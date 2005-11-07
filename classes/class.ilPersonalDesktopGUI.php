@@ -131,6 +131,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 	}
+
 	/**
 	* get tree mode templates
 	*/

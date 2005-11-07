@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -57,6 +57,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
 		$this->payment_enabled = true;
+		//$this->info_screen_enabled = true;
 		$this->type = "lm";
 		$this->gui_class_name = "ilobjlearningmodulegui";
 		
@@ -117,6 +118,11 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				//$cmd_link = "content/lm_edit.php?ref_id=".$this->ref_id;
 				$cmd_link = "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=".$this->ref_id;
 				break;
+				
+			case "infoScreen":
+				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id.
+					"&amp;cmd=infoScreen";
+				break;
 
 			default:
 				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
@@ -162,6 +168,10 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				break;
 
 			case "edit":
+				$frame = ilFrameTargetInfo::_getFrame("MainContent");
+				break;
+				
+			case "infoScreen":
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 

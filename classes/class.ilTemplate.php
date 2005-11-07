@@ -590,5 +590,42 @@ class ilTemplate extends ilTemplateX
 		}
 		return $fname;
 	}
+	
+	function setStyleSheetLocation($a_stylesheet)
+	{
+		$this->tpl->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
+	}
+	
+	function getStandardTemplate()
+	{
+		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+	}
+	
+	/**
+	* sets title in standard template
+	*/
+	function setTitle($a_title)
+	{
+		$this->tpl->setVariable("HEADER", $a_title);
+	}
+	
+	/**
+	* set title icon
+	*/
+	function setTitleIcon($a_icon_path)
+	{
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", $a_icon_path);
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* sets content for standard template
+	*/
+	function setContent($a_html)
+	{
+		$this->tpl->setVariable("ADM_CONTENT", $a_html);
+	}
 }
 ?>
