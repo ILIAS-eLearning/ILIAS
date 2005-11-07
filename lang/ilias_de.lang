@@ -438,7 +438,7 @@ assessment#:#tst_delete_results#:#Test zurücksetzen
 assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
-assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
+assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
 assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
@@ -1670,11 +1670,11 @@ common#:#icla_add#:#LearnLinc Seminarraum anlegen
 common#:#icla_deleted#:#LearnLinc Seminarräume gelöscht
 common#:#icla_edit#:#LearnLinc Seminarraum bearbeiten
 common#:#icla_new#:#Neuer LearnLinc Seminarraum
-common#:#icon_settings#:#Icon Settings
-common#:#icons_in_header#:#Header row###03 Nov 2005 new variable
-common#:#icons_in_item_rows#:#Item rows###03 Nov 2005 new variable
-common#:#icons_in_typed_lists#:#Icon position in item lists###03 Nov 2005 new variable
-common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.###03 Nov 2005 new variable
+common#:#icon_settings#:#Symbol-Einstellungen
+common#:#icons_in_header#:#Kopfleiste
+common#:#icons_in_item_rows#:#Objektliste
+common#:#icons_in_typed_lists#:#Position der Symbole in Objektliste
+common#:#icons_in_typed_lists_info#:#Bestimmt, wo die Objektsymbole in der Objektliste dargestellt werden. Diese Einstellung ist wirksam bei Sortierung nach Objekttyp im Magazin und auf dem Persönlichen Schreibtisch.
 common#:#icrs#:#LearnLinc Seminar
 common#:#icrs_add#:#LearnLinc Seminar anlegen
 common#:#icrs_added#:#LearnLinc Seminar angelegt
@@ -2660,35 +2660,35 @@ common#:#settings#:#Einstellungen
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Shibboleth-Unterstützung aktivieren
-common#:#shib_city#:#Attribute for city###13 May 2005 new variable
-common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
-common#:#shib_country#:#Attribute for country###13 May 2005 new variable
-common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city
+common#:#shib_configure#:#Configure Shibboleh Authentication
+common#:#shib_country#:#Attribute for country
+common#:#shib_data_conv#:#Absolute path to data manipulation API
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
-common#:#shib_department#:#Attribute for department###13 May 2005 new variable
-common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
-common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
-common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
-common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
-common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
-common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
-common#:#shib_language#:#Attribute for language###13 May 2005 new variable
-common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
-common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
-common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
-common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
-common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
-common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
-common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
-common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
-common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
-common#:#shib_street#:#Attribute for street###13 May 2005 new variable
-common#:#shib_title#:#Attribute for title###13 May 2005 new variable
-common#:#shib_update#:#Update this field on login###13 May 2005 new variable
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
-common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
-common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
-common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department
+common#:#shib_edit_permission#:#Change permission settings
+common#:#shib_email#:#Attribute for email address
+common#:#shib_firstname#:#Attribute for firstname
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')
+common#:#shib_institution#:#Attribute for institution
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.
+common#:#shib_language#:#Attribute for language
+common#:#shib_lastname#:#Attribute for lastname
+common#:#shib_login#:#Unique Shibboleth attribute
+common#:#shib_login_button#:#Path to Shibboleth login button
+common#:#shib_login_instructions#:#Instructions shown in login field
+common#:#shib_phone_home#:#Attribute for home phone number
+common#:#shib_phone_mobile#:#Attribute for mobile phone number
+common#:#shib_phone_office#:#Attribute for office phone number
+common#:#shib_read#:#Read access to Shibboleth settings
+common#:#shib_settings_saved#:#The Shibboleth settings were saved
+common#:#shib_street#:#Attribute for street
+common#:#shib_title#:#Attribute for title
+common#:#shib_update#:#Update this field on login
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
+common#:#shib_visible#:#Shibboleth settings are visible
+common#:#shib_write#:#Edit Shibboleth settings
+common#:#shib_zipcode#:#Attribute for zipcode
 common#:#show#:#Zeige
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
@@ -4485,8 +4485,8 @@ meta#:#meta_identifier#:#Kennung
 meta#:#meta_index#:#Index
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
-meta#:#meta_instructional_designer#:#Instructional designer###20 Jun 2005 new variable
-meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
+meta#:#meta_instructional_designer#:#Lern-Designer
+meta#:#meta_instructionaldesigner#:#Lern-Designer
 meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
 meta#:#meta_interactivity_level#:#Stufe der Interaktivität
 meta#:#meta_interactivity_type#:#Art der Interaktivität
@@ -4693,7 +4693,7 @@ meta#:#meta_revised#:#Überarbeitete Fassung
 meta#:#meta_rights#:#Rechte und Lizenzen
 meta#:#meta_role#:#Rolle
 meta#:#meta_school#:#Schule
-meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
+meta#:#meta_scriptwriter#:#Werbetexter
 meta#:#meta_security_level#:#Sicherheitsstufe
 meta#:#meta_self_assessment#:#Selbsttest
 meta#:#meta_semantic_density#:#Semantische Dichte
@@ -4704,15 +4704,15 @@ meta#:#meta_slide#:#Folie
 meta#:#meta_source#:#Quelle
 meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktur
-meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variable
+meta#:#meta_subjectmatterexpert#:#Experte für das Thema
 meta#:#meta_table#:#Tabelle
 meta#:#meta_taxon#:#Taxonomie
 meta#:#meta_taxon_path#:#Taxonomie-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
-meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
-meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
-meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
+meta#:#meta_technicalimplementer#:#Technische Umsetzung
+meta#:#meta_technicalvalidator#:#Technische Überpfüfung
+meta#:#meta_terminator#:#Schlußredakteur
 meta#:#meta_title#:#Titel
 meta#:#meta_training#:#Training
 meta#:#meta_type#:#Typ
@@ -4720,8 +4720,8 @@ meta#:#meta_typical_age_range#:#Typische Altersspanne
 meta#:#meta_typical_learning_time#:#Typische Lerndauer
 meta#:#meta_unavailable#:#Nicht verfügbar
 meta#:#meta_unix#:#Unix
-meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
-meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
+meta#:#meta_unknown#:#Unbekannt
+meta#:#meta_validator#:#Überprüfung
 meta#:#meta_value#:#Eintrag
 meta#:#meta_version#:#Version
 meta#:#meta_very_difficult#:#Sehr schwierig
@@ -5049,7 +5049,7 @@ survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der U
 survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, um auf den Fragenpool zugreifen zu können!
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
-survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!###04 Nov 2005 content changed
+survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?
@@ -5066,7 +5066,7 @@ survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit 
 survey#:#constraint_add#:#Vorbedingung hinzufügen
 survey#:#constraints#:#Vorbedingungen
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbediungungen besitzen, da es keine vorherigen Einträge gibt
-survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.###04 Nov 2005 content changed
+survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.
 survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
