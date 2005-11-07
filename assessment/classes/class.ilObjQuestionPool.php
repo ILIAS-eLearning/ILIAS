@@ -1125,6 +1125,37 @@ class ilObjQuestionPool extends ilObject
 	}
 	
 	/**
+	* Checks a question pool for questions with the same maximum points
+	*
+	* Checks a question pool for questions with the same maximum points
+	*
+	* @param integer $a_obj_id Object id of the question pool
+	* @access private
+	*/
+	function _hasEqualPoints($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s",
+			$ilDB->quote($a_obj_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["equal_points"] == 1)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		return 0;
+	}
+	
+	/**
 	* Copies a question to the clipboard
 	*
 	* Copies a question to the clipboard

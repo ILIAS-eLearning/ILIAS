@@ -3801,7 +3801,7 @@ class ilObjTest extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools($use_object_id = false)
+	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false)
 	{
 		global $rbacsystem;
 		
@@ -3815,13 +3815,16 @@ class ilObjTest extends ilObject
 				include_once("./assessment/classes/class.ilObjQuestionPool.php");
 				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
 				{
-					if ($use_object_id)
+					if ((!$equal_points) || (($equal_points) && (ilObjQuestionPool::_hasEqualPoints($row->obj_id))))
 					{
-						$result_array[$row->obj_id] = $row->title;
-					}
-					else
-					{
-						$result_array[$row->ref_id] = $row->title;
+						if ($use_object_id)
+						{
+							$result_array[$row->obj_id] = $row->title;
+						}
+						else
+						{
+							$result_array[$row->ref_id] = $row->title;
+						}
 					}
 				}
 			}

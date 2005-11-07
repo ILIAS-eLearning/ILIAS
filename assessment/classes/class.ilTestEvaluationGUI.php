@@ -1489,7 +1489,7 @@ class ilTestEvaluationGUI
 		{
 			if (preg_match("/\d+/", $key)) 
 			{
-				$this->tpl->setCurrentBlock("question");
+				$this->tpl->setCurrentBlock("question_row");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
 				//if ($this->object->isOnlineTest())
@@ -1504,7 +1504,7 @@ class ilTestEvaluationGUI
 			}
 		}
 
-		$this->tpl->setCurrentBlock("question");
+		$this->tpl->setCurrentBlock("question_row");
 		$this->tpl->setVariable("COLOR_CLASS", "std");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
@@ -1519,8 +1519,40 @@ class ilTestEvaluationGUI
 		$struname = trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"]);
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $struname));
 		$this->tpl->parseCurrentBlock();
+
+		if ($this->object->isRandomTest())
+		{
+			$this->object->loadQuestions($user_id, $pass);
+		}
+		$counter = 1;
+		// output of questions with solutions
+		foreach ($this->object->questions as $question_id)
+		{
+			$this->tpl->setCurrentBlock("question");
+			$question_gui = $this->object->createQuestionGUI("", $question_id);
+
+			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
+			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			
+			$idx = $this->object->test_id;
+//			$ilUser = new ilObjUser($user_id);
+			switch ($question_gui->getQuestionType()) 
+			{
+				case "qt_imagemap" :
+					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser);
+					break;
+				case "qt_javaapplet" :
+					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+					break;
+				default :
+					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+			}
+			$this->tpl->parseCurrentBlock();
+			$counter ++;
+		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEST_RESULTS_BY_PASS", $this->lng->txt("tst_eval_results_by_pass"));
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
@@ -1531,6 +1563,64 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_results_back_overview"));
 		$this->tpl->setVariable("BACK_COMMAND", "evalUserDetail");
 		$this->tpl->parseCurrentBlock();
+	}
+
+/**
+* Outputs all answers including the solutions for a given user
+*
+* Outputs all answers including the solutions for a given user
+*
+* @access private
+*/
+	function outEvaluationUserAnswerDetail() 
+	{
+		$pass = $_GET["pass"];
+		$user_id = $_GET["uid"];
+		$this->ctrl->saveParameter($this, "uid");		
+		$this->ctrl->saveParameter($this, "pass");		
+		
+		$this->setResultsTabs();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_answer_detail.html", true);		
+		$counter = 1;
+		if ($this->isRandomTest())
+		{
+			$this->loadQuestions($user_id, $pass);
+		}
+		
+		// output of questions with solutions
+		foreach ($this->object->questions as $question_id)
+		{
+			$this->tpl->setCurrentBlock("question");
+			$question_gui = $this->object->createQuestionGUI("", $question_id);
+
+			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
+			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			
+			$idx = $this->object->test_id;
+			
+			switch ($question_gui->getQuestionType()) 
+			{
+				case "qt_imagemap" :
+					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser);
+					break;
+				case "qt_javaapplet" :
+					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+					break;
+				default :
+					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+			}
+			$this->tpl->parseCurrentBlock();
+			$counter ++;
+		}
+		
+		// output of non-block elements
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEST_RESULTS_BY_PASS", $this->lng->txt("tst_eval_results_by_pass"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_eval_results_back_user_detail"));
+		$this->tpl->setVariable("BACK_COMMAND", "passDetails");
+		$this->tpl->parseCurrentBlock();
+		
 	}
 
 	function outShowAnswers($isForm, &$ilUser) 
@@ -1664,7 +1754,6 @@ class ilTestEvaluationGUI
 			"", "", $force_active
 		);
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-	
+	}	
 }
 ?>
