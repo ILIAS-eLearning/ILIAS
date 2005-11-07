@@ -229,7 +229,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	*/
 	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null, $pass = NULL, $mixpass = false)
 	{
-		if (!is_object($ilUser)) {
+		if (!is_object($ilUser)) 
+		{
 			global $ilUser;
 		}
 		$output = $this->outQuestionPage("", $is_postponed, $test_id);
@@ -238,7 +239,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		
 		// if wants solution only then strip the question element from output
-		if ($show_solution_only) {
+		if ($show_solution_only) 
+		{
 			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", $this->lng->txt("tst_no_solution_available"), $output);			
 		}
 		
