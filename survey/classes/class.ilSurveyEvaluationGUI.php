@@ -98,7 +98,7 @@ class ilSurveyEvaluationGUI
 		$this->evaluation(1);
 	}
 	
-	function evaluation($details = 0, $print = 0)
+	function evaluation($details = 0)
 	{
 		global $ilUser;
 
@@ -107,10 +107,6 @@ class ilSurveyEvaluationGUI
 		$format_percent = "";
 		$format_datetime = "";
 		$format_title = "";
-		if ($print)
-		{
-			unset($_POST["export_format"]);
-		}
 		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
 		$surveyname = preg_replace("/\s/", "_", $object_title);
 
@@ -174,16 +170,9 @@ class ilSurveyEvaluationGUI
 				break;
 		}
 
-		if (!$print)
-		{
-			$this->setEvalTabs();
-			sendInfo();
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
-		}
-		else
-		{
-			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
-		}
+		$this->setEvalTabs();
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
 		$counter = 0;
 		$classes = array("tblrow1", "tblrow2");
 		$questions =& $this->object->getSurveyQuestions();
@@ -623,17 +612,11 @@ class ilSurveyEvaluationGUI
 				exit();
 				break;
 		}
-		if (!$print)
-		{
-			$this->tpl->setCurrentBlock("adm_content");
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("__global__");
-			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
-			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-			$this->tpl->setVariable("PRINT_TYPE", "summary");
-		}
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./templates/default/evaluation_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_TEXT", $this->lng->txt("question"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
@@ -661,40 +644,16 @@ class ilSurveyEvaluationGUI
 			$this->tpl->setVariable("CMD_EXPORT", "evaluation");
 		}
 		$this->tpl->parseCurrentBlock();
-		if ($print)
-		{
-			$this->tpl->show();
-		}
 	}
 	
 	/**
-	* Print the survey evaluation
-	*
-	* Print the survey evaluation
-	*
-	* @access private
-	*/
-	function printEvaluation()
-	{
-		if (strcmp($_POST["evaltype"], "user") == 0)
-		{
-			$this->evaluationuser(1);
-		}
-		else
-		{
-			$this->evaluation($_POST["detail"], 1);
-		}
-		exit;
-	}
-
-	/**
 	* Print the survey evaluation for a selected user
 	*
 	* Print the survey evaluation for a selected user
 	*
 	* @access private
 	*/
-	function evaluationuser($print = 0)
+	function evaluationuser()
 	{
 		if (!is_array($_POST))
 		{
@@ -706,10 +665,6 @@ class ilSurveyEvaluationGUI
 		$format_datetime = "";
 		$format_title = "";
 		$format_title_plain = "";
-		if ($print)
-		{
-			unset($_POST["export_format"]);
-		}
 		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
 		$surveyname = preg_replace("/\s/", "_", $object_title);
 
@@ -719,16 +674,9 @@ class ilSurveyEvaluationGUI
 		}
 
 		$eval =& $this->object->getEvaluationForAllUsers();
-		if (!$print)
-		{
-			$this->setEvalTabs();
-			sendInfo();
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", true);
-		}
-		else
-		{
-			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluationuser_preview.html", true, true);
-		}
+		$this->setEvalTabs();
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", true);
 		$counter = 0;
 		$classes = array("tblrow1top", "tblrow2top");
 		$csvrow = array();
@@ -943,17 +891,11 @@ class ilSurveyEvaluationGUI
 			$counter++;
 			array_push($csvfile, $csvrow);
 		}
-		if (!$print)
-		{
-			$this->tpl->setCurrentBlock("adm_content");
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("__global__");
-			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
-			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-			$this->tpl->setVariable("PRINT_TYPE", "summary");
-		}
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./templates/default/evaluation_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
 		$this->tpl->setVariable("TEXT_EXCEL_MAC", $this->lng->txt("exp_type_excel_mac"));
@@ -1037,10 +979,6 @@ class ilSurveyEvaluationGUI
 				ilUtil::deliverData($csv, "$surveyname.csv");
 				exit();
 				break;
-		}
-		if ($print)
-		{
-			$this->tpl->show();
 		}
 	}
 	

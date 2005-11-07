@@ -1,12 +1,12 @@
 <table>
 <tr><td>
-<form name="form_evaluation" method="POST" action="{FORM_ACTION}">
-{EXPORT_DATA} <select name="export_format" size="1"><option value="latin1">{TEXT_EXCEL}</option><option value="macos">{TEXT_EXCEL_MAC}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{CMD_EXPORT}]" value="{BTN_EXPORT}" /></form></td><td><form name="form_print" method="POST" action="{PRINT_ACTION}" target="_blank"><input class="submit" type="submit" name="cmd[printEvaluation]" value="{BTN_PRINT}" /><input type="hidden" name="evaltype" value="user"></form></td></tr></table>
-<p class="small"><a href="#legend">{TEXT_LEGEND_LINK}</a></p>
+<form name="form_evaluation" method="POST" action="{FORM_ACTION}" id="form_evaluation">
+{EXPORT_DATA} <select name="export_format" size="1"><option value="latin1">{TEXT_EXCEL}</option><option value="macos">{TEXT_EXCEL_MAC}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{CMD_EXPORT}]" value="{BTN_EXPORT}" /></form></td><td><form name="form_print" method="POST" action="{PRINT_ACTION}" target="_blank"><input class="submit" type="button" name="cmd[printEvaluation]" value="{BTN_PRINT}" onclick="javascript:window.print();" /><input type="hidden" name="evaltype" value="user"></form></td></tr></table>
+<p class="small"><a href="#legend" id="legend">{TEXT_LEGEND_LINK}</a></p>
 <table class="fullwidth">
 <tr class="tblheader">
 <!-- BEGIN headercell -->
-<td class="std">{TEXT_HEADER_CELL}</td>
+<td class="tblheader">{TEXT_HEADER_CELL}</td>
 <!-- END headercell -->
 </tr>
 <!-- BEGIN row -->
