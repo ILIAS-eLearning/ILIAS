@@ -150,7 +150,7 @@ assessment#:#cloze_textgap_rating#:#Textlücken-Bewertung
 assessment#:#code#:#Code
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?
-assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
+assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten des ausgewählten Users löschen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
@@ -161,7 +161,7 @@ assessment#:#create_imagemap#:#Neue Imagemap erzeugen
 assessment#:#create_new#:#Erzeuge neue(n)
 assessment#:#definition#:#Definition
 assessment#:#delete_area#:#Region löschen
-assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
+assessment#:#delete_user_data#:#Testdaten des ausgewählten Users löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
@@ -273,7 +273,7 @@ assessment#:#log_no_test_fields_changed#:#Ohne Änderungen gespeichert
 assessment#:#log_question_added#:#Frage hinzugefügt an Position
 assessment#:#log_question_position_changed#:#Fragenposition geändert
 assessment#:#log_question_removed#:#Frage entfernt
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
+assessment#:#log_selected_user_data_removed#:#Testdaten des Nutzers entfernen
 assessment#:#log_user_answered_question#:#Ein/e Nutzer/in beantwortet eine Frage und erhielt %s Punkte
 assessment#:#log_user_data_removed#:#Alle Nutzereingaben wurden entfernt
 assessment#:#maintenance#:#Wartung
@@ -675,7 +675,7 @@ chat#:#cancel_talk#:#Anreden beenden
 chat#:#cancel_whisper#:#Flüstern beenden
 chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
 chat#:#chat_active#:#Aktiv
-chat#:#chat_active_users#:#Weitere Benutzer (anwesend)###03 Nov 2005 content changed
+chat#:#chat_active_users#:#Weitere Benutzer (anwesend)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
 chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
 chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
@@ -711,7 +711,7 @@ chat#:#chat_html_export#:#Export als HTML
 chat#:#chat_ilias#:#Ilias Chat Modul
 chat#:#chat_inactive#:#Inaktiv
 chat#:#chat_input#:#Eingabe
-chat#:#chat_insert_message#:#Bitte geben Sie eine Nachricht ein.###03 Nov 2005 content changed
+chat#:#chat_insert_message#:#Bitte geben Sie eine Nachricht ein.
 chat#:#chat_invitation_body#:#Einladung zum Chat von:
 chat#:#chat_invitation_subject#:#Einladung zum Chat
 chat#:#chat_invite_user#:#Benutzer einladen
@@ -729,7 +729,7 @@ chat#:#chat_maroon#:#maroon
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderator Passwort
 chat#:#chat_navy#:#navy
-chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.###03 Nov 2005 content changed
+chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
 chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
@@ -739,7 +739,7 @@ chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt we
 chat#:#chat_no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 chat#:#chat_no_write_perm#:#Keine Schreibrechte
 chat#:#chat_olive#:#oliv
-chat#:#chat_online_users#:#Weitere Benutzer (online)###03 Nov 2005 content changed
+chat#:#chat_online_users#:#Weitere Benutzer (online)
 chat#:#chat_private_message#:#Private Nachricht
 chat#:#chat_profile#:#Profil
 chat#:#chat_public_room#:#Öffentlicher Chatraum
@@ -823,7 +823,7 @@ common#:#add_author#:#Autor hinzufügen
 common#:#add_condition#:#Neue Verknüpfung anlegen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
-common#:#add_note#:#Add Note###03 Nov 2005 new variable
+common#:#add_note#:#Notiz hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#add_user#:#Lokalen Benutzer hinzufügen
 common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
@@ -839,7 +839,7 @@ common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
-common#:#adopt#:#Übernehmen###03 Nov 2005 content changed
+common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#agree_date#:#Zugestimmt am
 common#:#all_authors#:#Alle Autoren
@@ -934,7 +934,7 @@ common#:#auth_radius_port#:#Port
 common#:#auth_radius_server#:#Server
 common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
 common#:#auth_radius_settings_saved#:#RADIUS-Einstellungen gespeichert
-common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
+common#:#auth_radius_shared_secret#:#Shared Secret
 common#:#auth_read#:#Lesezugriff auf Authentifizierung
 common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
@@ -961,7 +961,7 @@ common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Einstellungen
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographische Daten
-common#:#big_icon#:#Big Icon###03 Nov 2005 new variable
+common#:#big_icon#:#Grosses Symbol
 common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
 common#:#bkm_sendmail#:#Als Anhang versenden
@@ -977,8 +977,8 @@ common#:#bookmarks_of#:#Bookmarks von
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
-common#:#by_location#:#Order by location###03 Nov 2005 new variable
-common#:#by_type#:#Order by type###03 Nov 2005 new variable
+common#:#by_location#:#Nach Ort sortieren
+common#:#by_type#:#Nach Typ sortieren
 common#:#bytes#:#Bytes
 common#:#calendar#:#Kalender
 common#:#cancel#:#Abbrechen
@@ -1059,7 +1059,7 @@ common#:#chat_active_in#:#Aktiv in chat:
 common#:#chat_add#:#Chat hinzufügen
 common#:#chat_delete#:#Chat löschen
 common#:#chat_edit_permission#:#Rechteeinstellungen ändern
-common#:#chat_invite#:#Chat###03 Nov 2005 new variable
+common#:#chat_invite#:#Chat
 common#:#chat_moderate#:#Chat moderieren
 common#:#chat_new#:#Neuer Chat
 common#:#chat_read#:#Lese/Schreibzugriff auf Chat
@@ -1127,13 +1127,13 @@ common#:#copyChapter#:#Kopieren
 common#:#copyPage#:#Kopieren
 common#:#copy_of#:#Kopie von
 common#:#copy_to#:#nach
-common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
+common#:#could_not_verify_account#:#Wir konnten Ihre Zugangsdaten nicht überprüfen. Bitte kontaktieren Sie Ihren Systemadministrator!
 common#:#count#:#Anzahl
 common#:#country#:#Land
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
 common#:#create#:#Erstellen
-common#:#create_date#:#Erstellt am###03 Nov 2005 content changed
+common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
@@ -1163,7 +1163,7 @@ common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_grp#:#Neue Gruppe anlegen
 common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#crs_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
+common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#crs_create_mep#:#Neuen Media-Pool anlegen
 common#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1171,11 +1171,11 @@ common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
-common#:#crs_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
+common#:#crs_create_webr#:#Neue Web-Links anlegen
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
-common#:#crs_info#:#Info###05 Aug 2005 new variable
+common#:#crs_info#:#Info
 common#:#crs_join#:#Kurs abonnieren
 common#:#crs_leave#:#Kursabonnement aufheben
 common#:#crs_management_system#:#Kursmanagement-System
@@ -1194,8 +1194,8 @@ common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
 common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
 common#:#current_password#:#Derzeitiges Passwort
-common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
-common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
+common#:#custom_icon_size_big#:#Symbolgrösse anpassen (gross)
+common#:#custom_icon_size_small#:#Symbolgrösse anpassen (klein)
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#daily#:#täglich
@@ -1270,13 +1270,13 @@ common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
 common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
-common#:#email#:#E-Mail###03 Nov 2005 content changed
+common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
 common#:#enable_calendar#:#Kalender aktivieren
-common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
-common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_custom_icons#:#Standard-Symbole aktivieren
+common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppenie hoch.
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
@@ -1357,7 +1357,7 @@ common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
 common#:#extt_configure#:#konfigurieren...
 common#:#extt_edit_permission#:#Rechteeinstellungen ändern
-common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#Kunden ID
 common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
 common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
@@ -1415,7 +1415,7 @@ common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#fold_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
+common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#fold_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#fold_create_mep#:#Neuen Media-Pool anlegen
 common#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1423,7 +1423,7 @@ common#:#fold_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#fold_create_svy#:#Neue Umfrage anlegen
 common#:#fold_create_tst#:#Neuen Test anlegen
-common#:#fold_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
+common#:#fold_create_webr#:#Neue Web-Links anlegen
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
@@ -1559,7 +1559,7 @@ common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#grp_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
+common#:#grp_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#grp_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1567,7 +1567,7 @@ common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
-common#:#grp_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
+common#:#grp_create_webr#:#Neue Web-Links anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
@@ -1617,9 +1617,9 @@ common#:#guests#:#Gäste
 common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide#:#ausblenden
-common#:#hide_details#:#Details ausblenden###14 Jul 2005 content changed
-common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
-common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
+common#:#hide_details#:#Details ausblenden
+common#:#hide_private_notes#:#Private Notizen ausblenden
+common#:#hide_public_notes#:#Öffentliche Notizen ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hist_dbk:pg_create#:#Seite angelegt
 common#:#hist_dbk:pg_cut#:#Seite ausgeschnitten aus Kapitel "%1" [%2]
@@ -1648,7 +1648,7 @@ common#:#hlm_read#:#HACP Lernmodul lesen
 common#:#hlm_visible#:#HACP Lernmodul ist sichtbar
 common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
-common#:#home#:#Zum öffentlichen Bereich###19 Jul 2005 content changed
+common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
@@ -1660,17 +1660,17 @@ common#:#htlm_new#:#Neues HTML Lernmodul
 common#:#htlm_read#:#HTML Lernmodul ansehen
 common#:#htlm_visible#:#HTML Lernmodul ist sichtbar
 common#:#htlm_write#:#HTML Lernmodul bearbeiten
-common#:#http#:#HTTP###03 Nov 2005 new variable
+common#:#http#:#HTTP
 common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
 common#:#i2passwd#:#ILIAS 2 Passwort
 common#:#icla#:#LearnLinc Seminarraum
-common#:#icla_add#:#LearnLinc Seminarraum anlegen###06 Aug 2005 content changed
+common#:#icla_add#:#LearnLinc Seminarraum anlegen
 common#:#icla_deleted#:#LearnLinc Seminarräume gelöscht
 common#:#icla_edit#:#LearnLinc Seminarraum bearbeiten
-common#:#icla_new#:#Neuer LearnLinc Seminarraum###06 Aug 2005 content changed
-common#:#icon_settings#:#Icon Settings###03 Nov 2005 new variable
+common#:#icla_new#:#Neuer LearnLinc Seminarraum
+common#:#icon_settings#:#Icon Settings
 common#:#icons_in_header#:#Header row###03 Nov 2005 new variable
 common#:#icons_in_item_rows#:#Item rows###03 Nov 2005 new variable
 common#:#icons_in_typed_lists#:#Icon position in item lists###03 Nov 2005 new variable
@@ -1710,13 +1710,13 @@ common#:#ilinc_classroom_open#:#Raum ist offen
 common#:#ilinc_classrooms#:#LearnLinc Seminarräume
 common#:#ilinc_coursemember_status#:#Eingetragen als
 common#:#ilinc_courses#:#LearnLinc Seminare
-common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem LearnLinc Seminar ausgetragen werden sollen?###03 Nov 2005 content changed
+common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem LearnLinc Seminar ausgetragen werden sollen?
 common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus dem LearnLinc Seminar ausgetragen wollen?
 common#:#ilinc_docent#:#Dozent
 common#:#ilinc_err_administrator_required#:#Jedem LearnLinc Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
 common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc Seminar muss mindestens ein Benutzer mit Administrattionsrechten zugewiesen sein
 common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc Seminar !
-common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.###03 Nov 2005 content changed
+common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#ilinc_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte, um diese Operation durchzuführen.
 common#:#ilinc_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Registrierungszeitraums an !
 common#:#ilinc_header_edit_users#:#Liste der beteiligten Benutzer bearbeiten
@@ -1724,7 +1724,7 @@ common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Beteiligte Benutzer
 common#:#ilinc_mail_body_new_subscription#:#Sie wurden in dem LearnLinc Seminar als Teilnehmer aufgenommen.
 common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
-common#:#ilinc_mail_subj_new_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft
 common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
 common#:#ilinc_manage_course_documents#:#Agenda
 common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern
@@ -1744,8 +1744,8 @@ common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Importieren
 common#:#import_alm#:#Import AICC Modul
-common#:#import_cat_localrol#:#Create local role for every new category###03 Nov 2005 new variable
-common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set###03 Nov 2005 new variable
+common#:#import_cat_localrol#:#Für jede neue Kategorie eine neue lokale Rolle anlegen
+common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Checkbox aktiviert ist.
 common#:#import_categories#:#Kategorien importieren
 common#:#import_dbk#:#Digilib-Buch importieren
 common#:#import_failure_log#:#Import Fehler Log
@@ -1767,25 +1767,25 @@ common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
 common#:#import_warning_log#:#Import Warnungen Log
-common#:#important#:#Important###03 Nov 2005 new variable
+common#:#important#:#Wichtig
 common#:#imported#:#importiert
 common#:#in#:#in
 common#:#in_use#:#Benutzersprache
 common#:#inactive#:#Inaktiv
 common#:#inbox#:#Posteingang
-common#:#include_local#:#include local###include local language file when updating language
+common#:#include_local#:#include local
 common#:#info#:#Information
 common#:#info_access_and_status_info#:#Zugriffs- und Statusinformationen
 common#:#info_access_permissions#:#Zugriffsrechte
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
 common#:#info_assigned#:#zugewiesen
 common#:#info_available_roles#:#Verfügbare Rollen
-common#:#info_change_user_view#:#Benutzersicht wechseln###03 Nov 2005 content changed
+common#:#info_change_user_view#:#Benutzersicht wechseln
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_enter_login_or_id#:#<i>(Geben Sie Benutzernamen oder Benutzer-ID ein)</i>
-common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser user_id existiert nicht###03 Aug 2005 content changed
-common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz###05 Nov 2005 content changed
+common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser user_id existiert nicht
+common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz
 common#:#info_is_member#:#Benutzer ist Mitglied
 common#:#info_is_not_member#:#Benutzer ist kein Mitglied
 common#:#info_not_assigned#:#nicht zugewiesen
@@ -1793,9 +1793,9 @@ common#:#info_permission_origin#:#Absolute Position
 common#:#info_permission_source#:#wirksam von*
 common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
 common#:#info_short#:#Info
-common#:#info_status_info#:#Rechte des Benutzers###03 Aug 2005 content changed
+common#:#info_status_info#:#Rechte des Benutzers
 common#:#info_trash#:#Gelöschte Objekte
-common#:#info_view_of_user#:#Benutzer###03 Aug 2005 content changed
+common#:#info_view_of_user#:#Benutzer
 common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
 common#:#ingmedia_all_offers#:#Alle LE
@@ -1827,9 +1827,9 @@ common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#install#:#Installieren
-common#:#install_local#:#Install With Local###13 Apr 2005 new variable
+common#:#install_local#:#Install With Local
 common#:#installed#:#Installiert
-common#:#installed_local#:#Installed With Local###13 Apr 2005 new variable
+common#:#installed_local#:#Installed With Local
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
 common#:#internal_system#:#Internes System
@@ -1880,7 +1880,7 @@ common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits 
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#last_access#:#Letzter Zugriff:
 common#:#last_change#:#Letzte Änderung
-common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
+common#:#last_edited_on#:#Zuletzt bearbeitet am
 common#:#last_update#:#Letzte Aktualisierung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
@@ -1904,7 +1904,7 @@ common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
 common#:#learning module#:#Lernmodul
 common#:#learning_objects#:#Lernobjekte
-common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
+common#:#learning_resource#:#Lernmaterial
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
 common#:#link#:#Verknüpfen
@@ -1968,9 +1968,9 @@ common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#local#:#Lokal
-common#:#local_language_file#:#local language file###13 Apr 2005 new variable
-common#:#local_language_files#:#local language files###13 Apr 2005 new variable
-common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
+common#:#local_language_file#:#Lokale Sprachdatei
+common#:#local_language_files#:#Lokale Sprachdateien
+common#:#local_languages_already_installed#:#Ausgewählte lokale Sprachdateien sind bereits installiert
 common#:#locator#:#Position:
 common#:#log_in#:#Einloggen
 common#:#logic_and#:#und
@@ -1988,7 +1988,7 @@ common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
-common#:#lres#:#Learning Resources###13 May 2005 new variable
+common#:#lres#:#Lernmaterialien
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
 common#:#mail_addressbook#:#Adressbuch
@@ -2032,7 +2032,7 @@ common#:#matriculation#:#Matrikelnummer
 common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
-common#:#member_status#:#Member Status:###13 May 2005 new variable
+common#:#member_status#:#Mitgliedsstatus
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
 common#:#mep#:#Media-Pool
@@ -2194,7 +2194,7 @@ common#:#next#:#weiter
 common#:#nickname#:#Benutzername
 common#:#no#:#Nein
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
-common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.###19 Jul 2005 content changed
+common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.
 common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
@@ -2213,7 +2213,7 @@ common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_local_users#:#Es sind keine lokalen Benutzer angelegt.
 common#:#no_objects#:#Keine Objekte
 common#:#no_parent_access#:#Kein Zugriff auf ein übergeordnetes Objekt!
-common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
+common#:#no_permission#:#Sie haben nicht die entsprechenden Zugriffsrechte!
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_roles_user_can_be_assigned_to#:#Sie haben keinen Zugriff auf globale Rollen, deswegen können Sie keine lokalen Benutzer anlegen.
 common#:#no_title#:#Kein Titel
@@ -2226,12 +2226,12 @@ common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_accessed#:#Noch nicht aufgerufen
-common#:#not_accessed_yet#:#Not accessed yet###03 Nov 2005 new variable
+common#:#not_accessed_yet#:#Noch nicht aufgerufen
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
-common#:#not_logged_in#:#Sie sind nicht eingeloggt###16 Aug 2005 content changed
-common#:#note#:#Note###03 Nov 2005 new variable
-common#:#notes#:#Notes###03 Nov 2005 new variable
+common#:#not_logged_in#:#Sie sind nicht eingeloggt
+common#:#note#:#Notiz
+common#:#notes#:#Notizen
 common#:#num_users#:#Anzahl Benutzer
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
@@ -2259,7 +2259,7 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Lernmodul HACP
 common#:#obj_htlm#:#Lernmodul HTML
-common#:#obj_icla#:#LearnLinc Seminarraum###06 Aug 2005 content changed
+common#:#obj_icla#:#LearnLinc Seminarraum
 common#:#obj_icrs#:#LearnLinc Seminar
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
@@ -2336,7 +2336,7 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_icla#:#LearnLinc Seminarräume###06 Aug 2005 content changed
+common#:#objs_icla#:#LearnLinc Seminarräume
 common#:#objs_icrs#:#LearnLinc Seminare
 common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
@@ -2440,14 +2440,14 @@ common#:#predefined_template#:#Vordefinierte Rollenvorlage
 common#:#presentation_options#:#Präsentationsoptionen
 common#:#previous#:#zurück
 common#:#print#:#Drucken
-common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
+common#:#private_notes#:#Private Notizen
 common#:#profile#:#Profil
 common#:#profile_changed#:#Ihr Profil wurde geändert
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
-common#:#pub_section#:#öffentlicher Bereich###19 Jul 2005 content changed
+common#:#pub_section#:#öffentlicher Bereich
 common#:#public#:#öffentlich
-common#:#public_notes#:#Public Notes###03 Nov 2005 new variable
+common#:#public_notes#:#Öffentliche Notizen
 common#:#public_profile#:#Öffentliches Profil
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
@@ -2491,7 +2491,7 @@ common#:#registered_users#:#registrierte Benutzer
 common#:#registration#:#Neuanmeldung
 common#:#registration_disabled#:#Nur möglich bei lokaler Authentifizierung
 common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
-common#:#related_to#:#Related to###03 Nov 2005 new variable
+common#:#related_to#:#Verwandt mit
 common#:#remove#:#Entfernen
 common#:#remove_personal_picture#:#Löschen
 common#:#remove_translation#:#Übersetzung entfernen
@@ -2690,18 +2690,18 @@ common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variab
 common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
 common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Zeige
-common#:#show_details#:#Details anzeigen###14 Jul 2005 content changed
+common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
-common#:#show_private_notes#:#Show private notes###03 Nov 2005 new variable
-common#:#show_public_notes#:#Show public notes###03 Nov 2005 new variable
+common#:#show_private_notes#:#Private Notizen zeigen
+common#:#show_public_notes#:#Öffentliche Notizen zeigen
 common#:#show_structure#:#Strukturansicht einblenden
-common#:#show_users_online#:#Aktive Benutzer anzeigen###20 Jun 2005 content changed
+common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
 common#:#size#:#Größe
 common#:#skin_style#:#Standard-Skin / -Style
-common#:#small_icon#:#Small Icon###03 Nov 2005 new variable
+common#:#small_icon#:#Kleines Symbol
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Externe Benutzerverwaltung (SOAP)
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, können alle Benutzerzugänge über einen externen SOAP-Client verwaltet werden.
@@ -2715,7 +2715,7 @@ common#:#spl_read#:#Lesezugriff auf Fragenpool
 common#:#spl_upload_file#:#Datei hochladen
 common#:#spl_visible#:#Fragenpool ist sichtbar
 common#:#spl_write#:#Fragenpool kann bearbeitet werden
-common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
+common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#ein Kapitel
 common#:#st_add#:#Kapitel anlegen
 common#:#st_added#:#Kapitel angelegt
@@ -2770,7 +2770,7 @@ common#:#system_information#:#Systeminformation
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
 common#:#system_style_settings#:#Einstellungen für System-Styles
-common#:#system_styles#:#System Styles###03 Nov 2005 new variable
+common#:#system_styles#:#System-Styles
 common#:#table_mail_import#:#Import von Nachrichten
 common#:#target#:#Ziel
 common#:#tax#:#Taxonomie
@@ -2797,15 +2797,15 @@ common#:#time_h#:#Stunde
 common#:#time_limit#:#Zugang
 common#:#time_limit_add_time_limit_for_selected#:#Bitte geben Sie einen Zeitraum für die ausgewählten Benutzer ein.
 common#:#time_limit_applied_users#:#Angelegte Benutzer
-common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
-common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
+common#:#time_limit_from#:#Von (Zeitlimit)
+common#:#time_limit_message#:#Nachricht (Zeitlimit)
 common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
 common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
 common#:#time_limit_not_within_owners#:#Ihr Zugang ist zeitlich begrenzt, die von Ihnen eingebenen Zeiten überschreiten diesen Zeitraum.
-common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
+common#:#time_limit_owner#:#Eigentümer (Zeitlimit)
 common#:#time_limit_reached#:#Ihr Zugang ist abgelaufen.
-common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
-common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
+common#:#time_limit_unlimited#:#Unlimited (Zeitlimit)
+common#:#time_limit_until#:#Until (Zeitlimit)
 common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert
 common#:#time_limits#:#Zugang
 common#:#time_segment#:#Zeitraum
@@ -2859,7 +2859,7 @@ common#:#uncheck_all#:#Auswahl aufheben
 common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
-common#:#unlabeled#:#Unlabeled###03 Nov 2005 new variable
+common#:#unlabeled#:#Ohne Label
 common#:#unread#:#Ungelesen
 common#:#unread_lowercase#:#ungelesen
 common#:#unselected#:#Auswahl aufheben
@@ -2913,7 +2913,7 @@ common#:#userfolder_export_xml#:#XML
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
-common#:#users_online#:#Aktive Benutzer###20 Jun 2005 content changed
+common#:#users_online#:#Aktive Benutzer
 common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
 common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen
 common#:#users_online_show_y#:#Alle aktiven Benutzer anzeigen
@@ -2929,7 +2929,7 @@ common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_inactive_only#:#Nur nicht-aktive Nutzer
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld in der Neuanmeldung und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, daß der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Neuanmeldung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden.###05 Aug 2005 content changed
+common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld in der Neuanmeldung und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, daß der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Neuanmeldung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden.
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
@@ -3013,7 +3013,7 @@ common#:#weekly#:#wöchentlich
 common#:#weeks#:#Wochen
 common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
-common#:#width_x_height#:#Width x Height###03 Nov 2005 new variable
+common#:#width_x_height#:#Breite mal Höhe
 common#:#with#:#mit
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Bitte kontaktieren Sie den Systemadministrator.
@@ -3202,7 +3202,7 @@ content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht 
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#Link auswählen
 content#:#cont_get_orig_size#:#Originalgröße setzen
-content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
+content#:#cont_glo_menu#:#Menü
 content#:#cont_glo_properties#:#Glossar Eigenschaften
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
@@ -3279,8 +3279,8 @@ content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zug
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
 content#:#cont_no_page#:#Keine Seite gefunden
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
-content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
+content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner '%s'.
+content#:#cont_no_zip_file#:#Die Importdatei ist keine ZIP-Datei
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
@@ -3312,8 +3312,8 @@ content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_print_view#:#Druckansicht
 content#:#cont_public_access#:#Öffentlicher Zugriff
-content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
-content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
+content#:#cont_public_notes#:#Öffentliche Notizen
+content#:#cont_public_notes_desc#:#Erlaubt Nutzern, auf jeder Seite eines Lernmoduls öffentliche Notizen anzulegen.
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
@@ -3390,8 +3390,8 @@ content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
-content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
-content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
+content#:#cont_synchronize_frames#:#Frames synchronisieren
+content#:#cont_synchronize_frames_desc#:#Diese Funktion aktualisiert das Inhaltsverzeichnis entsprechend der Position im Inhalts-Fenster. Bei der Drei-Fenster-Ansicht aktualisiert es die Zusatzfenster. Wird diese Funktion genutzt, kann es zu einem längeren Seitenaufbau kommen.
 content#:#cont_table#:#Tabelle
 content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
@@ -3439,9 +3439,9 @@ content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
+content#:#cont_zip_file_invalid#:#Datei ist keine gültige Importdatei. <br />Sie enthält keine Datei '%s'.
 content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
-content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
+content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
@@ -3452,12 +3452,11 @@ content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welch
 content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert
-content#:#msg_page_no_public_access#:#Die aufgerufene Seite ist für den öffentlichen Bereich nicht freigegeben. Bitte melden Sie sich zuerst bei ILIAS an, um Zugang zu dieser Seite zu erhalten.###19 Jul 2005 content changed
-content#:#msg_page_not_public#:#Seite ist nicht öffentlich
+content#:#msg_page_no_public_access#:#Die aufgerufene Seite ist für den öffentlichen Bereich nicht freigegeben. Bitte melden Sie sich zuerst bei ILIAS an, um Zugang zu dieser Seite zu erhalten.
 content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
-content#:#public_section#:#Öffentlicher Bereich###19 Jul 2005 content changed
+content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten 
@@ -3514,7 +3513,7 @@ crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
 crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Sprechstunde
-crs#:#crs_contact_email#:#E-Mail###03 Nov 2005 content changed
+crs#:#crs_contact_email#:#E-Mail
 crs#:#crs_contact_name#:#Name
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Zuständigkeit
@@ -3542,7 +3541,7 @@ crs#:#crs_end#:#Ende
 crs#:#crs_export#:#Kursexport
 crs#:#crs_file_name#:#Dateiname
 crs#:#crs_free_places#:#Freie Plätze
-crs#:#crs_from#:#Von:###03 Nov 2005 content changed
+crs#:#crs_from#:#Von:
 crs#:#crs_grouping#:#Kursgruppierung
 crs#:#crs_grouping_assign#:#Zuordnung ändern
 crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, daß Sie die folgenden Gruppierungen entfernen möchten?
@@ -3696,16 +3695,16 @@ crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
 crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nicht begonnen
-crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Kursregistrierungen zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.###18 Jul 2005 content changed
+crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Kursregistrierungen zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.
 crs#:#crs_reg_until#:#Anmeldungszeitraum
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
 crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_registration#:#Kursanmeldung
 crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um die Registrierung zu deaktivieren. Es können sich keine neuen Benutzer registrieren.
-crs#:#crs_registration_limited#:#Zeitlich begrenzt###18 Jul 2005 content changed
+crs#:#crs_registration_limited#:#Zeitlich begrenzt
 crs#:#crs_registration_type#:#Registrierungsart
-crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt###18 Jul 2005 content changed
+crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
 crs#:#crs_reject_subscriber#:#Kursanmeldung
 crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
@@ -3733,7 +3732,7 @@ crs#:#crs_show_link_tst#:#Tests anzeigen
 crs#:#crs_show_objectives_view#:#Lernziel Ansicht
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Aktivierung
-crs#:#crs_sort_manual#:#Manuelle Sortierung###20 Jun 2005 content changed
+crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_title#:#Nach Titel
 crs#:#crs_sortorder#:#Sortierung
 crs#:#crs_sortorder_abo#:#Sortierung/Abo
@@ -3763,7 +3762,7 @@ crs#:#crs_test_status_complete#:#Fertiggestellt
 crs#:#crs_test_status_not_complete#:#Nicht fertiggestellt
 crs#:#crs_test_status_random#:#Zufallstest
 crs#:#crs_time#:#Datum der Anmeldung
-crs#:#crs_to#:#Bis:###03 Nov 2005 content changed
+crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
@@ -3773,7 +3772,7 @@ crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wiederhergestellt
 crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe#:#Abmelden
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abmelden möchten?
-crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.###05 Aug 2005 content changed
+crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
@@ -3784,7 +3783,7 @@ crs#:#crs_visibility_until#:#Zeitlich begrenzt
 crs#:#crs_visibility_unvisible#:#Nicht verfügbar
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_xml#:#XML
-crs#:#crs_youre_position#:#Ihre Position auf der Warteliste###03 Nov 2005 content changed
+crs#:#crs_youre_position#:#Ihre Position auf der Warteliste
 crs#:#edit_content#:#Kursinhalt bearbeiten
 crs#:#import_crs#:#Import Kurs
 crs#:#learners_view#:#Lerneransicht
@@ -3792,10 +3791,10 @@ crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nich
 crs_#:#crs_archives#:#Archive
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
-dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.###02 Aug 2005 content changed
+dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
 dateplaner#:#ERROR_DB#:#Schreibfehler in Datenbank
 dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen.
-dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen###02 Aug 2005 content changed
+dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
 dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
@@ -3810,7 +3809,7 @@ dateplaner#:#ERROR_TS#:#Falsches Datumsformat
 dateplaner#:#Fr_long#:#Freitag
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Language_file#:#Deutsch
-dateplaner#:#Listbox_long#:#Terminliste###02 Aug 2005 content changed
+dateplaner#:#Listbox_long#:#Terminliste
 dateplaner#:#Mo_long#:#Montag
 dateplaner#:#Mo_short#:#Mo
 dateplaner#:#Month_long#:#Monatsansicht
@@ -3827,35 +3826,35 @@ dateplaner#:#View#:#Ansicht:
 dateplaner#:#We_long#:#Mittwoch
 dateplaner#:#We_short#:#Mi
 dateplaner#:#Week_long#:#Wochenansicht
-dateplaner#:#add_data#:#zusätzliche Informationen###02 Aug 2005 content changed
-dateplaner#:#app_#:#Gruppen Termine Eingang###02 Aug 2005 content changed
-dateplaner#:#app_date#:#Termin eintragen###02 Aug 2005 content changed
-dateplaner#:#app_day#:#Tagesansicht###02 Aug 2005 content changed
-dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)###02 Aug 2005 content changed
-dateplaner#:#app_inbox#:#Gruppen Termine Eingang###02 Aug 2005 content changed
-dateplaner#:#app_list#:#Terminliste###02 Aug 2005 content changed
-dateplaner#:#app_month#:#Monatsansicht###02 Aug 2005 content changed
-dateplaner#:#app_properties#:#Einstellungen###02 Aug 2005 content changed
-dateplaner#:#app_week#:#Wochenansicht###02 Aug 2005 content changed
+dateplaner#:#add_data#:#zusätzliche Informationen
+dateplaner#:#app_#:#Gruppen Termine Eingang
+dateplaner#:#app_date#:#Termin eintragen
+dateplaner#:#app_day#:#Tagesansicht
+dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)
+dateplaner#:#app_inbox#:#Gruppen Termine Eingang
+dateplaner#:#app_list#:#Terminliste
+dateplaner#:#app_month#:#Monatsansicht
+dateplaner#:#app_properties#:#Einstellungen
+dateplaner#:#app_week#:#Wochenansicht
 dateplaner#:#application#:#Terminplaner
-dateplaner#:#apply#:#übernehmen###02 Aug 2005 content changed
-dateplaner#:#back#:#zurück###02 Aug 2005 content changed
+dateplaner#:#apply#:#übernehmen
+dateplaner#:#back#:#zurück
 dateplaner#:#begin_date#:#Termin Anfang
-dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe###02 Aug 2005 content changed
-dateplaner#:#c_date#:#erstelle Termin###02 Aug 2005 content changed
+dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
+dateplaner#:#c_date#:#erstelle Termin
 dateplaner#:#changeTo#:#Ändern zu:
-dateplaner#:#changedDates#:#Geänderte Gruppen Termine###02 Aug 2005 content changed
+dateplaner#:#changedDates#:#Geänderte Gruppen Termine
 dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
 dateplaner#:#created#:#erstellt am
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#T.M.J H:i
 dateplaner#:#date_format_middle#:#T/M/J
-dateplaner#:#del_all#:#alle Termine löschen###02 Aug 2005 content changed
-dateplaner#:#del_one#:#einmalig löschen###02 Aug 2005 content changed
-dateplaner#:#delete#:#löschen###02 Aug 2005 content changed
-dateplaner#:#deletedDates#:#Gelöschte Gruppen Termine###02 Aug 2005 content changed
-dateplaner#:#discard#:#abweisen###02 Aug 2005 content changed
-dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen###02 Aug 2005 content changed
+dateplaner#:#del_all#:#alle Termine löschen
+dateplaner#:#del_one#:#einmalig löschen
+dateplaner#:#delete#:#löschen
+dateplaner#:#deletedDates#:#Gelöschte Gruppen Termine
+dateplaner#:#discard#:#abweisen
+dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen
 dateplaner#:#dv_button_cancel#:#Abbrechen
 dateplaner#:#dv_button_delete#:#Löschen
 dateplaner#:#dv_button_insert#:#Einfügen
@@ -3865,7 +3864,7 @@ dateplaner#:#dv_date_end#:#Termin Ende:
 dateplaner#:#dv_date_hm#:#Stunde:Minute
 dateplaner#:#dv_enddate#:#Enddatum:
 dateplaner#:#dv_groupselect#:#Gruppenauswahl:
-dateplaner#:#dv_groupview#:#Gruppentermin:###02 Aug 2005 content changed
+dateplaner#:#dv_groupview#:#Gruppentermin:
 dateplaner#:#dv_groupview_text#:#Gruppe:<br /> 
 dateplaner#:#dv_keywords#:#Keyword:
 dateplaner#:#dv_keywordselect#:#Keywordauswahl:
@@ -3884,41 +3883,41 @@ dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin lösche
 dateplaner#:#end_date#:#Termin Ende
 dateplaner#:#endtime_for_view#:#Endzeit für Ansichten:
 dateplaner#:#error_minical_img#:#Kann keinen 'GD-picture-stream' erzeugen
-dateplaner#:#execute#:#Aktionen ausführen###02 Aug 2005 content changed
-dateplaner#:#extra_dates#:#Ganztages Termine###02 Aug 2005 content changed
-dateplaner#:#free#:#frei###02 Aug 2005 content changed
-dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe###02 Aug 2005 content changed
-dateplaner#:#group#:#Gruppe###02 Aug 2005 content changed
-dateplaner#:#help_day#:#Terminplaner Tagesansicht###02 Aug 2005 content changed
-dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.###02 Aug 2005 content changed
+dateplaner#:#execute#:#Aktionen ausführen
+dateplaner#:#extra_dates#:#Ganztages Termine
+dateplaner#:#free#:#frei
+dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
+dateplaner#:#group#:#Gruppe
+dateplaner#:#help_day#:#Terminplaner Tagesansicht
+dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
 dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders###02 Aug 2005 content changed
+dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
 dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_filename#:#dp_help_de.html
-dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]###02 Aug 2005 content changed
-dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br /> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.###02 Aug 2005 content changed
+dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
+dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br /> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
 dateplaner#:#help_further#:#<br /> <b>weitere Informationen durch klicken.</b>
-dateplaner#:#help_group#:#Gruppentermine Auswahl###02 Aug 2005 content changed
+dateplaner#:#help_group#:#Gruppentermine Auswahl
 dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
 dateplaner#:#help_inbox#:#Terminplaner Inbox
-dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.###02 Aug 2005 content changed
+dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
 dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
 dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
 dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br />TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
 dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
-dateplaner#:#help_list#:#Terminplaner Terminliste###02 Aug 2005 content changed
-dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.###02 Aug 2005 content changed
+dateplaner#:#help_list#:#Terminplaner Terminliste
+dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
 dateplaner#:#help_month#:#Terminplaner Monatsansicht
-dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.###02 Aug 2005 content changed
+dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
 dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
 dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br />Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
 dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
-dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.###02 Aug 2005 content changed
+dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
 dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
 dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
@@ -3928,19 +3927,19 @@ dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
 dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
 dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
 dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders###02 Aug 2005 content changed
+dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
-dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.###02 Aug 2005 content changed
+dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_text#:#Text
-dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.###02 Aug 2005 content changed
+dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
 dateplaner#:#help_week#:#Terminplaner Wochenansicht
-dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.###02 Aug 2005 content changed
+dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
 dateplaner#:#hour#:#Stunde
-dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten###02 Aug 2005 content changed
+dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
 dateplaner#:#inbox#:#Eingang
-dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:###02 Aug 2005 content changed
-dateplaner#:#k_alldates#:#alle Termine###02 Aug 2005 content changed
-dateplaner#:#keep#:#unverändert###02 Aug 2005 content changed
+dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
+dateplaner#:#k_alldates#:#alle Termine
+dateplaner#:#keep#:#unverändert
 dateplaner#:#keyword#:#Schlagwort
 dateplaner#:#keywords#:#Schlagwörter
 dateplaner#:#last_change#:#letzte Änderung am
@@ -3956,36 +3955,36 @@ dateplaner#:#long_09#:#September
 dateplaner#:#long_10#:#Oktober
 dateplaner#:#long_11#:#November
 dateplaner#:#long_12#:#Dezember
-dateplaner#:#main_dates#:#Normale Termine###02 Aug 2005 content changed
+dateplaner#:#main_dates#:#Normale Termine
 dateplaner#:#menue#:#Menü
-dateplaner#:#mmonth#:#letzter Monat###02 Aug 2005 content changed
-dateplaner#:#month#:#Monat###02 Aug 2005 content changed
-dateplaner#:#more#:#weitere###02 Aug 2005 content changed
-dateplaner#:#mweek#:#letzte Woche###02 Aug 2005 content changed
-dateplaner#:#myeahr#:#letztes Jahr###02 Aug 2005 content changed
-dateplaner#:#newDates#:#Neue Gruppen Termine###02 Aug 2005 content changed
+dateplaner#:#mmonth#:#letzter Monat
+dateplaner#:#month#:#Monat
+dateplaner#:#more#:#weitere
+dateplaner#:#mweek#:#letzte Woche
+dateplaner#:#myeahr#:#letztes Jahr
+dateplaner#:#newDates#:#Neue Gruppen Termine
 dateplaner#:#newKeyword#:#Neu:
-dateplaner#:#new_doc#:#neuer Termin###02 Aug 2005 content changed
-dateplaner#:#no_entry#:#keine Termine vorhanden###02 Aug 2005 content changed
-dateplaner#:#o_day_date#:#24h Termin###02 Aug 2005 content changed
+dateplaner#:#new_doc#:#neuer Termin
+dateplaner#:#no_entry#:#keine Termine vorhanden
+dateplaner#:#o_day_date#:#24h Termin
 dateplaner#:#of#:#von
-dateplaner#:#open_day#:#Tagesansicht###02 Aug 2005 content changed
-dateplaner#:#pmonth#:#nächsten Monat###02 Aug 2005 content changed
-dateplaner#:#printlist#:#Termin Liste ausdrucken###02 Aug 2005 content changed
+dateplaner#:#open_day#:#Tagesansicht
+dateplaner#:#pmonth#:#nächsten Monat
+dateplaner#:#printlist#:#Termin Liste ausdrucken
 dateplaner#:#properties#:#Einstellungen
-dateplaner#:#pweek#:#nächste Woche###02 Aug 2005 content changed
-dateplaner#:#pyear#:#nächstes Jahr###02 Aug 2005 content changed
-dateplaner#:#r_14#:#alle 14 Tage###02 Aug 2005 content changed
-dateplaner#:#r_4_weeks#:#alle 4 Wochen###02 Aug 2005 content changed
-dateplaner#:#r_day#:#jeden Tag###02 Aug 2005 content changed
-dateplaner#:#r_halfyear#:#jedes halbe Jahr###02 Aug 2005 content changed
-dateplaner#:#r_month#:#jeden Monat###02 Aug 2005 content changed
+dateplaner#:#pweek#:#nächste Woche
+dateplaner#:#pyear#:#nächstes Jahr
+dateplaner#:#r_14#:#alle 14 Tage
+dateplaner#:#r_4_weeks#:#alle 4 Wochen
+dateplaner#:#r_day#:#jeden Tag
+dateplaner#:#r_halfyear#:#jedes halbe Jahr
+dateplaner#:#r_month#:#jeden Monat
 dateplaner#:#r_nonrecurring#:#Einmalig
-dateplaner#:#r_week#:#jede Woche###02 Aug 2005 content changed
-dateplaner#:#r_year#:#jedes Jahr###02 Aug 2005 content changed
-dateplaner#:#readimportfile#:#Einlesen###02 Aug 2005 content changed
+dateplaner#:#r_week#:#jede Woche
+dateplaner#:#r_year#:#jedes Jahr
+dateplaner#:#readimportfile#:#Einlesen
 dateplaner#:#rotation#:#Turnus
-dateplaner#:#rotation_dates#:#Turnus Termine###02 Aug 2005 content changed
+dateplaner#:#rotation_dates#:#Turnus Termine
 dateplaner#:#semester_name#:#Semester Name
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -4000,17 +3999,17 @@ dateplaner#:#short_10#:#Okt
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dez
 dateplaner#:#shorttext#:#Kurztext
-dateplaner#:#singleDate#:#Einzeltermin###02 Aug 2005 content changed
+dateplaner#:#singleDate#:#Einzeltermin
 dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
 dateplaner#:#timedate#:#Zeit / Datum
 dateplaner#:#timeslice#:#Zeitraum:
 dateplaner#:#title#:#Ilias Terminplaner
 dateplaner#:#to#:#bis
-dateplaner#:#today#:#Heute###02 Aug 2005 content changed
-dateplaner#:#viewlist#:#Ansicht aktualisieren###02 Aug 2005 content changed
-dateplaner#:#week#:#Woche###02 Aug 2005 content changed
+dateplaner#:#today#:#Heute
+dateplaner#:#viewlist#:#Ansicht aktualisieren
+dateplaner#:#week#:#Woche
 dateplaner#:#wk_short#:#KW
-dateplaner#:#year#:#Jahr###02 Aug 2005 content changed
+dateplaner#:#year#:#Jahr
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
 forum#:#forums_attachments#:#Dateianhänge
@@ -4439,29 +4438,29 @@ meta#:#meta_choose_section#:#Bitte wählen Sie einen Bereich
 meta#:#meta_classification#:#Klassifizierung
 meta#:#meta_collection#:#Sammlung
 meta#:#meta_competency#:#Kompetenz
-meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
+meta#:#meta_contentprovider#:#Content-Provider
 meta#:#meta_context#:#Kontext
 meta#:#meta_contribute#:#Beitrag
-meta#:#meta_copyright#:#Copyright###03 Nov 2005 new variable
+meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_cost#:#Kosten
 meta#:#meta_coverage#:#Anwendungsbereich
-meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
+meta#:#meta_creator#:#Ersteller
 meta#:#meta_date#:#Datum
 meta#:#meta_delete#:#Löschen
 meta#:#meta_description#:#Beschreibung
 meta#:#meta_diagramm#:#Diagramm
-meta#:#meta_difficult#:#Difficult###03 Nov 2005 new variable
+meta#:#meta_difficult#:#Schwierig
 meta#:#meta_difficulty#:#Schwierigkeit
 meta#:#meta_draft#:#Entwurf
 meta#:#meta_duration#:#Dauer
 meta#:#meta_easy#:#Leicht
-meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
+meta#:#meta_editor#:#Redakteur
 meta#:#meta_education#:#Ausbildung
 meta#:#meta_educational#:#Pädagogik
 meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Ausbildungsziel
-meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
+meta#:#meta_educationalvalidator#:#Educational Validator
 meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
 meta#:#meta_exam#:#Prüfung
@@ -4473,7 +4472,7 @@ meta#:#meta_final#:#Endfassung
 meta#:#meta_format#:#Format
 meta#:#meta_general#:#Allgemein
 meta#:#meta_graph#:#Graph
-meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
+meta#:#meta_graphicaldesigner#:#Graphik-Designer
 meta#:#meta_has_format#:#...hat Format...
 meta#:#meta_has_part#:#..hat Teil von...
 meta#:#meta_has_version#:#..hat Version...
@@ -4484,7 +4483,7 @@ meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
 meta#:#meta_index#:#Index
-meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
+meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
 meta#:#meta_instructional_designer#:#Instructional designer###20 Jun 2005 new variable
 meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
@@ -4683,7 +4682,7 @@ meta#:#meta_problem_statement#:#Problemstellung
 meta#:#meta_publisher#:#Herausgeber
 meta#:#meta_purpose#:#Zweck
 meta#:#meta_questionnaire#:#Fragebogen
-meta#:#meta_quickedit#:#Quick Edit###03 Nov 2005 new variable
+meta#:#meta_quickedit#:#Schnell-Bearbeitung
 meta#:#meta_reference#:#Referenz
 meta#:#meta_references#:#Referenzen
 meta#:#meta_relation#:#Beziehung
@@ -5285,7 +5284,7 @@ survey#:#questiontype#:#Fragentyp
 survey#:#ratio_absolute#:#Absolutskala
 survey#:#ratio_non_absolute#:#Ratioskala
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?###04 Nov 2005 content changed
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?#
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Umfrage fortsetzen
 survey#:#save_back_to_survey#:#Speichern und zurück zur Umfrage
@@ -5316,7 +5315,7 @@ survey#:#set_filter#:#Filter setzen
 survey#:#skipped#:#überprungen
 survey#:#spl_general_properties#:#Allgemeine Eigenschaften
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.###04 Nov 2005 content changed
+survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
 survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
