@@ -439,6 +439,7 @@ assessment#:#tst_delete_results#:#Nulstil test
 assessment#:#tst_ending_time#:#Slut tidspunkt
 assessment#:#tst_enter_questionpool#:#Indtast venligst et sp&oslash;rgsm&aring;lsgruppenavn hvor de nye sp&oslash;rgsm&aring;l vil blive gemt
 assessment#:#tst_eval_no_anonymous_aggregation#:#Ingen har &aring;bnet denne test endnu. Der er ingen gennemsnits resultater tilg&aelig;ngelige.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Vis svar
 assessment#:#tst_eval_total_finished#:#Total antal f&aelig;rdiggjorte test
 assessment#:#tst_eval_total_finished_average_time#:#Gennemsnitlig tid til at afslutte test

@@ -440,6 +440,7 @@ assessment#:#tst_delete_results#:#Reiniciar test
 assessment#:#tst_ending_time#:#Tiempo de finalización
 assessment#:#tst_enter_questionpool#:#Por favor introduzca un nombre de banco de preguntas donde la nueva pregunta será almacenada
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nadie ha rellenado el test todavía. No existen resultados de test agregados de forma anónima disponibles.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Mostrar respuesta
 assessment#:#tst_eval_total_finished#:#Total de tests finalizados
 assessment#:#tst_eval_total_finished_average_time#:#Tiempo de proceso medio para los tests finalizados

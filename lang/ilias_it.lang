@@ -439,6 +439,7 @@ assessment#:#tst_delete_results#:#Annulla il test (cancella i risultati)
 assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_enter_questionpool#:#Per favore inserisci il nome della raccolta di domande nella quale verr&#224; inserita la domanda
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per utenti anonimi.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Mostra la risposta
 assessment#:#tst_eval_total_finished#:#Test di valutazione completati
 assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test completati

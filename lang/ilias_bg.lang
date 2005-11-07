@@ -422,6 +422,7 @@ assessment#:#tst_delete_results#:#Нулиране на теста
 assessment#:#tst_ending_time#:#Финален момент
 assessment#:#tst_enter_questionpool#:#Моля, въведете име на набор от въпроси, където новият въпрос ще бъде съхранен
 assessment#:#tst_eval_no_anonymous_aggregation#:#Никой не е влизал в теста все още. Няма анонимни обобщени резултати от теста.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Показване на отговор
 assessment#:#tst_eval_total_finished#:#Общ брой завършени тестове
 assessment#:#tst_eval_total_finished_average_time#:#Средно време за обработка на завършените тестове

@@ -439,6 +439,7 @@ assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
 assessment#:#tst_ending_time#:#Eindtijd###07 Apr 2005 content changed
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###05 Nov 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Niemand heeft tot nog toe de test ingevoerd. Er zijn geen anoniem geaggregeerde test-resultaten###07 Apr 2005 content changed
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
 assessment#:#tst_eval_total_finished#:#Totaal aantal gemaakte testen###07 Apr 2005 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Gemiddelde procestijd voor complete testen###07 Apr 2005 content changed

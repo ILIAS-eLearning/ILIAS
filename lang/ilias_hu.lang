@@ -440,6 +440,7 @@ assessment#:#tst_delete_results#:#Teszt alapállapotba állítása
 assessment#:#tst_ending_time#:#Befejezési idő
 assessment#:#tst_enter_questionpool#:#Adjon meg egy kérdéssornevet ott, ahol mentésre fog kerülni az új kérdés.
 assessment#:#tst_eval_no_anonymous_aggregation#:#Még senki nem lépett be a tesztbe. Névtelen felhasználó összesített eredménye nem érhető el.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Válasz mutatása
 assessment#:#tst_eval_total_finished#:#Összes befejezett teszt
 assessment#:#tst_eval_total_finished_average_time#:#Befejezett tesztek átlag kitöltési ideje

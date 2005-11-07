@@ -431,6 +431,7 @@ assessment#:#tst_delete_results#:#Réinitialiser le test###07 Apr 2005 content c
 assessment#:#tst_ending_time#:#Date de fin###07 Apr 2005 content changed
 assessment#:#tst_enter_questionpool#:#Veuillez saisir un nom pour un jeu de questions dans lequel la nouvelle question sera stockée.###07 Apr 2005 content changed
 assessment#:#tst_eval_no_anonymous_aggregation#:#Personne n'a fait le test. Les résultats agrégés anonymes ne sont pas disponibles###07 Apr 2005 content changed
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Montrer réponse###07 Apr 2005 content changed
 assessment#:#tst_eval_total_finished#:#Total des tests finis###07 Apr 2005 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Temps de réponse moyen pour les tests finis###07 Apr 2005 content changed

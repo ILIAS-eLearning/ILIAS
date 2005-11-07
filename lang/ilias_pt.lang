@@ -439,6 +439,7 @@ assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Ninguém ainda entrou no teste. Não existem resultados agregados de testes disponíveis.###14 Sep 2004 content changed
+assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
 assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
 assessment#:#tst_eval_total_finished#:#Total de testes acabados###12 Jun 2004 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Tempo médio de realização para os testes acabados###12 Jun 2004 content changed
