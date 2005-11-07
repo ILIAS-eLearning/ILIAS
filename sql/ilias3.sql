@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jul 28, 2005 at 04:20 PM
+# Generation Time: Nov 07, 2005 at 12:45 PM
 # Server version: 3.23.56
-# PHP Version: 4.3.6
-# Database : `ilias350beta2`
+# PHP Version: 4.4.0
+# Database : `ilias360alpha`
 # --------------------------------------------------------
 
 #
@@ -154,6 +154,7 @@ CREATE TABLE `bookmark_data` (
   `obj_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL default '0',
   `title` varchar(200) NOT NULL default '',
+  `description` varchar(255) NOT NULL default '',
   `target` varchar(200) NOT NULL default '',
   `type` varchar(4) NOT NULL default '',
   PRIMARY KEY  (`obj_id`,`user_id`)
@@ -163,7 +164,7 @@ CREATE TABLE `bookmark_data` (
 # Dumping data for table `bookmark_data`
 #
 
-INSERT INTO `bookmark_data` VALUES (1, 0, 'dummy_folder', '', 'bmf');
+INSERT INTO `bookmark_data` VALUES (1, 0, 'dummy_folder', '', '', 'bmf');
 # --------------------------------------------------------
 
 #
@@ -186,6 +187,21 @@ CREATE TABLE `bookmark_tree` (
 #
 
 INSERT INTO `bookmark_tree` VALUES (6, 1, 0, 1, 2, 1);
+# --------------------------------------------------------
+
+#
+# Table structure for table `chat_blocked`
+#
+
+CREATE TABLE `chat_blocked` (
+  `chat_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0'
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `chat_blocked`
+#
+
 # --------------------------------------------------------
 
 #
@@ -290,6 +306,7 @@ CREATE TABLE `chat_user` (
   `chat_id` int(11) NOT NULL default '0',
   `room_id` int(11) NOT NULL default '0',
   `last_conn_timestamp` int(14) default NULL,
+  `kicked` tinyint(4) default '0',
   PRIMARY KEY  (`usr_id`,`chat_id`,`room_id`)
 ) TYPE=MyISAM;
 
@@ -323,6 +340,23 @@ CREATE TABLE `conditions` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `container_settings`
+#
+
+CREATE TABLE `container_settings` (
+  `id` int(11) NOT NULL default '0',
+  `keyword` char(40) NOT NULL default '',
+  `value` char(50) default NULL,
+  PRIMARY KEY  (`id`,`keyword`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `container_settings`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `content_object`
 #
 
@@ -343,6 +377,7 @@ CREATE TABLE `content_object` (
   `public_html_file` varchar(50) NOT NULL default '',
   `public_xml_file` varchar(50) NOT NULL default '',
   `downloads_active` enum('y','n') default 'n',
+  `pub_notes` enum('y','n') NOT NULL default 'n',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -653,8 +688,7 @@ CREATE TABLE `ctrl_calls` (
 
 INSERT INTO `ctrl_calls` VALUES ('ilobjlinkresourcegui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjhacplearningmodulegui', 'ilfilesystemgui');
-INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'ilfilesystemgui');
-INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjhacplearningmodulegui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediapoolgui', 'ilobjmediaobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediapoolgui', 'ilobjfoldergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediapoolgui', 'ileditclipboardgui');
@@ -690,7 +724,9 @@ INSERT INTO `ctrl_calls` VALUES ('illmpageobjectgui', 'ilpageobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('illmpageobjectgui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjfilebasedlmgui', 'ilfilesystemgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjfilebasedlmgui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('illmpresentationgui', 'ilnotegui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'ilfilesystemgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('iltermdefinitioneditorgui', 'ilpageobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('iltermdefinitioneditorgui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'illmpageobjectgui');
@@ -699,6 +735,8 @@ INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilobjstylesheetgui')
 INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilglossarytermgui', 'iltermdefinitioneditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ileditclipboardgui', 'ilobjmediaobjectgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'ilfilesystemgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjilinccoursegui', 'ilobjilincclassroomgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjilincclassroomgui', '');
 INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ilpageobjectgui');
@@ -712,16 +750,25 @@ INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_textquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'ilobjcoursegui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'iltestoutputgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'iltestevaluationgui');
 INSERT INTO `ctrl_calls` VALUES ('ilsearchcontroller', 'ilsearchgui');
 INSERT INTO `ctrl_calls` VALUES ('ilsearchcontroller', 'iladvancedsearchgui');
 INSERT INTO `ctrl_calls` VALUES ('ilsearchcontroller', 'ilsearchresultgui');
+INSERT INTO `ctrl_calls` VALUES ('illplistofobjectsgui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjusertrackinggui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('illpgui', '');
+INSERT INTO `ctrl_calls` VALUES ('illearningprogressgui', 'illplistofobjectsgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilcourseregistergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilpaymentpurchasegui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilcourseobjectivesgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilconditionhandlerinterface');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilobjcoursegroupinggui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilnotegui');
 INSERT INTO `ctrl_calls` VALUES ('ilcoursecontentinterface', 'ilconditionhandlerinterface');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsurveygui', 'ilsurveyevaluationgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsurveygui', 'ilsurveyexecutiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveygui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'surveynominalquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'surveymetricquestiongui');
@@ -735,6 +782,11 @@ INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymenttrusteegui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymentstatisticgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymentobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymentbilladmingui');
+INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilpersonalprofilegui');
+INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilbookmarkadministrationgui');
+INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilobjusergui');
+INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilpdnotesgui');
+INSERT INTO `ctrl_calls` VALUES ('ilpersonalprofilegui', '');
 INSERT INTO `ctrl_calls` VALUES ('ilobjgroupgui', 'ilregistergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjgroupgui', 'ilconditionhandlerinterface');
 INSERT INTO `ctrl_calls` VALUES ('ilobjrootfoldergui', '');
@@ -765,8 +817,10 @@ INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjilinccoursegui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjilincclassroomgui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjrootfoldergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjfilegui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjuserfoldergui', '');
 INSERT INTO `ctrl_calls` VALUES ('ilobjfoldergui', 'ilconditionhandlerinterface');
 INSERT INTO `ctrl_calls` VALUES ('ilobjforumgui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilpdnotesgui', 'ilnotegui');
 # --------------------------------------------------------
 
 #
@@ -785,7 +839,6 @@ CREATE TABLE `ctrl_classfile` (
 
 INSERT INTO `ctrl_classfile` VALUES ('ilobjlinkresourcegui', 'link/classes/class.ilObjLinkResourceGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjhacplearningmodulegui', 'content/classes/class.ilObjHACPLearningModuleGUI.php');
-INSERT INTO `ctrl_classfile` VALUES ('ilobjscormlearningmodulegui', 'content/classes/class.ilObjSCORMLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjmediapoolgui', 'content/classes/class.ilObjMediaPoolGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjmediaobjectgui', 'content/classes/Media/class.ilObjMediaObjectGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpageobjectgui', 'content/classes/Pages/class.ilPageObjectGUI.php');
@@ -796,29 +849,39 @@ INSERT INTO `ctrl_classfile` VALUES ('ilobjdlbookgui', 'content/classes/class.il
 INSERT INTO `ctrl_classfile` VALUES ('ilstructureobjectgui', 'content/classes/class.ilStructureObjectGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('illmpageobjectgui', 'content/classes/class.ilLMPageObjectGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjfilebasedlmgui', 'content/classes/class.ilObjFileBasedLMGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('illmpresentationgui', 'content/classes/class.ilLMPresentationGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjaicclearningmodulegui', 'content/classes/class.ilObjAICCLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('iltermdefinitioneditorgui', 'content/classes/class.ilTermDefinitionEditorGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjlearningmodulegui', 'content/classes/class.ilObjLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilglossarytermgui', 'content/classes/class.ilGlossaryTermGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ileditclipboardgui', 'content/classes/class.ilEditClipboardGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjscormlearningmodulegui', 'content/classes/class.ilObjSCORMLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjilinccoursegui', 'ilinc/classes/class.ilObjiLincCourseGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjilincclassroomgui', 'ilinc/classes/class.ilObjiLincClassroomGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjquestionpoolgui', 'assessment/classes/class.ilObjQuestionPoolGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjtestgui', 'assessment/classes/class.ilObjTestGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilsearchcontroller', 'Services/Search/classes/class.ilSearchController.php');
+INSERT INTO `ctrl_classfile` VALUES ('illplistofobjectsgui', 'Services/Tracking/classes/class.ilLPListOfObjectsGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjusertrackinggui', 'Services/Tracking/classes/class.ilObjUserTrackingGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('illpgui', 'Services/Tracking/classes/class.ilLPGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('illearningprogressgui', 'Services/Tracking/classes/class.ilLearningProgressGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjcoursegui', 'course/classes/class.ilObjCourseGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilcoursecontentinterface', 'course/classes/class.ilCourseContentInterface.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjsurveygui', 'survey/classes/class.ilObjSurveyGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjsurveyquestionpoolgui', 'survey/classes/class.ilObjSurveyQuestionPoolGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpaymentgui', 'payment/classes/class.ilPaymentGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpaymentadmingui', 'payment/classes/class.ilPaymentAdminGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilpersonaldesktopgui', 'classes/class.ilPersonalDesktopGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilpersonalprofilegui', 'classes/class.ilPersonalProfileGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjgroupgui', 'classes/class.ilObjGroupGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjrootfoldergui', 'classes/class.ilObjRootFolderGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjcategorygui', 'classes/class.ilObjCategoryGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilrepositorygui', 'classes/class.ilRepositoryGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjfilegui', 'classes/class.ilObjFileGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjuserfoldergui', 'classes/class.ilObjUserFolderGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjfoldergui', 'classes/class.ilObjFolderGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjforumgui', 'classes/class.ilObjForumGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilpdnotesgui', 'classes/class.ilPDNotesGUI.php');
 # --------------------------------------------------------
 
 #
@@ -1110,6 +1173,24 @@ CREATE TABLE `frm_data` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `frm_notification`
+#
+
+CREATE TABLE `frm_notification` (
+  `notification_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `frm_id` int(11) NOT NULL default '0',
+  `thread_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`notification_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `frm_notification`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `frm_posts`
 #
 
@@ -1166,6 +1247,7 @@ CREATE TABLE `frm_posts_tree` (
 CREATE TABLE `frm_settings` (
   `obj_id` int(11) NOT NULL default '0',
   `default_view` int(2) NOT NULL default '0',
+  `anonymized` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`obj_id`)
 ) TYPE=MyISAM;
 
@@ -1878,15 +1960,45 @@ CREATE TABLE `il_meta_typical_age_range` (
 
 CREATE TABLE `ilinc_data` (
   `obj_id` int(11) unsigned NOT NULL default '0',
-  `type` char(5) NOT NULL default '',
+  `type` varchar(5) NOT NULL default '',
   `course_id` int(11) unsigned NOT NULL default '0',
-  `class_id` int(11) unsigned default NULL,
-  `user_id` int(11) unsigned default NULL,
+  `contact_name` varchar(255) default NULL,
+  `contact_responsibility` varchar(255) default NULL,
+  `contact_phone` varchar(255) default NULL,
+  `contact_email` varchar(255) default NULL,
+  `activation_unlimited` tinyint(2) default NULL,
+  `activation_start` int(11) default NULL,
+  `activation_end` int(11) default NULL,
+  `activation_offline` enum('y','n') default NULL,
+  `subscription_unlimited` tinyint(2) default NULL,
+  `subscription_start` int(11) default NULL,
+  `subscription_end` int(11) default NULL,
+  `subscription_type` tinyint(2) default NULL,
+  `subscription_password` varchar(32) default NULL,
   KEY `obj_id` (`obj_id`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `ilinc_data`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `ilinc_registration`
+#
+
+CREATE TABLE `ilinc_registration` (
+  `obj_id` int(10) unsigned NOT NULL default '0',
+  `usr_id` int(10) unsigned NOT NULL default '0',
+  `usr_text` varchar(255) default NULL,
+  `application_date` datetime default NULL,
+  PRIMARY KEY  (`obj_id`),
+  KEY `usr_id` (`usr_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ilinc_registration`
 #
 
 # --------------------------------------------------------
@@ -2006,7 +2118,8 @@ CREATE TABLE `lm_tree` (
   `rgt` int(11) unsigned NOT NULL default '0',
   `depth` smallint(5) unsigned NOT NULL default '0',
   KEY `child` (`child`),
-  KEY `parent` (`parent`)
+  KEY `parent` (`parent`),
+  KEY `jmp_lm` (`lm_id`)
 ) TYPE=MyISAM;
 
 #
@@ -7222,7 +7335,8 @@ CREATE TABLE `mail` (
   `m_subject` varchar(255) default NULL,
   `m_message` text,
   `import_name` text,
-  PRIMARY KEY  (`mail_id`)
+  PRIMARY KEY  (`mail_id`),
+  KEY `jmp_uid` (`user_id`)
 ) TYPE=MyISAM;
 
 #
@@ -7256,7 +7370,8 @@ CREATE TABLE `mail_obj_data` (
   `user_id` int(11) NOT NULL default '0',
   `title` char(70) NOT NULL default '',
   `type` char(16) NOT NULL default '',
-  PRIMARY KEY  (`obj_id`,`user_id`)
+  PRIMARY KEY  (`obj_id`,`user_id`),
+  KEY `jmp_uid` (`user_id`)
 ) TYPE=MyISAM;
 
 #
@@ -7324,7 +7439,8 @@ CREATE TABLE `mail_tree` (
   `rgt` int(11) unsigned NOT NULL default '0',
   `depth` smallint(5) unsigned NOT NULL default '0',
   KEY `child` (`child`),
-  KEY `parent` (`parent`)
+  KEY `parent` (`parent`),
+  KEY `jmp_tree` (`tree`)
 ) TYPE=MyISAM;
 
 #
@@ -7578,6 +7694,33 @@ INSERT INTO `module_class` VALUES ('ilLMPresentationGUI', 'ILIASLearningModule',
 # --------------------------------------------------------
 
 #
+# Table structure for table `note`
+#
+
+CREATE TABLE `note` (
+  `id` int(11) NOT NULL auto_increment,
+  `rep_obj_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `obj_type` varchar(10) default NULL,
+  `type` int(11) NOT NULL default '0',
+  `author` int(11) NOT NULL default '0',
+  `text` mediumtext,
+  `label` int(11) NOT NULL default '0',
+  `creation_date` datetime default NULL,
+  `update_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `subject` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `i_author` (`author`),
+  KEY `i_obj` (`rep_obj_id`,`obj_id`,`obj_type`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `note`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `note_data`
 #
 
@@ -7713,6 +7856,26 @@ INSERT INTO `object_data` VALUES (127, 'typ', 'extt', 'external tools settings',
 INSERT INTO `object_data` VALUES (128, 'extt', 'External tools settings', 'Configuring external tools', -1, '2005-07-20 18:10:04', '2005-07-20 18:10:04', '');
 INSERT INTO `object_data` VALUES (129, 'rolt', 'il_icrs_admin', 'Administrator template for LearnLink Seminars', -1, '2005-07-20 18:10:05', '2005-07-20 18:10:05', '');
 INSERT INTO `object_data` VALUES (130, 'rolt', 'il_icrs_member', 'Member template for LearnLink Seminars', -1, '2005-07-20 18:10:05', '2005-07-20 18:10:05', '');
+INSERT INTO `object_data` VALUES (131, 'rolt', 'il_crs_non_member', 'Non-member template for course object', -1, '2005-11-07 12:41:21', '2005-11-07 12:41:21', '');
+INSERT INTO `object_data` VALUES (132, 'chat', 'Public chat', 'Public chat', 6, '2005-11-07 12:41:22', '2005-11-07 12:41:22', '');
+INSERT INTO `object_data` VALUES (133, 'rolf', '132', '(ref_id 24)', 6, '2005-11-07 12:41:22', '2005-11-07 12:41:22', '');
+INSERT INTO `object_data` VALUES (134, 'role', 'il_chat_moderator_24', 'Moderator of chat obj_no.132', 6, '2005-11-07 12:41:22', '2005-11-07 12:41:22', '');
+# --------------------------------------------------------
+
+#
+# Table structure for table `object_description`
+#
+
+CREATE TABLE `object_description` (
+  `obj_id` int(11) NOT NULL default '0',
+  `description` text NOT NULL,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `object_description`
+#
+
 # --------------------------------------------------------
 
 #
@@ -7722,31 +7885,35 @@ INSERT INTO `object_data` VALUES (130, 'rolt', 'il_icrs_member', 'Member templat
 CREATE TABLE `object_reference` (
   `ref_id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) NOT NULL default '0',
+  `deleted` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`ref_id`),
-  KEY `obj_id` (`obj_id`)
+  KEY `obj_id` (`obj_id`),
+  KEY `obj_del` (`deleted`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `object_reference`
 #
 
-INSERT INTO `object_reference` VALUES (1, 1);
-INSERT INTO `object_reference` VALUES (7, 7);
-INSERT INTO `object_reference` VALUES (8, 8);
-INSERT INTO `object_reference` VALUES (9, 9);
-INSERT INTO `object_reference` VALUES (10, 10);
-INSERT INTO `object_reference` VALUES (11, 11);
-INSERT INTO `object_reference` VALUES (12, 12);
-INSERT INTO `object_reference` VALUES (19, 114);
-INSERT INTO `object_reference` VALUES (14, 98);
-INSERT INTO `object_reference` VALUES (15, 100);
-INSERT INTO `object_reference` VALUES (16, 107);
-INSERT INTO `object_reference` VALUES (17, 109);
-INSERT INTO `object_reference` VALUES (18, 86);
-INSERT INTO `object_reference` VALUES (20, 116);
-INSERT INTO `object_reference` VALUES (21, 118);
-INSERT INTO `object_reference` VALUES (22, 124);
-INSERT INTO `object_reference` VALUES (23, 128);
+INSERT INTO `object_reference` VALUES (1, 1, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (7, 7, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (8, 8, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (9, 9, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (10, 10, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (11, 11, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (12, 12, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (19, 114, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (14, 98, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (15, 100, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (16, 107, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (17, 109, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (18, 86, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (20, 116, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (21, 118, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (22, 124, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (23, 128, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (24, 132, '0000-00-00 00:00:00');
+INSERT INTO `object_reference` VALUES (25, 133, '0000-00-00 00:00:00');
 # --------------------------------------------------------
 
 #
@@ -7755,8 +7922,8 @@ INSERT INTO `object_reference` VALUES (23, 128);
 
 CREATE TABLE `object_translation` (
   `obj_id` int(11) NOT NULL default '0',
-  `title` char(70) NOT NULL default '',
-  `description` char(128) default NULL,
+  `title` varchar(70) NOT NULL default '',
+  `description` text,
   `lang_code` char(2) NOT NULL default '',
   `lang_default` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`obj_id`,`lang_code`)
@@ -8101,6 +8268,25 @@ INSERT INTO `qpl_question_type` VALUES (8, 'qt_text');
 # --------------------------------------------------------
 
 #
+# Table structure for table `qpl_questionpool`
+#
+
+CREATE TABLE `qpl_questionpool` (
+  `id_questionpool` int(11) NOT NULL auto_increment,
+  `obj_fi` int(11) NOT NULL default '0',
+  `online` enum('0','1') NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`id_questionpool`),
+  KEY `obj_fi` (`obj_fi`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `qpl_questionpool`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `qpl_questions`
 #
 
@@ -8125,6 +8311,7 @@ CREATE TABLE `qpl_questions` (
   `image_file` varchar(100) default NULL,
   `params` text,
   `maxNumOfChars` int(11) NOT NULL default '0',
+  `textgap_rating` enum('ci','cs','l1','l2','l3','l4','l5') default NULL,
   `complete` enum('0','1') NOT NULL default '1',
   `created` varchar(14) NOT NULL default '',
   `original_id` int(11) default NULL,
@@ -8169,29 +8356,33 @@ CREATE TABLE `rbac_fa` (
   `rol_id` int(11) NOT NULL default '0',
   `parent` int(11) NOT NULL default '0',
   `assign` enum('y','n') default NULL,
-  PRIMARY KEY  (`rol_id`,`parent`)
+  `protected` enum('y','n') default 'n',
+  PRIMARY KEY  (`rol_id`,`parent`),
+  KEY `jmp_parent` (`parent`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `rbac_fa`
 #
 
-INSERT INTO `rbac_fa` VALUES (2, 8, 'y');
-INSERT INTO `rbac_fa` VALUES (3, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (4, 8, 'y');
-INSERT INTO `rbac_fa` VALUES (5, 8, 'y');
-INSERT INTO `rbac_fa` VALUES (83, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (82, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (80, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (81, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (14, 8, 'y');
-INSERT INTO `rbac_fa` VALUES (110, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (111, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (112, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (125, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (126, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (129, 8, 'n');
-INSERT INTO `rbac_fa` VALUES (130, 8, 'n');
+INSERT INTO `rbac_fa` VALUES (2, 8, 'y', 'y');
+INSERT INTO `rbac_fa` VALUES (3, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (4, 8, 'y', 'n');
+INSERT INTO `rbac_fa` VALUES (5, 8, 'y', 'n');
+INSERT INTO `rbac_fa` VALUES (83, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (82, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (80, 8, 'n', 'y');
+INSERT INTO `rbac_fa` VALUES (81, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (14, 8, 'y', 'n');
+INSERT INTO `rbac_fa` VALUES (110, 8, 'n', 'y');
+INSERT INTO `rbac_fa` VALUES (111, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (112, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (125, 8, 'n', 'y');
+INSERT INTO `rbac_fa` VALUES (126, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (129, 8, 'n', 'y');
+INSERT INTO `rbac_fa` VALUES (130, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (131, 8, 'n', 'n');
+INSERT INTO `rbac_fa` VALUES (134, 25, 'y', 'n');
 # --------------------------------------------------------
 
 #
@@ -8288,6 +8479,7 @@ INSERT INTO `rbac_pa` VALUES (83, 'a:1:{i:0;s:2:"51";}', 22);
 INSERT INTO `rbac_pa` VALUES (110, 'a:1:{i:0;s:2:"51";}', 22);
 INSERT INTO `rbac_pa` VALUES (111, 'a:1:{i:0;s:2:"51";}', 22);
 INSERT INTO `rbac_pa` VALUES (112, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (134, 'a:3:{i:0;i:52;i:1;i:3;i:2;i:2;}', 24);
 # --------------------------------------------------------
 
 #
@@ -9411,6 +9603,9 @@ INSERT INTO `rbac_templates` VALUES (130, 'icrs', 2, 8);
 INSERT INTO `rbac_templates` VALUES (130, 'icrs', 3, 8);
 INSERT INTO `rbac_templates` VALUES (130, 'icrs', 7, 8);
 INSERT INTO `rbac_templates` VALUES (130, 'icrs', 8, 8);
+INSERT INTO `rbac_templates` VALUES (131, 'crs', 2, 8);
+INSERT INTO `rbac_templates` VALUES (131, 'crs', 7, 8);
+INSERT INTO `rbac_templates` VALUES (131, 'crs', 8, 8);
 # --------------------------------------------------------
 
 #
@@ -9454,6 +9649,7 @@ INSERT INTO `role_data` VALUES (3, 0, '0', 'default');
 INSERT INTO `role_data` VALUES (4, 0, '0', 'default');
 INSERT INTO `role_data` VALUES (5, 1, '0', 'default');
 INSERT INTO `role_data` VALUES (14, 0, '0', 'default');
+INSERT INTO `role_data` VALUES (134, 0, '0', 'default');
 # --------------------------------------------------------
 
 #
@@ -9743,6 +9939,43 @@ CREATE TABLE `search_tree` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `service`
+#
+
+CREATE TABLE `service` (
+  `name` varchar(100) NOT NULL default '',
+  `dir` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`name`)
+) TYPE=MyISAM COMMENT='ILIAS Modules';
+
+#
+# Dumping data for table `service`
+#
+
+INSERT INTO `service` VALUES ('Help', 'Services/Help');
+INSERT INTO `service` VALUES ('PersonalDesktop', '.');
+# --------------------------------------------------------
+
+#
+# Table structure for table `service_class`
+#
+
+CREATE TABLE `service_class` (
+  `class` varchar(100) NOT NULL default '',
+  `service` varchar(100) NOT NULL default '',
+  `dir` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`class`)
+) TYPE=MyISAM COMMENT='Class information of ILIAS Modules';
+
+#
+# Dumping data for table `service_class`
+#
+
+INSERT INTO `service_class` VALUES ('ilHelpGUI', 'Help', 'classes');
+INSERT INTO `service_class` VALUES ('ilPersonalDesktopGUI', 'PersonalDesktop', 'classes');
+# --------------------------------------------------------
+
+#
 # Table structure for table `settings`
 #
 
@@ -9757,7 +9990,7 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '500');
+INSERT INTO `settings` VALUES ('db_version', '569');
 INSERT INTO `settings` VALUES ('ilias_version', '3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
@@ -9809,6 +10042,11 @@ INSERT INTO `settings` VALUES ('enable_js_edit', '1');
 INSERT INTO `settings` VALUES ('sys_assessment_folder_id', '20');
 INSERT INTO `settings` VALUES ('default_repository_view', 'flat');
 INSERT INTO `settings` VALUES ('enable_calendar', '1');
+INSERT INTO `settings` VALUES ('custom_icon_big_width', '32');
+INSERT INTO `settings` VALUES ('custom_icon_big_height', '32');
+INSERT INTO `settings` VALUES ('custom_icon_small_width', '22');
+INSERT INTO `settings` VALUES ('custom_icon_small_height', '22');
+INSERT INTO `settings` VALUES ('icon_position_in_lists', 'header');
 # --------------------------------------------------------
 
 #
@@ -9823,6 +10061,21 @@ CREATE TABLE `settings_deactivated_styles` (
 
 #
 # Dumping data for table `settings_deactivated_styles`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `style_data`
+#
+
+CREATE TABLE `style_data` (
+  `id` int(11) NOT NULL default '0',
+  `uptodate` tinyint(2) default '0'
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `style_data`
 #
 
 # --------------------------------------------------------
@@ -10333,6 +10586,25 @@ CREATE TABLE `survey_questionblock_question` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `survey_questionpool`
+#
+
+CREATE TABLE `survey_questionpool` (
+  `id_questionpool` int(11) NOT NULL auto_increment,
+  `obj_fi` int(11) NOT NULL default '0',
+  `online` enum('0','1') NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`id_questionpool`),
+  KEY `obj_fi` (`obj_fi`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_questionpool`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `survey_questiontype`
 #
 
@@ -10465,30 +10737,33 @@ CREATE TABLE `tree` (
   `rgt` int(10) unsigned NOT NULL default '0',
   `depth` smallint(5) unsigned NOT NULL default '0',
   KEY `child` (`child`),
-  KEY `parent` (`parent`)
+  KEY `parent` (`parent`),
+  KEY `jmp_tree` (`tree`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `tree`
 #
 
-INSERT INTO `tree` VALUES (1, 1, 0, 1, 34, 1);
+INSERT INTO `tree` VALUES (1, 1, 0, 1, 38, 1);
 INSERT INTO `tree` VALUES (1, 7, 9, 5, 6, 3);
 INSERT INTO `tree` VALUES (1, 8, 9, 7, 8, 3);
-INSERT INTO `tree` VALUES (1, 9, 1, 2, 33, 2);
+INSERT INTO `tree` VALUES (1, 9, 1, 2, 37, 2);
 INSERT INTO `tree` VALUES (1, 10, 9, 9, 10, 3);
 INSERT INTO `tree` VALUES (1, 11, 9, 11, 12, 3);
 INSERT INTO `tree` VALUES (1, 12, 9, 3, 4, 3);
-INSERT INTO `tree` VALUES (1, 14, 9, 13, 14, 3);
-INSERT INTO `tree` VALUES (1, 15, 9, 15, 16, 3);
-INSERT INTO `tree` VALUES (1, 16, 9, 17, 18, 3);
-INSERT INTO `tree` VALUES (1, 17, 9, 19, 20, 3);
-INSERT INTO `tree` VALUES (1, 18, 9, 21, 22, 3);
-INSERT INTO `tree` VALUES (1, 19, 9, 23, 24, 3);
-INSERT INTO `tree` VALUES (1, 20, 9, 25, 26, 3);
-INSERT INTO `tree` VALUES (1, 21, 9, 27, 28, 3);
-INSERT INTO `tree` VALUES (1, 22, 9, 29, 30, 3);
-INSERT INTO `tree` VALUES (1, 23, 9, 31, 32, 3);
+INSERT INTO `tree` VALUES (1, 14, 9, 13, 18, 3);
+INSERT INTO `tree` VALUES (1, 15, 9, 19, 20, 3);
+INSERT INTO `tree` VALUES (1, 16, 9, 21, 22, 3);
+INSERT INTO `tree` VALUES (1, 17, 9, 23, 24, 3);
+INSERT INTO `tree` VALUES (1, 18, 9, 25, 26, 3);
+INSERT INTO `tree` VALUES (1, 19, 9, 27, 28, 3);
+INSERT INTO `tree` VALUES (1, 20, 9, 29, 30, 3);
+INSERT INTO `tree` VALUES (1, 21, 9, 31, 32, 3);
+INSERT INTO `tree` VALUES (1, 22, 9, 33, 34, 3);
+INSERT INTO `tree` VALUES (1, 23, 9, 35, 36, 3);
+INSERT INTO `tree` VALUES (1, 24, 14, 14, 17, 4);
+INSERT INTO `tree` VALUES (1, 25, 24, 15, 16, 5);
 # --------------------------------------------------------
 
 #
@@ -10664,6 +10939,7 @@ CREATE TABLE `tst_solutions` (
   `value1` text,
   `value2` varchar(50) default NULL,
   `points` double default NULL,
+  `pass` int(11) NOT NULL default '0',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`solution_id`),
   UNIQUE KEY `solution_id` (`solution_id`),
@@ -10731,6 +11007,7 @@ CREATE TABLE `tst_test_random_question` (
   `user_fi` int(11) NOT NULL default '0',
   `question_fi` int(11) NOT NULL default '0',
   `sequence` int(10) unsigned NOT NULL default '0',
+  `pass` int(11) NOT NULL default '0',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`test_random_question_id`),
   KEY `test_fi` (`test_fi`),
@@ -10754,9 +11031,10 @@ CREATE TABLE `tst_test_result` (
   `test_fi` int(10) unsigned NOT NULL default '0',
   `question_fi` int(10) unsigned NOT NULL default '0',
   `points` double NOT NULL default '0',
+  `pass` int(11) NOT NULL default '0',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`test_result_id`),
-  UNIQUE KEY `user_fi` (`user_fi`,`test_fi`,`question_fi`),
+  UNIQUE KEY `user_fi` (`user_fi`,`test_fi`,`question_fi`,`pass`),
   KEY `test_fi` (`test_fi`),
   KEY `question_fi` (`question_fi`)
 ) TYPE=MyISAM COMMENT='Test and Assessment user results for test questions';
@@ -10787,6 +11065,7 @@ INSERT INTO `tst_test_type` VALUES (1, 'tt_assessment');
 INSERT INTO `tst_test_type` VALUES (2, 'tt_self_assessment');
 INSERT INTO `tst_test_type` VALUES (3, 'tt_navigation_controlling');
 INSERT INTO `tst_test_type` VALUES (4, 'tt_online_exam');
+INSERT INTO `tst_test_type` VALUES (5, 'tt_varying_randomtest');
 # --------------------------------------------------------
 
 #
@@ -10802,6 +11081,7 @@ CREATE TABLE `tst_tests` (
   `sequence_settings` tinyint(3) unsigned NOT NULL default '0',
   `score_reporting` tinyint(3) unsigned NOT NULL default '0',
   `nr_of_tries` tinyint(3) unsigned NOT NULL default '0',
+  `hide_previous_results` enum('0','1') NOT NULL default '0',
   `processing_time` time default NULL,
   `enable_processing_time` enum('0','1') NOT NULL default '0',
   `reporting_date` varchar(14) default NULL,
@@ -10821,6 +11101,7 @@ CREATE TABLE `tst_tests` (
   `random_question_count` int(11) default NULL,
   `count_system` enum('0','1') NOT NULL default '0',
   `mc_scoring` enum('0','1') NOT NULL default '0',
+  `pass_scoring` enum('0','1') NOT NULL default '0',
   PRIMARY KEY  (`test_id`),
   UNIQUE KEY `test_id` (`test_id`),
   KEY `test_id_2` (`test_id`),
@@ -10925,7 +11206,7 @@ CREATE TABLE `usr_pref` (
 # Dumping data for table `usr_pref`
 #
 
-INSERT INTO `usr_pref` VALUES (6, 'style', 'blueshadow');
+INSERT INTO `usr_pref` VALUES (6, 'style', 'delos');
 INSERT INTO `usr_pref` VALUES (6, 'skin', 'default');
 INSERT INTO `usr_pref` VALUES (6, 'public_zip', 'n');
 INSERT INTO `usr_pref` VALUES (6, 'public_upload', 'n');
@@ -11027,6 +11308,82 @@ CREATE TABLE `ut_access` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `ut_learning_progress`
+#
+
+CREATE TABLE `ut_learning_progress` (
+  `lp_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `obj_type` char(4) NOT NULL default '',
+  `obj_id` int(11) NOT NULL default '0',
+  `spent_time` int(10) NOT NULL default '0',
+  `access_time` int(10) NOT NULL default '0',
+  `visits` int(4) NOT NULL default '0',
+  PRIMARY KEY  (`lp_id`),
+  KEY `user_obj` (`user_id`,`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ut_learning_progress`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `ut_login`
+#
+
+CREATE TABLE `ut_login` (
+  `usr_id` int(11) NOT NULL default '0',
+  `login_time` int(10) NOT NULL default '0'
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ut_login`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `ut_lp_filter`
+#
+
+CREATE TABLE `ut_lp_filter` (
+  `lpf_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `shown` text NOT NULL,
+  `hidden` text NOT NULL,
+  `mode` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`lpf_id`),
+  KEY `user_id` (`user_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ut_lp_filter`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `ut_lp_settings`
+#
+
+CREATE TABLE `ut_lp_settings` (
+  `lps_id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL default '0',
+  `obj_type` char(4) NOT NULL default '',
+  `mode` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`lps_id`),
+  KEY `obj_id` (`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ut_lp_settings`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `webr_items`
 #
 
@@ -11034,6 +11391,7 @@ CREATE TABLE `webr_items` (
   `link_id` int(11) NOT NULL auto_increment,
   `webr_id` int(11) NOT NULL default '0',
   `title` varchar(127) default NULL,
+  `description` text NOT NULL,
   `target` text,
   `active` tinyint(1) default NULL,
   `disable_check` tinyint(1) default NULL,
@@ -11041,11 +11399,32 @@ CREATE TABLE `webr_items` (
   `last_update` int(11) NOT NULL default '0',
   `last_check` int(11) default NULL,
   `valid` tinyint(1) NOT NULL default '0',
-  KEY `link_id` (`link_id`,`webr_id`)
+  KEY `link_id` (`link_id`,`webr_id`),
+  FULLTEXT KEY `title` (`title`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `webr_items`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `webr_params`
+#
+
+CREATE TABLE `webr_params` (
+  `param_id` int(11) NOT NULL auto_increment,
+  `webr_id` int(11) NOT NULL default '0',
+  `link_id` int(11) NOT NULL default '0',
+  `name` char(128) NOT NULL default '',
+  `value` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`param_id`),
+  KEY `link_id` (`link_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `webr_params`
 #
 
 # --------------------------------------------------------
