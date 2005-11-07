@@ -654,7 +654,7 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		$this->ilias->raiseError("move operation does not work at the moment and is disabled",$this->ilias->error_obj->MESSAGE);
+		//$this->ilias->raiseError("move operation does not work at the moment and is disabled",$this->ilias->error_obj->MESSAGE);
 
 //echo "CUT";
 //echo $_SESSION["referer"];
@@ -907,7 +907,7 @@ class ilContainerGUI extends ilObjectGUI
 
 				foreach ($tnodes as $tnode)
 				{
-					$rbacadmin->revokePermission($tnode["child"]);
+					$rbacadmin->revokePermission($tnode["child"],0,false);
 					$affected_users = ilUtil::removeItemFromDesktops($tnode["child"]);
 				}
 
@@ -923,7 +923,7 @@ class ilContainerGUI extends ilObjectGUI
 			{
 $log->write("ilObjectGUI::pasteObject(), 0");
 				// first paste top_node ...
-				$rbacadmin->revokePermission($key);
+				$rbacadmin->revokePermission($key,0,false);
 $log->write("ilObjectGUI::pasteObject(), 1");
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
 $log->write("ilObjectGUI::pasteObject(), 2");
@@ -945,7 +945,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 				{
 					foreach ($subnode as $node)
 					{
-						$rbacadmin->revokePermission($node["child"]);
+						$rbacadmin->revokePermission($node["child"],0,false);
 						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
 						$obj_data->putInTree($node["parent"]);
 						$obj_data->setPermissions($node["parent"]);
