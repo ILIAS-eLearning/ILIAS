@@ -971,10 +971,45 @@ class ilObjUser extends ilObject
 	/**
 	* get fullname
 	* @access	public
+	* @param	integer	max. string length to return (optional)
+	* 			if string length of fullname is greater than given a_max_strlen
+	* 			the name is shortened in the following way:
+	* 			1. abreviate firstname (-> Dr. J. Smith)
+	* 			if fullname is still too long
+	* 			2. drop title (-> John Smith)
+	* 			if fullname is still too long
+	* 			3. drop title and abreviate first name (J. Smith)
+	* 			if fullname is still too long
+	* 			4. drop title and firstname and shorten lastname to max length (--> Smith)
 	*/
-	function getFullname()
+	function getFullname($a_max_strlen = 0)
 	{
-		return ilUtil::stripSlashes($this->fullname);
+		if (!$a_max_strlen)
+		{
+			return ilUtil::stripSlashes($this->fullname);
+		}
+		
+		if (strlen($this->fullname) <= $a_max_strlen)
+		{
+			return ilUtil::stripSlashes($this->fullname);
+		}
+		
+		if ((strlen($this->utitle) + strlen($this->lastname) + 4) <= $a_max_strlen)
+		{
+			return ilUtil::stripSlashes($this->utitle." ".substr($this->firstname,0,1).". ".$this->lastname);
+		}
+		
+		if ((strlen($this->firstname) + strlen($this->lastname) + 1) <= $a_max_strlen)
+		{
+			return ilUtil::stripSlashes($this->firstname." ".$this->lastname);
+		}
+
+		if ((strlen($this->lastname) + 3) <= $a_max_strlen)
+		{
+			return ilUtil::stripSlashes(substr($this->firstname,0,1).". ".$this->lastname);
+		}
+		
+		return ilUtil::stripSlashes(substr($this->lastname,0,$a_max_strlen));
 	}
 
 // ### AA 03.09.01 updated page access logger ###
