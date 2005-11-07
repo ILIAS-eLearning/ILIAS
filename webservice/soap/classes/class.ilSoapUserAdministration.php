@@ -164,6 +164,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$log->write('SOAP: updateUser()');
 		$user_obj->update();
 
+		if($user_data['accepted_agreement'] and !$usr_obj->hasAcceptedUserAgreement())
+		{
+			$usr_obj->writeAccepted();
+		}
+
 		return true;
 	}
 
@@ -241,7 +246,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$new_user->setDescription($new_user->getEmail());
 
 		$new_user->create();
+		
+
 		$new_user->saveAsNew();
+
+		// If agreement is given. Set user agreement accepted.
+		if($user_data['accepted_agreement'])
+		{
+			$new_user->writeAccepted();
+		}
 
 		// Assign role
 		$rbacadmin->assignUser($global_role_id,$new_user->getId());
@@ -493,6 +506,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['user_skin'] = $usr_obj->getPref('skin');
 		$usr_data['user_style'] = $usr_obj->getPref('style');
 		$usr_data['user_language'] = $usr_obj->getLanguage();
+
+		$usr_data['accepted_agreement'] = $usr_obj->hasAcceptedUserAgreement();
 		
 		return $usr_data;
 	}

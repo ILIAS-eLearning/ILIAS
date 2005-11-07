@@ -160,6 +160,7 @@ class ilNusoapUserAdministrationAdapter
 												  'referral_comment' => array('name' => 'referral_comment', 'type' => 'xsd:string'),
 												  'matriculation' => array('name' => 'matriculation', 'type' => 'xsd:string'),
 												  'active' => array('name' => 'active', 'type' => 'xsd:int'),
+												  'accepted_agreement' => array('name' => 'accepted_agreement','type' => 'xsd:boolean'),
 												  'approve_date' => array('name' => 'approve_date', 'type' => 'xsd:string'),
 												  'user_skin' => array('name' => 'user_skin', 'type' => 'xsd:string'),
 												  'user_style' => array('name' => 'user_style', 'type' => 'xsd:string'),
