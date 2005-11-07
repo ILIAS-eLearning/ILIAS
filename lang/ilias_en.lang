@@ -1725,7 +1725,7 @@ common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Involved Users
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription
+common#:#ilinc_mail_subj_new_subscription#:#New subscription
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#ilinc_manage_course_documents#:#Materials
 common#:#ilinc_mem_change_status#:#Change user's status
