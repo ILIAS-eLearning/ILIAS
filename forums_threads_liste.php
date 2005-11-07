@@ -165,12 +165,32 @@ if (isset($_POST["cmd"]["submit"]))
 {	
 	if(is_array($_POST["forum_id"]))
 	{
-		$startTbl = "frm_threads";
-		
-		require_once "forums_export.php";		
-		
-		unset($topicData);
+		if ($_POST["action"] == "enable_notifications")
+		{
+			for ($i = 0; $i < count($_POST["forum_id"]); $i++)
+			{
+				$frm->enableNotification($ilUser->getId(), $_POST["forum_id"][$i]);
+			}
 
+			ilUtil::redirect("repository.php?cmd=showThreads&ref_id=".$_GET["ref_id"]);
+		}
+		else if ($_POST["action"] == "disable_notifications")
+		{
+			for ($i = 0; $i < count($_POST["forum_id"]); $i++)
+			{
+				$frm->disableNotification($ilUser->getId(), $_POST["forum_id"][$i]);
+			}
+
+			ilUtil::redirect("repository.php?cmd=showThreads&ref_id=".$_GET["ref_id"]);
+		}
+		else
+		{
+			$startTbl = "frm_threads";
+		
+			require_once "forums_export.php";		
+		
+			unset($topicData);
+		}
 	}
 
 }
@@ -322,6 +342,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 				
 				$tpl->setVariable("THR_IMGPATH",$tpl->tplPath);
 				
+				if ($frm->isNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
+				{
+					$tpl->setVariable("NOTIFICATION_ENABLED", $lng->txt("forums_notification_enabled"));
+				}
+
 				$tpl->parseCurrentBlock("threads_row");
 				
 			} // if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
@@ -335,6 +360,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 		$tpl->setVariable("TXT_OK",$lng->txt("ok"));			
 		$tpl->setVariable("TXT_EXPORT_HTML", $lng->txt("export_html"));
 		$tpl->setVariable("TXT_EXPORT_XML", $lng->txt("export_xml"));
+		$tpl->setVariable("TXT_DISABLE_NOTIFICATION", $lng->txt("forums_disable_notification"));
+		$tpl->setVariable("TXT_ENABLE_NOTIFICATION", $lng->txt("forums_enable_notification"));
 		$tpl->setVariable("IMGPATH",$tpl->tplPath);
 		
 	} // if ($thrNum > 0)	

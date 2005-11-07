@@ -89,6 +89,11 @@ class ilForum
 		$this->lng =& $lng;
 	}
 
+	function setLanguage($lng)
+	{
+		$this->lng =& $lng;
+	}
+
 	/**
 	* set object id which refers to ILIAS obj_id
 	* @param	integer	object id
@@ -394,6 +399,7 @@ class ilForum
 
 		// get last insert id and return it
 		$lastInsert = $this->ilias->db->getLastInsertId();
+		$pos_data["pos_pk"] = $lastInsert;
 
 		// entry in tree-table
 		if ($parent_pos == 0)
@@ -427,6 +433,13 @@ class ilForum
 		// FINALLY SEND MESSAGE
 		$this->__sendMessage($parent_pos);
 
+		// SEND NOTIFICATIONS ABOUT NEW POSTS IN A SPECIFIED TOPIC
+		if(!$this->ilias->getSetting("cron_forum_notification"))
+		{
+			$pos_data["top_name"] = $forum_obj->getTitle();
+			$pos_data["ref_id"] = $this->getForumRefId();
+			$this->sendNotifications($pos_data);
+		}
 
 		return $lastInsert;
 	}
@@ -1450,6 +1463,140 @@ class ilForum
 	function setImportName($a_import_name)
 	{
 		$this->import_name = $a_import_name;
+	}
+
+	/**
+	* Enable a user's notification about new posts in a thread
+	* @param    integer	user_id	A user's ID
+	* @param    integer	thread_id	ID of the thread
+	* @return	bool	true
+	* @access	private
+	*/
+	function enableNotification($user_id, $thread_id)
+	{
+		if (!$this->isNotificationEnabled($user_id, $thread_id))
+		{
+			$q = "INSERT INTO frm_notification (user_id, thread_id) VALUES (";
+			$q .= "'" . $user_id . "', ";
+			$q .= "'" . $thread_id . "')";
+			$this->ilias->db->query($q);
+		}
+
+		return true;
+	}
+
+	/**
+	* Disable a user's notification about new posts in a thread
+	* @param    integer	user_id	A user's ID
+	* @param    integer	thread_id	ID of the thread
+	* @return	bool	true
+	* @access	private
+	*/
+	function disableNotification($user_id, $thread_id)
+	{
+		$q = "DELETE FROM frm_notification WHERE ";
+		$q .= "user_id = '" . $user_id . "' AND ";
+		$q .= "thread_id = '". $thread_id . "'";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+
+	/**
+	* Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0)
+	* @param    integer	user_id	A user's ID
+	* @param    integer	thread_id	ID of the thread
+	* @return	integer	Result
+	* @access	private
+	*/
+	function isNotificationEnabled($user_id, $thread_id)
+	{
+		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
+		$q .= "user_id = '" . $user_id . "' AND ";
+		$q .= "thread_id = '". $thread_id . "'";
+		return $this->ilias->db->getOne($q);
+	}
+
+	function sendNotifications($post_data)
+	{
+		include_once "./classes/class.ilMail.php";
+		include_once "./classes/class.ilObjUser.php";
+
+		// GET THREAD DATA
+		$q = "SELECT thr_subject FROM frm_threads WHERE ";
+		$q .= "thr_pk = '" . $post_data["pos_thr_fk"] . "'";
+		$thread_subject = $this->ilias->db->getOne($q);
+		$post_data["thr_subject"] = $thread_subject;
+
+		// GET AUTHOR OF NEW POST
+		$tmp_user =& new ilObjUser($post_data["pos_usr_id"]);
+		$post_data["pos_usr_name"] = $tmp_user->getLogin();
+
+		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
+		$q = "SELECT user_id FROM frm_notification WHERE ";
+		$q .= "thread_id = '" . $post_data["pos_thr_fk"] . "' AND ";
+		$q .= "user_id <> '" . $_SESSION["AccountId"] . "'";
+		$res = $this->ilias->db->query($q);
+		if (!DB::isError($res) &&
+			is_object($res) &&
+			$res->numRows() > 0)
+		{
+			while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$tmp_user =& new ilObjUser($row["user_id"]);
+
+				// SEND NOTIFICATIONS BY E-MAIL
+				$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+				$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
+												   $this->formatNotificationSubject(),
+												   $this->formatNotification($post_data),
+												   array(),array("normal"));
+				unset($tmp_user);
+				unset($tmp_mail_obj);
+			}
+		}
+	}
+	
+	function formatNotificationSubject()
+	{
+		return $this->lng->txt("forums_notification_subject");
+	}
+
+	function formatNotification($post_data, $cron = 0)
+	{
+		if ($cron == 1)
+		{
+			$message = sprintf($this->lng->txt("forums_notification_intro"), $this->ilias->ini->readVariable("client","name"), ILIAS_HTTP_PATH)."\n\n";
+		}
+		else
+		{
+			$message = sprintf($this->lng->txt("forums_notification_intro"), $this->ilias->ini->readVariable("client","name"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"]))."\n\n";
+		}
+		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
+		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
+		$message .= $this->lng->txt("new_post").":\n------------------------------------------------------------\n";
+		$message .= $this->lng->txt("author").": ".$post_data["pos_usr_name"]."\n";
+		$message .= $this->lng->txt("date").": ".$post_data["pos_date"]."\n";
+		$message .= $this->lng->txt("subject").": ".$post_data["pos_subject"]."\n\n";
+		if ($post_data["pos_cens"] == 1)
+		{
+			$message .= $post_data["pos_cens_com"]."\n";
+		}
+		else
+		{
+			$message .= $post_data["pos_message"]."\n";
+		}
+		$message .= "------------------------------------------------------------\n";
+		if ($cron == 1)
+		{
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
+		}
+		else
+		{
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
+		}
+
+		return $message;
 	}
 
 } // END class.Forum

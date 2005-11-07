@@ -182,6 +182,12 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("TAB_TARGET", $t_frame);
 	$tpl->parseCurrentBlock();
 
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVariable("TAB_TYPE", "tabinactive");
+	$tpl->setVariable("TAB_LINK", "forums_threads_notification.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+	$tpl->setVariable("TAB_TEXT", $lng->txt("forums_notification"));
+	$tpl->setVariable("TAB_TARGET", "_self");
+	$tpl->parseCurrentBlock();
 
 	// menu template (contains linkbar, new topic and print thread button)
 	$menutpl =& new ilTemplate("tpl.forums_threads_menu.html", true, true);

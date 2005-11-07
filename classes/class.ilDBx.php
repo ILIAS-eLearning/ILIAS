@@ -151,6 +151,30 @@ class ilDBx extends PEAR
 
 
 	/**
+	* getOne 
+	* 
+	* this is the wrapper itself. Runs a query and returns the first column of the first row
+	* or in case of an error, jump to errorpage
+	* 
+	* @param string
+	* @return object DB
+	*/
+	function getOne($sql)
+	{
+		$r = $this->db->getOne($sql);
+
+		if (DB::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	} //end function
+
+
+	/**
 	* wrapper for quote method
 	*/
 	function quote($a_query, $null_as_empty_string = true)
