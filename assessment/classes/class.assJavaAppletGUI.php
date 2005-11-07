@@ -372,7 +372,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null, $pass = NULL, $mixpass = false)
 	{
 		if (!is_object($ilUser)) {
 			global $ilUser;

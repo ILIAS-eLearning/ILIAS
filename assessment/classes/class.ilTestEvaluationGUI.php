@@ -1314,9 +1314,13 @@ class ilTestEvaluationGUI
 	{
 		$user_id = $_GET["uid"];
 		$this->ctrl->saveParameter($this, "uid");		
-		if (($this->object->getTestType() != TYPE_VARYING_RANDOMTEST) || (!is_numeric($user_id)))
+		if (!is_numeric($user_id))
 		{
 			$this->ctrl->redirect($this, "eval_stat");
+		}
+		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+		{
+			$this->ctrl->redirect($this, "passDetails");
 		}
 		$counted_pass = ilObjTest::_getResultPass($user_id, $this->object->getTestId());
 		$this->setResultsTabs();
@@ -1430,6 +1434,7 @@ class ilTestEvaluationGUI
 		$user_id = $_GET["uid"];
 		$this->ctrl->saveParameter($this, "uid");		
 		$this->ctrl->saveParameter($this, "pass");		
+		if (!is_numeric($pass)) $pass = NULL;
 		
 		$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_detail.html", true);
@@ -1526,26 +1531,25 @@ class ilTestEvaluationGUI
 		}
 		$counter = 1;
 		// output of questions with solutions
+		$ilUser = new ilObjUser($user_id);
 		foreach ($this->object->questions as $question_id)
 		{
 			$this->tpl->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question_id);
 
-			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
+			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".&nbsp;");
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			
 			$idx = $this->object->test_id;
-//			$ilUser = new ilObjUser($user_id);
 			switch ($question_gui->getQuestionType()) 
 			{
 				case "qt_imagemap" :
-					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser);
+					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser, $pass, $mixpass = true);
 					break;
 				case "qt_javaapplet" :
-					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass, $mixpass = true);
 					break;
 				default :
-					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass, $mixpass = true);
 			}
 			$this->tpl->parseCurrentBlock();
 			$counter ++;
@@ -1560,67 +1564,16 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
-		$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_results_back_overview"));
-		$this->tpl->setVariable("BACK_COMMAND", "evalUserDetail");
-		$this->tpl->parseCurrentBlock();
-	}
-
-/**
-* Outputs all answers including the solutions for a given user
-*
-* Outputs all answers including the solutions for a given user
-*
-* @access private
-*/
-	function outEvaluationUserAnswerDetail() 
-	{
-		$pass = $_GET["pass"];
-		$user_id = $_GET["uid"];
-		$this->ctrl->saveParameter($this, "uid");		
-		$this->ctrl->saveParameter($this, "pass");		
-		
-		$this->setResultsTabs();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_answer_detail.html", true);		
-		$counter = 1;
-		if ($this->isRandomTest())
+		$back_command = "evalUserDetail";
+		$back_text = $this->lng->txt("tst_results_back_overview");
+		if (is_null($pass))
 		{
-			$this->loadQuestions($user_id, $pass);
+			$back_command = ($_GET["etype"] == "all") ? "evalAllUsers"	: "evalSelectedUsers";
+			$back_text = $this->lng->txt("tst_results_back_evaluation");
 		}
-		
-		// output of questions with solutions
-		foreach ($this->object->questions as $question_id)
-		{
-			$this->tpl->setCurrentBlock("question");
-			$question_gui = $this->object->createQuestionGUI("", $question_id);
-
-			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
-			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			
-			$idx = $this->object->test_id;
-			
-			switch ($question_gui->getQuestionType()) 
-			{
-				case "qt_imagemap" :
-					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser);
-					break;
-				case "qt_javaapplet" :
-					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
-					break;
-				default :
-					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
-			}
-			$this->tpl->parseCurrentBlock();
-			$counter ++;
-		}
-		
-		// output of non-block elements
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEST_RESULTS_BY_PASS", $this->lng->txt("tst_eval_results_by_pass"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_eval_results_back_user_detail"));
-		$this->tpl->setVariable("BACK_COMMAND", "passDetails");
+		$this->tpl->setVariable("BACK_TO_OVERVIEW", $back_text);
+		$this->tpl->setVariable("BACK_COMMAND", $back_command);
 		$this->tpl->parseCurrentBlock();
-		
 	}
 
 	function outShowAnswers($isForm, &$ilUser) 

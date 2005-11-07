@@ -659,9 +659,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null, $pass = NULL, $mixpass = false)
 	{
-		if (!is_object($ilUser)) {
+		if (!is_object($ilUser)) 
+		{
 			global $ilUser;
 		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"MULTIPLE_CHOICE_QUESTION", $is_postponed, $test_id);
@@ -691,13 +692,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			include_once "./assessment/classes/class.ilObjTest.php";
 			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id))
 			{
-				$pass = ilObjTest::_getPass($ilUser->id, $test_id);
-				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}
-			else
-			{
-				$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
-			}
+			if ($mixpass) $pass = NULL;
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
 			
 			foreach ($solutions as $idx => $solution_value)
 			{

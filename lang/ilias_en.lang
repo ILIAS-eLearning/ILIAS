@@ -439,6 +439,7 @@ assessment#:#tst_delete_results#:#Reset test
 assessment#:#tst_ending_time#:#Ending time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
+assessment#:#tst_eval_results_by_pass#:#Detailed question results
 assessment#:#tst_eval_show_answer#:#Show answer
 assessment#:#tst_eval_total_finished#:#Total completed tests
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for completed tests
