@@ -38,6 +38,8 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->server_path = $this->ilias->getSetting("ilinc_path");
 		$this->server_port	= $this->ilias->getSetting("ilinc_port");
 		$this->server_timeout	= $this->ilias->getSetting("ilinc_timeout");
+		$this->user_max_strlen = 32; // Max string length of full username (title + firstname + lastname)
+
 	}
 	
 	function xmlFormatData($a_data)
@@ -179,7 +181,7 @@ exit;
 
 		$attr = array();
 		$attr['loginname'] = $a_login_data["login"];
-		$attr['fullname'] = $a_user_obj->getFullname();
+		$attr['fullname'] = $a_user_obj->getFullname($this->user_max_strlen);
 		$attr['password'] = $a_login_data["passwd"];
 		$attr['authority'] = $a_authority;
 		$attr['email'] = $a_user_obj->getEmail();
@@ -293,7 +295,8 @@ exit;
 		
 		$this->xmlEndTag('netucate.API.Request');
 	}
-	
+
+	// not used yet
 	function findUser(&$a_user_obj)
 	{
 		$this->xmlClear();
@@ -321,7 +324,8 @@ exit;
 		
 		$this->xmlEndTag('netucate.API.Request');
 	}
-	
+
+	// not used yet
 	function removeUser(&$a_user_obj)
 	{
 		$this->xmlClear();
