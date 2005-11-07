@@ -298,7 +298,7 @@ class ilLMPresentationGUI
 				}
 				else
 				{
-					$css1 = "./css/blueshadow.css";
+					$css1 = "./css/delos.css";
 					$css2 = "./css/content.css";
 				}
 				$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
@@ -362,10 +362,10 @@ class ilLMPresentationGUI
 					*	zip all end deliver zip-file for download
 					*/
 
-					$css1 = file("./templates/default/blueshadow.css");
+					$css1 = file("./templates/default/delos.css");
 					$css1 = implode($css1,"");
 
-					$fp = fopen($export_dir."/".$fileName."/css/blueshadow.css","wb");
+					$fp = fopen($export_dir."/".$fileName."/css/delos.css","wb");
 					fwrite($fp,$css1);
 					fclose($fp);
 
