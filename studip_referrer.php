@@ -47,7 +47,7 @@ if (isset($_POST["client_id"]))
 	$_COOKIE["ilClientId"] = $_POST["client_id"];
 }
 
-if ($first_call == true)
+//if ($first_call == true)
 {	
 	$return_to = "none";
 	
@@ -64,6 +64,7 @@ if ($first_call == true)
 			}
 			if ($_GET["type"] == "tst")
 				$return_to = "assessment/test.php?ref_id=" . $_GET["ref_id"] . "&cmd=run";
+//				$return_to = "assessment/test.php?ref_id=" . $_GET["ref_id"] . "&sequence=&cmd=outIntroductionPage&cmdClass=iltestoutputgui&cmdNode=12&baseClass="; //
 			break;
 		case "new":	
 			$return_to = "repository.php?ref_id=" . $_GET["ref_id"] . "&cmd=create&new_type=" . $_GET["type"];
