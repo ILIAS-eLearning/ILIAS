@@ -8988,3 +8988,10 @@ DROP `lps_id`;
 <#571>
 ALTER TABLE `ut_lp_settings` DROP INDEX `obj_id`,
 	ADD PRIMARY KEY ( `obj_id` );
+
+<#572>
+CREATE TABLE IF NOT EXISTS `ut_lp_collections` (
+  `obj_id` int(11) NOT NULL default '0',
+  `item_id` int(11) NOT NULL default '0',
+  KEY `obj_id` (`obj_id`,`item_id`)
+) TYPE=MyISAM;
