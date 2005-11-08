@@ -1139,6 +1139,8 @@ common#:#create_export_file#:#Twórz plik eksportowy
 common#:#create_in#:#Twórz w
 common#:#create_stylesheet#:#Twórz styl
 common#:#created#:#Data utworzenia
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Zadania Cron
 common#:#cron_jobs_desc#:#Zadanie cron-a to automatyczny proces uruchamiany cyklicznie. O ustawieniu zadań znajdziesz informację w pliku 'INSTALL.
 common#:#cron_lucene_index#:#Uaktualnij indeks wyszukiwania Lucene
@@ -1725,7 +1727,7 @@ common#:#ilinc_id#:#ID iLinc
 common#:#ilinc_involved_users#:#Zaangażowani użytkownicy
 common#:#ilinc_mail_body_new_subscription#:#Zostałeś zapisany do seminarium LearnLinc.
 common#:#ilinc_mail_body_subscription_cancelled#:#Twoje członkowstwo zostało anulowane.
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subskrypcja anulowana:
 common#:#ilinc_manage_course_documents#:#Materiały
 common#:#ilinc_mem_change_status#:#Zmień status użytkownika
@@ -3504,7 +3506,7 @@ crs#:#crs_archive_type_disabled#:#Brak dostępu
 crs#:#crs_archives_deleted#:#Archiwa zostały usunięte
 crs#:#crs_auto_fill#:#Automatyczne wypełnienie
 crs#:#crs_availability_limitless_info#:#Wybierz ten tryb aby udostępnić kurs dla użytkownikom (zależnie od poniższych ustawień rejestracji).
-crs#:#crs_availability_until_info#:#Wybierz ten tryb aby udostępnić kurs użytkownikom na określony przedział czasu.
+crs#:#crs_availability_until_info#:#Wybierz ten tryb aby udostępnić kurs użytkownikom na określony przedział czasu.###08 Nov 2005 content changed
 crs#:#crs_availability_unvisible_info#:#Wybierz ten tryb dla modyfikacji kursu. Tylko administratorzy kursu i opiekunowie mogą oglądać i edytować kurs.
 crs#:#crs_blocked#:#Dostęp odrzucony
 crs#:#crs_blocked_member#:#Uczestnicy kursu (zablokowani)
@@ -4025,8 +4027,10 @@ forum#:#forums_count_art#:#Ilość artykułów
 forum#:#forums_count_thr#:#Ilość wątków
 forum#:#forums_created_by#:#Utworzony przez
 forum#:#forums_delete_file#:#Usuń załącznik
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Pobierz plik
 forum#:#forums_edit_post#:#Edytuj artykuł
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?
 forum#:#forums_info_censor_post#:#Jesteś pewien, że chcesz ukryć ten artykuł?
 forum#:#forums_info_delete_post#:#Jesteś pewien, że chcesz usunąć ten artykuł włącznie z odpowiedziami?
@@ -4034,6 +4038,13 @@ forum#:#forums_mark_read#:#Zaznacz wszystkie przeczytane
 forum#:#forums_new_entries#:#Nowe   pozycje forów
 forum#:#forums_new_thread#:#Nowy temat
 forum#:#forums_not_available#:#Fora są niedostępne
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Przegląd forów
 forum#:#forums_post_deleted#:#Artykuł został usunięty.
 forum#:#forums_post_modified#:#Artykuł został zmodyfikowany.
@@ -4058,6 +4069,8 @@ forum#:#forums_your_reply#:#Twoja odpowiedź
 forum#:#frm_default_view#:#Domyślny widok
 forum#:#frm_title_required#:#Wstaw tytuł.
 forum#:#is_read#:#Zaznacz jako przeczytane
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#O kalendarzu
 jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTML\n(c) dynarch.com 2002-2003\n Dla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epl\n udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html aby sprawdzić szczegóły licencji.\n\nWybór daty:\n- Użyj przycisków «, » do wyboru roku\n- Użyj przycisków <, > do wyboru miesiąca\n- Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
 jscalendar#:#about_time#:#\n\nWybór czasu:\n- Kliknij na dowolny element czasu aby go zwiększyć\n- lub z klawiszem Shift aby go zmniejszyć\n- lub kliknij i przytrzymaj aby przyspieszyć wybór.

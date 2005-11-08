@@ -1139,6 +1139,8 @@ common#:#create_export_file#:#Create export file
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
 common#:#created#:#Create date
+common#:#cron_forum_notification#:#Send forum notifications
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
 common#:#cron_lucene_index#:#Update Lucene search index
@@ -4025,8 +4027,10 @@ forum#:#forums_count_art#:#Number of Articles
 forum#:#forums_count_thr#:#Number of Threads
 forum#:#forums_created_by#:#Created by
 forum#:#forums_delete_file#:#Delete attachment
+forum#:#forums_disable_notification#:#Disable notification
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
+forum#:#forums_enable_notification#:#Enable notification
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
@@ -4034,6 +4038,13 @@ forum#:#forums_mark_read#:#Mark all read
 forum#:#forums_new_entries#:#New Forums Entries
 forum#:#forums_new_thread#:#New Topic
 forum#:#forums_not_available#:#Forums Not Available
+forum#:#forums_notification#:#Notification
+forum#:#forums_notification_enabled#:#Notification enabled
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.
+forum#:#forums_notification_show_post#:#Show post: %s
+forum#:#forums_notification_subject#:#New post in a forum topic
 forum#:#forums_overview#:#Forums Overview
 forum#:#forums_post_deleted#:#Article has been deleted
 forum#:#forums_post_modified#:#Article has been modified
@@ -4058,6 +4069,8 @@ forum#:#forums_your_reply#:#Your Reply
 forum#:#frm_default_view#:#Default view
 forum#:#frm_title_required#:#Please insert a title.
 forum#:#is_read#:#mark read
+forum#:#new_post#:#New post
+forum#:#thread#:#Topic
 jscalendar#:#about_calendar#:#About the calendar
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
@@ -5387,16 +5400,3 @@ survey#:#view_constraints_introduction#:#You are viewing the preconditions of th
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.
-forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.
-forum#:#forums_enable_notification#:#Enable notification
-forum#:#forums_disable_notification#:#Disable notification
-forum#:#forums_notification#:#Notification
-forum#:#forums_notification_enabled#:#Notification enabled
-forum#:#forums_notification_subject#:#New post in a forum topic
-forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s
-forum#:#forums_notification_show_post#:#Show post: %s
-common#:#cron_forum_notification#:#Send forum notifications
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.
-forum#:#thread#:#Topic
-forum#:#new_post#:#New post

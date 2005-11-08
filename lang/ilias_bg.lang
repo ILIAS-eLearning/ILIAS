@@ -1042,6 +1042,8 @@ common#:#create_date#:#Създадено на
 ###03 Nov 2005 content changed
 common#:#create_in#:#Създаване в
 common#:#create_stylesheet#:#Създаване на стил
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Хронологично определени задачи
 common#:#cron_jobs_desc#:#Хронологично определена задача е автоматизиран процес, който функционира на предварително определени интервали от време. Ще намерите информация за настройването в 'ИНСТАЛАЦИОННАТА документация.
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
@@ -1552,7 +1554,7 @@ common#:#ilinc_header_edit_users#:#Edit list of involved users###03 Nov 2005 new
 common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
 common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
@@ -3535,8 +3537,10 @@ forum#:#forums_count#:#Брой форуми
 forum#:#forums_count_art#:#Брой статии
 forum#:#forums_count_thr#:#Брой канали
 forum#:#forums_delete_file#:#Изтриване на прикачено
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Даунлоуд на файл
 forum#:#forums_edit_post#:#Редактиране на статия
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#Отмяна на цензурата?
 forum#:#forums_info_censor_post#:#Сигурни ли сте, че желаете да скриете тази статия?
 forum#:#forums_info_delete_post#:#Сигурни ли сте, че желаете да изтриете тази статия, включително евентуалните отговори към нея?
@@ -3544,6 +3548,13 @@ forum#:#forums_mark_read#:#Маркиране на всички прочетен
 forum#:#forums_new_entries#:#Нови записи на форуми
 forum#:#forums_new_thread#:#Нова тема
 forum#:#forums_not_available#:#Форумите не са налице
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Преглед на форумите
 forum#:#forums_post_deleted#:#Статията беше изтрита
 forum#:#forums_post_modified#:#Статията беше модифицирана
@@ -3567,6 +3578,8 @@ forum#:#forums_your_reply#:#Вашият отговор
 forum#:#frm_default_view#:#Изглед по подразбиране
 forum#:#frm_title_required#:#Моля, вмъкнете заглавие.
 forum#:#is_read#:#маркиране като прочетени
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#За календара
 jscalendar#:#about_calendar_long#:#DHTML селектор за дата/час\n(c) dynarch.com 2002-2003\nЗа най-новата версия посетете: http://dynarch.com/mishoo/calendar.epl\nРазпространява се съгласно GNU LGPL.  Вижте http://gnu.org/licenses/lgpl.html за подробности.\n\nИзбор на дата:\n- Използвайте «, » бутоните, за да изберете година\n- Използвайте <, > бутоните, за да изберете месец\n- Задръжте бутона на мишката над някой от горните бутони за по-бърз избор.
 jscalendar#:#about_time#:#\n\nИзбор на час:\n- Кликнете на някой от елементите за часа, за да го придвижите напред\n- или Shift-кликване за придвижване назад\n- или кликнете и влачете за по-бърз избор.

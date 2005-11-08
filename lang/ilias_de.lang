@@ -1138,6 +1138,8 @@ common#:#create_export_file#:#Exportdatei erstellen
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
+common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
+common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, werden E-Mails an die Benutzer versendet, die bei bestimmten Foren-Themen benachrichtigt werden wollen, falls eine neue Nachricht vorliegt.
 common#:#cron_jobs#:#Cron-jobs
 common#:#cron_jobs_desc#:#Ein Cron-job ist automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.
 common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
@@ -3502,7 +3504,7 @@ crs#:#crs_archive_type_disabled#:#Kein Zugriff
 crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
 crs#:#crs_auto_fill#:#Automatisch auffüllen
 crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Registrierungsart!
-crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Registrierungsart - nur während eines definierten Zeitraums freizuschalten.
+crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Registrierungsart - nur während eines definierten Zeitraums freizuschalten.###08 Nov 2005 content changed
 crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kursadministratoren und Tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
 crs#:#crs_blocked#:#Zugang gesperrt
 crs#:#crs_blocked_member#:#Kursmitgliedschaft
@@ -4022,8 +4024,10 @@ forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
+forum#:#forums_disable_notification#:#Benachrichtigung beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
+forum#:#forums_enable_notification#:#Benachrichtigung starten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll.
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
@@ -4031,6 +4035,13 @@ forum#:#forums_mark_read#:#Alle auf gelesen setzen
 forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
+forum#:#forums_notification#:#Benachrichtigung
+forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
+forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt. 
+forum#:#forums_notification_is_disabled#:#Sie werden (noch) nicht über neue Nachrichten zu diesem Thema benachrichtigt.
+forum#:#forums_notification_is_enabled#:#Zur Zeit werden Sie bereits über neue Nachrichten zu diesem Thema benachrichtigt.
+forum#:#forums_notification_show_post#:#Zur Nachricht gehen: %s
+forum#:#forums_notification_subject#:#Neue Nachricht in einem Foren-Thema
 forum#:#forums_overview#:#Übersicht Foren
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
@@ -4055,6 +4066,8 @@ forum#:#forums_your_reply#:#Ihre Antwort
 forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#is_read#:#gelesen
+forum#:#new_post#:#Neue Nachricht
+forum#:#thread#:#Thema
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl.
@@ -5384,16 +5397,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folge
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-forum#:#forums_notification_is_enabled#:#Zur Zeit werden Sie bereits über neue Nachrichten zu diesem Thema benachrichtigt.
-forum#:#forums_notification_is_disabled#:#Sie werden (noch) nicht über neue Nachrichten zu diesem Thema benachrichtigt.
-forum#:#forums_enable_notification#:#Benachrichtigung starten
-forum#:#forums_disable_notification#:#Benachrichtigung beenden
-forum#:#forums_notification#:#Benachrichtigung
-forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
-forum#:#forums_notification_subject#:#Neue Nachricht in einem Foren-Thema
-forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt. 
-forum#:#forums_notification_show_post#:#Zur Nachricht gehen: %s
-common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
-common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, werden E-Mails an die Benutzer versendet, die bei bestimmten Foren-Themen benachrichtigt werden wollen, falls eine neue Nachricht vorliegt.
-forum#:#thread#:#Thema
-forum#:#new_post#:#Neue Nachricht
