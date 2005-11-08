@@ -101,7 +101,7 @@ assessment#:#add_answer_tf#:#Añadir respuestas verdadero/falso
 assessment#:#add_answer_yn#:#Añadir respuestas Si/No
 assessment#:#add_applet_parameter#:#Añadir parámetro applet
 assessment#:#add_area#:#Añadir area
-assessment#:#add_gap#:#Añadir texto 'Gap'
+assessment#:#add_gap#:#Añadir Hueco de texto
 assessment#:#add_imagemap#:#Añadir mapa de imagen
 assessment#:#add_matching_pair#:#Añadir opcion de "unir parejas"
 assessment#:#add_questionpool#:#Añadir banco de preguntas
@@ -158,7 +158,7 @@ assessment#:#coordinates#:#Coordenadas
 assessment#:#correct_solution_is#:#La solución correcta es
 assessment#:#counter#:#Contador
 assessment#:#create_date#:#Creado
-assessment#:#create_gaps#:#Crear hueco (gap)
+assessment#:#create_gaps#:#Crear huecos
 assessment#:#create_imagemap#:#Crear un mapa de imagen
 assessment#:#create_new#:#Crear nuevo
 assessment#:#definition#:#Definición
@@ -237,7 +237,7 @@ assessment#:#fill_out_all_answer_fields#:#Por favor rellene todos los campos de 
 assessment#:#fill_out_all_matching_pairs#:#Por favor rellene todos las parejas antes de añadir una nueva!
 assessment#:#fill_out_all_required_fields_add_answer#:#Por favor rellene todos los campos requeridos antes de añadir respuestas!
 assessment#:#fill_out_all_required_fields_add_matching#:#Por favor rellene todos los campos requeridos antes de añadir una pareja!
-assessment#:#fill_out_all_required_fields_create_gaps#:#Por favor rellene todos los campos requeridos antes de crear huecos(gaps)!
+assessment#:#fill_out_all_required_fields_create_gaps#:#Por favor rellene todos los campos requeridos antes de crear huecos!
 assessment#:#fill_out_all_required_fields_upload_image#:#Por favor rellene todos los campos requeridos antes de cargar imagenes!
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Por favor rellene todos los campos requeridos antes de cargar mapas de imagen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Por favor rellene todos los campos requeridos antes de cargar materiales!
