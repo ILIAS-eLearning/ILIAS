@@ -8981,3 +8981,10 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 	$ilDB->query($q);
 }
 ?>
+<#570>
+ALTER TABLE `ut_lp_settings`
+DROP `lps_id`;
+
+<#571>
+ALTER TABLE `ut_lp_settings` DROP INDEX `obj_id`,
+	ADD PRIMARY KEY ( `obj_id` );
