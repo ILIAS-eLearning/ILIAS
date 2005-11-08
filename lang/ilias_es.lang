@@ -210,7 +210,7 @@ assessment#:#error_open_java_file#:#Error abriendo un applet java!
 assessment#:#error_save_image_file#:#Error grabando un fichero de imagen!
 assessment#:#eval_all_users#:#Evaluación para los nuevos usuarios
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.
-assessment#:#eval_cloze_result#:#Gap número %s con el valor %s es %s.Usted recibió %s puntos.
+assessment#:#eval_cloze_result#:#Hueco número %s con el valor %s es %s.Usted recibió %s puntos.
 assessment#:#eval_concatenation#:#Concatenación
 assessment#:#eval_data#:#Datos de evaluación
 assessment#:#eval_found_selected_groups#:#Grupos seleccionados
@@ -351,11 +351,11 @@ assessment#:#qpl_paste_success#:#La(s) pregunta(s) han sido pegadas en el banco 
 assessment#:#qpl_question_is_in_use#:#La pregunta que va a editar existe en el/los test(s) %s. Si modifica esta pregunta, NO cambiará la pregunta(s) en el/los test(s), porque el sistema crea una copia de una pregunta cuando se inserta en un test!
 assessment#:#qpl_questions_deleted#:#Pregunta(s) eliminada(s).
 assessment#:#qpl_select_file_for_import#:#Debe seleccionar un fichero a importar!
-assessment#:#qt_cloze#:#Pregunta de tipo '-Cloze-'
+assessment#:#qt_cloze#:#Pregunta de tipo 'rellenar huecos'
 assessment#:#qt_imagemap#:#Pregunta de tipo 'mapa de imagen'
 assessment#:#qt_javaapplet#:#Pregunta de tipo 'applet java'
-assessment#:#qt_matching#:#Pregunta de tipo 'Unir parejas'
-assessment#:#qt_multiple_choice#:#Pregunta de múltiple elección
+assessment#:#qt_matching#:#Pregunta de tipo 'unir parejas'
+assessment#:#qt_multiple_choice#:#Pregunta de opción múltiple 
 assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta múltiple)
 assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
