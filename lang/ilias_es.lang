@@ -103,7 +103,7 @@ assessment#:#add_applet_parameter#:#Añadir parámetro applet
 assessment#:#add_area#:#Añadir area
 assessment#:#add_gap#:#Añadir Hueco de texto
 assessment#:#add_imagemap#:#Añadir mapa de imagen
-assessment#:#add_matching_pair#:#Añadir opcion de "unir parejas"
+assessment#:#add_matching_pair#:#Añadir pareja coincidente
 assessment#:#add_questionpool#:#Añadir banco de preguntas
 assessment#:#add_solution#:#Añadir solución recomendada
 assessment#:#all_available_question_pools#:#Todos los bancos de preguntas disponibles
@@ -283,7 +283,7 @@ assessment#:#mark_schema#:#Esquema de calificación
 assessment#:#match_terms_and_definitions#:#Emparejar términos y definiciones
 assessment#:#match_terms_and_pictures#:#Emparejar términos e imágenes
 assessment#:#matches#:#coincide
-assessment#:#matching_pair#:#Pareja 'Matching'
+assessment#:#matching_pair#:#Pareja coincidente
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material para descargar
 assessment#:#material_file#:#Fichero de Material
