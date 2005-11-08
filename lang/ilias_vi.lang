@@ -1099,6 +1099,8 @@ common#:#create_export_file#:#Tạo file xuất ra
 common#:#create_in#:#Tạo trong
 common#:#create_stylesheet#:#Tạo Style
 common#:#created#:#Ngày tạo
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Một cron job là một tiến trình tự động thực hiện vào một chu kỳ thời gian định trước. Bạn sẽ tìm thấy thông tin về cài đặt trong Hướng dẫn cài đặt ILIAS <Đỗ Xuân Tiến 091 2283720>.
 common#:#cron_lucene_index#:#Cập nhật chỉ mục tìm kiếm Lucene
@@ -1671,6 +1673,7 @@ common#:#ilinc_id#:#LearnLinc ID
 common#:#ilinc_involved_users#:#Những người sử dụng liên quan
 common#:#ilinc_mail_body_new_subscription#:#Bạn đã đăng ký vào hội thảo chuyên đề LearnLinc.
 common#:#ilinc_mail_body_subscription_cancelled#:#Quyền thành viên của bạn đã bị hủy
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Đã hủy đăng ký
 common#:#ilinc_manage_course_documents#:#Tài liệu
 common#:#ilinc_mem_change_status#:#Thay đổi trạng thái của người sử dụng
@@ -3412,6 +3415,7 @@ crs#:#crs_archives_deleted#:#(Các) file nén đã bị xóa
 crs#:#crs_auto_fill#:#Auto fill
 crs#:#crs_availability_limitless_info#:#Chọn phương thức này để làm cho khóa học sử dụng được và có thể truy cập bởi những người sử dụng (phụ thuộc vào thiết lập đăng ký phía dưới).
 crs#:#crs_availability_until_info#:#Chọn phương thức này để làm cho khóa học sử dụng được và có thể truy cập bởi những người sử dụng trong một khoảng thời gian cố định.
+###08 Nov 2005 content changed
 crs#:#crs_availability_unvisible_info#:#Chọn phương thức này để chuẩn bị khóa học. Chỉ các quản trị khóa học và trợ giảng có thể thấy và sửa khóa học.
 crs#:#crs_blocked#:#Từ chối truy cập
 crs#:#crs_blocked_member#:#Quyền thành viên khóa học của
@@ -3931,8 +3935,10 @@ forum#:#forums_count_art#:#Số bài
 forum#:#forums_count_thr#:#Số chủ đề
 forum#:#forums_created_by#:#Người tạo
 forum#:#forums_delete_file#:#Xóa đính kèm
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Tiêu đề tải xuống
 forum#:#forums_edit_post#:#Sửa bài
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#Thu hồi quyền kiểm duyệt?
 forum#:#forums_info_censor_post#:#Bạn có chắc bạn muốn ẩn bài này?
 forum#:#forums_info_delete_post#:#Bạn có chắc bạn muốn xóa bài này bao gồm cả các phản hồi?
@@ -3940,6 +3946,13 @@ forum#:#forums_mark_read#:#Đánh dấu tất cả là đã đọc
 forum#:#forums_new_entries#:#Mục nhập diễn đàn mới
 forum#:#forums_new_thread#:#Chủ đề mới
 forum#:#forums_not_available#:#Diễn đàn không sử dụng được
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Tổng quan diễn đàn
 forum#:#forums_post_deleted#:#Đã xóa bài
 forum#:#forums_post_modified#:#Đã sửa bài
@@ -3964,6 +3977,8 @@ forum#:#forums_your_reply#:#Trả lời của bạn
 forum#:#frm_default_view#:#Xem mặc định
 forum#:#frm_title_required#:#Hãy nhập tiêu đề.
 forum#:#is_read#:#đánh dấu đã đọc
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#Về lịch
 jscalendar#:#about_calendar_long#:#Chương trình chọn ngày/thời gian DHTML (c) dynarch.com 2002-2003\nPhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl\nPhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.\n\nChọn ngày:\n- Sử dụng các nút «, » để chọn năm\n- Sử dụng các nút <, > để chọn tháng\n- Nhấn giữ chuột trên các nút này để chọn nhanh hơn.
 jscalendar#:#about_time#:#\n\nLựa chọn thời gian:\n- Kích chuột vào bất kỳ thành phần thời gian nào để tăng\n- hoặc nhấn giữ phím Shift và kích chuột để giảm\n- hoặc kích vào kéo chuột để chọn nhanh hơn.

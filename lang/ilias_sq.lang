@@ -1090,6 +1090,8 @@ common#:#create_date#:#Krijuar më###03 Nov 2005 content changed
 common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Krijo në
 common#:#create_stylesheet#:#Krijo Stil
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Procedurat kron
 common#:#cron_jobs_desc#:#Procedura kron është proces i automatizuar që operon në intervale kohore të përcaktuara më parë. Do të gjeni informacione për setup në Dokumentimin për INSTALIM.
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
@@ -1658,7 +1660,7 @@ common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
 common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
@@ -3832,8 +3834,10 @@ forum#:#forums_count#:#Numri i Forumeve
 forum#:#forums_count_art#:#Numri i Artikujve
 forum#:#forums_count_thr#:#Numri i Postimeve
 forum#:#forums_delete_file#:#Fshij Shtesën
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Shkarko Skedar
 forum#:#forums_edit_post#:#Edito Artikullin
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#A jeni të sigurt për ta tërhequr censurën?
 forum#:#forums_info_censor_post#:#A jeni të sigurt për ta fshehur këtë artikull?
 forum#:#forums_info_delete_post#:#A jeni të sigurt për ta fshirë artikullin dukë përfshirë edhe të gjitha përgjigjet.
@@ -3841,6 +3845,13 @@ forum#:#forums_mark_read#:#Shënjo të gjitha të lexuara
 forum#:#forums_new_entries#:#Forume të Reja
 forum#:#forums_new_thread#:#Tenë e Re
 forum#:#forums_not_available#:#Asnjë Forum në Posedim
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Pasqyrë e Përgjithshme e Forumeve
 forum#:#forums_post_deleted#:#Artikulli është fshirë
 forum#:#forums_post_modified#:#Artikulli është modifikuar
@@ -3864,6 +3875,8 @@ forum#:#forums_your_reply#:#Përgjigja Juaj
 forum#:#frm_default_view#:#Pamja e Paradefinuar
 forum#:#frm_title_required#:#Ju lutem shënoni një titull.
 forum#:#is_read#:#shënjo të lexuar
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#Për Kalendarin
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\n Për versionin e fundit shih: http://dynarch.com/misoo/calendar.epl\n Distribuuar nën GNU LGPL. Shih http://gnu.org/licenses/lgpl.html për detaje.\n\n Zgjedhja e datës:\n-Përdor butonat «, » për të zgjedhur vitin\n-Butonat < , > për të zgjedhur muajin\n- Mbaj shtypur butonin e mausit në ndonjërin prej butonave të lartpërmendur për zgjedhje më të shpejt.
 jscalendar#:#about_time#:#\n\nZgjedhja e orës:\n-Klik në ndonjërën prej fushave të orës për ta rritur atë.\n- ose Shift+klik për ta zvogluar.

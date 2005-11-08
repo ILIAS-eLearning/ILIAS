@@ -1126,6 +1126,8 @@ common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Créer dans###07 Apr 2005 content changed
 common#:#create_stylesheet#:#Créer style###07 Apr 2005 content changed
 common#:#created#:#Créer date###07 Apr 2005 content changed
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Tâches cron###07 Apr 2005 content changed
 common#:#cron_jobs_desc#:#Une tâche cron est un processus automatique qui est exécuté à des moments prédéfinis. Vous trouverez des informations pour l'installation de cette fonctionnalité dans la documentation d'installation (INSTALL)###07 Apr 2005 content changed
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
@@ -1707,7 +1709,7 @@ common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
 common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
@@ -4000,8 +4002,10 @@ forum#:#forums_count_art#:#Nombre d'articles###07 Apr 2005 content changed
 forum#:#forums_count_thr#:#Nombre de fils de discussion###07 Apr 2005 content changed
 forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Supprimer document joint###07 Apr 2005 content changed
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Télécharger fichier###07 Apr 2005 content changed
 forum#:#forums_edit_post#:#Modifier article###07 Apr 2005 content changed
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#Etes-vous sûr(e) de vouloir continuer à cacher cet article ?###07 Apr 2005 content changed
 forum#:#forums_info_censor_post#:#Etes-vous sûr(e) de vouloir cacher cet article ?###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Etes-vous sûr(e) de vouloir détruire cet article et toutes les réponses ?###07 Apr 2005 content changed
@@ -4009,6 +4013,13 @@ forum#:#forums_mark_read#:#Marquer tous lus###07 Apr 2005 content changed
 forum#:#forums_new_entries#:#Nouvelles entrées de forum###07 Apr 2005 content changed
 forum#:#forums_new_thread#:#Nouveau sujet###07 Apr 2005 content changed
 forum#:#forums_not_available#:#Forums non disponible###07 Apr 2005 content changed
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Vue générale des forums###07 Apr 2005 content changed
 forum#:#forums_post_deleted#:#L'article a été détruit###07 Apr 2005 content changed
 forum#:#forums_post_modified#:#L'article a été modifié###07 Apr 2005 content changed
@@ -4033,6 +4044,8 @@ forum#:#forums_your_reply#:#Votre réponse###07 Apr 2005 content changed
 forum#:#frm_default_view#:#Affichage par défaut###07 Apr 2005 content changed
 forum#:#frm_title_required#:#Veuillez saisir un titre###07 Apr 2005 content changed
 forum#:#is_read#:#marqué comme lu###07 Apr 2005 content changed
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#A propos du calendrier###07 Apr 2005 content changed
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPour la dernière version, voir : http://dynarch.com/mishoo/calendar.epl\nDistribué selon les termes de la licence GNU LGPL.  Voir http://gnu.org/licenses/lgpl.html pour plus de détails.\n\nSélection de la date:\n- Utiliser les boutons << et >> pour sélectionner l'année\n- Utiliser les boutons < et > pour sélectionner le mois\n- Maintenir le bouton de la souris appuyé plus longtemps pour une sélection rapide.###07 Apr 2005 content changed
 jscalendar#:#about_time#:#\n\nSélection de l'heure :\n- Cliquer sur n'importe quelle partie de l'heure pour l'augmenter\n- cliquer en maintenant la touche 'Shift' (majuscule) du clavier appuyée pour la diminuer, ou cliquez et déplacez la souris pour une sélection rapide.###07 Apr 2005 content changed

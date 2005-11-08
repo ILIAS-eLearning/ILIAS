@@ -1006,6 +1006,8 @@ common#:#create#:#Creati
 common#:#create_date#:#Creat la###03 Nov 2005 content changed
 common#:#create_in#:#Creati in
 common#:#create_stylesheet#:#Creati Stil
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Cronometre
 common#:#cron_jobs_desc#:#Un cronometru este un proces automat care opereaza la intervale de timp predefinite. Veti casi informatii despre instalare in documentatia de 'INSTALARE'.
 common#:#crs#:#Curs
@@ -1487,7 +1489,7 @@ common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Se
 common#:#ilinc_header_edit_users#:#Edit list of involved users###03 Nov 2005 new variable
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
@@ -3367,8 +3369,10 @@ forum#:#forums_count#:#Numarul de Forumuri
 forum#:#forums_count_art#:#Numarul de Articole
 forum#:#forums_count_thr#:#Numarul de Subiecte
 forum#:#forums_delete_file#:#Sterge fisierul atasat
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Download fisier
 forum#:#forums_edit_post#:#Editeaza Articolul
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#Revoc Cenzura?
 forum#:#forums_info_censor_post#:#Sunteti sigur/a ca doriti sa ascundeti acest articol?
 forum#:#forums_info_delete_post#:#Sunteti sigur/a ca doriti sa stergeti acest articol inclusiv raspunsurile?
@@ -3376,6 +3380,13 @@ forum#:#forums_mark_read#:#Marcheaza toate ca citite
 forum#:#forums_new_entries#:#Intrari noi in forumuri
 forum#:#forums_new_thread#:#Subiect nou
 forum#:#forums_not_available#:#Nu exista forumuri disponibile
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Vedere de ansamblu a forumurilor
 forum#:#forums_post_deleted#:#Articolul a fost sters
 forum#:#forums_post_modified#:#Articolul a fost modificat
@@ -3399,6 +3410,8 @@ forum#:#forums_your_reply#:#Raspunsul dumneavoastra
 forum#:#frm_default_view#:#Vizualizare implicita
 forum#:#frm_title_required#:#Va rugam introduceti un titlu.
 forum#:#is_read#:#marcati drept citit
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#Despre calendar
 jscalendar#:#about_calendar_long#:#Selector de Data / Timp DHTML \n(c) dynarch.com 2002-2003\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\n\nSelectarea datei:\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\n- Folositi butoanele <, > pentru a selecta luna \n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida.
 jscalendar#:#about_time#:#\n\nSelectarea timpului:\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\n- sau tineti apasat si shift pentru ai scadea valoarea\n- sau apasati si trageti pentru o selectare mai rapida.

@@ -1139,6 +1139,8 @@ common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Vytvořit v###07 Apr 2005 content changed
 common#:#create_stylesheet#:#Vytvořit styl###07 Apr 2005 content changed
 common#:#created#:#Create date###11 Mar 2005 new variable
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
@@ -1725,7 +1727,7 @@ common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
 common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
@@ -4025,8 +4027,10 @@ forum#:#forums_count_art#:#Počet příspěvků###07 Apr 2005 content changed
 forum#:#forums_count_thr#:#Počet témat###07 Apr 2005 content changed
 forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Odstranit přílohu###07 Apr 2005 content changed
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Stáhnout soubor###07 Apr 2005 content changed
 forum#:#forums_edit_post#:#Upravit příspěvek###07 Apr 2005 content changed
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#Vzít zpět cenzuru?###07 Apr 2005 content changed
 forum#:#forums_info_censor_post#:#Jste si jist(a), že chcete skrýt tento příspěvek?###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Jste si jist(a), že chcete odstranit tento příspěvek včetně všech reakcí?###07 Apr 2005 content changed
@@ -4034,6 +4038,13 @@ forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_new_entries#:#Nové záznamy ve skupině###07 Apr 2005 content changed
 forum#:#forums_new_thread#:#Nové téma###07 Apr 2005 content changed
 forum#:#forums_not_available#:#Diskusní skupiny nejsou dostupné###07 Apr 2005 content changed
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Přehled diskusních skupin###07 Apr 2005 content changed
 forum#:#forums_post_deleted#:#Příspěvek byl odstraněn###07 Apr 2005 content changed
 forum#:#forums_post_modified#:#Příspěvek byl upraven###07 Apr 2005 content changed
@@ -4058,6 +4069,8 @@ forum#:#forums_your_reply#:#Vaše reakce###07 Apr 2005 content changed
 forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
 forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
 forum#:#is_read#:#mark read###02 Dec 2004 new variable
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#About the calendar###07 Jan 2005 new variable
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.###07 Jan 2005 new variable
 jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.###07 Jan 2005 new variable

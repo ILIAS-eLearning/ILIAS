@@ -1145,6 +1145,8 @@ common#:#create_export_file#:#Opret eksport fil
 common#:#create_in#:#Oprettet i
 common#:#create_stylesheet#:#Opret Layout
 common#:#created#:#Opret Dato
+common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation. Et Cron job er en automatiseret process der er pr&aelig;difineret
 common#:#cron_lucene_index#:#Updater Lucene s&oslash;geindex
@@ -1732,7 +1734,7 @@ common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#ilinc_involved_users#:#Involved Users###17 Aug 2005 new variable
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription###03 Nov 2005 new variable
+common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###17 Aug 2005 new variable
 common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
@@ -4036,8 +4038,10 @@ forum#:#forums_count_art#:#Antal artikler
 forum#:#forums_count_thr#:#Antal tr&aring;de
 forum#:#forums_created_by#:#Created by###21 Apr 2005 new variable
 forum#:#forums_delete_file#:#Slet vedh&aelig;ftning
+forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Download fil
 forum#:#forums_edit_post#:#Rediger Artikel
+forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor2_post#:#Genkald moderator?
 forum#:#forums_info_censor_post#:#Er du sikker p&aring; du vil skjule denne artikel?
 forum#:#forums_info_delete_post#:#Er du sikker p&aring; at du vil slette den artikel inkl. eventuelle svar p&aring; den?
@@ -4045,6 +4049,13 @@ forum#:#forums_mark_read#:#Marker alle som l&aelig;st
 forum#:#forums_new_entries#:#Ny forum tr&aring;d
 forum#:#forums_new_thread#:#Nyt emne
 forum#:#forums_not_available#:#Forums ikke tilg&aelig;ngelige
+forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
+forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
+forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
+forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
+forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
+forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
 forum#:#forums_overview#:#Forum Oversigt
 forum#:#forums_post_deleted#:#Artiklen er blevet slettet
 forum#:#forums_post_modified#:#Artiklen er blevet &aelig;ndret
@@ -4069,6 +4080,8 @@ forum#:#forums_your_reply#:#Dit Svar
 forum#:#frm_default_view#:#Standard fremvisning
 forum#:#frm_title_required#:#Inds&aelig;t venligst en titel.
 forum#:#is_read#:#marker som l&aelig;st
+forum#:#new_post#:#New post###08 Nov 2005 new variable
+forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#Om kalenderen
 jscalendar#:#about_calendar_long#:#DHTML Dato/Tid Selector\n(c) dynarch.com 2002-2003\nFor seneste versions bes&oslash;g: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Se http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the ., / knapper for at v&aelig;lge &aring;r\n- Brug <, > knapperne for at v&aelig;lge m&aring;ned\n- Hold muse kanp over en af de n&aelig;vnte knapper for at v&aelig;&aelig;lge hurtigere.
 jscalendar#:#about_time#:#\n\nTime selection:\n- Klik p&aring; en vilk&aring;rlig del for at &oslash;ge den\n- eller shift-klik for at mindske den\n- eller klik og tr&aelig;k for at v&aelig;lge hurtigere.
