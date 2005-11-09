@@ -743,7 +743,7 @@ chat#:#chat_no_write_perm#:#No tiene permisos de escritura
 chat#:#chat_olive#:#oliva
 chat#:#chat_online_users#:#Usuario (online)
 chat#:#chat_private_message#:#Mensaje Privado
-chat#:#chat_profile#:#Perfil
+chat#:#chat_profile#:#perfil
 chat#:#chat_public_room#:#Sala de Chat pública
 chat#:#chat_purple#:#violeta
 chat#:#chat_recording_action#:#Acción
@@ -1840,7 +1840,7 @@ common#:#internal_system#:#Sistema Interno
 common#:#ip_address#:#dirección IP
 common#:#is_already_your#:#ya es su
 common#:#item#:#item
-common#:#join#:#Unirse
+common#:#join#:#unirse
 common#:#kb#:#KByte
 common#:#keywords#:#palabras clave
 common#:#lang_cs#:#Checo
@@ -2445,14 +2445,14 @@ common#:#presentation_options#:#opciones de presentación
 common#:#previous#:#anterior
 common#:#print#:#imprimir
 common#:#private_notes#:#Notas privadas
-common#:#profile#:#Perfil
+common#:#profile#:#perfil
 common#:#profile_changed#:#Su perfil ha cambiado
 common#:#profile_of#:#Perfil de
 common#:#properties#:#Propiedades
 common#:#pub_section#:#sección pública
 common#:#public#:#público
 common#:#public_notes#:#Notas publicas
-common#:#public_profile#:#Perfil Público
+common#:#public_profile#:#Perfil público
 common#:#publication#:#publicación
 common#:#publication_date#:#fecha de publicación
 common#:#published#:#publicado
