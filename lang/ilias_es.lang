@@ -2918,7 +2918,7 @@ common#:#username#:#Usuario
 common#:#users#:#usuarios
 common#:#users_not_imported#:#Los siguientes usuarios no existen,sus mensajes no pueden ser importados
 common#:#users_online#:#Usuarios conectados
-common#:#users_online_show_associated#:#Mostrar miembros de mis cursos y grupos únicamenet
+common#:#users_online_show_associated#:#Mostrar miembros de mis cursos y grupos únicamente
 common#:#users_online_show_n#:#No mostrar usuarios activos
 common#:#users_online_show_y#:#Mostrar todos los usuarios activos
 common#:#usertracking#:#Seguimiento de usuarios
@@ -4816,7 +4816,7 @@ payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits i
 payment#:#pay_locator#:#Pago
 payment#:#pay_message_attachment#:#Como confirmación de su pedido le enviaremos una factura (formato PDF) como adjunto.
 payment#:#pay_message_hello#:#Querido/a
-payment#:#pay_message_regards#:#Atentamenet
+payment#:#pay_message_regards#:#Atentamente
 payment#:#pay_message_subject#:#Su pedido ILIAS
 payment#:#pay_message_thanks#:#Gracias por realizar su pedido en ILIAS 3
 payment#:#pay_no_vendors_created#:#No se han creado proveedores
