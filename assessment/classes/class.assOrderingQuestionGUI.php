@@ -473,6 +473,11 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
 		
+		if ($showsolution)
+		{
+			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
+			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
+		}
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"ord/", "\"solution_ord", $solutionoutput);
 		$solutionoutput = preg_replace("/name\=\"order_/", "name=\"solution_order_", $solutionoutput);

@@ -591,6 +591,7 @@ assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits du
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
+assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
 assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben. Bitte kontrollieren Sie ihre Antworten und senden Sie diese dann ab.
 assessment#:#tst_your_ects_mark_is#:#Ihre ECTS-Note lautet
 assessment#:#tst_your_mark_is#:#Ihre Note lautet

@@ -693,6 +693,11 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 //		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
 //		$solutionoutput = $matches[1];
 
+		if ($showsolution)
+		{
+			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
+			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
+		}
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"map/", "\"solution_map", $solutionoutput);
 		$solutionoutput = preg_replace("/qmap/", "solution_qmap", $solutionoutput);

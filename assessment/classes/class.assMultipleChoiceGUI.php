@@ -667,6 +667,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"MULTIPLE_CHOICE_QUESTION", $is_postponed, $test_id);
 		
+		if ($showsolution)
+		{
+			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
+			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
+		}
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"mc/", "\"solution_mc", $solutionoutput);
 		$solutionoutput = preg_replace("/multiple_choice_result/", "solution_multiple_choice_result", $solutionoutput);
