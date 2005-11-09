@@ -379,6 +379,11 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"JAVA_QUESTION", $is_postponed, $test_id);
 		
+		if ($showsolution)
+		{
+			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
+			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
+		}
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/(<\/applet>)/", "<param name=\"solution\" value=\"1\">\n\\1", $solutionoutput);
 		

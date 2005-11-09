@@ -603,6 +603,11 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		
 		$output = $this->outQuestionPage(($show_solution_only)?"":"CLOZE_TEST", $is_postponed, $test_id);
 		
+		if ($showsolution)
+		{
+			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
+			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
+		}
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"tgap/", "\"solution_tgap", $solutionoutput);
 		$solutionoutput = preg_replace("/\"sgap/", "\"solution_sgap", $solutionoutput);

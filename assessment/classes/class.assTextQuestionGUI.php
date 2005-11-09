@@ -235,6 +235,11 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		}
 		$output = $this->outQuestionPage("", $is_postponed, $test_id);
 		
+		if ($showsolution)
+		{
+			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
+			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
+		}
 		if (!$show_question_page)
 			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		
