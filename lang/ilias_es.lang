@@ -1784,7 +1784,7 @@ common#:#info_access_permissions#:#Permisos de acceso
 common#:#info_assign_sure#:#¿Está seguro de que quiere asignar los siguientes usuario(s)?
 common#:#info_assigned#:#asignado
 common#:#info_available_roles#:#roles disponibles
-common#:#info_change_user_view#:#Cambiar vista de usuario
+common#:#info_change_user_view#:#actualizar info de usuario
 common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente objeto?
 common#:#info_deleted#:#Objeto(s) eliminado(s)
 common#:#info_enter_login_or_id#:#<i>(Introduzca nombre de usuario o ID de usuario)</i>
