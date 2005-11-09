@@ -836,7 +836,7 @@ common#:#adm_visible#:#Configuración del sistema visible
 common#:#adm_write#:#Editar Configuración Básica del sistema
 common#:#admin_panel#:#Panel de administración
 common#:#admin_panel_disable#:#Deshabilitar comandos de administración (off)
-common#:#admin_panel_enable#:#Habiliar comandos de administración (on)
+common#:#admin_panel_enable#:#Habilitar comandos de administración (on)
 common#:#administrate#:#administrar
 common#:#administrate_users#:#Administración local de usuarios
 common#:#administration#:#Administración
