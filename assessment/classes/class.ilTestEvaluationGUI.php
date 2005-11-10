@@ -1360,7 +1360,8 @@ class ilTestEvaluationGUI
 				$this->tpl->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
 				if ($this->object->canViewResults())
 				{
-					$this->tpl->setVariable("HREF_PASS_DETAILS", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "passDetails")."&pass=$pass\">" . $this->lng->txt("tst_pass_details") . "</a>");
+					$this->tpl->setVariable("HREF_PASS_DETAILS", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "passDetails")."&pass=$pass\">" . $this->lng->txt("
+					") . "</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 			}

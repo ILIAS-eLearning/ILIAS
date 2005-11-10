@@ -2806,44 +2806,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function outEvaluationForm()
-	{
-		global $ilUser;
-
-		include_once("classes/class.ilObjStyleSheet.php");
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
-		$this->tpl->parseCurrentBlock();
-
-		// syntax style
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
-
-		$test_id = $this->object->getTestId();
-		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
-		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
-		
-		switch ($question_gui->getQuestionType())
-		{
-			case "qt_imagemap":
-				$question_gui->outWorkingForm($test_id, "", 1, $formaction);
-				break;
-			case "qt_javaapplet":
-				$question_gui->outWorkingForm("", "", 0);
-				break;
-			default:
-				$question_gui->outWorkingForm($test_id, "", 1);
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->getCallingScript() . $this->getAddParameter());
-		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
-		$this->tpl->parseCurrentBlock();
-	}
-
 	/**
 	* Deletes all user data for the test object
 	*
