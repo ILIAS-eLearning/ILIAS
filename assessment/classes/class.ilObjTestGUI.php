@@ -54,27 +54,21 @@ class ilObjTestGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjTestGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
+	function ilObjTestGUI()
 	{
 		global $lng, $ilCtrl;
 		$lng->loadLanguageModule("assessment");
+		define("ILIAS_MODULE", "assessment");
 		$this->type = "tst";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-		if (!defined("ILIAS_MODULE"))
-		{
-			$this->setTabTargetScript("adm_object.php");
-		}
-		else
-		{
-			$this->setTabTargetScript("test.php");
-		}
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
-		if ($a_prepare_output) 
+
+		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
+			$this->setTabTargetScript("adm_object.php");
 			$this->prepareOutput();
 		}
-
 
 		// Added parameter if called from crs_objectives
 		if((int) $_GET['crs_show_result'])
@@ -99,6 +93,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
+				$this->prepareOutput();
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -113,6 +108,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "iltestevaluationgui":
 				include_once "./assessment/classes/class.ilTestEvaluationGUI.php";
 
+				$this->prepareOutput();
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
@@ -138,27 +134,29 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				if ((strcmp($cmd, "properties") == 0) && ($_GET["browse"]))
 				{
+					$this->prepareOutput();
 					$this->questionBrowser();
 					return;
 				}
 				if ((strcmp($cmd, "properties") == 0) && ($_GET["up"] || $_GET["down"]))
 				{
+					$this->prepareOutput();
 					$this->questionsObject();
 					return;
 				}
 				$cmd.= "Object";
+				$this->prepareOutput();
 				$ret =& $this->$cmd();
 				break;
 		}
+		$this->tpl->show();
 	}
 
 	function runObject()
 	{
 		include_once "./assessment/classes/class.ilTestOutputGUI.php";
-
 		$output_gui =& new ilTestOutputGUI($this->object);
-		$this->ctrl->setCmd("outIntroductionPage");
-		$this->ctrl->forwardCommand($output_gui);
+		$this->ctrl->redirect($output_gui, "outIntroductionPage");
 	}
 	
 	function eval_aObject()
@@ -166,8 +164,7 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./assessment/classes/class.ilTestEvaluationGUI.php";
 
 		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-		$this->ctrl->setCmd("eval_a");
-		$this->ctrl->forwardCommand($evaluation_gui);
+		$this->ctrl->redirect($evaluation_gui, "eval_a");
 	}
 
 	function eval_statObject()
@@ -175,8 +172,7 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./assessment/classes/class.ilTestEvaluationGUI.php";
 
 		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-		$this->ctrl->setCmd("eval_stat");
-		$this->ctrl->forwardCommand($evaluation_gui);
+		$this->ctrl->redirect($evaluation_gui, "eval_stat");
 	}
 
 	/**
@@ -248,7 +244,8 @@ class ilObjTestGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("object_added"),true);
 
 		$returnlocation = "test.php";
-		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
+//		if (!defined("ILIAS_MODULE"))
 		{
 			$returnlocation = "adm_object.php";
 		}
@@ -1075,9 +1072,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TIME", $this->lng->txt("time"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("CalendarJS");
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "../assessment/js/calendar/calendar.js");
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "../assessment/js/calendar/calendar-setup.js");
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "../assessment/js/calendar/calendar.css");
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./assessment/js/calendar/calendar.js");
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./assessment/js/calendar/calendar-setup.js");
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./assessment/js/calendar/calendar.css");
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("javascript_call_calendar");
 			$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
@@ -3124,7 +3121,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-		if (!defined("ILIAS_MODULE")) {
+//		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
+		{
 			foreach ($path as $key => $row)
 			{
 				$ilias_locator->navigate($i++, $row["title"], 
@@ -3321,7 +3320,8 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
+		//if (!defined("ILIAS_MODULE"))
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}

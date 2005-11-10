@@ -137,7 +137,8 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		// separate method for this line
-		$cmd_link = "assessment/questionpool.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		//$cmd_link = "assessment/questionpool.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		$cmd_link = "ilias.php?baseClass=ilObjQuestionPoolGUI&amp;ref_id=".$this->ref_id."&amp;cmd=$a_cmd";
 
 		return $cmd_link;
 	}

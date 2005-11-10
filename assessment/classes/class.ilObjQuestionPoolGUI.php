@@ -48,39 +48,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjQuestionPoolGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+//	function ilObjQuestionPoolGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	function ilObjQuestionPoolGUI()
 	{
     	global $lng, $ilCtrl;
 
+		define("ILIAS_MODULE", "assessment");
 		$this->type = "qpl";
 		$lng->loadLanguageModule("assessment");
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->ilObjectGUI("", $_GET["ref_id"], true, false);
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test"));
 
-		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$this->setTabTargetScript("adm_object.php");
-		}
-		else
-		{
-			$this->setTabTargetScript("questionpool.php");
-		}
-		if ($a_prepare_output)
-		{
-			include_once("classes/class.ilObjStyleSheet.php");
 			$this->prepareOutput();
-			$this->tpl->setCurrentBlock("ContentStyle");
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(0));
-			$this->tpl->parseCurrentBlock();
-
-			// syntax style
-			$this->tpl->setCurrentBlock("SyntaxStyle");
-			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-				ilObjStyleSheet::getSyntaxStylePath());
-			$this->tpl->parseCurrentBlock();
-
 		}
 //echo "<br>ilObjQuestionPool_End of constructor.";
 	}
@@ -121,6 +104,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 		}
 
+		$this->prepareOutput();
+
 //echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
@@ -133,6 +118,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			case "ilpageobjectgui":
+				include_once("classes/class.ilObjStyleSheet.php");
+				$this->tpl->setCurrentBlock("ContentStyle");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$this->tpl->parseCurrentBlock();
+		
+				// syntax style
+				$this->tpl->setCurrentBlock("SyntaxStyle");
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					ilObjStyleSheet::getSyntaxStylePath());
+				$this->tpl->parseCurrentBlock();
 				$this->setAdminTabs();
 				$this->setQuestionTabs();
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
@@ -196,6 +192,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
+		$this->tpl->show();
 	}
 
 	/**
@@ -601,7 +598,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("object_added"),true);
 
 		$returnlocation = "questionpool.php";
-		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$returnlocation = "adm_object.php";
 		}
@@ -930,8 +927,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
 			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
-			$this->tpl->setVariable("IMG_ASSESSMENT",
-				ilUtil::getImagePath("assessment.gif", true));
+			$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", true));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 			$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 			$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
@@ -1119,7 +1115,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 
-		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			foreach ($path as $key => $row)
 			{
@@ -1187,7 +1183,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}
