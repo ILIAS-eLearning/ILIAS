@@ -142,7 +142,7 @@ if(!($login = $tmp_user->getLogin()))
 $tpl->setVariable("MAIL_LOGIN",$login);
 $tpl->setVariable("CSSROW_FROM",++$counter%2 ? 'tblrow1' : 'tblrow2');
 // TO
-$tpl->setVariable("TXT_TO", $lng->txt("to"));
+$tpl->setVariable("TXT_TO", $lng->txt("mail_to"));
 $tpl->setVariable("TO", $mail_data["rcp_to"]);
 $tpl->setVariable("CSSROW_TO",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
 
