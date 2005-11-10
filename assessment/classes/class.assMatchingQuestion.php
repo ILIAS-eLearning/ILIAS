@@ -405,7 +405,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, matching_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, matching_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type. ""),
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
@@ -414,6 +414,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$db->quote($this->owner. ""),
 				$db->quote($this->question. ""),
 				$db->quote($estw_time. ""),
+				$db->quote($this->shuffle . ""),
 				$db->quote($this->matching_type. ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete. ""),
@@ -429,7 +430,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingef�gt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -439,13 +440,14 @@ class ASS_MatchingQuestion extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, matching_type = %s, points = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, matching_type = %s, points = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
 				$db->quote($this->comment. ""),
 				$db->quote($this->author. ""),
 				$db->quote($this->question. ""),
 				$db->quote($estw_time. ""),
+				$db->quote($this->shuffle . ""),
 				$db->quote($this->matching_type. ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete. ""),
@@ -515,6 +517,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$this->matching_type = $data->matching_type;
 				$this->question = $data->question_text;
 				$this->points = $data->points;
+				$this->shuffle = $data->shuffle;
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
 
