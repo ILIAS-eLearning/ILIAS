@@ -201,7 +201,7 @@ $entries = $abook->getEntries();
 $entries_count = count($entries);
 
 // TODO: READ FROM MAIL_OPTIONS
-$entries_max_hits = 20;
+$entries_max_hits = $ilUser->getPref('hits_per_page');
 
 // SHOW ENTRIES
 if($entries)
@@ -210,22 +210,6 @@ if($entries)
 
 	foreach($entries as $entry)
 	{
-		if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
-		{
-			$tpl->setCurrentBlock("smtp");
-			$tpl->setVariable("EMAIL_SMTP",$entry["email"]);
-			$tpl->setVariable("EMAIL_LINK","./mail_new.php?mobj_id=".$_GET["mobj_id"].
-									"&type=address&rcp=".urlencode($entry["email"]));
-			$tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$tpl->setCurrentBlock("no_smtp");
-			$tpl->setVariable("EMAIL",$entry["email"]);
-			$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setCurrentBlock("addr_search");
 		// LINKBAR
 		if($entries_count > $entries_max_hits)
 		{
@@ -248,6 +232,22 @@ if($entries)
 			continue;
 		}
 		// END LINKBAR
+
+		if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
+		{
+			$tpl->setCurrentBlock("smtp");
+			$tpl->setVariable("EMAIL_SMTP",$entry["email"]);
+			$tpl->setVariable("EMAIL_LINK","./mail_new.php?mobj_id=".$_GET["mobj_id"].
+									"&type=address&rcp=".urlencode($entry["email"]));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setCurrentBlock("no_smtp");
+			$tpl->setVariable("EMAIL",$entry["email"]);
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setCurrentBlock("addr_search");
 
 		$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
 		if(is_array($_POST["entry_id"]))

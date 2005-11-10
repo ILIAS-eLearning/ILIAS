@@ -54,7 +54,7 @@ if(!($login = $tmp_user->getFullname()))
 }
 $tplprint->setVariable("FROM", $login);
 // TO
-$tplprint->setVariable("TXT_TO", $lng->txt("to"));
+$tplprint->setVariable("TXT_TO", $lng->txt("mail_to"));
 $tplprint->setVariable("TO", $mail_data["rcp_to"]);
 
 // CC

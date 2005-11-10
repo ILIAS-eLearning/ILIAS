@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.14 2005/08/10 08:39:45 smeyer Exp $
+* $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -797,6 +797,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		foreach($this->object->members_obj->getMembers() as $member)
 		{
+			if(!isset($_POST['notice'][$member]))
+			{
+				continue;
+			}
 			$this->object->members_obj->setNoticeForMember($member,ilUtil::stripSlashes($_POST["notice"][$member]));
 			$this->object->members_obj->setStatusSolvedForMember($member,$_POST["solved"][$member] ? 1 : 0);
 			$this->object->members_obj->setStatusSentForMember($member,$_POST["sent"][$member] ? 1 : 0);
@@ -807,6 +811,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function __showMembersTable($a_data,$a_member_ids)
 	{
+		global $ilUser;
+
 		$actions = array("save_status"		=> $this->lng->txt("exc_save_changes"),
 						 "send_member"		=> $this->lng->txt("exc_send_exercise"),
 						 "delete_member"	=> $this->lng->txt("exc_deassign_members"));
@@ -874,7 +880,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit(10);
+		$tbl->setLimit($ilUser->getPref('hits_per_page'));
 		$tbl->setMaxCount(count($a_data));
 		$tbl->setOffset($_GET["offset"] ? $_GET["offset"] : 0);
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));

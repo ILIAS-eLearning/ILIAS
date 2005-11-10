@@ -41,7 +41,7 @@ class ilFrameTargetInfo
 				switch($a_class)
 				{
 					case "RepositoryContent":
-						if ($_SESSION["il_rep_mode"] == "flat")
+						if ($_SESSION["il_rep_mode"] == "flat" or !isset($_SESSION['il_rep_mode']))
 						{
 							return "bottom";
 						}
