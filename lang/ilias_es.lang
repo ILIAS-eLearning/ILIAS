@@ -517,8 +517,8 @@ assessment#:#tst_random_test_description#:#Si se activa, las preguntas del test 
 assessment#:#tst_reached_points#:#Puntos conseguidos
 assessment#:#tst_remove_questions#:#Está seguro de que quiere eliminar las siguiente(s) preguntas del test?
 assessment#:#tst_remove_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s).Eliminar preguntas de este test eliminará todos los resultados de test de estos usuarios. Está seguro de que quiere eliminar las siguientes pregunta(s) del test?
-assessment#:#tst_report_after_question#:#Reportar la puntuación después de cada pregunta contestada
-assessment#:#tst_report_after_test#:#Reportar la puntuación después de rellenar el test completo
+assessment#:#tst_report_after_question#:#Informar de la puntuación después de contestar cada pregunta
+assessment#:#tst_report_after_test#:#Informar de la puntuación después de realizar el test completo
 assessment#:#tst_result_congratulations#:#Felicidades! Ha superado el test.
 assessment#:#tst_result_sorry#:#Lo siento, no ha superado el test.
 assessment#:#tst_result_user_name#:#Resultados del test para %s
@@ -527,7 +527,7 @@ assessment#:#tst_results_aggregated#:#Resultados del test agregados
 assessment#:#tst_results_back_evaluation#:#Volver al resumen de la evaluación
 assessment#:#tst_results_back_introduction#:#Volver a la introducción
 assessment#:#tst_results_back_overview#:#Volver al resumen de resultados
-assessment#:#tst_resume_test#:#Continuar el Test
+assessment#:#tst_resume_test#:#retomar el test
 assessment#:#tst_score_mcmr_questions#:#Preguntas de múltiple elección
 assessment#:#tst_score_mcmr_use_scoring_system#:#Definir la puntuación, incluso cuando no se eligió una respuesta
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Puntuar con 0 puntos cuando no se eligió una respuesta
@@ -5303,7 +5303,7 @@ survey#:#ratio_non_absolute#:#Porcentaje no absoluto
 survey#:#remove_question#:#Eliminar
 survey#:#remove_questions#:#¿Está seguro de que quiere eliminar las siguiente(s) preguntas del test?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Reiniciar filtro
-survey#:#resume_survey#:#Continuar la encuesta
+survey#:#resume_survey#:#retomar la encuesta
 survey#:#save_back_to_survey#:#Guardar y volver a la encuesta
 survey#:#save_obligatory_state#:#Salvar estados obligatorios
 survey#:#save_phrase#:#Salvar como conjunto
@@ -5384,8 +5384,8 @@ survey#:#svy_status_missing_elements#:#Los siguientes elementos faltan:
 survey#:#svy_status_ok#:#El estado de la encuesta es OK. No falta ningún elemento.
 survey#:#text_maximum_chars_allowed#:#Por favor no introduzca más de un máximo de %s caracteres. Cualquier caracter extra será truncado
 survey#:#text_question_not_filled_out#:#¡Por favor rellene el campo respuesta!
-survey#:#text_resume_survey#:#Está intentando continuar una encuesta no identificada. Para continuar la encuesta por los valores introducidos anteriormente por favor introduzca los 32 dígitos del código de encuesta que recibió en su carpeta de correo antes de comenzar la encuesta. En lugar de escribir su código, puede copiar desde su bandeja de entrada y pegarlo en el campo de texto inferior
-survey#:#title_resume_survey#:#Continuar la encuesta - Introducir código de encuesta
+survey#:#text_resume_survey#:#Está intentando retomar una encuesta no identificada. Para continuar la encuesta por los valores introducidos anteriormente por favor introduzca los 32 dígitos del código de encuesta que recibió en su carpeta de correo antes de comenzar la encuesta. En lugar de escribir su código, puede copiar desde su bandeja de entrada y pegarlo en el campo de texto inferior
+survey#:#title_resume_survey#:#Retomar la encuesta - Introducir código de encuesta
 survey#:#unfold#:#Deshacer bloque
 survey#:#unlimited_users#:#Ilimitado
 survey#:#uploaded_material#:#Material cargado
