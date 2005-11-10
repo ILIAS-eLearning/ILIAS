@@ -590,6 +590,7 @@ assessment#:#tst_type_changed#:#Hai modificato il tipo di test. Tutti i test pre
 assessment#:#tst_type_comment#:#Attenzione: modificando il tipo, tutti i test svolti precedentemente verranno eliminati!
 assessment#:#tst_types#:#Tipo di test
 assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"
+assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#Queste sono le risposte che hai dato alle seguenti domande.
 assessment#:#tst_your_ects_mark_is#:#Il tuo voto ECTS &#232;
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;

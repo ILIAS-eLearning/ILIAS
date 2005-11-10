@@ -592,6 +592,7 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Test-typen###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#Gebruik Javascript voor activiteiten als slepen en erop laten vallen###03 Oct 2004 content changed
+assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.###08 Apr 2005 new variable
 assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Uw cijfer is###07 Apr 2005 content changed

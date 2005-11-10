@@ -592,6 +592,7 @@ assessment#:#tst_type_changed#:#Megváltoztatta a teszt típusát. Minden koráb
 assessment#:#tst_type_comment#:#Figyelmeztetés: Egy futó teszt típusának megváltoztatása törölni fogja a korábban folyamatban levő teszteket.
 assessment#:#tst_types#:#Teszttípusok
 assessment#:#tst_use_javascript#:#Használjon Javascript-et a "fogd és vidd" műveletekhez
+assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#Ezek az Ön által adott válaszok az alábbi kérdésekre.
 assessment#:#tst_your_ects_mark_is#:#Az Ön ECTS osztályzata
 assessment#:#tst_your_mark_is#:#Értékelés
