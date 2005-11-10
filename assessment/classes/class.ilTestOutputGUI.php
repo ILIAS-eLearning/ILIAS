@@ -462,12 +462,23 @@ class ilTestOutputGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		$introduction = $this->object->getIntroduction();
+		$introduction = preg_replace("/\n/i", "<br />", $introduction);
+		if (strlen($introduction))
+		{
+			$this->tpl->setCurrentBlock("introduction");
+			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
+			$this->tpl->setVariable("INTRODUCTION_TEXT", $this->lng->txt("tst_introduction"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("info");
 		$this->tpl->setVariable("TEXT_USE_JAVASCRIPT", $this->lng->txt("tst_use_javascript"));
 		if ($ilUser->prefs["tst_javascript"])
 		{
 			$this->tpl->setVariable("CHECKED_JAVASCRIPT", "checked=\"checked\" ");
 		}
+		$this->tpl->setVariable("TEXT_TEST_PROPERTIES", $this->lng->txt("tst_properties"));
 		$this->tpl->parseCurrentBlock();
 		$seq = 1;
 		if ($active) {
@@ -622,9 +633,6 @@ class ilTestOutputGUI
 				sendInfo($this->lng->txt("warning_test_not_complete"));
 			}
 		}		
-		$introduction = $this->object->getIntroduction();
-		$introduction = preg_replace("/\n/i", "<br />", $introduction);
-		$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this) . "$add_sequence");
 		$this->tpl->parseCurrentBlock();
 	}

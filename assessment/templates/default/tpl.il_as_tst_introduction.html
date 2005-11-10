@@ -1,13 +1,33 @@
-<div class="testSheet">
 <!-- BEGIN info -->
-<table class="invisible">
+<table class="il_InfoScreen">
+<tr>
+	<th class="il_InfoScreen" colspan="2">
+		<div class="il_InfoScreenSection">{TEXT_TEST_PROPERTIES}</div>
+	</th>
+</tr>
 <!-- BEGIN info_row -->
-<tr><td>{TEXT_INFO_COL1}</td><td>{TEXT_INFO_COL2}</td></tr>
+<tr>
+	<td class="il_InfoScreenProperty" width="30%">{TEXT_INFO_COL1}</td>
+	<td class="il_InfoScreenPropertyValue" width="70%">{TEXT_INFO_COL2}</td>
+</tr>
 <!-- END info_row -->
-<tr><td colspan="2"><input type="checkbox" name="chb_javascript" id="use_javascript" value="1" {CHECKED_JAVASCRIPT}/> <label for="use_javascript">{TEXT_USE_JAVASCRIPT}</label></td></tr>
+<tr>
+	<td class="il_InfoScreenProperty" width="30"></td>
+	<td class="ilInfoScreenPropertyValue" width="70%"><input type="checkbox" name="chb_javascript" id="use_javascript" value="1" {CHECKED_JAVASCRIPT}/> <label for="use_javascript">{TEXT_USE_JAVASCRIPT}</label></td>
+</tr>
+<!-- BEGIN introduction -->
+<tr>
+	<th class="il_InfoScreen" colspan="2">
+		<div class="il_InfoScreenSection">{INTRODUCTION_TEXT}</div>
+	</th>
+</tr>
+<tr>
+	<td class="il_InfoScreenProperty" width="30%">{INTRODUCTION_TEXT}:</td>
+	<td class="il_InfoScreenPropertyValue" width="70%">{TEXT_INTRODUCTION}</td>
+</tr>
+<!-- END introduction -->
 </table>
 <!-- END info -->
-<p>{TEXT_INTRODUCTION}</p>
 <p class="warning">{MAXIMUM_NUMBER_OF_TRIES_REACHED}</p>
 <!-- BEGIN result_date_not_reached -->
 <p class="warning">{RESULT_DATE_NOT_REACHED}</p>
@@ -35,5 +55,4 @@
 <p>
 <img src="{IMAGE_STARTING_TIME}" alt="{ALT_STARTING_TIME_NOT_REACHED}" title="{ALT_STARTING_TIME_NOT_REACHED}" />&nbsp;{TEXT_STARTING_TIME_NOT_REACHED}
 <!-- END startingtime -->
-</div>
 </div>

@@ -495,6 +495,7 @@ assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_processing_time#:#Max. processing time
+assessment#:#tst_properties#:#Test properties
 assessment#:#tst_qst_order#:#Order
 assessment#:#tst_qst_resetsolved#:#Set unsolved
 assessment#:#tst_qst_result_sheet#:#Show result sheet
