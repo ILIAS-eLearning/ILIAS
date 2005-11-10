@@ -1006,12 +1006,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_CHANGE", $this->lng->txt("change"));
 			$this->tpl->parseCurrentBlock();
 		}
-		
 		if (
 			($data["sel_test_types"] == TYPE_ONLINE_TEST) || 
 			($data["sel_test_types"] == TYPE_ASSESSMENT) || 
 			($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST) || 
-			(($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST) && strlen($data["sel_test_types"]) == 0)
+			(($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_VARYING_RANDOMTEST || $this->object->getTestType() == TYPE_ONLINE_TEST) && strlen($data["sel_test_types"]) == 0)
 		) 
 		{
 			$this->lng->loadLanguageModule("jscalendar");
