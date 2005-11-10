@@ -3415,7 +3415,6 @@ crs#:#crs_archives_deleted#:#(Các) file nén đã bị xóa
 crs#:#crs_auto_fill#:#Auto fill
 crs#:#crs_availability_limitless_info#:#Chọn phương thức này để làm cho khóa học sử dụng được và có thể truy cập bởi những người sử dụng (phụ thuộc vào thiết lập đăng ký phía dưới).
 crs#:#crs_availability_until_info#:#Chọn phương thức này để làm cho khóa học sử dụng được và có thể truy cập bởi những người sử dụng trong một khoảng thời gian cố định.
-###08 Nov 2005 content changed
 crs#:#crs_availability_unvisible_info#:#Chọn phương thức này để chuẩn bị khóa học. Chỉ các quản trị khóa học và trợ giảng có thể thấy và sửa khóa học.
 crs#:#crs_blocked#:#Từ chối truy cập
 crs#:#crs_blocked_member#:#Quyền thành viên khóa học của
