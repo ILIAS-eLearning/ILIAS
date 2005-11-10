@@ -156,17 +156,24 @@ class ilObjContentObjectAccess extends ilObjectAccess
 		$q = "SELECT * FROM lo_access WHERE ".
 			"usr_id = ".$ilDB->quote($a_user_id)." AND ".
 			"lm_id = ".$ilDB->quote($a_ref_id);
+			
+		$lm_id = ilObject::_lookupObjId($a_ref_id);
 
 		$acc_set = $ilDB->query($q);
 
 		if ($acc_rec = $acc_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $acc_rec["obj_id"];
+			$mtree = new ilTree($lm_id);
+			$mtree->setTableNames('lm_tree','lm_data');
+			$mtree->setTreeTablePK("lm_id");
+			if ($mtree->isInTree($acc_rec["obj_id"]))
+			{
+				return $acc_rec["obj_id"];
+			}
 		}
 		
 		return 0;
 	}
-
 
 }
 
