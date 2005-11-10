@@ -590,6 +590,7 @@ assessment#:#tst_type_changed#:#Ви змінили тип тесту. Усі п
 assessment#:#tst_type_comment#:#Увага: Зміна типа тесту для запущеного тесту видалить усі попередньо оброблені тести!
 assessment#:#tst_types#:#Типи тесту
 assessment#:#tst_use_javascript#:#Використовуйте Javascript для drag and drop дій
+assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#Тут ваші відповіді дані на наступні питання.
 assessment#:#tst_your_ects_mark_is#:#Ваш ECTS рівень
 assessment#:#tst_your_mark_is#:#Ваша оцінка

@@ -593,6 +593,7 @@ assessment#:#tst_type_changed#:#Ha modificado el tipo de test. Todos los tests p
 assessment#:#tst_type_comment#:#Aviso: Modificar el tipo de test de un test en ejecución eliminará todos los tests procesados anteriormente!
 assessment#:#tst_types#:#Tipos de Test
 assessment#:#tst_use_javascript#:#Usar Javascript para acciones de 'arrastrar y soltar'
+assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#Estas son tus respuestas dadas a las siguientes preguntas.
 assessment#:#tst_your_ects_mark_is#:#Su calificación ECTS es
 assessment#:#tst_your_mark_is#:#Su calificación es

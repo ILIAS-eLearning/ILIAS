@@ -555,6 +555,7 @@ assessment#:#tst_type_changed#:#Du har &aelig;ndret test typen. Alle tidligere t
 assessment#:#tst_type_comment#:#Advarsel: Hvis du &aelig;ndre test typen p&aring; en aktiv test sletter du alle tidligere taget test!
 assessment#:#tst_types#:#Test typer
 assessment#:#tst_use_javascript#:#Brug Javascript for tr&aelig;k og slip aktioner
+assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.###17 Aug 2005 new variable
 assessment#:#tst_your_ects_mark_is#:#Din ECTS karakter er
 assessment#:#tst_your_mark_is#:#Dit m&aelig;rke er
@@ -2028,7 +2029,6 @@ common#:#msg_may_not_contain#:#dette objekt m&aring; ikke indeholde f&oslash;lge
 common#:#msg_min_one_active_role#:#hver bruger skal have mindst en aktiv global rolle!
 common#:#msg_min_one_role#:#hver bruger skal have mindst en global rolle!
 common#:#msg_multi_language_selected#:#du valgte det samme sprog for forskellige overs&aelig;ttelser!
-common#:#msg_no_adopt_selected#:#No role selected to adopt default permission settings from###14 Oct 2005 new variable
 common#:#msg_no_default_language#:#igen standard valgt! Du skal v&aelig;lge et standard overs&aelig;ttelse.
 common#:#msg_no_delete_yourself#:#du kan ikke slette din egen bruger konto.
 common#:#msg_no_file#:#du valgte ikke en fil
@@ -2997,8 +2997,6 @@ content#:#cont_choose_media_source#:#V&aelig;lg media kilde
 content#:#cont_citation_err_one#:#Du skal kun v&aelig;lge EN udgave
 content#:#cont_citation_selection_not_valid#:#Dit valg er ikke muligt
 content#:#cont_citations#:#Citater
-content#:#cont_clean_frames#:#Ryd standard rammer i navigationen
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###21 Apr 2005 new variable
 content#:#cont_click_br_corner#:#klik i det h&oslash;jre nederste hj&oslash;rne i det &oslash;nskede omr&aring;de
 content#:#cont_click_center#:#Klik i midten af det &oslash;nskede omr&aring;de 
 content#:#cont_click_circle#:#Klik i cirklen af det &oslash;nskede omr&aring;de
@@ -4353,7 +4351,6 @@ meta#:#meta_delete#:#Slet
 meta#:#meta_description#:#Beskriveslse
 meta#:#meta_diagramm#:#Diagram###21 Apr 2005 new variable
 meta#:#meta_difficulty#:#Sv&aelig;rhedsgrad
-meta#:#meta_dificult#:#Sv&aelig;r
 meta#:#meta_draft#:#Udvalgt
 meta#:#meta_duration#:#Varighed
 meta#:#meta_easy#:#let
