@@ -146,7 +146,8 @@ class ilObjTestListGUI extends ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		// separate method for this line
-		$cmd_link = "assessment/test.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		//$cmd_link = "assessment/test.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		$cmd_link = "ilias.php?baseClass=ilObjTestGUI&amp;ref_id=".$this->ref_id."&amp;cmd=$a_cmd";
 
 		return $cmd_link;
 	}

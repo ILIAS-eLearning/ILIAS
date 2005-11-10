@@ -221,7 +221,8 @@ class ilTestOutputGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-		if (!defined("ILIAS_MODULE")) 
+		if (strlen($this->ctrl->getModuleDir()) == 0)
+//		if (!defined("ILIAS_MODULE")) 
 		{
 			foreach ($path as $key => $row)
 			{

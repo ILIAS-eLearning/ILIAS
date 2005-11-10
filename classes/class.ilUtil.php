@@ -76,6 +76,9 @@ class ilUtil
 			}
 
 			$dir .= ($base.".");
+			// hschottm: added because module images are not working
+			// using ilias.php
+			if (strlen($base) == 0) $dir = "";
 		}
 		else
 		{
@@ -84,10 +87,12 @@ class ilUtil
 		$base = "./";
 		if ($in_module)
 		{
-			$base.= ILIAS_MODULE."/";
+			if(defined("ILIAS_MODULE"))
+			{
+				$base.= ILIAS_MODULE."/";
+			}
 		}
 		$base .= "templates/";
-
 		if (is_object($styleDefinition))
 		{
 
@@ -98,7 +103,6 @@ class ilUtil
 			$st_image_dir.
 			"/images/".$img;
 		}
-
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
 		if ($offline)

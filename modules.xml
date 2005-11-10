@@ -10,7 +10,8 @@
 		<baseclass name="ilLMPresentationGUI" dir="classes" />
 	</module>
 	<module name="Assessment" dir="assessment">
-		<!-- more to come ... -->
+		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
+		<baseclass name="ilObjTestGUI" dir="classes" />
 	</module>
 	<module name="Course" dir="course">
 		<!-- more to come ... -->
