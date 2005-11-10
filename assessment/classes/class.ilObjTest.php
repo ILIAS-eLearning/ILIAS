@@ -54,7 +54,6 @@ define("REPORT_AFTER_TEST", 1);
 
 define("TYPE_ASSESSMENT", "1");
 define("TYPE_SELF_ASSESSMENT", "2");
-define("TYPE_NAVIGATION_CONTROLLING", "3");
 define("TYPE_ONLINE_TEST", "4");
 define("TYPE_VARYING_RANDOMTEST", "5");
 
