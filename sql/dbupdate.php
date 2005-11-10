@@ -8995,3 +8995,6 @@ CREATE TABLE IF NOT EXISTS `ut_lp_collections` (
   `item_id` int(11) NOT NULL default '0',
   KEY `obj_id` (`obj_id`,`item_id`)
 ) TYPE=MyISAM;
+<#573>
+DELETE FROM tst_test_type WHERE type_tag = 'tt_navigation_controlling';
+UPDATE tst_tests SET test_type_fi = 1 WHERE test_type_fi = 3;
