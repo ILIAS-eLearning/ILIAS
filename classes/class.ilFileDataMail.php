@@ -449,9 +449,12 @@ class ilFileDataMail extends ilFileData
 
 	function __deleteAttachmentDirectory($a_rel_path)
 	{
-		$dp = opendir($this->mail_path."/".$a_rel_path);
+		if(!@$dp = opendir($this->mail_path."/".$a_rel_path))
+		{
+			return false;
+		}
 
-		while($file = readdir($dp))
+		while($file = @readdir($dp))
 		{
 			if($file == '.' or $file == '..')
 			{
@@ -463,7 +466,7 @@ class ilFileDataMail extends ilFileData
 			}
 			unlink($this->mail_path."/".$a_rel_path."/".$file);
 		}
-		rmdir($this->mail_path."/".$a_rel_path);
+		@rmdir($this->mail_path."/".$a_rel_path);
 		closedir($dp);
 
 		return true;

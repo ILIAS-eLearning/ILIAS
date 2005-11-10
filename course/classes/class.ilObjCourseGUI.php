@@ -758,6 +758,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_DISABLED",$this->lng->txt("crs_archive_type_disabled"));
 		$this->tpl->setVariable("TXT_READ",$this->lng->txt("crs_archive_read"));
 		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("crs_archive_download"));
+		$this->tpl->setVariable("TXT_ARCHIVE_INFO",$this->lng->txt('crs_archive_info'));
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));

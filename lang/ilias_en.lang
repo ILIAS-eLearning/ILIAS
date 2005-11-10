@@ -3496,13 +3496,13 @@ crs#:#crs_admin_notify#:#Administrator (notification)
 crs#:#crs_allow_abo#:#Allow subscription of course items
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.
 crs#:#crs_archive#:#Archives
-crs#:#crs_archive_disabled#:#Disabled
+crs#:#crs_archive_disabled#:#Deactivated
 crs#:#crs_archive_download#:#Download
 crs#:#crs_archive_lang#:#Language
 crs#:#crs_archive_read#:#Read access
-crs#:#crs_archive_select_type#:#Archive access type
+crs#:#crs_archive_select_type#:#Archive view
 crs#:#crs_archive_type#:#Archive type
-crs#:#crs_archive_type_disabled#:#No access
+crs#:#crs_archive_type_disabled#:#Not available
 crs#:#crs_archives_deleted#:#The archive(s) have been deleted
 crs#:#crs_auto_fill#:#Auto fill
 crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).
@@ -5400,3 +5400,4 @@ survey#:#view_constraints_introduction#:#You are viewing the preconditions of th
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
+crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.
