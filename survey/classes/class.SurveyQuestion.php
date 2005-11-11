@@ -781,6 +781,31 @@ class SurveyQuestion {
 		}
 	}
 
+/**
+* Saves the complete flag to the database
+*
+* Saves the complete flag to the database
+*
+* @access public
+*/
+	function saveCompletionStatus()
+	{
+		$complete = 0;
+		if ($this->isComplete()) 
+		{
+			$complete = 1;
+		}
+    if ($this->id > 0) 
+		{
+      // update existing dataset
+      $query = sprintf("UPDATE survey_question SET complete = %s WHERE question_id = %s",
+				$this->ilias->db->quote("$complete"),
+				$this->ilias->db->quote($this->id)
+      );
+      $result = $this->ilias->db->query($query);
+    }
+	}
+
 	/**
 	* Saves a SurveyQuestion object to a database
 	*
@@ -1463,6 +1488,7 @@ class SurveyQuestion {
 			);
 			$answer_result = $this->ilias->db->query($query);
 		}
+		$this->saveCompletionStatus();
 	}
 	
 }

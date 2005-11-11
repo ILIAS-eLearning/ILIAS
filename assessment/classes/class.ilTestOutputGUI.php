@@ -786,7 +786,7 @@ class ilTestOutputGUI
 				break;
 
 			default:
-				$_SESSION["reorder"] = $formaction;
+				$_SESSION["reorder"] = $this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion");
 				$question_gui->setSequenceNumber ($sequence);
 				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback);
 				break;
@@ -2005,7 +2005,7 @@ class ilTestOutputGUI
 		$this->object->setActiveTestSubmitted($ilUser->getId());
 
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
+		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_answers.css");
 		$this->tpl->setVariable ("FRAME_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable ("FRAME_CLIENTIP",$_SERVER["REMOTE_ADDR"]);		
 		$this->tpl->setVariable ("FRAME_MATRICULATION",$ilUser->getMatriculation());
@@ -2018,7 +2018,7 @@ class ilTestOutputGUI
 	function _printAnswerSheets($users) 
 	{	
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
+		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
 		
@@ -2034,7 +2034,7 @@ class ilTestOutputGUI
 	function _printResultSheets($users) 
 	{	
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_results.css");
+		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_results.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);
 		
@@ -2112,7 +2112,7 @@ class ilTestOutputGUI
 		$user = array_pop ($users);
 		
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
+		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_answers.css");
 		$this->tpl->setVariable("FRAME_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("FRAME_CLIENTIP", $user->clientip);		
 		$this->tpl->setVariable("FRAME_MATRICULATION",$userObject->getMatriculation());
@@ -2132,7 +2132,7 @@ class ilTestOutputGUI
 	function outPrintTestResults($user_id) 
 	{
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_results.css");
+		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_results.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);			
 		

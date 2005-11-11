@@ -394,11 +394,11 @@ class ASS_QuestionGUI
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->setQuestionXML($this->object->to_xml(false, false, true, $test_id));
 		$page_gui->setTemplateTargetVar($a_temp_var);
-		$page_gui->setFileDownloadLink("test.php?cmd=downloadFile".
+		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);
-		$page_gui->setFullscreenLink("test.php?cmd=fullscreen".
+		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
 			"&amp;ref_id=".$_GET["ref_id"]);
-		$page_gui->setSourcecodeDownloadScript("test.php?ref_id=".$_GET["ref_id"]);
+		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
 		//$page_gui->setHeader($this->object->getTitle());
 		if (!$a_postponed && is_numeric($this->sequence_no))
@@ -416,12 +416,12 @@ class ASS_QuestionGUI
 		if ($_GET["calling_test"])
 		{
 			$_GET["ref_id"] = $_GET["calling_test"];
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
 		}
 		elseif ($_GET["test_ref_id"])
 		{
 			$_GET["ref_id"] = $_GET["test_ref_id"];
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["test_ref_id"]);
 		}
 		else
 		{
@@ -456,13 +456,13 @@ class ASS_QuestionGUI
 			$this->object->syncWithOriginal();
 		}
 		$_GET["ref_id"] = $_GET["calling_test"];
-		ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
 	}
 
 	function cancelSync()
 	{
 		$_GET["ref_id"] = $_GET["calling_test"];
-		ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
 	}
 		
 	/**
@@ -482,16 +482,16 @@ class ASS_QuestionGUI
 			elseif ($_GET["calling_test"] && !$originalexists)
 			{
 				$_GET["ref_id"] = $_GET["calling_test"];
-				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
 				return;
 			}
 			elseif ($_GET["test_ref_id"])
 			{
-				require_once ("assessment/classes/class.ilObjTest.php");
+				include_once ("./assessment/classes/class.ilObjTest.php");
 				$_GET["ref_id"] = $_GET["test_ref_id"];
 				$test =& new ilObjTest($_GET["test_ref_id"], true);
 				$test->insertQuestion($this->object->getId());
-				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
+				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["test_ref_id"]);
 			}
 			else
 			{
@@ -534,16 +534,16 @@ class ASS_QuestionGUI
 			elseif ($_GET["calling_test"] && !$originalexists)
 			{
 				$_GET["ref_id"] = $_GET["calling_test"];
-				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
 				return;
 			}
 			elseif ($_GET["test_ref_id"])
 			{
-				require_once ("assessment/classes/class.ilObjTest.php");
+				include_once ("./assessment/classes/class.ilObjTest.php");
 				$_GET["ref_id"] = $_GET["test_ref_id"];
 				$test =& new ilObjTest($_GET["test_ref_id"], true);
 				$test->insertQuestion($this->object->getId());
-				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
+				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["test_ref_id"]);
 			}
 			else
 			{
@@ -598,7 +598,7 @@ class ASS_QuestionGUI
 	{
 		global $tree;
 
-		require_once("./assessment/classes/class.ilSolutionExplorer.php");
+		include_once("./assessment/classes/class.ilSolutionExplorer.php");
 		switch ($_POST["internalLinkType"])
 		{
 			case "lm":
@@ -709,7 +709,7 @@ class ASS_QuestionGUI
 				$this->getQuestionTemplate($_GET["sel_question_types"]);
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				require_once("./content/classes/class.ilObjContentObject.php");
+				include_once("./content/classes/class.ilObjContentObject.php");
 				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -741,7 +741,7 @@ class ASS_QuestionGUI
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", true);
-				require_once "./content/classes/class.ilObjGlossary.php";
+				include_once "./content/classes/class.ilObjGlossary.php";
 				$glossary =& new ilObjGlossary($_GET["source_id"], true);
 				// get all glossary items
 				$terms = $glossary->getTermList();

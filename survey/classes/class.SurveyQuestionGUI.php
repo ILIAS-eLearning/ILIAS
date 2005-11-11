@@ -182,13 +182,13 @@ class SurveyQuestionGUI {
 			$this->object->syncWithOriginal();
 		}
 		$_GET["ref_id"] = $_GET["calling_survey"];
-		ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 	}
 
 	function cancelSync()
 	{
 		$_GET["ref_id"] = $_GET["calling_survey"];
-		ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 	}
 		
 	/**
@@ -211,12 +211,12 @@ class SurveyQuestionGUI {
 			elseif ($_GET["calling_survey"] && !$originalexists)
 			{
 				$_GET["ref_id"] = $_GET["calling_survey"];
-				ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 				return;
 			}
 			elseif ($_GET["new_for_survey"] > 0)
 			{
-				ilUtil::redirect("survey.php?cmd=questions&ref_id=" . $_GET["new_for_survey"] . "&new_id=".$_GET["q_id"]);
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=" . $_GET["new_for_survey"] . "&new_id=".$_GET["q_id"]);
 				return;
 			}
 			else
@@ -240,12 +240,12 @@ class SurveyQuestionGUI {
 		if ($_GET["calling_survey"])
 		{
 			$_GET["ref_id"] = $_GET["calling_survey"];
-			ilUtil::redirect("survey.php?cmd=questions&ref_id=".$_GET["calling_survey"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["calling_survey"]);
 		}
 		elseif ($_GET["new_for_survey"])
 		{
 			$_GET["ref_id"] = $_GET["new_for_survey"];
-			ilUtil::redirect("survey.php?cmd=questions&ref_id=".$_GET["new_for_survey"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["new_for_survey"]);
 		}
 		else
 		{

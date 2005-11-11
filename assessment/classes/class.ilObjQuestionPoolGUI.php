@@ -48,30 +48,36 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-//	function ilObjQuestionPoolGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	function ilObjQuestionPoolGUI()
 	{
-    	global $lng, $ilCtrl;
-
+		global $lng, $ilCtrl;
+		$lng->loadLanguageModule("assessment");
 		define("ILIAS_MODULE", "assessment");
 		$this->type = "qpl";
-		$lng->loadLanguageModule("assessment");
-		$this->ilObjectGUI("", $_GET["ref_id"], true, false);
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test"));
+		//$this->id = $_GET["ref_id"];
 
+		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$this->setTabTargetScript("adm_object.php");
-			$this->prepareOutput();
+			switch ($this->ctrl->getCmd())
+			{
+				case "create":
+				case "importFile":
+					break;
+				default:
+				$this->prepareOutput();
+				break;
+			}
 		}
-//echo "<br>ilObjQuestionPool_End of constructor.";
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function &executeCommand($prepare_output = true)
 	{
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -97,14 +103,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$tabs_gui =& new ilTabsGUI();
 
 				$tabs_gui->addTarget("back",
-					"test.php?ref_id=$ref_id&cmd=questions", "", "");
+					"ilias.php?baseClass=ilObjTestGUI&ref_id=$ref_id&cmd=questions", "", "");
 
 				// output tabs
 				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 			}
 		}
 
-		$this->prepareOutput();
+		if ($prepare_output) $this->prepareOutput();
 
 //echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
@@ -160,11 +166,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setHeader($question->getTitle());
-				$page_gui->setFileDownloadLink("questionpool.php?cmd=downloadFile".
-					"&amp;ref_id=".$_GET["ref_id"]);
-				$page_gui->setFullscreenLink("questionpool.php?cmd=fullscreen".
-					"&amp;ref_id=".$_GET["ref_id"]);
-				$page_gui->setSourcecodeDownloadScript("questionpool.php?ref_id=".$_GET["ref_id"]);
+				$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+				$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
+				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
 				$page_gui->setPresentationTitle($question->getTitle());
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				break;
@@ -192,7 +196,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
-		$this->tpl->show();
+		if ($prepare_output) $this->tpl->show();
 	}
 
 	/**
@@ -555,8 +559,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$q_gui->object->setObjId($this->object->getId());
 		$this->ctrl->setCmdClass(get_class($q_gui));
 		$this->ctrl->setCmd("editQuestion");
-
-		$ret =& $this->executeCommand();
+		$ret =& $this->executeCommand(false);
 		return $ret;
 	}
 
@@ -571,7 +574,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setCmdClass(get_class($q_gui));
 		$this->ctrl->setCmd("editQuestion");
 
-		$ret =& $this->executeCommand();
+		$ret =& $this->executeCommand(false);
 		return $ret;
 	}
 
@@ -597,13 +600,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 
-		$returnlocation = "questionpool.php";
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
-			$returnlocation = "adm_object.php";
+			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
 		}
-		ilUtil::redirect($this->getReturnLocation("save","$returnlocation?".$this->link_params));
-		exit();
+		else
+		{
+			$this->ctrl->redirect($this, "questions");
+		}
 	}
 
 	/**
@@ -656,11 +660,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
 		$this->tpl->parseCurrentBlock();
-	}
-
-	function getAddParameter()
-	{
-		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
 	}
 
 	function questionObject()
@@ -805,7 +804,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
-		$add_parameter = $this->getAddParameter();
 
 		// create an array of all checked checkboxes
 		$checked_questions = array();
@@ -1260,7 +1258,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
 		$this->tpl->parseCurrentBlock();
 
@@ -1490,7 +1488,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setCmdClass(get_class($q_gui));
 		$this->ctrl->setCmd("editQuestion");
 
-		$ret =& $this->executeCommand();
+		$ret =& $this->executeCommand(false);
 		return $ret;
 	}
 
@@ -1619,7 +1617,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 
-		if (($_GET["q_id"]) && (strlen($_GET["calling_test"]) == 0))
+		if ($_GET["q_id"])
 		{
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
@@ -1637,7 +1635,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"ilPageObjectGUI", "", $force_active);
 		}
 
-		if (($classname) && (strlen($_GET["calling_test"]) == 0))
+		if ($classname)
 		{
 			$force_active = false;
 			$commands = $_POST["cmd"];
@@ -1677,15 +1675,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 		}
 
-		if (strlen($_GET["calling_test"]) != 0)
-		{
-			// back to calling test link
-			$tabs_gui->addTarget("backtocallingtest",
-				"test.php?cmd=questions&ref_id=".$_GET["calling_test"],
-				array("questions"),
-				"ilObjQuestionPoolGUI", "", $force_active);
-		}
-		
 		// Assessment of questions sub menu entry
 		$tabs_gui->addTarget("statistics",
 			$this->ctrl->getLinkTargetByClass($classname, "assessment"),
