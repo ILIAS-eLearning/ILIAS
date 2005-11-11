@@ -84,6 +84,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->addLocations();
 		switch($next_class)
 		{
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$this->setTabs();
+
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$this->ctrl->forwardCommand($new_gui);
+
+				break;
+
 			case 'ilmdeditorgui':
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
@@ -2757,7 +2766,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "editBibItem"),
 				"editBibItem", get_class($this));
 		}
-
+		// learning progress
+		if($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui'));
+		}
+		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			// permissions

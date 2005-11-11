@@ -38,9 +38,9 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 
 class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 {
-	function ilLPListOfObjectsGUI($a_mode)
+	function ilLPListOfObjectsGUI($a_mode,$a_ref_id)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode);
+		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
 	}
 
 	/**

@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilObjUserTrackingGUI
+* Class ilLPObjSettings
 *
 * @author Stefan Meyer <smeyer@databay.de>
 *
@@ -32,65 +32,90 @@
 *
 */
 
-define("LP_MODE_PERSONAL_DESKTOP",1);
-define("LP_MODE_ADMINISTRATION",2);
-define("LP_MODE_REPOSITORY",3);
-
-include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-
-/* Base class for all Learning progress gui classes.
- * Defines modes for presentation according to the context in which it was called
- * E.g: mode LP_MODE_PERSONAL_DESKTOP displays only listOfObjects.
- */
-
-class ilLearningProgressBaseGUI 
+class ilLPCollections
 {
-	var $tpl = null;
-	var $ctrl = null;
-	var $lng = null;
+	var $db = null;
 
-	var $ref_id = 0;
+	var $obj_id = null;
+	var $items = array();
 
-	var $mode = 0;
-
-	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0)
+	function ilLPCollections($a_obj_id)
 	{
-		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
+		global $ilObjDataCache,$ilDB;
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->lng->loadLanguageModule('trac');
+		$this->db =& $ilDB;
 
-		$this->mode = $a_mode;
-		$this->ref_id = $a_ref_id;
-		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
-	}
-	
-	function getMode()
-	{
-		return $this->mode;
-	}
+		$this->obj_id = $a_obj_id;
 
-	function getRefId()
-	{
-		return $this->ref_id;
+		$this->__read();
 	}
 
 	function getObjId()
 	{
-		return $this->obj_id;
+		return (int) $this->obj_id;
 	}
 
-	// Protected
-	function __getDefaultCommand()
+	function getItems()
 	{
-		if(strlen($cmd = $this->ctrl->getCmd()))
-		{
-			return $cmd;
-		}
-		return 'show';
+		return $this->items;
 	}
 
+	function add($item_id)
+	{
+		$query = "INSERT INTO ut_lp_collections ".
+			"SET obj_id = '".$this->obj_id."', ".
+			"item_id = '".(int) $item_id."'";
+		$this->db->query($query);
+		
+		return true;
+	}
+
+	function delete($item_id)
+	{
+		$query = "DELETE FROM ut_lp_collections ".
+			"WHERE item_id = '".$item_id."' ".
+			"AND obj_id = '".$this->obj_id."'";
+		$this->db->query($query);
+
+		return true;
+	}
+
+
+	// Static
+	function _deleteAll($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM ut_lp_collections ".
+			"WHERE obj_id = '".$a_obj_id."'";
+		$ilDB->query($query);
+
+		return true;
+	}
+
+	function _getItems($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".(int) $a_obj_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$items[] = $row->item_id;
+		}
+		return $items ? $items : array();
+	}
+
+	// Private
+	function __read()
+	{
+		$res = $this->db->query("SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->db->quote($this->obj_id)."'");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$items[] = $row->item_id;
+		}
+
+		return true;
+	}
 }
 ?>

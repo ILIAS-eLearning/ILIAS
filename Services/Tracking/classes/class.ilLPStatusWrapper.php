@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilObjUserTrackingGUI
+* Class ilLPObjSettings
 *
 * @author Stefan Meyer <smeyer@databay.de>
 *
@@ -32,65 +32,42 @@
 *
 */
 
-define("LP_MODE_PERSONAL_DESKTOP",1);
-define("LP_MODE_ADMINISTRATION",2);
-define("LP_MODE_REPOSITORY",3);
+include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 
-include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-
-/* Base class for all Learning progress gui classes.
- * Defines modes for presentation according to the context in which it was called
- * E.g: mode LP_MODE_PERSONAL_DESKTOP displays only listOfObjects.
- */
-
-class ilLearningProgressBaseGUI 
+class ilLPStatusWrapper()
 {
-	var $tpl = null;
-	var $ctrl = null;
-	var $lng = null;
 
-	var $ref_id = 0;
-
-	var $mode = 0;
-
-	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0)
+	/**
+	* Static function to read the number of user who have the status 'not_attempted'
+	*/
+	function _getCountNotAttempted($a_obj_id)
 	{
-		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->lng->loadLanguageModule('trac');
+		return call_user_func(array($class,'_getCountNotAttempted'),$a_obj_id);
 
-		$this->mode = $a_mode;
-		$this->ref_id = $a_ref_id;
-		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+	}
+
+	/**
+	* Static function to read the number of user who have the status 'in_progress'
+	*/
+	function _getCountInProgress($a_obj_id)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+
+		return call_user_func(array($class,'_getCountInProgress'),$a_obj_id);
 	}
 	
-	function getMode()
+	/**
+	* Static function to read the number of user who have the status 'completed'
+	*/
+	function _getCountCompleted($a_obj_id)
 	{
-		return $this->mode;
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+
+		return call_user_func(array($class,'_getCountCompleted'),$a_obj_id);
+
 	}
 
-	function getRefId()
-	{
-		return $this->ref_id;
-	}
-
-	function getObjId()
-	{
-		return $this->obj_id;
-	}
-
-	// Protected
-	function __getDefaultCommand()
-	{
-		if(strlen($cmd = $this->ctrl->getCmd()))
-		{
-			return $cmd;
-		}
-		return 'show';
-	}
-
-}
+}	
 ?>

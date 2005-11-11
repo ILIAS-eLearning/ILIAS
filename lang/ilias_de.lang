@@ -5398,3 +5398,17 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 crs#:#crs_archive_info#:#Wenn eingeschaltet, werden alle Kursinhalte ausgeblendet. Lediglich HMTL-Archive des Kurses werden angezeigt bzw. zum Herunterladen angeboten.
+trac#:#trac_activated#:#Tracking aktiviert
+trac#:#trac_anonymized#:#Anonymisierung der Daten
+trac#:#trac_valid_request#:#Max. Zeit zwischen Anfragen
+trac#:#info_valid_request#:#Finden zwei Anfragen eines Benutzers innerhalb dieser Zeispanne statt, so wird die entsprechende Zeitspanne als 'aktiv' gewertet.
+trac#:#trac_modus#:#Modus
+trac#:#trac_mode_manual#:#Manuell
+trac#:#trac_mode_tlt#:#Typische Lerndauer
+trac#:#trac_mode_visits#:#Anzahl der Aufrufe
+trac#:#trac_mode_objectives#:#Lernziele
+trac#:#trac_mode_collection#:#Auswahl von Objekten
+common#:#learning_progress#:#Zugriffsstatistiken
+trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
+trac#:#trac_anonymized_info#:#Wenn aktiviert, werden keine personenbezogenen Daten ausgegeben
+trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.

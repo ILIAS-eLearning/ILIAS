@@ -28,7 +28,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI
+* @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -39,9 +39,9 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 
 class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 {
-	function ilLearningProgressGUI($a_mode)
+	function ilLearningProgressGUI($a_mode,$a_ref_id = 0)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode);
+		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
 	}
 
 	/**
@@ -54,11 +54,18 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		switch($this->__getNextClass())
 		{
 			case 'illplistofobjectsgui':
-
 				include_once 'Services/Tracking/classes/class.ilLPListOfObjectsGUI.php';
 
-				$loo_gui = new ilLPListOfObjectsGUI($this->getMode());
+				$loo_gui = new ilLPListOfObjectsGUI($this->getMode(),$this->getRefId());
 				$this->ctrl->forwardCommand($loo_gui);
+				break;
+
+			case 'illplistofsettingsgui':
+				include_once 'Services/Tracking/classes/class.ilLPListOfSettingsGUI.php';
+
+				$los_gui = new ilLPListOfSettingsGUI($this->getMode(),$this->getRefId());
+				$this->ctrl->setCmdClass('illplistofsettingsgui');
+				$this->ctrl->forwardCommand($los_gui);
 				break;
 
 			default:
@@ -77,6 +84,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		{
 			case LP_MODE_ADMINISTRATION:
 				return 'illplistofobjectsgui';
+
+			case LP_MODE_REPOSITORY:
+				return 'illplistofsettingsgui';
 		}
 	}
 }
