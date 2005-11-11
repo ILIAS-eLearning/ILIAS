@@ -13,6 +13,10 @@
 		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
 		<baseclass name="ilObjTestGUI" dir="classes" />
 	</module>
+	<module name="Survey" dir="survey">
+		<baseclass name="ilObjSurveyQuestionPoolGUI" dir="classes" />
+		<baseclass name="ilObjSurveyGUI" dir="classes" />
+	</module>
 	<module name="Course" dir="course">
 		<!-- more to come ... -->
 	</module>
