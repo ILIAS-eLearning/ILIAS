@@ -64,7 +64,7 @@ class ilUtil
 	*/
 	function getImagePath($img, $in_module = false, $mode = "output", $offline = false)
 	{
-		global $ilias, $styleDefinition;
+		global $ilias, $styleDefinition, $ilCtrl;
 
 		if(defined("ILIAS_MODULE") and $mode != "filesystem")
 		{
@@ -87,9 +87,18 @@ class ilUtil
 		$base = "./";
 		if ($in_module)
 		{
-			if(defined("ILIAS_MODULE"))
+			// if baseClass functionality is used (ilias.php):
+			// get template directory from ilCtrl
+			if (!empty($_GET["baseClass"]))
 			{
-				$base.= ILIAS_MODULE."/";
+				$base.= $ilCtrl->getModuleDir()."/";
+			}
+			else
+			{
+				if(defined("ILIAS_MODULE"))
+				{
+					$base.= ILIAS_MODULE."/";
+				}
 			}
 		}
 		$base .= "templates/";
