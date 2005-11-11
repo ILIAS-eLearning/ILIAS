@@ -445,8 +445,10 @@ if ( !isset($_SESSION["locator_level"]) )
 	$_SESSION["locator_level"] = -1;
 }
 // initialise global ilias_locator object
-$ilias_locator = new ilLocatorGUI();
-$GLOBALS['ilias_locator'] =& $ilias_locator;
+$ilias_locator = new ilLocatorGUI();			// deprecated
+$ilLocator = new ilLocatorGUI();
+$GLOBALS['ilias_locator'] =& $ilias_locator;	// deprecated
+$GLOBALS['ilLocator'] =& $ilLocator;
 
 // load style definitions
 $ilBench->start("Core", "HeaderInclude_getStyleDefinitions");

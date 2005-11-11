@@ -996,10 +996,9 @@ class ilLMPresentationGUI
 	*/
 	function ilLocator()
 	{
+		global $ilLocator;
+
 		require_once("content/classes/class.ilStructureObject.php");
-
-		$this->tpl->setCurrentBlock("ilLocator");
-
 
 		if (empty($_GET["obj_id"]))
 		{
@@ -1011,87 +1010,65 @@ class ilLMPresentationGUI
 		}
 
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		
+		if (!$this->lm->cleanFrames())
+		{
+			$frame_param = $_GET["frame"];
+			$frame_target = "";
+		}
+		else if (!$this->offlineMode())
+		{
+			$frame_param = "";
+			$frame_target = "bottom";
+		}
+		else
+		{
+			$frame_param = "";
+			$frame_target = "_top";
+		}
 
 		if($this->lm_tree->isInTree($a_id))
 		{
 			$path = $this->lm_tree->getPathFull($a_id);
 
-			// this is a stupid workaround for a bug in PEAR:IT
-			$modifier = 1;
-
-			//$modifier = 0;
-
-			$i = 0;
 			foreach ($path as $key => $row)
 			{
 				if ($row["type"] != "pg")
 				{
-
-					if ($path[$i + 1]["type"] == "st")
-					{
-						$this->tpl->touchBlock("locator_separator");
-					}
-
-					$this->tpl->setCurrentBlock("locator_item");
-
 					if($row["child"] != $this->lm_tree->getRootId())
 					{
-						$this->tpl->setVariable("ITEM", ilUtil::shortenText(
-							ilStructureObject::_getPresentationTitle($row["child"],
-							$this->lm->isActiveNumbering()),50,true));
-						// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-						$this->tpl->setVariable("LINK_ITEM",
-							$this->getLink($_GET["ref_id"], "layout", $row["child"], $_GET["frame"], "StructureObject"));
+						$ilLocator->addItem(
+							ilUtil::shortenText(
+								ilStructureObject::_getPresentationTitle($row["child"],
+								$this->lm->isActiveNumbering()),50,true),
+							$this->getLink($_GET["ref_id"], "layout", $row["child"], $frame_param, "StructureObject"),
+							$frame_target);
 					}
 					else
 					{
-						$this->tpl->setVariable("ITEM", ilUtil::shortenText($this->lm->getTitle(),50,true));
-						// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-						$this->tpl->setVariable("LINK_ITEM",
-							$this->getLink($_GET["ref_id"], "layout", "", $_GET["frame"]));
+						$ilLocator->addItem(
+							ilUtil::shortenText($this->lm->getTitle(),50,true),
+							$this->getLink($_GET["ref_id"], "layout", "", $frame_param),
+							$frame_target);
 					}
-
-					$this->tpl->parseCurrentBlock();
 				}
-				$i++;
 			}
-
-			/*
-			if (isset($_GET["obj_id"]))
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-
-				$this->tpl->setCurrentBlock("locator_item");
-				$this->tpl->setVariable("ITEM", $obj_data->getTitle());
-				// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-				$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-				$this->tpl->parseCurrentBlock();
-			}*/
 		}
 		else		// lonely page
 		{
-			$this->tpl->touchBlock("locator_separator");
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $this->lm->getTitle());
-			$this->tpl->setVariable("LINK_ITEM",
+	
+			$ilLocator->addItem(
+				$this->lm->getTitle(),
 				$this->getLink($_GET["ref_id"], "layout", "", $_GET["frame"]));
-			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setCurrentBlock("locator_item");
 			require_once("content/classes/class.ilLMObjectFactory.php");
 			$lm_obj =& ilLMObjectFactory::getInstance($this->lm, $a_id);
-			$this->tpl->setVariable("ITEM", $lm_obj->getTitle());
-			$this->tpl->setVariable("LINK_ITEM",
-				$this->getLink($_GET["ref_id"], "layout", $a_id, $_GET["frame"]));
-			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setCurrentBlock("locator_item");
+			$ilLocator->addItem(
+				$lm_obj->getTitle(),
+				$this->getLink($_GET["ref_id"], "layout", $a_id, $frame_param),
+				$frame_target);
 		}
-
-
-		$this->tpl->setCurrentBlock("locator");
 
 		if (DEBUG)
 		{
@@ -1101,9 +1078,7 @@ class ilLMPresentationGUI
 		//$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
 
 
-		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
-
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setLocator();
 	}
 
 	function getCurrentPageId()
@@ -2130,9 +2105,9 @@ class ilLMPresentationGUI
 	*/
 	function infoScreen()
 	{
-		global $ilBench;
+		global $ilBench, $ilLocator;
 
-		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 
 		// set style sheets
 		if (!$this->offlineMode())
@@ -2148,7 +2123,8 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
-		$this->ilLocator();
+		$ilLocator->addRepositoryItems();
+		$this->tpl->setLocator();
 
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);

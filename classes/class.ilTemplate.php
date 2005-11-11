@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -591,9 +591,14 @@ class ilTemplate extends ilTemplateX
 		return $fname;
 	}
 	
+	function setHeaderPageTitle($a_title)
+	{
+		$this->setVariable("PAGETITLE", $a_title);
+	}
+	
 	function setStyleSheetLocation($a_stylesheet)
 	{
-		$this->tpl->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
+		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
 	}
 	
 	function getStandardTemplate()
@@ -607,7 +612,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTitle($a_title)
 	{
-		$this->tpl->setVariable("HEADER", $a_title);
+		$this->setVariable("HEADER", $a_title);
 	}
 	
 	/**
@@ -615,9 +620,9 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTitleIcon($a_icon_path)
 	{
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", $a_icon_path);
-		$this->tpl->parseCurrentBlock();
+		$this->setCurrentBlock("header_image");
+		$this->setVariable("IMG_HEADER", $a_icon_path);
+		$this->parseCurrentBlock();
 	}
 	
 	/**
@@ -625,7 +630,39 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setContent($a_html)
 	{
-		$this->tpl->setVariable("ADM_CONTENT", $a_html);
+		$this->setVariable("ADM_CONTENT", $a_html);
+	}
+	
+	/**
+	* insert locator
+	* (add 
+	*/
+	function setLocator()
+	{
+		global $ilLocator;
+		
+		$this->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		
+		$items = $ilLocator->getItems();
+		$first = true;
+		foreach($items as $item)
+		{
+			if (!$first)
+			{
+				$this->touchBlock("locator_separator_prefix");
+			}
+			
+			$this->setCurrentBlock("locator_item");
+			$this->setVariable("LINK_ITEM", $item["link"]);
+			if ($item["frame"] != "")
+			{
+				$this->setVariable("LINK_TARGET", ' target="'.$item["frame"].'" ');
+			}
+			$this->setVariable("ITEM", $item["title"]);
+			$this->parseCurrentBlock();
+			
+			$first = false;
+		}
 	}
 }
 ?>
