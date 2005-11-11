@@ -22,8 +22,6 @@
 */
 
 /**
-* Class ilObjUserTrackingGUI
-*
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
@@ -32,65 +30,32 @@
 *
 */
 
-define("LP_MODE_PERSONAL_DESKTOP",1);
-define("LP_MODE_ADMINISTRATION",2);
-define("LP_MODE_REPOSITORY",3);
 
-include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-
-/* Base class for all Learning progress gui classes.
- * Defines modes for presentation according to the context in which it was called
- * E.g: mode LP_MODE_PERSONAL_DESKTOP displays only listOfObjects.
- */
-
-class ilLearningProgressBaseGUI 
+class ilLPStatusTypicalLearningTime extends ilLPStatus
 {
-	var $tpl = null;
-	var $ctrl = null;
-	var $lng = null;
 
-	var $ref_id = 0;
-
-	var $mode = 0;
-
-	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0)
+	function ilLPStatusTypicalLearningTime($a_obj_id)
 	{
-		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
+		global $ilDB;
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->lng->loadLanguageModule('trac');
+		parent::ilLPStatus($a_obj_id);
+		$this->db =& $ilDB;
+	}
 
-		$this->mode = $a_mode;
-		$this->ref_id = $a_ref_id;
-		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+	function _getCountNotAttempted($a_obj_id)
+	{
+		echo "not overwitten";
 	}
 	
-	function getMode()
+	function _getCountInProgress($a_obj_id)
 	{
-		return $this->mode;
+		echo "not overwitten";
 	}
 
-	function getRefId()
+	function _getCountCompleted($a_obj_id)
 	{
-		return $this->ref_id;
+		echo "not overwitten";
 	}
 
-	function getObjId()
-	{
-		return $this->obj_id;
-	}
-
-	// Protected
-	function __getDefaultCommand()
-	{
-		if(strlen($cmd = $this->ctrl->getCmd()))
-		{
-			return $cmd;
-		}
-		return 'show';
-	}
-
-}
+}	
 ?>

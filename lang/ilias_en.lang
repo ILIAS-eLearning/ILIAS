@@ -5402,3 +5402,17 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.
+trac#:#trac_activated#:#Tracking activated
+trac#:#trac_anonymized#:#Anonymized
+trac#:#trac_valid_request#:#Max. time between requests
+trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
+trac#:#trac_modus#:#Mode
+trac#:#trac_mode_manual#:#Manual
+trac#:#trac_mode_tlt#:#Typical learning time
+trac#:#trac_mode_visits#:#Number of visits
+trac#:#trac_mode_objectives#:#Learning objectives
+trac#:#trac_mode_collection#:#Collection of objects
+common#:#learning_progress#:#Tracking data
+trac#:#trac_settings_saved#:#Saved settings.
+trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
+trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.

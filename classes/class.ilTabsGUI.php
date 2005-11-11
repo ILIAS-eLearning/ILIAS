@@ -87,13 +87,19 @@ class ilTabsGUI
 	* @param	string		$a_text			menu item text
 	* @param	string		$a_link			menu item link
 	* @param	string		$a_cmd			command, used for auto acctivation
-	* @param	string		$a_cmdClass		used for auto acctivation
+	* @param	string		$a_cmdClass		used for auto acctivation. String or array of cmd classes
 	* @param	string		$a_frame		frame target
 	* @param	boolean		$a_activate		avticate this menu item
 	*/
 	function addTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false)
 	{
-		$a_cmdClass = strtolower($a_cmdClass);
+		
+		if(!$a_cmdClass)
+		{
+			$a_cmdClass = array();
+		}
+		$a_cmdClass = !is_array($a_cmdClass) ? array(strtolower($a_cmdClass)) : $a_cmdClass;
+		#$a_cmdClass = strtolower($a_cmdClass);
 
 		if ($a_activate)
 		{
@@ -157,7 +163,7 @@ class ilTabsGUI
 
 				if (!$this->manual_activation &&
 					(in_array($cmd, $target["cmd"]) || ($target["cmd"][0] == "" && count($target["cmd"]) == 1)) &&
-					($target["cmdClass"] == $cmdClass || $target["cmdClass"] == ""))
+					(in_array($cmdClass,$target["cmdClass"]) || !$target["cmdClass"]))
 				{
 					$tabtype = $pre."tabactive";
 				}

@@ -29,7 +29,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilNoteGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilNoteGUI, ilLearningProgressGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -2719,6 +2719,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tabs_gui->addTarget("crs_groupings",
 				$this->ctrl->getLinkTarget($this, "listGroupings"), "listGroupings", get_class($this));
 		}
+		// learning progress
+		if($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui'));
+		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
@@ -4034,6 +4042,14 @@ class ilObjCourseGUI extends ilContainerGUI
 
 					$this->ctrl->forwardCommand($new_gui);
 				}
+				break;
+
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$this->ctrl->forwardCommand($new_gui);
+
 				break;
 
 			default:

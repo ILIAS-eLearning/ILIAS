@@ -60,7 +60,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$this->tpl =& $tpl;
 		$this->ilErr =& $ilErr;
 		$this->lng =& $lng;
-		$this->lng->loadLanguageModule('tracking');
+		$this->lng->loadLanguageModule('trac');
 
 		$this->ctrl =& $ilCtrl;
 	}

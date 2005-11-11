@@ -22,7 +22,9 @@
 */
 
 /**
-* Class ilObjUserTrackingGUI
+* Class ilLPStatusFactory
+* Creates status class instances for learning progress modes of an object.
+* E.g obj_id of course returns an instance of ilLPStatusManual, ilLPStatusObjectives ...
 *
 * @author Stefan Meyer <smeyer@databay.de>
 *
@@ -32,65 +34,45 @@
 *
 */
 
-define("LP_MODE_PERSONAL_DESKTOP",1);
-define("LP_MODE_ADMINISTRATION",2);
-define("LP_MODE_REPOSITORY",3);
 
-include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-
-/* Base class for all Learning progress gui classes.
- * Defines modes for presentation according to the context in which it was called
- * E.g: mode LP_MODE_PERSONAL_DESKTOP displays only listOfObjects.
- */
-
-class ilLearningProgressBaseGUI 
+class ilLPStatusFactory()
 {
-	var $tpl = null;
-	var $ctrl = null;
-	var $lng = null;
-
-	var $ref_id = 0;
-
-	var $mode = 0;
-
-	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0)
+	function _getClassById($a_obj_id)
 	{
-		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
-
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->lng->loadLanguageModule('trac');
-
-		$this->mode = $a_mode;
-		$this->ref_id = $a_ref_id;
-		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
-	}
-	
-	function getMode()
-	{
-		return $this->mode;
-	}
-
-	function getRefId()
-	{
-		return $this->ref_id;
-	}
-
-	function getObjId()
-	{
-		return $this->obj_id;
-	}
-
-	// Protected
-	function __getDefaultCommand()
-	{
-		if(strlen($cmd = $this->ctrl->getCmd()))
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		
+		switch(ilLPObjSettings::_lookupMode($a_obj_id))
 		{
-			return $cmd;
+			case LP_MODE_COLLECTION:
+				return 'ilLPStatusCollection';
+
+			case LP_MODE_TLT:
+				return 'ilLPStatusTypicalLearningTime';
+
+			default:
+				return 'ilLPStatusManual';
 		}
-		return 'show';
 	}
 
-}
+	function &_getInstance()
+	{
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		
+		switch(ilLPObjSettings::_lookupMode($a_obj_id))
+		{
+			case LP_MODE_COLLECTION:
+				return new ilLPStatusCollection($a_obj_id);
+
+			case LP_MODE_TLT:
+				include_once 'Services/Tracking/classes/class.ilLPStatusTypicalLearningTime.php';
+
+				return new ilLPStatusTypicalLearningTime($a_obj_id);
+
+			default:
+				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
+
+				return new ilLPStatusManual($a_obj_id);
+		}
+	}
+}	
 ?>
