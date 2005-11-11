@@ -9002,4 +9002,8 @@ UPDATE tst_tests SET test_type_fi = 1 WHERE test_type_fi = 3;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#575>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
