@@ -465,7 +465,8 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null, $pass = NULL, $mixpass = false)
 	{
-		if (!is_object($ilUser)) {
+		if (!is_object($ilUser)) 
+		{
 			global $ilUser;
 		}
 		
@@ -487,7 +488,8 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 			
 		// if wants solution only then strip the question element from output
-		if ($show_solution_only) {
+		if ($show_solution_only) 
+		{
 			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
 		}
 		
@@ -561,13 +563,13 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			// BEGIN: add javascript code for javascript enabled ordering questions
 			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_execute_ordering_javascript.html", true);
 			$this->tpl->setCurrentBlock("head_content");
-			$this->tpl->setVariable("JS_LOCATION", "js/toolman/");
+			$this->tpl->setVariable("JS_LOCATION", "./assessment/js/toolman/");
 			$this->tpl->parseCurrentBlock();
 			// END: add javascript code for javascript enabled ordering questions
 			
 			// BEGIN: add additional stylesheet for javascript enabled ordering questions
 			$this->tpl->setCurrentBlock("AdditionalStyle");
-			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "templates/default/test_javascript.css");
+			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "./assessment/templates/default/test_javascript.css");
 			$this->tpl->parseCurrentBlock();
 			// END: add additional stylesheet for javascript enabled ordering questions
 			

@@ -542,14 +542,13 @@ class ilTestEvaluationGUI
 		{
 			$this->ctrl->setParameter($this, "etype", "selected");
 		}
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
 		$savetextanswers = 0;
 		$textanswers = 0;
-		$print = 0;
 		$export = 0;
-		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("print")) == 0)
-		{
-			$print = 1;
-		}
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("export")) == 0)
 		{
 			$export = 1;
@@ -567,7 +566,7 @@ class ilTestEvaluationGUI
 			}
 			sendInfo($this->lng->txt("text_answers_saved"));
 		}
-		if ((count($_POST) == 0) || ($print) || ($export) || ($savetextanswers) || is_numeric($_GET["uid"]))
+		if ((count($_POST) == 0) || ($export) || ($savetextanswers) || is_numeric($_GET["uid"]))
 		{
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 			$eval_statistical_settings = array(
@@ -1089,14 +1088,7 @@ class ilTestEvaluationGUI
 			}
 			exit;
 		}
-		if ($print)
-		{
-			$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_statistical_evaluation_preview.html", true, true);
-		}
-		else
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
-		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		foreach ($legend as $short => $long)
 		{
@@ -1228,15 +1220,6 @@ class ilTestEvaluationGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_STATISTICAL_DATA", $this->lng->txt("statistical_data"));
 		$this->tpl->parseCurrentBlock();
-		if ($print)
-		{
-			$this->tpl->setCurrentBlock("__global__");
-			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation") . " " . strtolower($this->lng->txt("of")) . " &quot;" . ilUtil::prepareFormOutput($this->object->getTitle()) . "&quot;");
-			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-			$this->tpl->setVariable("PRINT_TYPE", "summary");
-			$this->tpl->show();
-			exit;
-		}
 	}
 	
 	function evalAllUsers()

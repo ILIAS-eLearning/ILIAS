@@ -180,7 +180,7 @@ class SurveyNominalQuestion extends SurveyQuestion {
 			return 0;
 		}
 	}
-	
+
 /**
 * Saves a SurveyNominalQuestion object to a database
 *
@@ -209,17 +209,17 @@ class SurveyNominalQuestion extends SurveyQuestion {
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, orientation, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("$this->subtype"),
-        $this->ilias->db->quote("1"),
-        $this->ilias->db->quote($this->obj_id),
-        $this->ilias->db->quote($this->owner),
-        $this->ilias->db->quote($this->title),
-        $this->ilias->db->quote($this->description),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote("1"),
+				$this->ilias->db->quote($this->obj_id),
+				$this->ilias->db->quote($this->owner),
+				$this->ilias->db->quote($this->title),
+				$this->ilias->db->quote($this->description),
+				$this->ilias->db->quote($this->author),
+				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote(sprintf("%d", $this->orientation)),
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($created),
+				$this->ilias->db->quote($created),
 				$original_id
       );
       $result = $this->ilias->db->query($query);
@@ -229,15 +229,15 @@ class SurveyNominalQuestion extends SurveyQuestion {
     } else {
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, orientation = %s, complete = %s WHERE question_id = %s",
-        $this->ilias->db->quote($this->title),
+				$this->ilias->db->quote($this->title),
 				$this->ilias->db->quote("$this->subtype"),
-        $this->ilias->db->quote($this->description),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote($this->description),
+				$this->ilias->db->quote($this->author),
+				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote(sprintf("%d", $this->orientation)),
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($this->id)
+				$this->ilias->db->quote($this->id)
       );
       $result = $this->ilias->db->query($query);
     }

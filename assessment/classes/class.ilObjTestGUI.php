@@ -36,7 +36,6 @@
 * @package assessment
 */
 
-include_once "./assessment/classes/class.ilObjQuestionPool.php";
 include_once "./classes/class.ilObjectGUI.php";
 include_once "./assessment/classes/class.assQuestionGUI.php";
 include_once './classes/Spreadsheet/Excel/Writer.php';
@@ -62,12 +61,22 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->type = "tst";
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
+		//$this->id = $_GET["ref_id"];
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$this->setTabTargetScript("adm_object.php");
-			$this->prepareOutput();
+			switch ($this->ctrl->getCmd())
+			{
+				case "create":
+				case "importFile":
+				case "cloneAll":
+					break;
+				default:
+				$this->prepareOutput();
+				break;
+			}
 		}
 
 		// Added parameter if called from crs_objectives
@@ -113,6 +122,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
 			default:
+				$this->prepareOutput();
 				switch ($cmd)
 				{
 					case "eval_a":
@@ -134,18 +144,15 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				if ((strcmp($cmd, "properties") == 0) && ($_GET["browse"]))
 				{
-					$this->prepareOutput();
 					$this->questionBrowser();
 					return;
 				}
 				if ((strcmp($cmd, "properties") == 0) && ($_GET["up"] || $_GET["down"]))
 				{
-					$this->prepareOutput();
 					$this->questionsObject();
 					return;
 				}
 				$cmd.= "Object";
-				$this->prepareOutput();
 				$ret =& $this->$cmd();
 				break;
 		}
@@ -173,16 +180,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
 		$this->ctrl->redirect($evaluation_gui, "eval_stat");
-	}
-
-	/**
-	* Returns the calling script of the GUI class
-	*
-	* @access	public
-	*/
-	function getCallingScript()
-	{
-		return "test.php";
 	}
 
 	/**
@@ -243,14 +240,15 @@ class ilObjTestGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 
-		$returnlocation = "test.php";
 		if (strlen($this->ctrl->getModuleDir()) == 0)
-//		if (!defined("ILIAS_MODULE"))
 		{
 			$returnlocation = "adm_object.php";
+			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
 		}
-		ilUtil::redirect($this->getReturnLocation("save","$returnlocation?".$this->link_params));
-		exit();
+		else
+		{
+			$this->ctrl->redirect($this, "properties");
+		}
 	}
 
 	function getAddParameter()
@@ -271,7 +269,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -282,29 +280,19 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "test.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile&mode=xml");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile")."&mode=xml");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
 		$this->tpl->parseCurrentBlock();
 		
 		// create export file button
-		if ($this->object->isOnlineTest()) {
+		if ($this->object->isOnlineTest()) 
+		{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", "test.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile&mode=results");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportfile")."&mode=results");
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_test_results"));
 			$this->tpl->parseCurrentBlock();
 		}
 		
-
-		// view last export log button
-		/*
-		if (is_file($this->object->getExportDirectory()."/export.log"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
-			$this->tpl->parseCurrentBlock();
-		}*/
-
 		$export_dir = $this->object->getExportDirectory();
 
 		$export_files = $this->object->getExportFiles($export_dir);
@@ -447,10 +435,9 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "export");
 		}
-
-		//$this->setTabs();
 
 		// SAVE POST VALUES
 		$_SESSION["ilExportFiles"] = $_POST["file"];
@@ -496,7 +483,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function cancelDeleteExportFileObject()
 	{
 		session_unregister("ilExportFiles");
-		ilUtil::redirect("test.php?cmd=export&ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "export");
 	}
 
 
@@ -519,7 +506,7 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::delDir($exp_dir);
 			}
 		}
-		ilUtil::redirect("test.php?cmd=export&ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "export");
 	}
 
 	/**
@@ -975,7 +962,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		sendInfo($this->lng->txt("msg_cancel"), true);
 		$path = $this->tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 	}
 	
 	/**
@@ -1087,7 +1074,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -1606,7 +1593,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 				}
 				$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->getCallingScript() . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
@@ -1756,7 +1743,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function randomselectObject()
 	{
 		global $ilUser;
-		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", true);
 		$questionpools =& $this->object->getAvailableQuestionpools(false, true);
 		$this->tpl->setCurrentBlock("option");
@@ -1805,7 +1791,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function createRandomSelectionObject()
 	{
 		$question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
-		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -1892,7 +1877,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function randomQuestionsObject()
 	{
 		$total = $this->object->evalTotalPersons();
-		$add_parameter = $this->getAddParameter();
 		$available_qpl =& $this->object->getAvailableQuestionpools(true, true);
 		foreach ($available_qpl as $key => $value)
 		{
@@ -2052,7 +2036,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
 		}
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -2085,7 +2069,8 @@ class ilObjTestGUI extends ilObjectGUI
 				// create a new question pool and return the reference id
 				$qpl_ref_id = $this->createQuestionPool($_POST["txt_qpl"]);
 			}
-			ilUtil::redirect("questionpool.php?ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
+			include_once "./assessment/classes/class.ilObjQuestionPoolGUI.php";
+			ilUtil::redirect("ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
 			exit();
 		}
 	}
@@ -2112,7 +2097,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function createQuestionObject()
 	{
 		global $ilUser;
-		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", true);
 		$questionpools =& $this->object->getAvailableQuestionpools();
 		if (count($questionpools) == 0)
@@ -2373,7 +2357,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -2383,11 +2367,9 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		
-		$add_parameter = $this->getAddParameter();
-
 		if ($_GET["eqid"] and $_GET["eqpl"])
 		{
-			ilUtil::redirect("questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForTest&calling_test=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForTest&calling_test=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
 		}
 		
 		if ($_GET["up"] > 0)
@@ -2465,7 +2447,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 					$q_id = $data->question_id;
 					$qpl_ref_id = $this->object->_getRefIdFromObjId($data->obj_fi);
-					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->getCallingScript() . $add_parameter . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data->title . "</a>");
+					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data->title . "</a>");
 				} else {
 					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
 				}
@@ -2474,11 +2456,11 @@ class ilObjTestGUI extends ilObjectGUI
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 					if ($data->question_id != $this->object->questions[1])
 					{
-						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getFormAction($this) . "&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
 					}
 					if ($data->question_id != $this->object->questions[count($this->object->questions)])
 					{
-						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getFormAction($this) . "&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 					}
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
@@ -2708,7 +2690,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -2936,7 +2918,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -3160,14 +3142,6 @@ class ilObjTestGUI extends ilObjectGUI
 													 "&sequence=" . $this->sequence,"");
 						} else {
 						}
-						/*if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
-						{
-						$ilias_locator->navigate($i++, $this->lng->txt("summary"), 
-													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
-													 "/assessment/test.php" . "?crs_show_result=0".
-													 "&ref_id=".$row["child"] . $param . 
-												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
-						}*/
 					} else {
 						if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
 						{
@@ -3176,24 +3150,7 @@ class ilObjTestGUI extends ilObjectGUI
 													 "/assessment/test.php" . "?crs_show_result=0".
 													 "&ref_id=".$row["child"] . $param . 
 												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
-						}/* elseif ($_POST["cmd"]["show_answers"])
-						{
-							$ilias_locator->navigate($i++, $this->lng->txt("preview"), 
-													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
-													 "/assessment/test.php" . "?crs_show_result=0".
-													 "&ref_id=".$row["child"] . $param . 
-												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
-							
-						}						
-						elseif ($_POST["cmd"]["submit_answers"])
-						{
-							$ilias_locator->navigate($i++, $this->lng->txt("submit"), 
-													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
-													 "/assessment/test.php" . "?crs_show_result=0".
-													 "&ref_id=".$row["child"] . $param . 
-												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
-							
-						}*/
+						}
 					}
 				} else {
 					$ilias_locator->navigate($i++, $row["title"], 
@@ -3326,7 +3283,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->setAdminTabs($_POST["new_type"]);
 		}
 		$this->setLocator();
-
 	}
 	
 	/**
@@ -3345,7 +3301,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -3616,7 +3572,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -3628,7 +3584,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", true);
 		$this->tpl->setVariable("TEXT_CONFIRM_PRINT_TEST", $this->lng->txt("tst_confirm_print"));
-		$this->tpl->setVariable("FORM_PRINT_ACTION", $this->getCallingScript().$this->getAddParameter());
+		$this->tpl->setVariable("FORM_PRINT_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		
 	}
@@ -3667,7 +3623,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$tpl->setCurrentBlock("question");			
 			$question_gui = $this->object->createQuestionGUI("", $question);
 			
-			$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
+			$tpl->setVariable("EDIT_QUESTION", $this->ctrl->getLinkTarget($this, "questions")."&sequence=".$counter);
 			$tpl->setVariable("COUNTER_QUESTION", $counter.".");
 			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
@@ -3706,9 +3662,8 @@ class ilObjTestGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "iv_usr":
-				$add_parameter = "?ref_id=" . $_GET["ref_id"];
-				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=resultsheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
-				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=answersheet&user_id=\">&nbsp;".$this->lng->txt("tst_show_answer_sheet")."</a>" ;
+				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."&cmd=resultsheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."&cmd=answersheet&user_id=\">&nbsp;".$this->lng->txt("tst_show_answer_sheet")."</a>" ;
 				$started   = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />" ;
 				
 				foreach ($data_array as $data)
@@ -3749,8 +3704,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "usr":
-				$add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=resultsheet";
-				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
 				foreach ($data_array as $data)
 				{
 					$counter = 0;

@@ -1,9 +1,13 @@
 <!-- BEGIN legendlink -->
-<p class="small"><a href="#legend">{TXT_LEGEND_LINK}</a></p>
+<p class="small" id="legend"><a href="#legend">{TXT_LEGEND_LINK}</a></p>
 <!-- END legendlink -->
 <!-- BEGIN export_btn -->
-<table><tr><td><form name="form_output_eval" method="post" action="{FORM_ACTION}">{EXPORT_DATA} <select name="export_type" size="1"><option value="latin1">{TEXT_EXCEL}</option><option value="macos">{TEXT_EXCEL_MAC}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{BTN_EXPORT}" /></form></td><td>
- <form name="form_print_eval" method="post" action="{FORM_ACTION}" target="_blank"><input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{BTN_PRINT}" /></form></td></tr></table>
+<table id="form_test">
+	<tr>
+		<td><form name="form_output_eval" method="post" action="{FORM_ACTION}">{EXPORT_DATA} <select name="export_type" size="1"><option value="latin1">{TEXT_EXCEL}</option><option value="macos">{TEXT_EXCEL_MAC}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{BTN_EXPORT}" /></form></td>
+		<td valign="top"><a href="javascript:window.print();" class="submit">{BTN_PRINT}</a></td>
+	</tr>
+</table>
 <!-- END export_btn -->
 <h3>{TXT_STATISTICAL_DATA}</h3>
 <table class="fullwidth_nowrap">

@@ -415,6 +415,11 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 */
 	function categories($add = false)
 	{
+		if ($this->object->getId() < 1) 
+		{
+			sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"), true);
+			$this->ctrl->redirect($this, "editQuestion");
+		}
 		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal_answers.html", true);
     // output of existing single response answers

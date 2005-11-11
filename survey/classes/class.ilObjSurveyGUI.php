@@ -50,40 +50,44 @@ class ilObjSurveyGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjSurveyGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	function ilObjSurveyGUI()
 	{
     global $lng, $ilCtrl;
-		$this->type = "svy";
-		$lng->loadLanguageModule("survey");
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-		if (!defined("ILIAS_MODULE"))
-		{
-			$this->setTabTargetScript("adm_object.php");
-		}
-		else
-		{
-			$this->setTabTargetScript("survey.php");
-		}
-		if ($a_prepare_output) 
-		{
-			$this->prepareOutput();
-		}
 
+		$this->type = "svy";
+		define("ILIAS_MODULE", "survey");
+		$lng->loadLanguageModule("survey");
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
+
+		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+		if (strlen($this->ctrl->getModuleDir()) == 0)
+		{
+			$this->setTabTargetScript("adm_object.php");
+			switch ($this->ctrl->getCmd())
+			{
+				case "create":
+				case "importFile":
+				case "cloneAll":
+					break;
+				default:
+					$this->prepareOutput();
+					break;
+			}
+		}
 	}
 	
 	function backToRepositoryObject()
 	{
 		$path = $this->tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 //		$this->ctrl->returnToParent($this);
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function &executeCommand($prepare_output = true)
 	{
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -93,6 +97,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
+				if ($prepare_output) $this->prepareOutput();
 				$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
@@ -103,6 +108,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case "ilsurveyevaluationgui":
+				if ($prepare_output) $this->prepareOutput();
 				$this->setAdminTabs();
 				include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
@@ -110,6 +116,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 
 			case "ilsurveyexecutiongui":
+				if ($prepare_output) $this->prepareOutput();
 				$this->setAdminTabs();
 				include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
 				$exec_gui = new ilSurveyExecutionGUI($this->object);
@@ -117,6 +124,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 
 			default:
+				if ($prepare_output) $this->prepareOutput();
 				if (($cmd != "run") && ($cmd != "start"))
 				{
 					$this->setAdminTabs();
@@ -125,6 +133,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
+		if ($prepare_output) $this->tpl->show();
 	}
 
 	/**
@@ -275,9 +284,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "../survey/js/calendar/calendar.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "../survey/js/calendar/calendar-setup.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "../survey/js/calendar/calendar.css");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./survey/js/calendar/calendar.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./survey/js/calendar/calendar-setup.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./survey/js/calendar/calendar.css");
 		$this->tpl->parseCurrentBlock();
 
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -285,7 +294,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -681,7 +690,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					}
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . "questionpool.php?ref_id=" . $data["ref_id"] . "&cmd=preview&preview=" . $data["question_id"] . " \" target=\"_blank\">" . $this->lng->txt("preview") . "</a>]");
+					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $data["ref_id"] . "&cmd=preview&preview=" . $data["question_id"] . " \" target=\"_blank\">" . $this->lng->txt("preview") . "</a>]");
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
@@ -1159,7 +1168,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function executeCreateQuestionObject()
 	{
-		ilUtil::redirect("questionpool.php?ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
+		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
 	}
 	
 /**
@@ -1641,7 +1650,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -1653,7 +1662,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($_GET["eqid"] and $_GET["eqpl"])
 		{
-			ilUtil::redirect("questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForSurvey&calling_survey=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForSurvey&calling_survey=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
 		}
 
 
@@ -1932,7 +1941,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->setCmdClass(get_class($eval_gui));
 		$this->ctrl->setCmd("evaluation");
 
-		$ret =& $this->executeCommand();
+		$ret =& $this->executeCommand(false);
 		return $ret;
 	}
 	
@@ -1950,7 +1959,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->setCmdClass(get_class($exec_gui));
 		$this->ctrl->setCmd("run");
 
-		$ret =& $this->executeCommand();
+		$ret =& $this->executeCommand(false);
 		return $ret;
 	}
 	
@@ -2194,7 +2203,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", true);
@@ -2356,7 +2365,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -2548,7 +2557,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -2559,7 +2568,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "survey.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("svy_create_export_file"));
 		$this->tpl->parseCurrentBlock();
 
@@ -2660,7 +2669,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once("./survey/classes/class.ilSurveyExport.php");
 			$survey_exp = new ilSurveyExport($this->object);
 			$survey_exp->buildExportFile();
-			ilUtil::redirect("survey.php?cmd=export&ref_id=".$_GET["ref_id"]);
+			$this->ctrl->redirect($this, "export");
 		}
 		else
 		{
@@ -3005,7 +3014,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -3037,7 +3046,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					else
 					{
 						$this->tpl->setVariable("CODE_URL_NAME", $this->lng->txt("survey_code_url_name"));
-						//$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/survey/survey.php?cmd=run&ref_id=".$this->object->getRefId() . "&accesscode=".$row["survey_key"]);
 						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/goto.php?cmd=run&target=svy_".$this->object->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".$row["survey_key"]);
 					}
 					$this->tpl->setVariable("CODE_USED", $state);
