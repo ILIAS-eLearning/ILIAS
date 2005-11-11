@@ -57,7 +57,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
 		$this->payment_enabled = true;
-		//$this->info_screen_enabled = true;
+		$this->info_screen_enabled = true;
 		$this->type = "lm";
 		$this->gui_class_name = "ilobjlearningmodulegui";
 		
@@ -106,7 +106,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				//$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id.
 				//	"&obj_id=".$this->last_accessed_page;
 				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id.
-					"&amp;obj_ud=".$this->last_accessed_page;
+					"&amp;obj_id=".$this->last_accessed_page;
 				break;
 				
 			case "view":

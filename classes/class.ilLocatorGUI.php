@@ -76,9 +76,8 @@ class ilLocatorGUI
 	
 	/**
 	* Constructor
-	* - - - - -
-	* @param	void		--
-	* @return	void 		--
+	*
+	* @param	boolean		$a_display_frame		DEPRECATED
 	*/
 	function ilLocatorGUI($a_display_frame = true)
 	{
@@ -93,9 +92,14 @@ class ilLocatorGUI
 
 	/**
 	* add repository items
+	*
+	* @param	int		$a_ref_id	current ref id (optional);
+	*								if empty $_GET["ref_id"] is used
 	*/
 	function addRepositoryItems($a_ref_id = 0)
 	{
+		global $tree;
+
 		if ($a_ref_id == 0)
 		{
 			$a_ref_id = $_GET["ref_id"];
@@ -103,11 +107,15 @@ class ilLocatorGUI
 		
 		if ($_GET["ref_id"] > 0)
 		{
-			$tree->getPathFull($_GET["ref_id"]);
+			$path = $tree->getPathFull($_GET["ref_id"]);
 			
 			// add item for each node on path
 			foreach ($path as $key => $row)
 			{
+				if (!in_array($row["type"], array("root", "cat", "fold", "grp")))
+				{
+					continue;
+				}
 				if ($row["title"] == "ILIAS")
 				{
 					$row["title"] = $this->lng->txt("repository");
@@ -120,7 +128,11 @@ class ilLocatorGUI
 	}
 	
 	/**
-	* add locator 
+	* add locator item
+	*
+	* @param	string	$a_title		item title
+	* @param	string	$a_link			item link
+	* @param	string	$a_frame		frame target
 	*/
 	function addItem($a_title, $a_link, $a_frame = "")
 	{
@@ -129,21 +141,15 @@ class ilLocatorGUI
 	}
 	
 	/**
-	*
+	* get all locator entries
 	*/
-	function getHTML()
+	function getItems()
 	{
+		return $this->entries;
 	}
 	
 	/**
-	* Manage array of navigation links
-	* Calling NAVIGATE will update the $locator_data array
-	*
-	* @param	int		$newLocLevel	level of new entry in tree
-	* @param	string	$newLocName		name of new page
-	* @param	string	$newLocLink		link to new page
-	* @return	void	-				-
-	* Author:	Arjan Ammerlaan, IngMedia, FH-Aachen, 17.10.2003
+	* DEPRECATED!
 	*/
 	function navigate($newLocLevel,$newLocName,$newLocLink,$newLocTarget)
 	{
@@ -182,13 +188,7 @@ class ilLocatorGUI
 	}
 	
 	/**
-	* Generate locator
-	*
-	* DEPRECATED: USE getHTML (!)
-	*
-	* @param	void	-				-
-	* @return	void	-				-
-	* Author:	Arjan Ammerlaan, IngMedia, FH-Aachen, 17.10.2003
+	* DEPRECATED!
 	*/
 	function output()
 	{
