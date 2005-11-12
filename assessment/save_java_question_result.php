@@ -1,5 +1,4 @@
 <?php
-define("ILIAS_MODULE", "assessment");
 chdir("..");
 include_once "./include/inc.header.php";
 if ($_POST["test_id"] > 0)

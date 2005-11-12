@@ -52,7 +52,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $lng, $ilCtrl;
 		$lng->loadLanguageModule("assessment");
-		define("ILIAS_MODULE", "assessment");
 		$this->type = "qpl";
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test"));

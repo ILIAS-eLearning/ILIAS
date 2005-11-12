@@ -55,7 +55,6 @@ class ilObjSurveyGUI extends ilObjectGUI
     global $lng, $ilCtrl;
 
 		$this->type = "svy";
-		define("ILIAS_MODULE", "survey");
 		$lng->loadLanguageModule("survey");
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
@@ -2481,7 +2480,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-		if (!defined("ILIAS_MODULE")) {
+		if (strlen($this->ctrl->getModuleDir()) == 0)
+		{
 			foreach ($path as $key => $row)
 			{
 				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"],"");
@@ -2498,7 +2498,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					} else {
 						$param = "";
 					}
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/survey/survey.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], "ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$row["child"] . $param,"target=\"bottom\"");
 				} else {
 					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?cmd=frameset&ref_id=".$row["child"],"target=\"bottom\"");
 				}
@@ -2536,7 +2536,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-		if (!defined("ILIAS_MODULE"))
+		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}
