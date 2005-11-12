@@ -79,6 +79,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand($prepare_output = true)
 	{
+		global $ilLocator;
+		if ($prepare_output)
+		{
+			// Alle Repository Einträge der derzeitigen ref_id einfügen
+			$ilLocator->addRepositoryItems();
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+		}
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
@@ -104,7 +111,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				$q_gui->setQuestionTabs();
+				$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
+				if ($_GET["q_id"] > 0)
+				{
+					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
+				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
@@ -113,6 +124,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("surveyordinalquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
+				if ($_GET["q_id"] > 0)
+				{
+					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
+				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
@@ -122,6 +137,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("surveymetricquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
+				if ($_GET["q_id"] > 0)
+				{
+					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
+				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
@@ -131,6 +150,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("surveytextquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
+				if ($_GET["q_id"] > 0)
+				{
+					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
+				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
@@ -144,7 +167,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
-		if ($prepare_output) $this->tpl->show();
+		if ($prepare_output)
+		{
+			$this->tpl->setLocator();
+			$this->tpl->show();
+		}
 	}
 
 
@@ -1022,98 +1049,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
-	/**
-	* set Locator
-	*
-	* @param	object	tree object
-	* @param	integer	reference id
-	* @param	scriptanme that is used for linking; if not set adm_object.php is used
-	* @access	public
-	*/
-	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php", $question_title = "")
-	{
-		$ilias_locator = new ilLocatorGUI(false);
-		if (!is_object($a_tree))
-		{
-			$a_tree =& $this->tree;
-		}
-		if (!($a_id))
-		{
-			$a_id = $_GET["ref_id"];
-		}
-		if (!($scriptname))
-		{
-			$scriptname = "repository.php";
-		}
-		$path = $a_tree->getPathFull($a_id);
-		//check if object isn't in tree, this is the case if parent_parent is set
-		// TODO: parent_parent no longer exist. need another marker
-		if ($a_parent_parent)
-		{
-			//$subObj = getObject($a_ref_id);
-			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
-
-			$path[] = array(
-				"id"	 => $a_ref_id,
-				"title"  => $this->lng->txt($subObj->getTitle())
-				);
-		}
-
-		// this is a stupid workaround for a bug in PEAR:IT
-		$modifier = 1;
-
-		if (isset($_GET["obj_id"]))
-		{
-			$modifier = 0;
-		}
-
-		// ### AA 03.11.10 added new locator GUI class ###
-		$i = 1;
-
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			foreach ($path as $key => $row)
-			{
-				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"], "");
-			}
-		} else {
-			foreach ($path as $key => $row)
-			{
-				if (strcmp($row["title"], "ILIAS") == 0) {
-					$row["title"] = $this->lng->txt("repository");
-				}
-				if ($this->ref_id == $row["child"]) {
-					$param = "&cmd=questions";
-					$ilias_locator->navigate($i++, $row["title"], "ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$row["child"] . $param,"target=\"bottom\"");
-					switch ($_GET["cmd"]) {
-						case "questions":
-							$id = $_GET["edit"];
-							if (!$id) {
-								$id = $_POST["id"];
-							}
-							if ($question_title) {
-								if ($id > 0)
-								{
-									$ilias_locator->navigate($i++, $question_title, "ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$row["child"] . "&cmd=questions&edit=$id","target=\"bottom\"");
-								}
-							}
-							break;
-					}
-				} else {
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?cmd=frameset&ref_id=".$row["child"],"target=\"bottom\"");
-				}
-			}
-	
-			if (isset($_GET["obj_id"]))
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?cmd=frameset&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"target=\"bottom\"");
-			}
-		}
-		$ilias_locator->output(true);
-	}
-	
-	
 	/*
 	* list all export files
 	*/
@@ -1529,8 +1464,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}
-		$this->setLocator();
-
 	}
 
 	/**

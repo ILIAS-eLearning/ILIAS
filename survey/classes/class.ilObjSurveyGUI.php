@@ -88,6 +88,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function &executeCommand($prepare_output = true)
 	{
+		global $ilLocator;
+		if ($prepare_output)
+		{
+			// Alle Repository Einträge der derzeitigen ref_id einfügen
+			$ilLocator->addRepositoryItems();
+		}
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
@@ -96,7 +102,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-				if ($prepare_output) $this->prepareOutput();
+				if ($prepare_output) 
+				{
+					$this->prepareOutput();
+					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				}
 				$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
@@ -107,7 +117,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case "ilsurveyevaluationgui":
-				if ($prepare_output) $this->prepareOutput();
+				if ($prepare_output) 
+				{
+					$this->prepareOutput();
+					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "evaluation"));
+				}
 				$this->setAdminTabs();
 				include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
@@ -115,7 +129,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 
 			case "ilsurveyexecutiongui":
-				if ($prepare_output) $this->prepareOutput();
+				if ($prepare_output) 
+				{
+					$this->prepareOutput();
+					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
+				}
 				$this->setAdminTabs();
 				include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
 				$exec_gui = new ilSurveyExecutionGUI($this->object);
@@ -123,7 +141,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 
 			default:
-				if ($prepare_output) $this->prepareOutput();
+				if ($prepare_output) 
+				{
+					$this->prepareOutput();
+					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				}
 				if (($cmd != "run") && ($cmd != "start"))
 				{
 					$this->setAdminTabs();
@@ -132,7 +154,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
-		if ($prepare_output) $this->tpl->show();
+		if ($prepare_output)
+		{
+			$this->tpl->setLocator();
+			$this->tpl->show();
+		}
 	}
 
 	/**
@@ -2434,86 +2460,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}	
 
 	/**
-	* set Locator
-	*
-	* @param	object	tree object
-	* @param	integer	reference id
-	* @param	scriptanme that is used for linking; if not set adm_object.php is used
-	* @access	public
-	*/
-	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php")
-	{
-		//		global $ilias_locator;
-	  $ilias_locator = new ilLocatorGUI(false);
-		if (!is_object($a_tree))
-		{
-			$a_tree =& $this->tree;
-		}
-		if (!($a_id))
-		{
-			$a_id = $_GET["ref_id"];
-		}
-
-		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-		$path = $a_tree->getPathFull($a_id);
-		//check if object isn't in tree, this is the case if parent_parent is set
-		// TODO: parent_parent no longer exist. need another marker
-		if ($a_parent_parent)
-		{
-			//$subObj = getObject($a_ref_id);
-			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
-
-			$path[] = array(
-				"id"	 => $a_ref_id,
-				"title"  => $this->lng->txt($subObj->getTitle())
-				);
-		}
-
-		// this is a stupid workaround for a bug in PEAR:IT
-		$modifier = 1;
-
-		if (isset($_GET["obj_id"]))
-		{
-			$modifier = 0;
-		}
-
-		// ### AA 03.11.10 added new locator GUI class ###
-		$i = 1;
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			foreach ($path as $key => $row)
-			{
-				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"],"");
-			}
-		} else {
-			foreach ($path as $key => $row)
-			{
-				if (strcmp($row["title"], "ILIAS") == 0) {
-					$row["title"] = $this->lng->txt("repository");
-				}
-				if ($this->ref_id == $row["child"]) {
-					if ($_GET["cmd"]) {
-						$param = "&cmd=" . $_GET["cmd"];
-					} else {
-						$param = "";
-					}
-					$ilias_locator->navigate($i++, $row["title"], "ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$row["child"] . $param,"target=\"bottom\"");
-				} else {
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?cmd=frameset&ref_id=".$row["child"],"target=\"bottom\"");
-				}
-			}
-
-			if (isset($_GET["obj_id"]))
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?cmd=frameset&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"target=\"bottom\"");
-			}
-		}
-    $ilias_locator->output();
-	}
-
-	/**
 	* Prepare the output of the survey GUI object
 	*
 	* Prepare the output of the survey GUI object
@@ -2540,8 +2486,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}
-		$this->setLocator();
-
 	}
 	
 	/*
