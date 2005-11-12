@@ -54,7 +54,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     global $lng, $ilCtrl;
 
 		$this->type = "spl";
-		define("ILIAS_MODULE", "survey");
 		$lng->loadLanguageModule("survey");
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "calling_survey", "new_for_survey"));
@@ -1085,7 +1084,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 				if ($this->ref_id == $row["child"]) {
 					$param = "&cmd=questions";
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/survey/questionpool.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], "ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$row["child"] . $param,"target=\"bottom\"");
 					switch ($_GET["cmd"]) {
 						case "questions":
 							$id = $_GET["edit"];
@@ -1095,7 +1094,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 							if ($question_title) {
 								if ($id > 0)
 								{
-									$ilias_locator->navigate($i++, $question_title, ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/survey/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=questions&edit=$id","target=\"bottom\"");
+									$ilias_locator->navigate($i++, $question_title, "ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$row["child"] . "&cmd=questions&edit=$id","target=\"bottom\"");
 								}
 							}
 							break;

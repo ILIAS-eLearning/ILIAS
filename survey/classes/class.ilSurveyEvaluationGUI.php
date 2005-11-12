@@ -577,7 +577,6 @@ class ilSurveyEvaluationGUI
 					array_push($printdetail_file, $printDetail);
 					$s_question = $counter+1;
 					$_SESSION[$this->lng->txt("question").$s_question] = $printdetail_file;
-//					$this->tpl->setVariable("PRINT_ACTION", $this->getCallingScript() . "?ref_id=" . $_GET["ref_id"] . "&cmd=printEvaluation&".$this->lng->txt("question")."=".$s_question);
 					$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getLinkTarget($this, "printEvaluation") . "&".$this->lng->txt("question")."=".$s_question);
 					$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 					$this->tpl->setVariable("PRINT_IMAGE", ilUtil::getImagePath("icon_print.gif"));

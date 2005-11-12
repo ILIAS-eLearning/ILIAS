@@ -844,7 +844,8 @@ class ilSurveyExecutionGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-		if (!defined("ILIAS_MODULE")) {
+		if (strlen($this->ctrl->getModuleDir()) == 0)
+		{
 			foreach ($path as $key => $row)
 			{
 				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"],"");
@@ -861,7 +862,7 @@ class ilSurveyExecutionGUI
 					} else {
 						$param = "";
 					}
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/survey/survey.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], "ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$row["child"] . $param,"target=\"bottom\"");
 				} else {
 					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?cmd=frameset&ref_id=".$row["child"],"target=\"bottom\"");
 				}

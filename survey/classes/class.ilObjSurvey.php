@@ -4853,7 +4853,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $rbacsystem, $ilErr, $lng;
 
-		include_once 'classes/class.ilSearch.php';
+		include_once './classes/class.ilSearch.php';
 			
 		// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
 		// Will be replaced in future releases by ilAccess::checkAccess()
@@ -4861,11 +4861,11 @@ class ilObjSurvey extends ilObject
 		{
 			if (strlen($a_access_code))
 			{
-				ilUtil::redirect("survey/survey.php?cmd=run&ref_id=$a_target&accesscode=$a_access_code");
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target&accesscode=$a_access_code");
 			}
 			else
 			{
-				ilUtil::redirect("survey/survey.php?cmd=run&ref_id=$a_target");
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target");
 			}
 		}
 		else

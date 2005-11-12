@@ -57,7 +57,6 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $lng, $ilCtrl;
 		$lng->loadLanguageModule("assessment");
-		define("ILIAS_MODULE", "assessment");
 		$this->type = "tst";
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
@@ -3103,7 +3102,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-//		if (!defined("ILIAS_MODULE"))
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			foreach ($path as $key => $row)
@@ -3278,7 +3276,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 		if (strlen($this->ctrl->getModuleDir()) == 0)
-		//if (!defined("ILIAS_MODULE"))
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}
