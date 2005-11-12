@@ -90,6 +90,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilLocator;
+		$ilLocator->addRepositoryItems();
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
@@ -102,6 +104,7 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$this->prepareOutput();
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -111,6 +114,7 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once "./assessment/classes/class.ilTestOutputGUI.php";
 
 				$output_gui =& new ilTestOutputGUI($this->object);
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			case "iltestevaluationgui":
@@ -118,9 +122,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->prepareOutput();
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
 			default:
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				$this->prepareOutput();
 				switch ($cmd)
 				{
@@ -155,6 +161,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
+		$this->tpl->setLocator();
 		$this->tpl->show();
 	}
 
@@ -3056,118 +3063,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}	
 
 	/**
-	* set Locator
-	*
-	* @param	object	tree object
-	* @param	integer	reference id
-	* @param	scriptanme that is used for linking; if not set adm_object.php is used
-	* @access	public
-	*/
-	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php")
-	{
-//		global $ilias_locator;
-		$ilias_locator = new ilLocatorGUI(false);
-		if (!is_object($a_tree))
-		{
-			$a_tree =& $this->tree;
-		}
-		if (!($a_id))
-		{
-			$a_id = $_GET["ref_id"];
-		}
-
-		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-		$path = $a_tree->getPathFull($a_id);
-		//check if object isn't in tree, this is the case if parent_parent is set
-		// TODO: parent_parent no longer exist. need another marker
-		if ($a_parent_parent)
-		{
-			//$subObj = getObject($a_ref_id);
-			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
-
-			$path[] = array(
-				"id"	 => $a_ref_id,
-				"title"  => $this->lng->txt($subObj->getTitle())
-				);
-		}
-
-		// this is a stupid workaround for a bug in PEAR:IT
-		$modifier = 1;
-
-		if (isset($_GET["obj_id"]))
-		{
-			$modifier = 0;
-		}
-
-		// ### AA 03.11.10 added new locator GUI class ###
-		$i = 1;
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			foreach ($path as $key => $row)
-			{
-				$ilias_locator->navigate($i++, $row["title"], 
-										 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH).
-										 "/adm_object.php?ref_id=".$row["child"],"");
-			}
-		} else {
-			
-			// Workaround for crs_objectives
-			$frameset = $_GET['crs_show_result'] ? '' : 'cmd=frameset&';
-
-			foreach ($path as $key => $row)
-			{
-				if (strcmp($row["title"], "ILIAS") == 0) {
-					$row["title"] = $this->lng->txt("repository");
-				}
-				if ($this->ref_id == $row["child"]) {
-					if ($_GET["cmd"]) {
-						$param = "&cmd=" . $_GET["cmd"];
-					} else {
-						$param = "";
-					}
-					$ilias_locator->navigate($i++, $row["title"], 
-											 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
-											 "/assessment/test.php" . "?crs_show_result=".$_GET['crs_show_result'].
-											 "&ref_id=".$row["child"] . $param,"");
-
-					if ($this->sequence) {
-						if (($this->sequence <= $this->object->getQuestionCount()) and (!$_POST["cmd"]["showresults"])) {
-							$ilias_locator->navigate($i++, $this->object->getQuestionTitle($this->sequence), 
-													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
-													 "/assessment/test.php" . "?crs_show_result=".$_GET['crs_show_result'].
-													 "&ref_id=".$row["child"] . $param . 
-													 "&sequence=" . $this->sequence,"");
-						} else {
-						}
-					} else {
-						if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
-						{
-							$ilias_locator->navigate($i++, $this->lng->txt("summary"), 
-													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
-													 "/assessment/test.php" . "?crs_show_result=0".
-													 "&ref_id=".$row["child"] . $param . 
-												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
-						}
-					}
-				} else {
-					$ilias_locator->navigate($i++, $row["title"], 
-											 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . 
-											 $scriptname."?".$frameset."ref_id=".$row["child"],"");
-				}
-			}
-
-			if (isset($_GET["obj_id"]))
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-				$ilias_locator->navigate($i++,$obj_data->getTitle(),
-										 $scriptname."?".$frameset."ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"");
-			}
-		}
-		$ilias_locator->output();
-	}
-
-	/**
 	* form for new content object creation
 	*/
 	function createObject()
@@ -3279,7 +3174,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}
-		$this->setLocator();
 	}
 	
 	/**

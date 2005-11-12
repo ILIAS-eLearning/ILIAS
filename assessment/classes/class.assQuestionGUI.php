@@ -164,8 +164,6 @@ class ASS_QuestionGUI
 		// catch feedback message
 		sendInfo();
 
-		//$this->setLocator();
-
 		$title = $this->object->getTitle() . " - " . $this->lng->txt("statistics");
 		if (!empty($title))
 		{
