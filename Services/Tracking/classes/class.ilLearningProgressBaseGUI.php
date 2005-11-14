@@ -36,6 +36,9 @@ define("LP_MODE_PERSONAL_DESKTOP",1);
 define("LP_MODE_ADMINISTRATION",2);
 define("LP_MODE_REPOSITORY",3);
 
+define("LP_ACTIVE_SETTINGS",1);
+define("LP_ACTIVE_OBJECTS",2);
+
 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
 /* Base class for all Learning progress gui classes.
@@ -92,5 +95,28 @@ class ilLearningProgressBaseGUI
 		return 'show';
 	}
 
+	function __setSubTabs($a_active)
+	{
+		include_once 'classes/class.ilTabsGUI.php';
+
+		$tabs_gui = new ilTabsGUI();
+		$tabs_gui->setSubTabs();
+
+		switch($this->getMode())
+		{
+			case LP_MODE_REPOSITORY:
+
+				$tabs_gui->addTarget('trac_objects',
+									 $this->ctrl->getLinkTarget($this,''),
+									 "","","",$a_active == LP_ACTIVE_OBJECTS);
+				$tabs_gui->addTarget('trac_settings',
+									 $this->ctrl->getLinkTarget($this,''),
+									 "","","",$a_active == LP_ACTIVE_SETTINGS);
+				break;
+		}
+		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
+
+		return true;
+	}
 }
 ?>
