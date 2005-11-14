@@ -128,6 +128,38 @@ class ilLocatorGUI
 	}
 	
 	/**
+	* add administration tree items
+	*
+	* @param	int		$a_ref_id	current ref id (optional);
+	*								if empty $_GET["ref_id"] is used
+	*/
+	function addAdministrationItems($a_ref_id = 0)
+	{
+		global $tree;
+
+		if ($a_ref_id == 0)
+		{
+			$a_ref_id = $_GET["ref_id"];
+		}
+		
+		if ($_GET["ref_id"] > 0)
+		{
+			$path = $tree->getPathFull($_GET["ref_id"]);
+			
+			// add item for each node on path
+			foreach ($path as $key => $row)
+			{
+				if (!in_array($row["type"], array("root", "cat", "fold", "grp")))
+				{
+					continue;
+				}
+				$this->addItem($row["title"],
+					"adm_object.php?ref_id=".$row["child"]);
+			}
+		}
+	}
+	
+	/**
 	* add locator item
 	*
 	* @param	string	$a_title		item title
