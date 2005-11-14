@@ -73,6 +73,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->prepareOutput();
 					break;
 			}
+			global $ilLocator;
+			$ilLocator->addAdministrationItems();
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+			$this->tpl->setLocator();
 		}
 	}
 	
