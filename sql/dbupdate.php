@@ -9010,3 +9010,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#577>
+ALTER TABLE `ut_lp_settings` ADD `visits` INT( 4 ) DEFAULT '0' AFTER `mode`;

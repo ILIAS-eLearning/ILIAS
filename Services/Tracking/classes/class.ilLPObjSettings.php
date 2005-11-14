@@ -39,6 +39,8 @@ define("LP_MODE_MANUAL",3);
 define("LP_MODE_OBJECTIVES",4);
 define("LP_MODE_COLLECTION",5);
 
+define("LP_DEFAULT_VISITS",3);
+
 
 class ilLPObjSettings
 {
@@ -47,6 +49,7 @@ class ilLPObjSettings
 	var $obj_id = null;
 	var $obj_type = null;
 	var $obj_mode = null;
+	var $visits = null;
 
 	var $is_stored = false;
 
@@ -63,6 +66,16 @@ class ilLPObjSettings
 			$this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
 			$this->obj_mode = $this->__getDefaultMode();
 		}
+	}
+
+	function getVisits()
+	{
+		return (int) $this->visits ? $this->visits : LP_DEFAULT_VISITS;
+	}
+
+	function setVisits($a_visits)
+	{
+		$this->visits = $a_visits;
 	}
 
 	function setMode($a_mode)
@@ -89,7 +102,9 @@ class ilLPObjSettings
 		{
 			return $this->insert();
 		}
-		$query = "UPDATE ut_lp_settings SET mode = '".$this->obj_mode."'";
+		$query = "UPDATE ut_lp_settings SET mode = '".$this->obj_mode.
+			"', visits = '".$this->visits."' ".
+			"WHERE obj_id = '".$this->getObjId()."'";
 		$this->db->query($query);
 		$this->__read();
 		return true;
@@ -107,6 +122,22 @@ class ilLPObjSettings
 
 
 	// Static
+	function _lookupVisits($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT visits FROM ut_lp_settings ".
+			"WHERE obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $this->visits;
+		}
+		return LP_DEFAULT_VISITS;
+	}
+		
+
 	function _delete($a_obj_id)
 	{
 		global $ilDB;
@@ -170,6 +201,7 @@ class ilLPObjSettings
 			$this->is_stored = true;
 			$this->obj_type = $row->obj_type;
 			$this->obj_mode = $row->mode;
+			$this->visits = $row->visits;
 
 			return true;
 		}

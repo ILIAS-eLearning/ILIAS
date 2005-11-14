@@ -15,7 +15,9 @@
 			  {TXT_ACTIVATE_TRACKING}
 			</td>
 			<td class="option_value">
-			  <img src="{ACTIVATED_IMG_OK}" alt="{ACTIVATED_STATUS}" title="{ACTIVATED_STATUS}" border="0" vspace="0" align="left" />
+			<div align="center">
+			  <img src="{ACTIVATED_IMG_OK}" alt="{ACTIVATED_STATUS}" title="{ACTIVATED_STATUS}" border="0" vspace="0" />
+			</div>
 			</td>
 		  </tr>
 		  <tr>
@@ -23,7 +25,9 @@
 			  {TXT_USER_RELATED_DATA}
 			</td>
 			<td class="option_value">
-			  <img src="{ANONYMIZED_IMG_OK}" alt="{ANONYMIZED_STATUS}" title="{ANONYMIZED_STATUS}" border="0" vspace="0" align="left" />
+			<div align="center">
+			  <img src="{ANONYMIZED_IMG_OK}" alt="{ANONYMIZED_STATUS}" title="{ANONYMIZED_STATUS}" border="0" vspace="0" />
+			</div>
 			</td>
 		  </tr>
 		  <tr>
@@ -43,6 +47,17 @@
 			  {MODE}
 			</td>
 		  </tr>
+		<!-- BEGIN visits -->
+		<tr>
+		  <td class="option">
+			{TXT_VISITS}
+		  </td>
+		  <td class="option_value">
+			<input type="text" size="4" maxlength="4" name="visits" value="{NUM_VISITS}" />
+			<div class="il_Description_no_margin">{INFO_VISITS}</div>
+		  </td>
+		</tr>
+		<!-- END visits -->
 		  <tr class="tablefooter">
 			<td class="submit" colspan="3">
 			  <div align="right">
@@ -51,4 +66,5 @@
 			</td>
 		  </tr>
 	  </table>
+	  {COLLECTION_TABLE}
 	</form>

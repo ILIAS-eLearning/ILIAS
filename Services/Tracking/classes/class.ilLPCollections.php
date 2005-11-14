@@ -60,13 +60,25 @@ class ilLPCollections
 		return $this->items;
 	}
 
+	function isAssigned($a_obj_id)
+	{
+		return (bool) in_array($a_obj_id,$this->items);
+	}
+
 	function add($item_id)
 	{
+		if($this->isAssigned($item_id))
+		{
+			return false;
+		}
+
 		$query = "INSERT INTO ut_lp_collections ".
 			"SET obj_id = '".$this->obj_id."', ".
 			"item_id = '".(int) $item_id."'";
 		$this->db->query($query);
 		
+		$this->__read();
+
 		return true;
 	}
 
@@ -77,11 +89,37 @@ class ilLPCollections
 			"AND obj_id = '".$this->obj_id."'";
 		$this->db->query($query);
 
+		$this->__read();
+
 		return true;
 	}
 
 
 	// Static
+	function _getPossibleItems($a_target_id)
+	{
+		global $tree;
+
+		foreach($tree->getChilds($a_target_id) as $node)
+		{
+			switch($node['type'])
+			{
+				
+				case 'lm':
+					$all_possible["$node[ref_id]"] = $node['obj_id'];
+					break;
+			}
+		}
+		return $all_possible ? $all_possible : array();
+	}
+
+	function _getCountPossibleItems($a_target_id)
+	{
+		return count(ilLPCollections::_getPossibleItems($a_target_id));
+	}
+
+
+
 	function _deleteAll($a_obj_id)
 	{
 		global $ilDB;
@@ -109,10 +147,11 @@ class ilLPCollections
 	// Private
 	function __read()
 	{
-		$res = $this->db->query("SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->db->quote($this->obj_id)."'");
+		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->db->quote($this->obj_id)."'";
+		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$items[] = $row->item_id;
+			$this->items[] = $row->item_id;
 		}
 
 		return true;

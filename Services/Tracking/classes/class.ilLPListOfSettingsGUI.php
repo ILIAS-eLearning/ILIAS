@@ -63,7 +63,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 	function show()
 	{
+		// Sub Tabs
+
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_obj_settings.html','Services/Tracking');
+		$this->__setSubTabs(LP_ACTIVE_SETTINGS);
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_trac.gif'));
@@ -95,18 +98,185 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 														  $this->obj_settings->getValidModes(),
 														  false,true));
 
+		if($this->obj_settings->getMode() == LP_MODE_VISITS)
+		{
+			$this->tpl->setCurrentBlock("visits");
+			$this->tpl->setVariable("TXT_VISITS",$this->lng->txt('trac_num_visits'));
+			$this->tpl->setVariable("NUM_VISITS",$this->obj_settings->getVisits());
+			$this->tpl->setVariable("INFO_VISITS",$this->lng->txt('trac_visits_info'));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
 
-		
+		// Show additional tables (e.g collection table)
+		$this->__showTablesByMode();
 	}
 
 	function saveSettings()
 	{
+		$this->__addInfo();
 		$this->obj_settings->setMode($_POST['modus']);
+		if((int) $_POST['visits'])
+		{
+			$this->obj_settings->setVisits((int) $_POST['visits']);
+		}
 		$this->obj_settings->update();
+		$this->show();
+	}
 
+	function assign()
+	{
+		if(!$_POST['item_ids'])
+		{
+			sendInfo($this->lng->txt('select_one'));
+			$this->show();
+			return false;
+		}
+		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+
+		$lp_collections = new ilLPCollections($this->getObjId());
+
+		foreach($_POST['item_ids'] as $obj_id)
+		{
+			$lp_collections->add($obj_id);
+		}
 		sendInfo($this->lng->txt('trac_settings_saved'));
 		$this->show();
 	}
+
+	function deassign()
+	{
+		if(!$_POST['item_ids'])
+		{
+			sendInfo($this->lng->txt('select_one'));
+			$this->show();
+			return false;
+		}
+		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+
+		$lp_collections = new ilLPCollections($this->getObjId());
+
+		foreach($_POST['item_ids'] as $obj_id)
+		{
+			$lp_collections->delete($obj_id);
+		}
+		sendInfo($this->lng->txt('trac_settings_saved'));
+		$this->show();
+	}
+	function __showTablesByMode()
+	{
+		switch($this->obj_settings->getMode())
+		{
+			case LP_MODE_COLLECTION:
+
+				$this->__showCollectionTable();
+				break;
+
+		}
+		return true;
+	}
+
+		
+
+	function __showCollectionTable()
+	{
+		global $ilObjDataCache,$tree;
+
+		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+
+		$lp_collections = new ilLPCollections($this->getObjId());
+
+		$tpl =& new ilTemplate('tpl.trac_collections.html',true,true,'Services/Tracking');
+
+		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_assignments'));
+		$tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_trac.gif'));
+		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_assignments'));
+		$tpl->setVariable("ITEM_DESC",$this->lng->txt('description'));
+		$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
+
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$tpl->setVariable("BTN_ASSIGN",$this->lng->txt('trac_collection_assign'));
+		$tpl->setVariable("BTN_DEASSIGN",$this->lng->txt('trac_collection_deassign'));
+
+		
+		if(!ilLPCollections::_getCountPossibleItems($this->getRefId()))
+		{
+			$tpl->setCurrentBlock("no_items");
+			$tpl->setVariable("NO_ITEM_MESSAGE",$this->lng->txt('trac_no_items'));
+			$tpl->parseCurrentBlock();
+		}
+		$counter = 0;
+		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id => $obj_id)
+		{
+			$tpl->setCurrentBlock("trac_row");
+			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
+			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
+			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$obj_id));
+
+			$path = $this->__formatPath($tree->getPathFull($ref_id));
+			$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
+
+			// Assigned
+			$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($obj_id)
+							  ? ilUtil::getImagePath('icon_ok.gif') 
+							  : ilUtil::getImagePath('icon_not_ok.gif'));
+			$tpl->setVariable("ASSIGNED_STATUS",$lp_collections->isAssigned($obj_id)
+							  ? $this->lng->txt('trac_assigned')
+							  : $this->lng->txt('trac_not_assigned'));
+
+			
+			$tpl->parseCurrentBlock();
+		}			
+			
+		$this->tpl->setVariable("COLLECTION_TABLE",$tpl->get());
+	}
+	function __addInfo()
+	{
+		$message = $this->lng->txt('trac_settings_saved');
+
+		if($this->obj_settings->getMode() == $_POST['modus'])
+		{
+			sendInfo($message);
+			return true;
+		}
+
+		switch($_POST['modus'])
+		{
+			case LP_MODE_COLLECTION:
+				$message .= '<br />';
+				$message .= $this->lng->txt('trac_edit_collection');
+				break;
+
+			case LP_MODE_VISITS:
+				$message .= '<br />';
+				$message .= $this->lng->txt('trac_edit_visits');
+				break;
+				
+
+			default:
+				;
+		}
+		sendInfo($message);
+
+		return true;
+	}
+
+	function __formatPath($a_path_arr)
+	{
+		$counter = 0;
+		foreach($a_path_arr as $data)
+		{
+			if($counter++)
+			{
+				$path .= " -> ";
+			}
+			$path .= $data['title'];
+		}
+
+		return $path;
+	}
+
 }
 ?>
