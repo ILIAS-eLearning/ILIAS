@@ -111,11 +111,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
 				if ($_GET["q_id"] > 0)
 				{
 					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
 				}
+				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 

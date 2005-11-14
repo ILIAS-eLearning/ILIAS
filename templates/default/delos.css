@@ -1520,7 +1520,7 @@ td.ilc_LMNavigation
 	border-top-width: 1px;
 	border-bottom-width: 1px;
 	background-image: url(images/TableHeader.gif);
-	backgrounf-color: #EDEDED;
+	background-color: #EDEDED;
 	margin-bottom: 0px;
 	#font-size: 60%;
 }
@@ -1682,11 +1682,16 @@ div.imagebox
 /* --- Survey tool styles --- */
 
 .surveySheet {
-	background: #EEEEEE;
-	border-spacing: 1px;
-	border: 1px outset #BBBBBB;
-	margin: 5px;
-	padding: 2em;
+	padding:20px;
+	border-style: solid;
+	border-color: #CACACA;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-bottom: 0px;
+	background-color: #f8f8f8;
+	background:#f8f8f8;
 }
 
 .questionblockTitle {

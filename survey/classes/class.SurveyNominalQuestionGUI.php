@@ -78,7 +78,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 *
 * @access public
 */
-  function editQuestion() {
+  function editQuestion() 
+	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
 		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
@@ -468,6 +469,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		}
 		else
 		{
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("existingcategories");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
