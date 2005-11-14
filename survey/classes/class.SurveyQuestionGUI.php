@@ -428,7 +428,6 @@ class SurveyQuestionGUI {
 	function setQuestionTabsForClass($guiclass)
 	{
 		global $rbacsystem;
-
 		include_once "./classes/class.ilTabsGUI.php";
 		$tabs_gui =& new ilTabsGUI();
 		$tabs_gui->setSubTabs();
@@ -452,7 +451,7 @@ class SurveyQuestionGUI {
 				),
 				"$guiclass");
 		}
-		
+
 		switch ($guiclass)
 		{
 			case "surveynominalquestiongui":

@@ -395,6 +395,9 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 		}
 		else
 		{
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("existingcategories");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
