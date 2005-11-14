@@ -8,7 +8,7 @@
 <table class="fullwidth">
 <!-- BEGIN questions_header -->
 <tr class="tblheader">
-<td class="std"><input type="checkbox" name="chb_check_all" value="1" onclick="setChecked('form_questions', 'cb_', document.form_questions.chb_check_all.checked);" /></td>
+<td class="std"></td>
 <td class="std">{QUESTION_TITLE}</td>
 <td class="std"></td>
 <td class="std">{QUESTION_COMMENT}</td>
@@ -20,7 +20,7 @@
 <!-- END questions_header -->
 <!-- BEGIN questionblocks_header -->
 <tr class="tblheader">
-<td class="std"><input type="checkbox" name="chb_check_all" value="1" onclick="setChecked('form_questions', 'cb_', document.form_questions.chb_check_all.checked);" /></td>
+<td class="std"></td>
 <td class="std">{QUESTIONBLOCK_TITLE}</td>
 <td class="std">{QUESTIONS_TITLE}</td>
 <td class="std" colspan="6">{SURVEY_TITLE}</td>
@@ -55,6 +55,12 @@
 <td class="{COLOR_CLASS}">{QUESTION_POOL}</td>
 </tr>
 <!-- END QTab --> 
+<!-- BEGIN selectall -->
+<tr>
+	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('form_questions', 'cb_', document.form_questions.chb_check_all.checked);" /></td>
+  <td class="{COLOR_CLASS}" colspan="8"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
 <!-- BEGIN Emptytable -->
 <tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->

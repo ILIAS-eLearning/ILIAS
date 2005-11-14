@@ -834,7 +834,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
     // if there are no questions, display a message
-    if ($counter == 0) {
+    if ($counter == 0) 
+		{
       $this->tpl->setCurrentBlock("Emptytable");
 			if ($browsequestions)
 			{
@@ -848,6 +849,11 @@ class ilObjSurveyGUI extends ilObjectGUI
     }
 		else
 		{
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$counter++;
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
 			// create edit buttons & table footer
 			$this->tpl->setCurrentBlock("selection");
 			$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
@@ -1747,6 +1753,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$title_counter = 0;
+		$last_color_class = "";
 		$obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.gif", true) . "\" alt=\"" . $this->lng->txt("question_obligatory") . "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
 		if (count($survey_questions) > 0)
 		{
@@ -1879,6 +1886,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
 				}
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$last_color_class = $colors[$counter % 2];
 				if (!$data["questionblock_id"])
 				{
 					$counter++;
@@ -1896,12 +1904,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if ($counter == 0) {
+		if ($counter == 0) 
+		{
 			$this->tpl->setCurrentBlock("Emptytable");
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
 			$this->tpl->parseCurrentBlock();
-		} else {
-	    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
+		} 
+		else 
+		{
+	    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) 
+			{
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->setVariable("COLOR_CLASS", $last_color_class);
+				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
@@ -1914,7 +1930,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
-    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
+    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) 
+		{
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM survey_questiontype";
 			$query_result = $this->ilias->db->query($query);
