@@ -133,7 +133,14 @@ class ilLMPresentationGUI
 		switch($next_class)
 		{
 			case "ilnotegui":
-				$ret =& $this->layout();
+				if ($_GET["obj_id"] != "")
+				{
+					$ret =& $this->layout();
+				}
+				else
+				{
+					$ret =& $this->showInfoScreen();
+				}
 				break;
 				
 			default: 
@@ -2099,11 +2106,20 @@ class ilLMPresentationGUI
 
 		$ilBench->stop("ContentPresentation", "TableOfContents");
 	}
+	
+	
+	/**
+	* info screen call from inside learning module
+	*/
+	function showInfoScreen()
+	{
+		$this->infoScreen(true);
+	}
 
 	/**
-	* table of contents
+	* info screen
 	*/
-	function infoScreen()
+	function infoScreen($a_standard_locator = false)
 	{
 		global $ilBench, $ilLocator;
 
@@ -2123,16 +2139,125 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
-		$ilLocator->addRepositoryItems();
-		$this->tpl->setLocator();
+		
+		if ($a_standard_locator)
+		{
+			$this->ilLocator();
+		}
+		else
+		{
+			$ilLocator->addRepositoryItems();
+			$this->tpl->setLocator();
+		}
+		
+		$this->lng->loadLanguageModule("meta");
 
 		include_once("classes/class.ilInfoScreenGUI.php");
-		$info = new ilInfoScreenGUI($this);
-		//$info->enablePrivateNotes();
+		$info = new ilInfoScreenGUI($this->lm_gui);
+		$info->enablePrivateNotes();
 		
-		// syllabus section
-		$info->addSection("test");
-		$info->addProperty("",  nl2br("test"));
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		$md = new ilMD($this->lm->getId(),0, $this->lm->getType());
+		
+		if ($md_gen = $md->getGeneral())
+		{
+			// get first descrption
+			foreach($md_gen->getDescriptionIds() as $id)
+			{
+				$md_des = $md_gen->getDescription($id);
+				$description = $md_des->getDescription();
+				break;
+			}
+			
+			// get language(s)
+			$langs = array();
+			foreach($ids = $md_gen->getLanguageIds() as $id)
+			{
+				$md_lan = $md_gen->getLanguage($id);
+				$langs[] = $this->lng->txt("meta_l_".$md_lan->getLanguageCode());
+			}
+			$langs = implode($langs, ", ");
+			
+			// keywords
+			$keywords = array();
+			foreach($ids = $md_gen->getKeywordIds() as $id)
+			{
+				$md_key = $md_gen->getKeyword($id);
+				$keywords[] = $md_key->getKeyword();
+			}
+			$keywords = implode($keywords, ", ");
+		}
+		
+		// authors
+		if(is_object($lifecycle = $md->getLifecycle()))
+		{
+			$sep = $author = "";
+			foreach(($ids = $lifecycle->getContributeIds()) as $con_id)
+			{
+				$md_con = $lifecycle->getContribute($con_id);
+				if ($md_con->getRole() == "Author")
+				{
+					foreach($ent_ids = $md_con->getEntityIds() as $ent_id)
+					{
+						$md_ent = $md_con->getEntity($ent_id);
+						$author = $author.$sep.$md_ent->getEntity();
+						$sep = ", ";
+					}
+				}
+			}
+		}
+			
+		// copyright
+		$copyright = "";
+		if(is_object($rights = $md->getRights()))
+		{
+			$copyright = $rights->getDescription();
+		}
+
+		// learning time
+		$learning_time = "";
+		if(is_object($educational = $md->getEducational()))
+		{
+			$learning_time = $educational->getTypicalLearningTime();
+		}
+
+		// output
+		
+		// description
+		if ($description != "")
+		{
+			$info->addSection($this->lng->txt("description"));
+			$info->addProperty("",  nl2br($description));
+		}
+		
+		// general section
+		$info->addSection($this->lng->txt("meta_general"));
+		if ($langs != "")	// language
+		{
+			$info->addProperty($this->lng->txt("language"),
+				$langs);
+		}
+		if ($keywords != "")	// keywords
+		{
+			$info->addProperty($this->lng->txt("keywords"),
+				$keywords);
+		}
+		if ($author != "")		// author
+		{
+			$info->addProperty($this->lng->txt("author"),
+				$author);
+		}
+		if ($copyright != "")		// copyright
+		{
+			$info->addProperty($this->lng->txt("meta_copyright"),
+				$copyright);
+		}
+		if ($learning_time != "")		// typical learning time
+		{
+			$info->addProperty($this->lng->txt("meta_typical_learning_time"),
+				$learning_time);
+		}
+		
 
 		$this->tpl->setContent($info->getHTML());
 		

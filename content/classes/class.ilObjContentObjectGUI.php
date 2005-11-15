@@ -2511,6 +2511,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$buttonTarget = "";
 		}
 
+		// info button
+		if ($a_export_format != "scorm")
+		{
+			if (!$a_offline)
+			{
+				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]); 
+				$tpl_menu->setVariable("BTN_LINK",
+					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showInfoScreen"));
+			}
+			else
+			{
+				$tpl_menu->setVariable("BTN_LINK", "./info.html");
+			}
+			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("info_short"));
+			$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+			$tpl_menu->parseCurrentBlock();
+		}
+
 		// table of contents
 		if ($this->object->isActiveTOC())
 		{
