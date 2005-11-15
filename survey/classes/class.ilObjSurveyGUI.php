@@ -90,14 +90,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand($prepare_output = true)
+	function &executeCommand()
 	{
 		global $ilLocator;
-		if ($prepare_output)
-		{
-			// Alle Repository Einträge der derzeitigen ref_id einfügen
-			$ilLocator->addRepositoryItems();
-		}
+		$ilLocator->addRepositoryItems();
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
@@ -106,11 +102,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-				if ($prepare_output) 
-				{
-					$this->prepareOutput();
-					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-				}
+				$this->prepareOutput();
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
@@ -121,11 +114,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case "ilsurveyevaluationgui":
-				if ($prepare_output) 
-				{
-					$this->prepareOutput();
-					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "evaluation"));
-				}
+				$this->prepareOutput();
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "evaluation"));
 				$this->setAdminTabs();
 				include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
@@ -140,11 +130,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 
 			default:
-				if ($prepare_output) 
-				{
-					$this->prepareOutput();
-					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-				}
+				$this->prepareOutput();
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				if (($cmd != "run") && ($cmd != "start"))
 				{
 					$this->setAdminTabs();
@@ -153,11 +140,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
-		if ($prepare_output)
-		{
-			$this->tpl->setLocator();
-			$this->tpl->show();
-		}
+		$this->tpl->setLocator();
+		$this->tpl->show();
 	}
 
 	/**
@@ -1980,10 +1964,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
 		$eval_gui = new ilSurveyEvaluationGUI($this->object);
 		$this->ctrl->setCmdClass(get_class($eval_gui));
-		$this->ctrl->setCmd("evaluation");
-
-		$ret =& $this->executeCommand(false);
-		return $ret;
+		$this->ctrl->redirect($eval_gui, "evaluation");
 	}
 	
 	/**
@@ -1998,7 +1979,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
 		$exec_gui = new ilSurveyExecutionGUI($this->object);
 		$this->ctrl->setCmdClass(get_class($exec_gui));
-		$this->ctrl->setCmd("run");
 		$this->ctrl->redirect($exec_gui, "run");
 	}
 	
@@ -2491,7 +2471,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_svy_b.gif"));
 		$this->tpl->parseCurrentBlock();
-
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);

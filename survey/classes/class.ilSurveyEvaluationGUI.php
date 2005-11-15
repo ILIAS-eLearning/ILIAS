@@ -337,7 +337,7 @@ class ilSurveyEvaluationGUI
 						// display chart for ordinal question for array $eval["variables"]
 						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
+						$this->tpl->setVariable("CHART","./survey/displaychart.php?grName=" . urlencode($data["title"]) . 
 							"&type=bars" . 
 							"&x=" . urlencode($this->lng->txt("answers")) . 
 							"&y=" . urlencode($this->lng->txt("users_answered")) . 
@@ -418,7 +418,7 @@ class ilSurveyEvaluationGUI
 						// display chart for nominal question for array $eval["variables"]
 						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
+						$this->tpl->setVariable("CHART","./survey/displaychart.php?grName=" . urlencode($data["title"]) . 
 							"&type=$charttype" . 
 							"&x=" . urlencode($this->lng->txt("answers")) . 
 							"&y=" . urlencode($this->lng->txt("users_answered")) . 
@@ -518,7 +518,7 @@ class ilSurveyEvaluationGUI
 						// display chart for metric question for array $eval["values"]
 						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
+						$this->tpl->setVariable("CHART","./survey/displaychart.php?grName=" . urlencode($data["title"]) . 
 							"&type=bars" . 
 							"&x=" . urlencode($this->lng->txt("answers")) . 
 							"&y=" . urlencode($this->lng->txt("users_answered")) . 
