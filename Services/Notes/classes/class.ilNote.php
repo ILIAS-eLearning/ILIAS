@@ -414,7 +414,7 @@ class ilNote
 	{
 		global $ilDB, $ilUser;
 		
-		$q = "SELECT DISTINCT rep_obj_id, obj_type FROM note WHERE ".
+		$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
 			" type = ".$ilDB->quote(IL_NOTE_PRIVATE).
 			" AND author = ".$ilDB->quote($ilUser->getId()).
 			" ORDER BY rep_obj_id";
@@ -424,8 +424,7 @@ class ilNote
 		$reps = array();
 		while($rep_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"],
-				"obj_type" =>$rep_rec["obj_type"]);
+			$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
 		}
 		
 		return $reps;

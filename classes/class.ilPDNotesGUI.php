@@ -166,13 +166,13 @@ class ilPDNotesGUI
 				$this->tpl->setCurrentBlock("related_option");
 				$this->tpl->setVariable("VAL_RELATED",
 					$obj["rep_obj_id"]);
-//echo "-".$obj["rep_obj_id"]."-";
+//echo "-".$obj["rep_obj_id"]."-".$obj["obj_type"]."-";
 				if ($obj["rep_obj_id"] > 0)
 				{
 					$type = ilObject::_lookupType($obj["rep_obj_id"]);
 					$type_str = (in_array($type, array("lm", "htlm", "sahs", "dbk")))
 						? $lng->txt("learning_resource")
-						: $lng->txt("obj_".$obj["obj_type"]);
+						: $lng->txt("obj_".$type);
 					$this->tpl->setVariable("TXT_RELATED", $type_str.": ".
 						ilObject::_lookupTitle($obj["rep_obj_id"]));
 				}
