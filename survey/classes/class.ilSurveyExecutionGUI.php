@@ -124,18 +124,6 @@ class ilSurveyExecutionGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-
 		if ($this->object->getAnonymize())
 		{
 			if ($resume)
@@ -175,9 +163,47 @@ class ilSurveyExecutionGUI
 			$activepage = $this->object->getLastActivePage($ilUser->id);
 			$direction = 0;
 		}
+		$this->outSurveyPage($activepage, $direction);
+	}
 
+/**
+* Navigates to the previous pages
+*
+* Navigates to the previous pages
+*
+* @access private
+*/
+	function previous()
+	{
+		$this->navigate("previous");
+	}
+	
+/**
+* Navigates to the next pages
+*
+* Navigates to the next pages
+*
+* @access private
+*/
+	function next()
+	{
+		$this->navigate("next");
+	}
+	
+/**
+* Output of the active survey question to the screen
+*
+* Output of the active survey question to the screen
+*
+* @access private
+*/
+	function outSurveyPage($activepage, $direction)
+	{
+		global $ilUser;
+		
 		$page = $this->object->getNextPage($activepage, $direction);
 		$constraint_true = 0;
+
 		// check for constraints
 		if (count($page[0]["constraints"]))
 		{
@@ -210,6 +236,7 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
+			$this->prepareOutput();
 			$this->outNavigationButtons("top", $page);
 			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
 			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
@@ -242,34 +269,8 @@ class ilSurveyExecutionGUI
 				$this->tpl->parse("survey_content");
 			}
 			$this->outNavigationButtons("bottom", $page);
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $qid);
 		}
-		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $qid);
-		$this->tpl->parseCurrentBlock();
-	}
-
-/**
-* Navigates to the previous pages
-*
-* Navigates to the previous pages
-*
-* @access private
-*/
-	function previous()
-	{
-		$this->navigate("previous");
-	}
-	
-/**
-* Navigates to the next pages
-*
-* Navigates to the next pages
-*
-* @access private
-*/
-	function next()
-	{
-		$this->navigate("next");
 	}
 	
 /**
@@ -279,7 +280,8 @@ class ilSurveyExecutionGUI
 *
 * @access private
 */
-	function navigate($navigationDirection = "next") {
+	function navigate($navigationDirection = "next") 
+	{
 		global $ilUser;
 		global $rbacsystem;
 
@@ -287,18 +289,6 @@ class ilSurveyExecutionGUI
 		{
 			// only with read access it is possible to run the test
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
 		}
 
 		// check users input when it is a metric question
@@ -341,78 +331,7 @@ class ilSurveyExecutionGUI
 				}
 				break;
 		}
-
-		$page = $this->object->getNextPage($activepage, $direction);
-		$constraint_true = 0;
-
-		// check for constraints
-		if (count($page[0]["constraints"]))
-		{
-			while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"])))
-			{
-				$constraint_true = 1;
-				foreach ($page[0]["constraints"] as $constraint)
-				{
-					$working_data = $this->object->loadWorkingData($constraint["question"], $ilUser->id);
-					$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
-				}
-				if ($constraint_true == 0)
-				{
-					$page = $this->object->getNextPage($page[0]["question_id"], $direction);
-				}
-			}
-		}
-
-		$qid = "";
-		if ($page === 0)
-		{
-			$this->runShowIntroductionPage();
-			return;
-		}
-		else if ($page === 1)
-		{
-			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
-			$this->runShowFinishedPage();
-			return;
-		}
-		else
-		{
-			$this->outNavigationButtons("top", $page);
-			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
-			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
-			$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
-			$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
-			$this->tpl->setCurrentBlock("percentage");
-			$this->tpl->setVariable("PERCENTAGE", (int)(($page[0]["position"])*200));
-			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($page[0]["position"])*100));
-			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-			$this->tpl->parseCurrentBlock();
-			if (count($page) > 1)
-			{
-				$this->tpl->setCurrentBlock("questionblock_title");
-				$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $this->lng->txt("questionblock") . ": " . $page[0]["questionblock_title"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			foreach ($page as $data)
-			{
-				$this->tpl->setCurrentBlock("survey_content");
-				if ($data["heading"])
-				{
-					$this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
-				}
-				$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
-				$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
-				$question_gui->object->setObligatory($data["obligatory"]);
-				$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
-				$qid = "&qid=" . $data["question_id"];
-				$this->tpl->parse("survey_content");
-			}
-			$this->outNavigationButtons("bottom", $page);
-		}
-		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $qid);
-		$this->tpl->parseCurrentBlock();
+		$this->outSurveyPage($activepage, $direction);
 	}
 
 /**
@@ -424,6 +343,8 @@ class ilSurveyExecutionGUI
 */
 	function saveActiveQuestionData(&$data, &$error_messages)
 	{
+		global $ilUser;
+		
 		$page_error = 0;
 		$save_answer = 0;
 		$error = 0;
@@ -580,18 +501,6 @@ class ilSurveyExecutionGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-
 		$this->runShowIntroductionPage();
 	}
 
@@ -626,6 +535,7 @@ class ilSurveyExecutionGUI
 		{
 			$survey_started = $this->object->isSurveyStarted($ilUser->id, $this->object->getUserSurveyCode());
 		}
+		$this->prepareOutput();
 		// show introduction page
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
 		if ((strcmp($ilUser->login, "anonymous") == 0) && (!$this->object->getAnonymize()))
@@ -737,6 +647,7 @@ class ilSurveyExecutionGUI
 	{
 		// show introduction page
 		unset($_SESSION["anonymous_id"]);
+		$this->prepareOutput();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
 		$this->tpl->setVariable("TEXT_FINISHED", $this->lng->txt("survey_finished"));
 		$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
@@ -789,6 +700,35 @@ class ilSurveyExecutionGUI
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
 		}
 		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Loads the main template and adds the page title
+	*
+	* Loads the main template and adds the page title
+	*
+	* @access private
+	*/
+	function prepareOutput()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");		
+			
+		$title = $this->object->getTitle();
+		
+		// header icon
+		$this->tpl->setCurrentBlock("header_image");
+		$icon = ilUtil::getImagePath("icon_tst_b.gif");
+		$this->tpl->setVariable("IMG_HEADER", $icon);
+		$this->tpl->parseCurrentBlock();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+		
+		// catch feedback message
+		sendInfo();
 	}
 }
 ?>
