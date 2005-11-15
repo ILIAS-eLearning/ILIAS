@@ -2269,7 +2269,7 @@
 <xsl:template match="response_grp">
 	<xsl:choose>
 		<xsl:when test="@output='javascript'">
-			<script type="text/javascript" src="wz_dragdrop.js"></script>
+			<script type="text/javascript" src="./assessment/wz_dragdrop.js"></script>
 			<xsl:for-each select="render_choice/response_label">
 					<xsl:if test="@match_max">
 						<input type="hidden">

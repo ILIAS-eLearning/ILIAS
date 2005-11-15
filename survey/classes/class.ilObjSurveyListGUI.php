@@ -168,10 +168,15 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
+		$cmd_link = "";
+		switch ($a_cmd)
+		{
+			default:
+				$cmd_link = "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
+					"&amp;cmd=$a_cmd";
+				break;
+		}
 		// separate method for this line
-		$cmd_link = "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
-			"&amp;cmd=$cmd";
-
 		return $cmd_link;
 	}
 
