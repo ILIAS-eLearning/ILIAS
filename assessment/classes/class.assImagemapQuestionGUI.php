@@ -189,7 +189,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					$imagepath = "displaytempimage.php?gfx=" . $pfile;
+					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
 				}
 			}
 			else
@@ -375,7 +375,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					}
 					else
 					{
-						$imagepath = "displaytempimage.php?gfx=" . $pfile;
+						$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
 					}
 					$map = $preview->getImagemap("imagemap_" . $this->object->getId());
 				}
@@ -741,7 +741,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					$imagepath = "displaytempimage.php?gfx=" . $pfile;
+					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
 				}
 				$output = preg_replace("/usemap\=\"#qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#qmap\" src=\"$imagepath\"", $output);
 			}
@@ -777,7 +777,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					$imagepath = "displaytempimage.php?gfx=" . $pfile;
+					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
 				}
 				$solutionoutput = preg_replace("/usemap\=\"#solution_qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#solution_qmap\" src=\"$imagepath\"", $solutionoutput);
 			}

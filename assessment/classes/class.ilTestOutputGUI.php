@@ -508,7 +508,7 @@ class ilTestOutputGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function isMaxProcessingTimeReached () 
+	function isMaxProcessingTimeReached() 
 	{
 		global $ilUser;
  
@@ -518,7 +518,7 @@ class ilTestOutputGUI
 		return $this->maxProcessingTimeReached;
 	}
 	
-	function isEndingTimeReached () 
+	function isEndingTimeReached()
 	{
 		global $ilUser;
 		if (!is_bool($this->endingTimeReached))			
@@ -986,6 +986,39 @@ class ilTestOutputGUI
 */
 	function selectImagemapRegion()
 	{
+		if (array_key_exists("cmd", $_POST))
+		{
+			if (strlen($_POST["cmd"]["summary"]))
+			{
+				$this->summary();
+				return;
+			}
+			else if (strlen($_POST["cmd"]["setsolved"]))
+			{
+				$this->setsolved();
+				return;
+			}
+			else if (strlen($_POST["cmd"]["resetsolved"]))
+			{
+				$this->resetsolved();
+				return;
+			}
+			else if (strlen($_POST["cmd"]["next"]))
+			{
+				$this->next();
+				return;
+			}
+			else if (strlen($_POST["cmd"]["previous"]))
+			{
+				$this->previous();
+				return;
+			}
+			else if (strlen($_POST["cmd"]["postpone"]))
+			{
+				$this->postpone();
+				return;
+			}
+		}
 		$this->saveQuestionSolution();
 		$this->sequence = $this->getSequence();	
 		$this->object->setActiveTestUser($this->sequence);

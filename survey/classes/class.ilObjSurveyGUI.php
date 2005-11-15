@@ -133,12 +133,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 
 			case "ilsurveyexecutiongui":
-				if ($prepare_output) 
-				{
-					$this->prepareOutput();
-					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
-				}
-				$this->setAdminTabs();
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
 				include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
 				$exec_gui = new ilSurveyExecutionGUI($this->object);
 				$ret =& $this->ctrl->forwardCommand($exec_gui);
@@ -2004,9 +1999,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$exec_gui = new ilSurveyExecutionGUI($this->object);
 		$this->ctrl->setCmdClass(get_class($exec_gui));
 		$this->ctrl->setCmd("run");
-
-		$ret =& $this->executeCommand(false);
-		return $ret;
+		$this->ctrl->redirect($exec_gui, "run");
 	}
 	
 	/**
