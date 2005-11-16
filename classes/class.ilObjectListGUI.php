@@ -323,6 +323,27 @@ class ilObjectListGUI
 	}
 
 	/**
+	* En/disable path
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableInfoScreen($a_info_screen)
+	{
+		$this->info_screen_enabled = $a_info_screen;
+	}
+
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getInfoScreenStatus()
+	{
+		return $this->info_screen_enabled;
+	}
+
+	/**
 	* @param string title
 	* @return bool
 	*/
@@ -906,15 +927,9 @@ class ilObjectListGUI
 	*/
 	function insertInfoScreenCommand()
 	{
-		global $ilAccess;
-
-		// if read permission is given, info button is not displayed!
-		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
-		{
-			$cmd_link = $this->getCommandLink("infoScreen");
-			$cmd_frame = $this->getCommandFrame("infoScreen");
-			$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame);
-		}
+		$cmd_link = $this->getCommandLink("infoScreen");
+		$cmd_frame = $this->getCommandFrame("infoScreen");
+		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame);
 	}
 
 	/**
@@ -970,7 +985,7 @@ class ilObjectListGUI
 		}
 
 		// info screen commmand
-		if ($this->info_screen_enabled)
+		if ($this->getInfoScreenStatus())
 		{
 			$this->insertInfoScreenCommand();
 		}

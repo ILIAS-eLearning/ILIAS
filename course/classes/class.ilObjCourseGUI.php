@@ -237,7 +237,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 
-	function detailsObject()
+	function infoScreenObject()
 	{
 		global $rbacsystem;
 
@@ -2661,9 +2661,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				? true
 				: false;
 			$tabs_gui->addTarget("info_short",
-								 $this->ctrl->getLinkTarget($this, "details"),
-								 "details",
-								 get_class($this),"", $force_active);
+								 $this->ctrl->getLinkTarget($this, "infoScreen"),
+								 "infoScreen",
+								 "", "", $force_active);
 		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
@@ -3980,7 +3980,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		switch($next_class)
 		{
 			case "ilnotegui":
-				$ret =& $this->detailsObject();
+				$ret =& $this->infoScreenObject();
 				break;
 
 			case 'ilmdeditorgui':
@@ -4054,7 +4054,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			default:
 				if((!$rbacsystem->checkAccess("read",$this->object->getRefId()) or $cmd == 'join' or $cmd == 'subscribe')
-				   and $cmd != 'details')
+				   and $cmd != 'infoScreen')
 				{
 					$this->ctrl->setReturn($this,"");
 					$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
