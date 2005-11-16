@@ -90,6 +90,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				break;
 
+			/* info screen is always visible
 			case 'details':
 				include_once 'course/classes/class.ilCourseMembers.php';
 
@@ -103,7 +104,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				{
 					return false;
 				}
-				break;
+				break;*/
 		}
 
 		switch ($a_permission)
@@ -147,8 +148,7 @@ class ilObjCourseAccess extends ilObjectAccess
 			array("permission" => "read", "cmd" => "view", "lang_var" => "view",
 				  "default" => true),
 			array("permission" => "join", "cmd" => "join", "lang_var" => "join"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-			array('permission' => 'visible', 'cmd' => 'details','lang_var' => 'crs_info')
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);
 		
 		return $commands;

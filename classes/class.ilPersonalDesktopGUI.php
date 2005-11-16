@@ -488,6 +488,7 @@ class ilPersonalDesktopGUI
 						$item_list_gui->enableCut(false);
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
+						$item_list_gui->enableInfoScreen(false);
 						if ($ilUser->getPref("pd_selected_items_details") != "y")
 						{
 							$item_list_gui->enableDescription(false);
@@ -572,6 +573,7 @@ class ilPersonalDesktopGUI
 					$item_list_gui->enableCut(false);
 					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
+					$item_list_gui->enableInfoScreen(false);
 					if ($ilUser->getPref("pd_selected_items_details") != "y")
 					{
 //echo "3";
