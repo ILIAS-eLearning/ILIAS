@@ -468,6 +468,8 @@ class ASS_QuestionGUI
 	*/
 	function saveEdit()
 	{
+		global $ilUser;
+		
 		$result = $this->writePostData();
 		if ($result == 0)
 		{
@@ -519,6 +521,8 @@ class ASS_QuestionGUI
 	*/
 	function save()
 	{
+		global $ilUser;
+		
 		$old_id = $_GET["q_id"];
 		$result = $this->writePostData();
 		if ($result == 0)

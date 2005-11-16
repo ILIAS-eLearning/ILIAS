@@ -987,5 +987,35 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		return 0;
 	}
+
+/**
+* Returns true, if the question pool is writeable by a given user
+* 
+* Returns true, if the question pool is writeable by a given user
+*
+* @param integer $object_id The object id of the question pool
+* @param integer $user_id The database id of the user
+* @access public
+*/
+	function _isWriteable($object_id, $user_id)
+	{
+		global $rbacsystem;
+		global $ilDB;
+		
+		$result_array = array();
+		$query = sprintf("SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.obj_id = %s",
+			$ilDB->quote($object_id . "")
+		);
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{		
+			include_once "./classes/class.ilObject.php";
+			if ($rbacsystem->checkAccess("write", $row["ref_id"]) && (ilObject::_hasUntrashedReference($row["obj_id"])))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 } // END class.ilSurveyObjQuestionPool
 ?>

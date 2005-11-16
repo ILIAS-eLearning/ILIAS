@@ -1481,5 +1481,40 @@ class SurveyQuestion {
 		$this->saveCompletionStatus();
 	}
 	
+/**
+* Returns true if the question is writeable by a certain user
+*
+* Returns true if the question is writeable by a certain user
+*
+* @param integer $question_id The database id of the question
+* @param integer $user_id The database id of the user
+* @result boolean True, if the question exists, otherwise False
+* @access public
+*/
+	function _isWriteable($question_id, $user_id)
+	{
+		global $ilDB;
+
+		if (($question_id < 1) || ($user_id < 1))
+		{
+			return false;
+		}
+		
+		$query = sprintf("SELECT obj_fi FROM survey_question WHERE question_id = %s",
+			$ilDB->quote($question_id . "")
+		);
+    $result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$qpl_object_id = $row["obj_fi"];
+			include_once "./survey/classes/class.ilObjSurveyQuestionPool.php";
+			return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id, $user_id);
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 ?>
