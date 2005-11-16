@@ -473,11 +473,11 @@ class ASS_QuestionGUI
 		{
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
-			if ($_GET["calling_test"] && $originalexists)
+			if ($_GET["calling_test"] && $originalexists && ASS_Question::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();
 			}
-			elseif ($_GET["calling_test"] && !$originalexists)
+			elseif ($_GET["calling_test"])
 			{
 				$_GET["ref_id"] = $_GET["calling_test"];
 				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
@@ -525,11 +525,11 @@ class ASS_QuestionGUI
 		{
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
-			if ($_GET["calling_test"] && $originalexists)
+			if ($_GET["calling_test"] && $originalexists && ASS_Question::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();
 			}
-			elseif ($_GET["calling_test"] && !$originalexists)
+			elseif ($_GET["calling_test"])
 			{
 				$_GET["ref_id"] = $_GET["calling_test"];
 				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
