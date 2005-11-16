@@ -1273,7 +1273,8 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{		
-			if ($rbacsystem->checkAccess("write", $row["ref_id"]) && (ilObjQuestionPool::_hasUntrashedReference($row["obj_id"])))
+			include_once "./classes/class.ilObject.php";
+			if ($rbacsystem->checkAccess("write", $row["ref_id"]) && (ilObject::_hasUntrashedReference($row["obj_id"])))
 			{
 				return true;
 			}
