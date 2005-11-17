@@ -126,7 +126,7 @@ assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
 assessment#:#average_reached_points#:#Punteggio medio raggiunto
 assessment#:#backtocallingtest#:#Torna al test
-assessment#:#by#:#da
+assessment#:#by#:#da:
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
 assessment#:#cannot_execute_test#:#Non hai i diritti per eseguire il test!
@@ -144,14 +144,14 @@ assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferen
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Puoi definire uno spazio vuoto inserendo i tag <gap></gap> nella posizione che desideri. Premi il pulsante 'Crea uno spazio vuoto' se vuoi aggiungere una maschera editabile per ogni spazio vuoto.
 assessment#:#cloze_text#:#Testo corrispondente
-assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
-assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
-assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 2005 new variable
-assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
+assessment#:#cloze_textgap_case_insensitive#:#No Maiuscole/minuscole
+assessment#:#cloze_textgap_case_sensitive#:#Maiuscole/minuscole
+assessment#:#cloze_textgap_levenshtein_of#:#Distanza di Levenshtein del %s
+assessment#:#cloze_textgap_rating#:#Punteggio
 assessment#:#code#:#Codice
 assessment#:#concatenation#:#Concatenazione
 assessment#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti?
-assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
+assessment#:#confirm_delete_single_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti selezionati?
 assessment#:#confirm_sync_questions#:#La domanda che &#232; stata modificata &#232; la copia di una che &#232; stata creata per un sondaggio ancora attivo. Vuoi cambiare anche la domanda originale?
 assessment#:#coordinates#:#Coordinate
 assessment#:#correct_solution_is#:#La soluzione corretta &#232;
@@ -160,9 +160,9 @@ assessment#:#create_date#:#Data creazione
 assessment#:#create_gaps#:#Crea uno spazio vuoto
 assessment#:#create_imagemap#:#Crea una immagine con mappa
 assessment#:#create_new#:#Nuova domanda
-assessment#:#definition#:#Definition###03 Nov 2005 new variable
+assessment#:#definition#:#Definizione
 assessment#:#delete_area#:#Elimina area
-assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
+assessment#:#delete_user_data#:#Elimina tutti i dati del test degli utenti selezionati
 assessment#:#description_maxchars#:#Se non viene inserito un valore, in questo campo testo non c'&#232; limite alle dimensioni della risposta.
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
 assessment#:#detail_max_processing_time_reached#:#Hai raggiunto il tempo massimo consentito per l'esecuzione del test!
@@ -198,7 +198,7 @@ assessment#:#ects_range_error_e#:#Per favore inserisci un valore tra 0 e 100 per
 assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che falliscono raggiungono almeno il 
 assessment#:#ects_use_fx_grade_part2#:#percento dei punti totali.
 assessment#:#edit_content#:#Modifica il contenuto
-assessment#:#edit_properties#:#Modifica le proprietà
+assessment#:#edit_properties#:#Proprietà
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
 assessment#:#error_image_upload_copy_file#:#Si &#232; verificato un errore nello spostamento dell'immagine nella cartella di destinazione!
@@ -274,8 +274,8 @@ assessment#:#log_no_test_fields_changed#:#Salvato, ma non modificato
 assessment#:#log_question_added#:#Domanda aggiunta nella posizione
 assessment#:#log_question_position_changed#:#Modificata posizione della domanda
 assessment#:#log_question_removed#:#Eliminata domanda
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
-assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
+assessment#:#log_selected_user_data_removed#:#Eliminati i dati del test degli utenti %s
+assessment#:#log_user_answered_question#:#L'utente ha risposto alla domanda ed ha ricevuto %s punti
 assessment#:#log_user_data_removed#:#Eliminati tutti i dati utente
 assessment#:#maintenance#:#Manutenzione
 assessment#:#mark_schema#:#Schema voti
@@ -301,12 +301,12 @@ assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
 assessment#:#participants#:#Partecipanti
-assessment#:#pass#:#Pass###03 Nov 2005 new variable
+assessment#:#pass#:#Superare
 assessment#:#passed_official#:#Superato
 assessment#:#passed_short#:#Superato
 assessment#:#percentage_solved#:#Hai risolto il %.2f percento di questa domanda!
 assessment#:#percentile#:#Percentuale
-assessment#:#picture#:#Picture###03 Nov 2005 new variable
+assessment#:#picture#:#Immagine
 assessment#:#please_select#:#---- per favore seleziona ----
 assessment#:#points#:#Punti
 assessment#:#points_short#:#Pt.
@@ -325,8 +325,8 @@ assessment#:#qpl_assessment_of_questions#:#Valutazione delle domande
 assessment#:#qpl_assessment_total_of_answers#:#Totale delle risposte
 assessment#:#qpl_assessment_total_of_right_answers#:#Percentuale totale di risposte giuste (percentuale con il punteggio massimo)
 assessment#:#qpl_confirm_delete_questions#:#Sei sicuro di voler eliminare le seguenti domande? Se cancelli le domande bloccate, anche i risultati dei test che le contengono verranno cancellati.
-assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###03 Nov 2005 new variable
-assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard###03 Nov 2005 new variable
+assessment#:#qpl_copy_insert_clipboard#:#Le domande selezionate sono state copiate negli appunti
+assessment#:#qpl_copy_select_none#:#Seleziona almeno una domanda da copiare negli appunti
 assessment#:#qpl_delete_rbac_error#:#Non hai i diritti per eliminare questa raccolta di domande!
 assessment#:#qpl_delete_select_none#:#Seleziona la raccolta di domande da eliminare
 assessment#:#qpl_display_fullsize_image#:#Clicca qui per mostrare l'immagine originale!
@@ -335,18 +335,18 @@ assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa racco
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
-assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable
+assessment#:#qpl_general_properties#:#Propriet&#224; generali
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS non pu&#242; creare il file temporaneo contenente l'immagine a mappa. Viene mostrata quindi l'immagine originale. Questo pu&#242; essere dovuto ad ImageMagick non correttamente configurato o alla impossibilit&#224; di scrivere nella cartella temporanea! Contatta l'amministratore di sistema.
 assessment#:#qpl_import_create_new_qpl#:#Importa le domande in una nuova raccolta
 assessment#:#qpl_import_no_items#:#Si &#232; verificato un errore: il file scelto non contiene domande!
 assessment#:#qpl_import_non_ilias_files#:#Si &#232; verificato un errore: il file scelto non &#232; stato creato con Ilias. Contatta il team di Ilias per avere un filtro di import per il formato del tuo file QTI.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS ha trovato le seguenti domande nel file indicato. Scegli quelle che vuoi importare.
-assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
-assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving###03 Nov 2005 new variable
-assessment#:#qpl_online_property#:#Online###03 Nov 2005 new variable
-assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
-assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###03 Nov 2005 new variable
-assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool###03 Nov 2005 new variable
+assessment#:#qpl_move_insert_clipboard#:#Le domande selezionate sono state marcate per lo spostamento.
+assessment#:#qpl_move_select_none#:#Seleziona almeno una domanda se vuoi spostarla
+assessment#:#qpl_online_property#:#Online
+assessment#:#qpl_online_property_description#:#Se la raccolta di domande non &#232; online, non pu&#242; essere usata nei test.
+assessment#:#qpl_paste_no_objects#:#Non ci sono domande negli appunti. Per favore, copia o sposta  una domanda negli appunti
+assessment#:#qpl_paste_success#:#Le domande sono state incollate nella raccolta di domande
 assessment#:#qpl_question_is_in_use#:#La domanda che stai per modificare &#232; inserita in %s test. Se modifichi la domanda, NON verranno modificate le domande nei test, perch&#232; il sistema crea una copia delle domande quando queste vengono inserite in un test!
 assessment#:#qpl_questions_deleted#:#Domande eliminate
 assessment#:#qpl_select_file_for_import#:#Devi scegliere il file da importare!
@@ -410,10 +410,10 @@ assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
 assessment#:#starting_time_not_reached#:#Non &#232; ancora arrivato il momento per iniziare!
 assessment#:#statistical_data#:#Dati statistici
-assessment#:#statistics#:#Statistics###03 Nov 2005 new variable
+assessment#:#statistics#:#Statistiche
 assessment#:#suggested_solution_added_successfully#:#Hai messo con successo una delle risposte suggerite!
 assessment#:#symbol#:#Simbolo
-assessment#:#term#:#Term###03 Nov 2005 new variable
+assessment#:#term#:#Termine
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
 assessment#:#text_answers_saved#:#Punteggio delle domande modificato!
 assessment#:#text_gap#:#Spazio vuoto
@@ -425,12 +425,12 @@ assessment#:#tst_all_user_data_deleted#:#Tutti i dati di questo test sono stati 
 assessment#:#tst_already_submitted#:#Il test &#232; gi&#224; stato eseguito e inviato.
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_answer_sheet#:#Risultati delle risposte al test
-assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
+assessment#:#tst_answered_questions#:#Domande risposte
 assessment#:#tst_browse_for_questions#:#Cerca la domanda
 assessment#:#tst_confirm_delete_results#:#Stai per cancellare tutti i risultati del test appena eseguito. Questo riporterà tutte le domande ai loro valori predefiniti. Attenzione, non viene per&#242; azzerato il numero di tentativi che puoi effettuare per quest test. Vuoi veramente annullare tutti i risultati che hai appena inserito?
 assessment#:#tst_confirm_delete_results_info#:#Tutti i risultati che hai appena inserito sono stati cancellati. Il test è stato annullato con successo!
 assessment#:#tst_confirm_print#:#Premi il pulsante per stampare tutte le domande con i punti e le soluzioni. La domanda compare sempre in fondo alla pagina.
-assessment#:#tst_confirm_submit_answers#:#Per favore conferma l'invio della soluzione. Non sarai pi&#250; in grado di correggere le risposte dopo aver premuto 'Invia'. Se vuoi stampare le risposte utilizza il menu 'Stampa' del tuo Browser.###03 Nov 2005 content changed
+assessment#:#tst_confirm_submit_answers#:#Per favore conferma l'invio della soluzione. Non sarai pi&#250; in grado di correggere le risposte dopo aver premuto 'Invia'. Se vuoi stampare le risposte utilizza il menu 'Stampa' del tuo Browser.
 assessment#:#tst_count_correct_solutions#:#Conta solo i test completati.
 assessment#:#tst_count_partial_solutions#:#Conta anche i test risolti parzialmente.
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
@@ -439,7 +439,7 @@ assessment#:#tst_delete_results#:#Annulla il test (cancella i risultati)
 assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_enter_questionpool#:#Per favore inserisci il nome della raccolta di domande nella quale verr&#224; inserita la domanda
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per utenti anonimi.
-assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
+assessment#:#tst_eval_results_by_pass#:#Risultati delle domande in dettaglio
 assessment#:#tst_eval_show_answer#:#Mostra la risposta
 assessment#:#tst_eval_total_finished#:#Test di valutazione completati
 assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test completati
@@ -451,9 +451,9 @@ assessment#:#tst_finished#:#Finito
 assessment#:#tst_general_properties#:#Propriet&#224; generali
 assessment#:#tst_generate_xls#:#Crea un Foglio elettronico
 assessment#:#tst_heading_scoring#:#Punteggio
-assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
-assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
-assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results#:#Nascondi i risultati precedenti
+assessment#:#tst_hide_previous_results_description#:#Se selezionato, i precedenti risultati dello studente non saranno usati come valori di riferimento per i test futuri
+assessment#:#tst_hide_previous_results_introduction#:#Se esegui pi&#249; di una volta questo test, i risultati delle volte precedenti non saranno usati come valori di riferimento
 assessment#:#tst_import_no_items#:#Errore: il file da importare non contiene domande!
 assessment#:#tst_import_verify_found_questions#:#ILIAS ha trovato nel file da importare le seguenti domande: scegli quelle che vuoi inserire nel test.
 assessment#:#tst_in_use_edit_questions_disabled#:#Ci sono %d utenti che stanno eseguendo il test in questo momento. Non puoi modificare o spostare le domande del test!
@@ -487,10 +487,10 @@ assessment#:#tst_no_tries#:#Nessun tentativo
 assessment#:#tst_nr_of_tries#:#Numero massimo di tentativi
 assessment#:#tst_nr_of_tries_of_user#:#Prove gi&#224; completate
 assessment#:#tst_participating_users#:#Utenti partecipanti
-assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
-assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
-assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
-assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
+assessment#:#tst_pass_best_pass#:#Punteggio della miglior prova dell'utente
+assessment#:#tst_pass_details#:#Mostra dettagli
+assessment#:#tst_pass_last_pass#:#Punteggio dell'ultimo tentativo dell'utente
+assessment#:#tst_pass_scoring#:#Punteggio per tentativi multipli
 assessment#:#tst_percent_solved#:#Percentuale risolta
 assessment#:#tst_print#:#Anteprima di stampa
 assessment#:#tst_print_date#:#Data di stampa
@@ -520,12 +520,12 @@ assessment#:#tst_report_after_question#:#Esegui un rapporto con il punteggio dop
 assessment#:#tst_report_after_test#:#Esegui un rapporto con il punteggio al termine del test
 assessment#:#tst_result_congratulations#:#Congratulazioni! Hai superato il test!
 assessment#:#tst_result_sorry#:#Mi dispiace! Non hai superato il test
-assessment#:#tst_result_user_name#:#Test results for %s###03 Nov 2005 new variable
+assessment#:#tst_result_user_name#:#Risultati del test di %s
 assessment#:#tst_results#:#Risultati del test
-assessment#:#tst_results_aggregated#:#Aggregated test results###03 Nov 2005 new variable
-assessment#:#tst_results_back_evaluation#:#Back to evaluation overview###03 Nov 2005 new variable
-assessment#:#tst_results_back_introduction#:#Back to introduction###03 Nov 2005 new variable
-assessment#:#tst_results_back_overview#:#Back to results overview###03 Nov 2005 new variable
+assessment#:#tst_results_aggregated#:#Risultati aggregati del test
+assessment#:#tst_results_back_evaluation#:#Torna indietro alla vista generale
+assessment#:#tst_results_back_introduction#:#Torna indietro alla introduzione
+assessment#:#tst_results_back_overview#:#Torna indietro ai risultati
 assessment#:#tst_resume_test#:#Riprendi il test
 assessment#:#tst_score_mcmr_questions#:#Domande a risposta multipla
 assessment#:#tst_score_mcmr_use_scoring_system#:#Indica il punteggio anche nel caso in cui la risposta non sia scelta
@@ -538,13 +538,13 @@ assessment#:#tst_select_questionpool#:#Per favore, seleziona la raccolta alla qu
 assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
 assessment#:#tst_select_random_questions#:#Seleziona la raccolta o le raccolte dalle quali verranno prelevate le domande che comporranno il test casuale.
 assessment#:#tst_select_tsts#:#Per favore scegli un test da duplicare
-assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully###06 Nov 2005 new variable
+assessment#:#tst_selected_user_data_deleted#:#I dati del test degli utenti selezionati sono stati eliminati con successo.
 assessment#:#tst_sequence#:#Tipo di sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
 assessment#:#tst_sequence_postpone#:#Lo studente pu&#242; saltare alcune domande ed eseguirle alla fine del test
 assessment#:#tst_sequence_properties#:#Propriet&#224; della sequenza
 assessment#:#tst_session_settings#:#Impostazioni della sessione
-assessment#:#tst_show_answer_print_sheet#:#Answers Printview###03 Nov 2005 new variable
+assessment#:#tst_show_answer_print_sheet#:#Anteprima delle risposte
 assessment#:#tst_show_results#:#Mostra i risultati del test
 assessment#:#tst_start_test#:#Inizia il test
 assessment#:#tst_started#:#Test Iniziato
@@ -590,14 +590,14 @@ assessment#:#tst_type_changed#:#Hai modificato il tipo di test. Tutti i test pre
 assessment#:#tst_type_comment#:#Attenzione: modificando il tipo, tutti i test svolti precedentemente verranno eliminati!
 assessment#:#tst_types#:#Tipo di test
 assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"
-assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
+assessment#:#tst_your_answer_was#:#La tua risposta &#232; 
 assessment#:#tst_your_answers#:#Queste sono le risposte che hai dato alle seguenti domande.
 assessment#:#tst_your_ects_mark_is#:#Il tuo voto ECTS &#232;
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
 assessment#:#tt_assessment#:#Test di valutazione
 assessment#:#tt_online_exam#:#Esame Online
 assessment#:#tt_self_assessment#:#Test di autovalutazione
-assessment#:#tt_varying_randomtest#:#Varying random test###03 Nov 2005 new variable
+assessment#:#tt_varying_randomtest#:#Test casuale variabile
 assessment#:#unlimited#:#non limitato
 assessment#:#unlock#:#Sbloccato
 assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.
@@ -670,11 +670,11 @@ bibitem#:#bibitem_unpublished#:#Non pubblicato
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Luogo pubblicazione
 bibitem#:#bibitem_year#:#Anno
-chat#:#cancel_talk#:#Cancel address###03 Nov 2005 new variable
-chat#:#cancel_whisper#:#Cancel whisper###03 Nov 2005 new variable
+chat#:#cancel_talk#:#Elimina indirizzo
+chat#:#cancel_whisper#:#Elimina bisbiglio
 chat#:#chat_access_blocked#:#Sei stato escluso da questa chatroom
 chat#:#chat_active#:#Attiva
-chat#:#chat_active_users#:#Utente (attivo)###03 Nov 2005 content changed
+chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
 chat#:#chat_add_external_ip#:#Per favore, aggiungi l'IP esterno del server.
 chat#:#chat_add_internal_ip#:#Per favore, aggiungi l'IP interno del server.
@@ -710,7 +710,7 @@ chat#:#chat_html_export#:#Esporta in HTML
 chat#:#chat_ilias#:#Modulo ILIAS per Chat
 chat#:#chat_inactive#:#Inattiva
 chat#:#chat_input#:#Ingresso
-chat#:#chat_insert_message#:#Per favore, inserisci un messaggio###03 Nov 2005 content changed
+chat#:#chat_insert_message#:#Per favore, inserisci un messaggio
 chat#:#chat_invitation_body#:#Invito a chattare da:
 chat#:#chat_invitation_subject#:#Invito a chattare
 chat#:#chat_invite_user#:#Utente invitato
@@ -728,7 +728,7 @@ chat#:#chat_maroon#:#marrone
 chat#:#chat_messages_deleted#:#I messaggi sono stati cancellati
 chat#:#chat_moderator_password#:#Password del moderatore
 chat#:#chat_navy#:#avio
-chat#:#chat_no_active_users#:#Non sono presenti utenti###03 Nov 2005 content changed
+chat#:#chat_no_active_users#:#Non sono presenti utenti
 chat#:#chat_no_blocked#:#Nessun utente bloccato disponibile
 chat#:#chat_no_connection#:#Impossibile contattare il server di chat
 chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.
@@ -738,7 +738,7 @@ chat#:#chat_no_rename_public#:#La chatroom pubblica non pu&#242; essere rinomina
 chat#:#chat_no_users_selected#:#Devi scegliere almeno un utente.
 chat#:#chat_no_write_perm#:#Non hai i permessi di scrittura
 chat#:#chat_olive#:#oliva
-chat#:#chat_online_users#:#Utente (online)###03 Nov 2005 content changed
+chat#:#chat_online_users#:#Utente (online)
 chat#:#chat_private_message#:#Messaggio privato
 chat#:#chat_profile#:#Profilo
 chat#:#chat_public_room#:#Chatroom pubblica
@@ -811,7 +811,7 @@ common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
 common#:#action#:#Azione
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
-common#:#activate_assessment_logging#:#Attiva il log per Test&Valutazioni
+common#:#activate_assessment_logging#:#Attiva il tracciamento
 common#:#activate_https#:#HTTPS attivato (Pagamento, Login)
 common#:#activate_tracking#:#Attiva il tracciamento
 common#:#activation#:#Attivazione
@@ -822,7 +822,7 @@ common#:#add_author#:#Aggiungi autore
 common#:#add_condition#:#Crea una condizione
 common#:#add_member#:#Aggiungi membro
 common#:#add_members#:#aggiungi membri
-common#:#add_note#:#Add Note###03 Nov 2005 new variable
+common#:#add_note#:#Aggiungi nota
 common#:#add_translation#:#Aggiungi traduzione
 common#:#add_user#:#Aggiungi utenti locali
 common#:#added_new_condition#:#Creata nuova condizione
@@ -838,7 +838,7 @@ common#:#administrate#:#Amministra
 common#:#administrate_users#:#Utenti locali
 common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
-common#:#adopt#:#Adotta###03 Nov 2005 content changed
+common#:#adopt#:#Adotta
 common#:#adopt_perm_from_template#:#Assegna i permessi del Template di Ruolo
 common#:#agree_date#:#Aderito il		
 common#:#all_authors#:#tutti gli utenti
@@ -880,14 +880,14 @@ common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#articels_unread#:#Articoli da leggere:
 common#:#as_of#:#di
-common#:#assessment_log#:#Crea il log per Test&Assessment per un periodo di tempo
+common#:#assessment_log#:#Crea il report del test indicato nel periodo
 common#:#assessment_log_datetime#:#Giorno/Ora
-common#:#assessment_log_for_test#:#Per test
-common#:#assessment_log_no_log#:#Non sono disponibili dati nel log per il test selezionato e per il periodo di tempo indicato!
+common#:#assessment_log_for_test#:#Test
+common#:#assessment_log_no_log#:#Non sono disponibili dati per il test selezionato nel il periodo di tempo indicato!
 common#:#assessment_log_open_calendar#:#Clicca qui per aprire il calendario e selezionare la data (devono essere abilitati i JavaScript!)
 common#:#assessment_log_question#:#Domanda
 common#:#assessment_log_select_test#:#--- Scegli un test ---
-common#:#assessment_log_text#:#Messaggio del log
+common#:#assessment_log_text#:#Messaggio del report
 common#:#assessment_log_user_answer#:#L'utente ha risposto ad una domanda
 common#:#assessment_log_user_answers#:#Mostra le azioni dell'utente
 common#:#assessment_settings#:#Impostazioni Test&Valutazioni
@@ -955,15 +955,15 @@ common#:#average_time#:#Tempo medio
 common#:#back#:#Indietro
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dati di base
-common#:#basic_settings#:#Basic Settings###03 Nov 2005 new variable
+common#:#basic_settings#:#Impostazioni base
 common#:#benchmark#:#Statistiche
 common#:#benchmark_settings#:#Impostazioni statistiche
 common#:#benchmarks#:#Statistiche
 common#:#bib_data#:#Dati bibliografici
-common#:#big_icon#:#Big Icon###03 Nov 2005 new variable
-common#:#bkm_import#:#Import bookmarks###03 Nov 2005 new variable
-common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.###03 Nov 2005 new variable
-common#:#bkm_sendmail#:#Send as attachment###03 Nov 2005 new variable
+common#:#big_icon#:#Icona grande
+common#:#bkm_import#:#Importa segnalibri
+common#:#bkm_import_ok#:#Importati con successo %d segnalibri e %d cartelle di segnalibri.
+common#:#bkm_sendmail#:#Invia allegato
 common#:#bm#:#Preferiti
 common#:#bmf#:#Cartella dei preferiti
 common#:#bookmark_edit#:#Modifica il preferito
@@ -976,8 +976,8 @@ common#:#bookmarks_of#:#Preferiti di
 common#:#btn_remove_system#:#Rimuovi dal sistema
 common#:#btn_undelete#:#Ripristina gli oggetti
 common#:#by#:#con
-common#:#by_location#:#Order by location###03 Nov 2005 new variable
-common#:#by_type#:#Order by type###03 Nov 2005 new variable
+common#:#by_location#:#Ordina per posizione
+common#:#by_type#:#Ordina per tipo
 common#:#bytes#:#Byte
 common#:#calendar#:#Agenda
 common#:#cancel#:#Annulla
@@ -1048,21 +1048,21 @@ common#:#change_header_title#:#Modifica l'intestazione
 common#:#change_lo_info#:#Modifica le informazioni dell'unit&#224; didattica
 common#:#change_metadata#:#Modifica i metadati
 common#:#change_sort_direction#:#Modifica la direzione dell&#039;ordinamento
-common#:#changeable#:#modificabile
+common#:#changeable#:#Modificabile
 common#:#changed_to#:#modificata in
 common#:#chapter#:#Capitolo
 common#:#chapter_number#:#Numero del capitolo
 common#:#chapter_title#:#Titolo del capitolo
 common#:#chat#:#Chat
-common#:#chat_active_in#:#Active in chat:###03 Nov 2005 new variable
+common#:#chat_active_in#:#Attivo in chat:
 common#:#chat_add#:#Aggiungere una chat
 common#:#chat_delete#:#Eliminare una chat
 common#:#chat_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#chat_invite#:#Chat###03 Nov 2005 new variable
+common#:#chat_invite#:#Chat
 common#:#chat_moderate#:#Moderare una chat
 common#:#chat_new#:#Nuova chat
 common#:#chat_read#:#Accedere in lettura/scrittura ad una chat
-common#:#chat_users_active#:#Active users###03 Nov 2005 new variable
+common#:#chat_users_active#:#Utenti attivi
 common#:#chat_visible#:#Vedere una chat
 common#:#chat_write#:#Modificare una chat
 common#:#check#:#Seleziona
@@ -1132,13 +1132,13 @@ common#:#country#:#Nazione
 common#:#course#:#Corso
 common#:#courses#:#Corsi
 common#:#create#:#Crea
-common#:#create_date#:#Creato il###03 Nov 2005 content changed
+common#:#create_date#:#Creato il
 common#:#create_export_file#:#Crea file di export
 common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea foglio di stile
 common#:#created#:#Appuntamemto creato
-common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
+common#:#cron_forum_notification#:#Invia notifiche al forum
+common#:#cron_forum_notification_desc#:#Se selezionato, tutti gli utenti, che vogliono essere informati su nuovi contributi in particolari forum, riceveranno una comunicazione via e-mail.
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo che agisce in modo automatico ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
 common#:#cron_lucene_index#:#Aggiorna l'indice di ricerca di Lucene
@@ -1195,8 +1195,8 @@ common#:#cur_number_rec#:#Numero corrente di record
 common#:#current_ip#:#IP attuale:
 common#:#current_ip_alert#:#Nota: se viene specificato un indirizzo ip errato, non sarai pi&#249; in grado di accedere al sistema con questo profilo.
 common#:#current_password#:#Password attuale
-common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
-common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
+common#:#custom_icon_size_big#:#Dimensione icona personalizzata (grande)
+common#:#custom_icon_size_small#:#Dimensione icona personalizzata (piccola)
 common#:#cut#:#Taglia
 common#:#cutPage#:#Taglia
 common#:#daily#:#giornaliero
@@ -1235,7 +1235,7 @@ common#:#default_roles#:#Ruoli predefiniti
 common#:#default_skin#:#Tema predefinito
 common#:#default_skin_style#:#Tema / Stile predefiniti
 common#:#default_style#:#Stile predefinito
-common#:#default_value#:#Valore predefinito
+common#:#default_value#:#valore predefinito
 common#:#delete#:#Elimina
 common#:#delete_all#:#Elimina tutto
 common#:#delete_all_rec#:#Cancella tutti i record
@@ -1266,18 +1266,18 @@ common#:#edit_content#:#Modifica il contenuto
 common#:#edit_data#:#Modifica i dati
 common#:#edit_operations#:#Modifica le operazioni
 common#:#edit_perm_ruleset#:#Modificare le regole predefinite dei permessi
-common#:#edit_properties#:#Modifica le propriet&agrave;
+common#:#edit_properties#:#Propriet&#224;
 common#:#edit_roleassignment#:#Modifica l'assegnamento dei ruoli
 common#:#edit_stylesheet#:#Modifica lo stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
-common#:#email#:#eMail###03 Nov 2005 content changed
+common#:#email#:#eMail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L&#039;indirizzo eMail non &#232; valido!
 common#:#enable#:#Abilita
 common#:#enable_calendar#:#Abilita l'agenda
-common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
-common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_custom_icons#:#Abilita icone personalizzate
+common#:#enable_custom_icons_info#:#Questo consente di definire icone personalizzate per singole categorie, corsi e gruppi. Le sezioni con le propriet&#224; di categorie, corsi e gruppi consentiranno l'upload tramite una finestra di dialogo.
 common#:#enable_hist_user_comments#:#Abilita i commenti nella storia delle pagine
 common#:#enable_hist_user_comments_desc#:#Con questa opzione gli autori possono aggiungere commenti nella storia delle pagine.
 common#:#enable_js_edit#:#Abilita la modifica di JavaScript
@@ -1362,7 +1362,7 @@ common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#ID utente
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
 common#:#extt_ilinc_enable#:#Abilita il supporto LearnLinc
-common#:#extt_ilinc_protocol_port#:#Protocol & Port###03 Nov 2005 new variable
+common#:#extt_ilinc_protocol_port#:#Protocollo & Porta
 common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
 common#:#extt_ilinc_server#:#Server
@@ -1469,7 +1469,7 @@ common#:#frm_status_new#:#Stato 'Nuovo'
 common#:#frm_status_new_desc#:#Scegli per quanto tempo i contributi devono essere indicati come 'Nuovo'.
 common#:#frm_visible#:#Vedere un forum
 common#:#frm_write#:#Modificare un forum
-common#:#from#:#da:
+common#:#from#:#Da
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funzioni
 common#:#gdf_add#:#Aggiungi definizione
@@ -1570,7 +1570,7 @@ common#:#grp_create_svy#:#Creare un sondaggio
 common#:#grp_create_tst#:#Creare un test
 common#:#grp_create_webr#:#Creare una risorsa web
 common#:#grp_delete#:#Eliminare un gruppo
-common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
+common#:#grp_deleted_export_files#:#Elimina i file selezionati.
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
 common#:#grp_edit#:#Propriet&#224; del gruppo
@@ -1586,10 +1586,10 @@ common#:#grp_header_edit_members#:#Modifica membri
 common#:#grp_join#:#Iscrivere ad un gruppo
 common#:#grp_leave#:#Annullare l&#039;iscrizione ad un gruppo
 common#:#grp_list_users#:#Elenco utenti
-common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
-common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#grp_mail_subj_new_subscription#:#New subscription###03 Nov 2005 new variable
-common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
+common#:#grp_mail_body_new_subscription#:#Sei stato aggiunto a questo gruppo.
+common#:#grp_mail_body_subscription_cancelled#:#La tua appartenenza &#232; stata cancellata.
+common#:#grp_mail_subj_new_subscription#:#Nuova sottoscrizione
+common#:#grp_mail_subj_subscription_cancelled#:#Sottoscrizione cancellata
 common#:#grp_mem_change_status#:#Cambia il ruolo del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
@@ -1609,8 +1609,8 @@ common#:#grp_register#:#Iscrivi
 common#:#grp_registration_completed#:#Iscrizione completata
 common#:#grp_search_enter_search_string#:#Per favore indica cosa vuoi ricercare
 common#:#grp_search_members#:#Ricerca utenti
-common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
-common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
+common#:#grp_select_one_file#:#Seleziona un file
+common#:#grp_select_one_file_only#:#Seleziona solo un file
 common#:#grp_visible#:#Vedere un gruppo
 common#:#grp_write#:#Modificare un gruppo
 common#:#guest#:#Ospite
@@ -1619,8 +1619,8 @@ common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
 common#:#hide#:#nascondi
 common#:#hide_details#:#Nascondi dettagli
-common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
-common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
+common#:#hide_private_notes#:#Nascondi le note private
+common#:#hide_public_notes#:#Nascondi le note pubbliche
 common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hist_dbk:pg_create#:#Pagina creata
 common#:#hist_dbk:pg_cut#:#Pagina prelevata dal capitolo "%1" [%2]
@@ -1661,7 +1661,7 @@ common#:#htlm_new#:#Nuovo modulo HTML
 common#:#htlm_read#:#Accedere in lettura ad un modulo HTML
 common#:#htlm_visible#:#Vedere un modulo HTML
 common#:#htlm_write#:#Modificare un modulo HTML
-common#:#http#:#HTTP###03 Nov 2005 new variable
+common#:#http#:#HTTP
 common#:#http_not_possible#:#Questo server non supporta request HTTP.
 common#:#http_path#:#Percorso HTTP
 common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
@@ -1671,11 +1671,11 @@ common#:#icla_add#:#Crea una classe iLinc
 common#:#icla_deleted#:#Eliminata classe LearnLinc
 common#:#icla_edit#:#Modifica classe LearnLinc
 common#:#icla_new#:#Creare classi iLinc
-common#:#icon_settings#:#Icon Settings###03 Nov 2005 new variable
-common#:#icons_in_header#:#Header row###03 Nov 2005 new variable
-common#:#icons_in_item_rows#:#Item rows###03 Nov 2005 new variable
-common#:#icons_in_typed_lists#:#Icon position in item lists###03 Nov 2005 new variable
-common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.###03 Nov 2005 new variable
+common#:#icon_settings#:#Impostazione icona
+common#:#icons_in_header#:#Riga intestazione
+common#:#icons_in_item_rows#:#Riga oggetti
+common#:#icons_in_typed_lists#:#Posizione dell'icona nella lista
+common#:#icons_in_typed_lists_info#:#Determina dove mostrare le icone nelle liste degli oggetti che sono stati ordinati per tipo all'interno delle risorse e sul desktop personale.
 common#:#icrs#:#Corso iLinc
 common#:#icrs_add#:#Crea corso iLinc
 common#:#icrs_added#:#Aggiunto seminario LearnLinc
@@ -1704,36 +1704,36 @@ common#:#il_grp_member#:#Membro di gruppo
 common#:#il_icrs_admin#:#Amministratore di seminario LearnLinc
 common#:#il_icrs_member#:#Membro di seminario LearnLinc
 common#:#ilias_version#:#Versione ILIAS 3
-common#:#ilinc_add_user#:#Add user(s)###03 Nov 2005 new variable
+common#:#ilinc_add_user#:#Aggiungi utenti
 common#:#ilinc_classroom_always_open#:#La classe &#232; sempre aperta
 common#:#ilinc_classroom_closed#:#La calsse &#232; chiusa
 common#:#ilinc_classroom_open#:#La classe &#232; aperta
 common#:#ilinc_classrooms#:#Classi iLinc
 common#:#ilinc_coursemember_status#:#Ammesso come
 common#:#ilinc_courses#:#Corsi iLinc
-common#:#ilinc_dismiss_member#:#Sei sicuro di voler annullare l'iscrizione dei seguenti membri al seminario LearnLinc?###03 Nov 2005 content changed
+common#:#ilinc_dismiss_member#:#Sei sicuro di voler annullare l'iscrizione dei seguenti membri al seminario LearnLinc?
 common#:#ilinc_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al seminario LearnLinc?
 common#:#ilinc_docent#:#Insegnante
 common#:#ilinc_err_administrator_required#:#Questo utente non pu&#242; essere eliminato: per i seminari di LearnLinc &#232; richiesto almeno un amministratore!
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###03 Nov 2005 new variable
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Ogni seminario LearnLinc ha bisogno di almeno un amministratore.
 common#:#ilinc_err_last_member#:#L'ultimo utente non pu&#242; essere eliminato, puoi invece cancellare il seminario di LearnLinc.
-common#:#ilinc_err_member_could_not_be_removed#:#Questo utente non pu&#242; essere eliminato: verifica le dipendenze dell'utente.###03 Nov 2005 content changed
+common#:#ilinc_err_member_could_not_be_removed#:#Questo utente non pu&#242; essere eliminato: verifica le dipendenze dell'utente.
 common#:#ilinc_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
 common#:#ilinc_err_registration_data#:#Per favore inserisci la Password, la data e l'ora della scadenza di un periodo di registrazione valido!
-common#:#ilinc_header_edit_users#:#Edit list of involved users###03 Nov 2005 new variable
+common#:#ilinc_header_edit_users#:#Modifica la lista degli utenti coinvolti
 common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Utenti partecipanti
-common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
-common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
-common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
-common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
+common#:#ilinc_mail_body_new_subscription#:#Sei stato aggiunto a questo seminario di LearnLinc.
+common#:#ilinc_mail_body_subscription_cancelled#:#La tua iscrizione &#232; stata cancellata.
+common#:#ilinc_mail_subj_new_subscription#:#Nuova iscrizione
+common#:#ilinc_mail_subj_subscription_cancelled#:#Sottoscrizione cancellata
 common#:#ilinc_manage_course_documents#:#Materiale
-common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
-common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
-common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
+common#:#ilinc_mem_change_status#:#Modifica lo stato dell'utente
+common#:#ilinc_mem_leave#:#Tolto utente dal seminario LearnLinc
+common#:#ilinc_mem_send_mail#:#Invia un messaggio all'utente
 common#:#ilinc_msg_joined#:#Sei stato ammesso al seminario LearnLinc
-common#:#ilinc_msg_member_assigned#:#User(s) assigned###03 Nov 2005 new variable
-common#:#ilinc_msg_membership_annulled#:#Subscription cancelled###03 Nov 2005 new variable
+common#:#ilinc_msg_member_assigned#:#Utente assegnato
+common#:#ilinc_msg_membership_annulled#:#Sottoscrizione cancellata
 common#:#ilinc_no_docent_assigned#:#Non assgnato
 common#:#ilinc_notset#:#Non impostato
 common#:#ilinc_remark#:#Nota
@@ -1745,8 +1745,8 @@ common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
 common#:#import_alm#:#Importa un modulo AICC
-common#:#import_cat_localrol#:#Create local role for every new category###03 Nov 2005 new variable
-common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set###03 Nov 2005 new variable
+common#:#import_cat_localrol#:#Crea un ruolo locale per tutte le categorie nuove
+common#:#import_cat_table#:#La seguente tabella &#232; significativa solo se l'opzione &#232; stata selezionata
 common#:#import_categories#:#Importa contesto
 common#:#import_dbk#:#Importa un libro digitale
 common#:#import_failure_log#:#Log di importazione: fallimenti
@@ -1754,10 +1754,10 @@ common#:#import_file#:#Scegli il file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_forum_finished#:#Il forum &#232; stato importato.
-common#:#import_glossary#:#Importa Glossario
-common#:#import_group#:#Import group###03 Nov 2005 new variable
+common#:#import_glossary#:#Importa glossario
+common#:#import_group#:#Importa gruppo
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
-common#:#import_hlm#:#Importa un modulo HACP
+common#:#import_hlm#:#Importa modulo HACP
 common#:#import_lm#:#Importa modulo
 common#:#import_qpl#:#Importa raccolta di domande per test
 common#:#import_questions_into_qpl#:#Importa domande nella raccolta
@@ -1768,7 +1768,7 @@ common#:#import_svy#:#Importa sondaggio
 common#:#import_tst#:#Importa test
 common#:#import_users#:#Importa utenti
 common#:#import_warning_log#:#Log di importazione: avvisi
-common#:#important#:#Important###03 Nov 2005 new variable
+common#:#important#:#Importante
 common#:#imported#:#importato
 common#:#in#:#in
 common#:#in_use#:#Lingua utente
@@ -1781,12 +1781,12 @@ common#:#info_access_permissions#:#Permessi di accesso
 common#:#info_assign_sure#:#Sei sicuro di voler aggiungere i seguenti utenti?
 common#:#info_assigned#:#assignato
 common#:#info_available_roles#:#Ruoli disponibili
-common#:#info_change_user_view#:#Modifica la vista dell'utente###03 Nov 2005 content changed
+common#:#info_change_user_view#:#Modifica la vista dell'utente
 common#:#info_delete_sure#:#Sei sicuro di voler eliminare i seguenti oggetti?
 common#:#info_deleted#:#Eliminazione eseguita
 common#:#info_enter_login_or_id#:#<i>(Inserisci nome o ID utente)</i>
 common#:#info_err_user_not_exist#:#L'utente con lo user_id indicato non esiste
-common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
+common#:#info_from_role#:#Fornito dal ruolo
 common#:#info_is_member#:#L'utente &#232; un membro
 common#:#info_is_not_member#:#L'utente non &#232; un membro
 common#:#info_not_assigned#:#non assignato
@@ -1881,7 +1881,7 @@ common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &#232; gi&
 common#:#languages_updated#:#Tutte le lingue installate sono state aggiornate.
 common#:#last_access#:#Ultimo accesso:
 common#:#last_change#:#Data ultima modifica
-common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
+common#:#last_edited_on#:#Ultima modifica il
 common#:#last_update#:#Data ultimo aggiornamento
 common#:#last_visit#:#Ultima visita
 common#:#lastname#:#Cognome
@@ -1905,7 +1905,7 @@ common#:#ldap_visible#:#Le impostazioni LDAP sono visibili
 common#:#ldap_write#:#Modificare le impostazioni LDAP
 common#:#learning module#:#Modulo ILIAS
 common#:#learning_objects#:#Unit&#224; didattiche
-common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
+common#:#learning_resource#:#Risorsa didattica
 common#:#learning_resources#:#Risorse didattiche
 common#:#level#:#Livello
 common#:#link#:#Collega
@@ -1916,25 +1916,25 @@ common#:#link_check_message_disabled#:#Mail disabilitata
 common#:#link_check_message_enabled#:#Mail abilitata
 common#:#link_check_subject#:#[ILIAS 3] verifica collegamenti
 common#:#link_checker_refreshed#:#Vista aggiornata
-common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.###03 Nov 2005 new variable
+common#:#link_dynamic_info#:#Puoi anche aggiungere parametri dinamici (come per esempio l'id utente).
 common#:#link_selected_items#:#Collega gli oggetti selezionati
 common#:#linked_object#:#L'oggetto &#232; stato collegato
 common#:#linked_pages#:#Pagine collegate
-common#:#links_add_param#:#Add parameter:###03 Nov 2005 new variable
-common#:#links_dyn_parameter#:#Dynamic parameters###03 Nov 2005 new variable
-common#:#links_dynamic#:#Dynamic Web Links parameters###03 Nov 2005 new variable
-common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.###03 Nov 2005 new variable
-common#:#links_existing_params#:#Existing parameters:###03 Nov 2005 new variable
-common#:#links_name#:#Parameter name###03 Nov 2005 new variable
-common#:#links_no_name_given#:#Please choose a parameter name.###03 Nov 2005 new variable
-common#:#links_no_value_given#:#Please choose a parameter value.###03 Nov 2005 new variable
-common#:#links_not_available#:#Not available###03 Nov 2005 new variable
-common#:#links_parameter_deleted#:#Parameter deleted.###03 Nov 2005 new variable
-common#:#links_select_one#:#- Select one -###03 Nov 2005 new variable
-common#:#links_session_id#:#ILIAS session id###03 Nov 2005 new variable
-common#:#links_user_id#:#ILIAS user id###03 Nov 2005 new variable
-common#:#links_user_name#:#ILIAS username###03 Nov 2005 new variable
-common#:#links_value#:#Parameter value###03 Nov 2005 new variable
+common#:#links_add_param#:#Aggiungi parametro:
+common#:#links_dyn_parameter#:#Parametri dinamici
+common#:#links_dynamic#:#Parametri per collegamenti alla rete dinamici
+common#:#links_dynamic_info#:#Se selezionato, &#232; possibile aggiungere ad un collegamento anche parametri dinamici, come Id o nome utente.
+common#:#links_existing_params#:#Parametri esistenti:
+common#:#links_name#:#Nome del parametro
+common#:#links_no_name_given#:#Seleziona un parametro.
+common#:#links_no_value_given#:#Seleziona un valore.
+common#:#links_not_available#:#Non disponibile
+common#:#links_parameter_deleted#:#Parametro eliminato.
+common#:#links_select_one#:#--- Seleziona  un valore ---
+common#:#links_session_id#:#Id sessione ILIAS
+common#:#links_user_id#:#Id utente ILIAS
+common#:#links_user_name#:#Nome utente ILIAS
+common#:#links_value#:#Valore
 common#:#list_of_pages#:#Lista di pagine
 common#:#list_of_questions#:#Lista di domande
 common#:#literature#:#Letteratura
@@ -1986,7 +1986,7 @@ common#:#login_to_ilias#:#Entra in ILIAS 3
 common#:#login_to_ilias_via_shibboleth#:#Entra in ILIAS utilizzando Shibboleth
 common#:#logout#:#Logout
 common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
-common#:#logs#:#Log con i dati
+common#:#logs#:#Crea il report
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
 common#:#lres#:#Risorse formative
@@ -2118,7 +2118,7 @@ common#:#msg_no_delete_yourself#:#Non puoi eliminare il tuo stesso utente.
 common#:#msg_no_file#:#Non hai scelto un file
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.
 common#:#msg_no_perm_assign_role_to_user#:#Non hai sufficienti diritti per assegnare il ruolo dell&#039;utente
-common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment###03 Nov 2005 new variable
+common#:#msg_no_perm_assign_user_to_role#:#Non hai sufficienti diritti per modificare l'assegnamento dell'utente
 common#:#msg_no_perm_copy#:#Non hai i diritti per creare una copia dei seguenti oggetti: 
 common#:#msg_no_perm_create#:#Non hai i diritti per creare i seguenti oggetti: 
 common#:#msg_no_perm_create_object1#:#Non hai i diritti di creazione
@@ -2227,12 +2227,12 @@ common#:#non_internal_local_roles_only#:#Ruoli locali (definiti dall'utente)
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_accessed#:#Non entrato
-common#:#not_accessed_yet#:#Not accessed yet###03 Nov 2005 new variable
+common#:#not_accessed_yet#:#Non ancora entrato
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
 common#:#not_logged_in#:#Non sei entrato in ILIAS 3
-common#:#note#:#Note###03 Nov 2005 new variable
-common#:#notes#:#Notes###03 Nov 2005 new variable
+common#:#note#:#Nota
+common#:#notes#:#Note
 common#:#num_users#:#Numero di utenti
 common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
@@ -2407,10 +2407,10 @@ common#:#pays_read#:#Accedere in lettura alle impostazioni dei pagamenti
 common#:#pays_visible#:#Vedere le impostazioni dei pagamenti
 common#:#pays_write#:#Salvare le impostazioni dei pagamenti
 common#:#per_object#:#Permessi sull'oggetto
-common#:#perm_settings#:#Modifica i permessi
+common#:#perm_settings#:#Permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
-common#:#permission_settings#:#Modifica i permessi
+common#:#permission_settings#:#Permessi
 common#:#person_title#:#Titolo
 common#:#personal_data#:#Informazioni generali
 common#:#personal_desktop#:#Desktop personale
@@ -2439,14 +2439,14 @@ common#:#predefined_template#:#Template di ruolo predefiniti
 common#:#presentation_options#:#Opzioni di presentazione
 common#:#previous#:#Precedente
 common#:#print#:#Stampa
-common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
+common#:#private_notes#:#Note personali
 common#:#profile#:#Profilo
 common#:#profile_changed#:#Il tuo profilo &#232; stato cambiato
 common#:#profile_of#:#Profilo di
 common#:#properties#:#Propriet&#224;
 common#:#pub_section#:#Sezione pubblica
 common#:#public#:#pubblico
-common#:#public_notes#:#Public Notes###03 Nov 2005 new variable
+common#:#public_notes#:#Note pubbliche
 common#:#public_profile#:#Profilo pubblico
 common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
@@ -2471,7 +2471,7 @@ common#:#quote#:#Virgolette
 common#:#read#:#Leggi
 common#:#recf_edit#:#Modifica cartella di recovery
 common#:#recipient#:#Destinario
-common#:#referral_comment#:#Come hai sentito parlare di ILIAS?
+common#:#referral_comment#:#Come hai conosciuto di ILIAS?
 common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
 common#:#refresh_list#:#Aggiorna la lista
@@ -2490,7 +2490,7 @@ common#:#registered_users#:#utenti registrati
 common#:#registration#:#Nuova registrazione
 common#:#registration_disabled#:#Disponibili solamente in caso di utilizzo di autenticazione locale
 common#:#registration_expired#:#Periodo della registrazione di prova terminato...
-common#:#related_to#:#Related to###03 Nov 2005 new variable
+common#:#related_to#:#Collegato a
 common#:#remove#:#Elimina
 common#:#remove_personal_picture#:#Elimina
 common#:#remove_translation#:#Elimina la traduzione
@@ -2693,14 +2693,14 @@ common#:#show_details#:#Mostra dettagli
 common#:#show_list#:#Mostra lista
 common#:#show_members#:#Mostra iscritti
 common#:#show_owner#:#Mostra il proprietario
-common#:#show_private_notes#:#Show private notes###03 Nov 2005 new variable
-common#:#show_public_notes#:#Show public notes###03 Nov 2005 new variable
+common#:#show_private_notes#:#Mostra note private
+common#:#show_public_notes#:#Mostra note pubbliche
 common#:#show_structure#:#Abilita la vista della struttura
 common#:#show_users_online#:#Mostra gli utenti 
 common#:#signature#:#Firma
 common#:#size#:#Dimensione
 common#:#skin_style#:#Predefinito Skin / Stile
-common#:#small_icon#:#Small Icon###03 Nov 2005 new variable
+common#:#small_icon#:#Icone piccole
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Amministrazione utenti esterna (SOAP)
 common#:#soap_user_administration_desc#:#Se selezionato, tutti gli utenti potranno essere amministrati tramite un client SOAP esterno.
@@ -2714,7 +2714,7 @@ common#:#spl_read#:#Accedere in lettura ad una raccolta di domande
 common#:#spl_upload_file#:#Scegli il file
 common#:#spl_visible#:#Vedere una raccolta di domande
 common#:#spl_write#:#Modificare una raccolta di domande
-common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
+common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#un capitolo
 common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
@@ -2769,7 +2769,7 @@ common#:#system_information#:#Informazioni di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
 common#:#system_style_settings#:#Impostazione degli stili di sistema
-common#:#system_styles#:#System Styles###03 Nov 2005 new variable
+common#:#system_styles#:#Stili di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
 common#:#target#:#Obiettivo
 common#:#tax#:#Tassonomia
@@ -2809,7 +2809,7 @@ common#:#time_limit_users_updated#:#Dati utente aggiornati
 common#:#time_limits#:#Accesso
 common#:#time_segment#:#Intervallo di tempo
 common#:#title#:#Titolo
-common#:#to#:#A:
+common#:#to#:#A
 common#:#to_client_list#:#Vai alla lista di Client
 common#:#to_desktop#:#Invia sul desktop personale
 common#:#today#:#Oggi
@@ -2858,7 +2858,7 @@ common#:#uncheck_all#:#Deseleziona tutto
 common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
-common#:#unlabeled#:#Unlabeled###03 Nov 2005 new variable
+common#:#unlabeled#:#Senza etichetta
 common#:#unread#:#non lette
 common#:#unread_lowercase#:#unread
 common#:#unselected#:#Deseleziona
@@ -2986,7 +2986,7 @@ common#:#webr_active#:#Attivo
 common#:#webr_add#:#Aggiungi risorsa web
 common#:#webr_add_item#:#Aggiungi risorsa web
 common#:#webr_delete#:#Elimina risorsa web
-common#:#webr_delete_items#:#Elimina risorsa web
+common#:#webr_delete_items#:#Eliminare una risorsa web
 common#:#webr_deleted_items#:#Eliminata risorsa web
 common#:#webr_disable_check#:#Disabilita controllo
 common#:#webr_edit#:#Modifica risorsa web
@@ -3012,12 +3012,12 @@ common#:#weekly#:#settimanale
 common#:#weeks#:#Settimane
 common#:#welcome#:#Benvenuto
 common#:#who_is_online#:#Chi &#232; connesso?
-common#:#width_x_height#:#Width x Height###03 Nov 2005 new variable
+common#:#width_x_height#:#Larghezza x Altezza
 common#:#with#:#con
 common#:#write#:#Scrivi
 common#:#wrong_ip_detected#:#Il tuo accesso non &#232; consentito da questo indirizzo IP.<br>Per favore contatta l'amministratore di sistema.
 common#:#yes#:#Si
-common#:#you_may_add_local_roles#:#Puoi aggiungere ruoli locali
+common#:#you_may_add_local_roles#:#Aggiungi ruoli locali
 common#:#your_message#:#Il tuo messaggio
 common#:#zip#:#Codice postale
 common#:#zipcode#:#Codice postale
@@ -3308,10 +3308,10 @@ content#:#cont_please_select#:#per favore scegli
 content#:#cont_prereq_type#:#tipo di prerequisiti
 content#:#cont_prerequisites#:#prerequisiti
 content#:#cont_preview#:#Anteprima
-content#:#cont_print_view#:#Vista per la stampa
+content#:#cont_print_view#:#Stampa
 content#:#cont_public_access#:#Accesso pubblico
-content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
-content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
+content#:#cont_public_notes#:#Note pubbliche
+content#:#cont_public_notes_desc#:#Consente agli utenti di condividere le note in tutte le pagine del modulo.
 content#:#cont_publisher#:#Editore
 content#:#cont_purpose#:#Scopo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
@@ -3373,7 +3373,7 @@ content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
 content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_show_line_numbers#:#Mostra i numeri di linea
-content#:#cont_show_print_view#:#Mostra la vista per la stampa
+content#:#cont_show_print_view#:#Anteprima di stampa
 content#:#cont_size#:#Dimensioni
 content#:#cont_skip_chapter#:#Salta questo capitolo 
 content#:#cont_source#:#Sorgente
@@ -3388,8 +3388,8 @@ content#:#cont_std_view#:#Vista standard
 content#:#cont_structure#:#Struttura
 content#:#cont_style#:#Stile
 content#:#cont_subchapters#:#Paragrafi
-content#:#cont_synchronize_frames#:#Synchronise frames on###05 Nov 2005 new variable
-content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.###05 Nov 2005 new variable
+content#:#cont_synchronize_frames#:#Sincronizza i frame
+content#:#cont_synchronize_frames_desc#:#Questa opzione sincronizza i contenuti delle tabelle con i contenuti del frame e libera i frame addizionali mostrando la finestra a 3 viste. Questo per&#242; riduce le performance.
 content#:#cont_table#:#Tabella
 content#:#cont_table_border#:#Bordo tabella
 content#:#cont_table_cellpadding#:#Cell Padding della tabella
@@ -3439,7 +3439,7 @@ content#:#cont_xml_base#:#basato su xml
 content#:#cont_year#:#Anno
 content#:#cont_zip_file_invalid#:#File di import non valido.<br>Il file non contiene il file '%s'.
 content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
-content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
+content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Le seguenti risorse sono collegate con quel termine
 content#:#lm_menu_edit_entry#:#Modifica voce del menu
 content#:#lm_menu_entry_target#:#Obiettivo
@@ -3501,7 +3501,7 @@ crs#:#crs_archive_type_disabled#:#Accesso disabilitato
 crs#:#crs_archives_deleted#:#Gli archivi sono stati eliminati 
 crs#:#crs_auto_fill#:#Riempimento automatico
 crs#:#crs_availability_limitless_info#:#Scegli questa modalit&#224; se vuoi rendere il corso disponibile ed accessibile agli utenti (&#232; legato anche alla modalit&#224; di registrazione pi&#249; sotto).
-crs#:#crs_availability_until_info#:#Scegli questa modalit&#224; se vuoi rendere il corso disponibile ed accessibile agli utenti solo per un periodo di tempo.###08 Nov 2005 content changed
+crs#:#crs_availability_until_info#:#Scegli questa modalit&#224; se vuoi rendere il corso disponibile ed accessibile agli utenti solo per un periodo di tempo.
 crs#:#crs_availability_unvisible_info#:#Scegli questa modalit&#224; durante la fase di preparazione del corso. Solo gli amministratori ed i tutor potranno vedere e modificare il corso.
 crs#:#crs_blocked#:#Accesso negato
 crs#:#crs_blocked_member#:#Iscritti al corso
@@ -3512,7 +3512,7 @@ crs#:#crs_change_status#:#Modifica lo stato dell'obiettivo:<br>(se non viene set
 crs#:#crs_chapter_already_assigned#:#Questi capitoli sono gi&#224; stati aggiunti.
 crs#:#crs_contact#:#Contatti
 crs#:#crs_contact_consultation#:#Consultazione
-crs#:#crs_contact_email#:#eMail###03 Nov 2005 content changed
+crs#:#crs_contact_email#:#eMail
 crs#:#crs_contact_name#:#Nome
 crs#:#crs_contact_phone#:#Telefono
 crs#:#crs_contact_responsibility#:#Responsibilit&#224;
@@ -3540,7 +3540,7 @@ crs#:#crs_end#:#Fine periodo
 crs#:#crs_export#:#Esportazione corso
 crs#:#crs_file_name#:#Nome file
 crs#:#crs_free_places#:#Posti disponibili
-crs#:#crs_from#:#Da:###03 Nov 2005 content changed
+crs#:#crs_from#:#Da:
 crs#:#crs_grouping#:#Gruppo di corsi
 crs#:#crs_grouping_assign#:#Modifica iscrizione al gruppo di corsi
 crs#:#crs_grouping_delete_sure#:#Vuoi veramente eliminare il seguente gruppo di corsi?
@@ -3591,7 +3591,7 @@ crs#:#crs_mem_change_status#:#Modifica lo stato
 crs#:#crs_mem_send_mail#:#Invia eMail
 crs#:#crs_member#:#Iscritti
 crs#:#crs_member_blocked#:#Iscritto (bloccato)
-crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
+crs#:#crs_member_of#:#Membro del corso:
 crs#:#crs_member_unblocked#:#Iscritto (non-bloccato)
 crs#:#crs_member_updated#:#L'iscrizione &#232; stata aggiornata
 crs#:#crs_members_deleted#:#Eliminati iscritti
@@ -3677,7 +3677,7 @@ crs#:#crs_objectives_reset_sure#:#Hai deciso di eliminare tutti i risultati di q
 crs#:#crs_objectives_reseted#:#Risultati eliminati.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opzioni
-crs#:#crs_other_groupings#:#Gruppo di altri corsi
+crs#:#crs_other_groupings#:#Altri gruppi di corsi
 crs#:#crs_other_resources#:#Altre risorse
 crs#:#crs_passed#:#Superato
 crs#:#crs_password_not_valid#:#La tua password non &#232; valida
@@ -3762,7 +3762,7 @@ crs#:#crs_test_status_complete#:#Completato
 crs#:#crs_test_status_not_complete#:#Non completato
 crs#:#crs_test_status_random#:#Test casuale
 crs#:#crs_time#:#Data di iscrizione
-crs#:#crs_to#:#A:###03 Nov 2005 content changed
+crs#:#crs_to#:#A:
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (senza-notifica)
 crs#:#crs_tutor_notify#:#Tutor (con-notifica)
@@ -3783,9 +3783,9 @@ crs#:#crs_visibility_until#:#Visibile (da ... a ...)
 crs#:#crs_visibility_unvisible#:#Non visibile
 crs#:#crs_waiting_list#:#Lista di attesa
 crs#:#crs_xml#:#XML
-crs#:#crs_youre_position#:#Posizione nella lista di attesa###03 Nov 2005 content changed
+crs#:#crs_youre_position#:#Posizione nella lista di attesa
 crs#:#edit_content#:#Modifica il contenuto
-crs#:#import_crs#:#Import course###03 Nov 2005 new variable
+crs#:#import_crs#:#Importa corso
 crs#:#learners_view#:#Vista studenti
 crs#:#subscription_times_not_valid#:#Il periodo di registrazione non &#232; valido.
 crs_#:#crs_archives#:#Archivi
@@ -3967,7 +3967,7 @@ dateplaner#:#newKeyword#:#Nuova:
 dateplaner#:#new_doc#:#Crea un nuovo appuntamento
 dateplaner#:#no_entry#:#Nessun appuntamento disponibile
 dateplaner#:#o_day_date#:#Appuntamento di 24h
-dateplaner#:#of#:#da:
+dateplaner#:#of#:#da
 dateplaner#:#open_day#:#Vista giornaliera
 dateplaner#:#pmonth#:#Mese successivo
 dateplaner#:#printlist#:#Stampa
@@ -4022,10 +4022,10 @@ forum#:#forums_count_art#:#Numero di articoli
 forum#:#forums_count_thr#:#Numero di temi
 forum#:#forums_created_by#:#Creato da
 forum#:#forums_delete_file#:#Cancella l&#039;allegato
-forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
+forum#:#forums_disable_notification#:#Disabilita la notifica
 forum#:#forums_download_attachment#:#Download dell'allegato
 forum#:#forums_edit_post#:#Modifica messaggio
-forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
+forum#:#forums_enable_notification#:#Abilita la notifica
 forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere questo messaggio?
 forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
 forum#:#forums_info_delete_post#:#Sei sicuro di voler eliminare questo messaggio comprese tutte le risposte?
@@ -4033,13 +4033,13 @@ forum#:#forums_mark_read#:#Segna come letto
 forum#:#forums_new_entries#:#Nuovi forum
 forum#:#forums_new_thread#:#Nuovo argomento
 forum#:#forums_not_available#:#Forum non disponbile
-forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
-forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
-forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
-forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
-forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
-forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
-forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
+forum#:#forums_notification#:#Notifica
+forum#:#forums_notification_enabled#:#Notifica abilitata
+forum#:#forums_notification_intro#:#Questa e-mail ti &#232; stata inviata automaticamente dall'installazione di ILIAS %s, %s
+forum#:#forums_notification_is_disabled#:#La notifica automatica di nuovi messaggi non &#232; stata abilitata.
+forum#:#forums_notification_is_enabled#:#La notifica automatica di nuovi messaggio &#232; gi&#224; stata abilitata.
+forum#:#forums_notification_show_post#:#Mostra messaggio: %s
+forum#:#forums_notification_subject#:#Nuovo messaggio nel forum
 forum#:#forums_overview#:#Visione generale forum
 forum#:#forums_post_deleted#:#Il messaggio &#232; stato cancellato
 forum#:#forums_post_modified#:#Il messaggio &#232; stato modificato
@@ -4064,8 +4064,8 @@ forum#:#forums_your_reply#:#tua risposta
 forum#:#frm_default_view#:#Vista predefinita
 forum#:#frm_title_required#:#Per favore, inserisci un titolo.
 forum#:#is_read#:#segna come letto
-forum#:#new_post#:#New post###08 Nov 2005 new variable
-forum#:#thread#:#Topic###08 Nov 2005 new variable
+forum#:#new_post#:#Nuovo messaggio
+forum#:#thread#:#Argomento
 jscalendar#:#about_calendar#:#A proposito dell'Agenda
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPer avere l'ultima versione visita il sito: http://dynarch.com/mishoo/calendar.epl\nDistributed con licenza GNU LGPL.  Vedi http://gnu.org/licenses/lgpl.html per dettagli.\n\nSelezione data:\n- Usa i bottoni «, » per selezionare l'anno\n- Usa i bottono <, > per selezionare il mese\n- Per una selezione pi&#259; veloce, tieni premuti i bottoni indicati.
 jscalendar#:#about_time#:#\n\nSelezione ora:\n- Per aumentare clicca sull'ora\n- per diminire tieni premuto Shift e clicca\n- per una selezione pi&#249; veloce puoi trascinare l'ora.
@@ -4192,7 +4192,7 @@ mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le eMail selezionate
 mail#:#mail_sure_delete_entry#:#Sei sicuro di voler eliminare le voci selezionate
 mail#:#mail_sure_delete_file#:#Sei sicuro di voler eliminare il file selezionato
 mail#:#mail_sure_delete_folder#:#Sei sicuro di voler eliminare la cartella selezionata
-mail#:#mail_to#:#To###03 Nov 2005 new variable
+mail#:#mail_to#:#A
 mail#:#mail_to_search#:#Ricerca in
 mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di eMail valido
 mail#:#search_bc_recipient#:#Ricerca destinatario in BC
@@ -4452,7 +4452,7 @@ meta#:#meta_competency#:#Competenza
 meta#:#meta_contentprovider#:#Origine del contenuto
 meta#:#meta_context#:#Contesto
 meta#:#meta_contribute#:#Contributo
-meta#:#meta_copyright#:#Copyright###03 Nov 2005 new variable
+meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright ed altre restrizioni.
 meta#:#meta_cost#:#A pagamento
 meta#:#meta_coverage#:#Copertura
@@ -4461,7 +4461,7 @@ meta#:#meta_date#:#Data
 meta#:#meta_delete#:#Cancella
 meta#:#meta_description#:#Descrizione
 meta#:#meta_diagramm#:#Diagramma
-meta#:#meta_difficult#:#Difficult###03 Nov 2005 new variable
+meta#:#meta_difficult#:#Difficile
 meta#:#meta_difficulty#:#Difficolt&#224;
 meta#:#meta_draft#:#Bozza
 meta#:#meta_duration#:#Durata
@@ -4497,7 +4497,7 @@ meta#:#meta_index#:#Indice
 meta#:#meta_initiator#:#Iniziatore
 meta#:#meta_installation_remarks#:#Note sull&#039;installazione
 meta#:#meta_instructional_designer#:#Progettista educativo
-meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
+meta#:#meta_instructionaldesigner#:#Progettista educativo
 meta#:#meta_intended_end_user_role#:#Ruolo progettato per utente finale
 meta#:#meta_interactivity_level#:#Livello di interazione
 meta#:#meta_interactivity_type#:#Tipo di interazione
@@ -4687,13 +4687,13 @@ meta#:#meta_or_composite#:#oppure scrivi
 meta#:#meta_other#:#Oltro
 meta#:#meta_other_plattform_requirements#:#altri requisiti della piattaforma
 meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Per favore, scegli
+meta#:#meta_please_select#:#--- Per favore, scegli ---
 meta#:#meta_prerequisite#:#Prerequisiti
 meta#:#meta_problem_statement#:#Esposizione del problema
 meta#:#meta_publisher#:#Editore
 meta#:#meta_purpose#:#Scopo
 meta#:#meta_questionnaire#:#Sondaggio
-meta#:#meta_quickedit#:#Quick Edit###03 Nov 2005 new variable
+meta#:#meta_quickedit#:#Modifica veloce
 meta#:#meta_reference#:#Riferimento
 meta#:#meta_references#:#Riferimenti
 meta#:#meta_relation#:#Relazioni
@@ -4962,13 +4962,13 @@ search#:#search_advanced#:#Ricerca avanzata
 search#:#search_all_results#:#Ricerca tutti i risultati
 search#:#search_all_words#:#Tutte le parole
 search#:#search_and#:#AND
-search#:#search_any#:#-- Almeno una --
+search#:#search_any#:#--- Almeno uno ---
 search#:#search_any_word#:#Almeno una parola
 search#:#search_area#:#Area di ricerca
 search#:#search_area_info#:#Scegli l'area dalla quale far partire la ricerca.
 search#:#search_below#:#All'interno:
 search#:#search_change#:#Modifica
-search#:#search_choose_object_type#:#Please choose one object type.###03 Nov 2005 new variable
+search#:#search_choose_object_type#:#Seleziona almeno un tipo.
 search#:#search_concatenation#:#Operazione
 search#:#search_content#:#Contenuto della pagina
 search#:#search_dbk_content#:#Libraria digitale (contenuto)
@@ -4979,13 +4979,13 @@ search#:#search_direct#:#Ricerca diretta
 search#:#search_fast_info#:#Ricerca nel titolo, nella descrizione e tra le chiavi di ricerca.
 search#:#search_full_info#:#Scegli questa opzione se vuoi ricercare in un grande numero di informazioni.
 search#:#search_group#:#Gruppo di ricerca
-search#:#search_hits#:#Found in:###03 Nov 2005 new variable
+search#:#search_hits#:#Trovato in:
 search#:#search_in_magazin#:#Tra le risorse
 search#:#search_in_result#:#Ricerca all&#039;interno dei risultati
 search#:#search_inactive#:#Includi utenti inattivi
 search#:#search_index#:#Ricerca indicizzata
 search#:#search_like_info#:#Scegli questa opzione se vuoi ottenere i risultati migliori.
-search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.###03 Nov 2005 new variable
+search#:#search_limit_reached#:#La ricerca ha prodotto pi&#249; di %s risultati. Per ottenere un numero minore di risultati devi restringere il criterio di ricerca.
 search#:#search_lm_content#:#Modulo (contenuto)
 search#:#search_lm_meta#:#Modulo (metadati)
 search#:#search_lucene#:#Ricerca con Lucene
@@ -5028,13 +5028,13 @@ search#:#search_show_result#:#Mostra
 search#:#search_tst_svy#:#Test/Sondaggi
 search#:#search_type#:#Tipo di ricerca
 search#:#search_user#:#Utenti
-search#:#until#:#fino a
-survey#:#add_category#:#Aggiungi categoria###03 Nov 2005 content changed
+search#:#until#:#a:
+survey#:#add_category#:#Aggiungi categoria
 survey#:#add_heading#:#Aggiungi intestazione
-survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.###03 Nov 2005 content changed
+survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
 survey#:#add_phrase#:#Aggiungi la frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
-survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
+survey#:#add_standard_numbers#:#Aggiungi numeri standard
 survey#:#already_completed_survey#:#Hai gi&#224; completato il sondaggio! Non puoi eseguirlo di nuovo.
 survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.
 survey#:#anonymize_key_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter riprendere il sondaggio, vverr&#224; creata dal sistema una stringa di 32 caratteri che ti sar&#224; inviata nella tua casella postale in ILIAS quando inizierai il sondaggio. Il tuo codice di accesso &#232; <br /><span class="bold">%s</span><br />Per favore inseriscilo nel campo testo qui sotto.
@@ -5060,24 +5060,24 @@ survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al sondag
 survey#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
 survey#:#cannot_read_survey#:#Non hai i diritti per vedere i dati del sondaggio!
 survey#:#cannot_save_metaobject#:#Non hai diriti sufficienti per salvare i metadati!
-survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!###04 Nov 2005 content changed
-survey#:#categories#:#Answers###03 Nov 2005 new variable
-survey#:#category#:#Categoria###03 Nov 2005 content changed
-survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?###03 Nov 2005 content changed
-survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!###03 Nov 2005 content changed
-survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria###03 Nov 2005 content changed
+survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!
+survey#:#categories#:#Risposte
+survey#:#category#:#Categoria
+survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
+survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
+survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
 survey#:#chart#:#Grafico
-survey#:#check_category_to_save_phrase#:#Devi scegliere almeno una categoria se vuoi salvare la frase!###03 Nov 2005 content changed
+survey#:#check_category_to_save_phrase#:#Devi scegliere almeno una categoria se vuoi salvare la frase!
 survey#:#codes#:#Codici di accesso
 survey#:#combobox#:#Menu a tendina
 survey#:#concatenation#:#Concatenazione
 survey#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del sondaggio?
 survey#:#confirm_remove_heading#:#Sei sicuro di voler eliminare l'intestazione?
 survey#:#confirm_sync_questions#:#La domanda che hai cambiato &#232; la copia di una che &#232; stata creata per essere usata in un sondaggio ancora attivo. Vuoi modificare anche la domanda originale?
-survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
-survey#:#constraints#:#Vincoli###03 Nov 2005 content changed
-survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
-survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
+survey#:#constraint_add#:#Aggiungi precondizioni
+survey#:#constraints#:#Vincoli
+survey#:#constraints_first_question_description#:#La prima entit&#224; potrebbe non avere precondizioni perch&#232; non ci sono domande.
+survey#:#constraints_introduction#:#Per tutte le entit&#224; (per esempio una domanda o un blocco con pi&#249; domande) possono essere definite una o pi6#249; precondizioni. Queste precondizioni saranno ricavate dalle risposte dei partecipanti alle domande del sondaggio presenti nel test precedente.
 survey#:#contains#:#Contiene
 survey#:#continue#:#Avanti >>
 survey#:#create_date#:#Data creazione
@@ -5120,7 +5120,7 @@ survey#:#dc_verygood#:#molto buono
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definisci un blocco di domande
 survey#:#description_maxchars#:#Se non &#232; indicato, la risposta non ha un numero massimo di caratteri (senza limite).
-survey#:#disinvite#:#Annulla l'invito###03 Nov 2005 content changed
+survey#:#disinvite#:#Annulla l'invito
 survey#:#display_all_available#:#Mostra
 survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d'accordo -d'accordo-indeciso-in disaccordo-molto in disaccordo)
 survey#:#dp_standard_attitude_agree_disagree#:#Giudizio standard (d'accordo-disaccordo)
@@ -5147,7 +5147,7 @@ survey#:#dp_standard_numbers#:#Numeri standard
 survey#:#duplicate#:#Duplica
 survey#:#duplicate_svy#:#Duplica il sondaggio
 survey#:#edit_ask_continue#:#Vuoi continuare e modificare questa domanda?
-survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificarne i vincoli###03 Nov 2005 content changed
+survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificarne i vincoli
 survey#:#edit_heading#:#Modifica l'intestazione
 survey#:#end_date#:#Termine ultimo
 survey#:#end_date_reached#:#Non puoi iniziare il sondaggio. La data di scadenza &#232; gi&#224; stata raggiunta.
@@ -5167,17 +5167,17 @@ survey#:#exp_type_csv#:#Valori separati da punteggiatura (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
 survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#export_data_as#:#Esporta i dati come
-survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!###03 Nov 2005 content changed
-survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!###03 Nov 2005 content changed
-survey#:#fill_out_all_required_fields_delete_category#:#Per favore completa tutti i campi richiesti prima di effettuare la cancellazione delle categorie!###03 Nov 2005 content changed
-survey#:#fill_out_all_required_fields_move_category#:#Per favore completa tutti i campi richiesti prima di effettuare spostamento delle categorie!###03 Nov 2005 content changed
+survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
+survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!
+survey#:#fill_out_all_required_fields_delete_category#:#Per favore completa tutti i campi richiesti prima di effettuare la cancellazione delle categorie!
+survey#:#fill_out_all_required_fields_move_category#:#Per favore completa tutti i campi richiesti prima di effettuare spostamento delle categorie!
 survey#:#fill_out_all_required_fields_save_phrase#:#Per favore completa tutti i campi richiesti prima di salvare la frase!
 survey#:#filter#:#Filtra in
 survey#:#filter_all_question_types#:#Tutti i tipi di domande
 survey#:#filter_all_questionpools#:#Tutte le raccolte di domande
 survey#:#filter_show_question_types#:#Fitra tra le domande di tipo
 survey#:#filter_show_questionpools#:#Fitra tra le domande nella raccolta
-survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.###03 Nov 2005 new variable
+survey#:#form_data_modified_press_save#:#I dati del form sono stati modificati. Premi Invia se vuoi salvare le modifiche.
 survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite
@@ -5231,10 +5231,10 @@ survey#:#multiple_choice_multiple_response#:#con risposta multipla (scelta multi
 survey#:#multiple_choice_single_response#:#con risposta singola (scelta multipla)
 survey#:#new_survey_codes#:#nuovo codice di accesso al sondaggio
 survey#:#next_question_rows#:#Domande %d - %d di %d >>
-survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!###03 Nov 2005 content changed
-survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!###03 Nov 2005 content changed
-survey#:#no_category_selected_for_move#:#Per favore, scegli almeno una categoria da spostare!###03 Nov 2005 content changed
-survey#:#no_constraints_checked#:#Per favore, scegli almeno una domanda o un blocco di domande per modificarne i vincoli!###03 Nov 2005 content changed
+survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
+survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!
+survey#:#no_category_selected_for_move#:#Per favore, scegli almeno una categoria da spostare!
+survey#:#no_constraints_checked#:#Per favore, scegli almeno una domanda o un blocco di domande per modificarne i vincoli!
 survey#:#no_question_selected_for_move#:#Per favore, scegli almeno una domanda da spostare!
 survey#:#no_question_selected_for_removal#:#Per favore, scegli almeno una domanda o un blocco di domande da eliminare!
 survey#:#no_questionblocks_available#:#Non ci sono blocchi di domande disponibili!
@@ -5255,7 +5255,7 @@ survey#:#or#:#OR
 survey#:#ordinal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#orientation#:#Orientamento
 survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato questo valore
-survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria###03 Nov 2005 content changed
+survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria
 survey#:#phrase_saved#:#La frase &#232; stata salvata con successo!
 survey#:#predefined_users#:#Utenti predefiniti
 survey#:#preview#:#Anteprima
@@ -5280,13 +5280,13 @@ survey#:#qt_metric#:#con risposta numerica
 survey#:#qt_nominal#:#con risposte predefinite
 survey#:#qt_ordinal#:#con risposte da ordinare
 survey#:#qt_text#:#con risposta libera
-survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
-survey#:#question_has_constraints#:#Vincoli###03 Nov 2005 content changed
+survey#:#question_contains_no_categories#:#Non sono state definite risposte per questa domanda
+survey#:#question_has_constraints#:#Vincoli
 survey#:#question_obligatory#:#Questa domanda &#232; obbligatoria!
 survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, stai attento che devi cancellare la domanda anche dalla raccolta di domande se non vuoi pi&#249; tenerla!
 survey#:#question_type#:#Tipo di domanda
 survey#:#questionblock#:#Blocco di domande
-survey#:#questionblock_has_constraints#:#Vincoli###03 Nov 2005 content changed
+survey#:#questionblock_has_constraints#:#Vincoli
 survey#:#questionblocks#:#Blocchi di domande
 survey#:#questions#:#Domande
 survey#:#questions_inserted#:#Domande inserite!
@@ -5295,14 +5295,14 @@ survey#:#questiontype#:#Tipo di domanda
 survey#:#ratio_absolute#:#con risposta frazionaria (assoluta)
 survey#:#ratio_non_absolute#:#con risposta frazionaria (non assoluta)
 survey#:#remove_question#:#Cancella
-survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?###04 Nov 2005 content changed
+survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?
 survey#:#reset_filter#:#Azzera il filtro
 survey#:#resume_survey#:#Azzera il filtro
-survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
+survey#:#save_back_to_survey#:#Salva e ritorna al sondaggio
 survey#:#save_obligatory_state#:#Salva gli stati obbligatori
 survey#:#save_phrase#:#Salva come frase
-survey#:#save_phrase_categories_not_checked#:#Per favore, seleziona almento due categorie da salvare nella nuova frase!###03 Nov 2005 content changed
-survey#:#save_phrase_introduction#:#Se vuoi salvare le categorie sotto come frase predefinita, devi specificare il titolo. Verr&#224; mostrata la frase predefinita ogni volta che aggiungi una frase ad una domanda ad ordinamento.###03 Nov 2005 content changed
+survey#:#save_phrase_categories_not_checked#:#Per favore, seleziona almento due categorie da salvare nella nuova frase!
+survey#:#save_phrase_introduction#:#Se vuoi salvare le categorie sotto come frase predefinita, devi specificare il titolo. Verr&#224; mostrata la frase predefinita ogni volta che aggiungi una frase ad una domanda ad ordinamento.
 survey#:#search_field_all#:#Tutti i campi
 survey#:#search_for#:#Ricerca in
 survey#:#search_groups#:#Gruppi
@@ -5318,15 +5318,15 @@ survey#:#select_questionpool#:#Scegli la raccolta di domande alla quale verr&#22
 survey#:#select_questionpool_short#:#Scegli la raccolta
 survey#:#select_relation#:#Seleziona una relazione
 survey#:#select_svy_option#:#--- Seleziona un sondaggio ---
-survey#:#select_target_position_for_move#:#Per favore, seleziona la posizione di destinazione nella quale spostare le categorie e premi uno dei pulsanti Inserisci!###03 Nov 2005 content changed
+survey#:#select_target_position_for_move#:#Per favore, seleziona la posizione di destinazione nella quale spostare le categorie e premi uno dei pulsanti 'Inserisci'!
 survey#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella quale spostare le domande e premi uno dei pulsanti Inserisci!
 survey#:#select_value#:#Seleziona un valore
 survey#:#selection#:#Seleziona
 survey#:#set_filter#:#Filtra
 survey#:#skipped#:#saltato
-survey#:#spl_general_properties#:#General properties###03 Nov 2005 new variable
-survey#:#spl_online_property#:#Online###03 Nov 2005 new variable
-survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
+survey#:#spl_general_properties#:#Propriet&#224; generali
+survey#:#spl_online_property#:#Online
+survey#:#spl_online_property_description#:#Se la raccolta di domande non &#232; online, non pu6#242; essere usata nei test.
 survey#:#spl_select_file_for_import#:#Devi scegliere un file da importare!
 survey#:#start_date#:#Giorno di esecuzione
 survey#:#start_date_not_reached#:#Non puoi eseguire il sondaggio fino a che la data di inizio non &#232; stata raggiunta!
@@ -5347,7 +5347,7 @@ survey#:#survey_offline_message#:#Non puoi invitare partecipanti. Il sondaggio &
 survey#:#survey_online_warning#:#Il sondaggio &#232; online. Non puoi modificare le domande!
 survey#:#survey_previous#:#<<< Salva e torna indietro
 survey#:#survey_question_obligatory#:#(Questa domanda &#232; obbligatoria. Devi rispondere.)
-survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
+survey#:#survey_question_optional#:#(Opzionale)
 survey#:#survey_questions#:#Domande
 survey#:#survey_skip_finish#:#Salta e finisci il sondaggio >>>
 survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>
@@ -5391,7 +5391,7 @@ survey#:#users_skipped#:#Utenti che hanno saltato
 survey#:#value_nr_entered#:#Numero di utenti che hanno quel valore
 survey#:#values#:#Valori
 survey#:#vertical#:#verticale
-survey#:#view_constraints_introduction#:#Stai vedendo i vincoli definiti per le seguenti domande/blocchi di domande:###03 Nov 2005 content changed
+survey#:#view_constraints_introduction#:#Stai vedendo i vincoli definiti per le seguenti domande/blocchi di domande:
 survey#:#view_phrase#:#Vedi frase
 survey#:#warning_question_in_use#:#Attenzione! La domanda che vuoi modificare &#232; &#232; attualmente usata dai sondaggi indicati sotto. Se decidi di continuare e salvare/confermare la domanda, tutte le risposte dei sondaggi elencati sotto saranno cancellate. Se vuoi cambiare la domanda e usarla in un altro sondaggio, per favore scegli di duplicarla in modo da creare una nuova istanza della stessa.
 survey#:#warning_question_not_complete#:#La domanda non &#232; stata completata!

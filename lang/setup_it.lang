@@ -78,9 +78,9 @@ create#:#Crea
 create_datadir_failed#:#Creazione della cartella data fallita.
 create_new_client#:#Crea un nuovo client
 create_webdir_failed#:#Creazione della cartella web fallita
-ctrl_structure#:#Control Structure###03 Nov 2005 new variable
-ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
-ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
+ctrl_structure#:#Struttura di controllo
+ctrl_structure_desc#:#Per favore non invocare questa funzione a meno che non sia esplicitamente richiesto nelle instruzioni di aggiornamento o nell'istallazione di una patch.
+ctrl_structure_reloaded#:#Struttura di controllo ripristinata.
 data_path#:#Percorso della cartella data
 database#:#Database
 database_create#:#Crea il database
@@ -208,7 +208,7 @@ intro_install#:#Questa &#232; la pagina principale del processo di installazione
 ip_address#:#Indirizzo IP
 java_path#:#Percorso di Java
 java_path_comment#:#Richiesto per i moduli di tipo SCORM.
-lang_bg#:#Bulgarian###03 Nov 2005 new variable
+lang_bg#:#Bulgaro
 lang_cs#:#Ceco
 lang_da#:#Danese
 lang_de#:#Tedesco
@@ -337,7 +337,7 @@ pre_php_version_5#:#ILIAS 3 non &#232; stato ancora testato con PHP 5. Lo usi a 
 pre_php_version_unknown#:#L&#039;installazione di ILIAS 3 non ha riconosciuto questa versione di PHP. Lo usi a tuo rischio!
 preliminaries#:#Preliminari
 prev#:#Precedente
-reload#:#Reload###03 Nov 2005 new variable
+reload#:#Ripristina
 required_field#:#Campi richiesti
 reset#:#Reset
 root_access#:#accesso di root
@@ -393,7 +393,7 @@ step#:#Passo
 street#:#Indirizzo
 submit#:#Accetta
 title#:#Titolo
-tools#:#Tools###03 Nov 2005 new variable
+tools#:#Strumenti
 unknown_client_id#:#Client sconosciuto
 unknown_command#:#Comando sconosciuto
 unknown_display_mode#:#Modalit&#224; di visualizzazione sconosciuta.
