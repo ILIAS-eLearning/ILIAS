@@ -9012,3 +9012,6 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#577>
 ALTER TABLE `ut_lp_settings` ADD `visits` INT( 4 ) DEFAULT '0' AFTER `mode`;
+
+<#578>
+ALTER TABLE `content_object` ADD `downloads_public_active` ENUM('y','n') DEFAULT 'y' NOT NULL AFTER `downloads_active`;

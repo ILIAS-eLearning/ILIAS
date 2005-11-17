@@ -401,9 +401,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc"));
 		$this->tpl->setVariable("CBOX_DOWNLOADS", "cobj_act_downloads");
 		$this->tpl->setVariable("VAL_DOWNLOADS", "y");
+
 		if ($this->object->isActiveDownloads())
 		{
-			$this->tpl->setVariable("CHK_DOWNLOADS", "checked");
+			$this->tpl->setVariable("CHK_DOWNLOADS", "checked=\"checked\"");
+		}
+		
+		$this->tpl->setVariable("TXT_DOWNLOADS_PUBLIC_DESC", $this->lng->txt("cont_downloads_public_desc"));
+		$this->tpl->setVariable("CBOX_DOWNLOADS_PUBLIC", "cobj_act_downloads_public");
+		$this->tpl->setVariable("VAL_DOWNLOADS_PUBLIC", "y");
+
+		if ($this->object->isActiveDownloadsPublic())
+		{
+			$this->tpl->setVariable("CHK_DOWNLOADS_PUBLIC", "checked=\"checked\"");
+		}
+
+		if (!$this->object->isActiveDownloads())
+		{
+			$this->tpl->setVariable("CHK2_DOWNLOADS_PUBLIC", "disabled=\"disabled\"");
 		}
 		
 		// get user defined menu entries
@@ -792,6 +807,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
 		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
 		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["cobj_act_downloads"]));
+		$this->object->setActiveDownloadsPublic(ilUtil::yn2tf($_POST["cobj_act_downloads_public"]));
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
 		$this->object->setPublicNotes(ilUtil::yn2tf($_POST["cobj_pub_notes"]));
 		$this->object->setHistoryUserComments(ilUtil::yn2tf($_POST["cobj_user_comments"]));
@@ -2480,7 +2496,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function setilLMMenu($a_offline = false, $a_export_format = "")
 	{
-		global $ilCtrl;
+		global $ilCtrl,$ilUser;
 		
 		if (!$this->object->isActiveLMMenu())
 		{
@@ -2564,7 +2580,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// download
-		if ($this->object->isActiveDownloads() && !$a_offline)
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			$is_public = $this->object->isActiveDownloadsPublic();
+		}
+		else
+		{
+			$is_public = true;
+		}
+
+		if ($this->object->isActiveDownloads() && !$a_offline && $is_public)
 		{
 			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 			$tpl_menu->setVariable("BTN_LINK",
