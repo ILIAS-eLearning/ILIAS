@@ -1,3 +1,19 @@
+<script type="text/javascript">
+<!--
+function toggleDownloadsPublic(form)
+{
+	if (form.downloads.checked)
+	{
+		form.downloads_public.disabled = false;
+	}
+	else
+	{
+		form.downloads_public.disabled = true;
+	}
+}
+//-->
+</script>
+
 <form action="{FORMACTION}" name="post" method="post">
 <table class="std">
 <tr class="tblheader">
@@ -125,8 +141,11 @@
 	{TXT_DOWNLOADS}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_DOWNLOADS}" value="{VAL_DOWNLOADS}" {CHK_DOWNLOADS}>
+	<input type="checkbox" name="{CBOX_DOWNLOADS}" id="downloads" value="{VAL_DOWNLOADS}" {CHK_DOWNLOADS} onClick="toggleDownloadsPublic(document.post)"/>
 	<span class="small"><br />{TXT_DOWNLOADS_DESC}</span>
+	<br/>
+	<input type="checkbox" name="{CBOX_DOWNLOADS_PUBLIC}" id="downloads_public" value="{VAL_DOWNLOADS_PUBLIC}" {CHK_DOWNLOADS_PUBLIC} {CHK2_DOWNLOADS_PUBLIC}/>
+	<span class="small"><br />{TXT_DOWNLOADS_PUBLIC_DESC}</span>
 	</td>
 </tr>
 <!-- BEGIN menu_entries -->

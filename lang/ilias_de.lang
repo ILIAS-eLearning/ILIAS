@@ -3137,7 +3137,8 @@ content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_downloads#:#Downloads
-content#:#cont_downloads_desc#:#Ermögliche Anwender, freigegebene Exportdateien herunterzuladen
+content#:#cont_downloads_desc#:#Ermöglicht Anwendern freigegebene Exportdateien herunterzuladen
+content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.

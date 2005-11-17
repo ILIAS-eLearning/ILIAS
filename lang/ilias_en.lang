@@ -1282,7 +1282,7 @@ common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_hist_user_comments#:#Enable user comments in history
-common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.
+common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_js_edit#:#Enable JavaScript Editing
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) 
 common#:#enable_password_assistance#:#Enable password assistance
@@ -3139,7 +3139,8 @@ content#:#cont_disable_js#:#JavaScript inactive
 content#:#cont_disable_media#:#Media inactive
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Downloads
-content#:#cont_downloads_desc#:#Enables download of all public export files.
+content#:#cont_downloads_desc#:#Enable download of all public export files.
+content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_ed_align_center#:#align: center
 content#:#cont_ed_align_left#:#align: left
 content#:#cont_ed_align_left_float#:#align: left float
@@ -3317,7 +3318,7 @@ content#:#cont_preview#:#Preview
 content#:#cont_print_view#:#Print View
 content#:#cont_public_access#:#Public access
 content#:#cont_public_notes#:#Public Notes
-content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.
+content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module.
 content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
