@@ -454,6 +454,8 @@ assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_previous_results#:#Hide previous results
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values
+assessment#:#tst_hide_title_points#:#Question title points
+assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -2244,6 +2246,7 @@ common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_alm#:#Learning Module AICC
 common#:#obj_assf#:#Test&Assessment
+common#:#obj_assf_desc#:#Test&Assessment log settings.
 common#:#obj_auth#:#Authentication
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)
 common#:#obj_cat#:#Category

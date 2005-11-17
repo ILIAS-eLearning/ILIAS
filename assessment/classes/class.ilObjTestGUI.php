@@ -857,6 +857,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["hide_previous_results"] = "0";
 		}
+		if ($_POST["chb_hide_title_points"])
+		{
+			$data["hide_title_points"] = "1";
+		}
+		else
+		{
+			$data["hide_title_points"] = "0";
+		}
 
 		if ($data["enable_processing_time"])
 		{
@@ -920,6 +928,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$this->object->setHidePreviousResults($data["hide_previous_results"]);
+		$this->object->setHideTitlePoints($data["hide_title_points"]);
 		
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
 		{
@@ -1096,7 +1105,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["reporting_date"] = $this->object->getReportingDate();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
 		$data["hide_previous_results"] = $this->object->getHidePreviousResults();
-
+		$data["hide_title_points"] = $this->object->getHideTitlePoints();
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 		$data["processing_time"] = $this->object->getProcessingTime();
 		$data["random_test"] = $this->object->isRandomTest();
@@ -1257,6 +1266,12 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS", $this->lng->txt("tst_hide_previous_results"));
 		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS_DESCRIPTION", $this->lng->txt("tst_hide_previous_results_description"));
+		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS", $this->lng->txt("tst_hide_title_points"));
+		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS_DESCRIPTION", $this->lng->txt("tst_hide_title_points_description"));
+		if ($data["hide_title_points"] == 1)
+		{
+			$this->tpl->setVariable("CHECKED_HIDE_TITLE_POINTS", " checked=\"checked\"");
+		}
 		if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
 		{
 			$data["hide_previous_results"] = 1;

@@ -1036,6 +1036,12 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setHidePreviousResults($this->metadata["entry"]);
 							}
 							break;
+						case "hide_title_points":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setHideTitlePoints($this->metadata["entry"]);
+							}
+							break;
 						case "random_test":
 							if (is_object($this->tst_object))
 							{

@@ -209,7 +209,16 @@ class ilObjTest extends ilObject
 *
 * @var integer
 */
-  var $hide_previous_results;
+	var $hide_previous_results;
+
+/**
+* Tells ILIAS to hide the maximum points of a question in the question title
+* 
+* Tells ILIAS to hide the maximum points of a question in the question title
+*
+* @var integer
+*/
+  var $hide_title_points;
 
 /**
 * The maximum processing time as hh:mm:ss string
@@ -350,6 +359,7 @@ class ilObjTest extends ilObject
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
 		$this->hide_previous_results = 0;
+		$this->hide_title_points = 0;
 		$this->starting_time = "";
 		$this->ending_time = "";
 		$this->processing_time = "00:00:00";
@@ -1077,7 +1087,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, pass_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, pass_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
         $db->quote($this->author . ""),
         $db->quote($this->test_type . ""),
@@ -1086,6 +1096,7 @@ class ilObjTest extends ilObject
         $db->quote($this->score_reporting . ""),
         $db->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$db->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
+				$db->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
         $db->quote($this->processing_time . ""),
 				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date . ""),
@@ -1130,7 +1141,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, pass_scoring = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, pass_scoring = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
@@ -1138,6 +1149,7 @@ class ilObjTest extends ilObject
         $db->quote($this->score_reporting . ""), 
         $db->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$db->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
+				$db->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
         $db->quote($this->processing_time . ""),
 				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date . ""), 
@@ -1477,6 +1489,7 @@ class ilObjTest extends ilObject
 				$this->score_reporting = $data->score_reporting;
 				$this->nr_of_tries = $data->nr_of_tries;
 				$this->setHidePreviousResults($data->hide_previous_results);
+				$this->setHideTitlePoints($data->hide_title_points);
 				$this->processing_time = $data->processing_time;
 				$this->enable_processing_time = $data->enable_processing_time;
 				$this->reporting_date = $data->reporting_date;
@@ -1936,6 +1949,46 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Returns true if the maximum points of a question should be hidden in the question title
+* 
+* Returns true if the maximum points of a question should be hidden in the question title
+*
+* @return integer 1 if the maximum points in the question title should be hidden
+* @access public
+* @see $hide_title_points
+*/
+  function getHideTitlePoints() 
+	{
+    return $this->hide_title_points;
+  }
+
+/**
+* Returns true if the maximum points of a question should be hidden in the question title
+* 
+* Returns true if the maximum points of a question should be hidden in the question title
+*
+* @param integer The test id
+* @return integer 1 if the maximum points in the question title should be hidden
+* @access public
+* @see $hide_title_points
+*/
+  function _getHideTitlePoints($test_id) 
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT hide_title_points FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["hide_title_points"];
+		}
+		return 0;
+  }
+
+/**
 * Returns if the previous results should be hidden for a learner
 * 
 * Returns if the previous results should be hidden for a learner
@@ -2070,6 +2123,27 @@ class ilObjTest extends ilObject
 		else
 		{
 			$this->hide_previous_results = 0;
+		}
+  }
+
+/**
+* Sets the status of the visibility of the maximum points in the question title
+* 
+* Sets the status of the visibility of the maximum points in the question title
+**
+* @param integer $hide_title_points 1 if the maximum points should be hidden in the question title
+* @access public
+* @see $hide_title_points
+*/
+  function setHideTitlePoints($hide_title_points = 0) 
+	{
+		if ($hide_title_points)
+		{
+			$this->hide_title_points = 1;
+		}
+		else
+		{
+			$this->hide_title_points = 0;
 		}
   }
 
@@ -4594,6 +4668,17 @@ class ilObjTest extends ilObject
 		$qtiFieldLabel->append_child($qtiFieldLabelText);
 		$qtiFieldEntry = $domxml->create_element("fieldentry");
 		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getHidePreviousResults()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// hide title points
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("hide_title_points");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getHideTitlePoints()));
 		$qtiFieldEntry->append_child($qtiFieldEntryText);
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
