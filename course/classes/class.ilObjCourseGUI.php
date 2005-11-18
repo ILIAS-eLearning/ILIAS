@@ -2725,7 +2725,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
 								 '',
-								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui'));
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{

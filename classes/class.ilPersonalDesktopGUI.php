@@ -33,7 +33,7 @@ include_once "classes/class.ilPersonalDesktopGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI
 *
 * @package content
 */
@@ -110,6 +110,20 @@ class ilPersonalDesktopGUI
 				$pd_notes_gui = new ilPDNotesGUI();
 				$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
 				break;
+
+			case "illearningprogressgui":
+				$this->getStandardTemplates();
+				$this->setTabs();
+				
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
+				$ret =& $this->ctrl->forwardCommand($new_gui);
+
+				break;
+				
+				
+
 				
 			default:
 				$this->getStandardTemplates();
@@ -1270,6 +1284,13 @@ class ilPersonalDesktopGUI
 				$this->lng->txt("bookmarks"));
 
 		}
+
+		// Tracking
+		$cmd_classes = array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui');
+		$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
+		
+		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"),
+						   $this->lng->txt("learning_progress"));
 
 		include_once "./payment/classes/class.ilPaymentVendors.php";
 		include_once "./payment/classes/class.ilPaymentTrustees.php";

@@ -22,24 +22,23 @@
 */
 
 /**
-* Class ilObjUserTrackingGUI
+* Class ilLPListOfProgress
 *
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI
+* @ilCtrl_Calls ilLPListOfProgressGUI:
 *
-* @extends ilObjectGUI
-* @package ilias-core
+* @package ilias-tracking
 *
 */
 
 include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 
-class ilLearningProgressGUI extends ilLearningProgressBaseGUI
+class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 {
-	function ilLearningProgressGUI($a_mode,$a_ref_id = 0)
+	function ilLPListOfProgressGUI($a_mode,$a_ref_id)
 	{
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
 	}
@@ -51,65 +50,20 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	{
 		$this->ctrl->setReturn($this, "");
 
-		// E.g personal desktop mode needs locator header icon ...
-		$this->__buildHeader();
-
-		switch($this->__getNextClass())
+		switch($this->ctrl->getNextClass())
 		{
-			case 'illplistofprogressgui':
-				include_once 'Services/Tracking/classes/class.ilLPListOfProgressGUI.php';
-
-				$lop_gui = new ilLPListOfProgressGUI($this->getMode(),$this->getRefId());
-				$this->ctrl->setCmdClass('illplistofprogressgui');
-				$this->ctrl->forwardCommand($lop_gui);
-				$this->__setSubTabs(LP_ACTIVE_PROGRESS);
-				break;
-
-			case 'illplistofobjectsgui':
-				include_once 'Services/Tracking/classes/class.ilLPListOfObjectsGUI.php';
-
-				$loo_gui = new ilLPListOfObjectsGUI($this->getMode(),$this->getRefId());
-				$this->ctrl->setCmdClass('illplistofobjectsgui');
-				$this->ctrl->forwardCommand($loo_gui);
-				$this->__setSubTabs(LP_ACTIVE_OBJECTS);
-				break;
-
-			case 'illplistofsettingsgui':
-				include_once 'Services/Tracking/classes/class.ilLPListOfSettingsGUI.php';
-
-				$los_gui = new ilLPListOfSettingsGUI($this->getMode(),$this->getRefId());
-				$this->ctrl->setCmdClass('illplistofsettingsgui');
-				$this->ctrl->forwardCommand($los_gui);
-				$this->__setSubTabs(LP_ACTIVE_SETTINGS);
-				break;
-
 			default:
-				die("No mode given");
+				$cmd = $this->__getDefaultCommand();
+				$this->$cmd();
+
 		}
-
-		// E.G personal desktop mode needs $tpl->show();
-		$this->__buildFooter();
-
 		return true;
 	}
 
-	function __getNextClass()
+	function show()
 	{
-		if(strlen($next_class = $this->ctrl->getNextClass()))
-		{
-			return $next_class;
-		}
-		switch($this->getMode())
-		{
-			case LP_MODE_ADMINISTRATION:
-				return 'illplistofobjectsgui';
-
-			case LP_MODE_REPOSITORY:
-				return 'illplistofobjectsgui';
-
-			case LP_MODE_PERSONAL_DESKTOP:
-				return 'illplistofprogressgui';
-		}
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
+		$this->__setSubTabs(LP_ACTIVE_PROGRESS);
 	}
 }
 ?>

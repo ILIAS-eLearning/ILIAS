@@ -38,6 +38,7 @@ define("LP_MODE_REPOSITORY",3);
 
 define("LP_ACTIVE_SETTINGS",1);
 define("LP_ACTIVE_OBJECTS",2);
+define("LP_ACTIVE_PROGRESS",3);
 
 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -104,19 +105,86 @@ class ilLearningProgressBaseGUI
 
 		switch($this->getMode())
 		{
+			case LP_MODE_PERSONAL_DESKTOP:
+
+				$tabs_gui->addTarget('trac_progress',
+									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
+									 "","","",$a_active == LP_ACTIVE_PROGRESS);
+				$tabs_gui->addTarget('trac_objects',
+									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+									 "","","",$a_active == LP_ACTIVE_OBJECTS);
+				break;
+
+
 			case LP_MODE_REPOSITORY:
 
 				$tabs_gui->addTarget('trac_objects',
-									 $this->ctrl->getLinkTarget($this,''),
+									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 									 "","","",$a_active == LP_ACTIVE_OBJECTS);
 				$tabs_gui->addTarget('trac_settings',
-									 $this->ctrl->getLinkTarget($this,''),
+									 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
 									 "","","",$a_active == LP_ACTIVE_SETTINGS);
+				break;
+
+			case LP_MODE_ADMINISTRATION:
+				
+				$tabs_gui->addTarget('trac_objects',
+									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+									 "","","",$a_active == LP_ACTIVE_OBJECTS);
+				$tabs_gui->addTarget('trac_progress',
+									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
+									 "","","",$a_active == LP_ACTIVE_PROGRESS);
+				break;
+
+			default:
+				die ('No valid mode given');
 				break;
 		}
 		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
 
 		return true;
+	}
+
+	function __buildFooter()
+	{
+		switch($this->getMode())
+		{
+			case LP_MODE_PERSONAL_DESKTOP:
+
+				$this->tpl->show(true);
+		}
+	}
+
+	function __buildHeader()
+	{
+		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP)
+		{
+			$this->tpl->setCurrentBlock("header_image");
+			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("HEADER",$this->lng->txt("personal_desktop"));
+			
+			// set locator
+			$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
+			$this->tpl->touchBlock("locator_separator");
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
+			$this->tpl->setVariable("LINK_ITEM",
+									$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $this->lng->txt("learning_progress"));
+			$this->tpl->setVariable("LINK_ITEM",
+									$this->ctrl->getLinkTarget($this));
+			$this->tpl->parseCurrentBlock();
+		
+			// catch feedback message
+			sendInfo();
+			// display infopanel if something happened
+			infoPanel();
+		}
+
 	}
 }
 ?>

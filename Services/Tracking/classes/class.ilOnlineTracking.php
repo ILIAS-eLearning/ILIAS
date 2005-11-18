@@ -22,47 +22,85 @@
 */
 
 /**
-* Class ilObjUserTrackingGUI
+* Class ilOnlineTracking
 *
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI:
+* @extends ilObjectGUI
+* @package ilias-core
 *
-* @package ilias-tracking
+* Stores total online time of users
 *
 */
 
-include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
-
-class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
+class ilOnlineTracking
 {
-	function ilLPListOfObjectsGUI($a_mode,$a_ref_id)
+	// Static
+	function _getOnlineTime($a_user_id)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+		global $ilDB;
+
+		$query = "SELECT * FROM ut_online WHERE usr_id = '".$a_user_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$access_time = $row->access_time;
+			$online_time = $row->online_time;
+		}
+		return (int) $online_time;
 	}
 
-	/**
-	* execute command
-	*/
-	function &executeCommand()
+		
+
+	function _addUser($a_user_id)
 	{
-		$this->ctrl->setReturn($this, "");
+		global $ilDB;
 
-		switch($this->ctrl->getNextClass())
+		$query = "SELECT * FROM ut_online WHERE usr_id = '".$a_user_id."'";
+		$res = $ilDB->query($query);
+		
+		if($res->numRows())
 		{
-			default:
-				$cmd = $this->__getDefaultCommand();
-				$this->$cmd();
-
+			return false;
 		}
+		$query = "INSERT INTO ut_online SET usr_id = '".$a_user_id."', access_time = '".time()."'";
+		$ilDB->query($query);
+
 		return true;
 	}
 
-	function show()
+	function _updateAccess($a_usr_id)
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
+		global $ilDB,$ilias;
+
+		$query = "SELECT * FROM ut_online WHERE usr_id = '".$a_usr_id."'";
+		$res = $ilDB->query($query);
+
+		if(!$res->numRows())
+		{
+			return false;
+		}
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$access_time = $row->access_time;
+			$online_time = $row->online_time;
+		}
+		
+		$time_span = (int) $ilias->getSetting("tracking_time_span",300);
+
+		if(($diff = time() - $access_time) <= $time_span)
+		{
+			$query = "UPDATE ut_online SET online_time = online_time + '".$diff."', access_time = '".time()."'";
+			$ilDB->query($query);
+		}
+		else
+		{
+			$query = "UPDATE ut_online SET access_time = '".time()."'";
+			$ilDB->query($query);
+		}
+		return true;
 	}
 }
 ?>
