@@ -71,6 +71,7 @@ class ilObjTestGUI extends ilObjectGUI
 				case "create":
 				case "importFile":
 				case "cloneAll":
+					return;
 					break;
 				default:
 				$this->prepareOutput();
@@ -197,6 +198,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		if ($_POST["qpl"] < 1)
 		{
 			sendInfo($this->lng->txt("tst_select_questionpools"));
@@ -217,6 +220,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cloneAllObject()
 	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		if ($_POST["tst"] < 1)
 		{
 			sendInfo($this->lng->txt("tst_select_tsts"));
@@ -3087,6 +3092,8 @@ class ilObjTestGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem;
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
