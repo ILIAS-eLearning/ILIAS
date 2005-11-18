@@ -132,9 +132,9 @@ class ilObjFile extends ilObject
 
 				foreach($md_technical->getFormatIds() as $id)
 				{
-					$md_format = $md_gen->getFormat($id);
-					ilObjFile::_writeFormat($this->getId(),$md_format->getFormat());
-					$this->setFormat($md_format->getFormat());
+					$md_format = $md_technical->getFormat($id);
+					ilObjFile::_writeFileType($this->getId(),$md_format->getFormat());
+					$this->setFileType($md_format->getFormat());
 					break;
 				}
 
@@ -349,7 +349,7 @@ class ilObjFile extends ilObject
 		return $this->mode;
 	}
 	
-	function _writeFormat($a_id ,$a_format)
+	function _writeFileType($a_id ,$a_format)
 	{
 		global $ilDB;
 		
