@@ -287,7 +287,7 @@ assessment#:#material#:#Material
 assessment#:#material_download#:#Material to download
 assessment#:#material_file#:#Material file
 assessment#:#maxchars#:#Maximum number of characters
-assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
+assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#meaning#:#Meaning
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
 assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!
@@ -427,7 +427,7 @@ assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions#:#Answered questions
 assessment#:#tst_browse_for_questions#:#Browse for questions
-assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results?
+assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
@@ -486,8 +486,8 @@ assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from
 assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
-assessment#:#tst_nr_of_tries#:#Max. number of tries
-assessment#:#tst_nr_of_tries_of_user#:#Tries already completed
+assessment#:#tst_nr_of_tries#:#Max. number of passes
+assessment#:#tst_nr_of_tries_of_user#:#Passes already completed
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the best pass of a user
 assessment#:#tst_pass_details#:#Show details
