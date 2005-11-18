@@ -470,5 +470,47 @@ class ilFormat
 
 		return mktime($arrT[0], $arrT[1], $arrT[2], $arrD[1], $arrD[2], $arrD[0]);
 	}
+
+	function _secondsToString($seconds)
+	{
+		global $lng;
+
+		$days = floor($seconds / 86400);
+		$rest = $seconds % 86400;
+
+		$hours = floor($rest / 3600);
+		$rest = $rest % 3600;
+
+		$minutes = floor($rest / 60);
+
+		if($days)
+		{
+			$message = $days . ' '. $this->lng->txt('days');
+		}
+		if($hours)
+		{
+			if($message)
+			{
+				$message .= ' ';
+			}
+			$message .= ($hours . ' '. $this->lng->txt('hours'));
+		}
+		if($minutes)
+		{
+			if($message)
+			{
+				$message .= ' ';
+			}
+			$message .= ($minutes . ' '. $this->lng->txt('minutes'));
+		}
+		if(!$days and !$hours and !$minutes)
+		{
+			return $seconds .' '. $this->lng->txt('seconds');
+		}
+		else
+		{
+			return $message;
+		}
+	}
 }
 ?>

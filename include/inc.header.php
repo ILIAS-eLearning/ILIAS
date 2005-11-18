@@ -103,6 +103,8 @@ require_once "classes/class.ilRbacReview.php";
 // include object_data cache
 require_once "classes/class.ilObjectDataCache.php";
 
+require_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
+
 // memory usage at this point (2005-02-09): ~3MB)
 //echo "<br>memory2:".memory_get_usage()."<br>";
 
@@ -522,6 +524,9 @@ $GLOBALS['ilHelp'] =& $ilHelp;
 // Start object_data cache
 $ilObjDataCache = new ilObjectDataCache();
 $GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
+
+// Store online time of user
+ilOnlineTracking::_updateAccess($ilUser->getId());
 
 
 // utf-8 fix?

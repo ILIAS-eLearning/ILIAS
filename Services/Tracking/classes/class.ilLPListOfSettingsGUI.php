@@ -66,7 +66,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		// Sub Tabs
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_obj_settings.html','Services/Tracking');
-		$this->__setSubTabs(LP_ACTIVE_SETTINGS);
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_trac.gif'));

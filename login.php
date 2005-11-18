@@ -82,14 +82,16 @@ if (!$ilias->getSetting("setup_ok"))
 // check for auth
 if ($ilias->auth->getAuth())
 {
-
-	
 	if(!$ilias->account->checkTimeLimit())
 	{
 		$ilias->auth->logout();
 		session_destroy();
 		ilUtil::redirect('login.php?time_limit=true');
 	}
+
+	include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
+
+	ilOnlineTracking::_addUser($ilUser->getId());
 
 	if ($ilias->getSetting("chat_active"))
 	{

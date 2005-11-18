@@ -2815,7 +2815,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 								 '',
-								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui'));
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
