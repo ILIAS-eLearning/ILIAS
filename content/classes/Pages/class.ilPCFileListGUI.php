@@ -119,7 +119,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 
 
 	/**
-	* create new table in dom and update page in db
+	* create new file list in dom and update page in db
 	*/
 	function create()
 	{
@@ -130,6 +130,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$fileObj->setDescription("");
 		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
+		$fileObj->setMode("filelist");
 		$fileObj->create();
 		// upload file to filesystem
 		$fileObj->createDirectory();

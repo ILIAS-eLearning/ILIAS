@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI:
+* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -62,6 +62,19 @@ class ilObjFileGUI extends ilObjectGUI
 
 		switch ($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+				
+				// todo: make this work
+				$md_gui->addObserver($this->object,'MDUpdateListener','Technical');
+				
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			default:
 				if (empty($cmd))
 				{
@@ -154,6 +167,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$fileObj->setFileName(ilUtil::stripSlashes($_FILES["Fobject"]["name"]["file"]));
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
+		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
 		$fileObj->create();
 		$fileObj->createReference();
 		$fileObj->putInTree($_GET["ref_id"]);
@@ -197,6 +211,7 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->object->replaceFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
 			$this->object->setFileName($_FILES["Fobject"]["name"]["file"]);
 			$this->object->setFileType($_FILES["Fobject"]["type"]["file"]);
+			$this->object->setFileSize($_FILES["Fobject"]["size"]["file"]);
 		}
 		
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
@@ -310,6 +325,14 @@ class ilObjFileGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "");
 		}
 		
+		// meta data 
+		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass(array('ilobjfilegui','ilmdeditorgui'),'listSection'),
+				 "", 'ilmdeditorgui');
+		}
+
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("versions",

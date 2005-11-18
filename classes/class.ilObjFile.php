@@ -40,6 +40,7 @@ class ilObjFile extends ilObject
 	var $filetype;
 	var $filemaxsize = "20000000";	// not used yet
 	var $raise_upload_error;
+	var $mode = "object";
 
 	/**
 	* Constructor
@@ -55,20 +56,95 @@ class ilObjFile extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
+	/**
+	* create object
+	*/
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) "
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,version,mode) "
 			."VALUES ('".$this->getId()."','"
 			.ilUtil::prepareDBString($this->getFileName())."','"
 			.$this->getFileType()."','"
-			."1"."')";
+			."1"."',".$ilDB->quote($this->getMode()).")";
 		$this->ilias->db->query($q);
+		
+		// no meta data handling for file list files
+		if ($this->getMode() != "filelist")
+		{
+			$this->createMetaData();
+		}
 	}
+	
+	/**
+	* create file object meta data
+	*/
+	function createMetaData()
+	{
+		parent::createMetaData();
+		
+		// add technical section with file size and format
+		$md_obj =& new ilMD($this->getId(),0,$this->getType());
+		$technical = $md_obj->addTechnical();
+		$technical->setSize($this->getFileSize());
+		$technical->save();
+		$format = $technical->addFormat();
+		$format->setFormat($this->getFileType());
+		$format->save();
+		$technical->update();
+	}
+	
+	/**
+	* Meta data update listener
+	*
+	* Important note: Do never call create() or update()
+	* method of ilObject here. It would result in an
+	* endless loop: update object -> update meta -> update
+	* object -> ...
+	* Use static _writeTitle() ... methods instead.
+	*
+	* @param	string		$a_element
+	*/
+	function MDUpdateListener($a_element)
+	{
+		// handling for general section
+		parent::MDUpdateListener($a_element);
+		
+		// handling for technical section 
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		switch($a_element)
+		{
+			case 'Technical':
+
+				// Update Format (size is not stored in db)
+				$md = new ilMD($this->getId(),0, $this->getType());
+				if(!is_object($md_technical = $md->getTechnical()))
+				{
+					return false;
+				}
+
+				foreach($md_technical->getFormatIds() as $id)
+				{
+					$md_format = $md_gen->getFormat($id);
+					ilObjFile::_writeFormat($this->getId(),$md_format->getFormat());
+					$this->setFormat($md_format->getFormat());
+					break;
+				}
+
+				break;
+
+			default:
+		}
+		return true;
+	}
+
 
 	function getDirectory($a_version = 0)
 	{
@@ -151,6 +227,7 @@ class ilObjFile extends ilObject
 		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
 		$this->setVersion($row->version);
+		$this->setMode($row->mode);
 	}
 
 	/**
@@ -158,17 +235,60 @@ class ilObjFile extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+		
+		// no meta data handling for file list files
+		if ($this->getMode() != "filelist")
+		{
+			$this->updateMetaData();
+		}
 		parent::update();
 		
 		$q = "UPDATE file_data SET file_name = '".ilUtil::prepareDBString($this->getFileName()).
 			"', file_type = '".$this->getFiletype()."' ".
 			", version = '".$this->getVersion()."' ".
+			", mode = ".$ilDB->quote($this->getMode())." ".
 			"WHERE file_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 		
 		return true;
 	}
+	
+	/**
+	* update meta data
+	*/
+	function updateMetaData()
+	{
+		parent::updateMetaData();
+		
+		// add technical section with file size and format
+		$md_obj =& new ilMD($this->getId(),0,$this->getType());
+		if(!is_object($technical = $md_obj->getTechnical()))
+		{
+			$technical = $md_obj->addTechnical();
+			$technical->save();
+		}
+		$technical->setSize($this->getFileSize());
+		
+		$format_ids = $technical->getFormatIds();
+		if (count($format_ids) > 0)
+		{
+			$format = $technical->getFormat($format_ids[0]);
+			$format->setFormat($this->getFileType());
+			$format->update();
+		}
+		else
+		{
+			$format = $technical->addFormat();
+			$format->setFormat($this->getFileType());
+			$format->save();
+		}
+		$technical->update();
+	}
 
+	/**
+	* set filename
+	*/
 	function setFileName($a_name)
 	{
 		$this->filename = $a_name;
@@ -189,6 +309,16 @@ class ilObjFile extends ilObject
 		return $this->filetype;
 	}
 
+	function setFileSize($a_size)
+	{
+		$this->filesize = $a_size;
+	}
+
+	function getFileSize()
+	{
+		return $this->filesize;
+	}
+	
 	function setVersion($a_version)
 	{
 		$this->version = $a_version;
@@ -197,6 +327,37 @@ class ilObjFile extends ilObject
 	function getVersion()
 	{
 		return $this->version;
+	}
+	
+	/**
+	* mode is object or filelist
+	*
+	* @param	string		$a_mode		mode
+	*/
+	function setMode($a_mode)
+	{
+		$this->mode = $a_mode;
+	}
+
+	/**
+	* mode is object or filelist
+	*
+	* @return	string		mode
+	*/
+	function getMode()
+	{
+		return $this->mode;
+	}
+	
+	function _writeFormat($a_id ,$a_format)
+	{
+		global $ilDB;
+		
+		$q = "UPDATE file_data SET ".
+			" file_type = ".$ilDB->quote($a_format).
+			" WHERE file_id = ".$ilDB->quote($a_id);
+		$ilDB->query($q);
+		
 	}
 
 	function _lookupFileName($a_id)
@@ -327,6 +488,8 @@ class ilObjFile extends ilObject
 
 	function ilClone($a_parent_ref)
 	{
+		global $ilDB;
+		
 		// always call parent clone function first!!
 		$new_ref_id = parent::ilClone($a_parent_ref);
 
@@ -337,11 +500,11 @@ class ilObjFile extends ilObject
 		ilUtil::rCopy($this->getDirectory(),$fileObj->getDirectory());
 		//copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$this->getFileName());
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) VALUES ('"
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,version,mode) VALUES ('"
 			.$fileObj->getId()."','"
 			.ilUtil::prepareDBString($this->getFileName())."','"
 			.$this->getFileType()."','".$this->getVersion()
-			."')";
+			."',".$ilDB->quote($this->getMode()).")";
 
 		$this->ilias->db->query($q);
 
@@ -387,6 +550,12 @@ class ilObjFile extends ilObject
 			if (@is_dir($this->getDirectory()))
 			{
 				ilUtil::delDir($this->getDirectory());
+			}
+			
+			// delete meta data
+			if ($this->getMode() != "filelist")
+			{
+				$this->deleteMetaData();
 			}
 
 			return true;
