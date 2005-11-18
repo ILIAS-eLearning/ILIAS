@@ -1416,6 +1416,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem;
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
@@ -1464,6 +1466,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
 			sendInfo($this->lng->txt("qpl_select_file_for_import"));
