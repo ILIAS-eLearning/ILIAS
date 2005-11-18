@@ -79,6 +79,121 @@ class ilInfoScreenGUI
 		$this->section[$this->sec_nr]["properties"][] =
 			array("name" => $a_name, "value" => $a_value);
 	}
+
+	/**
+	* add standard meta data sections
+	*/
+	function addMetaDataSections($a_rep_obj_id,$a_obj_id, $a_type)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("meta");
+
+		include_once("./Services/MetaData/classes/class.ilMD.php");
+		$md = new ilMD($a_rep_obj_id,$a_obj_id, $a_type);
+		
+		if ($md_gen = $md->getGeneral())
+		{
+			// get first descrption
+			foreach($md_gen->getDescriptionIds() as $id)
+			{
+				$md_des = $md_gen->getDescription($id);
+				$description = $md_des->getDescription();
+				break;
+			}
+			
+			// get language(s)
+			$langs = array();
+			foreach($ids = $md_gen->getLanguageIds() as $id)
+			{
+				$md_lan = $md_gen->getLanguage($id);
+				if ($md_lan->getLanguageCode() != "")
+				{
+					$langs[] = $lng->txt("meta_l_".$md_lan->getLanguageCode());
+				}
+			}
+			$langs = implode($langs, ", ");
+			
+			// keywords
+			$keywords = array();
+			foreach($ids = $md_gen->getKeywordIds() as $id)
+			{
+				$md_key = $md_gen->getKeyword($id);
+				$keywords[] = $md_key->getKeyword();
+			}
+			$keywords = implode($keywords, ", ");
+		}
+		
+		// authors
+		if(is_object($lifecycle = $md->getLifecycle()))
+		{
+			$sep = $author = "";
+			foreach(($ids = $lifecycle->getContributeIds()) as $con_id)
+			{
+				$md_con = $lifecycle->getContribute($con_id);
+				if ($md_con->getRole() == "Author")
+				{
+					foreach($ent_ids = $md_con->getEntityIds() as $ent_id)
+					{
+						$md_ent = $md_con->getEntity($ent_id);
+						$author = $author.$sep.$md_ent->getEntity();
+						$sep = ", ";
+					}
+				}
+			}
+		}
+			
+		// copyright
+		$copyright = "";
+		if(is_object($rights = $md->getRights()))
+		{
+			$copyright = $rights->getDescription();
+		}
+
+		// learning time
+		$learning_time = "";
+		if(is_object($educational = $md->getEducational()))
+		{
+			$learning_time = $educational->getTypicalLearningTime();
+		}
+
+		// output
+		
+		// description
+		if ($description != "")
+		{
+			$this->addSection($lng->txt("description"));
+			$this->addProperty("",  nl2br($description));
+		}
+		
+		// general section
+		$this->addSection($lng->txt("meta_general"));
+		if ($langs != "")	// language
+		{
+			$this->addProperty($lng->txt("language"),
+				$langs);
+		}
+		if ($keywords != "")	// keywords
+		{
+			$this->addProperty($lng->txt("keywords"),
+				$keywords);
+		}
+		if ($author != "")		// author
+		{
+			$this->addProperty($lng->txt("author"),
+				$author);
+		}
+		if ($copyright != "")		// copyright
+		{
+			$this->addProperty($lng->txt("meta_copyright"),
+				$copyright);
+		}
+		if ($learning_time != "")		// typical learning time
+		{
+			$this->addProperty($lng->txt("meta_typical_learning_time"),
+				$learning_time);
+		}
+	}
 	
 	/**
 	* get html
@@ -88,30 +203,33 @@ class ilInfoScreenGUI
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true);
 		for($i = 1; $i <= $this->sec_nr; $i++)
 		{
-			// section header
-			$tpl->setCurrentBlock("header_row");
-			$tpl->setVariable("TXT_SECTION",
-				$this->section[$i]["title"]);
-			$tpl->parseCurrentBlock();
-			$tpl->touchBlock("row");
-			
-			// section properties
-			foreach($this->section[$i]["properties"] as $property)
+			if (is_array($this->section[$i]["properties"]))
 			{
-				if ($property["name"] != "")
+				// section header
+				$tpl->setCurrentBlock("header_row");
+				$tpl->setVariable("TXT_SECTION",
+					$this->section[$i]["title"]);
+				$tpl->parseCurrentBlock();
+				$tpl->touchBlock("row");
+				
+				// section properties
+				foreach($this->section[$i]["properties"] as $property)
 				{
-					$tpl->setCurrentBlock("property_row");
-					$tpl->setVariable("TXT_PROPERTY", $property["name"]);
-					$tpl->setVariable("TXT_PROPERTY_VALUE", $property["value"]);
-					$tpl->parseCurrentBlock();
-					$tpl->touchBlock("row");
-				}
-				else
-				{
-					$tpl->setCurrentBlock("property_full_row");
-					$tpl->setVariable("TXT_PROPERTY_FULL_VALUE", $property["value"]);
-					$tpl->parseCurrentBlock();
-					$tpl->touchBlock("row");
+					if ($property["name"] != "")
+					{
+						$tpl->setCurrentBlock("property_row");
+						$tpl->setVariable("TXT_PROPERTY", $property["name"]);
+						$tpl->setVariable("TXT_PROPERTY_VALUE", $property["value"]);
+						$tpl->parseCurrentBlock();
+						$tpl->touchBlock("row");
+					}
+					else
+					{
+						$tpl->setCurrentBlock("property_full_row");
+						$tpl->setVariable("TXT_PROPERTY_FULL_VALUE", $property["value"]);
+						$tpl->parseCurrentBlock();
+						$tpl->touchBlock("row");
+					}
 				}
 			}
 		}
