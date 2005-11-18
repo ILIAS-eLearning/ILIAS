@@ -435,7 +435,7 @@ assessment#:#tst_confirm_submit_answers#:#Por favor confirme el envío de su sol
 assessment#:#tst_count_correct_solutions#:#Contar sólo soluciones completas
 assessment#:#tst_count_partial_solutions#:#Contar soluciones parciales
 assessment#:#tst_delete_all_user_data#:#Borrar todos los datos de usuario
-assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de calificación (mark step) para eliminarlo
+assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de calificación para eliminarlo
 assessment#:#tst_delete_results#:#Reiniciar test
 assessment#:#tst_ending_time#:#Tiempo de finalización
 assessment#:#tst_enter_questionpool#:#Por favor introduzca un nombre de banco de preguntas donde la nueva pregunta será almacenada
@@ -560,7 +560,7 @@ assessment#:#tst_stat_result_distancemedian#:#Distancia a la mediana
 assessment#:#tst_stat_result_distancequintile#:#Distancia al quintil aritmético
 assessment#:#tst_stat_result_firstvisit#:#Primera visita
 assessment#:#tst_stat_result_lastvisit#:#Última visita
-assessment#:#tst_stat_result_mark_median#:#Calificación de la mediana
+assessment#:#tst_stat_result_mark_median#:#Mediana de calificación
 assessment#:#tst_stat_result_median#:#Mediana del resultado del test en puntos
 assessment#:#tst_stat_result_pworkedthrough#:#Porcentaje de la carga total de trabajo ya llevada a cabo
 assessment#:#tst_stat_result_qworkedthrough#:#Preguntas ya llevadas a cabo
@@ -593,7 +593,7 @@ assessment#:#tst_type_changed#:#Ha modificado el tipo de test. Todos los tests p
 assessment#:#tst_type_comment#:#Aviso: Modificar el tipo de test de un test en ejecución eliminará todos los tests procesados anteriormente!
 assessment#:#tst_types#:#Tipos de Test
 assessment#:#tst_use_javascript#:#Usar Javascript para acciones de 'arrastrar y soltar'
-assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
+assessment#:#tst_your_answer_was#:#Su respuesta fue
 assessment#:#tst_your_answers#:#Estas son tus respuestas dadas a las siguientes preguntas.
 assessment#:#tst_your_ects_mark_is#:#Su calificación ECTS es
 assessment#:#tst_your_mark_is#:#Su calificación es
@@ -816,7 +816,7 @@ common#:#action_aborted#:#Acción abortada!
 common#:#actions#:#acciones
 common#:#activate_assessment_logging#:#Activar informes de LOG de la herramienta de Tests
 common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)
-common#:#activate_tracking#:#Activar Seguimiento
+common#:#activate_tracking#:#Activar Informe de Seguimiento
 common#:#activation#:#activación
 common#:#active#:#Activo
 common#:#active_roles#:#Roles activos
@@ -1140,8 +1140,8 @@ common#:#create_export_file#:#Crear fichero de exportación
 common#:#create_in#:#Creado en
 common#:#create_stylesheet#:#Crear Estilo
 common#:#created#:#Crear fecha
-common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
+common#:#cron_forum_notification#:#Enviar notificacion de foros
+common#:#cron_forum_notification_desc#:#Si se habilita, todos los usuarios que quieren ser informados sobre nuevos mensajes en los asuntos de foros especificados, recibiran notificacion por e-mail.
 common#:#cron_jobs#:#Trabajos Planificados
 common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el fichero INSTALL de la documentación.
 common#:#cron_lucene_index#:#Actualizar Índice de Búsqueda Lucene
@@ -1245,7 +1245,7 @@ common#:#delete_all_rec#:#eliminar todos los objetos
 common#:#delete_object#:#eliminar objetos
 common#:#delete_selected#:#eliminar seleccionados
 common#:#delete_selected_items#:#Eliminar items seleccionados
-common#:#delete_tr_data#:#Eliminar datos de seguimiento
+common#:#delete_tr_data#:#Eliminar datos de Seguimiento
 common#:#deleted#:#borrados
 common#:#deleted_user#:#El usuario ha sido eliminado
 common#:#deliver#:#Enviar ejercicio
@@ -1728,8 +1728,8 @@ common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Usuarios involucrados
 common#:#ilinc_mail_body_new_subscription#:#Ha sido suscrito a este Seminario LearnLinc
 common#:#ilinc_mail_body_subscription_cancelled#:#Su pertenencia ha sido cancelada.
-common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
-common#:#ilinc_mail_subj_subscription_cancelled#:#Suscripción cancelada
+common#:#ilinc_mail_subj_new_subscription#:#Nueva pertenencia
+common#:#ilinc_mail_subj_subscription_cancelled#:#pertenencia cancelada
 common#:#ilinc_manage_course_documents#:#Materiales
 common#:#ilinc_mem_change_status#:#Modificar estado de usuario
 common#:#ilinc_mem_leave#:#Retirar usuario del seminario LearnLinc
@@ -4028,10 +4028,10 @@ forum#:#forums_count_art#:#número de mensajes
 forum#:#forums_count_thr#:#número de cadenas
 forum#:#forums_created_by#:#creado por
 forum#:#forums_delete_file#:#eliminar adjunto
-forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
+forum#:#forums_disable_notification#:#Deshabilitar notificacion
 forum#:#forums_download_attachment#:#Descargar fichero
 forum#:#forums_edit_post#:#Editar mensaje
-forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
+forum#:#forums_enable_notification#:#Habilitar notificacion
 forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
 forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este mensaje?
 forum#:#forums_info_delete_post#:#¿Está seguro de que quiere eliminar este mensaje incluyendo sus respuestas?
@@ -4039,14 +4039,14 @@ forum#:#forums_mark_read#:#marcar todas como leídas
 forum#:#forums_new_entries#:#nuevas entradas en foro
 forum#:#forums_new_thread#:#nueva cadena
 forum#:#forums_not_available#:#foros no disponibles
-forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
-forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
-forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
-forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
-forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
-forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
-forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
-forum#:#forums_overview#:#forums overview
+forum#:#forums_notification#:#Notificacion
+forum#:#forums_notification_enabled#:#Notificacion habilitado
+forum#:#forums_notification_intro#:#Este e-mail fue enviado automaticamente por la instalacion ILIAS %s, %s
+forum#:#forums_notification_is_disabled#:#La notificacion sobre nuevos mensajes en esta cadena no ha sido (aun) habilitada
+forum#:#forums_notification_is_enabled#:#La notificacion sobre nuevos mensajes en esta cadena ya esta habilitada
+forum#:#forums_notification_show_post#:#Mostrar mensaje: %s
+forum#:#forums_notification_subject#:#Mostrar mensaje en un asunto de foro
+forum#:#forums_overview#:#resumen de foros
 forum#:#forums_post_deleted#:#el mensaje ha sido eliminado
 forum#:#forums_post_modified#:#el mensaje ha sido modificado
 forum#:#forums_post_new_entry#:#se ha añadido un nuevo mensaje
@@ -4070,8 +4070,8 @@ forum#:#forums_your_reply#:#tu respuesta
 forum#:#frm_default_view#:#Vista por defecto
 forum#:#frm_title_required#:#Por favor inserte un título.
 forum#:#is_read#:#marcar como leída
-forum#:#new_post#:#New post###08 Nov 2005 new variable
-forum#:#thread#:#Topic###08 Nov 2005 new variable
+forum#:#new_post#:#Nuevo mensaje
+forum#:#thread#:#Asunto
 jscalendar#:#about_calendar#:#Acerca del calendario
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\n\nSelección de fecha:\n- Use los botones «, »  para seleccionar año\n- Use los botones <, > para seleccionar mes\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.
 jscalendar#:#about_time#:#\n\nSelección de hora:\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \n- o Shift-click para decrementarlo\n- o click y arrastrar para una selección más rápida
@@ -5401,3 +5401,17 @@ survey#:#view_constraints_introduction#:#Está viendo las restricciones de las s
 survey#:#view_phrase#:#Ver conjunto
 survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
+trac#:#trac_activated#:#Tracking activado
+trac#:#trac_anonymized#:#Anonimo
+trac#:#trac_valid_request#:#Max. tiempo entre peticiones
+trac#:#info_valid_request#:#Max. tiempo valido entre dos peticiones de usuario.
+trac#:#trac_modus#:#Modo
+trac#:#trac_mode_manual#:#Manual
+trac#:#trac_mode_tlt#:#Tiempo tipico de aprendizaje
+trac#:#trac_mode_visits#:#Numero de visitas
+trac#:#trac_mode_objectives#:#Objetivos de aprendizaje
+trac#:#trac_mode_collection#:#Coleccion de objetos
+common#:#learning_progress#:#Datos de seguimiento
+trac#:#trac_settings_saved#:#Configuracion guardada.
+trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
+trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
