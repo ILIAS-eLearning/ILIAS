@@ -44,7 +44,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDFormat.php';
 
-		return ilMDFormat::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
+		return ilMDFormat::_getIds($this->getRBACId(),$this->getObjId());
 	}
 	function &getFormat($a_format_id)
 	{
@@ -64,8 +64,6 @@ class ilMDTechnical extends ilMDBase
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDFormat.php';
 
 		$for =& new ilMDFormat($this->getRBACId(),$this->getObjId(),$this->getObjType());
-		$for->setParentId($this->getMetaId());
-		$for->setParentType('meta_format');
 
 		return $for;
 	}
