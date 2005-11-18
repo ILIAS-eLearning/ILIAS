@@ -307,6 +307,8 @@ class ilRepositoryGUI
 			case "ilobjforumgui":
 			case "ilobjfoldergui":
 			case "ilobjilinccoursegui":
+			case "ilobjfilegui":
+
 			//case "ilobjmediapoolgui":					// doesnt work, why?
 				// get file path for class name
 				$class_path = $this->ctrl->lookupClassPath($next_class);
@@ -322,11 +324,13 @@ class ilRepositoryGUI
 				$tabs_out = ($new_type == "")
 					? true
 					: false;
+					
 				// forward command
 				if ($_GET["mode"] == "create" || $cmd == "linkSelector")
 				{
 					$tabs_out = false;
 				}
+
 				$this->prepareOutput($tabs_out);
 
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
@@ -593,7 +597,6 @@ class ilRepositoryGUI
 			$tabs_gui =& new ilTabsGUI();
 
 			$this->gui_obj->getTabs($tabs_gui);
-			
 			// add info tab to all objects
 			//$tabs_gui->addTarget("info_short",$this->ctrl->getLinkTarget($this->gui_obj, "info"), "info", get_class($this->gui_obj));
 

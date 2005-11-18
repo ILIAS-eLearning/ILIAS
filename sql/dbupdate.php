@@ -9012,7 +9012,6 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#577>
 ALTER TABLE `ut_lp_settings` ADD `visits` INT( 4 ) DEFAULT '0' AFTER `mode`;
-
 <#578>
 ALTER TABLE `content_object` ADD `downloads_public_active` ENUM('y','n') DEFAULT 'y' NOT NULL AFTER `downloads_active`;
 
@@ -9035,3 +9034,82 @@ ALTER TABLE `ut_online` ADD `access_time` INT( 10 ) NOT NULL ;
 ALTER TABLE `il_meta_format`
   DROP `parent_type`,
   DROP `parent_id`;
+
+<#585>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#586>
+ALTER TABLE file_data ADD mode char(8) DEFAULT 'object';
+<#587>
+<?php
+// set admin templates to protected status
+$query = "SELECT * FROM file_data";
+$result = $ilDB->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q2 = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($row["file_id"]);
+	$r2 = $ilDB->query($q2);
+	if ($dummy = $r2->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$q3 = "UPDATE file_data SET mode=".$ilDB->quote("filelist").
+			" WHERE file_id = ".$row["file_id"];
+		$ilDB->query($q3);
+	}
+}
+?>
+<#588>
+<?php
+$wd = getcwd();
+chdir('..');
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
+
+$file_ids = array();
+$query = "SELECT file_type, title, description, obj_id, file_id, file_name, version".
+	" FROM file_data, object_data WHERE mode = 'object'".
+	" AND file_data.file_id = object_data.obj_id";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$md_creator = new ilMDCreator($row["obj_id"], $row["obj_id"], 'file');
+	$md_creator->setTitle($row['title']);
+	$md_creator->setTitleLanguage('');
+	$md_creator->setDescription($row['description']);
+	$md_creator->setDescriptionLanguage('');
+	$md_creator->setLanguage('');
+	$md_creator->create();
+	
+//echo "<br>file:".$row["obj_id"].":".$row["title"].":".$row["description"].":".$row["file_type"].":";
+	
+	$file = CLIENT_DATA_DIR."/files/file_".$row["obj_id"]."/".$row["file_name"];
+
+	if (@!is_file($file))
+	{
+		$version_subdir = "/".sprintf("%03d", $row["version"]);
+		$file = CLIENT_DATA_DIR."/files/file_".$row["obj_id"].$version_subdir."/".$row["file_name"];
+	}
+
+	if (is_file($file))
+	{
+		$size = filesize($file);
+	}
+	else
+	{
+		$size = 0;
+	}
+
+	// create technical section
+	$md_obj =& new ilMD($row["obj_id"], $row["obj_id"], 'file');;
+	$technical = $md_obj->addTechnical();
+	$technical->setSize($size);
+	$technical->save();
+	$format = $technical->addFormat();
+	$format->setFormat($row["file_type"]);
+	$format->save();
+	$technical->update();
+
+}
+chdir($wd);
+?>
+

@@ -620,6 +620,7 @@ class ilContObjParser extends ilMDSaxParser
 				$this->in_file_item = true;
 				$this->file_item =& new ilObjFile();
 				$this->file_item->setTitle("dummy");
+				$this->file_item->setMode("filelist");
 				if (is_object($this->page_object))
 				{
 					$this->page_object->needsImportParsing(true);
