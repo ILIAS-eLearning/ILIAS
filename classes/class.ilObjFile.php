@@ -118,7 +118,7 @@ class ilObjFile extends ilObject
 		
 		// handling for technical section 
 		include_once 'Services/MetaData/classes/class.ilMD.php';
-
+//echo "-".$a_element."-";
 		switch($a_element)
 		{
 			case 'Technical':
