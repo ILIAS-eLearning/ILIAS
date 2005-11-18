@@ -66,7 +66,7 @@ class ilNoteGUI
 	{
 		$cmd = $this->ctrl->getCmd("getNotesHTML");
 		$next_class = $this->ctrl->getNextClass($this);
-		
+
 		switch($next_class)
 		{
 			default:

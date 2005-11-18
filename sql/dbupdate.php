@@ -9112,4 +9112,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 }
 chdir($wd);
 ?>
+<#589>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

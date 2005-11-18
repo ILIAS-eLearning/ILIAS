@@ -237,6 +237,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 
+	/**
+	* show information screen
+	*/
 	function infoScreenObject()
 	{
 		global $rbacsystem;

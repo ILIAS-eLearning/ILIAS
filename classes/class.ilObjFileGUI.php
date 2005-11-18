@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI
+* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilNoteGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -62,6 +62,10 @@ class ilObjFileGUI extends ilObjectGUI
 
 		switch ($next_class)
 		{
+			case "ilnotegui":
+				$ret =& $this->infoScreenObject();
+				break;
+
 			case 'ilmdeditorgui':
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
@@ -309,6 +313,40 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
+	
+		
+	/**
+	* show information screen
+	*/
+	function infoScreenObject()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		$info->addSection($this->lng->txt("file_info"));
+		$info->addProperty($this->lng->txt("filename"),
+			$this->object->getFileName());
+		$info->addProperty($this->lng->txt("type"),
+			$this->object->getFileType());
+		$info->addProperty($this->lng->txt("size"),
+			ilObjFile::_lookupFileSize($this->object->getId(), true));
+		$info->addProperty($this->lng->txt("version"),
+			$this->object->getVersion());
+
+		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML());
+	}
+
 
 	// get tabs
 	function getTabs(&$tabs_gui)
