@@ -98,8 +98,6 @@ class ilMDFormat extends ilMDBase
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
 					 'format'	=> ilUtil::prepareDBString($this->getFormat()));
 	}
 
@@ -118,8 +116,6 @@ class ilMDFormat extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setParentId($row->parent_id);
-				$this->setParentType($row->parent_type);
 				$this->setFormat(ilUtil::stripSlashes($row->format));
 			}
 		}
@@ -138,15 +134,13 @@ class ilMDFormat extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	function _getIds($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 
 		$query = "SELECT meta_format_id FROM il_meta_format ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ".
-			"AND parent_id = '".$a_parent_id."' ".
-			"AND parent_type = '".$a_parent_type."'";
+			"AND obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
