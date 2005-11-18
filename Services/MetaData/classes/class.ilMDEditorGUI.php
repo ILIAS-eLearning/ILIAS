@@ -406,6 +406,7 @@ class ilMDEditorGUI
 				$this->md_section->update();
 			}
 		}
+		$this->callListeners('Rights');
 
 		//Educational...
 		// Typical Learning Time
@@ -427,6 +428,7 @@ class ilMDEditorGUI
 				$this->md_section->update();
 			}
 		}
+		$this->callListeners('Educational');
 		
 		//Lifecycle...
 		// Authors
@@ -502,6 +504,7 @@ class ilMDEditorGUI
 				}
 			}
 		}
+		$this->callListeners('Lifecycle');
 		
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
@@ -825,6 +828,7 @@ class ilMDEditorGUI
 				$md_re->update();
 			}
 		}
+		$this->callListeners('Technical');
 		
 		$this->listSection();
 		#sendInfo($this->lng->txt('msg_changes_ok'));
@@ -1195,6 +1199,8 @@ class ilMDEditorGUI
 				}
 			}
 		}
+		$this->callListeners('Lifecycle');
+		
 		$this->listSection();
 		return true;
 	}		
@@ -1374,6 +1380,8 @@ class ilMDEditorGUI
 				}
 			}
 		}
+		$this->callListeners('MetaMetaData');
+		
 		$this->listSection();
 		return true;
 	}		
@@ -1450,6 +1458,8 @@ class ilMDEditorGUI
 		$this->md_section->setDescriptionLanguage(new ilMDLanguageItem($_POST['rights']['DescriptionLanguage']));
 		$this->md_section->setDescription(ilUtil::stripSlashes($_POST['rights']['Description']));
 		$this->md_section->update();
+		
+		$this->callListeners('Rights');
 
 		$this->listSection();
 	}
@@ -1709,6 +1719,8 @@ class ilMDEditorGUI
 		}
 		
 		$this->md_section->update();
+		
+		$this->callListeners('Educational');
 
 		$this->listSection();
 	}
@@ -1885,6 +1897,8 @@ class ilMDEditorGUI
 			}
 		}
 		
+		$this->callListeners('Relation');
+		
 		$this->listSection();
 	}
 
@@ -1970,6 +1984,8 @@ class ilMDEditorGUI
 
 			$annotation->update();
 		}
+		
+		$this->callListeners('Annotation');
 		
 		$this->listSection();
 	}
@@ -2209,6 +2225,8 @@ class ilMDEditorGUI
 
 
 		}
+		
+		$this->callListeners('Classification');
 		
 		$this->listSection();
 	}
