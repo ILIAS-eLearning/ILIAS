@@ -20,7 +20,7 @@
    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
    +----------------------------------------------------------------------------+
 */
-require_once "./assessment/classes/class.assQuestion.php";
+include_once "./assessment/classes/class.assQuestion.php";
 
 define ("JAVAAPPLET_QUESTION_IDENTIFIER", "JAVA APPLET QUESTION");
 
@@ -233,7 +233,7 @@ class ASS_JavaApplet extends ASS_Question
 			}
 			if ($test_output)
 			{
-				require_once "./assessment/classes/class.ilObjTest.php";
+				include_once "./assessment/classes/class.ilObjTest.php";
 				$attrs = array(
 					"label" => "test_type"
 				);

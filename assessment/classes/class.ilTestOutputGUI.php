@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./assessment/classes/class.ilObjTest.php");
-
 /**
 * Output class for assessment test execution
 *
@@ -760,6 +758,7 @@ class ilTestOutputGUI
 
 		if ($this->object->isOnlineTest()) 
 		{
+			include_once "./assessment/classes/class.ilObjTest.php";
 			$solved_array = ilObjTest::_getSolvedQuestions($this->object->test_id, $ilUser->getId(), $question_gui->object->getId());
 			$solved = 0;
 			
@@ -1090,7 +1089,6 @@ class ilTestOutputGUI
 		}
 		// Update objectives
 		include_once './course/classes/class.ilCourseObjectiveResult.php';
-
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->updateResults($this->object->getTestResult($ilUser->getId()));
 		unset($tmp_obj_res);
@@ -1906,7 +1904,7 @@ class ilTestOutputGUI
 
 
 		$this->object->setActiveTestSubmitted($ilUser->getId());
-
+		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_answers.css");
 		$this->tpl->setVariable ("FRAME_TITLE", $this->object->getTitle());
@@ -1920,6 +1918,7 @@ class ilTestOutputGUI
 	
 	function _printAnswerSheets($users) 
 	{	
+		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
@@ -1929,6 +1928,7 @@ class ilTestOutputGUI
 		{
 			if ($this->object->isActiveTestSubmitted($user_id)) 
 			{
+				include_once "./classes/class.ilObjUser.php";
 				$this->outShowAnswersDetails(false, new ilObjUser ($user_id));
 			}
 		}
@@ -1936,6 +1936,7 @@ class ilTestOutputGUI
 	
 	function _printResultSheets($users) 
 	{	
+		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_results.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
@@ -2009,11 +2010,13 @@ class ilTestOutputGUI
 		}
 		
 		// create a new UserObject to be passed for showing answers
-		$userObject = new IlObjUser ($user_id);	
+		include_once "./classes/class.ilObjUser.php";
+		$userObject = new ilObjUser($user_id);	
 		
 		// geht the invited user, we need the registered client ip in the print screen
 		$user = array_pop ($users);
 		
+		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_answers.css");
 		$this->tpl->setVariable("FRAME_TITLE", $this->object->getTitle());
@@ -2034,6 +2037,7 @@ class ilTestOutputGUI
 */
 	function outPrintTestResults($user_id) 
 	{
+		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./assessment/templates/default/print_results.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
@@ -2044,7 +2048,8 @@ class ilTestOutputGUI
 	
 	function outPrintUserResults($user_id) 
 	{
-		$user = new IlObjUser ($user_id);
+		include_once "./classes/class.ilObjUser.php";
+		$user = new ilObjUser($user_id);
 		$active = $this->object->getActiveTestUser($user_id);
 		$t = $active->submittimestamp;
 		

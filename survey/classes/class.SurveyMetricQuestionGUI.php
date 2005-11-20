@@ -21,7 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/class.SurveyMetricQuestion.php";
 include_once "./survey/classes/class.SurveyQuestionGUI.php";
 
 /**
@@ -35,7 +34,8 @@ include_once "./survey/classes/class.SurveyQuestionGUI.php";
 * @module   class.SurveyMetricQuestionGUI.php
 * @modulegroup   Survey
 */
-class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
+class SurveyMetricQuestionGUI extends SurveyQuestionGUI 
+{
 /**
 * SurveyMetricQuestionGUI constructor
 *
@@ -50,6 +50,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
 
   {
 		$this->SurveyQuestionGUI();
+		include_once "./survey/classes/class.SurveyMetricQuestion.php";
 		$this->object = new SurveyMetricQuestion();
 		if ($id >= 0)
 		{
@@ -98,6 +99,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
 		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
 		if (count($this->object->material))
 		{
+			include_once "./survey/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_MATERIAL", $this->lng->txt("remove"));
@@ -177,7 +179,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
     if ($_POST["id"] > 0)
       $this->object->setId($_POST["id"]);
 
-    $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+		include_once "./classes/class.ilUtil.php";	
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		if (strlen($_POST["material"]))
@@ -221,6 +224,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
 		if (count($this->object->material))
 		{
 			$this->tpl->setCurrentBlock("material_metric");
+			include_once "./survey/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
 			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$this->tpl->parseCurrentBlock();

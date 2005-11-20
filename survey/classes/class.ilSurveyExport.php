@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./survey/classes/class.ilObjSurvey.php");
-
 /**
 * Export class for surveys
 *
@@ -106,6 +104,7 @@ class ilSurveyExport
 
 		// get Log File
 		$expDir = $this->survey_obj->getExportDirectory();
+		include_once "./classes/class.ilLog.php";
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");

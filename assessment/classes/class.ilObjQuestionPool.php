@@ -189,6 +189,7 @@ class ilObjQuestionPool extends ilObject
 		}
 
 		// delete export files
+		include_once "./classes/class.ilUtil.php";
 		$qpl_data_dir = ilUtil::getDataDir()."/qpl_data";
 		$directory = $qpl_data_dir."/qpl_".$this->getId();
 		if (is_dir($directory))
@@ -603,6 +604,7 @@ class ilObjQuestionPool extends ilObject
 	    // build sort order for sql query
 		$order = "";
 		$images = array();
+		include_once "./classes/class.ilUtil.php";
 		if (count($sortoptions))
 		{
 			foreach ($sortoptions as $key => $value)
@@ -747,6 +749,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		if ($a_tag == "Identifier" && $a_param == "Entry")
 		{
+			include_once "./classes/class.ilUtil.php";
 			$a_value = ilUtil::insertInstIntoID($a_value);
 		}
 
@@ -861,6 +864,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function createExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$qpl_data_dir = ilUtil::getDataDir()."/qpl_data";
 		ilUtil::makeDir($qpl_data_dir);
 		if(!is_writable($qpl_data_dir))
@@ -890,8 +894,8 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function getExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/qpl_data"."/qpl_".$this->getId()."/export";
-
 		return $export_dir;
 	}
 	
@@ -942,6 +946,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilias;
 		
+		include_once "./classes/class.ilUtil.php";
 		$qpl_data_dir = ilUtil::getDataDir()."/qpl_data";
 		ilUtil::makeDir($qpl_data_dir);
 		
@@ -965,6 +970,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function _getImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
 		if(@is_dir($import_dir))
 		{
@@ -981,6 +987,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function getImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
 		if(@is_dir($import_dir))
 		{
@@ -1179,6 +1186,7 @@ class ilObjQuestionPool extends ilObject
 					$result = $ilDB->query($query);
 					if ($result->numRows() == 1)
 					{
+						include_once "./content/classes/Pages/class.ilPageObject.php";
 						$page = new ilPageObject("qpl", $question_object["question_id"]);
 						$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 						$source_questionpool = $row["obj_fi"];
@@ -1203,6 +1211,7 @@ class ilObjQuestionPool extends ilObject
 							$target_path = CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/";
 							if (!@is_dir($target_path))
 							{
+								include_once "./classes/class.ilUtil.php";
 								ilUtil::makeDirParents($target_path);
 							}
 							@rename($source_path, $target_path . $question_object["question_id"]);

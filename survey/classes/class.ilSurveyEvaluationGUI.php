@@ -93,6 +93,29 @@ class ilSurveyEvaluationGUI
 	*
 	* @access private
 	*/
+	function checkAnonymizedEvaluationAccess()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("EVALUATION_CHECKACCESS_INTRODUCTION", $this->lng->txt("svy_check_evaluation_access_introduction"));
+		$this->tpl->setVariable("VALUE_CHECK", $this->lng->txt("ok"));
+		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TEXT_SURVEY_CODE", $this->lng->txt("survey_code"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function cancelEvaluationAccess()
+	{
+	}
+	
+	/**
+	* Show the detailed evaluation
+	*
+	* Show the detailed evaluation
+	*
+	* @access private
+	*/
 	function evaluationdetails()
 	{
 		$this->evaluation(1);
@@ -101,7 +124,11 @@ class ilSurveyEvaluationGUI
 	function evaluation($details = 0)
 	{
 		global $ilUser;
-
+		if (($this->object->getAnonymize() == 1) && ($_SESSION["anon_evaluation_access"] != 1))
+		{
+			//$this->checkAnonymizedEvaluationAccess();
+			//return;
+		}
 		include_once './classes/Spreadsheet/Excel/Writer.php';
 		$format_bold = "";
 		$format_percent = "";
@@ -119,6 +146,7 @@ class ilSurveyEvaluationGUI
 			case TYPE_XLS:
 			case TYPE_XLS_MAC:
 				// Creating a workbook
+				include_once "./classes/Spreadsheet/Excel/Writer.php";
 				$workbook = new Spreadsheet_Excel_Writer();
 
 				// sending HTTP headers
@@ -139,6 +167,7 @@ class ilSurveyEvaluationGUI
 				// Creating a worksheet
 				include_once ("./classes/class.ilExcelUtils.php");
 				$mainworksheet =& $workbook->addWorksheet();
+				include_once ("./classes/class.ilExcelUtils.php");
 				$mainworksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
 				$mainworksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
 				$mainworksheet->writeString(0, 2, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
@@ -514,7 +543,6 @@ class ilSurveyEvaluationGUI
 						}
 						$values = "<ol>$values</ol>";
 						$this->tpl->setVariable("VALUE_VALUES", $values);
-
 						// display chart for metric question for array $eval["values"]
 						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
@@ -579,6 +607,7 @@ class ilSurveyEvaluationGUI
 					$_SESSION[$this->lng->txt("question").$s_question] = $printdetail_file;
 					$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getLinkTarget($this, "printEvaluation") . "&".$this->lng->txt("question")."=".$s_question);
 					$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+					include_once "./classes/class.ilUtil.php";
 					$this->tpl->setVariable("PRINT_IMAGE", ilUtil::getImagePath("icon_print.gif"));
 				}
 				$this->tpl->parseCurrentBlock();
@@ -607,12 +636,13 @@ class ilSurveyEvaluationGUI
 					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
+				include_once "./classes/class.ilUtil.php";
 				ilUtil::deliverData($csv, "$surveyname.csv");
 				exit();
 				break;
 		}
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./templates/default/evaluation_print.css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
@@ -847,6 +877,7 @@ class ilSurveyEvaluationGUI
 				if (count($resultset["answers"][$question_id]))
 				{
 					$answervalues = array();
+					include_once "./classes/class.ilUtil.php";
 					foreach ($resultset["answers"][$question_id] as $key => $answer)
 					{
 						switch ($question_data["questiontype_fi"])
@@ -891,7 +922,7 @@ class ilSurveyEvaluationGUI
 			array_push($csvfile, $csvrow);
 		}
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./templates/default/evaluation_print.css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
@@ -913,7 +944,7 @@ class ilSurveyEvaluationGUI
 			case TYPE_XLS_MAC:
 				// Let's send the file
 				// Creating a workbook
-				include_once ("./classes/class.ilExcelUtils.php");
+				include_once "./classes/Spreadsheet/Excel/Writer.php";
 				$workbook = new Spreadsheet_Excel_Writer();
 
 				// sending HTTP headers
@@ -938,6 +969,7 @@ class ilSurveyEvaluationGUI
 				// Creating a worksheet
 				$mainworksheet =& $workbook->addWorksheet();
 				$row = 0;
+				include_once "./classes/class.ilExcelUtils.php";
 				foreach ($csvfile as $csvrow)
 				{
 					$col = 0;
@@ -975,6 +1007,7 @@ class ilSurveyEvaluationGUI
 					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
+				include_once "./classes/class.ilUtil.php";
 				ilUtil::deliverData($csv, "$surveyname.csv");
 				exit();
 				break;

@@ -60,7 +60,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjtestgui";
 
 		// general commands array
-		include_once('class.ilObjTestAccess.php');
+		include_once "./assessment/classes/class.ilObjTestAccess.php";
 		$this->commands = ilObjTestAccess::_getCommands();
 	}
 
@@ -94,6 +94,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 			case "run":
 			case "eval_a":
 			case "eval_stat":
+				include_once "./classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
@@ -119,7 +120,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("assessment/classes/class.ilObjTestAccess.php");
+		include_once "./assessment/classes/class.ilObjTestAccess.php";
 		if (!ilObjTestAccess::_lookupCreationComplete($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),

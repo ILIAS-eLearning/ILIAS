@@ -36,7 +36,8 @@ define("TEXT_QUESTION_IDENTIFIER", "Text Question");
 * @module   class.SurveyTextQuestion.php
 * @modulegroup   Survey
 */
-class SurveyTextQuestion extends SurveyQuestion {
+class SurveyTextQuestion extends SurveyQuestion 
+{
 	var $maxchars;
 /**
 * SurveyTextQuestion constructor

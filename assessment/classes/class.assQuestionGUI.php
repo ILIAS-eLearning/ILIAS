@@ -296,6 +296,7 @@ class ASS_QuestionGUI
 	function _getGUIClassNameForId($a_q_id)
 	{
 		include_once "./assessment/classes/class.assQuestion.php";
+		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_type =  ASS_Question::getQuestionTypeFromDb($a_q_id);
 		$class_name = ASS_QuestionGUI::_getClassNameForQType($q_type);
 		return $class_name;
@@ -352,6 +353,7 @@ class ASS_QuestionGUI
 	*/
 	function &createQuestionGUI($question_type, $question_id = -1)
 	{
+		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$this->question =& ASS_QuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
 
@@ -386,6 +388,7 @@ class ASS_QuestionGUI
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
 
+		include_once("content/classes/Pages/class.ilPageObject.php");
 		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		$this->lng->loadLanguageModule("content");
 		$page =& new ilPageObject("qpl", $this->object->getId());
@@ -481,6 +484,7 @@ class ASS_QuestionGUI
 		{
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
+			include_once "./assessment/classes/class.assQuestion.php";
 			if ($_GET["calling_test"] && $originalexists && ASS_Question::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();
@@ -535,6 +539,7 @@ class ASS_QuestionGUI
 		{
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
+			include_once "./assessment/classes/class.assQuestion.php";
 			if ($_GET["calling_test"] && $originalexists && ASS_Question::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();

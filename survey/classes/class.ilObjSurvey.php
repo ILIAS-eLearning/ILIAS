@@ -33,17 +33,13 @@
 */
 
 include_once "./classes/class.ilObject.php";
-include_once "./survey/classes/class.SurveyQuestion.php";
-include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
-include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
 
 define("STATUS_OFFLINE", 0);
 define("STATUS_ONLINE", 1);
 
 define("EVALUATION_ACCESS_OFF", 0);
-define("EVALUATION_ACCESS_ON", 1);
+define("EVALUATION_ACCESS_ALL", 1);
+define("EVALUATION_ACCESS_PARTICIPANTS", 2);
 
 define("INVITATION_OFF", 0);
 define("INVITATION_ON", 1);
@@ -201,13 +197,7 @@ class ilObjSurvey extends ilObject
 		global $ilUser;
 		$this->type = "svy";
 		$this->ilObject($a_id,$a_call_by_reference);
-/*
-		if ($a_id == 0)
-		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-		}
-*/
+
 		$this->survey_id = -1;
 		$this->introduction = "";
 		$this->author = $ilUser->fullname;
@@ -229,17 +219,6 @@ class ilObjSurvey extends ilObject
 	{
 		parent::create();
 		$this->createMetaData();
-/*
-		if (!$a_upload)
-		{
-			$this->meta_data->setId($this->getId());
-			$this->meta_data->setType($this->getType());
-			$this->meta_data->setTitle($this->getTitle());
-			$this->meta_data->setDescription($this->getDescription());
-			$this->meta_data->setObject($this);
-			$this->meta_data->create();
-		}
-*/
 	}
 
 	/**
@@ -262,7 +241,8 @@ class ilObjSurvey extends ilObject
 		return true;
 	}
 
-	function createReference() {
+	function createReference() 
+	{
 		$result = parent::createReference();
 		$this->saveToDb();
 		return $result;
@@ -277,7 +257,6 @@ class ilObjSurvey extends ilObject
 	{
 		parent::read($a_force_db);
 		$this->loadFromDb();
-//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 
 	/**
@@ -373,6 +352,7 @@ class ilObjSurvey extends ilObject
 		$this->deleteAllUserData();
 
 		// delete export files
+		include_once "./classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		$directory = $svy_data_dir."/svy_".$this->getId();
 		if (is_dir($directory))
@@ -831,15 +811,19 @@ class ilObjSurvey extends ilObject
 		switch ($questiontype)
 		{
 			case "qt_nominal":
+				include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
 				$question = new SurveyNominalQuestionGUI();
 				break;
 			case "qt_ordinal":
+				include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
 				$question = new SurveyOrdinalQuestionGUI();
 				break;
 			case "qt_metric":
+				include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
 				$question = new SurveyMetricQuestionGUI();
 				break;
 			case "qt_text":
+				include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
 				$question = new SurveyTextQuestionGUI();
 				break;
 		}
@@ -901,27 +885,6 @@ class ilObjSurvey extends ilObject
 	{
 		return $this->anonymize;
 	}
-
-	/**
-	* init meta data object if needed
-	*/
-/*
-	function initMeta()
-	{
-		if (!is_object($this->meta_data))
-		{
-			if ($this->getId())
-			{
-				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}
-			else
-			{
-				$new_meta =& new ilMetaData();
-			}
-			$this->assignMetaData($new_meta);
-		}
-	}
-*/
 
 /**
 * Loads a survey object from a database
@@ -1200,6 +1163,8 @@ class ilObjSurvey extends ilObject
 					$this->ilias->db->quote($this->getSurveyId())
 				);
 				$result = $this->ilias->db->query($query);
+				include_once "./classes/class.ilObjGroup.php";
+				include_once "./classes/class.ilObjUser.php";
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$group = new ilObjGroup($row["group_fi"]);
@@ -1615,7 +1580,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $evaluation_access
 */
-  function getEvaluationAccess() {
+  function getEvaluationAccess() 
+	{
     return $this->evaluation_access;
   }
 
@@ -1628,7 +1594,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $evaluation_access
 */
-  function setEvaluationAccess($evaluation_access = EVALUATION_ACCESS_OFF) {
+  function setEvaluationAccess($evaluation_access = EVALUATION_ACCESS_OFF) 
+	{
     $this->evaluation_access = $evaluation_access;
   }
 
@@ -1893,6 +1860,7 @@ class ilObjSurvey extends ilObject
 */
 	function removeQuestion($question_id)
 	{
+		include_once "./survey/classes/class.SurveyQuestion.php";
 		$question = new SurveyQuestion();
 		$question->delete($question_id);
 		$this->removeConstraintsConcerningQuestion($question_id);
@@ -2713,6 +2681,7 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		if ($this->getInvitation() == INVITATION_ON)
 		{
+			include_once "./classes/class.ilObjUser.php";
 			$userObj = new ilObjUser($user_id);
 			$userObj->dropDesktopItem($this->getRefId(), "svy");
 		}
@@ -2743,6 +2712,7 @@ class ilObjSurvey extends ilObject
 		}
 		if ($this->getInvitation() == INVITATION_ON)
 		{
+			include_once "./classes/class.ilObjUser.php";
 			$userObj = new ilObjUser($user_id);
 			$userObj->addDesktopItem($this->getRefId(), "svy");
 		}
@@ -2765,6 +2735,8 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		if ($this->getInvitation() == INVITATION_ON)
 		{
+			include_once "./classes/class.ilObjUser.php";
+			include_once "./classes/class.ilObjGroup.php";
 			$group = new ilObjGroup($group_id);
 			$members = $group->getGroupMemberIds();
 			foreach ($members as $user_id)
@@ -2801,6 +2773,8 @@ class ilObjSurvey extends ilObject
 		
 		if ($this->getInvitation() == INVITATION_ON)
 		{
+			include_once "./classes/class.ilObjUser.php";
+			include_once "./classes/class.ilObjGroup.php";
 			$group = new ilObjGroup($group_id);
 			$members = $group->getGroupMemberIds();
 			foreach ($members as $user_id)
@@ -3274,6 +3248,7 @@ class ilObjSurvey extends ilObject
 		$gender = "";
 		if ($user_id > 0)
 		{
+			include_once "./classes/class.ilObjUser.php";
 			$user = new ilObjUser($user_id);
 			$username = $user->getFullname();
 			$gender = $user->getGender();
@@ -3620,9 +3595,13 @@ class ilObjSurvey extends ilObject
     // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) {
-      foreach ($sortoptions as $key => $value) {
-        switch($key) {
+    if (count($sortoptions)) 
+		{
+			include_once "./classes/class.ilUtil.php";
+      foreach ($sortoptions as $key => $value) 
+			{
+        switch($key) 
+				{
           case "title":
             $order = " ORDER BY title $value";
             $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
@@ -3742,9 +3721,13 @@ class ilObjSurvey extends ilObject
     // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) {
-      foreach ($sortoptions as $key => $value) {
-        switch($key) {
+    if (count($sortoptions)) 
+		{
+			include_once "./classes/class.ilUtil.php";
+      foreach ($sortoptions as $key => $value) 
+			{
+        switch($key) 
+				{
           case "title":
 						$order = " ORDER BY survey_questionblock.title $value";
             $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
@@ -4081,24 +4064,31 @@ class ilObjSurvey extends ilObject
 * @return object The question instance
 * @access public
 */
-  function &_instanciateQuestion($question_id) {
-      $question_type = SurveyQuestion::_getQuestionType($question_id);
-      switch ($question_type) {
-				case "qt_nominal":
-					$question = new SurveyNominalQuestion();
-					break;
-				case "qt_ordinal":
-					$question = new SurveyOrdinalQuestion();
-					break;
-				case "qt_metric":
-					$question = new SurveyMetricQuestion();
-					break;
-				case "qt_text":
-					$question = new SurveyTextQuestion();
-					break;
-			} 
-      $question->loadFromDb($question_id);
-			return $question;
+  function &_instanciateQuestion($question_id) 
+	{
+		include_once "./survey/classes/class.SurveyQuestion.php";
+		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		switch ($question_type) 
+		{
+			case "qt_nominal":
+				include_once "./survey/classes/class.SurveyNominalQuestion.php";
+				$question = new SurveyNominalQuestion();
+				break;
+			case "qt_ordinal":
+				include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
+				$question = new SurveyOrdinalQuestion();
+				break;
+			case "qt_metric":
+				include_once "./survey/classes/class.SurveyMetricQuestion.php";
+				$question = new SurveyMetricQuestion();
+				break;
+			case "qt_text":
+				include_once "./survey/classes/class.SurveyTextQuestion.php";
+				$question = new SurveyTextQuestion();
+				break;
+		} 
+		$question->loadFromDb($question_id);
+		return $question;
   }
 
 	/**
@@ -4131,6 +4121,7 @@ class ilObjSurvey extends ilObject
 			$import_dir = $this->getImportDirectory();
 			$importfile = tempnam($import_dir, "survey_import");
 			//move_uploaded_file($source, $importfile);
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($source, "survey_import", $importfile);
 			$fh = fopen($importfile, "r");
 			if (!$fh)
@@ -4180,15 +4171,19 @@ class ilObjSurvey extends ilObject
 						switch ($questiontype[1])
 						{
 							case NOMINAL_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyNominalQuestion.php";
 								$question = new SurveyNominalQuestion();
 								break;
 							case ORDINAL_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 								$question = new SurveyOrdinalQuestion();
 								break;
 							case METRIC_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyMetricQuestion.php";
 								$question = new SurveyMetricQuestion();
 								break;
 							case TEXT_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyTextQuestion.php";
 								$question = new SurveyTextQuestion();
 								break;
 						}
@@ -4383,41 +4378,6 @@ class ilObjSurvey extends ilObject
 		}
 		return $result;
 	}
-	
-	/**
-	* Set the title and the description of the meta data
-	*/
-/*
-	function updateTitleAndDescription()
-	{
-		$this->initMeta();
-		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
-	}
-*/
-
-	/**
-	* update meta data only
-	*/
-/*
-	function updateMetaData()
-	{
-		$this->initMeta();
-		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
-	}
-*/
 
 /**
 * Returns the available surveys for the active user
@@ -4437,6 +4397,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
+			include_once "./classes/class.ilObject.php";
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
 			{
 				if ($use_object_id)
@@ -4490,6 +4451,7 @@ class ilObjSurvey extends ilObject
 
 		$question_pointer = array();
 		// clone the questions
+		include_once "./survey/classes/class.SurveyQuestion.php";
 		foreach ($original->questions as $key => $question_id)
 		{
 			$question = ilObjSurvey::_instanciateQuestion($question_id);
@@ -4561,6 +4523,7 @@ class ilObjSurvey extends ilObject
 		}
 
 		// clone meta data
+		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($original->getId(),0,$original->getType());
 		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
 	}
@@ -4572,6 +4535,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function createExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		if(!is_writable($svy_data_dir))
@@ -4601,6 +4565,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function getExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/svy_data"."/svy_".$this->getId()."/export";
 
 		return $export_dir;
@@ -4652,6 +4617,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function createImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		
@@ -4683,6 +4649,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function getImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/svy_data".
 			"/svy_".$this->getId()."/import";
 		if (!is_dir($import_dir))
@@ -4859,6 +4826,7 @@ class ilObjSurvey extends ilObject
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
+			include_once "./classes/class.ilUtil.php";
 			if (strlen($a_access_code))
 			{
 				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target&accesscode=$a_access_code");

@@ -1,5 +1,5 @@
 <?php
-	require_once "classes/class.SurveyChart.php";
+	include_once "classes/class.SurveyChart.php";
 	$arr1 = unserialize(base64_decode($_GET["arr"]));
 	$graphName = utf8_decode($_GET["grName"]);
 	foreach ($arr1 as $key => $value)

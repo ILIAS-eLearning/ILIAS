@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./assessment/classes/class.ilObjTest.php");
-
 /**
 * Export class for questionpools
 *
@@ -106,8 +104,7 @@ class ilQuestionpoolExport
 
 		$ilBench->start("QuestionpoolExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
-
+		include_once("classes/class.ilXmlWriter.php");
 		$this->xml = new ilXmlWriter;
 
 		// set dtd definition
@@ -122,11 +119,13 @@ class ilQuestionpoolExport
 
 		// create directories
 		$this->qpl_obj->createExportDirectory();
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 
 		// get Log File
 		$expDir = $this->qpl_obj->getExportDirectory();
+		include_once "./classes/class.ilLog.php";
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");

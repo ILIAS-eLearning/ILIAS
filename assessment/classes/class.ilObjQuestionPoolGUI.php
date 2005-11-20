@@ -38,9 +38,9 @@
 * @package assessment
 */
 
-require_once "./classes/class.ilObjectGUI.php";
-require_once "./assessment/classes/class.assQuestionGUI.php";
-require_once "./assessment/classes/class.ilObjQuestionPool.php";
+include_once "./classes/class.ilObjectGUI.php";
+include_once "./assessment/classes/class.assQuestionGUI.php";
+include_once "./assessment/classes/class.ilObjQuestionPool.php";
 
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
@@ -147,6 +147,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$this->setAdminTabs();
 				$this->setQuestionTabs();
+				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				if ($_GET["q_id"] > 0)
@@ -165,6 +166,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 						sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
 					}
 				}
+				include_once("content/classes/Pages/class.ilPageObject.php");
 				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
@@ -261,7 +263,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function downloadFileObject()
 	{
 		$file = explode("_", $_GET["file_id"]);
-		require_once("classes/class.ilObjFile.php");
+		include_once("classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
@@ -272,8 +274,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function fullscreenObject()
 	{
-		$page =& new ilPageObject("qpl", $_GET["pg_id"]);
+		include_once("content/classes/Pages/class.ilPageObject.php");
 		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		$page =& new ilPageObject("qpl", $_GET["pg_id"]);
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->showMediaFullscreen();
 		
@@ -303,7 +306,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function download_paragraphObject()
 	{
-		require_once("content/classes/Pages/class.ilPageObject.php");
+		include_once("content/classes/Pages/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 		exit;
@@ -321,11 +324,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			return;
 		}
 		// create import directory
+		include_once "./assessment/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_createImportDirectory();
 
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = ilObjQuestionPool::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 
 		// unzip file
@@ -468,8 +473,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
+			include_once("./assessment/classes/class.ilObjQuestionPool.php");
 			// create new questionpool object
-			$newObj = new ilObjQuestionpool(true);
+			$newObj = new ilObjQuestionPool(true);
 			// set type of questionpool object
 			$newObj->setType($_GET["new_type"]);
 			// set title of questionpool object to "dummy"
@@ -508,6 +514,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		
 		// delete import directory
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 
 		if ($_POST["questions_only"] == 1)
@@ -528,6 +535,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
 		}
 	}
@@ -577,7 +585,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
-//echo "<br>create--".$_POST["sel_question_types"];
+		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
 		$this->ctrl->setCmdClass(get_class($q_gui));
@@ -591,7 +599,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionForTestObject()
 	{
-//echo "<br>create--".$_GET["new_type"];
+		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
 		$this->ctrl->setCmdClass(get_class($q_gui));
@@ -625,6 +633,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
 		}
 		else
@@ -644,6 +653,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
+		include_once "./assessment/classes/class.assQuestion.php";
 		$question_title = ASS_Question::_getTitle($_GET["q_id"]);
 		$title = $this->lng->txt("statistics") . " - $question_title";
 		if (!empty($title))
@@ -716,6 +726,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
+		include_once "./classes/class.ilUtil.php";
 		$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
 		if ($query_result->numRows() > 0)
 		{
@@ -799,11 +810,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// export button was pressed
 		if (count($_POST["q_id"]) > 0)
 		{
-			require_once("assessment/classes/class.ilQuestionpoolExport.php");
+			include_once("assessment/classes/class.ilQuestionpoolExport.php");
 			$qpl_exp = new ilQuestionpoolExport($this->object, "xml", $_POST["q_id"]);
 			$export_file = $qpl_exp->buildExportFile();
 			$filename = $export_file;
 			$filename = preg_replace("/.*\//", "", $filename);
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::deliverFile($export_file, $filename);
 			exit();
 		}
@@ -887,6 +899,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("Footer");
+			include_once "./classes/class.ilUtil.php";
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 			$this->tpl->parseCurrentBlock();
 		}
@@ -914,6 +927,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
 		$colors = array("tblrow1", "tblrow2");
+		include_once "./classes/class.ilUtil.php";
 		$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
 		$counter = 0;
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
@@ -929,6 +943,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("QTab");
 			}
 			$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+			include_once "./assessment/classes/class.assQuestionGUI.php";
 			$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
 			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
 			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
@@ -946,8 +961,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
 			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
+			include_once "./classes/class.ilUtil.php";
 			$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", true));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+			include_once "./classes/class.ilFormat.php";
 			$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 			$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
@@ -1095,6 +1112,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		sendInfo();
 
 		$this->tpl->setCurrentBlock("header_image");
+		include_once "./classes/class.ilUtil.php";
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_qpl_b.gif"));
 		$this->tpl->parseCurrentBlock();
 		if (!empty($title))
@@ -1184,7 +1202,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		include_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates
@@ -1220,6 +1238,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
 
 		$tbl->render();
+		include_once "./classes/class.ilUtil.php";
 		if(count($export_files) > 0)
 		{
 			$i=0;
@@ -1276,7 +1295,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		global $rbacsystem;
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			require_once("assessment/classes/class.ilQuestionpoolExport.php");
+			include_once("assessment/classes/class.ilQuestionpoolExport.php");
 			$question_ids =& $this->object->getAllQuestionIds();
 			$qpl_exp = new ilQuestionpoolExport($this->object, "xml", $question_ids);
 			$qpl_exp->buildExportFile();
@@ -1307,6 +1326,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
 			$_POST["file"][0]);
 		$this->ctrl->redirect($this, "export");
@@ -1341,6 +1361,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// BEGIN TABLE DATA
 		$counter = 0;
+		include_once "./classes/class.ilUtil.php";
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
@@ -1379,6 +1400,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function deleteExportFileObject()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$export_dir = $this->object->getExportDirectory();
 		foreach($_SESSION["ilExportFiles"] as $file)
 		{
@@ -1401,7 +1423,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &editQuestionForTestObject()
 	{
-//echo "<br>create--".$_GET["new_type"];
+		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 		$this->ctrl->setCmdClass(get_class($q_gui));
 		$this->ctrl->setCmd("editQuestion");
@@ -1430,6 +1452,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
+			include_once "./classes/class.ilUtil.php";
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 

@@ -21,10 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
-include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
 include_once "./classes/class.ilObjectGUI.php";
 
 /**
@@ -66,6 +62,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			{
 				case "create":
 				case "importFile":
+					return;
 					break;
 				default:
 					$this->prepareOutput();
@@ -102,8 +99,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			case 'ilmdeditorgui':
 				$this->setAdminTabs();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
+				include_once "./Services/MetaData/classes/class.ilMDEditorGUI.php";
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -113,6 +109,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			case "surveynominalquestiongui":
 				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
+				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				if ($_GET["q_id"] > 0)
@@ -126,6 +123,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			case "surveyordinalquestiongui":
 				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveyordinalquestiongui", "sel_question_types", $q_type);
+				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				if ($_GET["q_id"] > 0)
@@ -139,6 +137,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			case "surveymetricquestiongui":
 				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveymetricquestiongui", "sel_question_types", $q_type);
+				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				if ($_GET["q_id"] > 0)
@@ -152,6 +151,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			case "surveytextquestiongui":
 				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveytextquestiongui", "sel_question_types", $q_type);
+				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				if ($_GET["q_id"] > 0)
@@ -204,6 +204,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$returnlocation = "adm_object.php";
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
 		}
 		else
@@ -564,6 +565,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function deletePhrasesForm($checked_phrases)
 	{
 		sendInfo();
+		include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 		$ordinal = new SurveyOrdinalQuestion();
 		$phrases =& $ordinal->getAvailablePhrases(1);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_phrases.html", true);
@@ -650,10 +652,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", true);
+			include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 			$ordinal = new SurveyOrdinalQuestion();
 			$phrases =& $ordinal->getAvailablePhrases(1);
 			if (count($phrases))
 			{
+				include_once "./classes/class.ilUtil.php";
 				$colors = array("tblrow1", "tblrow2");
 				$counter = 0;
 				foreach ($phrases as $phrase_id => $phrase_array)
@@ -737,6 +741,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// copy uploaded file to import directory
 			$full_path = $this->object->getImportDirectory()."/".$_FILES["qtidoc"]["name"];
 
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($_FILES["qtidoc"]["tmp_name"], 
 				$_FILES["qtidoc"]["name"], $full_path);
 			//move_uploaded_file($_FILES["qtidoc"]["tmp_name"], $full_path);
@@ -756,15 +761,19 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 						switch ($questiontype[1])
 						{
 							case NOMINAL_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyNominalQuestion.php";
 								$question = new SurveyNominalQuestion();
 								break;
 							case ORDINAL_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 								$question = new SurveyOrdinalQuestion();
 								break;
 							case METRIC_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyMetricQuestion.php";
 								$question = new SurveyMetricQuestion();
 								break;
 							case TEXT_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyTextQuestion.php";
 								$question = new SurveyTextQuestion();
 								break;
 						}
@@ -872,13 +881,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			if ($data["complete"] == 0)
 			{
 				$this->tpl->setCurrentBlock("qpl_warning");
+				include_once "./classes/class.ilUtil.php";
 				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
 				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("QTab");
-
+			include_once "./survey/classes/class.SurveyQuestionGUI.php";
 			$class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($data["question_id"]));
 			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 			$sel_question_types = "";
@@ -909,6 +919,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_PREVIEW", $this->lng->txt("preview"));
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+			include_once "./classes/class.ilFormat.php";
 			$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 			$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
@@ -993,6 +1004,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 					$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("Footer");
+					include_once "./classes/class.ilUtil.php";
 					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 					$this->tpl->parseCurrentBlock();
 			}    
@@ -1075,7 +1087,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		include_once("classes/class.ilTableGUI.php");
+		include_once("./classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates
@@ -1106,6 +1118,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// delete button
+		include_once "./classes/class.ilUtil.php";
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
@@ -1199,6 +1212,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
 			$_POST["file"][0]);
 	}
@@ -1231,6 +1245,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		// BEGIN TABLE DATA
 		$counter = 0;
+		include_once "./classes/class.ilUtil.php";
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
@@ -1281,6 +1296,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 			if (@is_dir($exp_dir))
 			{
+				include_once "./classes/class.ilUtil.php";
 				ilUtil::delDir($exp_dir);
 			}
 		}
@@ -1340,27 +1356,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], 
 			$_FILES["xmldoc"]["name"], $full_path);
 		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 
 		// import qti data
 		$qtiresult = $newObj->importObject($full_path);
-		/* update title and description in object data */
-/*
-		if (is_object($newObj->meta_data))
-		{
-			// read the object metadata from the nested set tables
-			//$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
-			//$newObj->meta_data = $meta_data;
-			//$newObj->setTitle($newObj->meta_data->getTitle());
-			//$newObj->setDescription($newObj->meta_data->getDescription());
-			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
-			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
-			//echo "written the metadata";
-			//exit;
-		}
-*/
 
 		if ($redirect)
 		{
@@ -1390,6 +1392,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
+			include_once "./classes/class.ilUtil.php";
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
@@ -1433,6 +1436,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadSplObject(false);
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::redirect($this->getReturnLocation("importFile",$this->ctrl->getTargetScript()."?".$this->link_params));
 //		$this->ctrl->redirect($this, "questions");
 	}
@@ -1442,6 +1446,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
+		include_once "./survey/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
 		$this->ctrl->setCmdClass(get_class($q_gui));
@@ -1461,6 +1466,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		sendInfo();
 
 		$this->tpl->setCurrentBlock("header_image");
+		include_once "./classes/class.ilUtil.php";
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_spl_b.gif"));
 		$this->tpl->parseCurrentBlock();
 
@@ -1479,7 +1485,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &editQuestionForSurveyObject()
 	{
-//echo "<br>create--".$_GET["new_type"];
+		include_once "./survey/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["q_id"]);
@@ -1494,7 +1500,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionForSurveyObject()
 	{
-//echo "<br>create--".$_GET["new_type"];
+		include_once "./survey/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
 		$this->ctrl->setCmdClass(get_class($q_gui));
@@ -1508,6 +1514,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &previewObject()
 	{
+		include_once "./survey/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["preview"]);
 		$_GET["q_id"] = $_GET["preview"];
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());

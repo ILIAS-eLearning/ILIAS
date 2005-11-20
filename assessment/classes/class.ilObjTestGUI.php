@@ -37,15 +37,6 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
-include_once "./assessment/classes/class.assQuestionGUI.php";
-include_once './classes/Spreadsheet/Excel/Writer.php';
-require_once "./classes/class.ilSearch.php";
-require_once "./classes/class.ilObjUser.php";
-require_once "./classes/class.ilObjGroup.php";
-
-define ("TYPE_XLS_PC", "latin1");
-define ("TYPE_XLS_MAC", "macos");
-define ("TYPE_SPSS", "csv");
 
 class ilObjTestGUI extends ilObjectGUI
 {
@@ -1659,7 +1650,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getFormAction($this) . "$sort&nextrow=$i" . "\">$counter</a>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=$i" . "\">$counter</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -1677,8 +1668,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getFormAction($this) . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getFormAction($this) . "$sort&nextrow=" . $table["nextrow"]);
+			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&prevrow=" . $table["prevrow"]);
+			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1728,13 +1719,13 @@ class ilObjTestGUI extends ilObjectGUI
 		// create table header
 		$this->ctrl->setCmd("questionBrowser");
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
-		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>" . $table["images"]["qpl"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>" . $table["images"]["qpl"]);
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
@@ -1752,6 +1743,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $tree;
 		$parent_ref = $tree->getParentId($this->object->getRefId());
+		include_once "./assessment/classes/class.ilObjQuestionPool.php";
 		$qpl = new ilObjQuestionPool();
 		$qpl->setType("qpl");
 		$qpl->setTitle($name);
@@ -1908,6 +1900,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$total = $this->object->evalTotalPersons();
 		$available_qpl =& $this->object->getAvailableQuestionpools(true, true);
+		include_once "./assessment/classes/class.ilObjQuestionPool.php";
 		foreach ($available_qpl as $key => $value)
 		{
 			$count = ilObjQuestionPool::_getQuestionCount($key);
@@ -3390,6 +3383,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
 				{					
 					
+					include_once './classes/class.ilSearch.php';
 					$search =& new ilSearch($ilUser->id);
 					$search->setSearchString($_POST["search_term"]);
 					$search->setCombination($_POST["concatenation"]);
@@ -3515,10 +3509,9 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function outPrinttest() 
 	{
-		global $ilUser;
-		
-		
+		global $ilUser;		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_test.html", true, true);
 		
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_test.css");				

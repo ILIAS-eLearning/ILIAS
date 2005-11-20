@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("assessment/classes/class.ilObjTest.php");
-
 /**
 * Export class for tests
 *
@@ -128,6 +126,7 @@ class ilTestExport
 
 		// make_directories
 		$this->test_obj->createExportDirectory();
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir);
 
 		//get data
@@ -155,8 +154,7 @@ class ilTestExport
 
 		$ilBench->start("TestExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
-
+		include_once("./classes/class.ilXmlWriter.php");
 		$this->xml = new ilXmlWriter;
 
 		// set dtd definition
@@ -171,11 +169,13 @@ class ilTestExport
 
 		// create directories
 		$this->test_obj->createExportDirectory();
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 
 		// get Log File
 		$expDir = $this->test_obj->getExportDirectory();
+		include_once "./classes/class.ilLog.php";
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");

@@ -38,11 +38,6 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
-include_once "./classes/class.ilUtil.php";
-include_once "./classes/class.ilSearch.php";
-include_once "./classes/class.ilObjUser.php";
-include_once "./classes/class.ilObjGroup.php";
-include_once "./survey/classes/class.SurveySearch.php";
 
 class ilObjSurveyGUI extends ilObjectGUI
 {
@@ -82,9 +77,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	function backToRepositoryObject()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$path = $this->tree->getPathFull($this->object->getRefID());
 		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-//		$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -106,7 +101,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -157,6 +151,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getTargetScript()."?".$this->link_params));
 		exit();
 	}
@@ -183,6 +178,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
@@ -230,6 +226,7 @@ class ilObjSurveyGUI extends ilObjectGUI
   {
 		global $rbacsystem;
 
+		include_once "./classes/class.ilUtil.php";
 		$this->lng->loadLanguageModule("jscalendar");
 		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
 		$this->tpl->setCurrentBlock("calendar_javascript");
@@ -331,7 +328,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_ONLINE", $this->lng->txt("online"));
 		$this->tpl->setVariable("TEXT_ENABLED", $this->lng->txt("enabled"));
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
-		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
+		$this->tpl->setVariable("VALUE_ALL", $this->lng->txt("evaluation_access_all"));
+		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION_EXPLANATION", $this->lng->txt("anonymize_survey_explanation"));
 		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("off"));
@@ -354,14 +352,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_START_DATE", " checked=\"checked\"");
 		}
-
-		if ($this->object->getEvaluationAccess() == EVALUATION_ACCESS_ON)
+		switch ($this->object->getEvaluationAccess())
 		{
-			$this->tpl->setVariable("SELECTED_ON", " selected=\"selected\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
+			case EVALUATION_ACCESS_OFF:
+				$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
+				break;
+			case EVALUATION_ACCESS_ALL:
+				$this->tpl->setVariable("SELECTED_ALL", " selected=\"selected\"");
+				break;
+			case EVALUATION_ACCESS_PARTICIPANTS:
+				$this->tpl->setVariable("SELECTED_PARTICIPANTS", " selected=\"selected\"");
+				break;
 		}
 		if ($this->object->getStatus() == STATUS_ONLINE)
 		{
@@ -689,6 +690,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$questionblock_id = 0;
 		if ($browsequestions)
 		{
+			include_once "./classes/class.ilFormat.php";
 			foreach ($table["rows"] as $data)
 			{
 				if ($rbacsystem->checkAccess("write", $data["ref_id"])) {
@@ -843,6 +845,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("Footer");
+			include_once "./classes/class.ilUtil.php";
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 			$this->tpl->parseCurrentBlock();
 		}
@@ -900,6 +903,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function searchQuestionsExecuteObject()
 	{
+		include_once "./survey/classes/class.SurveySearch.php";
+		include_once "./classes/class.ilUtil.php";
 		$search = new SurveySearch(ilUtil::stripSlashes($_POST["search_term"]), $_POST["concat"], $_POST["search_field"], $_POST["search_type"]);
 		$search->search();
 		$results =& $search->search_results;
@@ -950,6 +955,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 			$this->tpl->setCurrentBlock("search_results");
+			include_once "./classes/class.ilUtil.php";
 			$this->tpl->setVariable("RESULT_IMAGE", ilUtil::getImagePath("icon_spl_b.gif"));
 			$this->tpl->setVariable("ALT_IMAGE", $this->lng->txt("found_questions"));
 			$this->tpl->setVariable("TEXT_QUESTION_TITLE", $this->lng->txt("title"));
@@ -1182,6 +1188,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function executeCreateQuestionObject()
 	{
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
 	}
 	
@@ -1211,6 +1218,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$option = preg_replace("/^(.{40}).*(.{40})$/", "\\1 [...] \\2", $option);
 			}
+			include_once "./classes/class.ilUtil.php";
 			$this->tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($option));
 			if ($key == $_POST["insertbefore"])
 			{
@@ -1448,6 +1456,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if ($_POST["questionblock_id"])
 			{
+				include_once "./classes/class.ilUtil.php";
 				$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]));
 			}
 			else
@@ -1460,6 +1469,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						array_push($questionblock, $value);
 					}
 				}
+				include_once "./classes/class.ilUtil.php";
 				$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $questionblock);
 			}
 			$this->ctrl->redirect($this, "questions");
@@ -1659,6 +1669,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		include_once "./classes/class.ilUtil.php";
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
@@ -1802,6 +1813,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("QTab");
+				include_once "./survey/classes/class.SurveyQuestion.php";
 				$ref_id = SurveyQuestion::_getRefIdFromObjId($data["obj_fi"]);
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
@@ -1997,6 +2009,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "usr":
+				include_once "./classes/class.ilObjUser.php";
 				foreach ($id_array as $user_id)
 				{
 					$counter = 0;
@@ -2011,6 +2024,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
+				include_once "./classes/class.ilUtil.php";
 				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
@@ -2026,6 +2040,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "grp":
+				include_once "./classes/class.ilObjGroup.php";
 				foreach ($id_array as $group_id)
 				{
 					$counter = 0;
@@ -2039,6 +2054,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
+				include_once "./classes/class.ilUtil.php";
 				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -2094,6 +2110,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]))
 			{
+				include_once "./classes/class.ilSearch.php";
 				$search =& new ilSearch($ilUser->id);
 				$search->setSearchString($_POST["search_term"]);
 				$search->setCombination($_POST["concatenation"]);
@@ -2222,6 +2239,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
@@ -2384,6 +2402,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
@@ -2469,6 +2488,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		sendInfo();
 
 		$this->tpl->setCurrentBlock("header_image");
+		include_once "./classes/class.ilUtil.php";
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_svy_b.gif"));
 		$this->tpl->parseCurrentBlock();
 		if (!empty($title))
@@ -2494,6 +2514,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
@@ -2513,7 +2534,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		include_once("classes/class.ilTableGUI.php");
+		include_once("./classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates
@@ -2544,6 +2565,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// delete button
+		include_once "./classes/class.ilUtil.php";
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
@@ -2684,22 +2706,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$newObj->importObject($_FILES["xmldoc"], $_POST["spl"]);
 
-		/* update title and description in object data */
-/*
-		if (is_object($newObj->meta_data))
-		{
-			$newObj->meta_data->read();
-			$newObj->meta_data->setTitle($newObj->getTitle());
-			$newObj->meta_data->setDescription($newObj->getDescription());
-			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
-			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
-		}
-*/
-
 		$newObj->update();
 		$newObj->saveToDb();
 		if ($redirect)
 		{
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("upload",$this->ctrl->getTargetScript()."?".$this->link_params));
 		}
 	}
@@ -2758,6 +2769,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
+			include_once "./classes/class.ilUtil.php";
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
@@ -2808,6 +2820,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 		include_once "./survey/classes/class.ilObjSurvey.php";
+		include_once "./classes/class.ilUtil.php";
 		ilObjSurvey::_clone($_POST["svy"]);
 		ilUtil::redirect($this->getReturnLocation("cloneAll",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
@@ -2854,6 +2867,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
 			$_POST["file"][0]);
 	}
@@ -2887,6 +2901,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// BEGIN TABLE DATA
 		$counter = 0;
+		include_once "./classes/class.ilUtil.php";
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
@@ -2935,6 +2950,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			if (@is_dir($exp_dir))
 			{
+				include_once "./classes/class.ilUtil.php";
 				ilUtil::delDir($exp_dir);
 			}
 		}
@@ -2957,6 +2973,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
@@ -2980,6 +2997,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("coderow");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$key % 2]);
 					$this->tpl->setVariable("SURVEY_CODE", $row["survey_key"]);
+					include_once "./classes/class.ilFormat.php";
 					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date"));
 					$state = "<span class=\"smallred\">" . $this->lng->txt("not_used") . "</span>";
 					if ($this->object->isSurveyCodeUsed($row["survey_key"]))
@@ -3368,6 +3386,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							$this->tpl->setCurrentBlock("delete_button");
 							$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+							include_once "./classes/class.ilUtil.php";
 							$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 							$this->tpl->parseCurrentBlock();
 						}

@@ -60,7 +60,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjquestionpoolgui";
 
 		// general commands array
-		include_once('class.ilObjQuestionPoolAccess.php');
+		include_once "./assessment/classes/class.ilObjQuestionPoolAccess.php";
 		$this->commands = ilObjQuestionPoolAccess::_getCommands();
 	}
 
@@ -92,6 +92,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 		{
 			case "":
 			case "questions":
+				include_once "./classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
@@ -117,7 +118,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("./assessment/classes/class.ilObjQuestionPool.php");
+		include_once "./assessment/classes/class.ilObjQuestionPool.php";
 		if (!ilObjQuestionPool::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),

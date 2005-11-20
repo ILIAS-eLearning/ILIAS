@@ -21,7 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./assessment/classes/class.ilObjTest.php");
+define ("TYPE_XLS_PC", "latin1");
+define ("TYPE_XLS_MAC", "macos");
+define ("TYPE_SPSS", "csv");
 
 /**
 * Output class for assessment test evaluation
@@ -384,13 +386,13 @@ class ilTestEvaluationGUI
 	*/
 	function outEvalSearchResultTable($a_type, $id_array, $block_result, $block_row, $title_text, $buttons)
 	{
-		include_once("./classes/class.ilObjGroup.php");
 		global $rbacsystem;
 		
 		$rowclass = array("tblrow1", "tblrow2");
 		switch($a_type)
 		{
 			case "usr":
+				include_once "./classes/class.ilObjUser.php";
 				foreach ($id_array as $user_id => $username)
 				{
 					$counter = 0;
@@ -420,6 +422,7 @@ class ilTestEvaluationGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "grp":
+				include_once "./classes/class.ilObjGroup.php";
 				foreach ($id_array as $group_id)
 				{
 					$counter = 0;
@@ -458,11 +461,14 @@ class ilTestEvaluationGUI
 	*/
 	function evaluationDetail()
 	{
+		include_once "./classes/class.ilObjUser.php";
 		$answertext = $this->object->getTextAnswer($_GET["userdetail"], $_GET["answer"]);
 		$questiontext = $this->object->getQuestiontext($_GET["answer"]);
+		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_user_answer.html", true, true);
 		$this->tpl->setVariable("TITLE_USER_ANSWER", $this->lng->txt("tst_eval_user_answer"));
 		$this->tpl->setVariable("TEXT_USER", $this->lng->txt("user"));
+		include_once "./classes/class.ilObjUser.php";
 		$user = new ilObjUser($_GET["userdetail"]);
 		$this->tpl->setVariable("TEXT_USERNAME", trim($user->getFirstname() . " " . $user->getLastname()));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
@@ -561,6 +567,7 @@ class ilTestEvaluationGUI
 			{
 				if (preg_match("/(\d+)_(\d+)_(\d+)/", $key, $matches))
 				{
+					include_once "./assessment/classes/class.assTextQuestion.php";
 					ASS_TextQuestion::_setReachedPoints($matches[1], $this->object->getTestId(), $matches[2], $value, $matches[3]);
 				}
 			}
@@ -702,6 +709,7 @@ class ilTestEvaluationGUI
 				{
 					if (array_key_exists($member_id, $total_users))
 					{
+						include_once "./classes/class.ilObjUser.php";
 						$usr = new ilObjUser($member_id); 
 						$selected_users[$member_id] = trim($usr->firstname . " " . $usr->lastname);
 					}
@@ -744,7 +752,7 @@ class ilTestEvaluationGUI
 		{
 			array_push($median_array, $value["resultspoints"]);
 		}
-		//$median_array =& $this->object->getTotalPointsArray();
+		include_once "./classes/class.ilStatistics.php";
 		$statistics = new ilStatistics();
 		$statistics->setData($median_array);
 		$median = $statistics->median();
@@ -761,6 +769,7 @@ class ilTestEvaluationGUI
 			$titlerow_user = array();
 			if ($this->object->isRandomTest())
 			{
+				include_once "./assessment/classes/class.ilObjTest.php";
 				$counted_pass = ilObjTest::_getResultPass($key, $this->object->getTestId());
 				$this->object->loadQuestions($key, $counted_pass);
 				$titlerow_user = $titlerow_without_questions;
@@ -975,6 +984,7 @@ class ilTestEvaluationGUI
 				case TYPE_XLS_PC:
 				case TYPE_XLS_MAC:
 					// Creating a workbook
+					include_once './classes/Spreadsheet/Excel/Writer.php';
 					$workbook = new Spreadsheet_Excel_Writer();
 	
 					// sending HTTP headers
@@ -995,7 +1005,7 @@ class ilTestEvaluationGUI
 					$worksheet =& $workbook->addWorksheet();
 					$row = 0;
 					$col = 0;
-					include_once ("./classes/class.ilExcelUtils.php");
+					include_once "./classes/class.ilExcelUtils.php";
 					if (!$this->object->isRandomTest())
 					{
 						foreach ($titlerow as $title)
@@ -1305,6 +1315,7 @@ class ilTestEvaluationGUI
 		{
 			$this->ctrl->redirect($this, "passDetails");
 		}
+		include_once "./assessment/classes/class.ilObjTest.php";
 		$counted_pass = ilObjTest::_getResultPass($user_id, $this->object->getTestId());
 		$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_overview.html", true);

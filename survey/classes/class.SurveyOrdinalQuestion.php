@@ -67,6 +67,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
+		include_once "./survey/classes/class.SurveyCategories.php";
 		$this->categories = new SurveyCategories();
 	}
 	

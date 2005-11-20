@@ -21,9 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestionGUI.php";
-require_once "./assessment/classes/class.assImagemapQuestion.php";
-require_once "./assessment/classes/class.ilImagemapPreview.php";
+include_once "./assessment/classes/class.assQuestionGUI.php";
 
 /**
 * Image map question GUI representation
@@ -50,6 +48,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$id = -1
 	)
 	{
+		include_once "./assessment/classes/class.assImagemapQuestion.php";
 		$this->ASS_QuestionGUI();
 		$this->object = new ASS_ImagemapQuestion();
 		if ($id >= 0)
@@ -94,6 +93,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
+		include_once "./assessment/classes/class.ilImagemapPreview.php";
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_imagemap");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
@@ -419,6 +419,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			if (count($this->object->suggested_solutions))
 			{
 				$solution_array = $this->object->getSuggestedSolution(0);
+				include_once "./assessment/classes/class.assQuestion.php";
 				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
 				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
@@ -722,6 +723,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			}
 			if ($mixpass) $pass = NULL;
 			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			include_once "./assessment/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)
 			{
@@ -764,6 +766,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		if ($maxindex > -1)
 		{
 			$answer = $this->object->answers[$maxindex];
+			include_once "./assessment/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
 			$preview->createPreview();

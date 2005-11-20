@@ -32,6 +32,8 @@
 * @package survey
 */
 
+include_once "./classes/class.ilObject.php";
+
 class ilObjSurveyQuestionPool extends ilObject
 {
 	/**
@@ -220,6 +222,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 
 		// delete export files
+		include_once "./classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		$directory = $spl_data_dir."/spl_".$this->getId();
 		if (is_dir($directory))
@@ -475,15 +478,19 @@ class ilObjSurveyQuestionPool extends ilObject
 		switch ($questiontype)
 		{
 			case "qt_nominal":
+				include_once "./survey/classes/class.SurveyNominalQuestion.php";
 				$question = new SurveyNominalQuestion();
 				break;
 			case "qt_ordinal":
+				include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 				$question = new SurveyOrdinalQuestion();
 				break;
 			case "qt_metric":
+				include_once "./survey/classes/class.SurveyMetricQuestion.php";
 				$question = new SurveyMetricQuestion();
 				break;
 			case "qt_text":
+				include_once "./survey/classes/class.SurveyTextQuestion.php";
 				$question = new SurveyTextQuestion();
 				break;
 		}
@@ -543,9 +550,13 @@ class ilObjSurveyQuestionPool extends ilObject
     // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) {
-      foreach ($sortoptions as $key => $value) {
-        switch($key) {
+		include_once "./classes/class.ilUtil.php";
+    if (count($sortoptions)) 
+		{
+      foreach ($sortoptions as $key => $value) 
+			{
+        switch($key) 
+				{
           case "title":
             $order = " ORDER BY title $value";
             $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
@@ -628,6 +639,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function createExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		ilUtil::makeDir($spl_data_dir);
 		if(!is_writable($spl_data_dir))
@@ -657,8 +669,8 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function getExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/spl_data"."/spl_".$this->getId()."/export";
-
 		return $export_dir;
 	}
 	
@@ -708,6 +720,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function createImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		ilUtil::makeDir($spl_data_dir);
 		
@@ -739,6 +752,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function getImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/spl_data".
 			"/spl_".$this->getId()."/import";
 		if(@is_dir($import_dir))
@@ -776,15 +790,19 @@ class ilObjSurveyQuestionPool extends ilObject
 			switch ($questiontype)
 			{
 				case "qt_nominal":
+					include_once "./survey/classes/class.SurveyNominalQuestion.php";
 					$question = new SurveyNominalQuestion();
 					break;
 				case "qt_ordinal":
+					include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 					$question = new SurveyOrdinalQuestion();
 					break;
 				case "qt_metric":
+					include_once "./survey/classes/class.SurveyMetricQuestion.php";
 					$question = new SurveyMetricQuestion();
 					break;
 				case "qt_text":
+					include_once "./survey/classes/class.SurveyTextQuestion.php";
 					$question = new SurveyTextQuestion();
 					break;
 			}
@@ -907,15 +925,19 @@ class ilObjSurveyQuestionPool extends ilObject
 						switch ($questiontype[1])
 						{
 							case NOMINAL_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyNominalQuestion.php";
 								$question = new SurveyNominalQuestion();
 								break;
 							case ORDINAL_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 								$question = new SurveyOrdinalQuestion();
 								break;
 							case METRIC_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyMetricQuestion.php";
 								$question = new SurveyMetricQuestion();
 								break;
 							case TEXT_QUESTION_IDENTIFIER:
+								include_once "./survey/classes/class.SurveyTextQuestion.php";
 								$question = new SurveyTextQuestion();
 								break;
 						}
@@ -937,7 +959,13 @@ class ilObjSurveyQuestionPool extends ilObject
 			
 			if ($metadata)
 			{
-// to do: import meta data
+				include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
+				include_once "./Services/MetaData/classes/class.ilMD.php";
+				$md_sax_parser = new ilMDSaxParser();
+				$md_sax_parser->setXMLContent($metadata);
+				$md_sax_parser->setMDObject($tmp = new ilMD($this->getId(),0,'spl'));
+				$md_sax_parser->enableMDParsing();
+				$md_sax_parser->startParsing();
 			}
 
 		}

@@ -780,6 +780,7 @@ class ASS_Question
 		$points = 0;
 		if (is_null($pass))
 		{
+			include_once "./assessment/classes/class.assQuestion.php";
 			$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $test_id);
 		}
 		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
@@ -891,6 +892,7 @@ class ASS_Question
 		$original_id = "";
 		if (strcmp($question_id, "") != 0)
 		{
+			include_once "./assessment/classes/class.assQuestion.php";
 			$original_id = ASS_Question::_getOriginalId($question_id);
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
@@ -1223,7 +1225,8 @@ class ASS_Question
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$reached = $row->points; //ASS_Question::_getReachedPoints($row->user_fi, $row->test_fi, $row->question_fi);
+			$reached = $row->points; 
+			include_once "./assessment/classes/class.assQuestion.php";
 			$max = ASS_Question::_getMaximumPoints($row->question_fi);
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
@@ -1380,7 +1383,7 @@ class ASS_Question
 	*/
 	function saveToDb($original_id = "")
 	{
-		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./content/classes/Pages/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote($this->getId() . "")
 		);
@@ -1417,7 +1420,7 @@ class ASS_Question
 		);
 		$result = $this->ilias->db->query($query);
 		// delete the links in the int_link table
-		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./content/classes/Pages/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 	}
 	
@@ -1498,9 +1501,9 @@ class ASS_Question
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
-			require_once "./content/classes/Pages/class.ilInternalLink.php";
-			require_once "./content/classes/class.ilLMObject.php";
-			require_once "./content/classes/class.ilGlossaryTerm.php";
+			include_once "./content/classes/Pages/class.ilInternalLink.php";
+			include_once "./content/classes/class.ilLMObject.php";
+			include_once "./content/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{
 				case "lm":
@@ -1544,6 +1547,7 @@ class ASS_Question
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$internal_link = $row["internal_link"];
+				include_once "./assessment/classes/class.assQuestion.php";
 				$resolved_link = ASS_Question::_resolveInternalLink($internal_link);
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
@@ -1562,7 +1566,7 @@ class ASS_Question
 			// there are resolved links -> reenter theses links to the database
 
 			// delete all internal links from the database
-			require_once "./content/classes/Pages/class.ilInternalLink.php";
+			include_once "./content/classes/Pages/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
 			$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
@@ -1654,7 +1658,7 @@ class ASS_Question
 
 	function syncWithOriginal()
 	{
-		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./content/classes/Pages/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote($this->original_id . "")
 		);
@@ -1725,6 +1729,7 @@ class ASS_Question
 	{
 		if (strcmp($question_id, "") != 0)
 		{
+			include_once "./assessment/classes/class.assQuestion.php";
 			$question_type = ASS_Question::_getQuestionType($question_id);
 			switch ($question_type) {
 				case "qt_cloze":

@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assAnswerSimple.php";
+include_once "./assessment/classes/class.assAnswerSimple.php";
 
 /**
 * Class for true/false or yes/no answers
