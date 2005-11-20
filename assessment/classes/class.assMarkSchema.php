@@ -21,9 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assMark.php";
-require_once "./assessment/classes/class.ilObjTest.php";
-
 /**
 * A class defining mark schemas for assessment test objects
 * 
@@ -34,7 +31,8 @@ require_once "./assessment/classes/class.ilObjTest.php";
 * @module   class.assMarkSchema.php
 * @modulegroup   Assessment
 */
-class ASS_MarkSchema {
+class ASS_MarkSchema 
+{
 /**
 * An array containing all mark steps defined for the test
 * 
@@ -109,6 +107,7 @@ class ASS_MarkSchema {
 		$passed = 0
   )
   {
+		include_once "./assessment/classes/class.assMark.php";
     $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
     array_push($this->mark_steps, $mark);
   }
@@ -127,6 +126,7 @@ class ASS_MarkSchema {
 		$db =& $ilias->db->db;
 
 		$oldmarks = array();
+		include_once "./classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
@@ -164,7 +164,6 @@ class ASS_MarkSchema {
       if ($result == DB_OK) {
       }
     }
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",

@@ -30,7 +30,7 @@
 * @package assessment
 */
 
-require_once("./classes/class.ilExplorer.php");
+include_once "./classes/class.ilExplorer.php";
 
 class ilSolutionExplorer extends ilExplorer
 {
@@ -143,6 +143,7 @@ class ilSolutionExplorer extends ilExplorer
 	{
 		global $lng, $ilias;
 
+		include_once "./classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("text");

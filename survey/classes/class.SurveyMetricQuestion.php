@@ -40,7 +40,8 @@ define("METRIC_QUESTION_IDENTIFIER", "Metric Question");
 * @module   class.SurveyMetricQuestion.php
 * @modulegroup   Survey
 */
-class SurveyMetricQuestion extends SurveyQuestion {
+class SurveyMetricQuestion extends SurveyQuestion 
+{
 /**
 * Question subtype
 *

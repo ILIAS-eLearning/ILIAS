@@ -21,11 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
-include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
-
 /**
 * Basic class for all survey question types
 *
@@ -37,7 +32,8 @@ include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
 * @module   class.SurveyQuestionGUI.php
 * @modulegroup   survey
 */
-class SurveyQuestionGUI {
+class SurveyQuestionGUI 
+{
 /**
 * Question object
 *
@@ -108,20 +104,25 @@ class SurveyQuestionGUI {
 	{
 		if (!$questiontype)
 		{
+			include_once "./survey/classes/class.SurveyQuestion.php";
 			$questiontype = SurveyQuestion::_getQuestiontype($question_id);
 		}
 		switch ($questiontype)
 		{
 			case "qt_nominal":
+				include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
 				$question = new SurveyNominalQuestionGUI();
 				break;
 			case "qt_ordinal":
+				include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
 				$question = new SurveyOrdinalQuestionGUI();
 				break;
 			case "qt_metric":
+				include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
 				$question = new SurveyMetricQuestionGUI();
 				break;
 			case "qt_text":
+				include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
 				$question = new SurveyTextQuestionGUI();
 				break;
 		}
@@ -135,6 +136,8 @@ class SurveyQuestionGUI {
 	
 	function _getGUIClassNameForId($a_q_id)
 	{
+		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./survey/classes/class.SurveyQuestionGUI.php";
 		$q_type = SurveyQuestion::_getQuestiontype($a_q_id);
 		$class_name = SurveyQuestionGUI::_getClassNameForQType($q_type);
 		return $class_name;
@@ -182,12 +185,14 @@ class SurveyQuestionGUI {
 			$this->object->syncWithOriginal();
 		}
 		$_GET["ref_id"] = $_GET["calling_survey"];
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 	}
 
 	function cancelSync()
 	{
 		$_GET["ref_id"] = $_GET["calling_survey"];
+		include_once "./classes/class.ilUtil.php";
 		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 	}
 		
@@ -205,6 +210,7 @@ class SurveyQuestionGUI {
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			$_GET["q_id"] = $this->object->getId();
+			include_once "./survey/classes/class.SurveyQuestion.php";
 			if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();
@@ -213,11 +219,13 @@ class SurveyQuestionGUI {
 			elseif ($_GET["calling_survey"])
 			{
 				$_GET["ref_id"] = $_GET["calling_survey"];
+				include_once "./classes/class.ilUtil.php";
 				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 				return;
 			}
 			elseif ($_GET["new_for_survey"] > 0)
 			{
+				include_once "./classes/class.ilUtil.php";
 				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=" . $_GET["new_for_survey"] . "&new_id=".$_GET["q_id"]);
 				return;
 			}
@@ -242,11 +250,13 @@ class SurveyQuestionGUI {
 		if ($_GET["calling_survey"])
 		{
 			$_GET["ref_id"] = $_GET["calling_survey"];
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["calling_survey"]);
 		}
 		elseif ($_GET["new_for_survey"])
 		{
 			$_GET["ref_id"] = $_GET["new_for_survey"];
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["new_for_survey"]);
 		}
 		else
@@ -532,6 +542,7 @@ class SurveyQuestionGUI {
 		$complete = true;
 		$array1 = array();
     // Add all categories from the form into the object
+		include_once "./classes/class.ilUtil.php";
 		foreach ($_POST as $key => $value) 
 		{
 			if (preg_match("/^category_(\d+)/", $key, $matches)) 

@@ -33,7 +33,7 @@
 */
 
 
-include_once "classes/class.ilObjectListGUI.php";
+include_once "./classes/class.ilObjectListGUI.php";
 
 class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 {
@@ -60,7 +60,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjsurveyquestionpoolgui";
 
 		// general commands array
-		include_once('class.ilObjSurveyQuestionPoolAccess.php');
+		include_once("./survey/classes/class.ilObjSurveyQuestionPoolAccess.php");
 		$this->commands = ilObjSurveyQUestionPoolAccess::_getCommands();
 	}
 
@@ -92,6 +92,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 		{
 			case "":
 			case "questions":
+				include_once "./classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 

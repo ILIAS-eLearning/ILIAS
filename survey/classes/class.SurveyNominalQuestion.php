@@ -22,7 +22,6 @@
 */
 
 include_once "./survey/classes/class.SurveyQuestion.php";
-include_once "./survey/classes/class.SurveyCategories.php";
 
 define("SUBTYPE_MCSR", 1);
 define("SUBTYPE_MCMR", 2);
@@ -40,7 +39,8 @@ define("NOMINAL_QUESTION_IDENTIFIER", "Nominal Question");
 * @module   class.SurveyNominalQuestion.php
 * @modulegroup   Survey
 */
-class SurveyNominalQuestion extends SurveyQuestion {
+class SurveyNominalQuestion extends SurveyQuestion 
+{
 /**
 * Question subtype
 *
@@ -82,6 +82,7 @@ class SurveyNominalQuestion extends SurveyQuestion {
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->subtype = $subtype;
+		include_once "./survey/classes/class.SurveyCategories.php";
 		$this->categories = new SurveyCategories();
 	}
 	

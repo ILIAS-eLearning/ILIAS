@@ -20,8 +20,7 @@
    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
    +----------------------------------------------------------------------------+
 */
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.ilQTIUtils.php";
+include_once "./assessment/classes/class.assQuestion.php";
 
 define("TEXT_QUESTION_IDENTIFIER", "TEXT QUESTION");
 
@@ -590,9 +589,7 @@ class ASS_TextQuestion extends ASS_Question
 
 			// finally update objective result
 			include_once 'course/classes/class.ilCourseObjectiveResult.php';
-
 			ilCourseObjectiveResult::_updateUserResult($user_id,$question_id,$points);
-
 
 			return true;
 		}
@@ -707,6 +704,7 @@ class ASS_TextQuestion extends ASS_Question
 
 		$db =& $ilDB->db;
 
+		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 		
 		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",

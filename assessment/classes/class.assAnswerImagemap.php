@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assAnswerBinaryState.php";
+include_once "./assessment/classes/class.assAnswerBinaryState.php";
 
 /**
 * Class for true/false or yes/no answers

@@ -32,7 +32,8 @@
 * @module   class.SurveyQuestion.php
 * @modulegroup   Survey
 */
-class SurveyQuestion {
+class SurveyQuestion 
+{
 /**
 * Question id
 *
@@ -410,6 +411,7 @@ class SurveyQuestion {
 	{
 		if (!empty($materials_filename))
 		{
+			include_once "./classes/class.ilUtil.php";
 			$materialspath = $this->getMaterialsPath();
 			if (!file_exists($materialspath))
 			{
@@ -733,10 +735,13 @@ class SurveyQuestion {
 		{
 			$materialspath = $this->getMaterialsPath();
 			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
-			if (!file_exists($materialspath)) {
+			if (!file_exists($materialspath)) 
+			{
+				include_once "./classes/class.ilUtil.php";
 				ilUtil::makeDirParents($materialspath);
 			}
-			if (!copy($materialspath_original . $filename, $materialspath . $filename)) {
+			if (!copy($materialspath_original . $filename, $materialspath . $filename)) 
+			{
 				print "material could not be duplicated!!!! ";
 			}
 		}
@@ -873,7 +878,9 @@ class SurveyQuestion {
 *
 * @access public
 */
-	function getImagePathWeb() {
+	function getImagePathWeb() 
+	{
+		include_once "./classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -886,7 +893,9 @@ class SurveyQuestion {
 *
 * @access public
 */
-	function getMaterialsPathWeb() {
+	function getMaterialsPathWeb() 
+	{
+		include_once "./classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -1384,6 +1393,7 @@ class SurveyQuestion {
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$internal_link = $row["internal_link"];
+				include_once "./survey/classes/class.SurveyQuestion.php";
 				$resolved_link = SurveyQuestion::_resolveInternalLink($internal_link);
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
@@ -1437,6 +1447,7 @@ class SurveyQuestion {
 		{
 			$type = $matches[1];
 			$target_id = $matches[2];
+			include_once "./classes/class.ilUtil.php";
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":

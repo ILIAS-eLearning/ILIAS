@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assAnswerBinaryState.php";
+include_once "./assessment/classes/class.assAnswerBinaryState.php";
 
 /**
 * Class for cloze question answers

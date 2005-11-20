@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assAnswerOrdering.php";
+include_once "./assessment/classes/class.assQuestion.php";
 
 define ("OQ_PICTURES", 0);
 define ("OQ_TERMS", 1);
@@ -535,6 +534,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				$db->quote($question_id)
 			);
 			$result = $db->query($query);
+			include_once "./assessment/classes/class.assAnswerOrdering.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -555,6 +555,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	*/
 	function addAnswer($answertext, $points, $answerorder, $solutionorder)
 	{
+		include_once "./assessment/classes/class.assAnswerOrdering.php";
 		array_push($this->answers, new ASS_AnswerOrdering($answertext, $points, $answerorder, $solutionorder));
 	}
 	
@@ -773,6 +774,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				$found = $order;
 			}
 		}
+		include_once "./assessment/classes/class.assAnswerOrdering.php";
 		if ($found >= 0)
 		{
 			// Antwort einfügen
@@ -1063,7 +1065,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			}
 			else
 			{
-				require_once "./content/classes/Media/class.ilObjMediaObject.php";
+				include_once "./content/classes/Media/class.ilObjMediaObject.php";
 				$mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
 				if (!preg_match("/^image/", $mimetype))
 				{
@@ -1141,6 +1143,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			$db =& $ilDB->db;
 	
+			include_once "./assessment/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 
 			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",

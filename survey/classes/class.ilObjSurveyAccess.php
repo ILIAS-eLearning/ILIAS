@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
+include_once "./classes/class.ilObjectAccess.php";
 
 /**
 * Class ilObjSurveyAccess
@@ -87,9 +87,11 @@ class ilObjSurveyAccess extends ilObjectAccess
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
 					return false;
 				}
-				// maybe an additional evaluation permission would be suitable
-				if (!$rbacsystem->checkAccess('write',$a_ref_id) &&
-					!ilObjSurveyAccess::_lookupEvaluationAccess($a_obj_id))
+				if ($rbacsystem->checkAccess("write",$a_ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($a_obj_id, $a_user_id))
+				{
+					return true;
+				}
+				else
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("no_permission"));
 					return false;
@@ -171,6 +173,86 @@ class ilObjSurveyAccess extends ilObjectAccess
 		}
 
 		return $row->evaluation_access;
+	}
+	
+	function _isSurveyParticipant($user_id, $survey_id)
+	{
+		global $ilDB;
+
+		$q = sprintf("SELECT finished_id FROM survey_finished WHERE user_fi = %s AND survey_fi = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($survey_id . "")
+		);
+		$result = $ilDB->query($q);
+		if ($result->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function _lookupAnonymize($a_obj_id)
+	{
+		global $ilDB;
+
+		$q = sprintf("SELECT anonymize FROM survey_survey WHERE obj_fi = %s",
+			$ilDB->quote($a_obj_id . "")
+		);
+		$result = $ilDB->query($q);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["anonymize"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	function _hasEvaluationAccess($a_obj_id, $user_id)
+	{
+		$evaluation_access = ilObjSurveyAccess::_lookupEvaluationAccess($a_obj_id);
+		switch ($evaluation_access)
+		{
+			case 0:
+				// no evaluation access
+				return false;
+				break;
+			case 1:
+				// evaluation access for all users
+				return true;
+				break;
+			case 2:
+				// evaluation access for participants
+				// check if the user with the given id is a survey participant
+
+				// show the evaluation button for anonymized surveys for all users
+				// access is only granted with the survey access code
+				if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
+				
+				global $ilDB;
+				$q = sprintf("SELECT survey_id FROM survey_survey WHERE obj_fi = %s",
+					$ilDB->quote($a_obj_id . "")
+				);
+				$result = $ilDB->query($q);
+				if ($result->numRows() == 1)
+				{
+					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"]))
+					{
+						return true;
+					}
+				}
+				// TODO: add an additional check for anonymous users who could have and survey access code
+				//       on the other hand: if someone publishes a survey with anonymous access and evaluation access
+				//       he or she should grant evaluation access for all users...
+				return false;
+				break;
+		}
 	}
 
 	/**

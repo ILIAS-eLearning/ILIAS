@@ -9116,4 +9116,5 @@ chdir($wd);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#590>
+ALTER TABLE `survey_survey` CHANGE `evaluation_access` `evaluation_access` ENUM( '0', '1', '2' ) DEFAULT '0' NOT NULL;

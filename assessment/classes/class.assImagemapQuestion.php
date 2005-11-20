@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assAnswerImagemap.php";
+include_once "./assessment/classes/class.assQuestion.php";
 
 define ("IMAGEMAP_QUESTION_IDENTIFIER", "IMAGE MAP QUESTION");
 
@@ -36,7 +35,8 @@ define ("IMAGEMAP_QUESTION_IDENTIFIER", "IMAGE MAP QUESTION");
 * @module   class.assImagemapQuestion.php
 * @modulegroup   Assessment
 */
-class ASS_ImagemapQuestion extends ASS_Question {
+class ASS_ImagemapQuestion extends ASS_Question 
+{
 
 /**
 * The imagemap_Question containing the question
@@ -398,8 +398,11 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($question_id)
       );
       $result = $db->query($query);
-      if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-        while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			include_once "./assessment/classes/class.assAnswerImagemap.php";
+      if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+			{
+        while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+				{
 					if ($data->correctness == 0)
 					{
 						// fix for older single response answers where points could be given for unchecked answers
@@ -422,6 +425,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 	*/
 	function addAnswer($answertext, $points, $answerorder, $correctness, $coords, $area)
 	{
+		include_once "./assessment/classes/class.assAnswerImagemap.php";
 		array_push($this->answers, new ASS_AnswerImagemap($answertext, $points, $answerorder, $correctness, $coords, $area));
 	}
 	
@@ -826,15 +830,20 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $area=""
   )
   {
-    if (array_key_exists($order, $this->answers)) {
+		include_once "./assessment/classes/class.assAnswerImagemap.php";
+    if (array_key_exists($order, $this->answers)) 
+		{
       // Antwort einf�gen
       $answer = new ASS_AnswerImagemap($answertext, $points, $found, $status, $coords, $area);
-			for ($i = count($this->answers) - 1; $i >= $order; $i--) {
+			for ($i = count($this->answers) - 1; $i >= $order; $i--) 
+			{
 				$this->answers[$i+1] = $this->answers[$i];
 				$this->answers[$i+1]->set_order($i+1);
 			}
 			$this->answers[$order] = $answer;
-    } else {
+    }
+		else 
+		{
       // Anwort anh�ngen
       $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $status, $coords, $area);
       array_push($this->answers, $answer);
@@ -1060,17 +1069,19 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @access public
 * @see $answers
 */
-  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) {
+  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) 
+	{
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
 
+		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 		
     $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-      $db->quote($ilUser->id . ""),
-      $db->quote($test_id . ""),
-      $db->quote($this->getId() . ""),
+			$db->quote($ilUser->id . ""),
+			$db->quote($test_id . ""),
+			$db->quote($this->getId() . ""),
 			$db->quote($pass . "")
     );
     $result = $db->query($query);

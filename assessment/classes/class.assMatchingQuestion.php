@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assAnswerMatching.php";
+include_once "./assessment/classes/class.assQuestion.php";
 
 define ("MT_TERMS_PICTURES", 0);
 define ("MT_TERMS_DEFINITIONS", 1);
@@ -525,6 +524,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$db->quote($question_id)
 			);
 			$result = $db->query($query);
+			include_once "./assessment/classes/class.assAnswerMatching.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -545,6 +545,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	*/
 	function addMatchingPair($answertext, $points, $answerorder, $matchingtext, $matchingorder)
 	{
+		include_once "./assessment/classes/class.assAnswerMatching.php";
 		array_push($this->matchingpairs, new ASS_AnswerMatching($answertext, $points, $answerorder, $matchingtext, $matchingorder));
 	}
 	
@@ -771,6 +772,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			$picture_or_definition_id = $this->get_random_id();
 		}
+		include_once "./assessment/classes/class.assAnswerMatching.php";
 		$matchingpair = new ASS_AnswerMatching($term, $points, $term_id, $picture_or_definition, $picture_or_definition_id);
 		array_push($this->matchingpairs, $matchingpair);
 	}
@@ -1040,7 +1042,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			}
 			else
 			{
-				require_once "./content/classes/Media/class.ilObjMediaObject.php";
+				include_once "./content/classes/Media/class.ilObjMediaObject.php";
 				$mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
 				if (!preg_match("/^image/", $mimetype))
 				{
@@ -1110,6 +1112,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			$db =& $ilDB->db;
 	
+			include_once ("./assessment/classes/class.ilObjTest.php");
 			$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			
 			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",

@@ -21,17 +21,16 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./assessment/classes/class.ilQTIResponse.php";
 
-	define ("QT_UNKNOWN", 0);
-	define ("QT_MULTIPLE_CHOICE_SR", 1);
-	define ("QT_MULTIPLE_CHOICE_MR", 2);
-	define ("QT_CLOZE", 3);
-	define ("QT_MATCHING", 4);
-	define ("QT_ORDERING", 5);
-	define ("QT_IMAGEMAP", 6);
-	define ("QT_JAVAAPPLET", 7);
-	define ("QT_TEXT", 8);
+define ("QT_UNKNOWN", 0);
+define ("QT_MULTIPLE_CHOICE_SR", 1);
+define ("QT_MULTIPLE_CHOICE_MR", 2);
+define ("QT_CLOZE", 3);
+define ("QT_MATCHING", 4);
+define ("QT_ORDERING", 5);
+define ("QT_IMAGEMAP", 6);
+define ("QT_JAVAAPPLET", 7);
+define ("QT_TEXT", 8);
 
 /**
 * QTI item class

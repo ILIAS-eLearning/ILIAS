@@ -33,18 +33,6 @@
 */
 
 include_once "./classes/class.ilObject.php";
-include_once "./assessment/classes/class.assMarkSchema.php";
-include_once "./assessment/classes/class.assQuestion.php";
-include_once "./assessment/classes/class.assClozeTest.php";
-include_once "./assessment/classes/class.assImagemapQuestion.php";
-include_once "./assessment/classes/class.assJavaApplet.php";
-include_once "./assessment/classes/class.assMatchingQuestion.php";
-include_once "./assessment/classes/class.assMultipleChoice.php";
-include_once "./assessment/classes/class.assOrderingQuestion.php";
-include_once "./assessment/classes/class.assTextQuestion.php";
-include_once "./classes/class.ilObjAssessmentFolder.php";
-include_once "./classes/class.ilSearch.php";
-
 
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);
@@ -347,6 +335,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		$this->type = "tst";
+		include_once "./assessment/classes/class.assMarkSchema.php";
 		$this->mark_schema = new ASS_MarkSchema();
 		//$this->ilObject($a_id, $a_call_by_reference);
 		$this->retrieveTestTypes();
@@ -382,13 +371,6 @@ class ilObjTest extends ilObject
 			"D" => 10,
 			"E" => 0
 		);
-/*
-		if ($a_id == 0)
-		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-		}
-*/
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
 
@@ -449,7 +431,6 @@ class ilObjTest extends ilObject
 	{
 		parent::read($a_force_db);
 		$this->loadFromDb();
-//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 
 /**
@@ -577,6 +558,7 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($query);
 
 		// delete export files
+		include_once "./classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		$directory = $tst_data_dir."/tst_".$this->getId();
 		if (is_dir($directory))
@@ -685,6 +667,7 @@ class ilObjTest extends ilObject
 	*/
 	function createExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 		if(!is_writable($tst_data_dir))
@@ -718,8 +701,8 @@ class ilObjTest extends ilObject
 */
 	function getExportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/tst_data"."/tst_".$this->getId()."/export";
-
 		return $export_dir;
 	}
 	
@@ -778,6 +761,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilias;
 		
+		include_once "./classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 		
@@ -806,6 +790,7 @@ class ilObjTest extends ilObject
 */
 	function _getImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
 		if(@is_dir($import_dir))
 		{
@@ -824,6 +809,7 @@ class ilObjTest extends ilObject
 	*/
 	function createImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 		
@@ -852,6 +838,7 @@ class ilObjTest extends ilObject
 */
 	function getImportDirectory()
 	{
+		include_once "./classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
 		if(@is_dir($import_dir))
 		{
@@ -1089,19 +1076,19 @@ class ilObjTest extends ilObject
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, pass_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
-        $db->quote($this->author . ""),
-        $db->quote($this->test_type . ""),
-        $db->quote($this->introduction . ""), 
-        $db->quote($this->sequence_settings . ""),
-        $db->quote($this->score_reporting . ""),
-        $db->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$db->quote($this->author . ""),
+				$db->quote($this->test_type . ""),
+				$db->quote($this->introduction . ""), 
+				$db->quote($this->sequence_settings . ""),
+				$db->quote($this->score_reporting . ""),
+				$db->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$db->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
 				$db->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
-        $db->quote($this->processing_time . ""),
+				$db->quote($this->processing_time . ""),
 				$db->quote("$this->enable_processing_time"),
-        $db->quote($this->reporting_date . ""),
-        $db->quote($this->starting_time . ""),
-        $db->quote($this->ending_time . ""),
+				$db->quote($this->reporting_date . ""),
+				$db->quote($this->starting_time . ""),
+				$db->quote($this->ending_time . ""),
 				$db->quote("$complete"),
 				$db->quote($this->ects_output . ""),
 				$db->quote($this->ects_grades["A"] . ""),
@@ -1115,7 +1102,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->count_system . ""),
 				$db->quote($this->mc_scoring . ""),
 				$db->quote($this->getPassScoring() . ""),
-        $db->quote($created)
+				$db->quote($created)
       );
       
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
@@ -1221,6 +1208,7 @@ class ilObjTest extends ilObject
 	function saveQuestionsToDb() 
 	{
 		$oldquestions = array();
+		include_once "./classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
@@ -1412,6 +1400,7 @@ class ilObjTest extends ilObject
 		foreach ($qpl_array as $key => $value) {
 			if ($value["qpl"] > -1)
 			{
+				include_once "./assessment/classes/class.ilObjQuestionPool.php";
 				$count = ilObjQuestionPool::_getQuestionCount($value["qpl"]);
 				if ($value["count"] > $count)
 				{
@@ -2268,6 +2257,7 @@ class ilObjTest extends ilObject
 */
 	function removeQuestion($question_id) 
 	{
+		include_once "./assessment/classes/class.assQuestion.php";
 		$question = new ASS_Question();
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -2606,7 +2596,6 @@ class ilObjTest extends ilObject
 	function duplicateQuestionForTest($question_id)
 	{
 		global $ilUser;
-
 		$question =& ilObjTest::_instanciateQuestion($question_id);
 		$duplicate_id = $question->duplicate(true);
 
@@ -3226,6 +3215,7 @@ class ilObjTest extends ilObject
 		//}
 		$key = 1;
 		$result_array = array();
+		include_once "./assessment/classes/class.assQuestion.php";
 		foreach ($this->questions as $value)
 		{
 			$max_points = ASS_Question::_getMaximumPoints($value);
@@ -3254,6 +3244,7 @@ class ilObjTest extends ilObject
 				$href = "";
 			}
 			$info =& ASS_Question::_getQuestionInfo($value);
+			include_once "./classes/class.ilUtil.php";
 			$row = array(
 				"nr" => "$key",
 				"title" => ilUtil::prepareFormOutput($info["title"]),
@@ -3315,10 +3306,11 @@ class ilObjTest extends ilObject
 		$result_array = array();
 
 		$active = $this->getActiveTestUser();
-		
 		$solved_questions = ilObjTest::_getSolvedQuestions($this->test_id, $user_id);
-	 	$user = new IlObjUser($user_id);
-		foreach ($this->questions as $val) {
+		include_once "./classes/class.ilObjUser.php";
+	 	$user = new ilObjUser($user_id);
+		foreach ($this->questions as $val) 
+		{
 			$question =& ilObjTest::_instanciateQuestion($val);
 			if (is_object($question))
 			{			
@@ -3540,7 +3532,6 @@ class ilObjTest extends ilObject
 	function &evalStatistical($user_id)
 	{
 //		global $ilBench;
-		
 		$pass = ilObjTest::_getResultPass($user_id, $this->getTestId());
 		$test_result =& $this->getTestResult($user_id, $pass);
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
@@ -3916,7 +3907,8 @@ class ilObjTest extends ilObject
 	function getEstimatedWorkingTime() 
 	{
 		$time_in_seconds = 0;
-		foreach ($this->questions as $question_id) {
+		foreach ($this->questions as $question_id) 
+		{
 			$question =& ilObjTest::_instanciateQuestion($question_id);
 			$est_time = $question->getEstimatedWorkingTime();
 			$time_in_seconds += $est_time["h"] * 3600 + $est_time["m"] * 60 + $est_time["s"];
@@ -4095,6 +4087,7 @@ class ilObjTest extends ilObject
 */
 	function getImagePathWeb() 
 	{
+		include_once "./classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -4172,6 +4165,7 @@ class ilObjTest extends ilObject
 	{
 		if (strcmp($question_id, "") != 0)
 		{
+			include_once "./assessment/classes/class.assQuestion.php";
 			$question_type = ASS_Question::_getQuestionType($question_id);
 
 			switch ($question_type) {
@@ -4358,8 +4352,11 @@ class ilObjTest extends ilObject
     // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) {
-      foreach ($sortoptions as $key => $value) {
+    if (count($sortoptions)) 
+		{
+			include_once "./classes/class.ilUtil.php";
+      foreach ($sortoptions as $key => $value) 
+			{
         switch($key) {
           case "title":
             $order = " ORDER BY title $value";
@@ -4781,7 +4778,8 @@ class ilObjTest extends ilObject
 		$root->append_child($qtiAssessment);
 		$xml = $domxml->dump_mem(true);
 		$domxml->free();
-		foreach ($this->questions as $question_id) {
+		foreach ($this->questions as $question_id) 
+		{
 			$question =& ilObjTest::_instanciateQuestion($question_id);
 			$qti_question = $question->to_xml(false);
 			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
@@ -4850,7 +4848,7 @@ class ilObjTest extends ilObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-		include_once("Services/MetaData/classes/class.ilMD2XML.php");
+		include_once "./Services/MetaData/classes/class.ilMD2XML.php";
 		$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
@@ -4868,6 +4866,7 @@ class ilObjTest extends ilObject
 	{
 		if ($a_tag == "Identifier" && $a_param == "Entry")
 		{
+			include_once "./classes/class.ilUtil.php";
 			$a_value = ilUtil::insertInstIntoID($a_value);
 		}
 
@@ -4946,7 +4945,7 @@ class ilObjTest extends ilObject
 	*/
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		include_once "./content/classes/Media/class.ilObjMediaObject.php";
 
 		foreach ($this->mob_ids as $mob_id)
 		{
@@ -4964,7 +4963,7 @@ class ilObjTest extends ilObject
 	*/
 	function exportFileItems($a_target_dir, &$expLog)
 	{
-		include_once("classes/class.ilObjFile.php");
+		include_once "./classes/class.ilObjFile.php";
 
 		foreach ($this->file_ids as $file_id)
 		{
@@ -5003,7 +5002,7 @@ class ilObjTest extends ilObject
 */
 	function getECTSGrade($reached_points, $max_points)
 	{
-		require_once "./classes/class.ilStatistics.php";
+		include_once "./classes/class.ilStatistics.php";
 		// calculate the median
 		$passed_statistics = new ilStatistics();
 		$passed_array =& $this->getTotalPointsPassedArray();
@@ -5069,12 +5068,12 @@ class ilObjTest extends ilObject
 	function updateMetaData()
 	{
 		global $ilUser;
-		include_once("Services/MetaData/classes/class.ilMD.php");
+		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md =& new ilMD($this->getId(), 0, $this->getType());
 		$md_gen =& $md->getGeneral();
 		if ($md_gen == false)
 		{
-			include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+			include_once "./Services/MetaData/classes/class.ilMDCreator.php";
 			$md_creator = new ilMDCreator($this->getId(),0,$this->getType());
 			$md_creator->setTitle($this->getTitle());
 			$md_creator->setTitleLanguage($ilUser->getPref('language'));
@@ -5099,6 +5098,7 @@ class ilObjTest extends ilObject
 		$result_array = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'tst' ORDER BY object_data.title";
 		$result = $ilDB->query($query);
+		include_once "./classes/class.ilObject.php";
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
@@ -5204,6 +5204,7 @@ class ilObjTest extends ilObject
 		else
 		{
 			// clone the questions
+			include_once "./assessment/classes/class.assQuestion.php";
 			foreach ($original->questions as $key => $question_id)
 			{
 				$question = ilObjTest::_instanciateQuestion($question_id);
@@ -5218,7 +5219,7 @@ class ilObjTest extends ilObject
 		$newObj->saveToDb();
 
 		// clone meta data
-		include_once("Services/MetaData/classes/class.ilMD.php");
+		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($original->getId(),0,$original->getType());
 		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
 	}
@@ -5248,7 +5249,7 @@ class ilObjTest extends ilObject
 		$db =& $ilDB->db;
 		$sequence_arr = array_flip($this->questions);
 		$sequence = join($sequence_arr, ",");
-		require_once("./classes/class.ilObjUser.php");
+		include_once("./classes/class.ilObjUser.php");
 		$logins = ilObjUser::_getAllUserData(array("login"));
 
 		foreach ($logins as $login)
@@ -5278,7 +5279,8 @@ class ilObjTest extends ilObject
 			}
 			$db->query($query);
 		}
-		foreach ($this->questions as $question_id) {
+		foreach ($this->questions as $question_id) 
+		{
 			$question =& ilObjTest::_instanciateQuestion($question_id);
 			foreach ($logins as $login)
 			{
@@ -5473,12 +5475,13 @@ class ilObjTest extends ilObject
 	{
 		global $rbacsystem, $ilErr, $lng;
 
-		include_once 'classes/class.ilSearch.php';
+		include_once "./classes/class.ilSearch.php";
 			
 		// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
+			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect("assessment/test.php?cmd=run&ref_id=$a_target");
 		}
 		else
@@ -5541,6 +5544,7 @@ class ilObjTest extends ilObject
 		$original_id = "";
 		if (strcmp($question_id, "") != 0)
 		{
+			include_once "./assessment/classes/class.assQuestion.php";
 			$original_id = ASS_Question::_getOriginalId($question_id);
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
@@ -5785,7 +5789,7 @@ class ilObjTest extends ilObject
 */
 	function inviteGroup($group_id)
 	{			
-		require_once "./classes/class.ilObjGroup.php";
+		include_once "./classes/class.ilObjGroup.php";
 		$group = new ilObjGroup($group_id);
 		$members = $group->getGroupMemberIds();
 		foreach ($members as $user_id)
@@ -5972,8 +5976,8 @@ class ilObjTest extends ilObject
 					"ects" => $this->lng->txt("ects_grade"));
 		
 		$results[] = $row;
-		
-		foreach ($participants as $user_id => $user_rec) {
+		foreach ($participants as $user_id => $user_rec) 
+		{
 			$row = array();		
 			$reached_points = 0;
 			$max_points = 0;					

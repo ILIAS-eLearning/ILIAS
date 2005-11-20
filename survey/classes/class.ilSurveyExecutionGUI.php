@@ -21,8 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once("./survey/classes/class.ilObjSurvey.php");
-
 /**
 * Survey execution graphical output
 *
@@ -435,6 +433,7 @@ class ilSurveyExecutionGUI
 			else
 			{
 				$save_answer = 1;
+				include_once "./survey/classes/class.SurveyTextQuestion.php";
 				$maxchars = SurveyTextQuestion::_getMaxChars($data["question_id"]);
 				if ($maxchars)
 				{
@@ -477,6 +476,7 @@ class ilSurveyExecutionGUI
 					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_metric_question"]);
 					break;
 				case "qt_text":
+					include_once("./classes/class.ilUtil.php");
 					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
 					break;
 			}
@@ -718,6 +718,7 @@ class ilSurveyExecutionGUI
 		
 		// header icon
 		$this->tpl->setCurrentBlock("header_image");
+		include_once("./classes/class.ilUtil.php");
 		$icon = ilUtil::getImagePath("icon_tst_b.gif");
 		$this->tpl->setVariable("IMG_HEADER", $icon);
 		$this->tpl->parseCurrentBlock();

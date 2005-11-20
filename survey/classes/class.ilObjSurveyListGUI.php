@@ -59,7 +59,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjsurveygui";
 
 		// general commands array
-		include_once('class.ilObjSurveyAccess.php');
+		include_once('./survey/classes/class.ilObjSurveyAccess.php');
 		$this->commands = ilObjSurveyAccess::_getCommands();
 	}
 
@@ -92,6 +92,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 			case "":
 			case "run":
 			case "evaluation":
+				include_once "./classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
@@ -117,7 +118,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("survey/classes/class.ilObjSurveyAccess.php");
+		include_once("./survey/classes/class.ilObjSurveyAccess.php");
 		if (!ilObjSurveyAccess::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),

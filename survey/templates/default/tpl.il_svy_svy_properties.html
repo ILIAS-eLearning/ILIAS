@@ -32,7 +32,13 @@
 </tr>
 <tr>
   <td class="option">{TEXT_EVALUATION_ACCESS}:</td>
-  <td class="option_value"><select name="evaluation_access"><option value="0"{SELECTED_OFF}>{VALUE_OFF}</option><option value="1"{SELECTED_ON}>{VALUE_ON}</option></select></td>
+  <td class="option_value">
+		<select name="evaluation_access">
+			<option value="0"{SELECTED_OFF}>{VALUE_OFF}</option>
+			<option value="1"{SELECTED_ALL}>{VALUE_ALL}</option>
+			<option value="2"{SELECTED_PARTICIPANTS}>{VALUE_PARTICIPANTS}</option>
+		</select>
+	</td>
 </tr>
 <tr>
   <td class="option">{TEXT_ANONYMIZATION}:</td>

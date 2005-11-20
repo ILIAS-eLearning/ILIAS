@@ -21,8 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilUtil.php";
-
 /**
 * Image map image preview creator
 *
@@ -64,6 +62,7 @@ class ilImagemapPreview
 			{
 				$extension = "." . $matches[1];
 			}
+			include_once "./classes/class.ilUtil.php";
 			$this->preview_filename = ilUtil::ilTempnam() . $extension;
 		}
 		$this->areas = array();
@@ -111,6 +110,7 @@ class ilImagemapPreview
 	function createPreview()
 	{
 		if (!count($this->areas)) return;
+		include_once "./classes/class.ilUtil.php";
 		$convert_prefix = ilUtil::getConvertCmd() . " -quality 100 ";
 		foreach ($this->areas as $area)
 		{

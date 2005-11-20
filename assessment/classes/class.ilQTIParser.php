@@ -1770,6 +1770,7 @@ class ilQTIParser extends ilSaxParser
 							{
 								$image =& base64_decode($term["answerimage"]["content"]);
 								$imagepath = $question->getImagePath();
+								include_once "./classes/class.ilUtil.php";
 								if (!file_exists($imagepath))
 								{
 									ilUtil::makeDirParents($imagepath);
@@ -1941,6 +1942,7 @@ class ilQTIParser extends ilSaxParser
 						{
 							if ($type == 0)
 							{
+								include_once "./classes/class.ilUtil.php";
 								$image =& base64_decode($answer["answerimage"]["content"]);
 								$imagepath = $question->getImagePath();
 								if (!file_exists($imagepath))
@@ -2100,6 +2102,7 @@ class ilQTIParser extends ilSaxParser
 						$imagepath = $question->getImagePath();
 						if (!file_exists($imagepath))
 						{
+							include_once "./classes/class.ilUtil.php";
 							ilUtil::makeDirParents($imagepath);
 						}
 						$imagepath .=  $questionimage["label"];
@@ -2207,6 +2210,7 @@ class ilQTIParser extends ilSaxParser
 						$javapath = $question->getJavaPath();
 						if (!file_exists($javapath))
 						{
+							include_once "./classes/class.ilUtil.php";
 							ilUtil::makeDirParents($javapath);
 						}
 						$javapath .=  $question->javaapplet_filename;

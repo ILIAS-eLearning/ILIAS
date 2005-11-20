@@ -5173,6 +5173,8 @@ survey#:#error_retrieving_anonymous_survey#:#The system could not find your surv
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
+survey#:#evaluation_access_all#:#Evaluation access for all users
+survey#:#evaluation_access_participants#:#Evaluation access for survey participants
 survey#:#exit#:#Exit
 survey#:#exp_type_csv#:#Comma separated value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)

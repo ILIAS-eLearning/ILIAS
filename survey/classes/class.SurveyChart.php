@@ -1,5 +1,4 @@
 <?php
-include_once ("phplot/phplot.php");
 
 class SurveyChart
 {
@@ -13,6 +12,7 @@ class SurveyChart
 	function SurveyChart($GraphTyp,$XSize,$YSize,$Titel,$XLabel,$YLabel,$DataArray)
 	{
 		$this->graphData = array();
+		include_once ("phplot/phplot.php");
 		$this->graph = new PHPlot($XSize,$YSize);
 		switch ($GraphTyp)
 		{

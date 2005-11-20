@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestionGUI.php";
-require_once "./assessment/classes/class.assMatchingQuestion.php";
+include_once "./assessment/classes/class.assQuestionGUI.php";
 
 /**
 * Matching question GUI representation
@@ -50,6 +49,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	)
 	{
 		$this->ASS_QuestionGUI();
+		include_once "./assessment/classes/class.assMatchingQuestion.php";
 		$this->object = new ASS_MatchingQuestion();
 		if ($id >= 0)
 		{
@@ -293,6 +293,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		if (count($this->object->suggested_solutions))
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
+			include_once "./assessment/classes/class.assQuestion.php";
 			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));

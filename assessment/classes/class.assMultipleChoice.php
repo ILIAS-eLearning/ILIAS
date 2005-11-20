@@ -20,9 +20,7 @@
    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
    +----------------------------------------------------------------------------+
 */
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assAnswerBinaryState.php";
-require_once "./assessment/classes/class.ilQTIUtils.php";
+include_once "./assessment/classes/class.assQuestion.php";
 
 define("RESPONSE_SINGLE", "0");
 define("RESPONSE_MULTIPLE", "1");
@@ -532,6 +530,7 @@ class ASS_MultipleChoice extends ASS_Question
 
 			$result = $db->query($query);
 
+			include_once "./assessment/classes/class.assAnswerBinaryState.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -561,6 +560,7 @@ class ASS_MultipleChoice extends ASS_Question
 	*/
 	function addAnswer($answertext, $points, $answerorder, $correctness)
 	{
+		include_once "./assessment/classes/class.assAnswerBinaryState.php";
 		array_push($this->answers, new ASS_AnswerBinaryState($answertext, $points, $answerorder, $correctness));
 	}
 	
@@ -758,6 +758,7 @@ class ASS_MultipleChoice extends ASS_Question
 				$found = $order;
 			}
 		}
+		include_once "./assessment/classes/class.assAnswerBinaryState.php";
 		if ($found >= 0)
 		{
 			// Antwort einfügen
@@ -1079,6 +1080,7 @@ class ASS_MultipleChoice extends ASS_Question
 
 		$db =& $ilDB->db;
 
+		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 
 		if ($this->response == RESPONSE_SINGLE)

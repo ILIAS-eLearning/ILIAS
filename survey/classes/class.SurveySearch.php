@@ -35,7 +35,8 @@ define ("CONCAT_OR", 1);
 * @module   class.SurveySearch.php
 * @modulegroup   Survey
 */
-class SurveySearch {
+class SurveySearch 
+{
 /**
 * Search terms
 *

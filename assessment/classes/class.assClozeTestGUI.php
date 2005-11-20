@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestionGUI.php";
-require_once "./assessment/classes/class.assClozeTest.php";
+include_once "./assessment/classes/class.assQuestionGUI.php";
 
 /**
 * Cloze test question GUI representation
@@ -50,7 +49,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	)
 	{
 		$this->ASS_QuestionGUI();
-//echo "<br>assClozeTestGUI_constructor";
+		include_once "./assessment/classes/class.assClozeTest.php";
 		$this->object = new ASS_ClozeTest();
 		if ($id >= 0)
 		{
@@ -108,6 +107,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
+		include_once "./assessment/classes/class.assQuestion.php";
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
 			"st" => $this->lng->txt("obj_st"),

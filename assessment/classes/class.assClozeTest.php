@@ -21,9 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assAnswerCloze.php";
-require_once "./assessment/classes/class.ilQTIUtils.php";
+include_once "./assessment/classes/class.assQuestion.php";
 
 define("CLOZE_TEXT", "0");
 define("CLOZE_SELECT", "1");
@@ -396,6 +394,7 @@ class ASS_ClozeTest extends ASS_Question
     global $ilias;
     $db =& $ilias->db;
 
+		include_once "./assessment/classes/class.assAnswerCloze.php";
     $query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
       $db->quote($question_id)
     );
@@ -455,6 +454,7 @@ class ASS_ClozeTest extends ASS_Question
 	*/
 	function addAnswer($gap, $answertext, $points, $answerorder, $correctness, $clozetype, $name, $shuffle, $answer_id = -1)
 	{
+		include_once "./assessment/classes/class.assAnswerCloze.php";
 		if (!is_array($this->gaps[$gap]))
 		{
 			$this->gaps[$gap] = array();
@@ -919,6 +919,7 @@ class ASS_ClozeTest extends ASS_Question
 					$shuffle = 1;
 				}
 				$answer_array = array();
+				include_once "./assessment/classes/class.assAnswerCloze.php";
 				foreach ($value["text"] as $index => $textvalue)
 				{
 					if (preg_match("/\d+/", $index))
@@ -1181,6 +1182,7 @@ class ASS_ClozeTest extends ASS_Question
 					$default_state = 1;
 					if ($answertext_index > 0) $default_points = $this->gaps[$index][0]->get_points();
 				}
+				include_once "./assessment/classes/class.assAnswerCloze.php";
     		array_push($this->gaps[$index], new ASS_AnswerCloze($answertext, $default_points, count($this->gaps[$index]),
     			$default_state, $arr->get_cloze_type(),
     			$arr->get_name(), $arr->get_shuffle()));
@@ -1636,9 +1638,9 @@ class ASS_ClozeTest extends ASS_Question
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 		
     $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-      $db->quote($ilUser->id),
-      $db->quote($test_id),
-      $db->quote($this->getId()),
+			$db->quote($ilUser->id),
+			$db->quote($test_id),
+			$db->quote($this->getId()),
 			$db->quote($pass . "")
     );
     $result = $db->query($query);
@@ -1648,9 +1650,9 @@ class ASS_ClozeTest extends ASS_Question
         $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
-          $db->quote($this->getId()),
-          $db->quote($matches[1]),
-          $db->quote(ilUtil::stripSlashes($value)),
+					$db->quote($this->getId()),
+					$db->quote($matches[1]),
+					$db->quote(ilUtil::stripSlashes($value)),
 					$db->quote($pass . "")
         );
         $result = $db->query($query);
