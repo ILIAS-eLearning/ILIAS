@@ -63,10 +63,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				case "create":
 				case "importFile":
 				case "cloneAll":
+					return;
 					break;
 				default:
 					$this->prepareOutput();
-					return;
 					break;
 			}
 			global $ilLocator;
@@ -2722,8 +2722,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem;
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
@@ -2812,8 +2810,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function cloneAllObject()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		if ($_POST["svy"] < 1)
 		{
 			sendInfo($this->lng->txt("svy_select_surveys"));
@@ -2831,8 +2827,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		if ($_POST["spl"] < 1)
 		{
 			sendInfo($this->lng->txt("svy_select_questionpools"));
