@@ -97,6 +97,20 @@ class ilMDSaxParser extends ilSaxParser
 		return $this->md_in_md;
 	}
 
+	/**
+	* set event handlers
+	*
+	* @param	resource	reference to the xml parser
+	* @access	private
+	*/
+	function setHandlers($a_xml_parser)
+	{
+		xml_set_object($a_xml_parser,$this);
+		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
+		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
+	}
+
+
 
 	/**
 	* handler for begin of element
