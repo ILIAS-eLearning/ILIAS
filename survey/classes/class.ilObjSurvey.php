@@ -4720,6 +4720,23 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
+	function isAnonymizedParticipant($key)
+	{
+		$query = sprintf("SELECT finished_id FROM survey_finished WHERE anonymous_id = %s AND survey_fi = %s",
+			$this->ilias->db->quote($key . ""),
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	function getUserSurveyCode()
 	{
 		global $ilUser;
