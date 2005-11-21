@@ -256,21 +256,23 @@ class ilObjCourseGrouping
 
 	function _getAllGroupings($a_crs_ref_id,$a_check_write = true)
 	{
+		global $ilObjDataCache;
+
 		if($a_check_write)
 		{
-			$courses = ilUtil::getObjectsByOperations('crs','write',false);
+			$courses = ilUtil::_getObjectsByOperations('crs','write');
 		}
 		else
 		{
-			$courses = ilUtil::getObjectsByOperations('crs','visible',false);
+			$courses = ilUtil::_getObjectsByOperations('crs','visible');
 		}
 
 		$groupings = array();
-		foreach($courses as $crs_data)
+		foreach($courses as $crs_id)
 		{
-			if($a_crs_ref_id != $crs_data['ref_id'])
+			if($a_crs_ref_id != $crs_id)
 			{
-				$groupings = array_merge($groupings,ilObjCourseGrouping::_getGroupings($crs_data['obj_id']));
+				$groupings = array_merge($groupings,ilObjCourseGrouping::_getGroupings($ilObjDataCache->lookupObjId($crs_id)));
 			}
 		}
 		return $groupings ? $groupings : array();

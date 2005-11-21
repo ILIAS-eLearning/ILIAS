@@ -954,7 +954,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	/**
 	* get ops_id's by name.
 	*
-	* Example usage: $rbacadmin->grantPermission($roles,ilRbacReview::_getOperationIdsByName('visible','read'),$ref_id);
+	* Example usage: $rbacadmin->grantPermission($roles,ilRbacReview::_getOperationIdsByName(array('visible','read'),$ref_id));
 	*
 	* @access	public
 	* @param	array	string name of operation. see rbac_operations

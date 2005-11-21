@@ -230,7 +230,7 @@ class ilObjCourseGroupingGUI
 			
 			return false;
 		}
-		if(count($courses = ilUtil::getObjectsByOperations('crs','write',false)) == 1)
+		if(count($courses = ilUtil::_getObjectsByOperations('crs','write')) == 1)
 		{
 			sendInfo($this->lng->txt('crs_grp_no_course_found'));
 			$this->edit();
@@ -256,13 +256,13 @@ class ilObjCourseGroupingGUI
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
 
 		$counter = 0;
-		foreach($courses as $course_data)
+		foreach($courses as $course_id)
 		{
-			if($course_data['ref_id'] == $this->crs_obj->getRefId())
+			if($course_id == $this->crs_obj->getRefId())
 			{
 				continue;
 			}
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($course_data['ref_id']);
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($course_id);
 
 			#if(ilObjCourseGrouping::_isInGrouping($tmp_obj->getId()))
 			#{
@@ -277,10 +277,10 @@ class ilObjCourseGroupingGUI
 
 			$this->tpl->setCurrentBlock("crs_row");
 			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$this->tpl->setVariable("CHECK_CRS",ilUtil::formCheckbox(0,'crs_ids[]',$course_data['ref_id']));
+			$this->tpl->setVariable("CHECK_CRS",ilUtil::formCheckbox(0,'crs_ids[]',$course_id));
 			$this->tpl->setVariable("CRS_TITLE",$tmp_obj->getTitle());
 
-			$path = $this->__formatPath($tree->getPathFull($course_data['ref_id']));
+			$path = $this->__formatPath($tree->getPathFull($course_id));
 			$this->tpl->setVariable("CRS_PATH",$this->lng->txt('path').": ".$path);
 
 			

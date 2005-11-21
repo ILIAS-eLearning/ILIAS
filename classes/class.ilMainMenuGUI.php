@@ -305,7 +305,7 @@ class ilMainMenuGUI
 			return true;
 		}
 		// Allow all local admins to use the administration
-		return count(ilUtil::getObjectsByOperations('cat','cat_administrate_users')) ? true : false;
+		return count(ilUtil::_getObjectsByOperations('cat','cat_administrate_users')) ? true : false;
 	}
 }
 ?>
