@@ -78,7 +78,7 @@ class ilUtil
 			$dir .= ($base.".");
 			// hschottm: added because module images are not working
 			// using ilias.php
-			if (strlen($base) == 0) $dir = "";
+//			if (strlen($base) == 0) $dir = "";
 		}
 		else
 		{
