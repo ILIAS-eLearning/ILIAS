@@ -945,7 +945,6 @@ class ilTestOutputGUI
 			$this->object->setActiveTestUser($this->sequence);
 			if ($this->sequence > $this->object->getQuestionCount())
 			{
-				unset($_SESSION["tst_next"]);
 				$this->ctrl->redirect($this, "finishTest");
 			}
 			else
@@ -1111,6 +1110,7 @@ class ilTestOutputGUI
 	{
 		global $ilUser;
 		
+		unset($_SESSION["tst_next"]);
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			// create a new set of random questions if more passes are allowed
