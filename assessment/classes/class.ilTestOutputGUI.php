@@ -217,6 +217,15 @@ class ilTestOutputGUI
 		global $ilUser;
 		global $rbacsystem;
 
+		unset($_SESSION["tst_resetsolved"]);
+		unset($_SESSION["tst_setsolved"]);
+		unset($_SESSION["tst_postpone"]);
+		unset($_SESSION["tst_summary"]);
+		unset($_SESSION["tst_resume"]);
+		unset($_SESSION["tst_start"]);
+		unset($_SESSION["tst_next"]);
+		unset($_SESSION["tst_previous"]);
+		
 		$this->prepareOutput();
 		
 		if (!$rbacsystem->checkAccess("read", $this->object->getRefId())) 
@@ -803,15 +812,20 @@ class ilTestOutputGUI
 */
 	function start()
 	{
-		if ($this->object->isRandomTest())
+		if ($_SESSION["tst_start"] != 1)
 		{
-			$this->object->generateRandomQuestions();
-			$this->object->loadQuestions();
+			$_SESSION["tst_start"] = 1;
+			if ($this->object->isRandomTest())
+			{
+				$this->object->generateRandomQuestions();
+				$this->object->loadQuestions();
+			}
+			$this->handleStartCommands();
+			$this->sequence = $this->getSequence();	
+			$this->object->setActiveTestUser($this->sequence);
+			$this->outTestPage();
+			unset($_SESSION["tst_start"]);
 		}
-		$this->handleStartCommands();
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		$this->outTestPage();
 	}
 	
 /**
@@ -823,10 +837,15 @@ class ilTestOutputGUI
 */
 	function resume()
 	{
-		$this->handleStartCommands();
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		$this->outTestPage();
+		if ($_SESSION["tst_resume"] != 1)
+		{
+			$_SESSION["tst_resume"] = 1;
+			$this->handleStartCommands();
+			$this->sequence = $this->getSequence();	
+			$this->object->setActiveTestUser($this->sequence);
+			$this->outTestPage();
+			unset($_SESSION["tst_resume"]);
+		}
 	}
 
 /**
@@ -870,14 +889,19 @@ class ilTestOutputGUI
 */
 	function setsolved()
 	{
-		global $ilUser;
-		$this->saveQuestionSolution();
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		$value = ($_POST["cmd"]["resetsolved"])?0:1;			
-		$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
-		$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
- 		$this->outTestPage();
+		if ($_SESSION["tst_setsolved"] != 1)
+		{
+			$_SESSION["tst_setsolved"] = 1;
+			global $ilUser;
+			$this->saveQuestionSolution();
+			$this->sequence = $this->getSequence();	
+			$this->object->setActiveTestUser($this->sequence);
+			$value = ($_POST["cmd"]["resetsolved"])?0:1;			
+			$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
+			$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
+			$this->outTestPage();
+			unset($_SESSION["tst_setsolved"]);
+		}
 	}
 
 /**
@@ -889,14 +913,19 @@ class ilTestOutputGUI
 */
 	function resetsolved()
 	{
-		global $ilUser;
-		$this->saveQuestionSolution();
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		$value = ($_POST["cmd"]["resetsolved"])?0:1;			
-		$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
-		$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
-		$this->outTestPage();
+		if ($_SESSION["tst_resetsolved"] != 1)
+		{
+			$_SESSION["tst_resetsolved"] = 1;
+			global $ilUser;
+			$this->saveQuestionSolution();
+			$this->sequence = $this->getSequence();	
+			$this->object->setActiveTestUser($this->sequence);
+			$value = ($_POST["cmd"]["resetsolved"])?0:1;			
+			$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
+			$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
+			$this->outTestPage();
+			unset($_SESSION["tst_resetsolved"]);
+		}
 	}
 	
 /**
@@ -908,16 +937,22 @@ class ilTestOutputGUI
 */
 	function next()
 	{
-		$this->saveQuestionSolution();
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		if ($this->sequence > $this->object->getQuestionCount())
+		if ($_SESSION["tst_next"] != 1)
 		{
-			$this->finishTest();
-		}
-		else
-		{
-			$this->outTestPage();
+			$_SESSION["tst_next"] = 1;
+			$this->saveQuestionSolution();
+			$this->sequence = $this->getSequence();	
+			$this->object->setActiveTestUser($this->sequence);
+			if ($this->sequence > $this->object->getQuestionCount())
+			{
+				unset($_SESSION["tst_next"]);
+				$this->ctrl->redirect($this, "finishTest");
+			}
+			else
+			{
+				$this->outTestPage();
+				unset($_SESSION["tst_next"]);
+			}
 		}
 	}
 	
@@ -944,8 +979,13 @@ class ilTestOutputGUI
 */
 	function summary()
 	{
-		$this->saveQuestionSolution();
-		$this->outTestSummary();
+		if ($_SESSION["tst_summary"] != 1)
+		{
+			$_SESSION["tst_summary"] = 1;
+			$this->saveQuestionSolution();
+			$this->outTestSummary();
+			unset($_SESSION["tst_summary"]);
+		}
 	}
 	
 /**
@@ -969,11 +1009,16 @@ class ilTestOutputGUI
 */
 	function postpone()
 	{
-		$this->saveQuestionSolution();
-		$this->sequence = $this->getSequence();	
-		$postpone = $this->sequence;
-		$this->object->setActiveTestUser($this->sequence, $postpone);
-		$this->outTestPage();
+		if ($_SESSION["tst_postpone"] != 1)
+		{
+			$_SESSION["tst_postpone"] = 1;
+			$this->saveQuestionSolution();
+			$this->sequence = $this->getSequence();	
+			$postpone = $this->sequence;
+			$this->object->setActiveTestUser($this->sequence, $postpone);
+			$this->outTestPage();
+			unset($_SESSION["tst_postpone"]);
+		}
 	}
 	
 /**
@@ -1033,18 +1078,25 @@ class ilTestOutputGUI
 */
 	function previous()
 	{
-		$this->saveQuestionSolution();
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		// sequence = 0
-		if (!$this->sequence)
+		if ($_SESSION["tst_previous"] != 1)
 		{
-			// show introduction page
-			$this->outIntroductionPage();
-		}
-		else
-		{
-			$this->outTestPage();
+			$_SESSION["tst_previous"] = 1;
+			$this->saveQuestionSolution();
+			$this->sequence = $this->getSequence();	
+			$this->object->setActiveTestUser($this->sequence);
+			// sequence = 0
+			if (!$this->sequence)
+			{
+				// show introduction page
+				unset($_SESSION["tst_previous"]);
+				$this->ctrl->redirect($this, "outIntroductionPage");
+				//$this->outIntroductionPage();
+			}
+			else
+			{
+				$this->outTestPage();
+				unset($_SESSION["tst_previous"]);
+			}
 		}
 	}
 	
