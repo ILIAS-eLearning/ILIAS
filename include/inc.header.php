@@ -154,6 +154,10 @@ if (!db_set_save_handler())
 	$ilias->raiseError($message, $ilias->error_obj->WARNING);
 }
 
+// Start object_data cache
+$ilObjDataCache = new ilObjectDataCache();
+$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
+
 
 // LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
 if ($_SESSION["message"])
@@ -520,10 +524,6 @@ $GLOBALS['ilBrowser'] =& $ilBrowser;
 // provide global help object
 $ilHelp = new ilHelp();
 $GLOBALS['ilHelp'] =& $ilHelp;
-
-// Start object_data cache
-$ilObjDataCache = new ilObjectDataCache();
-$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
 
 // Store online time of user
 ilOnlineTracking::_updateAccess($ilUser->getId());
