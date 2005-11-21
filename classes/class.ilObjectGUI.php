@@ -1353,8 +1353,7 @@ class ilObjectGUI
 			{
 
 				$keep_protected = $rbacreview->isProtected($r['parent'],$r['obj_id']);
-				$data['check_inherit'][] = ilUtil::formCheckBox(0,'stop_inherit[]',$r['obj_id'],$keep_protected);
-			}
+ 			}
 			else
 			{
 				// don't display a checkbox for local roles AND system role
@@ -1604,7 +1603,7 @@ class ilObjectGUI
 	* set specific form action for command
 	*
 	* @param	string		$a_cmd			command
-	* @param	string		$a_formaaction	default formaction (is returned, if no special
+	* @param	string		$a_formaction	default formaction (is returned, if no special
 	*										formaction was set)
 	* @access	public 
 	*/

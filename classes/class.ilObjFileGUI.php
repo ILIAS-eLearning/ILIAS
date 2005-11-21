@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilNoteGUI
+* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilNoteGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -77,6 +77,12 @@ class ilObjFileGUI extends ilObjectGUI
 				$md_gui->addObserver($this->object,'MDUpdateListener','Technical');
 				
 				$this->ctrl->forwardCommand($md_gui);
+				break;
+				
+			case 'ilpermissiongui':
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -380,8 +386,7 @@ class ilObjFileGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"),
-				array("perm", "info"), get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
 

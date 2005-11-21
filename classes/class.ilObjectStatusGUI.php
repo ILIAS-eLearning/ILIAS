@@ -72,10 +72,10 @@ class ilObjectStatusGUI
 				$this->user = $ilias->obj_factory->getInstanceByObjId($user_id,false);
 			}
 
-			if ($this->user === false)
+			if ($this->user === false or $this->user->getType() != 'usr')
 			{
 				$this->user =& $ilUser;
-				$ilErr->raiseError($lng->txt("info_err_user_not_exist"),$ilErr->MESSAGE);
+				sendInfo($lng->txt('info_err_user_not_exist'));
 			}
 		}
 		
@@ -175,7 +175,7 @@ class ilObjectStatusGUI
 		$tpl =& $tbl->getTemplateObject();
 		
 		$class_name = get_class($this->object)."gui";
-		
+
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass($class_name,"info"));
 		$tpl->parseCurrentBlock();

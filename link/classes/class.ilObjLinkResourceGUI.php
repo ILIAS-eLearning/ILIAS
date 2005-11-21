@@ -27,7 +27,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -77,6 +77,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
+				break;
+				
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -1079,8 +1085,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"),
-				array("perm", "info"), get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
 

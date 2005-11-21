@@ -29,7 +29,7 @@
 *
 * @version	$Id$
 *
-* @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface
+* @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -101,6 +101,12 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->setReturn($this, "");   // ###
 				$reg_gui = new ilRegisterGUI();
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
+				break;
+
+			case 'ilpermissiongui':
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -1544,27 +1550,8 @@ class ilObjGroupGUI extends ilContainerGUI
 								 get_class($this));
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
-		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"), get_class($this));
-		}
-		
-		// show clipboard in repository
-		if ($this->ctrl->getTargetScript() == "repository.php" and !empty($_SESSION['il_rep_clipboard']))
-		{
-			$tabs_gui->addTarget("clipboard",
-				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
-		}
-
-		if ($this->ctrl->getTargetScript() == "adm_object.php")
-		{
-			if ($this->tree->getSavedNodeData($this->ref_id))
-			{
-				$tabs_gui->addTarget("trash",
-					$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
-			}
-		}
+		// parent tabs (all container: edit_permission, clipboard, trash
+		parent::getTabs($tabs_gui);
 	}
 
 

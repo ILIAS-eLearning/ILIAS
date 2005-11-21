@@ -24,9 +24,11 @@
 
 /**
 * Class ilObjTypeDefinitionGUI
+* 
+* CLASS IS DEPRECATED
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.12 2003/11/07 11:11:17 shofmann Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.13 2004/04/26 20:38:13 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core

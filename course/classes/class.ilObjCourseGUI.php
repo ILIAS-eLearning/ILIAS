@@ -29,9 +29,9 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilNoteGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilNoteGUI, ilLearningProgressGUI, ilPermissionGUI
 * 
-* @extends ilObjectGUI
+* @extends ilContainerGUI
 * @package ilias-core
 */
 
@@ -2733,7 +2733,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), array("info", "perm"), get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
@@ -4053,6 +4053,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
+				break;
+				
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:

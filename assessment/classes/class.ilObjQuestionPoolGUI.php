@@ -31,7 +31,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -83,7 +83,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand($prepare_output = true)
 	{
-		global $ilLocator;		
+		global $ilLocator;	
+	
 		if ($prepare_output)
 		{
 			// Alle Repository Einträge der derzeitigen ref_id einfügen
@@ -207,6 +208,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
 				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+				
+			case 'ilpermissiongui':
+				$this->setAdminTabs();
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -1688,9 +1696,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
-			 $this->ctrl->getLinkTarget($this,'perm'),
-			 array("perm", "info"),
-			 "");
+			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 			 
 		// meta data
 		$tabs_gui->addTarget("meta_data",

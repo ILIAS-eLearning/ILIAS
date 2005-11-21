@@ -30,7 +30,7 @@ include_once "./classes/class.ilObjectGUI.php";
 * @version  $Id$
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyNominalQuestionGUI, SurveyMetricQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyOrdinalQuestionGUI, SurveyTextQuestionGUI
-* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -160,6 +160,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+				
+			case 'ilpermissiongui':
+				$this->setAdminTabs();
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -1577,9 +1584,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
-			 $this->ctrl->getLinkTarget($this,'perm'),
-			 array("perm", "info"),
-			 "");
+			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 			 
 		// meta data
 		$tabs_gui->addTarget("meta_data",

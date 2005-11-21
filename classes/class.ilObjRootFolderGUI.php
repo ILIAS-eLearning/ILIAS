@@ -26,10 +26,10 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.8 2005/08/18 16:54:34 agonzalez Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.9 2005/09/30 10:15:20 akill Exp $
 *
-* @ilCtrl_Calls ilObjRootFolderGUI:
-*
+* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI
+* 
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -104,6 +104,33 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 	}
 
+	function &executeCommand()
+	{
+		global $rbacsystem;
 
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+			
+			default:
+				if(!$cmd)
+				{
+					$cmd = "render";
+				}
+
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
 }
 ?>

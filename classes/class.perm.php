@@ -232,14 +232,11 @@ function getObjectList ($a_obj_type = "",$a_order = "", $a_direction = "ASC", $a
 * @param	string	order direction (possible values: ASC or DESC)
 * @return	array	returns array of operations
 */
-function getOperationList ($a_type = "",$a_order= "",$a_direction = "")
+function getOperationList ($a_type = null)
  {
 	global $ilias;
 
-	if (!$a_order)
-	{
-		$a_order = "operation";
-	}
+	$arr = array();
 
 	if ($a_type)
 	{
@@ -247,12 +244,12 @@ function getOperationList ($a_type = "",$a_order= "",$a_direction = "")
 			 "LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
 			 "LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
 			 "WHERE object_data.title='".$a_type."' AND object_data.type='typ' ".
-			 "ORDER BY rbac_operations.".$a_order." ".$a_direction; 
+			 "ORDER BY 'order' ASC"; 
 	}
 	else
 	{
 		$q = "SELECT * FROM rbac_operations ".
-			 "ORDER BY ".$a_order." ".$a_direction;
+			 "ORDER BY 'order' ASC";
 	}
 	
 	$r = $ilias->db->query($q);
@@ -262,11 +259,27 @@ function getOperationList ($a_type = "",$a_order= "",$a_direction = "")
 		$arr[] = array(
 					"ops_id"	=> $row[0],
 					"operation"	=> $row[1],
-					"desc"		=> $row[2]
+					"desc"		=> $row[2],
+					"class"		=> $row[3],
+					"order"		=> $row[4]
 					);
 	}
 
 	return $arr;
+}
+
+function groupOperationsByClass($a_ops_arr)
+{
+	$arr = array();
+
+	foreach ($a_ops_arr as $ops)
+	{
+		$arr[$ops['class']][] = array ('ops_id'	=> $ops['ops_id'],
+									   'name'	=> $ops['operation']
+									 );
+	}
+	
+	return $arr; 
 }
 
 /**

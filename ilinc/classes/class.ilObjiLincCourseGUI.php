@@ -30,7 +30,7 @@
 * 
 * @extends ilObjectGUI
 * 
-* @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI
+* @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI
 * 
 * @package ilias-core
 */
@@ -246,7 +246,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 		
 		// show clipboard in repository
@@ -902,6 +902,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$reg_gui = new ilRegisterGUI();
 				//$reg_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
+				break;
+				
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			default:
