@@ -59,7 +59,7 @@ class ilObjFileGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
+//echo "-$cmd-";
 		switch ($next_class)
 		{
 			case "ilnotegui":
@@ -88,8 +88,10 @@ class ilObjFileGUI extends ilObjectGUI
 			default:
 				if (empty($cmd))
 				{
-					$this->ctrl->returnToParent($this);
-					$cmd = "view";
+					// does not seem to work
+					//$this->ctrl->returnToParent($this);
+					//$cmd = "view";
+					$cmd = "infoScreen";
 				}
 
 				$cmd .= "Object";
@@ -187,7 +189,10 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],ilUtil::stripSlashes($_FILES["Fobject"]["name"]["file"]));
 
 		sendInfo($this->lng->txt("file_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		
+		$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save",
+			$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection")));
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 	
@@ -230,8 +235,8 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-
-		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+//echo "-".$this->ctrl->getLinkTarget($this)."-";
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this, "edit")));
 		//ilUtil::redirect($this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
 	}
 
@@ -326,15 +331,21 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function infoScreenObject()
 	{
-		global $rbacsystem;
+		global $ilAccess;
 
-		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+
+		if ($ilAccess->checkAccess("read", "sendfile", $this->ref_id))
+		{
+			$info->addButton($this->lng->txt("file_read"), $this->ctrl->getLinkTarget($this, "sendfile"));
+		}
+		
 		$info->enablePrivateNotes();
 		
 		// standard meta data
@@ -363,9 +374,15 @@ class ilObjFileGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
+		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		{
+			$tabs_gui->addTarget("info_short",
+				$this->ctrl->getLinkTarget($this, "infoScreen"), array("infoScreen", ""), "");
+		}
+
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$tabs_gui->addTarget("edit_properties",
+			$tabs_gui->addTarget("edit",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "");
 		}
 		

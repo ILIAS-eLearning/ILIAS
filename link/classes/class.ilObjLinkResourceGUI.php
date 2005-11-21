@@ -884,10 +884,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		//sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::redirect("link/link_resources.php?ref_id=".$newObj->getRefId().
+			"&cmd=showAddItem");
 		
-		ilUtil::redirect($this->getReturnLocation("save",'adm_object.php?ref_id='.$newObj->getRefId()));
-	}	
+		//ilUtil::redirect($this->getReturnLocation("save",'adm_object.php?ref_id='.$newObj->getRefId()));
+	}
+
+	
 	function linkCheckerObject()
 	{
 		global $ilias,$ilUser;

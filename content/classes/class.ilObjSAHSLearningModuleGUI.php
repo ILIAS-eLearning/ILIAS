@@ -148,6 +148,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$_GET["ref_id"]."&new_type=sahs"));
 
 		$this->tpl->setVariable("BTN_NAME", "save");
+		$this->tpl->setVariable("TARGET", ' target="'.
+			ilFrameTargetInfo::_getFrame("MainContent").'" ');
 
 		$this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TXT_TYPE_AICC", $this->lng->txt("lm_type_aicc"));
@@ -266,7 +268,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		ilUtil::renameExecutables($newObj->getDataDirectory());
 
 		$newObj->readObject();
-
+		
+		sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
+		ilUtil::redirect("content/sahs_edit.php?ref_id=".$newObj->getRefId());
 	}
 
 	function upload()
@@ -282,10 +286,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		global $rbacadmin;
 
 		$this->uploadObject();
-
-		sendInfo( $this->lng->txt("lm_added"), true);
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-
 	}
 
 	/**

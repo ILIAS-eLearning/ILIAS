@@ -131,7 +131,10 @@ class ilObjChatGUI extends ilObjectGUI
 		// Update active roles
 		ilObjUser::updateActiveRoles($ilUser->getId());
 
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$new_obj->getRefId()));
+		//$this->ctrl->setParameter($this, "ref_id", $new_obj->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save",
+			"chat.php?ref_id=".$new_obj->getRefId()."&amp;cmd=view"));
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$new_obj->getRefId()));
 	}
 
 	// Methods for blocked users (administration)
@@ -1834,10 +1837,10 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
-			$force_active = ($_GET["cmd"] == "")
+			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "view")
 				? true
 				: false;
-			$tabs_gui->addTarget("view_content",
+			$tabs_gui->addTarget("chat_rooms",
 				$this->ctrl->getLinkTarget($this, "view"), array("view", ""), get_class($this),
 				"", $force_active);
 		}

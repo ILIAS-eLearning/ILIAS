@@ -653,12 +653,19 @@ class ilTemplate extends ilTemplateX
 			}
 			
 			$this->setCurrentBlock("locator_item");
-			$this->setVariable("LINK_ITEM", $item["link"]);
-			if ($item["frame"] != "")
+			if ($item["link"] != "")
 			{
-				$this->setVariable("LINK_TARGET", ' target="'.$item["frame"].'" ');
+				$this->setVariable("LINK_ITEM", $item["link"]);
+				if ($item["frame"] != "")
+				{
+					$this->setVariable("LINK_TARGET", ' target="'.$item["frame"].'" ');
+				}
+				$this->setVariable("ITEM", $item["title"]);
 			}
-			$this->setVariable("ITEM", $item["title"]);
+			else
+			{
+				$this->setVariable("PREFIX", $item["title"]);
+			}
 			$this->parseCurrentBlock();
 			
 			$first = false;

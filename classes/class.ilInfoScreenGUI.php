@@ -36,6 +36,7 @@ class ilInfoScreenGUI
 	var $lng;
 	var $ctrl;
 	var $gui_object;
+	var $top_buttons = array();
 
 	/**
 	* Constructor
@@ -80,6 +81,18 @@ class ilInfoScreenGUI
 			array("name" => $a_name, "value" => $a_value);
 	}
 
+	/**
+	* add a property to current section
+	*/
+	function addButton($a_title, $a_link, $a_frame = "", $a_position = "top")
+	{
+		if ($a_position == "top")
+		{
+			$this->top_buttons[] =
+				array("title" => $a_title,"link" => $a_link,"target" => $a_frame);
+		}
+	}
+	
 	/**
 	* add standard meta data sections
 	*/
@@ -201,6 +214,23 @@ class ilInfoScreenGUI
 	function getHTML()
 	{
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true);
+		
+		// add top buttons
+		if (count($this->top_buttons) > 0)
+		{
+			$tpl->addBlockfile("TOP_BUTTONS", "top_buttons", "tpl.buttons.html");
+
+			foreach($this->top_buttons as $button)
+			{
+				// view button
+				$tpl->setCurrentBlock("btn_cell");
+				$tpl->setVariable("BTN_LINK", $button["link"]);
+				$tpl->setVariable("BTN_TARGET", $button["target"]);
+				$tpl->setVariable("BTN_TXT", $button["title"]);
+				$tpl->parseCurrentBlock();
+			}
+		}
+		
 		for($i = 1; $i <= $this->sec_nr; $i++)
 		{
 			if (is_array($this->section[$i]["properties"]))

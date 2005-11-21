@@ -1640,6 +1640,7 @@ class ilObjectGUI
 	*/
 	function setReturnLocation($a_cmd, $a_location)
 	{
+//echo "-".$a_cmd."-".$a_location."-";
 		$this->return_location[$a_cmd] = $a_location;
 	}
 

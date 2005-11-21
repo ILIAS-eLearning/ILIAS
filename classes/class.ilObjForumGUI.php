@@ -174,6 +174,8 @@ class ilObjForumGUI extends ilObjectGUI
 				// get threads dates
 				while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
 				{
+					$rowCol = ilUtil::switchColor($z,"tblrow1","tblrow2");
+					
 					if ($thrNum > $pageHits && $z >= ($Start+$pageHits))
 					{
 						break;
@@ -186,7 +188,6 @@ class ilObjForumGUI extends ilObjectGUI
 
 
 						$this->tpl->setCurrentBlock("threads_row");
-						$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 						$this->tpl->setVariable("ROWCOL", $rowCol);
 				
 						$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);
@@ -282,6 +283,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock("threadtable");
 	}
 
+	/**
+	* creation form
+	*/
 	function createObject()
 	{
 		global $rbacsystem;
@@ -305,7 +309,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("DESC",$_POST['description']);
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".
-																   $_GET["ref_id"]."&new_type=".$new_type));
+			$_GET["ref_id"]."&new_type=".$new_type));
+		$this->tpl->setVariable("TARGET", ' target="'.
+			ilFrameTargetInfo::_getFrame("MainContent").'" ');
 
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt('frm_new'));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -332,6 +338,17 @@ class ilObjForumGUI extends ilObjectGUI
 #		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
 
 		return true;
+	}
+
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 
 	function updateObject()
@@ -522,8 +539,13 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("frm_added"),true);
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+		
+		$this->ctrl->setParameter($this, "ref_id", $forumObj->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save",
+			$this->ctrl->getLinkTarget($this, "showThreads")));
+
+		//header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		//exit();
 	}
 
 	function getTabs(&$tabs_gui)
@@ -536,7 +558,7 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			include_once './classes/class.ilRepositoryExplorer.php';
 
-			$tabs_gui->addTarget("view_content",ilRepositoryExplorer::buildLinkTarget($this->ref_id,'frm'),
+			$tabs_gui->addTarget("forums_threads",ilRepositoryExplorer::buildLinkTarget($this->ref_id,'frm'),
 				array("", "showThreads", "view", "markAllRead"), "");
 		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))

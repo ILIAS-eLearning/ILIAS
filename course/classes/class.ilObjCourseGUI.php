@@ -202,8 +202,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		#$course_files->deleteImportFile();
 
 		sendInfo($this->lng->txt('crs_added'),true);
-	   
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+	   	
+		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save",
+			$this->ctrl->getLinkTarget($this, "edit")));
+
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 
 	}
 
@@ -1138,8 +1142,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// always send a message
 		sendInfo($this->lng->txt("crs_added"),true);
-
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		
+		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save",
+			$this->ctrl->getLinkTarget($this, "edit")));
+		//ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 	}
 
 
@@ -2646,7 +2653,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		elseif($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTarget('view_content',
+			$tabs_gui->addTarget('view',
 								 $this->ctrl->getLinkTarget($this, ""),
 								 array("", "view","addToDesk","removeFromDesk",'cciEdit','listConditions'));
 		}
@@ -2674,7 +2681,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				&& $_GET["item_id"] == "")
 				? true
 				: false;
-			$tabs_gui->addTarget("edit_properties",
+			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array("edit", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}

@@ -699,7 +699,7 @@ chat#:#chat_blue#:#blue
 chat#:#chat_bold#:#Bold
 chat#:#chat_chatroom_body#:#Chat room:
 chat#:#chat_chatroom_rename#:#Edit chat room
-chat#:#chat_chatrooms#:#Chat rooms
+chat#:#chat_chatrooms#:#Chat Rooms
 chat#:#chat_color#:#Font color
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chat room
 chat#:#chat_drop_user#:#User kicked
@@ -768,7 +768,7 @@ chat#:#chat_room_added#:#Added new chat room
 chat#:#chat_room_name#:#Name of chat room
 chat#:#chat_room_renamed#:#Chat room renamed.
 chat#:#chat_room_select#:#Private chat room
-chat#:#chat_rooms#:#Chat rooms
+chat#:#chat_rooms#:#Chat Rooms
 chat#:#chat_rooms_deleted#:#Chat room(s) deleted.
 chat#:#chat_select_one_room#:#Please select one chat room
 chat#:#chat_server_allowed#:#Allowed hosts

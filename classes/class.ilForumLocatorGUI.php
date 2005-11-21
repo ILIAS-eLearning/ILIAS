@@ -116,7 +116,8 @@ class ilForumLocatorGUI
 			if ($row["child"] == $this->tree->getRootId())
 			{
 				$title = $this->lng->txt("repository");
-				$link = "repository.php?ref_id=".$row["child"];
+				$link = "repository.php?ref_id=".$row["child"]
+					."&amp;cmd=frameset";
 			}
 			else if (($this->ref_id == $row["child"]) && (is_object($this->frm)))
 			{
@@ -127,11 +128,19 @@ class ilForumLocatorGUI
 			else
 			{
 				$title = $row["title"];
-				$link = "repository.php?ref_id=".$row["child"];
+				if ($row["type"] == "frm")
+				{
+					$link = "repository.php?ref_id=".$row["child"];
+				}
+				else
+				{
+					$link = "repository.php?ref_id=".$row["child"]
+						."&amp;cmd=frameset";
+				}
 			}
 			$this->tpl->setVariable("ITEM", $title);
 			$this->tpl->setVariable("LINK_ITEM", $link);
-			$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+			$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
 			$this->tpl->setVariable("LINK_TARGET", "target=\"$t_frame\"");
 			$this->tpl->parseCurrentBlock();
 		}

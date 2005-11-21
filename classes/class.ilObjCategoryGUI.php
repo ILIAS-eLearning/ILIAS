@@ -352,7 +352,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("cat_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save",
+			$this->ctrl->getLinkTarget($this, "edit")));
+
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**

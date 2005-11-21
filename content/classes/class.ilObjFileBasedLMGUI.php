@@ -125,6 +125,54 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tpl->show();
 	}
 
+		/**
+	* create new object form
+	*
+	* @access	public
+	*/
+	function createObject()
+	{
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+			$this->getTemplateFile("edit",$new_type);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", ' target="'.
+				ilFrameTargetInfo::_getFrame("MainContent").'" ');
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
+	}
+
 
 	/**
 	* edit properties of object (admin form)
@@ -206,8 +254,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::redirect("content/fblm_edit.php?ref_id=".$newObj->getRefId());
 
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -259,6 +308,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->setReturnLocation("cancel","fblm_edit.php?cmd=listFiles&ref_id=".$_GET["ref_id"]);
 		$this->cancelObject();
 	}
+	
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+	}
+
 
 	/**
 	* update properties

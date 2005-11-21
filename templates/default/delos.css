@@ -1136,6 +1136,7 @@ a.postnew, a.postnew:visited
 }
 /* ------------------ buttons -------------- */
 
+/* not used anymore (no extra table for buttons)*/
 td.btn {
 	background-color:#E6ECF8;
 	color:#BBBBBB;
@@ -1145,16 +1146,22 @@ td.btn {
 	padding:2px;
 }
 
+/* not used anymore (use submit style)*/
 a.btn:link, a.btn:visited {
 	text-decoration:none;
 	font-size: 90%;
 }
 
-
+/* not used anymore (use submit style)*/
 a.btn:hover {
 	color:#000000;
 }
 
+div.il_ButtonGroup
+{
+	margin: 3px 0px 3px 0px;
+	line-height: 150%;
+}
 
 input.submit, a.submit {
 	background-color:#E6ECF8;

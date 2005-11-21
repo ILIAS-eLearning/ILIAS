@@ -112,7 +112,9 @@ class ilObjForumListGUI extends ilObjectListGUI
 			{
 				$moderators .= ", ";
 			}
-			$moderators .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
+			$moderators .= "<a class=\"il_ItemProperty\" target=\"".
+				ilFrameTargetInfo::_getFrame("MainContent").
+				"\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
 				$MODS[$i]."&backurl=repository&offset=".$Start."\">".ilObjUser::_lookupLogin($MODS[$i])."</a>";
 		}
 
@@ -154,14 +156,18 @@ class ilObjForumListGUI extends ilObjectListGUI
 		{
 			$last_user = $this->frm->getUserData($lastPost["pos_usr_id"],$lastPost["import_name"]);
 
-			$lpCont = "<a class=\"il_ItemProperty\" href=\"forums_frameset.php?target=true&pos_pk=".
+			$lpCont = "<a class=\"il_ItemProperty\" target=\"".
+				ilFrameTargetInfo::_getFrame("MainContent").
+				"\" href=\"forums_frameset.php?target=true&pos_pk=".
 				$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
 				$this->ref_id."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a> ".
 				strtolower($lng->txt("from"))."&nbsp;";
 
 			if($lastPost["pos_usr_id"] && ilObject::_exists($lastPost["pos_usr_id"]))
 			{
-				$lpCont .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
+				$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
+				ilFrameTargetInfo::_getFrame("MainContent").
+				"\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
 					$last_user["usr_id"]."&backurl=repository&offset=".$Start."\">".$last_user["login"]."</a>, ";
 				$lpCont .= $lastPost["pos_date"];
 			}
@@ -178,6 +184,20 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 	}
 
+	/**
+	* Get command target
+	*
+	* @param	int			$a_ref_id		reference id
+	* @param	string		$a_cmd			command
+	*
+	*/
+	function getCommandFrame($a_cmd)
+	{
+		// separate method for this line
+		$target = ilFrameTargetInfo::_getFrame("MainContent");
 
-} // END class.ilObjForumGUI
+		return $target;
+	}
+
+} // END class.ilObjForumListGUI
 ?>
