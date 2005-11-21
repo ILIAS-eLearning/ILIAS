@@ -189,7 +189,8 @@ class ilObjForumGUI extends ilObjectGUI
 						$this->tpl->setVariable("TITLE","<a href=\"forums_frameset.php?thr_pk=".
 												$thrData["thr_pk"]."&ref_id=".$this->object->getRefId()."\">".
 												$thrData["thr_subject"]."</a>");
-						if ($frm->isNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
+						if ($this->ilias->getSetting("forum_notification") != 0 &&
+							$frm->isNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
 						{
 							$this->tpl->setVariable("NOTIFICATION_ENABLED", $this->lng->txt("forums_notification_enabled"));
 						}
