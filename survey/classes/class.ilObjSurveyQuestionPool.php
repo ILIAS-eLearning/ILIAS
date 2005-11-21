@@ -61,7 +61,10 @@ class ilObjSurveyQuestionPool extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create();
-		$this->createMetaData();
+		if(!$a_upload)
+		{
+			$this->createMetaData();
+		}
 	}
 
 	/**
@@ -964,8 +967,12 @@ class ilObjSurveyQuestionPool extends ilObject
 				$md_sax_parser = new ilMDSaxParser();
 				$md_sax_parser->setXMLContent($metadata);
 				$md_sax_parser->setMDObject($tmp = new ilMD($this->getId(),0,'spl'));
-				$md_sax_parser->enableMDParsing();
+				$md_sax_parser->enableMDParsing(true);
 				$md_sax_parser->startParsing();
+
+				// Finally update title description
+				// Update title description
+				$this->MDUpdateListener('General');
 			}
 
 		}
