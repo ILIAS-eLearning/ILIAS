@@ -273,9 +273,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("exc_added"),true);
-
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+		ilUtil::redirect("exercise.php?ref_id=".$newObj->getRefId()."&cmd=edit");
+		//header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		//exit();
 	}
 
 	function editObject()

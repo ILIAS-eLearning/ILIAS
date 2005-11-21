@@ -447,9 +447,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		$return_location = $_GET["cmd_return_location"];
 		if (strcmp($return_location, "") == 0)
 		{
-			$return_location = "members";
+			$return_location = "";
 		}
-				
+
 		sendInfo($this->lng->txt("action_aborted"),true);
 		$this->ctrl->redirect($this, $return_location);
 	}
@@ -511,7 +511,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		
+		$this->ctrl->setParameter($this, "ref_id", $groupObj->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save", $this->ctrl->getLinkTarget($this,"")));
 	}
 
 	/**
@@ -565,7 +567,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this,"members")));
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this,"")));
 	}
 
 	/**

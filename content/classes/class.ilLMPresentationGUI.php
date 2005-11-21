@@ -1003,7 +1003,7 @@ class ilLMPresentationGUI
 	*/
 	function ilLocator()
 	{
-		global $ilLocator;
+		global $ilLocator, $tree;
 
 		require_once("content/classes/class.ilStructureObject.php");
 
@@ -1034,8 +1034,19 @@ class ilLMPresentationGUI
 			$frame_target = "_top";
 		}
 
-		if($this->lm_tree->isInTree($a_id))
+		if (!$this->offlineMode())
 		{
+			$ilLocator->addItem("...", "");
+
+			$par_id = $tree->getParentId($_GET["ref_id"]);
+			$ilLocator->addItem(
+				ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
+				"repository.php?cmd=frameset&amp;ref_id=".$par_id,
+				ilFrameTargetInfo::_getFrame("MainContent"));
+		}
+
+		if($this->lm_tree->isInTree($a_id))
+		{			
 			$path = $this->lm_tree->getPathFull($a_id);
 
 			foreach ($path as $key => $row)

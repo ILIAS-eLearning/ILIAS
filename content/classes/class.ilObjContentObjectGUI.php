@@ -867,7 +867,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TARGET", ' target="'.
+				ilFrameTargetInfo::_getFrame("MainContent").'" ');
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 			$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_".$new_type));
@@ -931,77 +932,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			//ilObjUser::updateActiveRoles($newObj->getOwner());
 			// create content object tree
 			$newObj->createLMTree();
-			unset($newObj);
 
 			// always send a message
 			sendInfo($this->lng->txt($this->type."_added"), true);
-			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+				"&baseClass=ilLMEditorGUI");
 		}
 	}
-
-	// called by administration
-/*
-	function chooseMetaSectionObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$a_target, $_REQUEST["meta_section"]);
-	}
-*/
-
-	// called by editor
-/*
-	function chooseMetaSection()
-	{
-		$this->setTabs();
-//echo "<br>target:".$this->ctrl->getLinkTarget($this).":";
-		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-/*
-	function addMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
-	}
-*/
-
-/*
-	function addMeta()
-	{
-		$this->setTabs();
-		$this->addMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
 
 	/**
 	* add bib item (admin call)
@@ -1325,8 +1262,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		ilUtil::delDir($newObj->getImportDirectory());
 
 		sendInfo($this->lng->txt($this->type."_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-
+		
+		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+			"&baseClass=ilLMEditorGUI");
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -2481,6 +2420,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+	}
+
+	/**
 	* cancel tree fixing
 	*/
 	function cancelFixTree()
@@ -2693,18 +2643,28 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function addLocations()
 	{
-		global $lng;
+		global $lng, $tree;
+
+		$this->ctrl->addLocation(
+			"...",
+			"");
+
+		$par_id = $tree->getParentId($_GET["ref_id"]);
+		$this->ctrl->addLocation(
+			ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
+			"repository.php?cmd=frameset&amp;ref_id=".$par_id,
+			ilFrameTargetInfo::_getFrame("MainContent"));
 
 		$obj_id = $_GET["obj_id"];
-		$tree =& $this->object->getTree();
+		$lmtree =& $this->object->getTree();
 
-		if (($obj_id != 0) && $tree->isInTree($obj_id))
+		if (($obj_id != 0) && $lmtree->isInTree($obj_id))
 		{
-			$path = $tree->getPathFull($obj_id);
+			$path = $lmtree->getPathFull($obj_id);
 		}
 		else
 		{
-			$path = $tree->getPathFull($tree->getRootId());
+			$path = $lmtree->getPathFull($lmtree->getRootId());
 			if ($obj_id != 0)
 			{
 				$path[] = array("type" => "pg", "child" => $this->obj_id,

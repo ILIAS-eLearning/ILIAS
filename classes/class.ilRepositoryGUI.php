@@ -311,7 +311,9 @@ class ilRepositoryGUI
 
 			//case "ilobjmediapoolgui":					// doesnt work, why?
 				// get file path for class name
+
 				$class_path = $this->ctrl->lookupClassPath($next_class);
+
 				// get gui class instance
 				include_once($class_path);
 				$class_name = $this->ctrl->getClassForClasspath($class_path);
@@ -330,10 +332,10 @@ class ilRepositoryGUI
 				{
 					$tabs_out = false;
 				}
-
 				$this->prepareOutput($tabs_out);
 
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+
 				$html = $this->gui_obj->getHTML();
 				if ($html != "")
 				{
@@ -563,7 +565,8 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("content");
 
-		if ($this->cur_ref_id != $this->tree->getRootId() && $a_tabs_out)
+		if ($this->cur_ref_id != $this->tree->getRootId() && $a_tabs_out &&
+			($this->gui_obj->object->getType() != "frm"))
 		{
 			$par_id = $this->tree->getParentId($this->cur_ref_id);
 			$this->tpl->setCurrentBlock("top");
@@ -572,7 +575,7 @@ class ilRepositoryGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($a_tabs_out)
+		if ($a_tabs_out && ($this->gui_obj->object->getType() != "frm"))
 		{
 			$this->setAdminTabs();
 			
@@ -641,6 +644,19 @@ class ilRepositoryGUI
 	{
 		global $ilias_locator;
 
+		
+		// special forum handling (forums should complete go to
+		// a separate module and not use repository.php)
+		if ($this->gui_obj->object->getType() == "frm")
+		{
+			require_once("classes/class.ilForumLocatorGUI.php");
+			$frm_loc =& new ilForumLocatorGUI();
+			$frm_loc->setRefId($this->cur_ref_id);
+			$frm_loc->setForum($frm);
+			$frm_loc->display();
+			return;
+		}
+		
 		$a_tree =& $this->tree;
 		$a_id = $this->cur_ref_id;
 
@@ -883,7 +899,7 @@ class ilRepositoryGUI
 				$obj =& new $class_constr($data, $id, true, false);
 
 				$method = $cmd."Object";
-				$obj->setReturnLocation("save", "repository.php?ref_id=".$this->cur_ref_id);
+				//$obj->setReturnLocation("save", "repository.php?ref_id=".$this->cur_ref_id);
 				$obj->setReturnLocation("cancel", "repository.php?ref_id=".$this->cur_ref_id);
 				$obj->setReturnLocation("addTranslation",
 					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id."&new_type=".$_GET["new_type"]);
@@ -937,7 +953,7 @@ class ilRepositoryGUI
 			}
 			else
 			{
-				$this->gui_obj->setReturnLocation("save", "repository.php?ref_id=".$this->cur_ref_id);
+				//$this->gui_obj->setReturnLocation("save", "repository.php?ref_id=".$this->cur_ref_id);
 				$this->gui_obj->setReturnLocation("cancel", "repository.php?ref_id=".$this->cur_ref_id);
 				$this->gui_obj->setReturnLocation("addTranslation",
 					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id."&new_type=".$_GET["new_type"]);
@@ -1015,7 +1031,7 @@ class ilRepositoryGUI
 
 			case "update":
 				$node = $this->tree->getNodeData($this->cur_ref_id);
-				$this->gui_obj->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
+				//$this->gui_obj->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
 				if ($execute)
 				{
 					$this->gui_obj->updateObject();

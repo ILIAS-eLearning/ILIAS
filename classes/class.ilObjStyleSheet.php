@@ -596,6 +596,8 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function createFromXMLFile($a_file)
 	{
+		global $ilDB;
+		
 		parent::create();		
 		include_once("classes/class.ilStyleImportParser.php");
 		$importParser = new ilStyleImportParser($a_file, $this);

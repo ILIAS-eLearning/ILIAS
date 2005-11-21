@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -201,7 +201,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		$this->tpl->setVariable("TARGET", ' target="'.
+			ilFrameTargetInfo::_getFrame("MainContent").'" ');
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		
 		$this->tpl->setVariable("SELECT_GLO_MODE", $opts);
@@ -252,17 +253,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$newObj->setPermissions($_GET["ref_id"]);
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
-		//$roles = $newObj->initDefaultRoles();
-
-		// assign author role to creator of forum object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
-		//ilObjUser::updateActiveRoles($newObj->getOwner());
-
-		unset($newObj);
-
 		// always send a message
 		sendInfo($this->lng->txt("glo_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		ilUtil::redirect("content/glossary_edit.php?ref_id=".$newObj->getRefId());
+
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -348,7 +343,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		ilUtil::delDir($newObj->getImportDirectory());
 
 		sendInfo($this->lng->txt("glo_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		ilUtil::redirect("content/glossary_edit.php?ref_id=".$newObj->getRefId());
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 
@@ -877,6 +873,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("LINK_CONFIRM",
 			$this->ctrl->getLinkTarget($this, "deleteDefinition"));
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 
 	function cancelDefinitionDeletion()

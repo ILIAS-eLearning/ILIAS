@@ -277,10 +277,23 @@ class ilLMEditorGUI
 				$this->tpl->touchBlock("locator_separator");
 			}
 
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $row["title"]);
-			$this->tpl->setVariable("LINK_ITEM", $row["link"]);
-			$this->tpl->parseCurrentBlock();
+			if ($row["link"] != "")
+			{
+				$this->tpl->setCurrentBlock("locator_item");
+				$this->tpl->setVariable("ITEM", $row["title"]);
+				$this->tpl->setVariable("LINK_ITEM", $row["link"]);
+				if ($row["target"] != "")
+				{
+					$this->tpl->setVariable("LINK_TARGET", ' target="'.$row["target"].'" ');
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("locator_item");
+				$this->tpl->setVariable("PREFIX", $row["title"]);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		$this->tpl->setCurrentBlock("locator");

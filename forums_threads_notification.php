@@ -98,7 +98,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("TAB_TYPE", "tabinactive");
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("answers"));
-	$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+	$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
 	$tpl->setVariable("TAB_TARGET", $t_frame);
 	$tpl->parseCurrentBlock();
 

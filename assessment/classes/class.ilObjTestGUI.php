@@ -251,15 +251,8 @@ class ilObjTestGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$returnlocation = "adm_object.php";
-			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
-		}
-		else
-		{
-			$this->ctrl->redirect($this, "properties");
-		}
+		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+			"&baseClass=ilObjTestGUI");
 	}
 
 	function getAddParameter()
@@ -487,6 +480,16 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+	}
 
 	/**
 	* cancel deletion of export files
@@ -728,7 +731,9 @@ class ilObjTestGUI extends ilObjectGUI
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
 		
-		ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+				"&baseClass=ilObjTestGUI");
+		//ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
 	}
 	
 	function cancelImportObject()
@@ -3161,7 +3166,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TARGET", ' target="'.
+				ilFrameTargetInfo::_getFrame("MainContent").'" ');
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 			$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
