@@ -342,7 +342,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 				
 				$tpl->setVariable("THR_IMGPATH",$tpl->tplPath);
 				
-				if ($frm->isNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
+				if ($ilias->getSetting("forum_notification") != 0 &&
+					$frm->isNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
 				{
 					$tpl->setVariable("NOTIFICATION_ENABLED", $lng->txt("forums_notification_enabled"));
 				}
