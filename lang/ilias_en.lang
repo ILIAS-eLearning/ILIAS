@@ -5373,6 +5373,9 @@ survey#:#svy_delete_all_user_data#:#Delete all user data
 survey#:#svy_eval_cumulated#:#Cumulated results
 survey#:#svy_eval_detail#:#Cumulated results (details)
 survey#:#svy_eval_user#:#User specific results
+survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
+survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
+survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
 survey#:#svy_export_files#:#Export files
 survey#:#svy_file#:#File
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.

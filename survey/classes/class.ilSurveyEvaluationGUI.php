@@ -95,8 +95,16 @@ class ilSurveyEvaluationGUI
 	*/
 	function checkAnonymizedEvaluationAccess()
 	{
+		$surveycode = $this->object->getUserSurveyCode();
+		if ($this->object->isAnonymizedParticipant($surveycode))
+		{
+			$_SESSION["anon_evaluation_access"] = 1;
+			return $this->evaluation();
+		}
+		$this->tpl->setVariable("TABS", "");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("AUTHENTICATION_NEEDED", $this->lng->txt("svy_check_evaluation_authentication_needed"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("EVALUATION_CHECKACCESS_INTRODUCTION", $this->lng->txt("svy_check_evaluation_access_introduction"));
 		$this->tpl->setVariable("VALUE_CHECK", $this->lng->txt("ok"));
@@ -104,9 +112,42 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable("TEXT_SURVEY_CODE", $this->lng->txt("survey_code"));
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	* Checks the evaluation access after entering the survey access code
+	*
+	* Checks the evaluation access after entering the survey access code
+	*
+	* @access private
+	*/
+	function checkEvaluationAccess()
+	{
+		$surveycode = $_POST["surveycode"];
+		if ($this->object->isAnonymizedParticipant($surveycode))
+		{
+			$_SESSION["anon_evaluation_access"] = 1;
+			$this->evaluation();
+		}
+		else
+		{
+			sendInfo($this->lng->txt("svy_check_evaluation_wrong_key", true));
+			$this->cancelEvaluationAccess();
+		}
+	}
 	
+	/**
+	* Cancels the input of the survey access code for evaluation access
+	*
+	* Cancels the input of the survey access code for evaluation access
+	*
+	* @access private
+	*/
 	function cancelEvaluationAccess()
 	{
+		include_once "./classes/class.ilUtil.php";
+		global $tree;
+		$path = $tree->getPathFull($this->object->getRefID());
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]);
 	}
 	
 	/**
@@ -126,8 +167,8 @@ class ilSurveyEvaluationGUI
 		global $ilUser;
 		if (($this->object->getAnonymize() == 1) && ($_SESSION["anon_evaluation_access"] != 1))
 		{
-			//$this->checkAnonymizedEvaluationAccess();
-			//return;
+			$this->checkAnonymizedEvaluationAccess();
+			return;
 		}
 		include_once './classes/Spreadsheet/Excel/Writer.php';
 		$format_bold = "";
@@ -1031,7 +1072,7 @@ class ilSurveyEvaluationGUI
 		$tabs_gui->addTarget(
 			"svy_eval_cumulated", 
 			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluation"), 
-			array("evaluation"),	
+			array("evaluation", "checkEvaluationAccess"),	
 			""
 		);
 
