@@ -360,8 +360,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 		$tpl->setVariable("TXT_OK",$lng->txt("ok"));			
 		$tpl->setVariable("TXT_EXPORT_HTML", $lng->txt("export_html"));
 		$tpl->setVariable("TXT_EXPORT_XML", $lng->txt("export_xml"));
-		$tpl->setVariable("TXT_DISABLE_NOTIFICATION", $lng->txt("forums_disable_notification"));
-		$tpl->setVariable("TXT_ENABLE_NOTIFICATION", $lng->txt("forums_enable_notification"));
+		if ($ilias->getSetting("forum_notification") != 0)
+		{
+			$tpl->setVariable("TXT_DISABLE_NOTIFICATION", $lng->txt("forums_disable_notification"));
+			$tpl->setVariable("TXT_ENABLE_NOTIFICATION", $lng->txt("forums_enable_notification"));
+		}
 		$tpl->setVariable("IMGPATH",$tpl->tplPath);
 		
 	} // if ($thrNum > 0)	

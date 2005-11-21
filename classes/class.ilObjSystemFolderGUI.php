@@ -391,7 +391,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["cron_link_check"] = $_POST["cron_link_check"];
 				$settings["cron_web_resource_check"] = $_POST["cron_web_resource_check"];
 				$settings["cron_lucene_index"] = $_POST["cron_lucene_index"];
-				$settings["cron_forum_notification"] = $_POST["cron_forum_notification"];
+				$settings["forum_notification"] = $_POST["forum_notification"];
 
 				// forums
 				$settings['frm_store_new'] = $_POST['frm_store_new'];
@@ -472,8 +472,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 $this->ilias->setSetting("cron_link_check",$_POST["cron_link_check"]);
                 $this->ilias->setSetting("cron_web_resource_check",$_POST["cron_web_resource_check"]);
 				$this->ilias->setSetting("cron_lucene_index",$_POST["cron_lucene_index"]);
-				$this->ilias->setSetting("cron_forum_notification",$_POST["cron_forum_notification"]);
-				if ($_POST["cron_forum_notification"] == 1)
+				$this->ilias->setSetting("forum_notification",$_POST["forum_notification"]);
+				if ($_POST["forum_notification"] == 2)
 				{
 					$this->ilias->setSetting("cron_forum_notification_last_date",date("Y-m-d H:i:s"));
 				}
@@ -589,6 +589,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CRON_LUCENE_INDEX_INFO",$this->lng->txt('cron_lucene_index_info'));
 
 		$this->tpl->setVariable("TXT_CRON_FORUM_NOTIFICATION",$this->lng->txt('cron_forum_notification'));
+		$this->tpl->setVariable("TXT_CRON_FORUM_NOTIFICATION_NEVER",$this->lng->txt('cron_forum_notification_never'));
+		$this->tpl->setVariable("TXT_CRON_FORUM_NOTIFICATION_DIRECTLY",$this->lng->txt('cron_forum_notification_directly'));
+		$this->tpl->setVariable("TXT_CRON_FORUM_NOTIFICATION_CRON",$this->lng->txt('cron_forum_notification_cron'));
 		$this->tpl->setVariable("CRON_FORUM_NOTIFICATION_DESC",$this->lng->txt('cron_forum_notification_desc'));
 
 		$this->tpl->setVariable("TXT_NEVER",$this->lng->txt('never'));
@@ -850,9 +853,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CRON_LUCENE_INDEX","checked=\"checked\"");
 		}
-        if ($settings["cron_forum_notification"])
+        if ($settings["forum_notification"] == 0)
         {
-			$this->tpl->setVariable("CRON_FORUM_NOTIFICATION","checked=\"checked\"");
+			$this->tpl->setVariable("CRON_FORUM_NOTIFICATION_NEVER_SELECTED"," selected");
+        }
+        else if ($settings["forum_notification"] == 1)
+        {
+			$this->tpl->setVariable("CRON_FORUM_NOTIFICATION_DIRECTLY_SELECTED"," selected");
+        }
+        else if ($settings["forum_notification"] == 2)
+        {
+			$this->tpl->setVariable("CRON_FORUM_NOTIFICATION_CRON_SELECTED"," selected");
         }
         if ($val = $settings["cron_web_resource_check"])
         {

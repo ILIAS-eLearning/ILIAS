@@ -27,7 +27,7 @@ require_once("classes/class.ilSaxParser.php");
 * Forum Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilForumImportParser.php,v 1.3 2004/04/29 11:35:27 smeyer Exp $
+* @version $Id$Id: class.ilForumImportParser.php,v 1.4 2004/08/09 08:35:19 smeyer Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -293,7 +293,7 @@ class ilForumImportParser extends ilSaxParser
 																 $this->post["message"],0,date("Y-m-d H:i:s",$this->thread["c_time"]));*/
 		$this->__pushParentId((int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
 																	 $this->thread["title"],
-																	 $this->post["message"],0,date("Y-m-d H:i:s",$this->thread["c_time"])));
+																	 $this->post["message"],0,0,date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
 		$this->forum_obj->setWhereCondition("top_pk = ".$topic["top_pk"]);
@@ -314,7 +314,7 @@ class ilForumImportParser extends ilSaxParser
 															   0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"]));*/
 		$this->__pushParentId((int) $this->forum_obj->generatePost($topic["top_pk"],$post["pos_thr_fk"],$this->post["author"],
 																 $this->post["message"],$this->parent[count($this->parent)-1],
-																 0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"])));
+																 0,0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"])));
 
 		return true;
 	}

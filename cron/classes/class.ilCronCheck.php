@@ -81,7 +81,7 @@ class ilCronCheck
 		}
 
 		// Start sending forum notifications
-		if($ilias->getSetting('cron_forum_notification'))
+		if($ilias->getSetting('forum_notification') == 2)
 		{
 			include_once './cron/classes/class.ilCronForumNotification.php';
 

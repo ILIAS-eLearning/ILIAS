@@ -182,12 +182,15 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("TAB_TARGET", $t_frame);
 	$tpl->parseCurrentBlock();
 
-	$tpl->setCurrentBlock("tab");
-	$tpl->setVariable("TAB_TYPE", "tabinactive");
-	$tpl->setVariable("TAB_LINK", "forums_threads_notification.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-	$tpl->setVariable("TAB_TEXT", $lng->txt("forums_notification"));
-	$tpl->setVariable("TAB_TARGET", "_self");
-	$tpl->parseCurrentBlock();
+	if ($ilias->getSetting("forum_notification") != 0)
+	{
+		$tpl->setCurrentBlock("tab");
+		$tpl->setVariable("TAB_TYPE", "tabinactive");
+		$tpl->setVariable("TAB_LINK", "forums_threads_notification.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$tpl->setVariable("TAB_TEXT", $lng->txt("forums_notification"));
+		$tpl->setVariable("TAB_TARGET", "_self");
+		$tpl->parseCurrentBlock();
+	}
 
 	// menu template (contains linkbar, new topic and print thread button)
 	$menutpl =& new ilTemplate("tpl.forums_threads_menu.html", true, true);
@@ -251,7 +254,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 					// reply: new post
 					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
 												  $_SESSION["AccountId"], ilUtil::stripSlashes($formData["message"]),
-												  $_GET["pos_pk"],$_POST["notify"],
+												  $_GET["pos_pk"],$_POST["notify"],$_POST["anonymize"],
 												  $_POST["subject"]
 												  	? ilUtil::stripSlashes($_POST["subject"])
 													: $threadData["thr_subject"]);
@@ -455,6 +458,13 @@ if (is_array($topicData = $frm->getOneTopic()))
 						$tpl->parseCurrentBlock();
 					}
 
+/*					if ($frm->isAnonymized())
+					{
+						$tpl->setCurrentBlock("anonymize");
+						$tpl->setVariable("TXT_ANONYMIZE",$lng->txt("forum_anonymize"));
+						$tpl->setVariable("ANONYMIZE",$lng->txt("forum_anonymize_desc"));
+						$tpl->parseCurrentBlock();
+					}*/
 
 					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
 					$tpl->setVariable("RESET", $lng->txt("reset"));
@@ -689,6 +699,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
 				$tpl->setVariable("AUTHOR","<a target=\"$t_frame\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
 								  $usr_data["usr_id"]."&backurl=".$backurl."\">".$usr_data["login"]."</a>");
+
+				if ($frm->_isModerator($_GET["ref_id"], $ilUser->getId()))
+				{
+					$tpl->setVariable("USR_NAME", $usr_data["firstname"]." ".$usr_data["lastname"]);
+				}
 			}
 			else
 			{

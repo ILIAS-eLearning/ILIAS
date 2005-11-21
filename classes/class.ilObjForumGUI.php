@@ -252,8 +252,11 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_OK",$this->lng->txt("ok"));			
 				$this->tpl->setVariable("TXT_EXPORT_HTML", $this->lng->txt("export_html"));
 				$this->tpl->setVariable("TXT_EXPORT_XML", $this->lng->txt("export_xml"));
-				$this->tpl->setVariable("TXT_DISABLE_NOTIFICATION", $this->lng->txt("forums_disable_notification"));
-				$this->tpl->setVariable("TXT_ENABLE_NOTIFICATION", $this->lng->txt("forums_enable_notification"));
+				if ($this->ilias->getSetting("forum_notification") != 0)
+				{
+					$this->tpl->setVariable("TXT_DISABLE_NOTIFICATION", $this->lng->txt("forums_disable_notification"));
+					$this->tpl->setVariable("TXT_ENABLE_NOTIFICATION", $this->lng->txt("forums_enable_notification"));
+				}
 				$this->tpl->setVariable("IMGPATH",$this->tpl->tplPath);
 		
 			} // if ($thrNum > 0)	
@@ -314,6 +317,14 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHECK_ANSWER",ilUtil::formRadioButton($default_sort == 1 ? 1 : 0,'sort',1));
 		$this->tpl->setVariable("CHECK_DATE",ilUtil::formRadioButton($default_sort == 2 ? 1 : 0,'sort',2));
 
+		// ANONYMIZED OR NOT
+#		$this->tpl->setVariable("TXT_ANONYMIZED",$this->lng->txt('frm_anonymous_posting'));
+#		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
+
+#		$anonymized = $_POST['anonymized'] ? $_POST['anonymized'] : 0;
+
+#		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
+
 		return true;
 	}
 
@@ -324,6 +335,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"]));
 			$this->object->setDefaultView((int) $_POST['sort']);
+#			$this->object->setAnonymized((int) $_POST['anonymized']);
 			$this->object->update();
 
 			sendInfo($this->lng->txt("msg_obj_modified"),true);
@@ -355,6 +367,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$default_sort = $_POST['sort']
 			? $_POST['sort'] 
 			: $this->object->getDefaultView();
+#		$anonymized = $_POST['anonymized']
+#			? $_POST['anonymized'] 
+#			: $this->object->isAnonymized();
 			
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
 
@@ -382,6 +397,13 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("CHECK_ANSWER",ilUtil::formRadioButton($default_sort == 1 ? 1 : 0,'sort',1));
 		$this->tpl->setVariable("CHECK_DATE",ilUtil::formRadioButton($default_sort == 2 ? 1 : 0,'sort',2));
+
+		// ANONYMIZED OR NOT
+#		$this->tpl->setVariable("TXT_ANONYMIZED",$this->lng->txt('frm_anonymous_posting'));
+#		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
+
+#		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
+
 	}
 
 	function importObject()
@@ -461,7 +483,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// Create settings
 		$forumObj->setDefaultView((int) $_POST['sort']);
-		$forumObj->setAnonymized((int) $_POST['anonymized']);
+#		$forumObj->setAnonymized((int) $_POST['anonymized']);
 		$forumObj->createSettings();
 
 		// setup rolefolder & default local roles (moderator)
