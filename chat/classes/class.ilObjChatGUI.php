@@ -23,10 +23,12 @@
 
 
 /**
-* Class ilObjTestGUI
+* Class ilObjChatGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * $Id$
+* 
+* @ilCtrl_Calls ilObjChatGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package chat
@@ -73,10 +75,15 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
-
 		$cmd = $this->ctrl->getCmd();
+
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
 
 			default:
 				if(!$cmd)
@@ -88,6 +95,7 @@ class ilObjChatGUI extends ilObjectGUI
 					
 				break;
 		}
+
 		return true;
 	}
 
@@ -1857,9 +1865,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"),
-				array("perm", "info"),
-				get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
 
@@ -1943,8 +1949,6 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
-
-
 }
 // END class.ilObjChatGUI
 ?>

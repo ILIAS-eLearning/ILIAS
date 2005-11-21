@@ -29,7 +29,7 @@
 * @author Martin Rus <develop-ilias@uni-koeln.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface
+* @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -81,6 +81,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
 		switch ($next_class)
 		{
 			case "ilconditionhandlerinterface":
@@ -101,6 +102,12 @@ class ilObjFolderGUI extends ilContainerGUI
 					$new_gui =& new ilConditionHandlerInterface($this);
 					$this->ctrl->forwardCommand($new_gui);
 				}
+				break;
+				
+			case 'ilpermissiongui':
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -227,7 +234,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		// show clipboard in repository

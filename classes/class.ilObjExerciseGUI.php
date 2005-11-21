@@ -28,6 +28,8 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 * 
+* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI
+* 
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -979,10 +981,37 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("edit_permission", $this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, 'perm'),
-				array("perm", "info"), get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
-			
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+
+				$cmd .= "Object";
+
+				$this->$cmd();
+					
+				break;
+		}
+
+		return true;
+	}	
 } // END class.ilObjExerciseGUI
 ?>

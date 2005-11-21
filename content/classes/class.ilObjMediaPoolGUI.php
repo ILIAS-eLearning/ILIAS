@@ -29,7 +29,7 @@
 *
 * $Id$
 *
-* @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package content
@@ -202,6 +202,14 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				$clip_gui->setMultipleSelections(true);
 				//$ret =& $clip_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($clip_gui);
+				$this->tpl->show();
+				break;
+				
+			case 'ilpermissiongui':
+				$this->prepareOutput();
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				$this->tpl->show();
 				break;
 
@@ -1028,12 +1036,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$tabs_gui->addTarget("edit_properties", $this->ctrl->getLinkTarget($this, "edit"),
 			"edit", get_class($this));
 
-		$tabs_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
-			array("perm", "info"), get_class($this));
+		$tabs_gui->addTarget("perm_settings",
+			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 
 		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view"),
 			"view", "ileditclipboardgui");
-
 	}
 
 

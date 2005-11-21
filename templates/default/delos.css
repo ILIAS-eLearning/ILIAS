@@ -279,6 +279,19 @@ td.sub_option {
 	border-top-style:solid;
 }
 
+td.option_subtitle {
+	background-color:#FFFFFF;
+	background-image: none;
+	width:100%;
+	color:#222222;
+	padding:13px 3px 3px 3px;
+	vertical-align:top;
+	text-align:left;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	border-bottom-color:#CACACA;
+}
+
 td.option_value {
 	background-color:#FFFFFF;
 	background-image: none;
@@ -291,6 +304,7 @@ td.option_value {
 	#border-top-color:#E0C8A0;
 	border-top-style:solid;
 }
+
 td.option_value_center {
 	background-color:#FFFFFF;
 	background-image: none;

@@ -28,7 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjForumGUI:
+* @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI
 *
 * @extends ilObject
 * @package ilias-core
@@ -58,13 +58,17 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -76,6 +80,7 @@ class ilObjForumGUI extends ilObjectGUI
 					
 				break;
 		}
+
 		return true;
 	}
 
@@ -546,8 +551,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"),
-				array("info", "perm"), get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 

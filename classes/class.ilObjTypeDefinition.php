@@ -24,6 +24,8 @@
 
 /**
 * Class ilObjTypeDefinition
+* 
+* CLASS IS DEPRECATED
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$

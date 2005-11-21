@@ -1,65 +1,53 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
-<table class="fullwidth">
-<!-- BEGIN tableheader -->
+<table class="fullwidth" style="table-layout:fixed">
 <tr class="tbltitle">
-  <td colspan="{COLSPAN2}">
-  <table class="fullwidth_invisible">
-    <tr class="tbltitle">
-	  <td class="tbltitle" align="left">&nbsp;{TXT_TITLE2}</td>
-	  <td align="right">&nbsp;</td>
-	</tr>
-  </table>
-  </td>
+  <td class="std" colspan="{COLSPAN}">{TXT_TITLE}</td>
 </tr>
+
 <tr class="tblheader">
-  <td class="std" width="30%" align="left">
-  </td>
-  <td class="std" align="left" colspan="100">
-{TXT_ROLES}
-
-  </td>
-</tr>
-<!-- END tableheader -->
-<tr class="tblheader" valign="top">
-
-  <td class="std" width="30%" align="left">{TXT_OPERATION}</td>
-    <!-- BEGIN ROLENAMES -->
-  <td class="std" width="15%">
-<!-- BEGIN ROLELINK_OPEN -->
+<!-- BEGIN role_infos -->
+  <td class="std">
+<!-- BEGIN rolelink_open -->
 <a href="{LINK_ROLE_RULESET}" alt="{TXT_ROLE_RULESET}" title="{TXT_ROLE_RULESET}">
-<!-- END ROLELINK_OPEN -->
+<!-- END rolelink_open -->
 {ROLE_NAME}
-<!-- BEGIN ROLELINK_CLOSE -->
+<!-- BEGIN rolelink_close -->
 </a>
-<!-- END ROLELINK_CLOSE -->
+<!-- END rolelink_close -->
 <br/><span class="small">{ROLE_CONTEXT_TYPE}<br/>{ROLE_CONTEXT}</span>
   </td>
-	<!-- END ROLENAMES -->
-
-
+<!-- END role_infos -->
 </tr>
-	<!-- BEGIN TABLE_DATA_OUTER -->
-<tr class="{CSS_ROW}">
-<td class="std">{PERMISSION} <span class="alert">{TXT_NOT_IMPL}</span></td>
-    <!-- BEGIN CHECK_PERM -->
-  <td class="std">{CHECK_PERMISSION}</td>
-<!-- END CHECK_PERM -->
 
-</tr>
-<!-- END TABLE_DATA_OUTER -->
-<!-- BEGIN STOP_INHERIT -->
+<!-- BEGIN perm_settings -->
+
+<!-- BEGIN perm_subtitle -->
 <tr class="std">
-	<td class="std" ><font color="red">{TXT_STOP_INHERITANCE}</font></td>
-	<!-- BEGIN CHECK_INHERIT -->
-	<td class="std">{CHECK_INHERITANCE}</td>
-	<!-- END CHECK_INHERIT -->
+  <td class="option_subtitle" colspan="{COLSPAN}">{TXT_PERM_CLASS} <span style="font-style:italic;font-size:80%">{TXT_PERM_CLASS_DESC}</span></td>
 </tr>
-	<!-- END STOP_INHERIT -->
+<!-- END perm_subtitle -->
 
 <tr class="std">
-  <td class="std" align="right" colspan="{COL_ANZ}">
+<!-- BEGIN perm_table -->
+  <td>
+    <table>
+<!-- BEGIN perm_item -->
+      <tr>
+        <td>{PERM_CHECKBOX}</td>
+        <td style="font-size:80%"><label for="{PERM_LABEL}">{PERM_NAME}</label></td>
+      </tr>
+<!-- END perm_item -->
+    </table>
+  </td>
+<!-- END perm_table -->
+</tr>
+<!-- END perm_settings -->
+
+<tr class="tblfooter">
+  <td class="std" align="right" colspan="{COLSPAN}">
     <input class="submit" type="submit" value="{TXT_SAVE}" />
   </td>
 </tr>
+
 </table>
 </form>

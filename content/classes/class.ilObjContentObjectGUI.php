@@ -161,6 +161,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					}
 				}
 				break;
+				
+			case 'ilpermissiongui':
+					$this->setTabs();
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
 
 			default:
 				if ($cmd == "create")
@@ -2818,14 +2825,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		
+		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			// permissions
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"),
-				array("perm", "info"), get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
-
 	}
 
 	function editPublicSection()

@@ -29,7 +29,7 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilTestOutputGUI
-* @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI
+* @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -121,6 +121,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
+				
+			case 'ilpermissiongui':
+				$this->prepareOutput();
+				$this->setAdminTabs();
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				$this->prepareOutput();
@@ -3750,17 +3759,12 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
-			 $this->ctrl->getLinkTarget($this,'perm'),
-			 array("perm", "info"),
-			 "");
+			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 			 
 		// meta data
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
 			 "", "ilmdeditorgui");
 	}
-
-				
 } // END class.ilObjTestGUI
-
 ?>

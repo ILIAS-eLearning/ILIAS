@@ -37,7 +37,7 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @package content
 */
@@ -100,6 +100,15 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$term_gui->setGlossary($this->object);
 				//$ret =& $term_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($term_gui);
+				break;
+				
+			case 'ilpermissiongui':
+				$this->getTemplate();
+				$this->setTabs();
+				$this->setLocator();
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -1584,10 +1593,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("permission_settings",
+			/*$tabs_gui->addTarget("permission_settings",
 				$this->ctrl->getLinkTarget($this, "perm"),
 				array("perm", "info"),
 				get_class($this));
+				*/
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+
 		}
 
 	}

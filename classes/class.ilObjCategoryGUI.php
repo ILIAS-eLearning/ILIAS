@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjCategoryGUI:
+* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -66,11 +66,18 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+			
 			default:
 				if(!$cmd)
 				{
 					$cmd = "render";
 				}
+
 				$cmd .= "Object";
 				$this->$cmd();
 
@@ -111,7 +118,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$tabs_gui->addTarget("administrate_users",
 				$this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
 		}
-
+		
 		// parent tabs (all container: edit_permission, clipboard, trash
 		parent::getTabs($tabs_gui);
 

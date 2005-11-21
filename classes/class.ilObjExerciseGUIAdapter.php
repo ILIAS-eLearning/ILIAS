@@ -26,9 +26,9 @@
 * Class ilObjExerciseGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.3 2005/07/28 13:14:26 akill Exp $
+* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.4 2005/09/30 17:25:11 akill Exp $
 * 
-* @extends ilObjectGUI
+* @extends ilObjectGUIAdapter
 * @package ilias-core
 */
 
@@ -64,7 +64,6 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 		// catch feedback message
 		sendInfo();
 
-		
 		$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_exc_b.gif"));
 		$this->tpl->parseCurrentBlock();

@@ -29,6 +29,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjDlBookGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilObjDlBookGUI: ilLearningProgressGUI, ilPermissionGUI
 *
 * @package content
 */

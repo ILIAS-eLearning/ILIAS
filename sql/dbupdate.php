@@ -9118,3 +9118,95 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#590>
 ALTER TABLE `survey_survey` CHANGE `evaluation_access` `evaluation_access` ENUM( '0', '1', '2' ) DEFAULT '0' NOT NULL;
+
+<#591>
+ALTER TABLE `rbac_operations` ADD `class` ENUM('create','general','object','rbac','admin','notused') DEFAULT 'notused' NOT NULL, ADD `op_order` SMALLINT UNSIGNED;
+
+<#592>
+<?php
+$query = "SELECT * FROM rbac_operations";
+$result = $ilDB->query($query);
+
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	switch($row['operation'])
+	{
+		case 'visible':
+		case 'read':
+		case 'write':
+		case 'delete':
+			$perm_class = 'general';
+			break;
+			
+		case 'join':
+		case 'leave':
+		case 'edit_post':
+		case 'delete_post':
+		case 'smtp_mail':
+		case 'system_message':
+		case 'cat_administrate_users':
+		case 'edit_roleassignment':
+		case 'edit_userassignment':
+		case 'invite':
+		case 'mail_visible':
+		case 'moderate':
+		case 'participate':
+		case 'push_desktop_items':
+		case 'read_users':
+		case 'search':
+		case 'leave':
+			$perm_class = 'object';
+			break;
+			
+		case 'edit_permission':
+			$perm_class = 'rbac';
+			break;
+
+		case 'create_cat':
+		case 'create_chat':
+		case 'create_crs':
+		case 'create_dbk':
+		case 'create_exc':
+		case 'create_file':
+		case 'create_fold':
+		case 'create_frm':
+		case 'create_glo':
+		case 'create_grp':
+		case 'create_htlm':
+		case 'create_icla':
+		case 'create_icrs':
+		case 'create_lm':
+		case 'create_mep':
+		case 'create_qpl':
+		case 'create_role':
+		case 'create_rolt':
+		case 'create_sahs':
+		case 'create_spl':
+		case 'create_svy':
+		case 'create_tax':
+		case 'create_tst':
+		case 'create_user':
+		case 'create_webr':
+			$perm_class = 'create';
+			break;
+
+		default:
+			$perm_class = 'notused';
+			break;
+	}
+
+	$q2 = "UPDATE rbac_operations SET class='".$perm_class."' WHERE operation = '".$row['operation']."'";
+	$ilDB->query($q2);
+}
+
+$query = "UPDATE rbac_operations SET op_order='100' WHERE operation='visible'";
+$ilDB->query($query);
+$query = "UPDATE rbac_operations SET op_order='110' WHERE operation='read'";
+$ilDB->query($query);
+$query = "UPDATE rbac_operations SET op_order='120' WHERE operation='write'";
+$ilDB->query($query);
+$query = "UPDATE rbac_operations SET op_order='130' WHERE operation='delete'";
+$ilDB->query($query);
+
+$ilCtrlStructureReader->getStructure();
+?>

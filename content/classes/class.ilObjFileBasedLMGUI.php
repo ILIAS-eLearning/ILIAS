@@ -29,7 +29,7 @@
 *
 * $Id$
 *
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package content
@@ -109,6 +109,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
 				//$ret =& $fs_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($fs_gui);
+				break;
+				
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -667,18 +673,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
-				get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
-
-		// owner
-		/*
-		$tabs_gui->addTarget("owner",
-			$this->ctrl->getLinkTarget($this, "owner"), "owner",
-			get_class($this));
-		*/
 	}
-
-
 }
 ?>
