@@ -77,6 +77,8 @@ class ilForum
 	// object id
 	var $id;
 
+	var $anonymized;
+
 	/**
 	* Constructor
 	* @access	public
@@ -372,12 +374,20 @@ class ilForum
 	* @param	integer	$user
 	* @param	string	$message	
 	* @param	integer	$parent_pos	
+	* @param	integer	$notify	
+	* @param	integer	$anonymize	
+	* @param	string	$subject	
+	* @param	datetime	$date	
 	* @return	integer	$lastInsert: new post ID
 	* @access	public
 	*/
-	function generatePost($topic, $thread, $user, $message, $parent_pos,$notify,$subject,$date = "")
+	function generatePost($topic, $thread, $user, $message, $parent_pos,$notify,$anonymize,$subject,$date = "")
 	{
 		$date = $date ? $date : date("Y-m-d H:i:s");
+		if ($anonymize == 1)
+		{
+			$user = 0;
+		}
 		$pos_data = array(
 			"pos_top_fk"	=> $topic,
 			"pos_thr_fk"	=> $thread,
@@ -434,7 +444,7 @@ class ilForum
 		$this->__sendMessage($parent_pos);
 
 		// SEND NOTIFICATIONS ABOUT NEW POSTS IN A SPECIFIED TOPIC
-		if(!$this->ilias->getSetting("cron_forum_notification"))
+		if($this->ilias->getSetting("forum_notification") == 1)
 		{
 			$pos_data["top_name"] = $forum_obj->getTitle();
 			$pos_data["ref_id"] = $this->getForumRefId();
@@ -450,12 +460,20 @@ class ilForum
 	* @param	integer	$user
 	* @param	string	$subject
 	* @param	string	$message
+	* @param	integer	$notify
+	* @param	integer	$anonymize
+	* @param	datetime	$date
 	* @return	integer	new post ID
 	* @access public
 	*/
-	function generateThread($topic, $user, $subject, $message,$notify,$date = '')
+	function generateThread($topic, $user, $subject, $message, $notify, $anonymize, $date = '')
 	{
 		$date = $date ? $date : date("Y-m-d H:i:s");
+
+		if ($anonymize == 1)
+		{
+			$user = 0;
+		}
 
 		$thr_data = array(
 			"thr_top_fk"	=> $topic,
@@ -486,7 +504,7 @@ class ilForum
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
 		
 
-		return $this->generatePost($topic, $lastInsert, $user, $message,0,$notify,$subject,$date);
+		return $this->generatePost($topic, $lastInsert, $user, $message, 0, $notify, $anonymize, $subject, $date);
 	}
 
 	/**
@@ -824,6 +842,19 @@ class ilForum
 
 		return array();
 	}
+	
+	/**
+	* checks whether a user is moderator of a given forum object
+	*
+	* @param	int		$a_ref_id	reference id
+	* @param	int		$a_usr_id	user id
+	* @return	bool
+	* @access	public
+	*/
+	function _isModerator($a_ref_id, $a_usr_id)
+	{
+		return in_array($a_usr_id, ilForum::_getModerators($a_ref_id));
+	}
 
 	/**
    	* checks edit-right for given post-ID
@@ -1137,6 +1168,7 @@ class ilForum
 		{
 			$tmp_user = new ilObjUser($a_row->pos_usr_id);
 			$fullname = $tmp_user->getFullname();
+			$loginname = $tmp_user->getLogin();
 		}
 	
 		$fullname = $fullname ? $fullname : ($a_row->import_name ? $a_row->import_name : $lng->txt("unknown"));
@@ -1146,6 +1178,7 @@ class ilForum
 					"child"         => $a_row->pos_pk,
 					"author"		=> $a_row->pos_usr_id,
 					"title"         => $fullname,
+					"loginname"		=> $loginname,
 					"type"          => "post",
 					"message"		=> $a_row->pos_message,
 					"subject"		=> $a_row->pos_subject,	
@@ -1444,6 +1477,9 @@ class ilForum
 			{
 				$tmp_array["usr_id"] = $row->usr_id;
 				$tmp_array["login"]  = $row->login;
+				$tmp_array["login"]  = $row->login;
+				$tmp_array["firstname"]  = $row->firstname;
+				$tmp_array["lastname"]  = $row->lastname;
 			}
 			return $tmp_array ? $tmp_array : array();
 		}
@@ -1451,7 +1487,7 @@ class ilForum
 		{
 			$login = $a_import_name ? $a_import_name." (".$lng->txt("imported").")" : $lng->txt("unknown");
 
-			return array("usr_id" => 0,"login" => $login);
+			return array("usr_id" => 0, "login" => $login, "firstname" => "", "lastname" => "");
 		}
 	}
 
@@ -1597,6 +1633,13 @@ class ilForum
 		}
 
 		return $message;
+	}
+
+	function isAnonymized()
+	{
+		$q = "SELECT anonymized FROM frm_settings WHERE ";
+		$q .= "obj_id = '" . $this->getForumId() . "'";
+		return $this->ilias->db->getOne($q);
 	}
 
 } // END class.Forum

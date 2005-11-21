@@ -51,8 +51,13 @@
 	<!-- BEGIN posts_row -->
 	<tr>
 	 <td valign="top" width="25%" class="{ROWCOL}">{AUTHOR}<br/><br/>
-	 <span class="small">{TXT_REGISTERED} {REGISTERED_SINCE}
-	 <br/>{TXT_NUM_POSTS} {NUM_POSTS}</span>
+	 <span class="small">
+	 <!-- BEGIN usr_name -->
+	 <i>{USR_NAME}</i><br />
+	 <!-- END usr_name -->
+	 {TXT_REGISTERED} {REGISTERED_SINCE}<br />
+	 {TXT_NUM_POSTS} {NUM_POSTS}
+	 </span>
 	 </td>
 	 <td class="{ROWCOL}">
 			  <b>{SUBJECT}</b><br />

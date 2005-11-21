@@ -93,7 +93,7 @@ if ($_GET["cmd"] == "newthread")
 	{		
 		// build new thread
 		$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], 
-			ilUtil::stripSlashes($formData["subject"]), ilUtil::stripSlashes($formData["message"]),$formData["notify"]);
+			ilUtil::stripSlashes($formData["subject"]), ilUtil::stripSlashes($formData["message"]),$formData["notify"],$formData["anonymize"]);
 		
 		// file upload
 		if(isset($_FILES["userfile"]))
@@ -136,6 +136,13 @@ if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
 	$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
 	$tpl->parseCurrentBlock();
 }
+/*if ($frm->isAnonymized())
+{
+	$tpl->setCurrentBlock("anonymize");
+	$tpl->setVariable("TXT_ANONYMIZE",$lng->txt("forum_anonymize"));
+	$tpl->setVariable("ANONYMIZE",$lng->txt("forum_anonymize_desc"));
+	$tpl->parseCurrentBlock();
+}*/
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);

@@ -78,7 +78,6 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 				unset($author);
 				$author = $frmEx->getUserData($node["author"],$node["import_name"]);
 
-
 				#$author = $frmEx->getUser($node["author"]);	
 				#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
 				$tplEx->setVariable("AUTHOR",$author["login"]); 

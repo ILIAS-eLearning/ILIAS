@@ -26,19 +26,28 @@
 <!-- BEGIN posts_row -->
 <tr>
 	<td valign="top" width="25%" class="{ROWCOL}">
-	<table border="0" cellpadding="0" cellspacing="0"><tr>
-	<td width="80px" valign="top">
-	<!-- BEGIN usr_image -->
-	<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
-	<br />
-	<!-- END usr_image -->
-	{AUTHOR}
-	</td>
-
-	<td valign="top" nowrap="1"><span class="small">{TXT_REGISTERED}<br />{REGISTERED_SINCE}
-	<br/>{TXT_NUM_POSTS} {NUM_POSTS}</span>
-	</td></tr></table>
-
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td width="80px" valign="top">
+		<!-- BEGIN usr_image -->
+		<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
+		<br />
+		<!-- END usr_image -->
+		{AUTHOR}
+		</td>
+	
+		<td valign="top" nowrap="1">
+			<span class="small">
+			<!-- BEGIN usr_name -->
+			<i>{USR_NAME}</i><br />
+			<!-- END usr_name -->
+			{TXT_REGISTERED}<br />
+			{REGISTERED_SINCE}<br />
+			{TXT_NUM_POSTS} {NUM_POSTS}
+			</span>
+		</td>
+	</tr>
+	</table>
 	</td>
 
  <td class="{ROWCOL}">
@@ -142,10 +151,14 @@
 									  <table width="100%">
 										<tr>
 								  <!-- BEGIN notify -->
-								  <td><input type="checkbox" name="notify" value="1" {NOTIFY_CHECKED} />{NOTIFY}</td>					
+								  <td valign="bottom"><table cellspacing=0 cellpadding=0 border=0><tr><td valign="top"><input type="checkbox" name="notify" value="1" {NOTIFY_CHECKED} /></td><td valign="top">{NOTIFY}</td></tr></table></td>					
 								  <!-- END notify -->
-										  <td align="right" nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/></td>
+										  <td valign="bottom" rowspan="2" align="right" nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/></td>
 										</tr>
+								  <!-- BEGIN anonymize -->
+								  <tr><td><table cellspacing=0 cellpadding=0 border=0><tr><td valign="top"><input type="checkbox" name="anonymize" value="1" {ANONYMIZE_CHECKED} /></td><td valign="top">{ANONYMIZE}</td></tr></table></td></tr>
+								  <!-- END anonymize -->
+										
 									  </table>
 									</td>
 								  </tr>
