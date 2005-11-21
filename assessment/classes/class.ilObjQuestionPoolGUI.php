@@ -68,6 +68,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					break;
 				default:
 				$this->prepareOutput();
+				return;
 				break;
 			}
 			global $ilLocator;

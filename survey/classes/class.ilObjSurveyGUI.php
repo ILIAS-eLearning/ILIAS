@@ -66,6 +66,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					break;
 				default:
 					$this->prepareOutput();
+					return;
 					break;
 			}
 			global $ilLocator;
