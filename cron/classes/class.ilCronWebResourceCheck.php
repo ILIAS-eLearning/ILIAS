@@ -43,12 +43,14 @@ class ilCronWebResourceCheck
 
 	function check()
 	{
+		global $ilObjDataCache;
+
 		include_once'./classes/class.ilLinkChecker.php';
 
 
-		foreach(ilUtil::getObjectsByOperations('webr','write',false) as $node)
+		foreach(ilUtil::_getObjectsByOperations('webr','write') as $node)
 		{
-			if(!is_object($tmp_webr =& ilObjectFactory::getInstanceByRefId($node['ref_id'],false)))
+			if(!is_object($tmp_webr =& ilObjectFactory::getInstanceByRefId($node,false)))
 			{
 				continue;
 			}
@@ -60,7 +62,7 @@ class ilCronWebResourceCheck
 			$link_checker =& new ilLinkChecker($this->db);
 			$link_checker->setMailStatus(true);
 			$link_checker->setCheckPeriod($this->__getCheckPeriod());
-			$link_checker->setObjId($node['obj_id']);
+			$link_checker->setObjId($tmp_webr->getId());
 
 
 			$tmp_webr->items_obj->updateValidByCheck($this->__getCheckPeriod());

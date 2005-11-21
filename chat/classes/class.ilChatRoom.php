@@ -509,14 +509,22 @@ class ilChatRoom
 
 	function getAllRooms()
 	{
+		global $ilObjDataCache;
+
 		$obj_ids = array();
 		$unique_chats = array();
-		foreach(ilUtil::getObjectsByOperations("chat","read",false) as $chat)
+		foreach(ilUtil::_getObjectsByOperations("chat","read") as $chat_id)
 		{
-			if(!in_array($chat['obj_id'],$obj_ids))
+			$obj_id = $ilObjDataCache->lookupObjId($chat_id);
+			if(!in_array($obj_id,$obj_ids))
 			{
-				$unique_chats[] = $chat;
-				$obj_ids[] = $chat['obj_id'];
+				$unique_data['child'] = $chat_id;
+				$unique_data['title'] = $ilObjDataCache->lookupTitle($obj_id);
+				$unique_data['obj_id'] = $obj_id;
+				$unique_data['ref_id'] = $chat_id;
+				
+				$unique_chats[] = $unique_data;
+				$obj_ids[] = $obj_id;
 			}
 		}
 		return $unique_chats ? $unique_chats : array();

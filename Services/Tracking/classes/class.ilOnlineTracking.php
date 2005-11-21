@@ -92,12 +92,14 @@ class ilOnlineTracking
 
 		if(($diff = time() - $access_time) <= $time_span)
 		{
-			$query = "UPDATE ut_online SET online_time = online_time + '".$diff."', access_time = '".time()."'";
+			$query = "UPDATE ut_online SET online_time = online_time + '".$diff."', access_time = '".time().
+				"' WHERE usr_id = '".$a_usr_id."'";
 			$ilDB->query($query);
 		}
 		else
 		{
-			$query = "UPDATE ut_online SET access_time = '".time()."'";
+			$query = "UPDATE ut_online SET access_time = '".time().
+				"' WHERE usr_id = '".$a_usr_id."'";
 			$ilDB->query($query);
 		}
 		return true;

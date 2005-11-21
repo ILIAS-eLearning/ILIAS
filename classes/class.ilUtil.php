@@ -488,112 +488,6 @@ class ilUtil
 		return $tpltab->get();
 	}
 
-	/**
-	* Get all objects of a specific type and check access
-	*
-	* Get all objects of a specific type where access is granted for the given list
-	* of operations. This function does a checkAccess call for all objects
-	* in the object hierarchy and return only the objects of the given type.
-	* Please note if access is not granted to any object in the hierarchy
-	* the function skips all objects under it.
-	* Example:
-	* You want a list of all Courses that are visible and readable for the user.
-	* The function call would be:
-	* $your_list = IlUtil::GetObjectsByOperations ("crs", "visible,read");
-	* Lets say there is a course A where the user would have access to according to
-	* his role assignments. Course A lies within a group object which is not readable
-	* for the user. Therefore course A won't appear in the result list although
-	* the queried operations 'visible' and 'read' would actually permit the user
-	* to access course A.
-	*
-	* @access	public
-	* @param	string	object type
-	* @param	string	permissions to check e.g. 'visible','read'
-	* @param	boolean	if true, access of all parent nodes of each found object are checked too (default is true)
-	* @return	array	returned objects
-	*/
-	function getObjectsByOperations($a_type,$a_operation,$a_checkpath = true)
-	{
-		global $ilDB, $rbacsystem, $tree;
-
-		$objects = array();
-
-		// return if root node ist not accessible
-		if ($a_checkpath === true and !$rbacsystem->checkAccess('read', ROOT_FOLDER_ID, $a_type))
-		{
-			return $objects;
-		}
-
-		// get all nodes of a_type that which are not deleted
-		$q = "SELECT * FROM tree ".
-		     "LEFT JOIN object_reference ON tree.child=object_reference.ref_id ".
-			 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id ".
-			 "WHERE object_data.type = '".$a_type."' ".
-			 "AND tree.tree = 1";
-
-		$r = $ilDB->query($q);
-
-		// check the desired operation of all found nodes
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if ($rbacsystem->checkAccess($a_operation, $row["ref_id"], $a_type))
-			{
-				$objects[] = $row;
-			}
-		}
-
-		// check access of nodes up in the tree for all accessible nodes
-		if ($a_checkpath === true)
-		{
-			$nodes_checked = array(ROOT_FOLDER_ID);
-			$nodes_passed = array(ROOT_FOLDER_ID);
-
-			foreach ($objects as $key => $node)
-			{
-				$path = $tree->getPathId($node["ref_id"],ROOT_FOLDER_ID);
-
-				array_push($nodes_checked,$node["ref_id"]);
-				array_push($nodes_passed,$node["ref_id"]);
-
-				if (($num = count($path)) > 2)
-				{
-				    for ($i = 1; $i <= ($num - 2); $i++)
-				    {
-//echo "<br/>i:".$i;
-						if (in_array($path[$i],$nodes_passed))
-						{
-//echo "<br/>".$i." already passed";
-							continue;
-						}
-
-						if (!in_array($path[$i],$nodes_checked))
-						{
-						    array_push($nodes_checked,$path[$i]);
-//echo "<br/>".$i." add to checked";
-							if ($rbacsystem->checkAccess($a_operation, $path[$i], $a_type))
-							{
-							    array_push($nodes_passed,$path[$i]);
-//echo "<br/>".$i." add to passed";
-							}
-							else
-							{
-								unset($objects[$key]);
-								// break for
-								break;
-							}
-						}
-					} // end for
-				} // end if $num
-//var_dump("<pre>",$node["ref_id"],$path,$num,"</pre>");
-			} // end foreach
-//var_dump("<pre>",$nodes_checked,$nodes_passed,"</pre>");
-		}
-
-		unset($nodes_checked);
-		unset($nodes_passed);
-
-		return $objects;
-	}
 
 
 	/**
@@ -2798,7 +2692,65 @@ class ilUtil
 	// validates an IP address (example: 192.168.1.1)
 	function isIPv4($a_str)
 	{
-		return(preg_match("/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/",$a_str));
+		return(preg_match("/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.".
+						  "(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/",$a_str));
+	}
+
+
+	/**
+	* Get all objects of a specific type and check access
+	* This function is not recursive, instead it parses the serialized rbac_pa entries
+	*
+	* Get all objects of a specific type where access is granted for the given list
+	* of operations. This function does a checkAccess call for all objects
+	* in the object hierarchy and return only the objects of the given type.
+	* Please note if access is not granted to any object in the hierarchy
+	* the function skips all objects under it.
+	* Example:
+	* You want a list of all Courses that are visible and readable for the user.
+	* The function call would be:
+	* $your_list = IlUtil::getObjectsByOperation ("crs", "visible,read");
+	* Lets say there is a course A where the user would have access to according to
+	* his role assignments. Course A lies within a group object which is not readable
+	* for the user. Therefore course A won't appear in the result list although
+	* the queried operations 'visible' and 'read' would actually permit the user
+	* to access course A.
+	*
+	* @access	public
+	* @param	string	object type
+	* @param	string	permission to check e.g. 'visible' or 'read'
+	* @param	boolean	if true, access of all parent nodes of each found object are checked too (default is true)
+	* @return	array of obj_ids
+	*/
+	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0)
+	{
+		global $ilDB,$rbacreview,$ilAccess,$ilUser;
+
+		// default to logged in usr
+		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
+		$a_roles = $rbacreview->assignedRoles($a_usr_id);
+
+		$ops_ids = ilRbacReview::_getOperationIdsByName(array($a_operation));
+		$ops_id = $ops_ids[0];
+
+		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM rbac_pa ".
+			"LEFT JOIN object_reference AS obr  ON obr.ref_id = rbac_pa.ref_id ".
+			"LEFT JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
+			"WHERE type = '".$a_obj_type."' ".
+			"AND ops_id LIKE '%i:".$ops_id."%'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// Check deleted, hierarchical access ...
+			if($ilAccess->checkAccessOfUser($a_usr_id,$a_operation,'',$row->ref_id,$row->type,$row->obj_id))
+			{
+				$ref_ids[] = $row->ref_id;
+			}
+		}
+
+		
+		return $ref_ids ? $ref_ids : array();
 	}
 
 } // END class.ilUtil
