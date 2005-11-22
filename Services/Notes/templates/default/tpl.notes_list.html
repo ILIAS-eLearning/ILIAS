@@ -45,7 +45,12 @@
 <!-- END edit_note_form -->
 <!-- BEGIN note -->
 <tr class="{ROWCLASS}">
-	<td class="std" colspan="2">
+	<!-- BEGIN checkbox_col -->
+	<td width="1px" valign="top"><input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
+	</td>
+	<!-- END checkbox_col -->
+	<td class="std" colspan="{CNT_COL}">
+	<!-- BEGIN delete_ids --><input type="hidden" name="{HID_NOTE}" value="{HID_NOTE_ID}"/><!-- END delete_ids -->
 	<div class="il_ContainerItemCommands" style="float:right;">
 	<!-- BEGIN delete_note -->
 	<a class="il_ContainerItemCommand" href="{LINK_DELETE_NOTE}">{TXT_DELETE_NOTE}</a>
@@ -72,5 +77,21 @@
 </tr>
 <!-- END note -->
 <!-- END note_row -->
+<!-- BEGIN multiple_commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<img border="0" src="{IMG_ARROW}" />
+		<input type="submit" class="submit" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" />
+	</td>
+</tr>
+<!-- END multiple_commands -->
+<!-- BEGIN delete_cancel -->
+<tr>
+	<td class="submit" colspan="2">
+		<input type="submit" class="submit" name="cmd[confirmDelete]" value="{TXT_DEL_NOTES}" />
+		<input type="submit" class="submit" name="cmd[cancelDelete]" value="{TXT_CANCEL_DEL_NOTES}" />
+	</td>
+</tr>
+<!-- END delete_cancel -->
 </table>
 </form>
