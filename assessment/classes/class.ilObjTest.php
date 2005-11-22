@@ -1070,7 +1070,9 @@ class ilObjTest extends ilObject
 		{
 			$random_question_count = $this->ilias->db->quote($this->random_question_count . "");
 		}
-    if ($this->test_id == -1) {
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
+    if ($this->test_id == -1) 
+		{
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -1105,7 +1107,6 @@ class ilObjTest extends ilObject
 				$db->quote($created)
       );
       
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_create_new_test", ilObjAssessmentFolder::_getLogLanguage()));
@@ -1114,7 +1115,9 @@ class ilObjTest extends ilObject
       if ($result == DB_OK) {
         $this->test_id = $this->ilias->db->getLastInsertId();
       }
-    } else {
+    } 
+		else 
+		{
       // Modify existing dataset
 			$oldrow = array();
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
