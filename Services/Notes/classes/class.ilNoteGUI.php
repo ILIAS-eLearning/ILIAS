@@ -320,7 +320,7 @@ class ilNoteGUI
 					}
 					
 					// target objects							
-					$this->showTargets($tpl, $this->rep_obj_id);
+					$this->showTargets($tpl, $this->rep_obj_id, $note->getId());
 					
 					$rowclass = ($rowclass != "tblrow1")
 						? "tblrow1"
@@ -346,6 +346,7 @@ class ilNoteGUI
 					$tpl->setVariable("VAL_DATE", $note->getCreationDate());
 					$tpl->setVariable("NOTE_TEXT", nl2br($note->getText()));
 					$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
+					$tpl->setVariable("NOTE_ID", $note->getId());
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("note_row");
@@ -356,7 +357,10 @@ class ilNoteGUI
 		return $tpl->get();
 	}
 	
-	function showTargets($tpl, $a_rep_obj_id)
+	/**
+	* show related objects as links
+	*/
+	function showTargets($tpl, $a_rep_obj_id, $a_note_id)
 	{
 		global $tree, $ilAccess, $objDefinition;
 
@@ -393,7 +397,11 @@ class ilNoteGUI
 						$title = ilObject::_lookupTitle($a_rep_obj_id);
 						$this->item_list_gui[$type]->initItem($vis_ref_id, $a_rep_obj_id, $title);
 						$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
-						$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link);
+						
+						// workaround, because # anchor can't be passed through frameset
+						$link = ilUtil::appendUrlParameterString($link, "anchor=note_".$a_note_id);
+						
+						$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link)."#note_".$a_note_id;
 						
 						$par_id = $tree->getParentId($vis_ref_id); 
 						$tpl->setCurrentBlock("target_object");
@@ -475,6 +483,7 @@ class ilNoteGUI
 			}
 
 			// details
+			$target = $note->getObject();
 			if ($showdetails)
 			{
 				$tpl->setVariable("NOTE_TEXT",
@@ -483,9 +492,20 @@ class ilNoteGUI
 				$tpl->setVariable("VAL_DATE", substr($note->getCreationDate(),0,10));
 				
 				// target objects		
-				$target = $note->getObject();
-				$this->showTargets($tpl, $target["rep_obj_id"]);
+				$this->showTargets($tpl, $target["rep_obj_id"], $note->getId());
 			}
+			
+			// edit button
+			$tpl->setCurrentBlock("edit_note");
+			$tpl->setVariable("TXT_EDIT_NOTE", $this->lng->txt("edit"));
+			$this->ctrl->setParameterByClass("ilnotegui", "rel_obj", $target["rep_obj_id"]);
+			$this->ctrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
+			$this->ctrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
+			$tpl->setVariable("LINK_EDIT_NOTE",
+				$this->ctrl->getLinkTargetByClass(array("ilpdnotesgui", "ilnotegui"), "editNoteForm")
+				."#note_edit");
+			$tpl->parseCurrentBlock();
+			
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("note_row");
 			$tpl->parseCurrentBlock();

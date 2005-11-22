@@ -54,20 +54,20 @@
 	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
 	<!-- END edit_note -->
 	</div>
-	<img src="{IMG_NOTE}" border="0" />
+	<a name="note_{NOTE_ID}"><img src="{IMG_NOTE}" border="0" /></a>
 	<b>{VAL_SUBJECT}
 	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
 		</b><br /><div style="margin-top:4px;">{NOTE_TEXT}</div>
+	<div class="subtitle" style="float:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}
+	<!-- BEGIN last_edit -->, {TXT_LAST_EDIT} {DATE_LAST_EDIT}
+	<!-- END last_edit --></div>
 	<!-- BEGIN target_objects -->
 		<div style="margin-top:4px;" class="subtitle">
 		<!-- BEGIN target_object -->
-			<div>... > {TXT_CONTAINER} > <a href="{LINK_TARGET}">{TXT_TARGET}</a></div>
+			<div>{TXT_CONTAINER} > <a href="{LINK_TARGET}">{TXT_TARGET}</a></div>
 		<!-- END target_object -->
 		</div>
 	<!-- END target_objects -->
-	<div class="subtitle" style="text-align:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}
-	<!-- BEGIN last_edit -->, {TXT_LAST_EDIT} {DATE_LAST_EDIT}
-	<!-- END last_edit --></div>
 	</td>
 </tr>
 <!-- END note -->
