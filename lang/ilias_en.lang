@@ -2323,6 +2323,8 @@ common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#obj_webr#:#Web Resource
 common#:#object#:#Object
 common#:#object_added#:#Object added
+common#:#object_imported#:#Object imported
+common#:#object_duplicated#:#Object duplicated
 common#:#objects#:#Objects
 common#:#objf#:#Object definitions
 common#:#objf_edit_permission#:#Change permission settings

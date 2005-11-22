@@ -197,18 +197,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
-			
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
+
+		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+			"&baseClass=ilObjSurveyQuestionPoolGUI");
 		
-		if (strlen($this->ctrl->getModuleDir()) == 0)
+/*		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$returnlocation = "adm_object.php";
 			include_once "./classes/class.ilUtil.php";
@@ -217,7 +212,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		else
 		{
 			$this->ctrl->redirect($this, "questions");
-		}
+		}*/
 	}
 	
 /**
@@ -1375,6 +1370,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			ilUtil::redirect("adm_object.php?".$this->link_params);
 		}
+		return $newObj->getRefId();
 	}
 
 	/**
@@ -1418,7 +1414,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TARGET", ' target="'.
+				ilFrameTargetInfo::_getFrame("MainContent").'" ');
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 			$this->tpl->setVariable("TXT_IMPORT_SPL", $this->lng->txt("import_spl"));
@@ -1438,10 +1435,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->createObject();
 			return;
 		}
-		$this->uploadSplObject(false);
-		include_once "./classes/class.ilUtil.php";
-		ilUtil::redirect($this->getReturnLocation("importFile",$this->ctrl->getTargetScript()."?".$this->link_params));
-//		$this->ctrl->redirect($this, "questions");
+		$ref_id = $this->uploadSplObject(false);
+		// always send a message
+		sendInfo($this->lng->txt("object_imported"),true);
+
+		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
+			"&baseClass=ilObjQuestionPoolGUI");
 	}
 
 	/**

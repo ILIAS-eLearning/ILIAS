@@ -4437,7 +4437,7 @@ class ilObjSurvey extends ilObject
 		$newObj->setPermissions($_GET["ref_id"]);
 //		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 		
-		$newObj->$author = $original->getAuthor();
+		$newObj->author = $original->getAuthor();
 		$newObj->introduction = $original->getIntroduction();
 		$newObj->status = $original->getStatus();
 		$newObj->evaluation_access = $original->getEvaluationAccess();
@@ -4526,6 +4526,7 @@ class ilObjSurvey extends ilObject
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($original->getId(),0,$original->getType());
 		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
+		return $newObj->getRefId();
 	}
 
 	/**

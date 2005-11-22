@@ -225,8 +225,9 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		include_once "./assessment/classes/class.ilObjTest.php";
-		ilObjTest::_clone($_POST["tst"]);
-		ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+		$ref_id = ilObjTest::_clone($_POST["tst"]);
+		sendInfo($this->lng->txt("object_duplicated"),true);
+		ilUtil::redirect("ilias.php?ref_id=$ref_id&baseClass=ilObjTestGUI");
 	}
 	
 	/**
@@ -239,14 +240,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
-
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
 
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
@@ -731,9 +724,9 @@ class ilObjTestGUI extends ilObjectGUI
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
 		
+		sendInfo($this->lng->txt("object_imported"),true);
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");
-		//ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
 	}
 	
 	function cancelImportObject()

@@ -5173,9 +5173,7 @@ class ilObjTest extends ilObject
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
-//		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-		
-		$newObj->$author = $original->getAuthor();
+		$newObj->author = $original->getAuthor();
 		$newObj->introduction = $original->getIntroduction();
 		$newObj->mark_schema = $original->mark_schema;
 		$newObj->sequence_settings = $original->getSequenceSettings();
@@ -5222,6 +5220,7 @@ class ilObjTest extends ilObject
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($original->getId(),0,$original->getType());
 		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
+		return $newObj->getRefId();
 	}
 
 	function _getRefIdFromObjId($obj_id)
