@@ -42,5 +42,30 @@ class ilStr
 			return substr($a_str, $a_start, $a_length);
 		}
 	}
+	
+	function strPos($a_haystack, $a_needle, $a_offset = NULL)
+	{
+		if (function_exists("mb_strpos"))
+		{
+			return mb_strpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+		}
+		else
+		{
+			return strpos($a_haystack, $a_needle, $a_offset);
+		}		
+	}
+	
+	function strLen($a_string)
+	{
+		if (function_exists("mb_strlen"))
+		{
+			return mb_strlen($a_string, "UTF-8");
+		}
+		else
+		{
+			return strlen($a_string);
+		}		
+	}
+
 } // END class.ilUtil
 ?>

@@ -986,7 +986,9 @@ class ilPersonalDesktopGUI
 
 		//$users_notes = $ilias->account->getPref("show_notes");
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
-		$html = ilNoteGUI::_getPDOverviewNoteListHTML(); 
+		$note_gui = new ilNoteGUI(0,0,"");
+		$note_gui->enableTargets();
+		$html = $note_gui->getPDOverviewNoteListHTML(); 
 		$this->tpl->setVariable("NOTES", $html);
 	}
 

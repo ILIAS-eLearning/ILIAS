@@ -43,7 +43,7 @@ class ilNoteGUI
 	*/
 	function ilNoteGUI($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_include_subobjects = false)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$this->rep_obj_id = $a_rep_obj_id;
 		$this->obj_id = $a_obj_id;
@@ -51,12 +51,14 @@ class ilNoteGUI
 		$this->inc_sub = $a_include_subobjects;
 		
 		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
 		
 		$this->add_note_form = false;
 		$this->edit_note_form = false;
 		$this->private_enabled = false;
 		$this->public_enabled = false;
 		$this->enable_hiding = true;
+		$this->targets_enabled = false;
 	}
 	
 	/**
@@ -99,6 +101,14 @@ class ilNoteGUI
 		$this->enable_hiding = $a_enable;
 	}
 	
+	/**
+	* enable target objects
+	*/
+	function enableTargets($a_enable = true)
+	{
+		$this->targets_enabled = $a_enable;
+	}
+
 	/***
 	* get note lists html code
 	*/
@@ -125,7 +135,7 @@ class ilNoteGUI
 	*/
 	function getNoteListHTML($a_type = IL_NOTE_PRIVATE)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $objDefinition;
 		
 		$suffix = ($a_type == IL_NOTE_PRIVATE)
 			? "private"
@@ -309,6 +319,9 @@ class ilNoteGUI
 						$tpl->parseCurrentBlock();
 					}
 					
+					// target objects							
+					$this->showTargets($tpl, $this->rep_obj_id);
+					
 					$rowclass = ($rowclass != "tblrow1")
 						? "tblrow1"
 						: "tblrow2";
@@ -343,11 +356,67 @@ class ilNoteGUI
 		return $tpl->get();
 	}
 	
+	function showTargets($tpl, $a_rep_obj_id)
+	{
+		global $tree, $ilAccess, $objDefinition;
+
+		if ($this->targets_enabled)
+		{
+			if ($a_rep_obj_id > 0)
+			{
+				// get all visible references of target object
+				$ref_ids = ilObject::_getAllReferences($a_rep_obj_id);
+				$vis_ref_ids = array();
+				foreach($ref_ids as $ref_id)
+				{
+					if ($ilAccess->checkAccess("visible", "", $ref_id))
+					{
+						$vis_ref_ids[] = $ref_id;
+					}
+				}
+			
+				// output links to targets
+				if (count($vis_ref_ids) > 0)
+				{
+					foreach($vis_ref_ids as $vis_ref_id)
+					{
+						$type = ilObject::_lookupType($vis_ref_id, true);
+						
+						if (!is_object($this->item_list_gui[$type]))
+						{
+							$class = $objDefinition->getClassName($type);
+							$location = $objDefinition->getLocation($type);
+							$full_class = "ilObj".$class."ListGUI";
+							include_once($location."/class.".$full_class.".php");
+							$this->item_list_gui[$type] = new $full_class();
+						}
+						$title = ilObject::_lookupTitle($a_rep_obj_id);
+						$this->item_list_gui[$type]->initItem($vis_ref_id, $a_rep_obj_id, $title);
+						$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
+						$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link);
+						
+						$par_id = $tree->getParentId($vis_ref_id); 
+						$tpl->setCurrentBlock("target_object");
+						$tpl->setVariable("LINK_TARGET", $link);
+						$tpl->setVariable("TXT_CONTAINER",
+							ilObject::_lookupTitle(
+							ilObject::_lookupObjId($par_id)));
+						$tpl->setVariable("TXT_TARGET",
+							$title);
+						$tpl->parseCurrentBlock();
+					}
+					$tpl->touchBlock("target_objects");
+				}
+			}
+		}
+	}
+
+	
 	/**
 	* notes overview on personal desktop
 	* shows 10 recent notes
 	*/
-	function _getPDOverviewNoteListHTML()
+	function getPDOverviewNoteListHTML()
 	{
 		global $lng, $ilUser, $ilCtrl;
 		
@@ -408,9 +477,14 @@ class ilNoteGUI
 			// details
 			if ($showdetails)
 			{
-				$tpl->setVariable("NOTE_TEXT", $note->getText());
+				$tpl->setVariable("NOTE_TEXT",
+					ilUtil::shortenText($note->getText(), 150, true, true));
 				$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
-				$tpl->setVariable("VAL_DATE", $note->getCreationDate());
+				$tpl->setVariable("VAL_DATE", substr($note->getCreationDate(),0,10));
+				
+				// target objects		
+				$target = $note->getObject();
+				$this->showTargets($tpl, $target["rep_obj_id"]);
 			}
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("note_row");

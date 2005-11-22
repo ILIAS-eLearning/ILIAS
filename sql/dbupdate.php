@@ -9210,3 +9210,7 @@ $ilDB->query($query);
 
 $ilCtrlStructureReader->getStructure();
 ?>
+<#593>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
