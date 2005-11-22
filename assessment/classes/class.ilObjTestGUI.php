@@ -152,6 +152,10 @@ class ilObjTestGUI extends ilObjectGUI
 					default:
 						$this->setAdminTabs();
 				}
+				if (preg_match("/deleteqpl_\d+/", $cmd))
+				{
+					$cmd = "randomQuestions";
+				}
 				if ((strcmp($cmd, "properties") == 0) && ($_GET["browse"]))
 				{
 					$this->questionBrowser();
@@ -1898,6 +1902,16 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 	}
+	
+	function saveRandomQuestionsObject()
+	{
+		$this->randomQuestionsObject();
+	}
+	
+	function addQuestionpoolObject()
+	{
+		$this->randomQuestionsObject();
+	}
 
 	function randomQuestionsObject()
 	{
@@ -1958,7 +1972,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 		}
-		foreach ($_POST as $key => $value)
+		foreach ($_POST["cmd"] as $key => $value)
 		{
 			if (preg_match("/deleteqpl_(\d+)/", $key, $matches))
 			{
@@ -2040,7 +2054,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 		}
-		if ($_POST["cmd"]["save"])
+		if ($_POST["cmd"]["saveRandomQuestions"])
 		{
 			$this->object->saveRandomQuestionCount($_POST["total_questions"]);
 			$this->object->saveRandomQuestionpools($found_qpls);
@@ -3704,7 +3718,11 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$force_active)
 		{
 			if ($_GET["browse"] == 1) $force_active = true;
-		}
+			if (preg_match("/deleteqpl_\d+/", $this->ctrl->getCmd()))
+			{
+				$force_active = true;
+			}
+	}
 		$tabs_gui->addTarget("ass_questions",
 			 $this->ctrl->getLinkTarget($this,'questions'),
 			 array("questions", "browseForQuestions", "createQuestion", 
@@ -3712,7 +3730,8 @@ class ilObjTestGUI extends ilObjectGUI
 			 "back", "createRandomSelection", "cancelRandomSelect",
 			 "insertRandomSelection", "removeQuestions", "moveQuestions",
 			 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
-			 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion"), 
+			 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
+			 "addQuestionpool", "saveRandomQuestions"), 
 			 "", "", $force_active);
 			 
 		// mark schema
