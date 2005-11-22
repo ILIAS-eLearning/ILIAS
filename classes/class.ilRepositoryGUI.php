@@ -436,8 +436,12 @@ class ilRepositoryGUI
 		$this->tpl = new ilTemplate("tpl.rep_frameset.html", false, false);
 		if ($_GET["rep_frame"] == 1)
 		{
+			// workaround for passing anchors (e.g. used in ilNoteGUI)
+			$anchor = ($_GET["anchor"] != "")
+				? "#".$_GET["anchor"]
+				: "";
 			$this->tpl->setVariable("SRC_CONTENT",
-				str_replace("rep_frame", "rep_frame_done", $_SERVER["REQUEST_URI"]));
+				str_replace("rep_frame", "rep_frame_done", $_SERVER["REQUEST_URI"]).$anchor);
 		}
 		else
 		{
