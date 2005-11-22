@@ -160,9 +160,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		include_once "./classes/class.ilUtil.php";
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getTargetScript()."?".$this->link_params));
-		exit();
+		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+			"&baseClass=ilObjSurveyGUI");
 	}
 
 	/**
@@ -2722,6 +2721,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("upload",$this->ctrl->getTargetScript()."?".$this->link_params));
 		}
+		return $newObj->getRefId();
 	}
 
 	/**
@@ -2799,7 +2799,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TARGET", ' target="'.
+				ilFrameTargetInfo::_getFrame("MainContent").'" ');
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 			$this->tpl->setVariable("TXT_IMPORT_SVY", $this->lng->txt("import_svy"));
@@ -2826,8 +2827,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		include_once "./survey/classes/class.ilObjSurvey.php";
 		include_once "./classes/class.ilUtil.php";
-		ilObjSurvey::_clone($_POST["svy"]);
-		ilUtil::redirect($this->getReturnLocation("cloneAll",$this->ctrl->getTargetScript()."?".$this->link_params));
+		$ref_id = ilObjSurvey::_clone($_POST["svy"]);
+		// always send a message
+		sendInfo($this->lng->txt("object_duplicated"),true);
+
+		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
+			"&baseClass=ilObjSurveyGUI");
 	}
 	
 	/**
@@ -2847,8 +2852,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->createObject();
 			return;
 		}
-		$this->uploadObject(false);
-		$this->ctrl->redirect($this, "importFile");
+		$ref_id = $this->uploadObject(false);
+		// always send a message
+		sendInfo($this->lng->txt("object_duplicated"),true);
+
+		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
+			"&baseClass=ilObjSurveyGUI");
+//		$this->ctrl->redirect($this, "importFile");
 	}
 
 	/**

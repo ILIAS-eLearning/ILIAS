@@ -532,7 +532,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+			sendInfo($this->lng->txt("object_imported"),true);
+			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+				"&baseClass=ilObjQuestionPoolGUI");
 		}
 	}
 	
@@ -629,18 +631,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
-
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 
-		if (strlen($this->ctrl->getModuleDir()) == 0)
+		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+			"&baseClass=ilObjQuestionPoolGUI");
+
+/*		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			include_once "./classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
@@ -648,7 +645,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		else
 		{
 			$this->ctrl->redirect($this, "questions");
-		}
+		}*/
 	}
 
 	/**
@@ -1093,12 +1090,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		// create table header
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
 		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
@@ -1480,7 +1477,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TARGET", ' target="'.
+				ilFrameTargetInfo::_getFrame("MainContent").'" ');
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 			$this->tpl->setVariable("TXT_IMPORT_QPL", $this->lng->txt("import_qpl"));
@@ -1670,13 +1668,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		if (!$force_active)
 		{
-			$force_active = (strtolower($this->ctrl->getCmdClass()) == strtolower(get_class($this)) &&
+			$force_active = ((strtolower($this->ctrl->getCmdClass()) == strtolower(get_class($this)) || strlen($this->ctrl->getCmdClass()) == 0) &&
 				$this->ctrl->getCmd() == "")
 				? true
 				: false;
 		}
 		$tabs_gui->addTarget("ass_questions",
-			 $this->ctrl->getLinkTarget($this,'questions'),
+			 $this->ctrl->getLinkTarget($this, "questions"),
 			 array("questions", "filter", "resetFilter", "createQuestion", 
 			 	"importQuestions", "deleteQuestions", "duplicate", 
 				"view", "preview", "editQuestion", "exec_pg",
