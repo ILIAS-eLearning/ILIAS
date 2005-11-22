@@ -376,8 +376,13 @@ class ilObjFileGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
+			if ($this->ctrl->getCmdClass() == "ilnotegui")
+			{
+				$force_activated = true;
+			}
 			$tabs_gui->addTarget("info_short",
-				$this->ctrl->getLinkTarget($this, "infoScreen"), array("infoScreen", ""), "");
+				$this->ctrl->getLinkTarget($this, "infoScreen"), array("infoScreen", ""), ""
+				,"", $force_activated);
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))

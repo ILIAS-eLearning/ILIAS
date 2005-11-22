@@ -28,9 +28,14 @@
 	<b>{VAL_SUBJECT}
 	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
 		</b><br /><div class="il_Description">{NOTE_TEXT}</div>
-	<div class="il_Description">{TXT_CREATED} {VAL_DATE}
-	<!-- BEGIN last_edit -->, {TXT_LAST_EDIT} {DATE_LAST_EDIT}
-	<!-- END last_edit --></div>
+	<div class="il_Description"  style="float:right;">{VAL_DATE}</div>
+	<!-- BEGIN target_objects -->
+		<div class="il_Description">
+		<!-- BEGIN target_object -->
+			<div>{TXT_CONTAINER} > <a style="font-weight:normal;" href="{LINK_TARGET}">{TXT_TARGET}</a></div>
+		<!-- END target_object -->
+		</div>
+	<!-- END target_objects -->
 	</td>
 </tr>
 <!-- END note -->

@@ -906,14 +906,23 @@ class ilUtil
 	* @param	string	string to be shortened
 	* @param	integer	string length in chars
 	* @param	boolean	adding 3 dots (true) or not (false, default)
+	* @param	truncate at first blank after $a_len characters
 	* @return	string 	shortended string
 	*/
-	function shortenText ($a_str, $a_len, $a_dots = "false")
+	function shortenText ($a_str, $a_len, $a_dots = false, $a_next_blank = false)
 	{
-		if (strlen($a_str) > $a_len)
+		include_once("./classes/class.ilStr.php");
+		if (ilStr::strLen($a_str) > $a_len)
 		{
-
-			$a_str = substr($a_str,0,$a_len);
+			if ($a_next_blank)
+			{
+				$len = ilStr::strPos($a_str, " ", $a_len);
+			}
+			else
+			{
+				$len = $a_len;
+			}
+			$a_str = ilStr::subStr($a_str,0,$len);
 
 			if ($a_dots)
 			{

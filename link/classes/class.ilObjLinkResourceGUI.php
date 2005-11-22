@@ -27,7 +27,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilNoteGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,6 +69,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		switch($next_class)
 		{
+			case "ilnotegui":
+				$ret =& $this->infoScreenObject();
+				break;
+
 			case 'ilmdeditorgui':
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
@@ -842,6 +846,30 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		$this->editItemsObject();
 	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreenObject()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		
+		$info->enablePrivateNotes();
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML());
+	}
+
 
 	function historyObject()
 	{
@@ -1069,6 +1097,18 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				array("editItems", "addItem", "deleteItems", "editItem", "updateItem"),
 				"");
 		}
+		
+		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		{
+			if ($this->ctrl->getCmdClass() == "ilnotegui")
+			{
+				$force_activated = true;
+			}
+			$tabs_gui->addTarget("info_short",
+				$this->ctrl->getLinkTarget($this, "infoScreen"), array("infoScreen"), ""
+				, "", $force_activated);
+		}
+
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("meta_data",

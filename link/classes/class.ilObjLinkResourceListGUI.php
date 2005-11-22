@@ -88,6 +88,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		$this->payment_enabled = false;
 		$this->type = "webr";
 		$this->gui_class_name = "ilobjlinkresourcegui";
+		$this->info_screen_enabled = true;
 		
 		// general commands array
 		include_once('class.ilObjLinkResourceAccess.php');
