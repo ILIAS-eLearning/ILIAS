@@ -1788,7 +1788,7 @@ common#:#info_assign_sure#:#Are you sure you want to assign the following user(s
 common#:#info_assigned#:#assigned
 common#:#info_available_roles#:#Available roles
 common#:#info_change_user_view#:#Change User
-common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)?
+common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists

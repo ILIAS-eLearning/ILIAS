@@ -143,6 +143,7 @@ class ilPDNotesGUI
 		$notes_gui->enablePrivateNotes();
 		$notes_gui->enableHiding(false);
 		$notes_gui->enableTargets(true);
+		$notes_gui->enableMultiSelection(true);
 
 		$next_class = $this->ctrl->getNextClass($this);
 		if ($next_class == "ilnotegui")

@@ -59,6 +59,7 @@ class ilNoteGUI
 		$this->public_enabled = false;
 		$this->enable_hiding = true;
 		$this->targets_enabled = false;
+		$this->multi_selection = false;
 	}
 	
 	/**
@@ -109,6 +110,14 @@ class ilNoteGUI
 		$this->targets_enabled = $a_enable;
 	}
 
+	/**
+	* enable multi selection (checkboxes and commands)
+	*/
+	function enableMultiSelection($a_enable = true)
+	{
+		$this->multi_selection = $a_enable;
+	}
+
 	/***
 	* get note lists html code
 	*/
@@ -122,7 +131,7 @@ class ilNoteGUI
 			$html.= $this->getNoteListHTML(IL_NOTE_PRIVATE);
 		}
 		
-		if ($this->public_enabled)
+		if ($this->public_enabled && !$this->delete_note)
 		{
 			$html.= $this->getNoteListHTML(IL_NOTE_PUBLIC);
 		}
@@ -143,7 +152,14 @@ class ilNoteGUI
 		
 		if ($this->delete_note)
 		{
-			$filter = $_GET["note_id"];
+			if ($_GET["note_id"] != "")
+			{
+				$filter = $_GET["note_id"];
+			}
+			else
+			{
+				$filter = $_POST["note"];
+			}
 		}
 		
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
@@ -157,7 +173,11 @@ class ilNoteGUI
 			? " (".count($notes).")"
 			: "";
 		
-		if ($a_type == IL_NOTE_PRIVATE)
+		if ($this->delete_note)
+		{
+			$tpl->setVariable("TXT_NOTES", $lng->txt("info_delete_sure"));
+		}
+		else if ($a_type == IL_NOTE_PRIVATE)
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("private_notes").$cnt_str);
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
@@ -170,7 +190,7 @@ class ilNoteGUI
 		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 		
 		// show add new note button
-		if (!$this->add_note_form && !$this->edit_note_form &&
+		if (!$this->add_note_form && !$this->edit_note_form && !$this->delete_note &&
 			($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
@@ -184,7 +204,7 @@ class ilNoteGUI
 		}
 		
 		// show show/hide button for note list
-		if (count($notes) > 0 && $this->enable_hiding)
+		if (count($notes) > 0 && $this->enable_hiding && !$this->delete_note)
 		{
 			if ($ilUser->getPref("notes_".$suffix) == "n")
 			{
@@ -282,27 +302,44 @@ class ilNoteGUI
 						&& ($ilUser->getId() != ANONYMOUS_USER_ID))
 					{
 						// only private notes can be deleted
-						if ($a_type == IL_NOTE_PRIVATE)
+						if ($a_type == IL_NOTE_PRIVATE && !$this->delete_note)
 						{
 							$tpl->setCurrentBlock("delete_note");
 							$tpl->setVariable("TXT_DELETE_NOTE", $lng->txt("delete"));
 							$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
 							$tpl->setVariable("LINK_DELETE_NOTE",
 								$ilCtrl->getLinkTargetByClass("ilnotegui", "deleteNote")
+								."#note_".$note->getId());
+							$tpl->parseCurrentBlock();
+						}
+						
+						// checkboxes in multiselection mode
+						if ($this->multi_selection && !$this->delete_note)
+						{
+							$tpl->setCurrentBlock("checkbox_col");
+							$tpl->setVariable("CHK_NOTE", "note[]");
+							$tpl->setVariable("CHK_NOTE_ID", $note->getId());
+							$tpl->parseCurrentBlock();
+							$tpl->setVariable("CNT_COL", 1);
+						}
+						else
+						{
+							$tpl->setVariable("CNT_COL", 2);
+						}
+
+						if (!$this->delete_note)
+						{
+							$tpl->setCurrentBlock("edit_note");
+							$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
+							$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
+							$tpl->setVariable("LINK_EDIT_NOTE",
+								$ilCtrl->getLinkTargetByClass("ilnotegui", "editNoteForm")
 								."#note_edit");
 							$tpl->parseCurrentBlock();
 						}
-
-						$tpl->setCurrentBlock("edit_note");
-						$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
-						$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
-						$tpl->setVariable("LINK_EDIT_NOTE",
-							$ilCtrl->getLinkTargetByClass("ilnotegui", "editNoteForm")
-							."#note_edit");
-						$tpl->parseCurrentBlock();
 					}
 					
-					// output authot account
+					// output author account
 					if ($a_type == IL_NOTE_PUBLIC)
 					{
 						$tpl->setCurrentBlock("author");
@@ -317,6 +354,15 @@ class ilNoteGUI
 						$tpl->setVariable("TXT_LAST_EDIT", $lng->txt("last_edited_on"));
 						$tpl->setVariable("DATE_LAST_EDIT", $note->getUpdateDate());
 						$tpl->parseCurrentBlock();
+					}
+					
+					// hidden note ids for deletion
+					if ($this->delete_note)
+					{
+						$tpl->setCurrentBlock("delete_ids");
+						$tpl->setVariable("HID_NOTE", "note[]");
+						$tpl->setVariable("HID_NOTE_ID", $note->getId());
+						$tpl->parseCurrentBlock();						
 					}
 					
 					// target objects							
@@ -350,6 +396,24 @@ class ilNoteGUI
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("note_row");
+				$tpl->parseCurrentBlock();
+			}
+			
+			// multiple items commands
+			if ($this->multi_selection && !$this->delete_note)
+			{
+				$tpl->setCurrentBlock("multiple_commands");
+				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+				$tpl->setVariable("TXT_DELETE_NOTES", $this->lng->txt("delete"));
+				$tpl->parseCurrentBlock();
+			}
+
+			// delete / cancel row
+			if ($this->delete_note)
+			{
+				$tpl->setCurrentBlock("delete_cancel");
+				$tpl->setVariable("TXT_DEL_NOTES", $this->lng->txt("delete"));
+				$tpl->setVariable("TXT_CANCEL_DEL_NOTES", $this->lng->txt("cancel"));
 				$tpl->parseCurrentBlock();
 			}
 		}
@@ -597,7 +661,7 @@ class ilNoteGUI
 	}
 
 	/**
-	* get notes list including add note area
+	* delete note confirmation
 	*/ 
 	function deleteNote()
 	{
@@ -605,6 +669,36 @@ class ilNoteGUI
 		return $this->getNotesHTML();
 	}
 	
+	/**
+	* delete notes confirmation
+	*/ 
+	function deleteNotes()
+	{
+		$this->delete_note = true;
+		return $this->getNotesHTML();
+	}
+
+	/**
+	* cancel deletion of note
+	*/ 
+	function cancelDelete()
+	{
+		return $this->getNotesHTML();
+	}
+	
+	/**
+	* cancel deletion of note
+	*/ 
+	function confirmDelete()
+	{
+		foreach($_POST["note"] as $id)
+		{
+			$note = new ilNote($id);
+			$note->delete();
+		}
+		return $this->getNotesHTML();
+	}
+
 	/**
 	* show notes
 	*/

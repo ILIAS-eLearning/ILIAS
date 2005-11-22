@@ -289,6 +289,18 @@ class ilNote
 	}
 	
 	/**
+	* delete note
+	*/
+	function delete()
+	{
+		global $ilDB;
+		
+		$q = "DELETE FROM note WHERE id = ".
+			$ilDB->quote($this->getId());
+		$ilDB->query($q);
+	}
+	
+	/**
 	* set all note data by record array
 	*/
 	function setAllData($a_note_rec)
