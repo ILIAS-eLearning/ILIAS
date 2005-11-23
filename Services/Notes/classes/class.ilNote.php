@@ -27,6 +27,8 @@ define("IL_NOTE_PUBLIC", 2);
 define("IL_NOTE_UNLABELED", 0);
 define("IL_NOTE_IMPORTANT", 1);
 define("IL_NOTE_QUESTION", 2);
+define("IL_NOTE_PRO", 3);
+define("IL_NOTE_CONTRA", 4);
 
 /**
 * Note class. Represents a single note.
@@ -219,6 +221,7 @@ class ilNote
 	* set label
 	*
 	* @param	int		IL_NOTE_UNLABELED | IL_NOTE_IMPORTANT | IL_NOTE_QUESTION
+	*					| IL_NOTE_PRO | IL_NOTE_CONTRA
 	*/
 	function setLabel($a_label)
 	{
@@ -229,6 +232,7 @@ class ilNote
 	* get label
 	*
 	* @return	int		IL_NOTE_UNLABELED | IL_NOTE_IMPORTANT | IL_NOTE_QUESTION
+	*					| IL_NOTE_PRO | IL_NOTE_CONTRA
 	*/
 	function getLabel()
 	{

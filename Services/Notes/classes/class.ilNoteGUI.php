@@ -255,6 +255,10 @@ class ilNoteGUI
 			$tpl->setVariable("TXT_LABEL_QUESTION", $lng->txt("question"));
 			$tpl->setVariable("VAL_LABEL_IMPORTANT", IL_NOTE_IMPORTANT);
 			$tpl->setVariable("TXT_LABEL_IMPORTANT", $lng->txt("important"));
+			$tpl->setVariable("VAL_LABEL_PRO", IL_NOTE_PRO);
+			$tpl->setVariable("TXT_LABEL_PRO", $lng->txt("pro"));
+			$tpl->setVariable("VAL_LABEL_CONTRA", IL_NOTE_CONTRA);
+			$tpl->setVariable("TXT_LABEL_CONTRA", $lng->txt("contra"));
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("note_row");
 			$tpl->parseCurrentBlock();
@@ -287,6 +291,10 @@ class ilNoteGUI
 					$tpl->setVariable("TXT_LABEL_QUESTION", $lng->txt("question"));
 					$tpl->setVariable("VAL_LABEL_IMPORTANT", IL_NOTE_IMPORTANT);
 					$tpl->setVariable("TXT_LABEL_IMPORTANT", $lng->txt("important"));
+					$tpl->setVariable("VAL_LABEL_PRO", IL_NOTE_PRO);
+					$tpl->setVariable("TXT_LABEL_PRO", $lng->txt("pro"));
+					$tpl->setVariable("VAL_LABEL_CONTRA", IL_NOTE_CONTRA);
+					$tpl->setVariable("TXT_LABEL_CONTRA", $lng->txt("contra"));
 					$tpl->setVariable("VAL_NOTE_ID", $_GET["note_id"]);
 					switch($note->getLabel())
 					{
@@ -300,6 +308,14 @@ class ilNoteGUI
 							
 						case IL_NOTE_QUESTION:
 							$tpl->setVariable("SEL_QUESTION", 'selected="selected"');
+							break;
+							
+						case IL_NOTE_PRO:
+							$tpl->setVariable("SEL_PRO", 'selected="selected"');
+							break;
+							
+						case IL_NOTE_CONTRA:
+							$tpl->setVariable("SEL_CONTRA", 'selected="selected"');
 							break;
 					}
 					$tpl->parseCurrentBlock();
@@ -397,6 +413,14 @@ class ilNoteGUI
 							case IL_NOTE_QUESTION:
 								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
 								break;
+								
+							case IL_NOTE_PRO:
+								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_pro.gif"));
+								break;
+								
+							case IL_NOTE_CONTRA:
+								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_contra.gif"));
+								break;
 						}
 						$tpl->parseCurrentBlock();
 					}
@@ -414,6 +438,14 @@ class ilNoteGUI
 								
 							case IL_NOTE_QUESTION:
 								$tpl->setVariable("EXP_ICON", "[?]");
+								break;
+
+							case IL_NOTE_PRO:
+								$tpl->setVariable("EXP_ICON", "[+]");
+								break;
+								
+							case IL_NOTE_CONTRA:
+								$tpl->setVariable("EXP_ICON", "[-]");
 								break;
 						}
 					}
@@ -595,6 +627,14 @@ class ilNoteGUI
 					
 				case IL_NOTE_QUESTION:
 					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
+					break;
+					
+				case IL_NOTE_PRO:
+					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_pro.gif"));
+					break;
+					
+				case IL_NOTE_CONTRA:
+					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_contra.gif"));
 					break;
 			}
 
