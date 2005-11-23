@@ -28,6 +28,8 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI
+*
 * @package ilias-core
 */
 class ilInfoScreenGUI
@@ -53,14 +55,49 @@ class ilInfoScreenGUI
 		$this->gui_object =& $a_gui_object;
 		$this->sec_nr = 0;
 		$this->private_notes_enabled = false;
+		$this->feedback_enabled = false;
 	}
 	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		$next_class = $this->ctrl->getNextClass($this);
+
+		$cmd = $this->ctrl->getCmd("showSummary");
+		
+		$this->setTabs();
+		
+		switch($next_class)
+		{
+			case "ilnotegui":
+				$this->showSummary();
+				break;
+				
+			default:
+				return $this->$cmd();
+				break;
+		}
+		return true;
+	}
+
 	/**
 	* enable notes
 	*/
 	function enablePrivateNotes($a_enable = true)
 	{
 		$this->private_notes_enabled = $a_enable;
+	}
+	
+	/**
+	* enable feedback
+	*/
+	function enableFeedback($a_enable = true)
+	{
+		$this->feedback_enabled = $a_enable;
 	}
 	
 	/**
@@ -209,6 +246,17 @@ class ilInfoScreenGUI
 	}
 	
 	/**
+	* show summary page
+	*/
+	function showSummary()
+	{
+		global $tpl, $ilAccess;
+		
+		$tpl->setContent($this->getHTML());
+	}
+
+	
+	/**
 	* get html
 	*/
 	function getHTML()
@@ -283,7 +331,6 @@ class ilInfoScreenGUI
 	function showNotesSection()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$notes_gui = new ilNoteGUI($this->gui_object->object->getId(), 0,
 			$this->gui_object->object->getType());
@@ -301,6 +348,52 @@ class ilInfoScreenGUI
 		}
 		
 		return $html;
+	}
+
+	function setTabs()
+	{
+		global $tpl;
+		
+		include_once("classes/class.ilTabsGUI.php");
+		$tab_gui = new ilTabsGUI();
+		$tab_gui->setSubTabs();
+		$this->getTabs($tab_gui);
+		$tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+	}
+
+	/**
+	* get tabs
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+		
+		$next_class = $this->ctrl->getNextClass($this);
+		$force_active = ($next_class == "ilnotegui")
+			? true
+			: false;
+
+		$tabs_gui->addTarget('summary',
+			 $this->ctrl->getLinkTarget($this, "showSummary"),
+			 array("showSummary", ""),
+			 get_class($this), "", $force_active);
+			 
+		if ($this->feedback_enabled)
+		{
+			// dummy
+			$tabs_gui->addTarget("feedback",
+				$this->ctrl->getLinkTarget($this, "dummy"),
+				"", "ilfeedbackgui");
+
+			// this should work with feedback class available
+			// maybe a line... "@ilCtrl_Calls ilFeedbackGUI:"
+			// in the header of feedbackgui is necessary
+			/*
+			$tabs_gui->addTarget("feedback",
+				$this->ctrl->getLinkTargetByClass('ilfeedbackgui','fbList'),
+				"", "ilfeedbackgui");
+			*/
+		}
 	}
 
 }

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -27,7 +27,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilNoteGUI
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,8 +69,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		switch($next_class)
 		{
-			case "ilnotegui":
-				$ret =& $this->infoScreenObject();
+			case "ilinfoscreengui":
+				$this->infoScreen();	// forwards command
 				break;
 
 			case 'ilmdeditorgui':
@@ -848,9 +848,21 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	}
 	
 	/**
-	* show information screen
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
 	*/
 	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
+	/**
+	* show information screen
+	*/
+	function infoScreen()
 	{
 		global $ilAccess;
 
@@ -867,7 +879,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		
-		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML());
+		// forward the command
+		$this->ctrl->forwardCommand($info);
 	}
 
 
@@ -1100,13 +1113,18 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			if ($this->ctrl->getCmdClass() == "ilnotegui")
-			{
-				$force_activated = true;
-			}
+			// this is not nice. tabs should be displayed in ilcoursegui
+			// not via ilrepositorygui, then next_class == ilinfoscreengui
+			// could be checked
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
 			$tabs_gui->addTarget("info_short",
-				$this->ctrl->getLinkTarget($this, "infoScreen"), array("infoScreen"), ""
-				, "", $force_activated);
+								 $this->ctrl->getLinkTargetByClass(
+								 array("ilobjlinkresourcegui", "ilinfoscreengui"), "showSummary"),
+								 "infoScreen",
+								 "", "", $force_active);
 		}
 
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))

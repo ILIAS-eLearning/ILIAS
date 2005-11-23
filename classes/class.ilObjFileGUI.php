@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilNoteGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -62,8 +62,8 @@ class ilObjFileGUI extends ilObjectGUI
 //echo "-$cmd-";
 		switch ($next_class)
 		{
-			case "ilnotegui":
-				$ret =& $this->infoScreenObject();
+			case "ilinfoscreengui":
+				$this->infoScreen();	// forwards command
 				break;
 
 			case 'ilmdeditorgui':
@@ -325,11 +325,22 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
 	
-		
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
 	/**
 	* show information screen
 	*/
-	function infoScreenObject()
+	function infoScreen()
 	{
 		global $ilAccess;
 
@@ -361,7 +372,8 @@ class ilObjFileGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("version"),
 			$this->object->getVersion());
 
-		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML());
+		// forward the command
+		$this->ctrl->forwardCommand($info);
 	}
 
 
@@ -376,13 +388,18 @@ class ilObjFileGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			if ($this->ctrl->getCmdClass() == "ilnotegui")
-			{
-				$force_activated = true;
-			}
+			// this is not nice. tabs should be displayed in ilcoursegui
+			// not via ilrepositorygui, then next_class == ilinfoscreengui
+			// could be checked
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
 			$tabs_gui->addTarget("info_short",
-				$this->ctrl->getLinkTarget($this, "infoScreen"), array("infoScreen", ""), ""
-				,"", $force_activated);
+				 $this->ctrl->getLinkTargetByClass(
+				 array("ilobjfilegui", "ilinfoscreengui"), "showSummary"),
+				 "infoScreen",
+				 "", "", $force_active);
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))

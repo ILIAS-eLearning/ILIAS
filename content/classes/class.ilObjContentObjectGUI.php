@@ -2491,7 +2491,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			{
 				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]); 
 				$tpl_menu->setVariable("BTN_LINK",
-					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showInfoScreen"));
+					$this->ctrl->getLinkTargetByClass(
+						array("illmpresentationgui", "ilinfoscreengui"), "showSummary"));
 			}
 			else
 			{
