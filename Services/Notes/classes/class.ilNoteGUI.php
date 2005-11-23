@@ -322,7 +322,9 @@ class ilNoteGUI
 				}
 				else
 				{
-					// edit note button
+					$cnt_col = 2;
+					
+					// edit note stuff for all private notes
 					if ($note->getAuthor() == $ilUser->getId()
 						&& ($ilUser->getId() != ANONYMOUS_USER_ID))
 					{
@@ -346,11 +348,7 @@ class ilNoteGUI
 							$tpl->setVariable("CHK_NOTE", "note[]");
 							$tpl->setVariable("CHK_NOTE_ID", $note->getId());
 							$tpl->parseCurrentBlock();
-							$tpl->setVariable("CNT_COL", 1);
-						}
-						else
-						{
-							$tpl->setVariable("CNT_COL", 2);
+							$cnt_col = 1;
 						}
 
 						if (!$this->delete_note && !$this->export_html && !$this->print)
@@ -364,6 +362,8 @@ class ilNoteGUI
 							$tpl->parseCurrentBlock();
 						}
 					}
+					
+					$tpl->setVariable("CNT_COL", $cnt_col);
 					
 					// output author account
 					if ($a_type == IL_NOTE_PUBLIC)
