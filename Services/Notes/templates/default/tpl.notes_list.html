@@ -1,7 +1,46 @@
+<!-- BEGIN print_style -->
+<style type="text/css">
+<!--
+body
+{
+	margin: 10px;
+}
+table.fullwidth
+{
+	width: 100%;
+	border-width:0px;
+	border-spacing:0px;
+	border-collapse:collapse;
+}
+td
+{	
+	border-style:solid;
+	border-width:1px;
+	padding: 3px;
+}
+th
+{
+	font-size: 130%;
+	padding: 14px 0px 4px 0px;
+}
+div.subtitle
+{
+	font-size: 90%;
+}
+a.il_PrintBack
+{
+	font-size: 80%;
+}
+-->
+</style>
+<!-- END print_style -->
+<!-- BEGIN print_back -->
+<a class="il_PrintBack" href="{LINK_BACK}">{TXT_BACK}</a>
+<!-- END print_back -->
 <form action="{FORMACTION}" name="cmd" method="post">
-<table class="fullwidth">
+<table class="fullwidth" width="100%">
 <tr class="tblheader">
-	<td class="std" colspan="2">
+	<th class="std" colspan="2">
 		<div style="float:left;">{TXT_NOTES}</div>
 		<div class="il_ContainerItemCommands" style="float:right;">
 		<!-- BEGIN show_notes -->
@@ -14,7 +53,7 @@
 		<a class="il_ContainerItemCommand" href="{LINK_ADD_NOTE}">{TXT_ADD_NOTE}</a>
 		<!-- END add_note_btn -->
 		</div>
-	</td>
+	</th>
 </tr>
 <!-- BEGIN note_row -->
 <!-- BEGIN edit_note_form -->
@@ -59,7 +98,7 @@
 	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
 	<!-- END edit_note -->
 	</div>
-	<a name="note_{NOTE_ID}"><img src="{IMG_NOTE}" border="0" /></a>
+	<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><img src="{IMG_NOTE}" border="0" /><!-- END note_img --></a>
 	<b>{VAL_SUBJECT}
 	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
 		</b><br /><div style="margin-top:4px;">{NOTE_TEXT}</div>
@@ -71,6 +110,9 @@
 		<!-- BEGIN target_object -->
 			<div>{TXT_CONTAINER} > <a href="{LINK_TARGET}">{TXT_TARGET}</a></div>
 		<!-- END target_object -->
+		<!-- BEGIN exp_target_object -->
+			<div>{TXT_CONTAINER} > {TXT_TARGET}</div>
+		<!-- END exp_target_object -->
 		</div>
 	<!-- END target_objects -->
 	</td>
@@ -104,3 +146,14 @@
 <!-- END delete_cancel -->
 </table>
 </form>
+<!-- BEGIN print_js -->
+<script type="text/javascript" language="javascript1.2">
+<!--
+	// Do print the page
+	if (typeof(window.print) != 'undefined')
+	{
+		window.print();
+	}
+//-->
+</script>
+<!-- END print_js -->
