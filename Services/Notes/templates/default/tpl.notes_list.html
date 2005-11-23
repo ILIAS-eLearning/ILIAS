@@ -1,4 +1,4 @@
-<form action="{FORMACTION}" name="post" method="post">
+<form action="{FORMACTION}" name="cmd" method="post">
 <table class="fullwidth">
 <tr class="tblheader">
 	<td class="std" colspan="2">
@@ -79,9 +79,18 @@
 <!-- END note_row -->
 <!-- BEGIN multiple_commands -->
 <tr>
+	<td class="submit" width="1px">
+	<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">
+	</td>
+	<td class="submit">{TXT_SELECT_ALL}
+	</td>
+</tr>
+<tr>
 	<td class="submit" colspan="2">
 		<img border="0" src="{IMG_ARROW}" />
 		<input type="submit" class="submit" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" />
+		<input type="submit" class="submit" name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
+		<input type="submit" class="submit" name="cmd[printNotes]" value="{TXT_PRINT_NOTES}" />
 	</td>
 </tr>
 <!-- END multiple_commands -->
