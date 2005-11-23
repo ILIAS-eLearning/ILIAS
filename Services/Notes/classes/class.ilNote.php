@@ -354,11 +354,12 @@ class ilNote
 	* get all notes related to a specific object
 	*/
 	function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
-		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "")
+		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "",
+		$a_all_public = "y")
 	{
 		global $ilDB, $ilUser;
 		
-		$author_where = ($a_type == IL_NOTE_PRIVATE)
+		$author_where = ($a_type == IL_NOTE_PRIVATE || $a_all_public == "n")
 			? " AND author = ".$ilDB->quote($ilUser->getId())
 			: "";
 
