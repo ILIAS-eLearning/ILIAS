@@ -165,7 +165,8 @@ class ilNoteGUI
 		}
 		
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
-			$this->obj_type, $a_type, $this->inc_sub, $filter);
+			$this->obj_type, $a_type, $this->inc_sub, $filter,
+			$ilUser->getPref("notes_pub_all"));
 		
 		$tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
 		
@@ -231,6 +232,25 @@ class ilNoteGUI
 					$tpl->setVariable("LINK_HIDE_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "hideNotes"));
 					$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("hide_".$suffix."_notes"));
 					$tpl->parseCurrentBlock();
+					
+					// show all public notes / my notes only switch
+					if ($a_type == IL_NOTE_PUBLIC)
+					{
+						if ($ilUser->getPref("notes_pub_all") == "n")
+						{
+							$tpl->setCurrentBlock("all_pub_notes");
+							$tpl->setVariable("LINK_ALL_PUB_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "showAllPublicNotes"));
+							$tpl->setVariable("TXT_ALL_PUB_NOTES", $lng->txt("note_all_pub_notes"));
+							$tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$tpl->setCurrentBlock("my_pub_notes");
+							$tpl->setVariable("LINK_MY_PUB_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "showMyPublicNotes"));
+							$tpl->setVariable("TXT_MY_PUB_NOTES", $lng->txt("note_my_pub_notes"));
+							$tpl->parseCurrentBlock();
+						}
+					}
 				}
 			}
 		}
@@ -847,5 +867,28 @@ class ilNoteGUI
 		return $this->getNotesHTML();
 	}
 
+	/**
+	* show all public notes to user
+	*/
+	function showAllPublicNotes()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref("notes_pub_all", "y");
+		
+		return $this->getNotesHTML();
+	}
+
+	/**
+	* show only public notes of user
+	*/
+	function showMyPublicNotes()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref("notes_pub_all", "n");
+		
+		return $this->getNotesHTML();
+	}
 }
 ?>
