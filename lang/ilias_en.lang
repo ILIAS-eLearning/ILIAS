@@ -2643,6 +2643,8 @@ common#:#seas_write#:#Edit search settings
 common#:#seconds#:#Seconds
 common#:#sections#:#Sections
 common#:#select#:#Select
+common#:#pro#:#Pro
+common#:#contra#:#Contra
 common#:#select_all#:#Select All
 common#:#select_file#:#Select file
 common#:#select_max_one_item#:#Please select one item only
