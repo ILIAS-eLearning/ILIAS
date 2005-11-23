@@ -193,6 +193,8 @@ td.nobackground {
 
 td.std, th.std {
 	padding:2px;
+	overflow:hidden;
+	white-space: wrap;
 }
 
 th.il_invisible, td.il_invisible {
@@ -1002,6 +1004,7 @@ td.il_CenterColumn
 	padding-right:15px;
 	padding-left:15px;
 	vertical-align:top;
+	
 }
 
 td.il_RightColumn
