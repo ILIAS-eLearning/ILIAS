@@ -455,6 +455,8 @@ assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
 assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto
+assessment#:#tst_hide_title_points#:#Puntuación en título de la pregunta
+assessment#:#tst_hide_title_points_description#:#Ocultar la puntuación máxima en el título de la pregunta
 assessment#:#tst_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
 assessment#:#tst_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas el el fichero de importación de test. Por favor seleccione las preguntas que quiere importar en este test.
 assessment#:#tst_in_use_edit_questions_disabled#:#El test está en uso por %d usuario(s). No tiene permiso para editar o mover las preguntas en este test!
@@ -496,6 +498,7 @@ assessment#:#tst_percent_solved#:#Porcentaje resuelto
 assessment#:#tst_print#:#Vista de Impresión de Test
 assessment#:#tst_print_date#:#Fecha de Impresión
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso
+assessment#:#tst_properties#:#Propiedades del Test
 assessment#:#tst_qst_order#:#Orden
 assessment#:#tst_qst_resetsolved#:#Reiniciar
 assessment#:#tst_qst_result_sheet#:#Mostrar hoja de resultados
@@ -808,7 +811,7 @@ common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#ruta absoluta
 common#:#accept_usr_agreement#:#¿aceptar acuerdo de usuario?
-common#:#access#:#acceso
+common#:#access#:#Acceso
 common#:#account_expires_body#:#Su cuenta es limitada, su acceso finaliza en:
 common#:#account_expires_subject#:#[ILIAS 3]  Su acceso finaliza
 common#:#action#:#Acción
@@ -1265,6 +1268,7 @@ common#:#download_all_returned_files#:#Descargar todos los ficheros entregados
 common#:#drafts#:#borradores
 common#:#drop#:#descartar
 common#:#edit#:#editar
+common#:#file_info#:#Información de Fichero
 common#:#edit_content#:#Editar contenido
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
@@ -1406,6 +1410,7 @@ common#:#filter#:#Filtro
 common#:#firstname#:#Nombre
 common#:#flatview#:#Vista Plana
 common#:#fold#:#Carpeta
+common#:#exp_html#:#Exportar a HTML
 common#:#fold_a#:#una Carpeta
 common#:#fold_add#:#Añadir Carpeta
 common#:#fold_added#:#Carpeta Añadida
@@ -1789,7 +1794,7 @@ common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente o
 common#:#info_deleted#:#Objeto(s) eliminado(s)
 common#:#info_enter_login_or_id#:#<i>(Introduzca nombre de usuario o ID de usuario)</i>
 common#:#info_err_user_not_exist#:#El usuario con ese user_id no existe
-common#:#info_from_role#:#Permitido por el rol:###05 Nov 2005 content changed
+common#:#info_from_role#:#Permitido por el rol:
 common#:#info_is_member#:#El usuario es un miembro
 common#:#info_is_not_member#:#El usuario no es un miembro
 common#:#info_not_assigned#:#no asignado
@@ -2244,6 +2249,7 @@ common#:#obj_adm#:#Configuración del Sistema
 common#:#obj_adm_desc#:#carpeta de configuración principal del sistema conteniendo todos los paneles para administrar tu instalación ILIAS.
 common#:#obj_alm#:#Módulo de aprendizaje AICC
 common#:#obj_assf#:#Tests
+common#:#obj_assf_desc#:#Configuración de registro de Test&Assessment
 common#:#obj_auth#:#Autenticación
 common#:#obj_auth_desc#:#Configure su modo de autenticación (local, LDAP, ...)
 common#:#obj_cat#:#Categoría
@@ -2319,6 +2325,8 @@ common#:#obj_usrf_desc#:#Gestione sus cuentas de usuario aquí.
 common#:#obj_webr#:#Recurso Web
 common#:#object#:#Objeto
 common#:#object_added#:#Objeto añadido
+common#:#object_imported#:#Objeto importado
+common#:#object_duplicated#:#Objeto duplicado
 common#:#objects#:#objetos
 common#:#objf#:#Definiciones de objeto
 common#:#objf_edit_permission#:#Modificar configuración de permisos
@@ -2636,6 +2644,8 @@ common#:#seas_write#:#Editar configuración del motor de búsqueda
 common#:#seconds#:#Segundos
 common#:#sections#:#secciones
 common#:#select#:#Seleccionar
+common#:#pro#:#A favor
+common#:#contra#:#En contra
 common#:#select_all#:#seleccionar todo
 common#:#select_file#:#Seleccionar fichero
 common#:#select_max_one_item#:#Por favor seleccione únicamente un item 
@@ -3140,6 +3150,7 @@ content#:#cont_disable_media#:#Deshabilitar Multimedia
 content#:#cont_download_title#:#Nombre del fichero de descarga
 content#:#cont_downloads#:#Descargas
 content#:#cont_downloads_desc#:#Habilita la descarga de todos los ficheros públicos de exportación.
+content#:#cont_downloads_public_desc#:#Permitir descarga incluso para usuarios anónimos (en área pública)
 content#:#cont_ed_align_center#:#alinear: centro
 content#:#cont_ed_align_left#:#alinear : izquierda
 content#:#cont_ed_align_left_float#:#alinear: flotante izquierda
@@ -3394,7 +3405,7 @@ content#:#cont_std_view#:#Vista estándar
 content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
-content#:#cont_synchronize_frames#:#Sincronizar 'frames'###06 Nov 2005 content changed
+content#:#cont_synchronize_frames#:#Sincronizar 'frames'
 content#:#cont_synchronize_frames_desc#:#Esta opcion sincroniza el 'frame' de la tabla de contenidos con el 'frame' de contenidos y limpia los 'frames' adicionales en vista '3 ventanas'. Pero tambien supone una reduccion del rendimiento.
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
@@ -3507,7 +3518,7 @@ crs#:#crs_archive_type_disabled#:#Sin acceso
 crs#:#crs_archives_deleted#:#El/Los archivo(s) ha(n) sido eliminado(s)
 crs#:#crs_auto_fill#:#Auto relleno
 crs#:#crs_availability_limitless_info#:#Escoja este modo para hacer el curso disponible y accesible a usuarios (en función de la configuración de registro más abajo)
-crs#:#crs_availability_until_info#:#Escoja este modo para hacer el curso disponible y accesible a usuarios durante un período de tiempo fijo.###08 Nov 2005 content changed
+crs#:#crs_availability_until_info#:#Escoja este modo para hacer el curso disponible y accesible a usuarios durante un período de tiempo fijo.
 crs#:#crs_availability_unvisible_info#:#Escoja este modo para preparar el curso. Sólo los administradores y tutores podrán ver y editar el curso.
 crs#:#crs_blocked#:#Acceso rechazado
 crs#:#crs_blocked_member#:#Pertenencia al Curso
@@ -5066,7 +5077,7 @@ survey#:#cannot_participate_survey#:#No tiene derechos para participar en la enc
 survey#:#cannot_read_questionpool#:#No posee suficientes permisos para leer el contenido del respositorio de preguntas
 survey#:#cannot_read_survey#:#No posee suficiente permisos para leer los datos de la encuesta
 survey#:#cannot_save_metaobject#:#No posee suficientes permisos para modificar los meta datos!
-survey#:#cannot_switch_to_online_no_questions#:#El estado no puede ser modificado a &quot;online&quot; porque no hay preguntas en el test!###04 Nov 2005 content changed
+survey#:#cannot_switch_to_online_no_questions#:#El estado no puede ser modificado a &quot;online&quot; porque no hay preguntas en el test!
 survey#:#categories#:#Respuestas
 survey#:#category#:#Categoría
 survey#:#category_delete_confirm#:#Está seguro de querer eliminar la(s) siguiente(s) categoría(s)?
@@ -5083,7 +5094,7 @@ survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha 
 survey#:#constraint_add#:#Añadir precondición
 survey#:#constraints#:#Restricciones
 survey#:#constraints_first_question_description#:#La primera entidad no podría tener ninguna precondición porque no hay preguntas previas.
-survey#:#constraints_introduction#:#Para cada entidad (una pregunta simple o un bloque de preguntas con múltiples preguntas) una o más precondiciones podrían ser definidas. Estas precondiciones derivarán de las respuestas de participantes en la encuesta, de preguntas que ya han aparecido antes en este test.###04 Nov 2005 content changed
+survey#:#constraints_introduction#:#Para cada entidad (una pregunta simple o un bloque de preguntas con múltiples preguntas) una o más precondiciones podrían ser definidas. Estas precondiciones derivarán de las respuestas de participantes en la encuesta, de preguntas que ya han aparecido antes en este test.
 survey#:#contains#:#Contiene
 survey#:#continue#:#Continuar >>
 survey#:#create_date#:#Creada
@@ -5168,6 +5179,8 @@ survey#:#error_retrieving_anonymous_survey#:#El sistema no pudo encontrar los da
 survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el significado de los símbolos de la cabecera de cada columna
 survey#:#evaluation#:#evaluación
 survey#:#evaluation_access#:#Acceso de Evaluación
+survey#:#evaluation_access_all#:#Evaluación de acceso para todos los usuarios
+survey#:#evaluation_access_participants#:#Evaluación de acceso para todos los participantes de la encuesta
 survey#:#exit#:#Salir
 survey#:#exp_type_csv#:#Fichero separado por comas (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
@@ -5301,7 +5314,7 @@ survey#:#questiontype#:#Tipo de pregunta
 survey#:#ratio_absolute#:#Porcentaje absoluto
 survey#:#ratio_non_absolute#:#Porcentaje no absoluto
 survey#:#remove_question#:#Eliminar
-survey#:#remove_questions#:#¿Está seguro de que quiere eliminar las siguiente(s) preguntas del test?###04 Nov 2005 content changed
+survey#:#remove_questions#:#¿Está seguro de que quiere eliminar las siguiente(s) preguntas del test?
 survey#:#reset_filter#:#Reiniciar filtro
 survey#:#resume_survey#:#retomar la encuesta
 survey#:#save_back_to_survey#:#Guardar y volver a la encuesta
@@ -5332,7 +5345,7 @@ survey#:#set_filter#:#Activar filtro
 survey#:#skipped#:#skipped
 survey#:#spl_general_properties#:#Propiedades generales
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Si el banco de preguntas no está online, no puede ser usado en los tests.###04 Nov 2005 content changed
+survey#:#spl_online_property_description#:#Si el banco de preguntas no está online, no puede ser usado en los tests.
 survey#:#spl_select_file_for_import#:#¡Debe seleccionar un fichero a importar!
 survey#:#start_date#:#Fecha de inicio
 survey#:#start_date_not_reached#:#No puede iniciar la encuesta hasta que se alcance la fecha de inicio
@@ -5366,6 +5379,9 @@ survey#:#svy_delete_all_user_data#:#Eliminar todos los datos de usuario
 survey#:#svy_eval_cumulated#:#Resultados acumulados
 survey#:#svy_eval_detail#:#Resultados acumulados (detalles)
 survey#:#svy_eval_user#:#Resultados específicos por usuario
+survey#:#svy_check_evaluation_access_introduction#:#Ya que la evaluación de esta encuesta está sólo disponible para participantes de la encuesta necesita introducir su código de acceso para entrar en la evaluación.
+survey#:#svy_check_evaluation_authentication_needed#:#Necesita Identificación
+survey#:#svy_check_evaluation_wrong_key#:#Introdujo un código de acceso erróneo a la encuesta o no ha participado en dicha encuesta. El acceso a la evaluación de la encuesta ha sido denegado.
 survey#:#svy_export_files#:#Exportar ficheros
 survey#:#svy_file#:#Fichero
 survey#:#svy_missing_author#:#¡No ha introducido los nombres de los autores en las propiedades de la encuesta! Por favor añádalos para continuar.
@@ -5401,6 +5417,7 @@ survey#:#view_constraints_introduction#:#Está viendo las restricciones de las s
 survey#:#view_phrase#:#Ver conjunto
 survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
+crs#:#crs_archive_info#:#Si se habilita, todo el contenido del curso será suprimido. Sólo los archivos HTML exportados de este curso estarán disponibles para los miembros del curso.
 trac#:#trac_activated#:#Tracking activado
 trac#:#trac_anonymized#:#Anonimo
 trac#:#trac_valid_request#:#Max. tiempo entre peticiones
