@@ -191,6 +191,7 @@ class ilNoteGUI
 		
 		// show add new note button
 		if (!$this->add_note_form && !$this->edit_note_form && !$this->delete_note &&
+			!$this->export_html &&
 			($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
@@ -204,7 +205,8 @@ class ilNoteGUI
 		}
 		
 		// show show/hide button for note list
-		if (count($notes) > 0 && $this->enable_hiding && !$this->delete_note)
+		if (count($notes) > 0 && $this->enable_hiding && !$this->delete_note
+			&& !$this->export_html)
 		{
 			if ($ilUser->getPref("notes_".$suffix) == "n")
 			{
@@ -302,7 +304,8 @@ class ilNoteGUI
 						&& ($ilUser->getId() != ANONYMOUS_USER_ID))
 					{
 						// only private notes can be deleted
-						if ($a_type == IL_NOTE_PRIVATE && !$this->delete_note)
+						if ($a_type == IL_NOTE_PRIVATE && !$this->delete_note
+							&& !$this->export_html)
 						{
 							$tpl->setCurrentBlock("delete_note");
 							$tpl->setVariable("TXT_DELETE_NOTE", $lng->txt("delete"));
@@ -327,7 +330,7 @@ class ilNoteGUI
 							$tpl->setVariable("CNT_COL", 2);
 						}
 
-						if (!$this->delete_note)
+						if (!$this->delete_note && !$this->export_html)
 						{
 							$tpl->setCurrentBlock("edit_note");
 							$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
@@ -403,8 +406,11 @@ class ilNoteGUI
 			if ($this->multi_selection && !$this->delete_note)
 			{
 				$tpl->setCurrentBlock("multiple_commands");
+				$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
 				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 				$tpl->setVariable("TXT_DELETE_NOTES", $this->lng->txt("delete"));
+				$tpl->setVariable("TXT_PRINT_NOTES", $this->lng->txt("print"));
+				$tpl->setVariable("TXT_EXPORT_NOTES", $this->lng->txt("exp_html"));
 				$tpl->parseCurrentBlock();
 			}
 
@@ -697,6 +703,24 @@ class ilNoteGUI
 			$note->delete();
 		}
 		return $this->getNotesHTML();
+	}
+
+	/**
+	* export selected notes to html
+	*/ 
+	function exportNotesHTML()
+	{
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		//$location_stylesheet = ilUtil::getStyleSheetLocation();
+		//$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
+
+		$this->export_html = true;
+		$this->multi_selection = false;
+		$tpl->getStandardTemplate();
+		$tpl->setTitle($this->lng->txt("private_notes"));
+		$tpl->touchBlock("stop_floating");
+		$tpl->setContent($this->getNotesHTML());
+		echo $tpl->get(); exit;
 	}
 
 	/**

@@ -1409,6 +1409,7 @@ common#:#filter#:#Filter:
 common#:#firstname#:#First name
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
+common#:#exp_html#:#Export HTML
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
