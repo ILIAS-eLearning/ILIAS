@@ -191,7 +191,7 @@ td.nobackground {
 	vertical-align: top;
 }
 
-td.std {
+td.std, th.std {
 	padding:2px;
 }
 

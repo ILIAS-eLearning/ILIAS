@@ -60,6 +60,8 @@ class ilNoteGUI
 		$this->enable_hiding = true;
 		$this->targets_enabled = false;
 		$this->multi_selection = false;
+		$this->export_html = false;
+		$this->print = false;
 	}
 	
 	/**
@@ -150,7 +152,7 @@ class ilNoteGUI
 			? "private"
 			: "public";
 		
-		if ($this->delete_note)
+		if ($this->delete_note || $this->export_html || $this->print)
 		{
 			if ($_GET["note_id"] != "")
 			{
@@ -189,9 +191,14 @@ class ilNoteGUI
 		}
 		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 		
+		if ($this->export_html || $this->print)
+		{
+			$tpl->touchBlock("print_style");
+		}
+		
 		// show add new note button
 		if (!$this->add_note_form && !$this->edit_note_form && !$this->delete_note &&
-			!$this->export_html &&
+			!$this->export_html && !$this->print &&
 			($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
@@ -206,7 +213,7 @@ class ilNoteGUI
 		
 		// show show/hide button for note list
 		if (count($notes) > 0 && $this->enable_hiding && !$this->delete_note
-			&& !$this->export_html)
+			&& !$this->export_html && !$this->print)
 		{
 			if ($ilUser->getPref("notes_".$suffix) == "n")
 			{
@@ -305,7 +312,7 @@ class ilNoteGUI
 					{
 						// only private notes can be deleted
 						if ($a_type == IL_NOTE_PRIVATE && !$this->delete_note
-							&& !$this->export_html)
+							&& !$this->export_html && !$this->print)
 						{
 							$tpl->setCurrentBlock("delete_note");
 							$tpl->setVariable("TXT_DELETE_NOTE", $lng->txt("delete"));
@@ -330,7 +337,7 @@ class ilNoteGUI
 							$tpl->setVariable("CNT_COL", 2);
 						}
 
-						if (!$this->delete_note && !$this->export_html)
+						if (!$this->delete_note && !$this->export_html && !$this->print)
 						{
 							$tpl->setCurrentBlock("edit_note");
 							$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
@@ -374,22 +381,44 @@ class ilNoteGUI
 					$rowclass = ($rowclass != "tblrow1")
 						? "tblrow1"
 						: "tblrow2";
+					if (!$this->export_html && !$this->print)
+					{
+						$tpl->setCurrentBlock("note_img");
+						switch ($note->getLabel())
+						{
+							case IL_NOTE_UNLABELED:
+								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_unlabeled.gif"));
+								break;
+								
+							case IL_NOTE_IMPORTANT:
+								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_important.gif"));
+								break;
+								
+							case IL_NOTE_QUESTION:
+								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
+								break;
+						}
+						$tpl->parseCurrentBlock();
+					}
+					else
+					{
+						switch ($note->getLabel())
+						{
+							case IL_NOTE_UNLABELED:
+								$tpl->setVariable("EXP_ICON", "[&nbsp;]");
+								break;
+								
+							case IL_NOTE_IMPORTANT:
+								$tpl->setVariable("EXP_ICON", "[!]");
+								break;
+								
+							case IL_NOTE_QUESTION:
+								$tpl->setVariable("EXP_ICON", "[?]");
+								break;
+						}
+					}
 					$tpl->setCurrentBlock("note");
 					$tpl->setVariable("ROWCLASS", $rowclass);
-					switch ($note->getLabel())
-					{
-						case IL_NOTE_UNLABELED:
-							$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_unlabeled.gif"));
-							break;
-							
-						case IL_NOTE_IMPORTANT:
-							$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_important.gif"));
-							break;
-							
-						case IL_NOTE_QUESTION:
-							$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
-							break;
-					}
 					$tpl->setVariable("TXT_DATE", $lng->txt("date"));
 					$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
 					$tpl->setVariable("VAL_DATE", $note->getCreationDate());
@@ -420,6 +449,16 @@ class ilNoteGUI
 				$tpl->setCurrentBlock("delete_cancel");
 				$tpl->setVariable("TXT_DEL_NOTES", $this->lng->txt("delete"));
 				$tpl->setVariable("TXT_CANCEL_DEL_NOTES", $this->lng->txt("cancel"));
+				$tpl->parseCurrentBlock();
+			}
+			
+			// print
+			if ($this->print)
+			{
+				$tpl->touchBlock("print_js");
+				$tpl->setCurrentBlock("print_back");
+				$tpl->setVariable("LINK_BACK", $this->ctrl->getLinkTarget($this, "showNotes"));
+				$tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 				$tpl->parseCurrentBlock();
 			}
 		}
@@ -473,9 +512,16 @@ class ilNoteGUI
 						
 						$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link)."#note_".$a_note_id;
 						
-						$par_id = $tree->getParentId($vis_ref_id); 
-						$tpl->setCurrentBlock("target_object");
-						$tpl->setVariable("LINK_TARGET", $link);
+						$par_id = $tree->getParentId($vis_ref_id);
+						if ($this->export_html || $this->print)
+						{
+							$tpl->setCurrentBlock("exp_target_object");
+						}
+						else
+						{
+							$tpl->setCurrentBlock("target_object");
+							$tpl->setVariable("LINK_TARGET", $link);
+						}
 						$tpl->setVariable("TXT_CONTAINER",
 							ilObject::_lookupTitle(
 							ilObject::_lookupObjId($par_id)));
@@ -711,15 +757,23 @@ class ilNoteGUI
 	function exportNotesHTML()
 	{
 		$tpl = new ilTemplate("tpl.main.html", true, true);
-		//$location_stylesheet = ilUtil::getStyleSheetLocation();
-		//$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 
 		$this->export_html = true;
 		$this->multi_selection = false;
-		$tpl->getStandardTemplate();
-		$tpl->setTitle($this->lng->txt("private_notes"));
-		$tpl->touchBlock("stop_floating");
-		$tpl->setContent($this->getNotesHTML());
+		$tpl->setVariable("CONTENT", $this->getNotesHTML());
+		ilUtil::deliverData($tpl->get(), "notes.html");
+	}
+	
+	/**
+	* notes print view screen
+	*/
+	function printNotes()
+	{
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+
+		$this->print = true;
+		$this->multi_selection = false;
+		$tpl->setVariable("CONTENT", $this->getNotesHTML());
 		echo $tpl->get(); exit;
 	}
 
