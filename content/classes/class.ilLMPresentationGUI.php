@@ -33,7 +33,7 @@ require_once("./classes/class.ilObjStyleSheet.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
 
 * @package content
 */
@@ -65,7 +65,8 @@ class ilLMPresentationGUI
 		// check read permission, payment and parent conditions
 		// todo: replace all this by ilAccess call
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&
-			(!($this->ctrl->getCmd() == "infoScreen" && $ilAccess->checkAccess("visible", "", $_GET["ref_id"]))))
+			(!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")
+			&& $ilAccess->checkAccess("visible", "", $_GET["ref_id"]))))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
@@ -133,14 +134,11 @@ class ilLMPresentationGUI
 		switch($next_class)
 		{
 			case "ilnotegui":
-				if ($_GET["obj_id"] != "")
-				{
-					$ret =& $this->layout();
-				}
-				else
-				{
-					$ret =& $this->showInfoScreen();
-				}
+				$ret =& $this->layout();
+				break;
+				
+			case "ilinfoscreengui":
+				$ret =& $this->outputInfoScreen();
 				break;
 				
 			default: 
@@ -2120,17 +2118,29 @@ class ilLMPresentationGUI
 	
 	
 	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreen()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->outputInfoScreen();
+	}
+
+	/**
 	* info screen call from inside learning module
 	*/
 	function showInfoScreen()
 	{
-		$this->infoScreen(true);
+		$this->outputInfoScreen(true);
 	}
 
 	/**
 	* info screen
 	*/
-	function infoScreen($a_standard_locator = false)
+	function outputInfoScreen($a_standard_locator = false)
 	{
 		global $ilBench, $ilLocator;
 
@@ -2169,17 +2179,18 @@ class ilLMPresentationGUI
 		
 		$info->addMetaDataSections($this->lm->getId(),0, $this->lm->getType());
 
-		$this->tpl->setContent($info->getHTML());
-		
 		if ($this->offlineMode())
 		{
+			$this->tpl->setContent($info->getHTML());
 			return $this->tpl->get();
 		}
 		else
 		{
+			// forward the command
+			$this->ctrl->forwardCommand($info);
+			//$this->tpl->setContent("aa");
 			$this->tpl->show();
 		}
-
 	}
 
 	/**

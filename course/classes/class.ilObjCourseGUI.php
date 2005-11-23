@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -29,7 +29,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilNoteGUI, ilLearningProgressGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * 
 * @extends ilContainerGUI
 * @package ilias-core
@@ -242,9 +242,21 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 	/**
-	* show information screen
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
 	*/
 	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreen()
 	{
 		global $rbacsystem;
 
@@ -256,6 +268,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
+		$info->enableFeedback();
 		
 		// syllabus section
 		$info->addSection($this->lng->txt("crs_syllabus"));
@@ -333,8 +346,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveStart())." ".
 				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveEnd()));
 		}
-
-		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML());
+		
+		// forward the command
+		$this->ctrl->forwardCommand($info);
 	}
 
 	function listStructureObject()
@@ -2667,11 +2681,18 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			$force_active = (strtolower($_GET["cmdClass"]) == "ilnotegui")
+			//$next_class = $this->ctrl->getNextClass($this);
+			
+			// this is not nice. tabs should be displayed in ilcoursegui
+			// not via ilrepositorygui, then next_class == ilinfoscreengui
+			// could be checked
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
 			$tabs_gui->addTarget("info_short",
-								 $this->ctrl->getLinkTarget($this, "infoScreen"),
+								 $this->ctrl->getLinkTargetByClass(
+								 array("ilobjcoursegui", "ilinfoscreengui"), "showSummary"),
 								 "infoScreen",
 								 "", "", $force_active);
 		}
@@ -3989,8 +4010,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
-			case "ilnotegui":
-				$ret =& $this->infoScreenObject();
+			case "ilinfoscreengui":
+				$this->infoScreen();	// forwards command
 				break;
 
 			case 'ilmdeditorgui':
