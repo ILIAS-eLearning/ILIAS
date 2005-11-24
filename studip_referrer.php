@@ -64,7 +64,10 @@ if (isset($_POST["client_id"]))
 			}
 			if ($_GET["type"] == "tst")
 				$return_to = "assessment/test.php?ref_id=" . $_GET["ref_id"] . "&cmd=run";
-//				$return_to = "assessment/test.php?ref_id=" . $_GET["ref_id"] . "&sequence=&cmd=outIntroductionPage&cmdClass=iltestoutputgui&cmdNode=12&baseClass="; //
+			if ($_GET["type"] == "sahs")
+				$return_to = "content/sahs_presentation.php?ref_id=" . $_GET["ref_id"];
+			if ($_GET["type"] == "htlm")
+				$return_to = "content/fblm_presentation.php?ref_id=" . $_GET["ref_id"];
 			break;
 		case "new":	
 			$return_to = "repository.php?ref_id=" . $_GET["ref_id"] . "&cmd=create&new_type=" . $_GET["type"];
@@ -72,13 +75,13 @@ if (isset($_POST["client_id"]))
 			break;
 		case "edit": 
 			if ($_GET["type"] == "lm")
-			{
 				$return_to = "ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $_GET["ref_id"];
-			}
 			if ($_GET["type"] == "tst")
-			{
 				$return_to = "assessment/test.php?ref_id=" . $_GET["ref_id"] . "&cmd=";
-			}
+			if ($_GET["type"] == "sahs")
+				$return_to = "content/sahs_edit.php?ref_id=" . $_GET["ref_id"];
+			if ($_GET["type"] == "htlm")
+				$return_to = "content/fblm_edit.php?ref_id=" . $_GET["ref_id"];
 			break;
 	}
 }
