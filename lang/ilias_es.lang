@@ -952,8 +952,8 @@ common#:#auth_shib_not_configured#:#Shibboleth no está configurado aún
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_visible#:#Configuración de autenticación visible
 common#:#auth_write#:#Editar Configuración de autenticación
-common#:#author#:#autor
-common#:#authors#:#autores
+common#:#author#:#Autor
+common#:#authors#:#Autores
 common#:#auto_registration#:#Admitir nuevos registros automáticamente
 common#:#available#:#Disponible
 common#:#available_languages#:#idiomas disponibles
@@ -1847,7 +1847,7 @@ common#:#is_already_your#:#ya es su
 common#:#item#:#item
 common#:#join#:#unirse
 common#:#kb#:#KByte
-common#:#keywords#:#palabras clave
+common#:#keywords#:#Palabras clave
 common#:#lang_cs#:#Checo
 common#:#lang_da#:#Danés
 common#:#lang_dateformat#:#Y-m-d
