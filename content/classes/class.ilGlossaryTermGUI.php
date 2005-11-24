@@ -200,6 +200,7 @@ class ilGlossaryTermGUI
 	*/
 	function output($a_offline = false)
 	{
+		/*
 		require_once("content/classes/class.ilGlossaryDefinition.php");
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 
@@ -275,10 +276,11 @@ class ilGlossaryTermGUI
 				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
 			$this->tpl->parseCurrentBlock();
 		}
+		*/
 	}
 
 	/**
-	* output glossary content
+	* get internal links
 	*/
 	function getInternalLinks()
 	{
@@ -514,14 +516,6 @@ class ilGlossaryTermGUI
 		//$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();
-
-		/*
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$term_id."&cmd=saveDefinition");
-		*/
 
 	}
 

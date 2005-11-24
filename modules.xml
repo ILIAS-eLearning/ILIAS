@@ -9,6 +9,9 @@
 		<baseclass name="ilLMEditorGUI" dir="classes" />
 		<baseclass name="ilLMPresentationGUI" dir="classes" />
 	</module>
+	<module name="Glossary" dir="content">
+		<baseclass name="ilGlossaryEditorGUI" dir="classes" />
+	</module>
 	<module name="Assessment" dir="assessment">
 		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
 		<baseclass name="ilObjTestGUI" dir="classes" />
@@ -18,9 +21,6 @@
 		<baseclass name="ilObjSurveyGUI" dir="classes" />
 	</module>
 	<module name="Course" dir="course">
-		<!-- more to come ... -->
-	</module>
-	<module name="News" dir="Modules/News">
 		<!-- more to come ... -->
 	</module>
 	<!-- more to come ... -->

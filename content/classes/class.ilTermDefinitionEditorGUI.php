@@ -216,49 +216,6 @@ class ilTermDefinitionEditorGUI
 	}
 
 	/*
-	function setAdminTabs()
-	{
-		$tabs = array();
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVariable("TAB_TYPE", "tabinactive");
-		$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=listDefinitions&term_id=".$this->term->getId());
-		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("cont_all_definitions"));
-		$this->tpl->parseCurrentBlock();
-
-		$tabs[] = array("edit", "view");
-		$tabs[] = array("cont_preview", "preview");
-		$tabs[] = array("meta_data", "editDefinitionMetaData");
-
-		foreach ($tabs as $row)
-		{
-			$i++;
-
-			if ($row[1] == $_GET["cmd"])
-			{
-				$tabtype = "tabactive";
-				$tab = $tabtype;
-			}
-			else
-			{
-				$tabtype = "tabinactive";
-				$tab = "tab";
-			}
-
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $tabtype);
-			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&def=".
-				$_GET["def"]."&cmd=".$row[1]);
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-			$this->tpl->parseCurrentBlock();
-		}
-
-	}*/
-
-
 	function displayLocator()
 	{
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
@@ -290,6 +247,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->setVariable("TXT_LOCATOR", $debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
+	*/
 
 	function saveShortText()
 	{

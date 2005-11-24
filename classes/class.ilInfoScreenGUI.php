@@ -74,7 +74,15 @@ class ilInfoScreenGUI
 		switch($next_class)
 		{
 			case "ilnotegui":
-				$this->showSummary();
+				$this->showSummary();	// forwards command
+				break;
+
+			case "ilfeedbackgui":
+				/*
+				include_once("Services/.../classes/class.ilFeedbackGUI.php");
+				$fb_gui = new ilFeedbackGUI();
+				$this->ctrl->forwardCommand($fb_gui);
+				*/
 				break;
 				
 			default:

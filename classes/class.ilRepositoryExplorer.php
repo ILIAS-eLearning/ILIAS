@@ -211,7 +211,7 @@ class ilRepositoryExplorer extends ilExplorer
 				#return "forums_threads_liste.php?cmd=properties&ref_id=".$a_node_id."&backurl=repository";
 
 			case "glo":
-				return "content/glossary_edit.php?cmd=listTerms&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$a_node_id;
 
 			case "exc":
 				return "exercise.php?cmd=view&ref_id=".$a_node_id;
