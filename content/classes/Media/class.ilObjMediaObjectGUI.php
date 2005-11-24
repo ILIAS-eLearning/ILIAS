@@ -49,6 +49,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng =& $lng;
+		$this->back_title = "";
 		$this->type = "mob";
 	}
 
@@ -79,6 +80,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		$this->ctrl->returnToParent($this);
 	}
+	
 
 	function &executeCommand()
 	{
@@ -124,6 +126,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		return $ret;
 	}
 
+	/**
+	* set title for back tab
+	*/
+	function setBackTitle($a_title)
+	{
+		$this->back_title = $a_title;
+	}
+	
 	/**
 	* create new media object form
 	*/
@@ -2225,7 +2235,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			if ($med->getLocationType() == "LocalFile")
 			{
 				$file = ilObjMediaObject::_getDirectory($med->getMobId())."/".$med->getLocation();
-				$size = filesize($file);
+				if (is_file($file))
+				{
+					$size = filesize($file);
+				}
+				else
+				{
+					$size = 0;
+				}
 				$tpl->setVariable("VAL_FILE_SIZE", " ($size ".$lng->txt("bytes").")");
 			}
 			$tpl->setVariable("TXT_FORMAT", $lng->txt("cont_format"));
@@ -2335,9 +2352,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 
 		// back to upper context
-		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "back",
-			"");
+		if ($this->back_title != "")
+		{
+			$tabs_gui->setBackTarget($this->back_title,
+				$this->ctrl->getParentReturn($this));
+		}
 	}
 
 }

@@ -95,7 +95,10 @@ class ilTermDefinitionEditorGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->setVariable("HEADER", $this->term->getTerm());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.gif"));
+		$this->tpl->setTitle($this->term->getTerm()." - ".
+			$this->lng->txt("cont_definition")." ".
+			$this->definition->getNr());
 
 		switch ($next_class)
 		{
@@ -128,6 +131,7 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setLocator($gloss_loc);
+				$page_gui->setPageBackTitle($this->lng->txt("cont_definition"));
 				$page_gui->setLinkParams("ref_id=".$_GET["ref_id"]);
 				$page_gui->setHeader($this->term->getTerm());
 				$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
@@ -209,9 +213,13 @@ class ilTermDefinitionEditorGUI
 */
 
 		// back to upper context
+		$tabs_gui->setBackTarget($this->lng->txt("glossary"),
+			$this->ctrl->getParentReturn($this));
+
+		/*
 		$tabs_gui->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",
-			"");
+			"");*/
 
 	}
 

@@ -475,7 +475,14 @@ class ilMediaItem
 			ilUtil::deducibleSize($this->getFormat()))
 		{
 			$file = $mob_dir."/".$this->getLocation();
-			$size = getimagesize($file);
+			if (is_file($file))
+			{
+				$size = getimagesize($file);
+			}
+			else
+			{
+				$size[0] = $size[1] = 0;
+			}
 			$size = array("width" => $size[0], "height" => $size[1]);
 			
 			return $size;

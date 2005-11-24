@@ -54,6 +54,18 @@ class ilTabsGUI
 		$this->manual_activation = false;
 		$this->temp_var = "TABS";
 		$this->sub_tabs = false;
+		$this->back_title = "";
+		$this->back_target = "";
+	}
+	
+	/**
+	* back target for upper context
+	*/
+	function setBackTarget($a_title, $a_target, $a_frame = "")
+	{
+		$this->back_title = $a_title;
+		$this->back_target = $a_target;
+		$this->back_frame = $a_frame;
 	}
 
 	function getTargetsByObjectType(&$a_gui_obj, $a_type)
@@ -148,9 +160,19 @@ class ilTabsGUI
 			$tpl = new ilTemplate("tpl.tabs.html", true, true);
 			$pre = $pre2 = "";
 		}
+		
+		// back tab
+		if ($this->back_title != "")
+		{
+			$tpl->setCurrentBlock("back_tab");
+			$tpl->setVariable("BACK_TAB_LINK", $this->back_target);
+			$tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
+			$tpl->setVariable("BACK_TAB_TARGET", $this->back_frame);
+			$tpl->parseCurrentBlock();
+		}
 
 		// do not display one tab only
-		if (count($this->target) > 1)
+		if ((count($this->target) > 1) || $this->back_title != "")
 		{
 			foreach ($this->target as $target)
 			{

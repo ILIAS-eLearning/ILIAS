@@ -87,6 +87,7 @@ class ilPageObjectGUI
 		$this->template_output_var = "PAGE_CONTENT";
 		$this->citation = false;
 		$this->change_comments = false;
+		$this->page_back_title = $this->lng->txt("page");
 	}
 
 	/**
@@ -264,6 +265,11 @@ class ilPageObjectGUI
 	{
 		$this->tabs = $a_tabs;
 	}
+	
+	function setPageBackTitle($a_title)
+	{
+		$this->page_back_title = $a_title;
+	}
 
 	function setFileDownloadLink($a_download_link)
 	{
@@ -353,6 +359,7 @@ class ilPageObjectGUI
 				$page_editor =& new ilPageEditorGUI($this->getPageObject());
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
+				$page_editor->setPageBackTitle($this->page_back_title);
 				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
 					$this->int_link_def_id);
 				//$page_editor->executeCommand();
