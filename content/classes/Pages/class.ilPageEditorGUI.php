@@ -134,6 +134,12 @@ class ilPageEditorGUI
 		$this->int_link_def_type = $a_type;
 		$this->int_link_def_id = $a_id;
 	}
+	
+	function setPageBackTitle($a_title)
+	{
+		$this->page_back_title = $a_title;
+	}
+
 
 
 	/**
@@ -349,11 +355,15 @@ class ilPageEditorGUI
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
 					if (is_object ($cont_obj))
 					{
+						$this->tpl->setCurrentBlock("header_image");
+						$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
+						$this->tpl->parseCurrentBlock();
 						$pcmob_gui->getTabs($tabs_gui);
 						$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
 							$cont_obj->getTitle());
 						$this->displayLocator("mob");
 						$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getId(),false, false);
+						$mob_gui->setBackTitle($this->page_back_title);
 						$mob_gui->getTabs($tabs_gui);
 					}
 					else

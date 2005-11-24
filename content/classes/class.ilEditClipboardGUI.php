@@ -183,6 +183,7 @@ class ilEditClipboardGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_object")));
+		$tbl->disable("sort");
 
 		$cols = array("", "", "title");
 		$header_params = $this->ctrl->getParameterArray($this, "view");
@@ -388,7 +389,11 @@ class ilEditClipboardGUI
 	*/
 	function setTabs()
 	{
-		$this->tpl->setVariable("HEADER", $this->lng->txt("clipboard"));
+		//$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_clip_b.gif"));
+		//$this->tpl->parseCurrentBlock();
+		$this->tpl->setTitle($this->lng->txt("clipboard"));
+		$this->tpl->stopTitleFloating();
 
 		// catch feedback message
 		include_once("classes/class.ilTabsGUI.php");

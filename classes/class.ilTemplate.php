@@ -626,6 +626,14 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
+	* stop floating (if no tabs are used)
+	*/
+	function stopTitleFloating()
+	{
+		$this->touchBlock("stop_floating");
+	}
+	
+	/**
 	* sets content for standard template
 	*/
 	function setContent($a_html)
