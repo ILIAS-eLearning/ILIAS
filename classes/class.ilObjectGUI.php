@@ -1291,7 +1291,17 @@ class ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacsystem, $rbacreview;
+		include_once './classes/class.ilPermissionGUI.php';
+		$perm_gui =& new ilPermissionGUI($this);
+		
+		// dirty work around to forward command in admin panel
+		$this->ctrl->current_node = 1;
+		$this->ctrl->setCmd('perm');
+		$ret =& $this->ctrl->forwardCommand($perm_gui);
+		
+		return true;
+		
+		// deprecated code
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -1686,6 +1696,18 @@ class ilObjectGUI
 	*/
 	function permSaveObject()
 	{
+		include_once './classes/class.ilPermissionGUI.php';
+		$perm_gui =& new ilPermissionGUI($this);
+		
+		// dirty work around to forward command in admin panel
+		$this->ctrl->current_node = 1;
+		$this->ctrl->setCmd('permSave');
+		$ret =& $this->ctrl->forwardCommand($perm_gui);
+		
+		return true;
+		
+		// deprecated code
+
 		global $rbacsystem, $rbacreview, $rbacadmin;
 
 		// first save the new permission settings for all roles
@@ -2263,6 +2285,18 @@ class ilObjectGUI
 	*/
 	function addRoleObject()
 	{
+		include_once './classes/class.ilPermissionGUI.php';
+		$perm_gui =& new ilPermissionGUI($this);
+		
+		// dirty work around to forward command in admin panel
+		$this->ctrl->current_node = 1;
+		$this->ctrl->setCmd('addRole');
+		$ret =& $this->ctrl->forwardCommand($perm_gui);
+		
+		return true;
+		
+		// deprecated code
+
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
 		// first check if role title is unique
@@ -2658,6 +2692,18 @@ class ilObjectGUI
 	
 	function infoObject()
 	{
+		include_once './classes/class.ilPermissionGUI.php';
+		$perm_gui =& new ilPermissionGUI($this);
+		
+		// dirty work around to forward command in admin panel
+		$this->ctrl->current_node = 1;
+		$this->ctrl->setCmd('info');
+		$ret =& $this->ctrl->forwardCommand($perm_gui);
+		
+		return true;
+		
+		// deprecated code
+		
 		
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -2754,6 +2800,18 @@ class ilObjectGUI
 
 	function ownerObject()
 	{
+		include_once './classes/class.ilPermissionGUI.php';
+		$perm_gui =& new ilPermissionGUI($this);
+		
+		// dirty work around to forward command in admin panel
+		$this->ctrl->current_node = 1;
+		$this->ctrl->setCmd('owner');
+		$ret =& $this->ctrl->forwardCommand($perm_gui);
+		
+		return true;
+		
+		// deprecated code
+
 		global $ilObjDataCache,$ilUser;
 
 		//add template for view button
@@ -2786,6 +2844,18 @@ class ilObjectGUI
 
 	function changeOwnerObject()
 	{
+		include_once './classes/class.ilPermissionGUI.php';
+		$perm_gui =& new ilPermissionGUI($this);
+		
+		// dirty work around to forward command in admin panel
+		$this->ctrl->current_node = 1;
+		$this->ctrl->setCmd('changeOwner');
+		$ret =& $this->ctrl->forwardCommand($perm_gui);
+		
+		return true;
+		
+		// deprecated code
+		
 		global $rbacsystem,$ilErr,$ilObjDataCache;
 
 		if (!$rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))

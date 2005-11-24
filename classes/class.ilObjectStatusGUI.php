@@ -77,6 +77,10 @@ class ilObjectStatusGUI
 				$this->user =& $ilUser;
 				sendInfo($lng->txt('info_err_user_not_exist'));
 			}
+			else
+			{
+				sendInfo($lng->txt('info_user_view_changed'));
+			}
 		}
 		
 		// get all user roles and all valid roles in scope
@@ -174,10 +178,8 @@ class ilObjectStatusGUI
         $tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 		
-		$class_name = get_class($this->object)."gui";
-
 		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass($class_name,"info"));
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass("ilpermissiongui","info"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -318,8 +320,6 @@ class ilObjectStatusGUI
 
 		$path = array_reverse($tree->getPathId($this->object->getRefId()));
 		
-		//var_dump("<pre>",$valid_roles,$parent_roles,"</pre>");
-
 		include_once ('class.ilObjRole.php');
 
 		$counter = 0;
