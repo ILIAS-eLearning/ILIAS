@@ -95,7 +95,7 @@ class ilPermissionGUI
 
 		$this->getRolesData();
 
-		//var_dump("<pre>",$this->roles,"</pre>");exit;		
+		//var_dump("<pre>",$this->ctrl->getFormAction($this)."&cmd=perm","</pre>");exit;		
 
 		/////////////////////
 		// START DATA OUTPUT
@@ -689,7 +689,7 @@ class ilPermissionGUI
 
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
 		{
-			$this->ctrl->redirect($this);
+			$this->ctrl->redirect($this->gui_obj);
 			return true;
 		}
 
