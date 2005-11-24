@@ -61,10 +61,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->type = "glo";
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
-		if (defined("ILIAS_MODULE"))
-		{
-			$this->setTabTargetScript("glossary_edit.php");
-		}
 		if ($a_prepare_output)
 		{
 			$this->prepareOutput();
@@ -76,6 +72,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $lng, $ilAccess;
+		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -255,7 +253,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("glo_added"),true);
-		ilUtil::redirect("content/glossary_edit.php?ref_id=".$newObj->getRefId());
+		ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$newObj->getRefId());
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
@@ -343,7 +341,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		ilUtil::delDir($newObj->getImportDirectory());
 
 		sendInfo($this->lng->txt("glo_added"),true);
-		ilUtil::redirect("content/glossary_edit.php?ref_id=".$newObj->getRefId());
+		ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$newObj->getRefId());
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
@@ -359,15 +357,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		if (!defined("ILIAS_MODULE"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/glossary_edit.php?cmd=listTerms&ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
-		}
 
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","content/glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
@@ -1353,7 +1342,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $ilias_locator;
 
-		if(!defined("ILIAS_MODULE"))
+		if(strtolower($_GET["baseClass"]) != "ilglossaryeditorgui")
 		{
 			parent::setLocator($a_tree, $a_id);
 		}
@@ -1370,50 +1359,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$gloss_loc->setGlossary($this->object);
 				//$gloss_loc->setDefinition($this->definition);
 				$gloss_loc->display();
-				return;
-
-
-
-				// ### AA 03.11.10 added new locator GUI class ###
-				$i = 1;
-
-				$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-				if (!empty($_GET["term_id"]))
-				{
-					$this->tpl->touchBlock("locator_separator");
-				}
-
-				$this->tpl->setCurrentBlock("locator_item");
-				$this->tpl->setVariable("ITEM", $this->object->getTitle());
-				// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-				$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
-				$this->tpl->parseCurrentBlock();
-
-				// ### AA 03.11.10 added new locator GUI class ###
-				// navigate locator
-				$ilias_locator->navigate($i++,$this->object->getTitle(),"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms","bottom");
-
-				if (!empty($_GET["term_id"]))
-				{
-					$term =& new ilGlossaryTerm($_GET["term_id"]);
-					$this->tpl->setCurrentBlock("locator_item");
-					$this->tpl->setVariable("ITEM", $term->getTerm());
-					$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-						"&cmd=listDefinitions&term_id=".$term->getId());
-					$this->tpl->parseCurrentBlock();
-
-					// ### AA 03.11.10 added new locator GUI class ###
-					// navigate locator
-					$ilias_locator->navigate($i++,$term->getTerm(),"glossary_edit.php?ref_id=".$_GET["ref_id"].
-						"&cmd=listDefinitions&term_id=".$term->getId(),"bottom");
-				}
-
-				//$this->tpl->touchBlock("locator_separator");
-
-				$this->tpl->setCurrentBlock("locator");
-				$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
-				$this->tpl->parseCurrentBlock();
 			}
 		}
 
@@ -1424,10 +1369,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function perm()
 	{
+		echo "Deprecated"; exit;
+		
 		//$this->prepareOutput();
-		$this->setFormAction("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=addRole");
-		$this->setFormAction("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=permSave");
-		$this->permObject();
+		//$this->setFormAction("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=addRole");
+		//$this->setFormAction("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=permSave");
+		//$this->permObject();
 	}
 
 	/**
@@ -1435,8 +1382,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function permSave()
 	{
-		$this->setReturnLocation("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
-		$this->permSaveObject();
+		echo "Deprecated"; exit;
+		
+		//$this->setReturnLocation("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
+		//$this->permSaveObject();
 	}
 	
 	/**
@@ -1444,7 +1393,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function info()
 	{
-		$this->infoObject();
+		echo "Deprecated"; exit;
+		
+		//$this->infoObject();
 	}
 
 	/**
@@ -1452,8 +1403,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function addRole()
 	{
-		$this->setReturnLocation("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
-		$this->addRoleObject();
+		echo "Deprecated"; exit;
+		
+		//$this->setReturnLocation("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
+		//$this->addRoleObject();
 	}
 
 	/**
@@ -1461,8 +1414,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function owner()
 	{
+		echo "Deprecated"; exit;
+		
 		//$this->prepareOutput();
-		$this->ownerObject();
+		//$this->ownerObject();
 	}
 
 	/**
@@ -1496,7 +1451,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("cont_added_term"),true);
 
-		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
+		//ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
+		$ilCtrl->redirect($this, "listTerms");
 	}
 
 

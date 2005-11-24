@@ -99,14 +99,14 @@ class ilGlossaryLocatorGUI
 		switch($this->mode)
 		{
 			case "edit":
-				$script = "glossary_edit.php";
+				$repository = "./repository.php";
 				break;
 
 			case "presentation":
 				$script = "glossary_presentation.php";
+				$repository = "../repository.php";
 				break;
 		}
-		$repository = "../repository.php";
 
 		foreach ($path as $key => $row)
 		{

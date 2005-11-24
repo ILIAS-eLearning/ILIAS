@@ -83,7 +83,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 				break;
 
 			case "edit":
-				$cmd_link = "content/glossary_edit.php?ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$this->ref_id;
 				break;
 
 			default:

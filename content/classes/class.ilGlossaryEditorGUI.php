@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,36 +21,60 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /**
-* glossary editor
+* Class ilGlossaryEditorGUI
+*
+* GUI class for Glossary Editor
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilGlossaryEditorGUI: ilObjGlossaryGUI
+*
 * @package content
 */
-
-echo "DEPRECATED, use ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=... instead";
-exit;
-
-define("ILIAS_MODULE", "content");
-chdir("..");
-require_once "./include/inc.header.php";
-$lng->loadLanguageModule("content");
-
-// check write permission
-if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+class ilGlossaryEditorGUI
 {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+	function ilGlossaryEditorGUI()
+	{
+		global $ilCtrl, $lng, $ilAccess;
+		
+		// initialisation stuff
+		$this->ctrl =&  $ilCtrl;
+		$lng->loadLanguageModule("content");
+		
+		// check write permission
+		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
+	}
+	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $lng, $ilAccess;
+		
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+		if ($next_class == "")
+		{
+			$this->ctrl->setCmdClass("ilobjglossarygui");
+			$this->ctrl->setCmd("");
+		}
+
+		switch ($next_class)
+		{
+			case 'ilobjglossarygui':
+			default:
+				require_once "./content/classes/class.ilObjGlossaryGUI.php";
+				$glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, false);
+				$this->ctrl->forwardCommand($glossary_gui);
+				break;
+		}
+	}
+
 }
-
-
-// editor GUI class does the rest
-require_once "./content/classes/class.ilObjGlossaryGUI.php";
-$ilCtrl->setTargetScript("glossary_edit.php");
-$ilCtrl->getCallStructure("ilobjglossarygui");
-$glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, false);
-//$glossary_gui->executeCommand();
-$ilCtrl->forwardCommand($glossary_gui);
-
-?>
