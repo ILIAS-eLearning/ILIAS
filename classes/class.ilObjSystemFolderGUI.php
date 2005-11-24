@@ -27,6 +27,8 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * $Id$
+* 
+* @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1680,7 +1682,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -1700,10 +1702,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
 		}
 
-		if ($rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
 } // END class.ilObjSystemFolderGUI

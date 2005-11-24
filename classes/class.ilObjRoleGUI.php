@@ -60,17 +60,16 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
+		//TODO: move this to class.ilias.php
 		define("USER_FOLDER_ID",7);
 
-		global $ilCtrl;
+		// copy ref_id for later use.
+		$this->rolf_ref_id = $_GET['ref_id'];
 
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-		$this->rolf_ref_id =& $this->ref_id;
-
-		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this,'obj_id');
 	}
+
 
 	function &executeCommand()
 	{
@@ -82,8 +81,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
-
 		$cmd = $this->ctrl->getCmd();
+
 		switch($next_class)
 		{
 			default:
@@ -96,8 +95,10 @@ class ilObjRoleGUI extends ilObjectGUI
 					
 				break;
 		}
+
 		return true;
 	}
+
 
 	function listDesktopItemsObject()
 	{
@@ -137,6 +138,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 
 		$counter = 0;
+
 		foreach($items as $role_item_id => $item)
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($item['item_id']);
@@ -155,6 +157,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("PATH",$this->__formatPath($tree->getPathFull($item['item_id'])));
 			$this->tpl->parseCurrentBlock();
 		}
+
 		return true;
 	}
 
@@ -194,6 +197,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 
 		$counter = 0;
+
 		foreach($_POST['del_desk_item'] as $role_item_id)
 		{
 			$item_data = $role_desk_item_obj->getItem($role_item_id);
@@ -210,6 +214,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$this->tpl->parseCurrentBlock();
 		}
+
 		$_SESSION['role_del_desk_items'] = $_POST['del_desk_item'];
 
 		return true;
@@ -219,15 +224,17 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
+
+		if (!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		if(!count($_SESSION['role_del_desk_items']))
+
+		if (!count($_SESSION['role_del_desk_items']))
 		{
 			sendInfo($this->lng->txt('role_select_one_item'));
 
@@ -240,7 +247,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 
-		foreach($_SESSION['role_del_desk_items'] as $role_item_id)
+		foreach ($_SESSION['role_del_desk_items'] as $role_item_id)
 		{
 			$role_desk_item_obj->delete($role_item_id);
 		}
@@ -258,7 +265,6 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		include_once './classes/class.ilRoleDesktopItemSelector.php';
 		include_once './classes/class.ilRoleDesktopItem.php';
-		
 
 		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
@@ -267,7 +273,6 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_selector.html");
 		$this->__showButton('listDesktopItems',$this->lng->txt('back'));
-
 
 		sendInfo($this->lng->txt("role_select_desktop_item"));
 		
@@ -287,26 +292,28 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
+		if (!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 
 			return false;
 		}
 	
-		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 
 			return false;
 		}
-		if(!isset($_GET['item_id']))
+
+		if (!isset($_GET['item_id']))
 		{
 			sendInfo($this->lng->txt('role_no_item_selected'));
 			$this->selectDesktopItemObject();
 
 			return false;
 		}
+
 		include_once './classes/class.ilRoleDesktopItem.php';
 
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
@@ -314,13 +321,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt('role_assigned_desktop_item'));
 
-
 		$this->ctrl->redirect($this,'listDesktopItems');
 		return true;
 	}
 
-		
-		
 
 	/**
 	* display role create form
@@ -409,7 +413,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		// save
 		include_once("class.ilObjRole.php");
 		$roleObj = new ilObjRole();
-		//$roleObj->assignData($_POST["Fobject"]);
 		$roleObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$roleObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$roleObj->setAllowRegister($_POST["Fobject"]["allow_register"]);
@@ -591,9 +594,7 @@ class ilObjRoleGUI extends ilObjectGUI
 /*			generate output			*/
 /************************************/
 
-#		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-#		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.adm_perm_role.html');
 
 		foreach ($rbac_objects as $obj_data)
 		{
@@ -736,6 +737,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
 		$this->tpl->parseCurrentBlock();
+		
+		//var_dump($this->data["formaction"]);
 	}
 
 	/**
@@ -1048,8 +1051,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 
-//	var_dump("<pre>",$assigned_users_all,$selected_users,$assigned_users_new,$online_users_all,$online_affected_users,"</pre>");exit;
-
 		// assign new users
         foreach ($assigned_users_new as $user)
 		{
@@ -1063,18 +1064,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->object->update();
 
 		sendInfo($this->lng->txt("msg_userassignment_changed"),true);
-
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
-		{
-			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".
-							 $this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".
-							 $_GET["sort_order"]."&offset=".$_GET["offset"]);
-		}
-		else
-		{
-			$this->userassignmentObject();
-			return true;
-		}
+		
+		$this->ctrl->redirect($this,'userassignment');
 	}
 	
 	/**
@@ -1109,7 +1100,6 @@ class ilObjRoleGUI extends ilObjectGUI
             if ($admin = array_search(SYSTEM_USER_ID,$selected_users) !== false)
 			    unset($selected_users[$admin]);
 		}
-//var_dump("<pre>",SYSTEM_USER_ID,$admin,$_POST,$_GET,$selected_users,"</pre>");exit;
 
 		// check for each user if the current role is his last global role before deassigning him
 		$last_role = array();
@@ -1149,17 +1139,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_userassignment_changed"),true);
 
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
-		{
-			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".
-							 $this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".
-							 $_GET["sort_order"]."&offset=".$_GET["offset"]);
-		}
-		else
-		{
-			$this->userassignmentObject();
-			return true;
-		}
+		$this->ctrl->redirect($this,'userassignment');
 	}
 	
 	/**
@@ -1209,6 +1189,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if ($_POST["Fobject"]["allow_register"] == "")
 		{
 			$roles_allowed = $this->object->_lookupRegisterAllowed();
+
 			if (count($roles_allowed) == 1 and $roles_allowed[0]['id'] == $this->object->getId())
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_last_role_for_registration"),$this->ilias->error_obj->MESSAGE);
@@ -1222,15 +1203,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
-		{
-			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
-		}
-		else
-		{
-			$this->editObject();
-		}
-		return true;
+		$this->ctrl->redirect($this,'edit');
 	}
 	
 	/**
@@ -1420,40 +1393,37 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 
-            $tpl->setCurrentBlock("plain_button");
-		    $tpl->setVariable("PBTN_NAME","searchUserForm");
-		    $tpl->setVariable("PBTN_VALUE",$this->lng->txt("role_add_user"));
-		    $tpl->parseCurrentBlock();
-		    $tpl->setCurrentBlock("plain_buttons");
-		    $tpl->parseCurrentBlock();
+        $tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME","searchUserForm");
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("role_add_user"));
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("plain_buttons");
+		$tpl->parseCurrentBlock();
 
-			$tpl->setVariable("COLUMN_COUNTS",5);
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
-            foreach ($actions as $name => $value)
-			{
-				$tpl->setCurrentBlock("tbl_action_btn");
-				$tpl->setVariable("BTN_NAME",$name);
-				$tpl->setVariable("BTN_VALUE",$value);
-				$tpl->parseCurrentBlock();
-			}
+           foreach ($actions as $name => $value)
+		{
+			$tpl->setCurrentBlock("tbl_action_btn");
+			$tpl->setVariable("BTN_NAME",$name);
+			$tpl->setVariable("BTN_VALUE",$value);
+			$tpl->parseCurrentBlock();
+		}
 			
-			if (!empty($a_user_ids))
-			{
-				// set checkbox toggles
-				$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-				$tpl->setVariable("JS_VARNAME","user_id");			
-				$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_user_ids));
-				$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-				$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-				$tpl->parseCurrentBlock();
-			}
+		if (!empty($a_user_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","user_id");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_user_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
-            $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-
-
+        $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$this->ctrl->setParameter($this,"cmd","userassignment");
-
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("assigned_users"),"icon_usr_b.gif",$this->lng->txt("users"));
@@ -1581,7 +1551,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$_SESSION["role_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["role_search_str"];
 		$_SESSION["role_search_for"] = $_POST["search_for"] = $_POST["search_for"] ? $_POST["search_for"] : $_SESSION["role_search_for"];
 
-		if(!isset($_POST["search_for"]) or !isset($_POST["search_str"]))
+		if (!isset($_POST["search_for"]) or !isset($_POST["search_str"]))
 		{
 			sendInfo($this->lng->txt("role_search_enter_search_string"));
 			$this->searchUserFormObject();
@@ -1589,7 +1559,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 
-		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"])))
+		if (!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"])))
 		{
 			sendInfo($this->lng->txt("role_no_results_found"));
 			$this->searchUserFormObject();
@@ -1707,7 +1677,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$search->setSearchFor(array(0 => $a_search_for));
 		$search->setSearchType('new');
 
-		if($search->validate($message))
+		if ($search->validate($message))
 		{
 			$search->performSearch();
 		}
@@ -1912,7 +1882,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$_SESSION["role_role"] = $_POST["role"] = $_POST["role"] ? $_POST["role"] : $_SESSION["role_role"];
 
-		if(!is_array($_POST["role"]))
+		if (!is_array($_POST["role"]))
 		{
 			sendInfo($this->lng->txt("role_no_roles_selected"));
 			$this->searchObject();
@@ -1925,7 +1895,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		// GET ALL MEMBERS
 		$members = array();
-		foreach($_POST["role"] as $role_id)
+
+		foreach ($_POST["role"] as $role_id)
 		{
 			$members = array_merge($rbacreview->assignedUsers($role_id),$members);
 		}
@@ -1935,6 +1906,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		// FORMAT USER DATA
 		$counter = 0;
 		$f_result = array();
+
 		foreach($members as $user)
 		{
 			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
@@ -1953,6 +1925,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			unset($tmp_obj);
 			++$counter;
 		}
+
 		$this->__showSearchUserTable($f_result,$user_ids,"listUsersRole");
 
 		return true;
@@ -1964,7 +1937,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$_SESSION["role_group"] = $_POST["group"] = $_POST["group"] ? $_POST["group"] : $_SESSION["role_group"];
 
-		if(!is_array($_POST["group"]))
+		if (!is_array($_POST["group"]))
 		{
 			sendInfo($this->lng->txt("role_no_groups_selected"));
 			$this->searchObject();
@@ -1977,7 +1950,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		// GET ALL MEMBERS
 		$members = array();
-		foreach($_POST["group"] as $group_id)
+
+		foreach ($_POST["group"] as $group_id)
 		{
 			if (!$tree->isInTree($group_id))
 			{
@@ -1998,9 +1972,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		// FORMAT USER DATA
 		$counter = 0;
 		$f_result = array();
+
 		foreach($members as $user)
 		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
+			if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
 			{
 				continue;
 			}
@@ -2015,6 +1990,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			unset($tmp_obj);
 			++$counter;
 		}
+
 		$this->__showSearchUserTable($f_result,$user_ids,"listUsersGroup");
 
 		return true;
@@ -2024,18 +2000,22 @@ class ilObjRoleGUI extends ilObjectGUI
 	function __formatPath($a_path_arr)
 	{
 		$counter = 0;
-		foreach($a_path_arr as $data)
+
+		foreach ($a_path_arr as $data)
 		{
-			if($counter++)
+			if ($counter++)
 			{
 				$path .= " -> ";
 			}
+
 			$path .= $data['title'];
 		}
-		if(strlen($path) > 50)
+
+		if (strlen($path) > 50)
 		{
 			return '...'.substr($path,-50);
 		}
+
 		return $path;
 	}
 
@@ -2078,22 +2058,22 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function __setLocator()
 	{
-		global $tree;
-		global $ilias_locator;
+		global $tree, $ilias_locator;
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		$counter = 0;
+
 		foreach ($tree->getPathFull($this->rolf_ref_id) as $key => $row)
 		{
-			if($counter++)
+			if ($counter++)
 			{
 				$this->tpl->touchBlock('locator_separator_prefix');
 			}
 
 			$this->tpl->setCurrentBlock("locator_item");
 
-			if($row["type"] == 'rolf')
+			if ($row["type"] == 'rolf')
 			{
 				$this->tpl->setVariable("ITEM",$this->object->getTitle());
 				$this->tpl->setVariable("LINK_ITEM",$this->ctrl->getLinkTarget($this));
@@ -2120,21 +2100,16 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$rbacreview;
 
-		
 		$base_role_folder = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 		$real_local_role = in_array($this->rolf_ref_id,$base_role_folder);
 
-		$this->ctrl->setParameter($this,"ref_id",$this->rolf_ref_id);
-		$this->ctrl->setParameter($this,"obj_id",$this->object->getId());
-
-//echo "-".$this->ctrl->getCmd()."-";
-
-		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
 		{
 			$tabs_gui->addTarget("edit_properties",
-								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+								 $this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
 		}
-		if($rbacsystem->checkAccess('write',$this->rolf_ref_id))
+
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
 			$force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
 				? true
@@ -2144,24 +2119,22 @@ class ilObjRoleGUI extends ilObjectGUI
 				get_class($this),
 				"", $force_active);
 		}
-		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
 		{
 			$tabs_gui->addTarget("user_assignment",
 				$this->ctrl->getLinkTarget($this, "userassignment"),
-				array("deassignUser", "userassignment", "assignUser"),
+				array("deassignUser", "userassignment", "assignUser", "searchUserForm", "search"),
 				get_class($this));
 		}
-		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
 		{
 			$tabs_gui->addTarget("desktop_items",
 				$this->ctrl->getLinkTarget($this, "listDesktopItems"),
-				array("listDesktopItems", "deleteDesktopItems"),
+				array("listDesktopItems", "deleteDesktopItems", "selectDesktopItem", "askDeleteDesktopItem"),
 				get_class($this));
 		}
-
 	}
-
-
-
 } // END class.ilObjRoleGUI
 ?>

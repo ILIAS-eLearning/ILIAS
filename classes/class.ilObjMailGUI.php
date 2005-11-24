@@ -29,6 +29,8 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 * 
+* @ilCtrl_Calls ilObjMailGUI: ilPermissionGUI
+* 
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -264,6 +266,53 @@ class ilObjMailGUI extends ilObjectGUI
 		
 		return true;
 	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
 
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
+		
+		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("import",
+				$this->ctrl->getLinkTarget($this, "import"), "import", "", "");
+		}
+	}
 } // END class.ilObjMailGUI
 ?>

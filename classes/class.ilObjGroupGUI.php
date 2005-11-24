@@ -1504,8 +1504,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
-
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$force_active = (($_GET["cmd"] == "view" || $_GET["cmd"] == "")
@@ -1544,7 +1542,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tabs_gui->addTarget("group_new_registrations",
 				$this->ctrl->getLinkTarget($this, "ShownewRegistrations"), "ShownewRegistrations", get_class($this));
 		}
-		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		
+		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget('export',
 								 $this->ctrl->getLinkTarget($this,'listExportFiles'),

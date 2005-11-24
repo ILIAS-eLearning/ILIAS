@@ -27,6 +27,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
+* @ilCtrl_Calls ilObjSearchSettingsGUI: ilPermissionGUI
+* 
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -112,7 +114,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 
-
 		return true;
 	}
 
@@ -140,20 +141,23 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$rpc_settings->setHost(ilUtil::stripslashes($_POST['lucene_host']));
 		$rpc_settings->setPort(ilUtil::stripslashes($_POST['lucene_port']));
 		$rpc_settings->update();
+
 		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
 		{
-			sendInfo($this->lng->txt('search_no_connection_lucene'));
-			$this->settingsObject();
+			sendInfo($this->lng->txt('search_no_connection_lucene'),true);
+			$this->ctrl->redirect($this,'settings');
 
 			return false;
 		}
+
 		$this->object->settings_obj->update();
 
-		sendInfo($this->lng->txt('settings_saved'));
-		$this->settingsObject();
+		sendInfo($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'settings');
 
 		return true;
 	}
+
 	/**
 	* get tabs
 	* @access	public
@@ -161,8 +165,19 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
-		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "settings"), array("settings",""), "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
-} // END class.ilObjSearchSettings
+} // END class.ilObjSearchSettingsGUI
 ?>

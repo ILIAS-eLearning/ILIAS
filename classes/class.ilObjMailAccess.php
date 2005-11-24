@@ -24,7 +24,7 @@
 include_once("classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjRootFolderAccess
+* Class ilObjMailAccess
 *
 *
 * @author Alex Killing <alex.killing@gmx.de>

@@ -27,6 +27,8 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * $Id$
+* 
+* @ilCtrl_Calls ilObjObjectFolderGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -247,6 +249,45 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
+
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
 } // END class.ilObjObjectFolderGUI

@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjUserFolderGUI: 
+* @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -47,23 +47,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function ilObjUserFolderGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
-		global $ilCtrl;
-
+		// TODO: move this to class.ilias.php
 		define('USER_FOLDER_ID',7);
 
-		$this->ctrl =& $ilCtrl;
-
 		$this->type = "usrf";
-
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
 		switch($next_class)
 		{
 			default:
@@ -76,6 +71,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					
 				break;
 		}
+
 		return true;
 	}
 
@@ -2039,6 +2035,36 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("EXPORT_BUTTON", $this->lng->txt("create_export_file"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
 
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("obj_usrf",
+				$this->ctrl->getLinkTarget($this, "view"), array("view","delete",""), "", "");
+		}
+		
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("global_settings",
+				$this->ctrl->getLinkTarget($this, "settings"), "settings", "", "");
+				
+			$tabs_gui->addTarget("export",
+				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
+	}
 } // END class.ilObjUserFolderGUI
 ?>

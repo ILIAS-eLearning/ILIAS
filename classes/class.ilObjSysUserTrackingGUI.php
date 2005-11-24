@@ -26,8 +26,9 @@
 *
 * @author Arlon Yin <arlon_yin@hotmail.com>
 * @author Alex Killing <alex.killing@gmx.de>
-*
 * @version $Id$
+* 
+* @ilCtrl_Calls ilObjSysUserTrackingGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -54,7 +55,6 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_track"),$this->ilias->error_obj->WARNING);
 		}
-
 	}
 
 	/**
@@ -113,7 +113,6 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 
 		$tpl->parseCurrentBlock();
-
 	}
 
 	/**
@@ -142,7 +141,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 
 		sendinfo($this->lng->txt("msg_obj_modified"), true);
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=settings");
+		$this->ctrl->redirect($this,'settings');
 	}
 
 	/**
@@ -1161,5 +1160,37 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$result = $res->fetchRow();
 		return $result[0];
 	}
-} // END class.ilObj<module_name>
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "settings"), array("settings",""), "", "");
+
+			$tabs_gui->addTarget("tracking_data",
+				$this->ctrl->getLinkTarget($this, "trackingDataQueryForm"), "trackingDataQueryForm", "", "");
+				
+			$tabs_gui->addTarget("manage_tracking_data",
+				$this->ctrl->getLinkTarget($this, "manageData"), "manageData", "", "");
+				
+			$tabs_gui->addTarget("learning_progress",
+				$this->ctrl->getLinkTarget($this, "learningProgress"), "learningProgress", "", "");
+		}
+		
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
+	}
+} // END class.ilObjSysUserTrackingGUI
 ?>
