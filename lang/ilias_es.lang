@@ -2239,7 +2239,7 @@ common#:#not_accessed_yet#:#No visitado aún
 common#:#not_implemented_yet#:#No implementado aun
 common#:#not_installed#:#no instalado
 common#:#not_logged_in#:#No está identificado
-common#:#note#:#Notas
+common#:#note#:#Nota
 common#:#notes#:#Notas
 common#:#num_users#:#Número de usuarios
 common#:#number_of_accesses#:#Número de accesos
@@ -2656,7 +2656,7 @@ common#:#select_password#:#Seleccione una nueva contraseña
 common#:#select_questionpool#:#Banco de preguntas para Test
 common#:#select_questionpool_option#:#Por favor seleccione un banco de preguntas
 common#:#selected#:#seleccionado
-common#:#selected_items#:#Items personales
+common#:#selected_items#:#Mis Items
 common#:#send#:#enviar
 common#:#sender#:#De
 common#:#sent#:#enviado
