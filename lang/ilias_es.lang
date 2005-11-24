@@ -1102,7 +1102,7 @@ common#:#close#:#Cerrar
 common#:#close_window#:#Cerrar ventana
 common#:#comma_separated#:#separado por comas
 common#:#comment#:#comentario
-common#:#compose#:#nuevo mensaje
+common#:#compose#:#Nuevo mensaje
 common#:#condition#:#Condición
 common#:#condition_already_assigned#:#Objeto ya asignado
 common#:#condition_circle_created#:#Esta asociación no es posible, ya que los objetos tendrían una dependencia cruzada.
@@ -2000,7 +2000,7 @@ common#:#los_last_visited#:#últimos objetos de aprendizaje visitados
 common#:#lres#:#Recursos de aprendizaje
 common#:#mail#:#Correo
 common#:#mail_a_root#:#Bandeja de Correo
-common#:#mail_addressbook#:#agenda
+common#:#mail_addressbook#:#Agenda
 common#:#mail_allow_smtp#:#Permitir SMTP
 common#:#mail_b_inbox#:#Bandeja de entrada
 common#:#mail_c_trash#:#Papelera
@@ -2380,7 +2380,7 @@ common#:#online_version#:#versión online
 common#:#open_views_inside_frameset#:#Abrir vistas dentro del 'frameset'
 common#:#operation#:#Operación
 common#:#optimize#:#optimizar
-common#:#options#:#opciones
+common#:#options#:#Opciones
 common#:#options_for_subobjects#:#Opciones para subobjetos
 common#:#order_by#:#ordenar por
 common#:#other#:#otro
