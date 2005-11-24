@@ -98,10 +98,10 @@ class ilTabsGUI
 	*
 	* @param	string		$a_text			menu item text
 	* @param	string		$a_link			menu item link
-	* @param	string		$a_cmd			command, used for auto acctivation
-	* @param	string		$a_cmdClass		used for auto acctivation. String or array of cmd classes
+	* @param	string		$a_cmd			command, used for auto activation
+	* @param	string		$a_cmdClass		used for auto activation. String or array of cmd classes
 	* @param	string		$a_frame		frame target
-	* @param	boolean		$a_activate		avticate this menu item
+	* @param	boolean		$a_activate		activate this menu item
 	*/
 	function addTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false)
 	{

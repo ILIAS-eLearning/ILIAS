@@ -47,11 +47,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function ilObjCategoryGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilCtrl;
+		//global $ilCtrl;
 
 		// CONTROL OPTIONS
-		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
+		//$this->ctrl =& $ilCtrl;
+		//$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "cat";
 		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);

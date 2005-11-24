@@ -27,6 +27,8 @@
  *
  * @author	Stefan Meyer <smeyer@databay.de>
  * @version	$Id$
+ * 
+ * @ilCtrl_Calls ilObjLanguageFolderGUI: ilPermissionGUI
  *
  * @extends	ilObject
  * @package	ilias-core
@@ -582,5 +584,47 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-} // END class.LanguageFolderObjectOut
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
+	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+} // END class.ilObjLanguageFolderGUI
 ?>

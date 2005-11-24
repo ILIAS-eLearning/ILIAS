@@ -27,6 +27,8 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
+* @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
+* 
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -63,6 +65,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		$this->__initSubTabs("view");
+		
 		$this->getTemplateFile("general");
 		
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
@@ -94,8 +98,21 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
-		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
+		global $rbacsystem;
+
+		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "view"), array("view","editiLinc",""), "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 	
 	/**
@@ -111,6 +128,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$this->__initSubTabs("editiLinc");
 		
 		if ($_SESSION["error_post_vars"])
 		{
@@ -169,7 +188,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		$this->getTemplateFile("ilinc");
 		
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));//"adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
 		$this->tpl->setVariable("TXT_ILINC_TITLE", $this->lng->txt("extt_ilinc_configure"));
 		$this->tpl->setVariable("TXT_ILINC_ACTIVE", $this->lng->txt("extt_ilinc_enable"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
@@ -241,8 +260,44 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("ilinc_customer_id", $_POST["ilinc"]["customer_id"]);
 
 		sendInfo($this->lng->txt("extt_ilinc_settings_saved"),true);
-		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
+		$this->ctrl->redirect($this,'editiLinc');
 	}
 	
+	// init sub tabs
+	function __initSubTabs($a_cmd)
+	{
+		$ilinc = ($a_cmd == 'editiLinc') ? true : false;
+		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
+
+		include_once('classes/class.ilTabsGUI.php');
+
+		$sub_tab_gui = new ilTabsGUI();
+		$sub_tab_gui->setSubTabs();
+		$sub_tab_gui->addTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
+			"", "", "", $overview);
+		$sub_tab_gui->addTarget("extt_ilinc", $this->ctrl->getLinkTarget($this, "editiLinc"),
+			"", "", "", $ilinc);
+		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());		
+	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
 } // END class.ilObjExternalToolsSettingsGUI
 ?>

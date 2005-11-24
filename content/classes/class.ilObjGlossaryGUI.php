@@ -38,6 +38,7 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
+* 
 *
 * @package content
 */

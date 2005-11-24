@@ -299,7 +299,7 @@ class ilObjRole extends ilObject
 		if ($rbacreview->isAssignable($this->getId(),$this->getParent()))
 		{
 			// do not delete role if this role is the last role a user is assigned to
-			
+
 			// first fetch all users assigned to role
 			$user_ids = $rbacreview->assignedUsers($this->getId());
 			

@@ -28,6 +28,7 @@
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI
+* 
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -65,8 +66,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
-
 		$cmd = $this->ctrl->getCmd();
+
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -1095,15 +1096,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem,$rbacreview;
-//echo "-".$this->ctrl->getCmd()."-";
-		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
-
-		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
+echo $this->ctrl->getCmd();
+		if ($this->ctrl->getTargetScript() != "adm_object.php" and $rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
 		}
-		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+
+		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("edit_content",
 				$this->ctrl->getLinkTarget($this, "editItems"),
@@ -1111,7 +1111,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				"");
 		}
 		
-		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		if ($this->ctrl->getTargetScript() != "adm_object.php" and $rbacsystem->checkAccess('visible',$this->ref_id))
 		{
 			// this is not nice. tabs should be displayed in ilcoursegui
 			// not via ilrepositorygui, then next_class == ilinfoscreengui
@@ -1127,24 +1127,27 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 								 "", "", $force_active);
 		}
 
-		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		if ($this->ctrl->getTargetScript() != "adm_object.php" and $rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
 				 "", 'ilmdeditorgui');
 		}
-		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+
+		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("history",
 				$this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
 		}
-		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+
+		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("link_check",
 				$this->ctrl->getLinkTarget($this, "linkChecker"),
 				array("linkChecker", "refreshLinkCheck"), get_class($this));
 		}
-		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');

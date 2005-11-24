@@ -213,6 +213,12 @@ class ilPermissionGUI
 		{
 			foreach ($role['permissions']['general'] as $perm)
 			{
+				// exclude delete permission for ROLE_FOLDER_ID
+				if ($perm['name'] == 'delete' and $this->gui_obj->object->getType() == 'rolf' and $this->gui_obj->object->getRefId() == ROLE_FOLDER_ID)
+				{
+					continue;
+				}
+				
 				$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
 
 				$this->tpl->setCurrentBlock("perm_item");

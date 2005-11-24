@@ -27,6 +27,8 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 * 
+* @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI
+* 
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -628,8 +630,25 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
-		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("basic_settings",
+				$this->ctrl->getLinkTarget($this, "editBasicSettings"), array("editBasicSettings",""), "", "");
+
+			$tabs_gui->addTarget("system_styles",
+				$this->ctrl->getLinkTarget($this, "editSystemStyles"), "editSystemStyles", "", "");
+				
+			$tabs_gui->addTarget("content_styles",
+				$this->ctrl->getLinkTarget($this, "editContentStyles"), "editContentStyles", "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
-} // END class.ilObjStyleSettings
+} // END class.ilObjStyleSettingsGUI
 ?>

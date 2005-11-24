@@ -26,6 +26,8 @@
 *
 * @author Helmut Schottmüller <hschottm@gmx.de>
 * @version $Id$
+* 
+* @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -52,7 +54,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_assf"),$this->ilias->error_obj->WARNING);
 		}
-
 	}
 
 	/**
@@ -133,8 +134,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$this->object->_enableAssessmentLogging(0);
 		}
 		$this->object->_setLogLanguage($_POST["reporting_language"]);
-		sendInfo($this->lng->txt("msg_obj_modified"));
-		$this->settingsObject();
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		$this->ctrl->redirect($this,'settings');
 	}
 
 	/**
@@ -329,5 +331,30 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SELECT_TEST", $this->lng->txt("assessment_log_select_test"));
 		$this->tpl->parseCurrentBlock();
 	}
-} // END class.ilObj<module_name>
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "settings"), array("settings",""), "", "");
+
+			$tabs_gui->addTarget("logs",
+				$this->ctrl->getLinkTarget($this, "logs"), array("logs",""), "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
+	}
+} // END class.ilObjAssessmentFolderGUI
 ?>

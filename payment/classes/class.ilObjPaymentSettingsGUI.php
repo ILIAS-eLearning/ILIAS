@@ -22,11 +22,13 @@
 */
 
 /**
-* Class ilObjAuthSettingsGUI
+* Class ilObjPaymentSettingsGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Jens Conze <jc@databay.de> 
 * @version $Id$
+* 
+* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -430,8 +432,28 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
-		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("general_settings",
+				$this->ctrl->getLinkTarget($this, "generalSettings"), array("generalSettings",""), "", "");
+				
+			$tabs_gui->addTarget("statistic",
+				$this->ctrl->getLinkTarget($this, "statistic"), "statistic", "", "");
+				
+			$tabs_gui->addTarget("vendors",
+				$this->ctrl->getLinkTarget($this, "vendors"), "vendors", "", "");
+				
+			$tabs_gui->addTarget("pay_methods",
+				$this->ctrl->getLinkTarget($this, "payMethods"), "payMethods", "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 
 	function generalSettingsObject($a_show_confirm = false)

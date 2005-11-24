@@ -59,7 +59,7 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd("render");
-//echo "-".$cmd."-";
+
 		switch($next_class)
 		{
 			default:

@@ -195,8 +195,8 @@ class ilObjectGUI
 		global $rbacsystem;
 
 		$next_class = $this->ctrl->getNextClass($this);
-
 		$cmd = $this->ctrl->getCmd();
+
 		switch($next_class)
 		{
 			default:
@@ -209,6 +209,7 @@ class ilObjectGUI
 					
 				break;
 		}
+
 		return true;
 	}
 
@@ -265,7 +266,7 @@ class ilObjectGUI
 	{
 		// temp. for groups and systemfolder
 		// TODO: use this style for all objects
-		if (($this->object->getType() == "grp" or $this->object->getType() == "adm"
+/*		if (($this->object->getType() == "grp" or $this->object->getType() == "adm"
 			 or $this->object->getType() == "sty" or $this->object->getType() == "svy"
 			 or $this->object->getType() == "spl" or $this->object->getType() == "tst"
 			 or $this->object->getType() == "qpl" or $this->object->getType() == "exc"
@@ -277,10 +278,14 @@ class ilObjectGUI
 				 $this->object->getType() == "adm"
 				 )
 				)
+		{ */
+		if (true)
 		{
 			include_once "./classes/class.ilTabsGUI.php";
 			$tabs_gui =& new ilTabsGUI();
 			$this->getTabs($tabs_gui);
+			
+			//var_dump(get_class($this));
 
 			// output tabs
 			$this->tpl->setVariable("TABS", $tabs_gui->getHTML());

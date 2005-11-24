@@ -25,10 +25,10 @@
 /**
 * Class ilObjTypeDefinitionGUI
 * 
-* CLASS IS DEPRECATED
-*
+* handles operation assignment to objects (ONLY FOR TESTING PURPOSES!)
+* 
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.13 2004/04/26 20:38:13 akill Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.14 2005/11/21 17:12:08 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -223,7 +223,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview;
 
-		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit_permission', $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->WARNING);
 		}
@@ -267,7 +267,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview;
 		
-		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("edit_permission",$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -416,6 +416,45 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			} //for
 		} //if is_array
+	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
+
+			$tabs_gui->addTarget("edit_operations",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", "", "");
+		}
 	}
 } // END class.ilObjTypeDefinitionGUI
 ?>

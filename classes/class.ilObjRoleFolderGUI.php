@@ -29,6 +29,8 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 * 
+* @ilCtrl_Calls ilObjRoleFolderGUI: ilPermissionGUI
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -50,19 +52,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function ilObjRoleFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
-        global $ilCtrl;
-
-        $this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
-		
 		$this->type = "rolf";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
 	
 	function &executeCommand()
 	{
-		global $rbacsystem;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -224,10 +219,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"]."_b.gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
             $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
             $result_set[$counter][] = $role["description"];
-            
-
-            	
-            $result_set[$counter][] = $path." (".$role["role_type"].")";;
+			$result_set[$counter][] = $path." (".$role["role_type"].")";;
 
    			++$counter;
         }
@@ -257,7 +249,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$return_loc = $this->tree->getParentId($this->object->getRefId());
 		
 		$feedback["count"] = count($_SESSION["saved_post"]);
-		
+
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_SESSION["saved_post"] as $id)
 		{
@@ -266,13 +258,16 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 			if ($obj->getType() == "role")
 			{
-				$obj->setParent($this->object->getRefId());
+					$rolf_arr = $rbacreview->getFoldersAssignedToRole($obj->getId(),true);
+					$obj->setParent($rolf_arr[0]);
+
 				$feedback["role"] = true;
 			}
 			else
 			{
 				$feedback["rolt"] = true;
 			}
+
 			$obj->delete();
 			unset($obj);
 		}
@@ -334,10 +329,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function deleteObject()
 	{
-		if(!isset($_POST["role_id"]))
+		if (!isset($_POST["role_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["role_id"];
 
@@ -362,7 +358,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
@@ -635,6 +631,28 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	{
         parent::hitsperpageObject();
         $this->viewObject();
+	}
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("obj_rolf",
+				$this->ctrl->getLinkTarget($this, "view"), array("view","delete",""), "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 } // END class.ilObjRoleFolderGUI
 ?>
