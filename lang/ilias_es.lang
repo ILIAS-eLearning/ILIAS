@@ -120,7 +120,7 @@ assessment#:#apply#:#Aplicar
 assessment#:#ass_create_export_file#:#Crear fichero de exportación
 assessment#:#ass_create_export_test_results#:#Exportar<br>Resultados del Test
 assessment#:#ass_export_files#:#Exportar ficheros
-assessment#:#ass_file#:#Fichero
+assessment#:#ass_file#:#Archivo
 assessment#:#ass_question#:#Pregunta
 assessment#:#ass_questions#:#Preguntas
 assessment#:#ass_size#:#Tamaño
@@ -203,11 +203,11 @@ assessment#:#edit_properties#:#Editar propiedades
 assessment#:#end_tag#:#Marca de Fin
 assessment#:#ending_time_reached#:#Se ha alcanzado el tiempo límite
 assessment#:#error_image_upload_copy_file#:#Ocurrió un error moviendo la imagen cargada a su carpeta de destino!
-assessment#:#error_image_upload_wrong_format#:#Por favor cargue un fichero de imagen válido! Los formatos de imagen soportados son gif, jpeg y png
-assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta(s) desde el fichero seleccionado!
-assessment#:#error_open_image_file#:#Error abriendo un fichero de imagen!
+assessment#:#error_image_upload_wrong_format#:#Por favor cargue un archivo de imagen válido! Los formatos de imagen soportados son gif, jpeg y png
+assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta(s) desde el archivo seleccionado!
+assessment#:#error_open_image_file#:#Error abriendo el archivo de imagen!
 assessment#:#error_open_java_file#:#Error abriendo un applet java!
-assessment#:#error_save_image_file#:#Error grabando un fichero de imagen!
+assessment#:#error_save_image_file#:#Error grabando el archivo de imagen!
 assessment#:#eval_all_users#:#Evaluación para los nuevos usuarios
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_cloze_result#:#Hueco número %s con el valor %s es %s.Usted recibió %s puntos.
@@ -252,9 +252,9 @@ assessment#:#gap_selection#:#Hueco de seleccion
 assessment#:#glossary_term#:#Término de glosario
 assessment#:#height#:#Altura
 assessment#:#imagemap#:#Mapa de imagen
-assessment#:#imagemap_file#:#Fichero de mapa de imagen
+assessment#:#imagemap_file#:#Archivo mapa de imagen
 assessment#:#imagemap_source#:#Fuente del mapa de imagen
-assessment#:#import_errors_qti#:#Hubo errores analizando el fichero QTI. La importación se ha cancelado.
+assessment#:#import_errors_qti#:#Hubo errores analizando el archivo QTI. La importación se ha cancelado.
 assessment#:#import_question#:#Importar pregunta(s)
 assessment#:#insert_after#:#Insertar después
 assessment#:#insert_before#:#Insertar antes
@@ -286,7 +286,7 @@ assessment#:#matches#:#coincide
 assessment#:#matching_pair#:#Pareja coincidente
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material para descargar
-assessment#:#material_file#:#Fichero de Material
+assessment#:#material_file#:#Archivo de Material
 assessment#:#maxchars#:#Máximo número de caracteres
 assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. El test no puede ser introducido!
 assessment#:#meaning#:#Significado
@@ -360,7 +360,7 @@ assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta 
 assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
 assessment#:#qt_text#:#Pregunta de Respuesta Corta (texto)
-assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el banco de preguntas si no quiere guardarla!
+assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el banco de preguntas si no quiere guardarla!
 assessment#:#question_short#:#P
 assessment#:#question_title#:#Titulo de la pregunta
 assessment#:#question_type#:#Tipo de pregunta
@@ -776,8 +776,8 @@ chat#:#chat_server_allowed#:#máquinas permitidas
 chat#:#chat_server_allowed_b#:#(ej: 192.168.1.1,192.168.1.2)
 chat#:#chat_server_external_ip#:#IP externa del Servidor
 chat#:#chat_server_internal_ip#:#IP interna del Servidor
-chat#:#chat_server_logfile#:#ruta al fichero de log
-chat#:#chat_server_loglevel#:#nivel de log
+chat#:#chat_server_logfile#:#ruta al archivo de registro
+chat#:#chat_server_loglevel#:#nivel de registro
 chat#:#chat_server_not_active#:#El servidor de chat no está activado
 chat#:#chat_server_port#:#Puerto del Servidor
 chat#:#chat_server_settings#:#Configuración del servidor Chat
@@ -867,7 +867,7 @@ common#:#alm_leave#:#Darse de baja del Módulo de aprendizaje AICC
 common#:#alm_read#:#Acceso de lectura al Módulo de aprendizaje AICC
 common#:#alm_visible#:#Módulo de aprendizaje AICC visible
 common#:#alm_write#:#Editar Módulo de aprendizaje AICC
-common#:#already_delivered_files#:#Ficheros ya enviados
+common#:#already_delivered_files#:#Archivos ya enviados
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios
@@ -990,7 +990,7 @@ common#:#cancel#:#cancelar
 common#:#cannot_find_xml#:#No se puede encontrar ningun fichero XML
 common#:#cannot_uninstall_language_in_use#:#No puedes desinstalar el idioma actualment en uso!
 common#:#cannot_uninstall_systemlanguage#:#No puedes desinstalar el idioma del sistema!
-common#:#cannot_unzip_file#:#No se pudo descomprimir el fichero
+common#:#cannot_unzip_file#:#No se pudo descomprimir el archivo
 common#:#cant_deactivate_if_users_assigned#:#No puede desactivar un estilo si exiten usuarios asignados al mismo.
 common#:#cat#:#Categoría
 common#:#cat_a#:#una categoria
@@ -1004,7 +1004,7 @@ common#:#cat_create_chat#:#Crear Chat
 common#:#cat_create_crs#:#Crear Curso
 common#:#cat_create_dbk#:#Crear Libro Digital
 common#:#cat_create_exc#:#Crear Actividad
-common#:#cat_create_file#:#Cargar Fichero
+common#:#cat_create_file#:#Cargar Archivo
 common#:#cat_create_frm#:#Crear Foro
 common#:#cat_create_glo#:#Crear Glosario
 common#:#cat_create_grp#:#Crear Grupo
@@ -1073,7 +1073,7 @@ common#:#chat_visible#:#El Chat está visible
 common#:#chat_write#:#Editar Chat
 common#:#check#:#comprobar
 common#:#check_all#:#seleccionar todo
-common#:#check_langfile#:#Por favor, compruebe su fichero de idioma
+common#:#check_langfile#:#Por favor, compruebe su archivo de idioma
 common#:#check_languages#:#Comprobar Idiomas
 common#:#check_link#:#Comprobar Enlaces
 common#:#check_link_desc#:#Si se habilita, todos los enlaces externos en los módulos de aprendizaje ILIAS serán chequeados si están activos.
@@ -1089,7 +1089,7 @@ common#:#choose_language#:#escoja su idioma
 common#:#choose_location#:#Elija una ruta
 common#:#choose_only_one_language#:#Por favor elija sólo un idioma
 common#:#city#:#Ciudad
-common#:#cleaned_file#:#El fichero ha sido limpiado.
+common#:#cleaned_file#:#El archivo ha sido limpiado.
 common#:#cleaning_failed#:#La limpieza falló.
 common#:#clear#:#Borrar
 common#:#clear_clipboard#:#Vaciar portapapeles
@@ -1146,7 +1146,7 @@ common#:#created#:#Crear fecha
 common#:#cron_forum_notification#:#Enviar notificacion de foros
 common#:#cron_forum_notification_desc#:#Si se habilita, todos los usuarios que quieren ser informados sobre nuevos mensajes en los asuntos de foros especificados, recibiran notificacion por e-mail.
 common#:#cron_jobs#:#Trabajos Planificados
-common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el fichero INSTALL de la documentación.
+common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el archivo INSTALL de la documentación.
 common#:#cron_lucene_index#:#Actualizar Índice de Búsqueda Lucene
 common#:#cron_lucene_index_info#:#Si se habilita, el índice de búsqueda lucene será actualizado. Por favor configure el servidor lucene en "Administración -> Búsqueda".
 common#:#crs#:#Curso
@@ -1154,7 +1154,7 @@ common#:#crs_a#:#un Curso
 common#:#crs_add#:#Añadir Curso
 common#:#crs_added#:#Curso Añadido
 common#:#crs_all_questions_answered_successfully#:#Ha respondido satisfactoriamente cada pregunta.
-common#:#crs_archives#:#Archivos
+common#:#crs_archives#:#Archivar
 common#:#crs_at_least_one_admin#:#Debe haber al menos un administrador de curso.
 common#:#crs_available#:#Curso disponible
 common#:#crs_container_link_not_allowed#:#No es posible enlazar a objetos contenedor
@@ -1163,7 +1163,7 @@ common#:#crs_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#crs_create_chat#:#Crear Chat
 common#:#crs_create_dbk#:#Crear Libro Digital
 common#:#crs_create_exc#:#Crear Actividad
-common#:#crs_create_file#:#Cargar fichero
+common#:#crs_create_file#:#Cargar archivo
 common#:#crs_create_fold#:#Crear Carpeta
 common#:#crs_create_frm#:#Crear Foro
 common#:#crs_create_glo#:#Crear Glosario
@@ -1264,11 +1264,11 @@ common#:#disabled#:#deshabilitado
 common#:#domain#:#Dominio
 common#:#down#:#abajo
 common#:#download#:#descargar
-common#:#download_all_returned_files#:#Descargar todos los ficheros entregados
+common#:#download_all_returned_files#:#Descargar todos los archivos entregados
 common#:#drafts#:#borradores
 common#:#drop#:#descartar
 common#:#edit#:#editar
-common#:#file_info#:#Información de Fichero
+common#:#file_info#:#Información de archivo
 common#:#edit_content#:#Editar contenido
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
@@ -1292,7 +1292,7 @@ common#:#enable_js_edit_info#:#Esta opción habilita la Edición JavaScript para
 common#:#enable_password_assistance#:#Habilitar Asistencia de Contraseña
 common#:#enable_registration#:#Habilitar registro de usuarios
 common#:#enabled#:#habilitado
-common#:#enter_filename_deliver#:#Introduzca ejercicio a enviar
+common#:#enter_filename_deliver#:#Introduzca el archivo que desea enviar
 common#:#enumerate#:#enumerar
 common#:#err_1_param#:#Sólo 1 parámetro!
 common#:#err_2_param#:#Sólo 2 parámetros!
@@ -1306,7 +1306,7 @@ common#:#err_ldap_connect_failed#:#Falló la conexión al servidor LDAP! Por fav
 common#:#err_ldap_search_failed#:#Falló la conexión al servidor LDAP! Por favor compruebe BaseDN y Search base
 common#:#err_ldap_user_not_found#:#Usuario no encontrado en servidor LDAP! Por favor compruebe los atributos para login name y Objectclass
 common#:#err_no_cookies#:#Por favor habilite las cookies en su navegador!
-common#:#err_no_langfile_found#:#No se encontró el fichero de idioma!
+common#:#err_no_langfile_found#:#No se encontró el archivo de idioma!
 common#:#err_no_param#:#Falta el parámetro!
 common#:#err_over_3_param#:#Más de 3 parámetros!
 common#:#err_role_not_assignable#:#No se pueden asignar usuarios a este rol en esta localización
@@ -1321,7 +1321,7 @@ common#:#error_recipient#:#destinatario de errores
 common#:#exc#:#Actividad
 common#:#exc_add#:#Añadir Actividad
 common#:#exc_added#:#Actividad añadida
-common#:#exc_ask_delete#:#¿Eliminar fichero?
+common#:#exc_ask_delete#:#¿Eliminar archivo?
 common#:#exc_assign_usr#:#Asignar Usuario
 common#:#exc_create#:#Crear Actividad
 common#:#exc_date_not_valid#:#La fecha no es válida
@@ -1331,8 +1331,8 @@ common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
 common#:#exc_edit_permission#:#Modificar configuración de permisos
 common#:#exc_edit_until#:#Enviar hasta
-common#:#exc_files#:#Ficheros
-common#:#exc_files_returned#:#Ficheros entregados
+common#:#exc_files#:#Archivos
+common#:#exc_files_returned#:#Archivos entregados
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Actividad (miembros)
 common#:#exc_instruction#:#Instrucciones de trabajo
@@ -1346,19 +1346,19 @@ common#:#exc_read#:#Acceso actividad
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
 common#:#exc_search_for#:#Buscar
-common#:#exc_select_one_file#:#Por favor seleccione exactamente un fichero
+common#:#exc_select_one_file#:#Por favor seleccione exactamente un archivo
 common#:#exc_send_exercise#:#Enviar actividad
 common#:#exc_sent#:#La actividad ha sido enviada a los usuarios seleccionados
 common#:#exc_status_returned#:#entregado
 common#:#exc_status_saved#:#Actividad Actualizada
 common#:#exc_status_solved#:#corregido
-common#:#exc_upload_error#:#Error cargando fichero
+common#:#exc_upload_error#:#Error cargando archivo
 common#:#exc_users#:#Usuarios
 common#:#exc_visible#:#Actividad es visible
 common#:#exc_write#:#Editar actividad
 common#:#excs#:#Actividades
 common#:#execute#:#ejecutar
-common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar ficheros!
+common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
 common#:#export_html#:#Exportar como fichero HTML
@@ -1385,26 +1385,26 @@ common#:#faq_exercise#:#actividad FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#feedback
 common#:#feedback_recipient#:#destinatario feedback
-common#:#file#:#Fichero
-common#:#file_a#:#un Fichero
-common#:#file_add#:#Cargar fichero
-common#:#file_added#:#Fichero cargado
-common#:#file_delete#:#Eliminar fichero
-common#:#file_edit#:#Editar Fichero
+common#:#file#:#Archivo
+common#:#file_a#:#un Archivo
+common#:#file_add#:#Cargar archivo
+common#:#file_added#:#Archivo cargado
+common#:#file_delete#:#Eliminar archivo
+common#:#file_edit#:#Editar archivo
 common#:#file_edit_permission#:#Modificar configuración de permisos
-common#:#file_is_infected#:#El fichero está infectado por un virus.
-common#:#file_new#:#Nuevo Fichero
-common#:#file_not_found#:#Fichero no encontrado
-common#:#file_not_valid#:#Fichero no válido
-common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de ficheros de 
-common#:#file_read#:#Descarga fichero
-common#:#file_valid#:#Fichero válido
-common#:#file_version#:#version facilitada en el fichero
-common#:#file_visible#:#El fichero es visible
-common#:#file_write#:#Editar fichero
-common#:#filename#:#Nombre de fichero
-common#:#files#:#Ficheros
-common#:#files_location#:#ubicación de los ficheros
+common#:#file_is_infected#:#El archivo está infectado por un virus.
+common#:#file_new#:#Nuevo archivo
+common#:#file_not_found#:#Archivo no encontrado
+common#:#file_not_valid#:#Archivo no válido
+common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de 
+common#:#file_read#:#Descarga archivo
+common#:#file_valid#:#Archivo válido
+common#:#file_version#:#version facilitada en el archivo
+common#:#file_visible#:#El archivo es visible
+common#:#file_write#:#Editar archivo
+common#:#filename#:#Nombre de archivo
+common#:#files#:#Archivos
+common#:#files_location#:#ubicación de los archivos
 common#:#fill_out_all_required_fields#:#por favor rellene todos los campos requeridos
 common#:#filter#:#Filtro
 common#:#firstname#:#Nombre
@@ -1418,7 +1418,7 @@ common#:#fold_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#fold_create_chat#:#Crear Chat
 common#:#fold_create_dbk#:#Crear Libro Digital
 common#:#fold_create_exc#:#Crear Actividad
-common#:#fold_create_file#:#Cargar Fichero
+common#:#fold_create_file#:#Cargar Archivo
 common#:#fold_create_fold#:#Crear Carpeta
 common#:#fold_create_frm#:#Crear Foro
 common#:#fold_create_glo#:#Crear Glosario
@@ -1503,7 +1503,7 @@ common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (subárbol completo)
 common#:#glo_new#:#Nuevo Glosario
 common#:#glo_read#:#Acceso de lectura al Glosario
-common#:#glo_upload_file#:#Fichero
+common#:#glo_upload_file#:#Archivo
 common#:#glo_visible#:#El Glosario es visible
 common#:#glo_write#:#Editar Glosario
 common#:#global#:#Global
@@ -1519,7 +1519,7 @@ common#:#group_any_objects#:#No hay subobjetos disponibles
 common#:#group_create_chat#:#Crear Chat
 common#:#group_desc#:#Descripción de Grupo
 common#:#group_details#:#Detalles de Grupo
-common#:#group_filesharing#:#Compartir ficheros en grupo
+common#:#group_filesharing#:#Compartir archivos en grupo
 common#:#group_import#:#Importar Grupo
 common#:#group_import_file#:#Importar fichero
 common#:#group_members#:#Miembros de Grupo
@@ -1562,8 +1562,8 @@ common#:#grp_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#grp_create_chat#:#Crear Chat
 common#:#grp_create_dbk#:#Crear Digibook
 common#:#grp_create_exc#:#Crear Actividad
-common#:#grp_create_file#:#El Usuario puede cargar Ficheros
-common#:#grp_create_fold#:#El Usuario puede crear Carpetas
+common#:#grp_create_file#:#El Usuario puede cargar archivos
+common#:#grp_create_fold#:#El Usuario puede crear carpetas
 common#:#grp_create_frm#:#Crear Foro
 common#:#grp_create_glo#:#Crear Glosario
 common#:#grp_create_hlm#:#Crear Módulo de aprendizaje HACP
@@ -1578,7 +1578,7 @@ common#:#grp_create_svy#:#Crear Encuesta
 common#:#grp_create_tst#:#Crear Test
 common#:#grp_create_webr#:#Crear nuevo Recurso Web
 common#:#grp_delete#:#Eliminar Grupo
-common#:#grp_deleted_export_files#:#Ficheros seleccionados eliminados.
+common#:#grp_deleted_export_files#:#Archivos seleccionados eliminados.
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
 common#:#grp_edit#:#Editar Grupo
@@ -1617,8 +1617,8 @@ common#:#grp_register#:#Registrar
 common#:#grp_registration_completed#:#Registro completado
 common#:#grp_search_enter_search_string#:#Por favor entre una cadena de búsqueda
 common#:#grp_search_members#:#Búsqueda de usuarios (miembros)
-common#:#grp_select_one_file#:#Por favor seleccione un fichero
-common#:#grp_select_one_file_only#:#Por favor seleccione exáctamente un fichero.
+common#:#grp_select_one_file#:#Por favor seleccione un archivo
+common#:#grp_select_one_file_only#:#Por favor seleccione exáctamente un archivo.
 common#:#grp_visible#:#Grupo visible
 common#:#grp_write#:#Editar Grupo
 common#:#guest#:#Invitado
@@ -1634,8 +1634,8 @@ common#:#hist_dbk:pg_create#:#Página creada
 common#:#hist_dbk:pg_cut#:#Página cortada del capítulo "%1" [%2]
 common#:#hist_dbk:pg_paste#:#Página pegada en el capítulo"%1" [%2]
 common#:#hist_dbk:pg_update#:#Página modificada
-common#:#hist_file_create#:#Fichero creado, fichero es "%1". 
-common#:#hist_file_replace#:#Fichero reemplazado, nuevo ficher es "%1", nueva versión es %2.
+common#:#hist_file_create#:#Archivo creado, archivo es "%1". 
+common#:#hist_file_replace#:#Archivo reemplazado, nuevo ficher es "%1", nueva versión es %2.
 common#:#hist_lm:pg_create#:#Página creada
 common#:#hist_lm:pg_cut#:#Página cortada del capítulo "%1" [%2]
 common#:#hist_lm:pg_paste#:#Página pegada en el capítulo "%1" [%2]
@@ -1699,7 +1699,7 @@ common#:#icrs_visible#:#Curso iLinc visible
 common#:#icrs_write#:#Editar Curso iLinc
 common#:#id#:#ID
 common#:#identifier#:#identificador
-common#:#if_no_title_then_filename#:#Dejar en blanco para mostrar el nombre de fichero
+common#:#if_no_title_then_filename#:#Dejar en blanco para mostrar el nombre de archivo
 common#:#if_no_title_then_url#:#Dejar en blanco para mostrar la URL
 common#:#ignore_on_conflict#:#Ignorar si ocurre un conflicto
 common#:#il_chat_moderator#:#Moderador Chat
@@ -1757,9 +1757,9 @@ common#:#import_cat_localrol#:#Crear rol local para cada nueva categoría
 common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca el 'checkbox'
 common#:#import_categories#:#Importar Categorías
 common#:#import_dbk#:#Importar Libro Digital
-common#:#import_failure_log#:#Fichero de log de fallos en la importación
-common#:#import_file#:#Importar Fichero
-common#:#import_file_not_valid#:#La importación del fichero no es válida
+common#:#import_failure_log#:#Fichero de registro de fallos en la importación
+common#:#import_file#:#Importar archivo
+common#:#import_file_not_valid#:#La importación del archivo no es válida
 common#:#import_finished#:#Número de mensajes importados
 common#:#import_forum_finished#:#El foro ha sido importado
 common#:#import_glossary#:#Importar Glosario
@@ -1828,7 +1828,7 @@ common#:#ingmedia_user_agree#:#Agreement
 common#:#ingmedia_vis_le#:#Visited LE
 common#:#ingmedia_visited_le#:#All LE you have visited so far.
 common#:#ingmedia_welcome#:#, welcome to your personal desktop!!
-common#:#inifile#:#fichero de inicialización
+common#:#inifile#:#Fichero de inicialización
 common#:#input_error#:#Error de Entrada
 common#:#insert#:#Insertar
 common#:#insert_object_here#:#Insertar objecto aquí
@@ -1836,9 +1836,9 @@ common#:#inst_id#:#ID de instalación
 common#:#inst_info#:#información de instalación
 common#:#inst_name#:#nombre de la instalación
 common#:#install#:#instalar
-common#:#install_local#:#Instalar con fichero de idioma local
+common#:#install_local#:#Instalar con archivo de idioma local
 common#:#installed#:#instalado
-common#:#installed_local#:#Instalado con fichero de idioma local
+common#:#installed_local#:#Instalado con archivo de idioma local
 common#:#institution#:#Institución
 common#:#internal_local_roles_only#:#Roles locales (sólo autogenerados)
 common#:#internal_system#:#Sistema Interno
@@ -1880,7 +1880,7 @@ common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamita
 common#:#lang_xx#:#Propio
 common#:#lang_zh#:#Chino simplificado
-common#:#langfile_found#:#Fichero de Idioma encontrado
+common#:#langfile_found#:#Archivo de Idioma encontrado
 common#:#language#:#Idioma
 common#:#language_not_installed#:#no está instalado. Por favor instale el idioma primero.
 common#:#languages#:#idiomas
@@ -1977,9 +1977,9 @@ common#:#lo_no_content#:#No hay recursos de aprendizaje disponibles
 common#:#lo_other_langs#:#objetos de aprendizaje en otros idiomas
 common#:#lo_overview#:#resumen de objetos de aprendizaje
 common#:#local#:#Local
-common#:#local_language_file#:#fichero de idioma local
-common#:#local_language_files#:#ficheros de idioma local
-common#:#local_languages_already_installed#:#El fichero(s) de idioma local seleccionado(s) ya están instalados
+common#:#local_language_file#:#archivo de idioma local
+common#:#local_language_files#:#archivos de idioma local
+common#:#local_languages_already_installed#:#El archivo(s) de idioma local seleccionado(s) ya están instalados
 common#:#locator#:#Estás en:
 common#:#log_in#:#Login
 common#:#logic_and#:#y
@@ -2006,12 +2006,12 @@ common#:#mail_b_inbox#:#Bandeja de entrada
 common#:#mail_c_trash#:#Papelera
 common#:#mail_d_drafts#:#Borradores
 common#:#mail_delete_error#:#Error borrando correo(s)
-common#:#mail_delete_error_file#:#Error borrando fichero(s)
+common#:#mail_delete_error_file#:#Error borrando archivo(s)
 common#:#mail_e_sent#:#Enviado
 common#:#mail_edit_permission#:#Modificar configuración de permisos
 common#:#mail_folders#:#Carpetas
 common#:#mail_import#:#Importar
-common#:#mail_import_file#:#fichero en formato exportado por ILIAS 2
+common#:#mail_import_file#:#archivo en formato exportado por ILIAS 2
 common#:#mail_intern_enable#:#Habilitar
 common#:#mail_mail_visible#:#El usuario puede usar el sistema de correo
 common#:#mail_mails_of#:#Correo
@@ -2057,7 +2057,7 @@ common#:#mep_visible#:#Nuevo Banco Multimedia visible
 common#:#mep_write#:#Editar contenido del Banco Multimedia
 common#:#message#:#mensaje
 common#:#message_content#:#contenido del mensaje
-common#:#message_no_delivered_files#:#¡No ha enviado un fichero!
+common#:#message_no_delivered_files#:#¡No ha enviado ningun archivo!
 common#:#message_to#:#mensaje a:
 common#:#meta_data#:#Meta Datos
 common#:#migrate#:#migrar
@@ -2112,7 +2112,7 @@ common#:#msg_deleted_rolt#:#Plantilla de Rol eliminada
 common#:#msg_deleted_rolts#:#Plantillas de Rol eliminadas
 common#:#msg_error_copy#:#Error en la Copia
 common#:#msg_failed#:#lo siento, la acción falló
-common#:#msg_invalid_filetype#:#Tipo de fichero inválido
+common#:#msg_invalid_filetype#:#Tipo de archivo inválido
 common#:#msg_is_last_role#:#Desasignó los siguientes usuarios de su último rol
 common#:#msg_last_role_for_registration#:#Al menos un rol debe estar disponible en el formulario de registro para nuevos usuarios. Este rol es actualmente el único disponible.
 common#:#msg_link_clipboard#:#objeto(s) seleccionados almacenados en el portapapeles (Acción: enlazar)
@@ -2123,7 +2123,7 @@ common#:#msg_min_one_role#:#Cada usuario debe tener al menos un rol!
 common#:#msg_multi_language_selected#:#Seleccionó el mismo idioma para diferentes traducciones!
 common#:#msg_no_default_language#:#No se especificó idioma por defecto! Debe definir una traducción por defecto.
 common#:#msg_no_delete_yourself#:#No puede borrar su propia cuenta de usuario.
-common#:#msg_no_file#:#No escogió un fichero
+common#:#msg_no_file#:#No selecciono un archivo
 common#:#msg_no_language_selected#:#No se especificó idioma de traducción! Debe definir un idioma para cada traducción.
 common#:#msg_no_perm_assign_role_to_user#:#No tiene permiso para modificar el rol del usuario
 common#:#msg_no_perm_assign_user_to_role#:#No tiene permisos para modificar la asignación de usuario
@@ -2215,7 +2215,7 @@ common#:#no_frm_in_personal_list#:#No hay foros en la lista personal.
 common#:#no_global_role_left#:#Cada usuario debe ser asignado a un rol.
 common#:#no_grp_in_personal_list#:#No hay grupos en la lista personal.
 common#:#no_import_available#:#Importación no disponible para el tipo
-common#:#no_import_file_found#:#No se encontró el fichero de importación
+common#:#no_import_file_found#:#No se encontró el archivo de importación
 common#:#no_invalid_links#:#No se encontraron enlaces inválidos.
 common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
@@ -2229,8 +2229,8 @@ common#:#no_title#:#sin título
 common#:#no_tst_in_personal_list#:#No hay tests en la lista personal.
 common#:#no_users_applied#:#Por favor seleccione un usuario
 common#:#no_users_selected#:#Por favor seleccione un usuario.
-common#:#no_xml_file_found_in_zip#:#Fichero XML no encontrado dentro del fichero zip:
-common#:#no_zip_file#:#Fichero zip no encontrado.
+common#:#no_xml_file_found_in_zip#:#Fichero XML no encontrado dentro del archivo ZIP:
+common#:#no_zip_file#:#Archivo ZIP no encontrado.
 common#:#non_internal_local_roles_only#:#Roles locales (sólo definidos por el usuario)
 common#:#none#:#ninguno
 common#:#normal#:#normal
@@ -2262,7 +2262,7 @@ common#:#obj_dbk#:#Libro Digital
 common#:#obj_exc#:#Actividad
 common#:#obj_extt#:#Software externo
 common#:#obj_extt_desc#:#Configurar software externo o servicios soportados por ILIAS
-common#:#obj_file#:#Fichero
+common#:#obj_file#:#Archivo
 common#:#obj_fold#:#Carpeta
 common#:#obj_frm#:#Foro
 common#:#obj_glo#:#Glosario
@@ -2341,7 +2341,7 @@ common#:#objs_crs#:#Cursos
 common#:#objs_dbk#:#Libros Digitales
 common#:#objs_delete#:#Eliminar objetos
 common#:#objs_exc#:#Actividades
-common#:#objs_file#:#Ficheros
+common#:#objs_file#:#Archivos
 common#:#objs_fold#:#Carpetas
 common#:#objs_frm#:#Foros
 common#:#objs_glo#:#Glosarios
@@ -2443,8 +2443,8 @@ common#:#phrase#:#conjunto
 common#:#please_choose#:#-- Seleccionar --
 common#:#please_enter_target#:#Por favor introduzca un destino.
 common#:#please_enter_title#:#Por favor introduzca un título.
-common#:#please_select_a_delivered_file_to_delete#:#¡Debe seleccionar al menos un fichero enviado para borrar!
-common#:#please_select_a_delivered_file_to_download#:#¡Debe seleccionar al menos un fichero enviado para descargar!
+common#:#please_select_a_delivered_file_to_delete#:#¡Debe seleccionar al menos un archivo enviado para borrar!
+common#:#please_select_a_delivered_file_to_download#:#¡Debe seleccionar al menos un archivo enviado para descargar!
 common#:#port#:#puerto
 common#:#position#:#posición
 common#:#preconditions#:#Precondiciones
@@ -2472,7 +2472,7 @@ common#:#qpl_delete#:#Eliminar banco de preguntas
 common#:#qpl_edit_permission#:#Modificar configuración de permisos
 common#:#qpl_new#:#Nuevo banco de preguntas
 common#:#qpl_read#:#Acceso de lectura a Banco de Preguntas
-common#:#qpl_upload_file#:#Cargar fichero
+common#:#qpl_upload_file#:#Cargar archivo
 common#:#qpl_visible#:#Banco de Preguntas visible
 common#:#qpl_write#:#Editar Banco de Preguntas
 common#:#quarterly#:#4 veces al año
@@ -2508,11 +2508,11 @@ common#:#remove#:#Eliminar
 common#:#remove_personal_picture#:#Eliminar
 common#:#remove_translation#:#Eliminar traducción
 common#:#rename#:#renombrar
-common#:#rename_file#:#Renombrar Fichero
+common#:#rename_file#:#Renombrar archivo
 common#:#repeat_scan#:#Repitiendo escaneo en busca de virus...
 common#:#repeat_scan_failed#:#Repetir el escaneo falló.
 common#:#repeat_scan_succeded#:#Repetir el escaneo tuvo éxito.
-common#:#replace_file#:#Reemplazar Fichero
+common#:#replace_file#:#Reemplazar archivo
 common#:#reply#:#responder
 common#:#repository#:#Contenidos
 common#:#require_city#:#Solicitar ciudad
@@ -2647,7 +2647,7 @@ common#:#select#:#Seleccionar
 common#:#pro#:#A favor
 common#:#contra#:#En contra
 common#:#select_all#:#seleccionar todo
-common#:#select_file#:#Seleccionar fichero
+common#:#select_file#:#Seleccionar archivo
 common#:#select_max_one_item#:#Por favor seleccione únicamente un item 
 common#:#select_mode#:#Seleccionar modo
 common#:#select_object_to_copy#:#Por favor seleccione el objeto que quiere copiar
@@ -2678,7 +2678,7 @@ common#:#shib_city#:#Atributo para ciudad
 common#:#shib_configure#:#Configurar Autenticación Shibboleth
 common#:#shib_country#:#Atributo para país
 common#:#shib_data_conv#:#Ruta completa a API para manipulación de datos
-common#:#shib_data_conv_warning#:#El fichero API para manipulación de datos no pudo ser leída
+common#:#shib_data_conv_warning#:#El archivo API para manipulación de datos no pudo ser leída
 common#:#shib_department#:#Atributo para departamento
 common#:#shib_edit_permission#:#Modificar configuración de permisos
 common#:#shib_email#:#Atributo para dirección e-mail
@@ -2726,7 +2726,7 @@ common#:#spl_delete#:#Eliminar banco de preguntas
 common#:#spl_edit_permission#:#Modificar configuración de permisos
 common#:#spl_new#:#Nuevo banco de preguntas
 common#:#spl_read#:#Acceso de lectura al banco de preguntas
-common#:#spl_upload_file#:#Cargar fichero
+common#:#spl_upload_file#:#Cargar archivo
 common#:#spl_visible#:#Banco de preguntas visible
 common#:#spl_write#:#Editar banco de preguntas
 common#:#ssl#:#SSL (HTTPS)
@@ -2771,7 +2771,7 @@ common#:#svy_not_started#:#no comenzada
 common#:#svy_participate#:#Participar en encuesta
 common#:#svy_read#:#Acceso de lectura a la encuesta
 common#:#svy_run#:#Ejecutar
-common#:#svy_upload_file#:#Cargar fichero
+common#:#svy_upload_file#:#Cargar archivo
 common#:#svy_visible#:#Encuesta visible
 common#:#svy_warning_survey_not_complete#:#¡La encuesta no está completa!
 common#:#svy_write#:#Editar encuesta
@@ -2854,7 +2854,7 @@ common#:#tst_no_content#:#No hay tests disponibles
 common#:#tst_read#:#Acceso de lectura al Test
 common#:#tst_run#:#Ejecutar
 common#:#tst_statistical_evaluation#:#Estadísticas
-common#:#tst_upload_file#:#Cargar fichero
+common#:#tst_upload_file#:#Cargar archivo
 common#:#tst_user_not_invited#:#Usted no debe realizar este examen.
 common#:#tst_user_wrong_clientip#:#No tiene la ip correcta para usar este test
 common#:#tst_visible#:#Test visible
@@ -2885,8 +2885,8 @@ common#:#update_applied#:#actualización realizada
 common#:#update_language#:#actualizar idioma
 common#:#update_on_conflict#:#Actualizar si hay conflicto
 common#:#upload#:#cargar
-common#:#upload_error_file_not_found#:#Error al cargar: fichero no encontrado
-common#:#uploaded_and_checked#:#El fichero ha sido cargado y chequeado, puede comenzar a importarlo.
+common#:#upload_error_file_not_found#:#Error al cargar: archivo no encontrado
+common#:#uploaded_and_checked#:#El archivo ha sido cargado y chequeado, puede comenzar a importarlo.
 common#:#url#:#url
 common#:#url_a#:#una URL
 common#:#url_add#:#Añadir URL
@@ -2897,7 +2897,7 @@ common#:#url_description#:#descripción de url
 common#:#url_edit#:#Editar URL
 common#:#url_edit_permission#:#Modificar configuración de permisos
 common#:#url_new#:#Nueva URL
-common#:#url_not_found#:#Fichero no encontrado
+common#:#url_not_found#:#Ficheros no encontrado
 common#:#url_read#:#Abrir URL
 common#:#url_visible#:#URL es visible
 common#:#url_write#:#Editar URL
@@ -2921,7 +2921,7 @@ common#:#userfolder_export_csv#:#Valores separados por coma
 common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
 common#:#userfolder_export_file#:#Fichero
-common#:#userfolder_export_file_size#:#Tamaño de fichero
+common#:#userfolder_export_file_size#:#Tamaño de archivo
 common#:#userfolder_export_files#:#Ficheros
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Usuario
@@ -3089,8 +3089,8 @@ content#:#cont_booktitle#:#Título del Libro
 content#:#cont_bottom#:#Fondo
 content#:#cont_browser_not_js_capable#:#La edición basada en JavaScript no está soportada por su navegador.
 content#:#cont_cant_copy_folders#:#Las Carpetas no pueden ser copiadas al portapapeles.
-content#:#cont_cant_del_full#:#No es posible eliminar el fichero de pantalla completa.
-content#:#cont_cant_del_std#:#No es posible eliminar el fichero de vista estándar.
+content#:#cont_cant_del_full#:#No es posible eliminar el archivo de pantalla completa.
+content#:#cont_cant_del_std#:#No es posible eliminar el archivo de vista estándar.
 content#:#cont_caption#:#Cabecera
 content#:#cont_change_type#:#Cambiar Tipo
 content#:#cont_chap_and_pages#:#Capítulos y Páginas
@@ -3147,9 +3147,9 @@ content#:#cont_details#:#Detalles
 content#:#cont_dir_file#:#Directorio/Fichero
 content#:#cont_disable_js#:#Deshabilitar JavaScript
 content#:#cont_disable_media#:#Deshabilitar Multimedia
-content#:#cont_download_title#:#Nombre del fichero de descarga
+content#:#cont_download_title#:#Nombre del archivo de descarga
 content#:#cont_downloads#:#Descargas
-content#:#cont_downloads_desc#:#Habilita la descarga de todos los ficheros públicos de exportación.
+content#:#cont_downloads_desc#:#Habilita la descarga de todos los archivos públicos de exportación.
 content#:#cont_downloads_public_desc#:#Permitir descarga incluso para usuarios anónimos (en área pública)
 content#:#cont_ed_align_center#:#alinear: centro
 content#:#cont_ed_align_left#:#alinear : izquierda
@@ -3213,7 +3213,7 @@ content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la est
 content#:#cont_format#:#Formato
 content#:#cont_format_error#:#¡Esta operación no está permitida aquí!
 content#:#cont_free_pages#:#Páginas -Libres-
-content#:#cont_full_is_in_dir#:#No es posible eliminar. El fichero de pantalla completa está en el directorio.
+content#:#cont_full_is_in_dir#:#No es posible eliminar. El archivo de pantalla completa está en el directorio.
 content#:#cont_fullscreen#:#Pantalla Completa
 content#:#cont_get_link#:#obtener enlace
 content#:#cont_get_orig_size#:#Establecer tamaño original
@@ -3291,11 +3291,11 @@ content#:#cont_new_media_obj#:#Nuevo Objeto Media
 content#:#cont_new_term#:#Nuevo Término
 content#:#cont_no_access#:#No se tiene acceso
 content#:#cont_no_assign_itself#:#El objeto no puede ser asignado a sí mismo
-content#:#cont_no_manifest#:#No se encontró el fichero imsmanifest.xml en el directorio principal.
+content#:#cont_no_manifest#:#No se encontró el archivo imsmanifest.xml en el directorio principal.
 content#:#cont_no_object_found#:#No puedo encontrar algun objeto con este título
 content#:#cont_no_page#:#No se encontraron Página(s)
-content#:#cont_no_subdir_in_zip#:#El comando 'Zip' falló o el fichero de importación es inválido.<br>No contiene una subcarpeta '%s'.
-content#:#cont_no_zip_file#:#El fichero de importación no es un fichero zip.
+content#:#cont_no_subdir_in_zip#:#El comando 'Zip' falló o el archivo de importación es inválido.<br>No contiene una subcarpeta '%s'.
+content#:#cont_no_zip_file#:#El archivo de importación no es un archivo zip.
 content#:#cont_none#:#Ninguno
 content#:#cont_nr_cols#:#Número de Columnas
 content#:#cont_nr_items#:#Número de Items
@@ -3400,7 +3400,7 @@ content#:#cont_st_on_pg#:#Esta función no está permitida.
 content#:#cont_st_title#:#Título de Capítulo
 content#:#cont_startfile#:#Fichero Inicial
 content#:#cont_status#:#Estado
-content#:#cont_std_is_in_dir#:#Eliminación no posible. El fichero de vista estándar está en el directorio.
+content#:#cont_std_is_in_dir#:#Eliminación no posible. El archivo de vista estándar está en el directorio.
 content#:#cont_std_view#:#Vista estándar
 content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
@@ -3454,7 +3454,7 @@ content#:#cont_width#:#Anchura
 content#:#cont_wysiwyg#:#Contenido WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Año
-content#:#cont_zip_file_invalid#:#El fichero no es un fichero de importación válido.<br>No contiene un fichero '%s'.
+content#:#cont_zip_file_invalid#:#El archivo no es un archivo de importación válido.<br>No contiene un archivo '%s'.
 content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
@@ -3474,7 +3474,7 @@ content#:#par#:#Párrafo
 content#:#pg#:#Página
 content#:#public_section#:#Sección Pública
 content#:#read offline#:#Leer Offline
-content#:#select_a_file#:#Por favor seleccione un fichero
+content#:#select_a_file#:#Por favor seleccione un archivo
 content#:#selected_pages_only#:#sólo esas páginas seleccionadas debajo
 content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
@@ -3507,7 +3507,7 @@ crs#:#crs_admin_no_notify#:#Administrador (sin notificación)
 crs#:#crs_admin_notify#:#Administrador (notificacion)
 crs#:#crs_allow_abo#:#Permitir suscripción a los items del curso
 crs#:#crs_already_assigned_to_list#:#Ha sido asignado a la lista de espera.
-crs#:#crs_archive#:#Archivos
+crs#:#crs_archive#:#Archivar
 crs#:#crs_archive_disabled#:#Deshabilitado
 crs#:#crs_archive_download#:#Descargar
 crs#:#crs_archive_lang#:#Idioma
@@ -3551,7 +3551,7 @@ crs#:#crs_delete_subscribers_sure#:#¿Quiere eliminar los siguientes usuarios?
 crs#:#crs_details#:#Detalles del curso
 crs#:#crs_dismiss_member#:#Pertenencia al curso
 crs#:#crs_dismiss_member_body#:#Su pertenencia ha finalizado
-crs#:#crs_edit_archive#:#Editar Archivos
+crs#:#crs_edit_archive#:#Crear Archivos de Curso
 crs#:#crs_edit_content#:#Editar items
 crs#:#crs_end#:#Fin
 crs#:#crs_export#:#Exportar Curso
@@ -3746,7 +3746,7 @@ crs#:#crs_show_link_objectives#:#Mostrar objetivos
 crs#:#crs_show_link_or#:#Mostrar otros recursos
 crs#:#crs_show_link_tst#:#Mostrar tests
 crs#:#crs_show_objectives_view#:#Vista de objetivos
-crs#:#crs_size#:#Tamaño de fichero
+crs#:#crs_size#:#Tamaño de archivo
 crs#:#crs_sort_activation#:#Ordenar por activación
 crs#:#crs_sort_manual#:#Ordenación manual
 crs#:#crs_sort_title#:#Ordenar por título
@@ -3805,7 +3805,7 @@ crs#:#edit_content#:#Editar contenido
 crs#:#import_crs#:#Importar curso
 crs#:#learners_view#:#Vista de alumnos
 crs#:#subscription_times_not_valid#:#El período de registro no es válido.
-crs_#:#crs_archives#:#Archivos
+crs_#:#crs_archives#:#Archivar
 dateplaner#:#DateText#:#Mensaje
 dateplaner#:#Day_long#:#Vista diaria
 dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
@@ -3815,7 +3815,7 @@ dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una 
 dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para "Fecha Fin". Formato dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para "Hora Fin". Formato: hh:mm
 dateplaner#:#ERROR_END_START#:#Datos incorrectos para "Fecha Fin". La fecha es anterior a "Fecha inicio"
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un fichero CSV válido
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un archivo CSV válido
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>su navegador no admite JavaScript. <BR>Por favor cierre esta ventana despues de insertar manualmente. <BR> Gracias</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Fin de cita periódica incorrecta. Formato: dd/mm/yyyy
 dateplaner#:#ERROR_ROT_END_START#:#Fin de cita periódica incorrecta. La fecha fin es anterior a la fecha inicio
@@ -3933,7 +3933,7 @@ dateplaner#:#help_properties_alt#:#Modifica la palabra clave
 dateplaner#:#help_properties_alt_l#:#Escoja una palabra clave de la caja de diálogo.<br>Modifique la palabra clave en el campo de texto. Importante: máx. 20 caracteres.
 dateplaner#:#help_properties_del#:#Elimina la palabra clave
 dateplaner#:#help_properties_del_l#:#Escoja una palabra clave de la caja de diálogo. Haga click en el botón para eliminar la palabra clave.
-dateplaner#:#help_properties_import#:#Importar desde ficheros CSV, Outlook
+dateplaner#:#help_properties_import#:#Importar desde archivos CSV, Outlook
 dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene fechas de Outlook. Estas citas serán importadas en el calendario.
 dateplaner#:#help_properties_new#:#Añadir una palabra clave, máx. 20 caracteres
 dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo "nuevo". importante: máx. 20 caracteres
@@ -4040,7 +4040,7 @@ forum#:#forums_count_thr#:#número de cadenas
 forum#:#forums_created_by#:#creado por
 forum#:#forums_delete_file#:#eliminar adjunto
 forum#:#forums_disable_notification#:#Deshabilitar notificacion
-forum#:#forums_download_attachment#:#Descargar fichero
+forum#:#forums_download_attachment#:#Descargar archivo
 forum#:#forums_edit_post#:#Editar mensaje
 forum#:#forums_enable_notification#:#Habilitar notificacion
 forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
@@ -4165,9 +4165,9 @@ mail#:#mail_deleted_entry#:#Las entradas se han borrado
 mail#:#mail_email_forbidden#:#No tiene permiso para enviar correo
 mail#:#mail_entry_added#:#Añadida una nueva entrada
 mail#:#mail_entry_changed#:#Entrada modificada
-mail#:#mail_file_name#:#Nombre de Fichero
-mail#:#mail_file_size#:#Tamaño de Fichero
-mail#:#mail_files_deleted#:#Los fichero(s) son eliminados
+mail#:#mail_file_name#:#Nombre de Archivo
+mail#:#mail_file_size#:#Tamaño de Archivo
+mail#:#mail_files_deleted#:#Los archivo(s) son eliminados
 mail#:#mail_folder_created#:#Una nueva carpeta es creada
 mail#:#mail_folder_deleted#:#La carpeta ha sido eliminada
 mail#:#mail_folder_exists#:#Una carpeta ya existe con este nombre
@@ -4191,7 +4191,7 @@ mail#:#mail_move_error#:#Error moviendo correo(s)
 mail#:#mail_move_to#:#mover correos a 
 mail#:#mail_moved#:#Los correo(s) han sido movidos
 mail#:#mail_moved_to_trash#:#Los mensajes han sido movidos a la Papelera
-mail#:#mail_new_file#:#Adjuntar nuevo fichero:
+mail#:#mail_new_file#:#Adjuntar nuevo archivo:
 mail#:#mail_no_attach_allowed#:#Los mensajes de Sistema no pueden contener adjuntos
 mail#:#mail_no_attachments_found#:#No se encontraron adjuntos
 mail#:#mail_no_permissions_write_smtp#:#No tienes permiso para mandar correos fuera de ILIAS
@@ -4204,10 +4204,10 @@ mail#:#mail_saved#:#El mensaje ha sido guardado
 mail#:#mail_search_addressbook#:#Buscar en la agenda
 mail#:#mail_search_system#:#buscar en el sistema
 mail#:#mail_select_one_entry#:#Tiene que seleccionar una entrada
-mail#:#mail_select_one_file#:#Tiene que seleccionar un fichero
+mail#:#mail_select_one_file#:#Tiene que seleccionar un archivo
 mail#:#mail_sure_delete#:#Está seguro de eliminar los correo(s) marcados
 mail#:#mail_sure_delete_entry#:#Está seguro que quiere eliminar las siguientes entradas
-mail#:#mail_sure_delete_file#:#El fichero será eliminado permanentemente
+mail#:#mail_sure_delete_file#:#El archivo será eliminado permanentemente
 mail#:#mail_sure_delete_folder#:#La carpeta y su contenido será eliminado permanentemente
 mail#:#mail_to#:#To
 mail#:#mail_to_search#:#Buscar To
@@ -4672,7 +4672,7 @@ meta#:#meta_learning_resource_type#:#Tipo de Recurso de Aprendizaje
 meta#:#meta_lecture#:#Conferencia
 meta#:#meta_lifecycle#:#Ciclo de Vida
 meta#:#meta_linear#:#Lineal
-meta#:#meta_local_file#:#Fichero Local
+meta#:#meta_local_file#:#Archivo Local
 meta#:#meta_location#:#Localización
 meta#:#meta_low#:#Bajo
 meta#:#meta_mac_os#:#MacOS
@@ -4947,7 +4947,7 @@ payment#:#pays_objects_bmf_exist#:#El método de pago 'BMF' está activado para 
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Métodos de Pago
-payment#:#pays_pdf_path#:#Ruta para generar facturas como ficheros PDF
+payment#:#pays_pdf_path#:#Ruta para generar facturas como archivos PDF
 payment#:#pays_sure_delete_selected_vendors#:#Realmente desea eliminar los proveedores seleccionados?
 payment#:#pays_too_many_vendors_selected#:#Por favor seleccione sólo un cliente para realizar esta operación.
 payment#:#pays_updated_general_settings#:#Su configuración general ha sido actualizada.
@@ -5007,7 +5007,7 @@ search#:#search_lm_content#:#Materiales de aprendizaje (contenido)
 search#:#search_lm_meta#:#Materiales de aprendizaje (metadatos)
 search#:#search_lucene#:#Búsqueda Lucene
 search#:#search_lucene_host#:#Servidor-Lucene
-search#:#search_lucene_info#:#Si se activa, es posible buscar en PDF, ficheros HTML y módulos de aprendizaje HTML
+search#:#search_lucene_info#:#Si se activa, es posible buscar en PDF, archivos HTML y módulos de aprendizaje HTML
 search#:#search_lucene_port#:#Puerto Lucene
 search#:#search_lucene_readme#:#Información de Setup
 search#:#search_meta#:#Metadatos
@@ -5174,7 +5174,7 @@ survey#:#enter_questionblock_title#:#¡Por favor introduzca un título para el b
 survey#:#enter_valid_number_of_codes#:#Por favor introduzca un número válido de códigos de encuesta a generar
 survey#:#enter_value#:#Introduzca un valor
 survey#:#error_add_heading#:#Por favor añada una cabecera!
-survey#:#error_importing_question#:#Hubo un error importando las preguntas desde el fichero seleccionado!
+survey#:#error_importing_question#:#Hubo un error importando las preguntas desde el archivo seleccionado!
 survey#:#error_retrieving_anonymous_survey#:#El sistema no pudo encontrar los datos de su encuesta para la encuesta con código %s. Por favor compruebe el código de encuesta que ha introducido! 
 survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el significado de los símbolos de la cabecera de cada columna
 survey#:#evaluation#:#evaluación
@@ -5182,7 +5182,7 @@ survey#:#evaluation_access#:#Acceso de Evaluación
 survey#:#evaluation_access_all#:#Evaluación de acceso para todos los usuarios
 survey#:#evaluation_access_participants#:#Evaluación de acceso para todos los participantes de la encuesta
 survey#:#exit#:#Salir
-survey#:#exp_type_csv#:#Fichero separado por comas (CSV)
+survey#:#exp_type_csv#:#Archivo separado por comas (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
 survey#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
 survey#:#export_data_as#:#Exportar datos como
@@ -5204,13 +5204,13 @@ survey#:#glossary_term#:#Término de Glosario
 survey#:#harmonic_mean#:#Media armónica
 survey#:#heading#:#Cabecera
 survey#:#horizontal#:#horizontal
-survey#:#import_error_closing_file#:#¡Error cerrando el fichero de importación!
-survey#:#import_error_opening_file#:#¡Error abriendo el fichero de importación!
+survey#:#import_error_closing_file#:#¡Error cerrando el archivo de importación!
+survey#:#import_error_opening_file#:#¡Error abriendo el archivo de importación!
 survey#:#import_error_survey_no_proper_values#:#¡Las propiedades de la encuesta no contienen valores correctos!
 survey#:#import_error_survey_no_properties#:#No se han encontrado propiedades de la encuesta. ¡No se pudo importar la encuesta!
-survey#:#import_no_file_selected#:#¡No se ha seleccionado un fichero!
+survey#:#import_no_file_selected#:#¡No se ha seleccionado un archivo!
 survey#:#import_question#:#Importar pregunta(s)
-survey#:#import_wrong_file_type#:#Tipo de fichero erróneo
+survey#:#import_wrong_file_type#:#Tipo de archivo erróneo
 survey#:#insert_after#:#Insertar después
 survey#:#insert_before#:#Insertar antes
 survey#:#insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en la encuesta!
@@ -5230,7 +5230,7 @@ survey#:#maintenance#:#Mantenimiento
 survey#:#manage_phrases#:#Gestionar conjuntos
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#You successfully set a material link!
-survey#:#material_file#:#fichero de material
+survey#:#material_file#:#archivo de material
 survey#:#maxchars#:#Máximo número de caracteres
 survey#:#maximum#:#Valor Máximo
 survey#:#median#:#Mediana
@@ -5302,7 +5302,7 @@ survey#:#qt_text#:#Pregunta de Texto
 survey#:#question_contains_no_categories#:#No hay respuetas definidas para esta pregunta
 survey#:#question_has_constraints#:#Restricciones
 survey#:#question_obligatory#:#¡La pregunta es obligatoria!
-survey#:#question_saved_for_upload#:#La pregunta fue grabada automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela, sea consciente de que tendrá que eliminar la pregunta en el banco si no quiere mantenerla.
+survey#:#question_saved_for_upload#:#La pregunta fue grabada automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela, sea consciente de que tendrá que eliminar la pregunta en el banco si no quiere mantenerla.
 survey#:#question_type#:#Tipo de pregunta
 survey#:#questionblock#:#Bloque de preguntas
 survey#:#questionblock_has_constraints#:#Restricciones
@@ -5346,7 +5346,7 @@ survey#:#skipped#:#skipped
 survey#:#spl_general_properties#:#Propiedades generales
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Si el banco de preguntas no está online, no puede ser usado en los tests.
-survey#:#spl_select_file_for_import#:#¡Debe seleccionar un fichero a importar!
+survey#:#spl_select_file_for_import#:#¡Debe seleccionar un archivo a importar!
 survey#:#start_date#:#Fecha de inicio
 survey#:#start_date_not_reached#:#No puede iniciar la encuesta hasta que se alcance la fecha de inicio
 survey#:#start_survey#:#Comenzar encuesta
@@ -5374,7 +5374,7 @@ survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior
 survey#:#survey_skip_start#:#<<< saltar e ir a página inicial
 survey#:#survey_start#:#<<< salvar e ir a página inicial
 survey#:#svy_all_user_data_deleted#:#¡Todos los datos de usuario de esta encuesta han sido eliminados!
-survey#:#svy_create_export_file#:#Crear fichero de exportación
+survey#:#svy_create_export_file#:#Crear archivo de exportación
 survey#:#svy_delete_all_user_data#:#Eliminar todos los datos de usuario
 survey#:#svy_eval_cumulated#:#Resultados acumulados
 survey#:#svy_eval_detail#:#Resultados acumulados (detalles)
@@ -5382,14 +5382,14 @@ survey#:#svy_eval_user#:#Resultados específicos por usuario
 survey#:#svy_check_evaluation_access_introduction#:#Ya que la evaluación de esta encuesta está sólo disponible para participantes de la encuesta necesita introducir su código de acceso para entrar en la evaluación.
 survey#:#svy_check_evaluation_authentication_needed#:#Necesita Identificación
 survey#:#svy_check_evaluation_wrong_key#:#Introdujo un código de acceso erróneo a la encuesta o no ha participado en dicha encuesta. El acceso a la evaluación de la encuesta ha sido denegado.
-survey#:#svy_export_files#:#Exportar ficheros
-survey#:#svy_file#:#Fichero
+survey#:#svy_export_files#:#Exportar archivos
+survey#:#svy_file#:#Archivo
 survey#:#svy_missing_author#:#¡No ha introducido los nombres de los autores en las propiedades de la encuesta! Por favor añádalos para continuar.
 survey#:#svy_missing_questions#:#¡No hay ninguna pregunta en la encuesta! Por favor añada al menos una pregunta en la encuesta.
 survey#:#svy_missing_title#:#¡No ha introducido un título de encuesta! Por favor vaya a la sección meta datos e introduzca un título.
 survey#:#svy_page_error#:#Hubo un error respondiendo una pregunta de la encuesta. Por favor diríjase a la pregunta para ver más información sobre el error.
 survey#:#svy_page_errors#:#Hubo errores contestando las preguntas de la encuesta. Por favor diríjase a las preguntas para ver más información sobre los errores.
-survey#:#svy_select_file_for_import#:#!Debe seleccionar un fichero para importar!
+survey#:#svy_select_file_for_import#:#!Debe seleccionar un archivo para importar!
 survey#:#svy_select_questionpools#:#Por favor seleccione un banco de preguntas para almacenar las preguntas importadas
 survey#:#svy_select_surveys#:#Por favor seleccione una encuesta a duplicar
 survey#:#svy_show_questiontitles#:#Mostrar títulos de las preguntas en la encuesta
