@@ -77,6 +77,23 @@ class ilSearchRootSelector extends ilExplorer
 
 	}
 
+	function setTargetClass($a_class)
+	{
+		$this->target_class = $a_class;
+	}
+	function getTargetClass()
+	{
+		return $this->target_class ? $this->target_class : 'ilsearchgui';
+	}
+	function setCmd($a_cmd)
+	{
+		$this->cmd = $a_cmd;
+	}
+	function getCmd()
+	{
+		return $this->cmd ? $this->cmd : 'selectRoot';
+	}
+
 	function setSelectableType($a_type)
 	{
 		$this->selectable_type  = $a_type;
@@ -89,9 +106,9 @@ class ilSearchRootSelector extends ilExplorer
 
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		$this->ctrl->setParameterByClass('ilsearchgui',"root_id",$a_node_id);
+		$this->ctrl->setParameterByClass($this->getTargetClass(),"root_id",$a_node_id);
 		
-		return $this->ctrl->getLinkTargetByClass('ilsearchgui','selectRoot');
+		return $this->ctrl->getLinkTargetByClass($this->getTargetClass(),$this->getCmd());
 
 	}
 
@@ -111,7 +128,7 @@ class ilSearchRootSelector extends ilExplorer
 
 		if ($rbacsystem->checkAccess("read", $a_ref_id))
 		{
-			return true;
+ 			return true;
 		}
 		else
 		{
@@ -136,8 +153,8 @@ class ilSearchRootSelector extends ilExplorer
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
 		
-		$this->ctrl->setParameterByClass('ilsearchgui','root_id',ROOT_FOLDER_ID);
-		$tpl->setVariable("LINK_TARGET",$this->ctrl->getLinkTargetByClass('ilsearchgui','selectRoot'));
+		$this->ctrl->setParameterByClass($this->getTargetClass(),'root_id',ROOT_FOLDER_ID);
+		$tpl->setVariable("LINK_TARGET",$this->ctrl->getLinkTargetByClass($this->getTargetClass(),$this->getCmd()));
 		$tpl->setVariable("TITLE", $lng->txt("repository"));
 		
 		$tpl->parseCurrentBlock();

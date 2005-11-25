@@ -119,7 +119,7 @@ class ilQueryParser
 		{
 			foreach($this->quoted_words as $word)
 			{
-				$tmp_word[] = str_replace('"','',$word);
+				$tmp_word[] = str_replace('\"','',$word);
 			}
 			return $tmp_word ? $tmp_word : array();
 		}
@@ -179,7 +179,7 @@ class ilQueryParser
 		while(preg_match("/\".*?\"/",$query_str,$matches))
 		{
 			$query_str = str_replace($matches[0],'',$query_str);
-			$this->quoted_words[] = $matches[0];
+			$this->quoted_words[] = ilUtil::prepareDBString($matches[0]);
 		}
 
 		// Parse the rest
