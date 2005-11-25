@@ -55,7 +55,6 @@ class ilInternalLinkGUI
 		$this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("linkmode", "target_type"));
-
 		$this->default_type = $a_default_type;
 		$this->default_obj = $a_default_obj;
 		$this->filter_link_types = array();
