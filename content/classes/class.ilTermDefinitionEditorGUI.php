@@ -95,14 +95,18 @@ class ilTermDefinitionEditorGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.gif"));
 		$this->tpl->setTitle($this->term->getTerm()." - ".
 			$this->lng->txt("cont_definition")." ".
 			$this->definition->getNr());
+		if ($this->ctrl->getCmdClass() == "ilpageobjectgui")
+		{
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_def_b.gif"));
+		}
 
 		switch ($next_class)
 		{
 			case "ilmdeditorgui":
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.gif"));
 				$gloss_loc->display();
 				$this->setTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
@@ -205,16 +209,19 @@ class ilTermDefinitionEditorGUI
 		// meta data
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"meta_data", get_class($this));
+			"", "ilmdeditorgui");
 /*
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
 			get_class($this));
 */
+		// back to glossary
+		$tabs_gui->setBack2Target($this->lng->txt("glossary"),
+			$this->ctrl->getParentReturn($this));
 
 		// back to upper context
-		$tabs_gui->setBackTarget($this->lng->txt("glossary"),
-			$this->ctrl->getParentReturn($this));
+		$tabs_gui->setBackTarget($this->lng->txt("term"),
+			$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
 
 		/*
 		$tabs_gui->addTarget("cont_back",

@@ -56,6 +56,8 @@ class ilTabsGUI
 		$this->sub_tabs = false;
 		$this->back_title = "";
 		$this->back_target = "";
+		$this->back_2_target = "";
+		$this->back_2_title = "";
 	}
 	
 	/**
@@ -68,6 +70,16 @@ class ilTabsGUI
 		$this->back_frame = $a_frame;
 	}
 
+	/**
+	* back target for tow level upper context
+	*/
+	function setBack2Target($a_title, $a_target, $a_frame = "")
+	{
+		$this->back_2_title = $a_title;
+		$this->back_2_target = $a_target;
+		$this->back_2_frame = $a_frame;
+	}
+	
 	function getTargetsByObjectType(&$a_gui_obj, $a_type)
 	{
 		global $ilCtrl;
@@ -159,6 +171,16 @@ class ilTabsGUI
 		{
 			$tpl = new ilTemplate("tpl.tabs.html", true, true);
 			$pre = $pre2 = "";
+		}
+		
+		// back 2 tab
+		if ($this->back_2_title != "")
+		{
+			$tpl->setCurrentBlock("back_2_tab");
+			$tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
+			$tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
+			$tpl->setVariable("BACK_2_TAB_TARGET", $this->back_2_frame);
+			$tpl->parseCurrentBlock();
 		}
 		
 		// back tab

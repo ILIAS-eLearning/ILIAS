@@ -707,6 +707,26 @@ a.backtab
 	font-size: 80%;
 }
 
+li.back2tab
+{
+	float:left;
+	margin:0;
+	padding:0;
+	border-bottom-width: 1px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #B0B0B0;
+}
+
+a.back2tab
+{
+	float: left;
+	display:block;
+	background:url("images/Back2Tab.gif") no-repeat left top;
+    padding: 3px 8px 3px 16px;
+	font-size: 80%;
+}
+
 /*  Commented Backslash Hack
 	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
 	a.tabinactive a.tabactive a.backtab {float:none;}
@@ -745,7 +765,7 @@ a.subtabinactive
 	float: left;
 	display:block;
 	background:url("images/SubTabInactiveLeft.gif") no-repeat left top;
-    padding: 3px 10px;
+    padding: 3px 10px 3px 12px;
 	font-size: 80%;
 }
 
@@ -763,7 +783,7 @@ a.subtabactive
 	float: left;
 	display:block;
 	background:url("images/SubTabActiveLeft.gif") no-repeat left top;
-    padding: 3px 10px;
+    padding: 3px 10px 3px 12px;
 	font-size: 80%;
 }
 
