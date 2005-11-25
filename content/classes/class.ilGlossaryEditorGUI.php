@@ -38,7 +38,7 @@ class ilGlossaryEditorGUI
 {
 	function ilGlossaryEditorGUI()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $ilCtrl, $lng, $ilAccess, $ilias;
 		
 		// initialisation stuff
 		$this->ctrl =&  $ilCtrl;

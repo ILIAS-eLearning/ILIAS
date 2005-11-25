@@ -104,20 +104,32 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
 		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
-				
-		if ($this->pg_obj->getParentType() == "lm" ||
+
+		if ($this->pg_obj->getParentType() == "gdf" ||
+			$this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
 			$this->tpl->setVariable("TXT_FORMATERROR",$this->lng->txt("cont_format_error"));
 			
 			$this->tpl->setVariable("LOCATION_STYLESHEET_HTMLAREA",
-				ilUtil::getStyleSheetLocation());			
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
-				ilObjStyleSheet::getContentStylePath(
-					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(
-					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+				ilUtil::getStyleSheetLocation());
+				
+			if ($this->pg_obj->getParentType() != "gdf")
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
+					ilObjStyleSheet::getContentStylePath(
+						ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(
+						ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+			}
+			else
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
+					ilObjStyleSheet::getContentStylePath(0));
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+			}
 
 			if (!ilPageEditorGUI::_doJSEditing())
 			{
@@ -260,17 +272,29 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
 
-		if ($this->pg_obj->getParentType() == "lm" ||
+		if ($this->pg_obj->getParentType() == "gdf" ||
+			$this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
 			$this->tpl->setVariable("TXT_FORMATERROR",$this->lng->txt("cont_format_error"));
 			
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
-				ilObjStyleSheet::getContentStylePath(
-					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(
-					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+			if ($this->pg_obj->getParentType() != "gdf")
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
+					ilObjStyleSheet::getContentStylePath(
+						ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(
+						ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+			}
+			else
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
+					ilObjStyleSheet::getContentStylePath(0));
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+			}					
+					
 			$this->tpl->setVariable("LOCATION_STYLESHEET_HTMLAREA",
 				ilUtil::getStyleSheetLocation());			
 

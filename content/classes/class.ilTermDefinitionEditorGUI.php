@@ -135,6 +135,7 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setLocator($gloss_loc);
+				$page_gui->setIntLinkHelpDefault("GlossaryItem", $_GET["ref_id"]);
 				$page_gui->setPageBackTitle($this->lng->txt("cont_definition"));
 				$page_gui->setLinkParams("ref_id=".$_GET["ref_id"]);
 				$page_gui->setHeader($this->term->getTerm());
