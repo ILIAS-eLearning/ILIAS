@@ -14,58 +14,71 @@
 </select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /></p>
 <!-- END browser_actions -->
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"></td><td class="std">{QUESTION_TITLE}</td><td class="std">{QUESTION_OBLIGATORY}</td><td class="std">{QUESTION_COMMENT}</td><td class="std">{QUESTION_TYPE}</td><td class="std">{QUESTION_AUTHOR}</td><td class="std">{TEXT_EDIT}</td><td class="std">{QUESTION_CONSTRAINTS}</td></tr>
+<tr class="tblheader">
+	<td class="std"></td>
+	<td class="std" width="24"></td>
+	<td class="std"></td>
+	<td class="std">{QUESTION_TITLE}</td>
+	<td class="std">{QUESTION_OBLIGATORY}</td>
+	<td class="std">{QUESTION_COMMENT}</td>
+	<td class="std">{QUESTION_TYPE}</td>
+	<td class="std">{QUESTION_AUTHOR}</td>
+	<td class="std"></td>
+</tr>
 <!-- BEGIN QTab --> 
 <tr>
 <td class="{COLOR_CLASS}">
 <!-- BEGIN checkable --> 
 <input type="checkbox" name="cb_{QUESTION_ID}" value="1" />
-<!-- END checkable --> 
+<!-- END checkable -->
 </td>
 <!-- BEGIN noblock -->
+<td class="{COLOR_CLASS}">
+	<table border="0">
+		<tr>
+			<td width="20">{BUTTON_UP}</td>
+			<td width="20">{BUTTON_DOWN}</td>
+		</tr>
+	</table>
+</td>
+<td class="{COLOR_CLASS}">{TYPE_ICON}</td>
 <td class="{COLOR_CLASS}">{QUESTION_TITLE}</td>
 <td class="{COLOR_CLASS}">{QUESTION_OBLIGATORY}</td>
 <td class="{COLOR_CLASS}">{QUESTION_COMMENT}</td>
 <td class="{COLOR_CLASS}">{QUESTION_TYPE}</td>
 <td class="{COLOR_CLASS}">{QUESTION_AUTHOR}</td>
-<td class="{COLOR_CLASS}">
-<table border="0"><tr>
-<td width="20">{BUTTON_UP}</td><td width="20">{BUTTON_DOWN}</td><td width="20">
-<!-- BEGIN edit_question -->
-<a href="{HREF_EDIT}">{TEXT_EDIT}</a>
-<!-- END edit_question -->
-</td>
-<td width="20"></td>
-</tr></table>
-</td>
-<td class="{COLOR_CLASS}">{QUESTION_CONSTRAINTS}</td>
+<td class="{COLOR_CLASS}"></td>
 <!-- END noblock -->
+<!-- BEGIN separator -->
+<td class="{COLOR_CLASS}"></td>
+<td class="{COLOR_CLASS}" colspan="7"><div style="border-bottom: dotted 1px #808080"></div></td>
+<!-- END separator -->
 <!-- BEGIN block -->
-<td class="{COLOR_CLASS}" colspan="5">{TEXT_QUESTIONBLOCK}</td>
 <td class="{COLOR_CLASS}">
-<table border="0"><tr>
-<td width="20">{BUTTON_UP}</td><td width="20">{BUTTON_DOWN}</td><td width="20">
+	<table border="0">
+		<tr>
+			<td width="20">{BUTTON_UP}</td>
+			<td width="20">{BUTTON_DOWN}</td>
+		</tr>
+	</table>
+</td>
+<td class="{COLOR_CLASS}">{TYPE_ICON}</td>
+<td class="{COLOR_CLASS}" colspan="5">{TEXT_QUESTIONBLOCK}</td>
+<td class="{COLOR_CLASS}" align="right">
 <!-- BEGIN edit_questionblock -->
-<a href="{HREF_EDIT}">{TEXT_EDIT}</a>
+<a class="il_ContainerItemCommand" href="{HREF_EDIT}">{TEXT_EDIT}</a>
 <!-- END edit_questionblock -->
 </td>
-<td width="20"></td>
-</tr></table>
-</td>
-<td class="{COLOR_CLASS}">{QUESTION_CONSTRAINTS}</td>
 <!-- END block -->
 <!-- BEGIN heading -->
-<td class="{COLOR_CLASS}" colspan="5">{TEXT_HEADING}</td>
-<td class="{COLOR_CLASS}">
-<table border="0"><tr>
-<td width="20">&nbsp;</td><td width="20">&nbsp;</td><td width="20">
-<a href="{HREF_EDIT}">{TEXT_EDIT}</a>
-</td>
-<td width="20">
-<a href="{HREF_DELETE}">{TEXT_DELETE}</a>
-</td></tr></table>
-</td>
 <td class="{COLOR_CLASS}"></td>
+<td class="{COLOR_CLASS}"></td>
+<td class="{COLOR_CLASS}" colspan="5"><span class="questionheading">{TEXT_HEADING}</span></td>
+<td class="{COLOR_CLASS}" align="right">
+<div class="il_ContainerItemCommands">
+	<a class="il_ContainerItemCommand" href="{HREF_DELETE}">{TEXT_DELETE}</a>&nbsp;<a class="il_ContainerItemCommand" href="{HREF_EDIT}">{TEXT_EDIT}</a>
+</div>
+</td>
 <!-- END heading -->
 </tr>
 <!-- END QTab --> 
@@ -76,21 +89,27 @@
 </tr>
 <!-- END selectall -->
 <!-- BEGIN Emptytable -->
-<tr><td class="option_value" colspan="8">{TEXT_EMPTYTABLE}</td></tr>
+<tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
 <!-- BEGIN QFooter -->
-<tr class="tblfooter"><td>{ARROW}</td><td colspan="7">
+<tr class="tblfooter"><td>{ARROW}</td><td colspan="8">
 <input class="submit" type="submit" name="cmd[removeQuestions]" value="{REMOVE}" />
 <input class="submit" type="submit" name="cmd[defineQuestionblock]" value="{QUESTIONBLOCK}" />
 <input class="submit" type="submit" name="cmd[unfoldQuestionblock]" value="{UNFOLD}" />
 <input class="submit" type="submit" name="cmd[moveQuestions]" value="{MOVE}" />
-<input class="submit" type="submit" name="cmd[saveObligatory]" value="{SAVE}" />
-<input class="submit" type="submit" name="cmd[addHeading]" value="{HEADING}" />
 <!-- BEGIN move_buttons -->
 <input type="submit" class="submit" name="cmd[insertQuestionsBefore]" value="{INSERT_BEFORE}" />
 <input type="submit" class="submit" name="cmd[insertQuestionsAfter]" value="{INSERT_AFTER}" />
 <!-- END move_buttons -->
 </td></tr>
 <!-- END QFooter -->
+<!-- BEGIN actionbuttons -->
+<tr class="tblfooter">
+	<td class="submit" colspan="9" align="right">
+		<input class="submit" type="submit" name="cmd[saveObligatory]" value="{SAVE}" />
+		<input class="submit" type="submit" name="cmd[addHeading]" value="{HEADING}" />
+	</td>
+</tr>
+<!-- END actionbuttons -->
 </table>
 </form>
