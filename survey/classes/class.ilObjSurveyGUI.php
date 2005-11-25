@@ -1768,6 +1768,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				if (($data["questionblock_id"] > 0) and ($data["questionblock_id"] != $last_questionblock_id))
 				{
+					// add a separator line for the beginning of a question block
 					$this->tpl->setCurrentBlock("separator");
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
@@ -1793,10 +1794,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 						$this->tpl->setVariable("HREF_EDIT", $this->ctrl->getLinkTarget($this, "questions") . "&editblock=" . $data["questionblock_id"]);
 					}
-					if (count($data["constraints"]))
-					{
-						//$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
-					}
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("QTab");
 					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
@@ -1805,6 +1802,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				if (($last_questionblock_id > 0) && ($data["questionblock_id"] == 0))
 				{
+					// add a separator line for the end of a question block
 					$this->tpl->setCurrentBlock("separator");
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
@@ -1826,7 +1824,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("QTab");
-//					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 				}
@@ -1900,10 +1897,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-				if (count($data["constraints"]) and (strcmp($data["questionblock_id"], "") == 0))
-				{
-					//$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
-				}
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$last_color_class = $colors[$counter % 2];
 				if (!$data["questionblock_id"])
@@ -1916,6 +1909,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if (($last_questionblock_id > 0))
 		{
+			// add a separator line for the end of a question block (if the last question is a questionblock question)
 			$this->tpl->setCurrentBlock("separator");
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
@@ -3232,13 +3226,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$structure =& $_SESSION["constraintstructure"];
-		if (is_array($structure[$_GET["start"]]))
+		$include_elements = $_SESSION["includeElements"];
+		foreach ($include_elements as $elementCounter)
 		{
-			foreach ($structure[$_GET["start"]] as $key => $question_id)
+			if (is_array($structure[$elementCounter]))
 			{
-				$this->object->addConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
+				foreach ($structure[$elementCounter] as $key => $question_id)
+				{
+					$this->object->addConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
+				}
 			}
 		}
+		unset($_SESSION["includeElements"]);
+		unset($_SESSION["constraintstructure"]);
 		$this->ctrl->redirect($this, "constraints");
 	}
 
@@ -3298,6 +3298,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 		}
+		if (count($option_questions) == 0)
+		{
+			unset($_SESSION["includeElements"]);
+			unset($_SESSION["constraintstructure"]);
+			sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
+			$this->ctrl->redirect($this, "constraints");
+		}
 		$this->addConstraintForm(1, $survey_questions, $option_questions);
 	}
 	
@@ -3324,6 +3331,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$this->ctrl->redirect($this, "constraints");
+	}
+	
+	function createConstraintsObject()
+	{
+		$include_elements = $_POST["includeElements"];
+		if ((!is_array($include_elements)) || (count($include_elements) == 0))
+		{
+			sendInfo($this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
+			$this->ctrl->redirect($this, "constraints");
+		}
+		else if (count($include_elements) >= 1)
+		{
+			$_SESSION["includeElements"] = $include_elements;
+			sort($include_elements, SORT_NUMERIC);
+			$_GET["start"] = $include_elements[0];
+			$this->constraintStep1Object();
+		}
 	}
 	
 	/**
@@ -3358,6 +3382,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$last_questionblock_title = "";
 		$counter = 1;
 		$structure = array();
+		$colors = array("tblrow1", "tblrow2");
 		foreach ($survey_questions as $question_id => $data)
 		{
 			$title = $data["title"];
@@ -3394,7 +3419,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				else
 				{
 					$constraints =& $this->object->getConstraints($data["question_id"]);
-					$colors = array("tblrow1", "tblrow2");
 					$rowcount = 0;
 					if (count($constraints))
 					{
@@ -3436,26 +3460,51 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("COLOR_CLASS", $colors[$rowcount % 2]);
 						$this->tpl->parseCurrentBlock();
 					}
-
-					if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
-					{
-						$this->tpl->setCurrentBlock("addbutton");
-						$this->tpl->setVariable("HREF_CREATE_CONSTRAINT", $this->ctrl->getLinkTarget($this, "constraints")  . "&start=$counter&step=1");
-						$this->tpl->setVariable("TEXT_CREATE_CONSTRAINT", $this->lng->txt("constraint_add"));
-						$this->tpl->parseCurrentBlock();
-					}
+					$this->tpl->setCurrentBlock("question");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("DEFINED_PRECONDITIONS", $this->lng->txt("existing_constraints"));
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($counter != 1)
+				{
+					$this->tpl->setCurrentBlock("include_elements");
+					$this->tpl->setVariable("QUESTION_NR", "$counter");
+					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("constraint_section");
 				$this->tpl->setVariable("QUESTION_NR", "$counter");
 				$this->tpl->setVariable("TITLE", "$title");
-				$this->tpl->setVariable("TYPE", "$type");
+				$icontype = "question.gif";
+				if ($data["questionblock_id"] > 0)
+				{
+					$icontype = "questionblock.gif";
+					$this->tpl->setVariable("TYPE", "$type: ");
+				}
+				include_once "./classes/class.ilUtil.php";
+				$this->tpl->setVariable("ICON_HREF", ilUtil::getImagePath($icontype, true));
+				$this->tpl->setVariable("ICON_ALT", $type);
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
 		}
+		if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
+		{
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$counter++;
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("buttons");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("BTN_CREATE_CONSTRAINTS", $this->lng->txt("constraint_add"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("CONSTRAINTS_INTRODUCTION", $this->lng->txt("constraints_introduction"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CONSTRAINTS_HEADER", $this->lng->txt("constraints_list_of_entities"));
 		$this->tpl->parseCurrentBlock();
 		$_SESSION["constraintstructure"] = $structure;
 	}
@@ -3498,7 +3547,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$tabs_gui->addTarget("constraints",
 			 $this->ctrl->getLinkTarget($this, "constraints"),
 			 array("constraints", "constraintStep1", "constraintStep2",
-			 "constraintStep3", "constraintsAdd"),
+			 "constraintStep3", "constraintsAdd", "createConstraints"),
 			 "");
 			 
 		// invite
