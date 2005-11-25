@@ -149,11 +149,17 @@ class ilSearchResultPresentationGUI
 			$icon = ilUtil::getImagePath("icon_lm.gif");
 			$title = $this->lng->txt("learning_resources");
 		}
-		$a_tpl->setCurrentBlock("container_header_row");
+
+		$a_tpl->setCurrentBlock("container_header_row_image");
 		$a_tpl->setVariable("HEADER_IMG", $icon);
+		$a_tpl->setVariable("HEADER_ALT", $title);
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
 		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("container_row");
+
+
+		#$a_tpl->setCurrentBlock("container_header_row");
+		#$a_tpl->parseCurrentBlock();
+		#$a_tpl->touchBlock("container_row");
 	}
 
 	function resetRowType()
