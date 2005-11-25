@@ -98,6 +98,7 @@ class ilLearningProgress
 	{
 		global $ilDB;
 
+		$spent = $data['spent_time'];
 		if((time() - $data['access_time']) <= ilObjUserTracking::_getValidTimeSpan())
 		{
 			$spent = $data['spent_time'] + time() - $data['access_time'];

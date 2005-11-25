@@ -278,12 +278,42 @@ class ilMDEditorGUI
 
 		// Educational...
 		// Typical learning time
+		// creates entries like 2H59M12S. If entry is not parsable => warning.
+
+		#if(is_object($this->md_section = $this->md_obj->getEducational()))
+		#{
+		#	$this->tpl->setVariable("VAL_TYPICAL_LEARN_TIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
+		#}
+		
+		$tlt = array(0,0,0);
+		$valid = true;
 		if(is_object($this->md_section = $this->md_obj->getEducational()))
 		{
-			$this->tpl->setVariable("VAL_TYPICAL_LEARN_TIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
+			include_once 'Services/MetaData/classes/class.ilMDUtils.php';
+			
+			if(!$tlt = ilMDUtils::_LOMDurationToArray($this->md_section->getTypicalLearningTime()))
+			{
+				if(strlen($this->md_section->getTypicalLearningTime()))
+				{
+					$tlt = array(0,0,0);
+					$valid = false;
+				}
+			}
 		}
 		$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
+		$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2]));
+		$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
+
+		if(!$valid)
+		{
+			$this->tpl->setCurrentBlock("tlt_not_valid");
+			$this->tpl->setVariable("TXT_CURRENT_VAL",$this->lng->txt('meta_current_value'));
+			$this->tpl->setVariable("TLT",$this->md_section->getTypicalLearningTime());
+			$this->tpl->setVariable("INFO_TLT_NOT_VALID",$this->lng->txt('meta_info_tlt_not_valid'));
+			$this->tpl->parseCurrentBlock();
+		}
 		
+	
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
 	}
 
@@ -410,26 +440,25 @@ class ilMDEditorGUI
 
 		//Educational...
 		// Typical Learning Time
-		if ($_POST["edu_typical_learn_time"] != "")
+		if ($_POST["tlt"]['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s'])
 		{
 			if(!is_object($this->md_section = $this->md_obj->getEducational()))
 			{
 				$this->md_section = $this->md_obj->addEducational();
 				$this->md_section->save();
 			}
-			$this->md_section->setTypicalLearningTime(ilUtil::stripSlashes($_POST["edu_typical_learn_time"]));
+			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
 			$this->md_section->update();
 		}
 		else
 		{
 			if(is_object($this->md_section = $this->md_obj->getEducational()))
 			{
-				$this->md_section->setTypicalLearningTime("");
+				$this->md_section->setPhysicalTypicalLearningTime(0,0,0);
 				$this->md_section->update();
 			}
 		}
 		$this->callListeners('Educational');
-		
 		//Lifecycle...
 		// Authors
 		if ($_POST["life_authors"] != "")
@@ -1517,7 +1546,7 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("VAL_INTENDEDENDUSERROLE_" . strtoupper($this->md_section->getIntendedEndUserRole()), " selected");
 			$this->tpl->setVariable("VAL_CONTEXT_" . strtoupper($this->md_section->getContext()), " selected");
 			$this->tpl->setVariable("VAL_DIFFICULTY_" . strtoupper($this->md_section->getDifficulty()), " selected");
-			$this->tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
+			#$this->tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
 			
 			$this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("meta_active"));
 			$this->tpl->setVariable("TXT_EXPOSITIVE", $this->lng->txt("meta_expositive"));
@@ -1555,6 +1584,37 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("TXT_DIFFICULT", $this->lng->txt("meta_difficult"));
 			$this->tpl->setVariable("TXT_VERYDIFFICULT", $this->lng->txt("meta_very_difficult"));
 			$this->tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
+
+
+			// Typical learning time
+			$tlt = array(0,0,0);
+			$valid = true;
+			if(is_object($this->md_section = $this->md_obj->getEducational()))
+			{
+				include_once 'Services/MetaData/classes/class.ilMDUtils.php';
+			
+				if(!$tlt = ilMDUtils::_LOMDurationToArray($this->md_section->getTypicalLearningTime()))
+				{
+					if(strlen($this->md_section->getTypicalLearningTime()))
+					{
+						$tlt = array(0,0,0);
+						$valid = false;
+					}
+				}
+			}
+			$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
+			$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2]));
+			$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
+
+			if(!$valid)
+			{
+				$this->tpl->setCurrentBlock("tlt_not_valid");
+				$this->tpl->setVariable("TXT_CURRENT_VAL",$this->lng->txt('meta_current_value'));
+				$this->tpl->setVariable("TLT",$this->md_section->getTypicalLearningTime());
+				$this->tpl->setVariable("INFO_TLT_NOT_VALID",$this->lng->txt('meta_info_tlt_not_valid'));
+				$this->tpl->parseCurrentBlock();
+			}
+
 
 			/* TypicalAgeRange */
 			$first = true;

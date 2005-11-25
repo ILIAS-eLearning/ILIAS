@@ -5437,3 +5437,5 @@ common#:#learning_progress#:#Tracking data
 trac#:#trac_settings_saved#:#Saved settings.
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+meta#:#meta_current_value#:#Current value
+meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.

@@ -275,6 +275,32 @@ class ilMDEducational extends ilMDBase
 	{
 		return $this->difficulty;
 	}
+
+	function setPhysicalTypicalLearningTime($hours,$minutes,$seconds)
+	{
+		if(!$hours and !$minutes and !$seconds)
+		{
+			$this->setTypicalLearningTime('PT00H00M');
+			return true;
+		}
+		$tlt = 'PT';
+		if($hours)
+		{
+			$tlt .= ($hours.'H');
+		}
+		if($minutes)
+		{
+			$tlt .= ($minutes.'M');
+		}
+		if($seconds)
+		{
+			$tlt .= ($seconds.'S');
+		}
+		$this->setTypicalLearningTime($tlt);
+		return true;
+	}
+
+
 	function setTypicalLearningTime($a_tlt)
 	{
 		$this->typical_learning_time = $a_tlt;
@@ -284,7 +310,15 @@ class ilMDEducational extends ilMDBase
 		return $this->typical_learning_time;
 	}
 
+	function getTypicalLearningTimeSeconds()
+	{
+		include_once './Services/MetaData/classes/class.ilMDUtils.php';
 
+		$time_arr = ilMDUtils::_LOMDurationToArray($this->getTypicalLearningTime());
+
+		return 60 * 60 * $time_arr[0] + 60 * $time_arr[1] + $time_arr[2];
+	} 
+	
 	function save()
 	{
 		if($this->db->autoExecute('il_meta_educational',
@@ -445,5 +479,27 @@ class ilMDEducational extends ilMDBase
 		}
 		return false;
 	}
+
+	function _getTypicalLearningTimeSeconds($a_rbac_id,$a_obj_id = 0)
+	{
+		global $ilDB;
+
+		$a_obj_id = $a_obj_id ? $a_obj_id : $a_rbac_id;
+
+		$query = "SELECT typical_learning_time FROM il_meta_educational ".
+			"WHERE rbac_id = '".$a_rbac_id."' ".
+			"AND obj_id = '".$a_obj_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			include_once './Services/MetaData/classes/class.ilMDUtils.php';
+
+			$time_arr = ilMDUtils::_LOMDurationToArray($row->typical_learning_time);
+			
+			return 60 * 60 * $time_arr[0] + 60 * $time_arr[1] + $time_arr[2];
+		}
+		return 0;
+	}
+
 }
 ?>
