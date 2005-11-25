@@ -1,15 +1,27 @@
 <form name="form_constraints" method="post" action="{FORM_ACTION}">
 <p>{CONSTRAINTS_INTRODUCTION}</p>
-<!-- BEGIN constraint_section -->
-<h2>{QUESTION_NR}. {TITLE} ({TYPE})</h2>
-<!-- BEGIN description -->
-<p>{DESCRIPTION}</p>
-<!-- END description -->
-<!-- BEGIN addbutton -->
-<p><a href="{HREF_CREATE_CONSTRAINT}" class="btn">{TEXT_CREATE_CONSTRAINT}</a></p>
-<!-- END addbutton -->
-<!-- BEGIN question -->
 <table class="fullwidth">
+<tr class="tblheader">
+	<td colspan="4">{CONSTRAINTS_HEADER}</td>
+</tr>
+<!-- BEGIN constraint_section -->
+<tr class="{COLOR_CLASS}">
+	<td width="25"><!-- BEGIN include_elements --><input type="checkbox" name="includeElements[]" value="{QUESTION_NR}" /><!-- END include_elements --></td>
+	<td width="25">{QUESTION_NR}.</td>
+	<td width="25"><img src="{ICON_HREF}" alt="{ICON_ALT}" /></td>
+	<td>{TYPE}{TITLE}</td>
+</tr>
+<!-- BEGIN description -->
+<!-- <p>{DESCRIPTION}</p>  -->
+<!-- END description -->
+<!-- BEGIN question -->
+<tr class="{COLOR_CLASS}">
+	<td colspan="3"></td>
+	<td>
+<table class="fullwidth">
+<tr class="tblheader">
+	<td colspan="3">{DEFINED_PRECONDITIONS}</td>
+</tr>
 <!-- BEGIN empty_row -->
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}" colspan="2">{EMPTY_TEXT}</td>
@@ -28,7 +40,22 @@
 </tr>
 <!-- END delete_button -->
 </table>
-<br />
+</td>
+</tr>
+<!--br /-->
 <!-- END question -->
 <!-- END constraint_section -->
+<!-- BEGIN selectall -->
+<tr>
+	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('form_constraints', 'includeElements', document.form_constraints.chb_check_all.checked);" /></td>
+  <td class="{COLOR_CLASS}" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
+<!-- BEGIN buttons -->
+<tr>
+	<td class="submit">{ARROW}</td>
+	<td class="submit" align="left" colspan="3"><input type="submit" class="submit" name="cmd[createConstraints]" value="{BTN_CREATE_CONSTRAINTS}" /></td>
+</tr>
+<!-- END buttons -->
+</table>
 </form>
