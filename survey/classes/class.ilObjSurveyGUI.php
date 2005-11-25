@@ -1762,13 +1762,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 			foreach ($survey_questions as $question_id => $data)
 			{
 				$title_counter++;
+				if (($last_questionblock_id > 0) && ($data["questionblock_id"] == 0))
+				{
+					$counter++;
+				}
 				if (($data["questionblock_id"] > 0) and ($data["questionblock_id"] != $last_questionblock_id))
 				{
-					if (($data["questionblock_id"] != $last_questionblock_id) and (strcmp($last_questionblock_id, "") != 0))
-					{
-						$counter++;
-					}
+					$this->tpl->setCurrentBlock("separator");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("QTab");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+
 					$this->tpl->setCurrentBlock("block");
+					$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("questionblock.gif", true) . "\" alt=\"\" />");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
@@ -1782,36 +1790,44 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&qbdown=" . $data["questionblock_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" title=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 						}
-						$this->tpl->setVariable("TEXT_EDIT", "<img src=\"" . ilUtil::getImagePath("icon_pencil.gif") . "\" alt=\"" . $this->lng->txt("edit") . "\" title=\"" . $this->lng->txt("edit") . "\" border=\"0\" />");
+						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 						$this->tpl->setVariable("HREF_EDIT", $this->ctrl->getLinkTarget($this, "questions") . "&editblock=" . $data["questionblock_id"]);
 					}
 					if (count($data["constraints"]))
 					{
-						$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
+						//$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
 					}
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("QTab");
 					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
-					$counter++;
+				}
+				if (($last_questionblock_id > 0) && ($data["questionblock_id"] == 0))
+				{
+					$this->tpl->setCurrentBlock("separator");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("QTab");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
 				}
 				if ($data["heading"])
 				{
 					$this->tpl->setCurrentBlock("heading");
 					$this->tpl->setVariable("TEXT_HEADING", $data["heading"]);
-					$this->tpl->setVariable("COLOR_CLASS", "std");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 					{
-						$this->tpl->setVariable("TEXT_EDIT", "<img src=\"" . ilUtil::getImagePath("icon_pencil.gif") . "\" alt=\"" . $this->lng->txt("edit") . "\" title=\"" . $this->lng->txt("edit") . "\" border=\"0\" />");
+						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 						$this->tpl->setVariable("HREF_EDIT", $this->ctrl->getLinkTarget($this, "questions") . "&editheading=" . $data["question_id"]);
-						$this->tpl->setVariable("TEXT_DELETE", "<img src=\"" . ilUtil::getImagePath("delete.gif") . "\" alt=\"" . $this->lng->txt("remove") . "\" title=\"" . $this->lng->txt("remove") . "\" border=\"0\" />");
+						$this->tpl->setVariable("TEXT_DELETE", $this->lng->txt("remove"));
 						$this->tpl->setVariable("HREF_DELETE", $this->ctrl->getLinkTarget($this, "questions") . "&removeheading=" . $data["question_id"]);
 					}
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("QTab");
 //					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
-					$this->tpl->setVariable("COLOR_CLASS", "std");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 				}
 				if (!$data["questionblock_id"])
@@ -1833,7 +1849,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. ". $data["title"]);
 				}
-
+				$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("question.gif", true) . "\" alt=\"\" />");
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
 					$obligatory_checked = "";
@@ -1886,7 +1902,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				if (count($data["constraints"]) and (strcmp($data["questionblock_id"], "") == 0))
 				{
-					$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
+					//$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
 				}
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$last_color_class = $colors[$counter % 2];
@@ -1897,6 +1913,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$last_questionblock_id = $data["questionblock_id"];
 			}
+		}
+		if (($last_questionblock_id > 0))
+		{
+			$this->tpl->setCurrentBlock("separator");
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("QTab");
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		if (array_key_exists("move_questions", $_SESSION))
@@ -1925,9 +1950,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
 				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
 				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
 				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("actionbuttons");
+				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
 				$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1951,11 +1978,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_OBLIGATORY", $this->lng->txt("obligatory"));
-		$this->tpl->setVariable("QUESTION_CONSTRAINTS", $this->lng->txt("constraints"));
 		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("sequence"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 
     if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));
