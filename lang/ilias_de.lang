@@ -5413,3 +5413,5 @@ common#:#learning_progress#:#Zugriffsstatistiken
 trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_anonymized_info#:#Wenn aktiviert, werden keine personenbezogenen Daten ausgegeben
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+meta#:#meta_current_value#:#Aktueller Wert
+meta#:#meta_info_tlt_not_valid#:#Der aktuelle Wert ist nicht gültig und kann deswegen in anderen Bereichen (z.B Lernfortschritt) nicht verwertet werden. Bitte geben Sie eine Zeit in Stunden und/oder Minuten an.

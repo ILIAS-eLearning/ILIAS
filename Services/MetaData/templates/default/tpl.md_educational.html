@@ -135,12 +135,17 @@
 	</td>
 </tr>
 <!-- END typicalagerange_loop -->
-
-<tr>
-	<td class="option" colspan="2">{TXT_TYPICALLEARNINGTIME}</td>
-	<td class="option_value"><input type="text" maxlength="200" name="educational[TypicalLearningTime]" value="{VAL_TYPICALLEARNINGTIME}"></td>
-</tr>
-
+		<tr>
+		  <td class="option" colspan="2"><div align="left">{TXT_TYPICAL_LEARN_TIME}</div></td>
+		  <td class="option_value">
+			{SEL_TLT}&nbsp;{TLT_HINT}
+			<!-- BEGIN tlt_not_valid -->
+			<br />
+			<br />{TXT_CURRENT_VAL}: {TLT}
+			<br /><span class="subtitle">{INFO_TLT_NOT_VALID}</span>
+			<!-- END tlt_not_valid -->
+		  </td>
+		</tr>
 <!-- BEGIN description_loop -->
 <tr>
 	<!-- BEGIN desc_head -->

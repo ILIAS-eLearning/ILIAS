@@ -21,72 +21,51 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /**
+* Utility class for meta data handling
+*
 * @author Stefan Meyer <smeyer@databay.de>
-*
+* @package ilias-core
 * @version $Id$
-*
-* @package ilias-tracking
-*
 */
-
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
-
-class ilLPStatusTypicalLearningTime extends ilLPStatus
+class ilMDUtils
 {
-
-	function ilLPStatusTypicalLearningTime($a_obj_id)
+	/**
+	 * LOM datatype duration is a string like HH:MM:SS
+	 * This function tries to parse a given string in an array of hours, minutes and seconds
+	 *
+	 * @param string string to parse
+	 * @return array  e.g array(0,1,2) => 0 hours, 1 minute, 2 seconds or false if not parsable
+	 *
+	 */
+	function _LOMDurationToArray($a_string)
 	{
-		global $ilDB;
+		$a_string = trim($a_string);
+		$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)(\d{1,2}S)?$/i';
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
-	}
-
-	function _getCountNotAttempted($a_obj_id)
-	{
-		return 999;
-	}
-	
-	function _getCountInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-
-		$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
-
-		$query = "SELECT COUNT(user_id) AS in_progress FROM ut_learning_progress ".
-			"WHERE spent_time < '".$tlt."' ".
-			"AND obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if(!preg_match($pattern,$a_string,$matches))
 		{
-			return $row->in_progress;
+			#var_dump("<pre>",$matches,"<pre>");
+			return false;
 		}
-		return 0;
-
-	}
-
-	function _getCountCompleted($a_obj_id)
-	{
-		global $ilDB;
-
-		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-
-		$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
-		$query = "SELECT COUNT(user_id) AS completed FROM ut_learning_progress ".
-			"WHERE spent_time >= '".$tlt."' ".
-			"AND obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if(preg_match('/(\d+)+H/i',$a_string,$matches))
 		{
-			return $row->completed;
+			#var_dump("<pre>",$matches,"<pre>");
+			$hours = $matches[1];
 		}
-		return 0;
+		if(preg_match('/(\d+)M/i',$a_string,$matches))
+		{
+			#var_dump("<pre>",$matches,"<pre>");
+			$min = $matches[1];
+		}
+		if(preg_match('/(\d+)S/i',$a_string,$matches))
+		{
+			#var_dump("<pre>",$matches,"<pre>");
+			$sec = $matches[1];
+		}
+		return array($hours,$min,$sec);
 	}
 
-}	
-?>
+
+}
