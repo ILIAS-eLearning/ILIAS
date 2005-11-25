@@ -5437,5 +5437,12 @@ common#:#learning_progress#:#Tracking data
 trac#:#trac_settings_saved#:#Saved settings.
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+forum#:#frm_anonymous_posting#:#Anonymous posting
+forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.
+forum#:#forum_anonymize#:#Write anonymously
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
+common#:#cron_forum_notification_never#:#never
+common#:#cron_forum_notification_directly#:#directly on new entries
+common#:#cron_forum_notification_cron#:#regularly per cron job
 meta#:#meta_current_value#:#Current value
 meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.

@@ -5413,5 +5413,12 @@ common#:#learning_progress#:#Zugriffsstatistiken
 trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_anonymized_info#:#Wenn aktiviert, werden keine personenbezogenen Daten ausgegeben
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+forum#:#frm_anonymous_posting#:#Anonymes Schreiben
+forum#:#frm_anonymous_posting_desc#:#Wenn diese Option eingeschaltet ist, ist anonymes Schreiben in diesem Forum erlaubt.
+forum#:#forum_anonymize#:#Anonym Schreiben
+forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS Benutzername wird nicht angezeigt).
+common#:#cron_forum_notification_never#:#nie
+common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
+common#:#cron_forum_notification_cron#:#regelmäßig per Cron-Job
 meta#:#meta_current_value#:#Aktueller Wert
 meta#:#meta_info_tlt_not_valid#:#Der aktuelle Wert ist nicht gültig und kann deswegen in anderen Bereichen (z.B Lernfortschritt) nicht verwertet werden. Bitte geben Sie eine Zeit in Stunden und/oder Minuten an.
