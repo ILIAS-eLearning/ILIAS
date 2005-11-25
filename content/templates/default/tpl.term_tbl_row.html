@@ -10,7 +10,7 @@
 		<!-- END view_term -->
 		<!-- BEGIN edit_term -->
 			<b>{TEXT_TERM}</b>
-			[<a href="{LINK_EDIT_TERM}">{TXT_EDIT_TERM}</a>]
+			<a class="il_ContainerItemCommand" href="{LINK_EDIT_TERM}">{TXT_EDIT_TERM}</a>
 		<!-- END edit_term -->
 	</td>
 	<td class="std" valign="top">
@@ -24,18 +24,20 @@
 		<!-- BEGIN definition -->
 			{DEF_SHORT}<br />
 		<!-- END definition -->
+		<div class="il_ContainerItemCommands" style="text-align:right;"> 
 		<!-- BEGIN move_up -->
-			[<a href="{LINK_UP}">{TXT_UP}</a>]
+			<a class="il_ContainerItemCommand" href="{LINK_UP}">{TXT_UP}</a>
 		<!-- END move_up -->
 		<!-- BEGIN move_down -->
-			[<a href="{LINK_DOWN}">{TXT_DOWN}</a>]
+			<a class="il_ContainerItemCommand" href="{LINK_DOWN}">{TXT_DOWN}</a>
 		<!-- END move_down -->
 		<!-- BEGIN delete -->
-			[<a href="{LINK_DELETE}">{TXT_DELETE}</a>]
+			<a class="il_ContainerItemCommand" href="{LINK_DELETE}">{TXT_DELETE}</a>
 		<!-- END delete -->
 		<!-- BEGIN edit -->
-			[<a href="{LINK_EDIT}">{TXT_EDIT}</a>]<br />
+			<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
 		<!-- END edit -->
+		</div>
 	<!-- END definition_row -->
 	</td>
 </tr>

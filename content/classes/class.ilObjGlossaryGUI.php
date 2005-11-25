@@ -550,7 +550,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 				$this->ctrl->setParameter($this, "term_id", $term["id"]);
 				$this->tpl->setVariable("LINK_EDIT_TERM",
-					$this->ctrl->getLinkTarget($this, "editTerm"));
+					$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
 					
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
@@ -740,7 +740,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 				$this->ctrl->setParameter($this, "term_id", $term["id"]);
 				$this->tpl->setVariable("LINK_EDIT_TERM",
-					$this->ctrl->getLinkTarget($this, "editTerm"));
+					$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
 				$this->tpl->setVariable("TXT_EDIT_TERM", $this->lng->txt("edit"));
 				$this->tpl->parseCurrentBlock();
 
@@ -894,6 +894,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function editTerm()
 	{
+		/*
 		$term = new ilGlossaryTerm($_GET["term_id"]);
 		//$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$term->getTerm());
 
@@ -911,6 +912,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 		$this->tpl->setVariable("BTN_NAME", "updateTerm");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		*/
 	}
 
 
@@ -1542,59 +1544,41 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		// tabs for term
-		if ($_GET["term_id"] > 0)
-		{
-			// term properties
-			$this->ctrl->setParameter($this, "term_id", $_GET["term_id"]); 
-			$tabs_gui->addTarget("properties",
-				$this->ctrl->getLinkTarget($this, "editTerm"), array("editTerm"),
-				get_class($this));
-			$this->ctrl->clearParameters($this);
-				
-			// back to glossary
-			$tabs_gui->setBackTarget($this->lng->txt("glossary"),
-				$this->ctrl->getLinkTarget($this, "listTerms"));
-		}
-		else	// tabs for glossary
-		{
-			// list definitions
-			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "listTerms")
-					? true
-					: false;
-			$tabs_gui->addTarget("cont_terms",
-				$this->ctrl->getLinkTarget($this, "listTerms"), array("listTerms", ""),
-				get_class($this), "", $force_active);
-	
-			// properties
-			$tabs_gui->addTarget("properties",
-				$this->ctrl->getLinkTarget($this, "properties"), "properties",
-				get_class($this));
-	
-			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
-	
-			// export
-			$tabs_gui->addTarget("export",
-				 $this->ctrl->getLinkTarget($this, "exportList"),
-				 array("exportList", "viewExportLog"), get_class($this));
-	
-			// permissions
-			if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-			{
-				/*$tabs_gui->addTarget("permission_settings",
-					$this->ctrl->getLinkTarget($this, "perm"),
-					array("perm", "info"),
-					get_class($this));
-					*/
-				$tabs_gui->addTarget("perm_settings",
-					$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-	
-			}
-		}
+		// list terms
+		$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "listTerms")
+				? true
+				: false;
+		$tabs_gui->addTarget("cont_terms",
+			$this->ctrl->getLinkTarget($this, "listTerms"), array("listTerms", ""),
+			get_class($this), "", $force_active);
 
+		// properties
+		$tabs_gui->addTarget("properties",
+			$this->ctrl->getLinkTarget($this, "properties"), "properties",
+			get_class($this));
+
+		// meta data
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+			 "", "ilmdeditorgui");
+
+		// export
+		$tabs_gui->addTarget("export",
+			 $this->ctrl->getLinkTarget($this, "exportList"),
+			 array("exportList", "viewExportLog"), get_class($this));
+
+		// permissions
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			/*$tabs_gui->addTarget("permission_settings",
+				$this->ctrl->getLinkTarget($this, "perm"),
+				array("perm", "info"),
+				get_class($this));
+				*/
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+
+		}
 	}
 
 }
