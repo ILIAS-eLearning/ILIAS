@@ -108,6 +108,7 @@ class ilPurchaseBMFGUI
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
@@ -124,6 +125,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("HEADER",$this->lng->txt('pay_step1'));
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_personal_data'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_personal_data'));
+		$this->tpl->touchBlock("stop_floating");
 
 		// set plain text variables
 		$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
@@ -247,6 +249,7 @@ class ilPurchaseBMFGUI
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
@@ -263,6 +266,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("HEADER",$this->lng->txt('pay_step2'));
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_payment_type'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_payment_type'));
+		$this->tpl->touchBlock("stop_floating");
 
 		// set plain text variables
 		if ($_SESSION["bmf"]["personal_data"]["land"] == "DE")
@@ -342,6 +346,7 @@ class ilPurchaseBMFGUI
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
@@ -360,6 +365,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("HEADER",$this->lng->txt('pay_step3_debit_entry'));
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_debit_entry_data'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_debit_entry'));
+		$this->tpl->touchBlock("stop_floating");
 
 		// set plain text variables
 		$this->tpl->setVariable("TXT_ACCOUNT_HOLDER",$this->lng->txt('pay_bmf_account_holder'));
@@ -455,6 +461,7 @@ class ilPurchaseBMFGUI
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
@@ -532,6 +539,7 @@ class ilPurchaseBMFGUI
 					if ($result->code < 0)
 					{
 						$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
+						$this->tpl->touchBlock("stop_floating");
 						$error = $this->lng->txt('pay_bmf_server_error_code') . " " . $result->code . ": " . $result->kurzText . "<br>\n" . $result->langText;
 						if ($result->code == -103 ||
 							$result->code == -104 ||
@@ -590,10 +598,11 @@ class ilPurchaseBMFGUI
 		
 						$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 						$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_thanks'));
+						$this->tpl->touchBlock("stop_floating");
 
 						$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_bmf_debit_entry.html','payment');
 						$this->tpl->setCurrentBlock("buyed_objects");
-						$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", ILIAS_HTTP_PATH . "/payment/payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
+						$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
 						$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
 						$this->tpl->parseCurrentBlock("buyed_objects");
 					}
@@ -601,6 +610,7 @@ class ilPurchaseBMFGUI
 				else
 				{
 					$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
+					$this->tpl->touchBlock("stop_floating");
 					sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
 				}
 			}
@@ -608,6 +618,7 @@ class ilPurchaseBMFGUI
 		else
 		{
 			$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
 		}
 
@@ -632,6 +643,7 @@ class ilPurchaseBMFGUI
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
@@ -650,6 +662,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("HEADER",$this->lng->txt('pay_step3_credit_card'));
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_credit_card_data'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_credit_card'));
+		$this->tpl->touchBlock("stop_floating");
 
 		// set plain text variables
 		$this->tpl->setVariable("TXT_CARD_HOLDER",$this->lng->txt('pay_bmf_card_holder'));
@@ -812,6 +825,7 @@ class ilPurchaseBMFGUI
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
@@ -858,6 +872,7 @@ class ilPurchaseBMFGUI
 			if ($result->code < 0)
 			{
 				$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
+				$this->tpl->touchBlock("stop_floating");
 				$error = $this->lng->txt('pay_bmf_server_error_code') . " " . $result->code . ": " . $result->kurzText . "<br>\n" . $result->langText;
 				if ($result->code == -103 ||
 					$result->code == -104 ||
@@ -904,10 +919,11 @@ class ilPurchaseBMFGUI
 
 				$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 				$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_thanks'));
+				$this->tpl->touchBlock("stop_floating");
 
 				$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_bmf_credit_card.html','payment');
 				$this->tpl->setCurrentBlock("buyed_objects");
-				$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", ILIAS_HTTP_PATH . "/payment/payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
+				$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment/payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
 				$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
 				$this->tpl->parseCurrentBlock("buyed_objects");
 			}
@@ -915,6 +931,7 @@ class ilPurchaseBMFGUI
 		else
 		{
 			$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
+			$this->tpl->touchBlock("stop_floating");
 			sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
 		}
 
@@ -1113,7 +1130,7 @@ class ilPurchaseBMFGUI
 	function  __buildStatusline()
 	{
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->__buildLocator();
+#		$this->__buildLocator();
 	}
 
 	function __buildLocator()

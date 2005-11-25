@@ -114,11 +114,11 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			{
 				if ($tmp_obj->getType() == "crs")
 				{
-					$f_result[$counter][] = "<a href=\"" . ILIAS_HTTP_PATH . "/repository.php?ref_id=" . $tmp_pobject->getRefId() . "&cmdClass=ilobjcoursegui&cmdNode=4\">" . $tmp_obj->getTitle() . "</a>";
+					$f_result[$counter][] = "<a href=\"repository.php?ref_id=" . $tmp_pobject->getRefId() . "&cmdClass=ilobjcoursegui&cmdNode=4\">" . $tmp_obj->getTitle() . "</a>";
 				}
 				else if ($tmp_obj->getType() == "lm")
 				{
-					$f_result[$counter][] = "<a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $tmp_pobject->getRefId() . "\">" . $tmp_obj->getTitle() . "</a>";
+					$f_result[$counter][] = "<a href=\"content/lm_presentation.php?ref_id=" . $tmp_pobject->getRefId() . "\">" . $tmp_obj->getTitle() . "</a>";
 				}
 				else
 				{
