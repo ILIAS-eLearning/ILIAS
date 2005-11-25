@@ -30,6 +30,7 @@
 *
 */
 
+include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
 class ilLPStatusManual extends ilLPStatus
 {
@@ -44,17 +45,17 @@ class ilLPStatusManual extends ilLPStatus
 
 	function _getCountNotAttempted($a_obj_id)
 	{
-		echo "not overwitten";
+		return "not overwitten";
 	}
 	
 	function _getCountInProgress($a_obj_id)
 	{
-		echo "not overwitten";
+		return "not overwitten";
 	}
 
 	function _getCountCompleted($a_obj_id)
 	{
-		echo "not overwitten";
+		return "not overwitten";
 	}
 
 }	

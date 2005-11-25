@@ -107,12 +107,12 @@ class ilLearningProgressBaseGUI
 		{
 			case LP_MODE_PERSONAL_DESKTOP:
 
-				$tabs_gui->addTarget('trac_progress',
-									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-									 "","","",$a_active == LP_ACTIVE_PROGRESS);
 				$tabs_gui->addTarget('trac_objects',
 									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 									 "","","",$a_active == LP_ACTIVE_OBJECTS);
+				$tabs_gui->addTarget('trac_progress',
+									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
+									 "","","",$a_active == LP_ACTIVE_PROGRESS);
 				break;
 
 
@@ -176,7 +176,7 @@ class ilLearningProgressBaseGUI
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $this->lng->txt("learning_progress"));
 			$this->tpl->setVariable("LINK_ITEM",
-									$this->ctrl->getLinkTarget($this));
+									$this->ctrl->getLinkTargetByClass('illearningprogressgui'));
 			$this->tpl->parseCurrentBlock();
 		
 			// catch feedback message
@@ -186,5 +186,43 @@ class ilLearningProgressBaseGUI
 		}
 
 	}
+
+	/**
+	* insert path
+	*/
+	function __insertPath(&$a_tpl,$a_ref_id)
+	{
+
+		global $tree, $lng;
+
+		$path = $tree->getPathId($a_ref_id);
+		$sep = false;
+		unset($path[count($path) - 1]);
+		unset($path[0]);
+		foreach ($path as $id)
+		{
+			$a_tpl->setCurrentBlock("path_item");
+			if ($sep)
+			{
+				$a_tpl->setVariable("SEPARATOR", " > ");
+			}
+			$a_tpl->setVariable("PATH_ITEM",
+									ilObject::_lookupTitle(ilObject::_lookupObjId($id)));
+			$a_tpl->parseCurrentBlock();
+			$sep = true;
+		}
+		$a_tpl->setCurrentBlock("path");
+		$a_tpl->parseCurrentBlock();
+	}
+
+
+	// Protected Table gui methods
+	function &__initTableGUI()
+	{
+		include_once "./classes/class.ilTableGUI.php";
+
+		return new ilTableGUI(0,false);
+	}
+
 }
 ?>

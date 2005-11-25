@@ -224,7 +224,7 @@ class ilUtil
 
 		if ($multiple == true)
 		{
-			$multiple = "multiple";
+			$multiple = " multiple=\"multiple\"";
 		}
 		else
 		{
@@ -2710,34 +2710,64 @@ class ilUtil
 	* Get all objects of a specific type and check access
 	* This function is not recursive, instead it parses the serialized rbac_pa entries
 	*
-	* Get all objects of a specific type where access is granted for the given list
-	* of operations. This function does a checkAccess call for all objects
+	* Get all objects of a specific type where access is granted for the given
+	* operation. This function does a checkAccess call for all objects
 	* in the object hierarchy and return only the objects of the given type.
 	* Please note if access is not granted to any object in the hierarchy
 	* the function skips all objects under it.
 	* Example:
 	* You want a list of all Courses that are visible and readable for the user.
 	* The function call would be:
-	* $your_list = IlUtil::getObjectsByOperation ("crs", "visible,read");
+	* $your_list = IlUtil::getObjectsByOperation ("crs", "visible");
 	* Lets say there is a course A where the user would have access to according to
 	* his role assignments. Course A lies within a group object which is not readable
 	* for the user. Therefore course A won't appear in the result list although
-	* the queried operations 'visible' and 'read' would actually permit the user
+	* the queried operations 'read' would actually permit the user
 	* to access course A.
 	*
 	* @access	public
 	* @param	string	object type
 	* @param	string	permission to check e.g. 'visible' or 'read'
-	* @param	boolean	if true, access of all parent nodes of each found object are checked too (default is true)
+	* @param	int id of user in question
+	* @param    int limit of results. if not given it defaults to search max hits.
 	* @return	array of obj_ids
 	*/
-	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0)
+	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{
-		global $ilDB,$rbacreview,$ilAccess,$ilUser;
+		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias;
+
+		// limit number of results default is search result limit
+		if(!$limit)
+		{
+			$limit = $ilias->getSetting('search_max_hits',100);
+		}
 
 		// default to logged in usr
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		$a_roles = $rbacreview->assignedRoles($a_usr_id);
+
+		// Since no rbac_pa entries are available for the system role. This function return !all! ref_ids in the case the user
+		// is assigned to the system role
+		if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
+		{
+			$query = "SELECT ref_id FROM object_reference AS obr LEFT JOIN object_data AS obd USING(obj_id) ".
+				"LEFT JOIN tree ON obr.ref_id = tree.child ".
+				"WHERE type = '".$a_obj_type."' ".
+				"AND tree = 1";
+
+
+			$res = $ilDB->query($query);
+			$counter = 0;
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if(++$counter == $limit)
+				{
+					break;
+				}
+				$ref_ids[] = $row->ref_id;
+			}
+			return $ref_ids ? $ref_ids : array();
+		}
 
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array($a_operation));
 		$ops_id = $ops_ids[0];
@@ -2747,18 +2777,20 @@ class ilUtil
 			"LEFT JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
 			"WHERE type = '".$a_obj_type."' ".
 			"AND ops_id LIKE '%i:".$ops_id."%'";
-
 		$res = $ilDB->query($query);
+		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if(++$counter == $limit)
+			{
+				break;
+			}
 			// Check deleted, hierarchical access ...
 			if($ilAccess->checkAccessOfUser($a_usr_id,$a_operation,'',$row->ref_id,$row->type,$row->obj_id))
 			{
 				$ref_ids[] = $row->ref_id;
 			}
 		}
-
-		
 		return $ref_ids ? $ref_ids : array();
 	}
 

@@ -22,8 +22,6 @@
 */
 
 /**
-* Class ilLPObjSettings
-*
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
@@ -32,45 +30,61 @@
 *
 */
 
+include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-include_once 'Services/Tracking/classes/class.ilLPStatusFactory.php';
+include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 
-class ilLPStatusWrapper
+class ilLPStatusVisits extends ilLPStatus
 {
 
-	/**
-	* Static function to read the number of user who have the status 'not_attempted'
-	*/
+	function ilLPStatusVisits($a_obj_id)
+	{
+		global $ilDB;
+
+		parent::ilLPStatus($a_obj_id);
+		$this->db =& $ilDB;
+	}
+
 	function _getCountNotAttempted($a_obj_id)
 	{
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
-
-		return call_user_func(array($class,'_getCountNotAttempted'),$a_obj_id);
-
-	}
-
-	/**
-	* Static function to read the number of user who have the status 'in_progress'
-	*/
-	function _getCountInProgress($a_obj_id)
-	{
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
-
-		return call_user_func(array($class,'_getCountInProgress'),$a_obj_id);
+		return 999;
 	}
 	
-	/**
-	* Static function to read the number of user who have the status 'completed'
-	*/
+	function _getCountInProgress($a_obj_id)
+	{
+		global $ilDB;
+
+		$required_visits = ilLPObjSettings::_lookupVisits($a_obj_id);
+		#echo $required_visits;
+
+		$query = "SELECT COUNT(user_id) AS in_progress FROM ut_learning_progress ".
+			"WHERE visits < '".$required_visits."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->in_progress;
+		}
+		return 0;
+	}
+
 	function _getCountCompleted($a_obj_id)
 	{
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
+		global $ilDB;
 
-		return call_user_func(array($class,'_getCountCompleted'),$a_obj_id);
+		$required_visits = ilLPObjSettings::_lookupVisits($a_obj_id);
 
+		$query = "SELECT COUNT(user_id) AS completed FROM ut_learning_progress ".
+			"WHERE visits >= '".$required_visits."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->completed;
+		}
+		return 0;
 	}
 
 }	

@@ -39,7 +39,7 @@ define("LP_MODE_MANUAL",3);
 define("LP_MODE_OBJECTIVES",4);
 define("LP_MODE_COLLECTION",5);
 
-define("LP_DEFAULT_VISITS",3);
+define("LP_DEFAULT_VISITS",30);
 
 
 class ilLPObjSettings
@@ -126,13 +126,15 @@ class ilLPObjSettings
 	{
 		global $ilDB;
 
+		#echo $a_obj_id;
+
 		$query = "SELECT visits FROM ut_lp_settings ".
 			"WHERE obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $this->visits;
+			return $row->visits;
 		}
 		return LP_DEFAULT_VISITS;
 	}
@@ -158,7 +160,7 @@ class ilLPObjSettings
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->obj_mode;
+			return $row->mode;
 		}
 		
 		// no db entry exists => return default mode by type

@@ -1,0 +1,33 @@
+	<form action="{FORMACTION}" method="post">
+	  <table class="il_ContainerBlock">
+		<tr>
+		  <td class="il_PDBlockSubHeader" width="1">
+			<img border="0" src="{HEADER_IMG}" alt="{HEADER_ALT} title="{HEADER_ALT}" />
+		  </td>
+		  <td class="il_PDBlockSubHeader">{BLOCK_HEADER_CONTENT}</td>
+		</tr>
+		<!-- BEGIN container_standard_row -->
+		<!-- BEGIN row_type_1 -->
+		<tr class="tblrow1">
+		  <!-- END row_type_1 -->
+		  <!-- BEGIN row_type_2 -->
+		  <tr class="tblrow2">
+			<!-- END row_type_2 -->
+			<td class="std" valign="top" width="1">
+			  <input type="checkbox" name="item_id[]" value="{ITEM_ID}" />
+			  <td class="std">{BLOCK_ROW_CONTENT}</td>
+		  </tr>
+		  <!-- END container_standard_row -->
+	  </table>
+	  <br />
+	  <table class="fullwidth_invisible">
+		<tr>
+		  <td valign="center" align="left" width="1%">
+			<img src="{DOWNRIGHT}" border="0" />
+		  </td>
+		  <td valign="center" align="left">
+			&nbsp;<input class="submit" type="SUBMIT" name="cmd[hideSelected]" value="{BTN_HIDE_SELECTED}"/>
+		  </td>
+		</tr>
+	  </table>
+	</form>
