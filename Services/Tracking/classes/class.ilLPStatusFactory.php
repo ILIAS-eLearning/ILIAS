@@ -35,7 +35,7 @@
 */
 
 
-class ilLPStatusFactory()
+class ilLPStatusFactory
 {
 	function _getClassById($a_obj_id)
 	{
@@ -43,13 +43,21 @@ class ilLPStatusFactory()
 		
 		switch(ilLPObjSettings::_lookupMode($a_obj_id))
 		{
+			case LP_MODE_VISITS:
+				include_once 'Services/Tracking/classes/class.ilLPStatusVisits.php';
+				return 'ilLPStatusVisits';
+				
+
 			case LP_MODE_COLLECTION:
+				include_once 'Services/Tracking/classes/class.ilLPStatusCollection.php';
 				return 'ilLPStatusCollection';
 
 			case LP_MODE_TLT:
+				include_once 'Services/Tracking/classes/class.ilLPStatusTypicalLearningTime.php';
 				return 'ilLPStatusTypicalLearningTime';
 
 			default:
+				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				return 'ilLPStatusManual';
 		}
 	}
@@ -60,7 +68,12 @@ class ilLPStatusFactory()
 		
 		switch(ilLPObjSettings::_lookupMode($a_obj_id))
 		{
+			case LP_MODE_VISITS:
+				include_once 'Services/Tracking/classes/class.ilLPStatusVisits.php';
+				return new ilLPStatusVisits($a_obj_id);
+
 			case LP_MODE_COLLECTION:
+				include_once 'Services/Tracking/classes/class.ilLPStatusCollection.php';
 				return new ilLPStatusCollection($a_obj_id);
 
 			case LP_MODE_TLT:

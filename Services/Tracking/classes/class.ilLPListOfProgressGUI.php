@@ -28,7 +28,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfProgressGUI:
+* @ilCtrl_Calls ilLPListOfProgressGUI: ilLPFilterGUI
 *
 * @package ilias-tracking
 *
@@ -40,10 +40,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 {
 	var $tracked_user = null;
 	var $show_active = true;
+	var $filter_gui = null;
 
 	function ilLPListOfProgressGUI($a_mode,$a_ref_id)
 	{
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+		$this->__initFilterGUI();
 		$this->__initUser();
 		
 	}
@@ -53,10 +55,15 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	*/
 	function &executeCommand()
 	{
-		$this->ctrl->setReturn($this, "");
-
+		$this->ctrl->setReturn($this, "show");
 		switch($this->ctrl->getNextClass())
 		{
+			case 'illpfiltergui':
+
+				$this->ctrl->forwardCommand($this->filter_gui);
+				break;
+
+
 			default:
 				$cmd = $this->__getDefaultCommand();
 				$this->$cmd();
@@ -70,6 +77,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
 
 		$this->__showUserInfo();
+		$this->__showFilter();
+		#$this->__showProgress();
 		
 	}
 
@@ -95,6 +104,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		
 	}
 
+	function __showFilter()
+	{
+		$this->tpl->setVariable("FILTER",$this->filter_gui->getHTML());
+	}
+
 
 	function __initUser()
 	{
@@ -111,6 +125,15 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->show_active = true;
 		}
 		return true;
+	}
+
+	function __initFilterGUI()
+	{
+		global $ilUser;
+
+		include_once './Services/Tracking/classes/class.ilLPFilterGUI.php';
+
+		$this->filter_gui = new ilLPFilterGUI($ilUser->getId());
 	}
 }
 ?>

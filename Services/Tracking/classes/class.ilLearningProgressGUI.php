@@ -53,34 +53,33 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 		// E.g personal desktop mode needs locator header icon ...
 		$this->__buildHeader();
-
 		switch($this->__getNextClass())
 		{
 			case 'illplistofprogressgui':
 				include_once 'Services/Tracking/classes/class.ilLPListOfProgressGUI.php';
 
-				$lop_gui = new ilLPListOfProgressGUI($this->getMode(),$this->getRefId());
-				$this->ctrl->setCmdClass('illplistofprogressgui');
-				$this->ctrl->forwardCommand($lop_gui);
 				$this->__setSubTabs(LP_ACTIVE_PROGRESS);
+				$this->__setCmdClass('illplistofprogressgui');
+				$lop_gui = new ilLPListOfProgressGUI($this->getMode(),$this->getRefId());
+				$this->ctrl->forwardCommand($lop_gui);
 				break;
 
 			case 'illplistofobjectsgui':
 				include_once 'Services/Tracking/classes/class.ilLPListOfObjectsGUI.php';
 
-				$loo_gui = new ilLPListOfObjectsGUI($this->getMode(),$this->getRefId());
-				$this->ctrl->setCmdClass('illplistofobjectsgui');
-				$this->ctrl->forwardCommand($loo_gui);
 				$this->__setSubTabs(LP_ACTIVE_OBJECTS);
+				$loo_gui = new ilLPListOfObjectsGUI($this->getMode(),$this->getRefId());
+				$this->__setCmdClass('illplistofobjectsgui');
+				$this->ctrl->forwardCommand($loo_gui);
 				break;
 
 			case 'illplistofsettingsgui':
 				include_once 'Services/Tracking/classes/class.ilLPListOfSettingsGUI.php';
 
-				$los_gui = new ilLPListOfSettingsGUI($this->getMode(),$this->getRefId());
-				$this->ctrl->setCmdClass('illplistofsettingsgui');
-				$this->ctrl->forwardCommand($los_gui);
 				$this->__setSubTabs(LP_ACTIVE_SETTINGS);
+				$los_gui = new ilLPListOfSettingsGUI($this->getMode(),$this->getRefId());
+				$this->__setCmdClass('illplistofsettingsgui');
+				$this->ctrl->forwardCommand($los_gui);
 				break;
 
 			default:
@@ -90,6 +89,18 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		// E.G personal desktop mode needs $tpl->show();
 		$this->__buildFooter();
 
+		return true;
+	}
+
+	function __setCmdClass($a_class)
+	{
+		// If cmd class == 'illearningprogressgui' the cmd class is set to the the new forwarded class
+		// otherwise e.g illplistofprogressgui tries to forward (back) to illearningprogressgui.
+
+		if($this->ctrl->getCmdClass() == strtolower(get_class($this)))
+		{
+			$this->ctrl->setCmdClass(strtolower($a_class));
+		}
 		return true;
 	}
 
@@ -108,7 +119,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofobjectsgui';
 
 			case LP_MODE_PERSONAL_DESKTOP:
-				return 'illplistofprogressgui';
+				return 'illplistofobjectsgui';
 		}
 	}
 }

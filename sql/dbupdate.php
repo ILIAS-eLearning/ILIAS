@@ -37,7 +37,7 @@ UPDATE role_data SET allow_register = 1 WHERE role_id = 5;
 <#7>
 REPLACE INTO settings (keyword, value) VALUES ('enable_registration', 1);
 
-<#8>
+ <#8>
 REPLACE INTO settings (keyword, value) VALUES ('system_role_id', '2');
 
 <#9>
@@ -9223,6 +9223,17 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 ?>
 <#596>
+DROP TABLE `ut_lp_filter`;
+CREATE TABLE `ut_lp_filter` (
+  `usr_id` int(11) NOT NULL default '0',
+  `filter_type` varchar(4) NOT NULL default '',
+  `root_node` int(11) NOT NULL default '0',
+  `hidden` text NOT NULL,
+  `query_string` varchar(128) NOT NULL default '',
+  PRIMARY KEY  (`usr_id`)
+) TYPE=MyISAM;
+<#597>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+

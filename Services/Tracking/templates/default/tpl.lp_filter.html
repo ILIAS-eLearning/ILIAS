@@ -1,0 +1,46 @@
+	<form action="{FILTER_ACTION}" class="il_Form" METHOD="post">
+	  <h3>{TBL_TITLE}</h3>
+	  <table width="60%" cellpadding="3">
+		<tr>
+		  <td>
+			{TYPES}
+		  </td>
+		  <td>
+			{TYPE_SELECTOR}
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+			{TXT_AREA}
+		  </td>
+		  <td>
+			{FILTER_AREA}&nbsp;
+			<a class="il_ContainerItemCommand" href="{HREF_UPDATE_AREA}">{UPDATE_AREA}</a>
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+			{TXT_QUERY}
+		  </td>
+		  <td>
+			<input type="text" name="query" value="{QUERY}" size="32" maxsize="64" />
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+			{TXT_HIDDEN}
+		  </td>
+		  <td>
+			{HIDDEN_SELECTOR}
+			<!-- BEGIN editable -->
+			<input class="submit" type="SUBMIT" name="cmd[updateHidden]" value="{BTN_SHOW}"/>
+			<!-- END editable -->
+		  </td>
+		</tr>
+		<tr>
+		  <td colspan="2" align="right">
+			<input class="submit" type="SUBMIT" name="cmd[refresh]" value="{BTN_REFRESH}"/>
+		  </td>
+		</tr>
+	  </table>
+	</form>

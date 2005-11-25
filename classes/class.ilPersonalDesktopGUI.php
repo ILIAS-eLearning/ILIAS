@@ -1290,7 +1290,7 @@ class ilPersonalDesktopGUI
 		// Tracking
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if (!ilObjUserTracking::_enabledTracking())
+		if (ilObjUserTracking::_enabledTracking())
 		{
 			$cmd_classes = array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui');
 			$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
@@ -1298,11 +1298,6 @@ class ilPersonalDesktopGUI
 			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"),
 							   $this->lng->txt("learning_progress"));
 		}
-		$cmd_classes = array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui');
-		$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
-		
-		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"),
-						   $this->lng->txt("learning_progress"));
 
 		include_once "./payment/classes/class.ilPaymentVendors.php";
 		include_once "./payment/classes/class.ilPaymentTrustees.php";
