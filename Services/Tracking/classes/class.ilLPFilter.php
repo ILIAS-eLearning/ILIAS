@@ -168,7 +168,7 @@ class ilLPFilter
 			"filter_type = '".$this->getFilterType()."', ".
 			"root_node = '".$this->getRootNode()."', ".
 			"hidden = '".addslashes(serialize($this->getHidden()))."', ".
-			"query_string = '".addslasches($this->getQueryString())."'";
+			"query_string = '".addslashes($this->getQueryString())."'";
 
 		$this->db->query($query);
 
