@@ -3069,7 +3069,8 @@ class ilObjTest extends ilObject
 		global $ilDB;
 		global $ilUser;
 		$db =& $ilDB->db;
-		if (!$user_id) {
+		if (!$user_id) 
+		{
 			$user_id = $ilUser->id;
 		}
 		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
@@ -4276,13 +4277,15 @@ class ilObjTest extends ilObject
 		{
 			if ($this->getStartingTime()) 
 			{
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches);
-				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$now = mktime();
-				if ($now < $epoch_time) 
+				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches))
 				{
-					// starting time not reached
-					return false;
+					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now = mktime();
+					if ($now < $epoch_time) 
+					{
+						// starting time not reached
+						return false;
+					}
 				}
 			}
 		}
@@ -4300,17 +4303,19 @@ class ilObjTest extends ilObject
 */
 	function endingTimeReached()
 	{
-		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST) 
+		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST || $this->getTestType() == TYPE_VARYING_RANDOMTEST) 
 		{
 			if ($this->getEndingTime()) 
 			{
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches);
-				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$now = mktime();				
-				if ($now > $epoch_time) 
+				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
 				{
-					// ending time reached
-					return true;
+					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now = mktime();				
+					if ($now > $epoch_time) 
+					{
+						// ending time reached
+						return true;
+					}
 				}
 			}
 		}
@@ -5883,7 +5888,8 @@ class ilObjTest extends ilObject
 	 * 
 	 * @return array of int containing all question ids which have been set solved for the given user and test
 	 */
-	function _getSolvedQuestions ($test_fi, $user_fi, $question_fi = null) {
+	function _getSolvedQuestions($test_fi, $user_fi, $question_fi = null) 
+	{
 		global $ilDB;
 		if (is_numeric($question_fi))
 			$query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
@@ -5904,7 +5910,8 @@ class ilObjTest extends ilObject
 	/**
 	 * sets question solved state to value for given user_id
 	 */
-	function setQuestionSetSolved ($value, $question_id, $user_id) {
+	function setQuestionSetSolved ($value, $question_id, $user_id) 
+	{
 		$query = sprintf("REPLACE INTO tst_active_qst_sol_settings SET solved=%s, question_fi=%s, test_fi=%s, user_fi=%s",
 			$this->ilias->db->quote($value),
 			$this->ilias->db->quote($question_id),
@@ -5919,7 +5926,8 @@ class ilObjTest extends ilObject
 	/**
 	 * submits active test for user user_id
 	 */
-	function setActiveTestSubmitted($user_id) {
+	function setActiveTestSubmitted($user_id) 
+	{
 		$query = sprintf("UPDATE tst_active SET submitted=1, tries=1, submittimestamp=NOW() WHERE test_fi=%s AND user_fi=%s",
 			$this->ilias->db->quote($this->test_id),
 			$this->ilias->db->quote($user_id)
@@ -5931,7 +5939,8 @@ class ilObjTest extends ilObject
 	/**
 	 * returns if the active for user_id has been submitted
 	 */
-	function isActiveTestSubmitted($user_id = null) {
+	function isActiveTestSubmitted($user_id = null) 
+	{
 		global $ilUser;
 		if (!is_numeric($user_id))
 			$user_id = $ilUser->getId();
@@ -5948,7 +5957,8 @@ class ilObjTest extends ilObject
 	/**
 	 * returns if the numbers of tries have to be checked
 	 */
-	function hasNrOfTriesRestriction () {
+	function hasNrOfTriesRestriction() 
+	{
 		return $this->getNrOfTries() != 0;
 	}
 	
@@ -5957,7 +5967,8 @@ class ilObjTest extends ilObject
 	 * returns if number of tries are reached
 	 */
 	
-	function isNrOfTriesReached ($tries) {
+	function isNrOfTriesReached($tries) 
+	{
 		return $tries >= (int) $this->getNrOfTries();
 	}
 	
@@ -5965,7 +5976,8 @@ class ilObjTest extends ilObject
 	/**
 	 * returns all test results for all participants
 	 */
-	function getAllTestResults () {
+	function getAllTestResults() 
+	{
 		$participants = $this->getInvitedUsers("matriculation");
 		$results = array();		
 		$row = array("matriculation" =>  $this->lng->txt("matriculation"),
@@ -6228,6 +6240,47 @@ class ilObjTest extends ilObject
 		{
 			return 0;
 		}
+	}
+	
+/**
+* Checks if the test is executable by the given user
+* 
+* Checks if the test is executable by the given user
+*
+* @param integer $user_id The user id
+* @return array Result array
+* @access public
+*/
+	function isExecutable($user_id)
+	{
+		$result = array(
+			"executable" => true,
+			"errormessage" => ""
+		);
+		if (!$this->startingTimeReached())
+		{
+			$result["executable"] = false;
+			$result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->getStartingTime()));
+			return $result;
+		}
+		if ($this->endingTimeReached())
+		{
+			$result["executable"] = false;
+			$result["errormessage"] = sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->getEndingTime()));
+			return $result;
+		}
+
+		$active = $this->getActiveTestUser($user_id);
+		if ($this->hasNrOfTriesRestriction() && is_object($active) && $this->isNrOfTriesReached($active->tries))
+		{
+			$result["executable"] = false;
+			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
+			return $result;
+		}
+		
+		// TODO: max. processing time
+		
+		return $result;
 	}
 
 } // END class.ilObjTest

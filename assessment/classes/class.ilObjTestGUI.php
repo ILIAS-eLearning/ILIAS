@@ -30,6 +30,7 @@
 *
 * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilTestOutputGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -95,6 +96,9 @@ class ilObjTestGUI extends ilObjectGUI
 		#echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
+			case "ilinfoscreengui":
+				$this->infoScreen();	// forwards command
+				break;
 			case 'ilmdeditorgui':
 				$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
@@ -3694,95 +3698,239 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 		
 	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+		global $ilUser;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$active = $this->object->getActiveTestUser();
+		$seq = 1;
+		if (is_object($active)) 
+		{
+			$seq = $active->lastindex;
+		}
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		{
+			$executable = $this->object->isExecutable($ilUser->getId());
+			if ($executable["executable"])
+			{
+				include_once "./assessment/classes/class.ilTestOutputGUI.php";
+				$output_gui =& new ilTestOutputGUI($this->object);
+				$this->ctrl->setParameter($output_gui, "sequence", $seq);
+				if (is_object($active))
+				{
+					// resume test
+					$resume_text = $this->lng->txt("tst_resume_test");
+					if ($seq < 2)
+					{
+						$resume_text = $this->lng->txt("tst_start_test");
+					}
+					$info->addButton($resume_text, $this->ctrl->getLinkTarget($output_gui, "resume"));
+				}
+				else
+				{
+					// start new test
+					$info->addButton($this->lng->txt("tst_start_test"), $this->ctrl->getLinkTarget($output_gui, "start"));
+				}
+			}
+			else
+			{
+				sendInfo($executable["errormessage"]);
+			}
+		}
+		
+		$info->enablePrivateNotes();
+		
+		if (strlen($this->object->getIntroduction()))
+		{
+			$info->addSection($this->lng->txt("tst_introduction"));
+			$info->addProperty("", $this->object->getIntroduction());
+		}
+
+		// hide previous results -> make interactive if possible
+		// use javascript
+		
+		$info->addSection($this->lng->txt("tst_general_properties"));
+		$info->addProperty($this->lng->txt("tst_type"), $this->lng->txt($this->object->test_types[$this->object->getTestType()]));
+		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
+		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
+		$info->addProperty($this->lng->txt("description"), $this->object->getDescription());
+		
+		$info->addSection($this->lng->txt("tst_sequence_properties"));
+		$info->addProperty($this->lng->txt("tst_sequence"), $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)? "tst_sequence_fixed":"tst_sequence_postpone"));
+		
+		$info->addSection($this->lng->txt("tst_heading_scoring"));
+		$info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS)? "tst_count_partial_solutions":"tst_count_correct_solutions"));
+		$info->addProperty($this->lng->txt("tst_score_mcmr_questions"), $this->lng->txt(($this->object->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)? "tst_score_mcmr_zero_points_when_unanswered":"tst_score_mcmr_use_scoring_system"));
+		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		{
+			$info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS)? "tst_pass_best_pass":"tst_pass_last_pass"));
+		}
+
+		$info->addSection($this->lng->txt("tst_score_reporting"));
+		$info->addProperty($this->lng->txt("tst_score_reporting"), $this->lng->txt(($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)?"tst_report_after_question":"tst_report_after_test"));
+		$reporting_date = $this->object->getReportingDate();
+		if ($reporting_date)
+		{
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $reporting_date, $matches);
+			$txt_reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+			$info->addProperty($this->lng->txt("tst_score_reporting_date"), $txt_reporting_date);
+		}
+	
+		$info->addSection($this->lng->txt("tst_session_settings"));
+		$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):"0");
+		if ($this->object->getNrOfTries() != 1)
+		{
+			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($active->tries == false)?$this->lng->txt("tst_no_tries"):$active->tries);
+		}
+		// TODO: maximum processing time if enabled
+		$starting_time = $this->object->getStartingTime();
+		if ($starting_time)
+		{
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $starting_time, $matches);
+			$txt_starting_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+			$info->addProperty($this->lng->txt("tst_starting_time"), $txt_starting_time);
+		}
+		$ending_time = $this->object->getEndingTime();
+		if ($ending_time)
+		{
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $ending_time, $matches);
+			$txt_ending_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+			$info->addProperty($this->lng->txt("tst_ending_time"), $txt_ending_time);
+		}
+
+		// forward the command
+		$this->ctrl->forwardCommand($info);
+	}
+
+	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// properties
-		$force_active = ($this->ctrl->getCmdClass() == "" &&
-			$this->ctrl->getCmd() == "")
-			? true
-			: false;
-		$tabs_gui->addTarget("properties",
-			 $this->ctrl->getLinkTarget($this,'properties'),
-			 array("properties", "saveProperties", "cancelProperties"),
-			 "",
-			 "", $force_active);
+		global $ilAccess;
 
-		// questions
-		$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
-			? true
-			: false;
-		if (!$force_active)
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			if ($_GET["browse"] == 1) $force_active = true;
-			if (preg_match("/deleteqpl_\d+/", $this->ctrl->getCmd()))
-			{
-				$force_active = true;
-			}
-	}
-		$tabs_gui->addTarget("ass_questions",
-			 $this->ctrl->getLinkTarget($this,'questions'),
-			 array("questions", "browseForQuestions", "createQuestion", 
-			 "randomselect", "filter", "resetFilter", "insertQuestions",
-			 "back", "createRandomSelection", "cancelRandomSelect",
-			 "insertRandomSelection", "removeQuestions", "moveQuestions",
-			 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
-			 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-			 "addQuestionpool", "saveRandomQuestions"), 
-			 "", "", $force_active);
-			 
-		// mark schema
-		$tabs_gui->addTarget("mark_schema",
-			 $this->ctrl->getLinkTarget($this,'marks'),
-			 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-			 	"saveMarks", "cancelMarks"),
-			 "");
-
-		if ($this->object->isOnlineTest())
-		{
-			// participants
-			$tabs_gui->addTarget("participants",
-				 $this->ctrl->getLinkTarget($this,'participants'),
-				 array("participants", "search", "add", "save_client_ip",
-				 "remove", "print_answers", "print_results"), 
-				 "");
+			// properties
+			$force_active = ($this->ctrl->getCmdClass() == "" &&
+				$this->ctrl->getCmd() == "")
+				? true
+				: false;
+			$tabs_gui->addTarget("properties",
+				 $this->ctrl->getLinkTarget($this,'properties'),
+				 array("properties", "saveProperties", "cancelProperties"),
+				 "",
+				 "", $force_active);
 		}
 
-		// print
-		$tabs_gui->addTarget("print",
-			 $this->ctrl->getLinkTarget($this,'print'),
-			 "print", "");
-
-		// export
-		$tabs_gui->addTarget("export",
-			 $this->ctrl->getLinkTarget($this,'export'),
-			 array("export", "createExportFile", "confirmDeleteExportFile",
-			 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
-			 "");
-			
-		// maintenance
-		$tabs_gui->addTarget("maintenance",
-			 $this->ctrl->getLinkTarget($this,'maintenance'),
-			 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
-			 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
-			 "");
-
-		// status
-		$tabs_gui->addTarget("status",
-			 $this->ctrl->getLinkTarget($this,'status'),
-			 "status", "");
+		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$tabs_gui->addTarget("info",
+				 $this->ctrl->getLinkTarget($this,'infoScreen'),
+				 array("infoScreen"));
+		}
 		
-		// permissions
-		$tabs_gui->addTarget("perm_settings",
-			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-			 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-			 "", "ilmdeditorgui");
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			// questions
+			$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
+				? true
+				: false;
+			if (!$force_active)
+			{
+				if ($_GET["browse"] == 1) $force_active = true;
+				if (preg_match("/deleteqpl_\d+/", $this->ctrl->getCmd()))
+				{
+					$force_active = true;
+				}
+			}
+			$tabs_gui->addTarget("ass_questions",
+				 $this->ctrl->getLinkTarget($this,'questions'),
+				 array("questions", "browseForQuestions", "createQuestion", 
+				 "randomselect", "filter", "resetFilter", "insertQuestions",
+				 "back", "createRandomSelection", "cancelRandomSelect",
+				 "insertRandomSelection", "removeQuestions", "moveQuestions",
+				 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
+				 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
+				 "addQuestionpool", "saveRandomQuestions"), 
+				 "", "", $force_active);
+				 
+			// mark schema
+			$tabs_gui->addTarget("mark_schema",
+				 $this->ctrl->getLinkTarget($this,'marks'),
+				 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+					"saveMarks", "cancelMarks"),
+				 "");
+	
+			if ($this->object->isOnlineTest())
+			{
+				// participants
+				$tabs_gui->addTarget("participants",
+					 $this->ctrl->getLinkTarget($this,'participants'),
+					 array("participants", "search", "add", "save_client_ip",
+					 "remove", "print_answers", "print_results"), 
+					 "");
+			}
+	
+			// print
+			$tabs_gui->addTarget("print",
+				 $this->ctrl->getLinkTarget($this,'print'),
+				 "print", "");
+	
+			// export
+			$tabs_gui->addTarget("export",
+				 $this->ctrl->getLinkTarget($this,'export'),
+				 array("export", "createExportFile", "confirmDeleteExportFile",
+				 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
+				 "");
+				
+			// maintenance
+			$tabs_gui->addTarget("maintenance",
+				 $this->ctrl->getLinkTarget($this,'maintenance'),
+				 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
+				 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
+				 "");
+	
+			// status
+			$tabs_gui->addTarget("status",
+				 $this->ctrl->getLinkTarget($this,'status'),
+				 "status", "");
+			
+			// permissions
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+				 
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
+		}
 	}
 } // END class.ilObjTestGUI
 ?>
+
