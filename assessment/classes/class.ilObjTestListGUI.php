@@ -44,6 +44,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 	function ilObjTestListGUI()
 	{
 		$this->ilObjectListGUI();
+		$this->info_screen_enabled = true;
 	}
 
 	/**
