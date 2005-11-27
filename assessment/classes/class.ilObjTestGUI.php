@@ -3731,14 +3731,16 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$seq = $active->lastindex;
 		}
+		include_once "./assessment/classes/class.ilTestOutputGUI.php";
+		$output_gui =& new ilTestOutputGUI($this->object);
+		$this->ctrl->setParameter($output_gui, "sequence", $seq);
+		$info->setFormAction($this->ctrl->getFormAction($output_gui));
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$executable = $this->object->isExecutable($ilUser->getId());
 			if ($executable["executable"])
 			{
-				include_once "./assessment/classes/class.ilTestOutputGUI.php";
-				$output_gui =& new ilTestOutputGUI($this->object);
-				$this->ctrl->setParameter($output_gui, "sequence", $seq);
+				$info->addFormButton("cancel", "Abbrechen", "bottom");
 				if (is_object($active))
 				{
 					// resume test
@@ -3747,12 +3749,12 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$resume_text = $this->lng->txt("tst_start_test");
 					}
-					$info->addButton($resume_text, $this->ctrl->getLinkTarget($output_gui, "resume"));
+					$info->addFormButton("resume", $resume_text);
 				}
 				else
 				{
 					// start new test
-					$info->addButton($this->lng->txt("tst_start_test"), $this->ctrl->getLinkTarget($output_gui, "start"));
+					$info->addFormButton("start", $this->lng->txt("tst_start_test"));
 				}
 			}
 			else
@@ -3777,6 +3779,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		$info->addProperty($this->lng->txt("description"), $this->object->getDescription());
+		$checked_javascript = false;
+		if ($ilUser->prefs["tst_javascript"])
+		{
+			$checked_javascript = true;
+		}
+		$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
 		
 		$info->addSection($this->lng->txt("tst_sequence_properties"));
 		$info->addProperty($this->lng->txt("tst_sequence"), $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)? "tst_sequence_fixed":"tst_sequence_postpone"));

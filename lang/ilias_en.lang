@@ -585,6 +585,7 @@ assessment#:#tst_status_progress#:#In progress
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
+assessment#:#tst_test_output#:#Test output
 assessment#:#tst_text_count_system#:#Scoring system
 assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_total_questions#:#Total amount of questions
