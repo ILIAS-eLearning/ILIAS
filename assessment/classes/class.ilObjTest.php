@@ -3393,12 +3393,14 @@ class ilObjTest extends ilObject
 		{
 			if ($this->getReportingDate())
 			{
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches);
-				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$now = mktime();
-				if ($now < $epoch_time) 
+				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
 				{
-					$result = false;
+					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now = mktime();
+					if ($now < $epoch_time) 
+					{
+						$result = false;
+					}
 				}
 			}
 		}
@@ -6283,6 +6285,17 @@ class ilObjTest extends ilObject
 		return $result;
 	}
 
+	function canShowTestResults($user_id) 
+	{
+		$active = $this->getActiveTestUser($user_id);
+		$result = ($active->tries > 0) && $this->canViewResults();
+		if ($this->getTestType() == TYPE_ONLINE_TEST)
+		{
+			return $result && $this->isActiveTestSubmitted();
+		}
+		return $result;
+	}
+	
 } // END class.ilObjTest
 
 ?>

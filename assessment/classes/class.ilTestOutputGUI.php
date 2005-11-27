@@ -66,6 +66,7 @@ class ilTestOutputGUI
 		$this->ilias =& $ilias;
 		$this->object =& $a_object;
 		$this->tree =& $tree;
+		$this->ref_id = $_GET["ref_id"];
 	}
 	
 	/**
@@ -214,6 +215,8 @@ class ilTestOutputGUI
 	*/
 	function outIntroductionPage()
 	{
+		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
+		return;
 		global $ilUser;
 		global $rbacsystem;
 
