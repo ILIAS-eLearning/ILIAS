@@ -39,6 +39,11 @@ class ilInfoScreenGUI
 	var $ctrl;
 	var $gui_object;
 	var $top_buttons = array();
+	var $top_formbuttons = array();
+	/**
+	* a form action parameter. if set a form is generated
+	*/
+	var $form_action;
 
 	/**
 	* Constructor
@@ -56,6 +61,8 @@ class ilInfoScreenGUI
 		$this->sec_nr = 0;
 		$this->private_notes_enabled = false;
 		$this->feedback_enabled = false;
+		$this->form_action = "";
+		$this->top_formbuttons = array();
 	}
 	
 	/**
@@ -118,6 +125,22 @@ class ilInfoScreenGUI
 	}
 	
 	/**
+	* set a form action
+	*/
+	function setFormAction($a_form_action)
+	{
+		$this->form_action = $a_form_action;
+	}
+	
+	/**
+	* remove form action
+	*/
+	function removeFormAction()
+	{
+		$this->form_action = "";
+	}
+	
+	/**
 	* add a property to current section
 	*/
 	function addProperty($a_name, $a_value)
@@ -129,12 +152,45 @@ class ilInfoScreenGUI
 	/**
 	* add a property to current section
 	*/
+	function addPropertyCheckbox($a_name, $a_checkbox_name, $a_checkbox_value, $a_checkbox_label = "", $a_checkbox_checked = false)
+	{
+		$checkbox = "<input type=\"checkbox\" name=\"$a_checkbox_name\" value=\"$a_checkbox_value\" id=\"$a_checkbox_name$a_checkbox_value\"";
+		if ($a_checkbox_checked)
+		{
+			$checkbox .= " checked=\"checked\"";
+		}
+		$checkbox .= " />";
+		if (strlen($a_checkbox_label))
+		{
+			$checkbox .= "&nbsp;<label for=\"$a_checkbox_name$a_checkbox_value\">$a_checkbox_label</label>"; 
+		}
+		$this->section[$this->sec_nr]["properties"][] =
+			array("name" => $a_name, "value" => $checkbox);
+	}
+
+	/**
+	* add a property to current section
+	*/
 	function addButton($a_title, $a_link, $a_frame = "", $a_position = "top")
 	{
 		if ($a_position == "top")
 		{
 			$this->top_buttons[] =
 				array("title" => $a_title,"link" => $a_link,"target" => $a_frame);
+		}
+	}
+	
+	/**
+	* add a form button to the info screen
+	* the form buttons are only valid if a form action is set
+	*/
+	function addFormButton($a_command, $a_title, $a_position = "top")
+	{
+		if ($a_position == "top")
+		{
+			array_push($this->top_formbuttons,
+				array("command" => $a_command, "title" => $a_title)
+			);
 		}
 	}
 	
@@ -287,6 +343,30 @@ class ilInfoScreenGUI
 			}
 		}
 		
+		// add top formbuttons
+		if ((count($this->top_formbuttons) > 0) && (strlen($this->form_action) > 0))
+		{
+			$tpl->addBlockfile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html");
+
+			foreach($this->top_formbuttons as $button)
+			{
+				// view button
+				$tpl->setCurrentBlock("btn_submit_cell");
+				$tpl->setVariable("BTN_COMMAND", $button["command"]);
+				$tpl->setVariable("BTN_NAME", $button["title"]);
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		// add form action
+		if (strlen($this->form_action) > 0)
+		{
+			$tpl->setCurrentBlock("formtop");
+			$tpl->setVariable("FORMACTION", $this->form_action);
+			$tpl->parseCurrentBlock();
+			$tpl->touchBlock("formbottom");
+		}
+
 		for($i = 1; $i <= $this->sec_nr; $i++)
 		{
 			if (is_array($this->section[$i]["properties"]))
