@@ -53,7 +53,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
 		//$this->id = $_GET["ref_id"];
-
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
@@ -135,27 +134,16 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			default:
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-				$this->prepareOutput();
-				switch ($cmd)
+				if (strcmp($cmd, "infoScreen") == 0)
 				{
-					case "eval_a":
-					case "run":
-					case "passDetails":
-					case "eval_stat":
-					case "evalStatSelected":
-					case "searchForEvaluation":
-					case "addFoundGroupsToEval":
-					case "removeSelectedGroup":
-					case "removeSelectedUser":
-					case "addFoundUsersToEval":
-					case "evalSelectedUsers":
-					case "evalAllUsers":
-					case "printAnswers":
-						break;
-					default:
-						$this->setAdminTabs();
+					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, $cmd));
 				}
+				else
+				{
+					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				}
+				$this->prepareOutput();
+				$this->setAdminTabs();
 				if (preg_match("/deleteqpl_\d+/", $cmd))
 				{
 					$cmd = "randomQuestions";
@@ -180,9 +168,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function runObject()
 	{
-		include_once "./assessment/classes/class.ilTestOutputGUI.php";
-		$output_gui =& new ilTestOutputGUI($this->object);
-		$this->ctrl->redirect($output_gui, "outIntroductionPage");
+		$this->infoScreenObject();
+		//include_once "./assessment/classes/class.ilTestOutputGUI.php";
+		//$output_gui =& new ilTestOutputGUI($this->object);
+		//$this->ctrl->redirect($output_gui, "outIntroductionPage");
 	}
 	
 	function eval_aObject()
@@ -3722,6 +3711,15 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		unset($_SESSION["tst_resetsolved"]);
+		unset($_SESSION["tst_setsolved"]);
+		unset($_SESSION["tst_postpone"]);
+		unset($_SESSION["tst_summary"]);
+		unset($_SESSION["tst_resume"]);
+		unset($_SESSION["tst_start"]);
+		unset($_SESSION["tst_next"]);
+		unset($_SESSION["tst_previous"]);
+		
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
@@ -3756,6 +3754,26 @@ class ilObjTestGUI extends ilObjectGUI
 					// start new test
 					$info->addFormButton("start", $this->lng->txt("tst_start_test"));
 				}
+				if (is_object($active))
+				{
+					// test results button
+					if ($this->object->canShowTestResults($ilUser->getId())) 
+					{
+						$info->addFormButton("outResults", $this->lng->txt("tst_show_results"));
+					}
+				}
+				if ($this->object->isActiveTestSubmitted()) 
+				{
+					// Show results in a new print frame
+					$info->addButton($this->lng->txt("tst_show_answer_print_sheet"), $this->ctrl->getLinkTarget($output_gui, "answersheet"), "_blank");
+				}			
+				if ($this->object->isOnlineTest() and $executable["executable"] == false) 
+				{
+					if (!$this->object->isActiveTestSubmitted($ilUser->getId())) 
+					{
+						$info->addFormButton("show_answers", $this->lng->txt("save_finish"));
+					} 
+				} 			
 			}
 			else
 			{
