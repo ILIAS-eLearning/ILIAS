@@ -410,7 +410,7 @@ class ilGlossaryTerm
 	*/
 	function _goto($a_target,$a_type)
 	{
-		global $rbacsystem, $ilErr, $lng;
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
 
 		if ($a_type == "glo")
@@ -440,9 +440,8 @@ class ilGlossaryTerm
 		{
 			include_once 'classes/class.ilSearch.php';
 			
-			// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
-			// Will be replaced in future releases by ilAccess::checkAccess()
-			if ($rbacsystem->checkAccess("read", $ref_id) and ilSearch::_checkParentConditions($ref_id))
+			// Permission check
+			if ($ilAccess->checkAccess("read", "", $ref_id))
 			{
 				ilUtil::redirect(
 					"./content/glossary_presentation.php?cmd=listDefinitions&term_id=".$a_target."&ref_id=".$ref_id);				

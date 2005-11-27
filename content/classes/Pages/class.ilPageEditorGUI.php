@@ -135,6 +135,12 @@ class ilPageEditorGUI
 		$this->int_link_def_id = $a_id;
 	}
 	
+	function setIntLinkReturn($a_return)
+	{
+		$this->int_link_return = $a_return;
+	}
+
+	
 	function setPageBackTitle($a_title)
 	{
 		$this->page_back_title = $a_title;
@@ -307,6 +313,7 @@ class ilPageEditorGUI
 				$link_gui->setMode("normal");
 				$link_gui->setSetLinkTargetScript(
 					$this->ctrl->getLinkTarget($this, "setInternalLink"));
+				$link_gui->setReturn($this->int_link_return);
 				//$link_gui->filterLinkType("Media");
 				$ret =& $this->ctrl->forwardCommand($link_gui);
 				//$ret =& $link_gui->executeCommand();

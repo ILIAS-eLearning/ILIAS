@@ -120,6 +120,11 @@ class ilInternalLinkGUI
 	{
 		$this->set_link_script = $a_script;
 	}
+	
+	function setReturn($a_return)
+	{
+		$this->return = $a_return;
+	}
 
 	function getSetLinkTargetScript()
 	{
@@ -156,7 +161,14 @@ class ilInternalLinkGUI
 
 	function closeLinkHelp()
 	{
-		$this->ctrl->returnToParent($this);
+		if ($this->return == "")
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			ilUtil::redirect($this->return);
+		}
 	}
 
 	

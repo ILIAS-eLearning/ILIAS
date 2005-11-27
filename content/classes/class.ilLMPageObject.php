@@ -630,7 +630,7 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function _goto($a_target)
 	{
-		global $rbacsystem, $ilErr, $lng;
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
 		// determine learning object
 		$lm_id = ilLMObject::_lookupContObjID($a_target);
@@ -642,10 +642,9 @@ class ilLMPageObject extends ilLMObject
 		foreach ($ref_ids as $ref_id)
 		{
 			include_once 'classes/class.ilSearch.php';
-
-			// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
-			// Will be replaced in future releases by ilAccess::checkAccess()
-			if ($rbacsystem->checkAccess("read", $ref_id) and ilSearch::_checkParentConditions($ref_id))
+			
+			// check read permissions
+			if ($ilAccess->checkAccess("read", "", $ref_id))
 			{
 				// don't redirect anymore, just set parameters
 				// (goto.php includes  "ilias.php")
