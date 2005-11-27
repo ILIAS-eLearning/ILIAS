@@ -698,7 +698,7 @@ li.backtab
 	border-bottom-color: #B0B0B0;
 }
 
-a.backtab
+a.backtab, a.backtab:hover
 {
 	float: left;
 	display:block;
@@ -718,7 +718,7 @@ li.back2tab
 	border-bottom-color: #B0B0B0;
 }
 
-a.back2tab
+a.back2tab, a.back2tab:hover
 {
 	float: left;
 	display:block;
