@@ -3779,12 +3779,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		$info->addProperty($this->lng->txt("description"), $this->object->getDescription());
-		$checked_javascript = false;
-		if ($ilUser->prefs["tst_javascript"])
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
-			$checked_javascript = true;
+			$checked_javascript = false;
+			if ($ilUser->prefs["tst_javascript"])
+			{
+				$checked_javascript = true;
+			}
+			$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
 		}
-		$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
 		
 		$info->addSection($this->lng->txt("tst_sequence_properties"));
 		$info->addProperty($this->lng->txt("tst_sequence"), $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)? "tst_sequence_fixed":"tst_sequence_postpone"));
