@@ -790,6 +790,7 @@ class ilGlossaryPresentationGUI
 		$link_info = "<IntLinkInfos>";
 		foreach ($a_int_links as $int_link)
 		{
+//echo "<br>+".$int_link["Type"]."+".$int_link["TargetFrame"]."+".$int_link["Target"]."+";
 			$target = $int_link["Target"];
 			if (substr($target, 0, 4) == "il__")
 			{
@@ -799,7 +800,15 @@ class ilGlossaryPresentationGUI
 				$targetframe = ($int_link["TargetFrame"] != "")
 					? $int_link["TargetFrame"]
 					: "None";
-
+					
+				if ($targetframe == "New")
+				{
+					$ltarget = "_new";
+				}
+				else
+				{
+					$ltarget = "";
+				}
 				switch($type)
 				{
 					case "PageObject":
@@ -814,20 +823,34 @@ class ilGlossaryPresentationGUI
 						{
 							$href = "../goto.php?target=st_".$target_id;
 						}
-						$ltarget = "ilContObj".$lm_id;
+						//$ltarget = "ilContObj".$lm_id;
 						break;
 
 					case "GlossaryItem":
-						//$ltarget = $nframe = "_new";
-						$href = "glossary_presentation.php?cmd=listDefinitions&amp;ref_id=".$_GET["ref_id"].
-							"&amp;term_id=".$target_id;
+						if (ilGlossaryTerm::_lookGlossaryID($target_id) == $this->glossary->getId())
+						{
+							$href = "glossary_presentation.php?cmd=listDefinitions&amp;ref_id=".$_GET["ref_id"].
+								"&amp;term_id=".$target_id;
+						}
+						else
+						{
+							$href = "../goto.php?target=git_".$target_id;
+						}
 						break;
 
 					case "MediaObject":
-						$ltarget = $nframe = "_new";
 						$href = "glossary_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
 							"&amp;mob_id=".$target_id;
 						break;
+
+					case "RepositoryItem":
+						$obj_type = ilObject::_lookupType($target_id, true);
+						$obj_id = ilObject::_lookupObjId($target_id);
+						$href = "../goto.php?target=".$obj_type."_".$target_id;
+						$t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
+						$ltarget = $t_frame;
+						break;
+
 				}
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
 					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";

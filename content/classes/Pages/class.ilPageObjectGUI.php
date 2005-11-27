@@ -296,6 +296,11 @@ class ilPageObjectGUI
 		$this->int_link_def_type = $a_type;
 		$this->int_link_def_id = $a_id;
 	}
+	
+	function setIntLinkReturn($a_return)
+	{
+		$this->int_link_return = $a_return;
+	}
 
 	function enableChangeComments($a_enabled)
 	{
@@ -362,6 +367,7 @@ class ilPageObjectGUI
 				$page_editor->setPageBackTitle($this->page_back_title);
 				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
 					$this->int_link_def_id);
+				$page_editor->setIntLinkReturn($this->int_link_return);
 				//$page_editor->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_editor);
 				break;
