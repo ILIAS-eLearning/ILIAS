@@ -48,5 +48,10 @@
 <!-- END purchase -->
 <!-- BEGIN shopping_cart -->
 <p><a class="il_ContainerItemCommand" href="{LINK_GOTO_SHOPPING_CART}" target="bottom">{TXT_GOTO_SHOPPING_CART}</a>
-<a class="il_ContainerItemCommand" href="{LINK_BUY}" target="payment">{TXT_BUY}</a></p>
+<script language="JavaScript">
+document.write('<a class="il_ContainerItemCommand" href="#" onClick="w = window.open(\'{LINK_BUY}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes\'); w.focus(); return false">{TXT_BUY}</a>');
+</script>
+<noscript>
+<a class="il_ContainerItemCommand" href="{LINK_BUY}" target="payment">{TXT_BUY}</a>
+</noscript></p>
 <!-- END shopping_cart -->
