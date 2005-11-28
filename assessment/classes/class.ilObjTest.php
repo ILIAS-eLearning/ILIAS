@@ -1985,15 +1985,26 @@ class ilObjTest extends ilObject
 * 
 * Returns if the previous results should be hidden for a learner
 *
-* @param integer The test id
+* @param integer $test_id The test id
+* @param boolean $use_active_user_setting If true, the tst_hide_previous_results of the active user should be uses as well
 * @return integer 1 if the previous results should be hidden, 0 otherwise
 * @access public
 * @see $hide_previous_results
 */
-  function _getHidePreviousResults($test_id) 
+  function _getHidePreviousResults($test_id, $user_active_user_setting = false) 
 	{
 		global $ilDB;
-
+		global $ilUser;
+		
+		$user_hide_previous_results = -1;
+		if ($user_active_user_setting)
+		{
+			if (array_key_exists("tst_hide_previous_results", $ilUser->prefs))
+			{
+				$user_hide_previous_results = $ilUser->prefs["tst_hide_previous_results"];
+			}
+		}
+		
 		$query = sprintf("SELECT hide_previous_results FROM tst_tests WHERE test_id = %s",
 			$ilDB->quote($test_id . "")
 		);
@@ -2001,7 +2012,14 @@ class ilObjTest extends ilObject
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			return $row["hide_previous_results"];
+			if ($row["hide_previous_results"] != 1)
+			{
+				return $row["hide_previous_results"] | $user_hide_previous_results;
+			}
+			else
+			{
+				return $row["hide_previous_results"];
+			}
 		}
 		return 0;
   }

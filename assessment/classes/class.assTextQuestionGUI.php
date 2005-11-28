@@ -255,7 +255,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id))
+			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id, true))
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}

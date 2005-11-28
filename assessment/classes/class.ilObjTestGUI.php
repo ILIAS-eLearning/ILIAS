@@ -168,10 +168,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function runObject()
 	{
-		$this->infoScreenObject();
-		//include_once "./assessment/classes/class.ilTestOutputGUI.php";
-		//$output_gui =& new ilTestOutputGUI($this->object);
-		//$this->ctrl->redirect($output_gui, "outIntroductionPage");
+		$this->ctrl->redirect($this, "infoScreen");
 	}
 	
 	function eval_aObject()
@@ -3754,14 +3751,10 @@ class ilObjTestGUI extends ilObjectGUI
 					// start new test
 					$info->addFormButton("start", $this->lng->txt("tst_start_test"));
 				}
-				if (is_object($active))
-				{
-					// test results button
-					if ($this->object->canShowTestResults($ilUser->getId())) 
-					{
-						$info->addFormButton("outResults", $this->lng->txt("tst_show_results"));
-					}
-				}
+			}
+			else
+			{
+				sendInfo($executable["errormessage"]);
 				if ($this->object->isActiveTestSubmitted()) 
 				{
 					// Show results in a new print frame
@@ -3775,9 +3768,13 @@ class ilObjTestGUI extends ilObjectGUI
 					} 
 				} 			
 			}
-			else
+			if (is_object($active))
 			{
-				sendInfo($executable["errormessage"]);
+				// test results button
+				if ($this->object->canShowTestResults($ilUser->getId())) 
+				{
+					$info->addFormButton("outResults", $this->lng->txt("tst_show_results"));
+				}
 			}
 		}
 		
@@ -3789,9 +3786,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty("", $this->object->getIntroduction());
 		}
 
-		// hide previous results -> make interactive if possible
-		// use javascript
-		
 		$info->addSection($this->lng->txt("tst_general_properties"));
 		$info->addProperty($this->lng->txt("tst_type"), $this->lng->txt($this->object->test_types[$this->object->getTestType()]));
 		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
@@ -3799,12 +3793,31 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("description"), $this->object->getDescription());
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
+			// use javascript
 			$checked_javascript = false;
 			if ($ilUser->prefs["tst_javascript"])
 			{
 				$checked_javascript = true;
 			}
 			$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
+
+			// hide previous results
+			if ($this->object->getNrOfTries() != 1)
+			{
+				if ($this->object->getHidePreviousResults() == 1)
+				{
+					$info->addProperty($this->lng->txt("tst_hide_previous_results"), $this->lng->txt("tst_hide_previous_results_introduction"));
+				}
+				else
+				{
+					$checked_hide_results = false;
+					if ($ilUser->prefs["tst_hide_previous_results"])
+					{
+						$checked_hide_results = true;
+					}
+					$info->addPropertyCheckbox($this->lng->txt("tst_hide_previous_results"), "chb_hide_previous_results", 1, $this->lng->txt("tst_hide_previous_results_hide"), $checked_hide_results);
+				}
+			}
 		}
 		
 		$info->addSection($this->lng->txt("tst_sequence_properties"));
@@ -3829,7 +3842,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	
 		$info->addSection($this->lng->txt("tst_session_settings"));
-		$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):"0");
+		$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):$this->object->getNrOfTries());
 		if ($this->object->getNrOfTries() != 1)
 		{
 			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($active->tries == false)?$this->lng->txt("tst_no_tries"):$active->tries);
@@ -3881,7 +3894,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("info",
 				 $this->ctrl->getLinkTarget($this,'infoScreen'),
-				 array("infoScreen"));
+				 array("infoScreen", "outIntroductionPage"));
 		}
 		
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))

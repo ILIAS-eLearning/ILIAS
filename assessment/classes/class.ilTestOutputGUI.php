@@ -876,6 +876,25 @@ class ilTestOutputGUI
 			$ilUser->setPref("tst_javascript", 0);
 			$ilUser->writePref("tst_javascript", 0);
 		}
+		
+		// hide previous results
+		if ($this->object->getNrOfTries() != 1)
+		{
+			if ($this->object->getHidePreviousResults() != 1)
+			{
+				if ($_POST["chb_hide_previous_results"])
+				{
+					$ilUser->setPref("tst_hide_previous_results", 1);
+					$ilUser->writePref("tst_hide_previous_results", 1);
+				}
+				else
+				{
+					$ilUser->setPref("tst_hide_previous_results", 0);
+					$ilUser->writePref("tst_hide_previous_results", 0);
+				}
+			}
+		}
+		
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
 		{
 			global $ilias;

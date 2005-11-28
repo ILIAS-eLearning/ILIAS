@@ -267,7 +267,7 @@ class ASS_JavaApplet extends ASS_Question
 				$a_xml_writer->xmlElement("mattext", $attrs, ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
 
 				$info = array();
-				if (ilObjTest::_getHidePreviousResults($test_output))
+				if (ilObjTest::_getHidePreviousResults($test_output, true))
 				{
 					$info = $this->getReachedInformation($ilUser->id, $test_output, $pass);
 				}
