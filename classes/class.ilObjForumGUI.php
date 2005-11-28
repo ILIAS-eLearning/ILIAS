@@ -348,7 +348,10 @@ class ilObjForumGUI extends ilObjectGUI
 	function cancelObject($in_rep = false)
 	{
 		sendInfo($this->lng->txt("msg_cancel"),true);
-		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+
+		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+
 	}
 
 	function updateObject()
