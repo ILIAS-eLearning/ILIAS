@@ -760,7 +760,7 @@ li.subtabinactive
 	padding:0;
 }
 
-a.subtabinactive
+a.subtabinactive, a.subtabinactive:hover
 {
 	float: left;
 	display:block;
@@ -778,7 +778,7 @@ li.subtabactive
 	padding:0;
 }
 
-a.subtabactive
+a.subtabactive, a.subtabactive:hover
 {
 	float: left;
 	display:block;

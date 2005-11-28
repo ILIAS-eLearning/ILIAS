@@ -2723,6 +2723,22 @@ class ilLMPresentationGUI
 			$this->tpl->setCurrentBlock("print_start_block");
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		// output copyright information
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md = new ilMD($this->lm->getId(),0, $this->lm->getType());
+		if (is_object($md_rights = $md->getRights()))
+		{
+			$copyright = $md_rights->getDescription();
+			if ($copyright != "")
+			{
+				$this->lng->loadLanguageModule("meta");
+				$this->tpl->setCurrentBlock("copyright");
+				$this->tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
+				$this->tpl->setVariable("LM_COPYRIGHT", $copyright);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 
 		$this->tpl->show(false);
 
