@@ -53,5 +53,13 @@
 </form>
 <!-- END debit_entry -->
 <!-- BEGIN buyed_objects -->
-<p><a class="tabinactive" href="{LINK_GOTO_BUYED_OBJECTS}">{TXT_GOTO_BUYED_OBJECTS}</a></p>
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="#" onClick="window.opener.location.href=\'{LINK_GOTO_BUYED_OBJECTS}\'; window.close(); return false">{TXT_GOTO_BUYED_OBJECTS}</a></p>');
+</script>
+<noscript>
+<p><a class="il_ContainerItemCommand" href="{LINK_GOTO_BUYED_OBJECTS}">{TXT_GOTO_BUYED_OBJECTS}</a></p>
+</noscript>
 <!-- END buyed_objects -->
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="javascript:window.close()">{TXT_CLOSE_WINDOW}</a></p>');
+</script>

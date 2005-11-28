@@ -2,7 +2,14 @@
 <!-- BEGIN buy_link -->
 <table align="right" cellpadding="1" cellspacing="2" border="0">
 <tr>
-	<td class="btn" align="center" nowrap="nowrap" width="140"><a class="btn" href="{LINK_SCRIPT}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a></td>
+	<td class="btn" align="center" nowrap="nowrap" width="140">
+		<script language="JavaScript">
+		document.write('<a class="btn" href="#" onClick="w = window.open(\'{LINK_SCRIPT}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes\'); w.focus(); return false">&nbsp;{TXT_BUY}&nbsp;</a>');
+		</script>
+		<noscript>
+		<a class="btn" href="{LINK_SCRIPT}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a>
+		</noscript>
+	</td>
 </tr>
 </table>
 <!-- END buy_link -->

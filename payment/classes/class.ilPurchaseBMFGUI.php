@@ -126,6 +126,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_personal_data'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_personal_data'));
 		$this->tpl->touchBlock("stop_floating");
+		$this->tpl->setVariable("TXT_CLOSE_WINDOW",$this->lng->txt('close_window'));
 
 		// set plain text variables
 		$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
@@ -267,6 +268,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_payment_type'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_payment_type'));
 		$this->tpl->touchBlock("stop_floating");
+		$this->tpl->setVariable("TXT_CLOSE_WINDOW",$this->lng->txt('close_window'));
 
 		// set plain text variables
 		if ($_SESSION["bmf"]["personal_data"]["land"] == "DE")
@@ -366,6 +368,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_debit_entry_data'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_debit_entry'));
 		$this->tpl->touchBlock("stop_floating");
+		$this->tpl->setVariable("TXT_CLOSE_WINDOW",$this->lng->txt('close_window'));
 
 		// set plain text variables
 		$this->tpl->setVariable("TXT_ACCOUNT_HOLDER",$this->lng->txt('pay_bmf_account_holder'));
@@ -601,10 +604,14 @@ class ilPurchaseBMFGUI
 						$this->tpl->touchBlock("stop_floating");
 
 						$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_bmf_debit_entry.html','payment');
-						$this->tpl->setCurrentBlock("buyed_objects");
-						$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
-						$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
-						$this->tpl->parseCurrentBlock("buyed_objects");
+						if ($this->ilias->getSetting("https") != 1)
+						{
+							$this->tpl->setCurrentBlock("buyed_objects");
+							$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
+							$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
+							$this->tpl->parseCurrentBlock("buyed_objects");
+						}
+						$this->tpl->setVariable("TXT_CLOSE_WINDOW", $this->lng->txt('close_window'));
 					}
 				}
 				else
@@ -663,6 +670,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_credit_card_data'));
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_description_credit_card'));
 		$this->tpl->touchBlock("stop_floating");
+		$this->tpl->setVariable("TXT_CLOSE_WINDOW",$this->lng->txt('close_window'));
 
 		// set plain text variables
 		$this->tpl->setVariable("TXT_CARD_HOLDER",$this->lng->txt('pay_bmf_card_holder'));
@@ -922,10 +930,14 @@ class ilPurchaseBMFGUI
 				$this->tpl->touchBlock("stop_floating");
 
 				$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_bmf_credit_card.html','payment');
-				$this->tpl->setCurrentBlock("buyed_objects");
-				$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment/payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
-				$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
-				$this->tpl->parseCurrentBlock("buyed_objects");
+				if ($this->ilias->getSetting("https") != 1)
+				{
+					$this->tpl->setCurrentBlock("buyed_objects");
+					$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment/payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
+					$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
+					$this->tpl->parseCurrentBlock("buyed_objects");
+				}
+				$this->tpl->setVariable("TXT_CLOSE_WINDOW", $this->lng->txt('close_window'));
 			}
 		}
 		else
