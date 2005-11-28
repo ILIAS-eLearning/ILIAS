@@ -2068,11 +2068,20 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 		}
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
+		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
+		$this->tpl->getStandardTemplate();
+		$this->ilLocator();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_toc.html", true);
 
 		// set title header
-		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_toc"));
+		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
+		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 
+		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		$this->tpl->setVariable("LINK_BACK",
+			$this->ctrl->getLinkTarget($this, ""));
 
 		include_once ("content/classes/class.ilLMTableOfContentsExplorer.php");
 		$exp = new ilTableOfContentsExplorer(
@@ -2140,7 +2149,7 @@ class ilLMPresentationGUI
 	*/
 	function outputInfoScreen($a_standard_locator = false)
 	{
-		global $ilBench, $ilLocator;
+		global $ilBench, $ilLocator, $ilAccess;
 
 		$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 
@@ -2159,7 +2168,8 @@ class ilLMPresentationGUI
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 		
-		if ($a_standard_locator)
+		// Full locator, if read permission is given
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$this->ilLocator();
 		}
@@ -2172,9 +2182,27 @@ class ilLMPresentationGUI
 		$this->lng->loadLanguageModule("meta");
 
 		include_once("classes/class.ilInfoScreenGUI.php");
+
 		$info = new ilInfoScreenGUI($this->lm_gui);
 		$info->enablePrivateNotes();
+
+		// add read / back button
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			if ($_GET["obj_id"] > 0)
+			{
+				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+				$info->addButton($this->lng->txt("back"),
+					$this->ctrl->getLinkTarget($this, "layout"));
+			}
+			else
+			{
+				$info->addButton($this->lng->txt("read"),
+					$this->ctrl->getLinkTarget($this, "layout"));
+			}
+		}
 		
+		// show standard meta data section
 		$info->addMetaDataSections($this->lm->getId(),0, $this->lm->getType());
 
 		if ($this->offlineMode())
@@ -2217,10 +2245,14 @@ class ilLMPresentationGUI
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_print_selection.html", true);
+		$this->tpl->getStandardTemplate();
+		$this->ilLocator();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
+			"tpl.lm_print_selection.html", true);
 
 		// set title header
-		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 		$this->tpl->setVariable("TXT_SHOW_PRINT", $this->lng->txt("cont_show_print_view"));
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
@@ -2830,14 +2862,34 @@ class ilLMPresentationGUI
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_download_list.html", true);
+		$this->tpl->getStandardTemplate();
+		$this->ilLocator();
+		$this->tpl->stopTitleFloating();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_download_list.html", true);
 
 		// set title header
-		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$this->tpl->setVariable("LINK_BACK",
 			$this->ctrl->getLinkTarget($this, ""));
+
+		// output copyright information
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md = new ilMD($this->lm->getId(),0, $this->lm->getType());
+		if (is_object($md_rights = $md->getRights()))
+		{
+			$copyright = $md_rights->getDescription();
+			if ($copyright != "")
+			{
+				$this->lng->loadLanguageModule("meta");
+				$this->tpl->setCurrentBlock("copyright");
+				$this->tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
+				$this->tpl->setVariable("LM_COPYRIGHT", $copyright);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 
 		// create table
 		require_once("classes/class.ilTableGUI.php");
@@ -2891,7 +2943,7 @@ class ilLMPresentationGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+		//$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		// footer
 		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
