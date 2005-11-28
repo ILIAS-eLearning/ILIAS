@@ -49,6 +49,17 @@ class ilCtrlStructureReader
 	*/
 	function getStructure()
 	{
+		$this->get_structure = true;
+	}
+		
+	function readStructure($a_force = false)
+	{
+
+		if (!$this->get_structure && !$a_force)
+		{
+			return;
+		}
+
 		// only run one time per db_update request
 		if (!$this->executed)
 		{
@@ -63,7 +74,6 @@ class ilCtrlStructureReader
 		require_once("../classes/class.ilCtrl.php");
 		$ctrl = new ilCtrl();
 		$ctrl->storeCommonStructures();
-
 	}
 
 	/**
