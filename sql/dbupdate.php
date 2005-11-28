@@ -9240,4 +9240,16 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#599>
+CREATE table ctrl_structure
+(
+	root_class	varchar(40) NOT NULL PRIMARY KEY,
+	call_node	MEDIUMTEXT,
+	forward	MEDIUMTEXT,
+	parent	MEDIUMTEXT
+) TYPE=MyISAM;
+<#600>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

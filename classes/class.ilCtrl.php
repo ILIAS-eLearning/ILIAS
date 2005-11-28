@@ -51,6 +51,10 @@ class ilCtrl
 		$this->tab = array();
 		$this->current_node = 0;
 
+		// this information should go to xml files one day
+		$this->stored_trees = array
+			("ilrepositorygui", "ilpersonaldesktopgui",
+			"illmpresentationgui","illmeditorgui");
 	}
 
 	/**
@@ -308,12 +312,67 @@ class ilCtrl
 	function getCallStructure($a_class, $a_nr = 0, $a_parent = 0)
 	{
 		global $ilDB;
+		
+		$a_class = strtolower($a_class);
+		
+		if (in_array($a_class, $this->stored_trees))
+		{
+			$q = "SELECT * FROM ctrl_structure WHERE root_class = ".
+				$ilDB->quote($a_class);
+			$set = $ilDB->query($q);
+			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->call_node = unserialize($rec["call_node"]);
+			$this->forward = unserialize($rec["forward"]);
+			$this->parent = unserialize($rec["parent"]);
+			$this->root_class = $a_class;
+		}
+		else
+		{
+			$this->readCallStructure($a_class, $a_nr, $a_parent);
+		}
+	}
+
+	/**
+	* stores often used common call structures (called
+	* from db_update script!!!)
+	*/
+	function storeCommonStructures()
+	{
+		global $ilDB;
+		
+		$q = "DELETE FROM ctrl_structure";
+		$ilDB->query($q);
+		
+		foreach ($this->stored_trees as $root_gui_class)
+		{
+			$this->call_node = array();
+			$this->forward = array();
+			$this->parent = array();
+			$this->readCallStructure($root_gui_class);
+			$q = "INSERT INTO ctrl_structure (root_class, call_node, forward, parent) VALUES (".
+				$ilDB->quote($root_gui_class).",".
+				$ilDB->quote(serialize($this->call_node)).",".
+				$ilDB->quote(serialize($this->forward)).",".
+				$ilDB->quote(serialize($this->parent)).")";
+			$ilDB->query($q);
+		}
+	}
+	
+	/**
+	* reads call structure from db
+	*/
+	function readCallStructure($a_class, $a_nr = 0, $a_parent = 0)
+	{
+		global $ilDB;
 
 		$a_class = strtolower($a_class);
 
 		$a_nr++;
+		
+		// determine call node structure
 		$this->call_node[$a_nr] = array("class" => $a_class, "parent" => $a_parent);
-//echo "nr:$a_nr:class:$a_class:parent:$a_parent:<br>";
+		
+//echo "<br>nr:$a_nr:class:$a_class:parent:$a_parent:";
 		$q = "SELECT * FROM ctrl_calls WHERE parent=".
 			$ilDB->quote(strtolower($a_class)).
 			" ORDER BY child";
@@ -323,12 +382,15 @@ class ilCtrl
 		$a_parent = $a_nr;
 		while($call_rec = $call_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$a_nr = $this->getCallStructure($call_rec["child"], $a_nr, $a_parent);
+			$a_nr = $this->readCallStructure($call_rec["child"], $a_nr, $a_parent);
 			$forw[] = $call_rec["child"];
 		}
+		
+		// determin forward and parent array
 		$this->forwards($a_class, $forw);
-//echo "<br><br>forwards:".$a_class."<br>"; var_dump($forw);
+//echo "<br>forwards:".$a_class."<br>"; var_dump($forw);
 
+		// determine root class
 		$this->root_class = $a_class;
 		return $a_nr;
 	}

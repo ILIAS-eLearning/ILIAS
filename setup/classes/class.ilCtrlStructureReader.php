@@ -60,12 +60,10 @@ class ilCtrlStructureReader
 		// read module information
 		// not clear whether this is a good place for module reading info
 		// or not
-/*
-		require_once("classes/class.ilModuleReader.php");
-		$module_reader =& new ilModuleReader();
-		$module_reader->clearTables();
-		$module_reader->startParsing();
-*/
+		require_once("../classes/class.ilCtrl.php");
+		$ctrl = new ilCtrl();
+		$ctrl->storeCommonStructures();
+
 	}
 
 	/**
