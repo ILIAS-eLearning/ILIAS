@@ -2855,12 +2855,16 @@ class ilLMPresentationGUI
 		{
 			if ($this->lm->getPublicExportFile($type) != "")
 			{
-				$dir = $this->lm->getExportDirectory($type);
-				$size = filesize($this->lm->getExportDirectory($type)."/".
-					$this->lm->getPublicExportFile($type));
-				$export_files[] = array("type" => $type,
-					"file" => $this->lm->getPublicExportFile($type),
-					"size" => $size);
+				if (is_file($this->lm->getExportDirectory($type)."/".
+					$this->lm->getPublicExportFile($type)))
+				{
+					$dir = $this->lm->getExportDirectory($type);
+					$size = filesize($this->lm->getExportDirectory($type)."/".
+						$this->lm->getPublicExportFile($type));
+					$export_files[] = array("type" => $type,
+						"file" => $this->lm->getPublicExportFile($type),
+						"size" => $size);
+				}
 			}
 		}
 		
@@ -2902,6 +2906,11 @@ class ilLMPresentationGUI
 			$i=0;
 			foreach($export_files as $exp_file)
 			{
+				if (!$exp_file["size"] > 0)
+				{
+					continue;
+				}
+				
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
 
