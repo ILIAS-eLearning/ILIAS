@@ -238,7 +238,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		if ($test_output)
 		{
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_output))
+			if (ilObjTest::_getHidePreviousResults($test_output, true))
 			{
 				$pass = ilObjTest::_getPass($ilUser->id, $test_output);
 			}
