@@ -2366,7 +2366,7 @@ class ilSetupGUI extends ilSetup
 		
 		// referencing does not work in dbupdate-script
 		$GLOBALS["ilDB"] = new ilDbx($this->client->dsn);
-		$ilCtrlStructureReader->getStructure();
+		$ilCtrlStructureReader->readStructure(true);
 		sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
 		$this->displayTools();
 	}
