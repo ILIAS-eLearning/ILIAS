@@ -189,6 +189,8 @@ class ilDBUpdate
 
 	function applyUpdate()
 	{
+		global $ilCtrlStructureReader;
+		
 		$f = $this->fileVersion;
 		$c = $this->currentVersion;
 
@@ -225,10 +227,11 @@ class ilDBUpdate
 		// read module and service information into db
 		require_once "./classes/class.ilModuleReader.php";
 		require_once "./classes/class.ilServiceReader.php";
+		require_once "./classes/class.ilCtrlStructureReader.php";
 		$ilModuleReader = new ilModuleReader();
 		$ilModuleReader->getModules();
 		$ilServiceReader = new ilServiceReader();
-		$ilServiceReader->getServices();
+		$ilCtrlStructureReader->readStructure();
 				
 		return true;
 	}

@@ -9252,4 +9252,8 @@ CREATE table ctrl_structure
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#601>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
