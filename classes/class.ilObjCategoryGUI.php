@@ -787,7 +787,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 
 		// move uploaded file to user import directory
+
 		$file_name = $_FILES["importFile"]["name"];
+
+		// added to prevent empty file names
+		if (!strcmp($file_name,"")) {
+		  sendInfo($lng->txt("no_import_file_found"), true);
+		  ilUtil::redirect("adm_object.php?ref_id=".$a_ref_id);
+		}
+
 		$parts = pathinfo($file_name);
 		$full_path = $import_dir."/".$file_name;
 		//move_uploaded_file($_FILES["importFile"]["tmp_name"], $full_path);
