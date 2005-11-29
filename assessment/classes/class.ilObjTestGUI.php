@@ -3803,20 +3803,23 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
 
 			// hide previous results
-			if ($this->object->getNrOfTries() != 1)
+			if (!(($this->object->getTestType() == TYPE_VARYING_RANDOMTEST) || ($this->object->isRandomTest())))
 			{
-				if ($this->object->getHidePreviousResults() == 1)
+				if ($this->object->getNrOfTries() != 1)
 				{
-					$info->addProperty($this->lng->txt("tst_hide_previous_results"), $this->lng->txt("tst_hide_previous_results_introduction"));
-				}
-				else
-				{
-					$checked_hide_results = false;
-					if ($ilUser->prefs["tst_hide_previous_results"])
+					if ($this->object->getHidePreviousResults() == 1)
 					{
-						$checked_hide_results = true;
+						$info->addProperty($this->lng->txt("tst_hide_previous_results"), $this->lng->txt("tst_hide_previous_results_introduction"));
 					}
-					$info->addPropertyCheckbox($this->lng->txt("tst_hide_previous_results"), "chb_hide_previous_results", 1, $this->lng->txt("tst_hide_previous_results_hide"), $checked_hide_results);
+					else
+					{
+						$checked_hide_results = false;
+						if ($ilUser->prefs["tst_hide_previous_results"])
+						{
+							$checked_hide_results = true;
+						}
+						$info->addPropertyCheckbox($this->lng->txt("tst_hide_previous_results"), "chb_hide_previous_results", 1, $this->lng->txt("tst_hide_previous_results_hide"), $checked_hide_results);
+					}
 				}
 			}
 		}
