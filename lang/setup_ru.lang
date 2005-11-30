@@ -1,0 +1,414 @@
+/**
+* ILIAS language file
+*
+* @module       language file russian
+* @modulegroup  language
+* @author       Diana Kononova <diana@nwpi.ru>    
+* @version      $Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+3rd_party_software#:#3 часть программы
+absolute_path#:#Абсолютный путь
+access#:#Доступ
+access_status#:#Статус доступа
+admin_login#:#Войти в систему как Администратор
+antivir#:#Антивирус
+available_clients#:#Доступны Клиенты
+available_languages#:#доступны Языки
+back#:#назад
+cannot_create_datadir_no_write_access#:#Доступ для записи запрещен. Не могу создать Каталог данных
+change#:#изменен
+change_basic_settings#:#Изменить Основные установки
+change_password#:#Изменить Пароль
+change_sort_direction#:#Изменить Каталог сортировки
+check_db_versions#:# --- New variable added --- November 30 2005
+check_failed_convert#:#Ошибка тестирования Конвертирования
+check_failed_htmldoc#:#Ошибка тестирования FOP
+check_failed_htmldoc#:#Ошибка тестирования HTMLdoc
+check_failed_java#:#Ошибка тестирования Java
+check_failed_unzip#:#Ошибка тестирования Unzip
+check_failed_zip#:#Ошибка тестирования Zip
+choose_language#:#выберите ваш язык
+choose_languages#:#Пожалуйста, выберите дополнительные языки и/или удалите выбранные языки.
+choose_password#:#Пожалуйста, выберите пароль
+city#:#Город
+clean_command#:#Очистить команду
+client#:#Клиент
+client_access_mode_changed#:#Модель доступа Клиента была изменена
+client_data#:#Информация Клиента
+client_id#:#ID Клиента
+client_info#:#Описание
+client_institution#:#Установление
+client_login#:#Войти в систему с ID Клиента
+client_name#:#Имя
+client_setup_not_finished#:#Установка Клиента пока еще не закончена
+collation#:#Сравнение
+contact#:#Контактная информация
+contact_data#:#Контактные данные
+convert_path#:#Путь конвертирования
+convert_path_comment#:#предназначенные для показа виды изображений
+could_not_create_logfile#:#Не могу создать лог-файл
+country#:#Страна
+create#:#создать
+create_datadir_failed#:#Ошибка создания Каталога данных
+create_new_client#:#Создать нового Клиента
+create_webdir_failed#:#Ошибка создания Веб-каталога
+ctrl_structure#:# --- New variable added --- November 30 2005
+ctrl_structure_desc#:# --- New variable added --- November 30 2005
+ctrl_structure_reloaded#:# --- New variable added --- November 30 2005
+data_path#:#Путь данных
+database#:#База данных
+database_create#:#Создать Базу данных
+database_exists#:#База данных существует
+database_install#:#Установить Базу данных
+database_installed#:#База данных установлена
+database_is_uptodate#:#Ваша База данных обновлена
+database_needs_update#:#Вашей Базе данных требуется обновление
+database_not_exists_create_first#:#База данных не существует. Пожалуйста, сначала создайте Базу данных.
+database_ready#:#База данных готова.
+database_update#:#обновить Базу данных
+database_version#:#текущая версия Базы данных
+datadir_path#:#Путь к Каталогу данных
+datadir_path_comment1#:#Обязательный
+datadir_path_comment2#:#не могу произвести изменения в этой версии установки
+datadir_webspacedir_match#:#Путь к каталогу данных такой же, как и к веб-каталогу. Пожалуйста, выберите другой каталог.
+date#:#данные
+db_conn#:#Соединение с Базой данных
+db_host#:#хост Базы данных
+db_name#:#имя Базы данных
+db_needs_update#:#Требуется обновить Базу данных
+db_not_installed#:#База данных не установлена
+db_pass#:#пароль Базы данных
+db_type#:#тип Базы данных
+db_user#:#пользователь Базы данных
+db_version#:#версия Базы данных
+default#:#другой
+default_client_changed#:#Изменен Другой Клиент
+default_language#:#Другой язык
+delete#:#удалить
+delete_confirm#:#Подтвердите удаление Клиента
+delete_info#:#Вы уверены?
+details#:#Детали
+dir_exists_create#:#Каталог уже существует. Отмените  'создать' при выборе этого каталога в качестве вашего Каталога данных
+disable#:#отключить
+disable_check#:#отключить проверку
+disable_logging#:#отключить логи
+disabled#:#отключен
+display_clientlist#:#Показать выбор Клиента
+email#:#Email
+email_not_valid#:#Ошибка в email-адресе
+en_by_default#:#(Английский язык установлен по умолчанию и не может быть удален).
+enable#:#включить
+enabled#:#включен
+enter_dir_and_filename#:#Пожалуйста, задайте полный (абсолютный) путь и имя файла!
+enter_password#:#Введите пароль
+env_ok#:#Ok. Звучит хорошо.
+env_using#:#ILIAS 3 уже запущен
+env_warning#:#ILIAS 3 тестировался только для Linux и Windows под Apache web-сервером!<br />Но, конечно, ILIAS 3 сможет работать с вашим окружением тоже.
+environment#:#Окружение
+err_create_database_failed#:#ошибка создания Базы данных
+err_wrong_login#:#Неправильный логин
+error_recipient#:#Ошибка получателя
+example#:#Например
+feedback_recipient#:#Получатель по обратной связи
+file_does_not_exist#:#Файл не существует.
+file_version#:#версия файла
+fill_both_fields#:#Пожалуйста, заполните оба поля!
+fill_out_required_fields#:#Пожалуйста, заполните все поля, помеченные как обязательные.
+filled_out#:#заполнено правильно
+finish#:#Установка завершена
+finish_initial_setup_first#:#Пожалуйста, закончите сначала инициализацию установки
+finish_setup#:#Завершение установки
+firstname#:#Имя
+fop_path#:#Путь к FOP
+fop_path_comment#:#выбранные для генерации PDF документы
+hide_clientlist#:#Скрыть выбор Клиента
+host#:#Хост
+htmldoc_path#:#Путь к HTMLdoc
+htmldoc_path_comment#:#выбранные для генерации в HTMLdoc
+http_path#:#путь HTTP
+id#:#ID
+ilias_db_mode#:# --- New variable added --- November 30 2005
+ilias_homepage#:#Домашняя страница ILIAS
+ilias_nic#:#NIC Регистрация
+ilias_nic_id#:#NIC ID
+ilias_setup#:#Установка ILIAS 3
+ilias_version#:#Версия ILIAS
+include_local#:# --- New variable added --- November 30 2005
+info_text_contact#:#Здесь вы определите дополнительную информацию клиента и контактные данные администратора этого клиента. Поля, отмеченные звездочкой, обязательны для заполнения. Вся информация будет сохранена в вашей базе данных. На следующем этапе вы сможете зарегистрировать инсталляцию на ILIAS-NIC Сервере; программа регистрации передаст эти данные на ILIAS-NIC Сервер.
+info_text_db#:#База данных не существует или пустая. Щелкните на кнопке ниже для инсталляции Базы данных. Если Базы данных с выбранным именем не существует, пожалуйста, выберите опцию 'создать Базу данных'. Программа установки попытается создать Базу данных автоматически. В случае неудачного окончания (н.р. ограничены права доступа), пожалуйста, свяжитесь с системным администратором сервера базы данных и спросите его, как создать базу с выбранным именем для установки ILIAS.
+info_text_db_collation1#:#Если вы решите выбрать сопоставление, не поддерживаемое в UTF-8, вы должны создать базу данных вручную. В любом случае, пожалуйста, проверьте, что символ базы данных есть в utf8.
+info_text_db_collation2#:#Более полную информацию о проверке MySQL можно найти на сайте  MySQL.
+info_text_delete#:#Вы можете удалить этого Клиента щелчком на клавише удаления находящейся ниже. Однако, будет удален только client.ini файл, содержащий все файлы хранящиеся в каталоге Клиента и базе данных. Файлы и База данных удаляются вручную системным администратором.
+info_text_finish1#:#Поздравляем! Ваша клиентская установка прошла успешно. Щелкните на кнопке 'Вход в систему' для авторизации в программе ILIAS.
+info_text_finish2#:#Некоторые установки были пропущены или некорректны. Пожалуйста, просмотрите список процесса, который только что закончился!
+info_text_first_client#:#Ваши базовые параметры сохранены. Теперь мы установим вашего первого Клиента. Программа установки будут руководить процессом инсталляции. На правой панели вы всегда сможете увидеть текущий статус процесса инсталляции.
+info_text_first_install#:#Похоже, вы только что установили ILIAS 3, потому что не найден файл ilias.ini. В файле ilias.ini храниться мастер-пароль защиты ILIAS от несанкционированного доступа.
+info_text_ini#:#Пожалуйста, выберите ID Клиента. Любые буквы или цифры разрешены. ID Клиент должен быть уникальным.<br />Затем введите информацию для соединения с вашей базой данных. Программа установки проверит ваш выбор и протестирует базу данных на существование. Если база данных не существует, вы сможете на следующем шаге программы установки создать свою базу данных.
+info_text_lang#:#Пожалуйста, выберите дополнительные языки и/или удалите выбранные языки. Другой язык используется в качестве языка для нового аккаунта или для пoльзователей которые не указали язык самостоятельно.
+info_text_list#:#В этом окне быстрого просмотра вы видите всех доступных клиентов, их установки и статус доступа. Вверху справа вы можете переключить окно выбора клиента в вкл/выкл. Если переключатель клиента включен, все доступные клиенты, которые находятся в on-line, будут показаны в списке на первой странице ILIAS. Если переключатель клиента выключен и пользователь просматривает первую страницу, то экран логина показывает  <i>другого</i> клиента. Вы можете разделить другого клиента кнопкой ниже.
+info_text_login#:#Пожалуйста, введите ID Клиента вашей установки и данные аккаунта. Ваш аккаунт должен иметь статус 'администратора'.
+info_text_nic1#:#Получить id установки (nic-id) с ILIAS Сервера. Уникальный nic-id требуется в случае, если вы хотите разделить содержимое с другими ILIAS установками. Регистрация добровольна. Если вы не желаете регистрироваться, выберите 'пропустить регистрацию' (вы можете зарегистрироваться в любое время).<br /> Мы рекомендуем on-line регистрацию. Если у вас проблемы с соединением (н.р. вы используете firewall), вы можете получить nic-id через email. Пожалуйста, отошлите на 
+info_text_nic2#:#с вашей информацией установки на ilias-info@uni-koeln.de. Введите nic-id, который хотите послать, в соответствующее email- поле для ответа, и выберите 'регистрация через Email'.
+info_text_nic3#:#Вы зарегистрировали установку. Ваш nic-id -
+info_text_password#:#Здесь можете изменить мастер-пароль установки программы.
+info_text_pathes#:#ILIAS 3 поддерживает много клиентов различных баз данных. Ниже вы зададите каталог базы данных, расположение лог-файла и путь 3-ей части программы. Эти установки действительны для всех клиентов, которых вы создадите позже.
+ini_client_id_exists#:#Клиент с таким ID уже существует! Пожалуйста, задайте другой ID.
+ini_client_id_invalid#:#ID Клиента включает неверные символы
+ini_client_id_no_change#:#ID Клиента не может быть изменен в этой версии, после того как были успешно созданы каталоги Клиента.
+ini_client_id_too_long#:#ID Клиента слишком длинный
+ini_client_id_too_short#:#ID Клиента слишком короткий
+ini_db_name_exists#:#уже существует! Пожалуйста, выберите другое имя Базы данных
+ini_no_client_id#:#Не выбран ID Клиент.
+ini_no_db_host#:#Нет имени хоста
+ini_no_db_name#:#нет имени Базы данных
+ini_no_db_user#:#Нет базы данных пользователя
+inifile#:#ini-файл
+inifile_can_write#:#Данные установки ILIAS 3 можно записать в ini-файл.
+inifile_cannot_write#:#Установка ILIAS 3 не может быть записана в ini-файл. Пожалуйста, проверьте сначала права на запись.
+inifile_content#:#Ваш ini-файл содержит следующее:
+inifile_exists#:#Ini-файл уже существует. Заметьте, что данная установка удалить все предыдущие значения.
+inifile_fill_all#:#Пожалуйста, заполните все поля.
+inifile_firsttime#:#Нет ini-файла! Похоже на первый запуск ILIAS 3.
+inifile_written#:#Ini-файл был успешно сохранен на вашем хосте.
+input_error#:#Ошибка ввода
+inst_identification#:#Идентификация установки
+inst_name#:#имя установки
+install#:#установить
+installation#:#Установка
+installed#:#установлено
+installed_local#:# --- New variable added --- November 30 2005
+institution#:#Организация
+intro_install#:#Это главная страница установки ILIAS 3. Отсюда вы можете начать этап установки.
+ip_address#:#IP адрес
+java_path#:#Путь к Java
+java_path_comment#:#требуется для обучающего модуля SCORM
+lang_bg#:# --- New variable added --- November 30 2005
+lang_cs#:#Чешский
+lang_da#:#Датский
+lang_de#:#Немецкий
+lang_en#:#Английский
+lang_error_occurred#:#Ошибка. Действие прервано.
+lang_es#:#Испанский
+lang_fr#:#Французский
+lang_hu#:#Венгерский
+lang_id#:#Индонезийский
+lang_it#:#Итальянский
+lang_lt#:#Литовский
+lang_min_one_language#:#Вы должны установить хотя бы один язык!
+lang_nl#:#Голландский
+lang_no#:#Норвежский
+lang_none_installed#:#Язык не установлен
+lang_not_installed_default#:#Язык, выбранный вами по умолчанию, не установлен!
+lang_pl#:#Польский
+lang_pt#:#Португальский
+lang_ro#:#Румынский
+lang_se#:#Шведский
+lang_sq#:# --- New variable added --- November 30 2005
+lang_sr#:# --- New variable added --- November 30 2005
+lang_uk#:#Украинский
+lang_xx#:#Пользовательский
+lang_zh#:#Китайский
+langs_not_valid_not_installed#:#Следующие языки не были правильно установлены, возможно, повреждены lang-файлы
+language#:#язык
+languages#:#языки
+languages_installed#:#Язык(и) установлен(ы)
+lastname#:#Фамилия
+list#:#список
+list_disabled#:#Секция Клиента отключена
+list_enabled#:#Секция Клиента включена
+log_path#:#Путь к log-файлу
+log_path_comment#:#введите имя файла. Файл будет создан.
+logged_out#:#Вы вышли из системы.
+logging#:#Запись логов
+login#:#логин
+login_invalid#:#Неправильный логин
+login_to_ilias#:#войти в ILIAS
+logout#:#выйти из системы
+main_datadir_outside_webspace#:#Основной каталог данных не принадлежит веб-пространству
+missing_data#:#Отсутствуют данные
+mysql_4_0_x_or_lower_mode#.# --- New variable added --- November 30 2005
+mysql_4_1_x_or_higher_mode#:# --- New variable added --- November 30 2005
+name#:#Имя
+new#:#новый
+next#:#Следующий
+nic_not_disabled#:#Нет NIC-ID & не отключать
+nic_reg_disable#:#пропустить NIC регистрацию
+nic_reg_disable_comment#:#(регистрировать позже)
+nic_reg_disabled#:#NIC регистрация отключена
+nic_reg_email#:#регистрировать через Email
+nic_reg_enabled#:#NIC регистрация включена!
+nic_reg_enter_checksum#:#Введите посылаемую сумму проверки
+nic_reg_enter_correct_id#:#Пожалуйста, введите корректный nic_id
+nic_reg_enter_id#:#Введите отсылаемый NIC ID
+nic_reg_failed#:#Ошибка NIC регистрации
+nic_reg_online#:#регистрирование on-line
+nic_registration#:#NIC Регистрация
+no_changes#:#Без изменений.
+no_client_id#:#Не задан ID Клиент
+no_client_name#:#У Клиента нет имени
+no_clients_available#:#Нет доступных Клиентов
+no_database#:#Нет Базы данных
+no_db_connect_consult_admin#:#Не могу соединиться с Базой данных. Пожалуйста, обратитесь к системному администратору
+no_db_update_file#:#dbupdate.php не найден!
+no_password#:#Не задан пароль
+no_path_convert#:#Не задан путь конвертирования
+no_path_datadir#:#Не задан Каталог данных
+no_path_fop#:#Не задан путь к FOP
+no_path_given#:#Не задан путь
+no_path_htmldoc#:#Не задан путь к HTMLdoc
+no_path_java#:#Не задан путь к Java
+no_path_log#:#Не задан путь к логам
+no_path_unzip#:#Не задан путь к Unzip
+no_path_zip#:#Не задан путь к Zip
+no_setup_pass_given#:#Не задан пароль установки
+no_username#:#Не задано имя пользователя
+no_valid_client_id#:#Не действительный ID Клиент
+none#:#Нет
+not_connected_to_db#:#Вы не соединились с Базой данных
+online#:#on-line
+or#:#или
+out_of_webspace#:#(выход из веб-пространства)
+overall_status#:#Общий статус
+overview#:#Быстрый просмотр
+pass_does_not_match#:#Введенный пароль не подходит
+password#:#пароль
+password_changed#:#Пароль изменен.
+password_empty#:#Не задан пароль!
+password_enter_old#:#Вы должны сначала ввести старый пароль!
+password_info#:#Для защиты ваших данных конфигурации от неавторизированного доступа, задайте пароль и измените установки снова.
+password_new_master#:#Установить новый мастер-пароль
+password_not_match#:#Новый зарегистрированный пароль не подходит!
+password_old_wrong#:#Старый зарегистрированный пароль ошибочен!
+password_retype#:#Повторите новый пароль
+password_same#:#Старый и новый пароль должны различаться!
+password_set#:#Пароль сохранен
+path_not_set#:#Путь не установлен
+path_to_convert#:#Путь конвертирования
+path_to_fop#:#Путь к FOP
+path_to_htmldoc#:#Путь к HTMLdoc
+path_to_java#:#Путь к Java
+path_to_unzip#:#Путь к Unzip
+path_to_zip#:#Путь к Zip
+pathes#:#Пути
+phone#:#Телефон
+port#:#порт
+position#:#Позиция
+pre_cookies_disabled#:#Cookies выключены. Cookies необходимы для работы ILIAS 3.
+pre_cookies_enabled#:#Cookies включены
+pre_error#:#Один или более объект неправильный. Для правильной установки ILIAS 3 устраните проблемы.
+pre_folder_create#:#Новые каталоги созданы в каталоге ILIAS 3
+pre_folder_create_error#:#Не могу создать подкаталоги! Пожалуйста, проверьте ваши права в файловой системе!
+pre_folder_write#:#Перезаписываемый каталог ILIAS 3
+pre_folder_write_error#:#Не могу записать в каталог ILIAS 3! Пожалуйста, проверьте ваши права в файловой системе!
+pre_intro#:#Давайте посмотрим, отвечает ли ваше программное обеспечение требованиям программы установки и запуска ILIAS 3.
+pre_javascript_comment#:#Вы можете запустить ILIAS без JavaScript, но не будут использоваться некоторые части интерфейса.
+pre_javascript_enabled#:#JavaScript включен
+pre_php_version#:#Версия PHP
+pre_php_version_3#:#Установленная у Вас версия PHP слишком стара, и не может использоваться в ILIAS 3! Пожалуйста, обновите PHP.
+pre_php_version_4.1#:#Классы PEAR не работают с этой версией! Пожалуйста, обновите PHP.
+pre_php_version_4.2#:#Поддержка DOMXML и XSLT не может корректно работать с этой версией!
+pre_php_version_5#:#ILIAS 3 не тестировался на PHP 5. Используйте на свой страх и риск!
+pre_php_version_unknown#:#Установщику ILIAS не известна эта версия. Используйте на свой страх и риск!
+preliminaries#:#Вступление
+prev#:#Предыдущий
+reload#:# --- New variable added --- November 30 2005
+required_field#:#обязательные поля
+reset#:#Восстановить
+root_access#:#доступ root
+safe_mode_enabled#:#Safe mode включена!
+save#:#Сохранить
+save_error#:#Ошибка сохранения!
+saved_successfully#:#Сохранение успешно
+scan_command#:#Сканирование команды
+select_client#:#Выбор Клиента
+server_info#:#Информация Сервера
+server_software#:#Программное обеспечение Сервера
+set_default_client#:#Установить Клиента по умолчанию
+set_newpasswd#:#Пожалуйста, введите новый пароль
+set_oldpasswd#:#Пожалуйста, введите старый пароль
+settings_changed#:#Установки изменены
+settings_saved#:#Установки сохранены
+setup#:#установка
+setup_basic_settings#:#Задать основные установки
+setup_contact_data#:#Задать Контактную информацию
+setup_database#:#Задать Базу данных
+setup_database_desc#:#Задать дополнительную Базу данных
+setup_db_first#:#Пожалуйста, сначала задайте первую Базу данных!
+setup_finished#:#Установка завершена
+setup_first_client#:#Установить вашего первого Клиента
+setup_ini_first#:#Пожалуйста, сначала создайте ini-файл!
+setup_inifile#:#создать ini-file
+setup_inifile_desc#:#создать ini-фай вашей установки
+setup_languages#:#Установить языки
+setup_languages_desc#:#установить дополнительные языки
+setup_login#:#Зайти в программу установки
+setup_mainmenu#:#Главное меню установки
+setup_menu#:#меню установки
+setup_nic_desc#:#регистрация копии программы на ILIAS-NIC-Сервере
+setup_not_finished#:#Установка не завершена
+setup_pass#:#Пароль
+setup_pass2#:#Подтвердить пароль
+setup_pass_title#:#Установить мастер-пароль
+setup_password#:#задать пароль
+setup_password_desc#:#задать пароль доступа к программе установки (н.р. для последующего обновления Баз данных)
+setup_process_status#:#Статус процесса установки
+setup_process_step_contact#:#Введите контактную информацию
+setup_process_step_db#:#Установить/Обновить Базу данных
+setup_process_step_finish#:#Установка завершена
+setup_process_step_ini#:#Установить базовые данные (создать ini-файл)
+setup_process_step_lang#:#Установка системных языков
+setup_process_step_nic#:#Регистрация ILIAS-NIC
+setup_ready#:#Программа установки готова. Вы сейчас можете зайти и проверить дополнительные параметры системы.
+setup_welcome#:#Программа установки ILIAS 3 приветствует Вас! Эта пошаговая инструкция поможет Вам
+sophos#:#Sophos
+sort_by_this_column#:#Сортировать по столбцу
+status#:#Статус
+step#:#Шаг
+street#:#Улица
+submit#:#Подтвердить
+title#:#Заголовок
+tools#:# --- New variable added --- November 30 2005
+unknown_client_id#:#Неизвестный Клиент
+unknown_command#:#Неизвестная команда
+unknown_display_mode#:#Неизвестная модель дисплея
+unzip_path#:#Путь к Unzip
+unzip_path_comment#:#требуется для импорта модулей обучения
+update_applied#:#Обновление добавлено
+update_error#:#Ошибка в обновлении
+update_not_found#:#Обновление не найдено!
+username#:#имя пользователя
+version#:#Версия
+virus_scanner#:#Вирус сканер
+webspace_dir#:#путь к веб-данным
+with#:#с
+wrong_password#:#Ошибочный пароль!
+zip_path#:#Путь к Zip
+zip_path_comment#:#требуется для экспорта модулей обучения
+zipcode#:#Zip код
