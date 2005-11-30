@@ -249,19 +249,31 @@ class ASS_MatchingQuestion extends ASS_Question
 			$a_xml_writer->xmlStartTag("material");
 			if ($this->get_matching_type() == MT_TERMS_PICTURES)
 			{
-				$imagepath = $this->getImagePath() . $matchingpair->getPicture();
-				$fh = @fopen($imagepath, "rb");
-				if ($fh != false)
+				if ($test_output)
 				{
-					$imagefile = fread($fh, filesize($imagepath));
-					fclose($fh);
-					$base64 = base64_encode($imagefile);
 					$attrs = array(
 						"imagtype" => "image/jpeg",
 						"label" => $matchingpair->getPicture(),
-						"embedded" => "base64"
+						"uri" => $this->getImagePathWeb() . $matchingpair->getPicture()
 					);
 					$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+				}
+				else
+				{
+					$imagepath = $this->getImagePath() . $matchingpair->getPicture();
+					$fh = @fopen($imagepath, "rb");
+					if ($fh != false)
+					{
+						$imagefile = fread($fh, filesize($imagepath));
+						fclose($fh);
+						$base64 = base64_encode($imagefile);
+						$attrs = array(
+							"imagtype" => "image/jpeg",
+							"label" => $matchingpair->getPicture(),
+							"embedded" => "base64"
+						);
+						$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+					}
 				}
 			}
 			else

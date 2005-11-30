@@ -522,19 +522,27 @@ class ASS_ImagemapQuestion extends ASS_Question
 		);
 		if ($a_include_binary)
 		{
-			$attrs["embedded"] = "base64";
-			$imagepath = $this->getImagePath() . $this->get_image_filename();
-			$fh = fopen($imagepath, "rb");
-			if ($fh == false)
+			if ($test_output)
 			{
-				global $ilErr;
-				$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->MESSAGE);
-				return;
+				$attrs["uri"] = $this->getImagePathWeb() . $this->get_image_filename();
+				$a_xml_writer->xmlElement("matimage", $attrs);
 			}
-			$imagefile = fread($fh, filesize($imagepath));
-			fclose($fh);
-			$base64 = base64_encode($imagefile);
-			$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+			else
+			{
+				$attrs["embedded"] = "base64";
+				$imagepath = $this->getImagePath() . $this->get_image_filename();
+				$fh = fopen($imagepath, "rb");
+				if ($fh == false)
+				{
+					global $ilErr;
+					$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->MESSAGE);
+					return;
+				}
+				$imagefile = fread($fh, filesize($imagepath));
+				fclose($fh);
+				$base64 = base64_encode($imagefile);
+				$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+			}
 		}
 		else
 		{
