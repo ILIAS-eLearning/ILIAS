@@ -275,24 +275,36 @@ class ASS_OrderingQuestion extends ASS_Question
 			$a_xml_writer->xmlStartTag("material");
 			if ($this->get_ordering_type() == OQ_PICTURES)
 			{
-				$imagepath = $this->getImagePath() . $answer->get_answertext();
-				$fh = @fopen($imagepath, "rb");
-				if ($fh != false)
+				if ($test_output)
 				{
-					$imagefile = fread($fh, filesize($imagepath));
-					fclose($fh);
-					$base64 = base64_encode($imagefile);
-					$imagetype = "image/jpeg";
-					if (preg_match("/.*\.(png|gif)$/", $answer->get_answertext(), $matches))
-					{
-						$imagetype = "image/".$matches[1];
-					}
 					$attrs = array(
 						"imagtype" => $imagetype,
 						"label" => $answer->get_answertext(),
-						"embedded" => "base64"
+						"uri" => $this->getImagePathWeb() . $answer->get_answertext()
 					);
-					$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+					$a_xml_writer->xmlElement("matimage", $attrs);
+				}
+				else
+				{
+					$imagepath = $this->getImagePath() . $answer->get_answertext();
+					$fh = @fopen($imagepath, "rb");
+					if ($fh != false)
+					{
+						$imagefile = fread($fh, filesize($imagepath));
+						fclose($fh);
+						$base64 = base64_encode($imagefile);
+						$imagetype = "image/jpeg";
+						if (preg_match("/.*\.(png|gif)$/", $answer->get_answertext(), $matches))
+						{
+							$imagetype = "image/".$matches[1];
+						}
+						$attrs = array(
+							"imagtype" => $imagetype,
+							"label" => $answer->get_answertext(),
+							"embedded" => "base64"
+						);
+						$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+					}
 				}
 			}
 			else
