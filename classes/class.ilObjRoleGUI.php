@@ -479,30 +479,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$rbac_objects = ilUtil::sortArray($rbac_objects,"name","asc");
 
 		// BEGIN CHECK_PERM
-		$global_roles_all = $rbacreview->getGlobalRoles();
-		$global_roles_user = array_intersect($_SESSION["RoleId"],$global_roles_all);
-		
-		// is this role a global role?
-		if (in_array($this->object->getId(),$global_roles_all))
-		{
-			$global_role = true;
-		}
-		else
-		{
-			$global_role = false;
-		}
-
 		foreach ($rbac_objects as $key => $obj_data)
 		{
-			$allowed_ops_on_type = array();
-
-			foreach ($global_roles_user as $role_id)
-			{
-				$allowed_ops_on_type = array_merge($allowed_ops_on_type,$rbacreview->getOperationsOfRole($role_id,$obj_data["type"]));
-			}
-				
-			$allowed_ops_on_type = array_unique($allowed_ops_on_type);
-				
 			$arr_selected = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $this->rolf_ref_id);
 			$arr_checked = array_intersect($arr_selected,array_keys($rbac_operations[$obj_data["obj_id"]]));
 
@@ -517,17 +495,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				else
 				{
 					$checked = in_array($operation["ops_id"],$arr_checked);
-
-					// for global roles only allow to set those permission the current user is granted himself except SYSTEM_ROLE_ID !!
-					if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $global_role == true and 
-						!in_array($operation["ops_id"],$allowed_ops_on_type))
-					{
-						$disabled = true;
-					}
-					else
-					{
-						$disabled = false;
-					}
+					$disabled = false;
 				}
 
 				// Es wird eine 2-dim Post Variable �bergeben: perm[rol_id][ops_id]
@@ -750,79 +718,21 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview,$objDefinition;
 
-		// SET TEMPLATE PERMISSIONS
-		if (!$rbacsystem->checkAccess('write', $this->rolf_ref_id))
+		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
+			if (!$rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id)))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
-
-		#$to_filter = $objDefinition->getSubobjectsToFilter();
-
-		// first safe permissions that were disabled in HTML form due to missing lack of permissions of user who changed it
-		// TODO: move this following if-code into an extra function. this part is also used in $this->permObject !!
-		if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		else
 		{
-			// build array with all rbac object types
-			$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
-				 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
-				 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
-			$r = $this->ilias->db->query($q);
-	
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			// TODO: should check 'edit_permission' of parent object of rolefolder??
+			if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 			{
-				// FILTER SUBOJECTS OF adm OBJECT
-				#if(in_array($row->title,$to_filter))
-				#{
-				#	continue;
-				#}
-
-				$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
-												    "type"		=> $row->title
-													);
-	
-				$rbac_operations[$row->typ_id][$row->ops_id] = array(
-										   							"ops_id"	=> $row->ops_id,
-										  							"title"		=> $row->operation,
-																	"name"		=> $this->lng->txt($row->title."_".$row->operation)
-																   );
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 			}
-				
-			foreach ($rbac_objects as $key => $obj_data)
-			{
-				$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
-				$rbac_objects[$key]["ops"] = $rbac_operations[$key];
-			}
-	
-			$global_roles_all = $rbacreview->getGlobalRoles();
-			$global_roles_user = array_intersect($_SESSION["RoleId"],$global_roles_all);
-			
-			foreach ($rbac_objects as $key => $obj_data)
-			{
-				$allowed_ops_on_type = array();
-	
-				foreach ($global_roles_user as $role_id)
-				{
-					$allowed_ops_on_type = array_merge($allowed_ops_on_type,$rbacreview->getOperationsOfRole($role_id,$obj_data["type"]));
-				}
-					
-				$allowed_ops_on_type = array_unique($allowed_ops_on_type);
-					
-				$arr_previous = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $this->rolf_ref_id);
-				$arr_missing = array_diff($arr_previous,$allowed_ops_on_type);
-				
-				// if type is not empty, merge it
-				if (! empty($_POST["template_perm"][$obj_data["type"]])) 
-				{
-					$_POST["template_perm"][$obj_data["type"]] = array_merge($_POST["template_perm"][$obj_data["type"]],$arr_missing);
-				}
-				
-				// remove empty types
-				if (empty($_POST["template_perm"][$obj_data["type"]]))
-				{
-					unset($_POST["template_perm"][$obj_data["type"]]);
-				}
-			}
-		} // END TODO: move!!!
+		}
 
 		// delete all template entries
 		$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
