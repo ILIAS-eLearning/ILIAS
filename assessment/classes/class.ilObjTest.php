@@ -5897,7 +5897,8 @@ class ilObjTest extends ilObject
 	 * @return	boolean true, if test type equals Online Test otherwise false
 	 */
 	
-	function isOnlineTest() {
+	function isOnlineTest() 
+	{
 		return $this->getTestType()==TYPE_ONLINE_TEST;
 	}
 	

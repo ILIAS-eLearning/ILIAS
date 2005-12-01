@@ -60,6 +60,8 @@ class ilObjTestGUI extends ilObjectGUI
 			switch ($this->ctrl->getCmd())
 			{
 				case "create":
+				case "save":
+				case "cancel":
 				case "importFile":
 				case "cloneAll":
 					return;
@@ -3879,7 +3881,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $ilAccess;
-
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			// properties

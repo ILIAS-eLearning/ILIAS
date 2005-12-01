@@ -61,6 +61,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			switch ($this->ctrl->getCmd())
 			{
 				case "create":
+				case "save":
+				case "cancel":
 				case "importFile":
 				case "cloneAll":
 					return;
