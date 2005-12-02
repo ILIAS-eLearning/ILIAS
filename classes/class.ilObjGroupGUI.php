@@ -1068,6 +1068,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $rbacsystem,$ilBench,$ilDB;
 
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
+
+
 		$ilBench->start("GroupGUI", "membersObject");
 		
 		//if current user is admin he is able to add new members to group
@@ -1134,8 +1137,24 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$ilBench->stop("GroupGUI", "membersObject");
 
+		$this->__showMailLinks();
+
 		return $this->__showMembersTable($result_set,$user_ids);
     }
+
+	function __showMailLinks()
+	{
+		global $rbacreview;
+
+		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
+		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
+		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
+		$this->tpl->setVariable("CHECK_MEMBER",ilUtil::formCheckbox(1,'roles[]','#il_grp_member_'.$this->object->getRefId()));
+		$this->tpl->setVariable("CHECK_ADMIN",ilUtil::formCheckbox(0,'roles[]','#il_grp_admin_'.$this->object->getRefId()));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
+	}
+
 
 	function showNewRegistrationsObject()
 	{
@@ -1933,7 +1952,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");
 		$tbl->render();
-		$this->tpl->setVariable("ADM_CONTENT",$tbl->tpl->get());
+		$this->tpl->setVariable("MEMBER_TABLE",$tbl->tpl->get());
 		
 		$ilBench->stop("GroupGUI", "__showMembersTable");
 

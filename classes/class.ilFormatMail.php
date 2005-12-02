@@ -32,7 +32,7 @@
 * 
 * @package	ilias-mail
 */
-require_once "classes/class.ilMail.php";
+include_once "classes/class.ilMail.php";
 
 class ilFormatMail extends ilMail
 {

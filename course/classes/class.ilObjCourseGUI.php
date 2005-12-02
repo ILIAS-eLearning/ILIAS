@@ -1495,6 +1495,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html","course");
+
+		$this->__showMailLinks();
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
 		// INFO NO MEMBERS
@@ -3976,6 +3978,21 @@ class ilObjCourseGUI extends ilContainerGUI
 		unset($_SESSION["crs_group"]);
 		unset($_SESSION["crs_role"]);
 		unset($_SESSION["crs_archives"]);
+	}
+
+	function __showMailLinks()
+	{
+		global $rbacreview;
+
+		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
+		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
+		$this->tpl->setVariable("MAIL_TUTOR",$this->lng->txt('send_mail_tutors'));
+		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
+		$this->tpl->setVariable("CHECK_MEMBER",ilUtil::formCheckbox(1,'roles[]','#il_crs_member_'.$this->object->getRefId()));
+		$this->tpl->setVariable("CHECK_TUTOR",ilUtil::formCheckbox(0,'roles[]','#il_crs_tutor_'.$this->object->getRefId()));
+		$this->tpl->setVariable("CHECK_ADMIN",ilUtil::formCheckbox(0,'roles[]','#il_crs_admin_'.$this->object->getRefId()));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
 	}
 
 	

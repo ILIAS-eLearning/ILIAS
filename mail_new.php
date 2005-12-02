@@ -237,7 +237,10 @@ switch($_GET["type"])
 		break;
 
 	case 'role':
-		$mail_data['rcp_to'] = urldecode($_GET['role']);
+		if(is_array($_POST['roles']))
+		{
+			$mail_data['rcp_to'] = implode(',',$_POST['roles']);
+		}
 		$mail_data['m_message'] = $umail->appendSignature();
 		break;
 

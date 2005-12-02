@@ -237,7 +237,7 @@ if($_POST["action"] == "delete" and !$error_delete and !isset($_POST["cmd"]["con
 }
 
 // SET TXT VARIABLES ADDRESSBOOK
-$tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
+$tpl->setVariable("TXT_LOGIN",$lng->txt("username"));
 $tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
 $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
 $tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
