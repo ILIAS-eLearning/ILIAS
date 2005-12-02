@@ -5453,3 +5453,6 @@ mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
 mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.
 common#:#overwrite#:#Overwrite
+common#:#send_mail_members#:#Mail to members
+common#:#send_mail_tutors#:#Mail to tutors
+common#:#send_mail_admins#:#Mail to administrators

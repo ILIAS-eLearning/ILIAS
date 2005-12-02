@@ -5427,3 +5427,6 @@ mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Loginnamen ein.
 mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Loginnamen oder eine E-Mail-Adresse ein.
 mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Loginnamen oder E-Mail-Adresse.
 common#:#overwrite#:#Überschreiben
+common#:#send_mail_members#:#Mail an Mitglieder
+common#:#send_mail_tutors#:#Mail an Tutoren
+common#:#send_mail_admins#:#Mail an Administratoren
