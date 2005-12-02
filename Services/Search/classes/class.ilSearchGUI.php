@@ -344,10 +344,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 			return false;
 		}
 
+		
 		// Step 1: parse query string
 		if(!is_object($query_parser =& $this->__parseQueryString()))
 		{
-			sendInfo($query_parser);
+			sendInfo($query_parser->getMessage());
 			$this->showSearch();
 			
 			return false;
@@ -365,9 +366,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Perform details search in object specific tables
 		if($this->getType() == SEARCH_DETAILS)
 		{
-			$result =& $this->__performDetailsSearch($query_parser,$result);
+			$result = $this->__performDetailsSearch($query_parser,$result);
 		}
-		
 		// Step 5: Search in results
 		if($this->search_mode == 'in_results')
 		{
@@ -382,7 +382,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		// Step 4: merge and validate results
 		$result->filter($this->getRootNode(),$query_parser->getCombination() == 'and');
-
 		$this->showSearch();
 
 		if(!count($result->getResults()))
@@ -463,13 +462,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$result->mergeEntries($result_meta);
 					$result_meta =& $this->__searchMeta($query_parser,'description');
 					$result->mergeEntries($result_meta);
-
 					if($this->settings->enabledLucene())
 					{
 						$htlm_search =& ilObjectSearchFactory::_getHTLMSearchInstance($query_parser);
 						$result->mergeEntries($htlm_search->performSearch());
 					}
-					
 					break;
 
 				case 'frm':
