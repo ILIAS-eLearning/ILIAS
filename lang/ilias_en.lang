@@ -5448,3 +5448,8 @@ common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_cron#:#regularly per cron job
 meta#:#meta_current_value#:#Current value
 meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.
+mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
+mail#:#mail_enter_valid_login#:#Please enter a valid login name.
+mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
+mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.
+common#:#overwrite#:#Overwrite

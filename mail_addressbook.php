@@ -113,6 +113,31 @@ if(isset($_POST["cmd"]["change"]))
 	{
 		sendInfo($lng->txt("mail_select_one"));
 	}
+	// check if user login and e-mail-address are empty 
+	else if (!strcmp(trim($_POST["login"]),"") &&
+			 !strcmp(trim($_POST["email"]),""))
+	{
+		sendInfo($lng->txt("mail_enter_login_or_email_addr"));
+		$error_add = true;
+	}
+	else if ($_POST["login"] != "" && 
+			 !(ilObjUser::_lookupId($_POST["login"])))
+	{
+		sendInfo($lng->txt("mail_enter_valid_login"));
+		$error_add = true;
+	}
+	else if ($_POST["email"] &&
+			 !(ilUtil::is_email($_POST["email"])))
+	{
+		sendInfo($lng->txt("mail_enter_valid_email_addr"));
+		$error_add = true;
+	}
+	else if (($existing_entry = $abook->checkEntry($_POST["login"])) > 0 &&
+			 $existing_entry != $_POST["entry_id"][0])
+	{
+		sendInfo($lng->txt("mail_entry_exists"));
+		$error_add = true;
+	}
 	else
 	{
 		$abook->updateEntry($_POST["entry_id"][0],
@@ -121,9 +146,11 @@ if(isset($_POST["cmd"]["change"]))
 							$_POST["lastname"],
 							$_POST["email"]);
 		unset($_POST["entry_id"]);
+		unset($existing_entry);
 		sendInfo($lng->txt("mail_entry_changed"));
 	}
 }	
+
 // CANCEL CONFIRM DELETE
 if(isset($_POST["cmd"]["cancel"]))
 {
@@ -134,18 +161,37 @@ if(isset($_POST["cmd"]["cancel"]))
 // ADD NEW ENTRY
 if(isset($_POST["cmd"]["add"]))
 {
-	// check if user login is empty 
-	if ( !strcmp(trim($_POST["login"]),"") 
-	or   !strcmp(trim($_POST["email"]),"") 
-	   ) {
-		sendInfo($lng->txt("mail_check_your_email_addr"));
+	// check if user login and e-mail-address are empty 
+	if (!strcmp(trim($_POST["login"]),"") &&
+		!strcmp(trim($_POST["email"]),""))
+	{
+		sendInfo($lng->txt("mail_enter_login_or_email_addr"));
+		$error_add = true;
 	}
-	else {
+	else if ($_POST["login"] != "" && 
+			 !(ilObjUser::_lookupId($_POST["login"])))
+	{
+		sendInfo($lng->txt("mail_enter_valid_login"));
+		$error_add = true;
+	}
+	else if ($_POST["email"] &&
+			 !(ilUtil::is_email($_POST["email"])))
+	{
+		sendInfo($lng->txt("mail_enter_valid_email_addr"));
+		$error_add = true;
+	}
+	else if (($existing_entry = $abook->checkEntry($_POST["login"])) > 0)
+	{
+		sendInfo($lng->txt("mail_entry_exists"));
+		$error_add = true;
+	}
+	else
+	{
 		$abook->addEntry($_POST["login"],
 					 $_POST["firstname"],
 					 $_POST["lastname"],
 					 $_POST["email"]);
-	sendInfo($lng->txt("mail_entry_added"));
+		sendInfo($lng->txt("mail_entry_added"));
 	}
 	
 }
@@ -169,6 +215,17 @@ if(isset($_POST["cmd"]["confirm"]))
 
 $tpl->setVariable("ACTION","mail_addressbook.php?mobj_id=$_GET[mobj_id]");
 $tpl->setVariable("TXT_ENTRIES",$lng->txt("mail_addr_entries"));
+
+// CASE ENTRY EXISTS
+if ((isset($_POST["cmd"]["add"]) || isset($_POST["cmd"]["change"])) &&
+	$existing_entry > 0)
+{
+	$tpl->setCurrentBlock("entry_exists");
+	$tpl->setVariable("ENTRY_EXISTS_ENTRY_ID",$existing_entry);
+	$tpl->setVariable("ENTRY_EXISTS_BUTTON_OVERWRITE",$lng->txt("overwrite"));
+	$tpl->setVariable("ENTRY_EXISTS_BUTTON_CANCEL",$lng->txt("cancel"));
+	$tpl->parseCurrentBlock();
+}
 
 // CASE CONFIRM DELETE
 if($_POST["action"] == "delete" and !$error_delete and !isset($_POST["cmd"]["confirm"]))
@@ -267,6 +324,15 @@ else
 	$tpl->setCurrentBlock("addr_no_content");
 	$tpl->setVariable("TXT_ADDR_NO",$lng->txt("mail_search_no"));
 	$tpl->parseCurrentBlock();
+}
+
+if (isset($_POST["cmd"]["add"]) &&
+	$error_add)
+{
+	$data["login"] = $_POST["login"];
+	$data["firstname"] = $_POST["firstname"];
+	$data["lastname"] = $_POST["lastname"];
+	$data["email"] = $_POST["email"];
 }
 
 // SHOW EDIT FIELD
