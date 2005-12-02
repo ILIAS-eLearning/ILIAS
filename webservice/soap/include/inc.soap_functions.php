@@ -344,4 +344,18 @@ function getGroup($sid,$ref_id)
 	return $soa->getGroup($sid,$ref_id);
 }
 
+function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
+{
+	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+	$sou =& new ilSoapUtils();
+	$sou->disableSOAPCheck();
+	$sou->ignoreUserAbort();
+
+	return $sou->sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach);
+}
+
+	
+	
+
 ?>

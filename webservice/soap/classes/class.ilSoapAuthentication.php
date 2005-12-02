@@ -35,6 +35,9 @@ include_once './classes/class.ilBaseAuthentication.php';
 
 class ilSoapAuthentication extends ilBaseAuthentication
 {
+	var $soap_check = true;
+
+
 	function ilSoapAuthentication()
 	{
 		// First unset all cookie inforamtions
@@ -42,6 +45,11 @@ class ilSoapAuthentication extends ilBaseAuthentication
 
 		parent::ilBaseAuthentication();
 		$this->__setMessageCode('Client');
+	}
+
+	function disableSoapCheck()
+	{
+		$this->soap_check = false;
 	}
 
 	function authenticate()
@@ -65,7 +73,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		{
 			return false;
 		}
-		if(!$this->__checkSOAPEnabled())
+		if($this->soap_check and !$this->__checkSOAPEnabled())
 		{
 			$this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
 			$this->__setMessageCode('Server');

@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 chdir("..");
+define('ILIAS_MODULE','chat');
 
 require_once "./include/inc.header.php";
 require_once "./chat/classes/class.ilChatController.php";

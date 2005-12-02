@@ -23,104 +23,74 @@
 
 
   /**
-   * soap server
-   * Base class for all SOAP registered methods. E.g ilSoapUserAdministration
+   * Soap utitliy functions
    *
    * @author Stefan Meyer <smeyer@databay.de>
    * @version $Id$
    *
    * @package ilias
    */
+include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
-include_once './webservice/soap/lib/nusoap.php';
-
-
-class ilSoapAdministration
+class ilSoapUtils extends ilSoapAdministration
 {
-	/*
-	 * object which handles php's authentication
-	 * @var object
-	 */
-	var $sauth = null;
-
-	/*
-	 * Defines type of error handling (PHP5 || NUSOAP)
-	 * @var object
-	 */
-	var $error_method = null;
-
-
-	function ilSoapAdministration($use_nusoap = true)
+	function ilSoapUtils()
 	{
-		define('USER_FOLDER_ID',7);
-		define('NUSOAP',1);
-		define('PHP5',2);
-
-		if($use_nusoap)
-		{
-			$this->error_method = NUSOAP;
-		}
-		$this->__initAuthenticationObject();
-
+		parent::ilSoapAdministration();
 	}
 
-	// PROTECTED
-	function __checkSession($sid)
+	function ignoreUserAbort()
 	{
-		list($sid,$client) = $this->__explodeSid($sid);
+		ignore_user_abort();
+	}
 
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
+	function disableSOAPCheck()
+	{
+		$this->sauth->disableSOAPCheck();
+	}
 
-		if(!$this->sauth->validateSession())
+	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
+	{
+		if(!$this->__checkSession($sid))
 		{
-			return false;
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}			
-		return true;
-	}
 
-
-	function __explodeSid($sid)
-	{
-		$exploded = explode('::',$sid);
-
-		return is_array($exploded) ? $exploded : array('sid' => '','client' => '');
-	}
-
-
-	function __setMessage($a_str)
-	{
-		$this->message = $a_str;
-	}
-	function __getMessage()
-	{
-		return $this->message;
-	}
-	function __appendMessage($a_str)
-	{
-		$this->message .= isset($this->message) ? ' ' : '';
-		$this->message .= $a_str;
-	}
-
-
-	function __initAuthenticationObject()
-	{
-		include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
-		
-		return $this->sauth = new ilSoapAuthentication();
-	}
+		// Include main header
+		include_once './include/inc.header.php';
 		
 
-	function __raiseError($a_message,$a_code)
-	{
-		switch($this->error_method)
+		include_once './classes/class.ilMimeMail.php';
+
+		$mmail = new ilMimeMail();
+		$mmail->autoCheck(false);
+		$mmail->From($sender);
+		$mmail->To(explode(',',$to));
+		$mmail->Subject($subject);
+		$mmail->Body($message);
+
+		if($cc)
 		{
-			case NUSOAP:
-
-				return new soap_fault($a_code,'',$a_message);
+			$mmail->Cc(explode(',',$cc));
 		}
-	}
 
-	
+		if($bcc)
+		{
+			$mmail->Bcc(explode(',',$bcc));
+		}
+		if($attach)
+		{
+			$attachments = explode(',',$attach);
+			foreach ($attachments as $attachment)
+			{
+				$mmail->Attach($attachment);
+			}
+		}
+
+		$mmail->Send();
+		$ilLog->write('SOAP: sendMail(): '.$to.', '.$cc.', '.$bcc);
+
+		return true;
+	}		
 }
 ?>

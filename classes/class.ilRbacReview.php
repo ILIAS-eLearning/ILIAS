@@ -80,20 +80,17 @@ class ilRbacReview
 		
 		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
 		
-		$q = "SELECT DISTINCT obj_id FROM object_data ".
+		$q = "SELECT DISTINCT(obj_id) as obj_id FROM object_data ".
 			 "WHERE title ='".addslashes($a_title)."' ".
 			 "AND type IN('role','rolt')".
 			 $clause;
 		$r = $this->ilDB->query($q);
 
-		if ($r->numRows() == 1)
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return true;
+			return $row->obj_id;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
