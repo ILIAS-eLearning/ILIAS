@@ -235,5 +235,23 @@ class ilAddressbook
 
 		return true;
 	}
+
+	/**
+	* Check whether an entry with a given login name already exists
+	* @param string login name
+	* @return int number of entries found
+	* @access	public
+	*/
+	function checkEntry($a_login)
+	{
+		if ($a_login != "")
+		{
+			$query = "SELECT addr_id FROM $this->table_addr ".
+				"WHERE login = '".ilUtil::addSlashes($a_login)."'";
+			return $this->ilias->db->getOne($query);
+		}
+		
+		return 0;
+	}
 }
 ?>

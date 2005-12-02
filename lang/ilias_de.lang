@@ -5422,3 +5422,8 @@ common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
 common#:#cron_forum_notification_cron#:#regelmäßig per Cron-Job
 meta#:#meta_current_value#:#Aktueller Wert
 meta#:#meta_info_tlt_not_valid#:#Der aktuelle Wert ist nicht gültig und kann deswegen in anderen Bereichen (z.B Lernfortschritt) nicht verwertet werden. Bitte geben Sie eine Zeit in Stunden und/oder Minuten an.
+mail#:#mail_enter_valid_email_addr#:#Bitte geben Sie eine gültige E-Mail-Adresse ein.
+mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Loginnamen ein.
+mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Loginnamen oder eine E-Mail-Adresse ein.
+mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Loginnamen oder E-Mail-Adresse.
+common#:#overwrite#:#Überschreiben
