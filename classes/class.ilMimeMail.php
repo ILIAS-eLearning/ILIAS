@@ -357,13 +357,15 @@ class ilMimeMail
 	 */ 
 	function Send()
 	{
+		#global $ilLog;
+
 		$this->BuildMail();
 	
 		$this->strTo = implode( ", ", $this->sendto );
 	
 		// envoie du mail
 		$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );
-
+		#$ilLog->write($this->strTo.' '. $this->xheaders['Subject'].' '. $this->fullBody.' '. $this->headers);
 	}
 
 

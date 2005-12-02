@@ -588,6 +588,24 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getGroup(): get xml description of grouip with given reference id.');
+
+
+		$this->server->register('sendMail',
+								array('sid' => 'xsd:string',
+									  'rcp_to' => 'xsd:string',
+									  'rcp_cc' => 'xsd:string',
+									  'rcp_bcc' => 'xsd:string',
+									  'sender' => 'xsd:string',
+									  'subject' => 'xsd:string',
+									  'message' => 'xsd:string',
+									  'attachments' => 'xsd:string'),
+								array('status' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#sendMail',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
+								'syntax, parameters may change in future releases');
 								
 
 

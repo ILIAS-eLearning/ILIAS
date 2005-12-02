@@ -494,6 +494,21 @@ class ilObjUser extends ilObject
 
 	}
 
+	function _lookupEmail($a_user_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT email FROM usr_data WHERE usr_id = '".(int) $a_user_id."'";
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->email;
+		}
+		return false;
+	}
+
+
 	/**
 	* lookup user name
 	*/

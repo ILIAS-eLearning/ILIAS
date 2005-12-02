@@ -236,6 +236,11 @@ switch($_GET["type"])
 		$mail_data["m_message"] = $umail->appendSignature();
 		break;
 
+	case 'role':
+		$mail_data['rcp_to'] = urldecode($_GET['role']);
+		$mail_data['m_message'] = $umail->appendSignature();
+		break;
+
 	case 'address':
 			$mail_data["rcp_to"] = urldecode($_GET["rcp"]);
 			break;

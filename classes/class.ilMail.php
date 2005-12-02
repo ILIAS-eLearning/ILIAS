@@ -602,10 +602,23 @@ class ilMail
 		}
 
 		// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
+		$counter = 0;
+		$to = array();
+		$bcc = array();
 		foreach ($as_email as $id)
 		{
-			$tmp_user =& new ilObjUser($id);
-			$this->sendMimeMail('','',$tmp_user->getEmail(),$a_subject,$a_message,$a_attachments);
+			if(!$counter++)
+			{
+				$to[] = ilObjUser::_lookupEmail($id);
+			}
+			else
+			{
+				$bcc[] = ilObjUser::_lookupEmail($id);
+			}
+		}
+		if($to)
+		{
+			$this->sendMimeMail(implode(',',$to),'',implode(',',$bcc),$a_subject,$a_message,$a_attachments);
 		}
 		
 		return true;
@@ -619,28 +632,40 @@ class ilMail
 	*/
 	function getUserIds($a_recipients)
 	{
+		global $rbacreview;
+
 		$tmp_names = $this->explodeRecipients($a_recipients);
 		
 		for ($i = 0;$i < count($tmp_names); $i++)
 		{
 			if (substr($tmp_names[$i],0,1) == '#')
 			{
-				include_once("./classes/class.ilObjectFactory.php");
 
-				// GET GROUP MEMBER IDS
-				$grp_data = ilUtil::searchGroups(substr($tmp_names[$i],1));
-
-				// INSTATIATE GROUP OBJECT
-				foreach ($grp_data as $grp)
+				if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
 				{
-					$grp_object = ilObjectFactory::getInstanceByRefId($grp["ref_id"]);
-					break;
+					include_once("./classes/class.ilObjectFactory.php");
+					
+					// GET GROUP MEMBER IDS
+					$grp_data = ilUtil::searchGroups(substr($tmp_names[$i],1));
+					
+					// INSTATIATE GROUP OBJECT
+					foreach ($grp_data as $grp)
+					{
+						$grp_object = ilObjectFactory::getInstanceByRefId($grp["ref_id"]);
+						break;
+					}
+					// STORE MEMBER IDS IN $ids
+					foreach ($grp_object->getGroupMemberIds() as $id)
+					{
+						$ids[] = $id;
+					}
 				}
-				// STORE MEMBER IDS IN $ids
-				foreach ($grp_object->getGroupMemberIds() as $id)
+				// is role: get role ids
+				elseif($role_id = $rbacreview->roleExists(addslashes(substr($tmp_names[$i],1))))
 				{
-					$ids[] = $id;
-				} 
+					$ids = $rbacreview->assignedUsers($role_id);
+				}
+				
 			}
 			else if (!empty($tmp_names[$i]))
 			{
@@ -750,7 +775,7 @@ class ilMail
 	*/
 	function checkRecipients($a_recipients,$a_type)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$rbacreview;
 		
 		$wrong_rcps = '';
 
@@ -783,14 +808,16 @@ class ilMail
 					}
 				}
 			}
-			else
+			elseif (ilUtil::groupNameExists(addslashes(substr($rcp,1))))
 			{
-				if (!ilUtil::groupNameExists(addslashes(substr($rcp,1))))
-				{
-					$wrong_rcps .= "<BR/>".$rcp;
-					continue;
-				}
+				continue;
 			}
+			elseif(!$rbacreview->roleExists(addslashes(substr($rcp,1))))
+			{
+				$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("mail_no_valid_group_role").")";
+				continue;
+			}
+
 		}
 
 		return $wrong_rcps;
@@ -939,7 +966,6 @@ class ilMail
 			{
 				return $lng->txt("mail_check_your_email_addr");
 			}
-			
 		}
 
 		// ACTIONS FOR ALL TYPES
@@ -967,29 +993,12 @@ class ilMail
 			{
 				return $lng->txt("mail_no_permissions_write_smtp");
 			}
-			
-			//IF ONLY EMAIL
-			if ( $c_rcp == $c_emails)
-			{
-				// SEND IT
-				$this->sendMimeMail($a_rcp_to,
-									$a_rcp_cc,
-									$a_rcp_bc,
-									$a_m_subject,$a_m_message,$a_attachment);
-			}
-			else
-			{
-				// SET ALL EMAIL RECIPIENTS BCC AND CREATE A LINE ('to','cc') in Message body
-				$new_bcc = array_merge($this->__getEmailRecipients($a_rcp_to),
-									   $this->__getEmailRecipients($a_rcp_cc),
-									   $this->__getEmailRecipients($a_rcp_bcc));
-				$this->sendMimeMail("",
-									"",
-									$new_bcc,
-									$a_m_subject,
-									$this->__prependMessage($a_m_message,$a_rcp_to,$a_rcp_cc),
-									$a_attachment);
-			}
+			$this->sendMimeMail($this->__getEmailRecipients($a_rcp_to),
+								$this->__getEmailRecipients($a_rcp_cc),
+								$this->__getEmailRecipients($a_rcp_bc),
+								$a_m_subject,
+								$a_m_message,
+								$a_attachment);
 		}
 
 		if (in_array('system',$a_type))
@@ -1058,9 +1067,10 @@ class ilMail
 
 	/**
 	* send mime mail using class.ilMimeMail.php
-	* @param string to or array of recipients
-	* @param string cc array of recipients
-	* @param string bcc array of recipients
+	* All external mails are send to SOAP::sendMail starting a kind of background process
+	* @param string of recipients
+	* @param string of recipients
+	* @param string of recipients
 	* @param string subject
 	* @param string message
 	* @param array attachments
@@ -1069,6 +1079,40 @@ class ilMail
 	*/
 	function sendMimeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments)
 	{
+		#var_dump("<pre>",$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments,"<pre>");
+		
+		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
+		$a_m_subject = "[".$inst_name."] ".$a_m_subject;
+
+		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+
+		$soap_client = new ilSoapClient();
+		$soap_client->setTimeout(1);
+		$soap_client->setResponseTimeout(1);
+		$soap_client->enableWSDL(true);
+		$soap_client->init();
+
+		$attachments = array();
+		foreach($a_attachments as $attachment)
+		{
+			$attachments[] = $this->mfile->getAbsolutePath($attachment);
+		}
+		$attachments = implode(',',$attachments);
+
+		$soap_client->call('sendMail',array($_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],	// session id
+											$a_rcp_to,
+											$a_rcp_cc,
+											$a_rcp_bcc,
+											$this->addFullname($this->getEmailOfSender()),
+											$a_m_subject,
+											$a_m_message,
+											$attachments));
+		
+		return true;
+	}
+
+
+/*
 		include_once "classes/class.ilMimeMail.php";
 
 		$sender = $this->addFullname($this->getEmailOfSender());
@@ -1100,7 +1144,7 @@ class ilMail
 
 		$mmail->Send();
 	}
-
+*/
 	/**
 	* get email of sender
 	* @access	public
@@ -1161,16 +1205,15 @@ class ilMail
 		// WHITESPACE IS NOT ALLOWED AS SEPERATOR
 		#$a_recipients = preg_replace("/ /",",",$a_recipients);
 		$a_recipients = preg_replace("/;/",",",$a_recipients);
-		$rcps = explode(',',$a_recipients);
+		
 
-		if (count($rcps))
+		foreach(explode(',',$a_recipients) as $tmp_rec)
 		{
-			for ($i = 0; $i < count($rcps); ++ $i)
+			if($tmp_rec)
 			{
-				$rcps[$i] = trim($rcps[$i]);
+				$rcps[] = trim($tmp_rec);
 			}
 		}
-	
 		return is_array($rcps) ? $rcps : array();
 		
 	}
@@ -1209,13 +1252,12 @@ class ilMail
 	{
 		foreach ($this->explodeRecipients($a_rcp) as $to)
 		{
-			if (strpos($to,'@'))
+			if(strpos($to,'@'))
 			{
 				$rcp[] = $to;
 			}
 		}
-
-		return $rcp ? $rcp : array();
+		return implode(',',$rcp ? $rcp : array());
 	}
 
 	function __prependMessage($a_m_message,$rcp_to,$rcp_cc)

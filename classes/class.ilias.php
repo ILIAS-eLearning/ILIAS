@@ -138,7 +138,7 @@ class ILIAS
 		define("ILIAS_DATA_DIR",$this->ini_ilias->readVariable("clients","datadir"));
 		define("ILIAS_WEB_DIR",$this->ini_ilias->readVariable("clients","path"));
 
-		define ("ILIAS_HTTP_PATH",$this->ini_ilias->readVariable('server','http_path'));
+		$this->__buildHTTPPath();
 		define ("ILIAS_ABSOLUTE_PATH",$this->ini_ilias->readVariable('server','absolute_path'));
 
 		// logging
@@ -627,6 +627,43 @@ class ILIAS
 		global $ilErr;
 
 		$ilErr->raiseError($a_msg,$a_err_obj);
+	}
+
+
+	function __buildHTTPPath()
+	{
+		if($_SERVER['HTTPS'] == 'on')
+		{
+			$protocol = 'https://';
+		}
+		else
+		{
+			$protocol = 'http://';
+		}
+		$host = $_SERVER['SERVER_NAME'];
+
+		if(!defined('ILIAS_MODULE'))
+		{
+			$path = pathinfo($_SERVER['REQUEST_URI']);
+			if(!$path['extension'])
+			{
+				$uri = $_SERVER['REQUEST_URI'];
+			}
+			else
+			{
+				$uri = dirname($_SERVER['REQUEST_URI']);
+			}
+		}
+		else
+		{
+			// if in module remove module name from HTTP_PATH
+			$path = dirname($_SERVER['REQUEST_URI']);
+			
+			// dirname cuts the last directory from a directory path e.g content/classes return content/
+
+			$uri = dirname($path);
+		}
+		return define('ILIAS_HTTP_PATH',$protocol.$host.$uri);
 	}
 
 } // END class.ilias
