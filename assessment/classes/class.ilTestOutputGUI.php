@@ -1169,7 +1169,7 @@ class ilTestOutputGUI
 
 		if($_GET['crs_show_result'])
 		{
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
+			$this->ctrl->redirectByClass("ilobjtestgui", "backToCourse");
 		}
 	}
 	
@@ -1327,9 +1327,7 @@ class ilTestOutputGUI
 		if (!is_array ($user) || count($user)!=1)
 		{
 				sendInfo($this->lng->txt("user_not_invited"), true);
-				$path = $this->tree->getPathFull($this->object->getRefID());
-				ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-				exit();
+				$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 		}
 			
 		$user = array_pop($user);
@@ -1337,9 +1335,7 @@ class ilTestOutputGUI
 		if (strcmp($user->clientip,"")!=0 && strcmp($user->clientip,$_SERVER["REMOTE_ADDR"])!=0)
 		{
 			sendInfo($this->lng->txt("user_wrong_clientip"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
+			$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 		}		
 	}	
 	
@@ -1426,9 +1422,7 @@ class ilTestOutputGUI
 	function handleCancelCommand()
 	{
 		sendInfo($this->lng->txt("test_cancelled"), true);
-		$path = $this->tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-		exit();
+		$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 	}
 	
 	/**
@@ -1963,17 +1957,13 @@ class ilTestOutputGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 		}
 		
 		if (!$this->object->isActiveTestSubmitted($ilUser->getId())) 
 		{
 			sendInfo($this->lng->txt("test_not_submitted"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 		}
 
 

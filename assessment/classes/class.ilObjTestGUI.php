@@ -65,6 +65,7 @@ class ilObjTestGUI extends ilObjectGUI
 				case "importFile":
 				case "cloneAll":
 				case "importVerifiedFile":
+				case "cancelImport":
 					return;
 					break;
 				default:
@@ -245,11 +246,19 @@ class ilObjTestGUI extends ilObjectGUI
 			"&baseClass=ilObjTestGUI");
 	}
 
-	function getAddParameter()
+	function backToRepositoryObject()
 	{
-		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"] . '&crs_show_result='. (int) $_GET['crs_show_result'];
+		include_once "./classes/class.ilUtil.php";
+		$path = $this->tree->getPathFull($this->object->getRefID());
+		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 	}
-
+	
+	function backToCourseObject()
+	{
+		include_once "./classes/class.ilUtil.php";
+		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
+	}
+	
 	/*
 	* list all export files
 	*/
@@ -262,9 +271,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->backToRepositoryObject();
 		}
 
 		//$this->setTabs();
@@ -728,7 +735,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function cancelImportObject()
 	{
-		ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+		$this->backToRepositoryObject();
 	}
 	
 	
@@ -976,8 +983,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function cancelPropertiesObject()
 	{
 		sendInfo($this->lng->txt("msg_cancel"), true);
-		$path = $this->tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+		$this->backToRepositoryObject();
 	}
 	
 	/**
@@ -1088,9 +1094,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->backToRepositoryObject();
 		}
 		
 		$data["sel_test_types"] = $this->object->getTestType();
@@ -2389,9 +2393,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->backToRepositoryObject();
 		}
 
 		if ($this->object->isRandomTest())
@@ -2722,9 +2724,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->backToRepositoryObject();
 		}
 
 		$this->object->mark_schema->sort();
@@ -2950,9 +2950,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->backToRepositoryObject();
 		}
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
@@ -3219,9 +3217,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->backToRepositoryObject();
 		}
 		
 		if ($this->object->getTestType() != TYPE_ONLINE_TEST) 
@@ -3235,9 +3231,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["cancel"])
 		{
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel",ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH)."/repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
+			$this->backToRepositoryObject();
 		}
 
 		if (count($_POST))
@@ -3491,9 +3485,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			$this->backToRepositoryObject();
 		}
 
 		if ($_POST["cmd"]["print"]) 
@@ -3890,102 +3882,105 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
 		{
-			// properties
-			$force_active = ($this->ctrl->getCmdClass() == "" &&
-				$this->ctrl->getCmd() == "")
-				? true
-				: false;
-			$tabs_gui->addTarget("properties",
-				 $this->ctrl->getLinkTarget($this,'properties'),
-				 array("properties", "saveProperties", "cancelProperties"),
-				 "",
-				 "", $force_active);
-		}
-
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
-		{
-			$tabs_gui->addTarget("info",
-				 $this->ctrl->getLinkTarget($this,'infoScreen'),
-				 array("infoScreen", "outIntroductionPage"));
-		}
-		
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			// questions
-			$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
-				? true
-				: false;
-			if (!$force_active)
+			global $ilAccess;
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
-				if ($_GET["browse"] == 1) $force_active = true;
-				if (preg_match("/deleteqpl_\d+/", $this->ctrl->getCmd()))
-				{
-					$force_active = true;
-				}
-			}
-			$tabs_gui->addTarget("ass_questions",
-				 $this->ctrl->getLinkTarget($this,'questions'),
-				 array("questions", "browseForQuestions", "createQuestion", 
-				 "randomselect", "filter", "resetFilter", "insertQuestions",
-				 "back", "createRandomSelection", "cancelRandomSelect",
-				 "insertRandomSelection", "removeQuestions", "moveQuestions",
-				 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
-				 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-				 "addQuestionpool", "saveRandomQuestions"), 
-				 "", "", $force_active);
-				 
-			// mark schema
-			$tabs_gui->addTarget("mark_schema",
-				 $this->ctrl->getLinkTarget($this,'marks'),
-				 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-					"saveMarks", "cancelMarks"),
-				 "");
-	
-			if ($this->object->isOnlineTest())
-			{
-				// participants
-				$tabs_gui->addTarget("participants",
-					 $this->ctrl->getLinkTarget($this,'participants'),
-					 array("participants", "search", "add", "save_client_ip",
-					 "remove", "print_answers", "print_results"), 
-					 "");
+				// properties
+				$force_active = ($this->ctrl->getCmdClass() == "" &&
+					$this->ctrl->getCmd() == "")
+					? true
+					: false;
+				$tabs_gui->addTarget("properties",
+					 $this->ctrl->getLinkTarget($this,'properties'),
+					 array("properties", "saveProperties", "cancelProperties"),
+					 "",
+					 "", $force_active);
 			}
 	
-			// print
-			$tabs_gui->addTarget("print",
-				 $this->ctrl->getLinkTarget($this,'print'),
-				 "print", "");
-	
-			// export
-			$tabs_gui->addTarget("export",
-				 $this->ctrl->getLinkTarget($this,'export'),
-				 array("export", "createExportFile", "confirmDeleteExportFile",
-				 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
-				 "");
-				
-			// maintenance
-			$tabs_gui->addTarget("maintenance",
-				 $this->ctrl->getLinkTarget($this,'maintenance'),
-				 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
-				 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
-				 "");
-	
-			// status
-			$tabs_gui->addTarget("status",
-				 $this->ctrl->getLinkTarget($this,'status'),
-				 "status", "");
+			if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+			{
+				$tabs_gui->addTarget("info",
+					 $this->ctrl->getLinkTarget($this,'infoScreen'),
+					 array("infoScreen", "outIntroductionPage"));
+			}
 			
-			// permissions
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-				 
-			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			{
+				// questions
+				$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
+					? true
+					: false;
+				if (!$force_active)
+				{
+					if ($_GET["browse"] == 1) $force_active = true;
+					if (preg_match("/deleteqpl_\d+/", $this->ctrl->getCmd()))
+					{
+						$force_active = true;
+					}
+				}
+				$tabs_gui->addTarget("ass_questions",
+					 $this->ctrl->getLinkTarget($this,'questions'),
+					 array("questions", "browseForQuestions", "createQuestion", 
+					 "randomselect", "filter", "resetFilter", "insertQuestions",
+					 "back", "createRandomSelection", "cancelRandomSelect",
+					 "insertRandomSelection", "removeQuestions", "moveQuestions",
+					 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
+					 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
+					 "addQuestionpool", "saveRandomQuestions"), 
+					 "", "", $force_active);
+					 
+				// mark schema
+				$tabs_gui->addTarget("mark_schema",
+					 $this->ctrl->getLinkTarget($this,'marks'),
+					 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+						"saveMarks", "cancelMarks"),
+					 "");
+		
+				if ($this->object->isOnlineTest())
+				{
+					// participants
+					$tabs_gui->addTarget("participants",
+						 $this->ctrl->getLinkTarget($this,'participants'),
+						 array("participants", "search", "add", "save_client_ip",
+						 "remove", "print_answers", "print_results"), 
+						 "");
+				}
+		
+				// print
+				$tabs_gui->addTarget("print",
+					 $this->ctrl->getLinkTarget($this,'print'),
+					 "print", "");
+		
+				// export
+				$tabs_gui->addTarget("export",
+					 $this->ctrl->getLinkTarget($this,'export'),
+					 array("export", "createExportFile", "confirmDeleteExportFile",
+					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
+					 "");
+					
+				// maintenance
+				$tabs_gui->addTarget("maintenance",
+					 $this->ctrl->getLinkTarget($this,'maintenance'),
+					 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
+					 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
+					 "");
+		
+				// status
+				$tabs_gui->addTarget("status",
+					 $this->ctrl->getLinkTarget($this,'status'),
+					 "status", "");
+				
+				// permissions
+				$tabs_gui->addTarget("perm_settings",
+					$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+					 
+				// meta data
+				$tabs_gui->addTarget("meta_data",
+					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+					 "", "ilmdeditorgui");
+			}
 		}
 	}
 } // END class.ilObjTestGUI
