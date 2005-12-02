@@ -781,13 +781,14 @@ class ilContObjParser extends ilMDSaxParser
 					
 					// within learning module import, usually a media object
 					// has already been created with a media alias tag
+//echo "<br>--media object identifier mob id = $mob_id";
 					if ($mob_id > 0)
 					{
 						$this->media_object = new ilObjMediaObject($mob_id);
 					}
 					else	// in glossaries the media objects precede the definitions
 							// so we don't have an object already
-					{		
+					{
 						$this->media_object = new ilObjMediaObject();
 						$this->media_object->create(true, false);
 						$this->mob_mapping[$a_attribs["Entry"]]
@@ -1170,7 +1171,10 @@ class ilContObjParser extends ilMDSaxParser
 				}
 				else if((strtolower(get_class($this->current_object)) == "ilobjquestionpool" ||
 					strtolower(get_class($this->current_object)) == "ilobjtest") &&
-					!$this->in_media_object && !$this->in_page_object)
+					!$this->in_media_object)
+//					!$this->in_media_object && !$this->in_page_object)
+// changed for imports of ILIAS 2 Tests where PageObjects could have
+// Metadata sections (Helmut Schottmüller, 2005-12-02)
 				{
 					if ($this->metadata_parsing_disabled)
 					{
@@ -1178,9 +1182,18 @@ class ilContObjParser extends ilMDSaxParser
 					}
 					else
 					{
-						$this->current_object->MDUpdateListener('General');
-						ilLMObject::_writeImportId($this->current_object->getId(),
-								$this->current_object->getImportId());
+						if ($this->in_page_object)
+						{
+							$this->page_object->MDUpdateListener('General');
+							ilLMObject::_writeImportId($this->page_object->getId(),
+									$this->page_object->getImportId());
+						}
+						else
+						{
+							$this->current_object->MDUpdateListener('General');
+							ilLMObject::_writeImportId($this->current_object->getId(),
+									$this->current_object->getImportId());
+						}
 					}
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilstructureobject")

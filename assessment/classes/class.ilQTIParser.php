@@ -18,7 +18,7 @@
 	| You should have received a copy of the GNU General Public License           |
 	| along with this program; if not, write to the Free Software                 |
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+---------9--------------------------------------------------------------------+
+	+-----------------------------------------------------------------------------+
 */
 
 include_once("./classes/class.ilSaxParser.php");
@@ -862,10 +862,12 @@ class ilQTIParser extends ilSaxParser
 			case "response_grp":
 				// Matching terms and definitions
 				// Matching terms and images
+				include_once "./assessment/classes/class.ilQTIResponse.php";
 				switch (strtolower($a_name))
 				{
 					case "response_lid":
 						$response_type = RT_RESPONSE_LID;
+						echo "rt = $response_type";
 						break;
 					case "response_xy":
 						$response_type = RT_RESPONSE_XY;
@@ -881,7 +883,6 @@ class ilQTIParser extends ilSaxParser
 						break;
 				}
 				$this->in_response = TRUE;
-				include_once("./assessment/classes/class.ilQTIResponse.php");
 				$this->response = new ilQTIResponse($response_type);
 				$this->response->setFlow($this->flow);
 				if (is_array($a_attribs))

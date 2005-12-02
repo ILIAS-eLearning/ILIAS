@@ -64,6 +64,7 @@ class ilObjTestGUI extends ilObjectGUI
 				case "cancel":
 				case "importFile":
 				case "cloneAll":
+				case "importVerifiedFile":
 					return;
 					break;
 				default:
@@ -720,7 +721,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
-		
 		sendInfo($this->lng->txt("object_imported"),true);
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");
@@ -3794,7 +3794,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		$info->addProperty($this->lng->txt("description"), $this->object->getDescription());
-		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		$onlineaccess = true;
+		if ($this->object->isOnlineTest())
+		{
+			$onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
+		}
+		if ($ilAccess->checkAccess("read", "", $this->ref_id) && $onlineaccess)
 		{
 			// use javascript
 			$checked_javascript = false;
