@@ -3733,7 +3733,17 @@ class ilObjTestGUI extends ilObjectGUI
 		$output_gui =& new ilTestOutputGUI($this->object);
 		$this->ctrl->setParameter($output_gui, "sequence", $seq);
 		$info->setFormAction($this->ctrl->getFormAction($output_gui));
-		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		$online_access = false;
+		if ($this->object->isOnlineTest())
+		{
+			include_once "./assessment/classes/class.ilObjTestAccess.php";
+			$online_access_result = 	ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
+			if ($online_access_result === true)
+			{
+				$online_access = true;
+			}
+		}
+		if ((!$this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id)) || ($this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id) && $online_access))
 		{
 			$executable = $this->object->isExecutable($ilUser->getId());
 			if ($executable["executable"])
@@ -3794,12 +3804,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		$info->addProperty($this->lng->txt("description"), $this->object->getDescription());
-		$onlineaccess = true;
-		if ($this->object->isOnlineTest())
-		{
-			$onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
-		}
-		if ($ilAccess->checkAccess("read", "", $this->ref_id) && $onlineaccess)
+		if ((!$this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id)) || ($this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id) && $online_access))
 		{
 			// use javascript
 			$checked_javascript = false;
