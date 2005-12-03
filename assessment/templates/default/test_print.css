@@ -16,7 +16,7 @@ body {
 	padding: 0;
 }
 
-#form_test, #legend {
+#form_test, #legend, #dontprint {
 	visibility: hidden;
 	display: none;
 }
@@ -102,7 +102,21 @@ h1 {
 	font-weight: bold;
 }
 
+tr {
+	border: 0px;
+}
+
+td {
+	border: 0px;
+	vertical-align: top;
+}
+
 .option_value {
 	font-weight: normal;
 	vertical-align: top;
+}
+
+hr {
+	border: 1px double gray;
+	page-break-after: always;
 }

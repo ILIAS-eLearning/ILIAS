@@ -319,7 +319,6 @@ assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#print_answers#:#Print Answers
-assessment#:#print_results#:#Print Results
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers
@@ -397,6 +396,7 @@ assessment#:#see_details_for_further_information#:#See details for suggested sol
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select gap
 assessment#:#select_max_one_item#:#Please select one item only
+assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#select_tst_option#:#--- Please select a test ---
 assessment#:#selected_image#:#Selected image

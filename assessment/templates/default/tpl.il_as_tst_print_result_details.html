@@ -1,35 +1,60 @@
+<!-- BEGIN navigation_buttons -->
+<div id="dontprint">
+	<p>
+		<a href="{URL_BACK}" class="submit">{BUTTON_BACK}</a>
+		<a href="javascript:window.print();" class="submit">{BUTTON_PRINT}</a>
+	</p>
+</div>
+<!-- END navigation_buttons -->
+<!-- BEGIN user_results -->
 <h1>{TEXT_RESULTS}</h1>
-<h3>{TITLE}</h3></p>
-<table >
-<tr><td class="std" align="left">{TXT_USR_NAME}</th><td class="freefield">:</td><td class="freefield">{VALUE_USR_NAME}</td><td class="freefield">&nbsp;</td><th class="freefield" align="left">{TXT_USR_MATRIC}</th><td class="freefield">:</td><td colspan="10" class="freefield">{VALUE_USR_MATRIC}</td></tr>
-<tr><td class="std" align="left">{TXT_TEST_DATE}</td><td>:</td><td>{VALUE_TEST_DATE}</td><td>&nbsp;</td><td class="std" align="left">{TXT_PRINT_DATE}</td><td>:</td><td>{VALUE_PRINT_DATE}</td></tr>
+<h3>{TITLE}</h3>
+<table>
+	<tr>
+		<td>{TXT_USR_NAME}</td>
+		<td>:</td>
+		<td>{VALUE_USR_NAME}</td>
+		<td>&nbsp;</td>
+		<td><!-- BEGIN user_matric --><strong>{TXT_USR_MATRIC}</strong><!-- END user_matric --></td>
+		<td><!-- BEGIN user_matric_separator -->:<!-- END user_matric_separator --></td>
+		<td><!-- BEGIN user_matric_value --><strong>{VALUE_USR_MATRIC}</strong><!-- END user_matric_value --></td>
+	</tr>
+	<tr>
+		<td>{TXT_TEST_DATE}</td>
+		<td>:</td>
+		<td>{VALUE_TEST_DATE}</td>
+		<td>&nbsp;</td>
+		<td align="left">{TXT_PRINT_DATE}</td>
+		<td>:</td>
+		<td>{VALUE_PRINT_DATE}</td>
+	</tr>
 </table>
-<br>
-<p>
+<br/ >
 <table class="fullwidth">
-<tr class="tblheader">
-<th class="std">{QUESTION_COUNTER}</th>
-<th class="std">{QUESTION_TITLE}</th>
-<th class="std">{MAX_POINTS}</th>
-<th class="std">{REACHED_POINTS}</th>
-<th class="std">{PERCENT_SOLVED}</th>
-</tr>
+	<tr class="tblheader">
+		<td>{QUESTION_COUNTER}</td>
+		<td>{QUESTION_TITLE}</td>
+		<td>{MAX_POINTS}</td>
+		<td>{REACHED_POINTS}</td>
+		<td>{PERCENT_SOLVED}</td>
+	</tr>
 <!-- BEGIN question -->
-<tr>
-<td class="{COLOR_CLASS}">{VALUE_QUESTION_COUNTER}</td>
-<td class="{COLOR_CLASS}">{VALUE_QUESTION_TITLE}</td>
-<td class="{COLOR_CLASS}">{VALUE_MAX_POINTS}</td>
-<td class="{COLOR_CLASS}">{VALUE_REACHED_POINTS}</td>
-<td class="{COLOR_CLASS}">{VALUE_PERCENT_SOLVED}</td>
-</tr>
+	<tr class="{COLOR_CLASS}">
+		<td>{VALUE_QUESTION_COUNTER}</td>
+		<td>{VALUE_QUESTION_TITLE}</td>
+		<td>{VALUE_MAX_POINTS}</td>
+		<td>{VALUE_REACHED_POINTS}</td>
+		<td>{VALUE_PERCENT_SOLVED}</td>
+	</tr>
 <!-- END question --> 
-<tr class="tblheader">
-<th class="std">{TOTAL}</th>
-<th class="std">&nbsp;</th>
-<th class="std">{TOTAL_MAX_POINTS}</th>
-<th class="std">{TOTAL_REACHED_POINTS}</th>
-<th class="std">{TOTAL_PERCENT_SOLVED}</th>
-</tr>
+	<tr class="tblfooter">
+		<td><strong>{TOTAL}</strong></td>
+		<td>&nbsp;</td>
+		<td><strong>{TOTAL_MAX_POINTS}</strong></td>
+		<td><strong>{TOTAL_REACHED_POINTS}</strong></td>
+		<td><strong>{TOTAL_PERCENT_SOLVED}</strong></td>
+	</tr>
 </table>
-{GRADE}
-<p style="page-break-after:always;"></p>
+<p>{GRADE}</p>
+<!-- BEGIN ruler --><hr /><!-- END ruler -->
+<!-- END user_results -->
