@@ -3289,7 +3289,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$invited_users = $this->object->getInvitedUsers();
 
-		$buttons = array("save","remove","print_answers","print_results");
+		$buttons = array("save","remove","print_answers","tst_show_results");
 		
 		if (count($invited_users))
 		{
@@ -3297,6 +3297,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
 		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
@@ -3327,9 +3328,6 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($_POST["cmd"]["print_answers"]) {
 				$this->_printAnswerSheets($_POST["invited_users"]);
 				return;
-			} elseif ($_POST["cmd"]["print_results"]) {
-				$this->_printResultSheets($_POST["invited_users"]);
-				return;					
 			}
 			
 			for ($i = 0; $i < count($_POST["invited_users"]); $i++)
@@ -3573,8 +3571,8 @@ class ilObjTestGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "iv_usr":
-				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."&cmd=resultsheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
-				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."&cmd=answersheet&user_id=\">&nbsp;".$this->lng->txt("tst_show_answer_sheet")."</a>" ;
+				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />";
+				$finished .= "&nbsp;<a target=\"_blank\" href=\"".$this->ctrl->getLinkTarget($this, "answersheet")."&user_id=\">&nbsp;".$this->lng->txt("tst_show_answer_sheet")."</a>" ;
 				$started   = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />" ;
 				
 				foreach ($data_array as $data)
@@ -3677,7 +3675,186 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 		}
 	}
+	
+/**
+* Output of the results of a selected learner
+*
+* Output of the results of a selected learner
+*
+* @access public
+*/
+	function resultsheetObject() 
+	{
+		global $rbacsystem, $ilUser, $ilErr;
 		
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			$ilErr->raiseError($this->lng->txt("cannot_edit_test"),$ilErr->WARNING);
+			return;
+		}
+		
+		$user_id = (int) $_GET["user_id"];
+		$user = $this->object->getInvitedUsers($user_id);
+		if (!is_array ($user) || count($user)!=1)
+		{
+			$ilErr->raiseError($this->lng->txt("user_not_invited"),$ilErr->WARNING);
+			return;
+		}
+			
+		$this->outPrintTestResults($user_id);	
+	}
+	
+/**
+* Output of the learners view of an existing test
+*
+* Output of the learners view of an existing test
+*
+* @access public
+*/
+	function outPrintTestResults($user_id) 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);			
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("navigation_buttons");
+		$this->tpl->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "participants"));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->outPrintUserResults($user_id);
+	}
+	
+	function showResultsObject()
+	{
+		$user_ids = array();
+		foreach ($_POST["invited_users"] as $user_id) 
+		{
+			if ($this->object->isActiveTestSubmitted($user_id)) 
+			{
+				array_push($user_ids, $user_id);
+			}
+		}
+		if (count($user_ids) == 0)
+		{
+			sendInfo($this->lng->txt("select_one_submitted_test"), true);
+			$this->ctrl->redirect($this, "participants");
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);			
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("navigation_buttons");
+		$this->tpl->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "participants"));
+		$this->tpl->parseCurrentBlock();
+		$counter = 0;
+		foreach ($user_ids as $user_id)
+		{
+			$counter++;
+			if ($counter < count($user_ids)) $this->tpl->touchBlock("ruler");
+			$this->outPrintUserResults($user_id);
+		}
+	}
+
+	function outPrintUserResults($user_id) 
+	{
+		include_once "./classes/class.ilObjUser.php";
+		$user = new ilObjUser($user_id);
+		$active = $this->object->getActiveTestUser($user_id);
+		$t = $active->submittimestamp;
+		
+		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+
+
+		if (strlen($user->getMatriculation()))
+		{
+			$this->tpl->setCurrentBlock("user_matric");
+			$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("user_matric_value");
+			$this->tpl->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("user_matric_separator");
+		}
+		
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+
+		$result_array =& $this->object->getTestResult($user_id);
+
+		if (!$result_array["test"]["total_max_points"])
+		{
+			$percentage = 0;
+		}
+		else
+		{
+			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+		}
+		
+		$total_max = $result_array["test"]["total_max_points"];
+		$total_reached = $result_array["test"]["total_reached_points"];
+
+		foreach ($result_array as $key => $value) {
+			if (preg_match("/\d+/", $key)) {
+				$title = $value["title"];
+				$this->tpl->setCurrentBlock("question");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
+				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $title);
+				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
+				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
+				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
+				$this->tpl->parseCurrentBlock("question");
+				$counter++;
+			}
+		}
+		
+		$this->tpl->setCurrentBlock("user_results");
+		$this->tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
+		$this->tpl->setVariable("VALUE_USR_NAME", $user->getLastname().", ".$user->getFirstname());
+		$this->tpl->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
+		$this->tpl->setVariable("VALUE_TEST_DATE", strftime("%Y-%m-%d %H:%M:%S",ilUtil::date_mysql2time($t)));
+		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
+		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%Y-%m-%d %H:%M:%S",$print_date));
+
+		$this->tpl->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
+		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
+		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
+		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+		$this->tpl->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
+
+		// SUM
+		$this->tpl->setVariable("TOTAL", $this->lng->txt("total"));
+		$this->tpl->setVariable("TOTAL_MAX_POINTS", $total_max);
+		$this->tpl->setVariable("TOTAL_REACHED_POINTS",  $total_reached);
+		$this->tpl->setVariable("TOTAL_PERCENT_SOLVED", sprintf("%01.2f",$percentage)." %");
+
+		$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
+		if ($mark_obj)
+		{
+			$mark .= "<br /><strong>" . $this->lng->txt("tst_mark") . ": &quot;" . $mark_obj->get_official_name() . "&quot;</strong>";
+		}
+		if ($this->object->ects_output)
+		{
+			$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
+			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
+		}	
+ 
+		$this->tpl->setVariable("GRADE", $mark);
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("TEXT_RESULTS", sprintf($this->lng->txt("tst_result_user_name"), $user->getFullName()));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -3944,7 +4121,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$tabs_gui->addTarget("participants",
 						 $this->ctrl->getLinkTarget($this,'participants'),
 						 array("participants", "search", "add", "save_client_ip",
-						 "remove", "print_answers", "print_results"), 
+						 "remove", "print_answers", "showResults", "resultsheet"), 
 						 "");
 				}
 		
