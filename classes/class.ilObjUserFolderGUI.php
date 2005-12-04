@@ -51,16 +51,23 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		define('USER_FOLDER_ID',7);
 
 		$this->type = "usrf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 	}
 
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -68,10 +75,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				}
 				$cmd .= "Object";
 				$this->$cmd();
-					
+
 				break;
 		}
-
 		return true;
 	}
 
@@ -144,14 +150,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// display button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=searchUserForm");
+		$this->tpl->setVariable("BTN_LINK",
+			$this->ctrl->getLinkTarget($this, "searchUserForm"));
+			//"adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=searchUserForm");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user"));
 		$this->tpl->parseCurrentBlock();
 
 		//if (AUTH_DEFAULT == AUTH_LOCAL)
 		//{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=importUserForm");
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTarget($this, "importUserForm"));
+				//"adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=importUserForm");
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
 			$this->tpl->parseCurrentBlock();
 		//}
@@ -192,14 +202,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
+			//"adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
 		// create table
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",
+		$tbl->setTitle($this->object->getTitle(),"icon_usr.gif",
 					   $this->lng->txt("obj_".$this->object->getType()));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
@@ -254,7 +266,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				foreach ($data as $key => $val)
 				{
 					//build link
-					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
+					$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
+					$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $ctrl["obj_id"]);
+					$link = $this->ctrl->getLinkTargetByClass("ilobjusergui", "view");
+					//$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
 					
 					// dirty workaround to have ids for function showActions (checkbox toggle option)
 					$this->ids[] = $ctrl["obj_id"];
@@ -304,7 +319,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if ($this->actions == "")
 		{
-			$d = $this->objDefinition->getActions($_GET["type"]);
+			$d = $this->objDefinition->getActions($this->object->getType());
 		}
 		else
 		{
@@ -443,7 +458,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// Feedback
 		sendInfo($this->lng->txt("user_deleted"),true);
 
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "view");
+		//ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
@@ -479,7 +495,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
@@ -538,7 +555,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html");
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("USERNAME_CHECKED", " checked=\"checked\"");
 		$this->tpl->setVariable("FIRSTNAME_CHECKED", " checked=\"checked\"");
 		$this->tpl->setVariable("LASTNAME_CHECKED", " checked=\"checked\"");
@@ -562,8 +580,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
-		exit();
+		$this->ctrl->redirect($this, "view");
+		//header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		//exit();
 	}
 
 	function searchUserObject()
@@ -588,15 +607,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"])) == 0)
 		{
 			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
-			header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
-			exit();		
+			$this->ctrl->redirect($this, "searchUserForm");
+			//header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
+			//exit();		
 		}
 		//add template for buttons
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
 		// display button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","adm_object.php?ref_id=".$this->ref_id."&cmd=searchUserForm");
+		$this->tpl->setVariable("BTN_LINK",
+			$this->ctrl->getLinkTarget($this, "searchUserForm"));
+			//"adm_object.php?ref_id=".$this->ref_id."&cmd=searchUserForm");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_new"));
 		$this->tpl->parseCurrentBlock();
 
@@ -655,8 +677,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
 
-			header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
-			exit();		
+			$this->ctrl->redirect($this, "searchUserForm");
+			//header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
+			//exit();		
 		}
 		
 		$this->maxcount = count($this->data["data"]);
@@ -692,7 +715,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway&sort_by=name&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+		$this->ctrl->setParameter($this, "sort_by", "name");
+		$this->ctrl->setParameter($this, "sort_order", $_GET["sort_order"]);
+		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
+			//"adm_object.php?ref_id=".$this->ref_id."&cmd=gateway&sort_by=name&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
 
 		// create table
 		include_once "./classes/class.ilTableGUI.php";
@@ -762,7 +790,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				foreach ($data as $key => $val)
 				{
 					//build link
-					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
+					$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
+					$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $ctrl["obj_id"]);
+					$link = $this->ctrl->getLinkTargetByClass("ilobjusergui", "view");
+					//$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
 
 					if ($key == "login")
 					{
@@ -823,10 +854,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
-			$return_location = $_GET["cmd_return_location"];
-			ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+			$this->ctrl->redirect($this, "view");
+			//ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 		}
 		else
 		{
@@ -1237,9 +1268,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				break;
 		}
 
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
-			ilUtil::redirect($this->ctrl->getLinkTarget($this));
+			$this->ctrl->redirect($this, "view");
+			//ilUtil::redirect($this->ctrl->getLinkTarget($this));
 		}
 		else
 		{
@@ -1712,7 +1744,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER_PROFILE", $this->lng->txt("usr_settings_header_profile"));
 		$this->tpl->setVariable("TXT_EXPLANATION_PROFILE", $this->lng->txt("usr_settings_explanation_profile"));
 		$this->tpl->setVariable("HEADER_PROFILE_DATA", $this->lng->txt("usr_settings_header_profile_profile"));
@@ -2036,6 +2069,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
 	
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}
+
 	/**
 	* get tabs
 	* @access	public

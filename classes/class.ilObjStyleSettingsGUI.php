@@ -47,6 +47,33 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			default:
+				if ($cmd == "" || $cmd == "view")
+				{
+					$cmd = "editBasicSettings";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+	
 	/**
 	* save object
 	* @access	public
@@ -161,7 +188,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
+		// "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -224,9 +253,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
 			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
 			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
+			$this->ctrl->setParameter("ilobjstylesheetgui", "obj_id", $style["id"]); 
 			$this->tpl->setVariable("LINK_STYLE",
-				"adm_object.php?ref_id=".$_GET["ref_id"].
-				"&obj_id=".$style["id"]);
+				$this->ctrl->getLinkTargetByClass("ilobjstylesheetgui"), "view");
 			$this->tpl->setVariable("ROWCOL", $css_row);
 			if ($style["id"] == $fixed_style)
 			{
@@ -442,8 +471,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
@@ -612,8 +640,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		session_unregister("saved_post");
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
-		ilUtil::redirect($this->getReturnLocation("cancelDelete",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles"));
+		$this->ctrl->redirect($this, "editContentStyles");
+		//ilUtil::redirect($this->getReturnLocation("cancelDelete",
+		//	"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles"));
 
 	}
 
@@ -623,6 +652,11 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		echo "settings_setTabs";
 	}
 	
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}
+		
 	/**
 	* get tabs
 	* @access	public
@@ -635,7 +669,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("basic_settings",
-				$this->ctrl->getLinkTarget($this, "editBasicSettings"), array("editBasicSettings",""), "", "");
+				$this->ctrl->getLinkTarget($this, "editBasicSettings"), array("editBasicSettings","", "view"), "", "");
 
 			$tabs_gui->addTarget("system_styles",
 				$this->ctrl->getLinkTarget($this, "editSystemStyles"), "editSystemStyles", "", "");

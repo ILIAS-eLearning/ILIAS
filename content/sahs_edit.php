@@ -87,5 +87,5 @@ switch ($type)
 		//unknown type
 		$ilias->raiseError($lng->txt("unknown type in sahs_edit"),$ilias->error_obj->MESSAGE);
 }
-
+$tpl->show();
 ?>

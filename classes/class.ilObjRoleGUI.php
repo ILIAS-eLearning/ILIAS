@@ -29,6 +29,8 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilObjRoleGUI:
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -58,7 +60,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
 	{
 		//TODO: move this to class.ilias.php
 		define("USER_FOLDER_ID",7);
@@ -67,7 +69,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->rolf_ref_id = $_GET['ref_id'];
 
 		$this->type = "role";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		$this->ctrl->saveParameter($this, "obj_id");
 	}
 
 
@@ -78,6 +81,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		if($this->ctrl->getTargetScript() == 'role.php')
 		{
 			$this->__prepareOutput();
+		}
+		else
+		{
+			$this->prepareOutput();
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -97,6 +104,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		return true;
+	}
+	
+	/**
+	* admin and normal tabs are equal for roles
+	*/
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs(&$tabs_gui);
 	}
 
 
@@ -367,7 +382,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id."&new_type=".$this->type));
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction());
+			//$this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id."&new_type=".$this->type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -422,7 +439,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$rbacadmin->setProtected($this->rolf_ref_id,$roleObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		sendInfo($this->lng->txt("role_added"),true);
 
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
+		$this->ctrl->returnToParent($this);
+		//ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
 	}
 
 	/**
@@ -548,12 +566,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 
 			#$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
-			$output["formaction_adopt"] = $this->ctrl->getFormAction($this,'adoptPermSave');
+			$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
 			// END ADOPT_PERMISSIONS
 		}
 
 		#$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
-		$output["formaction"] = $this->ctrl->getFormAction($this,'permSave');
+		$output["formaction"] = $this->ctrl->getFormAction($this);
 
 		$this->data = $output;
 
@@ -849,15 +867,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		// set protected flag
 		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 
-		sendInfo($this->lng->txt("saved_successfully"),true);
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
-		{
-			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
-		}
-		else
-		{
-			$this->permObject();
-		}
+		sendInfo($this->lng->txt("saved_successfully"),true); 
+		$this->ctrl->redirect($this, "perm");
 	}
 
 
@@ -894,6 +905,8 @@ class ilObjRoleGUI extends ilObjectGUI
 					 $this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
+		$this->ctrl->redirect($this, "perm");
+		/*
 		if($this->ctrl->getTargetScript() == 'adm_object.php')
 		{
 			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
@@ -901,7 +914,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		else
 		{
 			$this->permObject();
-		}
+		}*/
 	}
 
 	/**
@@ -1241,8 +1254,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		foreach ($assigned_users as $user)
 		{
 			$link_contact = "mail_new.php?type=new&rcp_to=".$user["login"];
-			$link_change = "adm_object.php?ref_id=7&obj_id=".$user["usr_id"]."&cmd=edit";
-			$link_leave = $this->ctrl->getLinkTarget($this,"deassignUser")."&user_id=".$user["usr_id"];
+			$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]); 
+			$link_change = $this->ctrl->getLinkTargetByClass("ilobjusergui", "edit");
+			//$link_change = "adm_object.php?ref_id=7&obj_id=".$user["usr_id"]."&cmd=edit";
+			$this->ctrl->setParameter($this, "user_id", $user["usr_id"]);
+			$link_leave = $this->ctrl->getLinkTarget($this,"deassignUser");
 
             $member_functions = "";
 
@@ -1251,7 +1267,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
                 //build function
                 $member_functions = "<a href=\"".$link_contact."\">".$val_contact."</a>";
-				if($this->ctrl->getTargetScript() == 'adm_object.php')
+				if($_GET["baseClass"] == 'iladministrationgui')
 				{
 					$member_functions .= "<a href=\"".$link_change."\">".$val_change."</a>";
 				}
@@ -1313,7 +1329,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tpl->setVariable("COLUMN_COUNTS",5);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
-           foreach ($actions as $name => $value)
+		foreach ($actions as $name => $value)
 		{
 			$tpl->setCurrentBlock("tbl_action_btn");
 			$tpl->setVariable("BTN_NAME",$name);
@@ -1336,11 +1352,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,"cmd","userassignment");
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("assigned_users"),"icon_usr_b.gif",$this->lng->txt("users"));
+		$tbl->setTitle($this->lng->txt("assigned_users"),"icon_usr.gif",$this->lng->txt("users"));
 
 		//user must be administrator
 		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),
-								   $this->lng->txt("lastname"),$this->lng->txt("grp_options")));
+			$this->lng->txt("lastname"),$this->lng->txt("grp_options")));
 		$tbl->setHeaderVars(array("","login","firstname","lastname","functions"),$this->ctrl->getParameterArray($this,"",false));
 		$tbl->setColumnWidth(array("","30%","30%","30%","10%"));
 		
@@ -1643,7 +1659,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("role_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr.gif",$this->lng->txt("role_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -1703,7 +1719,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("role_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr.gif",$this->lng->txt("role_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_role"),
 								   $this->lng->txt("role_count_users")));
@@ -1762,7 +1778,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr.gif",$this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_grp"),
 								   $this->lng->txt("grp_count_members")));

@@ -47,7 +47,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	function ilObjLanguageFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "lngf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$_GET["sort_by"] = "language";
 	}
 
 	/**
@@ -68,12 +69,14 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","adm_object.php?ref_id=".$this->ref_id."&cmd=refresh");
+		$this->tpl->setVariable("BTN_LINK",
+			$this->ctrl->getLinkTarget($this, "refresh"));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("refresh_languages"));
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","adm_object.php?ref_id=".$this->ref_id."&cmd=checkLanguage");
+		$this->tpl->setVariable("BTN_LINK",
+			$this->ctrl->getLinkTarget($this, "checkLanguage"));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("check_languages"));
 		$this->tpl->parseCurrentBlock();
 
@@ -179,7 +182,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -204,6 +208,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$tbl->setLimit(0);
 		$tbl->setOffset(0);
 		$tbl->setMaxCount($this->maxcount);
+		$tbl->disable("sort");
 		
 		// SHOW VALID ACTIONS
 		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
@@ -581,8 +586,14 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	function out()
 	{
 		sendInfo($this->data,true);
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
-		exit();
+		$this->ctrl->redirect($this, "view");
+		//header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		//exit();
+	}
+	
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
 	}
 	
 	/**
@@ -611,9 +622,16 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{

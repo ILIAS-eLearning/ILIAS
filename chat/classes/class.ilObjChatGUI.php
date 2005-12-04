@@ -73,6 +73,10 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->__prepareOutput();
 		}
+		else
+		{
+			$this->prepareOutput();
+		}
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -306,9 +310,10 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function viewObject()
 	{
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
-			return parent::viewObject();
+			parent::viewObject();
+			return true;
 		}
 
 		// Check blocked

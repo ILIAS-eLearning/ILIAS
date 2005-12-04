@@ -54,7 +54,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "crs";
-		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,false);
 
 		$this->lng->loadLanguageModule('crs');
 
@@ -220,7 +220,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		if($this->ctrl->getTargetScript() == "adm_object.php")
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
 			return true;
@@ -4002,6 +4002,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 
 		// check if object is purchased

@@ -44,17 +44,17 @@ class ilObjGroupGUI extends ilContainerGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjGroupGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function ilObjGroupGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = false)
 	{
 		$this->type = "grp";
-		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output, false);
 	}
 
 	function viewObject()
 	{
 		global $tree;
 
-		if($this->ctrl->getTargetScript() == "adm_object.php")
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
 			return true;
@@ -78,6 +78,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
@@ -104,9 +105,9 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilpermissiongui':
-					include_once("./classes/class.ilPermissionGUI.php");
-					$perm_gui =& new ilPermissionGUI($this);
-					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:

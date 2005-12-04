@@ -54,7 +54,8 @@ class ilCtrl
 		// this information should go to xml files one day
 		$this->stored_trees = array
 			("ilrepositorygui", "ilpersonaldesktopgui",
-			"illmpresentationgui","illmeditorgui");
+			"illmpresentationgui", "illmeditorgui",
+			"iladministrationgui");
 	}
 
 	/**
@@ -615,7 +616,10 @@ class ilCtrl
 			if(!($c_target > 0))
 			{
 				echo "ERROR: Path not found. Source:".$a_source_node.
-					", Target:".$a_target_node; exit;
+					" (".$this->call_node[$a_source_node]["class"].")".
+					", Target:".$a_target_node.
+					" (".$this->call_node[$a_target_node]["class"].")";
+				exit;
 			}
 		}
 		if ($a_source_node == $c_target)
@@ -844,6 +848,7 @@ class ilCtrl
 	function returnToParent(&$a_gui_obj, $a_anchor = "")
 	{
 		$script = $this->getParentReturn($a_gui_obj);
+
 		$script = ilUtil::appendUrlParameterString($script,
 			"redirectSource=".strtolower(get_class($a_gui_obj)));
 		if ($a_anchor != "")

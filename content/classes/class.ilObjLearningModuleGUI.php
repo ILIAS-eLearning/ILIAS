@@ -87,7 +87,15 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 
 	function view()
 	{
-		$this->properties();
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			$this->prepareOutput();
+			parent::viewObject();
+		}
+		else
+		{
+			$this->properties();
+		}
 	}
 
 }

@@ -45,10 +45,10 @@ class ilObjFolderGUI extends ilContainerGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
 	{
 		$this->type = "fold";
-		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output, false);
 	}
 
 
@@ -56,7 +56,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		global $tree;
 
-		if($this->ctrl->getTargetScript() == "adm_object.php")
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
 			return true;
@@ -81,6 +81,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch ($next_class)
 		{
@@ -208,8 +209,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		$folderObj->putInTree($a_parent);
 			
 		sendInfo($this->lng->txt("fold_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
-		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		$this->ctrl->redirect($this,"");
 	}
 
 	// get tabs

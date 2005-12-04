@@ -46,7 +46,7 @@ class ilObjMailGUI extends ilObjectGUI
 	function ilObjMailGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "mail";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 	}
 
 	function viewObject()
@@ -271,9 +271,16 @@ class ilObjMailGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -285,6 +292,11 @@ class ilObjMailGUI extends ilObjectGUI
 				break;
 		}
 		return true;
+	}
+	
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
 	}
 	
 	/**

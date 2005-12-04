@@ -44,7 +44,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	function ilObjExternalToolsSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		$this->type = "extt";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		
 		define ("ILINC_DEFAULT_HTTP_PORT",80);
 		define ("ILINC_DEFAULT_SSL_PORT",443);
@@ -69,7 +69,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		$this->getTemplateFile("general");
 		
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_EXTT_TITLE", $this->lng->txt("extt_title_configure"));
 
 		$this->tpl->setVariable("TXT_EXTT_NAME", $this->lng->txt("extt_name"));
@@ -90,6 +91,17 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("EXTT_ILINC_ACTIVE", $this->ilias->getSetting('ilinc_active') ? $icon_ok : $icon_not_ok);
 	}
+	
+	function cancelObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirect($this, "view");
+	}
+
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}	
 	
 	/**
 	* get tabs
@@ -284,9 +296,16 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -299,5 +318,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		}
 		return true;
 	}
+	
 } // END class.ilObjExternalToolsSettingsGUI
 ?>

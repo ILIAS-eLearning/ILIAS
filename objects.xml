@@ -440,7 +440,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="seas" class_name="SearchSettings" module="Services/Search" checkbox="0" inherit="0" translate="sys" rbac="1">
+<object name="seas" class_name="SearchSettings" module="Services/Search" location="Services/Search/classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="settings">settings</property>
 	<property name="perm">perm_settings</property>
 </object>

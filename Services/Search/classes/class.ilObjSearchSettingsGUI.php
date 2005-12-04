@@ -49,6 +49,39 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('search');
 	}
 
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			default:
+				if($cmd == "" || $cmd == "view")
+				{
+					$cmd = "settings";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+	
+	function cancelObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirect($this, "settings");
+	}
+
 	/**
 	* Show settings
 	* @access	public
@@ -157,6 +190,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		return true;
 	}
+	
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}
 
 	/**
 	* get tabs
@@ -170,7 +208,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "settings"), array("settings",""), "", "");
+				$this->ctrl->getLinkTarget($this, "settings"), array("settings","", "view"), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

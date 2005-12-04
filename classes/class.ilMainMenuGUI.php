@@ -98,6 +98,7 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("IMG_SPACE_ADMIN", ilUtil::getImagePath("spacer.gif", false));
 			$this->tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
 			$this->tpl->setVariable("SCRIPT_ADMIN", $this->getScriptTarget("adm_index.php"));
+			$this->tpl->setVariable("SCRIPT_ADMIN2", $this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"));
 			$this->tpl->setVariable("TARGET_ADMIN", $this->target);
 			$this->tpl->parseCurrentBlock();
 		}

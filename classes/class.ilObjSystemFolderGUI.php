@@ -52,10 +52,38 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	function ilObjSystemFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "adm";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		
 		$this->lng->loadLanguageModule("administration");
 	}
+	
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+					include_once("./classes/class.ilPermissionGUI.php");
+					$perm_gui =& new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+			
+			default:
+//var_dump($_POST);
+				$cmd = $this->ctrl->getCmd("view");
+
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+
 
 	/**
 	* show admin subpanels and basic settings form
@@ -157,8 +185,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+		if (!$this->call_by_reference)
+		{
+			$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
+		}
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -210,10 +245,19 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				foreach ($data as $key => $val)
 				{
 					//build link
-					$link = "adm_object.php?";
+					$obj_type = ilObject::_lookupType($ctrl["ref_id"],true);
+					$class_name = $this->objDefinition->getClassName($obj_type);
+					$class = strtolower("ilObj".$class_name."GUI");
+					$this->ctrl->setParameterByClass($class, "ref_id", $ctrl["ref_id"]);
+					$this->ctrl->setParameterByClass($class, "obj_id", $ctrl["ref_id"]);
+					$link = $this->ctrl->getLinkTargetByClass($class, "view");
 
+					//$link = "adm_object.php?";
+
+					/*
 					$n = 0;
 
+					
 					foreach ($ctrl as $key2 => $val2)
 					{
 						$link .= $key2."=".$val2;
@@ -223,7 +267,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					    	$link .= "&";
 							$n++;
 						}
-					}
+					}*/
 					
 					if ($key == "title")
 					{
@@ -281,6 +325,217 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 	}
 
+	function saveSettingsObject()
+	{
+		global $rbacsystem;
+		
+		$settings = $this->ilias->getAllSettings();
+		
+		//init checking var
+		$form_valid = true;
+
+		if($_POST['https'])
+		{
+			include_once './classes/class.ilHTTPS.php';
+			
+			if(!ilHTTPS::_checkHTTPS())
+			{
+				sendInfo($this->lng->txt('https_not_possible'));
+				$form_valid = false;
+			}
+			if(!ilHTTPS::_checkHTTP())
+			{
+				sendInfo($this->lng->txt('http_not_possible'));
+				$form_valid = false;
+			}
+		}
+
+		// check required user information
+		if (empty($_POST["admin_firstname"]) or empty($_POST["admin_lastname"])
+			or empty($_POST["admin_street"]) or empty($_POST["admin_zipcode"])
+			or empty($_POST["admin_country"]) or empty($_POST["admin_city"])
+			or empty($_POST["admin_phone"]) or empty($_POST["admin_email"]))
+		{
+			// feedback
+			sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			$form_valid = false;
+		}
+		// check email adresses
+		// feedback_recipient
+		if (!ilUtil::is_email($_POST["feedback_recipient"]) and !empty($_POST["feedback_recipient"]) and $form_valid)
+		{
+			sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("feedback_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
+			$form_valid = false;
+		}
+
+		// error_recipient
+		if (!ilUtil::is_email($_POST["error_recipient"]) and !empty($_POST["error_recipient"]) and $form_valid)
+		{
+			sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("error_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
+			$form_valid = false;
+		}
+
+		// admin email
+		if (!ilUtil::is_email($_POST["admin_email"]) and $form_valid)
+		{
+			sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid"));
+			$form_valid = false;
+		}
+
+		// prepare output
+		foreach ($_POST as $key => $val)
+		{
+			$_POST[$key] = ilUtil::prepareFormOutput($val,true);
+		}
+
+		if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
+		{
+	////////////////////////////////////////////////////////////
+	// load user modified settings again
+
+			// basic data
+			$settings["feedback_recipient"] = $_POST["feedback_recipient"];
+			$settings["error_recipient"] = $_POST["error_recipient"];
+
+			// modules
+			$settings["pub_section"] = $_POST["pub_section"];
+			$settings["enable_calendar"] = $_POST["enable_calendar"];
+			$settings["default_repository_view"] = $_POST["default_rep_view"];
+			$settings["password_assistance"] = $_POST["password_assistance"];
+			$settings["js_edit"] = $_POST["js_edit"];
+			$settings["enable_registration"] = $_POST["enable_registration"];
+			$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
+			$settings["https"] = $_POST["https"];
+			
+			// contact
+			$settings["admin_firstname"] = $_POST["admin_firstname"];
+			$settings["admin_lastname"] = $_POST["admin_lastname"];
+			$settings["admin_title"] = $_POST["admin_title"];
+			$settings["admin_position"] = $_POST["admin_position"];
+			$settings["admin_institution"] = $_POST["admin_institution"];
+			$settings["admin_street"] = $_POST["admin_street"];
+			$settings["admin_zipcode"] = $_POST["admin_zipcode"];
+			$settings["admin_city"] = $_POST["admin_city"];
+			$settings["admin_country"] = $_POST["admin_country"];
+			$settings["admin_phone"] = $_POST["admin_phone"];
+			$settings["admin_email"] = $_POST["admin_email"];
+
+			// registration
+			$settings["enable_registration"] = $_POST["enable_registration"];
+
+			// cron
+			$settings["cron_user_check"] = $_POST["cron_user_check"];
+			$settings["cron_link_check"] = $_POST["cron_link_check"];
+			$settings["cron_web_resource_check"] = $_POST["cron_web_resource_check"];
+			$settings["cron_lucene_index"] = $_POST["cron_lucene_index"];
+			$settings["forum_notification"] = $_POST["forum_notification"];
+
+			// forums
+			$settings['frm_store_new'] = $_POST['frm_store_new'];
+			
+			// soap
+			$settings["soap_user_administration"] = $_POST["soap_user_administration"];
+
+			// dynamic links
+			$settings["links_dynamic"] = $_POST["links_dynamic"];
+		}
+		else // all required fields ok
+		{
+
+	////////////////////////////////////////////////////////////
+	// write new settings
+
+			// basic data
+			$this->ilias->setSetting("feedback_recipient",$_POST["feedback_recipient"]);
+			$this->ilias->setSetting("error_recipient",$_POST["error_recipient"]);
+			//$this->ilias->ini->setVariable("language","default",$_POST["default_language"]);
+
+			//set default skin and style
+			/*
+			if ($_POST["default_skin_style"] != "")
+			{
+				$sknst = explode(":", $_POST["default_skin_style"]);
+
+				if ($this->ilias->ini->readVariable("layout","style") != $sknst[1] ||
+					$this->ilias->ini->readVariable("layout","skin") != $sknst[0])
+				{
+					$this->ilias->ini->setVariable("layout","skin", $sknst[0]);
+					$this->ilias->ini->setVariable("layout","style",$sknst[1]);
+				}
+			}*/
+			// set default view target
+			/*
+			if ($_POST["open_views_inside_frameset"] == "1")
+			{
+				$this->ilias->ini->setVariable("layout","view_target","frame");
+			}
+			else
+			{
+				$this->ilias->ini->setVariable("layout","view_target","window");
+			}*/
+
+			// modules
+			$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
+			$this->ilias->setSetting("enable_calendar",$_POST["enable_calendar"]);
+			$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
+			$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
+			$this->ilias->setSetting("passwd_auto_generate",$_POST["passwd_auto_generate"]);
+			$this->ilias->setSetting('https',$_POST['https']);
+			$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
+			$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
+
+			// contact
+			$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
+			$this->ilias->setSetting("admin_lastname",$_POST["admin_lastname"]);
+			$this->ilias->setSetting("admin_title",$_POST["admin_title"]);
+			$this->ilias->setSetting("admin_position",$_POST["admin_position"]);
+			$this->ilias->setSetting("admin_institution",$_POST["admin_institution"]);
+			$this->ilias->setSetting("admin_street",$_POST["admin_street"]);
+			$this->ilias->setSetting("admin_zipcode",$_POST["admin_zipcode"]);
+			$this->ilias->setSetting("admin_city",$_POST["admin_city"]);
+			$this->ilias->setSetting("admin_country",$_POST["admin_country"]);
+			$this->ilias->setSetting("admin_phone",$_POST["admin_phone"]);
+			$this->ilias->setSetting("admin_email",$_POST["admin_email"]);
+
+			// Registration
+			$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
+
+			// required user information
+			$this->ilias->setSetting("auto_registration",$_POST["auto_registration"]);
+			$this->ilias->setSetting("approve_recipient",$_POST["approve_recipient"]);
+
+			// cron
+			$this->ilias->setSetting("cron_user_check",$_POST["cron_user_check"]);
+			$this->ilias->setSetting("cron_link_check",$_POST["cron_link_check"]);
+			$this->ilias->setSetting("cron_web_resource_check",$_POST["cron_web_resource_check"]);
+			$this->ilias->setSetting("cron_lucene_index",$_POST["cron_lucene_index"]);
+			$this->ilias->setSetting("forum_notification",$_POST["forum_notification"]);
+			if ($_POST["forum_notification"] == 2)
+			{
+				$this->ilias->setSetting("cron_forum_notification_last_date",date("Y-m-d H:i:s"));
+			}
+			
+			// webservice
+			$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
+
+			// forums
+			$this->ilias->setSetting('frm_store_new',$_POST['frm_store_new']);
+
+			// write ini settings
+			$this->ilias->ini->write();
+
+			// links dynamic
+			$this->ilias->setSetting('links_dynamic',$_POST['links_dynamic']);
+
+			$settings = $this->ilias->getAllSettings();
+
+			// feedback
+			sendInfo($this->lng->txt("saved_successfully"));
+		}
+		
+		$this->displayBasicSettings();
+	}
+		
 	/**
 	* displays ILIAS basic settings form
 	*
@@ -293,211 +548,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
 
 		$settings = $this->ilias->getAllSettings();
-
-		if (isset($_POST["save_settings"]))  // formular sent
-		{
-			//init checking var
-			$form_valid = true;
-
-			if($_POST['https'])
-			{
-				include_once './classes/class.ilHTTPS.php';
-				
-				if(!ilHTTPS::_checkHTTPS())
-				{
-					sendInfo($this->lng->txt('https_not_possible'));
-					$form_valid = false;
-				}
-				if(!ilHTTPS::_checkHTTP())
-				{
-					sendInfo($this->lng->txt('http_not_possible'));
-					$form_valid = false;
-				}
-			}
-
-            // check required user information
-			if (empty($_POST["admin_firstname"]) or empty($_POST["admin_lastname"])
-				or empty($_POST["admin_street"]) or empty($_POST["admin_zipcode"])
-				or empty($_POST["admin_country"]) or empty($_POST["admin_city"])
-				or empty($_POST["admin_phone"]) or empty($_POST["admin_email"]))
-			{
-				// feedback
-				sendInfo($this->lng->txt("fill_out_all_required_fields"));
-				$form_valid = false;
-			}
-			// check email adresses
-			// feedback_recipient
-			if (!ilUtil::is_email($_POST["feedback_recipient"]) and !empty($_POST["feedback_recipient"]) and $form_valid)
-			{
-				sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("feedback_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
-				$form_valid = false;
-			}
-
-			// error_recipient
-			if (!ilUtil::is_email($_POST["error_recipient"]) and !empty($_POST["error_recipient"]) and $form_valid)
-			{
-				sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("error_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
-				$form_valid = false;
-			}
-
-			// admin email
-			if (!ilUtil::is_email($_POST["admin_email"]) and $form_valid)
-			{
-				sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid"));
-				$form_valid = false;
-			}
-
-			// prepare output
-			foreach ($_POST as $key => $val)
-			{
-				$_POST[$key] = ilUtil::prepareFormOutput($val,true);
-			}
-
-			if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
-			{
-		////////////////////////////////////////////////////////////
-		// load user modified settings again
-
-				// basic data
-				$settings["feedback_recipient"] = $_POST["feedback_recipient"];
-				$settings["error_recipient"] = $_POST["error_recipient"];
-
-				// modules
-				$settings["pub_section"] = $_POST["pub_section"];
-				$settings["enable_calendar"] = $_POST["enable_calendar"];
-				$settings["default_repository_view"] = $_POST["default_rep_view"];
-				$settings["password_assistance"] = $_POST["password_assistance"];
-				$settings["js_edit"] = $_POST["js_edit"];
-				$settings["enable_registration"] = $_POST["enable_registration"];
-				$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
-				$settings["https"] = $_POST["https"];
-				
-				// contact
-				$settings["admin_firstname"] = $_POST["admin_firstname"];
-				$settings["admin_lastname"] = $_POST["admin_lastname"];
-				$settings["admin_title"] = $_POST["admin_title"];
-				$settings["admin_position"] = $_POST["admin_position"];
-				$settings["admin_institution"] = $_POST["admin_institution"];
-				$settings["admin_street"] = $_POST["admin_street"];
-				$settings["admin_zipcode"] = $_POST["admin_zipcode"];
-				$settings["admin_city"] = $_POST["admin_city"];
-				$settings["admin_country"] = $_POST["admin_country"];
-				$settings["admin_phone"] = $_POST["admin_phone"];
-				$settings["admin_email"] = $_POST["admin_email"];
-
-				// registration
-				$settings["enable_registration"] = $_POST["enable_registration"];
-
-				// cron
-				$settings["cron_user_check"] = $_POST["cron_user_check"];
-				$settings["cron_link_check"] = $_POST["cron_link_check"];
-				$settings["cron_web_resource_check"] = $_POST["cron_web_resource_check"];
-				$settings["cron_lucene_index"] = $_POST["cron_lucene_index"];
-				$settings["forum_notification"] = $_POST["forum_notification"];
-
-				// forums
-				$settings['frm_store_new'] = $_POST['frm_store_new'];
-				
-				// soap
-				$settings["soap_user_administration"] = $_POST["soap_user_administration"];
-
-				// dynamic links
-				$settings["links_dynamic"] = $_POST["links_dynamic"];
-			}
-			else // all required fields ok
-			{
-
-		////////////////////////////////////////////////////////////
-		// write new settings
-
-				// basic data
-				$this->ilias->setSetting("feedback_recipient",$_POST["feedback_recipient"]);
-				$this->ilias->setSetting("error_recipient",$_POST["error_recipient"]);
-				//$this->ilias->ini->setVariable("language","default",$_POST["default_language"]);
-
-				//set default skin and style
-				/*
-				if ($_POST["default_skin_style"] != "")
-				{
-					$sknst = explode(":", $_POST["default_skin_style"]);
-
-					if ($this->ilias->ini->readVariable("layout","style") != $sknst[1] ||
-						$this->ilias->ini->readVariable("layout","skin") != $sknst[0])
-					{
-						$this->ilias->ini->setVariable("layout","skin", $sknst[0]);
-						$this->ilias->ini->setVariable("layout","style",$sknst[1]);
-					}
-				}*/
-				// set default view target
-				/*
-				if ($_POST["open_views_inside_frameset"] == "1")
-				{
-					$this->ilias->ini->setVariable("layout","view_target","frame");
-				}
-				else
-				{
-					$this->ilias->ini->setVariable("layout","view_target","window");
-				}*/
-
-				// modules
-				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
-				$this->ilias->setSetting("enable_calendar",$_POST["enable_calendar"]);
-				$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
-				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
-				$this->ilias->setSetting("passwd_auto_generate",$_POST["passwd_auto_generate"]);
-				$this->ilias->setSetting('https',$_POST['https']);
-				$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
-				$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
-
-				// contact
-				$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
-				$this->ilias->setSetting("admin_lastname",$_POST["admin_lastname"]);
-				$this->ilias->setSetting("admin_title",$_POST["admin_title"]);
-				$this->ilias->setSetting("admin_position",$_POST["admin_position"]);
-				$this->ilias->setSetting("admin_institution",$_POST["admin_institution"]);
-				$this->ilias->setSetting("admin_street",$_POST["admin_street"]);
-				$this->ilias->setSetting("admin_zipcode",$_POST["admin_zipcode"]);
-				$this->ilias->setSetting("admin_city",$_POST["admin_city"]);
-				$this->ilias->setSetting("admin_country",$_POST["admin_country"]);
-				$this->ilias->setSetting("admin_phone",$_POST["admin_phone"]);
-				$this->ilias->setSetting("admin_email",$_POST["admin_email"]);
-
-				// Registration
-				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
-
-                // required user information
-                $this->ilias->setSetting("auto_registration",$_POST["auto_registration"]);
-                $this->ilias->setSetting("approve_recipient",$_POST["approve_recipient"]);
-
-				// cron
-                $this->ilias->setSetting("cron_user_check",$_POST["cron_user_check"]);
-                $this->ilias->setSetting("cron_link_check",$_POST["cron_link_check"]);
-                $this->ilias->setSetting("cron_web_resource_check",$_POST["cron_web_resource_check"]);
-				$this->ilias->setSetting("cron_lucene_index",$_POST["cron_lucene_index"]);
-				$this->ilias->setSetting("forum_notification",$_POST["forum_notification"]);
-				if ($_POST["forum_notification"] == 2)
-				{
-					$this->ilias->setSetting("cron_forum_notification_last_date",date("Y-m-d H:i:s"));
-				}
-				
-				// webservice
-				$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
-
-				// forums
-				$this->ilias->setSetting('frm_store_new',$_POST['frm_store_new']);
-
-				// write ini settings
-				$this->ilias->ini->write();
-
-				// links dynamic
-				$this->ilias->setSetting('links_dynamic',$_POST['links_dynamic']);
-
-				$settings = $this->ilias->getAllSettings();
-
-				// feedback
-				sendInfo($this->lng->txt("saved_successfully"));
-			}
-		}
 
 		$this->tpl->setVariable("TXT_BASIC_DATA", $this->lng->txt("basic_data"));
 
@@ -524,8 +574,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ERROR_RECIPIENT", $this->lng->txt("error_recipient"));
 		$this->tpl->setVariable("TXT_HEADER_TITLE", $this->lng->txt("header_title"));
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
-		$this->tpl->setVariable("LINK_HEADER_TITLE", "adm_object.php?ref_id=".
-			$_GET["ref_id"]."&cmd=changeHeaderTitle");
+		$this->tpl->setVariable("LINK_HEADER_TITLE",
+			$this->ctrl->getLinkTarget($this, "changeHeaderTitle"));
 		$this->tpl->setVariable("VAL_HEADER_TITLE",
 			ilObjSystemFolder::_getHeaderTitle());
 
@@ -645,8 +695,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// display formula data
 
 		// basic data
-		$loc = "adm_object.php?ref_id=".$this->object->getRefId();
-		$this->tpl->setVariable("FORMACTION_BASICDATA", $loc);
+		$this->tpl->setVariable("FORMACTION_BASICDATA", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HTTP_PATH",ILIAS_HTTP_PATH);
 		$this->tpl->setVariable("ABSOLUTE_PATH",ILIAS_ABSOLUTE_PATH);
 		$this->tpl->setVariable("HOSTNAME", $_SERVER["SERVER_NAME"]);
@@ -934,6 +983,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+
+	function viewScanLogObject()
+	{
+		return $this->viewScanLog();
+	}
 	
 	/**
 	* displays system check menu
@@ -948,18 +1002,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		if ($_POST["systemcheck"])
-		{
-			return $this->viewScanLog();
-		}
+//echo "1";
 		
 		if ($_POST["mode"])
 		{
+//echo "3";
 			$this->startValidator($_POST["mode"],$_POST["log_scan"]);
 		}
 		else
 		{
+//echo "4";
 			include_once "classes/class.ilValidator.php";
 			$validator = new ilValidator();
 			$last_scan = $validator->readScanLog();
@@ -971,6 +1023,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_VIEW_LOG", $this->lng->txt("view_last_log"));
 			}
 
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("systemcheck"));
 			$this->tpl->setVariable("COLSPAN", 3);
 			$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
@@ -1062,7 +1115,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("removeTranslation");
 				$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
-				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=edit&ref_id=".$_GET["ref_id"]);
+				$this->ctrl->setParameter($this, "entry", $key);
+				$this->ctrl->setParameter($this, "mode", "edit");
+				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION",
+					$this->ctrl->getLinkTarget($this, "removeTranslation"));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -1117,8 +1173,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		// global
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
+		//$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "saveHeaderTitle");
@@ -1182,8 +1240,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
-		header("Location:".$this->getReturnLocation("update","adm_object.php?".$this->link_params));
-		exit();
+		$this->ctrl->redirect($this);
+		//header("Location:".$this->getReturnLocation("update","adm_object.php?".$this->link_params));
+		//exit();
+	}
+	
+	function cancelObject()
+	{
+		$this->ctrl->redirect($this, "view");
 	}
 
 	/**
@@ -1194,9 +1258,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	function addHeaderTitleTranslationObject()
 	{
 		$_SESSION["translation_post"] = $_POST;
-		header("Location:".$this->getReturnLocation("addTranslation",
-			"adm_object.php?cmd=changeHeaderTitle&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
-		exit();
+		
+		$this->ctrl->setParameter($this, "mode", "session");
+		$this->ctrl->setParameter($this, "entry", "0");
+		$this->ctrl->redirect($this, "changeHeaderTitle");
+		//header("Location:".$this->getReturnLocation("addTranslation",
+		//	"adm_object.php?cmd=changeHeaderTitle&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
+		//exit();
 	}
 
 	/**
@@ -1206,8 +1274,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function removeTranslationObject()
 	{
-		header("location: adm_object.php?cmd=changeHeaderTitle&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
-		exit();
+		$this->ctrl->setParameter($this, "entry", $_GET["entry"]);
+		$this->ctrl->setParameter($this, "mode", "session");
+		$this->ctrl->redirect($this, "changeHeaderTitle");
+		//header("location: adm_object.php?cmd=changeHeaderTitle&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
+		//exit();
 	}
 
 
@@ -1517,7 +1588,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		// output
 		$this->getTemplateFile("scan");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=check");
+		
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=check");
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("scanning_system"));
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
@@ -1571,7 +1644,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 
 		$this->getTemplateFile("bench");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cur_mod=".$_GET["cur_mod"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cur_mod=".$_GET["cur_mod"]."&cmd=gateway");
 		$this->tpl->setVariable("TXT_BENCH_SETTINGS", $this->lng->txt("benchmark_settings"));
 		$this->tpl->setVariable("TXT_ACTIVATION", $this->lng->txt("activation"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_settings"));
@@ -1650,7 +1724,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("msg_obj_modified"), true);
 
-		ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
+		$this->ctrl->redirect($this, "benchmark");
+		//ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
 	}
 
 
@@ -1661,7 +1736,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $ilBench;
 
-		ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
+		$this->ctrl->redirect($this, "benchmark");
+		//ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
 	}
 
 
@@ -1678,7 +1754,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	}
 	
 	// get tabs
-	function getTabs(&$tabs_gui)
+	function getAdminTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
 
@@ -1687,7 +1763,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+				$this->ctrl->getLinkTarget($this, "view"), array("view", "saveSettings"), get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
@@ -1696,7 +1772,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			//	$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
 
 			$tabs_gui->addTarget("system_check",
-				$this->ctrl->getLinkTarget($this, "check"), "check", get_class($this));
+				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog"), get_class($this));
 
 			$tabs_gui->addTarget("benchmarks",
 				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));

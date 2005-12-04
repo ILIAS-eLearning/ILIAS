@@ -48,7 +48,7 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjLinkResourceGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI
 *
 * @package core
@@ -82,22 +82,20 @@ class ilRepositoryGUI
 		$this->objDefinition =& $objDefinition;
 
 		$this->ctrl =& $ilCtrl;
+		
+		$this->creation_mode = false;
 
 		$this->ctrl->saveParameter($this, array("ref_id"));
 		if (!ilUtil::isAPICall())
 			$this->ctrl->setReturn($this,"");
 
 		// determine current ref id and mode
-		//if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
-//echo "-".$this->ctrl->getCmd()."-".$_GET["cmd"]."-";
 		if (!empty($_GET["ref_id"]) || $this->ctrl->getCmd() == "showTree")
 		{
-//echo "5";
 			$this->cur_ref_id = $_GET["ref_id"];
 		}
 		else
 		{
-//echo "1";
 			if (!empty($_SESSION["il_rep_ref_id"]) && !empty($_GET["getlast"]))
 			{
 				$this->cur_ref_id = $_SESSION["il_rep_ref_id"];
@@ -121,17 +119,34 @@ class ilRepositoryGUI
 					$ilLog->write("Repository: command called without ref_id.".
 						"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
 				}
-				//if ($_GET["cmd"] != "frameset")
-				//{
-					$_GET = array();
-				//}
-				//else
-				//{
-				//	$_GET = array("cmd" => "frameset");
-				//}
+				$_GET = array();
 				$_POST = array();
 				$this->ctrl->setCmd("frameset");
 			}
+		}
+		if (!$tree->isInTree($this->cur_ref_id) && $this->ctrl->getCmd() != "showTree")
+		{
+			$this->cur_ref_id = $this->tree->getRootId();
+
+			// check wether command has been called with
+			// item that is not in tree
+			if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset")
+			{
+				$get_str = $post_str = "";
+				foreach($_GET as $key => $value)
+				{
+					$get_str.= "-$key:$value";
+				}
+				foreach($_POST as $key => $value)
+				{
+					$post_str.= "-$key:$value";
+				}
+				$ilLog->write("Repository: command called with ref_id that is not in tree.".
+					"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
+			}
+			$_GET = array();
+			$_POST = array();
+			$this->ctrl->setCmd("frameset");
 		}
 
 		// set current repository view mode
@@ -163,34 +178,7 @@ class ilRepositoryGUI
 			? $_SESSION["il_rep_mode"]
 			: "flat";
 
-		if (!$tree->isInTree($this->cur_ref_id) && $this->ctrl->getCmd() != "showTree")
-		{
-//echo "-".$this->cur_ref_id."-";
-			$this->cur_ref_id = $this->tree->getRootId();
-//echo "-".$this->cur_ref_id."-";
-			// check wether command has been called with
-			// item that is not in tree
-			if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset")
-			{
-				$get_str = $post_str = "";
-				foreach($_GET as $key => $value)
-				{
-					$get_str.= "-$key:$value";
-				}
-				foreach($_POST as $key => $value)
-				{
-					$post_str.= "-$key:$value";
-				}
-				$ilLog->write("Repository: command called with ref_id that is not in tree.".
-					"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
-			}
-			$_GET = array();
-			$_POST = array();
-			$this->ctrl->setCmd("frameset");
-		}
-
-		//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit"
-		//	&& ($this->object->getType() == "cat" || $this->object->getType() == "root" || $this->object->getType() == "grp"))
+		// store current ref id
 		if ($this->ctrl->getCmd() != "showTree" &&
 			$rbacsystem->checkAccess("read", $this->cur_ref_id))
 		{
@@ -201,25 +189,9 @@ class ilRepositoryGUI
 				$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 			}
 		}
-
-		$this->categories = array();
-		$this->learning_resources = array();
-		$this->forums = array();
-		$this->groups = array();
-		$this->courses = array();
-		$this->glossaries = array();
-		$this->exercises = array();
-		$this->questionpools = array();
-		$this->surveys = array();
-		$this->surveyquestionpools = array();
-		$this->tests = array();
-		$this->files = array();
-		$this->folders = array();
-		$this->media_pools = array();
-		$this->ilinc_courses = array();
-		$this->link_resources = array();
 	}
 
+	
 	/**
 	* execute command
 	*/
@@ -227,29 +199,19 @@ class ilRepositoryGUI
 	{
 		global $tree, $rbacsystem, $ilias, $lng;
 
-		$next_class = $this->ctrl->getNextClass($this);
-
-		// check creation
+		// check creation mode
+		// determined by "new_type" parameter
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
 			: $_GET["new_type"];
 
-		if (!empty($new_type))
+		if ($new_type != "")
 		{
-			$obj_type = $new_type;
-			$class_name = $this->objDefinition->getClassName($obj_type);
-			$next_class = strtolower("ilObj".$class_name."GUI");
+			$this->creation_mode = true;
 		}
-		else if (empty($next_class))
-		{
-			// get GUI of current object
-			$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
-			$class_name = $this->objDefinition->getClassName($obj_type);
-			$next_class = strtolower("ilObj".$class_name."GUI");
-		}
-
+		
+		// handle frameset command
 		$cmd = $this->ctrl->getCmd();
-//echo "-$cmd-".$_GET["cmd"];
 		if (($cmd == "frameset" || $_GET["rep_frame"] == 1) && $_SESSION["il_rep_mode"] == "tree")
 		{
 			$next_class = "";
@@ -260,8 +222,32 @@ class ilRepositoryGUI
 			$this->ctrl->setCmd("");
 			$cmd = "";
 		}
-		
-		if ($cmd == "showTree" || $cmd == "linkSelector" || $cmd == "linkChilds")
+			
+		// determine next class
+		if ($this->creation_mode)
+		{
+			$obj_type = $new_type;
+			$class_name = $this->objDefinition->getClassName($obj_type);
+			$next_class = strtolower("ilObj".$class_name."GUI");
+		}
+		else if ((($next_class = $this->ctrl->getNextClass($this)) == "")
+			|| ($next_class == "ilrepositorygui" && $this->ctrl->getCmd() == "return"))
+		{
+			if ($cmd != "frameset" && $cmd != "showTree")
+			{
+				// get GUI of current object
+				$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
+				$class_name = $this->objDefinition->getClassName($obj_type);
+				$next_class = strtolower("ilObj".$class_name."GUI");
+				$this->ctrl->setCmdClass($next_class);
+				$this->ctrl->setCmd("");
+			}
+		}
+
+		// commands that are always handled by repository gui
+		// to do: move to container
+		//if ($cmd == "showTree" || $cmd == "linkSelector" || $cmd == "linkChilds")
+		if ($cmd == "showTree")
 		{
 			$next_class = "";
 		}
@@ -275,6 +261,7 @@ class ilRepositoryGUI
 				if(!$_GET['obj_id'])
 				{
 					$this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
+					$this->gui_obj->setCreationMode($this->creation_mode);
 
 					$this->prepareOutput(false);
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
@@ -282,6 +269,7 @@ class ilRepositoryGUI
 				else
 				{
 					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
+					$this->gui_obj->setCreationMode($this->creation_mode);
 
 					$this->prepareOutput(false);
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
@@ -293,136 +281,132 @@ class ilRepositoryGUI
 				include_once("./classes/class.ilObjUserFolderGUI.php");
 
 				$this->gui_obj = new ilObjUserFolderGUI("", $_GET['ref_id'],true, false);
+				$this->gui_obj->setCreationMode($this->creation_mode);
 
 				$this->prepareOutput(false);
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				$this->tpl->show();
 				break;
+
+			//case "ilobjrootfoldergui":
+			//case "ilobjcategorygui":
+			//case "ilobjgroupgui":
+			//case "ilobjcoursegui":
+			//case "ilobjfilegui":
+			//case "ilobjforumgui":
+			//case "ilobjfoldergui":
+			//case "ilobjilinccoursegui":
+			//case "ilobjfilegui":
 				
-			case "ilobjrootfoldergui":
-			case "ilobjcategorygui":
-			case "ilobjgroupgui":
-			case "ilobjcoursegui":
-			case "ilobjfilegui":
-			case "ilobjforumgui":
-			case "ilobjfoldergui":
-			case "ilobjilinccoursegui":
-			case "ilobjfilegui":
-
-			//case "ilobjmediapoolgui":					// doesnt work, why?
-				// get file path for class name
-
-				$class_path = $this->ctrl->lookupClassPath($next_class);
-
-				// get gui class instance
-				include_once($class_path);
-				$class_name = $this->ctrl->getClassForClasspath($class_path);
-				$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
-
-				// special treatment for old admin compliance
-				// to do: get rid of it...
-				$this->cmd_admin_compliance($cmd, false);
-
-				$tabs_out = ($new_type == "")
-					? true
-					: false;
-					
-				// forward command
-				if ($_GET["mode"] == "create" || $cmd == "linkSelector")
-				{
-					$tabs_out = false;
-				}
-				$this->prepareOutput($tabs_out);
-
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
-				$html = $this->gui_obj->getHTML();
-				if ($html != "")
-				{
-					$this->tpl->setVariable("OBJECTS", $html);
-				}
-				$this->tpl->show();
-
-				break;
-
-			/*
-			case "ilobjmediapoolgui":
-				include_once("./content/classes/class.ilObjMediaPoolGUI.php");
-				$this->gui_obj = new ilObjMediaPoolGUI("", $this->cur_ref_id, true, false);
-
-				$this->ctrl->setCmd($this->ctrl->getCmd()."Object");
-				$this->prepareOutput(false);
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
-				$this->tpl->show();
-				break;*/
-
 			default:
-
-				// process repository frameset
-				if ($cmd == "frameset")
+			
+				// forward all other classes to gui commands
+				if ($next_class != "" && $next_class != "ilrepositorygui")
 				{
-					if ($_SESSION["il_rep_mode"] == "tree")
+					$class_path = $this->ctrl->lookupClassPath($next_class);
+
+					// get gui class instance
+					include_once($class_path);
+					$class_name = $this->ctrl->getClassForClasspath($class_path);
+					
+					$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+					//$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+
+					// special treatment for old admin compliance
+					// to do: get rid of it...
+					//$this->cmd_admin_compliance($cmd, false);
+	
+					$tabs_out = ($new_type == "")
+						? true
+						: false;
+					
+					// forward command
+					//if ($_GET["mode"] == "create" || $cmd == "linkSelector")
+					//{
+					//	$tabs_out = false;
+					//}
+					//$this->prepareOutput($tabs_out);
+					
+					// get standard template
+					// add repository items to $ilLocator
+					//$this->prepareOutput($tabs_out);
+
+					$this->gui_obj->setCreationMode($this->creation_mode);
+					$this->ctrl->setReturn($this, "return");
+					$ret =& $this->ctrl->forwardCommand($this->gui_obj);	
+					$html = $this->gui_obj->getHTML();
+					if ($html != "")
 					{
-						$this->frameset();
+						$this->tpl->setVariable("OBJECTS", $html);
+					}
+					$this->tpl->show();
+				}
+				else	// 
+				{
+					// process repository frameset
+					if ($cmd == "frameset")
+					{
+						if ($_SESSION["il_rep_mode"] == "tree")
+						{
+							$this->frameset();
+							return;
+						}
+						$cmd = "";
+						$this->ctrl->setCmd("");
+					}
+					
+					// process tree command
+					if ($cmd == "showTree")
+					{
+						$this->showTree();
 						return;
 					}
-					$cmd = "";
-					$this->ctrl->setCmd("");
-				}
-				
-				if ($cmd == "showTree")
-				{
-					$this->showTree();
-					return;
-				}
-				
-				if (!isset($obj_type))
-				{
-					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
-				}
-
-				// get GUI of current object
-				$class_name = $this->objDefinition->getClassName($obj_type);
-				$module = $this->objDefinition->getModule($obj_type);
-				$module_dir = ($module == "") ? "" : $module."/";
-				$class_constr = "ilObj".$class_name."GUI";
-				include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-				$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
-
-				// execute repository cmd
-//echo "0-$cmd-$obj_type-";
-				if (empty($cmd))
-				{
-					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or
-					   $obj_type == 'frm' or $obj_type == 'crsg')
+					
+					//if (!isset($obj_type))
+					//{
+					//	$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
+					//}
+	
+					// get GUI of current object
+					//$class_name = $this->objDefinition->getClassName($obj_type);
+					//$module = $this->objDefinition->getModule($obj_type);
+					//$module_dir = ($module == "") ? "" : $module."/";
+					//$class_constr = "ilObj".$class_name."GUI";
+					//include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+					//$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
+	
+					// execute repository cmd
+					//if (empty($cmd))
+					//{
+					//	if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or
+					//	   $obj_type == 'frm' or $obj_type == 'crsg')
+					//	{
+					//		$this->prepareOutput();
+					//		$this->ctrl->forwardCommand($this->gui_obj);
+					//		$this->tpl->show();
+					//		break;
+					//	}
+					//	else
+					//	{
+	//echo "A-$cmd-$obj_type-";
+							$cmd = $this->ctrl->getCmd("");
+					//	}
+						//$next_class = "";
+					//}
+	//echo "2-$cmd-$obj_type-";
+					// check read access for category
+					if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
 					{
-//echo "1-$obj_type-";
-						$this->prepareOutput();
-						$this->ctrl->forwardCommand($this->gui_obj);
+	//echo "2";
+						$_SESSION["il_rep_ref_id"] = "";
+						$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 						$this->tpl->show();
-						break;
 					}
 					else
 					{
-//echo "A-$cmd-$obj_type-";
-						$cmd = $this->ctrl->getCmd("");
+						$this->cmd = $cmd;
+						$this->$cmd();
 					}
-					//$next_class = "";
-				}
-//echo "2-$cmd-$obj_type-";
-				// check read access for category
-				if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
-				{
-//echo "2";
-					$_SESSION["il_rep_ref_id"] = "";
-					$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-					$this->tpl->show();
-				}
-				else
-				{
-					$this->cmd = $cmd;
-					$this->$cmd();
 				}
 				break;
 		}
@@ -452,19 +436,25 @@ class ilRepositoryGUI
 		$this->tpl->show();
 	}
 
-	function prepareOutput($a_tabs_out = true)
+	/**
+	*
+	*/
+	//function prepareOutput($a_tabs_out = true)
+	function prepareOutput()
 	{
 		// output objects
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		//$this->tpl->getStandardTemplate();
+		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		//$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// output tabs
 		//$this->setTabs();
 
 		// output locator
-		$this->setLocator();
+		//$this->setLocator();
 
 		// output message
+/*
 		if ($this->message)
 		{
 			sendInfo($this->message);
@@ -474,7 +464,8 @@ class ilRepositoryGUI
 		infoPanel();
 
 		// set header
-		$this->setHeader($a_tabs_out);
+		//$this->setHeader($a_tabs_out);
+		$this->setHeader();*/
 	}
 
 
@@ -526,59 +517,68 @@ class ilRepositoryGUI
 	{
 		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
-			$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
+// todo -> done: header to cmd object
+			//$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
 			if ($a_tabs_out)
 			{
-				$this->showPossibleSubObjects("root");
+// todo -> done: subobjects to container object				
+				//$this->showPossibleSubObjects("root");
 			}
 		}
 		else
 		{
-			$this->tpl->setVariable("HEADER",  $this->gui_obj->object->getTitle());
+// todo -> done: header to cmd object
+			//$this->tpl->setVariable("HEADER",  $this->gui_obj->object->getTitle());
 
-			$desc = ($this->gui_obj->object->getLongDescription())
-				? $this->gui_obj->object->getLongDescription()
-				: "";
-			$desc = nl2br($desc);
+// todo -> done: description to cmd object
+			//$desc = ($this->gui_obj->object->getLongDescription())
+			//	? $this->gui_obj->object->getLongDescription()
+			//	: "";
+			//$desc = nl2br($desc);
 
-			$this->tpl->setVariable("H_DESCRIPTION",  $desc);
-			if ($a_tabs_out)
-			{
-				$this->showPossibleSubObjects($this->gui_obj->object->getType());
-			}
+			//$this->tpl->setVariable("H_DESCRIPTION",  $desc);
+			//if ($a_tabs_out)
+			//{
+			//	$this->showPossibleSubObjects($this->gui_obj->object->getType());
+			//}
 		}
 		
 		// header icon
-		$this->tpl->setCurrentBlock("header_image");
-		$ic_type = ilObject::_lookupType($this->cur_ref_id, true);
-		$icon = ilUtil::getImagePath("icon_".$ic_type."_b.gif");
+// todo -> done: header icon to cmd object
+		//$this->tpl->setCurrentBlock("header_image");
+		//$ic_type = ilObject::_lookupType($this->cur_ref_id, true);
+		//$icon = ilUtil::getImagePath("icon_".$ic_type."_b.gif");
 
 		// custom icon
-		if ($this->ilias->getSetting("custom_icons") &&
-			in_array($ic_type, array("cat","grp","crs")))
-		{
-			require_once("classes/class.ilContainer.php");
-			if (($path = ilContainer::_lookupIconPath(ilObject::_lookupObjId($this->cur_ref_id), "big")) != "")
-			{
-				$icon = $path;
-			}
-		}
+// todo -> done: custom header icon to cmd object
+		//if ($this->ilias->getSetting("custom_icons") &&
+		//	in_array($ic_type, array("cat","grp","crs")))
+		//{
+		//	require_once("classes/class.ilContainer.php");
+		//	if (($path = ilContainer::_lookupIconPath(ilObject::_lookupObjId($this->cur_ref_id), "big")) != "")
+		//	{
+		//		$icon = $path;
+		//	}
+		//}
 
-		$this->tpl->setVariable("IMG_HEADER", $icon);
+		//$this->tpl->setVariable("IMG_HEADER", $icon);
 
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("content");
+		//$this->tpl->parseCurrentBlock();
+		//$this->tpl->setCurrentBlock("content");
 
-		if ($this->cur_ref_id != $this->tree->getRootId() && $a_tabs_out &&
-			($this->gui_obj->object->getType() != "frm"))
-		{
-			$par_id = $this->tree->getParentId($this->cur_ref_id);
-			$this->tpl->setCurrentBlock("top");
-			$this->tpl->setVariable("LINK_TOP", "repository.php?ref_id=".$par_id);
-			$this->tpl->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
-			$this->tpl->parseCurrentBlock();
-		}
+// todo -> done: move upper icon to container
+		//if ($this->cur_ref_id != $this->tree->getRootId() && $a_tabs_out &&
+		//	($this->gui_obj->object->getType() != "frm"))
+		//{
+		//	$par_id = $this->tree->getParentId($this->cur_ref_id);
+		//	$this->tpl->setCurrentBlock("top");
+		//	$this->tpl->setVariable("LINK_TOP", "repository.php?ref_id=".$par_id);
+		//	$this->tpl->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
+		//	$this->tpl->parseCurrentBlock();
+		//}
 
+// todo -> done: move tree/flat icon to container
+	/*
 		if ($a_tabs_out && ($this->gui_obj->object->getType() != "frm"))
 		{
 			$this->setAdminTabs();
@@ -591,6 +591,7 @@ class ilRepositoryGUI
 			$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$s_mode."view.gif"));
 			$this->tpl->parseCurrentBlock();
 		}
+	*/
 	}
 
 
@@ -599,6 +600,8 @@ class ilRepositoryGUI
 	*/
 	function setAdminTabs()
 	{
+// todo -> done: move tabs output to object
+/*
 		if (is_object($this->gui_obj))
 		{
 			$tabs_gui =& new ilTabsGUI();
@@ -610,6 +613,7 @@ class ilRepositoryGUI
 			// output tabs
 			$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		}
+*/
 	}
 
 	/**
@@ -617,16 +621,18 @@ class ilRepositoryGUI
 	*
 	* (html due to performance reasons)
 	*/
+/*
 	function getVisibleOnly()
 	{
 		$this->visible_only_items = true;
 		return "<a href=\"#visible_only_expl\">[*]</a>";
-	}
+	}*/
 
 	/**
 	* show explanation message for items that are
 	* only visible but not readable
 	*/
+/*
 	function showVisibleOnlyMessage()
 	{
 		$this->tpl->setCurrentBlock("visible_items_message");
@@ -639,11 +645,12 @@ class ilRepositoryGUI
 			$this->tpl->setVariable("VIS_ITEMS_MESSAGE", $this->lng->txt("no_access_item_public"));
 		}
 		$this->tpl->parseCurrentBlock();
-	}
+	}*/
 
 	/**
 	* set Locator
 	*/
+/*
 	function setLocator()
 	{
 		global $ilias_locator;
@@ -651,6 +658,7 @@ class ilRepositoryGUI
 		
 		// special forum handling (forums should complete go to
 		// a separate module and not use repository.php)
+
 		if ($this->gui_obj->object->getType() == "frm")
 		{
 			require_once("classes/class.ilForumLocatorGUI.php");
@@ -679,13 +687,13 @@ class ilRepositoryGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-
+*/
 		/* possible deprecated
 		if ($this->gui_obj->object->getType() != "grp" && ($_GET["cmd"] == "delete" || $_GET["cmd"] == "edit"))
 		{
 			unset($path[count($path) - 1]);
 		}*/
-
+/*
 		foreach ($path as $key => $row)
 		{
 			if ($key < count($path) - $modifier)
@@ -732,13 +740,15 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
-
+*/
+	
 
 	/**
 	* show possible subobjects (pulldown menu)
 	*
 	* @access	public
 	*/
+/*
 	function showPossibleSubObjects($type)
 	{
 		$found = false;
@@ -799,7 +809,10 @@ class ilRepositoryGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+*/
 
+
+/*	// DEPRECATED !?
 	function showActionSelect(&$subobj)
 	{
 		$actions = array("edit" => $this->lng->txt("edit"),
@@ -820,11 +833,15 @@ class ilRepositoryGUI
 			}
 		}
 	}
+*/
 
+// DEPRECATED? IF NOT-> MOVE TO CONTAINER, COURSE/FOLDER/GROUP WANTS TO
+// MAKE DECISIONS
+/*
 	function addToDeskCourse()
 	{
 		global $tree;
-
+*/
 		/*$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->cur_ref_id);
 
 		while ($tmp_obj->getType() != 'crs')
@@ -832,7 +849,7 @@ class ilRepositoryGUI
 		    $parent_ref_id = $tree->getParentId($tmp_obj->getRefId());
 			$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($parent_ref_id);
 		}*/
-
+/*
 		if ($_GET["item_ref_id"] and $_GET["type"])
 		{
 			$this->ilias->account->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
@@ -859,6 +876,7 @@ class ilRepositoryGUI
 		$ret =& $this->gui_obj->viewObject();
 		$this->tpl->show();
 	}
+*/
 
 	/**
 	* execute administration command
@@ -943,6 +961,7 @@ class ilRepositoryGUI
 	*/
 	function cmd_admin_compliance($cmd, $execute = true)
 	{
+return;
 		// object creation
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
@@ -965,6 +984,8 @@ class ilRepositoryGUI
 				$this->gui_obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
 			}
 		}
+
+// to do: check all these commands!
 
 		// other commands
 		switch($cmd)
@@ -1086,6 +1107,9 @@ class ilRepositoryGUI
 		}
 	}
 
+//todo: check all these commands
+
+/*
 	function save()
 	{
 		$this->executeAdminCommand();
@@ -1170,7 +1194,9 @@ class ilRepositoryGUI
 	{
 		$this->executeAdminCommand();
 	}
+*/
 
+/* copy and link selector deprecated!
 	function copySelector()
 	{
 		if(is_array($_POST["cmd"]))
@@ -1251,7 +1277,9 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
+*/
 
+/* todo: move to container
 	function linkChilds()
 	{
 		if($_GET['source_id'])
@@ -1337,7 +1365,9 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("COPY_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->show();
 	}
+*/
 
+/* move to 
 	function performCopy()
 	{
 		if(!count($this->tree->getFilteredChilds(array('rolf'),(int) $_GET["source_id"])))

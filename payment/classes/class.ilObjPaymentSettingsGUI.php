@@ -62,6 +62,33 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->lng->loadLanguageModule('payment');
 	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			default:
+				if ($cmd == "" || $cmd == "view")
+				{
+					$cmd = "generalSettings";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
 
 	function gatewayObject()
 	{
@@ -424,6 +451,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return true;
 	}
 
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs(&$tabs_gui);
+	}
 
 	/**
 	* get tabs
@@ -437,7 +468,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("general_settings",
-				$this->ctrl->getLinkTarget($this, "generalSettings"), array("generalSettings",""), "", "");
+				$this->ctrl->getLinkTarget($this, "generalSettings"), array("generalSettings","", "view"), "", "");
 				
 			$tabs_gui->addTarget("statistic",
 				$this->ctrl->getLinkTarget($this, "statistic"), "statistic", "", "");

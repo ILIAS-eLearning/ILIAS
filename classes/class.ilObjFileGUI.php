@@ -47,7 +47,7 @@ class ilObjFileGUI extends ilObjectGUI
 	function ilObjFileGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "file";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 	}
 	
 	function _forwards()
@@ -59,6 +59,8 @@ class ilObjFileGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
+		
 //echo "-$cmd-";
 		switch ($next_class)
 		{
@@ -80,9 +82,9 @@ class ilObjFileGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
-					include_once("./classes/class.ilPermissionGUI.php");
-					$perm_gui =& new ilPermissionGUI($this);
-					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -131,8 +133,11 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->tpl->setVariable(strtoupper($key), $val);
 			#$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
 		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		$this->tpl->setVariable("TXT_TITLE_NOTE", $this->lng->txt("if_no_title_then_filename"));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));

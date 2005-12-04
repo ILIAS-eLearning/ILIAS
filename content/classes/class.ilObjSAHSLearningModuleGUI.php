@@ -26,10 +26,12 @@ require_once("classes/class.ilFileSystemGUI.php");
 require_once("classes/class.ilTabsGUI.php");
 
 /**
-* Class ilObjSCORMLearningModuleGUI
+* SCORM/AICC/HACP Learning Modules
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
+*
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -47,7 +49,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		$this->tabs_gui =& new ilTabsGUI();
 
 	}
@@ -55,12 +57,19 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function executeCommand()
+	function &executeCommand()
 	{
-		$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
-		$this->getTemplate();
-		$this->setLocator();
-		$this->setTabs();
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+			$this->getCreationMode() == true)
+		{
+			$this->prepareOutput();
+		}
+		else
+		{
+			$this->getTemplate();
+			$this->setLocator();
+			$this->setTabs();
+		}
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -76,39 +85,57 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 				$this->ctrl->forwardCommand($md_gui);
 				break;
+				
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
 
 			case "ilfilesystemgui":
-				//$ret =& $this->fs_gui->executeCommand();
+				$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
 				break;
 
 			default:
 				$cmd = $this->ctrl->getCmd("frameset");
+				if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+					$this->getCreationMode() == true)
+				{
+					$cmd.= "Object";
+				}
 				$ret =& $this->$cmd();
 				break;
 		}
-		$this->tpl->show();
 	}
 
 
 	function viewObject()
 	{
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// view button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/sahs_presentation.php?ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-		$this->tpl->parseCurrentBlock();
-
-		// view button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/sahs_edit.php?ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-		$this->tpl->parseCurrentBlock();
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			parent::viewObject();
+		}
+		else
+		{
+	
+			//add template for view button
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+	
+			// view button
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","content/sahs_presentation.php?ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+			$this->tpl->parseCurrentBlock();
+	
+			// view button
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","content/sahs_edit.php?ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
@@ -144,8 +171,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// display import form
 		// print_r($this->lng);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_import.html");
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-			$_GET["ref_id"]."&new_type=sahs"));
+		$this->ctrl->setParameter($this, "new_type", "sahs");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+		//	$_GET["ref_id"]."&new_type=sahs"));
 
 		$this->tpl->setVariable("BTN_NAME", "save");
 		$this->tpl->setVariable("TARGET", ' target="'.
@@ -337,175 +366,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	}
 
 	/**
-	* choose meta data section
-	* (called by administration)
-	*/
-/*
-	function chooseMetaSectionObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$a_target, $_REQUEST["meta_section"]);
-	}
-*/
-	/**
-	* choose meta data section
-	* (called by module)
-	*/
-/*
-	function chooseMetaSection()
-	{
-		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-	/**
-	* add meta data object
-	* (called by administration)
-	*/
-/*
-	function addMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
-	}
-*/
-
-	/**
-	* add meta data object
-	* (called by module)
-	*/
-/*
-	function addMeta()
-	{
-		$this->addMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-	/**
-	* delete meta data object
-	* (called by administration)
-	*/
-/*
-	function deleteMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* delete meta data object
-	* (called by module)
-	*/
-/*
-	function deleteMeta()
-	{
-		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-	/**
-	* edit meta data
-	* (called by administration)
-	*/
-/*
-	function editMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* edit meta data
-	* (called by module)
-	*/
-/*
-	function editMeta()
-	{
-		$this->editMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-	/**
-	* save meta data
-	* (called by administration)
-	*/
-/*
-	function saveMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?cmd=editMeta&ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-		ilUtil::redirect(ilUtil::appendUrlParameterString($a_target,
-			"meta_section=" . $_POST["meta_section"]));
-	}
-*/
-
-	/**
-	* save meta data
-	* (called by module)
-	*/
-/*
-	function saveMeta()
-	{
-		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
-	}
-*/
-
-
-	/**
 	* output main header (title and locator)
 	*/
 	function getTemplate()
@@ -652,10 +512,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			get_class($this));
 
 		// file system gui tabs
-		if (is_object($this->fs_gui))
-		{
-			$this->fs_gui->getTabs($tabs_gui);
-		}
+		// properties
+		$tabs_gui->addTarget("cont_list_files",
+			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
+			"ilfilesystemgui");
 
 		// tracking data
 		$tabs_gui->addTarget("cont_tracking_data",
@@ -676,8 +536,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
-				get_class($this));
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		// owner

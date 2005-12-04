@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.4 2005/09/30 17:25:11 akill Exp $
+* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.5 2005/11/21 17:12:08 shofmann Exp $
 * 
 * @extends ilObjectGUIAdapter
 * @package ilias-core
@@ -43,7 +43,7 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 	function ilObjExerciseGUIAdapter($a_ref_id,$a_cmd = '')
 	{
 		parent::ilObjectGUIAdapter($a_ref_id,true,false,$a_cmd);
-		$this->gui_obj->setTabTargetScript("exercise.php");
+		//$this->gui_obj->setTabTargetScript("exercise.php");
 		$this->__setReturnLocation();
 		$this->__setFormAction();
 		$this->__prepareOutput();
@@ -72,7 +72,7 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		$this->gui_obj->setAdminTabs();
+		$this->gui_obj->setTabs();
 		//$this->setAdminTabs();
 		$this->__showLocator();
 	}

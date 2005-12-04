@@ -51,7 +51,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "frm";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 
 		$this->lng->loadLanguageModule('forum');
 	}
@@ -60,6 +60,7 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{

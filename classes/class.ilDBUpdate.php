@@ -231,6 +231,7 @@ class ilDBUpdate
 		$ilModuleReader = new ilModuleReader();
 		$ilModuleReader->getModules();
 		$ilServiceReader = new ilServiceReader();
+		$ilServiceReader->getServices();
 		$ilCtrlStructureReader->readStructure();
 				
 		return true;

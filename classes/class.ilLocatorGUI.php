@@ -105,14 +105,14 @@ class ilLocatorGUI
 			$a_ref_id = $_GET["ref_id"];
 		}
 		
-		if ($_GET["ref_id"] > 0)
+		if ($a_ref_id > 0)
 		{
-			$path = $tree->getPathFull($_GET["ref_id"]);
+			$path = $tree->getPathFull($a_ref_id);
 			
 			// add item for each node on path
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat", "fold", "grp")))
+				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp")))
 				{
 					continue;
 				}
@@ -135,26 +135,29 @@ class ilLocatorGUI
 	*/
 	function addAdministrationItems($a_ref_id = 0)
 	{
-		global $tree;
+		global $tree, $ilCtrl, $objDefinition;
 
 		if ($a_ref_id == 0)
 		{
 			$a_ref_id = $_GET["ref_id"];
 		}
 		
-		if ($_GET["ref_id"] > 0)
+		if ($a_ref_id > 0)
 		{
-			$path = $tree->getPathFull($_GET["ref_id"]);
+			$path = $tree->getPathFull($a_ref_id);
 			
 			// add item for each node on path
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat", "fold", "grp")))
+				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp")))
 				{
 					continue;
 				}
+				$class_name = $objDefinition->getClassName($row["type"]);
+				$class = strtolower("ilObj".$class_name."GUI");
+				$ilCtrl->setParameterByClass($class, "ref_id", $row["child"]);
 				$this->addItem($row["title"],
-					"adm_object.php?ref_id=".$row["child"]);
+					$ilCtrl->getLinkTargetbyClass($class, "view"));
 			}
 		}
 	}

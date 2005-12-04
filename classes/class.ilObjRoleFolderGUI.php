@@ -53,16 +53,23 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	function ilObjRoleFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "rolf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 	}
 	
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -75,7 +82,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 		return true;
 	}
-
+	
 	/**
 	* view object
 	*
@@ -217,7 +224,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             }
 
             $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"]."_b.gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
-            $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
+			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
+			$link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
+			//adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm
+			$result_set[$counter][] = "<a href=\"$link\">".ilObjRole::_getTranslation($role["title"])."</a>";
+            //$result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
             $result_set[$counter][] = $role["description"];
 			$result_set[$counter][] = $path." (".$role["role_type"].")";;
 

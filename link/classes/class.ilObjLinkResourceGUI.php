@@ -47,7 +47,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		global $ilCtrl;
 
 		$this->type = "webr";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 
 		// CONTROL OPTIONS
 		$this->ctrl =& $ilCtrl;
@@ -64,6 +64,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		{
 			$this->__prepareOutput();
 		}
+		
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+			$this->getCreationMode() == true)
+		{
+			$this->prepareOutput();
+		}
+
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -105,10 +112,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 	function viewObject()
 	{
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
-
 			return true;
 		}
 		else
@@ -1096,8 +1102,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem,$rbacreview;
-echo $this->ctrl->getCmd();
-		if ($this->ctrl->getTargetScript() != "adm_object.php" and $rbacsystem->checkAccess('read',$this->object->getRefId()))
+		
+		if ($rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
@@ -1111,7 +1117,7 @@ echo $this->ctrl->getCmd();
 				"");
 		}
 		
-		if ($this->ctrl->getTargetScript() != "adm_object.php" and $rbacsystem->checkAccess('visible',$this->ref_id))
+		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
 			// this is not nice. tabs should be displayed in ilcoursegui
 			// not via ilrepositorygui, then next_class == ilinfoscreengui
@@ -1127,7 +1133,7 @@ echo $this->ctrl->getCmd();
 								 "", "", $force_active);
 		}
 
-		if ($this->ctrl->getTargetScript() != "adm_object.php" and $rbacsystem->checkAccess('write',$this->object->getRefId()))
+		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
