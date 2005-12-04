@@ -397,6 +397,7 @@ assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test
+assessment#:#select_one_user#:#Please select at least one user
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#select_tst_option#:#--- Please select a test ---
 assessment#:#selected_image#:#Selected image

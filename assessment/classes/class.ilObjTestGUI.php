@@ -3310,7 +3310,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
 		}
-		
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
@@ -3325,6 +3325,38 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function removeParticipantObject()
+	{
+		if (is_array($_POST["invited_users"])) 
+		{
+			foreach ($_POST["invited_users"] as $user_id)
+			{
+				$this->object->disinviteUser($user_id);				
+			}
+		}
+		else
+		{
+			sendInfo($this->lng->txt("select_one_user"), true);
+		}
+		$this->ctrl->redirect($this, "participants");
+	}
+	
+	function saveClientIPObject()
+	{
+		if (is_array($_POST["invited_users"])) 
+		{
+			foreach ($_POST["invited_users"] as $user_id)
+			{
+				$this->object->setClientIP($user_id, $_POST["clientip_".$user_id]);
+			}
+		}
+		else
+		{
+			sendInfo($this->lng->txt("select_one_user"), true);
+		}
+		$this->ctrl->redirect($this, "participants");
+	}
+	
 	/**
 	* Extracts the results of a posted invitation form
 	*
@@ -3337,23 +3369,6 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 
 		$message = "";
-		
-		if (is_array($_POST["invited_users"]))
-		{			
-			for ($i = 0; $i < count($_POST["invited_users"]); $i++)
-			{
-				$user_id = $_POST["invited_users"][$i];	
-				if ($_POST["cmd"]["remove"])
-					$this->object->disinviteUser($user_id);				
-			}
-		}
-		if (is_array($_POST["clientip"])) {
-			foreach ($_POST["clientip"] as $user_id => $client_ip)
-			{
-				if ($_POST["cmd"]["save_client_ip"])
-					$this->object->setClientIP($user_id, $client_ip);
-			}			
-		}
 		
 		if ($_POST["cmd"]["add"])
 		{
@@ -3583,12 +3598,11 @@ class ilObjTestGUI extends ilObjectGUI
 			case "iv_usr":
 				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />";
 				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />" ;
-				
+				$counter = 0;
 				foreach ($data_array as $data)
 				{
 					$finished_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$finished);
 					$started_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$started); 
-					$counter = 0;
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->usr_id);
@@ -3600,6 +3614,14 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
 					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
 					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($data_array))
+				{
+					$this->tpl->setCurrentBlock("selectall");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
@@ -3930,7 +3952,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$freefield = $freefields[$counter];
 					$this->tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
-					$this->tpl->setVariable("VALUE_FREE_FIELD", "<img height=\"30px\" border=\"0\" src=\"".ilUtil::getImagePath("spacer.gif", false)."\" width=\"".$freefield["length"]."px\" />");
+					$this->tpl->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
 					$counter ++;
 				}
 			}
@@ -3952,13 +3974,13 @@ class ilObjTestGUI extends ilObjectGUI
 			switch ($question_gui->getQuestionType()) 
 			{
 				case "qt_imagemap" :
-					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser);
+					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
 					break;
 				case "qt_javaapplet" :
-					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
 					break;
 				default :
-					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
+					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
 			}
 			$this->tpl->parseCurrentBlock();
 			$counter ++;
@@ -4247,8 +4269,8 @@ class ilObjTestGUI extends ilObjectGUI
 					// participants
 					$tabs_gui->addTarget("participants",
 						 $this->ctrl->getLinkTarget($this,'participants'),
-						 array("participants", "search", "add", "save_client_ip",
-						 "remove", "showAnswers", "showResults"), 
+						 array("participants", "search", "add", "saveClientIP",
+						 "removeParticipant", "showAnswers", "showResults"), 
 						 "");
 				}
 		

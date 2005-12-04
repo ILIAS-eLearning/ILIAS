@@ -135,3 +135,10 @@ div.ilc_Question {
 	page-break-inside: avoid;
 }
 
+td.freefield_line {
+	text-align: left;
+	vertical-align: bottom;
+	font-size : 8pt; 
+	border-bottom: 1px solid black;
+}
+
