@@ -703,7 +703,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 			if ($mixpass) $pass = NULL;
 			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
-			
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
