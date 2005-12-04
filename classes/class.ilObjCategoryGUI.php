@@ -63,6 +63,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
@@ -280,8 +281,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			// global
 			$this->ctrl->setParameter($this, "mode", "create");
 			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION",
-				$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			//$this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -352,9 +352,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("cat_added"),true);
-		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
-		ilUtil::redirect($this->getReturnLocation("save",
-			$this->ctrl->getLinkTarget($this, "edit")));
+		//$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
+		$this->ctrl->redirect($this, "");
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}

@@ -62,30 +62,32 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->type = "htlm";
 		$lng->loadLanguageModule("content");
 
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
 		//$this->actions = $this->objDefinition->getActions("mep");
 		$this->output_prepared = $a_prepare_output;
 
-		if (defined("ILIAS_MODULE"))
-		{
-			$this->setTabTargetScript("fblm_edit.php");
-		}
 	}
 
 	/**
 	* execute command
 	*/
-	function executeCommand()
-	{
-		$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
-		$fs_gui->getTabs($this->tabs_gui);
-		$this->getTemplate();
-		$this->setLocator();
-		$this->setTabs();
+	function &executeCommand()
+	{		
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+			$this->getCreationMode() == true)
+		{
+			$this->prepareOutput();
+		}
+		else
+		{
+			$this->getTemplate();
+			$this->setLocator();
+			$this->setTabs();
+		}
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-//echo "<br>cmd:$cmd:next_class:$next_class:";
+
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
@@ -99,7 +101,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				break;
 
 			case "ilfilesystemgui":
-//echo "<br>data_dir:".$this->object->getDataDirectory().":";
+				$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
+				//$fs_gui->getTabs($this->tabs_gui);
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				if ($this->object->getStartFile() != "")
 				{
@@ -119,10 +122,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 			default:
 				$cmd = $this->ctrl->getCmd("frameset");
+				if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+					$this->getCreationMode() == true)
+				{
+					$cmd.= "Object";
+				}
 				$ret =& $this->$cmd();
 				break;
 		}
-		$this->tpl->show();
+		//$this->tpl->show();
 	}
 
 		/**
@@ -161,8 +169,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				}
 			}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+			//	$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -297,7 +307,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->setFormAction("update", "fblm_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]);
 		$this->editObject();
-		$this->tpl->show();
+		//$this->tpl->show();
 	}
 
 	/**
@@ -545,6 +555,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tpl->setVariable("HREF_FILES",$this->ctrl->getLinkTargetByClass(
 			"ilfilesystemgui", "listFiles"));
 		$this->tpl->show();
+		exit;
 	}
 
 	/**
@@ -716,6 +727,11 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
+		// properties
+		$tabs_gui->addTarget("cont_list_files",
+			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
+			"ilfilesystemgui");
+			
 		// properties
 		$tabs_gui->addTarget("properties",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",

@@ -227,12 +227,11 @@ class ilTemplate extends ilTemplateX
 					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility").
 					'">Accessibility</a>');
 			}
-			
 			if (!empty($_GET["do_dev_validate"]))
 			{
 				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
-
 				$template2 = ilPHP::cloneObject($this);
+//echo "-".ilValidatorAdapter::validate($template2->get(), $_GET["do_dev_validate"])."-";
 				$this->setCurrentBlock("xhtml_validation");
 				$this->setVariable("VALIDATION",
 					ilValidatorAdapter::validate($template2->get(), $_GET["do_dev_validate"]));
@@ -242,6 +241,10 @@ class ilTemplate extends ilTemplateX
 	}
 
 
+	/**
+	* TODO: this is nice, but shouldn't be done here
+	* (-> maybe at the end of ilias.php!?, alex)
+	*/
 	function handleReferer()
 	{
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
@@ -267,6 +270,20 @@ class ilTemplate extends ilTemplateX
 				}
 
 				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);
+			}
+			else if (preg_match("/cmd=post/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
+			{
+				foreach ($_POST as $key => $val)
+				{
+					if (is_array($val))
+					{
+						$val = key($val);
+					}
+
+					$str .= "&".$key."=".$val;
+				}
+
+				$_SESSION["referer"] = preg_replace("/cmd=post/",substr($str,1),$_SERVER["REQUEST_URI"]);
 			}
 			else
 			{
@@ -626,6 +643,14 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
+	* sets title in standard template
+	*/
+	function setDescription($a_descr)
+	{
+		$this->setVariable("H_DESCRIPTION", $a_descr);
+	}
+	
+	/**
 	* stop floating (if no tabs are used)
 	*/
 	function stopTitleFloating()
@@ -679,5 +704,45 @@ class ilTemplate extends ilTemplateX
 			$first = false;
 		}
 	}
+	
+	/**
+	* sets tabs in standard template
+	*/
+	function setTabs($a_tabs_html)
+	{
+		$this->setVariable("TABS", $a_tabs_html);
+	}
+
+	/**
+	* sets subtabs in standard template
+	*/
+	function setSubTabs($a_tabs_html)
+	{
+		$this->setVariable("SUBTABS", $a_tabs_html);
+	}
+	
+	/**
+	* sets icon to upper level
+	*/
+	function setUpperIcon($a_link)
+	{
+		$this->setCurrentBlock("top");
+		$this->setVariable("LINK_TOP", $a_link);
+		$this->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
+		$this->parseCurrentBlock();
+	}
+	
+	/**
+	* set tree/flat icon
+	*/
+	function setTreeFlatIcon($a_link, $a_mode)
+	{
+		$this->setCurrentBlock("tree_mode");
+		$this->setVariable("LINK_MODE", $a_link);
+		$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$a_mode."view.gif"));
+		$this->parseCurrentBlock();
+	}
+
+
 }
 ?>

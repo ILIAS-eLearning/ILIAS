@@ -593,7 +593,6 @@ class ilExplorer
 		{
 			$this->createLines($i);
 		}
-
 		foreach ($this->format_options as $key => $options)
 		{
 			//var_dump($options["visible"]);
@@ -606,7 +605,6 @@ class ilExplorer
 				$this->formatHeader($options["child"],$options);
 			}
 		}
-
 		$ilBench->stop("Explorer", "getOutput");
 		
 		return implode('',$this->output);
@@ -696,19 +694,23 @@ class ilExplorer
 
 		if ($this->isClickable($a_option["type"], $a_node_id,$a_obj_id))	// output link
 		{
+
 			$tpl->setCurrentBlock("link");
 			//$target = (strpos($this->target, "?") === false) ?
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+
 			if ($a_node_id == $this->highlighted)
 			{
 				$tpl->setVariable("A_CLASS", ' class="il_HighlightedNode" ' );
 			}
+
 			if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "")
 			{
 				$tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
 			}
+
 			$tpl->setVariable("LINK_NAME", $a_node_id);
 			$tpl->setVariable("TITLE", ilUtil::shortenText(
 				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),

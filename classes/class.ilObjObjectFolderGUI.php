@@ -49,7 +49,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	function ilObjObjectFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "objf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
  	*/
 	function displayList()
 	{
-		include "./classes/class.ilTableGUI.php";
+		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -145,7 +145,8 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 		$tbl->setHeaderNames($header_names);
 
-		$header_params = array("ref_id" => $this->ref_id);
+		//$header_params = array("ref_id" => $this->ref_id);
+		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("15","75%","25%"));
 
@@ -256,9 +257,16 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{

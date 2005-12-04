@@ -95,7 +95,7 @@ class ilErrorHandling extends PEAR
 		global $log;
 
 		$this->error_obj =& $a_error_obj;
-
+//echo "-".$_SESSION["referer"]."-";
 		if ($_SESSION["message"])
 		{
 			$m = "Fatal Error: Called raise error two times.<br>".
@@ -176,6 +176,7 @@ class ilErrorHandling extends PEAR
 				$glue = "&";
 			}
 
+//echo "-".$_SESSION["referer"]."-";
 			ilUtil::redirect($_SESSION["referer"].$glue);
 		}
 	}

@@ -48,13 +48,41 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$this->type = "assf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 
 		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_assf"),$this->ilias->error_obj->WARNING);
 		}
 	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			default:
+				if($cmd == "" || $cmd == "view")
+				{
+					$cmd = "settings";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+
 
 	/**
 	* save object
@@ -78,8 +106,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+		$this->ctrl->redirect($this);
+		//header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		//exit();
 	}
 
 
@@ -89,7 +118,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	function settingsObject()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_settings.html");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ACTIVATE_ASSESSMENT_LOGGING", $this->lng->txt("activate_assessment_logging"));
 		$this->tpl->setVariable("TXT_ASSESSMENT_SETTINGS", $this->lng->txt("assessment_settings"));
 		$this->tpl->setVariable("TXT_REPORTING_LANGUAGE", $this->lng->txt("assessment_settings_reporting_language"));
@@ -289,7 +319,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ASSESSMENT_LOG", $this->lng->txt("assessment_log"));
 		$this->tpl->setVariable("TXT_LOG_FROM", $this->lng->txt("from"));
 		if (!is_array($_POST["log_from_date"]))
@@ -331,6 +362,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SELECT_TEST", $this->lng->txt("assessment_log_select_test"));
 		$this->tpl->parseCurrentBlock();
 	}
+
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}
 	
 	/**
 	* get tabs
@@ -344,7 +380,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "settings"), array("settings",""), "", "");
+				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
 
 			$tabs_gui->addTarget("logs",
 				$this->ctrl->getLinkTarget($this, "logs"), array("logs",""), "", "");

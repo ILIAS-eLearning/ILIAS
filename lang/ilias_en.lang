@@ -897,19 +897,19 @@ common#:#assessment_log_select_test#:#--- Please select a test ---
 common#:#assessment_log_text#:#Log message
 common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
-common#:#assessment_settings#:#Test&Assessment administration settings
+common#:#assessment_settings#:#Test&Assessment Administration Settings
 common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assf_edit_permission#:#Change permission settings
-common#:#assf_read#:#Access Test&Assessment administration
+common#:#assf_read#:#Access Test&Assessment Administration
 common#:#assf_visible#:#Test&Assessment administration is visible
 common#:#assf_write#:#Edit Test&Assessment administration
 common#:#assign#:#Assign
-common#:#assign_global_role#:#Assign to global role
+common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_lo_forum#:#Assign LO Forum
-common#:#assign_local_role#:#Assign to local role
+common#:#assign_local_role#:#Assign to Local Role
 common#:#assign_user_to_role#:#Assign User to Role
-common#:#assigned_roles#:#Assigned roles
-common#:#assigned_users#:#Assigned users
+common#:#assigned_roles#:#Assigned Roles
+common#:#assigned_users#:#Assigned Users
 common#:#associated_user#:#associated User
 common#:#associated_users#:#associated Users
 common#:#at_least_one_style#:#At least one style must remain activated.
@@ -2560,7 +2560,7 @@ common#:#role_deleted_desktop_items#:#Deleted assignment.
 common#:#role_desk_add#:#Assign desktop item
 common#:#role_desk_none_created#:#No desktop items assigned to this role.
 common#:#role_edit#:#Edit Role
-common#:#role_header_edit_users#:#Change userassignment
+common#:#role_header_edit_users#:#Change User Assignment
 common#:#role_list_users#:#List users
 common#:#role_new#:#New Role
 common#:#role_new_search#:#New search

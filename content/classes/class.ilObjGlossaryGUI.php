@@ -62,10 +62,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->type = "glo";
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
-		if ($a_prepare_output)
-		{
-			$this->prepareOutput();
-		}
+		//if ($a_prepare_output)
+		//{
+		//	$this->prepareOutput();
+		//}
 	}
 
 	/**
@@ -102,9 +102,16 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
-				$this->getTemplate();
-				$this->setTabs();
-				$this->setLocator();
+				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+				{
+					$this->prepareOutput();
+				}
+				else
+				{
+					$this->getTemplate();
+					$this->setTabs();
+					$this->setLocator();
+				}
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -124,9 +131,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				{
 					if (!in_array($cmd, array("frameset", "quickList")))
 					{
-						$this->getTemplate();
-						$this->setTabs();
-						$this->setLocator();
+						if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+							$this->getCreationMode() == true)
+						{
+							$this->prepareOutput();
+							$cmd.= "Object";
+						}
+						else
+						{
+							$this->getTemplate();
+							$this->setTabs();
+							$this->setLocator();
+						}
 					}
 					$ret =& $this->$cmd();
 				}
@@ -135,7 +151,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		if (!in_array($cmd, array("frameset", "quickList")))
 		{
-			$this->tpl->show();
+			if (strtolower($_GET["baseClass"]) != "iladministrationgui")
+			{
+				$this->tpl->show();
+			}
 		}
 		else
 		{
@@ -194,8 +213,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+		//															   $_GET["ref_id"]."&new_type=".$new_type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -350,6 +372,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function viewObject()
 	{
 		global $rbacsystem;
+		
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			parent::viewObject();
+			return;
+		}
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{

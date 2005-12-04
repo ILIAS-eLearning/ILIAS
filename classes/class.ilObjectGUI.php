@@ -133,7 +133,7 @@ class ilObjectGUI
 		$this->formaction = array();
 		$this->return_location = array();
 		$this->target_frame = array();
-		$this->tab_target_script = "adm_object.php";
+		//$this->tab_target_script = "adm_object.php";
 		$this->actions = "";
 		$this->sub_objects = "";
 
@@ -141,6 +141,7 @@ class ilObjectGUI
 		$this->id = $a_id;
 		$this->call_by_reference = $a_call_by_reference;
 		$this->prepare_output = $a_prepare_output;
+		$this->creation_mode = false;
 
 		$this->ref_id = ($this->call_by_reference) ? $this->id : $_GET["ref_id"];
 		$this->obj_id = ($this->call_by_reference) ? $_GET["obj_id"] : $this->id;
@@ -161,29 +162,6 @@ class ilObjectGUI
 		{
 			$this->prepareOutput();
 		}
-
-		// set default sort column
-		if (empty($_GET["sort_by"]))
-		{
-			// TODO: init sort_by better in obj class?
-			if ($this->object->getType() == "usrf"
-				or $this->object->getType() == "rolf")
-			{
-				$_GET["sort_by"] = "name";
-			}
-			elseif ($this->object->getType() == "typ")
-			{
-				$_GET["sort_by"] = "operation";
-			}
-			elseif ($this->object->getType() == "lngf")
-			{
-				$_GET["sort_by"] = "language";
-			}
-			else
-			{
-				$_GET["sort_by"] = "title";
-			}
-		}
 	}
 	
 	
@@ -200,6 +178,7 @@ class ilObjectGUI
 		switch($next_class)
 		{
 			default:
+				$this->prepareOutput();
 				if(!$cmd)
 				{
 					$cmd = "view";
@@ -221,6 +200,25 @@ class ilObjectGUI
 	{
 		return $this->call_by_reference;
 	}
+	
+	/**
+	* if true, a creation screen is displayed
+	* the current $_GET[ref_id] don't belong
+	* to the current class!
+	* the mode is determined in ilrepositorygui
+	*/
+	function setCreationMode($a_mode = true)
+	{
+		$this->creation_mode = $a_mode;
+	}
+	
+	/**
+	* get creation mode
+	*/
+	function getCreationMode()
+	{
+		return $this->creation_mode;
+	}
 
 	function assignObject()
 	{
@@ -239,56 +237,121 @@ class ilObjectGUI
 		}
 	}
 
+	/**
+	* prepare output
+	*/
 	function prepareOutput()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
+		global $ilLocator, $tpl;
+//echo "ilObjectGUI::prepareOutput";
+	
+		$this->tpl->getStandardTemplate();
+
+		// administration prepare output
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			$ilLocator->addAdministrationItems();
+			$this->addLocatorItems();
+			$tpl->setLocator();
+
+			sendInfo();
+			infoPanel();
+
+			$this->setTitleAndDescription();
+
+			if ($this->getCreationMode() != true)
+			{
+				$this->setAdminTabs();
+				$this->showUpperIcon();
+			}
+			
+			return false;
+		}
+
+		// set locator
+		$this->setLocator();
 
 		// catch feedback message
 		sendInfo();
+		infoPanel();
 
-		if (!empty($title))
+		// in creation mode (parent) object and gui object
+		// do not fit
+		if ($this->getCreationMode() == true)
 		{
-			$this->tpl->setVariable("HEADER", $title);
+			// get gui class and call their title and description method
+			$obj_type = ilObject::_lookupType($this->object->getRefId(),true);
+			$class_name = $this->objDefinition->getClassName($obj_type);
+			$class = strtolower("ilObj".$class_name."GUI");
+			$class_path = $this->ctrl->lookupClassPath($class);
+			include_once($class_path);
+			$class_name = $this->ctrl->getClassForClasspath($class_path);
+			$this->parent_gui_obj = new $class_name("", $this->object->getRefId(), true, false);
+			$this->parent_gui_obj->setTitleAndDescription();
 		}
-
-		$this->setAdminTabs($_POST["new_type"]);
-		$this->setLocator();
-
+		else
+		{
+			// set title and description and title icon
+			$this->setTitleAndDescription();
+	
+			// set tabs
+			$this->setTabs();
+			$this->showUpperIcon();
+		}
+		
+		return true;
 	}
+	
+
+	/**
+	* called by prepare output
+	*/
+	function setTitleAndDescription()
+	{
+		$this->tpl->setTitle($this->object->getTitle());
+		$this->tpl->setDescription($this->object->getLongDescription());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+	}
+	
+	function showUpperIcon()
+	{
+		global $tree, $tpl, $objDefinition;
+		
+		if ($this->object->getRefId() != $tree->getRootId())
+		{
+			$par_id = $tree->getParentId($this->object->getRefId());
+			if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+			{
+				$obj_type = ilObject::_lookupType($par_id,true);
+				$class_name = $objDefinition->getClassName($obj_type);
+				$class = strtolower("ilObj".$class_name."GUI");
+				$this->ctrl->setParameterByClass($class, "ref_id", $par_id);
+				$tpl->setUpperIcon($this->ctrl->getLinkTargetByClass($class, "view"));
+			}
+			else
+			{
+				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
+			}
+		}
+	}
+
 
 	/**
 	* set admin tabs
 	* @access	public
 	*/
-	function setAdminTabs($a_new_type = 0)
+	function setTabs()
 	{
-		// temp. for groups and systemfolder
-		// TODO: use this style for all objects
-/*		if (($this->object->getType() == "grp" or $this->object->getType() == "adm"
-			 or $this->object->getType() == "sty" or $this->object->getType() == "svy"
-			 or $this->object->getType() == "spl" or $this->object->getType() == "tst"
-			 or $this->object->getType() == "qpl" or $this->object->getType() == "exc"
-			 or $this->object->getType() == "file")
-			 &&
-			 (
-				 $this->ctrl->getTargetScript() != 'adm_object.php' ||
-				 $this->object->getType() == "sty" ||
-				 $this->object->getType() == "adm"
-				 )
-				)
-		{ */
-		if (true)
-		{
-			include_once "./classes/class.ilTabsGUI.php";
-			$tabs_gui =& new ilTabsGUI();
-			$this->getTabs($tabs_gui);
-			
-			//var_dump(get_class($this));
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		
+		//var_dump(get_class($this));
 
-			// output tabs
-			$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		// output tabs
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+			
+		/*
 		}
 		else
 		{
@@ -403,14 +466,57 @@ class ilObjectGUI
 				$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 				$this->tpl->parseCurrentBlock();
 			}
+		}*/
+	}
+
+	/**
+	* set admin tabs
+	* @access	public
+	*/
+	function setAdminTabs()
+	{
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		$this->getAdminTabs($tabs_gui);
+
+		// output tabs
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		//$this->tpl->setTabs($tabs_gui->getHTML());
+	}
+
+	/**
+	* administration tabs show only permissions and trash folder
+	*/
+	function getAdminTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+		
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("view",
+				$this->ctrl->getLinkTarget($this, "view"), array("", "view"), get_class($this));
+		}
+		
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), "", "ilpermissiongui");
+		}
+			
+		if ($this->tree->getSavedNodeData($this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("trash",
+				$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 		}
 	}
+
 
 	function getHTML()
 	{
 		return $this->html;
 	}
 
+/*
 	function setTabTargetScript($a_script = "adm_object.php")
 	{
 		$this->tab_target_script = $a_script;
@@ -420,6 +526,7 @@ class ilObjectGUI
 	{
 		return $this->tab_target_script;
 	}
+*/
 
 	/**
 	* set possible actions for objects in list. if actions are set
@@ -471,11 +578,25 @@ class ilObjectGUI
 	* @param	scriptanme that is used for linking; if not set adm_object.php is used
 	* @access	public
 	*/
-	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php",
-		$a_child_param = "ref_id", $a_output_obj = true, $a_root_title = "")
+	//function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php",
+	//	$a_child_param = "ref_id", $a_output_obj = true, $a_root_title = "")
+	function setLocator()
 	{
-		global $ilias_locator;
+		global $ilLocator, $tpl;
+		
+		// todo: admin workaround
+		// in the future, objectgui classes should not be called in
+		// admin section anymore (rbac/trash handling in own classes)
+		$ref_id = ($_GET["ref_id"] != "")
+			? $_GET["ref_id"]
+			: $this->object->getRefId();
+		$ilLocator->addRepositoryItems($ref_id);
+		$this->addLocatorItems();
+		$tpl->setLocator();
+		
+		return;
 
+/*
 		if (!is_object($a_tree))
 		{
 			$a_tree =& $this->tree;
@@ -502,7 +623,9 @@ class ilObjectGUI
 				"title"  => $this->lng->txt($subObj->getTitle())
 				);
 		}
+*/
 
+/*
 		// this is a stupid workaround for a bug in PEAR:IT
 		$modifier = 1;
 
@@ -577,7 +700,15 @@ class ilObjectGUI
 
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
-
+*/
+	}
+	
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addLocatorItems()
+	{
 	}
 
 	/**
@@ -585,6 +716,7 @@ class ilObjectGUI
 	*
 	* @access	public
 	*/
+/*
 	function copyObject()
 	{
 		global $rbacsystem;
@@ -628,12 +760,14 @@ class ilObjectGUI
 
 		ilUtil::redirect($this->getReturnLocation("copy","adm_object.php?ref_id=".$_GET["ref_id"]));
 	}
+*/
 
 	/**
 	* clone Object subtree
 	*
 	* @access	private
 	*/
+/*
 	function cloneObject($a_ref_ids)
 	{
 		global $rbacsystem;
@@ -659,6 +793,7 @@ class ilObjectGUI
 		ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END CLONE
+*/
 
 	/**
 	* clone all nodes
@@ -670,6 +805,7 @@ class ilObjectGUI
 	* @param    array	mapping new_ref_id => new_ref_id
 	* @return	boolean	true
 	*/
+/*
 	function cloneNodes($a_source_id,$a_dest_id,&$mapping)
 	{
 		if (!$mapping)
@@ -703,6 +839,7 @@ class ilObjectGUI
 
 		return true;
 	}
+*/
 
 	/**
 	* get object back from trash
@@ -749,8 +886,7 @@ class ilObjectGUI
 		
 		sendInfo($this->lng->txt("msg_undeleted"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("undelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-
+		$this->ctrl->redirect($this, "view");
 	}
 
 	/**
@@ -851,11 +987,14 @@ class ilObjectGUI
 			$not_deletable = implode(',',$not_deletable);
 			session_unregister("saved_post");
 			sendInfo($this->lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$this->lng->txt("msg_cancel"),true);
-			ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+
+			//ilUtil::redirect($this->getReturnLocation("confirmedDelete", "adm_object.php?ref_id=".$_GET["ref_id"]));
+			$this->ctrl->returnToParent($this);
 
 //			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
 //									 $not_deletable,$this->ilias->error_obj->MESSAGE);
 		}
+
 		if(count($buyable))
 		{
 			foreach($buyable as $id)
@@ -894,7 +1033,8 @@ class ilObjectGUI
 			{
 				unset($_SESSION["saved_post"]);
 				sendInfo($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
-				ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+				//ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+				$this->ctrl->returnToParent($this);
 			}
 		}
 		else
@@ -904,7 +1044,7 @@ class ilObjectGUI
 			{
 				// DELETE OLD PERMISSION ENTRIES
 				$subnodes = $this->tree->getSubtree($this->tree->getNodeData($id));
-			
+
 				foreach ($subnodes as $subnode)
 				{
 					$rbacadmin->revokePermission($subnode["child"]);
@@ -924,7 +1064,7 @@ class ilObjectGUI
 				
 				// remove item from all user desktops
 				$affected_users = ilUtil::removeItemFromDesktops($id);
-				
+
 				// TODO: inform users by mail that object $id was deleted
 				//$mail->sendMail($id,$msg,$affected_users);
 			}
@@ -935,7 +1075,8 @@ class ilObjectGUI
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		//ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		$this->ctrl->returnToParent($this);
 
 	}
 
@@ -950,7 +1091,9 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
-		ilUtil::redirect($this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		//ilUtil::redirect($this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+
+		$this->ctrl->returnToParent($this);
 
 	}
 
@@ -979,7 +1122,6 @@ class ilObjectGUI
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
-
 			// remember already checked deleted node_ids
 			$checked[] = -(int) $id;
 
@@ -989,7 +1131,7 @@ class ilObjectGUI
 			foreach ($subtree_nodes as $node)
 			{
 				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
-				
+
 				// write log entry
 				$log->write("ilObjectGUI::removeFromSystemObject(), delete obj_id: ".$node_obj->getId().
 					", ref_id: ".$node_obj->getRefId().", type: ".$node_obj->getType().", ".
@@ -1002,7 +1144,7 @@ class ilObjectGUI
 			#$this->tree->deleteTree($node_data);
 			// Use the saved tree object here (negative tree_id)
 			$saved_tree->deleteTree($node_data);
-						
+
 			// write log entry
 			$log->write("ilObjectGUI::removeFromSystemObject(), deleted tree, tree_id: ".$node_data["tree"].
 				", child: ".$node_data["child"]);
@@ -1010,8 +1152,9 @@ class ilObjectGUI
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
-
-		ilUtil::redirect($this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
+echo "8";
+		//ilUtil::redirect($this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
+		$this->ctrl->returnToParent($this);
 
 	}
 
@@ -1106,9 +1249,10 @@ class ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+			//	$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -1258,9 +1402,13 @@ class ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		if (!$this->call_by_reference)
+		{
+			$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
+		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
@@ -1285,7 +1433,8 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
-		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+		$this->ctrl->redirect($this);
+		//ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
 		//ilUtil::redirect($this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
 	}
 
@@ -1805,8 +1954,12 @@ class ilObjectGUI
 
 		$num = 0;
 
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+		if (!$this->call_by_reference)
+		{
+			$this->ctrl->setParameter($this, "obj_id", $this->obj_id); 
+		}
+		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -1823,7 +1976,9 @@ class ilObjectGUI
 
 		$tbl->setHeaderNames($header_names);
 
-		$header_params = array("ref_id" => $this->ref_id);
+		//$header_params = array("ref_id" => $this->ref_id);
+		//$header_params = array("ref_id" => $this->ref_id);
+		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("15","15","75%","25%"));
 
@@ -1883,8 +2038,14 @@ class ilObjectGUI
 				foreach ($data as $key => $val)
 				{
 					//build link
-					$link = "adm_object.php?";
+					$obj_type = ilObject::_lookupType($ctrl["ref_id"],true);
+					$class_name = $this->objDefinition->getClassName($obj_type);
+					$class = strtolower("ilObj".$class_name."GUI");
+					$this->ctrl->setParameterByClass($class, "ref_id", $ctrl["ref_id"]);
+					$this->ctrl->setParameterByClass($class, "obj_id", $ctrl["ref_id"]);
+					$link = $this->ctrl->getLinkTargetByClass($class, "view");
 
+					/*
 					$n = 0;
 
 					foreach ($ctrl as $key2 => $val2)
@@ -1896,7 +2057,7 @@ class ilObjectGUI
 					    	$link .= "&";
 							$n++;
 						}
-					}
+					}*/
 
 					if ($key == "name" || $key == "title")
 					{
@@ -2061,6 +2222,11 @@ class ilObjectGUI
  	*/
 	function deleteObject($a_error = false)
 	{
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
+
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -2102,8 +2268,9 @@ class ilObjectGUI
 			sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
+		//	"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
@@ -2214,7 +2381,8 @@ class ilObjectGUI
 		*/
 		//sendInfo($this->lng->txt("info_trash"));
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		// BEGIN TABLE HEADER
@@ -2409,7 +2577,8 @@ class ilObjectGUI
 
 		if ($this->actions == "")
 		{
-			$d = $this->objDefinition->getActions($_GET["type"]);
+			$d = $this->objDefinition->getActions($this->object->getType());
+			//$d = $this->objDefinition->getActions($_GET["type"]);
 		}
 		else
 		{
@@ -2437,7 +2606,7 @@ class ilObjectGUI
 
 		if ($with_subobjects === true)
 		{
-			$this->showPossibleSubObjects();
+			//$this->showPossibleSubObjects();
 		}
 		
 		if (!empty($this->ids))
@@ -2465,7 +2634,7 @@ class ilObjectGUI
 	{
 		if ($this->sub_objects == "")
 		{
-			$d = $this->objDefinition->getCreatableSubObjects($_GET["type"]);
+			$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
 		}
 		else
 		{

@@ -11,6 +11,9 @@
 	<service name="PersonalDesktop" dir=".">
 		<baseclass name="ilPersonalDesktopGUI" dir="classes" />
 	</service>
+	<service name="Administration" dir=".">
+		<baseclass name="ilAdministrationGUI" dir="classes" />
+	</service>
 	<!-- more to come ... -->
 	
 </services>

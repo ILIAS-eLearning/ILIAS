@@ -54,7 +54,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$lng->loadLanguageModule("content");
-		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		$this->actions = $this->objDefinition->getActions("lm");
 
 	}
@@ -81,10 +81,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// get current command
 		$cmd = $this->ctrl->getCmd();
 
-		$this->addLocations();
 		switch($next_class)
 		{
 			case "illearningprogressgui":
+				$this->addLocations();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->setTabs();
 
@@ -94,7 +94,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 
 			case 'ilmdeditorgui':
-
+				$this->addLocations();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$this->setTabs();
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -104,6 +104,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 
 			case "ilobjstylesheetgui":
+				$this->addLocations();
 				include_once ("classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "properties");
 				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
@@ -120,6 +121,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 
 			case "illmpageobjectgui":
+				$this->addLocations();
 				$this->ctrl->setReturn($this, "properties");
 //echo "!";
 				//$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
@@ -139,6 +141,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 
 			case "ilstructureobjectgui":
+				$this->addLocations();
 				$this->ctrl->setReturn($this, "properties");
 				$st_gui =& new ilStructureObjectGUI($this->object, $this->object->lm_tree);
 				if ($_GET["obj_id"] != "")
@@ -163,16 +166,31 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
+				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+				{
+					$this->prepareOutput();
+				}
+				else
+				{
+					$this->addLocations();
 					$this->setTabs();
-					include_once("./classes/class.ilPermissionGUI.php");
-					$perm_gui =& new ilPermissionGUI($this);
-					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				}
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
-				if ($cmd == "create")
+				$new_type = $_POST["new_type"]
+					? $_POST["new_type"]
+					: $_GET["new_type"];
+
+			
+				if ($cmd == "create" &&
+					!in_array($new_type, array("dbk", "lm")))
 				{
-					switch ($_POST["new_type"])
+					$this->addLocations();
+					switch ($new_type)
 					{
 						case "pg":
 							$this->setTabs();
@@ -189,8 +207,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 				else
 				{
-					$ret =& $this->$cmd();
-
+					// creation of new dbk/lm in repository
+					if ($this->getCreationMode() == true &&
+						in_array($new_type, array("dbk", "lm")))
+					{
+						$this->prepareOutput();
+						$cmd .= "Object";
+						$ret =& $this->$cmd();
+					}
+					else
+					{
+						$this->addLocations();
+						$ret =& $this->$cmd();
+					}
 				}
 				break;
 		}
@@ -861,8 +890,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 			}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-				$_GET["ref_id"]."&new_type=".$new_type));
+			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",
+			//	"adm_object.php?cmd=gateway&ref_id=".
+			//	$_GET["ref_id"]."&new_type=".$new_type));
+			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			
+			
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -980,31 +1014,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->addBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
-/*
-	function deleteMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
-	}
-*/
-
-/*
-	function deleteMeta()
-	{
-		$this->setTabs();
-		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
 	/**
 	* delete bib item (admin call)
 	*/
@@ -1036,28 +1045,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->deleteBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
-/*
-	function editMetaObject($a_target = "")
-	{
-
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-//echo "target:$a_target:";
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
-	}
-
-	function editMeta()
-	{
-		$this->setTabs();
-		$this->editMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
 
 	/**
 	* edit bib items (admin call)
@@ -1089,23 +1076,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->setTabs();
 		$this->editBibItemObject($this->ctrl->getLinkTarget($this));
 	}
-
-/*
-	function saveMetaObject($a_target = "adm_object.php")
-	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-//echo "title_value:".htmlentities($_POST["meta"]["Title"]["Value"]); exit;
-		$meta_gui->save($_POST["meta_section"]);
-		ilUtil::redirect($a_target . "?cmd=editMeta&ref_id=" . $this->object->getRefId() . "&meta_section=" . $_POST["meta_section"]);
-	}
-
-	function saveMeta()
-	{
-//		$this->saveMetaObject("lm_edit.php");
-	}
-*/
 
 	/**
 	* save bib item (admin call)
@@ -1265,7 +1235,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilLMEditorGUI");
-		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -1824,7 +1793,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function view()
 	{
-		$this->viewObject();
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			$this->prepareOutput();
+			parent::viewObject();
+		}
+		else
+		{
+			$this->viewObject();
+		}
 	}
 
 
@@ -2656,7 +2633,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
 			"repository.php?cmd=frameset&amp;ref_id=".$par_id,
 			ilFrameTargetInfo::_getFrame("MainContent"));
-
 		$obj_id = $_GET["obj_id"];
 		$lmtree =& $this->object->getTree();
 

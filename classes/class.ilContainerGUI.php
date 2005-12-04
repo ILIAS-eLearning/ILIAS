@@ -49,11 +49,16 @@ class ilContainerGUI extends ilObjectGUI
 
 		$this->rbacsystem =& $rbacsystem;
 
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		//$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		
+		// prepare output things should generally be made in executeCommand
+		// method (maybe dependent on current class/command
+		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
 	}
 
 	/**
 	* execute command
+	* note: this method is overwritten in all container objects
 	*/
 	function &executeCommand()
 	{
@@ -63,6 +68,7 @@ class ilContainerGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			default:
+				$this->prepareOutput();
 				$cmd .= "Object";
 				$this->$cmd();
 
@@ -70,6 +76,127 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		return true;
 	}
+	
+	/**
+	* prepare output
+	*/
+	function prepareOutput()
+	{
+		if (parent::prepareOutput())	// return false in admin mode
+		{
+			if ($this->getCreationMode() != true)
+			{
+				$this->showPossibleSubObjects();
+				$this->showTreeFlatIcon();
+			}
+		}
+	}
+	
+	function showTreeFlatIcon()
+	{
+		global $tpl;
+		
+		$mode = ($_SESSION["il_rep_mode"] == "flat")
+			? "tree"
+			: "flat";
+		$link = "repository.php?cmd=frameset&set_mode=".$mode."&ref_id=".$this->object->getRefId();
+		$tpl->setTreeFlatIcon($link, $mode);
+	}
+	
+	/**
+	* called by prepare output 
+	*/
+	function setTitleAndDescription()
+	{
+		global $ilias;
+		
+		$this->tpl->setTitle($this->object->getTitle());
+		$this->tpl->setDescription($this->object->getLongDescription());
+
+		// set tile icon
+		$icon = ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif");
+		if ($ilias->getSetting("custom_icons") &&
+			in_array($this->object->getType(), array("cat","grp","crs")))
+		{
+			require_once("classes/class.ilContainer.php");
+			if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
+			{
+				$icon = $path;
+			}
+		}
+		$this->tpl->setTitleIcon($icon);
+	}
+
+
+	/**
+	* show possible sub objects selection list
+	*/
+	function showPossibleSubObjects()
+	{
+		$found = false;
+		$cmd = ($this->cmd != "")
+			? $this->cmd
+			: $this->ctrl->getCmd();
+
+		if ($cmd != "" && $cmd != "showList" && $cmd != "render"
+			&& $cmd != "view")
+		{
+			return;
+		}
+		
+		$type = $this->object->getType();
+
+		$d = $this->objDefinition->getCreatableSubObjects($type);
+
+		if (count($d) > 0)
+		{
+			foreach ($d as $row)
+			{
+			    $count = 0;
+				if ($row["max"] > 0)
+				{
+					//how many elements are present?
+					//var_dump($this->data);
+					// this is broken
+					/*
+					for ($i=0; $i<count($this->data["ctrl"]); $i++)
+					{
+						if ($this->data["ctrl"][$i]["type"] == $row["name"])
+						{
+						    $count++;
+						}
+					}*/
+				}
+
+				if ($row["max"] == "" || $count < $row["max"])
+				{
+					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs",
+													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
+													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr')))
+					{
+						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
+						{
+							$subobj[] = $row["name"];
+						}
+					}
+				}
+			}
+		}
+
+		if (is_array($subobj))
+		{
+			$this->tpl->parseCurrentBlock("add_commands");
+			$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->object->getRefId().
+				"&cmd=post");
+			// possible subobjects
+			$opts = ilUtil::formSelect("", "new_type", $subobj);
+			$this->tpl->setVariable("SELECT_OBJTYPE_REPOS", $opts);
+			$this->tpl->setVariable("BTN_NAME_REPOS", "create");
+			$this->tpl->setVariable("TXT_ADD_REPOS", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
 
 	/**
 	* display tree view
@@ -560,14 +687,6 @@ class ilContainerGUI extends ilObjectGUI
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 
-		if ($this->ctrl->getTargetScript() == "adm_object.php")
-		{
-			if ($this->tree->getSavedNodeData($this->ref_id))
-			{
-				$tabs_gui->addTarget("trash",
-					 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
-			}
-		}
 	}
 
 	//*****************
@@ -694,7 +813,8 @@ class ilContainerGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
 
-		ilUtil::redirect($this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
+		$this->ctrl->returnToParent($this);
+		//ilUtil::redirect($this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END CUT
 
@@ -765,7 +885,8 @@ class ilContainerGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("msg_link_clipboard"),true);
 
-		ilUtil::redirect($this->getReturnLocation("link","adm_object.php?ref_id=".$_GET["ref_id"]));
+		$this->ctrl->returnToParent($this);
+		//ilUtil::redirect($this->getReturnLocation("link","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END LINK
 
@@ -787,7 +908,8 @@ class ilContainerGUI extends ilObjectGUI
 			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
 
 			//ilUtil::redirect($this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
-			ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
+			$this->ctrl->returnToParent($this);
+			//ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
 		}
 	}
 
@@ -1125,7 +1247,8 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 			sendInfo($this->lng->txt("msg_linked"),true);
 		}
 
-		ilUtil::redirect($this->getReturnLocation("paste",$this->ctrl->getLinkTarget($this)),get_class($this));
+		//ilUtil::redirect($this->getReturnLocation("paste",$this->ctrl->getLinkTarget($this)),get_class($this));
+		$this->ctrl->returnToParent($this);
 		//ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END PASTE

@@ -71,7 +71,7 @@ class ilObjectGUIAdapter
 	}
 	function setCommand($a_cmd)
 	{
-		if($a_cmd == "gateway")
+		if($a_cmd == "gateway" || $a_cmd == "post")
 		{
 			@$this->cmd = key($_POST["cmd"]);
 		}

@@ -28,6 +28,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * $Id$
 *
+* @ilCtrl_Calls ilObjChatServerGUI: ilPermissionGUI
+*
 * @extends ilObjectGUI
 * @package chat
 */
@@ -48,6 +50,33 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule("chat");
+	}
+
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
 	}
 
 	function editObject()

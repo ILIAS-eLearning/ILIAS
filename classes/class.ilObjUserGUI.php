@@ -29,6 +29,8 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilObjUserGUI:
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -64,14 +66,14 @@ class ilObjUserGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
+	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
 	{
 		global $ilCtrl;
 
 		define('USER_FOLDER_ID',7);
 
 		$this->type = "usr";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->usrf_ref_id =& $this->ref_id;
 
 		$this->ctrl =& $ilCtrl;
@@ -89,14 +91,17 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		$this->prepareOutput();
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
 		switch($next_class)
 		{
 			default:
-				if(!$cmd)
+				if($cmd == "" || $cmd == "view")
 				{
-					$cmd = "view";
+					$cmd = "edit";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
@@ -113,16 +118,39 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
-			$return_location = $_GET["cmd_return_location"];
-			ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+			$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
+			//$return_location = $_GET["cmd_return_location"];
+			//ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 		}
 		else
 		{
 			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
 		}
 	}
+	
+	/**
+	* admin and normal tabs are equal for roles
+	*/
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}
+	
+	/**
+	* get tabs 
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		$tabs_gui->addTarget("properties",
+			$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
+			
+		$tabs_gui->addTarget("role_assignment",
+			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
+	}
+
+
 
 	/**
 	* display user create form
@@ -1133,8 +1161,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 			// BEGIN ACTIVE ROLES
 			$this->tpl->setCurrentBlock("ACTIVE_ROLE");
-			$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&ref_id=".
-									$this->usrf_ref_id."&obj_id=".$this->obj_id);
+			$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION",
+				$this->ctrl->getFormAction($this));
+			//"adm_object.php?cmd=activeRoleSave&ref_id=".
+			//						$this->usrf_ref_id."&obj_id=".$this->obj_id);
 			$this->tpl->setVariable("TXT_ACTIVE_ROLES",$this->lng->txt("active_roles"));
 			$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_active_assignment"));
 			$this->tpl->parseCurrentBlock();
@@ -1175,7 +1205,7 @@ class ilObjUserGUI extends ilObjectGUI
                 if (empty($_POST["Fobject"][$val]))
                 {
                     $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " .
-											 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
+											 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);					
                 }
             }
         }
@@ -1294,9 +1324,9 @@ class ilObjUserGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("user_added"),true);
 
 		
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
-			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$this->usrf_ref_id));
+			$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
 		}
 		else
 		{
@@ -1542,9 +1572,10 @@ class ilObjUserGUI extends ilObjectGUI
 		// feedback
 		sendInfo($msg,true);
 
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
-			ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
+			$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
+			//ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
 		}
 		else
 		{
@@ -1597,7 +1628,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("msg_roleassignment_active_changed").".<br/>".$this->lng->txt("msg_roleassignment_active_changed_comment"),true);
-		ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".$this->obj_id."&cmd=edit");
+		$this->ctrl->redirect($this, "edit");
 	}
 
 	/**
@@ -1657,9 +1688,9 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
 
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
-            $this->ctrl->redirectByClass('ilobjusergui','roleassignment');
+			$this->ctrl->redirect($this,'roleassignment');
 		}
 		else
 		{
@@ -1782,7 +1813,10 @@ class ilObjUserGUI extends ilObjectGUI
 			$role_ids[$counter] = $role["obj_id"];
 			
             $result_set[$counter][] = ilUtil::formCheckBox(in_array($role["obj_id"],$assigned_roles),"role_id[]",$role["obj_id"],$disabled)."<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"".$role["obj_id"]."\"/>";
-            $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf[0]."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
+            //$result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf[0]."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
+			$this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $rolf[0]);
+			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
+			$result_set[$counter][] = "<a href=\"".$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm")."\">".ilObjRole::_getTranslation($role["title"])."</a>";
             $result_set[$counter][] = $role["description"];
 		    $result_set[$counter][] = $path;
 

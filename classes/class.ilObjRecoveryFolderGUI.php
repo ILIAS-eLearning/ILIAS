@@ -26,7 +26,9 @@
 *
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
-* 
+*
+* @ilCtrl_Calls ilObjRecoveryFolderGUI: ilPermissionGUI
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -42,7 +44,7 @@ class ilObjRecoveryFolderGUI extends ilObjectGUI
 	function ilObjRecoveryFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "recf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 	}
 	
 	/**
@@ -111,6 +113,34 @@ class ilObjRecoveryFolderGUI extends ilObjectGUI
 		ilUtil::redirect($this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	}
+	
+		function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+
+				break;
+		}
+		return true;
+	}
+
 	
 	function showPossibleSubObjects()
 	{

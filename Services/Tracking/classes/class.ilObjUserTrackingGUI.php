@@ -32,7 +32,7 @@
 * @extends ilObjectGUI
 * @package ilias-core
 *
-* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI
+* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
 */
 
 include_once "classes/class.ilObjectGUI.php";
@@ -55,7 +55,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		global $tpl,$ilErr,$lng,$ilCtrl;
 
 		$this->type = "trac";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 
 		$this->tpl =& $tpl;
 		$this->ilErr =& $ilErr;
@@ -65,22 +65,44 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 	}
 
-	function executeCommand()
+	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case 'illearningprogressgui':
+				include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
+				$lp_gui =& new ilLearningProgressGUI(LP_MODE_ADMINISTRATION);
+				$ret =& $this->ctrl->forwardCommand($lp_gui);
+				break;
+				
 			default:
 				$cmd = $this->ctrl->getCmd();
+				if ($cmd == "view" || $cmd == "")
+				{
+					$cmd = "trackingDataQueryForm";
+				}
 				$cmd .= "Object";
 				$this->$cmd();
 				break;
 		}
 		
 		return true;
-	}		
+	}
+	
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}
 
 	function getTabs(&$tabs_gui)
 	{
@@ -96,9 +118,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 								 "trackingDataQueryForm",
 								 get_class($this));
 			$tabs_gui->addTarget("learning_progress",
-								 $this->ctrl->getLinkTarget($this,
-															"learningProgress"),
-								 "learning_progress",
+								 $this->ctrl->getLinkTargetByClass("illearningprogressgui",
+											"show"),
+								 "",
 								 "illearningprogressgui");
 		}
 	}

@@ -168,7 +168,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		// roles table
 		
-		$this->tpl->setVariable("FORMACTION_ROLES", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION_ROLES",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_AUTH_ROLES", $this->lng->txt("auth_active_roles"));
 		$this->tpl->setVariable("TXT_ROLE", $this->lng->txt("obj_role"));
 		$this->tpl->setVariable("TXT_ROLE_AUTH_MODE", $this->lng->txt("auth_role_auth_mode"));
@@ -213,6 +214,17 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROLE_ID", $role['id']);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+	
+	function cancelObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirect($this, "view");
+	}
+
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
 	}
 	
 	/**
@@ -966,9 +978,16 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
 			default:
 				if(!$cmd)
 				{

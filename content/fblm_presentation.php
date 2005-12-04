@@ -48,5 +48,6 @@ require_once "./content/classes/class.ilObjFileBasedLMGUI.php";
 
 $fblm_gui =& new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
 $fblm_gui->showLearningModule();
+$tpl->show();
 
 ?>

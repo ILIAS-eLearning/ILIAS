@@ -58,6 +58,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		//$this->id = $_GET["ref_id"];
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+/*
 		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$this->setTabTargetScript("adm_object.php");
@@ -78,6 +79,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 			$this->tpl->setLocator();
 		}
+*/
 	}
 
 	/**
@@ -87,12 +89,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilLocator;	
 	
+/*
 		if ($prepare_output)
 		{
 			// Alle Repository Einträge der derzeitigen ref_id einfügen
 			$ilLocator->addRepositoryItems();
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 		}
+*/
+		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
@@ -124,13 +129,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 		}
 
-		if ($prepare_output) $this->prepareOutput();
+//		if ($prepare_output) $this->prepareOutput();
 
 //echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -149,7 +154,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				$this->setQuestionTabs();
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
@@ -199,7 +204,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_imagemapquestiongui":
 			case "ass_javaappletgui":
 			case "ass_textquestiongui":
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./assessment/classes/class.assQuestionGUI.php";
@@ -213,7 +218,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -222,17 +227,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			default:
 				if ($cmd != "createQuestion" && $cmd != "createQuestionForTest" && $cmd != "editQuestionForTest")
 				{
-					$this->setAdminTabs();
+					//$this->setAdminTabs();
 				}
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
 		}
-		if ($prepare_output)
+
+		//if ($prepare_output)
+		//{
+		//	$this->tpl->setLocator();
+		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
+			$this->getCreationMode() != true)
 		{
-			$this->tpl->setLocator();
 			$this->tpl->show();
 		}
+		//}
 	}
 
 	/**
@@ -461,7 +471,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		else
 		{
 			$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_qpl"));
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
+			
+			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		}
 		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
@@ -549,7 +563,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		else
 		{
 			include_once "./classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+			$this->ctrl->redirect($this, "");
+			//ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
 		}
 	}
 	
@@ -583,7 +598,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function importObject()
 	{
 		$this->getTemplateFile("import", "qpl");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		//$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
 		$this->tpl->setVariable("BTN_NAME", "uploadQpl");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("import"));
 		$this->tpl->setVariable("NEW_TYPE", $this->type);
@@ -1110,6 +1127,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
+/*
 	function prepareOutput()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -1132,6 +1150,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->setAdminTabs($_POST["new_type"]);
 		}
 	}
+*/
 
 	/**
 	* paste questios from the clipboard into the question pool
@@ -1473,8 +1492,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 			}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+			//	$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));

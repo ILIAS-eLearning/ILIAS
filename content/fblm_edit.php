@@ -47,6 +47,6 @@ $ilCtrl->setTargetScript("fblm_edit.php");
 $ilCtrl->getCallStructure("ilobjfilebasedlmgui");
 $fblm_gui =& new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
 $ilCtrl->forwardCommand($fblm_gui);
-//$fblm_gui->executeCommand();
+$tpl->show();
 
 ?>
