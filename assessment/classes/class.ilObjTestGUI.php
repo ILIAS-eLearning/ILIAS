@@ -3249,10 +3249,91 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 
-		if (count($_POST))
+		if (is_array($_POST["search_for"]))
 		{
-			$this->handleCommands();
-			//return;
+			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
+			{					
+				
+				include_once './classes/class.ilSearch.php';
+				$search =& new ilSearch($ilUser->id);
+				$search->setSearchString($_POST["search_term"]);
+				$search->setCombination($_POST["concatenation"]);
+				$search->setSearchFor($_POST["search_for"]);
+				$search->setSearchType("new");
+				if($search->validate($message))
+				{
+					$search->performSearch();
+				}
+				if ($message)
+				{
+					sendInfo($message);
+				}
+				
+				if(!$search->getNumberOfResults() && $search->getSearchFor())
+				{
+					sendInfo($this->lng->txt("search_no_match"));
+					return;
+				}
+				$buttons = array("add");
+
+				$invited_users = $this->object->getInvitedUsers();
+			
+				if ($searchresult = $search->getResultByType("usr"))
+				{												
+					$users = array();
+					foreach ($searchresult as $result_array)
+					{
+						if (!array_key_exists($result_array["id"], $invited_users))
+						{								
+							array_push($users, $result_array["id"]);
+						}
+					}
+					
+					$users = $this->object->getUserData($users);
+					
+					if (count ($users))
+						$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
+				}
+
+				$searchresult = array();
+				
+				if ($searchresult = $search->getResultByType("grp"))
+				{
+					$groups = array();
+					
+					foreach ($searchresult as $result_array)
+					{							
+						array_push($groups, $result_array["id"]);
+					}
+					$groups = $this->object->getGroupData ($groups);
+					
+					if (count ($groups))
+						$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
+				}
+				
+				$searchresult = array();
+				
+				if ($searchresult = $search->getResultByType("role"))
+				{
+					$roles = array();
+					
+					foreach ($searchresult as $result_array)
+					{							
+						array_push($roles, $result_array["id"]);
+					}
+					
+					$roles = $this->object->getRoleData ($roles);			
+							
+					if (count ($roles))
+						$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
+				}
+				
+			}
+			
+		}
+		else
+		{
+			sendInfo($this->lng->txt("no_user_or_group_selected"));
 		}
 		
 		if ($_POST["cmd"]["save"])
@@ -3357,142 +3438,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "participants");
 	}
 	
-	/**
-	* Extracts the results of a posted invitation form
-	*
-	* Extracts the results of a posted invitation form
-	*
-	* @access	public
-	*/
-	function handleCommands()
-	{
-		global $ilUser;
-
-		$message = "";
-		
-		if ($_POST["cmd"]["add"])
-		{
-			// add users 
-			if (is_array($_POST["user_select"]))
-			{
-				$i = 0;
-				foreach ($_POST["user_select"] as $user_id)
-				{					
-					$client_ip = $_POST["client_ip"][$i];
-					$this->object->inviteUser($user_id, $client_ip);
-					$i++;				
-				}
-			}
-			// add groups members
-			if (is_array($_POST["group_select"]))
-			{
-				foreach ($_POST["group_select"] as $group_id)
-				{
-					$this->object->inviteGroup($group_id);
-				}
-			}
-			// add role members
-			if (is_array($_POST["role_select"]))
-			{
-				foreach ($_POST["role_select"] as $role_id)
-				{					
-					$this->object->inviteRole($role_id);
-				}
-			}
-			
-		}
-
-		if ($_POST["cmd"]["search"])
-		{
-			if (is_array($_POST["search_for"]))
-			{
-				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
-				{					
-					
-					include_once './classes/class.ilSearch.php';
-					$search =& new ilSearch($ilUser->id);
-					$search->setSearchString($_POST["search_term"]);
-					$search->setCombination($_POST["concatenation"]);
-					$search->setSearchFor($_POST["search_for"]);
-					$search->setSearchType("new");
-					if($search->validate($message))
-					{
-						$search->performSearch();
-					}
-					if ($message)
-					{
-						sendInfo($message);
-					}
-					
-					if(!$search->getNumberOfResults() && $search->getSearchFor())
-					{
-						sendInfo($this->lng->txt("search_no_match"));
-						return;
-					}
-					$buttons = array("add");
-
-					$invited_users = $this->object->getInvitedUsers();
-				
-					if ($searchresult = $search->getResultByType("usr"))
-					{												
-						$users = array();
-						foreach ($searchresult as $result_array)
-						{
-							if (!array_key_exists($result_array["id"], $invited_users))
-							{								
-								array_push($users, $result_array["id"]);
-							}
-						}
-						
-						$users = $this->object->getUserData($users);
-						
-						if (count ($users))
-							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
-					}
-
-					$searchresult = array();
-					
-					if ($searchresult = $search->getResultByType("grp"))
-					{
-						$groups = array();
-						
-						foreach ($searchresult as $result_array)
-						{							
-							array_push($groups, $result_array["id"]);
-						}
-						$groups = $this->object->getGroupData ($groups);
-						
-						if (count ($groups))
-							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
-					}
-					
-					$searchresult = array();
-					
-					if ($searchresult = $search->getResultByType("role"))
-					{
-						$roles = array();
-						
-						foreach ($searchresult as $result_array)
-						{							
-							array_push($roles, $result_array["id"]);
-						}
-						
-						$roles = $this->object->getRoleData ($roles);			
-								
-						if (count ($roles))
-							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
-					}
-					
-				}
-				
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_user_or_group_selected"));
-			}
-		}
-	}
-
 	/**
 	* Print tab to create a print of all questions with points and solutions
 	*
@@ -3645,9 +3590,9 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 			case "usr":
 				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$counter = 0;
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->usr_id);
@@ -3656,6 +3601,14 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_LASTNAME", $data->lastname);
 					$this->tpl->setVariable("VALUE_CLIENT_IP", $data->clientip);
 					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($data_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_user_row");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
@@ -3677,17 +3630,24 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 				
 			case "role":
-				
 			case "grp":
+				$counter = 0;
 				foreach ($data_array as $key => $data)
 				{
-					$counter = 0;
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $key);
 					$this->tpl->setVariable("VALUE_TITLE", $data->title);
 					$this->tpl->setVariable("VALUE_DESCRIPTION", $data->description);
 					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($data_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_" . $a_type . "_row");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
@@ -3707,6 +3667,43 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+	function addParticipantsObject()
+	{
+		// add users 
+		if (is_array($_POST["user_select"]))
+		{
+			$i = 0;
+			foreach ($_POST["user_select"] as $user_id)
+			{					
+				$client_ip = $_POST["client_ip"][$i];
+				$this->object->inviteUser($user_id, $client_ip);
+				$i++;				
+			}
+		}
+		// add groups members
+		if (is_array($_POST["group_select"]))
+		{
+			foreach ($_POST["group_select"] as $group_id)
+			{
+				$this->object->inviteGroup($group_id);
+			}
+		}
+		// add role members
+		if (is_array($_POST["role_select"]))
+		{
+			foreach ($_POST["role_select"] as $role_id)
+			{					
+				$this->object->inviteRole($role_id);
+			}
+		}
+		$this->ctrl->redirect($this, "participants");
+	}
+	
+	function searchParticipantsObject()
+	{
+		$this->participantsObject();
+	}
+	
 /**
 * Output of the results of selected learners
 *
@@ -4269,7 +4266,7 @@ class ilObjTestGUI extends ilObjectGUI
 					// participants
 					$tabs_gui->addTarget("participants",
 						 $this->ctrl->getLinkTarget($this,'participants'),
-						 array("participants", "search", "add", "saveClientIP",
+						 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
 						 "removeParticipant", "showAnswers", "showResults"), 
 						 "");
 				}
