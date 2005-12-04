@@ -1,41 +1,70 @@
+<!-- BEGIN navigation_buttons -->
+<div id="dontprint">
+	<p>
+		<a href="{URL_BACK}" class="submit">{BUTTON_BACK}</a>
+		<a href="javascript:window.print();" class="submit">{BUTTON_PRINT}</a>
+	</p>
+</div>
+<!-- END navigation_buttons -->
+<!-- BEGIN answer_sheet -->
 <h1>{TXT_ANSWER_SHEET}</h1>
 <h3>{TITLE}</h3>
-<table >
-<tr><th class="freefield" align="left">{TXT_USR_NAME}</th><td class="freefield">:</td><td class="freefield">{VALUE_USR_NAME}</td><td class="freefield">&nbsp;</td>
-	<th class="freefield" align="left">{TXT_USR_MATRIC}</th><td class="freefield">:</td><td class="freefield">{VALUE_USR_MATRIC}</td><td class="freefield">&nbsp;</td>
-	<th class="freefield" align="left">{TXT_CLIENT_IP}</th><td class="freefield">:</td><td colspan="10" class="freefield">{VALUE_CLIENT_IP}</td></tr>
+<table>
+	<tr>
+		<td><strong>{TXT_USR_NAME}</strong></td>
+		<td>:</td>
+		<td>{VALUE_USR_NAME}</td>
+		<td>&nbsp;</td>
+		<td><!-- BEGIN user_matric --><strong>{TXT_USR_MATRIC}</strong><!-- END user_matric --></td>
+		<td><!-- BEGIN user_matric_separator -->:<!-- END user_matric_separator --></td>
+		<td><!-- BEGIN user_matric_value -->{VALUE_USR_MATRIC}<!-- END user_matric_value --></td>
+		<td><!-- BEGIN user_clientip --><strong>{TXT_CLIENT_IP}</strong><!-- END user_clientip --></td>
+		<td><!-- BEGIN user_clientip_separator -->:<!-- END user_clientip_separator --></td>
+		<td><!-- BEGIN user_clientip_value -->{VALUE_CLIENT_IP}<!-- END user_clientip_value --></td>
+	</tr>
 <!-- BEGIN freefield_top -->
-<tr>
-	<th align="left" >{TXT_FREE_FIELD}</th>
-	<td>:</td>
-	<td style="border-bottom: 1px solid black">{VALUE_FREE_FIELD}</td><td colspan=4>&nbsp;</td>
-</tr>
+	<tr>
+		<td>{TXT_FREE_FIELD}</td>
+		<td>:</td>
+		<td style="border-bottom: 1px solid black">{VALUE_FREE_FIELD}</td>
+		<td colspan="6"></td>
+	</tr>
 <!-- END freefield_top -->
 </table>
+<br/ >
 <p>{TXT_TEST_PROLOG}</p>
 <!-- BEGIN question -->
 <div class="ilc_Page" id="ilc_Page">
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid black; margin-top:10px">
-<tr valign="top"><td width="10px" nowrap="true"><div class="question_title">{COUNTER_QUESTION}</div></td>
-<td><div class="question_title">{QUESTION_TITLE}</div></td></tr>
-<tr><td>&nbsp;</td>
-<td>{CLOZE_TEST}{MATCHING_QUESTION}{ORDERING_QUESTION}{MULTIPLE_CHOICE_QUESTION}{IMAGEMAP_QUESTION}{JAVA_QUESTION}{TEXT_QUESTION}</td></tr>
-</table>
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid black; margin-top:10px">
+		<tr valign="top">
+			<td width="10px" nowrap="true">
+				<div class="question_title">{COUNTER_QUESTION}</div>
+			</td>
+			<td>
+				<div class="question_title">{QUESTION_TITLE}</div>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{CLOZE_TEST}{MATCHING_QUESTION}{ORDERING_QUESTION}{MULTIPLE_CHOICE_QUESTION}{IMAGEMAP_QUESTION}{JAVA_QUESTION}{TEXT_QUESTION}</td>
+		</tr>
+	</table>
 </div>
 <!-- END question -->
-<p style="width:100%;border-top: 2px solid black;">{TXT_TEST_EPILOG}</p>
-<table >
+<!-- BEGIN bottom_table -->
+<table>
 <!-- BEGIN freefield_bottom -->
-<tr >
-	<th class="freefield">{TXT_DATE}</th><td class="freefield">:</td><td class="freefield">{VALUE_DATE}</td>
-	<td class="freefield">&nbsp;</td>
-	<th class="freefield">{TXT_FREE_FIELD}</th><td class="freefield">:</td><td class="freefield_line"  >{VALUE_FREE_FIELD}</td>
+<tr>
+	<td><strong>{TXT_DATE}</strong></td>
+	<td>:</td>
+	<td>{VALUE_DATE}</td>
+	<td>&nbsp;</td>
+	<td><strong>{TXT_FREE_FIELD}</strong></td>
+	<td>:</td>
+	<td class="underline">{VALUE_FREE_FIELD}</td>
 </tr>
 <!-- END freefield_bottom -->
 </table>
-<br>
-<!-- BEGIN confirm -->
-<p><input type="submit" class="submit" name="cmd[confirmSubmitAnswers]" value="{BTN_OK}" />
-&nbsp;<input type="submit" class="submit" name="cmd[outTestSummary]" value="{BTN_CANCEL}" />
-<!-- END confirm -->
-<p style="page-break-after:always;"></p>
+<!-- END bottom_table -->
+<!-- BEGIN ruler --><hr /><!-- END ruler -->
+<!-- END answer_sheet -->

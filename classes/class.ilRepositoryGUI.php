@@ -209,7 +209,6 @@ class ilRepositoryGUI
 		{
 			$this->creation_mode = true;
 		}
-		
 		// handle frameset command
 		$cmd = $this->ctrl->getCmd();
 		if (($cmd == "frameset" || $_GET["rep_frame"] == 1) && $_SESSION["il_rep_mode"] == "tree")
@@ -222,7 +221,7 @@ class ilRepositoryGUI
 			$this->ctrl->setCmd("");
 			$cmd = "";
 		}
-			
+
 		// determine next class
 		if ($this->creation_mode)
 		{
@@ -299,7 +298,6 @@ class ilRepositoryGUI
 			//case "ilobjfilegui":
 				
 			default:
-			
 				// forward all other classes to gui commands
 				if ($next_class != "" && $next_class != "ilrepositorygui")
 				{

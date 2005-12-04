@@ -85,7 +85,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand($prepare_output = true)
+	function &executeCommand()
 	{
 		global $ilLocator;	
 	
@@ -118,20 +118,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				{
 					$ref_id = $_GET["calling_test"];
 				}
-				include_once "./classes/class.ilTabsGUI.php";
-				$tabs_gui =& new ilTabsGUI();
-
-				$tabs_gui->addTarget("back",
-					"ilias.php?baseClass=ilObjTestGUI&ref_id=$ref_id&cmd=questions", "", "");
-
-				// output tabs
-				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 			}
 		}
 
 //		if ($prepare_output) $this->prepareOutput();
 
-//echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
@@ -205,6 +196,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_javaappletgui":
 			case "ass_textquestiongui":
 				//$this->setAdminTabs();
+				//$this->setTabs();
 				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./assessment/classes/class.assQuestionGUI.php";
@@ -225,10 +217,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			default:
-				if ($cmd != "createQuestion" && $cmd != "createQuestionForTest" && $cmd != "editQuestionForTest")
-				{
-					//$this->setAdminTabs();
-				}
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
@@ -472,7 +460,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_qpl"));
 			
-			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->ctrl->setParameter($this, "new_type", $this->type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
@@ -562,9 +550,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			include_once "./classes/class.ilUtil.php";
-			$this->ctrl->redirect($this, "");
-			//ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+			$this->ctrl->redirect($this, "cancel");
 		}
 	}
 	
@@ -598,7 +584,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function importObject()
 	{
 		$this->getTemplateFile("import", "qpl");
-		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		//$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
 		$this->tpl->setVariable("BTN_NAME", "uploadQpl");
@@ -618,10 +604,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
-		$this->ctrl->setCmdClass(get_class($q_gui));
-		$this->ctrl->setCmd("editQuestion");
-		$ret =& $this->executeCommand(false);
-		return $ret;
+		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_POST["sel_question_types"]); 
+		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
 	/**
@@ -632,11 +616,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
-		$this->ctrl->setCmdClass(get_class($q_gui));
-		$this->ctrl->setCmd("editQuestion");
-
-		$ret =& $this->executeCommand(false);
-		return $ret;
+		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
 	/**
@@ -1452,11 +1432,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-		$this->ctrl->setCmdClass(get_class($q_gui));
-		$this->ctrl->setCmd("editQuestion");
-
-		$ret =& $this->executeCommand(false);
-		return $ret;
+		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
 	/**
@@ -1492,7 +1468,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 			}
 
-			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->ctrl->setParameter($this, "new_type", $this->type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
 			//	$_GET["ref_id"]."&new_type=".$new_type));

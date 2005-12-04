@@ -120,3 +120,18 @@ hr {
 	border: 1px double gray;
 	page-break-after: always;
 }
+
+div.question_title {
+	border-bottom: 1px solid black;
+	padding: 2px;	
+	background-color: #DDDDDD;
+}
+
+
+div.ilc_Question {
+	padding-top: 5px;	
+	padding-bottom: 5px;	
+	padding-left: 2px;	
+	page-break-inside: avoid;
+}
+

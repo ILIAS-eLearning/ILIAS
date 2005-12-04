@@ -244,9 +244,7 @@ class ilObjectGUI
 	{
 		global $ilLocator, $tpl;
 //echo "ilObjectGUI::prepareOutput";
-	
 		$this->tpl->getStandardTemplate();
-
 		// administration prepare output
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
