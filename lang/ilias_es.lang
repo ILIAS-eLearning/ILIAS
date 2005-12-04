@@ -320,7 +320,6 @@ assessment#:#postponed#:#Pospuesta
 assessment#:#preview#:#Previsualizar
 assessment#:#previous_question_rows#:#<< Preguntas %d - %d de %d
 assessment#:#print_answers#:#Imprimir respuestas
-assessment#:#print_results#:#Imprimir resultados
 assessment#:#qpl_assessment_no_assessment_of_questions#:#No hay evaluación disponible para la pregunta seleccionada. La pregunta nunca se ha usado en un test.
 assessment#:#qpl_assessment_of_questions#:#Evaluación (por preguntas)
 assessment#:#qpl_assessment_total_of_answers#:#Total de respuestas
@@ -398,6 +397,7 @@ assessment#:#see_details_for_further_information#:#Ver detalles de las solucione
 assessment#:#select_an_answer#:#--- Por favor seleccione una respuesta ---
 assessment#:#select_gap#:#Hueco de seleccion
 assessment#:#select_max_one_item#:#Por favor seleccione un único item
+assessment#:#select_one_submitted_test#:#Por favor seleccione al menos un usuario que haya finalizado el test
 assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones 'insertar'!
 assessment#:#select_tst_option#:#--- Por favor seleccione un test ---
 assessment#:#selected_image#:#Imagen seleccionada
@@ -454,6 +454,7 @@ assessment#:#tst_generate_xls#:#Generar Excel
 assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
+assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán
 assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto
 assessment#:#tst_hide_title_points#:#Puntuación en título de la pregunta
 assessment#:#tst_hide_title_points_description#:#Ocultar la puntuación máxima en el título de la pregunta
@@ -586,6 +587,7 @@ assessment#:#tst_status_progress#:#en progreso
 assessment#:#tst_submit_answers#:#Si, quiero enviar mis respuestas
 assessment#:#tst_submit_answers_txt#:#Ahora debe finalizar el test enviando sus respuestas
 assessment#:#tst_submit_results#:#Sí, confirmo el envío.
+assessment#:#tst_test_output#:#Salida del Test
 assessment#:#tst_text_count_system#:#Sistema de puntuación
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento
 assessment#:#tst_total_questions#:#Cantidad total de preguntas
@@ -2254,7 +2256,7 @@ common#:#obj_auth#:#Autenticación
 common#:#obj_auth_desc#:#Configure su modo de autenticación (local, LDAP, ...)
 common#:#obj_cat#:#Categoría
 common#:#obj_cen#:#Evento Centra
-common#:#obj_chac#:#configuración de Chat
+common#:#obj_chac#:#Configuración de chat
 common#:#obj_chac_desc#:#Configure el servidor de chat aquí. Habilitar / deshabilitar chats
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Curso
@@ -2306,7 +2308,7 @@ common#:#obj_seas#:#Buscar
 common#:#obj_seas_desc#:#Gestione la configuración de búsqueda aquí
 common#:#obj_spl#:#Banco de preguntas (Encuesta)
 common#:#obj_st#:#Capítulo
-common#:#obj_stys#:#Configuración de Estilo
+common#:#obj_stys#:#Configuración de estilos
 common#:#obj_stys_desc#:#Gestionar 'skin' del sistema y configuración de estilos
 common#:#obj_svy#:#Encuesta
 common#:#obj_tax#:#Taxonomía
@@ -2318,9 +2320,9 @@ common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definición del tipo de objeto
 common#:#obj_type#:#Tipo de Objeto
 common#:#obj_url#:#URL
-common#:#obj_uset#:#Configuración de Usuario
+common#:#obj_uset#:#Configuración de usuario
 common#:#obj_usr#:#Usuario
-common#:#obj_usrf#:#Administración de Usuario
+common#:#obj_usrf#:#Administración de usuarios
 common#:#obj_usrf_desc#:#Gestione sus cuentas de usuario aquí.
 common#:#obj_webr#:#Recurso Web
 common#:#object#:#Objeto
@@ -2647,6 +2649,8 @@ common#:#select#:#Seleccionar
 common#:#pro#:#A favor
 common#:#contra#:#En contra
 common#:#select_all#:#seleccionar todo
+common#:#note_my_pub_notes#:#Mis notas sólo
+common#:#note_all_pub_notes#:#Todas las notas
 common#:#select_file#:#Seleccionar archivo
 common#:#select_max_one_item#:#Por favor seleccione únicamente un item 
 common#:#select_mode#:#Seleccionar modo
@@ -2711,7 +2715,7 @@ common#:#show_owner#:#Mostrar propietario
 common#:#show_private_notes#:#Mostrar notas privadas
 common#:#show_public_notes#:#Mostrar notas publicas
 common#:#show_structure#:#habilitar vista estructurada
-common#:#show_users_online#:#Mostrar usuarios conectados
+common#:#show_users_online#:#Mostrar usuarios on-line
 common#:#signature#:#firma
 common#:#size#:#Tamaño
 common#:#skin_style#:#Tema / estilo por defecto
@@ -2737,17 +2741,17 @@ common#:#st_edit#:#Editar capítulo
 common#:#st_new#:#Nuevo capítulo
 common#:#startpage#:#página principal
 common#:#statistic#:#Estadística
-common#:#status#:#estado
-common#:#step#:#step
+common#:#status#:#Estado
+common#:#step#:#paso
 common#:#stop_inheritance#:#Parar Herencia
 common#:#street#:#Calle
 common#:#structure#:#estructura
 common#:#sty#:#Estilo
 common#:#style_activation#:#Activación de Estilo
 common#:#stys_edit_permission#:#Modificar configuración de permisos
-common#:#stys_read#:#Acceso de lectura a configuración de estilo
-common#:#stys_visible#:#Configuración de estilo visible
-common#:#stys_write#:#Editar configuración de estilo
+common#:#stys_read#:#Acceso de lectura a configuración de estilos
+common#:#stys_visible#:#Configuración de estilos visible
+common#:#stys_write#:#Editar configuración de estilos
 common#:#subcat_name#:#nombre de subcategoría
 common#:#subchapter_new#:#nuevo subcapítulo
 common#:#subject#:#asunto
@@ -2927,7 +2931,7 @@ common#:#userfolder_export_xml#:#XML
 common#:#username#:#Usuario
 common#:#users#:#usuarios
 common#:#users_not_imported#:#Los siguientes usuarios no existen,sus mensajes no pueden ser importados
-common#:#users_online#:#Usuarios conectados
+common#:#users_online#:#Usuarios on-line
 common#:#users_online_show_associated#:#Mostrar miembros de mis cursos y grupos únicamente
 common#:#users_online_show_n#:#No mostrar usuarios activos
 common#:#users_online_show_y#:#Mostrar todos los usuarios activos
@@ -2994,7 +2998,7 @@ common#:#visible#:#Visible
 common#:#visible_layers#:#capas visibles
 common#:#visitor#:#Visitante
 common#:#visitors#:#Visitantes
-common#:#visits#:#visitas
+common#:#visits#:#Visitas
 common#:#web_resources#:#Recursos Web
 common#:#webr#:#Recurso Web
 common#:#webr_active#:#Activo
@@ -3633,7 +3637,7 @@ crs#:#crs_no_items_found#:#El curso no tiene ningun elemento
 crs#:#crs_no_language#:#Sin idioma
 crs#:#crs_no_lm_selected#:#Por favor seleccione un material de aprendizaje
 crs#:#crs_no_lms_assigned#:#No hay materiales de aprendizaje asignados
-crs#:#crs_no_lms_inside_crs#:#No hay material de aprendizaje en este curso, que pueda ser asignado a este 'objetivo de aprendizaje'.
+crs#:#crs_no_lms_inside_crs#:#No hay material de aprendizaje dentro de este curso que pueda ser asignado a este objetivo
 crs#:#crs_no_member_selected#:#Por favor seleccione un miembro
 crs#:#crs_no_members_assigned#:#No hay miembros asignados a este curso
 crs#:#crs_no_notify#:#No notificar los nuevos registros
@@ -3645,13 +3649,13 @@ crs#:#crs_no_results_found#:#No se encontraron resultados
 crs#:#crs_no_roles_selected#:#Por favor seleccione un rol
 crs#:#crs_no_starter_created#:#No hay objetos iniciales asignados a este curso
 crs#:#crs_no_subscribers_selected#:#Por favor seleccione un usuario
-crs#:#crs_no_tests_inside_crs#:#No existen tests en este curso, que puedan ser asignados a este objetivo de aprendizaje
+crs#:#crs_no_tests_inside_crs#:#No existen tests en este curso, que puedan usarse para asignar preguntas a este objetivo
 crs#:#crs_no_users_added#:#No se añadieron miembros
 crs#:#crs_no_users_selected#:#No ha seleccionado ningún usuario
 crs#:#crs_no_valid_member_id_given#:#Id de miembro no válido
 crs#:#crs_not_available#:#No disponible
 crs#:#crs_notify#:#Notificar nuevos registros
-crs#:#crs_nr#:#Num.
+crs#:#crs_nr#:#Num
 crs#:#crs_number_users_added#:#El siguiente número de usuarios ha sido asignado al curso
 crs#:#crs_objective_accomplished#:#Objetivo cumplido.
 crs#:#crs_objective_assign_chapter#:#Assignar capítulos
@@ -5095,6 +5099,9 @@ survey#:#constraint_add#:#Añadir precondición
 survey#:#constraints#:#Restricciones
 survey#:#constraints_first_question_description#:#La primera entidad no podría tener ninguna precondición porque no hay preguntas previas.
 survey#:#constraints_introduction#:#Para cada entidad (una pregunta simple o un bloque de preguntas con múltiples preguntas) una o más precondiciones podrían ser definidas. Estas precondiciones derivarán de las respuestas de participantes en la encuesta, de preguntas que ya han aparecido antes en este test.
+survey#:#constraints_list_of_entities#:#Entidades de encuesta disponibles para precondiciones
+survey#:#constraints_no_nonessay_available#:#No hay preguntas previas o sólo hay disponibles preguntas de texto para calcular precondiciones (las preguntas de texto no son válidas en este caso)
+survey#:#constraints_no_questions_or_questionblocks_selected#:#¡Por favor seleccione al menos una pregunta o bloque de preguntas!
 survey#:#contains#:#Contiene
 survey#:#continue#:#Continuar >>
 survey#:#create_date#:#Creada
@@ -5181,6 +5188,7 @@ survey#:#evaluation#:#evaluación
 survey#:#evaluation_access#:#Acceso de Evaluación
 survey#:#evaluation_access_all#:#Evaluación de acceso para todos los usuarios
 survey#:#evaluation_access_participants#:#Evaluación de acceso para todos los participantes de la encuesta
+survey#:#existing_constraints#:#Precondiciones existentes
 survey#:#exit#:#Salir
 survey#:#exp_type_csv#:#Archivo separado por comas (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
@@ -5432,3 +5440,20 @@ common#:#learning_progress#:#Datos de seguimiento
 trac#:#trac_settings_saved#:#Configuracion guardada.
 trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
+forum#:#frm_anonymous_posting#:#Envío anónimo
+forum#:#frm_anonymous_posting_desc#:#Si se habilita, el envío anónimo será permitido dentro de este foro.
+forum#:#forum_anonymize#:#Escribir de forma anónima
+forum#:#forum_anonymize_desc#:#Escribe este mensaje de forma anónima (su nombre de usuario ILIAS no se mostrará en ningún sitio).
+common#:#cron_forum_notification_never#:#nunca
+common#:#cron_forum_notification_directly#:#directamente en las nuevas entradas
+common#:#cron_forum_notification_cron#:#regularmente por medio de un trabajo cron
+meta#:#meta_current_value#:#Valor actual
+meta#:#meta_info_tlt_not_valid#:#El valor actual no es válido. Por tanto no podrá ser usado en otras secciones, e.g. para estadísticas de progreso de aprendizaje. Por favor inserte un tiempo de aprendizaje atípico en horas y/o minutos.
+mail#:#mail_enter_valid_email_addr#:#Por favor introduzca una dirección de correo válida.
+mail#:#mail_enter_valid_login#:#Por favor introduzca un nombre de usuario válido.
+mail#:#mail_enter_login_or_email_addr#:#Por favor introduzca un nombre de usuario válido o una dirección de correo.
+mail#:#mail_entry_exists#:#Existe una entrada con el nombre de usuario dado o la dirección de correo ya existe.
+common#:#overwrite#:#Sobreescribir
+common#:#send_mail_members#:#Correo a miembros
+common#:#send_mail_tutors#:#Correo a tutores
+common#:#send_mail_admins#:#Correo a administradores
