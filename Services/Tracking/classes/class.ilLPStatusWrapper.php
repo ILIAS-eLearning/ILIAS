@@ -60,6 +60,17 @@ class ilLPStatusWrapper
 
 		return call_user_func(array($class,'_getCountInProgress'),$a_obj_id);
 	}
+
+	/**
+	* Static function to read users who have the status 'in_progress'
+	*/
+	function _getInProgress($a_obj_id)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+		#echo $class."<br>";
+
+		return call_user_func(array($class,'_getInProgress'),$a_obj_id);
+	}
 	
 	/**
 	* Static function to read the number of user who have the status 'completed'
@@ -73,5 +84,16 @@ class ilLPStatusWrapper
 
 	}
 
+	/**
+	* Static function to read the users who have the status 'completed'
+	*/
+	function _getCompleted($a_obj_id)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+		#echo $class."<br>";
+
+		return call_user_func(array($class,'_getCompleted'),$a_obj_id);
+
+	}
 }	
 ?>
