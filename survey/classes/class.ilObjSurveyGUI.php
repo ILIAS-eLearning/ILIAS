@@ -55,7 +55,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, "ref_id");
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
-		if (strlen($this->ctrl->getModuleDir()) == 0)
+/*		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
 			$this->setTabTargetScript("adm_object.php");
 			switch ($this->ctrl->getCmd())
@@ -75,7 +75,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$ilLocator->addAdministrationItems();
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 			$this->tpl->setLocator();
-		}
+		}*/
 	}
 	
 	function backToRepositoryObject()
@@ -91,7 +91,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function &executeCommand()
 	{
 		global $ilLocator;
-		$ilLocator->addRepositoryItems();
+		//$ilLocator->addRepositoryItems();
+		//$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
@@ -102,7 +103,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case 'ilmdeditorgui':
 				$this->prepareOutput();
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
@@ -113,7 +114,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "ilsurveyevaluationgui":
 				$this->prepareOutput();
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "evaluation"));
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
 				$ret =& $this->ctrl->forwardCommand($eval_gui);
@@ -128,7 +129,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				
 			case 'ilpermissiongui':
 				$this->prepareOutput();
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -137,16 +138,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 			default:
 				$this->prepareOutput();
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-				if (($cmd != "run") && ($cmd != "start"))
-				{
-					$this->setAdminTabs();
-				}
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
 		}
-		$this->tpl->setLocator();
-		$this->tpl->show();
+		//$this->tpl->setLocator();
+		//$this->tpl->show();
+		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
+			$this->getCreationMode() != true)
+		{
+			$this->tpl->show();
+		}
 	}
 
 	/**
@@ -2039,9 +2041,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			case "usr":
 				include_once "./classes/class.ilObjUser.php";
+				$counter = 0;
 				foreach ($id_array as $user_id)
 				{
-					$counter = 0;
 					$user = new ilObjUser($user_id);
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
@@ -2050,6 +2052,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_FIRSTNAME", $user->getFirstname());
 					$this->tpl->setVariable("VALUE_LASTNAME", $user->getLastname());
 					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($id_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_$block_result");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
@@ -2070,9 +2080,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			case "grp":
 				include_once "./classes/class.ilObjGroup.php";
+				$counter = 0;
 				foreach ($id_array as $group_id)
 				{
-					$counter = 0;
 					$group = new ilObjGroup($group_id);
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
@@ -2082,9 +2092,54 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
+				if (count($id_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_$block_result");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+				}
 				$this->tpl->setCurrentBlock($block_result);
 				include_once "./classes/class.ilUtil.php";
 				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "role":
+				include_once "./classes/class.ilObjRole.php";
+				$counter = 0;
+				foreach ($id_array as $role_id)
+				{
+					$role = new ilObjRole($role_id);
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $role->getId());
+					$this->tpl->setVariable("VALUE_TITLE", $role->getTitle());
+					$this->tpl->setVariable("VALUE_DESCRIPTION", $role->getDescription());
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($id_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_$block_result");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				include_once "./classes/class.ilUtil.php";
+				$this->tpl->setVariable("TEXT_ROLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_role_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
@@ -2135,63 +2190,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function searchInvitationObject()
 	{
-		if (is_array($_POST["search_for"]))
-		{
-			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]))
-			{
-				include_once "./classes/class.ilSearch.php";
-				$search =& new ilSearch($ilUser->id);
-				$search->setSearchString($_POST["search_term"]);
-				$search->setCombination($_POST["concatenation"]);
-				$search->setSearchFor($_POST["search_for"]);
-				$search->setSearchType("new");
-				if($search->validate($message))
-				{
-					$search->performSearch();
-				}
-				if ($message)
-				{
-					sendInfo($message);
-				}
-				if(!$search->getNumberOfResults() && $search->getSearchFor())
-				{
-					sendInfo($this->lng->txt("search_no_match"));
-					return;
-				}
-				$buttons = array("add");
-				$invited_users = $this->object->getInvitedUsers();
-				if ($searchresult = $search->getResultByType("usr"))
-				{
-					$users = array();
-					foreach ($searchresult as $result_array)
-					{
-						if (!in_array($result_array["id"], $invited_users))
-						{
-							array_push($users, $result_array["id"]);
-						}
-					}
-					$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"), $buttons);
-				}
-				$searchresult = array();
-				$invited_groups = $this->object->getInvitedGroups();
-				if ($searchresult = $search->getResultByType("grp"))
-				{
-					$groups = array();
-					foreach ($searchresult as $result_array)
-					{
-						if (!in_array($result_array["id"], $invited_groups))
-						{
-							array_push($groups, $result_array["id"]);
-						}
-					}
-					$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), $buttons);
-				}
-			}
-		}
-		else
-		{
-			sendInfo($this->lng->txt("no_user_or_group_selected"));
-		}
 		$this->inviteObject();
 	}
 
@@ -2210,14 +2208,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			foreach ($_POST["invited_users"] as $user_id)
 			{
 				$this->object->disinviteUser($user_id);
-			}
-		}
-		// disinvite groups
-		if (is_array($_POST["invited_groups"]))
-		{
-			foreach ($_POST["invited_groups"] as $group_id)
-			{
-				$this->object->disinviteGroup($group_id);
 			}
 		}
 		$this->ctrl->redirect($this, "invite");
@@ -2246,6 +2236,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			foreach ($_POST["group_select"] as $group_id)
 			{
 				$this->object->inviteGroup($group_id);
+			}
+		}
+		// add roles to invitation
+		if (is_array($_POST["role_select"]))
+		{
+			foreach ($_POST["role_select"] as $role_id)
+			{
+				$this->object->inviteRole($role_id);
 			}
 		}
 		$this->ctrl->redirect($this, "invite");
@@ -2281,6 +2279,73 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			return;
 		}
+
+		if (strcmp($this->ctrl->getCmd(), "searchInvitation") == 0)
+		{
+			if (is_array($_POST["search_for"]))
+			{
+				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
+				{
+					include_once "./classes/class.ilSearch.php";
+					$search =& new ilSearch($ilUser->id);
+					$search->setSearchString($_POST["search_term"]);
+					$search->setCombination($_POST["concatenation"]);
+					$search->setSearchFor($_POST["search_for"]);
+					$search->setSearchType("new");
+					if($search->validate($message))
+					{
+						$search->performSearch();
+					}
+					if ($message)
+					{
+						sendInfo($message);
+					}
+					if(!$search->getNumberOfResults() && $search->getSearchFor())
+					{
+						sendInfo($this->lng->txt("search_no_match"));
+					}
+					$buttons = array("add");
+					$invited_users = $this->object->getInvitedUsers();
+					if ($searchresult = $search->getResultByType("usr"))
+					{
+						$users = array();
+						foreach ($searchresult as $result_array)
+						{
+							if (!in_array($result_array["id"], $invited_users))
+							{
+								array_push($users, $result_array["id"]);
+							}
+						}
+						$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"), $buttons);
+					}
+					$searchresult = array();
+					if ($searchresult = $search->getResultByType("grp"))
+					{
+						$groups = array();
+						foreach ($searchresult as $result_array)
+						{
+							array_push($groups, $result_array["id"]);
+						}
+						$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), $buttons);
+					}
+					$searchresult = array();
+					if ($searchresult = $search->getResultByType("role"))
+					{
+						$roles = array();
+						foreach ($searchresult as $result_array)
+						{
+							array_push($roles, $result_array["id"]);
+						}
+						$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("search_roles"), $buttons);
+					}
+				}
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_user_or_group_selected"));
+			}
+		}
+
 		if (($this->object->getInvitationMode() == MODE_PREDEFINED_USERS) and ($this->object->getInvitation() == INVITATION_ON))
 		{
 			if ($rbacsystem->checkAccess('invite', $this->ref_id))
@@ -2291,6 +2356,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
 				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
 				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
+				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
 				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
 				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
 				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
@@ -2304,6 +2370,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					if (in_array("grp", $_POST["search_for"]))
 					{
 						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+					}
+					if (in_array("role", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
 					}
 				}
 				if (strcmp($_POST["concatenation"], "and") == 0)
@@ -2321,15 +2391,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
 		{
 			$invited_users = $this->object->getInvitedUsers();
-			$invited_groups = $this->object->getInvitedGroups();
 			$buttons = array("disinvite");
 			if (count($invited_users))
 			{
 				$this->outUserGroupTable("usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("invited_users"), $buttons);
-			}
-			if (count($invited_groups))
-			{
-				$this->outUserGroupTable("grp", $invited_groups, "invited_group_result", "invited_group_row", $this->lng->txt("invited_groups"), $buttons);
 			}
 		}
 		if ($this->object->getInvitation() == INVITATION_ON)
@@ -2508,7 +2573,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @access private
 	*/
-	function prepareOutput()
+/*	function prepareOutput()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -2528,7 +2593,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->setAdminTabs($_POST["new_type"]);
 		}
-	}
+	}*/
 	
 	/*
 	* list all export files
@@ -2692,7 +2757,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
 		$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+//		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
 		$this->tpl->setVariable("BTN_NAME", "upload");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
@@ -2812,8 +2878,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->ctrl->setParameter($this, "new_type", $this->type);
+//			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+//																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_short"));
 			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
@@ -2873,6 +2941,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->createObject();
 			return;
 		}
+		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$ref_id = $this->uploadObject(false);
 		// always send a message
 		sendInfo($this->lng->txt("object_duplicated"),true);

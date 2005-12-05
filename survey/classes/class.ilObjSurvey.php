@@ -380,15 +380,6 @@ class ilObjSurvey extends ilObject
 			$this->disinviteUser($row["user_fi"]);
 		}
 
-		$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
-		);
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$this->disinviteGroup($row["group_fi"]);
-		}
-
 		$query = sprintf("DELETE FROM survey_finished WHERE survey_fi = %s",
 			$this->ilias->db->quote($this->getSurveyId())
 		);
@@ -2719,35 +2710,6 @@ class ilObjSurvey extends ilObject
 	}
 
 /**
-* Disinvites a group from a survey
-* 
-* Disinvites a group from a survey
-*
-* @param integer $group_id The database id of the disinvited group
-* @access public
-*/
-	function disinviteGroup($group_id)
-	{
-		$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s AND group_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($group_id)
-		);
-		$result = $this->ilias->db->query($query);
-		if ($this->getInvitation() == INVITATION_ON)
-		{
-			include_once "./classes/class.ilObjUser.php";
-			include_once "./classes/class.ilObjGroup.php";
-			$group = new ilObjGroup($group_id);
-			$members = $group->getGroupMemberIds();
-			foreach ($members as $user_id)
-			{
-				$userObj = new ilObjUser($user_id);
-				$userObj->dropDesktopItem($this->getRefId(), "svy");
-			}
-		}
-	}
-
-/**
 * Invites a group to a survey
 * 
 * Invites a group to a survey
@@ -2757,27 +2719,36 @@ class ilObjSurvey extends ilObject
 */
 	function inviteGroup($group_id)
 	{
-		$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE group_fi = %s AND survey_fi = %s",
-			$this->ilias->db->quote($group_id),
-			$this->ilias->db->quote($this->getSurveyId())
-		);
-		$result = $this->ilias->db->query($query);
-		if ($result->numRows() < 1)
+		include_once "./classes/class.ilObjGroup.php";
+		$group = new ilObjGroup($group_id);
+		$members = $group->getGroupMemberIds();
+		foreach ($members as $user_id)
 		{
-			$query = sprintf("INSERT INTO survey_invited_group (invited_group_id, survey_fi, group_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($group_id)
-			);
-			$result = $this->ilias->db->query($query);
+			$this->inviteUser($user_id);
+			if ($this->getInvitation() == INVITATION_ON)
+			{
+				$userObj = new ilObjUser($user_id);
+				$userObj->addDesktopItem($this->getRefId(), "svy");
+			}
 		}
-		
-		if ($this->getInvitation() == INVITATION_ON)
+	}
+	
+/**
+* Invites a role to a survey
+* 
+* Invites a role to a survey
+*
+* @param integer $role_id The database id of the invited role
+* @access public
+*/
+	function inviteRole($role_id)
+	{
+		global $rbacreview;
+		$members = $rbacreview->assignedUsers($role_id);
+		foreach ($members as $user_id)
 		{
-			include_once "./classes/class.ilObjUser.php";
-			include_once "./classes/class.ilObjGroup.php";
-			$group = new ilObjGroup($group_id);
-			$members = $group->getGroupMemberIds();
-			foreach ($members as $user_id)
+			$this->inviteUser($user_id);
+			if ($this->getInvitation() == INVITATION_ON)
 			{
 				$userObj = new ilObjUser($user_id);
 				$userObj->addDesktopItem($this->getRefId(), "svy");

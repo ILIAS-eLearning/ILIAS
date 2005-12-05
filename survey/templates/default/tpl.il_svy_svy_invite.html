@@ -23,8 +23,8 @@
 <!-- BEGIN inviation -->
 <br />
 <table class="std">
-<tr>
-  <td class="std" colspan="2">{SEARCH_INVITATION}</td>
+<tr class="tblheader">
+  <td colspan="2">{SEARCH_INVITATION}</td>
 </tr>
 <tr>
   <td class="option">{SEARCH_TERM}:</td>
@@ -39,7 +39,11 @@
 </tr>
 <tr>
   <td class="option">{SEARCH_FOR}:</td>
-  <td class="option_value"><input type="checkbox" name="search_for[]" id="cbusers" value="usr"{CHECKED_USERS} /> <label for="cbusers">{SEARCH_USERS}</label> <input type="checkbox" name="search_for[]" id="cbgroups" value="grp"{CHECKED_GROUPS} /> <label for="cbgroups">{SEARCH_GROUPS}</label></td>
+  <td class="option_value">
+		<input type="checkbox" name="search_for[]" id="cbusers" value="usr"{CHECKED_USERS} /> <label for="cbusers">{SEARCH_USERS}</label> 
+		<input type="checkbox" name="search_for[]" id="cbgroups" value="grp"{CHECKED_GROUPS} /> <label for="cbgroups">{SEARCH_GROUPS}</label>
+		<input type="checkbox" name="search_for[]" id="cbroles" value="role"{CHECKED_ROLES} /> <label for="cbroles">{SEARCH_ROLES}</label>
+	</td>
 </tr>
 <tr><td colspan="2" class="submit">
 <div align="right">
@@ -51,7 +55,7 @@
 <!-- BEGIN user_result -->
 <h2>{TEXT_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_user_select_check_all" value="1" onclick="setChecked('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
 <!-- BEGIN user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="user_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -59,26 +63,57 @@
 <td class="{COLOR_CLASS}" width="69%">{VALUE_LASTNAME}</td>
 </tr>
 <!-- END user_row -->
-<tr><td class="submit" colspan="4">{ARROW} <input type="submit" class="submit" name="cmd[inviteUserGroup]" value="{VALUE_ADD}" /></td></tr>
+<!-- BEGIN selectall_user_result -->
+<tr>
+	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_user_select_check_all" name="chb_user_select_check_all" value="1" onclick="setChecked('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" /></td>
+  <td class="{COLOR_CLASS}" colspan="3"><label for="chb_user_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall_user_result -->
+<tr><td class="submit">{ARROW}</td><td class="submit" colspan="3"><input type="submit" class="submit" name="cmd[inviteUserGroup]" value="{VALUE_ADD}" /></td></tr>
 </table>
 <!-- END user_result -->
 <!-- BEGIN group_result -->
 <h2>{TEXT_GROUP_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_group_select_check_all" value="1" onclick="setChecked('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
 <!-- BEGIN group_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="group_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
 <td class="{COLOR_CLASS}" width="69%">{VALUE_DESCRIPTION}</td>
 </tr>
 <!-- END group_row -->
-<tr><td class="submit" colspan="3">{ARROW} <input type="submit" class="submit" name="cmd[inviteUserGroup]" value="{VALUE_ADD}" /></td></tr>
+<!-- BEGIN selectall_group_result -->
+<tr>
+	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_group_select_check_all" name="chb_group_select_check_all" value="1" onclick="setChecked('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" /></td>
+  <td class="{COLOR_CLASS}" colspan="2"><label for="chb_group_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall_group_result -->
+<tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[inviteUserGroup]" value="{VALUE_ADD}" /></td></tr>
 </table>
 <!-- END group_result -->
+<!-- BEGIN role_result -->
+<h2>{TEXT_ROLE_TITLE}</h2>
+<table class="fullwidth">
+<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<!-- BEGIN role_row -->
+<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="role_select[]" value="{COUNTER}" /></td>
+<td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
+<td class="{COLOR_CLASS}" width="69%">{VALUE_DESCRIPTION}</td>
+</tr>
+<!-- END role_row -->
+<!-- BEGIN selectall_role_result -->
+<tr>
+	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_role_select_check_all" name="chb_role_select_check_all" value="1" onclick="setChecked('frm_invitation', 'role_select', document.frm_invitation.chb_role_select_check_all.checked);" /></td>
+  <td class="{COLOR_CLASS}" colspan="2"><label for="chb_role_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall_role_result -->
+<tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[inviteUserGroup]" value="{VALUE_ADD}" /></td></tr>
+</table>
+<!-- END role_result -->
 <!-- BEGIN invited_user_result -->
 <h2>{TEXT_USER_TITLE}</h2>
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_users_check_all" value="1" onclick="setChecked('frm_invitation', 'invited_users', document.frm_invitation.chb_invited_users_check_all.checked);" /></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
 <!-- BEGIN invited_user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_users[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -86,26 +121,17 @@
 <td class="{COLOR_CLASS}" width="69%">{VALUE_LASTNAME}</td>
 </tr>
 <!-- END invited_user_row -->
+<!-- BEGIN selectall_invited_user_result -->
+<tr>
+	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_invited_users_check_all" name="chb_invited_users_check_all" value="1" onclick="setChecked('frm_invitation', 'invited_users', document.frm_invitation.chb_invited_users_check_all.checked);" /></td>
+  <td class="{COLOR_CLASS}" colspan="3"><label for="chb_invited_users_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall_invited_user_result -->
 <!-- BEGIN user_action_buttons -->
-<tr><td class="submit" colspan="4">{ARROW} <input type="submit" class="submit" name="cmd[disinviteUserGroup]" value="{VALUE_DISINVITE}" /></td></tr>
+<tr><td class="submit">{ARROW}</td><td class="submit" colspan="3"><input type="submit" class="submit" name="cmd[disinviteUserGroup]" value="{VALUE_DISINVITE}" /></td></tr>
 <!-- END user_action_buttons -->
 </table>
 <!-- END invited_user_result -->
-<!-- BEGIN invited_group_result -->
-<h2>{TEXT_GROUP_TITLE}</h2>
-<table class="fullwidth">
-<tr class="tblheader"><td class="std"><input type="checkbox" name="chb_invited_groups_check_all" value="1" onclick="setChecked('frm_invitation', 'invited_groups', document.frm_invitation.chb_invited_groups_check_all.checked);" /></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
-<!-- BEGIN invited_group_row -->
-<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_groups[]" value="{COUNTER}" /></td>
-<td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
-<td class="{COLOR_CLASS}" width="69%">{VALUE_DESCRIPTION}</td>
-</tr>
-<!-- END invited_group_row -->
-<!-- BEGIN group_action_buttons -->
-<tr><td class="submit" colspan="3">{ARROW} <input type="submit" class="submit" name="cmd[disinviteUserGroup]" value="{VALUE_DISINVITE}" /></td></tr>
-<!-- END group_action_buttons -->
-</table>
-<!-- END invited_group_result -->
 <!-- BEGIN hidden -->
 <input type="hidden" name="{NAME_HIDDEN}" value="{VALUE_HIDDEN}" />
 <!-- END hidden -->
