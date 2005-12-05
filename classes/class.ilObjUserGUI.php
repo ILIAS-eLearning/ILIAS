@@ -2075,7 +2075,7 @@ class ilObjUserGUI extends ilObjectGUI
                 return ilUtil::formSelect($a_selected,$a_varname,$month,false,true);
 
             case "year":
-                for($i = date("Y",time());$i < date("Y",time()) + 3;++$i)
+                for($i = date("Y",time());$i < date("Y",time()) + 11;++$i)
                 {
                     $year[$i] = $i;
                 }
