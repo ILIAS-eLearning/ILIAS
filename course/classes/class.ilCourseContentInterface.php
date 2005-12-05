@@ -192,7 +192,10 @@ class ilCourseContentInterface
 		if(!count($items))
 		{	
 			sendInfo($this->lng->txt("crs_no_items_found"));
-
+			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this->container));
+			$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", "");
+			$this->container->showAdministrationPanel($this->tpl);
 			return true;
 		}
 
@@ -422,6 +425,7 @@ class ilCourseContentInterface
 		$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this->container));
 		$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", $tpl->get());
+
 		$this->container->showAdministrationPanel($this->tpl);
 		
 		return true;
