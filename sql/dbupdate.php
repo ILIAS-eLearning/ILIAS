@@ -9260,3 +9260,88 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#603>
+<?php
+
+  // Add operation edit_learing_progress
+$query = "INSERT INTO rbac_operations SET operation = 'edit_learning_progress', ".
+	"description = 'edit learning progress', ".
+	"class = 'object'";
+
+$res = $ilDB->query($query);
+
+$new_ops_id = $ilDB->getLastInsertId();
+
+// Get type ids of 'lm', 'dbk', 'sahs', 'htlm' ,'tst' and 'crs'
+$query = "SELECT obj_id FROM object_data WHERE title IN ('lm','dbk','sahs','htlm','tst','crs') ".
+	"AND type = 'typ'";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$type_ids[] = $row->obj_id;
+}
+// ASSIGN new operation to object types
+foreach($type_ids as $typ_id)
+{
+	$query = "INSERT INTO rbac_ta SET typ_id = '".$typ_id."', ".
+		"ops_id = '".$new_ops_id."'";
+
+	$ilDB->query($query);
+}
+
+// get template il_crs_admin Author and Local Administrator
+$query = "SELECT obj_id FROM object_data WHERE title IN ('il_crs_admin','Author','Local Administrator') ".
+	"AND type = 'rolt'";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$rolt_ids[] = $row->obj_id;
+}
+
+// ASSIGN new operation to role templates
+foreach($rolt_ids as $rolt_id)
+{
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'lm', ".
+		"ops_id = '".$new_ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'tst', ".
+		"ops_id = '".$new_ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'dbk', ".
+		"ops_id = '".$new_ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'sahs', ".
+		"ops_id = '".$new_ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'htlm', ".
+		"ops_id = '".$new_ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'crs', ".
+		"ops_id = '".$new_ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+}
+?>
+<#604>
+
+CREATE TABLE IF NOT EXISTS `ut_lp_marks` (
+  `obj_id` int(11) NOT NULL default '0',
+  `mark` char(32)  NOT NULL default '',
+  `comment` char(255) NOT NULL default '',
+  PRIMARY KEY  (`obj_id`)
+) Type=MyISAM;
