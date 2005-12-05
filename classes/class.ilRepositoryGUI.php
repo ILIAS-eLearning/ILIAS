@@ -769,6 +769,7 @@ class ilRepositoryGUI
 			    $count = 0;
 				if ($row["max"] > 0)
 				{
+
 					//how many elements are present?
 					for ($i=0; $i<count($this->data["ctrl"]); $i++)
 					{
