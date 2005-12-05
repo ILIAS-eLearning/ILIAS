@@ -109,7 +109,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->prepareOutput();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -119,7 +118,7 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once "./assessment/classes/class.ilTestOutputGUI.php";
 
 				$output_gui =& new ilTestOutputGUI($this->object);
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
+				//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			case "iltestevaluationgui":
@@ -127,7 +126,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				//$this->prepareOutput();
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
+				//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
 				
@@ -144,11 +143,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->prepareOutput();
 				if (strcmp($cmd, "infoScreen") == 0)
 				{
-					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, $cmd));
+					//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, $cmd));
 				}
 				else
 				{
-					$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+					//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				}
 				//$this->prepareOutput();
 				//$this->setAdminTabs();
@@ -4232,6 +4231,26 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->forwardCommand($info);
 	}
 
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		switch ($this->ctrl->getCmd())
+		{
+			case "run":
+			case "infoScreen":
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
+				break;
+			case "eval_stat":
+			case "evalAllUsers":
+			case "evalUserDetail":
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
+				break;
+		default:
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				break;
+		}
+	}
+	
 	/**
 	* adds tabs to tab gui object
 	*
