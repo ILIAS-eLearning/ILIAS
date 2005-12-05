@@ -30,6 +30,8 @@
 *
 */
 
+include_once './Services/Tracking/classes/class.ilLPStatus.php';
+include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
 class ilLPStatusCollection extends ilLPStatus
 {
@@ -44,18 +46,53 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function _getCountNotAttempted($a_obj_id)
 	{
-		echo "not overwitten";
+		return "not overwitten";
 	}
-	
+
+
 	function _getCountInProgress($a_obj_id)
 	{
-		echo "not overwitten";
+		return count(ilLPStatusCollection::_getInProgress($a_obj_id));
+	}
+
+	function _getInProgress($a_obj_id)
+	{
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+
+		$in_progress = 0;
+		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
+		{
+			// merge arrays of users with status 'in progress'
+			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($item_id)));
+		}
+		return (array) $users;
 	}
 
 	function _getCountCompleted($a_obj_id)
 	{
-		echo "not overwitten";
+		return count(ilLPStatusCollection::_getCompleted($a_obj_id));
 	}
+
+	function _getCompleted($a_obj_id)
+	{
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+
+		$counter = 0;
+		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
+		{
+			$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
+			if(!$counter++)
+			{
+				$users = $tmp_users;
+			}
+			else
+			{
+				$users = array_intersect($users,$tmp_users);
+			}
+
+		}
+		return (array) $users;
+	}		
 
 }	
 ?>

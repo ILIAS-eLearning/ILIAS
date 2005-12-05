@@ -32,6 +32,7 @@
 */
 #define(ILIAS_MODULE,'Services/Search');
 
+
 include_once "include/inc.header.php";
 include_once "Services/Search/classes/class.ilSearchController.php";
 

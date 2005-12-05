@@ -33,6 +33,10 @@
 *
 */
 
+define('LP_STATUS_NOT_ATTEMPTED','trac_no_attempted');
+define('LP_STATUS_IN_PROGRESS','trac_in_progress');
+define('LP_STATUS_COMPLETED','trac_completed');
+
 
 class ilLPStatus
 {

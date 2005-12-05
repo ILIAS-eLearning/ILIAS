@@ -69,6 +69,26 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
 	}
 
+	function _getInProgress($a_obj_id)
+	{
+		global $ilDB;
+
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+
+		$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+
+		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
+			"WHERE spent_time < '".$tlt."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->user_id;
+		}
+		return $user_ids ? $user_ids : array();
+	}
+
 	function _getCountCompleted($a_obj_id)
 	{
 		global $ilDB;
@@ -87,6 +107,25 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 		}
 		return 0;
 	}
+
+	function _getCompleted($a_obj_id)
+	{
+		global $ilDB;
+
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+
+		$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
+			"WHERE spent_time >= '".$tlt."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->user_id;
+		}
+		return $user_ids ? $user_ids : array();
+	}		
 
 }	
 ?>

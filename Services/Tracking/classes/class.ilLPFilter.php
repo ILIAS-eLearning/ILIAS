@@ -38,6 +38,8 @@
 
 class ilLPFilter
 {
+	var $permission = 'write';
+
 	// Default values for filter
 	var $root_node = ROOT_FOLDER_ID;
 	var $filter_type = 'lm';
@@ -53,6 +55,15 @@ class ilLPFilter
 		$this->usr_id = $a_usr_id;
 		$this->db =& $ilDB;
 		$this->__read();
+	}
+
+	function setRequiredPermission($a_permission)
+	{
+		$this->permission = $a_permission;
+	}
+	function getRequiredPermission()
+	{
+		return $this->permission;
 	}
 	
 	function getUserId()
@@ -202,7 +213,9 @@ class ilLPFilter
 		global $tree,$ilObjDataCache;
 
 		$objects = array();
-		foreach(ilUtil::_getObjectsByOperations($this->getFilterType(),'write',$this->getUserId()) as $ref_id)
+		foreach(ilUtil::_getObjectsByOperations($this->getFilterType(),
+												$this->getRequiredPermission(),
+												$this->getUserId()) as $ref_id)
 		{
 			$obj_id = $ilObjDataCache->lookupObjId($ref_id);
 			if($this->isHidden($obj_id))
@@ -244,6 +257,7 @@ class ilLPFilter
 		#{
 		#	$res->setUserId($user_id);
 		#}
+		$res->setRequiredPermission($this->getRequiredPermission());
 		$res->filter(ROOT_FOLDER_ID,false);
 		foreach($res->getResults() as $obj_data)
 		{

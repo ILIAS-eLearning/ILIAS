@@ -107,12 +107,12 @@ class ilLearningProgressBaseGUI
 		{
 			case LP_MODE_PERSONAL_DESKTOP:
 
-				$tabs_gui->addTarget('trac_objects',
-									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-									 "","","",$a_active == LP_ACTIVE_OBJECTS);
 				$tabs_gui->addTarget('trac_progress',
 									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 									 "","","",$a_active == LP_ACTIVE_PROGRESS);
+				$tabs_gui->addTarget('trac_objects',
+									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+									 "","","",$a_active == LP_ACTIVE_OBJECTS);
 				break;
 
 
