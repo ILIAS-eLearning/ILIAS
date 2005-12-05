@@ -393,7 +393,7 @@ class ASS_QuestionGUI
 		$this->lng->loadLanguageModule("content");
 		$page =& new ilPageObject("qpl", $this->object->getId());
 		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->setQuestionXML($this->object->to_xml(false, false, true, $test_id));
+		$page_gui->setQuestionXML($this->object->to_xml(false, false, true, $test_id, $force_image_references = true));
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);

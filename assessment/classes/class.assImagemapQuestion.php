@@ -438,7 +438,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -522,7 +522,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		);
 		if ($a_include_binary)
 		{
-			if ($test_output)
+			if ($force_image_references)
 			{
 				$attrs["uri"] = $this->getImagePathWeb() . $this->get_image_filename();
 				$a_xml_writer->xmlElement("matimage", $attrs);

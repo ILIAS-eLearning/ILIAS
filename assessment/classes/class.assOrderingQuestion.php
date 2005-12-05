@@ -124,7 +124,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -275,7 +275,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			$a_xml_writer->xmlStartTag("material");
 			if ($this->get_ordering_type() == OQ_PICTURES)
 			{
-				if ($test_output)
+				if ($force_image_references)
 				{
 					$attrs = array(
 						"imagtype" => $imagetype,

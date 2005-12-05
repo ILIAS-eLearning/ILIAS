@@ -659,9 +659,26 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*
 	* Creates the question output form for the learner
 	*
+	* @param integer $test_id Database ID of a test which contains the question
+	* @param boolean $is_postponed True if the question is a postponed question ("Postponed" added to the title)
+	* @param boolean $showsolution Forces the output of the users solution if set to true
+	* @param boolean $show_question_page Forces the output of the question only (without the surrounding page) when set to false. Default is true.
+	* @param boolean $show_solution_only Forces the output of the correct question solution only when set to true. Default is false
+	* @param object  $ilUser The user object of the user who answered the question
+	* @param integer $pass The pass of the question which should be displayed
+	* @param boolean $mixpass Mixes test passes (takes the last pass of the question) when set to true. Default is false.
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null, $pass = NULL, $mixpass = false)
+	function outWorkingForm(
+		$test_id = "", 
+		$is_postponed = false, 
+		$showsolution = 0, 
+		$show_question_page = true, 
+		$show_solution_only = false, 
+		$ilUser = NULL, 
+		$pass = NULL, 
+		$mixpass = false
+	)
 	{
 		if (!is_object($ilUser)) 
 		{
@@ -669,7 +686,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"MULTIPLE_CHOICE_QUESTION", $is_postponed, $test_id);
 		
-		if ($showsolution)
+		if ($showsolution && !$show_solution_only)
 		{
 			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
 			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
@@ -836,8 +853,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				}
 				$solutionoutput = $this->replaceInputElements("","O",$solutionoutput);
 			}
-	
-			$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+
+			if (!$show_solution_only)
+			{
+				$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+			}
  
 			if ($test_id) 
 			{
