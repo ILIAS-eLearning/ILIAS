@@ -1114,7 +1114,19 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 					"", "ilConditionHandlerInterface");
 				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
-				break;				
+				break;
+
+			case 'members':
+				$tab_gui->addTarget("members",
+					$this->ctrl->getLinkTarget($this,'members'),
+					"members", get_class($this));
+				$tab_gui->addTarget("mail_members",
+					$this->ctrl->getLinkTarget($this,'mailMembers'),
+					"mailMembers", get_class($this));
+				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+				break;
+
+				
 		}
 	}
 
@@ -1496,7 +1508,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html","course");
 
-		$this->__showMailLinks();
+		$this->setSubTabs('members');
+
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
 		// INFO NO MEMBERS
@@ -3980,9 +3993,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		unset($_SESSION["crs_archives"]);
 	}
 
-	function __showMailLinks()
+	function mailMembersObject()
 	{
 		global $rbacreview;
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','course');
+
+		$this->setSubTabs('members');
 
 		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));

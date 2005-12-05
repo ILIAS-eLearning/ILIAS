@@ -5457,3 +5457,4 @@ common#:#overwrite#:#Overwrite
 common#:#send_mail_members#:#Mail to members
 common#:#send_mail_tutors#:#Mail to tutors
 common#:#send_mail_admins#:#Mail to administrators
+common#:#mail_members#:#Mail to members

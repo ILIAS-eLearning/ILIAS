@@ -1070,6 +1070,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $rbacsystem,$ilBench,$ilDB;
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
+		$this->setSubTabs('members');
 
 
 		$ilBench->start("GroupGUI", "membersObject");
@@ -1138,14 +1139,16 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$ilBench->stop("GroupGUI", "membersObject");
 
-		$this->__showMailLinks();
-
 		return $this->__showMembersTable($result_set,$user_ids);
     }
 
-	function __showMailLinks()
+	function mailMembersObject()
 	{
 		global $rbacreview;
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html');
+
+		$this->setSubTabs('members');
 
 		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
@@ -1154,6 +1157,33 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("CHECK_ADMIN",ilUtil::formCheckbox(0,'roles[]','#il_grp_admin_'.$this->object->getRefId()));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
+	}
+
+
+	/**
+	* set sub tabs
+	*/
+	function setSubTabs($a_tab)
+	{
+		include_once("classes/class.ilTabsGUI.php");
+		$tab_gui = new ilTabsGUI();
+		$tab_gui->setSubTabs(true);
+		
+		switch ($a_tab)
+		{
+			case 'members':
+				$tab_gui->addTarget("members",
+					$this->ctrl->getLinkTarget($this,'members'),
+					"members", get_class($this));
+				$tab_gui->addTarget("mail_members",
+					$this->ctrl->getLinkTarget($this,'mailMembers'),
+					"mailMembers", get_class($this));
+
+				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+				break;
+
+				
+		}
 	}
 
 
@@ -1552,7 +1582,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget("group_members",
-				$this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
+								 $this->ctrl->getLinkTarget($this, "members"), array("members",'mailMembers'), get_class($this));
 		}
 		
 		$applications = $this->object->getNewRegistrations();
