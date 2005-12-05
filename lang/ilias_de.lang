@@ -5432,7 +5432,6 @@ common#:#send_mail_tutors#:#Mail an Tutoren
 common#:#send_mail_admins#:#Mail an Administratoren
 common#:#mail_members#:#Mail an Mitglieder
 common#:#crs_edit_learning_progress#:#Lernfortschritt bearbeiten
-common#:#tst_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#sahs_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#htlm_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#dbk_edit_learning_progress#:#Lernfortschritt bearbeiten
