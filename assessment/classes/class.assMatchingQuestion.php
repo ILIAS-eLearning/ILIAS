@@ -122,7 +122,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -249,7 +249,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			$a_xml_writer->xmlStartTag("material");
 			if ($this->get_matching_type() == MT_TERMS_PICTURES)
 			{
-				if ($test_output)
+				if ($force_image_references)
 				{
 					$attrs = array(
 						"imagtype" => "image/jpeg",

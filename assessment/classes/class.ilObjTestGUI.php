@@ -3249,91 +3249,94 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 
-		if (is_array($_POST["search_for"]))
+		if (strcmp($this->ctrl->getCmd(), "searchParticipants") == 0)
 		{
-			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
-			{					
-				
-				include_once './classes/class.ilSearch.php';
-				$search =& new ilSearch($ilUser->id);
-				$search->setSearchString($_POST["search_term"]);
-				$search->setCombination($_POST["concatenation"]);
-				$search->setSearchFor($_POST["search_for"]);
-				$search->setSearchType("new");
-				if($search->validate($message))
-				{
-					$search->performSearch();
-				}
-				if ($message)
-				{
-					sendInfo($message);
-				}
-				
-				if(!$search->getNumberOfResults() && $search->getSearchFor())
-				{
-					sendInfo($this->lng->txt("search_no_match"));
-					return;
-				}
-				$buttons = array("add");
-
-				$invited_users = $this->object->getInvitedUsers();
-			
-				if ($searchresult = $search->getResultByType("usr"))
-				{												
-					$users = array();
-					foreach ($searchresult as $result_array)
+			if (is_array($_POST["search_for"]))
+			{
+				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
+				{					
+					
+					include_once './classes/class.ilSearch.php';
+					$search =& new ilSearch($ilUser->id);
+					$search->setSearchString($_POST["search_term"]);
+					$search->setCombination($_POST["concatenation"]);
+					$search->setSearchFor($_POST["search_for"]);
+					$search->setSearchType("new");
+					if($search->validate($message))
 					{
-						if (!array_key_exists($result_array["id"], $invited_users))
-						{								
-							array_push($users, $result_array["id"]);
+						$search->performSearch();
+					}
+					if ($message)
+					{
+						sendInfo($message);
+					}
+					
+					if(!$search->getNumberOfResults() && $search->getSearchFor())
+					{
+						sendInfo($this->lng->txt("search_no_match"));
+						return;
+					}
+					$buttons = array("add");
+	
+					$invited_users = $this->object->getInvitedUsers();
+				
+					if ($searchresult = $search->getResultByType("usr"))
+					{												
+						$users = array();
+						foreach ($searchresult as $result_array)
+						{
+							if (!array_key_exists($result_array["id"], $invited_users))
+							{								
+								array_push($users, $result_array["id"]);
+							}
 						}
+						
+						$users = $this->object->getUserData($users);
+						
+						if (count ($users))
+							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
+					}
+	
+					$searchresult = array();
+					
+					if ($searchresult = $search->getResultByType("grp"))
+					{
+						$groups = array();
+						
+						foreach ($searchresult as $result_array)
+						{							
+							array_push($groups, $result_array["id"]);
+						}
+						$groups = $this->object->getGroupData ($groups);
+						
+						if (count ($groups))
+							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
 					}
 					
-					$users = $this->object->getUserData($users);
+					$searchresult = array();
 					
-					if (count ($users))
-						$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
-				}
-
-				$searchresult = array();
-				
-				if ($searchresult = $search->getResultByType("grp"))
-				{
-					$groups = array();
-					
-					foreach ($searchresult as $result_array)
-					{							
-						array_push($groups, $result_array["id"]);
-					}
-					$groups = $this->object->getGroupData ($groups);
-					
-					if (count ($groups))
-						$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
-				}
-				
-				$searchresult = array();
-				
-				if ($searchresult = $search->getResultByType("role"))
-				{
-					$roles = array();
-					
-					foreach ($searchresult as $result_array)
-					{							
-						array_push($roles, $result_array["id"]);
+					if ($searchresult = $search->getResultByType("role"))
+					{
+						$roles = array();
+						
+						foreach ($searchresult as $result_array)
+						{							
+							array_push($roles, $result_array["id"]);
+						}
+						
+						$roles = $this->object->getRoleData ($roles);			
+								
+						if (count ($roles))
+							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
 					}
 					
-					$roles = $this->object->getRoleData ($roles);			
-							
-					if (count ($roles))
-						$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
 				}
 				
 			}
-			
-		}
-		else
-		{
-			sendInfo($this->lng->txt("no_user_or_group_selected"));
+			else
+			{
+				sendInfo($this->lng->txt("no_user_or_group_selected"));
+			}
 		}
 		
 		if ($_POST["cmd"]["save"])
@@ -3456,17 +3459,48 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 
-		if ($_POST["cmd"]["print"]) 
-		{
-			$this->outPrinttest();
-			return;
-		}
-		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", true);
-		$this->tpl->setVariable("TEXT_CONFIRM_PRINT_TEST", $this->lng->txt("tst_confirm_print"));
-		$this->tpl->setVariable("FORM_PRINT_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		
+		global $ilUser;		
+		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+		$max_points= 0;
+		$counter = 1;
+					
+		foreach ($this->object->questions as $question) 
+		{		
+			$this->tpl->setCurrentBlock("question");			
+			$question_gui = $this->object->createQuestionGUI("", $question);
+			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".");
+			//$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			
+			switch ($question_gui->getQuestionType()) 
+			{
+				case "qt_imagemap" :
+					$question_gui->outWorkingForm($test_id="", $postponed = false, $show_solution = true, $formaction, $show_pages= true, $show_solutions_only= true);
+					break;
+				case "qt_javaapplet" :
+					$question_gui->outWorkingForm($test_id="", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
+					break;
+				default :
+					$question_gui->outWorkingForm($test_id="", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
+			}
+			$this->tpl->parseCurrentBlock("question");
+			$counter ++;					
+			$max_points += $question_gui->object->getMaximumPoints();			
+		}
+
+		$this->tpl->setCurrentBlock("navigation_buttons");
+		$this->tpl->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
+		$this->tpl->setVariable("PRINT_TEST", $this->lng->txt("tst_print"));
+		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("date"));
+		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%c",$print_date));
+		$this->tpl->setVariable("TXT_MAXIMUM_POINTS", $this->lng->txt("tst_maximum_points"));
+		$this->tpl->setVariable("VALUE_MAXIMUM_POINTS", $max_points);
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
