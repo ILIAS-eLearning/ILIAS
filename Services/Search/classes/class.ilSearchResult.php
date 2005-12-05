@@ -35,6 +35,8 @@ define('ADVANCED_SEARCH',1);
 */
 class ilSearchResult
 {
+	var $permission = 'visible';
+
 	var $user_id;
 	var $entries = array();
 	var $results = array();
@@ -67,6 +69,20 @@ class ilSearchResult
 		}
 		$this->db =& $ilDB;
 	}
+
+	/**
+	* Set the required permission for the rbac checks in function 'filter()'
+	*/
+	function setRequiredPermission($a_permission)
+	{
+		$this->permission = $a_permission;
+	}
+	
+	function getRequiredPermission()
+	{
+		return $this->permission;
+	}
+
 
 	function setUserId($a_user_id)
 	{
@@ -321,7 +337,12 @@ class ilSearchResult
 			foreach(ilObject::_getAllReferences($entry['obj_id']) as $ref_id)
 			{
 				$type = ilObject::_lookupType($ref_id, true);
-				if($this->ilAccess->checkAccessOfUser($this->getUserId(),'visible','',$ref_id,$type,$entry['obj_id']))
+				if($this->ilAccess->checkAccessOfUser($this->getUserId(),
+													  $this->getRequiredPermission(),
+													  '',
+													  $ref_id,
+													  $type,
+													  $entry['obj_id']))
 				{
 					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
 					{
