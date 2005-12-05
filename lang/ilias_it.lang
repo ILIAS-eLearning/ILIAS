@@ -2406,7 +2406,7 @@ common#:#pays_edit_permission#:#Modificare le impostazioni dei pagamenti
 common#:#pays_read#:#Accedere in lettura alle impostazioni dei pagamenti
 common#:#pays_visible#:#Vedere le impostazioni dei pagamenti
 common#:#pays_write#:#Salvare le impostazioni dei pagamenti
-common#:#per_object#:#Permessi sull'oggetto
+common#:#per_object#:#Per oggetto
 common#:#perm_settings#:#Permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
@@ -2887,7 +2887,7 @@ common#:#url_read#:#Aprire URL
 common#:#url_visible#:#Vedere un URL
 common#:#url_write#:#Scrivere URL
 common#:#user#:#Utente
-common#:#user_access#:#Accessi utente
+common#:#user_access#:#Per accessi utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utenti assegnati
 common#:#user_cant_receive_mail#:#l'utente non pu&#242; usare la mail di sistema
