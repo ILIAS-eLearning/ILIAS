@@ -2316,7 +2316,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 								array_push($users, $result_array["id"]);
 							}
 						}
-						$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"), $buttons);
+						$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_users"), $buttons);
 					}
 					$searchresult = array();
 					if ($searchresult = $search->getResultByType("grp"))
@@ -2326,7 +2326,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							array_push($groups, $result_array["id"]);
 						}
-						$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), $buttons);
+						$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_groups"), $buttons);
 					}
 					$searchresult = array();
 					if ($searchresult = $search->getResultByType("role"))
@@ -2354,9 +2354,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search_invitation"));
 				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
 				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
-				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
-				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
-				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
+				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("objs_usr"));
+				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("objs_grp"));
+				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("objs_role"));
 				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
 				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
 				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
