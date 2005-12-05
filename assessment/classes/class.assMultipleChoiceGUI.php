@@ -97,7 +97,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
 		if ($this->object->get_response() == RESPONSE_SINGLE)
@@ -216,6 +216,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_sr");
 			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_sr"));
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -343,6 +344,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_mr");
 			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_mr"));
 			$this->tpl->parseCurrentBlock();
 		}
 

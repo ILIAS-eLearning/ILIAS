@@ -150,10 +150,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				if ($_GET["q_id"] > 0)
-				{
-					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
-				}
 				$question =& $q_gui->object;
 				$this->tpl->setVariable("HEADER", $question->getTitle());
 				$this->ctrl->saveParameter($this, "q_id");
@@ -202,10 +198,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				if ($_GET["q_id"] > 0)
-				{
-					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
-				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 				
@@ -1500,6 +1492,49 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadQplObject();
+	}
+
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+		if ($_GET["q_id"] > 0)
+		{
+			include_once "./assessment/classes/class.assQuestionGUI.php";
+			$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			$q_gui->object->setObjId($this->object->getId());
+			if ($_GET["q_id"] > 0)
+			{
+				$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass(get_class($q_gui), "editQuestion"));
+			}
+		}
+	}
+	
+	/**
+	* called by prepare output
+	*/
+	function setTitleAndDescription()
+	{
+		if ($_GET["q_id"] > 0)
+		{
+			include_once "./assessment/classes/class.assQuestionGUI.php";
+			$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			$q_gui->object->setObjId($this->object->getId());
+			$title = $q_gui->object->getTitle();
+			if (strcmp($this->ctrl->getCmd(), "assessment") == 0)
+			{
+				$title .= " - " . $this->lng->txt("statistics");
+			}
+			$this->tpl->setTitle($title);
+			$this->tpl->setDescription($q_gui->object->getComment());
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+		}
+		else
+		{
+			$this->tpl->setTitle($this->object->getTitle());
+			$this->tpl->setDescription($this->object->getLongDescription());
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+		}
 	}
 
 	function setQuestionTabs()

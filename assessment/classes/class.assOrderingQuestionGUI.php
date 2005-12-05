@@ -95,7 +95,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion($ok = true)
 	{
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_ordering");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
 
@@ -270,6 +270,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_ordering");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_ordering"));
 		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();

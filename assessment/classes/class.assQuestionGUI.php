@@ -164,12 +164,6 @@ class ASS_QuestionGUI
 		// catch feedback message
 		sendInfo();
 
-		$title = $this->object->getTitle() . " - " . $this->lng->txt("statistics");
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-		//$question =& $this->object->createQuestion("", $_GET["edit"]);
 		$total_of_answers = $this->object->getTotalAnswers();
 		$counter = 0;
 		$color_class = array("tblrow1", "tblrow2");
@@ -364,16 +358,6 @@ class ASS_QuestionGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		// set screen title (Edit/Create Question)
-		if ($this->object->id > 0)
-		{
-			$title = $this->lng->txt("edit") . " " . $this->lng->txt($q_type);
-		}
-		else
-		{
-			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($q_type);
-			$this->tpl->setVariable("HEADER", $title);
-		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 	}
 

@@ -94,7 +94,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	function editQuestion()
 	{
 		include_once "./assessment/classes/class.ilImagemapPreview.php";
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_imagemap");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		if (($this->ctrl->getCmd() == "addArea" or $this->ctrl->getCmd() == "getCoords") and ($this->ctrl->getCmd() != "saveShape"))
@@ -437,6 +437,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_imagemap"));
 			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();

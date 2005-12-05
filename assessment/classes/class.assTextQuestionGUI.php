@@ -79,7 +79,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
 		$this->getQuestionTemplate("qt_text");
@@ -144,6 +144,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_text");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_text"));
 		$this->tpl->setVariable("ACTION_TEXT_QUESTION", $this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();
