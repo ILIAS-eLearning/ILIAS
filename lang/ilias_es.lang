@@ -506,7 +506,7 @@ assessment#:#tst_qst_result_sheet#:#Mostrar hoja de resultados
 assessment#:#tst_qst_setsolved#:#Poner como resuelta
 assessment#:#tst_qst_summary_text#:#Aquí puede ver todas las preguntas. Active las cajas para marcar una pregunta como resuelta.
 assessment#:#tst_question_no#:#Orden
-assessment#:#tst_question_offer#:#Acepta este ejemplo or quiere otro?
+assessment#:#tst_question_offer#:#Acepta esta seleccion o quiere generar otra vez?
 assessment#:#tst_question_solved_state#:#Resuelta
 assessment#:#tst_question_title#:#Título
 assessment#:#tst_question_type#:#Tipo de pregunta
