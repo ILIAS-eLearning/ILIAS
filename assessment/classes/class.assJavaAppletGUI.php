@@ -88,7 +88,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_javaapplet");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_javaapplet_question.html", true);
 		if ($this->error)
@@ -226,6 +226,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_javaapplet");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_javaapplet"));
 		$formaction = $this->ctrl->getFormaction($this);
 		if ($this->object->getId() > 0)
 		{

@@ -93,7 +93,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion($has_error = 0, $delete = false)
 	{
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_matching");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
 
@@ -309,6 +309,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_matching");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_matching"));
 		$this->tpl->setVariable("ACTION_MATCHING_QUESTION",	$this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();
