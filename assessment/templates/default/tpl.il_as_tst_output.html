@@ -1,0 +1,148 @@
+<form name="test_output" method="post" action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
+<table class="fullwidth_invisible">
+	<tr>
+		<td class="ilInvisibleBorder">
+			<div class="il_Header">
+				<table width="100%" border="0">
+					<tr>
+					<td align="right" colspan="4">
+<!-- BEGIN cancel_test -->
+						<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
+<!-- END cancel_test -->
+					</td>
+					</tr>
+					<tr>
+						<td align="left" width="33%">
+<!-- BEGIN prev -->
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<!-- END prev -->
+						</td>
+						<td align="center" >
+<!-- BEGIN percentage -->
+<div align="left" style="height: 15px;
+width: {HUNDRED_PERCENT}px; 
+background: #ffffff; 
+border: 1px solid #333333; 
+margin: .5em; 
+padding: 0;">
+<div align="center" style="height:15px; 
+width: {PERCENTAGE}px; 
+margin: 0; 
+padding: 0; 
+background: #C0C0C0" >
+<span style="font: 12px Verdana, Arial, sans-serif; 
+color: #000000; 
+text-align: center;">
+&nbsp;{PERCENTAGE_VALUE}%
+</span>
+</div>
+</div>
+<!-- END percentage -->
+</td>
+<td align="left" width="1" >
+<!-- BEGIN summary -->
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
+<!-- END summary -->
+</td>
+<td align="right" width="33%">
+<!-- BEGIN postpone -->
+	<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
+	&nbsp;&nbsp;
+	<!-- END postpone -->
+	<!-- BEGIN next -->
+	<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+	<!-- END next -->
+					</td>
+				</tr>
+			</table>
+		</div>
+		<br/>
+<!-- BEGIN enableprocessingtime -->
+<p>{USER_WORKING_TIME} / {MAXIMUM_PROCESSING_TIME}</p>
+<!-- END enableprocessingtime -->
+<table class="ilc_Page" width="100%" cellspacing="0" cellpadding="0"><tr><td class="ilc_Page">
+<div class="ilc_Page" id="ilc_Page">
+{CLOZE_TEST}
+{MATCHING_QUESTION}
+{ORDERING_QUESTION}
+{MULTIPLE_CHOICE_QUESTION}
+{IMAGEMAP_QUESTION}
+{JAVA_QUESTION}
+{TEXT_QUESTION}
+<!-- BEGIN back -->
+<p>
+<input type="submit" class="submit" name="cmd[preview_cancel]" value="{BACKLINK_TEXT}" />
+</p>
+<!-- END back -->
+</div>
+</td></tr></table>
+{QUESTION_FEEDBACK}
+{RESULT_DESCRIPTION}
+<!-- BEGIN question_status --><table><tr valign="top"><td><small>{TEXT_QUESTION_STATUS_LABEL}</small></td><td>{TEXT_QUESTION_STATUS}</td></tr></table><!-- END question_status -->
+<p>
+<!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" value="{TEXT_DIRECT_FEEDBACK}" /><!-- END direct_feedback -->
+</p>
+<!-- BEGIN navigation_bottom -->
+			<div class="il_Header">
+				<table width="100%" border="0">
+					<tr>
+						<td align="left" width="33%">
+<!-- BEGIN prev_bottom -->
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<!-- END prev_bottom -->
+						</td>
+						<td align="center" >
+<!-- BEGIN percentage_bottom -->
+<div align="left" style="height: 15px;
+width: {HUNDRED_PERCENT}px; 
+background: #ffffff; 
+border: 1px solid #333333; 
+margin: .5em; 
+padding: 0;">
+<div align="center" style="height:15px; 
+width: {PERCENTAGE}px; 
+margin: 0; 
+padding: 0; 
+background: #C0C0C0" >
+<span style="font: 12px Verdana, Arial, sans-serif; 
+color: #000000; 
+text-align: center;">
+&nbsp;{PERCENTAGE_VALUE}%
+</span>
+</div>
+</div>
+<!-- END percentage_bottom -->
+</td>
+<td align="left" width="1">
+<!-- BEGIN summary_bottom  -->
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
+<!-- END summary_bottom -->
+</td>
+<td align="right" width="33%">
+<!-- BEGIN postpone_bottom -->
+<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
+&nbsp;&nbsp;
+<!-- END postpone_bottom -->
+<!-- BEGIN next_bottom -->
+<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+<!-- END next_bottom -->
+					</td>
+				</tr>
+				<tr>
+				<td align="right" colspan="1">&nbsp;</td>
+				<td align="right" colspan="3">
+<!-- BEGIN cancel_test_bottom -->
+					<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
+<!-- END cancel_test_bottom -->
+				</td>
+				</tr>
+			</table>
+		</div>
+<!-- END navigation_bottom -->
+</td>
+	</tr>
+</table>
+</form>
+<!-- BEGIN js_initialize -->
+{JS_INITIALIZE}
+<!-- END js_initialize --> 
