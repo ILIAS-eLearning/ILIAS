@@ -315,6 +315,11 @@ class ilObjectGUI
 	{
 		global $tree, $tpl, $objDefinition;
 		
+		if ($this->object->getRefId() == "")
+		{
+			return;
+		}
+		
 		if ($this->object->getRefId() != $tree->getRootId())
 		{
 			$par_id = $tree->getParentId($this->object->getRefId());
