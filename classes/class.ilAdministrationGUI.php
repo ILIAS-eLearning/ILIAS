@@ -277,7 +277,7 @@ class ilAdministrationGUI
 		{
 			$explorer->addFilter("recf");
 		}
-		$explorer->addFilter("rolf");
+		//$explorer->addFilter("rolf");
 
 		/*
 		$explorer->addFilter("root");
