@@ -97,6 +97,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
 				break;
 
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$this->ctrl->forwardCommand($new_gui);
+
+				break;
+
+
 			default:
 				$cmd = $this->ctrl->getCmd("frameset");
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
@@ -531,6 +540,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
 			 "", "ilmdeditorgui");
+
+		// learning progress
+		$tabs_gui->addTarget('learning_progress',
+							 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+							 '',
+							 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

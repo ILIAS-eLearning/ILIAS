@@ -84,7 +84,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
 
 		// Show user info, if not current user
-		if(!$this->show_active)
+		if($this->show_active)
 		{
 			$this->__showUserInfo();
 		}
@@ -95,17 +95,71 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function details()
 	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_lm_details.html','Services/Tracking');
 		switch($this->details_type)
 		{
 			case 'crs':
 				$this->__showCourseDetails();
 				break;
 
-			default:
-				$this->__showdetails();
+			case 'lm':
+				$this->__showLMDetails();
 				break;
+
+			default:
+				echo "Don't know";
 		}
 		
+	}
+
+	function __showLMDetails()
+	{
+		global $ilObjDataCache;
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		
+		// Section lm details
+		$info->addSection($this->lng->txt('details'));
+		$info->addProperty($this->lng->txt('title'),$ilObjDataCache->lookupTitle($this->details_id));
+		if(strlen($desc = $ilObjDataCache->lookupDescription($this->details_id)))
+		{
+			$info->addProperty($this->lng->txt('description'),$desc);
+		}
+		$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text(
+							   $mode = ilLPObjSettings::_lookupMode($this->details_id)));
+
+		if($mode == LP_MODE_VISITS)
+		{
+			$info->addProperty($this->lng->txt('trac_required_visits'),ilLPObjSettings::_lookupVisits($this->details_id));
+		}
+		
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+		if($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($this->details_id))
+		{
+			$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($seconds));
+		}
+
+		// Section learning_progress
+		$info->addSection($this->lng->txt('trac_learning_progress'));
+
+		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+		$progress = ilLearningProgress::_getProgress($this->tracked_user->getId(),$this->details_id);
+
+		if($progress['access_time'])
+		{
+			$info->addProperty($this->lng->txt('last_access'),date('Y-m-d H:i:s',$progress['access_time']));
+		}
+		else
+		{
+			$info->addProperty($this->lng->txt('last_access'),$this->lng->txt('trac_not_accessed'));
+		}
+		$info->addProperty($this->lng->txt('trac_visits'),(int) $progress['visits']);
+		$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_time']));
+		$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($this->details_id)));
+		
+		// Finally set template variable
+		$this->tpl->setVariable("LM_INFO",$info->getHTML());
 	}
 		
 
@@ -118,7 +172,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$info->addSection($this->lng->txt("trac_user_data"));
 		$info->addProperty($this->lng->txt('username'),$this->tracked_user->getLogin());
 		$info->addProperty($this->lng->txt('name'),$this->tracked_user->getFullname());
-
 		$info->addProperty($this->lng->txt('last_login'),ilFormat::formatDate($this->tracked_user->getLastLogin()));
 		$info->addProperty($this->lng->txt('trac_total_online'),
 						   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($this->tracked_user->getId())));
@@ -176,6 +229,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
 			$obj_tpl->parseCurrentBlock();
 
+
 			// Hide link
 			$obj_tpl->setCurrentBlock("item_command");
 			$this->ctrl->setParameterByClass('illpfiltergui','hide',$obj_id);
@@ -189,27 +243,23 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			{
 				$this->__insertPath($obj_tpl,$ref_id);
 			}
+
+			// Tracking activated for object
 			// Users status
-			$status = LP_STATUS_NOT_ATTEMPTED;
-			if(in_array($this->tracked_user->getId(),ilLPStatusWrapper::_getInProgress($obj_id)))
-			{
-				$status = LP_STATUS_IN_PROGRESS;
-			}
-			elseif(in_array($this->tracked_user->getId(),ilLPStatusWrapper::_getCompleted($obj_id)))
-			{
-				$status = LP_STATUS_COMPLETED;
-			}
+
+			$status = $this->__readStatus($obj_id);
+
 			$obj_tpl->setCurrentBlock("item_property");
 			$obj_tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
 			$obj_tpl->setVariable("VAL_PROP",$this->lng->txt($status));
 			$obj_tpl->parseCurrentBlock();
-
+			
 			$obj_tpl->setCurrentBlock("item_properties");
 			$obj_tpl->parseCurrentBlock();
-
+			
 			$tpl->setVariable("BLOCK_ROW_CONTENT",$obj_tpl->get());
 			$tpl->parseCurrentBlock();
-		}
+		}	
 
 		// Hide button
 		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
@@ -267,5 +317,22 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->details_type = $ilObjDataCache->lookupType($this->details_id);
 		}
 	}
+
+	function __readStatus($a_obj_id)
+	{
+		if(in_array($this->tracked_user->getId(),ilLPStatusWrapper::_getInProgress($a_obj_id)))
+		{
+			return $status = LP_STATUS_IN_PROGRESS;
+		}
+		elseif(in_array($this->tracked_user->getId(),ilLPStatusWrapper::_getCompleted($a_obj_id)))
+		{
+			return $status = LP_STATUS_COMPLETED;
+		}
+		else
+		{
+			return $status = LP_STATUS_NOT_ATTEMPTED;
+		}
+	}
+
 }
 ?>

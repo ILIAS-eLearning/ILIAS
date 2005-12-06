@@ -34,6 +34,7 @@
 * @package ilias-tracking
 *
 */
+include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 
 
 class ilLPFilter
@@ -213,7 +214,7 @@ class ilLPFilter
 		global $tree,$ilObjDataCache;
 
 		$objects = array();
-		foreach(ilUtil::_getObjectsByOperations($this->getFilterType(),
+		foreach(ilUtil::_getObjectsByOperations($this->__prepareType(),
 												$this->getRequiredPermission(),
 												$this->getUserId()) as $ref_id)
 		{
@@ -222,6 +223,11 @@ class ilLPFilter
 			{
 				continue;
 			}
+			if(ilLPObjSettings::_lookupMode($obj_id) == LP_MODE_DEACTIVATED)
+			{
+				continue;
+			}
+
 			if($tree->isGrandChild($this->getRootNode(),$ref_id))
 			{
 				$objects[$obj_id]['ref_ids'][] = $ref_id;
@@ -250,7 +256,7 @@ class ilLPFilter
 		include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
 
 		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
-		$object_search->setFilter(array($this->getFilterType()));
+		$object_search->setFilter($this->__prepareType());
 
 		$res =& $object_search->performSearch();
 		#if($user_id)
@@ -261,11 +267,26 @@ class ilLPFilter
 		$res->filter(ROOT_FOLDER_ID,false);
 		foreach($res->getResults() as $obj_data)
 		{
-			$objects[$obj_data['obj_id']]['ref_ids'][] = $obj_data['ref_id'];
-			$objects[$obj_data['obj_id']]['title'] = $ilObjDataCache->lookupTitle($obj_data['obj_id']);
-			$objects[$obj_data['obj_id']]['description'] = $ilObjDataCache->lookupDescription($obj_data['obj_id']);
+			if(ilLPObjSettings::_lookupMode($obj_id) != LP_MODE_DEACTIVATED)
+			{
+				$objects[$obj_data['obj_id']]['ref_ids'][] = $obj_data['ref_id'];
+				$objects[$obj_data['obj_id']]['title'] = $ilObjDataCache->lookupTitle($obj_data['obj_id']);
+				$objects[$obj_data['obj_id']]['description'] = $ilObjDataCache->lookupDescription($obj_data['obj_id']);
+			}
 		}
 		return $objects ? $objects : array();
+	}
+
+	function __prepareType()
+	{
+		switch($this->getFilterType())
+		{
+			case 'lm':
+				return array('lm','sahs');
+
+			default:
+				return array($this->getFilterType());
+		}
 	}
 }	
 ?>

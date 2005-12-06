@@ -112,33 +112,33 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("trackingDataQueryForm",
+			$tabs_gui->addTarget("tracking_data",
 								 $this->ctrl->getLinkTarget($this,
 															"trackingDataQueryForm"),
 								 "trackingDataQueryForm",
+								 get_class($this));
+			$tabs_gui->addTarget("settings",
+								 $this->ctrl->getLinkTarget($this,
+															"settings"),
+								 "settings",
+								 get_class($this));
+			$tabs_gui->addTarget("manage_tracking_data",
+								 $this->ctrl->getLinkTarget($this,
+															"manageData"),
+								 "manageData",
 								 get_class($this));
 			$tabs_gui->addTarget("learning_progress",
 								 $this->ctrl->getLinkTargetByClass("illearningprogressgui",
 											"show"),
 								 "",
 								 "illearningprogressgui");
+			$tabs_gui->addTarget("perm_settings",
+								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
+								 array("perm","info","owner"),
+								 'ilpermissiongui');
 		}
 	}
 
-
-	function learningProgressObject()
-	{
-		include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-
-		$lp_gui = new ilLearningProgressGUI(LP_MODE_ADMINISTRATION);
-
-		// Horror
-		$this->ctrl->current_node = 1;
-		$this->ctrl->setCmd('show');
-		$ret =& $this->ctrl->forwardCommand($lp_gui);
-
-		return false;
-	}
 
 	/**
 	* display tracking settings form

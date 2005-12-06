@@ -33,8 +33,6 @@
 *
 */
 
-include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
-
 class ilLearningProgress
 {
 	var $db = null;
@@ -81,6 +79,7 @@ class ilLearningProgress
 			"WHERE user_id = '".$a_user_id."' ".
 			"AND obj_id = '".$a_obj_id."'";
 		$res = $ilDB->query($query);
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$progress['lp_id'] = $row->lp_id;

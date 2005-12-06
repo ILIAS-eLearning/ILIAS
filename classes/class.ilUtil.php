@@ -2726,7 +2726,7 @@ class ilUtil
 	* to access course A.
 	*
 	* @access	public
-	* @param	string	object type
+	* @param	string/array	object type 'lm' or array('lm','sahs')
 	* @param	string	permission to check e.g. 'visible' or 'read'
 	* @param	int id of user in question
 	* @param    int limit of results. if not given it defaults to search max hits.
@@ -2735,6 +2735,18 @@ class ilUtil
 	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{
 		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias;
+
+		if(!is_array($a_obj_type))
+		{
+			$where = "WHERE type = '".$a_obj_type."' ";
+		}
+		else
+		{
+			$where = "WHERE type IN('";
+			$where .= implode("','",$a_obj_type);
+			$where .= "') ";
+		}
+				
 
 		// limit number of results default is search result limit
 		if(!$limit)
@@ -2746,15 +2758,14 @@ class ilUtil
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		$a_roles = $rbacreview->assignedRoles($a_usr_id);
 
-		// Since no rbac_pa entries are available for the system role. This function return !all! ref_ids in the case the user
+		// Since no rbac_pa entries are available for the system role. This function returns !all! ref_ids in the case the user
 		// is assigned to the system role
 		if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
 		{
 			$query = "SELECT ref_id FROM object_reference AS obr LEFT JOIN object_data AS obd USING(obj_id) ".
 				"LEFT JOIN tree ON obr.ref_id = tree.child ".
-				"WHERE type = '".$a_obj_type."' ".
+				$where.
 				"AND tree = 1";
-
 
 			$res = $ilDB->query($query);
 			$counter = 0;
@@ -2775,7 +2786,7 @@ class ilUtil
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM rbac_pa ".
 			"LEFT JOIN object_reference AS obr  ON obr.ref_id = rbac_pa.ref_id ".
 			"LEFT JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
-			"WHERE type = '".$a_obj_type."' ".
+			$where.
 			"AND ops_id LIKE '%i:".$ops_id."%'";
 		$res = $ilDB->query($query);
 		$counter = 0;

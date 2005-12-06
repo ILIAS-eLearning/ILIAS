@@ -9338,10 +9338,36 @@ foreach($rolt_ids as $rolt_id)
 }
 ?>
 <#604>
-
 CREATE TABLE IF NOT EXISTS `ut_lp_marks` (
   `obj_id` int(11) NOT NULL default '0',
   `mark` char(32)  NOT NULL default '',
   `comment` char(255) NOT NULL default '',
   PRIMARY KEY  (`obj_id`)
 ) Type=MyISAM;
+
+<#605>
+DROP TABLE IF EXISTS `ut_lp_marks`;
+CREATE TABLE `ut_lp_marks` (
+  `obj_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  `completed` int(1) NOT NULL default '0',
+  `mark` char(32)  NOT NULL default '',
+  `comment` char(255) NOT NULL default '',
+  PRIMARY KEY  (`obj_id`)
+) Type=MyISAM;
+
+<#606>
+DROP TABLE `ut_lp_filter`;
+CREATE TABLE `ut_lp_filter` (
+  `usr_id` int(11) NOT NULL default '0',
+  `filter_type` varchar(4) NOT NULL default '',
+  `root_node` int(11) NOT NULL default '0',
+  `hidden` text NOT NULL,
+  `query_string` varchar(128) NOT NULL default '',
+  PRIMARY KEY  (`usr_id`)
+) TYPE=MyISAM;
+
+<#607>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

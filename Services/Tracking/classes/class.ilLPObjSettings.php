@@ -32,12 +32,15 @@
 *
 */
 
-define("LP_MODE_UNDEFINED",0);
+define("LP_MODE_DEACTIVATED",0);
 define("LP_MODE_TLT",1);
 define("LP_MODE_VISITS",2);
 define("LP_MODE_MANUAL",3);
 define("LP_MODE_OBJECTIVES",4);
 define("LP_MODE_COLLECTION",5);
+define("LP_MODE_SCORM",6);
+define("LP_MODE_TEST",7);
+
 
 define("LP_DEFAULT_VISITS",30);
 
@@ -184,12 +187,47 @@ class ilLPObjSettings
 				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
 							 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
 							 LP_MODE_TLT => $lng->txt('trac_mode_tlt'));
+
+			case 'sahs':
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+							 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
 				
 			default:
 				return array();
 		}
 	}
 
+	function _mode2Text($a_mode)
+	{
+		global $lng;
+
+		switch($a_mode)
+		{
+			case LP_MODE_DEACTIVATED:
+				return $lng->txt('trac_mode_deactivated');
+
+			case LP_MODE_TLT:
+				return $lng->txt('trac_mode_tlt');
+
+			case LP_MODE_VISITS:
+				return $lng->txt('trac_mode_visits');
+				
+			case LP_MODE_MANUAL:
+				return $lng->txt('trac_mode_manual');
+
+			case LP_MODE_OBJECTIVES:
+				return $lng->txt('trac_mode_objectives');
+
+			case LP_MODE_COLLECTION:
+				return $lng->txt('trac_mode_collection');
+
+			case LP_MODE_SCORM:
+				return $lng->txt('trac_mode_scorm');
+
+			case LP_MODE_TEST:
+				return $lng->txt('trac_mode_test');
+		}
+	}
 							 
 				
 
@@ -221,8 +259,16 @@ class ilLPObjSettings
 				return LP_MODE_MANUAL;
 
 			case 'lm':
+				return LP_MODE_MANUAL;
+
+			case 'sahs':
+				return LP_MODE_DEACTIVATED;
+
 			case 'dbk':
 				return LP_MODE_MANUAL;
+
+			case 'tst':
+				return LP_MODE_TEST;
 					
 			default:
 				return LP_MODE_UNDEFINED;
