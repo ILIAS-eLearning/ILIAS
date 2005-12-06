@@ -125,6 +125,30 @@ class ilPageObject
 
 		$ilBench->stop("ContentPresentation", "ilPageObject_read");
 	}
+	
+	/**
+	* checks whether page exists
+	*
+	* @param	string		$a_parent_type	parent type
+	* @param	int			$a_id			page id
+	*/
+	function _exists($a_parent_type, $a_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($a_id)." ".
+			"AND parent_type= ".$ilDB->quote($a_parent_type);
+		$set = $ilDB->query($query);
+		if ($row = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 	function buildDom()
 	{

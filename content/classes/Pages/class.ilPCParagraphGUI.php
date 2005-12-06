@@ -105,6 +105,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
 
+		include_once("./classes/class.ilObjStyleSheet.php");
+		
 		if ($this->pg_obj->getParentType() == "gdf" ||
 			$this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
@@ -272,6 +274,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
 
+		include_once("./classes/class.ilObjStyleSheet.php");
+		
 		if ($this->pg_obj->getParentType() == "gdf" ||
 			$this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")

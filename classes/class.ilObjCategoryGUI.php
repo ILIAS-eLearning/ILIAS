@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -68,11 +68,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
-					include_once("./classes/class.ilPermissionGUI.php");
-					$perm_gui =& new ilPermissionGUI($this);
-					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-			
+				
+			// container page editing
+			case "ilpageobjectgui":
+				return $this->forwardToPageObject();
+				break;
+
 			default:
 				if(!$cmd)
 				{
