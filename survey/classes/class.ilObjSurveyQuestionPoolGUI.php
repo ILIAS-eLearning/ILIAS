@@ -956,7 +956,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getFormAction($this) . "$sort&nextrow=$i" . "\">$counter</a>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "$sort&nextrow=$i" . "\">$counter</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -974,8 +974,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getFormAction($this) . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getFormAction($this) . "$sort&nextrow=" . $table["nextrow"]);
+			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "questions") . "$sort&prevrow=" . $table["prevrow"]);
+			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "questions") . "$sort&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1053,12 +1053,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     $this->tpl->setCurrentBlock("adm_content");
     // create table header
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
-    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[title]=" . $sortcolumns["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-    $this->tpl->setVariable("QUESTION_DESCRIPTION", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[description]=" . $sortcolumns["description"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["description"]);
-    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[type]=" . $sortcolumns["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[author]=" . $sortcolumns["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[created]=" . $sortcolumns["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[updated]=" . $sortcolumns["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[title]=" . $sortcolumns["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+    $this->tpl->setVariable("QUESTION_DESCRIPTION", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[description]=" . $sortcolumns["description"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["description"]);
+    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[type]=" . $sortcolumns["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[author]=" . $sortcolumns["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[created]=" . $sortcolumns["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[updated]=" . $sortcolumns["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
     $this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
     $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
     $this->tpl->parseCurrentBlock();
@@ -1449,7 +1449,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("object_imported"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
-			"&baseClass=ilObjQuestionPoolGUI");
+			"&baseClass=ilObjSurveyQuestionPoolGUI");
 	}
 
 	/**
@@ -1460,6 +1460,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		include_once "./survey/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
+		$this->ctrl->setParameter($this, "sel_question_types", $_POST["sel_question_types"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
