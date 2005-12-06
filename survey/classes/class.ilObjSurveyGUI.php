@@ -3580,6 +3580,32 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$_SESSION["constraintstructure"] = $structure;
 	}
 
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		switch ($this->ctrl->getCmd())
+		{
+			case "run":
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyexecutiongui", "run"));
+				break;
+			case "evaluation":
+			case "checkEvaluationAccess":
+			case "evaluationdetails":
+			case "evaluationuser":
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"));
+				break;
+			case "create":
+			case "save":
+			case "cancel":
+			case "importFile":
+			case "cloneAll":
+				break;
+		default:
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				break;
+		}
+	}
+	
 	/**
 	* adds tabs to tab gui object
 	*

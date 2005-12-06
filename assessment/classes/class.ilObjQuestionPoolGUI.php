@@ -897,7 +897,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 			$this->tpl->setCurrentBlock("Footer");
 			include_once "./classes/class.ilUtil.php";
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1497,7 +1497,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function addLocatorItems()
 	{
 		global $ilLocator;
-		$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+		switch ($this->ctrl->getCmd())
+		{
+			case "create":
+			case "importFile":
+			case "save":
+			case "cancel":
+				break;
+			default:
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				break;
+		}
 		if ($_GET["q_id"] > 0)
 		{
 			include_once "./assessment/classes/class.assQuestionGUI.php";

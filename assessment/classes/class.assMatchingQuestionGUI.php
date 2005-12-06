@@ -157,7 +157,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("QFooter");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" />");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -654,7 +654,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 				{
 					$imagepath = $this->object->getImagePathWeb() . $answer->getPicture();
-					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"imagebox\"><img src=\"" . $imagepath . ".thumb.jpg\" /></div></td></tr>\n";
+					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"imagebox\"><img src=\"" . $imagepath . ".thumb.jpg\" alt=\"".$this->lng->txt("thumbnail")."\"/></div></td></tr>\n";
 					$size = GetImageSize ($this->object->getImagePath() . $answer->getPicture() . ".thumb.jpg");
 					$sizeorig = GetImageSize ($this->object->getImagePath() . $answer->getPicture());
 					if ($size[0] >= $sizeorig[0])

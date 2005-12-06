@@ -269,7 +269,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("DELETE_AREA", $this->lng->txt("delete_area"));
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" />");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("answerheader");
 				$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
