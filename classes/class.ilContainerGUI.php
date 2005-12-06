@@ -64,9 +64,13 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd("render");
-
 		switch($next_class)
 		{
+			// page editing
+			case "ilpageobjectgui":
+				return $this->forwardToPageObject();
+				break;
+			
 			default:
 				$this->prepareOutput();
 				$cmd .= "Object";
@@ -75,6 +79,66 @@ class ilContainerGUI extends ilObjectGUI
 				break;
 		}
 		return true;
+	}
+
+	/**
+	* forward command to page object
+	*/
+	function &forwardToPageObject()
+	{
+		global $lng;
+
+		// page object
+		include_once("./content/classes/Pages/class.ilPageObject.php");
+		include_once("./content/classes/Pages/class.ilPageObjectGUI.php");
+
+		$lng->loadLanguageModule("content");
+		
+		include_once("./classes/class.ilObjStyleSheet.php");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+
+		if (!ilPageObject::_exists($this->object->getType(),
+			$this->object->getId()))
+		{
+			// doesn't exist -> create new one
+			$new_page_object = new ilPageObject($this->object->getType());
+			$new_page_object->setParentId($this->object->getId());
+			$new_page_object->setId($this->object->getId());
+			$new_page_object->createFromXML();
+		}
+		
+		// get page object
+		$page_object = new ilPageObject($this->object->getType(),
+			$this->object->getId(), true);
+
+		$this->ctrl->setReturnByClass("ilpageobjectgui", "view");
+		//$page_object =& $this->obj->getPageObject();
+		$page_object->buildDom();
+		//$page_object->addUpdateListener($this, "updateHistory");
+		$int_links = $page_object->getInternalLinks();
+		//$link_xml = $this->getLinkXML($int_links);
+		$page_gui =& new ilPageObjectGUI($page_object);
+
+		$view_frame = "bottom";
+		//$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
+		//	$view_frame);
+
+		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
+		$page_gui->setTemplateTargetVar("ADM_CONTENT");
+		$page_gui->setLinkXML($link_xml);
+		//$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
+		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+		$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
+		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
+		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
+		$page_gui->setPresentationTitle("");
+		//$page_gui->setLocator($contObjLocator);
+		$page_gui->setHeader("");
+		$ret =& $this->ctrl->forwardCommand($page_gui);
+		
+		//$ret =& $page_gui->executeCommand();
+		return $ret;
 	}
 	
 	/**
@@ -289,6 +353,8 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showAdministrationPanel(&$tpl)
 	{
+		global $ilAccess;
+		
 		if ($this->isActiveAdministrationPanel())
 		{
 			$tpl->setCurrentBlock("admin_button_off");
@@ -299,6 +365,16 @@ class ilContainerGUI extends ilObjectGUI
 			$tpl->parseCurrentBlock();
 			
 			// administration panel
+			if ($ilAccess->checkAccess("edit", "", $this->object->getRefId())
+				&& in_array($this->object->getType(), array("root", "cat")))
+			{
+				$tpl->setCurrentBlock("edit_cmd");
+				$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));
+				$tpl->setVariable("LINK_EDIT_PAGE", $this->ctrl->getLinkTarget($this, "editPageFrame"));
+				$tpl->setVariable("FRAME_EDIT_PAGE", ilFrameTargetInfo::_getFrame("MainContent"));
+				$tpl->parseCurrentBlock();
+			}
+			
 			$tpl->setCurrentBlock("admin_panel_cmd");
 			$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("delete_selected_items"));
 			$tpl->setVariable("PANEL_CMD", "delete");
@@ -342,6 +418,20 @@ class ilContainerGUI extends ilObjectGUI
 				$this->lng->txt("admin_panel_enable"));
 			$tpl->parseCurrentBlock();
 		}
+	}
+
+	/**
+	* show page editor frameset
+	*/
+	function editPageFrameObject()
+	{
+		$this->tpl = new ilTemplate("tpl.container_edit_frameset.html", false, false);
+		$this->tpl->setVariable("HREF_LINK_LIST",
+			$this->ctrl->getLinkTargetByClass("ilcontainerlinklistgui", "show"));
+		$this->tpl->setVariable("HREF_EDITOR",
+			$this->ctrl->getLinkTargetByClass(
+				array("ilpageobjectgui"), "view"));
+		$this->tpl->show();
 	}
 
 	/**
@@ -391,41 +481,65 @@ class ilContainerGUI extends ilObjectGUI
 		
 		include_once("classes/class.ilObjectListGUIFactory.php");
 
-		$html = "";
+		$output_html = "";
 		$this->clearAdminCommandsDetermination();
 		
 		switch ($a_type)
 		{
 			// render all items list
 			case "all":
+			
+				// get container page
+				include_once("./content/classes/Pages/class.ilPageObjectGUI.php");
+				include_once("./content/classes/Pages/class.ilPageObject.php");
+				if (ilPageObject::_exists($this->object->getType(),
+					$this->object->getId()))
+				{
+					$page =& new ilPageObject($this->object->getType(), $this->object->getId());
+					$page_gui =& new ilPageObjectGUI($page);
+					//$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
+					//$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
+					//$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
+					//	"&amp;ref_id=".$_GET["ref_id"]);
+						
+					$page_gui->setOutputMode("presentation");
+					//$page_gui->setLinkXML($this->getLinkXML());
+					$page_gui->setTemplateOutput(false);
+					$output_html.= $page_gui->presentation($page_gui->getOutputMode());
 
-				// to do: implement all types
-				/*
-				$type_ordering = array(
-					"cat", "fold", "crs", "grp",
-					"lres", "glo", "chat", "frm",
-					"exc", "file", "mep", "qpl", "tst", "spl", "svy",
-					"icrs", "icla", "webr"
-				);*/
+				}
 
-				// resource type ordering
-				// (note that resource type is not equal object type,
-				// the resource type "lres" contains the object types
-				// "lm", "dbk", "sahs" and "htlm")
+				// all item types
 				$type_ordering = array(
 					"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
 					"glo", "webr", "file", "exc",
 					"tst", "svy", "mep", "qpl", "spl");
 
 				$cur_obj_type = "";
-				$tpl =& $this->newBlockTemplate();
+				$overall_tpl =& $this->newBlockTemplate();
+				$this->type_template = array();
 				$first = true;
+				
+				// iterate all types
 				foreach ($type_ordering as $type)
 				{
-					$item_html = array();
-
+					// set template (overall or type specific)
+					if (is_int(strpos($output_html, "++".$type."++")))
+					{
+//echo "<br>specific:".$type;
+						$tpl =& $this->newBlockTemplate();
+					}
+					else
+					{
+//echo "<br>overall:".$type;
+						$tpl =& $overall_tpl;
+					}
+						
 					if (is_array($this->items[$type]))
 					{
+						
+						$item_html = array();
+
 						foreach($this->items[$type] as $key => $item)
 						{
 							// get list gui class for each object type
@@ -484,6 +598,7 @@ class ilContainerGUI extends ilObjectGUI
 							else
 							{
 								$this->addHeaderRow($tpl, $type);
+//echo "<br>add header row".$tpl->get();
 							}
 							$this->resetRowType();
 
@@ -499,10 +614,30 @@ class ilContainerGUI extends ilObjectGUI
 									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"]);
 								}
 							}
+
+//echo "<br>tpl-->".$tpl->get();
+							// store type specific templates in array
+							if (is_int(strpos($output_html, "++".$type."++")))
+							{
+//echo "<br>storing to array:".$type;
+								$this->type_template[$type] = $tpl;
+							}
 						}
+						//echo "<br>overall_tpl-->".$overall_tpl->get();
 					}
+					//echo "<br>overall_tpl-->".$overall_tpl->get();
 				}
-				$html = $tpl->get();
+				//echo "<br>2overall_tpl-->".$overall_tpl->get();
+
+				$output_html.= "<br /><br />".$overall_tpl->get();
+				foreach ($this->type_template as $type => $tpl)
+				{
+//echo "<br>replacing:".$type;
+					//$tpl->get();
+					$output_html = str_replace("++".$type."++", $tpl->get(),
+						$output_html);
+					//echo "<br>3overall_tpl-->".$overall_tpl->get();
+				}
 				
 				break;
 
@@ -511,7 +646,7 @@ class ilContainerGUI extends ilObjectGUI
 				break;
 		}
 
-		return $html;
+		return $output_html;
 	}
 
 	/**
