@@ -30,12 +30,12 @@
 *
 */
 
-include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
-class ilLPStatusManual extends ilLPStatus
+class ilLPStatusSCORM extends ilLPStatus
 {
 
-	function ilLPStatusManual($a_obj_id)
+	function ilLPStatusSCORM($a_obj_id)
 	{
 		global $ilDB;
 
@@ -50,87 +50,26 @@ class ilLPStatusManual extends ilLPStatus
 	
 	function _getCountInProgress($a_obj_id)
 	{
-		return count(ilLPStatusManual::_getCompleted($a_obj_id));
+		return 0;
+
 	}
+
 	function _getInProgress($a_obj_id)
 	{
-		global $ilObjDataCache;
+		return $user_ids ? $user_ids : array();
+	}
 
-		switch($ilObjDataCache->lookupType($a_obj_id))
-		{
-			case 'lm':
-				return ilLPStatusManual::__getLMInProgress($a_obj_id);
-
-			case 'crs':
-				return ilLPStatusManual::__getCourseInProgress($a_obj_id);
-
-			default:
-				echo "ilLPStatusManual: unknown type";
-				
-		}
-		return array();
+	function _getCountCompleted($a_obj_id)
+	{
+		return 0;
 	}
 
 	function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
-		$query = "SELECT DISTINCT(usr_id) as user_id FROM ut_lp_marks ".
-			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND completed = '1'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$usr_ids[] = $row->user_id;
-		}
-		return $usr_ids ? $usr_ids : array();
-	}
-
-	function _getCountCompleted($a_obj_id)
-	{
-		return count(ilLPStatusManual::_getCompleted($a_obj_id));
-	}
-
-
-	// Private
-	function __getLMInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$completed = ilLPStatusManual::_getCompleted($a_obj_id);
-
-		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
-			"WHERE obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!in_array($row->user_id,$completed))
-			{
-				$user_ids[] = $row->user_id;
-			}
-		}
 		return $user_ids ? $user_ids : array();
-	}
-
-	function __getCourseInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$completed = ilLPStatusManual::_getCompleted($a_obj_id);
-
-		include_once 'course/classes/class.ilCourseMembers.php';
-
-		foreach(ilCourseMembers::_getMembers($a_obj_id) as $usr_id)
-		{
-			if(!in_array($usr_id,$completed))
-			{
-				$user_ids[] = $usr_id;
-			}
-		}
-		return $user_ids ? $user_ids : array();
-	}
+	}		
 
 }	
 ?>

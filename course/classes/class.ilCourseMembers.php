@@ -975,6 +975,21 @@ class ilCourseMembers
 		return $res->numRows() ? true : false;
 	}
 
+	function _getMembers($a_obj_id)
+	{
+		global $ilDB;
+		// In the moment all users that have entries in crs_members
+		
+		$query = "SELECT DISTINCT(usr_id) FROM crs_members ".
+			"WHERE obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$usr_ids[] = $row->usr_id;
+		}
+		return $usr_ids ? $usr_ids : array();
+	}
 
 }
 ?>

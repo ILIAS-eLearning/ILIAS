@@ -56,6 +56,10 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusTypicalLearningTime.php';
 				return 'ilLPStatusTypicalLearningTime';
 
+			case LP_MODE_SCORM:
+				include_once 'Services/Tracking/classes/class.ilLPStatusSCORM.php';
+				return 'ilLPStatusSCORM';
+
 			default:
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				return 'ilLPStatusManual';
@@ -80,6 +84,11 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusTypicalLearningTime.php';
 
 				return new ilLPStatusTypicalLearningTime($a_obj_id);
+
+			case LP_MODE_SCORM:
+				include_once 'Services/Tracking/classes/class.ilLPStatusSCORM.php';
+				
+				return new ilLPStatusSCORM($a_obj_id);
 
 			default:
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
