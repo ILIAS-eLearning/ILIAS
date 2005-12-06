@@ -407,7 +407,7 @@ class ilTestEvaluationGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
@@ -417,7 +417,7 @@ class ilTestEvaluationGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -436,7 +436,7 @@ class ilTestEvaluationGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -445,7 +445,7 @@ class ilTestEvaluationGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -1452,7 +1452,7 @@ class ilTestEvaluationGUI
 		{
 			case "percent":
 				usort($result_array, "sort_percent");
-				$img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"\" />";
+				$img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
 				if (strcmp($_GET["order"], "ASC") == 0) 
 				{
 					$sortpercent = "DESC";
@@ -1464,7 +1464,7 @@ class ilTestEvaluationGUI
 				break;
 			case "nr":
 				usort($result_array, "sort_nr");
-				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"\" />";
+				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
 				if (strcmp($_GET["order"], "ASC") == 0) 
 				{
 					$sortnr = "DESC";
@@ -1609,7 +1609,7 @@ class ilTestEvaluationGUI
 					//$tpl->setCurrentBlock($type);
 				
 					$tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
-					$tpl->setVariable("VALUE_FREE_FIELD", "<img height=\"30px\" border=\"0\" src=\"".ilUtil :: getImagePath("spacer.gif", false)."\" width=\"".$freefield["length"]."px\" />");
+					$tpl->setVariable("VALUE_FREE_FIELD", "<img height=\"30px\" alt=\"".$this->lng->txt("spacer")."\" border=\"0\" src=\"".ilUtil :: getImagePath("spacer.gif", false)."\" width=\"".$freefield["length"]."px\" />");
 				
 					$counter ++;
 				

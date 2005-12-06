@@ -52,32 +52,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->type = "tst";
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
-		//$this->id = $_GET["ref_id"];
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
-/*		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$this->setTabTargetScript("adm_object.php");
-			switch ($this->ctrl->getCmd())
-			{
-				case "create":
-				case "save":
-				case "cancel":
-				case "importFile":
-				case "cloneAll":
-				case "importVerifiedFile":
-				case "cancelImport":
-					return;
-					break;
-				default:
-				$this->prepareOutput();
-				break;
-			}
-			global $ilLocator;
-			$ilLocator->addAdministrationItems();
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-			$this->tpl->setLocator();
-		}
-*/
 		// Added parameter if called from crs_objectives
 		if((int) $_GET['crs_show_result'])
 		{
@@ -90,23 +65,16 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilLocator;
-		//$ilLocator->addRepositoryItems();
+		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
-
-		#echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
-		$this->prepareOutput();
 				$this->infoScreen();	// forwards command
 				break;
 			case 'ilmdeditorgui':
-				//$this->setAdminTabs();
-				//$this->prepareOutput();
-		$this->prepareOutput();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -118,39 +86,22 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once "./assessment/classes/class.ilTestOutputGUI.php";
 
 				$output_gui =& new ilTestOutputGUI($this->object);
-				//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			case "iltestevaluationgui":
 				include_once "./assessment/classes/class.ilTestEvaluationGUI.php";
 
-				//$this->prepareOutput();
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-				//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
 				
 			case 'ilpermissiongui':
-				//$this->prepareOutput();
-				//$this->setAdminTabs();
-		$this->prepareOutput();
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
-		$this->prepareOutput();
-				if (strcmp($cmd, "infoScreen") == 0)
-				{
-					//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, $cmd));
-				}
-				else
-				{
-					//$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-				}
-				//$this->prepareOutput();
-				//$this->setAdminTabs();
 				if (preg_match("/deleteqpl_\d+/", $cmd))
 				{
 					$cmd = "randomQuestions";
@@ -174,8 +125,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->show();
 		}
-		//$this->tpl->setLocator();
-		//$this->tpl->show();
 	}
 
 	function runObject()
@@ -495,7 +444,6 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
-		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 
 	/**
@@ -558,7 +506,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
 		$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		//$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
 		$this->tpl->setVariable("BTN_NAME", "uploadTst");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("NEW_TYPE", $this->type);
@@ -689,7 +636,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
 		$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("QUESTIONPOOL_ID", $_POST["qpl"]);
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
@@ -1710,7 +1656,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 	
 			$this->tpl->setCurrentBlock("Footer");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 			$this->tpl->parseCurrentBlock();
 		}
 		// define the sort column parameters
@@ -2535,7 +2481,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("QFooter");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
 				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 				$this->tpl->parseCurrentBlock();
@@ -2775,7 +2721,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("Footer");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				$this->tpl->setVariable("BUTTON_EDIT", $this->lng->txt("edit"));
 				$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
 				$this->tpl->parseCurrentBlock();
@@ -3457,8 +3403,11 @@ class ilObjTestGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->backToRepositoryObject();
 		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", true);
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
 		
 		global $ilUser;		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
@@ -3574,8 +3523,8 @@ class ilObjTestGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "iv_usr":
-				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />";
-				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />" ;
+				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
+				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
@@ -3603,7 +3552,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_IV_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_IV_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
@@ -3617,12 +3566,12 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "usr":
-				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("objs_usr")."\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
@@ -3645,7 +3594,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
@@ -3657,7 +3606,7 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -3684,7 +3633,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
@@ -3693,7 +3642,7 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -4115,7 +4064,7 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($this->object->isActiveTestSubmitted()) 
 					{
 						// Show results in a new print frame
-						$info->addButton($this->lng->txt("tst_show_answer_print_sheet"), $this->ctrl->getLinkTarget($output_gui, "answersheet"), "_blank");
+						$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
 					}			
 					if ($this->object->isOnlineTest() and $executable["executable"] == false) 
 					{
@@ -4238,12 +4187,41 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			case "run":
 			case "infoScreen":
+			case "start":
+			case "resume":
+			case "previous":
+			case "next":
+			case "summary":
+			case "finishTest":
+			case "outEvaluationForm":
+			case "passDetails":
+			case "showAnswersOfUser":
+			case "outResults":
+			case "backFromSummary":
+			case "show_answers":
+			case "setsolved":
+			case "setunsolved":
+			case "outTestSummary":
+			case "gotoQuestion":
+			case "selectImagemapRegion":
+			case "confirmSubmitAnswers":
+			case "finalSubmission":
+			case "postpone":
+			case "outResultsOverview":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
 				break;
 			case "eval_stat":
 			case "evalAllUsers":
 			case "evalUserDetail":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
+				break;
+			case "create":
+			case "save":
+			case "cancel":
+			case "importFile":
+			case "cloneAll":
+			case "importVerifiedFile":
+			case "cancelImport":
 				break;
 		default:
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
@@ -4258,6 +4236,32 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		switch ($this->ctrl->getCmd())
+		{
+			case "start":
+			case "resume":
+			case "previous":
+			case "next":
+			case "summary":
+			case "finishTest":
+			case "outEvaluationForm":
+			case "passDetails":
+			case "showAnswersOfUser":
+			case "outResults":
+			case "backFromSummary":
+			case "show_answers":
+			case "setsolved":
+			case "setunsolved":
+			case "outTestSummary":
+			case "gotoQuestion":
+			case "selectImagemapRegion":
+			case "confirmSubmitAnswers":
+			case "finalSubmission":
+			case "postpone":
+			case "outResultsOverview":
+				return;
+				break;
+		}
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
 		{
 			global $ilAccess;
