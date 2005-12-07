@@ -348,7 +348,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Step 1: parse query string
 		if(!is_object($query_parser =& $this->__parseQueryString()))
 		{
-			sendInfo($query_parser->getMessage());
+			sendInfo($query_parser);
 			$this->showSearch();
 			
 			return false;
