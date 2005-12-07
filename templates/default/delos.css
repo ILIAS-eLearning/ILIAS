@@ -1759,17 +1759,11 @@ div.imagebox
 }
 
 .questionblockTitle {
-	#font-size: 80%;
+	font-size: 140%;
+	font-weight: bold;
 	color:#222222;
-	background-color: #EDEDED;
-	border-width:1px;
-	border-color:#CACACA;
-	#border-color:#E0C8A0;
-	border-style:solid;
-	padding: 10px;
-	margin-top:25px;
+	margin-top:1em;
 	margin-bottom:0px;
-	background-image: url(images/TableHeader.gif);
 }
 
 .questionheading {

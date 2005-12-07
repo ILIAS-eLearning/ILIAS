@@ -234,7 +234,7 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
-			$this->prepareOutput();
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", true);
 			$this->outNavigationButtons("top", $page);
 			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
 			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
@@ -249,7 +249,7 @@ class ilSurveyExecutionGUI
 			if (count($page) > 1)
 			{
 				$this->tpl->setCurrentBlock("questionblock_title");
-				$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $this->lng->txt("questionblock") . ": " . $page[0]["questionblock_title"]);
+				$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $page[0]["questionblock_title"]);
 				$this->tpl->parseCurrentBlock();
 			}
 			foreach ($page as $data)
@@ -450,6 +450,7 @@ class ilSurveyExecutionGUI
 			switch ($data["type_tag"])
 			{
 				case "qt_nominal":
+					include_once "./survey/classes/class.SurveyNominalQuestion.php";
 					if ($data["subtype"] == SUBTYPE_MCSR)
 					{
 						$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
@@ -535,7 +536,6 @@ class ilSurveyExecutionGUI
 		{
 			$survey_started = $this->object->isSurveyStarted($ilUser->id, $this->object->getUserSurveyCode());
 		}
-		$this->prepareOutput();
 		// show introduction page
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
 		if ((strcmp($ilUser->login, "anonymous") == 0) && (!$this->object->getAnonymize()))
@@ -567,7 +567,14 @@ class ilSurveyExecutionGUI
 				$this->tpl->setVariable("TEXT_ANONYMIZE", sprintf($this->lng->txt("anonymize_key_introduction"), $anonymize_key));
 			}
 			$this->tpl->setVariable("ENTER_ANONYMOUS_ID", $this->lng->txt("enter_anonymous_id"));
-			$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $_GET["accesscode"]);
+			if (strlen($_GET["accesscode"]))
+			{
+				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $_GET["accesscode"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("start");
@@ -647,7 +654,6 @@ class ilSurveyExecutionGUI
 	{
 		// show introduction page
 		unset($_SESSION["anonymous_id"]);
-		$this->prepareOutput();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
 		$this->tpl->setVariable("TEXT_FINISHED", $this->lng->txt("survey_finished"));
 		$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
@@ -700,36 +706,6 @@ class ilSurveyExecutionGUI
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
 		}
 		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
-	* Loads the main template and adds the page title
-	*
-	* Loads the main template and adds the page title
-	*
-	* @access private
-	*/
-	function prepareOutput()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");		
-			
-		$title = $this->object->getTitle();
-		
-		// header icon
-		$this->tpl->setCurrentBlock("header_image");
-		include_once("./classes/class.ilUtil.php");
-		$icon = ilUtil::getImagePath("icon_tst_b.gif");
-		$this->tpl->setVariable("IMG_HEADER", $icon);
-		$this->tpl->parseCurrentBlock();
-
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-		
-		// catch feedback message
-		sendInfo();
 	}
 }
 ?>
