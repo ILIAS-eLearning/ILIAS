@@ -55,26 +55,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, array("ref_id", "calling_survey", "new_for_survey"));
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
-/*		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$this->setTabTargetScript("adm_object.php");
-			switch ($this->ctrl->getCmd())
-			{
-				case "create":
-				case "importFile":
-				case "save":
-				case "cancel":
-					return;
-					break;
-				default:
-					$this->prepareOutput();
-					break;
-			}
-			global $ilLocator;
-			$ilLocator->addAdministrationItems();
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-			$this->tpl->setLocator();
-		}*/
 	}
 
 	/**
@@ -82,13 +62,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilLocator;
-		/*if ($prepare_output)
-		{
-			// Alle Repository Einträge der derzeitigen ref_id einfügen
-			$ilLocator->addRepositoryItems();
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-		}*/
 		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -101,7 +74,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-				//$this->setAdminTabs();
 				include_once "./Services/MetaData/classes/class.ilMDEditorGUI.php";
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
@@ -110,63 +82,42 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "surveynominalquestiongui":
-				//$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
 				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				if ($_GET["q_id"] > 0)
-				{
-					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
-				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "surveyordinalquestiongui":
-				//$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveyordinalquestiongui", "sel_question_types", $q_type);
 				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				if ($_GET["q_id"] > 0)
-				{
-					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
-				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "surveymetricquestiongui":
-				//$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveymetricquestiongui", "sel_question_types", $q_type);
 				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				if ($_GET["q_id"] > 0)
-				{
-					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
-				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "surveytextquestiongui":
-				//$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveytextquestiongui", "sel_question_types", $q_type);
 				include_once "./survey/classes/class.SurveyQuestionGUI.php";
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
-				if ($_GET["q_id"] > 0)
-				{
-					$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass($next_class, $_GET["cmd"]));
-				}
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 				
 			case 'ilpermissiongui':
-				//$this->setAdminTabs();
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -177,11 +128,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
-/*		if ($prepare_output)
-		{
-			$this->tpl->setLocator();
-			$this->tpl->show();
-		}*/
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
 			$this->getCreationMode() != true)
 		{
@@ -1524,6 +1470,29 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirectByClass(get_class($q_gui), "preview");
 	}
 
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		switch ($this->ctrl->getCmd())
+		{
+			case "create":
+			case "importFile":
+			case "save":
+			case "cancel":
+				break;
+			default:
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				break;
+		}
+		if ($_GET["q_id"] > 0)
+		{
+			include_once "./survey/classes/class.SurveyQuestionGUI.php";
+			$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			$q_gui->object->setObjId($this->object->getId());
+			$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass(get_class($q_gui), "editQuestion"));
+		}
+	}
+	
 	/**
 	* adds tabs to tab gui object
 	*
