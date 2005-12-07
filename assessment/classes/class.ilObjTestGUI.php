@@ -4329,9 +4329,12 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 		
 				// print
-				$tabs_gui->addTarget("print",
-					 $this->ctrl->getLinkTarget($this,'print'),
-					 "print", "");
+				if (!$this->object->isRandomTest())
+				{
+					$tabs_gui->addTarget("print",
+						 $this->ctrl->getLinkTarget($this,'print'),
+						 "print", "");
+				}
 		
 				// export
 				$tabs_gui->addTarget("export",
