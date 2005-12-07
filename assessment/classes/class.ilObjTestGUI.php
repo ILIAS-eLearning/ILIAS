@@ -1566,77 +1566,80 @@ class ilObjTestGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$existing_questions =& $this->object->getExistingQuestions();
-		foreach ($table["rows"] as $data)
+		if ((is_array($table["rows"])) && (count($table["rows"])))
 		{
-			if (!in_array($data["question_id"], $existing_questions))
+			foreach ($table["rows"] as $data)
 			{
-				if ($data["complete"])
+				if (!in_array($data["question_id"], $existing_questions))
 				{
-					// make only complete questions selectable
-					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+					if ($data["complete"])
+					{
+						// make only complete questions selectable
+						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+					}
+					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
+					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+					$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
+					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
 				}
-				$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
-				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
-				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
+			}
+	
+			if ($table["rowcount"] > count($table["rows"]))
+			{
+				$nextstep = $table["nextrow"] + $table["step"];
+				if ($nextstep > $table["rowcount"])
+				{
+					$nextstep = $table["rowcount"];
+				}
+				$sort = "";
+				if (is_array($_GET["sort"]))
+				{
+					$key = key($_GET["sort"]);
+					$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
+				}
+				$counter = 1;
+				for ($i = 0; $i < $table["rowcount"]; $i += $table["step"])
+				{
+					$this->tpl->setCurrentBlock("pages");
+					if ($table["startrow"] == $i)
+					{
+						$this->tpl->setVariable("PAGE_NUMBER", "<span class=\"inactivepage\">$counter</span>");
+					}
+					else
+					{
+						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=$i" . "\">$counter</a>");
+					}
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("navigation_bottom");
+				$this->tpl->setVariable("TEXT_ITEM", $this->lng->txt("item"));
+				$this->tpl->setVariable("TEXT_ITEM_START", $table["startrow"] + 1);
+				$end = $table["startrow"] + $table["step"];
+				if ($end > $table["rowcount"])
+				{
+					$end = $table["rowcount"];
+				}
+				$this->tpl->setVariable("TEXT_ITEM_END", $end);
+				$this->tpl->setVariable("TEXT_OF", strtolower($this->lng->txt("of")));
+				$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
+				$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
+				$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
+				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&prevrow=" . $table["prevrow"]);
+				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=" . $table["nextrow"]);
 				$this->tpl->parseCurrentBlock();
-				$counter++;
 			}
-		}
-
-		if ($table["rowcount"] > count($table["rows"]))
-		{
-			$nextstep = $table["nextrow"] + $table["step"];
-			if ($nextstep > $table["rowcount"])
-			{
-				$nextstep = $table["rowcount"];
-			}
-			$sort = "";
-			if (is_array($_GET["sort"]))
-			{
-				$key = key($_GET["sort"]);
-				$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
-			}
-			$counter = 1;
-			for ($i = 0; $i < $table["rowcount"]; $i += $table["step"])
-			{
-				$this->tpl->setCurrentBlock("pages");
-				if ($table["startrow"] == $i)
-				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<span class=\"inactivepage\">$counter</span>");
-				}
-				else
-				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=$i" . "\">$counter</a>");
-				}
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-			$this->tpl->setCurrentBlock("navigation_bottom");
-			$this->tpl->setVariable("TEXT_ITEM", $this->lng->txt("item"));
-			$this->tpl->setVariable("TEXT_ITEM_START", $table["startrow"] + 1);
-			$end = $table["startrow"] + $table["step"];
-			if ($end > $table["rowcount"])
-			{
-				$end = $table["rowcount"];
-			}
-			$this->tpl->setVariable("TEXT_ITEM_END", $end);
-			$this->tpl->setVariable("TEXT_OF", strtolower($this->lng->txt("of")));
-			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
-			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
-			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=" . $table["nextrow"]);
-			$this->tpl->parseCurrentBlock();
 		}
 
 		// if there are no questions, display a message
-		if ($counter == 0) 
+		if (!((is_array($table["rows"])) && (count($table["rows"]))))
 		{
 			$this->tpl->setCurrentBlock("Emptytable");
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
@@ -4175,7 +4178,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$txt_ending_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
 			$info->addProperty($this->lng->txt("tst_ending_time"), $txt_ending_time);
 		}
-
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}
@@ -4200,7 +4203,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "backFromSummary":
 			case "show_answers":
 			case "setsolved":
-			case "setunsolved":
+			case "resetsolved":
 			case "outTestSummary":
 			case "gotoQuestion":
 			case "selectImagemapRegion":
@@ -4251,7 +4254,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "backFromSummary":
 			case "show_answers":
 			case "setsolved":
-			case "setunsolved":
+			case "resetsolved":
 			case "outTestSummary":
 			case "gotoQuestion":
 			case "selectImagemapRegion":
