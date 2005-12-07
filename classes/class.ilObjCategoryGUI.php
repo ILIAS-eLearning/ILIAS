@@ -63,22 +63,38 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		$this->prepareOutput();
-
+		
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
+				$this->prepareOutput();
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
-			// container page editing
+			case 'ilcontainerlinklistgui':
+				include_once("./classes/class.ilContainerLinkListGUI.php");
+				$link_list_gui =& new ilContainerLinkListGUI();
+				$ret =& $this->ctrl->forwardCommand($link_list_gui);
+				break;
+
+				// container page editing
 			case "ilpageobjectgui":
-				return $this->forwardToPageObject();
+				$this->tpl->getStandardTemplate();
+				$this->setLocator();
+				sendInfo();
+				infoPanel();
+				$this->setTitleAndDescription();
+				$this->setPageEditorTabs();
+				//$this->prepareOutput(false);
+				$ret = $this->forwardToPageObject();
+				$this->setPageEditorTabs();
+				return $ret;
 				break;
 
 			default:
+				$this->prepareOutput();
 				if(!$cmd)
 				{
 					$cmd = "render";

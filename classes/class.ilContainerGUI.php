@@ -144,11 +144,11 @@ class ilContainerGUI extends ilObjectGUI
 	/**
 	* prepare output
 	*/
-	function prepareOutput()
+	function prepareOutput($a_show_subobjects = true)
 	{
 		if (parent::prepareOutput())	// return false in admin mode
 		{
-			if ($this->getCreationMode() != true)
+			if ($this->getCreationMode() != true && $a_show_subobjects)
 			{
 				$this->showPossibleSubObjects();
 				$this->showTreeFlatIcon();
@@ -526,12 +526,10 @@ class ilContainerGUI extends ilObjectGUI
 					// set template (overall or type specific)
 					if (is_int(strpos($output_html, "++".$type."++")))
 					{
-//echo "<br>specific:".$type;
 						$tpl =& $this->newBlockTemplate();
 					}
 					else
 					{
-//echo "<br>overall:".$type;
 						$tpl =& $overall_tpl;
 					}
 						
@@ -545,12 +543,6 @@ class ilContainerGUI extends ilObjectGUI
 							// get list gui class for each object type
 							if ($cur_obj_type != $item["type"])
 							{
-								/*
-								$class = $objDefinition->getClassName($item["type"]);
-								$location = $objDefinition->getLocation($item["type"]);
-								$full_class = "ilObj".$class."ListGUI";
-								include_once($location."/class.".$full_class.".php");
-								$item_list_gui = new $full_class();*/
 								$item_list_gui =& ilObjectListGUIFactory::_getListGUIByType($item["type"]);
 								$item_list_gui->setContainerObject($this);
 							}
@@ -598,7 +590,6 @@ class ilContainerGUI extends ilObjectGUI
 							else
 							{
 								$this->addHeaderRow($tpl, $type);
-//echo "<br>add header row".$tpl->get();
 							}
 							$this->resetRowType();
 
@@ -615,28 +606,27 @@ class ilContainerGUI extends ilObjectGUI
 								}
 							}
 
-//echo "<br>tpl-->".$tpl->get();
 							// store type specific templates in array
 							if (is_int(strpos($output_html, "++".$type."++")))
 							{
-//echo "<br>storing to array:".$type;
 								$this->type_template[$type] = $tpl;
 							}
 						}
-						//echo "<br>overall_tpl-->".$overall_tpl->get();
 					}
-					//echo "<br>overall_tpl-->".$overall_tpl->get();
 				}
-				//echo "<br>2overall_tpl-->".$overall_tpl->get();
 
-				$output_html.= "<br /><br />".$overall_tpl->get();
+
+				// I don't know why but executing this
+				// line before the following foreach loop seems to be crucial
+				if ($output_html != "")
+				{
+					$output_html.= "<br /><br /><br />";
+				}
+				$output_html.= $overall_tpl->get();
 				foreach ($this->type_template as $type => $tpl)
 				{
-//echo "<br>replacing:".$type;
-					//$tpl->get();
 					$output_html = str_replace("++".$type."++", $tpl->get(),
 						$output_html);
-					//echo "<br>3overall_tpl-->".$overall_tpl->get();
 				}
 				
 				break;
@@ -799,6 +789,32 @@ class ilContainerGUI extends ilObjectGUI
 		$a_tpl->touchBlock("separator_row");
 		$a_tpl->touchBlock("container_row");
 	}
+	
+	function setPageEditorTabs()
+	{
+		global $lng;
+		
+		if (!$this->isActiveAdministrationPanel())
+		{
+			return;
+		}
+
+		
+		$lng->loadLanguageModule("content");
+		$tabs_gui = new ilTabsGUI();
+		//$tabs_gui->setSubTabs();
+		
+		// back to upper context
+		$tabs_gui->setBackTarget($this->lng->txt("obj_cat"),
+			$this->ctrl->getLinkTarget($this, "frameset"),
+			ilFrameTargetInfo::_getFrame("MainContent"));
+
+		$tabs_gui->addTarget("edit", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view")
+			, array("", "view"), "ilpageobjectgui");
+
+		$this->tpl->setTabs($tabs_gui->getHTML());
+	}
+
 
 	/**
 	* common tabs for all container objects (should be called
