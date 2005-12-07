@@ -65,7 +65,7 @@ class ilLPStatusManual extends ilLPStatus
 				return ilLPStatusManual::__getCourseInProgress($a_obj_id);
 
 			default:
-				echo "ilLPStatusManual: unknown type";
+				echo "ilLPStatusManual: unknown type ".$ilObjDataCache->lookupType($a_obj_id);
 				
 		}
 		return array();

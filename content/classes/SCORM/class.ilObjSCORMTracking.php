@@ -163,5 +163,56 @@ class ilObjSCORMTracking
 
 	}
 
+
+	function _getInProgress($scorm_item_id)
+	{
+		global $ilDB;
+
+		if(is_array($scorm_item_id))
+		{
+			$where = "WHERE sco_id IN('";
+			$where .= implode("','",$scorm_item_id);
+			$where .= "') ";
+		}
+		else
+		{
+			$where = "WHERE sco_id = '".$scorm_item_id."'";
+		}
+				
+
+		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
+			$where;
+#			"AND lvalue = 'cmi.core.lesson_status' ".
+#			"AND rvalue = 'incomplete'";
+
+			
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->user_id;
+		}
+		return $user_ids ? $user_ids : array();
+	}
+
+	function _getCompleted($scorm_item_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
+			"WHERE sco_id = '".$scorm_item_id."' ".
+			"AND lvalue = 'cmi.core.lesson_status' ".
+			"AND rvalue = 'completed'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->user_id;
+		}
+		return $user_ids ? $user_ids : array();
+	}
+	
+
+
 } // END class.ilObjSCORMTracking
 ?>

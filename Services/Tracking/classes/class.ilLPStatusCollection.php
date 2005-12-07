@@ -64,8 +64,10 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			// merge arrays of users with status 'in progress'
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($item_id)));
+			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompleted($item_id)));
 		}
-		return (array) $users;
+		$users = array_diff((array) $users,ilLPStatusCollection::_getCompleted($a_obj_id));
+		return $users;
 	}
 
 	function _getCountCompleted($a_obj_id)

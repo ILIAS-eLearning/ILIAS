@@ -9371,3 +9371,7 @@ CREATE TABLE `ut_lp_filter` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#608>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

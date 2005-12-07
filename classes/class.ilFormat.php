@@ -473,6 +473,8 @@ class ilFormat
 
 	function _secondsToString($seconds)
 	{
+		$seconds = $seconds ? $seconds : 0;
+
 		global $lng;
 
 		$days = floor($seconds / 86400);

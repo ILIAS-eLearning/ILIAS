@@ -60,6 +60,11 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusSCORM.php';
 				return 'ilLPStatusSCORM';
 
+			case LP_MODE_DEACTIVATED:
+				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+				return 'ilLPStatus';
+				
+
 			default:
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				return 'ilLPStatusManual';

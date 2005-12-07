@@ -50,25 +50,45 @@ class ilLPStatusSCORM extends ilLPStatus
 	
 	function _getCountInProgress($a_obj_id)
 	{
-		return 0;
-
+		return count(ilLPStatusSCORM::_getInProgress($a_obj_id));
 	}
 
 	function _getInProgress($a_obj_id)
 	{
-		return $user_ids ? $user_ids : array();
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+
+		return  array_diff(ilObjSCORMTracking::_getInProgress(ilLPCollections::_getItems($a_obj_id)),
+						   ilLPStatusSCORM::_getCompleted($a_obj_id));
 	}
 
 	function _getCountCompleted($a_obj_id)
 	{
-		return 0;
+		return count(ilLPStatusSCORM::_getCompleted($a_obj_id));
 	}
 
 	function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
-		return $user_ids ? $user_ids : array();
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+
+		$counter = 0;
+		foreach(ilLPCollections::_getItems($a_obj_id) as $sco_id)
+		{
+			$tmp_users = ilObjSCORMTracking::_getCompleted($sco_id);
+			if(!$counter++)
+			{
+				$users = $tmp_users;
+			}
+			else
+			{
+				$users = array_intersect($users,$tmp_users);
+			}
+		}
+		return (array) $users;
+
 	}		
 
 }	

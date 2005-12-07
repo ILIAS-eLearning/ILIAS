@@ -104,7 +104,7 @@ class ilLPCollections
 		{
 			switch($node['type'])
 			{
-				
+				case 'sahs':
 				case 'lm':
 					$all_possible["$node[ref_id]"] = $node['obj_id'];
 					break;
@@ -118,6 +118,19 @@ class ilLPCollections
 		return count(ilLPCollections::_getPossibleItems($a_target_id));
 	}
 
+	function _getCountPossibleSCOs($a_target_id)
+	{
+		return count(ilLPCollections::_getPossibleSCOs($a_target_id));
+	}
+
+	function _getPossibleSCOs($target_id)
+	{
+		global $ilDB;
+
+		include_once './content/classes/SCORM/class.ilSCORMItem.php';
+
+		return ilSCORMItem::_getItems($target_id);
+	}
 
 
 	function _deleteAll($a_obj_id)
