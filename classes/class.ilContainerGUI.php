@@ -238,7 +238,7 @@ class ilContainerGUI extends ilObjectGUI
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
 													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr')))
 					{
-						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
+						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
 							$subobj[] = $row["name"];
 						}
