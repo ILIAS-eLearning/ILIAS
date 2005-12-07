@@ -2914,7 +2914,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$ref_id = $this->uploadObject(false);
 		// always send a message
-		sendInfo($this->lng->txt("object_duplicated"),true);
+		sendInfo($this->lng->txt("object_imported"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
 			"&baseClass=ilObjSurveyGUI");
