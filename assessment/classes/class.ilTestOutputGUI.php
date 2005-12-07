@@ -462,7 +462,7 @@ class ilTestOutputGUI
 				$solved_cmd = "setsolved";
 				$solved_txt = $this->lng->txt("tst_qst_setsolved");
 			}			
-			$solved = "<input align=\"middle\" border=\"0\" alt=\"".$this->lng->txt("tst_qst_solved_state_click_to_change")."\" name=\"cmd[$solved_cmd]\" type=\"image\" src=\"$solved\">&nbsp;<small>$solved_txt</small>";
+			$solved = "<input align=\"middle\" border=\"0\" alt=\"".$this->lng->txt("tst_qst_solved_state_click_to_change")."\" name=\"cmd[$solved_cmd]\" type=\"image\" src=\"$solved\" id=\"$solved_cmd\">&nbsp;<small><label for=\"$solved_cmd\">$solved_txt</label></small>";
 			
 			$this->tpl->setCurrentBlock("question_status");
 			$this->tpl->setVariable("TEXT_QUESTION_STATUS_LABEL", $this->lng->txt("tst_question_solved_state").":");
