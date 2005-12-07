@@ -368,11 +368,16 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 		
 		if ($add)
 		{
+			$nrOfCategories = $_POST["nrOfCategories"];
+			if ($nrOfCategories < 1) $nrOfCategories = 1;
 			// Create template for a new category
-			$this->tpl->setCurrentBlock("categories");
-			$this->tpl->setVariable("CATEGORY_ORDER", $this->object->categories->getCategoryCount());
-			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			$this->tpl->parseCurrentBlock();
+			for ($i = 1; $i <= $nrOfCategories; $i++)
+			{
+				$this->tpl->setCurrentBlock("categories");
+				$this->tpl->setVariable("CATEGORY_ORDER", $this->object->categories->getCategoryCount() + $i - 1);
+				$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		if (is_array($_SESSION["spl_move"]))
@@ -409,9 +414,24 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		for ($i = 1; $i < 10; $i++)
+		{
+			$this->tpl->setCurrentBlock("numbers");
+			$this->tpl->setVariable("VALUE_NUMBER", $i);
+			if ($i == 1)
+			{
+				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("category"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("categories"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
+		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add"));
 		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		if ($_SESSION["spl_modified"])
