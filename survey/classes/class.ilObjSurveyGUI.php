@@ -25,7 +25,7 @@
 /**
 * Class ilObjSurveyGUI
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version  $Id$
 *
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI
@@ -69,20 +69,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilLocator;
-		//$ilLocator->addRepositoryItems();
-		//$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
+		$this->prepareOutput();
 
 		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-				$this->prepareOutput();
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-				//$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
@@ -91,38 +86,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case "ilsurveyevaluationgui":
-				$this->prepareOutput();
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "evaluation"));
-				//$this->setAdminTabs();
 				include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
 				$ret =& $this->ctrl->forwardCommand($eval_gui);
 				break;
 
 			case "ilsurveyexecutiongui":
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "run"));
 				include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
 				$exec_gui = new ilSurveyExecutionGUI($this->object);
 				$ret =& $this->ctrl->forwardCommand($exec_gui);
 				break;
 				
 			case 'ilpermissiongui':
-				$this->prepareOutput();
-				//$this->setAdminTabs();
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
-				$this->prepareOutput();
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
 		}
-		//$this->tpl->setLocator();
-		//$this->tpl->show();
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
 			$this->getCreationMode() != true)
 		{
@@ -3596,6 +3581,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		switch ($this->ctrl->getCmd())
+		{
+			case "run":
+			case "start":
+			case "resume":
+			case "next":
+			case "previous":
+				return;
+				break;
+		}
+		
 		// properties
 		$force_active = ($this->ctrl->getCmd() == "")
 			? true
