@@ -710,22 +710,22 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 					$question = "";
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
+						include_once "./survey/classes/class.SurveyNominalQuestion.php";
+						include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
+						include_once "./survey/classes/class.SurveyMetricQuestion.php";
+						include_once "./survey/classes/class.SurveyTextQuestion.php";
 						switch ($questiontype[1])
 						{
 							case NOMINAL_QUESTION_IDENTIFIER:
-								include_once "./survey/classes/class.SurveyNominalQuestion.php";
 								$question = new SurveyNominalQuestion();
 								break;
 							case ORDINAL_QUESTION_IDENTIFIER:
-								include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 								$question = new SurveyOrdinalQuestion();
 								break;
 							case METRIC_QUESTION_IDENTIFIER:
-								include_once "./survey/classes/class.SurveyMetricQuestion.php";
 								$question = new SurveyMetricQuestion();
 								break;
 							case TEXT_QUESTION_IDENTIFIER:
-								include_once "./survey/classes/class.SurveyTextQuestion.php";
 								$question = new SurveyTextQuestion();
 								break;
 						}
