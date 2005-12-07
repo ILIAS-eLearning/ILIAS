@@ -55,27 +55,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, "ref_id");
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
-/*		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$this->setTabTargetScript("adm_object.php");
-			switch ($this->ctrl->getCmd())
-			{
-				case "create":
-				case "save":
-				case "cancel":
-				case "importFile":
-				case "cloneAll":
-					return;
-					break;
-				default:
-					$this->prepareOutput();
-					break;
-			}
-			global $ilLocator;
-			$ilLocator->addAdministrationItems();
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-			$this->tpl->setLocator();
-		}*/
 	}
 	
 	function backToRepositoryObject()
@@ -1910,6 +1889,38 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$last_questionblock_id = $data["questionblock_id"];
 			}
+
+	    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) 
+			{
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->setVariable("COLOR_CLASS", $last_color_class);
+				$this->tpl->parseCurrentBlock();
+				if (array_key_exists("move_questions", $_SESSION))
+				{
+					$this->tpl->setCurrentBlock("move_buttons");
+					$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
+					$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("QFooter");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
+				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
+				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("actionbuttons");
+				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
+				$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("Emptytable");
+			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
+			$this->tpl->parseCurrentBlock();
 		}
 		if (($last_questionblock_id > 0))
 		{
@@ -1930,34 +1941,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if ($counter == 0) 
-		{
-			$this->tpl->setCurrentBlock("Emptytable");
-			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
-			$this->tpl->parseCurrentBlock();
-		} 
-		else 
-		{
-	    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) 
-			{
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->setVariable("COLOR_CLASS", $last_color_class);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("QFooter");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
-				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
-				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("actionbuttons");
-				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
-				$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
     if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) 
 		{
 			$this->tpl->setCurrentBlock("QTypes");
