@@ -6,7 +6,14 @@
 </tr>
 <tr class="tblrow2">
 	<td colspan="3">
-		<div align="right"><input type="submit" class="submit" name="cmd[addCategory]" id="add_category" value="{VALUE_ADD_CATEGORY}" /></div>
+		<div align="right">
+			<input type="submit" class="submit" name="cmd[addCategory]" id="add_category" value="{VALUE_ADD_CATEGORY}" />
+			<select name="nrOfCategories">
+<!-- BEGIN numbers -->
+				<option value="{VALUE_NUMBER}">{TEXT_NUMBER}</option>
+<!-- END numbers -->			
+			</select>
+		</div>
 	</td>
 </tr>
 <!-- BEGIN categories -->

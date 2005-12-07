@@ -458,7 +458,7 @@ class SurveyQuestionGUI
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
 				array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
-				"addPG", "addPhrase",
+				"addPG",
 				"editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
 				),
 				"$guiclass");
