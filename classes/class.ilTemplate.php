@@ -718,7 +718,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setSubTabs($a_tabs_html)
 	{
-		$this->setVariable("SUBTABS", $a_tabs_html);
+		$this->setVariable("SUB_TABS", $a_tabs_html);
 	}
 	
 	/**

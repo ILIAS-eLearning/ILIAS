@@ -64,6 +64,39 @@ class ilContainerLinkListGUI
 		}
 		return true;
 	}
+	
+	function show()
+	{
+		global $lng;
+		
+		$tpl = new ilTemplate("tpl.container_link_help.html", true, true);
+		
+		$type_ordering = array(
+			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
+			"glo", "webr", "file", "exc",
+			"tst", "svy", "mep", "qpl", "spl");
+			
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
+		foreach($type_ordering as $type)
+		{
+			$tpl->setCurrentBlock("row");
+			$tpl->setVariable("ROWCOL", "tblrow".((($i++)%2)+1));
+			if ($type != "lres")
+			{
+				$tpl->setVariable("TYPE", $lng->txt("objs_".$type));
+			}
+			else
+			{
+				$tpl->setVariable("TYPE", $lng->txt("learning_resources"));
+			}
+			$tpl->setVariable("TXT_LINK", "++".$type."++");
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->show();
+		exit;
+
+	}
 
 } // END class.ilContainerLinkListGUI
 ?>
