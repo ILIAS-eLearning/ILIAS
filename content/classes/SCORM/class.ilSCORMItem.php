@@ -275,5 +275,38 @@ class ilSCORMItem extends ilSCORMObject
 		ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
 	}
 
+	// Static
+	function _getItems($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM scorm_object ".
+			"WHERE slm_id = '".$a_obj_id."' ".
+			"AND type = 'sit'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$item_ids[] = $row->obj_id;
+		}
+		return $item_ids ? $item_ids : array();
+	}
+
+	function _lookupTitle($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM scorm_object ".
+			"WHERE obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->title;
+		}
+		return '';
+	}
+		
+
 }
 ?>

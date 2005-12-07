@@ -54,18 +54,27 @@ class ilLPStatus
 
 	function _getCountNotAttempted($a_obj_id)
 	{
-		echo "not overwitten";
+		return -1;
 	}
 	
 	function _getCountInProgress($a_obj_id)
 	{
-		echo "not overwitten";
+		return 0;
+	}
+	function _getInProgress($a_obj_id)
+	{
+		return array();
 	}
 
 	function _getCountCompleted($a_obj_id)
 	{
-		echo "not overwitten";
+		return 0;
+	}
+	function _getCompleted($a_obj_id)
+	{
+		return array();
 	}
 
+	
 }	
 ?>

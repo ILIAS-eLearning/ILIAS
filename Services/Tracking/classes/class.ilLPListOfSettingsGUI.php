@@ -172,9 +172,68 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$this->__showCollectionTable();
 				break;
 
+			case LP_MODE_SCORM:
+				
+				$this->__showSCOTable();
+				break;
+
 		}
 		return true;
 	}
+
+	function __showSCOTable()
+	{
+		global $ilObjDataCache,$tree;
+
+		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+		include_once 'content/classes/SCORM/class.ilSCORMItem.php';
+
+		$lp_collections = new ilLPCollections($this->getObjId());
+
+		$tpl =& new ilTemplate('tpl.trac_collections.html',true,true,'Services/Tracking');
+
+		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_assignments'));
+		$tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_trac.gif'));
+		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_assignments'));
+		$tpl->setVariable("ITEM_DESC",$this->lng->txt('description'));
+		$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
+
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$tpl->setVariable("BTN_ASSIGN",$this->lng->txt('trac_collection_assign'));
+		$tpl->setVariable("BTN_DEASSIGN",$this->lng->txt('trac_collection_deassign'));
+
+		
+		if(!ilLPCollections::_getCountPossibleSCOs($this->getObjId()))
+		{
+			$tpl->setCurrentBlock("no_items");
+			$tpl->setVariable("NO_ITEM_MESSAGE",$this->lng->txt('trac_no_items'));
+			$tpl->parseCurrentBlock();
+		}
+		$counter = 0;
+		foreach(ilLPCollections::_getPossibleSCOs($this->getObjId()) as $obj_id)
+		{
+			$tpl->setCurrentBlock("trac_row");
+			#$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
+			$tpl->setVariable("COLL_TITLE",ilSCORMItem::_lookupTitle($obj_id));
+			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$obj_id));
+
+
+			// Assigned
+			$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($obj_id)
+							  ? ilUtil::getImagePath('icon_ok.gif') 
+							  : ilUtil::getImagePath('icon_not_ok.gif'));
+			$tpl->setVariable("ASSIGNED_STATUS",$lp_collections->isAssigned($obj_id)
+							  ? $this->lng->txt('trac_assigned')
+							  : $this->lng->txt('trac_not_assigned'));
+
+			
+			$tpl->parseCurrentBlock();
+		}			
+			
+		$this->tpl->setVariable("COLLECTION_TABLE",$tpl->get());
+	}		
+
 
 		
 

@@ -178,7 +178,7 @@ class ilLPObjSettings
 		{
 			case 'crs':
 				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
-							 LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'),
+#							 LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'),
 							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
 
 				break;

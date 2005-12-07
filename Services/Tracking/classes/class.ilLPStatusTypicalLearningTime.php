@@ -91,21 +91,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
 	function _getCountCompleted($a_obj_id)
 	{
-		global $ilDB;
-
-		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-
-		$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
-		$query = "SELECT COUNT(user_id) AS completed FROM ut_learning_progress ".
-			"WHERE spent_time >= '".$tlt."' ".
-			"AND obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->completed;
-		}
-		return 0;
+		return count(ilLPStatusTypicalLearningTime::_getCompleted($a_obj_id));
 	}
 
 	function _getCompleted($a_obj_id)
