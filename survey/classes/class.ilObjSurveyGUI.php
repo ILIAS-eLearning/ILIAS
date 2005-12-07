@@ -25,7 +25,7 @@
 /**
 * Class ilObjSurveyGUI
 *
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version  $Id$
 *
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI
@@ -2611,7 +2611,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("svy_export_files"));
 
-		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setChecked('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("svy_file"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("svy_file"),
 			$this->lng->txt("svy_size"), $this->lng->txt("date") ));
 
 		$tbl->enabled["sort"] = false;
@@ -2625,19 +2625,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);		// ???
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
-		// delete button
-		include_once "./classes/class.ilUtil.php";
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$this->tpl->parseCurrentBlock();
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -2666,6 +2653,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 				$this->tpl->parseCurrentBlock();
 			}
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
+			// delete button
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+			$this->tpl->parseCurrentBlock();	
 		} //if is_array
 		else
 		{
