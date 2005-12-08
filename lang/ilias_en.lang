@@ -41,6 +41,21 @@ administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
+rbac#:#perm_class_general#:#General operations
+rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.
+rbac#:#perm_class_object#:#Special operations
+rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.
+rbac#:#perm_class_rbac#:#Permission settings
+rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.
+rbac#:#perm_class_create#:#Create new objects
+rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
+rbac#:#perm_administrate#:#Administrate
+rbac#:#perm_use_local_policy#:#Use local policy
+rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.
+rbac#:#perm_local_role#:#Locale role
+rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
+rbac#:#edit_learning_progress#:#Edit learning progress
+rbac#:#leave#:#Leave
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...

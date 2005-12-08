@@ -41,6 +41,21 @@ administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
 administration#:#clean#:#Räume auf
+rbac#:#perm_class_general#:#Standardoperationen
+rbac#:#perm_class_general_desc#:#Mögliche Basisoperationen für dieses Objekt. Bewegen Sie den Mauszeiger über eine Operation, um weitere Informationen zu erhalten.
+rbac#:#perm_class_object#:#Objektspezifische Operationen
+rbac#:#perm_class_object_desc#:#Hier sind Operationen aufgeführt, die nur für den aktuellen Objekttyp verfügbar sind.
+rbac#:#perm_class_rbac#:#Rechteeinstellungen
+rbac#:#perm_class_rbac_desc#:#Hier steuern Sie den Zugriff auf die Rechteeinstellungen (dieses Menü) und die automatische Zugriffsregelung für neu erzeugte Objekte.
+rbac#:#perm_class_create#:#Neue Objekte erzeugen
+rbac#:#perm_class_create_desc#:#Hier stellen Sie ein, welche Objekte unter diesem Objekt angelegt werden dürfen.
+rbac#:#perm_administrate#:#Verwalten
+rbac#:#perm_use_local_policy#:#Verwende lokale Zugriffsregelung
+rbac#:#perm_use_local_policy_desc#:#Wenn die lokale Zugriffsregelung aktiviert ist, können an dieser Stelle andere Rechtevorgaben definiert werden
+rbac#:#perm_local_role#:#Lokale Rolle
+rbac#:#perm_local_role_desc#:#Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung
+rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
+rbac#:#leave#:#Verlassen
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
@@ -2474,7 +2489,7 @@ common#:#question#:#Frage
 common#:#question_pools#:#Fragenpools
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
-common#:#read#:#Lesen
+common#:#read#:#Lesezugriff
 common#:#recf_edit#:#Rettungsordner bearbeiten
 common#:#recipient#:#Empfänger
 common#:#referral_comment#:#Woher kennen Sie ILIAS?
@@ -2981,7 +2996,7 @@ common#:#version#:#Version
 common#:#versions#:#Versionen
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
-common#:#visible#:#Sichtbar
+common#:#visible#:#Anzeigen
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visitor#:#Besucher
 common#:#visitors#:#Besucher
