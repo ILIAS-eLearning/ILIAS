@@ -59,6 +59,8 @@ class ilPermissionGUI
 		$this->tree =& $tree;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->lng->loadLanguageModule("rbac");
+
 		$this->ctrl =& $ilCtrl;
 
 		$this->gui_obj =& $a_gui_obj;
@@ -223,7 +225,8 @@ class ilPermissionGUI
 
 				$this->tpl->setCurrentBlock("perm_item");
 				$this->tpl->setVariable("PERM_CHECKBOX",$box);
-				$this->tpl->setVariable("PERM_NAME",$perm['name']);
+				$this->tpl->setVariable("PERM_NAME",$this->lng->txt($perm['name']));
+				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
 				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -252,7 +255,8 @@ class ilPermissionGUI
 	
 					$this->tpl->setCurrentBlock("perm_item");
 					$this->tpl->setVariable("PERM_CHECKBOX",$box);
-					$this->tpl->setVariable("PERM_NAME",$perm['name']);
+					$this->tpl->setVariable("PERM_NAME",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
 					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 					$this->tpl->parseCurrentBlock();
 				}
@@ -280,7 +284,8 @@ class ilPermissionGUI
 
 				$this->tpl->setCurrentBlock("perm_item");
 				$this->tpl->setVariable("PERM_CHECKBOX",$box);
-				$this->tpl->setVariable("PERM_NAME",$perm['name']);
+				$this->tpl->setVariable("PERM_NAME",$this->lng->txt('perm_administrate'));
+				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
 				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -291,17 +296,20 @@ class ilPermissionGUI
 				if ($role['local_policy_allowed'])
 				{
 					$box = ilUtil::formCheckBox($role['local_policy_enabled'],'stop_inherit[]',$role['obj_id'],$role['protected']);
-					$lang = "use local policy";
+					$lang = $this->lng->txt("perm_use_local_policy");
+					$lang_desc = $this->lng->txt("perm_use_local_policy_desc");
 				}
 				else
 				{
 					$box = '&nbsp;';
-					$lang = "Local role";
+					$lang = $this->lng->txt("perm_local_role");
+					$lang_desc = $this->lng->txt("perm_local_role_desc");
 				}
 				
 				$this->tpl->setCurrentBlock("perm_item");
 				$this->tpl->setVariable("PERM_CHECKBOX",$box);
 				$this->tpl->setVariable("PERM_NAME",$lang);
+				$this->tpl->setVariable("PERM_TOOLTIP",$lang_desc);
 				$this->tpl->setVariable("PERM_LABEL",'stop_inherit_'.$role['obj_id']);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -330,7 +338,8 @@ class ilPermissionGUI
 	
 					$this->tpl->setCurrentBlock("perm_item");
 					$this->tpl->setVariable("PERM_CHECKBOX",$box);
-					$this->tpl->setVariable("PERM_NAME",$perm['name']);
+					$this->tpl->setVariable("PERM_NAME",$this->lng->txt("obj".substr($perm['name'],6)));
+					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
 					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 					$this->tpl->parseCurrentBlock();
 				}

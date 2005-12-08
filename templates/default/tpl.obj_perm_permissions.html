@@ -1,5 +1,5 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
-<table class="fullwidth" style="table-layout:fixed">
+<table class="il_InfoScreen">
 <tr class="tbltitle">
   <td class="std" colspan="{COLSPAN}">{TXT_TITLE}</td>
 </tr>
@@ -22,8 +22,10 @@
 <!-- BEGIN perm_settings -->
 
 <!-- BEGIN perm_subtitle -->
-<tr class="std">
-  <td class="option_subtitle" colspan="{COLSPAN}">{TXT_PERM_CLASS} <span style="font-style:italic;font-size:80%">{TXT_PERM_CLASS_DESC}</span></td>
+<tr>
+  <th class="il_InfoScreen" colspan="{COLSPAN}">
+    <div class="il_InfoScreenSection">{TXT_PERM_CLASS} <div style="font-style:italic;font-size:60%">{TXT_PERM_CLASS_DESC}</div></div>
+  </th>
 </tr>
 <!-- END perm_subtitle -->
 
@@ -34,7 +36,7 @@
 <!-- BEGIN perm_item -->
       <tr>
         <td>{PERM_CHECKBOX}</td>
-        <td style="font-size:80%"><label for="{PERM_LABEL}">{PERM_NAME}</label></td>
+        <td style="font-size:80%"><label for="{PERM_LABEL}" title="{PERM_TOOLTIP}">{PERM_NAME}</label></td>
       </tr>
 <!-- END perm_item -->
     </table>
