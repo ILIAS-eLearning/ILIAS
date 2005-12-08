@@ -823,7 +823,7 @@ class ilTestOutputGUI
 			
 		$this->object->setActiveTestUser(1, "", true);
 			
-		if (!$this->object->canViewResults()) 
+		if (($this->object->getTestType() != TYPE_VARYING_RANDOMTEST) && (!$this->object->canViewResults())) 
 		{
 			$this->outIntroductionPage($maxprocessingtimereached);
 		}
@@ -1146,7 +1146,12 @@ class ilTestOutputGUI
 		$user_id = $ilUser->id;
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
+		include_once "./assessment/classes/class.ilObjTest.php";
+		$counted_pass = ilObjTest::_getResultPass($ilUser->id, $this->object->getTestId());
 		$reached_pass = $this->object->_getPass($ilUser->id, $this->object->getTestId());
+		$result_percentage = 0;
+		$result_total_reached = 0;
+		$result_total_max = 0;
 		for ($pass = 0; $pass <= $reached_pass; $pass++)
 		{
 			$finishdate = $this->object->getPassFinishDate($ilUser->id, $this->object->getTestId(), $pass);
@@ -1164,7 +1169,17 @@ class ilTestOutputGUI
 				$total_max = $result_array["test"]["total_max_points"];
 				$total_reached = $result_array["test"]["total_reached_points"];
 				$this->tpl->setCurrentBlock("result_row");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
+				if ($pass == $counted_pass)
+				{
+					$this->tpl->setVariable("COLOR_CLASS", "tblrowmarked");
+					$result_percentage = $percentage;
+					$result_total_reached = $total_reached;
+					$result_total_max = $total_max;
+				}
+				else
+				{
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
+				}
 				$this->tpl->setVariable("VALUE_PASS", $pass + 1);
 				$this->tpl->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
 				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($ilUser->id, $this->object->getTestId(), $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
@@ -1189,6 +1204,29 @@ class ilTestOutputGUI
 		$this->tpl->setCurrentBlock("test_user_name");
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $ilUser->getFullname()));
 		$this->tpl->parseCurrentBlock();
+
+		if ($this->object->canViewResults())
+		{
+			$mark_obj = $this->object->mark_schema->get_matching_mark($result_percentage);
+			if ($mark_obj)
+			{
+				if ($mark_obj->get_passed()) 
+				{
+					$mark = $this->lng->txt("tst_result_congratulations");
+				} 
+				else 
+				{
+					$mark = $this->lng->txt("tst_result_sorry");
+				}
+				$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
+			}
+			if ($this->object->ects_output)
+			{
+				$ects_mark = $this->object->getECTSGrade($result_total_reached, $result_total_max);
+				$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
+			}
+			$this->tpl->setVariable("USER_FEEDBACK", $mark);
+		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
@@ -1342,22 +1380,28 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
-		if ($mark_obj)
+		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
 		{
-			if ($mark_obj->get_passed()) {
-				$mark = $this->lng->txt("tst_result_congratulations");
-			} else {
-				$mark = $this->lng->txt("tst_result_sorry");
+			$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
+			if ($mark_obj)
+			{
+				if ($mark_obj->get_passed()) 
+				{
+					$mark = $this->lng->txt("tst_result_congratulations");
+				} 
+				else 
+				{
+					$mark = $this->lng->txt("tst_result_sorry");
+				}
+				$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
 			}
-			$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
+			if ($this->object->ects_output)
+			{
+				$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
+				$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
+			}
+			$this->tpl->setVariable("USER_FEEDBACK", $mark);
 		}
-		if ($this->object->ects_output)
-		{
-			$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
-			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
-		}
-		$this->tpl->setVariable("USER_FEEDBACK", $mark);
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_results_back_overview"));

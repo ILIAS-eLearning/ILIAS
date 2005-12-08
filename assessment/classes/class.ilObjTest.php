@@ -3407,7 +3407,7 @@ class ilObjTest extends ilObject
 	function canViewResults()
 	{
 		$result = true;
-		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST || $this->getTestType() == TYPE_VARYING_RANDOMTEST)
+		if ($this->getTestType() != TYPE_SELF_ASSESSMENT)
 		{
 			if ($this->getReportingDate())
 			{

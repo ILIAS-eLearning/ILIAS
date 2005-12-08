@@ -4080,7 +4080,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (is_object($active))
 				{
 					// test results button
-					if ($this->object->canShowTestResults($ilUser->getId())) 
+					if (($this->object->getTestType() == TYPE_VARYING_RANDOMTEST) || ($this->object->canShowTestResults($ilUser->getId()))) 
 					{
 						$info->addFormButton("outResults", $this->lng->txt("tst_show_results"));
 					}
@@ -4100,7 +4100,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("tst_type"), $this->lng->txt($this->object->test_types[$this->object->getTestType()]));
 		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
-		$info->addProperty($this->lng->txt("description"), $this->object->getDescription());
 		if ($this->object->isComplete())
 		{
 			if ((!$this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id)) || ($this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id) && $online_access))
