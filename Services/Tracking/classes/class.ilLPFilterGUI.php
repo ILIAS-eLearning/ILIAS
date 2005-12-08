@@ -115,9 +115,9 @@ class ilLPFilterGUI
 															 true));
 		$tpl->setVariable("TXT_HIDDEN",$this->lng->txt('trac_filter_hidden'));
 
-		if(count($this->filter->getHidden()))
+		if(count($hidden = $this->__prepareHidden()))
 		{
-			$tpl->setVariable("HIDDEN_SELECTOR",ilUtil::formSelect(0,'hide',$this->__prepareHidden(),false,true));
+			$tpl->setVariable("HIDDEN_SELECTOR",ilUtil::formSelect(0,'hide',$hidden,false,true));
 			$tpl->setCurrentBlock("editable");
 			$tpl->setVariable("BTN_SHOW",$this->lng->txt('trac_show_hidden'));
 			$tpl->parseCurrentBlock();
@@ -127,6 +127,7 @@ class ilLPFilterGUI
 			$tpl->setVariable("HIDDEN_SELECTOR",$this->lng->txt('trac_filter_none'));
 		}
 		$tpl->setVariable("HREF_UPDATE_AREA",$this->ctrl->getLinkTargetByClass('illpfiltergui','selector'));
+		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
 		$tpl->setVariable("BTN_REFRESH",$this->lng->txt('trac_refresh'));
 
 		return $tpl->get();
@@ -225,16 +226,23 @@ class ilLPFilterGUI
 	function __getPossibleTypes()
 	{
 		return array('lm' => $this->lng->txt('objs_lm'),
-					 'crs' => $this->lng->txt('objs_crs'));
+					 'crs' => $this->lng->txt('objs_crs'),
+					 'tst' => $this->lng->txt('objs_tst'));
 	}
 
 	function __prepareHidden()
 	{
+		$types = $this->filter->prepareType();
+
+
 		global $ilObjDataCache;
 
 		foreach($this->filter->getHidden() as $obj_id)
 		{
-			$hidden[$obj_id] = $ilObjDataCache->lookupTitle($obj_id);
+			if(in_array($ilObjDataCache->lookupType($obj_id),$types))
+			{
+				$hidden[$obj_id] = $ilObjDataCache->lookupTitle($obj_id);
+			}
 		}
 		return $hidden ? $hidden : array();
 	}

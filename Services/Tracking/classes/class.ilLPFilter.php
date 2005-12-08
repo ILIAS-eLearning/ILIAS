@@ -214,7 +214,7 @@ class ilLPFilter
 		global $tree,$ilObjDataCache;
 
 		$objects = array();
-		foreach(ilUtil::_getObjectsByOperations($this->__prepareType(),
+		foreach(ilUtil::_getObjectsByOperations($this->prepareType(),
 												$this->getRequiredPermission(),
 												$this->getUserId()) as $ref_id)
 		{
@@ -256,7 +256,7 @@ class ilLPFilter
 		include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
 
 		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
-		$object_search->setFilter($this->__prepareType());
+		$object_search->setFilter($this->prepareType());
 
 		$res =& $object_search->performSearch();
 		#if($user_id)
@@ -277,7 +277,7 @@ class ilLPFilter
 		return $objects ? $objects : array();
 	}
 
-	function __prepareType()
+	function prepareType()
 	{
 		switch($this->getFilterType())
 		{

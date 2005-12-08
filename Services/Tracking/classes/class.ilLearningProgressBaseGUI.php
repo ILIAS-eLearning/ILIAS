@@ -98,6 +98,8 @@ class ilLearningProgressBaseGUI
 
 	function __setSubTabs($a_active)
 	{
+		global $rbacsystem;
+
 		include_once 'classes/class.ilTabsGUI.php';
 
 		$tabs_gui = new ilTabsGUI();
@@ -118,22 +120,28 @@ class ilLearningProgressBaseGUI
 
 			case LP_MODE_REPOSITORY:
 
-				$tabs_gui->addTarget('trac_objects',
-									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-									 "","","",$a_active == LP_ACTIVE_OBJECTS);
-				$tabs_gui->addTarget('trac_settings',
-									 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
-									 "","","",$a_active == LP_ACTIVE_SETTINGS);
+				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
+				{
+					$tabs_gui->addTarget('trac_progress',
+									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
+									 "","","",$a_active == LP_ACTIVE_PROGRESS);
+					$tabs_gui->addTarget('trac_objects',
+										 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+										 "","","",$a_active == LP_ACTIVE_OBJECTS);
+					$tabs_gui->addTarget('trac_settings',
+										 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
+										 "","","",$a_active == LP_ACTIVE_SETTINGS);
+				}
 				break;
 
 			case LP_MODE_ADMINISTRATION:
 				
-				$tabs_gui->addTarget('trac_objects',
-									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-									 "","","",$a_active == LP_ACTIVE_OBJECTS);
 				$tabs_gui->addTarget('trac_progress',
 									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 									 "","","",$a_active == LP_ACTIVE_PROGRESS);
+				$tabs_gui->addTarget('trac_objects',
+									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+									 "","","",$a_active == LP_ACTIVE_OBJECTS);
 				break;
 
 			default:

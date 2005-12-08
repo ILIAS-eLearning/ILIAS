@@ -47,7 +47,6 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusVisits.php';
 				return 'ilLPStatusVisits';
 				
-
 			case LP_MODE_COLLECTION:
 				include_once 'Services/Tracking/classes/class.ilLPStatusCollection.php';
 				return 'ilLPStatusCollection';
@@ -63,11 +62,23 @@ class ilLPStatusFactory
 			case LP_MODE_DEACTIVATED:
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 				return 'ilLPStatus';
-				
 
-			default:
+			case LP_MODE_TEST_FINISHED:
+				include_once 'Services/Tracking/classes/class.ilLPStatusTestFinished.php';
+				return 'ilLPStatusTestFinished';
+
+			case LP_MODE_TEST_PASSED:
+				include_once 'Services/Tracking/classes/class.ilLPStatusTestFinished.php';
+				return 'ilLPStatusTestPassed';
+
+			case LP_MODE_MANUAL:
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				return 'ilLPStatusManual';
+
+
+			default:
+				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
+				exit;
 		}
 	}
 
@@ -95,10 +106,24 @@ class ilLPStatusFactory
 				
 				return new ilLPStatusSCORM($a_obj_id);
 
-			default:
-				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
+			case LP_MODE_TEST_FINISHED:
+				include_once 'Services/Tracking/classes/class.ilLPStatusTestFinished.php';
+				
+				return new ilLPStatusTestFinished($a_obj_id);
 
+			case LP_MODE_TEST_PASSED:
+				include_once 'Services/Tracking/classes/class.ilLPStatusTestPassed.php';
+				
+				return new ilLPStatusTestPassed($a_obj_id);
+
+			case LP_MODE_MANUAL:
+				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
+				
 				return new ilLPStatusManual($a_obj_id);
+
+			default:
+				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
+				exit;
 		}
 	}
 }	

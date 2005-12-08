@@ -39,7 +39,8 @@ define("LP_MODE_MANUAL",3);
 define("LP_MODE_OBJECTIVES",4);
 define("LP_MODE_COLLECTION",5);
 define("LP_MODE_SCORM",6);
-define("LP_MODE_TEST",7);
+define("LP_MODE_TEST_FINISHED",7);
+define("LP_MODE_TEST_PASSED",8);
 
 
 define("LP_DEFAULT_VISITS",30);
@@ -183,6 +184,7 @@ class ilLPObjSettings
 
 				break;
 
+			case 'dbk':
 			case 'lm':
 				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
 							 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
@@ -191,6 +193,11 @@ class ilLPObjSettings
 			case 'sahs':
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
 							 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+
+			case 'tst':
+				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'));
+#							 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'));
+				
 				
 			default:
 				return array();
@@ -224,8 +231,11 @@ class ilLPObjSettings
 			case LP_MODE_SCORM:
 				return $lng->txt('trac_mode_scorm');
 
-			case LP_MODE_TEST:
-				return $lng->txt('trac_mode_test');
+			case LP_MODE_TEST_FINISHED:
+				return $lng->txt('trac_mode_test_finished');
+
+			case LP_MODE_TEST_PASSED:
+				return $lng->txt('trac_mode_test_passed');
 		}
 	}
 							 
@@ -251,6 +261,7 @@ class ilLPObjSettings
 
 	function __getDefaultMode($a_type = '')
 	{
+
 		$type = strlen($a_type) ? $a_type : $this->obj_type;
 
 		switch($type)
@@ -258,6 +269,7 @@ class ilLPObjSettings
 			case 'crs':
 				return LP_MODE_MANUAL;
 
+			case 'dbk':
 			case 'lm':
 				return LP_MODE_MANUAL;
 
@@ -268,7 +280,7 @@ class ilLPObjSettings
 				return LP_MODE_MANUAL;
 
 			case 'tst':
-				return LP_MODE_TEST;
+				return LP_MODE_TEST_FINISHED;
 					
 			default:
 				return LP_MODE_UNDEFINED;

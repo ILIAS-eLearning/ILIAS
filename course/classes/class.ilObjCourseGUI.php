@@ -2766,7 +2766,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this, "listGroupings"), "listGroupings", get_class($this));
 		}
 		// learning progress
-		if($rbacsystem->checkAccess('write',$this->ref_id))
+		if($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),

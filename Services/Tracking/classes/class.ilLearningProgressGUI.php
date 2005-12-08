@@ -116,7 +116,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofobjectsgui';
 
 			case LP_MODE_REPOSITORY:
-				return 'illplistofobjectsgui';
+				return 'illplistofprogressgui';
 
 			case LP_MODE_PERSONAL_DESKTOP:
 				return 'illplistofprogressgui';
