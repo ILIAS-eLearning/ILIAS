@@ -867,7 +867,6 @@ class ilQTIParser extends ilSaxParser
 				{
 					case "response_lid":
 						$response_type = RT_RESPONSE_LID;
-						echo "rt = $response_type";
 						break;
 					case "response_xy":
 						$response_type = RT_RESPONSE_XY;
