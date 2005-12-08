@@ -1221,7 +1221,7 @@ class ilObject
 			// DONE: method overwritten in ilObjRole & ilObjUser.
 			// this call only applies for objects in rbac (not usr,role,rolt)
 			// TODO: Do this for role templates too
-			$rbacadmin->revokePermission($this->getRefId());
+			$rbacadmin->revokePermission($this->getRefId(),0,false);
 		}
 
 		// remove conditions
