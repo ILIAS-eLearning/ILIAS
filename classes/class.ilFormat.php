@@ -473,6 +473,8 @@ class ilFormat
 
 	function _secondsToString($seconds)
 	{
+		global $lng;
+
 		$seconds = $seconds ? $seconds : 0;
 
 		global $lng;
@@ -487,7 +489,7 @@ class ilFormat
 
 		if($days)
 		{
-			$message = $days . ' '. $this->lng->txt('days');
+			$message = $days . ' '. $lng->txt('days');
 		}
 		if($hours)
 		{
@@ -495,7 +497,7 @@ class ilFormat
 			{
 				$message .= ' ';
 			}
-			$message .= ($hours . ' '. $this->lng->txt('hours'));
+			$message .= ($hours . ' '. $lng->txt('hours'));
 		}
 		if($minutes)
 		{
@@ -503,11 +505,11 @@ class ilFormat
 			{
 				$message .= ' ';
 			}
-			$message .= ($minutes . ' '. $this->lng->txt('minutes'));
+			$message .= ($minutes . ' '. $lng->txt('minutes'));
 		}
 		if(!$days and !$hours and !$minutes)
 		{
-			return $seconds .' '. $this->lng->txt('seconds');
+			return $seconds .' '. $lng->txt('seconds');
 		}
 		else
 		{

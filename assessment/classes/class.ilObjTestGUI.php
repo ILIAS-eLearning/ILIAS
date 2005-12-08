@@ -30,7 +30,7 @@
 *
 * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilTestOutputGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -99,6 +99,14 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$this->ctrl->forwardCommand($new_gui);
+
 				break;
 
 			default:
@@ -4238,6 +4246,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $rbacsystem;
+
 		switch ($this->ctrl->getCmd())
 		{
 			case "start":
@@ -4356,6 +4366,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$tabs_gui->addTarget("status",
 					 $this->ctrl->getLinkTarget($this,'status'),
 					 "status", "");
+
+				if($rbacsystem->checkAccess('edit_learning_progress',$this->ref_id))
+				{
+					$tabs_gui->addTarget('learning_progress',
+										 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+										 '',
+										 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui',
+											   'illplistofprogressgui'));
+				}
 				
 				// permissions
 				$tabs_gui->addTarget("perm_settings",

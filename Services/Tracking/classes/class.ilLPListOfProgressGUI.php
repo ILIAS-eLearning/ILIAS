@@ -82,16 +82,31 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function show()
 	{
+		global $ilObjDataCache;
+
+		
+		// Show only detail of current repository item if called from repository
+		switch($this->getMode())
+		{
+			case LP_MODE_REPOSITORY:
+				$this->__initDetails($ilObjDataCache->lookupObjId($this->getRefId()));
+				if(!$this->show_active)
+				{
+					$this->__showUserInfo();
+				}
+				return $this->details();
+		}
+
+		// not called from repository
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
 
 		// Show user info, if not current user
-		if($this->show_active)
+		if(!$this->show_active)
 		{
 			$this->__showUserInfo();
 		}
 		$this->__showFilter();
 		$this->__showProgress();
-		
 	}
 
 	function details()
@@ -114,6 +129,21 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				$this->__showDetails();
 				break;
 
+			case 'sahs':
+				if($this->details_mode == LP_MODE_SCORM)
+				{
+					$this->__showSCORMDetails();
+				}
+				else
+				{
+					$this->__showDetails();
+				}
+				break;
+
+			case 'tst':
+				$this->__showDetails();
+				break;
+				
 			default:
 				echo "Don't know";
 		}
@@ -180,8 +210,17 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
 		{
-			$this->tpl->touchBlock(ilUtil::switchColor($counter++,'row_type_1','row_type_2'));
+			$type = $ilObjDataCache->lookupType($item_id);
+
+			$this->tpl->setCurrentBlock("type_image_cell");
+			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
+			$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$type));
+			$this->tpl->parseCurrentBlock();
+
+
+
 			$this->tpl->setCurrentBlock("container_standard_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 
 			$obj_tpl = new ilTemplate('tpl.lp_object.html',true,true,'Services/Tracking');
 			$obj_tpl->setCurrentBlock("item_title");
@@ -227,6 +266,61 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 
 	}
+
+	function __showSCORMDetails()
+	{
+		global $ilObjDataCache;
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$this->__showObjectDetails($info);
+
+		// Section learning_progress
+		$info->addSection($this->lng->txt('trac_learning_progress'));
+		$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($this->details_id)));
+
+
+		// Finally set template variable
+		$this->tpl->setVariable("LM_INFO",$info->getHTML());
+
+		// Start list of relevant items
+		
+		$counter = 0;
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './content/classes/SCORM/class.ilSCORMItem.php';
+		foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
+		{
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("COLSPAN",2);
+
+			$obj_tpl = new ilTemplate('tpl.lp_object.html',true,true,'Services/Tracking');
+			$obj_tpl->setCurrentBlock("item_title");
+			$obj_tpl->setVariable("TXT_TITLE",ilSCORMItem::_lookupTitle($item_id));
+			$obj_tpl->parseCurrentBlock();
+
+			// Tracking activated for object
+			// Users status
+
+			$status = $this->__readSCORMStatus($item_id);
+
+			$obj_tpl->setCurrentBlock("item_property");
+			$obj_tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
+			$obj_tpl->setVariable("VAL_PROP",$this->lng->txt($status));
+			$obj_tpl->parseCurrentBlock();
+			
+			$obj_tpl->setCurrentBlock("item_properties");
+			$obj_tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable("BLOCK_ROW_CONTENT",$obj_tpl->get());
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("crs_collection");
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_sahs.gif'));
+		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_sahs'));
+		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('trac_crs_releavant_items'));
+		$this->tpl->parseCurrentBlock();
+	}		
 
 	function __showObjectDetails(&$info)
 	{
@@ -281,8 +375,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showProgress()
 	{
-		echo "";
-		
 		$this->__initFilter();
 
 		$tpl = new ilTemplate('tpl.lp_objects.html',true,true,'Services/Tracking');
@@ -430,6 +522,28 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			return $status = LP_STATUS_NOT_ATTEMPTED;
 		}
 	}
+
+	function __readSCORMStatus($sco_id)
+	{
+		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+
+		$in_progress = ilObjSCORMTracking::_getInProgress($sco_id);
+		$completed = ilObjSCORMTracking::_getCompleted($sco_id);
+
+		if(in_array($this->tracked_user->getId(),$in_progress) and !in_array($this->tracked_user->getId(),$completed))
+		{
+			return $status = LP_STATUS_IN_PROGRESS;
+		}
+		elseif(in_array($this->tracked_user->getId(),$completed))
+		{
+			return $status = LP_STATUS_COMPLETED;
+		}
+		else
+		{
+			return $status = LP_STATUS_NOT_ATTEMPTED;
+		}
+	}
+		
 
 }
 ?>

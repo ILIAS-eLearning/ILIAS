@@ -265,11 +265,19 @@ class ilInfoScreenGUI
 		}
 
 		// learning time
+		#if(is_object($educational = $md->getEducational()))
+		#{
+		#	$learning_time = $educational->getTypicalLearningTime();
+		#}
 		$learning_time = "";
 		if(is_object($educational = $md->getEducational()))
 		{
-			$learning_time = $educational->getTypicalLearningTime();
+			if($seconds = $educational->getTypicalLearningTimeSeconds())
+			{
+				$learning_time = ilFormat::_secondsToString($seconds);
+			}
 		}
+		
 
 		// output
 		
