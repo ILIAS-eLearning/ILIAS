@@ -793,19 +793,15 @@ class ilObjSurveyQuestionPool extends ilObject
 			switch ($questiontype)
 			{
 				case "qt_nominal":
-					include_once "./survey/classes/class.SurveyNominalQuestion.php";
 					$question = new SurveyNominalQuestion();
 					break;
 				case "qt_ordinal":
-					include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 					$question = new SurveyOrdinalQuestion();
 					break;
 				case "qt_metric":
-					include_once "./survey/classes/class.SurveyMetricQuestion.php";
 					$question = new SurveyMetricQuestion();
 					break;
 				case "qt_text":
-					include_once "./survey/classes/class.SurveyTextQuestion.php";
 					$question = new SurveyTextQuestion();
 					break;
 			}
@@ -819,42 +815,35 @@ class ilObjSurveyQuestionPool extends ilObject
 		$xml = str_replace("<questestinterop>", "", $xml);
 		$xml = str_replace("</questestinterop>", "", $xml);
 		
-		// export questionpool metadata
-		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-		$xml_header .= "<questestinterop></questestinterop>\n";
-		$domxml = domxml_open_mem($xml_header);
-		$root = $domxml->document_element();
-
-		// qti section
-		$qtiSection = $domxml->create_element("section");
-		$qtiSection->set_attribute("ident", "qpl_" . $this->getId());
-		$qtiSection->set_attribute("title", $this->getTitle());
-
-		// qti metadata
-		$qtiMetadata = $domxml->create_element("qtimetadata");
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $domxml->create_text_node("SCORM");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $domxml->create_element("fieldentry");
+		include_once("./classes/class.ilXmlWriter.php");
+		$a_xml_writer = new ilXmlWriter;
+		// set xml header
+		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlStartTag("questestinterop");
+		$attrs = array(
+			"ident" => "qpl_" . $this->getId(),
+			"title" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("section", $attrs);
+		// add ILIAS specific metadata
+		$a_xml_writer->xmlStartTag("qtimetadata");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "SCORM");
 
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		include_once "./classes/class.ilXmlWriter.php";
 		$md = new ilMD($this->getId(),0, $this->getType());
 		$writer = new ilXmlWriter();
 		$md->toXml($writer);
 		$metadata = $writer->xmlDumpMem();
 
-		$qtiFieldentryText = $domxml->create_CDATA_Section($metadata);
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		$qtiSection->append_child($qtiMetadata);
-		$root->append_child($qtiSection);
-		$qtixml = $domxml->dump_mem(true);
+		$a_xml_writer->xmlElement("fieldentry", NULL, $metadata);
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlEndTag("qtimetadata");
+		$a_xml_writer->xmlEndTag("section");
+		$a_xml_writer->xmlEndTag("questestinterop");
+
+		$qtixml = $a_xml_writer->xmlDumpMem(FALSE);
 		$qtixml = str_replace("</section>", $xml . "\n</section>", $qtixml);
-		$domxml->free();
 		return $qtixml;
 	}
 

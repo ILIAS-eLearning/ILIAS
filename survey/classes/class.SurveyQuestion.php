@@ -313,7 +313,8 @@ class SurveyQuestion
 * @access public
 * @see $orientation
 */
-  function setOrientation($orientation = 0) {
+  function setOrientation($orientation = 0) 
+	{
     $this->orientation = $orientation;
   }
 
@@ -565,7 +566,18 @@ class SurveyQuestion
 * @access public
 * @see $orientation
 */
-  function getOrientation() {
+  function getOrientation() 
+	{
+		switch ($this->orientation)
+		{
+			case 0:
+			case 1:
+			case 2:
+				break;
+			default:
+				$this->orientation = 0;
+				break;
+		}
     return $this->orientation;
   }
 
