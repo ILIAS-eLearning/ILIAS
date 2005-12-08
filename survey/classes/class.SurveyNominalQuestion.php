@@ -313,6 +313,9 @@ class SurveyNominalQuestion extends SurveyQuestion
 								case "obligatory":
 									$this->setObligatory($fieldentry->get_content());
 									break;
+								case "orientation":
+									$this->setOrientation($fieldentry->get_content());
+									break;
 							}
 						}
 						break;
@@ -393,129 +396,113 @@ class SurveyNominalQuestion extends SurveyQuestion
 	*/
 	function to_xml($a_include_header = true, $obligatory_state = "")
 	{
-		if (!empty($this->domxml))
-		{
-			$this->domxml->free();
-		}
-		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-		$xml_header .= "<questestinterop></questestinterop>\n";
-		$this->domxml = domxml_open_mem($xml_header);
-		$root = $this->domxml->document_element();
-		// qti ident
-		$qtiIdent = $this->domxml->create_element("item");
-		$qtiIdent->set_attribute("ident", $this->getId());
-		$qtiIdent->set_attribute("title", $this->getTitle());
-		$root->append_child($qtiIdent);
-		// add qti comment
-		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node($this->getDescription());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiIdent->append_child($qtiComment);
-		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$qtiComment->append_child($qtiCommentText);
-		$qtiIdent->append_child($qtiComment);
-		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".NOMINAL_QUESTION_IDENTIFIER);
-		$qtiComment->append_child($qtiCommentText);
-		$qtiIdent->append_child($qtiComment);
-		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node("Author=".$this->getAuthor());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiIdent->append_child($qtiComment);
-
-		$qtiItemMetadata = $this->domxml->create_element("itemmetadata");
-		$qtiMetadata = $this->domxml->create_element("qtimetadata");
-		// obligatory state
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $this->domxml->create_text_node("obligatory");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $this->domxml->create_element("fieldentry");
+		include_once("./classes/class.ilXmlWriter.php");
+		$a_xml_writer = new ilXmlWriter;
+		// set xml header
+		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlStartTag("questestinterop");
+		$attrs = array(
+			"ident" => $this->getId(),
+			"title" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("item", $attrs);
+		// add question description
+		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
+		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".NOMINAL_QUESTION_IDENTIFIER);
+		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
+		// add ILIAS specific metadata
+		$a_xml_writer->xmlStartTag("itemmetadata");
+		$a_xml_writer->xmlStartTag("qtimetadata");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "obligatory");
 		if (strcmp($obligatory_state, "") != 0)
 		{
 			$this->setObligatory($obligatory_state);
 		}
-		$qtiFieldEntryText = $this->domxml->create_text_node(sprintf("%d", $this->getObligatory()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		$qtiItemMetadata->append_child($qtiMetadata);
-		$qtiIdent->append_child($qtiItemMetadata);
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getObligatory()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "orientation");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getOrientation()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlEndTag("qtimetadata");
+		$a_xml_writer->xmlEndTag("itemmetadata");
 
 		// PART I: qti presentation
-		$qtiPresentation = $this->domxml->create_element("presentation");
-		$qtiPresentation->set_attribute("label", $this->getTitle());
+		$attrs = array(
+			"label" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
-		$qtiFlow = $this->domxml->create_element("flow");
+		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$qtiMaterial = $this->domxml->create_element("material");
-		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatTextText = $this->domxml->create_text_node($this->getQuestiontext());
-		$qtiMatText->append_child($qtiMatTextText);
-		$qtiMaterial->append_child($qtiMatText);
-		$qtiFlow->append_child($qtiMaterial);
+		$a_xml_writer->xmlStartTag("material");
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestiontext());
+		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
-		$qtiResponseLid = $this->domxml->create_element("response_lid");
+		$ident = "MCMR";
+		$rcardinality = "Multiple";
 		if ($this->getSubtype() == SUBTYPE_MCSR)
 		{
-			$qtiResponseLid->set_attribute("ident", "MCSR");
-			$qtiResponseLid->set_attribute("rcardinality", "Single");
+			$ident = "MCSR";
+			$rcardinality = "Single";
 		}
-			else
-		{
-			$qtiResponseLid->set_attribute("ident", "MCMR");
-			$qtiResponseLid->set_attribute("rcardinality", "Multiple");
-		}
-
+		$attrs = array(
+			"ident" => $ident,
+			"rcardinality" => $rcardinality
+		);
+		$a_xml_writer->xmlStartTag("response_lid", $attrs);
+		
 		if (count($this->material))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
 			{
-				$qtiMaterial = $this->domxml->create_element("material");
-				$qtiMaterial->set_attribute("label", $this->material["title"]);
-				$qtiMatText = $this->domxml->create_element("mattext");
+				$attrs = array(
+					"label" => $this->material["title"]
+				);
+				$a_xml_writer->xmlStartTag("material", $attrs);
 				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
 				if (strcmp($matches[1], "") != 0)
 				{
 					$intlink = $this->material["internal_link"];
 				}
-				$qtiMatTextText = $this->domxml->create_text_node($intlink);
-				$qtiMatText->append_child($qtiMatTextText);
-				$qtiMaterial->append_child($qtiMatText);
-				$qtiResponseLid->append_child($qtiMaterial);
+				$a_xml_writer->xmlElement("mattext", NULL, $intlink);
+				$a_xml_writer->xmlEndTag("material");
 			}
 		}
 
-		$qtiRenderChoice = $this->domxml->create_element("render_choice");
-		$qtiRenderChoice->set_attribute("shuffle", "no");
+		$attrs = array(
+			"shuffle" => "no"
+		);
+		$a_xml_writer->xmlStartTag("render_choice", $attrs);
 
 		// add categories
 		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 		{
 			$category = $this->categories->getCategory($index);
-			$qtiResponseLabel = $this->domxml->create_element("response_label");
-			$qtiResponseLabel->set_attribute("ident", $index);
-			$qtiMaterial = $this->domxml->create_element("material");
-			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($category);
-			$qtiMatText->append_child($qtiMatTextText);
-			$qtiMaterial->append_child($qtiMatText);
-			$qtiResponseLabel->append_child($qtiMaterial);
-			$qtiRenderChoice->append_child($qtiResponseLabel);
+			$attrs = array(
+				"ident" => "$index"
+			);
+			$a_xml_writer->xmlStartTag("response_label", $attrs);
+			$a_xml_writer->xmlStartTag("material");
+			$a_xml_writer->xmlElement("mattext", NULL, $category);
+			$a_xml_writer->xmlEndTag("material");
+			$a_xml_writer->xmlEndTag("response_label");
 		}
-		$qtiResponseLid->append_child($qtiRenderChoice);
-		$qtiFlow->append_child($qtiResponseLid);
-		$qtiPresentation->append_child($qtiFlow);
-		$qtiIdent->append_child($qtiPresentation);
-		$xml = $this->domxml->dump_mem(true);
+		$a_xml_writer->xmlEndTag("render_choice");
+		$a_xml_writer->xmlEndTag("response_lid");
+		$a_xml_writer->xmlEndTag("flow");
+		$a_xml_writer->xmlEndTag("presentation");
+		$a_xml_writer->xmlEndTag("item");
+		$a_xml_writer->xmlEndTag("questestinterop");
+
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		if (!$a_include_header)
 		{
 			$pos = strpos($xml, "?>");
 			$xml = substr($xml, $pos + 2);
 		}
-//echo htmlentities($xml);
 		return $xml;
 	}
 	
