@@ -550,8 +550,8 @@ assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
-assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
-assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
+assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren
+assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren
 assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully###06 Nov 2005 new variable

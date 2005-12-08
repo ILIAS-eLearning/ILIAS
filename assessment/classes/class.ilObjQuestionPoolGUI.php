@@ -608,6 +608,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		include_once "./assessment/classes/class.assQuestionGUI.php";
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
+		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_GET["sel_question_types"]); 
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
