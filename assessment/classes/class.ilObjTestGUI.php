@@ -3563,7 +3563,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" align=\"middle\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_IV_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_IV_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
@@ -3605,7 +3605,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" align=\"middle\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
@@ -3644,7 +3644,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" align=\"middle\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
@@ -3754,7 +3754,6 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 
-
 		if (strlen($user->getMatriculation()))
 		{
 			$this->tpl->setCurrentBlock("user_matric");
@@ -3765,6 +3764,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->touchBlock("user_matric_separator");
 		}
+		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("matriculation") . ": " . $user->getMatriculation();
 		
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -3836,6 +3836,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("TEXT_RESULTS", sprintf($this->lng->txt("tst_result_user_name"), $user->getFullName()));
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 	}
 
 /**
@@ -3908,13 +3909,14 @@ class ilObjTestGUI extends ilObjectGUI
 		if (strlen($invited_users->clientip))
 		{
 			$this->tpl->setCurrentBlock("user_clientip");
-			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("matriculation"));
+			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("clientip"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("user_clientip_value");
 			$this->tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->touchBlock("user_clientip_separator");
 		}
+		$pagetitle = $this->object->getTitle() . " - IP: " . $invited_users->clientip . " - " . $this->lng->txt("matriculation") . ": " . $ilUser->getMatriculation();
 		
 		include_once "./classes/class.ilUtil.php";
 
@@ -3986,6 +3988,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
 		$this->tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 	}
 	
 	/**

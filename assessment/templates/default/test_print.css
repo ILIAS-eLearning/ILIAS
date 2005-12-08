@@ -12,7 +12,7 @@ body {
 	font-size : 10pt; 
 }
 
-.il_Locator, .tabinactive, .tabactive, .il_Footer {
+.il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header {
 	visibility: hidden;
 	display: none;
 }
@@ -105,7 +105,17 @@ h2 {
 }
 
 h1 {
-	text-decoration: underline;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+h2 {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+h3 {
+	text-decoration: none;
 	font-weight: bold;
 }
 
@@ -138,7 +148,8 @@ div.question_title {
 div.ilc_Question {
 	padding-top: 5px;	
 	padding-bottom: 5px;	
-	padding-left: 2px;	
+	padding-left: 2px;
+	border: none;
 	page-break-inside: avoid;
 }
 

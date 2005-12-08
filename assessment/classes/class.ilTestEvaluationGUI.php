@@ -1230,6 +1230,7 @@ class ilTestEvaluationGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_STATISTICAL_DATA", $this->lng->txt("statistical_data"));
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("PAGETITLE", $this->object->getTitle());
 	}
 	
 	function evalAllUsers()
