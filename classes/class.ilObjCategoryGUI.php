@@ -95,6 +95,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 			default:
 				$this->prepareOutput();
+				include_once("classes/class.ilObjStyleSheet.php");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+
 				if(!$cmd)
 				{
 					$cmd = "render";

@@ -366,7 +366,7 @@ class ilContainerGUI extends ilObjectGUI
 			
 			// administration panel
 			if ($ilAccess->checkAccess("edit", "", $this->object->getRefId())
-				&& in_array($this->object->getType(), array("root", "cat")))
+				&& in_array($this->object->getType(), array("cat")))
 			{
 				$tpl->setCurrentBlock("edit_cmd");
 				$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));

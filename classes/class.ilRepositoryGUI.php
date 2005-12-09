@@ -209,6 +209,7 @@ class ilRepositoryGUI
 		{
 			$this->creation_mode = true;
 		}
+
 		// handle frameset command
 		$cmd = $this->ctrl->getCmd();
 		if (($cmd == "frameset" || $_GET["rep_frame"] == 1) && $_SESSION["il_rep_mode"] == "tree")
@@ -223,23 +224,26 @@ class ilRepositoryGUI
 		}
 
 		// determine next class
-		if ($this->creation_mode)
+		if ($cmd != "frameset")
 		{
-			$obj_type = $new_type;
-			$class_name = $this->objDefinition->getClassName($obj_type);
-			$next_class = strtolower("ilObj".$class_name."GUI");
-		}
-		else if ((($next_class = $this->ctrl->getNextClass($this)) == "")
-			|| ($next_class == "ilrepositorygui" && $this->ctrl->getCmd() == "return"))
-		{
-			if ($cmd != "frameset" && $cmd != "showTree")
+			if ($this->creation_mode)
 			{
-				// get GUI of current object
-				$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
+				$obj_type = $new_type;
 				$class_name = $this->objDefinition->getClassName($obj_type);
 				$next_class = strtolower("ilObj".$class_name."GUI");
-				$this->ctrl->setCmdClass($next_class);
-				$this->ctrl->setCmd("");
+			}
+			else if ((($next_class = $this->ctrl->getNextClass($this)) == "")
+				|| ($next_class == "ilrepositorygui" && $this->ctrl->getCmd() == "return"))
+			{
+				if ($cmd != "frameset" && $cmd != "showTree")
+				{
+					// get GUI of current object
+					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
+					$class_name = $this->objDefinition->getClassName($obj_type);
+					$next_class = strtolower("ilObj".$class_name."GUI");
+					$this->ctrl->setCmdClass($next_class);
+					$this->ctrl->setCmd("");
+				}
 			}
 		}
 
