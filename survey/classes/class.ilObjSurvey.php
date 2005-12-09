@@ -2505,7 +2505,7 @@ class ilObjSurvey extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools($use_obj_id = false)
+	function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false)
 	{
 		global $rbacsystem;
 		
@@ -2517,7 +2517,7 @@ class ilObjSurvey extends ilObject
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
-				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id))
+				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
 				{
 					if ($use_obj_id)
 					{
@@ -3816,133 +3816,71 @@ class ilObjSurvey extends ilObject
 	*/
 	function to_xml()
 	{
-		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
-		$domxml = domxml_open_mem($xml_header);
-		$root = $domxml->document_element();
-		// qti assessment
-		$qtiSurvey = $domxml->create_element("survey");
-		$qtiSurvey->set_attribute("ident", $this->getSurveyId());
-		$qtiSurvey->set_attribute("title", $this->getTitle());
+		include_once("./classes/class.ilXmlWriter.php");
+		$a_xml_writer = new ilXmlWriter;
+		// set xml header
+		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlStartTag("questestinterop");
+		$attrs = array(
+			"ident" => $this->getSurveyId(),
+			"title" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("survey", $attrs);
 		
-		// add qti comment
-		$qtiComment = $domxml->create_element("qticomment");
-		$qtiCommentText = $domxml->create_text_node($this->getDescription());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiSurvey->append_child($qtiComment);
-		$qtiComment = $domxml->create_element("qticomment");
-		$qtiCommentText = $domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$qtiComment->append_child($qtiCommentText);
-		$qtiSurvey->append_child($qtiComment);
-		$qtiComment = $domxml->create_element("qticomment");
-		$qtiCommentText = $domxml->create_text_node("Author=".$this->getAuthor());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiSurvey->append_child($qtiComment);
-		// add qti objectives
-		$qtiObjectives = $domxml->create_element("objectives");
-		$qtiMaterial = $domxml->create_element("material");
-		$qtiMaterial->set_attribute("label", "introduction");
-		$qtiMatText = $domxml->create_element("mattext");
-		$qtiMatTextText = $domxml->create_text_node($this->getIntroduction());
-		$qtiMatText->append_child($qtiMatTextText);
-		$qtiMaterial->append_child($qtiMatText);
-		$qtiObjectives->append_child($qtiMaterial);
-		$qtiSurvey->append_child($qtiObjectives);
+		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
+		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
+		// add ILIAS specific metadata
+		$a_xml_writer->xmlStartTag("objectives");
+		$attrs = array(
+			"label" => "introduction"
+		);
+		$a_xml_writer->xmlStartTag("material", $attrs);
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getIntroduction());
+		$a_xml_writer->xmlEndTag("material");
+		$a_xml_writer->xmlEndTag("objectives");
+
 		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
-		$qtiMetadata = $domxml->create_element("qtimetadata");
-		// author
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("author");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getAuthor());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		// description
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("description");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getDescription());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		// evaluation access
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("evaluation_access");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getEvaluationAccess());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		// anonymization
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("anonymize");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getAnonymize());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		// status
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("status");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getStatus());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		// start date
+		$a_xml_writer->xmlStartTag("qtimetadata");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "author");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "description");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getDescription());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "evaluation_access");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getEvaluationAccess());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "anonymize");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAnonymize());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "status");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getStatus());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		if ($this->getStartDateEnabled())
 		{
-			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-			$qtiFieldLabel = $domxml->create_element("fieldlabel");
-			$qtiFieldLabelText = $domxml->create_text_node("startdate");
-			$qtiFieldLabel->append_child($qtiFieldLabelText);
-			$qtiFieldEntry = $domxml->create_element("fieldentry");
-			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT0H0M0S", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
-			$qtiFieldEntry->append_child($qtiFieldEntryText);
-			$qtiMetadatafield->append_child($qtiFieldLabel);
-			$qtiMetadatafield->append_child($qtiFieldEntry);
-			$qtiMetadata->append_child($qtiMetadatafield);
+			$a_xml_writer->xmlStartTag("qtimetadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, "startdate");
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT0H0M0S", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
+			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
-		// end date
 		if ($this->getEndDateEnabled())
 		{
-			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-			$qtiFieldLabel = $domxml->create_element("fieldlabel");
-			$qtiFieldLabelText = $domxml->create_text_node("enddate");
-			$qtiFieldLabel->append_child($qtiFieldLabelText);
-			$qtiFieldEntry = $domxml->create_element("fieldentry");
-			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT0H0M0S", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
-			$qtiFieldEntry->append_child($qtiFieldEntryText);
-			$qtiMetadatafield->append_child($qtiFieldLabel);
-			$qtiMetadatafield->append_child($qtiFieldEntry);
-			$qtiMetadata->append_child($qtiMetadatafield);
+			$a_xml_writer->xmlStartTag("qtimetadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, "enddate");
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT0H0M0S", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
+			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
-		// show question titles
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("display_question_titles");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getShowQuestionTitles());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "display_question_titles");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowQuestionTitles());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// add questionblock descriptions
 		$pages =& $this->getSurveyPages();
 		foreach ($pages as $question_array)
@@ -3955,16 +3893,10 @@ class ilObjSurvey extends ilObject
 				{
 					array_push($question_ids, $question["question_id"]);
 				}
-				$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-				$qtiFieldLabel = $domxml->create_element("fieldlabel");
-				$qtiFieldLabelText = $domxml->create_text_node("questionblock_" . $question_array[0]["questionblock_id"]);
-				$qtiFieldLabel->append_child($qtiFieldLabelText);
-				$qtiFieldEntry = $domxml->create_element("fieldentry");
-				$qtiFieldEntryText = $domxml->create_text_node("<title>" . $question["questionblock_title"]. "</title><questions>" . join($question_ids, ",") . "</questions>");
-				$qtiFieldEntry->append_child($qtiFieldEntryText);
-				$qtiMetadatafield->append_child($qtiFieldLabel);
-				$qtiMetadatafield->append_child($qtiFieldEntry);
-				$qtiMetadata->append_child($qtiMetadatafield);
+				$a_xml_writer->xmlStartTag("qtimetadatafield");
+				$a_xml_writer->xmlElement("fieldlabel", NULL, "questionblock_" . $question_array[0]["questionblock_id"]);
+				$a_xml_writer->xmlElement("fieldentry", NULL, "<title>" . $question["questionblock_title"]. "</title><questions>" . join($question_ids, ",") . "</questions>");
+				$a_xml_writer->xmlEndTag("qtimetadatafield");
 			}
 		}
 		// add constraints
@@ -3977,16 +3909,10 @@ class ilObjSurvey extends ilObject
 					// found constraints
 					foreach ($question["constraints"] as $constraint)
 					{
-						$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-						$qtiFieldLabel = $domxml->create_element("fieldlabel");
-						$qtiFieldLabelText = $domxml->create_text_node("constraint_" . $question["question_id"]);
-						$qtiFieldLabel->append_child($qtiFieldLabelText);
-						$qtiFieldEntry = $domxml->create_element("fieldentry");
-						$qtiFieldEntryText = $domxml->create_text_node($constraint["question"] . "," . $constraint["short"] . "," . $constraint["value"]);
-						$qtiFieldEntry->append_child($qtiFieldEntryText);
-						$qtiMetadatafield->append_child($qtiFieldLabel);
-						$qtiMetadatafield->append_child($qtiFieldEntry);
-						$qtiMetadata->append_child($qtiMetadatafield);
+						$a_xml_writer->xmlStartTag("qtimetadatafield");
+						$a_xml_writer->xmlElement("fieldlabel", NULL, "constraint_" . $question["question_id"]);
+						$a_xml_writer->xmlElement("fieldentry", NULL, $constraint["question"] . "," . $constraint["short"] . "," . $constraint["value"]);
+						$a_xml_writer->xmlEndTag("qtimetadatafield");
 					}
 				}
 			}
@@ -3998,25 +3924,21 @@ class ilObjSurvey extends ilObject
 			{
 				if ($question["heading"])
 				{
-					$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-					$qtiFieldLabel = $domxml->create_element("fieldlabel");
-					$qtiFieldLabelText = $domxml->create_text_node("heading_" . $question["question_id"]);
-					$qtiFieldLabel->append_child($qtiFieldLabelText);
-					$qtiFieldEntry = $domxml->create_element("fieldentry");
-					$qtiFieldEntryText = $domxml->create_text_node($question["heading"]);
-					$qtiFieldEntry->append_child($qtiFieldEntryText);
-					$qtiMetadatafield->append_child($qtiFieldLabel);
-					$qtiMetadatafield->append_child($qtiFieldEntry);
-					$qtiMetadata->append_child($qtiMetadatafield);
+					$a_xml_writer->xmlStartTag("qtimetadatafield");
+					$a_xml_writer->xmlElement("fieldlabel", NULL, "heading_" . $question["question_id"]);
+					$a_xml_writer->xmlElement("fieldentry", NULL, $question["heading"]);
+					$a_xml_writer->xmlEndTag("qtimetadatafield");
 				}
 			}
 		}
-		$qtiSurvey->append_child($qtiMetadata);
-		$root->append_child($qtiSurvey);
-		$xml = $domxml->dump_mem(true);
-		$domxml->free();
+		$a_xml_writer->xmlEndTag("qtimetadata");
+		$a_xml_writer->xmlEndTag("survey");
+		$a_xml_writer->xmlEndTag("questestinterop");
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
+
 		$obligatory_states =& $this->getObligatoryStates();
-		foreach ($this->questions as $question_id) {
+		foreach ($this->questions as $question_id) 
+		{
 			$question =& $this->_instanciateQuestion($question_id);
 			$qti_question = $question->to_xml(false, $obligatory_states[$question_id]);
 			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
@@ -4024,7 +3946,7 @@ class ilObjSurvey extends ilObject
 			$xml = str_replace("</questestinterop>", "$qti_question</questestinterop>", $xml);
 		}
 		return $xml;
-			}
+	}
 	
 /**
 * Creates an instance of a question with a given question id

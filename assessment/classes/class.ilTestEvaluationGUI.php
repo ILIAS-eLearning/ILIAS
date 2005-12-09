@@ -112,7 +112,7 @@ class ilTestEvaluationGUI
 		
 		if (is_array($_POST["search_for"]))
 		{
-			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]))
+			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
 			{
 				$search =& new ilSearch($ilUser->id);
 				$search->setSearchString($_POST["search_term"]);
@@ -151,32 +151,39 @@ class ilTestEvaluationGUI
 					$this->outEvalSearchResultTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_found_users"), $buttons);
 				}
 				$searchresult = array();
-				$eval_groups = $this->object->getEvaluationGroups($ilUser->id);
 				if ($searchresult = $search->getResultByType("grp"))
 				{
 					$groups = array();
 					foreach ($searchresult as $result_array)
 					{
-						if (!in_array($result_array["id"], $eval_groups))
+						include_once("./classes/class.ilObjGroup.php");
+						$grp = new ilObjGroup($result_array["id"], true);
+						$members = $grp->getGroupMemberIds();
+						$found_member = 0;
+						foreach ($members as $member_id)
 						{
-							include_once("./classes/class.ilObjGroup.php");
-							$grp = new ilObjGroup($result_array["id"], true);
-							$members = $grp->getGroupMemberIds();
-							$found_member = 0;
-							foreach ($members as $member_id)
+							if (array_key_exists($member_id, $participants))
 							{
-								if (array_key_exists($member_id, $participants))
-								{
-									$found_member = 1;
-								}
+								$found_member = 1;
 							}
-							if ($found_member)
-							{
-								array_push($groups, $result_array["id"]);
-							}
+						}
+						if ($found_member)
+						{
+							array_push($groups, $result_array["id"]);
 						}
 					}
 					$this->outEvalSearchResultTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_found_groups"), $buttons);
+				}
+				if ($searchresult = $search->getResultByType("role"))
+				{
+					$roles = array();
+					foreach ($searchresult as $result_array)
+					{							
+						array_push($roles, $result_array["id"]);
+					}
+					$roles = $this->object->getRoleData($roles);			
+					if (count ($roles))
+						$this->outEvalSearchResultTable("role", $roles, "role_result", "role_row", $this->lng->txt("search_found_roles"), $buttons);
 				}
 			}
 		}
@@ -267,6 +274,26 @@ class ilTestEvaluationGUI
 	}
 	
 	/**
+	* Adds selected role to the evaluation
+	*
+	* Adds selected role to the evaluation
+	*
+	* @access public
+	*/
+	function addFoundRolesToEval()
+	{
+		global $ilUser;
+		if (is_array($_POST["role_select"]))
+		{
+			foreach ($_POST["role_select"] as $role_id)
+			{
+				$this->object->addSelectedRole($role_id, $ilUser->id);
+			}
+		}
+		$this->evalStatSelected();
+	}
+	
+	/**
 	* Called when the search button is pressed in the evaluation user selection
 	*
 	* Called when the search button is pressed in the evaluation user selection
@@ -302,6 +329,7 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
 		$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("eval_search_users"));
 		$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("eval_search_groups"));
+		$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("eval_search_roles"));
 		$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("eval_concatenation"));
 		$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
 		$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
@@ -315,6 +343,10 @@ class ilTestEvaluationGUI
 			if (in_array("grp", $_POST["search_for"]))
 			{
 				$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+			}
+			if (in_array("role", $_POST["search_for"]))
+			{
+				$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
 			}
 		}
 		if (strcmp($_POST["concatenation"], "and") == 0)
@@ -330,17 +362,11 @@ class ilTestEvaluationGUI
 
 		// output of alread found users and groups
 		$eval_users = $this->object->getEvaluationUsers($ilUser->id);
-		$eval_groups = $this->object->getEvaluationGroups($ilUser->id);
 		$buttons = array("remove");
 		if (count($eval_users))
 		{
 			$this->outEvalSearchResultTable("usr", $eval_users, "selected_user_result", "selected_user_row", $this->lng->txt("eval_found_selected_users"), $buttons);
 		}
-		if (count($eval_groups))
-		{
-			$this->outEvalSearchResultTable("grp", $eval_groups, "selected_group_result", "selected_group_row", $this->lng->txt("eval_found_selected_groups"), $buttons);
-		}
-
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("CMD_EVAL", "evalSelectedUsers");
 		$this->tpl->setVariable("TXT_STAT_USERS_INTRO", $this->lng->txt("tst_stat_users_intro"));
@@ -406,11 +432,21 @@ class ilTestEvaluationGUI
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
+				if (count($id_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_$block_result");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_USER_TITLE", $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
+				$this->tpl->setVariable("SRC_USER_IMAGE", ilUtil::getImagePath("icon_usr_b.gif"));
+				$this->tpl->setVariable("ALT_USER_IMAGE", $this->lng->txt("objs_".$a_type));
 				if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
@@ -435,11 +471,58 @@ class ilTestEvaluationGUI
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
+				if (count($id_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_$block_result");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_GROUP_TITLE", $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+				$this->tpl->setVariable("SRC_GROUP_IMAGE", ilUtil::getImagePath("icon_grp_b.gif"));
+				$this->tpl->setVariable("ALT_GROUP_IMAGE", $this->lng->txt("objs_".$a_type));
 				if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "role":
+				$counter = 0;
+				foreach ($id_array as $key => $data)
+				{
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $key);
+					$this->tpl->setVariable("VALUE_TITLE", $data->title);
+					$this->tpl->setVariable("VALUE_DESCRIPTION", $data->description);
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($id_array))
+				{
+					$this->tpl->setCurrentBlock("selectall_$block_result");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("TEXT_ROLE_TITLE", $title_text);
+				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+				$this->tpl->setVariable("SRC_ROLE_IMAGE", ilUtil::getImagePath("icon_role_b.gif"));
+				$this->tpl->setVariable("ALT_ROLE_IMAGE", $this->lng->txt("objs_".$a_type));
+
+				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
 					{
@@ -598,7 +681,27 @@ class ilTestEvaluationGUI
 		$legendquestions = array();
 		$titlerow = array();
 		// build title columns
-		$name_column = $this->lng->txt("name");
+		$sortimage = "";
+		if (strcmp($_GET["sortname"], "asc") == 0 || strcmp($_GET["sortname"], "") == 0)
+		{
+			$sortimage = " <img src=\"".ilUtil::getImagePath("asc_order.png", true)."\" alt=\"" . $this->lng->txt("ascending_order") . "\" />";
+			$this->ctrl->setParameter($this, "sortname", "desc");
+		}
+		else
+		{
+			$sortimage = " <img src=\"".ilUtil::getImagePath("desc_order.png", true)."\" alt=\"" . $this->lng->txt("descending_order") . "\" />";
+			$this->ctrl->setParameter($this, "sortname", "asc");
+		}
+		if ($all_users)
+		{
+			$name_column = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalAllUsers")."\">" . $this->lng->txt("name") . "</a>";
+			$name_column .= $sortimage;
+		}
+		else
+		{
+			$name_column = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalSelectedUsers")."\">" . $this->lng->txt("name") . "</a>";
+			$name_column .= $sortimage;
+		}
 		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
 		{
 			$name_column = $this->lng->txt("counter");
@@ -690,7 +793,7 @@ class ilTestEvaluationGUI
 				array_push($titlerow, "&nbsp;");
 			}
 		}
-		$total_users =& $this->object->evalTotalPersonsArray();
+		$total_users =& $this->object->evalTotalPersonsArray($_GET["sortname"]);
 		$selected_users = array();
 		if ($all_users == 1) 
 		{
@@ -698,23 +801,7 @@ class ilTestEvaluationGUI
 		} 
 		else 
 		{
-			$selected_users =& $this->object->getEvaluationUsers($ilUser->id);
-			$selected_groups =& $this->object->getEvaluationGroups($ilUser->id);
-			include_once("./classes/class.ilObjGroup.php");
-			foreach ($selected_groups as $group_id)
-			{
-				$grp = new ilObjGroup($group_id, true);
-				$members = $grp->getGroupMemberIds();
-				foreach ($members as $member_id)
-				{
-					if (array_key_exists($member_id, $total_users))
-					{
-						include_once "./classes/class.ilObjUser.php";
-						$usr = new ilObjUser($member_id); 
-						$selected_users[$member_id] = trim($usr->firstname . " " . $usr->lastname);
-					}
-				}
-			}
+			$selected_users =& $this->object->getEvaluationUsers($ilUser->id, $_GET["sortname"]);
 		}
 //			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
 		$row = 0;

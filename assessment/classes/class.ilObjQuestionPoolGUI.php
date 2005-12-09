@@ -343,7 +343,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
 
 		// start verification of QTI files
-		include_once "./assessment/classes/class.ilQTIParser.php";
+		include_once "./assessment/classes/QTI/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
 		$result = $qtiParser->startParsing();
 		$founditems =& $qtiParser->getFoundItems();
@@ -500,7 +500,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 
 		// start parsing of QTI files
-		include_once "./assessment/classes/class.ilQTIParser.php";
+		include_once "./assessment/classes/QTI/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($_SESSION["qpl_import_qti_file"], IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
 		$result = $qtiParser->startParsing();
 
