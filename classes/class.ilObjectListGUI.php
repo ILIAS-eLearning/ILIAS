@@ -51,6 +51,7 @@ class ilObjectListGUI
 	var $cust_prop = array();
 	var $cust_commands = array();
 	var $info_screen_enabled = false;
+	var $condition_depth = 0;
 
 
 	/**
@@ -639,6 +640,14 @@ class ilObjectListGUI
 	{
 		return $this->mode;
 	}
+	
+	/**
+	* set depth for precondition output (stops at level 5)
+	*/
+	function setConditionDepth($a_depth)
+	{
+		$this->condition_depth = $a_depth;
+	}
 
 	/**
 	* check current output mode
@@ -749,6 +758,11 @@ class ilObjectListGUI
 		include_once("classes/class.ilConditionHandler.php");
 
 		$missing_cond_exist = false;
+		
+		if ($this->condition_depth > 5)
+		{
+			return;
+		}
 
 		foreach(ilConditionHandler::_getConditionsOfTarget($this->obj_id) as $condition)
 		{
@@ -768,6 +782,7 @@ class ilObjectListGUI
 			include_once($location."/class.".$full_class.".php");
 			$item_list_gui = new $full_class($this);
 			$item_list_gui->setMode(IL_LIST_AS_TRIGGER);
+			$item_list_gui->setConditionDepth($this->condition_depth + 1);
 			$trigger_html = $item_list_gui->getListItemHTML($condition['trigger_ref_id'],
 				$condition['trigger_obj_id'], trim($cond_txt).": ".ilObject::_lookupTitle($condition["trigger_obj_id"]),
 				 "");
