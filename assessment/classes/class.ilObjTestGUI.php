@@ -558,7 +558,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$xml_file = ilObjTest::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
 		$qti_file = ilObjTest::_getImportDirectory()."/".$subdir."/". str_replace("test", "qti", $subdir).".xml";
 		// start verification of QTI files
-		include_once "./assessment/classes/class.ilQTIParser.php";
+		include_once "./assessment/classes/QTI/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
 		$result = $qtiParser->startParsing();
 		$founditems =& $qtiParser->getFoundItems();
@@ -679,7 +679,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$newObj->mark_schema->flush();
 
 		// start parsing of QTI files
-		include_once "./assessment/classes/class.ilQTIParser.php";
+		include_once "./assessment/classes/QTI/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $_POST["qpl_id"], $_POST["ident"]);
 		$qtiParser->setTestObject($newObj);
 		$result = $qtiParser->startParsing();
@@ -2686,7 +2686,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->marksObject();
 	}
 	
-	function marksObject() {
+	function marksObject() 
+	{
 		global $rbacsystem;
 
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -2696,6 +2697,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 
+		if (!$this->object->canEditMarks())
+		{
+			sendInfo($this->lng->txt("cannot_edit_marks"));
+		}
+		
 		$this->object->mark_schema->sort();
 	
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_marks.html", true);
@@ -2725,7 +2731,8 @@ class ilObjTestGUI extends ilObjectGUI
 		} 
 		else 
 		{
-			if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+			if ($rbacsystem->checkAccess("write", $this->ref_id) && $this->object->canEditMarks()) 
+			{
 				$this->tpl->setCurrentBlock("selectall");
 				$counter++;
 				$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
@@ -2777,7 +2784,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER_OFFICIAL", $this->lng->txt("tst_mark_official_form"));
 		$this->tpl->setVariable("HEADER_PERCENTAGE", $this->lng->txt("tst_mark_minimum_level"));
 		$this->tpl->setVariable("HEADER_PASSED", $this->lng->txt("tst_mark_passed"));
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if ($rbacsystem->checkAccess("write", $this->ref_id) && $this->object->canEditMarks()) 
+		{
 			$this->tpl->setVariable("BUTTON_NEW", $this->lng->txt("tst_mark_create_new_mark_step"));
 			$this->tpl->setVariable("BUTTON_NEW_SIMPLE", $this->lng->txt("tst_mark_create_simple_mark_schema"));
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
@@ -3090,7 +3098,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 			
-			$questionpools =& $tst->getAvailableQuestionpools(true);
+			$questionpools =& $tst->getAvailableQuestionpools($use_object_id = true, $equal_points = false, $could_be_offline = true);
 			if (count($questionpools) == 0)
 			{
 			}
@@ -4079,12 +4087,14 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						// Show results in a new print frame
 						$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
+						sendInfo($this->lng->txt("online_exam_show_answer_print_sheet"));
 					}			
 					if ($this->object->isOnlineTest() and $executable["executable"] == false) 
 					{
 						if (!$this->object->isActiveTestSubmitted($ilUser->getId())) 
 						{
 							$info->addFormButton("show_answers", $this->lng->txt("save_finish"));
+							sendInfo($this->lng->txt("online_exam_show_finish_test"));
 						} 
 					} 			
 				}

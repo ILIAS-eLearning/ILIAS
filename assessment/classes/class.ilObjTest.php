@@ -2307,21 +2307,6 @@ class ilObjTest extends ilObject
 	}
 	
 /**
-* Removes all selected groups for the test evaluation
-* 
-* Removes all selected groups for the test evaluation
-*
-* @access public
-*/
-	function clearEvalSelectedGroups()
-	{
-		$query = sprintf("DELETE FROM tst_eval_groups WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
-		);
-		$result = $this->ilias->db->query($query);
-	}
-
-/**
 * Removes all references to the question in executed tests in case the question has been changed
 *
 * Removes all references to the question in executed tests in case the question has been changed.
@@ -2338,7 +2323,6 @@ class ilObjTest extends ilObject
 		$this->deleteActiveTests();
 		// remove selected users/groups
 		$this->clearEvalSelectedUsers();
-		$this->clearEvalSelectedGroups();
 		
 		// remove the question from tst_solutions
 		if ($question_id) 
@@ -2410,7 +2394,6 @@ class ilObjTest extends ilObject
 		
 		// remove selected users/groups
 		$this->clearEvalSelectedUsers();
-		$this->clearEvalSelectedGroups();
 		
 		// remove the question from tst_solutions
 		foreach ($user_ids as $user_id)
@@ -3711,9 +3694,9 @@ class ilObjTest extends ilObject
 * @return arrary The user id's and names of the persons who started the test
 * @access public
 */
-	function &evalTotalPersonsArray()
+	function &evalTotalPersonsArray($name_sort_order = "asc")
 	{
-		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id ORDER BY usr_data.lastname", 
+		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($name_sort_order), 
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
@@ -3889,7 +3872,7 @@ class ilObjTest extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false)
+	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false)
 	{
 		global $rbacsystem;
 		
@@ -3901,7 +3884,7 @@ class ilObjTest extends ilObject
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./assessment/classes/class.ilObjQuestionPool.php");
-				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
+				if (ilObjQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
 				{
 					if ((!$equal_points) || (($equal_points) && (ilObjQuestionPool::_hasEqualPoints($row->obj_id))))
 					{
@@ -5323,10 +5306,10 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function &getEvaluationUsers($user_id)
+	function &getEvaluationUsers($user_id, $sort_name_option = "asc")
 	{
 		$users = array();
-		$query = sprintf("SELECT tst_eval_users.user_fi, usr_data.firstname, usr_data.lastname FROM tst_eval_users, usr_data WHERE tst_eval_users.test_fi = %s AND tst_eval_users.evaluator_fi = %s AND tst_eval_users.user_fi = usr_data.usr_id",
+		$query = sprintf("SELECT tst_eval_users.user_fi, usr_data.firstname, usr_data.lastname FROM tst_eval_users, usr_data WHERE tst_eval_users.test_fi = %s AND tst_eval_users.evaluator_fi = %s AND tst_eval_users.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($sort_name_option),
 			$this->ilias->db->quote($this->getTestId() . ""),
 			$this->ilias->db->quote($user_id . "")
 		);
@@ -5341,31 +5324,6 @@ class ilObjTest extends ilObject
 		return $users;
 	}
 
-/**
-* Returns an array of groups who are selected for a test evaluation of a given user
-* 
-* Returns an array of groups who are selected for a test evaluation of a given user
-*
-* @access public
-*/
-	function &getEvaluationGroups($user_id)
-	{
-		$groups = array();
-		$query = sprintf("SELECT group_fi FROM tst_eval_groups WHERE test_fi = %s AND evaluator_fi = %s",
-			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($user_id . "")
-		);
-		$result = $this->ilias->db->query($query);
-		if ($result->numRows())
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$groups[$row["group_fi"]] = $row["group_fi"];
-			}
-		}
-		return $groups;
-	}
-	
 /**
 * Disinvites a user from a evaluation
 * 
@@ -5412,24 +5370,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Disinvites a group from a evaluation
-* 
-* Disinvites a group from a evaluation
-*
-* @param integer $group_id The database id of the disinvited group
-* @access public
-*/
-	function removeSelectedGroup($group_id, $evaluator_id)
-	{
-		$query = sprintf("DELETE FROM tst_eval_groups WHERE test_fi = %s AND group_fi = %s AND evaluator_fi = %s",
-			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($group_id . ""),
-			$this->ilias->db->quote($evaluator_id . "")
-		);
-		$result = $this->ilias->db->query($query);
-	}
-
-/**
 * Invites a group to a evaluation
 * 
 * Invites a group to a evaluation
@@ -5439,21 +5379,31 @@ class ilObjTest extends ilObject
 */
 	function addSelectedGroup($group_id, $evaluator_id)
 	{
-		$query = sprintf("SELECT group_fi FROM tst_eval_groups WHERE test_fi = %s AND evaluator_fi = %s AND group_fi = %s",
-			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($evaluator_id . ""),
-			$this->ilias->db->quote($group_id . "")
-		);
-		$result = $this->ilias->db->query($query);
-		if ($result->numRows() < 1)
+		include_once "./classes/class.ilObjGroup.php";
+		$group = new ilObjGroup($group_id);
+		$members = $group->getGroupMemberIds();
+		foreach ($members as $user_id)
 		{
-			$query = sprintf("INSERT INTO tst_eval_groups (eval_groups_id, test_fi, evaluator_fi, group_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getTestId() . ""),
-				$this->ilias->db->quote($evaluator_id . ""),
-				$this->ilias->db->quote($group_id . "")
-			);
-			$result = $this->ilias->db->query($query);
-		}
+			$this->addSelectedUser($user_id, $evaluator_id);
+		}		
+	}
+	
+/**
+* Adds a role to a evaluation
+* 
+* Adds a role to a evaluation
+*
+* @param integer $role_id The database id of the role to add
+* @access public
+*/
+	function addSelectedRole($role_id, $evaluator_id)
+	{
+		global $rbacreview;
+		$members =  $rbacreview->assignedUsers($role_id,"usr_id");
+		foreach ($members as $user_id)
+		{
+			$this->addSelectedUser($user_id, $evaluator_id);
+		}		
 	}
 	
 /**
@@ -6295,7 +6245,16 @@ class ilObjTest extends ilObject
 		if ($this->hasNrOfTriesRestriction() && is_object($active) && $this->isNrOfTriesReached($active->tries))
 		{
 			$result["executable"] = false;
-			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
+			if ($this->isOnlineTest())
+			{
+				// don't display an errormessage for online exams. It could confuse users
+				// because they will get either a finish test button or a print test button
+				$result["errormessage"] = "";
+			}
+			else
+			{
+				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
+			}
 			return $result;
 		}
 		
@@ -6313,6 +6272,31 @@ class ilObjTest extends ilObject
 			return $result && $this->isActiveTestSubmitted();
 		}
 		return $result;
+	}
+	
+	function canEditMarks()
+	{
+		$total = $this->evalTotalPersons();
+		if ($total > 0)
+		{
+			if ($this->getReportingDate())
+			{
+				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
+				{
+					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now = mktime();
+					if ($now < $epoch_time) 
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 } // END class.ilObjTest

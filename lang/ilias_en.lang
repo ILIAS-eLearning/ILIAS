@@ -143,6 +143,7 @@ assessment#:#average_reached_points#:#Average reached points
 assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the test
+assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the question pool!
@@ -235,6 +236,7 @@ assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of th
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
 assessment#:#eval_search_groups#:#Groups
+assessment#:#eval_search_roles#:#Roles
 assessment#:#eval_search_term#:#Search term
 assessment#:#eval_search_users#:#Users
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation
@@ -312,6 +314,8 @@ assessment#:#no_question_selected_for_move#:#Please check at least one question 
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
+assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
+assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.
 assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms

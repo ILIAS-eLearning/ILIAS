@@ -1734,6 +1734,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$counter++;
 				}
+				if (($last_questionblock_id > 0) && ($data["questionblock_id"] > 0) && ($data["questionblock_id"] != $last_questionblock_id))
+				{
+					$counter++;
+				}
 				if (($data["questionblock_id"] > 0) and ($data["questionblock_id"] != $last_questionblock_id))
 				{
 					// add a separator line for the beginning of a question block
@@ -2815,7 +2819,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 			
-			$questionpools =& $svy->getAvailableQuestionpools(true);
+			$questionpools =& $svy->getAvailableQuestionpools($use_obj_id = true, $could_be_offline = true);
 			if (count($questionpools) > 0)
 			{
 				foreach ($questionpools as $key => $value)
