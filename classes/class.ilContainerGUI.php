@@ -173,7 +173,7 @@ class ilContainerGUI extends ilObjectGUI
 	function setTitleAndDescription()
 	{
 		global $ilias;
-		
+//echo "1-".get_class($this)."-";
 		$this->tpl->setTitle($this->object->getTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());
 

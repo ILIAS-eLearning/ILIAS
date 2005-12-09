@@ -26,7 +26,7 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.10 2005/11/21 17:12:08 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.11.2.1 2005/12/09 10:15:29 akill Exp $
 *
 * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI
 * 
@@ -142,7 +142,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	function setTitleAndDescription()
 	{
 		global $lng;
-		
+
 		$this->tpl->setTitle($lng->txt("repository"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
 	}
