@@ -3061,5 +3061,23 @@ echo "8";
 		return true;
 
 	}
+	
+	/**
+	* redirects to (repository) view per ref id
+	* usually to a container and usually used at
+	* the end of a save/import method where the object gui
+	* type (of the new object) doesn't match with the type
+	* of the current $_GET["ref_id"] value
+	*
+	* @param	int		$a_ref_id		reference id
+	*/
+	function redirectToRefId($a_ref_id)
+	{
+		$obj_type = ilObject::_lookupType($a_ref_id,true);
+		$class_name = $this->objDefinition->getClassName($obj_type);
+		$class = strtolower("ilObj".$class_name."GUI");
+		$this->ctrl->redirectByClass($class, "");
+	}
+	
 } // END class.ilObjectGUI
 ?>
