@@ -1195,7 +1195,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
 		$title = $this->lng->txt('role_assignment').' ('.$tmp_obj->getFullname().')';
 
-		$tbl->setTitle($title,"icon_role_b.gif",$this->lng->txt("role_assignment"));
+		$tbl->setTitle($title,"icon_role.gif",$this->lng->txt("role_assignment"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("title"),
 								   $this->lng->txt('description'),

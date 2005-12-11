@@ -223,7 +223,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             	$role["description"] .= "<br/><i>".$this->lng->txt("predefined_template")." (".$role["title"].")</i>";
             }
 
-            $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"]."_b.gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
+            $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"].".gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
 			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
 			$link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
 			//adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm
@@ -565,7 +565,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,"cmd","view");
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("roles"),"icon_role_b.gif",$this->lng->txt("roles"));
+		$tbl->setTitle($this->lng->txt("roles"),"icon_role.gif",$this->lng->txt("roles"));
 
 		if ($_SESSION["filtered_roles"] == 4)
 		{
