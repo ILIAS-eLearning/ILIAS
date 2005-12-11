@@ -145,7 +145,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role_b.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
@@ -200,7 +200,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role_b.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));

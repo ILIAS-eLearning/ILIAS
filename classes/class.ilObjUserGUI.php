@@ -2136,7 +2136,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,"cmd","roleassignment");
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("edit_roleassignment"),"icon_role_b.gif",$this->lng->txt("roles"));
+		$tbl->setTitle($this->lng->txt("edit_roleassignment"),"icon_role.gif",$this->lng->txt("roles"));
 
 		//user must be administrator
 		$tbl->setHeaderNames(array("",$this->lng->txt("role"),$this->lng->txt("description"),$this->lng->txt("context")));
