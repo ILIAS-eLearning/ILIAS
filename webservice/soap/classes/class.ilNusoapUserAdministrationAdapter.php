@@ -590,6 +590,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getGroup(): get xml description of grouip with given reference id.');
 
 
+		// ILIAS util functions
 		$this->server->register('sendMail',
 								array('sid' => 'xsd:string',
 									  'rcp_to' => 'xsd:string',
@@ -607,6 +608,21 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
 								'syntax, parameters may change in future releases');
 								
+		$this->server->register('saveQuestionResult',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:int',
+									  'test_id' => 'xsd:int',
+									  'question_id' => 'xsd:int',
+									  'pass' => 'xsd:int',
+									  'solution' => 'tns:stringArray'),
+								array('status' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#saveQuestionResult',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS saveQuesionResult(): Typically called from Java Applet questions. Only for internal usage '.
+								'Sntax, parameters may change in future releases');
+
 
 
 
