@@ -527,11 +527,18 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			if ($mixpass) $pass = NULL;
 			if ($use_post_solutions) 
 			{
+				$solutions = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/order_(\d+)/", $key, $matches))
+					{
+						array_push($solutions, array("value1" => $matches[1], "value2" => $value));
+					}
+				}
 			}
 			else
 			{
 				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
-				//print_r($solutions);
 			}
 			$solution_script .= "";//"resetValues();\n";
 			$jssolutions = array();
@@ -539,20 +546,19 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			{
 				if ($this->object->getOutputType() == OUTPUT_HTML || !$show_question_page)
 				{
-					$repl_str = "dummy=\"ord".$solution_value->value1."\"";
+					$repl_str = "dummy=\"ord".$solution_value["value1"]."\"";
 	//echo "<br>".$repl_str;
 					if (!$show_question_page)
-						$output = $this->replaceInputElements($repl_str, $solution_value->value2, $output, "[","]"); 
-						/*$output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."] ", $output);*/
+						$output = $this->replaceInputElements($repl_str, $solution_value["value2"], $output, "[","]"); 
 					else 
-						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
+						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value["value2"]."\"", $output);
 				}
 				else
 				{
-					$output = str_replace("initial_value_" . $solution_value->value1, $solution_value->value2, $output);
-					if ((strcmp($solution_value->value2, "") != 0) && (strcmp($solution_value->value1, "") != 0))
+					$output = str_replace("initial_value_" . $solution_value["value1"], $solution_value["value2"], $output);
+					if ((strcmp($solution_value["value2"], "") != 0) && (strcmp($solution_value["value1"], "") != 0))
 					{
-						$jssolutions[$solution_value->value2] = $solution_value;
+						$jssolutions[$solution_value["value2"]] = $solution_value;
 					}
 				}
 			}

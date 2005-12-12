@@ -747,9 +747,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)
 			{
-				if (strcmp($solution_value->value1, "") != 0)
+				if (strcmp($solution_value["value1"], "") != 0)
 				{
-					$preview->addArea($this->object->answers[$solution_value->value1]->get_area(), $this->object->answers[$solution_value->value1]->get_coords(), $this->object->answers[$solution_value->value1]->get_answertext(), "", "", true);
+					$preview->addArea($this->object->answers[$solution_value["value1"]]->get_area(), $this->object->answers[$solution_value["value1"]]->get_coords(), $this->object->answers[$solution_value["value1"]]->get_answertext(), "", "", true);
 				}
 			}
 			$preview->createPreview();

@@ -282,7 +282,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = $solution_value->value1."</textarea>";
+				$repl_str = $solution_value["value1"]."</textarea>";
 				$output = str_replace("</textarea>", $repl_str, $output);								
 			}
 			

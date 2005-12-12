@@ -111,7 +111,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function getAdminTabs(&$tabs_gui)
 	{
-		$this->getTabs(&$tabs_gui);
+		$this->getTabs($tabs_gui);
 	}
 
 

@@ -256,11 +256,11 @@ class ASS_OrderingQuestion extends ASS_Question
 			$queryres = $ilDB->query($query);
 			if ($queryres->numRows() == count($this->answers))
 			{
-				$akeys = array();
-				while ($row = $queryres->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					array_push($akeys, $row["value1"]);
-				}
+				//$akeys = array();
+				//while ($row = $queryres->fetchRow(DB_FETCHMODE_ASSOC))
+				//{
+				//	array_push($akeys, $row["value1"]);
+				//}
 			}
 		}
 

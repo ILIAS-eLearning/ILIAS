@@ -996,7 +996,7 @@ class ASS_Question
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-		while	($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while	($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			array_push($values, $row);
 		}
