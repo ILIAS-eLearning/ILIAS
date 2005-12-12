@@ -661,21 +661,21 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				{
 					// text gaps
 					
-					$repl_str = "dummy=\"tgap_".$solution_value->value1."\"";
+					$repl_str = "dummy=\"tgap_".$solution_value["value1"]."\"";
 					//
 					if (!$show_question_page)
 					{
-						$output = $this->replaceInputElements($repl_str, $solution_value->value2, $output,"[","]");						
+						$output = $this->replaceInputElements($repl_str, $solution_value["value2"], $output,"[","]");						
 					}
 					else 
-						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
+						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value["value2"]."\"", $output);
 					
 					// select gaps
-					$repl_str = "dummy=\"sgap_".$solution_value->value1."_".$solution_value->value2."\"";
+					$repl_str = "dummy=\"sgap_".$solution_value["value1"]."_".$solution_value["value2"]."\"";
 					
 					if (!$show_question_page) 
 					{
-						$output = $this->replaceSelectElements("gap_".$solution_value->value1, $repl_str, $output,"[","]"); 
+						$output = $this->replaceSelectElements("gap_".$solution_value["value1"], $repl_str, $output,"[","]"); 
 					} else 
 						$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
 					//echo "<br>".$repl_str;
@@ -698,9 +698,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				{
 					foreach ($solutions as $solidx => $solvalue)
 					{
-						if ($solvalue->value1 == $idx)
+						if ($solvalue["value1"] == $idx)
 						{
-							$solution_value = $solvalue->value2;
+							$solution_value = $solvalue["value2"];
 						}
 					}
 				}

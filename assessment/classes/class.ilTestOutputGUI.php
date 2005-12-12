@@ -338,11 +338,16 @@ class ilTestOutputGUI
 			default:
 				$_SESSION["reorder"] = $this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion");
 				$question_gui->setSequenceNumber ($sequence);
+				$use_post_solutions = false;
+				if ($this->saveResult === false)
+				{
+					$use_post_solutions = true;
+				}
 				$question_gui->outWorkingForm(
 					$test_id, 
 					$is_postponed, 
 					$showsolution = $directfeedback,
-					true, false, NULL, NULL, false//, !$this->saveResult
+					true, false, NULL, NULL, false, $use_post_solutions
 				);
 				break;
 		}

@@ -532,7 +532,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$show_solution_only = false, 
 		$ilUser = NULL, 
 		$pass = NULL, 
-		$mixpass = false
+		$mixpass = false,
+		$use_post_solutions = false
 	)
 	{
 		if (!is_object($ilUser)) 
@@ -579,16 +580,30 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}
 			if ($mixpass) $pass = NULL;
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			if ($use_post_solutions) 
+			{
+				$solutions = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/sel_matching_(\d+)/", $key, $matches))
+					{
+						array_push($solutions, array("value1" => $value, "value2" => $matches[1]));
+					}
+				}
+			}
+			else
+			{
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			}
 			$solution_script .= "";//"resetValues();\n";
 			foreach ($solutions as $idx => $solution_value)
 			{
 				if ($this->object->getOutputType() == OUTPUT_HTML || !$show_question_page)
 				{					
-					$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
+					$repl_str = "dummy=\"match".$solution_value["value2"]."_".$solution_value["value1"]."\"";
 					
 					if (!$show_question_page) {
-						$output = $this->replaceSelectElements ("sel_matching_".$solution_value->value2,$repl_str,$output,"[","]");
+						$output = $this->replaceSelectElements ("sel_matching_".$solution_value["value2"],$repl_str,$output,"[","]");
 					}
 					else 
 						$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
@@ -596,17 +611,17 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					$output = str_replace("initial_value_" . $solution_value->value2, $solution_value->value1, $output);
-					if (($solution_value->value2 > 1) && ($solution_value->value1 > 1))
+					$output = str_replace("initial_value_" . $solution_value["value2"], $solution_value["value1"], $output);
+					if (($solution_value["value2"] > 1) && ($solution_value["value1"] > 1))
 					{
-						$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".moveTo(dd.elements.term_" . $solution_value->value1 . ".defx + 250, dd.elements.term_" . $solution_value->value1 . ".defy);\n";
+						$solution_script .= "dd.elements.definition_" . $solution_value["value2"] . ".moveTo(dd.elements.term_" . $solution_value["value1"] . ".defx + 250, dd.elements.term_" . $solution_value["value1"] . ".defy);\n";
 						if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
 						{
 							foreach ($this->object->matchingpairs as $pdx => $pair)
 							{
-								if ($pair->getDefinitionId() == $solution_value->value2)
+								if ($pair->getDefinitionId() == $solution_value["value2"])
 								{
-									$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".write(\"<strong>" . $pair->getDefinition() . "</strong>\");\n";
+									$solution_script .= "dd.elements.definition_" . $solution_value["value2"] . ".write(\"<strong>" . $pair->getDefinition() . "</strong>\");\n";
 								}
 							}
 						}
