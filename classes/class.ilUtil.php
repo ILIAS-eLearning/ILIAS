@@ -572,7 +572,14 @@ class ilUtil
 				}
 			}
 			// if ($params) $params = substr($params,0,-1);
-			$link = $AScript."?".$params."offset=";
+			if(strpos($AScript,'&'))
+			{
+				$link = $AScript."&".$params."offset=";
+			}
+			else
+			{
+				$link = $AScript."?".$params."offset=";
+			}				
 
 			// ?bergehe "zurck"-link, wenn offset 0 ist.
 			if ($AOffset >= 1)

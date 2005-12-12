@@ -24,7 +24,7 @@
 /**
 * @author Stefan Meyer <smeyer@databay.de>
 *
-* @version $Id$
+* @version $Id
 *
 * @package ilias-tracking
 *
@@ -43,11 +43,6 @@ class ilLPStatusSCORM extends ilLPStatus
 		$this->db =& $ilDB;
 	}
 
-	function _getCountNotAttempted($a_obj_id)
-	{
-		return 999;
-	}
-	
 	function _getCountInProgress($a_obj_id)
 	{
 		return count(ilLPStatusSCORM::_getInProgress($a_obj_id));

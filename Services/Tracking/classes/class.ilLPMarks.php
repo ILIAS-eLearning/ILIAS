@@ -56,7 +56,7 @@ class ilLPMarks
 		$this->db =& $ilDB;
 
 		$this->obj_id = $a_obj_id;
-		$this->usr_id = $a_usr_id
+		$this->usr_id = $a_usr_id;
 		$this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
 
 		$this->__read();
@@ -132,12 +132,45 @@ class ilLPMarks
 		return false;
 	}
 
+	function _lookupMark($a_usr_id,$a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM ut_lp_marks ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->mark;
+		}
+		return '';
+	}
+
 		
+	function _lookupComment($a_usr_id,$a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM ut_lp_marks ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->comment;
+		}
+		return '';
+	}
 
 	// Private
 	function __read()
 	{
-		$res = $this->db->query("SELECT * FROM ut_lp_marks WHERE obj_id = '".$this->db->quote($this->obj_id)."'");
+		$res = $this->db->query("SELECT * FROM ut_lp_marks ".
+								"WHERE obj_id = '".$this->db->quote($this->obj_id)."' ".
+								"AND usr_id = '".(int) $this->usr_id."'");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->has_entry = true;

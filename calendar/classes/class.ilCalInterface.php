@@ -378,8 +378,10 @@ class ilCalInterface
 	*/
 	function getGroupIds()
 	{
-		$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
-		$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
+		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
+		#$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
+		
+		$IliasArryGroups = ilUtil::_getObjectsByOperations(array('grp','crs'),'read');
 
 		if($IliasArryGroups[0]!="") {
 			$i = 0;
@@ -488,8 +490,10 @@ class ilCalInterface
 	function getUserGroups ($userId)
 	{
 	
-		$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
-		$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
+		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
+		#$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
+
+		$IliasArryGroups = ilUtil::_getObjectsByOperations(array('grp','crs'),'read');
 
 		if($IliasArryGroups[0]!="") {
 	   		$i = 0;
@@ -566,8 +570,11 @@ class ilCalInterface
 	function getGroupName ($groupId)
 	{
 			
-		$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
-		$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations("crs", "read", False,False));
+		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
+		#$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations("crs", "read", False,False));
+
+		$IliasArryGroups = ilUtil::_getObjectsByOperations(array('grp','crs'),'read');
+
 		if($IliasArryGroups[0]!="") {
 			$i = 0;
 			foreach ($IliasArryGroups as $Row){

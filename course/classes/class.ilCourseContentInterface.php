@@ -1148,6 +1148,7 @@ class ilCourseContentInterface
 			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_tst->getId());
 				
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_tst->getRefId(),$tmp_tst->getType());
+			$obj_link = "ilias.php?baseClass=ilObjTestGUI&ref_id=".$tmp_tst->getRefId()."&cmd=infoScreen";
 
 			#$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId());
 			#$obj_frame = $obj_frame ? $obj_frame : 'bottom';

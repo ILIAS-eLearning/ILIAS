@@ -43,14 +43,40 @@ class ilLPStatusManual extends ilLPStatus
 		$this->db =& $ilDB;
 	}
 
+	function _getNotAttempted($a_obj_id)
+	{
+		return array();
+
+		global $ilObjDataCache;
+
+		switch($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'crs':
+
+				include_once 'course/classes/class.ilCourseMembers.php';
+				
+				$members = ilCourseMembers::_getMembers($a_obj_id);
+			
+				// diff in progress and completed (use stored result in LPStatusWrapper)
+				$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
+				$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+
+				return $users;
+
+			default:
+				return array();
+		}
+	}
+
 	function _getCountNotAttempted($a_obj_id)
 	{
-		return 999;
+		return count(ilLPStatusWrapper::_getNotAttempted($a_obj_id));
 	}
+
 	
 	function _getCountInProgress($a_obj_id)
 	{
-		return count(ilLPStatusManual::_getCompleted($a_obj_id));
+		return count(ilLPStatusManual::_getInProgress($a_obj_id));
 	}
 	function _getInProgress($a_obj_id)
 	{

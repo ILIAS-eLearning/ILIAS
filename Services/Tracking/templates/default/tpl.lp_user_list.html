@@ -1,0 +1,65 @@
+	{INFO_TABLE}
+	<br />
+	<form action="{FORMACTION}" method="post">
+	  <table class="il_ContainerBlock">
+		<tr>
+		  <td class="il_PDBlockSubHeader" width="1">
+			<img border="0" src="{HEADER_IMG}" alt="{HEADER_ALT} title="{HEADER_ALT}" />
+		  </td>
+		  <td class="il_PDBlockSubHeader" colspan="5">{HEADER_ALT}</td>
+		</tr>
+		<tr class="tblheader">
+		  <td class="std" colspan="2"></td>
+		  <td class="std"></td>
+		  <td class="std">{TXT_MARK}</td>
+		  <td class="std">{TXT_COMMENT}</td>
+		  <td class="std">{TXT_OPTIONS}</td>
+		</tr>
+		<!-- BEGIN user_row -->
+		<tr class="{CSSROW}" padding="1">
+		  <td class="std" valign="center" align="center" width="1" colspan="2">
+			<img border="0" src="{TYPE_IMG}" alt="{TYPE_ALT} title="{TYPE_ALT}" />
+		  </td>
+		  <td class="std">{ROW_INFO}</td>
+		  <td class="std">{MARK}</td>
+		  <td class="std">{COMMENT}</td>
+		  <td>
+			<a class="il_ContainerItemCommand" href="{EDIT_COMMAND}">{TXT_COMMAND}</a>
+		  </td>
+		</tr>
+		<!-- BEGIN item_row -->
+		<tr class="{ITEM_CSSROW}">
+		  <td class="std" valign="top" align="center" width="1">
+		  </td>
+		  <td class="std" valign="center" width="1">
+			<img border="0" src="{ITEM_IMG}" alt="{ITEM_ALT} title="{ITEM_ALT}" />
+		  </td>
+		  <td class="std">{ITEM_INFO}</td>
+		  <td class="std">{ITEM_MARK}</td>
+		  <td class="std">{ITEM_COMMENT}</td>
+		  <td>
+			<a class="il_ContainerItemCommand" href="{ITEM_EDIT_COMMAND}">{ITEM_TXT_COMMAND}</a>
+		  </td>
+		</tr>
+		<!-- END item_row -->
+		<!-- END user_row -->
+		<!-- BEGIN linkbar -->
+		<tr>
+		  <td class="option_value" colspan="6 align="right">
+			<div align="right">
+			  {LINKBAR}
+			</div>
+		  </td>
+		</tr>
+		<!-- END linkbar -->
+		<!-- BEGIN no_content -->
+		<tr>
+		  <td class="option_value" colspan="6 align="right">
+			<div align="center">
+			  {NO_CONTENT}
+			</div>
+		  </td>
+		</tr>
+		<!-- END no_content -->
+	  </table>
+	</form>

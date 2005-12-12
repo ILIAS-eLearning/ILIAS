@@ -222,7 +222,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function backToCourseObject()
 	{
 		include_once "./classes/class.ilUtil.php";
-		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
+		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=".(int) $_GET['crs_show_result']));
 	}
 	
 	/*

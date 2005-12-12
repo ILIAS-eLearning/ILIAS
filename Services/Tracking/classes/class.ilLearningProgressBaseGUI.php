@@ -232,5 +232,38 @@ class ilLearningProgressBaseGUI
 		return new ilTableGUI(0,false);
 	}
 
+
+	/**
+	* show details about current object. Uses an existing info_gui object.
+	*/
+	function __showObjectDetails(&$info,$item_id = 0)
+	{
+		global $ilObjDataCache;
+
+		$details_id = $item_id ? $item_id : $this->details_id;
+
+
+		// Section object details
+		$info->addSection($this->lng->txt('details'));
+		$info->addProperty($this->lng->txt('title'),$ilObjDataCache->lookupTitle($details_id));
+		if(strlen($desc = $ilObjDataCache->lookupDescription($details_id)))
+		{
+			$info->addProperty($this->lng->txt('description'),$desc);
+		}
+		$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text($this->details_mode));
+
+		if($this->details_mode == LP_MODE_VISITS)
+		{
+			$info->addProperty($this->lng->txt('trac_required_visits'),ilLPObjSettings::_lookupVisits($details_id));
+		}
+		
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+		if($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
+		{
+			$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($seconds));
+		}
+	}
+
+
 }
 ?>

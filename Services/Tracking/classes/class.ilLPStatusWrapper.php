@@ -23,6 +23,9 @@
 
 /**
 * Class ilLPObjSettings
+* This class is wrapper for all ilLPStatus classes.
+* It caches all function calls using the obj_id as key
+* TODO: substitute all ilStatus calls with this functions
 *
 * @author Stefan Meyer <smeyer@databay.de>
 *
@@ -43,11 +46,37 @@ class ilLPStatusWrapper
 	*/
 	function _getCountNotAttempted($a_obj_id)
 	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
 
-		return call_user_func(array($class,'_getCountNotAttempted'),$a_obj_id);
+		$cache[$a_obj_id] = call_user_func(array($class,'_getCountNotAttempted'),$a_obj_id);
+		
+		return $cache[$a_obj_id];
+	}
 
+	/**
+	* Static function to read the number of user who have the status 'not_attempted'
+	*/
+	function _getNotAttempted($a_obj_id)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+
+		$cache[$a_obj_id] = call_user_func(array($class,'_getNotAttempted'),$a_obj_id);
+		
+		return $cache[$a_obj_id];
 	}
 
 	/**
@@ -55,10 +84,18 @@ class ilLPStatusWrapper
 	*/
 	function _getCountInProgress($a_obj_id)
 	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		#echo $class."<br>";
 
-		return call_user_func(array($class,'_getCountInProgress'),$a_obj_id);
+		$cache[$a_obj_id] = call_user_func(array($class,'_getCountInProgress'),$a_obj_id);
+		return $cache[$a_obj_id];
 	}
 
 	/**
@@ -66,10 +103,18 @@ class ilLPStatusWrapper
 	*/
 	function _getInProgress($a_obj_id)
 	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		#echo $class."<br>";
 
-		return call_user_func(array($class,'_getInProgress'),$a_obj_id);
+		$cache[$a_obj_id] = call_user_func(array($class,'_getInProgress'),$a_obj_id);
+		return $cache[$a_obj_id];
 	}
 	
 	/**
@@ -77,10 +122,18 @@ class ilLPStatusWrapper
 	*/
 	function _getCountCompleted($a_obj_id)
 	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		#echo $class."<br>";
 
-		return call_user_func(array($class,'_getCountCompleted'),$a_obj_id);
+		$cache[$a_obj_id] = call_user_func(array($class,'_getCountCompleted'),$a_obj_id);
+		return $cache[$a_obj_id];
 
 	}
 
@@ -89,11 +142,18 @@ class ilLPStatusWrapper
 	*/
 	function _getCompleted($a_obj_id)
 	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		#echo $class."<br>";
 
-		return call_user_func(array($class,'_getCompleted'),$a_obj_id);
-
+		$cache[$a_obj_id] = call_user_func(array($class,'_getCompleted'),$a_obj_id);
+		return $cache[$a_obj_id];
 	}
 }	
 ?>
