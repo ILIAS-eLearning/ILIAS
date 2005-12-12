@@ -91,6 +91,32 @@ class ilSoapUtils extends ilSoapAdministration
 		$ilLog->write('SOAP: sendMail(): '.$to.', '.$cc.', '.$bcc);
 
 		return true;
-	}		
+	}
+	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		for($i = 0; $i < count($solution); $i += 3)
+		{
+			$query = "INSERT INTO tst_solutions ".
+				"SET user_fi = '".(int) $user_id."', ".
+				"test_fi = '".(int) $test_id."', ".
+				"question_fi = '".(int) $question_id."', ".
+				"value1 = '".$solution[$i]."', ".
+				"value2 = '".$solution[$i+1]."', ".
+				"points = '".$solution[$i+2]."', ".
+				"pass = '".$pass."'";
+
+			$ilDB->query($query);
+		}
+		
+		return true;
+	}
 }
 ?>

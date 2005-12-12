@@ -355,6 +355,17 @@ function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 	return $sou->sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach);
 }
 
+function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
+{
+	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+	$sou =& new ilSoapUtils();
+	$sou->disableSOAPCheck();
+
+	return $sou->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
+}
+
+
 	
 	
 
