@@ -29,7 +29,7 @@ include_once "./survey/classes/class.SurveyQuestionGUI.php";
 * The SurveyMetricQuestionGUI class encapsulates the GUI representation
 * for metric survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyMetricQuestionGUI.php
 * @modulegroup   Survey

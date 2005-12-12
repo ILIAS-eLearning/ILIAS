@@ -1605,17 +1605,17 @@ class ASS_Question
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":
-					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
+					$href = "./goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "PageObject":
 				case "StructureObject":
-					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
+					$href = "./goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "GlossaryItem":
-					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
+					$href = "./goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "MediaObject":
-					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
+					$href = "./content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
 					break;
 			}
 		}

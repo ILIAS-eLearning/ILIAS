@@ -1,3 +1,15 @@
+<script language="JavaScript" type="text/javascript">
+<!--
+// Helpline messages
+g_help = "Insert gap: <gap>text</gap>  (alt+g)";
+
+// Shows the help messages in the helpline window
+function helpline(help) 
+{
+	document.frm_cloze_test.helpbox.value = eval(help + "_help");
+}
+//-->
+</script>
 <form name="frm_cloze_test" action="{ACTION_CLOZE_TEST}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="id" value="{CLOZE_ID}" />
 <table class="fullwidth">
@@ -18,7 +30,16 @@
 </tr>
 <tr>
   <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><textarea class="fullwidth" name="clozetext" id="clozetext" cols="40" rows="10">{VALUE_CLOZE_TEXT}</textarea><br /><span class="small">{TEXT_CLOSE_HINT}</span></td>
+  <td class="option_value" colspan="4">
+  	<!--div id="bbcodebuttons" style="position:relative;visibility:visible;">
+			<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="Hier wird eine kleine Hilfe stehen" />
+			<br />
+			<input type="button" class="ilEditSubmit" accesskey="g" name="addbbcode0" value=" gap " onClick="" onMouseOver="helpline('g')" />
+    </div-->
+		<textarea class="fullwidth" name="clozetext" id="clozetext" cols="40" rows="10">{VALUE_CLOZE_TEXT}</textarea>
+		<br />
+		<span class="small">{TEXT_CLOSE_HINT}</span>
+	</td>
 </tr>
 <tr>
   <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>

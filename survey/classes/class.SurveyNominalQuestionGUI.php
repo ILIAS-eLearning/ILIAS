@@ -29,12 +29,13 @@ include_once "./survey/classes/class.SurveyQuestionGUI.php";
 * The SurveyNominalQuestionGUI class encapsulates the GUI representation
 * for nominal survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyNominalQuestionGUI.php
 * @modulegroup   Survey
 */
-class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
+class SurveyNominalQuestionGUI extends SurveyQuestionGUI 
+{
 
 /**
 * SurveyNominalQuestionGUI constructor
@@ -303,7 +304,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 				break;
 			case 2:
 				// combobox output
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
 					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("comborow_nominal");
 					$this->tpl->setVariable("TEXT_NOMINAL", $category);
@@ -368,7 +370,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 * @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
-  function writePostData() {
+  function writePostData() 
+	{
     $result = 0;
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;

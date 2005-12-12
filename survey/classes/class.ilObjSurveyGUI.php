@@ -25,7 +25,7 @@
 /**
 * Class ilObjSurveyGUI
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version  $Id$
 *
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI
@@ -538,7 +538,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			"author" => $this->lng->txt("author"),
 		);
 		$this->tpl->setCurrentBlock("filterrow");
-		foreach ($filter_fields as $key => $value) {
+		foreach ($filter_fields as $key => $value) 
+		{
 			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
 			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
 			if (!$reset_filter) 
@@ -2036,7 +2037,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock($block_result);
 				include_once "./classes/class.ilUtil.php";
-				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
@@ -2074,7 +2075,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock($block_result);
 				include_once "./classes/class.ilUtil.php";
-				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
@@ -2111,7 +2112,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock($block_result);
 				include_once "./classes/class.ilUtil.php";
-				$this->tpl->setVariable("TEXT_ROLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_role_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_ROLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_role.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
@@ -2538,35 +2539,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}	
 
-	/**
-	* Prepare the output of the survey GUI object
-	*
-	* Prepare the output of the survey GUI object
-	*
-	* @access private
-	*/
-/*	function prepareOutput()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-		// catch feedback message
-		sendInfo();
-
-		$this->tpl->setCurrentBlock("header_image");
-		include_once "./classes/class.ilUtil.php";
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_svy_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$this->setAdminTabs($_POST["new_type"]);
-		}
-	}*/
-	
 	/*
 	* list all export files
 	*/

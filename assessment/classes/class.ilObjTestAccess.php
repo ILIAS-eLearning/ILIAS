@@ -316,7 +316,7 @@ class ilObjTestAccess extends ilObjectAccess
 			}
 			$test_result["mark"] = $mark_value;
 			// get the passed state
-			$test_result["passed"] = $test_result["mark"][passed];
+			$test_result["passed"] = $test_result["mark"]["passed"];
 		}
 		return $test_result;
 	}
@@ -486,6 +486,55 @@ class ilObjTestAccess extends ilObjectAccess
 		}
 	}
 
+/**
+* Returns an array containing the users who passed the test
+* 
+* Returns an array containing the users who passed the test
+*
+* @return array An array containing the users who passed the test.
+*         Format of the values of the resulting array:
+*           array(
+*             "user_id"        => user ID,
+*             "max_points"     => maximum available points in the test
+*             "reached_points" => maximum reached points of the user
+*             "mark_short"     => short text of the passed mark
+*             "mark_official"  => official text of the passed mark
+*           )
+* @access public
+*/
+	function &_getPassedUsers($test_id)
+	{
+		global $ilDB;
+		
+		$passed_users = array();
+		$query = sprintf("SELECT tst_active.*, tst_tests.obj_fi FROM tst_active, tst_tests WHERE tst_active.test_fi = %s AND tst_active.tries > 0 AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$user_id = $row["user_fi"];
+				$test_obj_id = $row["obj_fi"];
+				$pass = ilObjTest::_getResultPass($user_id, $test_id);
+				$testres =& ilObjTestAccess::_getTestResult($user_id, $test_obj_id, $pass);
+				if ($testres["passed"])
+				{
+					array_push($passed_users, 
+						array(
+							"user_id" => $user_id,
+							"max_points" => $testres["max_points"],
+							"reached_points" => $testres["reached_points"],
+							"mark_short" => $testres["mark"]["short_name"],
+							"mark_official" => $testres["mark"]["official_name"]
+						)
+					);
+				}
+			}
+		}
+		return $passed_users;
+	}
 }
 
 ?>

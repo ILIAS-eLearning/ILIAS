@@ -35,7 +35,7 @@ define("METRIC_QUESTION_IDENTIFIER", "Metric Question");
 * The SurveyMetricQuestion class defines and encapsulates basic methods and attributes
 * for metric survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyMetricQuestion.php
 * @modulegroup   Survey
@@ -188,13 +188,16 @@ class SurveyMetricQuestion extends SurveyQuestion
 * @param integer $id The database id of the metric survey question
 * @access public
 */
-  function loadFromDb($id) {
+  function loadFromDb($id) 
+	{
     $query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
       $this->ilias->db->quote($id)
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		{
+      if ($result->numRows() == 1) 
+			{
         $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
         $this->id = $data->question_id;
         $this->title = $data->title;
@@ -215,8 +218,10 @@ class SurveyMetricQuestion extends SurveyQuestion
         $this->ilias->db->quote($id)
       );
       $result = $this->ilias->db->query($query);
-      if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-        if ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+      if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+			{
+        if ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+				{
           $this->minimum = $data->value1;
 					if (($data->value2 < 0) or (strcmp($data->value2, "") == 0))
 					{
@@ -262,7 +267,8 @@ class SurveyMetricQuestion extends SurveyQuestion
   function saveToDb($original_id = "")
   {
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete()) 
+		{
 			$complete = 1;
 		}
 		if ($original_id)
@@ -273,7 +279,8 @@ class SurveyMetricQuestion extends SurveyQuestion
 		{
 			$original_id = "NULL";
 		}
-    if ($this->id == -1) {
+    if ($this->id == -1) 
+		{
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -292,24 +299,28 @@ class SurveyMetricQuestion extends SurveyQuestion
 				$original_id
       );
       $result = $this->ilias->db->query($query);
-      if ($result == DB_OK) {
+      if ($result == DB_OK) 
+			{
         $this->id = $this->ilias->db->getLastInsertId();
       }
-    } else {
+    } 
+		else 
+		{
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-        $this->ilias->db->quote($this->title),
+				$this->ilias->db->quote($this->title),
 				$this->ilias->db->quote("$this->subtype"),
-        $this->ilias->db->quote($this->description),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote($this->description),
+				$this->ilias->db->quote($this->author),
+				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($this->id)
+				$this->ilias->db->quote($this->id)
       );
       $result = $this->ilias->db->query($query);
     }
-    if ($result == DB_OK) {
+    if ($result == DB_OK) 
+		{
       // saving material uris in the database
       $this->saveMaterialsToDb();
 
@@ -582,7 +593,8 @@ class SurveyMetricQuestion extends SurveyQuestion
 		if ($this->original_id)
 		{
 			$complete = 0;
-			if ($this->isComplete()) {
+			if ($this->isComplete()) 
+			{
 				$complete = 1;
 			}
 			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",

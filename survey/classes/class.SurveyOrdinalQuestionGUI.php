@@ -29,12 +29,13 @@ include_once "./survey/classes/class.SurveyQuestionGUI.php";
 * The SurveyOrdinalQuestionGUI class encapsulates the GUI representation
 * for ordinal survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyOrdinalQuestionGUI.php
 * @modulegroup   Survey
 */
-class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
+class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI 
+{
 
 /**
 * SurveyOrdinalQuestionGUI constructor
@@ -181,7 +182,8 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 		{
 			case 0:
 				// vertical orientation
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
 					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("ordinal_row");
 					$this->tpl->setVariable("TEXT_ORDINAL", $category);
@@ -232,7 +234,8 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 				break;
 			case 2:
 				// combobox output
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
 					$category = $this->object->categories->getCategory($i);
 					$this->tpl->setCurrentBlock("comborow");
 					$this->tpl->setVariable("TEXT_ORDINAL", $category);
@@ -583,7 +586,8 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 *
 * @access public
 */
-	function insertStandardNumbers() {
+	function insertStandardNumbers() 
+	{
 		if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
 		{
 			sendInfo($this->lng->txt("missing_upper_or_lower_limit"));

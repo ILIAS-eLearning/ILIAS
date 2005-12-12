@@ -24,7 +24,7 @@
 /**
 * Class ilObjSurveyQuestionPool
 * 
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @extends ilObject
@@ -236,32 +236,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 
 	/**
-	* init default roles settings
-	* 
-	* If your module does not require any default roles, delete this method 
-	* (For an example how this method is used, look at ilObjForum)
-	* 
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
-	{
-		global $rbacadmin;
-		
-		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
-
-		// create moderator role and assign role to rolefolder...
-		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
-
-		//unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
-	}
-
-	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
 	* 
@@ -470,7 +444,8 @@ class ilObjSurveyQuestionPool extends ilObject
 * @param integer $question_id The database id of the question
 * @access public
 */
-  function duplicateQuestion($question_id, $obj_id = "") {
+  function duplicateQuestion($question_id, $obj_id = "") 
+	{
 		global $ilUser;
 		
 		include_once "./survey/classes/class.SurveyNominalQuestion.php";
@@ -499,7 +474,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		$question->loadFromDb($question_id);
     $counter = 2;
-    while ($question->questionTitleExists($question->getTitle() . " ($counter)")) {
+    while ($question->questionTitleExists($question->getTitle() . " ($counter)")) 
+		{
       $counter++;
     }
 		if ($obj_id)

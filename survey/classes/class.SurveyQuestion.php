@@ -27,7 +27,7 @@
 * The SurveyQuestion class defines and encapsulates basic methods and attributes
 * for survey question types to be used for all parent classes.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyQuestion.php
 * @modulegroup   Survey
@@ -251,7 +251,8 @@ class SurveyQuestion
 * @return boolean The result of the title check
 * @access public
 */
-  function questionTitleExists($title, $questionpool_object = "") {
+  function questionTitleExists($title, $questionpool_object = "") 
+	{
 		$refwhere = "";
 		if (strcmp($questionpool_reference, "") != 0)
 		{
@@ -263,8 +264,10 @@ class SurveyQuestion
       $this->ilias->db->quote($title)
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		{
+      if ($result->numRows() == 1) 
+			{
         return TRUE;
       }
     }
@@ -280,7 +283,8 @@ class SurveyQuestion
 * @access public
 * @see $title
 */
-  function setTitle($title = "") {
+  function setTitle($title = "") 
+	{
     $this->title = $title;
   }
 
@@ -293,7 +297,8 @@ class SurveyQuestion
 * @access public
 * @see $obligatory
 */
-  function setObligatory($obligatory = 1) {
+  function setObligatory($obligatory = 1) 
+	{
 		if ($obligatory)
 		{
 	    $this->obligatory = 1;
@@ -327,7 +332,8 @@ class SurveyQuestion
 * @access public
 * @see $id
 */
-  function setId($id = -1) {
+  function setId($id = -1) 
+	{
     $this->id = $id;
   }
 
@@ -340,7 +346,8 @@ class SurveyQuestion
 * @access public
 * @see $survey_id
 */
-  function setSurveyId($id = -1) {
+  function setSurveyId($id = -1) 
+	{
     $this->survey_id = $id;
   }
 
@@ -353,7 +360,8 @@ class SurveyQuestion
 * @access public
 * @see $description
 */
-  function setDescription($description = "") {
+  function setDescription($description = "") 
+	{
     $this->description = $description;
   }
 
@@ -368,11 +376,14 @@ class SurveyQuestion
 * @access public
 * @see $materials
 */
-  function addMaterials($materials_file, $materials_name="") {
-  	if(empty($materials_name)) {
+  function addMaterials($materials_file, $materials_name="") 
+	{
+  	if(empty($materials_name)) 
+		{
     	$materials_name = $materials_file;
     }
-    if ((!empty($materials_name))&&(!$this->keyInArray($materials_name, $this->materials))) {
+    if ((!empty($materials_name))&&(!$this->keyInArray($materials_name, $this->materials))) 
+		{
       $this->materials[$materials_name] = $materials_file;
     }
 
@@ -388,10 +399,14 @@ class SurveyQuestion
 * @access private
 * @see $materials
 */
-  function keyInArray($searchkey, $array) {
-	  if ($searchKey) {
-		   foreach ($array as $key => $value) {
-			   if (strcmp($key, $searchkey)==0) {
+  function keyInArray($searchkey, $array) 
+	{
+	  if ($searchKey) 
+		{
+		   foreach ($array as $key => $value) 
+			 {
+			   if (strcmp($key, $searchkey)==0) 
+				 {
 				   return true;
 			   }
 		   }
@@ -440,15 +455,19 @@ class SurveyQuestion
 * @access public
 * @see $materials
 */
-  function deleteMaterial($materials_name = "") {
-	foreach ($this->materials as $key => $value) {
-		if (strcmp($key, $materials_name)==0) {
-			if (file_exists($this->getMaterialsPath().$value)) {
-				unlink($this->getMaterialsPath().$value);
+  function deleteMaterial($materials_name = "") 
+	{
+		foreach ($this->materials as $key => $value) 
+		{
+			if (strcmp($key, $materials_name)==0) 
+			{
+				if (file_exists($this->getMaterialsPath().$value)) 
+				{
+					unlink($this->getMaterialsPath().$value);
+				}
+				unset($this->materials[$key]);
 			}
-			unset($this->materials[$key]);
 		}
-	}
   }
 
 /**
@@ -459,7 +478,8 @@ class SurveyQuestion
 * @access public
 * @see $materials
 */
-  function flushMaterials() {
+  function flushMaterials() 
+	{
     $this->materials = array();
   }
 
@@ -472,8 +492,10 @@ class SurveyQuestion
 * @access public
 * @see $author
 */
-  function setAuthor($author = "") {
-    if (!$author) {
+  function setAuthor($author = "") 
+	{
+    if (!$author) 
+		{
       $author = $this->ilias->account->fullname;
     }
     $this->author = $author;
@@ -488,7 +510,8 @@ class SurveyQuestion
 * @access public
 * @see $questiontext
 */
-  function setQuestiontext($questiontext = "") {
+  function setQuestiontext($questiontext = "") 
+	{
     $this->questiontext = $questiontext;
   }
 
@@ -501,7 +524,8 @@ class SurveyQuestion
 * @access public
 * @see $owner
 */
-  function setOwner($owner = "") {
+  function setOwner($owner = "") 
+	{
     $this->owner = $owner;
   }
 
@@ -514,7 +538,8 @@ class SurveyQuestion
 * @access public
 * @see $title
 */
-  function getTitle() {
+  function getTitle() 
+	{
     return $this->title;
   }
 
@@ -527,7 +552,8 @@ class SurveyQuestion
 * @access public
 * @see $id
 */
-  function getId() {
+  function getId() 
+	{
     return $this->id;
   }
 
@@ -540,7 +566,9 @@ class SurveyQuestion
 * @access public
 * @see $obligatory
 */
-  function getObligatory() {
+  
+	function getObligatory() 
+	{
     return $this->obligatory;
   }
 
@@ -553,7 +581,8 @@ class SurveyQuestion
 * @access public
 * @see $survey_id
 */
-  function getSurveyId() {
+  function getSurveyId() 
+	{
     return $this->survey_id;
   }
 
@@ -591,7 +620,8 @@ class SurveyQuestion
 * @access public
 * @see $description
 */
-  function getDescription() {
+  function getDescription() 
+	{
     return $this->description;
   }
 
@@ -604,7 +634,8 @@ class SurveyQuestion
 * @access public
 * @see $author
 */
-  function getAuthor() {
+  function getAuthor() 
+	{
     return $this->author;
   }
 
@@ -617,7 +648,8 @@ class SurveyQuestion
 * @access public
 * @see $owner
 */
-  function getOwner() {
+  function getOwner() 
+	{
     return $this->owner;
   }
 
@@ -659,36 +691,6 @@ class SurveyQuestion
   function setObjId($obj_id = 0) {
     $this->obj_id = $obj_id;
   }
-
-/**
-* Insert the question into a survey
-*
-* Insert the question into a survey
-*
-* @param integer $survey_id The database id of the survey
-* @access private
-*/
-  function insertIntoSurvey($survey_id) {
-    // get maximum sequence index in survey
-/*    $query = sprintf("SELECT MAX(sequence) AS seq FROM dum_survey_question WHERE survey_fi=%s",
-      $this->ilias->db->quote($survey_id)
-    );
-    $result = $this->ilias->db->db->query($query);
-    $sequence = 1;
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-      $sequence = $data->seq + 1;
-    }
-    $query = sprintf("INSERT INTO dum_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-      $this->ilias->db->quote($survey_id),
-      $this->ilias->db->quote($this->get_id()),
-      $this->ilias->db->quote($sequence)
-    );
-    $result = $this->ilias->db->db->query($query);
-    if ($result != DB_OK) {
-      // Fehlermeldung
-    }
-*/  }
 
 /**
 * Duplicates a survey question
@@ -866,7 +868,8 @@ class SurveyQuestion
 *
 * @access public
 */
-	function getImagePath() {
+	function getImagePath() 
+	{
 		return CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/images/";
 	}
 
@@ -878,7 +881,8 @@ class SurveyQuestion
 *
 * @access public
 */
-	function getMaterialsPath() {
+	function getMaterialsPath() 
+	{
 		return CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/materials/";
 	}
 
@@ -929,7 +933,8 @@ class SurveyQuestion
 			);
 			$result = $this->ilias->db->query($query);
 			if (!empty($this->materials)) {
-				foreach ($this->materials as $key => $value) {
+				foreach ($this->materials as $key => $value) 
+				{
 					$query = sprintf("INSERT INTO survey_question_material (question_fi, materials, materials_file) VALUES (%s, %s, %s)",
 						$this->ilias->db->quote($this->id),
 						$this->ilias->db->quote($key),
@@ -955,9 +960,11 @@ class SurveyQuestion
       $this->ilias->db->quote($question_id)
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		{
     	$this->materials = array();
-    	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+    	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+			{
 				$this->addMaterials($data->materials_file, $data->materials);
 			}
 		}
@@ -1117,7 +1124,8 @@ class SurveyQuestion
 * @result string The question type string
 * @access private
 */
-  function _getQuestionType($question_id) {
+  function _getQuestionType($question_id) 
+	{
 		global $ilDB;
 
     if ($question_id < 1)
@@ -1127,10 +1135,13 @@ class SurveyQuestion
       $ilDB->quote($question_id)
     );
     $result = $ilDB->query($query);
-    if ($result->numRows() == 1) {
+    if ($result->numRows() == 1) 
+		{
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
       return $data->type_tag;
-    } else {
+    } 
+		else 
+		{
       return "";
     }
   }
