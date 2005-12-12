@@ -87,7 +87,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		$this->getTemplateFile("view", "exc");
 
-		$this->tpl->setVariable("FORM_DOWNLOAD_ACTION", $this->getLinkTarget($this, "downloadFile"));
+		$this->tpl->setVariable("FORM_DOWNLOAD_ACTION", $this->ctrl->getFormAction($this, "downloadFile"));
 		//$this->tpl->setVariable("FORM_DOWNLOAD_ACTION",$this->getFormAction("downloadFile",
 		//	"adm_object.php?cmd=downloadFile&ref_id=".$this->ref_id));
 

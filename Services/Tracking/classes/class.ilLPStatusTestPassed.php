@@ -31,12 +31,11 @@
 */
 
 include_once './Services/Tracking/classes/class.ilLPStatus.php';
-include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
-class ilLPStatusCollection extends ilLPStatus
+class ilLPStatusTestPassed extends ilLPStatus
 {
 
-	function ilLPStatusCollection($a_obj_id)
+	function ilLPStatusTestPassed($a_obj_id)
 	{
 		global $ilDB;
 
@@ -44,70 +43,42 @@ class ilLPStatusCollection extends ilLPStatus
 		$this->db =& $ilDB;
 	}
 
-	function _getNotAttempted($a_obj_id)
-	{
-		include_once 'course/classes/class.ilCourseMembers.php';
-
-		$members = ilCourseMembers::_getMembers($a_obj_id);
-
-		// diff in progress and completed (use stored result in LPStatusWrapper)
-		$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-		$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-		
-		#var_dump("<pre>",$users,$inp,$com,"<pre>");
-		return $users;
-	}
-
-	function _getCountNotAttempted($a_obj_id)
-	{
-		return count(ilLPStatusWrapper::_getNotAttempted($a_obj_id));
-	}
-
 	function _getCountInProgress($a_obj_id)
 	{
-		return count(ilLPStatusCollection::_getInProgress($a_obj_id));
+		return ilLPStatusTestPassed::_getInProgress($a_obj_id);
 	}
 
 	function _getInProgress($a_obj_id)
 	{
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		global $ilDB;
 
-		$in_progress = 0;
-		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
+		include_once './assessment/classes/class.ilObjTestAccess.php';
+
+		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
+			"WHERE tries = 0 ".
+			"AND test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			// merge arrays of users with status 'in progress'
-			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($item_id)));
-			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompleted($item_id)));
+			$user_ids[] = $row->user_fi;
 		}
-		$users = array_diff((array) $users,ilLPStatusCollection::_getCompleted($a_obj_id));
-		return $users;
+		return $user_ids ? $user_ids : array();
 	}
 
 	function _getCountCompleted($a_obj_id)
 	{
-		return count(ilLPStatusCollection::_getCompleted($a_obj_id));
+		return count(ilLPStatusTestPassed::_getCompleted($a_obj_id));
 	}
 
 	function _getCompleted($a_obj_id)
 	{
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		global $ilDB;
 
-		$counter = 0;
-		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
-		{
-			$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
-			if(!$counter++)
-			{
-				$users = $tmp_users;
-			}
-			else
-			{
-				$users = array_intersect($users,$tmp_users);
-			}
+		include_once './assessment/classes/class.ilObjTestAccess.php';
 
-		}
-		return (array) $users;
-	}		
+		
 
+	}
 }	
 ?>

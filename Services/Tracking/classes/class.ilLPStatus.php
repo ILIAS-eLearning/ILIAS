@@ -54,7 +54,12 @@ class ilLPStatus
 
 	function _getCountNotAttempted($a_obj_id)
 	{
-		return -1;
+		return 0;
+	}
+
+	function _getNotAttempted($a_obj_id)
+	{
+		return array();
 	}
 	
 	function _getCountInProgress($a_obj_id)

@@ -9379,3 +9379,14 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#610>
+DROP TABLE IF EXISTS `ut_lp_marks`;
+CREATE TABLE `ut_lp_marks` (
+  `obj_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  `completed` int(1) NOT NULL default '0',
+  `mark` char(32) NOT NULL default '',
+  `comment` char(255) NOT NULL default '',
+  PRIMARY KEY  (`obj_id`,`usr_id`),
+  KEY `obj_usr` (`obj_id`,`usr_id`)
+) Type=MyISAM;

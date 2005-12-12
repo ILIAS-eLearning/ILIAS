@@ -2590,12 +2590,41 @@ class ilObjUser extends ilObject
 	*/
 	function getPersonalPicturePath($a_size = "small")
 	{
+		return ilObjUser::_getPersonalPicturePath($this->getId(),$a_size);
+	}
+
+	/**
+	* get path to personal picture
+	*
+	* @param	string		size		"small", "xsmall" or "xxsmall"
+	* STATIC
+	*/
+	function _getPersonalPicturePath($a_usr_id,$a_size = "small")
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM usr_pref WHERE ".
+			"keyword = 'public_upload' ".
+			"AND value = 'y' ".
+			"AND usr_id = '".$a_usr_id."'";
+
+		$res = $ilDB->query($query);
+		$upload = $res->numRows() ? true : false;
+
+		$query = "SELECT * FROM usr_pref WHERE ".
+			"keyword = 'public_profile' ".
+			"AND value = 'y' ".
+			"AND usr_id = '".$a_usr_id."'";
+
+		$res = $ilDB->query($query);
+		$profile = $res->numRows() ? true : false;
+
+
 		$webspace_dir = ilUtil::getWebspaceDir();
 		$image_dir = $webspace_dir."/usr_images";
-		$thumb_file = $image_dir."/usr_".$this->getID()."_".$a_size.".jpg";
-		if ($this->getPref("public_upload") == "y" &&
-			$this->getPref("public_profile") == "y" &&
-			@is_file($thumb_file))
+		$thumb_file = $image_dir."/usr_".$a_usr_id."_".$a_size.".jpg";
+
+		if($upload and $profile and @is_file($thumb_file))
 		{
 			$file = $thumb_file."?t=".rand(1, 99999);
 		}
@@ -2606,6 +2635,7 @@ class ilObjUser extends ilObject
 
 		return $file;
 	}
+
 
 } // END class ilObjUser
 ?>
