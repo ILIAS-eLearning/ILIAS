@@ -24,7 +24,7 @@
 /**
 * Class SurveyCategories
 * 
-* @author		Helmut Schottmüller <hschottm@gmx.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @package ilias-core
@@ -211,7 +211,8 @@ class SurveyCategories
 * @access public
 * @see $categories
 */
-	function flushCategories() {
+	function flushCategories() 
+	{
 		$this->categories = array();
 	}
 		

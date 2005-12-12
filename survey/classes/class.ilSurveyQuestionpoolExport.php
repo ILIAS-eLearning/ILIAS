@@ -24,7 +24,7 @@
 /**
 * Export class for survey questionpools
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 * @package survey
 */
@@ -53,7 +53,6 @@ class ilSurveyQuestionpoolExport
 		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();
-		//$this->inst_id = $settings["inst_id"];
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();

@@ -31,7 +31,7 @@ define("TEXT_QUESTION_IDENTIFIER", "Text Question");
 * The SurveyTextQuestion class defines and encapsulates basic methods and attributes
 * for text survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyTextQuestion.php
 * @modulegroup   Survey
@@ -71,25 +71,28 @@ class SurveyTextQuestion extends SurveyQuestion
 * @param integer $id The database id of the text survey question
 * @access public
 */
-  function loadFromDb($id) {
+  function loadFromDb($id) 
+	{
     $query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
       $this->ilias->db->quote($id)
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
-        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-        $this->id = $data->question_id;
-        $this->title = $data->title;
-        $this->description = $data->description;
-        $this->obj_id = $data->obj_fi;
-        $this->author = $data->author;
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		{
+      if ($result->numRows() == 1) 
+			{
+				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->id = $data->question_id;
+				$this->title = $data->title;
+				$this->description = $data->description;
+				$this->obj_id = $data->obj_fi;
+				$this->author = $data->author;
 				$this->obligatory = $data->obligatory;
-        $this->owner = $data->owner_fi;
+				$this->owner = $data->owner_fi;
 				$this->original_id = $data->original_id;
 				$this->maxchars = $data->maxchars;
-        $this->questiontext = $data->questiontext;
-        $this->complete = $data->complete;
+				$this->questiontext = $data->questiontext;
+				$this->complete = $data->complete;
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
@@ -172,34 +175,37 @@ class SurveyTextQuestion extends SurveyQuestion
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, maxchars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $this->ilias->db->quote("4"),
-        $this->ilias->db->quote($this->obj_id),
-        $this->ilias->db->quote($this->owner),
-        $this->ilias->db->quote($this->title),
-        $this->ilias->db->quote($this->description),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote("4"),
+				$this->ilias->db->quote($this->obj_id),
+				$this->ilias->db->quote($this->owner),
+				$this->ilias->db->quote($this->title),
+				$this->ilias->db->quote($this->description),
+				$this->ilias->db->quote($this->author),
+				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$maxchars,
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($created),
+				$this->ilias->db->quote($created),
 				$original_id
       );
       $result = $this->ilias->db->query($query);
-      if ($result == DB_OK) {
+      if ($result == DB_OK) 
+			{
         $this->id = $this->ilias->db->getLastInsertId();
       }
-    } else {
+    } 
+		else 
+		{
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, maxchars = %s, complete = %s WHERE question_id = %s",
-        $this->ilias->db->quote($this->title),
-        $this->ilias->db->quote($this->description),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote($this->title),
+				$this->ilias->db->quote($this->description),
+				$this->ilias->db->quote($this->author),
+				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$maxchars,
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($this->id)
+				$this->ilias->db->quote($this->id)
       );
       $result = $this->ilias->db->query($query);
     }
@@ -428,17 +434,18 @@ class SurveyTextQuestion extends SurveyQuestion
 		if ($this->original_id)
 		{
 			$complete = 0;
-			if ($this->isComplete()) {
+			if ($this->isComplete()) 
+			{
 				$complete = 1;
 			}
       $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-        $this->ilias->db->quote($this->title . ""),
-        $this->ilias->db->quote($this->description . ""),
-        $this->ilias->db->quote($this->author . ""),
-        $this->ilias->db->quote($this->questiontext . ""),
+				$this->ilias->db->quote($this->title . ""),
+				$this->ilias->db->quote($this->description . ""),
+				$this->ilias->db->quote($this->author . ""),
+				$this->ilias->db->quote($this->questiontext . ""),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory) . ""),
 				$this->ilias->db->quote($complete . ""),
-        $this->ilias->db->quote($this->original_id . "")
+				$this->ilias->db->quote($this->original_id . "")
       );
       $result = $this->ilias->db->query($query);
 		}

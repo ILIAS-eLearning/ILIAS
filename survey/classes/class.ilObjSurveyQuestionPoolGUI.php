@@ -26,7 +26,7 @@ include_once "./classes/class.ilObjectGUI.php";
 /**
 * Class ilObjSurveyQuestionPoolGUI
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version  $Id$
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyNominalQuestionGUI, SurveyMetricQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyOrdinalQuestionGUI, SurveyTextQuestionGUI
@@ -69,8 +69,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$q_type = ($_POST["sel_question_types"] != "")
 			? $_POST["sel_question_types"]
 			: $_GET["sel_question_types"];
-//		if ($prepare_output) $this->prepareOutput();
-//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
@@ -152,17 +150,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilObjSurveyQuestionPoolGUI");
-		
-/*		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$returnlocation = "adm_object.php";
-			include_once "./classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
-		}
-		else
-		{
-			$this->ctrl->redirect($this, "questions");
-		}*/
 	}
 	
 /**
@@ -962,7 +949,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}    
 		}
     
-	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+	  if ($rbacsystem->checkAccess('write', $this->ref_id)) 
+		{
 			// "create question" form
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM survey_questiontype ORDER BY questiontype_id";
@@ -1361,8 +1349,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 
 			$this->ctrl->setParameter($this, "new_type", $this->type);
-//			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-//																	   $_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -1409,30 +1395,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "sel_question_types", $_POST["sel_question_types"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
-
-/*	function prepareOutput()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-
-		$this->tpl->setCurrentBlock("header_image");
-		include_once "./classes/class.ilUtil.php";
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_spl_b.gif"));
-		$this->tpl->parseCurrentBlock();
-
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$this->setAdminTabs($_POST["new_type"]);
-		}
-	}*/
 
 	/**
 	* edit question

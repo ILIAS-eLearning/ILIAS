@@ -481,7 +481,8 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$show_solution_only = false, 
 		$ilUser = NULL, 
 		$pass = NULL, 
-		$mixpass = false
+		$mixpass = false,
+		$use_post_solutions = false
 	)
 	{
 		if (!is_object($ilUser)) 
@@ -524,7 +525,14 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}
 			if ($mixpass) $pass = NULL;
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			if ($use_post_solutions) 
+			{
+			}
+			else
+			{
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+				//print_r($solutions);
+			}
 			$solution_script .= "";//"resetValues();\n";
 			$jssolutions = array();
 			foreach ($solutions as $idx => $solution_value)

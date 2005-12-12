@@ -27,7 +27,7 @@
 * The SurveyQuestionGUI class defines and encapsulates basic methods and attributes
 * for survey question types to be used for all parent classes.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyQuestionGUI.php
 * @modulegroup   survey
@@ -167,7 +167,6 @@ class SurveyQuestionGUI
 	
 	function originalSyncForm()
 	{
-//		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
@@ -272,7 +271,8 @@ class SurveyQuestionGUI
 *
 * @access public
 */
-	function cancelDeleteCategory() {
+	function cancelDeleteCategory() 
+	{
 		$this->ctrl->redirect($this, "editQuestion");
 	}
 

@@ -28,6 +28,7 @@ include_once "./classes/class.ilObjectAccess.php";
 *
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @package Survey

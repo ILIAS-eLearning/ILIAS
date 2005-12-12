@@ -24,7 +24,7 @@
 /**
 * Class ilObjSurvey
 * 
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @extends ilObject
@@ -397,32 +397,6 @@ class ilObjSurvey extends ilObject
 	}
 
 	/**
-	* init default roles settings
-	* 
-	* If your module does not require any default roles, delete this method 
-	* (For an example how this method is used, look at ilObjForum)
-	* 
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
-	{
-		global $rbacadmin;
-		
-		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
-
-		// create moderator role and assign role to rolefolder...
-		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
-
-		//unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
-	}
-
-	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
 	* 
@@ -562,16 +536,19 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function saveCompletionStatus() {
+	function saveCompletionStatus() 
+	{
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete()) 
+		{
 			$complete = 1;
 		}
-    if ($this->survey_id > 0) {
-      $query = sprintf("UPDATE survey_survey SET complete = %s WHERE survey_id = %s",
+    if ($this->survey_id > 0) 
+		{
+			$query = sprintf("UPDATE survey_survey SET complete = %s WHERE survey_id = %s",
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($this->survey_id) 
-      );
+				$this->ilias->db->quote($this->survey_id) 
+			);
       $result = $this->ilias->db->query($query);
 		}
 	}
@@ -602,7 +579,8 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function insertQuestion($question_id) {
+	function insertQuestion($question_id) 
+	{
     // get maximum sequence index in test
     $query = sprintf("SELECT survey_question_id FROM survey_survey_question WHERE survey_fi = %s",
       $this->ilias->db->quote($this->getSurveyId())
@@ -616,7 +594,8 @@ class ilObjSurvey extends ilObject
       $this->ilias->db->quote($sequence)
     );
     $result = $this->ilias->db->query($query);
-    if ($result != DB_OK) {
+    if ($result != DB_OK) 
+		{
       // Error
     }
 		$this->loadQuestionsFromDb();
@@ -631,7 +610,8 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function insertQuestionblock($questionblock_id) {
+	function insertQuestionblock($questionblock_id) 
+	{
 		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id =%s ORDER BY survey_survey_question.sequence",
 			$this->ilias->db->quote($questionblock_id)
 		);
@@ -655,7 +635,8 @@ class ilObjSurvey extends ilObject
   function saveToDb()
   {
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete()) 
+		{
 			$complete = 1;
 		}
 		$startdate = $this->getStartDate();
@@ -676,48 +657,53 @@ class ilObjSurvey extends ilObject
 		{
 			$enddate = $this->ilias->db->quote($enddate);
 		}
-    if ($this->survey_id == -1) {
+    if ($this->survey_id == -1) 
+		{
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $this->ilias->db->quote($this->getId()),
-        $this->ilias->db->quote($this->author . ""),
-        $this->ilias->db->quote($this->introduction . ""),
-        $this->ilias->db->quote($this->status . ""),
-        $startdate,
+				$this->ilias->db->quote($this->getId()),
+				$this->ilias->db->quote($this->author . ""),
+				$this->ilias->db->quote($this->introduction . ""),
+				$this->ilias->db->quote($this->status . ""),
+				$startdate,
 				$enddate,
-        $this->ilias->db->quote($this->evaluation_access . ""),
+				$this->ilias->db->quote($this->evaluation_access . ""),
 				$this->ilias->db->quote($this->invitation . ""),
 				$this->ilias->db->quote($this->invitation_mode . ""),
 				$this->ilias->db->quote($complete . ""),
 				$this->ilias->db->quote($this->getAnonymize() . ""),
 				$this->ilias->db->quote($this->getShowQuestionTitles() . ""),
-        $this->ilias->db->quote($created)
+				$this->ilias->db->quote($created)
       );
       $result = $this->ilias->db->query($query);
-      if ($result == DB_OK) {
+      if ($result == DB_OK) 
+			{
         $this->survey_id = $this->ilias->db->getLastInsertId();
       }
-    } else {
+    } 
+		else 
+		{
       // update existing dataset
-      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
-        $this->ilias->db->quote($this->author . ""),
-        $this->ilias->db->quote($this->introduction . ""),
-        $this->ilias->db->quote($this->status . ""),
-        $startdate,
+			$query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
+				$this->ilias->db->quote($this->author . ""),
+				$this->ilias->db->quote($this->introduction . ""),
+				$this->ilias->db->quote($this->status . ""),
+				$startdate,
 				$enddate,
-        $this->ilias->db->quote($this->evaluation_access . ""),
+				$this->ilias->db->quote($this->evaluation_access . ""),
 				$this->ilias->db->quote($this->invitation . ""),
 				$this->ilias->db->quote($this->invitation_mode . ""),
 				$this->ilias->db->quote($complete . ""),
 				$this->ilias->db->quote($this->getAnonymize() . ""),
 				$this->ilias->db->quote($this->getShowQuestionTitles() . ""),
-        $this->ilias->db->quote($this->survey_id)
+				$this->ilias->db->quote($this->survey_id)
       );
       $result = $this->ilias->db->query($query);
     }
-    if ($result == DB_OK) {
+    if ($result == DB_OK) 
+		{
 			// save questions to db
 			$this->saveQuestionsToDb();
     }
@@ -731,7 +717,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $questions
 */
-	function saveQuestionsToDb() {
+	function saveQuestionsToDb() 
+	{
 		// save old questions state
 		$old_questions = array();
 		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
@@ -752,7 +739,8 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 		// create new question relations
-		foreach ($this->questions as $key => $value) {
+		foreach ($this->questions as $key => $value) 
+		{
 			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, heading, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote($this->getSurveyId() . ""),
 				$this->ilias->db->quote($value . ""),
@@ -831,17 +819,20 @@ class ilObjSurvey extends ilObject
 * @result string The question type string
 * @access private
 */
-  function getQuestionType($question_id) {
-    if ($question_id < 1)
-      return -1;
+  function getQuestionType($question_id) 
+	{
+    if ($question_id < 1) return -1;
     $query = sprintf("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
       $this->ilias->db->quote($question_id)
     );
     $result = $this->ilias->db->query($query);
-    if ($result->numRows() == 1) {
+    if ($result->numRows() == 1) 
+		{
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
       return $data->type_tag;
-    } else {
+    } 
+		else 
+		{
       return "";
     }
   }
@@ -890,17 +881,19 @@ class ilObjSurvey extends ilObject
       $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
-        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		{
+      if ($result->numRows() == 1) 
+			{
+				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->survey_id = $data->survey_id;
-        $this->author = $data->author;
-        $this->introduction = $data->introduction;
-        $this->status = $data->status;
+				$this->author = $data->author;
+				$this->introduction = $data->introduction;
+				$this->status = $data->status;
 				$this->invitation = $data->invitation;
 				$this->invitation_mode = $data->invitation_mode;
 				$this->display_question_titles = $data->show_question_titles;
-        $this->start_date = $data->startdate;
+				$this->start_date = $data->startdate;
 				if (!$data->startdate)
 				{
 					$this->startdate_enabled = 0;
@@ -940,13 +933,15 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $questions
 */
-	function loadQuestionsFromDb() {
+	function loadQuestionsFromDb() 
+	{
 		$this->questions = array();
 		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s ORDER BY sequence",
 			$this->ilias->db->quote($this->survey_id)
 		);
 		$result = $this->ilias->db->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		{
 			$this->questions[$data->sequence] = $data->question_fi;
 		}
 	}
@@ -1021,30 +1016,6 @@ class ilObjSurvey extends ilObject
 		return $this->enddate_enabled;
 	}
 
-	/**
-	* assign a meta data object to glossary object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-*/
-
-	/**
-	* get meta data object of glossary object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
-
 /**
 * Sets the authors name
 *
@@ -1054,8 +1025,10 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $author
 */
-  function setAuthor($author = "") {
-    if (!$author) {
+	function setAuthor($author = "") 
+	{
+    if (!$author) 
+		{
       $author = $this->ilias->account->fullname;
     }
     $this->author = $author;
@@ -1070,7 +1043,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $display_question_titles
 */
-  function getShowQuestionTitles() {
+  function getShowQuestionTitles() 
+	{
 		return $this->display_question_titles;
   }
 
@@ -1082,7 +1056,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $display_question_titles
 */
-  function showQuestionTitles() {
+  function showQuestionTitles() 
+	{
 		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
   }
 
@@ -1094,7 +1069,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $display_question_titles
 */
-  function hideQuestionTitles() {
+  function hideQuestionTitles() 
+	{
 		$this->display_question_titles = QUESTIONTITLES_HIDDEN;
   }
 	
@@ -1107,7 +1083,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $invitation
 */
-  function setInvitation($invitation = 0) {
+  function setInvitation($invitation = 0) 
+	{
     $this->invitation = $invitation;
 		// remove the survey from the personal desktops
 		$query = sprintf("DELETE FROM desktop_item WHERE type = %s AND item_id = %s",
@@ -1179,7 +1156,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $invitation_mode
 */
-  function setInvitationMode($invitation_mode = 0) {
+  function setInvitationMode($invitation_mode = 0) 
+	{
     $this->invitation_mode = $invitation_mode;
 		if ($invitation_mode == MODE_UNLIMITED)
 		{
@@ -1233,7 +1211,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $introduction
 */
-  function setIntroduction($introduction = "") {
+  function setIntroduction($introduction = "") 
+	{
     $this->introduction = $introduction;
   }
 
@@ -1246,7 +1225,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $author
 */
-  function getAuthor() {
+  function getAuthor() 
+	{
     return $this->author;
   }
 
@@ -1259,7 +1239,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $invitation
 */
-  function getInvitation() {
+  function getInvitation() 
+	{
     return $this->invitation;
   }
 
@@ -1272,7 +1253,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $invitation
 */
-  function getInvitationMode() {
+  function getInvitationMode() 
+	{
     return $this->invitation_mode;
   }
 
@@ -1285,7 +1267,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $status
 */
-  function getStatus() {
+  function getStatus() 
+	{
     return $this->status;
   }
 
@@ -1341,7 +1324,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $status
 */
-  function setStatus($status = STATUS_OFFLINE) {
+  function setStatus($status = STATUS_OFFLINE) 
+	{
 		$result = "";
 		if (($status == STATUS_ONLINE) && (count($this->questions) == 0))
 		{
@@ -1364,7 +1348,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $start_date
 */
-  function getStartDate() {
+  function getStartDate() 
+	{
     return $this->start_date;
   }
 
@@ -1383,7 +1368,8 @@ class ilObjSurvey extends ilObject
 		{
 			$epoch_time = mktime(0, 0, 0, $this->getStartMonth(), $this->getStartDay(), $this->getStartYear());
 			$now = mktime();
-			if ($now < $epoch_time) {
+			if ($now < $epoch_time) 
+			{
 				$result = SURVEY_START_START_DATE_NOT_REACHED;
 			}
 		}
@@ -1391,7 +1377,8 @@ class ilObjSurvey extends ilObject
 		{
 			$epoch_time = mktime(0, 0, 0, $this->getEndMonth(), $this->getEndDay(), $this->getEndYear());
 			$now = mktime();
-			if ($now > $epoch_time) {
+			if ($now > $epoch_time) 
+			{
 				$result = SURVEY_START_END_DATE_REACHED;
 			}
 		}
@@ -1412,7 +1399,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $start_date
 */
-  function setStartDate($start_date = "") {
+  function setStartDate($start_date = "") 
+	{
     $this->start_date = $start_date;
   }
 
@@ -1425,7 +1413,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $start_date
 */
-  function getStartMonth() {
+  function getStartMonth() 
+	{
 		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
 		{
 			return $matches[2];
@@ -1445,7 +1434,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $start_date
 */
-  function getStartDay() {
+  function getStartDay() 
+	{
 		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
 		{
 			return $matches[3];
@@ -1465,7 +1455,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $start_date
 */
-  function getStartYear() {
+  function getStartYear() 
+	{
 		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
 		{
 			return $matches[1];
@@ -1485,7 +1476,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $end_date
 */
-  function getEndDate() {
+  function getEndDate() 
+	{
     return $this->end_date;
   }
 
@@ -1498,7 +1490,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $end_date
 */
-  function setEndDate($end_date = "") {
+  function setEndDate($end_date = "") 
+	{
     $this->end_date = $end_date;
   }
 
@@ -1511,7 +1504,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $end_date
 */
-  function getEndMonth() {
+  function getEndMonth() 
+	{
 		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
 		{
 			return $matches[2];
@@ -1531,7 +1525,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $end_date
 */
-  function getEndDay() {
+  function getEndDay() 
+	{
 		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
 		{
 			return $matches[3];
@@ -1551,7 +1546,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $end_date
 */
-  function getEndYear() {
+  function getEndYear() 
+	{
 		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
 		{
 			return $matches[1];
@@ -1599,7 +1595,8 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $introduction
 */
-  function getIntroduction() {
+  function getIntroduction() 
+	{
     return $this->introduction;
   }
 
@@ -1611,13 +1608,15 @@ class ilObjSurvey extends ilObject
 * @return array The questions of the survey
 * @access public
 */
-	function &getExistingQuestions() {
+	function &getExistingQuestions() 
+	{
 		$existing_questions = array();
 		$query = sprintf("SELECT survey_question.original_id FROM survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id",
 			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		{
 			array_push($existing_questions, $data->original_id);
 		}
 		return $existing_questions;
@@ -1631,7 +1630,8 @@ class ilObjSurvey extends ilObject
 * @return array An array of survey question pool titles
 * @access public
 */
-	function &getQuestionpoolTitles() {
+	function &getQuestionpoolTitles() 
+	{
 		global $rbacsystem;
 		
 		$qpl_titles = array();

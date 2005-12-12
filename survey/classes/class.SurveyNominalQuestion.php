@@ -34,7 +34,7 @@ define("NOMINAL_QUESTION_IDENTIFIER", "Nominal Question");
 * The SurveyNominalQuestion class defines and encapsulates basic methods and attributes
 * for nominal survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyNominalQuestion.php
 * @modulegroup   Survey
@@ -122,25 +122,28 @@ class SurveyNominalQuestion extends SurveyQuestion
 * @param integer $id The database id of the nominal survey question
 * @access public
 */
-  function loadFromDb($id) {
+  function loadFromDb($id) 
+	{
     $query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
       $this->ilias->db->quote($id)
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
-        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-        $this->id = $data->question_id;
-        $this->title = $data->title;
-        $this->description = $data->description;
-        $this->obj_id = $data->obj_fi;
-        $this->author = $data->author;
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		{
+      if ($result->numRows() == 1) 
+			{
+				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->id = $data->question_id;
+				$this->title = $data->title;
+				$this->description = $data->description;
+				$this->obj_id = $data->obj_fi;
+				$this->author = $data->author;
 				$this->subtype = $data->subtype;
 				$this->orientation = $data->orientation;
 				$this->obligatory = $data->obligatory;
-        $this->owner = $data->owner_fi;
-        $this->questiontext = $data->questiontext;
-        $this->complete = $data->complete;
+				$this->owner = $data->owner_fi;
+				$this->questiontext = $data->questiontext;
+				$this->complete = $data->complete;
 				$this->original_id = $data->original_id;
       }
       // loads materials uris from database
@@ -224,10 +227,13 @@ class SurveyNominalQuestion extends SurveyQuestion
 				$original_id
       );
       $result = $this->ilias->db->query($query);
-      if ($result == DB_OK) {
+      if ($result == DB_OK) 
+			{
         $this->id = $this->ilias->db->getLastInsertId();
       }
-    } else {
+    } 
+		else 
+		{
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, orientation = %s, complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote($this->title),
@@ -511,7 +517,8 @@ class SurveyNominalQuestion extends SurveyQuestion
 		if ($this->original_id)
 		{
 			$complete = 0;
-			if ($this->isComplete()) {
+			if ($this->isComplete()) 
+			{
 				$complete = 1;
 			}
 			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",

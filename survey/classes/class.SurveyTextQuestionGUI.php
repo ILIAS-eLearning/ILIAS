@@ -29,7 +29,7 @@ include_once "./survey/classes/class.SurveyQuestionGUI.php";
 * The SurveyTextQuestionGUI class encapsulates the GUI representation
 * for text survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyTextQuestionGUI.php
 * @modulegroup   Survey
@@ -79,7 +79,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-  function editQuestion() {
+  function editQuestion() 
+	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_text.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
 
@@ -217,7 +218,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 * @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
-  function writePostData() {
+  function writePostData() 
+	{
     $result = 0;
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
@@ -246,7 +248,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 			$this->object->setObligatory(0);
 		}
 
-		if ($saved) {
+		if ($saved) 
+		{
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be
 			// irritated, if he presses cancel, because he only has the question state before

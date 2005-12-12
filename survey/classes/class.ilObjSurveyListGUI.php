@@ -26,6 +26,7 @@
 * Class ilObjSurveyListGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * $Id$
 *
 * @extends ilObjectListGUI

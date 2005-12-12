@@ -700,6 +700,35 @@ class ASS_QuestionGUI
 		switch ($_SESSION["search_link_type"])
 		{
 			case "pg":
+				include_once "./content/classes/class.ilLMPageObject.php";
+				include_once("./content/classes/class.ilObjContentObject.php");
+				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
+				$pages = ilLMPageObject::getPageList($cont_obj->getId());
+				$_GET["q_id"] = $this->object->getId();
+				$this->tpl->setVariable("HEADER", $this->object->getTitle());
+				$this->getQuestionTemplate($_GET["sel_question_types"]);
+				$color_class = array("tblrow1", "tblrow2");
+				$counter = 0;
+				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", true);
+				foreach($pages as $page)
+				{
+					if($page["type"] == $_SESSION["search_link_type"])
+					{
+						$this->tpl->setCurrentBlock("linktable_row");
+						$this->tpl->setVariable("TEXT_LINK", $page["title"]);
+						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
+						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
+						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+						$this->tpl->parseCurrentBlock();
+						$counter++;
+					}
+				}
+				$this->tpl->setCurrentBlock("link_selection");
+				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_SESSION["search_link_type"]));
+				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
+				break;
 			case "st":
 				$_GET["q_id"] = $this->object->getId();
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());

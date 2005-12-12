@@ -24,7 +24,7 @@
 /*
 * Material Explorer for survey question pools
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @package survey

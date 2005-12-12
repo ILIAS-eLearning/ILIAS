@@ -30,7 +30,7 @@ define ("CONCAT_OR", 1);
 * The SurveySearch class defines and encapsulates basic methods and attributes
 * to search the ILIAS survey tool for questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveySearch.php
 * @modulegroup   Survey

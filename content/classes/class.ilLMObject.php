@@ -581,6 +581,8 @@ class ilLMObject
 	*/
 	function getObjectList($lm_id, $type = "")
 	{
+		global $ilDB;
+		
 		$type_str = ($type != "")
 			? "AND type = '$type' "
 			: "";
@@ -588,7 +590,7 @@ class ilLMObject
 			"WHERE lm_id= '".$lm_id."'".
 			$type_str." ".
 			"ORDER BY title";
-		$obj_set = $this->ilias->db->query($query);
+		$obj_set = $ilDB->query($query);
 		$obj_list = array();
 		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{

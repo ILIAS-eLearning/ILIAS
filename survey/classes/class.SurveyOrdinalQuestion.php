@@ -31,12 +31,13 @@ define("ORDINAL_QUESTION_IDENTIFIER", "Ordinal Question");
 * The SurveyOrdinalQuestion class defines and encapsulates basic methods and attributes
 * for ordinal survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.SurveyOrdinalQuestion.php
 * @modulegroup   Survey
 */
-class SurveyOrdinalQuestion extends SurveyQuestion {
+class SurveyOrdinalQuestion extends SurveyQuestion 
+{
 /**
 * Categories contained in this question
 *
@@ -180,24 +181,27 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 * @param integer $id The database id of the ordinal survey question
 * @access public
 */
-  function loadFromDb($id) {
+  function loadFromDb($id) 
+	{
     $query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
       $this->ilias->db->quote($id)
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
-        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-        $this->id = $data->question_id;
-        $this->title = $data->title;
-        $this->description = $data->description;
-        $this->obj_id = $data->obj_fi;
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		{
+      if ($result->numRows() == 1) 
+			{
+				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->id = $data->question_id;
+				$this->title = $data->title;
+				$this->description = $data->description;
+				$this->obj_id = $data->obj_fi;
 				$this->orientation = $data->orientation;
-        $this->author = $data->author;
-        $this->owner = $data->owner_fi;
-        $this->questiontext = $data->questiontext;
+				$this->author = $data->author;
+				$this->owner = $data->owner_fi;
+				$this->questiontext = $data->questiontext;
 				$this->obligatory = $data->obligatory;
-        $this->complete = $data->complete;
+				$this->complete = $data->complete;
 				$this->original_id = $data->original_id;
       }
       // loads materials uris from database
@@ -261,45 +265,50 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 		{
 			$original_id = "NULL";
 		}
-    if ($this->id == -1) {
+    if ($this->id == -1) 
+		{
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, orientation, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("0"),
-        $this->ilias->db->quote("2"),
-        $this->ilias->db->quote($this->obj_id),
-        $this->ilias->db->quote($this->owner),
-        $this->ilias->db->quote($this->title),
-        $this->ilias->db->quote($this->description),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote("2"),
+				$this->ilias->db->quote($this->obj_id),
+				$this->ilias->db->quote($this->owner),
+				$this->ilias->db->quote($this->title),
+				$this->ilias->db->quote($this->description),
+				$this->ilias->db->quote($this->author),
+				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote(sprintf("%d", $this->orientation)),
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($created),
+				$this->ilias->db->quote($created),
 				$original_id
       );
       $result = $this->ilias->db->query($query);
-      if ($result == DB_OK) {
+      if ($result == DB_OK) 
+			{
         $this->id = $this->ilias->db->getLastInsertId();
       }
-    } else {
+    } 
+		else 
+		{
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, orientation = %s, complete = %s WHERE question_id = %s",
-        $this->ilias->db->quote($this->title),
+				$this->ilias->db->quote($this->title),
 				$this->ilias->db->quote("0"),
-        $this->ilias->db->quote($this->description),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote($this->description),
+				$this->ilias->db->quote($this->author),
+				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote(sprintf("%d", $this->orientation)),
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($this->id)
+				$this->ilias->db->quote($this->id)
       );
       $result = $this->ilias->db->query($query);
     }
-    if ($result == DB_OK) {
+    if ($result == DB_OK) 
+		{
       // saving material uris in the database
       $this->saveMaterialsToDb();
 			if ($withanswers)
