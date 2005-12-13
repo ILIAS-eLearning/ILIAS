@@ -195,8 +195,8 @@ class ilLPObjSettings
 							 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
 
 			case 'tst':
-				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'));
-#							 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'));
+				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
+							 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'));
 				
 				
 			default:

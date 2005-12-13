@@ -45,7 +45,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	function _getCountInProgress($a_obj_id)
 	{
-		return ilLPStatusTestPassed::_getInProgress($a_obj_id);
+		return count(ilLPStatusWrapper::_getInProgress($a_obj_id));
 	}
 
 	function _getInProgress($a_obj_id)
@@ -55,20 +55,22 @@ class ilLPStatusTestPassed extends ilLPStatus
 		include_once './assessment/classes/class.ilObjTestAccess.php';
 
 		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
-			"WHERE tries = 0 ".
-			"AND test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
+			"WHERE test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_fi;
 		}
-		return $user_ids ? $user_ids : array();
+
+		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getCompleted($a_obj_id));
+
+		return $users ? $users : array();
 	}
 
 	function _getCountCompleted($a_obj_id)
 	{
-		return count(ilLPStatusTestPassed::_getCompleted($a_obj_id));
+		return count(ilLPStatusWrapper::_getCompleted($a_obj_id));
 	}
 
 	function _getCompleted($a_obj_id)
@@ -77,8 +79,11 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 		include_once './assessment/classes/class.ilObjTestAccess.php';
 
-		
-
+		foreach(ilObjTestAccess::_getPassedUsers($a_obj_id) as $user_data)
+		{
+			$user_ids[] = $user_data['user_id'];
+		}
+		return $user_ids ? $user_ids : array();
 	}
 }	
 ?>

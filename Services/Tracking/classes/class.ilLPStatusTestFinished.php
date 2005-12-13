@@ -45,7 +45,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 	function _getCountInProgress($a_obj_id)
 	{
-		return ilLPStatusTestFinished::_getInProgress($a_obj_id);
+		return count(ilLPStatusWrapper::_getInProgress($a_obj_id));
 	}
 
 	function _getInProgress($a_obj_id)
@@ -68,7 +68,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 	function _getCountCompleted($a_obj_id)
 	{
-		return count(ilLPStatusTestFinished::_getCompleted($a_obj_id));
+		return count(ilLPStatusWrapper::_getCompleted($a_obj_id));
 	}
 
 	function _getCompleted($a_obj_id)
