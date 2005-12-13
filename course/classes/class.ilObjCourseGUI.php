@@ -1902,7 +1902,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			unset($_SESSION["crs_search_str"]);
 			unset($_SESSION["crs_search_for"]);
 			$this->membersObject();
-
+			unset($_SESSION['crs_usr_search_result']);
 			return true;
 		}
 		else
@@ -2414,6 +2414,33 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->__unsetSessionVariables();
 	}
+
+	function __appendToStoredResults($a_result)
+	{
+		$tmp_array = array();
+		foreach($a_result as $result)
+		{
+			if(is_array($result))
+			{
+				$tmp_array[] = $result['id'];
+			}
+			elseif($result)
+			{
+				$tmp_array[] = $result;
+			}
+		}
+		// merge results
+		
+		$_SESSION['crs_usr_search_result'] = array_unique(array_merge((array) $_SESSION['crs_usr_search_result'],$tmp_array));
+		return $_SESSION['crs_usr_search_result'];
+	}
+
+	function cancelSearchObject()
+	{
+		$_SESSION['crs_usr_search_result'] = array();
+		$_SESSION['crs_search_str'] = '';
+		$this->searchUserObject();
+	}
 	
 	function searchObject()
 	{
@@ -2453,7 +2480,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
-		$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
+		#$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		
 		$counter = 0;
 		$f_result = array();
@@ -2462,14 +2489,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "usr":
 				foreach($result as $user)
 				{
-					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"],false))
+					if(!is_object($tmp_obj = ilObjectFactory::getInstanceByObjId($user,false)))
 					{
 						continue;
 					}
+					$user_ids[$counter] = $user;
 					
-					$user_ids[$counter] = $user["id"];
-					
-					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
+					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 					$f_result[$counter][] = $tmp_obj->getLogin();
 					$f_result[$counter][] = $tmp_obj->getLastname();
 					$f_result[$counter][] = $tmp_obj->getFirstname();
@@ -2562,7 +2588,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
-		$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
+		#$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		$this->object->initCourseMemberObject();
 
 		// GET ALL MEMBERS
@@ -2582,6 +2608,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			unset($tmp_obj);
 		}
 		$members = array_unique($members);
+		$members = $this->__appendToStoredResults($members);
 
 		// FORMAT USER DATA
 		$counter = 0;
@@ -2628,7 +2655,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
-		$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
+		#$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		$this->object->initCourseMemberObject();
 
 		// GET ALL MEMBERS
@@ -2639,6 +2666,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$members = array_unique($members);
+		$members = $this->__appendToStoredResults($members);
 
 		// FORMAT USER DATA
 		$counter = 0;
@@ -3214,6 +3242,9 @@ class ilObjCourseGUI extends ilContainerGUI
     	{
             $return_to = "search";
         }
+
+		$this->__showButton($return_to,$this->lng->txt("back"));
+
         
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -3225,15 +3256,20 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME",$return_to);
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("back"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
 		$tpl->setVariable("BTN_NAME","addUser");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
 		$tpl->parseCurrentBlock();
 		
+		$tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME",'searchUser');
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt('append_search'));
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME",'cancelSearch');
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_new_search"));
+		$tpl->parseCurrentBlock();
+
 		if (!empty($a_user_ids))
 		{
 			// set checkbox toggles
@@ -3274,18 +3310,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 	
-		function __showSearchGroupTable($a_result_set,$a_grp_ids = NULL)
+	function __showSearchGroupTable($a_result_set,$a_grp_ids = NULL)
 	{
+		$this->__showButton('searchUser',$this->lng->txt("back"));
+
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","searchUser");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("back"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
@@ -3334,6 +3367,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function __showSearchRoleTable($a_result_set,$a_role_ids)
 	{
+		$this->__showButton('searchUser',$this->lng->txt("back"));
+
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -3914,6 +3949,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$search =& new ilSearch($_SESSION["AccountId"]);
 		$search->setPerformUpdate(false);
+		$search->setMinWordLength(1);
 		$search->setSearchString($a_search_string);
 		$search->setCombination("and");
 		$search->setSearchFor(array(0 => $a_search_for));
@@ -3928,6 +3964,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			sendInfo($message,true);
 			$this->ctrl->redirect($this,"searchUser");
 		}
+
+		if($a_search_for == 'usr')
+		{
+			$this->__appendToStoredResults($search->getResultByType($a_search_for));
+			return $_SESSION['crs_usr_search_result'];
+		}
+
 		return $search->getResultByType($a_search_for);
 	}		
 

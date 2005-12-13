@@ -461,8 +461,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function cancelMemberObject()
 	{
+		unset($_SESSION['grp_usr_search_result']);
 		$return_location = "members";
-				
+		
 		sendInfo($this->lng->txt("action_aborted"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 	}
@@ -858,6 +859,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		
 		unset($_SESSION["saved_post"]);
+		unset($_SESSION['grp_usr_search_result']);
 
 		sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
@@ -1405,7 +1407,34 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->__unsetSessionVariables();
 	}
-	
+
+	function __appendToStoredResults($a_result)
+	{
+		$tmp_array = array();
+		foreach($a_result as $result)
+		{
+			if(is_array($result))
+			{
+				$tmp_array[] = $result['id'];
+			}
+			elseif($result)
+			{
+				$tmp_array[] = $result;
+			}
+		}
+		// merge results
+		
+		$_SESSION['grp_usr_search_result'] = array_unique(array_merge((array) $_SESSION['grp_usr_search_result'],$tmp_array));
+		return $_SESSION['grp_usr_search_result'];
+	}
+
+	function cancelSearchObject()
+	{
+		$_SESSION['grp_usr_search_result'] = array();
+		$_SESSION['grp_search_str'] = '';
+		$this->searchUserFormObject();
+	}
+
 	function searchObject()
 	{
 		global $rbacsystem,$tree;
@@ -1434,9 +1463,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			return false;
 		}
-
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
-		$this->__showButton("searchUserForm",$this->lng->txt("grp_new_search"));
+		#$this->__showButton("cancelSearch",$this->lng->txt("grp_new_search"));
 		
 		$counter = 0;
 		$f_result = array();
@@ -1446,14 +1475,13 @@ class ilObjGroupGUI extends ilContainerGUI
         	case "usr":
 				foreach($result as $user)
 				{
-					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"],false))
+					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
 					{
 						continue;
 					}
+					$user_ids[$counter] = $user;
 					
-					$user_ids[$counter] = $user["id"];
-					
-					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
+					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 					$f_result[$counter][] = $tmp_obj->getLogin();
 					$f_result[$counter][] = $tmp_obj->getFirstname();
 					$f_result[$counter][] = $tmp_obj->getLastname();
@@ -1601,7 +1629,7 @@ class ilObjGroupGUI extends ilContainerGUI
 								 get_class($this));
 		}
 
-		// parent tabs (all container: edit_permission, clipboard, trash
+	// parent tabs (all container: edit_permission, clipboard, trash
 		parent::getTabs($tabs_gui);
 	}
 
@@ -1704,6 +1732,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->lng->loadLanguageModule("content");
 		$search =& new ilSearch($_SESSION["AccountId"]);
 		$search->setPerformUpdate(false);
+		$search->setMinWordLength(1);
 		$search->setSearchString(ilUtil::stripSlashes($a_search_string));
 		$search->setCombination("and");
 		$search->setSearchFor(array(0 => $a_search_for));
@@ -1719,12 +1748,18 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ctrl->redirect($this,"searchUserForm");
 		}
 
+		if($a_search_for == 'usr')
+		{
+			$this->__appendToStoredResults($search->getResultByType($a_search_for));
+			return $_SESSION['grp_usr_search_result'];
+		}
+
 		return $search->getResultByType($a_search_for);
 	}
 
 	function __showSearchUserTable($a_result_set,$a_user_ids = NULL, $a_cmd = "search")
 	{
-        $return_to  = "searchUserForm";
+		$this->__showButton('searchUserForm',$this->lng->txt("back"));
 	
     	if ($a_cmd == "listUsersRole" or $a_cmd == "listUsersGroup")
     	{
@@ -1739,16 +1774,23 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME",$return_to);
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("back"));
-		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
 		$tpl->setVariable("BTN_NAME","addUser");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
 		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME",'searchUserForm');
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt('append_search'));
+		$tpl->parseCurrentBlock();
 		
+		$tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME",'cancelSearch');
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("grp_new_search"));
+		$tpl->parseCurrentBlock();
+
+
 		if (!empty($a_user_ids))
 		{
 			// set checkbox toggles
@@ -1793,6 +1835,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function __showSearchRoleTable($a_result_set,$a_role_ids = NULL)
 	{
+		$this->__showButton('searchUserForm',$this->lng->txt("back"));
+
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -1851,6 +1895,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function __showSearchGroupTable($a_result_set,$a_grp_ids = NULL)
 	{
+		$this->__showButton('searchUserForm',$this->lng->txt("back"));
+
     	$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -2061,7 +2107,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
-		$this->__showButton("searchUserForm",$this->lng->txt("grp_new_search"));
+		#$this->__showButton("cancelSearch",$this->lng->txt("grp_new_search"));
 
 		// GET ALL MEMBERS
 		$members = array();
@@ -2071,6 +2117,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$members = array_unique($members);
+		$members = $this->__appendToStoredResults($members);
 
 		// FORMAT USER DATA
 		$counter = 0;
@@ -2141,7 +2188,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
-		$this->__showButton("searchUserForm",$this->lng->txt("grp_new_search"));
+		#$this->__showButton("cancelSearch",$this->lng->txt("grp_new_search"));
 
 		// GET ALL MEMBERS
 		$members = array();
@@ -2162,6 +2209,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$members = array_unique($members);
+
+		// append users
+		$members = $this->__appendToStoredResults($members);
 
 		// FORMAT USER DATA
 		$counter = 0;
