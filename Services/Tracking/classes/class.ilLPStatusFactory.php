@@ -68,7 +68,7 @@ class ilLPStatusFactory
 				return 'ilLPStatusTestFinished';
 
 			case LP_MODE_TEST_PASSED:
-				include_once 'Services/Tracking/classes/class.ilLPStatusTestFinished.php';
+				include_once 'Services/Tracking/classes/class.ilLPStatusTestPassed.php';
 				return 'ilLPStatusTestPassed';
 
 			case LP_MODE_MANUAL:

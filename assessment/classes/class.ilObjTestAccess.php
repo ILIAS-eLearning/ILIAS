@@ -502,13 +502,17 @@ class ilObjTestAccess extends ilObjectAccess
 *           )
 * @access public
 */
-	function &_getPassedUsers($test_id)
+	function &_getPassedUsers($a_obj_id)
 	{
+		include_once 'assessment/classes/class.ilObjTest.php';
+
 		global $ilDB;
 		
 		$passed_users = array();
-		$query = sprintf("SELECT tst_active.*, tst_tests.obj_fi FROM tst_active, tst_tests WHERE tst_active.test_fi = %s AND tst_active.tries > 0 AND tst_active.test_fi = tst_tests.test_id",
-			$ilDB->quote($test_id . "")
+		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
+						 "WHERE tst_tests.obj_fi = %s AND tst_active.tries > 0 ".
+						 "AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($a_obj_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -516,9 +520,9 @@ class ilObjTestAccess extends ilObjectAccess
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$user_id = $row["user_fi"];
-				$test_obj_id = $row["obj_fi"];
+				$test_id = $row["test_fi"];
 				$pass = ilObjTest::_getResultPass($user_id, $test_id);
-				$testres =& ilObjTestAccess::_getTestResult($user_id, $test_obj_id, $pass);
+				$testres =& ilObjTestAccess::_getTestResult($user_id, $a_obj_id, $pass);
 				if ($testres["passed"])
 				{
 					array_push($passed_users, 
