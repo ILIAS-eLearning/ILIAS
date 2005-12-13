@@ -44,6 +44,7 @@ class ilSearch
 	var $search_string;			// INPUT FROM SEARCH FORM
 	var $parsed_str;			// PARSED INPUT
 	var $combination;			// STRING 'and' or 'or'
+	var $min_word_length = 3;	// Define minimum character length for queries
 	var $search_for;			// OBJECT TYPE 'usr','grp','lm','dbk'
 	var $search_in;				// STRING SEARCH IN 'content' OR 'meta'
 	var $search_type;			// STRING 'new' or 'result'
@@ -108,6 +109,15 @@ class ilSearch
 	function setEmptySearch($a_value)
 	{
 		$this->allow_empty_search = $a_value;
+	}
+
+	function setMinWordLength($a_min_word_length)
+	{
+		$this->min_word_length = $a_min_word_length;
+	}
+	function getMinWordLength()
+	{
+		return $this->min_word_length;
 	}
 	
 	// GET MEHODS
@@ -317,7 +327,7 @@ class ilSearch
 	function __createLikeCondition($a_fields)
 	{
 		$where = "WHERE (";
-		$concat  = "CONCAT(";
+		$concat  = "CONCAT(\" \",";
 		$concat .= implode(",\" \",",$a_fields);
 		$concat .= ") ";
 
@@ -328,7 +338,7 @@ class ilSearch
 		{
 			$where .= "AND ";
 			$where .= $concat;
-			$where .= "LIKE(\"%".$and."%\") ";
+			$where .= "LIKE(\"".$and."\") ";
 		}
 		
 		// AND NOT
@@ -336,7 +346,7 @@ class ilSearch
 		{
 			$where .= "AND ";
 			$where .= $concat;
-			$where .= "NOT LIKE(\"%".$not."%\") ";
+			$where .= "NOT LIKE(\"".$not."\") ";
 		}
 		// OR
 		if (count($this->parsed_str["or"]) and
@@ -348,7 +358,7 @@ class ilSearch
 			foreach ($this->parsed_str["all"] as $or)
 			{
 				$where .= $concat;
-				$where .= "LIKE(\"%".$or."%\") ";
+				$where .= "LIKE(\"".$or."\") ";
 				$where .= "OR ";
 			}
 
@@ -400,8 +410,8 @@ class ilSearch
 		
 		foreach ($tmp_arr as $word)
 		{
-			$word = trim($word);
-
+			#$word = trim($word);
+			$word = $this->__prepareWord($word);
 			if ($word)
 			{
 				if (substr($word,0,1) == '+')
@@ -442,7 +452,7 @@ class ilSearch
 		{
 			foreach ($type as $word)
 			{
-				if (strlen($word) < 3)
+				if (strlen($word) < $this->getMinWordLength())
 				{
 					$to_short = true;
 				}
@@ -451,7 +461,9 @@ class ilSearch
 
 		if ($to_short)
 		{
-			$message .= $this->lng->txt("search_minimum_three")."<br/>";
+			$message .= ($this->lng->txt('search_to_short').'<br />');
+			$message .= ($this->lng->txt('search_minimum_characters').' '.$this->getMinWordLength().'<br />');
+						 
 			return false;
 		}
 
@@ -682,5 +694,25 @@ class ilSearch
 
 		return true;
 	}
+
+	function __prepareWord($a_word)
+	{
+		$word = trim($a_word);
+		
+		if(!preg_match('/\*/',$word))
+		{
+			return '%'.$word.'%';
+		}
+		if(preg_match('/^\*/',$word))
+		{
+			return str_replace('*','%',$word);
+		}
+		else
+		{
+			return '% '.str_replace('*','%',$word);
+		}
+	}
+
+		
 } // END class.ilSearch
 ?>

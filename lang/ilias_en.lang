@@ -5489,3 +5489,6 @@ common#:#sahs_edit_learning_progress#:#Edit learning progress
 common#:#htlm_edit_learning_progress#:#Edit learning progress
 common#:#dbk_edit_learning_progress#:#Edit learning progress
 common#:#lm_edit_learning_progress#:#Edit learning progress
+common#:#append_search#:#Append search results
+common#:#search_to_short#:#Your query is to short.
+common#:#search_minimum_characters#:#The minimum word length is:
