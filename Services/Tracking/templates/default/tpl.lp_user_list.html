@@ -1,3 +1,5 @@
+	{BUTTON}
+	<br />
 	{INFO_TABLE}
 	<br />
 	<form action="{FORMACTION}" method="post">
@@ -17,27 +19,27 @@
 		</tr>
 		<!-- BEGIN user_row -->
 		<tr class="{CSSROW}" padding="1">
-		  <td class="std" valign="center" align="center" width="1" colspan="2">
+		  <td class="{TDCSS}" valign="center" align="center" width="1" colspan="2">
 			<img border="0" src="{TYPE_IMG}" alt="{TYPE_ALT} title="{TYPE_ALT}" />
 		  </td>
-		  <td class="std">{ROW_INFO}</td>
-		  <td class="std">{MARK}</td>
-		  <td class="std">{COMMENT}</td>
-		  <td>
+		  <td class="{TDCSS}">{ROW_INFO}</td>
+		  <td class="{TDCSS}">{MARK}</td>
+		  <td class="{TDCSS}">{COMMENT}</td>
+		  <td class="{TDCSS}">
 			<a class="il_ContainerItemCommand" href="{EDIT_COMMAND}">{TXT_COMMAND}</a>
 		  </td>
 		</tr>
 		<!-- BEGIN item_row -->
 		<tr class="{ITEM_CSSROW}">
-		  <td class="std" valign="top" align="center" width="1">
+		  <td class="{ITEM_TDCSS}" valign="top" align="center" width="1">
 		  </td>
-		  <td class="std" valign="center" width="1">
+		  <td class="{ITEM_TDCSS}" valign="center" width="1">
 			<img border="0" src="{ITEM_IMG}" alt="{ITEM_ALT} title="{ITEM_ALT}" />
 		  </td>
-		  <td class="std">{ITEM_INFO}</td>
-		  <td class="std">{ITEM_MARK}</td>
-		  <td class="std">{ITEM_COMMENT}</td>
-		  <td>
+		  <td class="{ITEM_TDCSS}">{ITEM_INFO}</td>
+		  <td class="{ITEM_TDCSS}">{ITEM_MARK}</td>
+		  <td class="{ITEM_TDCSS}">{ITEM_COMMENT}</td>
+		  <td class="{ITEM_TDCSS}">
 			<a class="il_ContainerItemCommand" href="{ITEM_EDIT_COMMAND}">{ITEM_TXT_COMMAND}</a>
 		  </td>
 		</tr>

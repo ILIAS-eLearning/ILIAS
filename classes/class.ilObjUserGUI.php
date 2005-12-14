@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjUserGUI:
+* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -98,6 +98,13 @@ class ilObjUserGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				break;
+
+
 			default:
 				if($cmd == "" || $cmd == "view")
 				{
@@ -148,6 +155,13 @@ class ilObjUserGUI extends ilObjectGUI
 			
 		$tabs_gui->addTarget("role_assignment",
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
+
+		// learning progress
+		$tabs_gui->addTarget('learning_progress',
+							 $this->ctrl->getLinkTargetByClass('illearningprogressgui',''),
+							 '',
+							 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+
 	}
 
 
