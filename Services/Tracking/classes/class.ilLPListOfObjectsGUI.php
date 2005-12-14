@@ -36,6 +36,7 @@
 
 include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 
 class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 {
@@ -89,6 +90,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$marks = new ilLPMarks($this->item_id,$_REQUEST['user_id']);
 		$marks->setMark(ilUtil::stripSlashes($_POST['mark']));
 		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
+		$marks->setCompleted((bool) $_POST['completed']);
 		$marks->update();
 		sendInfo('trac_update_edit_user');
 		$this->details();
@@ -134,6 +136,17 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
 		$this->tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
 
+		if(ilLPObjSettings::_lookupMode($this->item_id) == LP_MODE_MANUAL)
+		{
+			$completed = ilLPStatusWrapper::_getCompleted($this->item_id);
+			
+			$this->tpl->setVariable("mode_manual");
+			$this->tpl->setVariable("TXT_COMPLETED",$this->lng->txt('trac_completed'));
+			$this->tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(in_array((int) $_GET['user_id'],$completed),
+																		   'completed',
+																		   '1'));
+		}
+
 
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
@@ -147,6 +160,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		// Load template
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_user_list.html','Services/Tracking');
 
+		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP or
+		   $this->getMode() == LP_MODE_ADMINISTRATION)
+		{
+			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
+		}
+
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
@@ -154,7 +173,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		// Finally set template variable
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
-
 		$this->__showUserList();
 
 	}
@@ -169,9 +187,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_id);
 		$completed = ilLPStatusWrapper::_getCompleted($this->details_id);
 
+		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted));
+		
 		$counter = 0;
 		// Slice array
-		$sliced_users = array_slice($all_users = array_merge($completed,$in_progress,$not_attempted),$this->offset,$this->max_count);
+		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
 		foreach($sliced_users as $user_id)
 		{
 			$cssrow = ilUtil::switchColor($counter++,'tblrow1','tblrow2');
@@ -313,6 +333,17 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function show()
 	{
+		global $ilObjDataCache;
+
+		// Show only detail of current repository item if called from repository
+		switch($this->getMode())
+		{
+			case LP_MODE_REPOSITORY:
+				$this->__initDetails($ilObjDataCache->lookupObjId($this->getRefId()));
+				$this->details();
+				return true;
+		}
+
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
 		$this->__showFilter();
 		$this->__showItems();
@@ -444,6 +475,33 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->details_type = $ilObjDataCache->lookupType($this->details_id);
 			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_id);
 		}
+	}
+
+	function __sort($a_user_ids)
+	{
+		global $ilDB;
+
+		if(!$a_user_ids)
+		{
+			return array();
+		}
+
+		// use database to sort user array
+		$where = "WHERE usr_id IN ('";
+		$where .= implode("','",$a_user_ids);
+		$where .= "') ";
+
+		$query = "SELECT usr_id FROM usr_data ".
+			$where.
+			"ORDER BY login";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->usr_id;
+		}
+
+		return $user_ids ? $user_ids : array();
 	}
 }
 ?>

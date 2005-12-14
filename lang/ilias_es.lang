@@ -42,6 +42,21 @@ administration#:#analyzing_tree_structure#:#Analizando estructura de árbol
 administration#:#check_tree#:#Comprobar estructura de árbol
 administration#:#check_tree_desc#:#Comprobar consistencia de la estructura de árbol completa. Dependiendo del tamaño del mismo, esta operación puede llevar unos minutos.
 administration#:#clean#:#Limpiar
+rbac#:#perm_class_general#:#Operaciones generales
+rbac#:#perm_class_general_desc#:#Pase el puntero del ratón sobre la operación para más información.
+rbac#:#perm_class_object#:#Operaciones especiales
+rbac#:#perm_class_object_desc#:#Operaciones específicas disponibles para el objeto actual.
+rbac#:#perm_class_rbac#:#Configuración de permisos
+rbac#:#perm_class_rbac_desc#:#Control de acceso a este menu de configuración de permisos y configuración de política local para configuración automática de permisos para nuevos objetos creados.
+rbac#:#perm_class_create#:#Crear nuevos objetos
+rbac#:#perm_class_create_desc#:#Determina qué tipos de objeto pueden ser creados dentro del objeto actual
+rbac#:#perm_administrate#:#Administrar
+rbac#:#perm_use_local_policy#:#Usar política local
+rbac#:#perm_use_local_policy_desc#:#Si la opción política local está activada, podrá definir una configuración de permisos diferentes para el objeto actual.
+rbac#:#perm_local_role#:#Rol Local
+rbac#:#perm_local_role_desc#:#Este rol está definido localmente en el objeto actual y corresponde a una política local
+rbac#:#edit_learning_progress#:#Editar progreso de aprendizaje
+rbac#:#leave#:#-Abandonar-
 administration#:#clean_desc#:#Eliminar referencias inválidas y nodos del árbol. Eliminar huecos de la estructura en árbol
 administration#:#cleaning#:#Realizando Limpieza...
 administration#:#cleaning_final#:#Limpieza Final...
@@ -129,6 +144,7 @@ assessment#:#average_reached_points#:#Puntuación media alcanzada
 assessment#:#backtocallingtest#:#Volver al Test origen
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
+assessment#:#cannot_edit_marks#:#Hay usuarios que ejecutaron el test. Sólo puede cambiar las calificaciones si se habilitó una fecha de informe de resultados y dicha fecha no ha sido alcanzada.
 assessment#:#cannot_edit_test#:#¡No posee permisos suficientes para editar el test!
 assessment#:#cannot_execute_test#:#¡No posee permisos suficientes para lanzar el test!
 assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el banco de preguntas!
@@ -221,6 +237,7 @@ assessment#:#eval_legend_link#:#Por favor, revise la leyenda para el significado
 assessment#:#eval_matching_result#:#La pareja %s - %s es %s.Usted recibió %s puntos.
 assessment#:#eval_order_result#:#El orden para el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_search_groups#:#Grupos
+assessment#:#eval_search_roles#:#Roles
 assessment#:#eval_search_term#:#Buscar término
 assessment#:#eval_search_users#:#Usuarios
 assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir a la evaluación estadística
@@ -298,6 +315,8 @@ assessment#:#no_question_selected_for_move#:#Por favor marque al menos una pregu
 assessment#:#no_questions_available#:#No hay preguntas disponibles!
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
 assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué está buscando (usuarios y/o grupos)
+assessment#:#online_exam_show_finish_test#:#Todavía tiene que llegar al envío final de su examen online. Por favor haga click en el botón &quot;Finalizar el test&quot; para enviar el examen.
+assessment#:#online_exam_show_answer_print_sheet#:#Ha finalizado su examen online. Para ver la vista de impresión de respuestas para imprimir sus resultados de test por favor haga click en el botón &quot;Vista de impresión de respuestas&quot;.
 assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordenar imágenes
 assessment#:#order_terms#:#Ordenar términos
@@ -398,6 +417,7 @@ assessment#:#select_an_answer#:#--- Por favor seleccione una respuesta ---
 assessment#:#select_gap#:#Hueco de seleccion
 assessment#:#select_max_one_item#:#Por favor seleccione un único item
 assessment#:#select_one_submitted_test#:#Por favor seleccione al menos un usuario que haya finalizado el test
+assessment#:#select_one_user#:#Por favor seleccione al menos un usuario
 assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones 'insertar'!
 assessment#:#select_tst_option#:#--- Por favor seleccione un test ---
 assessment#:#selected_image#:#Imagen seleccionada
@@ -886,8 +906,11 @@ common#:#approve_date#:#Admitido
 common#:#approve_recipient#:#Login ID del gestor de admisiones
 common#:#archive#:#archivo
 common#:#are_you_sure#:#Está seguro?
+common#:#arrow_downright#:#Flecha de arriba a abajo a la derecha
 common#:#articels_unread#:#Mensajes no leídos:
 common#:#as_of#:#as of
+common#:#ascending_order#:#Orden ascendente
+common#:#descending_order#:#Orden descendiente
 common#:#assessment_log#:#Crear un informe de la herramienta Test para un período específico
 common#:#assessment_log_datetime#:#Fecha/hora
 common#:#assessment_log_for_test#:#Para el test
@@ -2277,7 +2300,7 @@ common#:#obj_ldap#:#Configuración LDAP
 common#:#obj_ldap_desc#:#Configure las opciones globales de LDAP aquí
 common#:#obj_lm#:#Módulo de aprendizaje
 common#:#obj_lng#:#Idioma
-common#:#obj_lngf#:#Administración de Idiomas
+common#:#obj_lngf#:#Administración de idiomas
 common#:#obj_lngf_desc#:#Gestione sus idiomas del sistema aquí
 common#:#obj_lo#:#Objeto de Aprendizaje
 common#:#obj_mail#:#Configuración de Correo
@@ -2297,7 +2320,7 @@ common#:#obj_qpl#:#Banco de Preguntas (Test)
 common#:#obj_recf#:#Objetos Restaurados
 common#:#obj_recf_desc#:#Contiene objetos restaurados a partir del chequeo de sistema
 common#:#obj_role#:#Rol
-common#:#obj_rolf#:#Administración de Roles
+common#:#obj_rolf#:#Administración de roles
 common#:#obj_rolf_desc#:#Gestione sus roles aquí.
 common#:#obj_rolf_local#:#Roles Locales
 common#:#obj_rolf_local_desc#:#Contiene los roles locales del objeto no.
@@ -2483,7 +2506,7 @@ common#:#question#:#Pregunta
 common#:#question_pools#:#Banco de preguntas
 common#:#quit#:#-salir-
 common#:#quote#:#Cita
-common#:#read#:#read
+common#:#read#:#lectura
 common#:#recf_edit#:#Editar Carpeta de Recuperación
 common#:#recipient#:#destinatario
 common#:#referral_comment#:#¿Cómo conociste ILIAS?
@@ -2723,6 +2746,7 @@ common#:#small_icon#:#Icono Pequeño
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administración externa de usuarios (SOAP)
 common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas de usuario pueden ser administradas por un cliente SOAP externo.
+common#:#spacer#:#Spacer###new variable
 common#:#sort_by_this_column#:#Ordenar por esta columna
 common#:#spl#:#Banco de preguntas (Encuesta)
 common#:#spl_add#:#Añadir banco de preguntas
@@ -2809,6 +2833,7 @@ common#:#test#:#Test
 common#:#test_intern#:#test interno
 common#:#test_module#:#Módulo de Test
 common#:#tests#:#Tests
+common#:#thumbnail#:#Thumbnail
 common#:#time#:#hora
 common#:#time_d#:#Día
 common#:#time_h#:#Hora
@@ -3033,7 +3058,7 @@ common#:#welcome#:#Bienvenido
 common#:#who_is_online#:#Who's online?
 common#:#width_x_height#:#Anchura x Altura
 common#:#with#:#con
-common#:#write#:#escribir
+common#:#write#:#escritura
 common#:#wrong_ip_detected#:#Su acceso ha sido denegado por una IP cliente incorrecta.<br>Por favor contacte al administrador del sistema.
 common#:#yes#:#si
 common#:#you_may_add_local_roles#:#Puede añadir roles locales
@@ -3409,8 +3434,8 @@ content#:#cont_std_view#:#Vista estándar
 content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
-content#:#cont_synchronize_frames#:#Sincronizar 'frames'
-content#:#cont_synchronize_frames_desc#:#Esta opcion sincroniza el 'frame' de la tabla de contenidos con el 'frame' de contenidos y limpia los 'frames' adicionales en vista '3 ventanas'. Pero tambien supone una reduccion del rendimiento.
+content#:#cont_synchronize_frames#:#Sincronizar marcos
+content#:#cont_synchronize_frames_desc#:#Esta opcion sincroniza el marco de la tabla de contenidos con el marco de contenidos y actualiza los marcos adicionales (ej. en vista '3window'). Pero tambien supone una reduccion del rendimiento.
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
 content#:#cont_table_cellpadding#:#Relleno de Celdas (Tabla)
@@ -5335,6 +5360,7 @@ survey#:#search_for#:#Buscar
 survey#:#search_groups#:#Grupos
 survey#:#search_invitation#:#Buscar usuarios o grupos a invitar
 survey#:#search_questions#:#Buscar preguntas
+survey#:#search_roles#:#Roles encontrados
 survey#:#search_term#:#Buscar término
 survey#:#search_type_all#:#Buscar en todos los tipos de pregunta
 survey#:#search_users#:#Usuarios
@@ -5457,3 +5483,13 @@ common#:#overwrite#:#Sobreescribir
 common#:#send_mail_members#:#Correo a miembros
 common#:#send_mail_tutors#:#Correo a tutores
 common#:#send_mail_admins#:#Correo a administradores
+common#:#mail_members#:#Mail a miembros
+common#:#crs_edit_learning_progress#:#Editar seguimiento
+common#:#tst_edit_learning_progress#:#Editar seguimiento
+common#:#sahs_edit_learning_progress#:#Editar seguimiento
+common#:#htlm_edit_learning_progress#:#Editar seguimiento
+common#:#dbk_edit_learning_progress#:#Editar seguimiento
+common#:#lm_edit_learning_progress#:#Editar seguimiento
+common#:#append_search#:#Añadir resultados de búsqueda
+common#:#search_to_short#:#Su consulta es demasiado corta.
+common#:#search_minimum_characters#:#La longitud mínima de palabra es:

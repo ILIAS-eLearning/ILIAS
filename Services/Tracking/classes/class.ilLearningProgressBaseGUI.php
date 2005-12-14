@@ -35,6 +35,7 @@
 define("LP_MODE_PERSONAL_DESKTOP",1);
 define("LP_MODE_ADMINISTRATION",2);
 define("LP_MODE_REPOSITORY",3);
+define("LP_MODE_USER_FOLDER",4);
 
 define("LP_ACTIVE_SETTINGS",1);
 define("LP_ACTIVE_OBJECTS",2);
@@ -57,7 +58,7 @@ class ilLearningProgressBaseGUI
 
 	var $mode = 0;
 
-	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0)
+	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0,$a_usr_id = 0)
 	{
 		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
 
@@ -69,6 +70,7 @@ class ilLearningProgressBaseGUI
 		$this->mode = $a_mode;
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+		$this->usr_id = $a_usr_id;
 	}
 	
 	function getMode()
@@ -84,6 +86,19 @@ class ilLearningProgressBaseGUI
 	function getObjId()
 	{
 		return $this->obj_id;
+	}
+
+	function getUserId()
+	{
+		if($this->usr_id)
+		{
+			return $this->usr_id;
+		}
+		if((int) $_GET['user_id'])
+		{
+			return (int) $_GET['user_id'];
+		}
+		return 0;
 	}
 
 	// Protected
@@ -142,6 +157,11 @@ class ilLearningProgressBaseGUI
 				$tabs_gui->addTarget('trac_objects',
 									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 									 "","","",$a_active == LP_ACTIVE_OBJECTS);
+				break;
+
+			case LP_MODE_USER_FOLDER:
+				
+				// No tabs default class is lpprogressgui
 				break;
 
 			default:
@@ -262,6 +282,22 @@ class ilLearningProgressBaseGUI
 		{
 			$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($seconds));
 		}
+	}
+
+	function __showButton($a_link,$a_text,$a_target = '')
+	{
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$a_link);
+		$this->tpl->setVariable("BTN_TXT",$a_text);
+		if($a_target)
+		{
+			$this->tpl->setVariable("BTN_TARGET",$a_target);
+		}
+
+		$this->tpl->parseCurrentBlock();
 	}
 
 

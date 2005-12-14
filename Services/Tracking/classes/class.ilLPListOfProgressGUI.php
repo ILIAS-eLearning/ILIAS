@@ -40,18 +40,20 @@ include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 {
 	var $tracked_user = null;
-	var $show_active = true;
+	var $show_user_info = false;
 	var $filter_gui = null;
 
 	var $details_id = 0;
 	var $details_type = '';
 	var $details_mode = 0;
 
-	function ilLPListOfProgressGUI($a_mode,$a_ref_id)
+	function ilLPListOfProgressGUI($a_mode,$a_ref_id,$a_user_id = 0)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id,$a_user_id);
 		$this->__initFilterGUI();
-		$this->__initUser();
+		
+		$this->__initUser($a_user_id);
+		
 
 		// Set item id for details
 		$this->__initDetails((int) $_GET['details_id']);
@@ -64,6 +66,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function &executeCommand()
 	{
 		$this->ctrl->setReturn($this, "show");
+		$this->ctrl->saveParameter($this,'user_id',$this->getUserId());
 		switch($this->ctrl->getNextClass())
 		{
 			case 'illpfiltergui':
@@ -83,25 +86,29 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function show()
 	{
 		global $ilObjDataCache;
-
-		
-		// Show only detail of current repository item if called from repository
+	
 		switch($this->getMode())
 		{
+			// Show only detail of current repository item if called from repository
 			case LP_MODE_REPOSITORY:
 				$this->__initDetails($ilObjDataCache->lookupObjId($this->getRefId()));
-				if(!$this->show_active)
+				if($this->show_user_info)
 				{
 					$this->__showUserInfo();
 				}
 				return $this->details();
+
+			case LP_MODE_USER_FOLDER:
+				// if called from user folder obj_id is id of current user
+				$this->__initUser($this->getUserId());
+				break;
 		}
 
 		// not called from repository
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
 
 		// Show user info, if not current user
-		if(!$this->show_active)
+		if($this->show_user_info)
 		{
 			$this->__showUserInfo();
 		}
@@ -112,6 +119,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function details()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_lm_details.html','Services/Tracking');
+
 		switch($this->details_type)
 		{
 			case 'crs':
@@ -459,19 +467,19 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	}
 
 
-	function __initUser()
+	function __initUser($a_usr_id = 0)
 	{
 		global $ilUser;
 
-		if($_GET['usr_id'])
+		if($a_usr_id)
 		{
-			$this->tracked_user =& ilObjectFactory::getInstanceByObjId((int) $_GET['usr_id']);
+			$this->tracked_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
 		}
 		else
 		{
-			$this->tracked_user =& $ilUser;
+			$this->tracked_user = $ilUser;
 		}
-		$this->show_active = $this->tracked_user->getId() == $ilUser->getId();
+		$this->show_user_info = ($this->tracked_user->getId() != $ilUser->getId());
 
 		return true;
 	}

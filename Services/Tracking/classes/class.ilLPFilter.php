@@ -259,15 +259,21 @@ class ilLPFilter
 		$object_search->setFilter($this->prepareType());
 
 		$res =& $object_search->performSearch();
+
 		#if($user_id)
 		#{
 		#	$res->setUserId($user_id);
 		#}
+
 		$res->setRequiredPermission($this->getRequiredPermission());
-		$res->filter(ROOT_FOLDER_ID,false);
+		$res->filter($this->getRootNode(),false);
 		foreach($res->getResults() as $obj_data)
 		{
-			if(ilLPObjSettings::_lookupMode($obj_id) != LP_MODE_DEACTIVATED)
+			if($this->isHidden($obj_data['obj_id']))
+			{
+				continue;
+			}
+			if(ilLPObjSettings::_lookupMode($obj_data['obj_id']) != LP_MODE_DEACTIVATED)
 			{
 				$objects[$obj_data['obj_id']]['ref_ids'][] = $obj_data['ref_id'];
 				$objects[$obj_data['obj_id']]['title'] = $ilObjDataCache->lookupTitle($obj_data['obj_id']);

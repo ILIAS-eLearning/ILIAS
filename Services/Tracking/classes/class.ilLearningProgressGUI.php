@@ -39,9 +39,9 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 
 class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 {
-	function ilLearningProgressGUI($a_mode,$a_ref_id = 0)
+	function ilLearningProgressGUI($a_mode,$a_ref_id = 0,$a_user_id = 0)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id,$a_user_id);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 				$this->__setSubTabs(LP_ACTIVE_PROGRESS);
 				$this->__setCmdClass('illplistofprogressgui');
-				$lop_gui = new ilLPListOfProgressGUI($this->getMode(),$this->getRefId());
+				$lop_gui = new ilLPListOfProgressGUI($this->getMode(),$this->getRefId(),$this->getUserId());
 				$this->ctrl->forwardCommand($lop_gui);
 				break;
 
@@ -119,6 +119,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofprogressgui';
 
 			case LP_MODE_PERSONAL_DESKTOP:
+				return 'illplistofprogressgui';
+
+			case LP_MODE_USER_FOLDER:
 				return 'illplistofprogressgui';
 		}
 	}

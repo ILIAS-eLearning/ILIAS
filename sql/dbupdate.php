@@ -9390,3 +9390,8 @@ CREATE TABLE `ut_lp_marks` (
   PRIMARY KEY  (`obj_id`,`usr_id`),
   KEY `obj_usr` (`obj_id`,`usr_id`)
 ) Type=MyISAM;
+
+<#611>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
