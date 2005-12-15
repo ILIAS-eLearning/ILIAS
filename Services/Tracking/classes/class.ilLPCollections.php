@@ -119,18 +119,42 @@ class ilLPCollections
 		return count(ilLPCollections::_getPossibleItems($a_target_id));
 	}
 
-	function _getCountPossibleSCOs($a_target_id)
+	function _getCountPossibleSAHSItems($a_target_id)
 	{
-		return count(ilLPCollections::_getPossibleSCOs($a_target_id));
+		return count(ilLPCollections::_getPossibleSAHSItems($a_target_id));
 	}
 
-	function _getPossibleSCOs($target_id)
+
+	/**
+	* get all tracking items of scorm or aicc object
+	*/
+
+	function _getPossibleSAHSItems($target_id)
 	{
-		global $ilDB;
+		include_once './content/classes/class.ilObjSAHSLearningModule.php';
 
-		include_once './content/classes/SCORM/class.ilSCORMItem.php';
+		switch(ilObjSAHSLearningModule::_lookupSubType($target_id))
+		{
+			case 'aicc':
+				include_once './content/classes/class.ilObjAICCLearningModule.php';
 
-		return ilSCORMItem::_getItems($target_id);
+				foreach(ilObjAICCLearningModule::_getTrackingItems($target_id) as $item)
+				{
+					$items[$item->getId()]['title'] = $item->getTitle();
+				}
+				return $items ? $items : array();
+
+			case 'scorm':
+				include_once './content/classes/class.ilObjSCORMLearningModule.php';
+				include_once './content/classes/SCORM/class.ilSCORMItem.php';
+
+				foreach(ilObjSCORMLearningModule::_getTrackingItems($target_id) as $item)
+				{
+					$items[$item->getId()]['title'] = $item->getTitle();
+				}
+				return $items ? $items : array();
+		}
+		return array();
 	}
 
 

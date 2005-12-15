@@ -188,6 +188,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
 		include_once 'content/classes/SCORM/class.ilSCORMItem.php';
 
+
+		if(!$items = ilLPCollections::_getPossibleSAHSItems($this->getObjId()))
+		{
+			sendInfo($this->lng->txt('trac_no_sahs_items_found'));
+			return false;
+		}
+
+
 		$lp_collections = new ilLPCollections($this->getObjId());
 
 		$tpl =& new ilTemplate('tpl.trac_collections.html',true,true,'Services/Tracking');
@@ -203,18 +211,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$tpl->setVariable("BTN_DEASSIGN",$this->lng->txt('trac_collection_deassign'));
 
 		
-		if(!ilLPCollections::_getCountPossibleSCOs($this->getObjId()))
-		{
-			$tpl->setCurrentBlock("no_items");
-			$tpl->setVariable("NO_ITEM_MESSAGE",$this->lng->txt('trac_no_items'));
-			$tpl->parseCurrentBlock();
-		}
 		$counter = 0;
-		foreach(ilLPCollections::_getPossibleSCOs($this->getObjId()) as $obj_id)
+
+		foreach($items as $obj_id => $data)
 		{
 			$tpl->setCurrentBlock("trac_row");
 			#$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
-			$tpl->setVariable("COLL_TITLE",ilSCORMItem::_lookupTitle($obj_id));
+			#$tpl->setVariable("COLL_TITLE",ilSCORMItem::_lookupTitle($obj_id));
+			$tpl->setVariable("COLL_TITLE",$data['title']);
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$obj_id));
 

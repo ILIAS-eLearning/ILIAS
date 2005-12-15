@@ -191,8 +191,14 @@ class ilLPObjSettings
 							 LP_MODE_TLT => $lng->txt('trac_mode_tlt'));
 
 			case 'sahs':
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+				include_once './Services/Tracking/classes/class.ilLPCollections.php';
+
+				if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
+				{
+					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+								 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+				}
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
 
 			case 'tst':
 				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
