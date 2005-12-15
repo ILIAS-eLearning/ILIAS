@@ -9395,3 +9395,27 @@ CREATE TABLE `ut_lp_marks` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#612>
+<?php
+
+// get all ref ids in scorm tracking
+$query = "SELECT DISTINCT ref_id FROM scorm_tracking";
+
+$res = $ilDB->query($query);
+while($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q2 = "SELECT * FROM object_reference WHERE ref_id = ".
+		$ilDB->quote($rec["ref_id"]);
+	$res2 = $ilDB->query($q2);
+	$rec2 = $res2->fetchRow(DB_FETCHMODE_ASSOC);
+	
+	$q3 = "UPDATE scorm_tracking SET ref_id= ".
+		$ilDB->quote($rec2["obj_id"]). " WHERE ".
+		" ref_id = ".$ilDB->quote($rec["ref_id"]);
+		
+	$ilDB->query($q3);
+}
+
+?>
+<#613>
+ALTER TABLE scorm_tracking CHANGE ref_id obj_id INT;
