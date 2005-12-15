@@ -149,8 +149,17 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	*/
 	function getTrackingItems()
 	{
+		return ilObjAICCLearningModule::_getTrackingItems($this->getId());
+	}
+
+
+	/**
+	* get all tracking items of scorm object
+	*/
+	function _getTrackingItems($a_obj_id)
+	{
 		include_once("content/classes/SCORM/class.ilSCORMTree.php");
-		$tree = new ilSCORMTree($this->getId());
+		$tree = new ilSCORMTree($a_obj_id);
 		$root_id = $tree->readRootId();
 
 		$items = array();

@@ -84,13 +84,20 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return "";
 	}
 
-	/**
-	* get all tracking items of scorm object
-	*/
 	function getTrackingItems()
 	{
+		return ilObjSCORMLearningModule::_getTrackingItems($this->getId());
+	}
+
+
+	/**
+	* get all tracking items of scorm object
+	* @access static
+	*/
+	function _getTrackingItems($a_obj_id)
+	{
 		include_once("content/classes/SCORM/class.ilSCORMTree.php");
-		$tree = new ilSCORMTree($this->getId());
+		$tree = new ilSCORMTree($a_obj_id);
 		$root_id = $tree->readRootId();
 
 		$items = array();

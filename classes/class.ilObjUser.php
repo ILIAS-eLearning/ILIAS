@@ -2620,7 +2620,12 @@ class ilObjUser extends ilObject
 		$profile = $res->numRows() ? true : false;
 
 
-		$webspace_dir = ilUtil::getWebspaceDir();
+		if(defined('ILIAS_MODULE'))
+		{
+			$webspace_dir = ('.'.$webspace_dir);
+		}
+		$webspace_dir .= ('./'.ilUtil::getWebspaceDir());
+
 		$image_dir = $webspace_dir."/usr_images";
 		$thumb_file = $image_dir."/usr_".$a_usr_id."_".$a_size.".jpg";
 

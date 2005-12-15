@@ -56,9 +56,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->item_id = (int) $_REQUEST['item_id'];
 		$this->offset = (int) $_GET['offset'];
 		$this->ctrl->saveParameter($this,'offset',$this->offset);
-		$this->ctrl->saveParameter($this,'details_id',$this->details_id);
 
-		$this->max_count = (int) 5;
+		$this->max_count = 5;
 	}
 
 	/**
@@ -123,6 +122,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$this->ctrl->setParameter($this,'user_id',(int) $_GET['user_id']);
 		$this->ctrl->setParameter($this,'item_id',(int) $this->item_id);
+		$this->ctrl->setParameter($this,'details_id',$this->details_id);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
 		$this->tpl->setVariable("TYPE_IMG",ilObjUser::_getPersonalPicturePath((int) $_GET['user_id'],'xxsmall'));
@@ -241,6 +241,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 					$this->ctrl->setParameter($this,'user_id',$user_id);
 					$this->ctrl->setParameter($this,"item_id",$obj_id);
+					$this->ctrl->setParameter($this,'details_id',$this->details_id);
 					$this->tpl->setVariable("ITEM_EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
 					$this->tpl->setVariable("ITEM_TXT_COMMAND",$this->lng->txt('edit'));
 					$this->tpl->parseCurrentBlock();
@@ -286,6 +287,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable("TYPE_ALT",$ilObjDataCache->lookupTitle($user_id));
 			$this->ctrl->setParameter($this,"user_id",$user_id);
 			$this->ctrl->setParameter($this,'item_id',$this->details_id);
+			$this->ctrl->setParameter($this,'details_id',$this->details_id);
 			$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
 			$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('edit'));
 			$this->tpl->setVariable("MARK",ilLPMarks::_lookupMark($user_id,$this->details_id));
@@ -468,6 +470,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	function __initDetails($a_details_id)
 	{
 		global $ilObjDataCache;
+
 
 		if($a_details_id)
 		{

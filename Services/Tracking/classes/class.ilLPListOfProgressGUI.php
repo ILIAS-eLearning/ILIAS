@@ -120,6 +120,19 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_lm_details.html','Services/Tracking');
 
+		// Show back button to crs if called from crs. Otherwise if called from personal desktop or administration
+		// show back to list
+		if((int) $_GET['crs_id'])
+		{
+			$this->ctrl->setParameter($this,'details_id',(int) $_GET['crs_id']);
+			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_crs'));
+		}
+		elseif($this->getMode() == LP_MODE_PERSONAL_DESKTOP or
+		   $this->getMode() == LP_MODE_ADMINISTRATION)
+		{
+			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
+		}
+
 		switch($this->details_type)
 		{
 			case 'crs':
@@ -243,11 +256,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			}
 
 			// Details link
-			#$obj_tpl->setCurrentBlock("item_command");
-			#$this->ctrl->setParameter($this,'details_id',$obj_id);
-			#$obj_tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
-			#$obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
-			#$obj_tpl->parseCurrentBlock();
+			$obj_tpl->setCurrentBlock("item_command");
+			$this->ctrl->setParameter($this,'details_id',$item_id);
+			$this->ctrl->setParameter($this,'crs_id',$this->details_id);
+			$obj_tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
+			$obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
+			$obj_tpl->parseCurrentBlock();
 
 
 			// Tracking activated for object
@@ -297,8 +311,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$counter = 0;
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		include_once './content/classes/SCORM/class.ilSCORMItem.php';
+
 		foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
 		{
+			$this->tpl->setCurrentBlock("container_standard_row");
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$this->tpl->setVariable("COLSPAN",2);
 
@@ -326,7 +342,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setCurrentBlock("crs_collection");
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_sahs.gif'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_sahs'));
-		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('trac_crs_releavant_items'));
+		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('trac_sahs_relevant_items'));
 		$this->tpl->parseCurrentBlock();
 	}		
 
