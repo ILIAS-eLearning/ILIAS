@@ -323,17 +323,18 @@ class ilSCORMPresentationGUI
 		}
 
 		// init cmi.core.total_time, cmi.core.lesson_status and cmi.core.entry
+		$sahs_obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
 		if (!isset($re_value["cmi.core.total_time"]))
 		{
-			$item->insertTrackData("cmi.core.total_time", "0000:00:00", $_GET["ref_id"]);
+			$item->insertTrackData("cmi.core.total_time", "0000:00:00", $sahs_obj_id);
 		}
 		if (!isset($re_value["cmi.core.lesson_status"]))
 		{
-			$item->insertTrackData("cmi.core.lesson_status", "not attempted", $_GET["ref_id"]);
+			$item->insertTrackData("cmi.core.lesson_status", "not attempted", $sahs_obj_id);
 		}
 		if (!isset($re_value["cmi.core.entry"]))
 		{
-			$item->insertTrackData("cmi.core.entry", "", $_GET["ref_id"]);
+			$item->insertTrackData("cmi.core.entry", "", $sahs_obj_id);
 		}
 
 		$this->tpl->show();

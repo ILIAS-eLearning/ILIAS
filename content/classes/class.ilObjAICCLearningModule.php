@@ -185,7 +185,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		global $ilUser, $ilDB, $ilUser;
 
 		$query = "SELECT DISTINCT sco_id FROM scorm_tracking WHERE".
-			" ref_id = ".$ilDB->quote($this->getRefId());
+			" obj_id = ".$ilDB->quote($this->getId());
 
 		$sco_set = $ilDB->query($query);
 
@@ -206,7 +206,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		global $ilDB;
 
 		$query = "SELECT * FROM scorm_tracking WHERE".
-			" ref_id = ".$ilDB->quote($this->getRefId()).
+			" obj_id = ".$ilDB->quote($this->getId()).
 			" AND sco_id = ".$ilDB->quote($a_sco_id).
 			" ORDER BY user_id, lvalue";
 		$data_set = $ilDB->query($query);
