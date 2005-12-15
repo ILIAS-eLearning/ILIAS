@@ -74,12 +74,14 @@ class ilObjSCORMTracking
 		}
 	}
 
-	function store($ref_id=0, $sahs_id=0, $extractData=1)
+	function store($obj_id=0, $sahs_id=0, $extractData=1)
 	{
 		global $ilDB, $ilUser;
 
-		if (empty($ref_id))
-			$ref_id=$_GET["ref_id"];
+		if (empty($obj_id))
+		{
+			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+		}
 		
 		if (empty($sahs_id))
 			$sahs_id = ($_GET["sahs_id"] != "")	? $_GET["sahs_id"] : $_POST["sahs_id"];
@@ -95,9 +97,9 @@ class ilObjSCORMTracking
 		// writing to scorm test log
 		$f = fopen("content/scorm.log", "a");
 		fwrite($f, "\nCALLING SCORM store()\n");
-		if ($ref_id <= 1)
+		if ($obj_id <= 1)
 		{
-			fwrite($f, "Error: No ref_id given.\n");
+			fwrite($f, "Error: No obj_id given.\n");
 		}
 		else
 		{
@@ -115,9 +117,9 @@ class ilObjSCORMTracking
 				}
 				else
 				{
-					$q = "INSERT INTO scorm_tracking (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
+					$q = "INSERT INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES ".
 						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($ref_id).",".
+						$ilDB->quote($obj_id).",".
 						$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
 					$ilDB->query($q);
 					fwrite($f, "Insert - L:".$insert["left"].",R:".
@@ -133,9 +135,9 @@ class ilObjSCORMTracking
 				$set = $ilDB->query($q);
 				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$q = "REPLACE INTO scorm_tracking (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
+					$q = "REPLACE INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES ".
 						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($ref_id).",".
+						$ilDB->quote($obj_id).",".
 						$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
 					$ilDB->query($q);
 					fwrite($f, "Update - L:".$update["left"].",R:".
@@ -151,14 +153,14 @@ class ilObjSCORMTracking
 		fclose($f);
 	}
 
-	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_ref_id)
+	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
 	{
 		global $ilDB, $ilUser;
 
-		$q = "INSERT INTO scorm_tracking (user_id, sco_id, lvalue, rvalue, ref_id) ".
+		$q = "INSERT INTO scorm_tracking (user_id, sco_id, lvalue, rvalue, obj_id) ".
 			" VALUES (".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($a_sahs_id).
 			",".$ilDB->quote($a_lval).",".$ilDB->quote($a_rval).
-			",".$ilDB->quote($a_ref_id).")";
+			",".$ilDB->quote($a_obj_id).")";
 		$ilDB->query($q);
 
 	}

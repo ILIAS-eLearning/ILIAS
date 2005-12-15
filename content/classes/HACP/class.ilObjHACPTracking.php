@@ -77,7 +77,8 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 		}
 		
 		//store
-		$this->store($ref_id, $obj_id, 0);
+		$hacp_id = ilObject::_lookupObjId($ref_id);
+		$this->store($hacp_id, $obj_id, 0);
 		
 		$response=new ilHACPResponse($ref_id, $obj_id);
 		$response->sendOk();

@@ -298,10 +298,10 @@ class ilAICCCourse extends ilAICCObject
 		return $trdata;
 	}
 	
-	function insertTrackData($a_lval, $a_rval, $a_ref_id)
+	function insertTrackData($a_lval, $a_rval, $a_obj_id)
 	{
 		require_once("content/classes/SCORM/class.ilObjSCORMTracking.php");
-		ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
+		ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_obj_id);
 	}
 
 }
