@@ -1582,10 +1582,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				switch($obj->getType())		// ok that's not so nice, could be done better
 				{
 					case "pg":
-						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
+						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.gif"));
 						break;
 					case "st":
-						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
+						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
 						break;
 				}
 				$this->tpl->setCurrentBlock("table_row");

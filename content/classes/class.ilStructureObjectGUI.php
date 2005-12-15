@@ -260,7 +260,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
 
 			// type
 			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
