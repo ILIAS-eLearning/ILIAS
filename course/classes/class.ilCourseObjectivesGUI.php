@@ -2005,18 +2005,16 @@ class ilCourseObjectivesGUI
 	*/
 	function setSubTabs()
 	{
-		include_once("classes/class.ilTabsGUI.php");
-		$tab_gui = new ilTabsGUI();
-		$tab_gui->setSubTabs(true);
-		$tab_gui->addTarget("crs_objective_overview_objectives",
-			$this->ctrl->getLinkTarget($this, "listObjectives"),
-			array("listObjectives", "moveObjectiveUp", "moveObjectiveDown", "listAssignedLM"));
-			
-		$tab_gui->addTarget("crs_objective_overview_question_assignment",
-			$this->ctrl->getLinkTarget($this, "editQuestionAssignment"),
-			"editQuestionAssignment");
+		global $ilTabs;
 
-		$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+		$ilTabs->addSubTabTarget("crs_objective_overview_objectives",
+								 $this->ctrl->getLinkTarget($this, "listObjectives"),
+								 array("listObjectives", "moveObjectiveUp", "moveObjectiveDown", "listAssignedLM"));
+			
+		$ilTabs->addSubTabTarget("crs_objective_overview_question_assignment",
+								 $this->ctrl->getLinkTarget($this, "editQuestionAssignment"),
+								 "editQuestionAssignment");
+
 	}
 }
 ?>

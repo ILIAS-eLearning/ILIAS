@@ -1011,17 +1011,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		include_once('classes/class.ilTabsGUI.php');
 
-		$sub_tab_gui = new ilTabsGUI();
-		$sub_tab_gui->setSubTabs();
-		$sub_tab_gui->addTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
-			"", "", "", $overview);
-		$sub_tab_gui->addTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
-			"", "", "", $ldap);
-		$sub_tab_gui->addTarget("auth_shib", $this->ctrl->getLinkTarget($this, "editSHIB"),
-			"", "", "", $shib);
-		$sub_tab_gui->addTarget("auth_radius", $this->ctrl->getLinkTarget($this, "editRADIUS"),
-			"", "", "", $radius);
-		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());		
+		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
+										 "", "", "", $overview);
+		$this->tabs_gui->addSubTabTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
+								   "", "", "", $ldap);
+		$this->tabs_gui->addSubTabTarget("auth_shib", $this->ctrl->getLinkTarget($this, "editSHIB"),
+								   "", "", "", $shib);
+		$this->tabs_gui->addSubTabTarget("auth_radius", $this->ctrl->getLinkTarget($this, "editRADIUS"),
+								   "", "", "", $radius);
 	}
 } // END class.ilObjAuthSettingsGUI
 ?>

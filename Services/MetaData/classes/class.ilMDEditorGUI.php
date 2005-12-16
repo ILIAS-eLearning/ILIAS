@@ -48,7 +48,7 @@ class ilMDEditorGUI
 
 	function ilMDEditorGUI($a_rbac_id,$a_obj_id,$a_obj_type)
 	{
-		global $ilCtrl,$lng,$tpl;
+		global $ilCtrl,$lng,$tpl,$ilTabs;
 
 		$this->md_obj =& new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
 		$this->ctrl =& $ilCtrl;
@@ -57,6 +57,8 @@ class ilMDEditorGUI
 		$this->lng->loadLanguageModule('meta');
 
 		$this->tpl =& $tpl;
+
+		$this->tabs_gui =& $ilTabs;
 
 	}
 
@@ -2583,9 +2585,9 @@ class ilMDEditorGUI
 			$tabs['debug'] = 'debug';
 		}
 		
-		include_once("classes/class.ilTabsGUI.php");
-		$tab_gui = new ilTabsGUI();
-		$tab_gui->setSubTabs();
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tab_gui = new ilTabsGUI();
+		#$tab_gui->setSubTabs();
 		foreach($tabs as $key => $target)
 		{
 			if($a_active == $key)
@@ -2597,10 +2599,10 @@ class ilMDEditorGUI
 				$active = false;
 			}
 			$this->ctrl->setParameter($this,'section',$key);
-			$tab_gui->addTarget($key, $this->ctrl->getLinkTarget($this,'listSection'),
+			$this->tabs_gui->addSubTabTarget($key, $this->ctrl->getLinkTarget($this,'listSection'),
 				"", "", "", $active);
 		}
-		$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+		#$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
 		return true;
 	}
 

@@ -203,6 +203,7 @@ class ilTemplate extends ilTemplateX
 		global $ilias,$ilTabs;
 		
 		$this->setVariable("TABS",$ilTabs->getHTML());
+		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
 	}		
 	/**
 	* add ILIAS footer

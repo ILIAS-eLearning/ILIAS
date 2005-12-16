@@ -1555,9 +1555,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
 		include_once "./assessment/classes/class.assQuestion.php";
 		$q_type = ASS_Question::getQuestionTypeFromDb($_GET["q_id"]);
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		$tabs_gui->setSubTabs();
 		
 		switch ($q_type)
 		{
@@ -1615,17 +1612,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
 				// edit page
-				$tabs_gui->addTarget("edit_content",
-					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
-					array("view", "exec_pg"),
-					"", "", $force_active);
+				$this->tabs_gui->addSubTabTarget("edit_content",
+												 $this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
+												 array("view", "exec_pg"),
+												 "", "", $force_active);
 			}
 	
 			// edit page
-			$tabs_gui->addTarget("preview",
-				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"),
-				array("preview"),
-				"ilPageObjectGUI", "", $force_active);
+			$this->tabs_gui->addSubTabTarget("preview",
+											 $this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"),
+											 array("preview"),
+											 "ilPageObjectGUI", "", $force_active);
 		}
 
 		if ($classname)
@@ -1653,28 +1650,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
 				// edit question properties
-				$tabs_gui->addTarget("edit_properties",
-					$this->ctrl->getLinkTargetByClass($classname, "editQuestion"),
-					array("questions", "filter", "resetFilter", "createQuestion", 
-					"importQuestions", "deleteQuestions", "duplicate", 
-					"view", "preview", "editQuestion", "exec_pg",
-					"addItem", "upload", "save", "cancel", "addSuggestedSolution",
-					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
-					"add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
-					"setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
-					"deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
-					"addParameter", "addGIT", "addST", "addPG", "delete"),
-					$classname, "", $force_active);
+				$this->tabs_gui->addSubTabTarget("edit_properties",
+												 $this->ctrl->getLinkTargetByClass($classname, "editQuestion"),
+												 array("questions", "filter", "resetFilter", "createQuestion", 
+													   "importQuestions", "deleteQuestions", "duplicate", 
+													   "view", "preview", "editQuestion", "exec_pg",
+													   "addItem", "upload", "save", "cancel", "addSuggestedSolution",
+													   "cancelExplorer", "linkChilds", "removeSuggestedSolution",
+													   "add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
+													   "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
+													   "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
+													   "addParameter", "addGIT", "addST", "addPG", "delete"),
+												 $classname, "", $force_active);
 			}
 		}
 
 		// Assessment of questions sub menu entry
-		$tabs_gui->addTarget("statistics",
-			$this->ctrl->getLinkTargetByClass($classname, "assessment"),
-			array("assessment"),
-			$classname, "");
+		$this->tabs_gui->addSubTabTarget("statistics",
+										 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
+										 array("assessment"),
+										 $classname, "");
 		
-		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
 	}
 
 	/**

@@ -53,10 +53,11 @@ class ilInfoScreenGUI
 	*/
 	function ilInfoScreenGUI($a_gui_object)
 	{
-		global $ilias, $ilCtrl, $lng;
+		global $ilias, $ilCtrl, $lng,$ilTabs;
 
 		$this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
+		$this->tabs_gui =& $ilTabs;
 		$this->gui_object =& $a_gui_object;
 		$this->sec_nr = 0;
 		$this->private_notes_enabled = false;
@@ -450,11 +451,7 @@ class ilInfoScreenGUI
 	{
 		global $tpl;
 		
-		include_once("classes/class.ilTabsGUI.php");
-		$tab_gui = new ilTabsGUI();
-		$tab_gui->setSubTabs();
-		$this->getTabs($tab_gui);
-		$tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+		$this->getTabs($this->tabs_gui);
 	}
 
 	/**
@@ -469,7 +466,7 @@ class ilInfoScreenGUI
 			? true
 			: false;
 
-		$tabs_gui->addTarget('summary',
+		$tabs_gui->addSubTabTarget('summary',
 			 $this->ctrl->getLinkTarget($this, "showSummary"),
 			 array("showSummary", ""),
 			 get_class($this), "", $force_active);
@@ -477,7 +474,7 @@ class ilInfoScreenGUI
 		if ($this->feedback_enabled)
 		{
 			// dummy
-			$tabs_gui->addTarget("feedback",
+			$tabs_gui->addSubTabTarget("feedback",
 				$this->ctrl->getLinkTarget($this, "dummy"),
 				"", "ilfeedbackgui");
 
@@ -485,7 +482,7 @@ class ilInfoScreenGUI
 			// maybe a line... "@ilCtrl_Calls ilFeedbackGUI:"
 			// in the header of feedbackgui is necessary
 			/*
-			$tabs_gui->addTarget("feedback",
+			$tabs_gui->addSubTabTarget("feedback",
 				$this->ctrl->getLinkTargetByClass('ilfeedbackgui','fbList'),
 				"", "ilfeedbackgui");
 			*/
