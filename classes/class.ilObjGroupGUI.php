@@ -1167,21 +1167,16 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function setSubTabs($a_tab)
 	{
-		include_once("classes/class.ilTabsGUI.php");
-		$tab_gui = new ilTabsGUI();
-		$tab_gui->setSubTabs(true);
-		
 		switch ($a_tab)
 		{
 			case 'members':
-				$tab_gui->addTarget("members",
-					$this->ctrl->getLinkTarget($this,'members'),
-					"members", get_class($this));
-				$tab_gui->addTarget("mail_members",
-					$this->ctrl->getLinkTarget($this,'mailMembers'),
-					"mailMembers", get_class($this));
+				$this->tabs_gui->addSubTabTarget("members",
+												 $this->ctrl->getLinkTarget($this,'members'),
+												 "members", get_class($this));
+				$this->tabs_gui->addSubTabTarget("mail_members",
+												 $this->ctrl->getLinkTarget($this,'mailMembers'),
+												 "mailMembers", get_class($this));
 
-				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
 				break;
 
 				

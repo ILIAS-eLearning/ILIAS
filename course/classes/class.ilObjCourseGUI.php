@@ -1081,49 +1081,46 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function setSubTabs($a_tab)
 	{
-		include_once("classes/class.ilTabsGUI.php");
-		$tab_gui = new ilTabsGUI();
-		$tab_gui->setSubTabs(true);
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tab_gui = new ilTabsGUI();
+		#$tab_gui->setSubTabs(true);
 		
 		switch ($a_tab)
 		{
 			case "properties":
-				$tab_gui->addTarget("crs_settings",
-					$this->ctrl->getLinkTarget($this,'edit'),
-					"edit", get_class($this));
-				$tab_gui->addTarget("preconditions",
-					$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
-					"", "ilConditionHandlerInterface");
-				$tab_gui->addTarget("crs_crs_structure",
-					$this->ctrl->getLinkTarget($this,'listStructure'),
-					"listStructure", get_class($this));
+				$this->tabs_gui->addSubTabTarget("crs_settings",
+												 $this->ctrl->getLinkTarget($this,'edit'),
+												 "edit", get_class($this));
+				$this->tabs_gui->addSubTabTarget("preconditions",
+												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+												 "", "ilConditionHandlerInterface");
+				$this->tabs_gui->addSubTabTarget("crs_crs_structure",
+												 $this->ctrl->getLinkTarget($this,'listStructure'),
+												 "listStructure", get_class($this));
 				if ($this->ilias->getSetting("custom_icons"))
 				{
-					$tab_gui->addTarget("icon_settings",
-						$this->ctrl->getLinkTarget($this,'editCourseIcons'),
-						"editCourseIcons", get_class($this));
+					$this->tabs_gui->addSubTabTarget("icon_settings",
+													 $this->ctrl->getLinkTarget($this,'editCourseIcons'),
+													 "editCourseIcons", get_class($this));
 				}
-				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
 				break;
 				
 			case "item_activation":
-				$tab_gui->addTarget("activation",
-					$this->ctrl->getLinkTarget($this,'cciEdit'),
-					"cciEdit", get_class($this));
-				$tab_gui->addTarget("preconditions",
-					$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
-					"", "ilConditionHandlerInterface");
-				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+				$this->tabs_gui->addSubTabTarget("activation",
+												 $this->ctrl->getLinkTarget($this,'cciEdit'),
+												 "cciEdit", get_class($this));
+				$this->tabs_gui->addSubTabTarget("preconditions",
+												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+												 "", "ilConditionHandlerInterface");
 				break;
-
+				
 			case 'members':
-				$tab_gui->addTarget("members",
+				$this->tabs_gui->addSubTabTarget("members",
 					$this->ctrl->getLinkTarget($this,'members'),
 					"members", get_class($this));
-				$tab_gui->addTarget("mail_members",
+				$this->tabs_gui->addSubTabTarget("mail_members",
 					$this->ctrl->getLinkTarget($this,'mailMembers'),
 					"mailMembers", get_class($this));
-				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
 				break;
 
 				

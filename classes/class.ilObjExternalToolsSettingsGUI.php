@@ -281,15 +281,10 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$ilinc = ($a_cmd == 'editiLinc') ? true : false;
 		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
 
-		include_once('classes/class.ilTabsGUI.php');
-
-		$sub_tab_gui = new ilTabsGUI();
-		$sub_tab_gui->setSubTabs();
-		$sub_tab_gui->addTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
-			"", "", "", $overview);
-		$sub_tab_gui->addTarget("extt_ilinc", $this->ctrl->getLinkTarget($this, "editiLinc"),
-			"", "", "", $ilinc);
-		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());		
+		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
+										 "", "", "", $overview);
+		$this->tabs_gui->addSubTabTarget("extt_ilinc", $this->ctrl->getLinkTarget($this, "editiLinc"),
+										 "", "", "", $ilinc);
 	}
 	
 	function &executeCommand()

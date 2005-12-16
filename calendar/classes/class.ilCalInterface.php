@@ -29,7 +29,7 @@
 * to userinformation for the dateplaner
 *
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
-* @version      $Id$                                    
+* @version      $Id$
 * @module       class.Interface.php                            
 * @modulegroup  dateplaner                    
 * @package		dateplaner-core
@@ -246,7 +246,7 @@ class ilCalInterface
 	*/
 	function showLocator($tpl, $lng, $app)
 	{
-		global $ilias;
+		global $ilias,$ilTabs;
 		
 		$tpl = new ilTemplate("tpl.calendar_header.html", true, true);
 		$tpl->setCurrentBlock("locator_item");
@@ -286,7 +286,7 @@ class ilCalInterface
 		// set sub tabs
 		include_once("classes/class.ilTabsGUI.php");
 		$tab_gui = new ilTabsGUI();
-		$tab_gui->setSubTabs();
+		#$tab_gui->setSubTabs();
 		
 		$apps = array("inbox", "list", "day", "week", "month", "properties");
 		foreach($apps as $app)
@@ -304,12 +304,12 @@ class ilCalInterface
 				case "month": $txt_key = "Month_long"; break;
 				case "properties": $txt_key = "properties"; break;
 			}
-			$tab_gui->addTarget($txt_key, "dateplaner.php?app=".$app.
-				"&amp;timestamp=".$GET_["timestamp"],
-				"", "", "", $active);
+			$tab_gui->addSubTabTarget($txt_key, "dateplaner.php?app=".$app.
+									 "&amp;timestamp=".$GET_["timestamp"],
+									 "", "", "", $active);
 		}
-
-		$tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+		
+		$tpl->setVariable("SUB_TABS", $tab_gui->getSubTabHTML());
 		
 		return $tpl->get();
 	}

@@ -39,6 +39,7 @@ class ilTabsGUI
 	var $tabs;
 	var $objDefinition;
 	var $target = array();
+	var $sub_target = array();
 
 	/**
 	* Constructor
@@ -52,6 +53,7 @@ class ilTabsGUI
 		$this->lng =& $lng;
 		$this->objDefinition =& $objDefinition;
 		$this->manual_activation = false;
+		$this->subtab_manual_activation = false;
 		$this->temp_var = "TABS";
 		$this->sub_tabs = false;
 		$this->back_title = "";
@@ -93,14 +95,6 @@ class ilTabsGUI
 				$row["name"], get_class($a_gui_obj));
 		}
 	}
-	
-	/**
-	* set sub tab outfit
-	*/
-	function setSubTabs($a_set = true)
-	{
-		$this->sub_tabs = $a_set;
-	}
 
 	/**
 	* Add a target to the tabbed menu. If no target has set $a_activate to
@@ -135,13 +129,45 @@ class ilTabsGUI
 	}
 
 	/**
+	* Add a Subtarget to the tabbed menu. If no target has set $a_activate to
+	* true, ILIAS tries to determine the current activated menu item
+	* automatically using $a_cmd and $a_cmdClass. If one item is set
+	* activated (and only one should be activated) the automatism is disabled.
+	*
+	* @param	string		$a_text			menu item text
+	* @param	string		$a_link			menu item link
+	* @param	string		$a_cmd			command, used for auto activation
+	* @param	string		$a_cmdClass		used for auto activation. String or array of cmd classes
+	* @param	string		$a_frame		frame target
+	* @param	boolean		$a_activate		activate this menu item
+	*/
+	function addSubTabTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false)
+	{
+		
+		if(!$a_cmdClass)
+		{
+			$a_cmdClass = array();
+		}
+		$a_cmdClass = !is_array($a_cmdClass) ? array(strtolower($a_cmdClass)) : $a_cmdClass;
+		#$a_cmdClass = strtolower($a_cmdClass);
+
+		if ($a_activate)
+		{
+			$this->subtab_manual_activation = true;
+		}
+		$this->sub_target[] = array("text" => $a_text, "link" => $a_link,
+			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame,
+			"activate" => $a_activate);
+	}
+
+	/**
 	* Activate a specific tab identified by name
 	* This method overrides the definition in YOUR_OBJECT::getTabs() and deactivates all other tabs.
 	*
 	* @param	string		$a_text			menu item text
 	* @param	boolean		
 	*/
-	function activate($a_text)
+	function setTabActive($a_text)
 	{
 		for($i = 0; $i < count($this->target);$i++)
 		{
@@ -151,18 +177,55 @@ class ilTabsGUI
 		return true;
 	}
 
+	/**
+	* Activate a specific tab identified by name
+	* This method overrides the definition in YOUR_OBJECT::getTabs() and deactivates all other tabs.
+	*
+	* @param	string		$a_text			menu item text
+	* @param	boolean		
+	*/
+	function setSubTabActive($a_text)
+	{
+		for($i = 0; $i < count($this->sub_target);$i++)
+		{
+			$this->sub_target[$i]['activate'] = $this->sub_target[$i]['text'] == $a_text;
+		}
+		$this->subtab_manual_activation = true;
+		return true;
+	}
 
 	/**
 	* get tabs code as html
 	*/
 	function getHTML()
 	{
+		return $this->__getHTML(false,$this->manual_activation);
+	}
+	
+	/**
+	* get sub tabs code as html
+	*/
+	function getSubTabHTML()
+	{
+		return $this->__getHTML(true,$this->subtab_manual_activation);
+	}
+
+
+
+	/**
+	* get tabs code as html
+	* @param bool choose tabs or sub tabs
+	* @param bool manual activation
+	* @access Private
+	*/
+	function __getHTML($a_get_sub_tabs,$a_manual)
+	{
 		global $ilCtrl, $lng;
 
 		$cmd = $ilCtrl->getCmd();
 		$cmdClass = $ilCtrl->getCmdClass();
 
-		if ($this->sub_tabs)
+		if ($a_get_sub_tabs)
 		{
 			$tpl = new ilTemplate("tpl.sub_tabs.html", true, true);
 			$pre = "sub";
@@ -193,11 +256,12 @@ class ilTabsGUI
 			$tpl->setVariable("BACK_TAB_TARGET", $this->back_frame);
 			$tpl->parseCurrentBlock();
 		}
-
+		
+		$targets = $a_get_sub_tabs ? $this->sub_target : $this->target;
 		// do not display one tab only
-		if ((count($this->target) > 1) || $this->back_title != "")
+		if ((count($targets) > 1) || $this->back_title != "")
 		{
-			foreach ($this->target as $target)
+			foreach ($targets as $target)
 			{
 				$i++;
 				
@@ -206,7 +270,7 @@ class ilTabsGUI
 					$target["cmd"] = array($target["cmd"]);
 				}
 
-				if (!$this->manual_activation &&
+				if (!$a_manual &&
 					(in_array($cmd, $target["cmd"]) || ($target["cmd"][0] == "" && count($target["cmd"]) == 1)) &&
 					(in_array($cmdClass,$target["cmdClass"]) || !$target["cmdClass"]))
 				{
@@ -217,7 +281,7 @@ class ilTabsGUI
 					$tabtype = $pre."tabinactive";
 				}
 				
-				if ($this->manual_activation && $target["activate"])
+				if ($a_manual && $target["activate"])
 				{
 					$tabtype = $pre."tabactive";
 				}

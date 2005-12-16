@@ -439,56 +439,56 @@ class SurveyQuestionGUI
 
 	function setQuestionTabsForClass($guiclass)
 	{
-		global $rbacsystem;
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		$tabs_gui->setSubTabs();
+		global $rbacsystem,$ilTabs;
+		#include_once "./classes/class.ilTabsGUI.php";
+		#$tabs_gui =& new ilTabsGUI();
+		#$tabs_gui->setSubTabs();
 		
 		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
 		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
 
 		if ($_GET["q_id"])
 		{
-			$tabs_gui->addTarget("preview",
-			$this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
-			"$guiclass");
+			$ilTabs->addSubTabTarget("preview",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
+									 "$guiclass");
 		}
 		
 		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-				array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
-				"addPG",
-				"editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
-				),
-				"$guiclass");
+			$ilTabs->addSubTabTarget("edit_properties",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
+									 array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
+										   "addPG",
+										   "editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
+										 ),
+									 "$guiclass");
 		}
 
 		switch ($guiclass)
 		{
 			case "surveynominalquestiongui":
 			case "surveyordinalquestiongui":
-				$tabs_gui->addTarget("categories",
-					$this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
-					array("categories", "addCategory", "insertBeforeCategory",
-						"insertAfterCategory", "moveCategory", "deleteCategory",
-						"saveCategories", "savePhrase", "addPhrase",
-						"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
-						"cancelSavePhrase",
-						"confirmDeleteCategory", "cancelDeleteCategory"
-					),
-					$guiclass
-				);
+				$ilTabs->addSubTabTarget("categories",
+										 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
+										 array("categories", "addCategory", "insertBeforeCategory",
+											   "insertAfterCategory", "moveCategory", "deleteCategory",
+											   "saveCategories", "savePhrase", "addPhrase",
+											   "savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
+											   "cancelSavePhrase",
+											   "confirmDeleteCategory", "cancelDeleteCategory"
+											 ),
+										 $guiclass
+					);
 				break;
 		}
 		
-		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
 
-    if ($this->object->getId() > 0) {
-      $title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
-    } else {
-      $title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
-    }
+		if ($this->object->getId() > 0) {
+			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
+		} else {
+			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
+		}
 		$this->tpl->setVariable("HEADER", $title);
 //		echo "<br>end setQuestionTabs<br>";
 	}

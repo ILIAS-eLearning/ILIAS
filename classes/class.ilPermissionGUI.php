@@ -728,21 +728,18 @@ class ilPermissionGUI
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
+		global $ilTabs;
+
 		$perm = ($a_cmd == 'perm') ? true : false;
 		$info = ($a_cmd == 'info') ? true : false;
 		$owner = ($a_cmd == 'owner') ? true : false;
 
-		include_once('classes/class.ilTabsGUI.php');
-
-		$sub_tab_gui = new ilTabsGUI();
-		$sub_tab_gui->setSubTabs();
-		$sub_tab_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
-			"", "", "", $perm);
-		$sub_tab_gui->addTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
-			"", "", "", $info);
-		$sub_tab_gui->addTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
-			"", "", "", $owner);
-		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());		
+		$ilTabs->addSubTabTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
+								 "", "", "", $perm);
+		$ilTabs->addSubTabTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
+								 "", "", "", $info);
+		$ilTabs->addSubTabTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
+								 "", "", "", $owner);
 	}
 	
 	function getRolesData()
