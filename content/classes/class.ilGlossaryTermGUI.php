@@ -564,13 +564,14 @@ class ilGlossaryTermGUI
 	*/
 	function setTabs()
 	{
+		global $ilTabs;
 
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($ilTabs);
 
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 	}
 
@@ -609,7 +610,6 @@ class ilGlossaryTermGUI
 		// back to glossary
 		$tabs_gui->setBackTarget($this->lng->txt("glossary"),
 			$this->ctrl->getLinkTargetByClass("ilobjglossarygui", "listTerms"));
-
 	}
 
 }

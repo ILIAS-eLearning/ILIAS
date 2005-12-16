@@ -1064,7 +1064,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function setEvalTabs()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilTabs;
 
 		include_once "./classes/class.ilTabsGUI.php";
 		$tabs_gui =& new ilTabsGUI();
@@ -1089,8 +1089,8 @@ class ilSurveyEvaluationGUI
 			array("evaluationuser"),	
 			""
 		);
-		
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		$ilTabs = $tabs_gui;
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
 }

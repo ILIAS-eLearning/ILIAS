@@ -101,7 +101,9 @@ class ilObjectGUI
 	*/
 	function ilObjectGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng;
+		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
+
+		$this->tabs_gui =& $ilTabs;
 
 		if (!isset($ilErr))
 		{
@@ -345,14 +347,14 @@ class ilObjectGUI
 	*/
 	function setTabs()
 	{
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
+		#include_once "./classes/class.ilTabsGUI.php";
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($this->tabs_gui);
 		
 		//var_dump(get_class($this));
 
 		// output tabs
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
 			
 		/*
 		}
@@ -478,12 +480,12 @@ class ilObjectGUI
 	*/
 	function setAdminTabs()
 	{
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		$this->getAdminTabs($tabs_gui);
+		#include_once "./classes/class.ilTabsGUI.php";
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getAdminTabs($this->tabs_gui);
 
 		// output tabs
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		//$this->tpl->setTabs($tabs_gui->getHTML());
 	}
 

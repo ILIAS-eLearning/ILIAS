@@ -76,7 +76,7 @@ class ilPageEditorGUI
 	*/
 	function ilPageEditorGUI(&$a_page_object)
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
 
 		// initiate variables
 		$this->ilias =& $ilias;
@@ -84,7 +84,7 @@ class ilPageEditorGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->objDefinition = $objDefinition;
-
+		$this->tabs_gui =& $ilTabs;
 		$this->page =& $a_page_object;
 
 		$this->ctrl->saveParameter($this, "hier_id");
@@ -356,7 +356,7 @@ class ilPageEditorGUI
 			case "ilobjmediaobjectgui":
 				include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
 				include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
-				$tabs_gui =& new ilTabsGUI();
+
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
@@ -365,28 +365,28 @@ class ilPageEditorGUI
 						$this->tpl->setCurrentBlock("header_image");
 						$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
 						$this->tpl->parseCurrentBlock();
-						$pcmob_gui->getTabs($tabs_gui);
+						$pcmob_gui->getTabs($this->tabs_gui);
 						$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
 							$cont_obj->getTitle());
 						$this->displayLocator("mob");
 						$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getId(),false, false);
 						$mob_gui->setBackTitle($this->page_back_title);
-						$mob_gui->getTabs($tabs_gui);
+						$mob_gui->getTabs($this->tabs_gui);
 					}
 					else
 					{
-						$pcmob_gui->getTabs($tabs_gui, true);
+						$pcmob_gui->getTabs($this->tabs_gui, true);
 					}
 				}
 				else
 				{
 					$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
-					$mob_gui->getTabs($tabs_gui);
+					$mob_gui->getTabs($this->tabs_gui);
 					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
 						ilObject::_lookupTitle($_GET["mob_id"]));
 				}
 
-				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+				#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 				if ($next_class == "ilpcmediaobjectgui")
 				{

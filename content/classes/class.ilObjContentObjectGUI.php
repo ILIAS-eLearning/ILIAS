@@ -2692,14 +2692,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function setTabs()
 	{
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($this->tabs_gui);
 		$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm_b.gif"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
 

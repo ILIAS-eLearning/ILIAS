@@ -74,7 +74,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function &executeCommand()
 	{
-//echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":"; flush();
+#echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":"; flush();
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -341,17 +341,19 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function setTabs()
 	{
+		global $ilTabs;
+
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($ilTabs);
 		
 		$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pg.gif"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("content");
 
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER",
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
 	}

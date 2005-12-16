@@ -164,8 +164,9 @@ class ilTemplate extends ilTemplateX
 	/**
 	* @access	public
 	* @param	string
+	* @param bool fill template variable {TABS} with content of ilTabs
 	*/
-	function show($part = "DEFAULT")
+	function show($part = "DEFAULT",$a_fill_tabs = true)
 	{
 		global $ilias;
 
@@ -179,6 +180,11 @@ class ilTemplate extends ilTemplateX
 			$this->addILIASFooter();
 		}
 
+		// Show tabs
+		if($a_fill_tabs)
+		{
+			$this->fillTabs();
+		}
 		if ($part == "DEFAULT" or is_bool($part))
 		{
 			parent::show();
@@ -187,10 +193,17 @@ class ilTemplate extends ilTemplateX
 		{
 			parent::show($part);
 		}
+		
 
 		$this->handleReferer();
 	}
 
+	function fillTabs()
+	{
+		global $ilias,$ilTabs;
+		
+		$this->setVariable("TABS",$ilTabs->getHTML());
+	}		
 	/**
 	* add ILIAS footer
 	*/

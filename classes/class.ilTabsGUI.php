@@ -147,6 +147,7 @@ class ilTabsGUI
 		{
 			$this->target[$i]['activate'] = $this->target[$i]['text'] == $a_text;
 		}
+		$this->manual_activation = true;
 		return true;
 	}
 

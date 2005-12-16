@@ -99,6 +99,7 @@ class ilLMEditorGUI
 	*/
 	function &executeCommand()
 	{
+
 		global $ilHelp;
 		
 		$ilHelp->setTarget("lm_intro");
@@ -149,6 +150,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+				$this->tpl->fillTabs();
 				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
@@ -169,6 +171,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+				$this->tpl->fillTabs();
 				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);

@@ -42,11 +42,11 @@ class ilForumTabsGUI
 
 	function ilForumTabsGUI()
 	{
-		global $lng, $tpl, $tree;
+		global $lng, $tpl, $tree,$ilTabs;
 
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
-		$this->tabs_gui =& new ilTabsGUI();
+		$this->tabs_gui =& $ilTabs;
 	}
 
 	function setTemplateVariable($a_temp_var)
@@ -70,7 +70,7 @@ class ilForumTabsGUI
 	function setTabs()
 	{
 		$this->getTabs($this->tabs_gui);
-		$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
 	}
 
 	/**

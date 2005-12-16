@@ -50,7 +50,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		$this->tabs_gui =& new ilTabsGUI();
+		#$this->tabs_gui =& new ilTabsGUI();
 
 	}
 
@@ -497,7 +497,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->getTabs($this->tabs_gui);
-		$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
 

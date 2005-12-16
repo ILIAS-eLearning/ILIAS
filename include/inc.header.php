@@ -525,6 +525,11 @@ $GLOBALS['ilBrowser'] =& $ilBrowser;
 $ilHelp = new ilHelp();
 $GLOBALS['ilHelp'] =& $ilHelp;
 
+// main tabs gui
+include_once 'classes/class.ilTabsGUI.php';
+$ilTabs = new ilTabsGUI();
+$GLOBALS['ilTabs'] =& $ilTabs;
+
 // Store online time of user
 ilOnlineTracking::_updateAccess($ilUser->getId());
 

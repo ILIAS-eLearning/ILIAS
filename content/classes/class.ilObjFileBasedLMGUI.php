@@ -56,8 +56,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
-		include_once("classes/class.ilTabsGUI.php");
-		$this->tabs_gui =& new ilTabsGUI();
+		#include_once("classes/class.ilTabsGUI.php");
+		#$this->tabs_gui =& new ilTabsGUI();
 
 		$this->type = "htlm";
 		$lng->loadLanguageModule("content");
@@ -714,7 +714,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		
 		$this->getTabs($this->tabs_gui);
-		$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
 

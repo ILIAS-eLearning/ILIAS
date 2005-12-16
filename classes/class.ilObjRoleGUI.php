@@ -1975,11 +1975,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER",$this->lng->txt('role'));
 		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getTitle());
 
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($this->tabs_gui);
 
 		// output tabs
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 
 	function __setLocator()
