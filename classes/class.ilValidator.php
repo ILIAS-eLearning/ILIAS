@@ -48,8 +48,8 @@ class ilValidator extends PEAR
 	* @var	array
 	*/
 	var $mode = array(
-						"analyze"		=> true,		// gather information about corrupted entries
-						"check_tree"	=> false,		// check tree consistence
+						"scan"			=> true,		// gather information about corrupted entries
+						"dump_tree"		=> false,		// dump tree
 						"clean" 		=> false,		// remove all unusable entries & renumber tree
 						"restore"		=> false,		// restore objects with invalid parent to RecoveryFolder
 						"purge"			=> false,		// delete all objects with invalid parent from system
@@ -223,33 +223,320 @@ class ilValidator extends PEAR
 		
 		if ($this->mode["restore"] === true)
 		{
-			$this->mode["clean"] = true;
+			$this->mode["scan"] = true;
 			$this->mode["purge"] = false;
 		}
 
 		if ($this->mode["purge"] === true)
 		{
-			$this->mode["clean"] = true;
+			$this->mode["scan"] = true;
 			$this->mode["restore"] = false;
 		}
 
 		if ($this->mode["restore_trash"] === true)
 		{
-			$this->mode["clean"] = true;
+			$this->mode["scan"] = true;
 			$this->mode["purge_trash"] = false;
 		}
 
 		if ($this->mode["purge_trash"] === true)
 		{
-			$this->mode["clean"] = true;
+			$this->mode["scan"] = true;
 			$this->mode["restore_trash"] = false;
 		}
 
 		if ($this->mode["clean"] === true)
 		{
-			$this->mode["analyze"] = true;
+			$this->mode["scan"] = true;
 		}
 	}
+
+	/**
+	 * Performs the validation for each enabled mode.
+	 * Returns a validation summary for display to the user.
+	* 
+	* @return	string	Validation summary.
+	* @access	public
+	* @see		this::setMode()
+	 */
+	function validate()
+	{
+		global $lng;
+		
+		// The validation summary.
+		$summary = "";
+
+
+		// STEP 1: Scan
+		// -------------------
+		$summary .= $lng->txt("scanning_system");
+		if (!$this->isModeEnabled("scan"))
+		{
+			$summary .= $lng->txt("disabled");
+		}
+		else
+		{
+			$summary .= "<br/>".$lng->txt("searching_invalid_refs");
+			if ($this->findInvalidReferences())
+			{
+				$summary .= count($this->getInvalidReferences())." ".$lng->txt("found");
+			}
+			else
+			{
+				$summary .= $lng->txt("found_none");
+			}
+			
+			$summary .= "<br/>".$lng->txt("searching_invalid_childs");
+			if ($this->findInvalidChilds())
+			{
+				$summary .= count($this->getInvalidChilds())." ".$lng->txt("found");
+
+			}
+			else
+			{
+				$summary .= $lng->txt("found_none");
+			}
+			
+			$summary .= "<br/>".$lng->txt("searching_missing_objs");
+			if ($this->findMissingObjects())
+			{
+				$summary .= count($this->getMissingObjects())." ".$lng->txt("found");
+
+			}
+			else
+			{
+				$summary .= $lng->txt("found_none");
+			}
+		
+			$summary .= "<br/>".$lng->txt("searching_unbound_objs");
+			if ($this->findUnboundObjects())
+			{
+				$summary .=  count($this->getUnboundObjects())." ".$lng->txt("found");
+
+			}
+			else
+			{
+				$summary .= $lng->txt("found_none");
+			}
+		
+			$summary .= "<br/>".$lng->txt("searching_deleted_objs");
+			if ($this->findDeletedObjects())
+			{
+				$summary .= count($this->getDeletedObjects())." ".$lng->txt("found");
+
+			}
+			else
+			{
+				$summary .= $lng->txt("found_none");
+			}
+
+			$summary .= "<br/>".$lng->txt("searching_invalid_rolfs");
+			if ($this->findInvalidRolefolders())
+			{
+				$summary .= count($this->getInvalidRolefolders())." ".$lng->txt("found");
+
+			}
+			else
+			{
+				$summary .= $lng->txt("found_none");
+			}
+			
+			$summary .= "<br/><br/>".$lng->txt("analyzing_tree_structure");
+			if ($this->checkTreeStructure())
+			{
+				$summary .= $lng->txt("tree_corrupt");
+			}
+			else
+			{
+				$summary .= $lng->txt("disabled");
+			}
+		}
+		
+		// STEP 2: Dump tree
+		// -------------------
+		$summary .= "<br /><br />".$lng->txt("dumping_tree");
+		if (!$this->isModeEnabled("dump_tree"))
+		{
+			$summary .= $lng->txt("disabled");
+		}
+		else
+		{
+			$error_count = $this->dumpTree();
+			if ($error_count > 0)
+			{
+				$summary .= $lng->txt("tree_corrupt");
+			}
+			else
+			{
+				$summary .= $lng->txt("done");
+			}
+		}
+
+		// STEP 3: Clean Up
+		// -------------------
+		$summary .= "<br /><br />".$lng->txt("cleaning");
+		if (!$this->isModeEnabled("clean"))
+		{
+			$summary .= $lng->txt("disabled");
+		}
+		else
+		{
+			$summary .= "<br />".$lng->txt("removing_invalid_refs");
+			if ($this->removeInvalidReferences())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_remove").$lng->txt("skipped");
+			}
+			
+			$summary .= "<br />".$lng->txt("removing_invalid_childs");
+			if ($this->removeInvalidChilds())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_remove").$lng->txt("skipped");
+			}
+
+			$summary .= "<br />".$lng->txt("removing_invalid_rolfs");
+			if ($this->removeInvalidRolefolders())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_remove").$lng->txt("skipped");
+			}
+
+			// find unbound objects again AFTER cleaning process!
+			// This updates the array 'unboundobjects' required for the further steps
+			// There might be other objects unbounded now due to removal of object_data/reference entries.
+			$this->findUnboundObjects();
+		}
+
+		// STEP 4: Restore objects
+		$summary .= "<br /><br />".$lng->txt("restoring");
+		
+		if (!$this->isModeEnabled("restore"))
+		{
+			$summary .= $lng->txt("disabled");
+		}
+		else
+		{
+			$summary .= "<br />".$lng->txt("restoring_missing_objs");
+			if ($this->restoreMissingObjects())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_restore").$lng->txt("skipped");
+			}
+			
+			$summary .= "<br />".$lng->txt("restoring_unbound_objs");
+			if ($this->restoreUnboundObjects())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_restore").$lng->txt("skipped");
+			}
+		}
+		
+		// STEP 5: Restoring Trash
+		$summary .= "<br /><br />".$lng->txt("restoring_trash");
+
+		if (!$this->isModeEnabled("restore_trash"))
+		{
+			$summary .= $lng->txt("disabled");
+		}
+		else
+		{
+			if ($this->restoreTrash())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_restore").$lng->txt("skipped");
+			}
+		}
+		
+		// STEP 6: Purging...
+		$summary .= "<br /><br />".$lng->txt("purging");
+		
+		if (!$this->isModeEnabled("purge"))
+		{
+			$summary .= $lng->txt("disabled");
+		}
+		else
+		{
+			$summary .= "<br />".$lng->txt("purging_missing_objs");
+			if ($this->purgeMissingObjects())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_purge").$lng->txt("skipped");
+			}
+
+			$summary .= "<br />".$lng->txt("purging_unbound_objs");
+			if ($this->purgeUnboundObjects())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_purge").$lng->txt("skipped");
+			}
+		}
+
+		// STEP 7: Purging trash...
+		$summary .= "<br /><br />".$lng->txt("purging_trash");
+		
+		if (!$this->isModeEnabled("purge_trash"))
+		{
+			$summary .= $lng->txt("disabled");
+		}
+		else
+		{
+			if ($this->purgeTrash())
+			{
+				$summary .= strtolower($lng->txt("done"));
+			}
+			else
+			{
+				$summary .= $lng->txt("nothing_to_purge").$lng->txt("skipped");
+			}
+		}
+		
+		// STEP 8: Initialize gaps in tree
+		if ($this->isModeEnabled("clean"))
+		{
+			$summary .= "<br /><br />".$lng->txt("cleaning_final");
+			if ($this->initGapsInTree())
+			{
+				$summary .= "<br />".$lng->txt("initializing_gaps")." ".strtolower($lng->txt("done"));
+			}
+		}
+		
+		// check RBAC starts here
+		// ...
+		
+		// le fin
+		foreach ($this->mode as $mode => $value)
+		{
+			$arr[] = $mode."[".(int)$value."]";
+		}
+		
+		return $summary;
+	}
+
 
 	/**
 	* Search database for all object entries with missing reference and/or tree entry
@@ -263,7 +550,7 @@ class ilValidator extends PEAR
 	function findMissingObjects()
 	{
 		// check mode: analyze
-		if ($this->mode["analyze"] !== true)
+		if ($this->mode["scan"] !== true)
 		{
 			return false;
 		}
@@ -323,7 +610,7 @@ class ilValidator extends PEAR
 	function findInvalidRolefolders()
 	{
 		// check mode: analyze
-		if ($this->mode["analyze"] !== true)
+		if ($this->mode["scan"] !== true)
 		{
 			return false;
 		}
@@ -402,7 +689,7 @@ class ilValidator extends PEAR
 	function findInvalidRBACEntries()
 	{
 		// check mode: analyze
-		if ($this->mode["analyze"] !== true)
+		if ($this->mode["scan"] !== true)
 		{
 			return false;
 		}
@@ -498,7 +785,7 @@ class ilValidator extends PEAR
 	function findInvalidReferences()
 	{
 		// check mode: analyze
-		if ($this->mode["analyze"] !== true)
+		if ($this->mode["scan"] !== true)
 		{
 			return false;
 		}
@@ -559,7 +846,7 @@ class ilValidator extends PEAR
 	function findInvalidChilds()
 	{
 		// check mode: analyze
-		if ($this->mode["analyze"] !== true)
+		if ($this->mode["scan"] !== true)
 		{
 			return false;
 		}
@@ -622,7 +909,7 @@ class ilValidator extends PEAR
 	function findUnboundObjects()
 	{
 		// check mode: analyze
-		if ($this->mode["analyze"] !== true)
+		if ($this->mode["scan"] !== true)
 		{
 			return false;
 		}
@@ -676,7 +963,7 @@ class ilValidator extends PEAR
 	function findDeletedObjects()
 	{
 		// check mode: analyze
-		if ($this->mode["analyze"] !== true)
+		if ($this->mode["scan"] !== true)
 		{
 			return false;
 		}
@@ -1483,18 +1770,23 @@ restore starts here
 	}
 
 	/**
-	* close gaps in lft/rgt values of a tree
+	* Initializes gaps in lft/rgt values of a tree.
+	*
+	* Depending on the value of the gap property of the tree, this function 
+	* either closes all gaps in the tree, or equally distributes gaps all over
+    * the tree.
+	*
 	* Wrapper for ilTree::renumber()
 	* 
 	* @access	public
 	* @return	boolean false if clean mode disabled
 	* @see		ilTree::renumber()
 	*/
-	function closeGapsInTree()
+	function initGapsInTree()
 	{
 		global $tree,$ilLog;
 		
-		$message = sprintf('%s::closeGapsInTree(): Started...',
+		$message = sprintf('%s::initGapsInTree(): Started...',
 						   get_class($this));
 		$ilLog->write($message,$ilLog->WARNING);
 
@@ -1609,19 +1901,30 @@ restore starts here
 		$this->scan_log->write($a_msg);
 	}
 
+	/**
+	 * Quickly determine if there is a scan log
+	 */
+	function hasScanLog()
+	{
+		// file check
+		return is_file(CLIENT_DATA_DIR."/".$this->scan_log_file);
+	}
+
 	function readScanLog()
 	{
 		// file check
-		if (!is_file(CLIENT_DATA_DIR."/".$this->scan_log_file))
+		if (! $this->hasScanLog())
 		{
 			return false;
 		}
 
-		// header check
-		if (!$scan_log = $this->get_last_scan(file(CLIENT_DATA_DIR."/".$this->scan_log_file)))
+		$scanfile =& file(CLIENT_DATA_DIR."/".$this->scan_log_file);
+		if (!$scan_log =& $this->get_last_scan($scanfile))
 		{
 			return false;
 		}
+		// Ensure that memory is freed
+		unset($scanfile);
 		
 		return $scan_log;
 	}
@@ -1645,6 +1948,373 @@ restore starts here
 		$this->writeScanLogLine("\nchecking tree structure is disabled");
 		
 		return false;
+	}
+	/**
+	* Dumps the Tree structure into the scan log
+	*
+	* @access	public
+	* @return number of errors found while dumping tree
+ 	*/	
+	function dumpTree()
+	{
+		$this->writeScanLogLine("BEGIN dumpTree:");
+
+		// collect nodes with duplicate child Id's
+		// (We use this, to mark these nodes later in the output as being
+		// erroneous.).
+		$q = 'SELECT child FROM tree GROUP BY child HAVING COUNT(*) > 1';
+		$r = $this->db->query($q);
+		$duplicateNodes = array();
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$duplicateNodes[] = $row->child;
+		}		
+		
+		// dump tree
+		$q = "SELECT tree.*,ref.ref_id,ref.obj_id AS refobj_id,dat.*,login "
+			."FROM tree "
+			."LEFT OUTER JOIN object_reference AS ref ON tree.child = ref.ref_id "
+			."LEFT OUTER JOIN object_data AS dat ON ref.obj_id = dat.obj_id "
+			."LEFT OUTER JOIN usr_data AS usr ON dat.owner = usr.usr_id "
+		 	."ORDER BY tree, lft";
+		$r = $this->db->query($q);
+		
+		$this->writeScanLogLine(
+			'<table><tr>'
+			.'<td>tree, child, parent, lft, rgt, depth</td>'
+			.'<td>ref_id, ref.obj_id</td>'
+			.'<td>obj_id, type, title</td>'
+			.'</tr>'
+		);
+		
+		// We use a stack to represent the path to the current node.
+		// This allows us to do analyze the tree structure without having
+		// to implement a recursive algorithm.
+		$stack = array();
+		$error_count = 0;
+		$repository_tree_count = 0;
+		$trash_trees_count = 0;
+		$other_trees_count = 0;
+		$not_in_tree_count = 0;
+
+		// The previous number is used for gap checking
+		$previousNumber = 0; 
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// If there is no entry in table tree for the object, we display it here
+			if (is_null($row->child))
+			{
+				$not_in_tree_count++;
+				$error_count++;
+				$isRowOkay = false;
+				$isParentOkay = false;
+				$isLftOkay = false;
+				$isRgtOkay = false;
+				$isDepthOkay = false;
+				
+				$this->writeScanLogLine(
+					'<tr>'
+					.'<td>'
+					.(($isRowOkay) ? '' : '<font color=#ff0000>')
+					.$row->tree.', '
+					.$row->child.', '
+					.(($isParentOkay) ? '' : 'parent:<b>')
+					.$row->parent
+					.(($isParentOkay) ? '' : '</b>')
+					.', '
+					.(($isLftOkay) ? '' : 'lft:<b>')
+					.$row->lft
+					.(($isLftOkay) ? '' : '</b>')
+					.', '
+					.(($isRgtOkay) ? '' : 'rgt:<b>')
+					.$row->rgt
+					.(($isRgtOkay) ? '' : '</b>')
+					.', '
+					.(($isDepthOkay) ? '' : 'depth:<b>')
+					.$row->depth
+					.(($isDepthOkay) ? '' : '</b>')
+					.(($isRowOkay) ? '' : '</font>')
+					.'</td><td>'
+					.(($isRowOkay) ? '' : '<font color=#ff0000>')
+					.(($isRefRefOkay && $isChildOkay) ? '' : 'ref.ref_id:<b>')
+					.$row->ref_id
+					.(($isRefRefOkay && $isChildOkay) ? '' : '</b>')
+					.', '
+					.(($isRefObjOkay) ? '' : 'ref.obj_id:<b>')
+					.$row->refobj_id
+					.(($isRefObjOkay) ? '' : '</b>')
+					.(($isRowOkay) ? '' : '<font color=#ff0000>')
+					.'</td><td>'
+					.(($isRowOkay) ? '' : '<font color=#ff0000>')
+					.$indent
+					.$row->obj_id.', '
+					.$row->type.', '
+					.$row->title.', '
+					.$row->login
+					.(($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
+					.'</td>'
+					.'</tr>'
+				);
+				continue;
+			}
+		
+			// Update stack
+			// -------------------
+			$indent = "";
+			for ($i = 1; $i < $row->depth; $i++)
+			{
+				$indent .= ". ";
+			}
+			
+			// Initialize the stack and the previous number if we are in a new tree
+			if (count($stack) == 0 || $stack[0]->tree != $row->tree) 
+			{
+				$stack = array();
+				$previousNumber = $row->lft - 1;
+			} 
+			// Pop old stack entries
+			while (count($stack) > 0 && $stack[count($stack) - 1]->rgt < $row->lft) 
+			{
+				$popped = array_pop($stack);
+				
+				// check for gap
+				$gap = $popped->rgt - $previousNumber - 1;
+				if ($gap > 0)
+				{
+					$poppedIndent = "";
+					for ($i = 1; $i < $popped->depth; $i++)
+					{
+						$poppedIndent .= ". ";
+					}
+					$this->writeScanLogLine(
+						'<tr>'
+						.'<td colspan=2><div align="right">'
+						.'<font color=#00cc00>*gap* for '.($gap/2).' nodes at end of&nbsp;</font>'
+						.'</div></td>'
+						.'<td>'
+						.'<font color=#00cc00>'
+						.$poppedIndent
+						.$popped->obj_id.', '
+						.$popped->type.', '
+						.$popped->title.', '
+						.$popped->login
+						.'</font>'
+						.'</td>'
+						.'</tr>'
+					);
+				}
+				$previousNumber = $popped->rgt;
+				unset($popped);
+			}
+
+			// Check row integrity
+			// -------------------
+			$isRowOkay = true;
+			
+			// Check tree structure
+			$isChildOkay = true;
+			$isParentOkay = true;
+			$isLftOkay = true;
+			$isRgtOkay = true;
+			$isDepthOkay = true;
+			$isGap = false;
+			
+			if (count($stack) > 0) 
+			{			
+				$parent = $stack[count($stack) - 1];
+				if ($parent->depth + 1 != $row->depth)
+				{
+					$isDepthOkay = false;
+					$isRowOkay = false;
+				}
+				if ($parent->child != $row->parent)
+				{
+					$isParentOkay = false;
+					$isRowOkay = false;
+				}
+				if ($parent->lft >= $row->lft)
+				{
+					$isLftOkay = false;
+					$isRowOkay = false;
+				}
+				if ($parent->rgt <= $row->rgt)
+				{
+					$isRgtOkay = false;
+					$isRowOkay = false;
+				}
+			}
+			
+			// Check lft rgt
+			if ($row->lft >= $row->rgt)
+			{
+				$isLftOkay = false;
+				$isRgtOkay = false;
+				$isRowOkay = false;
+			}
+			if (in_array($row->child, $duplicateNodes))
+			{
+				$isChildOkay = false;
+				$isRowOkay = false;
+			}
+			
+			// Check object reference
+			$isRefRefOkay = true;
+			$isRefObjOkay = true;
+			if ($row->ref_id == null)
+			{
+				$isRefRefOkay = false;
+				$isRowOkay = false;
+			}
+			if ($row->obj_id == null)
+			{
+				$isRefObjOkay = false;
+				$isRowOkay = false;
+			}
+			
+			if (! $isRowOkay)
+			{
+				$error_count++;
+			}
+
+			// Check for gap between siblings,
+			// and eventually write a log line
+			$gap = $row->lft - $previousNumber - 1;
+			$previousNumber = $row->lft;
+			if ($gap > 0)
+			{
+				$this->writeScanLogLine(
+					'<tr>'
+					.'<td colspan=2><div align="right">'
+					.'<font color=#00cc00>*gap* for '.($gap/2).' nodes between&nbsp;</font>'
+					.'</div></td>'
+					.'<td>'
+					.'<font color=#00cc00>siblings</font>'
+					.'</td>'
+					.'</tr>'
+				);
+			}
+						
+			// Write log line
+			// -------------------
+			$this->writeScanLogLine(
+				'<tr>'
+				.'<td>'
+				.(($isRowOkay) ? '' : '<font color=#ff0000>')
+				.$row->tree.', '
+				.$row->child.', '
+				.(($isParentOkay) ? '' : 'parent:<b>')
+				.$row->parent
+				.(($isParentOkay) ? '' : '</b>')
+				.', '
+				.(($isLftOkay) ? '' : 'lft:<b>')
+				.$row->lft
+				.(($isLftOkay) ? '' : '</b>')
+				.', '
+				.(($isRgtOkay) ? '' : 'rgt:<b>')
+				.$row->rgt
+				.(($isRgtOkay) ? '' : '</b>')
+				.', '
+				.(($isDepthOkay) ? '' : 'depth:<b>')
+				.$row->depth
+				.(($isDepthOkay) ? '' : '</b>')
+				.(($isRowOkay) ? '' : '</font>')
+				.'</td><td>'
+				.(($isRowOkay) ? '' : '<font color=#ff0000>')
+				.(($isRefRefOkay && $isChildOkay) ? '' : 'ref.ref_id:<b>')
+				.$row->ref_id
+				.(($isRefRefOkay && $isChildOkay) ? '' : '</b>')
+				.', '
+				.(($isRefObjOkay) ? '' : 'ref.obj_id:<b>')
+				.$row->refobj_id
+				.(($isRefObjOkay) ? '' : '</b>')
+				.(($isRowOkay) ? '' : '<font color=#ff0000>')
+				.'</td><td>'
+				.(($isRowOkay) ? '' : '<font color=#ff0000>')
+				.$indent
+				.$row->obj_id.', '
+				.$row->type.', '
+				.$row->title.', '
+				.$row->login
+				.(($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
+				.'</td>'
+				.'</tr>'
+			);
+
+			// Update stack
+			// -------------------
+			// Push node on stack
+			$stack[] = $row;
+			
+			// Count nodes
+			// -----------------
+			if ($row->tree == 1)
+			{
+				$repository_tree_count++;
+			}
+			else if ($row->tree < 0)
+			{
+				$trash_trees_count++;
+			}
+			else
+			{
+				$other_trees_count++;
+			}		
+			
+		}
+		//
+		// Pop remaining stack entries
+		while (count($stack) > 0) 
+		{
+			$popped = array_pop($stack);
+			
+			// check for gap
+			$gap = $popped->rgt - $previousNumber - 1;
+			if ($gap > 0)
+			{
+				$poppedIndent = "";
+				for ($i = 1; $i < $popped->depth; $i++)
+				{
+					$poppedIndent .= ". ";
+				}
+				$this->writeScanLogLine(
+					'<tr>'
+					.'<td colspan=2><div align="right">'
+					.'<font color=#00cc00>*gap* for '.($gap/2).' nodes at end of&nbsp;</font>'
+					.'</div></td>'
+					.'<td>'
+					.'<font color=#00cc00>'
+					.$poppedIndent
+					.$popped->obj_id.', '
+					.$popped->type.', '
+					.$popped->title
+					.'</font>'
+					.'</td>'
+					.'</tr>'
+				);
+			}
+			$previousNumber = $popped->rgt;
+			unset($popped);
+		}
+		
+		//
+		$this->writeScanLogLine("</table>");
+
+		if ($error_count > 0)
+		{
+			$this->writeScanLogLine('<font color=#ff0000>'.$error_count.' errors found while dumping tree.</font>');
+		}
+		else
+		{
+			$this->writeScanLogLine('No errors found while dumping tree.');
+		}
+		$this->writeScanLogLine("$repository_tree_count nodes in repository tree");		
+		$this->writeScanLogLine("$trash_trees_count nodes in trash trees");		
+		$this->writeScanLogLine("$other_trees_count nodes in other trees");		
+		$this->writeScanLogLine("$not_in_tree_count nodes are not in a tree");		
+		$this->writeScanLogLine("END dumpTree");
+		
+		return $error_count;	
 	}
 } // END class.ilValidator
 ?>

@@ -1014,11 +1014,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 //echo "4";
 			include_once "classes/class.ilValidator.php";
 			$validator = new ilValidator();
-			$last_scan = $validator->readScanLog();
+			$hasScanLog = $validator->hasScanLog();
 
 			$this->getTemplateFile("check");
 
-			if (is_array($last_scan))
+			if ($hasScanLog)
 			{
 				$this->tpl->setVariable("TXT_VIEW_LOG", $this->lng->txt("view_last_log"));
 			}
@@ -1026,12 +1026,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("systemcheck"));
 			$this->tpl->setVariable("COLSPAN", 3);
-			$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 			$this->tpl->setVariable("TXT_ANALYZE_TITLE", $this->lng->txt("analyze_data"));
-			$this->tpl->setVariable("TXT_ANALYZE", $this->lng->txt("scan_only"));
-			$this->tpl->setVariable("TXT_ANALYZE_DESC", $this->lng->txt("analyze_desc"));
-			//$this->tpl->setVariable("TXT_CHECK_TREE", $this->lng->txt("check_tree"));
-			//$this->tpl->setVariable("TXT_CHECK_TREE_DESC", $this->lng->txt("check_tree_desc"));
+			$this->tpl->setVariable("TXT_ANALYSIS_OPTIONS", $this->lng->txt("analysis_options"));
+			$this->tpl->setVariable("TXT_REPAIR_OPTIONS", $this->lng->txt("repair_options"));
+			$this->tpl->setVariable("TXT_OUTPUT_OPTIONS", $this->lng->txt("output_options"));
+			$this->tpl->setVariable("TXT_SCAN", $this->lng->txt("scan"));
+			$this->tpl->setVariable("TXT_SCAN_DESC", $this->lng->txt("scan_desc"));
+			$this->tpl->setVariable("TXT_DUMP_TREE", $this->lng->txt("dump_tree"));
+			$this->tpl->setVariable("TXT_DUMP_TREE_DESC", $this->lng->txt("dump_tree_desc"));
 			$this->tpl->setVariable("TXT_CLEAN", $this->lng->txt("clean"));
 			$this->tpl->setVariable("TXT_CLEAN_DESC", $this->lng->txt("clean_desc"));
 			$this->tpl->setVariable("TXT_RESTORE", $this->lng->txt("restore_missing"));
@@ -1296,295 +1298,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$validator = new ilValidator($logging);
 		$validator->setMode("all",false);
 
+		$modes = array();
 		foreach ($a_mode as $mode => $value)
 		{
 			$validator->setMode($mode,(bool) $value);
-//			var_dump($mode,$value);
-		}
-//		exit;
-		
-		// STEP 1: Analyzing: Get all incomplete entries
-		$scan_log .= $this->lng->txt("analyzing");
-		
-		if (!$validator->isModeEnabled("analyze"))
-		{
-			$scan_log .= $this->lng->txt("disabled");
-		}
-		else
-		{
-			$scan_log .= "<br />".$this->lng->txt("searching_invalid_refs");
-			if ($validator->findInvalidReferences())
-			{
-				$scan_log .= count($validator->getInvalidReferences())." ".$this->lng->txt("found");
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("found_none");
-			}
-			
-			$scan_log .= "<br />".$this->lng->txt("searching_invalid_childs");
-			if ($validator->findInvalidChilds())
-			{
-				$scan_log .= count($validator->getInvalidChilds())." ".$this->lng->txt("found");
-
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("found_none");
-			}
-			
-			$scan_log .= "<br />".$this->lng->txt("searching_missing_objs");
-			if ($validator->findMissingObjects())
-			{
-				$scan_log .= count($validator->getMissingObjects())." ".$this->lng->txt("found");
-
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("found_none");
-			}
-		
-			$scan_log .= "<br />".$this->lng->txt("searching_unbound_objs");
-			if ($validator->findUnboundObjects())
-			{
-				$scan_log .=  count($validator->getUnboundObjects())." ".$this->lng->txt("found");
-
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("found_none");
-			}
-		
-			$scan_log .= "<br />".$this->lng->txt("searching_deleted_objs");
-			if ($validator->findDeletedObjects())
-			{
-				$scan_log .= count($validator->getDeletedObjects())." ".$this->lng->txt("found");
-
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("found_none");
-			}
-
-			$scan_log .= "<br />".$this->lng->txt("searching_invalid_rolfs");
-			if ($validator->findInvalidRolefolders())
-			{
-				$scan_log .= count($validator->getInvalidRolefolders())." ".$this->lng->txt("found");
-
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("found_none");
-			}
-			
-			/*$scan_log .= "<br />".$this->lng->txt("searching_invalid_rbac_entries");
-			if ($validator->findInvalidRBACEntries())
-			{
-				$scan_log .= count($validator->getInvalidRBACEntries())." ".$this->lng->txt("found");
-
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("found_none");
-			}*/
-		}
-		
-		// STEP 1.b: Analyzing: Check tree consistence
-		$scan_log .= "<br /><br />".$this->lng->txt("analyzing_tree_structure");
-		
-		if (!$validator->isModeEnabled("check_tree"))
-		{
-			$scan_log .= $this->lng->txt("disabled");
-		}
-		else
-		{
-			if ($validator->checkTreeStructure())
-			{
-				$scan_log .= $this->lng->txt("tree_corrupt");
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("disabled");
-			}
-		}
-		
-		// STEP 2: Cleaning: Remove unbound references & tree entries
-		$scan_log .= "<br /><br />".$this->lng->txt("cleaning");
-		
-		if (!$validator->isModeEnabled("clean"))
-		{
-			$scan_log .= $this->lng->txt("disabled");
-		}
-		else
-		{
-			$scan_log .= "<br />".$this->lng->txt("removing_invalid_refs");
-			if ($validator->removeInvalidReferences())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
-			}
-			
-			$scan_log .= "<br />".$this->lng->txt("removing_invalid_childs");
-			if ($validator->removeInvalidChilds())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
-			}
-
-			$scan_log .= "<br />".$this->lng->txt("removing_invalid_rolfs");
-			if ($validator->removeInvalidRolefolders())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
-			}
-
-			/*
-			$scan_log .= "<br />".$this->lng->txt("removing_invalid_rbac_entries");
-			if ($validator->removeInvalidRBACEntries())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
-			}*/
-			
-			// find unbound objects again AFTER cleaning process!
-			// This updates the array 'unboundobjects' required for the further steps
-			// There might be other objects unbounded now due to removal of object_data/reference entries.
-			$validator->findUnboundObjects();
+			$modes[] = $mode.'='.$value;
 		}
 
-		// STEP 3: Restore objects
-		$scan_log .= "<br /><br />".$this->lng->txt("restoring");
-		
-		if (!$validator->isModeEnabled("restore"))
-		{
-			$scan_log .= $this->lng->txt("disabled");
-		}
-		else
-		{
-			$scan_log .= "<br />".$this->lng->txt("restoring_missing_objs");
-			if ($validator->restoreMissingObjects())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_restore").$this->lng->txt("skipped");
-			}
-			
-			$scan_log .= "<br />".$this->lng->txt("restoring_unbound_objs");
-			if ($validator->restoreUnboundObjects())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_restore").$this->lng->txt("skipped");
-			}
-		}
-		
-		// STEP 4: Restoring Trash
-		$scan_log .= "<br /><br />".$this->lng->txt("restoring_trash");
-
-		if (!$validator->isModeEnabled("restore_trash"))
-		{
-			$scan_log .= $this->lng->txt("disabled");
-		}
-		else
-		{
-			if ($validator->restoreTrash())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_restore").$this->lng->txt("skipped");
-			}
-		}
-		
-		// STEP 5: Purging...
-		$scan_log .= "<br /><br />".$this->lng->txt("purging");
-		
-		if (!$validator->isModeEnabled("purge"))
-		{
-			$scan_log .= $this->lng->txt("disabled");
-		}
-		else
-		{
-			$scan_log .= "<br />".$this->lng->txt("purging_missing_objs");
-			if ($validator->purgeMissingObjects())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_purge").$this->lng->txt("skipped");
-			}
-
-			$scan_log .= "<br />".$this->lng->txt("purging_unbound_objs");
-			if ($validator->purgeUnboundObjects())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_purge").$this->lng->txt("skipped");
-			}
-		}
-
-		// STEP 6: Purging trash...
-		$scan_log .= "<br /><br />".$this->lng->txt("purging_trash");
-		
-		if (!$validator->isModeEnabled("purge_trash"))
-		{
-			$scan_log .= $this->lng->txt("disabled");
-		}
-		else
-		{
-			if ($validator->purgeTrash())
-			{
-				$scan_log .= strtolower($this->lng->txt("done"));
-			}
-			else
-			{
-				$scan_log .= $this->lng->txt("nothing_to_purge").$this->lng->txt("skipped");
-			}
-		}
-		
-		// STEP 6: Close gaps in tree
-		if ($validator->isModeEnabled("clean"))
-		{
-			$scan_log .= "<br /><br />".$this->lng->txt("cleaning_final");
-			if ($validator->closeGapsInTree())
-			{
-				$scan_log .= "<br />".$this->lng->txt("closing_gaps")." ".strtolower($this->lng->txt("done"));
-			}
-		}
-		
-		// check RBAC starts here
-		// ...
-		
-		// el fin
-		foreach ($validator->mode as $mode => $value)
-		{
-			$arr[] = $mode."[".(int)$value."]";
-		}
-		
-		$scan_log .= "<br /><br />".$this->lng->txt("scan_completed");
-
+		$scan_log = $validator->validate();
 	
-		$mode = $this->lng->txt("scan_modes").": ".implode(', ',$arr);
+		$mode = $this->lng->txt("scan_modes").": ".implode(', ',$modes);
 		
 		// output
 		$this->getTemplateFile("scan");
@@ -1610,11 +1333,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		include_once "classes/class.ilValidator.php";
 		$validator = new IlValidator();
-		$scan_log = $validator->readScanLog();
+		$scan_log =& $validator->readScanLog();
 
 		if (is_array($scan_log))
 		{
-			$scan_log = nl2br(implode("",$scan_log));
+			$scan_log = '<pre>'.implode("",$scan_log).'</pre>';
 			$this->tpl->setVariable("ADM_CONTENT", $scan_log);
 		}
 		else
