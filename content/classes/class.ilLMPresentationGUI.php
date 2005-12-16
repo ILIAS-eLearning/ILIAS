@@ -724,6 +724,8 @@ class ilLMPresentationGUI
 			// (horrible) workaround for preventing template engine
 			// from hiding paragraph text that is enclosed
 			// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+			
+			$this->tpl->fillTabs();
 			$content =  $this->tpl->get();
 			$content = str_replace("&#123;", "{", $content);
 			$content = str_replace("&#125;", "}", $content);

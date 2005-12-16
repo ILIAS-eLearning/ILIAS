@@ -430,10 +430,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		global $lng;
 
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($this->tabs_gui);
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 		if (strtolower(get_class($this->object)) == "ilobjstylesheet")
 		{

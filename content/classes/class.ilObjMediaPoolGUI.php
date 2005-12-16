@@ -1016,10 +1016,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	function setTabs()
 	{
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($this->tabs_gui);
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
 

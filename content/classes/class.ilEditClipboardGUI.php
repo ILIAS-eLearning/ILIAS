@@ -93,7 +93,7 @@ class ilEditClipboardGUI
 //echo "<br>calling objmediaomjgui";
 				$this->ctrl->setReturn($this, "view");
 				require_once("classes/class.ilTabsGUI.php");
-				$tabs_gui =& new ilTabsGUI();
+				#$tabs_gui =& new ilTabsGUI();
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_mob_id"],false, false);
 				//$mob_gui->getTabs($tabs_gui);
 				$mob_gui->setAdminTabs();
@@ -389,6 +389,8 @@ class ilEditClipboardGUI
 	*/
 	function setTabs()
 	{
+		global $ilTabs;
+
 		//$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_clip_b.gif"));
 		//$this->tpl->parseCurrentBlock();
@@ -396,10 +398,10 @@ class ilEditClipboardGUI
 		$this->tpl->stopTitleFloating();
 
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($ilTabs);
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 
 	/**

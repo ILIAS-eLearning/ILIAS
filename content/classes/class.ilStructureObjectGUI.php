@@ -671,13 +671,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function setTabs()
 	{
-		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		//$this->getTabs($tabs_gui);
-		$tabs_gui->getTargetsByObjectType($this, "st");
+		global $ilTabs;
 
-		$tabs_gui->addTarget("meta_data",
+		// catch feedback message
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		//$this->getTabs($tabs_gui);
+		$ilTabs->getTargetsByObjectType($this, "st");
+
+		$ilTabs->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");
 			 
@@ -686,7 +688,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("content");
 
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER",
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
 	}

@@ -1765,8 +1765,10 @@ class ilTestEvaluationGUI
 	*/
 	function setResultsTabs()
 	{
+		global $ilTabs;
+
 		include_once ("./classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
+		$tabs_gui = new ilTabsGUI();
 
 		// Test results tab
 		$tabs_gui->addTarget("tst_results_aggregated",
@@ -1788,7 +1790,8 @@ class ilTestEvaluationGUI
 			"addFoundUsersToEval", "removeSelectedUser"),	
 			"", "", $force_active
 		);
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		$ilTabs = $tabs_gui;
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}	
 }
 ?>

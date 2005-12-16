@@ -1911,11 +1911,11 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER",$this->object->getTitle());
 		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getDescription());
 
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($this->tabs_gui);
 
 		// output tabs
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 
 	function __setLocator()

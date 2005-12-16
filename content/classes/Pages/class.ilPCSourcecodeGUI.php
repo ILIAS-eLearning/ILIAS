@@ -382,11 +382,12 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	*/
 	function setTabs()
 	{
+		global $ilTabs;
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($ilTabs);
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 
 	/**

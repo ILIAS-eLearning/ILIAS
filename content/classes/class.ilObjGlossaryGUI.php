@@ -1558,11 +1558,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 
 		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($tabs_gui);
+		#include_once("classes/class.ilTabsGUI.php");
+		#$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($this->tabs_gui);
 
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 	}
 
