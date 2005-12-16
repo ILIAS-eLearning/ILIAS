@@ -1,59 +1,29 @@
 <script type="text/javascript">
 <!--
-function handleScanOnly(form)
+function updateScan(form)
 {
-	if (form.analyze.checked)
-	{
-		form.clean.disabled = true;
-		form.restore.disabled = true;
-		form.purge.disabled = true;
-		form.restore_trash.disabled = true;
-		form.purge_trash.disabled = true;
-	}
-	else
-	{
-		form.clean.disabled = false;
-		
-		if (!form.purge.checked)
-		{
-			form.restore.disabled = false;
-		}
-		
-		if (!form.restore.checked)
-		{
-			form.purge.disabled = false;
-		}
-		
-		if (!form.purge_trash.checked)
-		{
-			form.restore_trash.disabled = false;
-		}
-		
-		if (!form.restore_trash.checked)
-		{
-			form.purge_trash.disabled = false;
-		}
-	}
+	if (form.clean.checked ||
+            form.restore.checked || 
+            form.purge.checked ||
+            form.restore_trash.checked ||
+            form.purge_trash.checked)
+        {
+            form.scan.checked = true;
+            form.scan.disabled = true;
+        }
+        else
+        {
+            form.scan.disabled = false;
+        }
 }
-
-
 
 function handleClean(form)
 {
-	if (form.restore.checked || form.purge.checked || form.restore_trash.checked || form.purge_trash.checked)
-	{
-		form.clean.checked = true;
-		alert("Cleaning process is required for restore/purge");
-	}
+	updateScan(form);
 }
 
 function handleRestore(form)
 {
-	if (!form.clean.checked && form.restore.checked)
-	{
-		form.clean.checked = true;
-	}
-	
 	if (form.restore.checked)
 	{
 		form.purge.disabled = true;
@@ -62,15 +32,11 @@ function handleRestore(form)
 	{
 		form.purge.disabled = false;	
 	}
+	updateScan(form);
 }
 
 function handlePurge(form)
 {
-	if (!form.clean.checked && form.purge.checked)
-	{
-		form.clean.checked = true;
-	}
-	
 	if (form.purge.checked)
 	{
 		form.restore.disabled = true;
@@ -79,15 +45,11 @@ function handlePurge(form)
 	{
 		form.restore.disabled = false;	
 	}
+	updateScan(form);
 }
 
 function handleRestoreTrash(form)
 {
-	if (!form.clean.checked && form.restore_trash.checked)
-	{
-		form.clean.checked = true;
-	}
-	
 	if (form.restore_trash.checked)
 	{
 		form.purge_trash.disabled = true;
@@ -96,15 +58,11 @@ function handleRestoreTrash(form)
 	{
 		form.purge_trash.disabled = false;	
 	}
+	updateScan(form);
 }
 
 function handlePurgeTrash(form)
 {
-	if (!form.clean.checked && form.purge_trash.checked)
-	{
-		form.clean.checked = true;
-	}
-	
 	if (form.purge_trash.checked)
 	{
 		form.restore_trash.disabled = true;
@@ -113,6 +71,7 @@ function handlePurgeTrash(form)
 	{
 		form.restore_trash.disabled = false;	
 	}
+	updateScan(form);
 }
 //-->
 </script>
@@ -129,43 +88,48 @@ function handlePurgeTrash(form)
   </td>
 </tr>
   <tr class="tblheader">
-    <td class="std" colspan="3">{TXT_OPTIONS}</td>
+    <td class="std" colspan="3">{TXT_ANALYSIS_OPTIONS}</td>
   </tr>
   <tr>
-   <td class="option"><label for="analyze">{TXT_ANALYZE}</label></td>
-   <td class="option_value"><input type="checkbox" name="mode[analyze]"  value="1" id="analyze" checked="checked" onClick="handleScanOnly(document.ScanOptions)" /></td>
-   <td class="option_desc">{TXT_ANALYZE_DESC}</td>
+   <td class="option"><label for="scan">{TXT_SCAN}</label></td>
+   <td class="option_value"><input type="checkbox" name="mode[scan]"  value="1" id="scan" checked="checked" /></td>
+   <td class="option_desc">{TXT_SCAN_DESC}</td>
   </tr>
-<!-- disabled 
   <tr>
-   <td class="option"><label for="check_tree">{TXT_CHECK_TREE}</label></td>
-   <td class="option_value"><input type="checkbox" name="mode[check_tree]"  value="1" id="check_tree" onClick="handleScanOnly(document.ScanOptions)" /></td>
-   <td class="option_desc">{TXT_CHECK_TREE_DESC}</td>
-  </tr>  disabled //-->
+   <td class="option"><label for="dump_tree">{TXT_DUMP_TREE}</label></td>
+   <td class="option_value"><input type="checkbox" name="mode[dump_tree]"  value="1" id="dump_tree"/></td>
+   <td class="option_desc">{TXT_DUMP_TREE_DESC}</td>
+  </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_REPAIR_OPTIONS}</td>
+  </tr>
   <tr>
    <td class="option"><label for="clean">{TXT_CLEAN}</label></td>
-   <td class="option_value"><input type="checkbox" name="mode[clean]" value="1" id="clean" disabled="disabled" onClick="handleClean(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[clean]" value="1" id="clean" onClick="handleClean(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_CLEAN_DESC}</td>
   </tr>
   <tr>
    <td class="option"><label for="restore">{TXT_RESTORE}</label></td>
-   <td class="option_value"><input type="checkbox" name="mode[restore]" value="1" id="restore" disabled="disabled" onClick="handleRestore(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[restore]" value="1" id="restore" onClick="handleRestore(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_RESTORE_DESC}</td>
   </tr>
   <tr>
    <td class="option"><label for="purge">{TXT_PURGE}</label></td>
-   <td class="option_value"><input type="checkbox" name="mode[purge]"  value="1" id="purge" disabled="disabled" onClick="handlePurge(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[purge]"  value="1" id="purge" onClick="handlePurge(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_PURGE_DESC}</td>
   </tr>
   <tr>
    <td class="option"><label for="restore_trash">{TXT_RESTORE_TRASH}</label></td>
-   <td class="option_value"><input type="checkbox" name="mode[restore_trash]" id="restore_trash" disabled="disabled" value="1" onClick="handleRestoreTrash(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[restore_trash]" id="restore_trash" value="1" onClick="handleRestoreTrash(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_RESTORE_TRASH_DESC}</td>
   </tr>
   <tr>
    <td class="option"><label for="purge_trash">{TXT_PURGE_TRASH}</label></td>
-   <td class="option_value"><input type="checkbox" name="mode[purge_trash]" id="purge_trash" disabled="disabled" value="1" onClick="handlePurgeTrash(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[purge_trash]" id="purge_trash" value="1" onClick="handlePurgeTrash(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_PURGE_TRASH_DESC}</td>
+  </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_OUTPUT_OPTIONS}</td>
   </tr>
   <tr>
    <td class="option"><label for="log_scan">{TXT_LOG_SCAN}</label></td>

@@ -26,7 +26,8 @@ define("IL_FIRST_NODE", -1);
 
 /**
 * Tree class
-* data representation in hierachical trees using the Nested Set Model by Joe Celco
+* data representation in hierachical trees using the Nested Set Model with Gaps 
+* by Joe Celco
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Stefan Meyer <smeyer@databay.de>
@@ -108,6 +109,32 @@ class ilTree
 	var $tree_pk;
 
 	/**
+	* Size of the gaps to be created in the nested sets sequence numbering of the
+    * tree nodes. 
+	* Having gaps in the tree greatly improves performance on all operations
+	* that add or remove tree nodes.
+	*
+	* Setting this to zero will leave no gaps in the tree.
+	* Setting this to a value larger than zero will create gaps in the tree.
+	* Each gap leaves room in the sequence numbering for the specified number of
+    * nodes.
+    * (The gap is expressed as the number of nodes. Since each node consumes 
+    * two sequence numbers, specifying a gap of 1 will leave space for 2 
+    * sequence numbers.)
+	*
+	* A gap is created, when a new child is added to a node, and when not
+	* enough room between node.rgt and the child with the highest node.rgt value 
+	* of the node is available.
+	* A gap is closed, when a node is removed and when (node.rgt - node.lft) 
+	* is bigger than gap * 2.
+	*
+	*
+	* @var		integer
+	* @access	private
+	*/
+	var $gap;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	$a_tree_id		tree_id
@@ -167,6 +194,9 @@ class ilTree
 		$this->ref_pk = 'ref_id';
 		$this->obj_pk = 'obj_id';
 		$this->tree_pk = 'tree';
+
+		// By default, we create gaps in the tree sequence numbering for 50 nodes 
+		$this->gap = 50;
 	}
 
 	/**
@@ -265,28 +295,6 @@ class ilTree
 		{
 			return "LEFT JOIN ".$this->table_obj_data." ON ".$this->table_tree.".child=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
-	}
-
-	/**
-	* get leaf(=end) nodes of tree
-	* //TODO: Method not used yet
-	* @access	public
-	* @return	array	node data of all leaf nodes
-	*/
-	function getLeafs()
-	{
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE lft = (rgt -1) ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree->id."'";
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$leafs[] = $this->fetchNodeData($row);
-		}
-
-		return $leafs;
 	}
 
 	/**
@@ -512,51 +520,145 @@ class ilTree
 				break;
 
 			case IL_LAST_NODE:
-
-				if($this->__isMainTree())
+				// Special treatment for trees with gaps
+				if ($this->gap > 0)
 				{
-					ilDBx::_lockTables(array('tree' => 'WRITE'));
-				}
+					if($this->__isMainTree())
+					{
+						ilDBx::_lockTables(array('tree' => 'WRITE'));
+					}
 
-				// get right value of parent
-				$q = "SELECT * FROM ".$this->table_tree." ".
-					"WHERE child = '".$a_parent_id."' ".
-					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$res = $this->ilDB->query($q);
-				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+					// get lft and rgt value of parent
+					$q = 'SELECT rgt,lft,parent FROM '.$this->table_tree.' '.
+						'WHERE child = '.$a_parent_id.' '.
+						'AND '.$this->tree_pk.' = '.$this->tree_id;
+					$res = $this->ilDB->query($q);
+					$r = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
-				if ($r->parent == NULL)
-				{
+									
+					if ($r['parent'] == NULL)
+					{
+						if($this->__isMainTree())
+						{
+							ilDBx::_unlockTables();
+						}
+						$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".
+												$a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
+					}
+					$parentRgt = $r['rgt'];
+					$parentLft = $r['lft'];
+					
+					// Get the available space, without taking children into account yet
+					$availableSpace = $parentRgt - $parentLft;
+					if ($availableSpace < 2)
+					{
+						// If there is not enough space between parent lft and rgt, we don't need
+						// to look any further, because we must spread the tree.
+						$lft = $parentRgt;
+					}
+					else
+					{
+						// If there is space between parent lft and rgt, we need to check
+						// whether there is space left between the rightmost child of the
+						// parent and parent rgt.
+						$q = 'SELECT MAX(rgt) AS max_rgt FROM '.$this->table_tree.' '.
+							'WHERE parent = '.$a_parent_id.' '.
+							'AND '.$this->tree_pk.' = '.$this->tree_id;
+						$res = $this->ilDB->query($q);
+						$r = $res->fetchRow(DB_FETCHMODE_ASSOC);
+						if (isset($r['max_rgt']))
+						{
+							// If the parent has children, we compute the available space
+							// between rgt of the rightmost child and parent rgt.
+							$availableSpace = $parentRgt - $r['max_rgt'];
+							$lft = $r['max_rgt'] + 1;
+						}
+						else
+						{
+							// If the parent has no children, we know now, that we can
+							// add the new node at parent lft + 1 without having to spread
+							// the tree.
+							$lft = $parentLft + 1;
+						}
+					}
+					$rgt = $lft + 1;
+					
+
+					// spread tree if there is not enough space to insert the new node
+					if ($availableSpace < 2)
+					{
+						$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') creating gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.'+'.(2 + $this->gap * 2));
+						$q = "UPDATE ".$this->table_tree." SET ".
+							"lft = CASE ".
+							"WHEN lft > ".$parentRgt." ".
+							"THEN lft + ".(2 + $this->gap * 2).' '.
+							"ELSE lft ".
+							"END, ".
+							"rgt = CASE ".
+							"WHEN rgt >= ".$parentRgt." ".
+							"THEN rgt + ".(2 + $this->gap * 2).' '.
+							"ELSE rgt ".
+							"END ".
+							"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
+						$this->ilDB->query($q);
+					}
+					else
+					{
+						$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') reusing gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.' for node '.$a_node_id.' '.$lft.'..'.$rgt);
+					}				
 					if($this->__isMainTree())
 					{
 						ilDBx::_unlockTables();
 					}
-					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".
-											 $a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
 				}
-
-				$right = $r->rgt;
-				$lft = $right;
-				$rgt = $right + 1;
-
-				// spread tree
-				$q = "UPDATE ".$this->table_tree." SET ".
-					"lft = CASE ".
-					"WHEN lft > ".$right." ".
-					"THEN lft + 2 ".
-					"ELSE lft ".
-					"END, ".
-					"rgt = CASE ".
-					"WHEN rgt >= ".$right." ".
-					"THEN rgt + 2 ".
-					"ELSE rgt ".
-					"END ".
-					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-				$this->ilDB->query($q);
-
-				if($this->__isMainTree())
+				// Treatment for trees without gaps
+				else 
 				{
-					ilDBx::_unlockTables();
+					if($this->__isMainTree())
+					{
+						ilDBx::_lockTables(array('tree' => 'WRITE'));
+					}
+
+					// get right value of parent
+					$q = "SELECT * FROM ".$this->table_tree." ".
+						"WHERE child = '".$a_parent_id."' ".
+						"AND ".$this->tree_pk." = '".$this->tree_id."'";
+					$res = $this->ilDB->query($q);
+					$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+					if ($r->parent == NULL)
+					{
+						if($this->__isMainTree())
+						{
+							ilDBx::_unlockTables();
+						}
+						$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".
+												 $a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
+					}
+
+					$right = $r->rgt;
+					$lft = $right;
+					$rgt = $right + 1;
+
+					// spread tree
+					$q = "UPDATE ".$this->table_tree." SET ".
+						"lft = CASE ".
+						"WHEN lft > ".$right." ".
+						"THEN lft + 2 ".
+						"ELSE lft ".
+						"END, ".
+						"rgt = CASE ".
+						"WHEN rgt >= ".$right." ".
+						"THEN rgt + 2 ".
+						"ELSE rgt ".
+						"END ".
+						"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
+					$this->ilDB->query($q);
+
+					if($this->__isMainTree())
+					{
+						ilDBx::_unlockTables();
+					}
 				}
 
 				break;
@@ -612,6 +714,7 @@ class ilTree
 		$depth = $this->getDepth($a_parent_id) + 1;
 
 		// insert node
+		$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') inserting node:'.$a_node_id.' parent:'.$a_parent_id." ".$lft."..".$rgt." depth:".$depth);
 		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.",child,parent,lft,rgt,depth) ".
 			 "VALUES ".
 			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
@@ -747,20 +850,29 @@ class ilTree
 			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilDB->query($q);
 
-		// close gaps
-		$q = "UPDATE ".$this->table_tree." SET ".
-			 "lft = CASE ".
-			 "WHEN lft > '".$a_node["lft"]." '".
-			 "THEN lft - '".$diff." '".
-			 "ELSE lft ".
-			 "END, ".
-			 "rgt = CASE ".
-			 "WHEN rgt > '".$a_node["lft"]." '".
-			 "THEN rgt - '".$diff." '".
-			 "ELSE rgt ".
-			 "END ".
-			 "WHERE ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
-		$this->ilDB->query($q);
+		// We only close the gap, if the resulting gap will be larger then the gap value 
+		if ($a_node['rgt'] - $a_node['lft'] >= $this->gap * 2)
+		{
+			$this->log->write('ilTree.deleteTree('.$a_node['child'].') closing gap at '.$a_node['lft'].'...'.$a_node['rgt']);
+			// close gaps
+			$q = "UPDATE ".$this->table_tree." SET ".
+				 "lft = CASE ".
+				 "WHEN lft > '".$a_node["lft"]." '".
+				 "THEN lft - '".$diff." '".
+				 "ELSE lft ".
+				 "END, ".
+				 "rgt = CASE ".
+				 "WHEN rgt > '".$a_node["lft"]." '".
+				 "THEN rgt - '".$diff." '".
+				 "ELSE rgt ".
+				 "END ".
+				 "WHERE ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
+			$this->ilDB->query($q);
+		}
+		else
+		{
+			$this->log->write('ilTree.deleteTree('.$a_node['child'].') leaving gap open '.$a_node['lft'].'...'.$a_node['rgt']);
+		}
 
 		if($this->__isMainTree())
 		{
@@ -777,9 +889,14 @@ class ilTree
 	* @param	integer		node_id of startnode
 	* @return	object		query result
 	*/
-	function fetchPath ($a_endnode_id, $a_startnode_id)
+	function fetchPath($a_endnode_id, $a_startnode_id)
 	{
-
+		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
+		if (count($pathIds) == 0)
+		{
+			$this->ilErr->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilErr->WARNING);
+		}
+	
 		if ($this->table_obj_reference)
 		{
 			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON T2.child=".$this->table_obj_reference.".".$this->ref_pk." ".
@@ -792,60 +909,197 @@ class ilTree
 			$leftjoin = "LEFT JOIN ".$this->table_obj_data." ON T2.child=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 
-		$q = "SELECT ".$select_obj_id.$this->table_obj_data.".title,".$this->table_obj_data.".type,T2.child,(T2.rgt - T2.lft) AS sort_col ".
-			 "FROM ".$this->table_tree." AS T1, ".$this->table_tree." AS T2, ".$this->table_tree." AS T3 ".
-			 $leftjoin.
-			 "WHERE T1.child = '".$a_startnode_id."' ".
-			 "AND T3.child = '".$a_endnode_id."' ".
-			 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
-			 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
-			 "AND T1.".$this->tree_pk." = '".$this->tree_id." '".
-			 "AND T2.".$this->tree_pk." = '".$this->tree_id." '".
-			 "AND T3.".$this->tree_pk." = '".$this->tree_id." '".
-			 "ORDER BY sort_col DESC";
+		$q = "SELECT ".$select_obj_id.$this->table_obj_data.".title,".$this->table_obj_data.".type,child ".
+			"FROM ".$this->table_tree." ".
+			$leftjoin.
+			"WHERE child IN ('".implode("','",$pathIds)."') ".
+			"AND ".$this->tree_pk." = '".$this->tree_id."' ".
+			"ORDER BY depth";
 
 		$r = $this->ilDB->query($q);
-
 		if ($r->numRows() > 0)
 		{
 			return $r;
 		}
 		else
 		{
-
 			$this->ilErr->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilErr->WARNING);
 		}
-
 	}
 
 	/**
 	* get path from a given startnode to a given endnode
-	* if startnode is not given the rootnode is startnode
+	* if startnode is not given the rootnode is startnode.
+	* This function chooses the algorithm to be used.
+	*
 	* @access	public
 	* @param	integer	node_id of endnode
 	* @param	integer	node_id of startnode (optional)
 	* @return	array	ordered path info (id,title,parent) from start to end
 	*/
-	function getPathFull ($a_endnode_id, $a_startnode_id = 0)
+	function getPathFull($a_endnode_id, $a_startnode_id = 0)
 	{
+		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
+		$dataPath = array();
+		foreach ($pathIds as $id) {
+			$dataPath[] = $this->getNodeData($id);
+		}
+
+		return $dataPath;
+	}
+	/**
+	* get path from a given startnode to a given endnode
+	* if startnode is not given the rootnode is startnode
+	* @access	public
+	* @param	integer		node_id of endnode
+	* @param	integer		node_id of startnode (optional)
+	* @return	array		all path ids from startnode to endnode
+	*/
+	function getPathIdsUsingNestedSets($a_endnode_id, $a_startnode_id = 0)
+	{
+		// The nested sets algorithm is very easy to implement.
+		// Unfortunately it always does a full table space scan to retrieve the path
+		// regardless whether indices on lft and rgt are set or not.
+		// (At least, this is what happens on MySQL 4.1).
+		// This algorithms performs well for small trees which are deeply nested.
+		
+		
 		if (!isset($a_endnode_id))
 		{
-			$this->ilErr->raiseError(get_class($this)."::getPathFull(): No endnode_id given! ",$this->ilErr->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getPathId(): No endnode_id given! ",$this->ilErr->WARNING);
 		}
+		
+		$q = "SELECT T2.child ".
+			"FROM ".$this->table_tree." AS T1, ".$this->table_tree." AS T2 ".
+			"WHERE T1.child = '".$a_endnode_id."' ".
+			"AND T1.lft BETWEEN T2.lft AND T2.rgt ".
+			"AND T1.".$this->tree_pk." = '".$this->tree_id." '".
+			"AND T2.".$this->tree_pk." = '".$this->tree_id." '".
+			"ORDER BY T2.depth";
 
-		if (empty($a_startnode_id))
-		{
-			$a_startnode_id = $this->root_id;
-		}
-
-		$r = $this->fetchPath($a_endnode_id, $a_startnode_id);
-
+		$r = $this->ilDB->query($q);
+		$takeId = $a_startnode_id == 0;
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$path[] = $this->fetchNodeData($row);
+			if ($takeId || $row['child'] == $a_startnode_id)
+			{
+				$takeId = true;
+				$pathIds[] = $row['child'];
+			}
 		}
+		return $pathIds;
 
-		return $path ? $path : array();
+	}
+	/**
+	* get path from a given startnode to a given endnode
+	* if startnode is not given the rootnode is startnode
+	* @access	public
+	* @param	integer		node_id of endnode
+	* @param	integer		node_id of startnode (optional)
+	* @return	array		all path ids from startnode to endnode
+	*/
+	function getPathIdsUsingAdjacencyMap($a_endnode_id, $a_startnode_id = 0)
+	{
+		// The adjacency map algorithm is harder to implement than the nested sets algorithm.
+		// This algorithms performs an index search for each of the path element.
+		// This algorithms performs well for large trees which are not deeply nested.
+
+		// The $takeId variable is used, to determine if a given id shall be included in the path
+		$takeId = $a_startnode_id == 0;
+		
+		if (!isset($a_endnode_id))
+		{
+			$this->ilErr->raiseError(get_class($this)."::getPathId(): No endnode_id given! ",$this->ilErr->WARNING);
+		}
+		
+		global $log, $ilDB;
+		
+		// Determine the depth of the endnode, and fetch its parent field also.
+		$q = 'SELECT t.depth,t.parent '.
+			'FROM '.$this->table_tree.' AS t '.
+			'WHERE child='.$a_endnode_id.' '.
+			'AND tree=1 '.
+			'LIMIT 1';
+			//$this->writelog('getIdsUsingAdjacencyMap q='.$q);
+		$r = $this->ilDB->query($q);
+		
+		if ($r->numRows() == 0)
+		{
+			return array();
+		}
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$nodeDepth = $row['depth'];
+		$parentId = $row['parent'];
+			//$this->writelog('getIdsUsingAdjacencyMap depth='.$nodeDepth);
+
+		// Fetch the node ids. For shallow depths we can fill in the id's directly.	
+		$pathIds = array();
+		if ($nodeDepth == 1)
+		{
+				$takeId = $takeId || $a_endnode_id == $a_startnode_id;
+				if ($takeId) $pathIds[] = $a_endnode_id;
+		}
+		else if ($nodeDepth == 2)
+		{
+				$takeId = $takeId || $parentId == $a_startnode_id;
+				if ($takeId) $pathIds[] = $parentId;
+				$takeId = $takeId || $a_endnode_id == $a_startnode_id;
+				if ($takeId) $pathIds[] = $a_endnode_id;
+		}
+		else if ($nodeDepth == 3)
+		{
+				$takeId = $takeId || $this->root_id == $a_startnode_id;
+				if ($takeId) $pathIds[] = $this->root_id;
+				$takeId = $takeId || $parentId == $a_startnode_id;
+				if ($takeId) $pathIds[] = $parentId;
+				$takeId = $takeId || $a_endnode_id == $a_startnode_id;
+				if ($takeId) $pathIds[] = $a_endnode_id;
+		}
+		else if ($nodeDepth < 10)
+		{
+			// The following code construct nested self-joins
+			// Since we already know the root-id of the tree and
+			// we also know the id and parent id of the current node,
+			// we only need to perform $nodeDepth - 3 self-joins. 
+			// We can further reduce the number of self-joins by 1
+			// by taking into account, that each row in table tree
+			// contains the id of itself and of its parent.
+			$qSelect = 't1.child as c0';
+			$qJoin = '';
+			for ($i = 1; $i < $nodeDepth - 2; $i++)
+			{
+				$qSelect .= ', t'.$i.'.parent as c'.$i;
+				$qJoin .= ' JOIN tree AS t'.$i.' ON t'.$i.'.child=t'.($i - 1).'.parent AND t'.$i.'.tree = 1';
+			}
+			$q = 'SELECT '.$qSelect.' '.
+				'FROM tree AS t0 '.$qJoin.' '.
+				'WHERE t0.tree = 1 AND t0.child='.$parentId.' '.
+				'LIMIT 1';
+			$r = $this->ilDB->query($q);
+			if ($r->numRows() == 0)
+			{
+				return array();
+			}
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			
+			$takeId = $takeId || $this->root_id == $a_startnode_id;			
+			if ($takeId) $pathIds[] = $this->root_id;
+			for ($i = $nodeDepth - 4; $i >=0; $i--)
+			{
+				$takeId = $takeId || $row['c'.$i] == $a_startnode_id;
+				if ($takeId) $pathIds[] = $row['c'.$i];
+			}
+			$takeId = $takeId || $parentId == $a_startnode_id;
+			if ($takeId) $pathIds[] = $parentId;
+			$takeId = $takeId || $a_endnode_id == $a_startnode_id;
+			if ($takeId) $pathIds[] = $a_endnode_id;
+		}
+		else
+		{
+			return $this->getPathIdsUsingNestedSets($a_endnode_id, $a_startnode_id);
+		}
+		
+		return $pathIds;
 	}
 
 	/**
@@ -856,27 +1110,10 @@ class ilTree
 	* @param	integer		node_id of startnode (optional)
 	* @return	array		all path ids from startnode to endnode
 	*/
-	function getPathId ($a_endnode_id, $a_startnode_id = 0)
+	function getPathId($a_endnode_id, $a_startnode_id = 0)
 	{
-		if (!isset($a_endnode_id))
-		{
-			$this->ilErr->raiseError(get_class($this)."::getPathId(): No endnode_id given! ",$this->ilErr->WARNING);
-		}
-
-		//if (!isset($a_startnode_id))
-		if ($a_startnode_id == 0)
-		{
-			$a_startnode_id = $this->root_id;
-		}
-
-		$r = $this->fetchPath($a_endnode_id, $a_startnode_id);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$arr[] = $row->child;
-		}
-
-		return $arr;
+		$pathIds =& $this->getPathIdsUsingAdjacencyMap($a_endnode_id, $a_startnode_id);
+		return $pathIds;
 	}
 
 	/**
@@ -1026,57 +1263,6 @@ class ilTree
 		}
 	}
 
-	/**
-	* Calculates additional information for each node in tree-structure:
-	* no. of successors:	How many successors does the node have?
-	* 						Every node under the concerned node in the tree counts as a successor.
-	* depth			   :	The depth-level in tree the concerned node has. (the root node has a depth of 1!)
-	* brother		   :	The no. of node which are on the same depth-level with the concerned node
-	*
-	* @access	public
-	* @return	array		array of new tree information (to be specified.... :-)
-	*/
-	function calculateFlatTree()
-	{
-		if ($this->table_obj_reference)
-		{
-			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON s.child=".$this->table_obj_reference.".".$this->ref_pk." ".
-						"LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
-		}
-		else
-		{
-			$leftjoin = "LEFT JOIN ".$this->table_obj_data." ON s.child=".$this->table_obj_data.".".$this->obj_pk." ";
-
-		}
-
-		$q = "SELECT s.child,s.parent,s.lft,s.rgt,title,s.depth,".
-			 "(s.rgt-s.lft-1)/2 AS successor,".
-			 "((min(v.rgt)-s.rgt-(s.lft>1))/2) > 0 AS brother ".
-			 "FROM ".$this->table_tree." v, ".$this->table_tree." s ".
-			 $leftjoin.
-			 "WHERE s.lft BETWEEN v.lft AND v.rgt ".
-			 "AND (v.child != s.child OR s.lft = '1') ".
-			 "AND s.".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND v.".$this->tree_pk." = '".$this->tree_id."' ".
-			 "GROUP BY s.child ".
-			 "ORDER BY s.lft";
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$arr[] = array(
-							"title"		=> $row->title,
-							"child"		=> $row->child,
-							"successor" => $row->successor,
-							"depth"		=> $row->depth,
-							"brother"	=> $row->brother,
-							"lft"		=> $row->lft,
-							"rgt"		=> $row->rgt
-						   );
-		}
-
-		return $arr;
-	}
 
 	/**
 	* get all information of a node.
@@ -1433,8 +1619,7 @@ class ilTree
 		// GET ALL SUBNODES
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND lft >= '".$lft."' ".
-			 "AND rgt <= '".$rgt."'";
+			 "AND lft BETWEEN '".$lft."' AND '".$rgt."'";
 		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1791,7 +1976,6 @@ class ilTree
 			ilDBx::_unlockTables();
 		}
 		// LOCKED ###################################
-
 		return $return;
 	}
 
@@ -1818,6 +2002,13 @@ class ilTree
 		}
 
 		$i++;
+		
+		// Insert a gap at the end of node, if the node has children
+		if (count($childs) > 0)
+		{
+			$i += $this->gap * 2;
+		}
+		
 		$q = "UPDATE ".$this->table_tree." SET rgt='".$i."' WHERE child='".$node_id."'";
 		$this->ilDB->query($q);
 
