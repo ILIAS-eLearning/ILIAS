@@ -441,6 +441,8 @@ class ilExplorer
 			$objects = array();
 		}
 		
+		$objects = $this->modifyChilds($a_parent_id, $objects);
+		
 		// force expansion (of single nodes)
 		if ($this->forceExpanded($a_obj_id) && !in_array($a_obj_id, $this->expanded))
 		{
@@ -554,6 +556,10 @@ class ilExplorer
 		} //if
 	} //function
 
+	function modifyChilds($a_parent_id, $a_objects)
+	{
+		return $a_objects;
+	}
 
 	/**
 	* determines wether the childs of an object should be shown or not
@@ -581,7 +587,7 @@ class ilExplorer
 	*/
 	function getOutput()
 	{
-		global $ilBench;
+		global $ilBench, $tpl;
 
 		$ilBench->start("Explorer", "getOutput");
 
@@ -593,21 +599,53 @@ class ilExplorer
 		{
 			$this->createLines($i);
 		}
+		
+		// set global body class
+		$tpl->setVariable("BODY_CLASS", "il_Explorer");
+		
+		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
+		
+		$tpl_tree->touchBlock("start_list_no_indent");
+		$tpl_tree->touchBlock("element");
+		$cur_depth = 0;
 		foreach ($this->format_options as $key => $options)
 		{
+			if ($options["depth"] > $cur_depth)
+			{
+				if ($options["depth"] > 1)
+				{
+					$tpl_tree->touchBlock("start_list");
+				}
+				else
+				{
+					$tpl_tree->touchBlock("start_list_no_indent");
+				}
+				$tpl_tree->touchBlock("element");
+			}
+			if ($options["depth"] < $cur_depth)
+			{
+				for ($i = 0; $i < ($cur_depth - $options["depth"]); $i++)
+				{
+					$tpl_tree->touchBlock("end_list");
+					$tpl_tree->touchBlock("element");
+				}
+			}
+			$cur_depth = $options["depth"];
 			//var_dump($options["visible"]);
 			if ($options["visible"] and $key != 0)
 			{
-				$this->formatObject($options["child"],$options,$options['obj_id']);
+				$this->formatObject($tpl_tree, $options["child"],$options,$options['obj_id']);
 			}
 			if ($key == 0)
 			{
-				$this->formatHeader($options["child"],$options);
+				$this->formatHeader($tpl_tree, $options["child"],$options);
 			}
 		}
+		$tpl_tree->touchBlock("end_list");
+		$tpl_tree->touchBlock("element");
 		$ilBench->stop("Explorer", "getOutput");
 		
-		return implode('',$this->output);
+		return $tpl_tree->get();
 	}
 
 	/**
@@ -630,7 +668,7 @@ class ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option,$a_obj_id = 0)
+	function formatObject(&$tpl, $a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
 		if (!isset($a_node_id) or !is_array($a_option))
@@ -639,14 +677,9 @@ class ilExplorer
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
-
+		$pic = false;
 		foreach ($a_option["tab"] as $picture)
 		{
-				//$tpl->touchBlock("checkbox");
-				//$tpl->parseCurrentBlock();
-
-
 			if ($picture == 'plus')
 			{
 				$target = $this->createTarget('+',$a_node_id);
@@ -655,14 +688,10 @@ class ilExplorer
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
+				$pic = true;
 			}
 
-			if (!$this->show_minus)
-			{
-				$picture = "blank";
-			}
-			
-			if ($picture == 'minus')
+			if ($picture == 'minus' && $this->show_minus)
 			{
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
@@ -670,8 +699,10 @@ class ilExplorer
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
+				$pic = true;
 			}
 
+			/*
 			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
@@ -680,6 +711,13 @@ class ilExplorer
 				$tpl->setVariable("IMGPATH_LINES", $this->getImage("browser/".$picture.".gif"));
 				$tpl->parseCurrentBlock();
 			}
+			*/
+		}
+		if (!$pic)
+		{
+			$tpl->setCurrentBlock("blank");
+			$tpl->setVariable("BLANK_PATH", $this->getImage("browser/blank.gif"));
+			$tpl->parseCurrentBlock();
 		}
 
 		if ($this->output_icons)
@@ -734,10 +772,9 @@ class ilExplorer
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("list_item");
 		$tpl->parseCurrentBlock();
-
-		$this->output[] = $tpl->get();
+		$tpl->touchBlock("element");
 	}
 
 	/**

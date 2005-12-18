@@ -99,6 +99,7 @@ class ilCtrl
 			// get class information
 			$q = "SELECT * FROM service_class WHERE LOWER(class) = ".
 				$ilDB->quote($baseClass);
+
 			$mc_set = $ilDB->query($q);
 			$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$service = $mc_rec["service"];

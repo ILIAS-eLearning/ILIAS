@@ -37,6 +37,7 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjLinkResourceGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjRoleTemplateGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRootFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSystemFolderGUI, ilObjRoleFolderGUI, ilObjAuthSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjChatServerGUI, ilObjLanguageFolderGUI, ilObjMailGUI
@@ -78,7 +79,13 @@ class ilAdministrationGUI
 		
 		$this->creation_mode = false;
 
-		$this->ctrl->saveParameter($this, array("ref_id"));
+		$this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
+		
+		if ($_GET["admin_mode"] != "repository")
+		{
+			$_GET["admin_mode"] = "settings";
+		}
+		
 		if (!ilUtil::isAPICall())
 			$this->ctrl->setReturn($this,"");
 
@@ -197,7 +204,9 @@ class ilAdministrationGUI
 					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
 					
-					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"))
+					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
+						|| $next_class == "ilobjroletemplategui"
+						|| $next_class == "ilobjstylesheetgui"))
 					{
 						if ($_GET["obj_id"] != "")
 						{
@@ -247,15 +256,30 @@ class ilAdministrationGUI
 		$tpl = new ilTemplate("tpl.adm_frameset.html", false, false);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 //echo "<br>-".$this->ctrl->getLinkTarget($this, "view")."-";
-		$this->ctrl->setParameter($this, "ref_id", ROOT_FOLDER_ID);
-		$tpl->setVariable("MAIN_CONTENT", $this->ctrl->getLinkTargetByClass("ilobjrootfoldergui", "view"));
-		$this->ctrl->setParameter($this, "expand", "1");
-		$tpl->setVariable("TREE_CONTENT", $this->ctrl->getLinkTarget($this, "showTree"));
-//echo "<br>+".$this->ctrl->getLinkTarget($this, "showTree")."+";
-		$tpl->parseCurrentBlock();
-		$tpl->show();
-	}
 
+		if ($_GET["admin_mode"] != "repository")	// settings
+		{
+			$this->ctrl->setParameter($this, "ref_id", SYSTEM_FOLDER_ID);
+			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+			$tpl->setVariable("MAIN_CONTENT", $this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
+			$this->ctrl->setParameter($this, "expand", "1");
+			$tpl->setVariable("TREE_CONTENT", $this->ctrl->getLinkTarget($this, "showTree"));
+	//echo "<br>+".$this->ctrl->getLinkTarget($this, "showTree")."+";
+			$tpl->parseCurrentBlock();
+			$tpl->show();
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "ref_id", ROOT_FOLDER_ID);
+			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
+			$tpl->setVariable("MAIN_CONTENT", $this->ctrl->getLinkTargetByClass("ilobjrootfoldergui", "view"));
+			$this->ctrl->setParameter($this, "expand", "1");
+			$tpl->setVariable("TREE_CONTENT", $this->ctrl->getLinkTarget($this, "showTree"));
+	//echo "<br>+".$this->ctrl->getLinkTarget($this, "showTree")."+";
+			$tpl->parseCurrentBlock();
+			$tpl->show();
+		}
+	}
 
 	/**
 	* display tree view
@@ -279,6 +303,14 @@ class ilAdministrationGUI
 		}
 		//$explorer->addFilter("rolf");
 
+		if ($_GET["admin_mode"] == "settings")
+		{
+			$explorer->addFilter("cat");
+		}
+		else
+		{
+			$explorer->addFilter("adm");
+		}
 		/*
 		$explorer->addFilter("root");
 		$explorer->addFilter("cat");
@@ -297,7 +329,7 @@ class ilAdministrationGUI
 		$explorer->setOutput(0);		
 		$output = $explorer->getOutput();		
 		$tpl->setCurrentBlock("content");
-		$tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("all_objects"));
+		//$tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("all_objects"));
 		$tpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
 		$tpl->setVariable("EXPLORER",$output);
 		$this->ctrl->setParameter($this, "expand", $_GET["expand"]);

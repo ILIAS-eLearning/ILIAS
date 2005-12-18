@@ -224,8 +224,16 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             }
 
             $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"].".gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
-			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
-			$link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
+			if ($role["type"] == "role")
+			{
+				$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
+				$link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
+			}
+			else
+			{
+				$this->ctrl->setParameterByClass("ilobjroletemplategui", "obj_id", $role["obj_id"]);
+				$link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
+			}
 			//adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm
 			$result_set[$counter][] = "<a href=\"$link\">".ilObjRole::_getTranslation($role["title"])."</a>";
             //$result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";

@@ -135,7 +135,7 @@ class ilLocatorGUI
 	*/
 	function addAdministrationItems($a_ref_id = 0)
 	{
-		global $tree, $ilCtrl, $objDefinition;
+		global $tree, $ilCtrl, $objDefinition, $lng;
 
 		if ($a_ref_id == 0)
 		{
@@ -153,6 +153,12 @@ class ilLocatorGUI
 				{
 					continue;
 				}
+				
+				if ($row["child"] == ROOT_FOLDER_ID)
+				{
+					$row["title"] = $lng->txt("repository"); 
+				}
+				
 				$class_name = $objDefinition->getClassName($row["type"]);
 				$class = strtolower("ilObj".$class_name."GUI");
 				$ilCtrl->setParameterByClass($class, "ref_id", $row["child"]);

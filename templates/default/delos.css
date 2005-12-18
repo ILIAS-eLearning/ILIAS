@@ -2,13 +2,18 @@ body {
 	color:#222222;
 	background-color:#F0F2FF;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
-	margin:10px;
+	margin:0px;
 	font-size:0.9em;
 }
 
-td {
-	#font-size: 0.8em;
+body.il_Explorer {
+	color:#222222;
+	background-color:#F0F2FF;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	margin:0px;
+	font-size:0.9em;
 }
+
 
 .btnbar {
 	background-color:#ffffff;
@@ -53,8 +58,6 @@ input.fullwidth_marked {
 
 .tblrow2 {
 	background-color: #F1F1F1;
-	#background-color: #F4F0E5;
-	#background-color: #FFFFFF;
 	color:#222222;
 	padding:3px;
 }
@@ -116,7 +119,6 @@ table.std {
 	border-width:1px;
 	border-style:solid;
 	border-color:#CACACA;
-	#border-color:#E0C8A0;
 }
 
 table.fullwidth {
@@ -128,7 +130,6 @@ table.fullwidth {
 	border-width:1px;
 	border-style:solid;
 	border-color:#CACACA;
-	#border-color:#E0C8A0;
 }
 
 table.halfwidth {
@@ -140,7 +141,6 @@ table.halfwidth {
 	border-width:1px;
 	border-style:solid;
 	border-color:#CACACA;
-	#border-color:#E0C8A0;
 }
 
 table.ilPDSelectedItemBlock {
@@ -170,7 +170,6 @@ table.fullwidth_nowrap {
 table.fullwidth_invisible {
 	color:#222222;
 	background-color:#F0F2FF;
-	#background-color:#FFFFFF;
 	width:100%;
 	border-spacing:0px;
 }
@@ -199,7 +198,6 @@ td.std, th.std {
 
 th.il_invisible, td.il_invisible {
 	background-color:#F0F2FF;
-	#background-color:#FFFFFF;
 	background-image: none;
 }
 
@@ -219,15 +217,12 @@ th.il_invisible, td.il_invisible {
 tr.tblheader {
 	color:#000000;
 	font-weight:bold;
-	#background-color:#F0F0F0;
 	background-color: #E2EAF4;
-	#background-image:url(images/TableHeader.gif);
 	background-image:url(images/TableHeaderBlue.gif);
 	background-repeat:repeat-x;
 	
 	border-top-width:1px;
 	border-top-color:#CACACA;
-	#border-top-color:#E0C8A0;
 	border-top-style:solid;
 
 }
@@ -260,11 +255,9 @@ td.option {
 	text-align:righ t;
 	border-top-width:1px;
 	border-top-color:#CACACA;
-	#border-top-color:#E0C8A0;
 	border-top-style:solid;
 	border-right-width:1px;
 	border-right-color:#CACACA;
-	#border-right-color:#E0C8A0;
 	border-right-style:solid;
 }
 
@@ -277,7 +270,6 @@ td.sub_option {
 	text-align:right;
 	border-top-width:1px;
 	border-top-color:#CACACA;
-	#border-top-color:#E0C8A0;
 	border-top-style:solid;
 }
 
@@ -303,7 +295,6 @@ td.option_value {
 	text-align:left;
 	border-top-width:1px;
 	border-top-color:#CACACA;
-	#border-top-color:#E0C8A0;
 	border-top-style:solid;
 }
 
@@ -428,12 +419,10 @@ a.il_ItemProperty:hover {
 span.il_ItemAlertProperty
 {
 	color: #C04000;
-	#font-size: 80%;
 }
 
 span.il_ItemProperty,
 {
-	#font-size: 80%;
 }
 
 td.il_ContainerBlockHeader
@@ -455,7 +444,6 @@ table.il_ContainerBlock
 	border-width:1px;
 	border-style:solid;
 	border-color:#CACACA;
-	#border-color:#E0C8A0;
 }
 
 /* Personal Desktop Header*/
@@ -480,7 +468,6 @@ table.il_PDBlock
 	border-width:1px;
 	border-style:solid;
 	border-color:#CACACA;
-	#border-color:#E0C8A0;
 	margin-bottom:25px;
 }
 
@@ -494,7 +481,6 @@ td.il_PDBlockHeader
 	
 	border-bottom-width:1px;
 	border-bottom-color:#CACACA;
-	#border-bottom-color:#E0C8A0;
 	border-bottom-style:solid;
 }
 
@@ -508,7 +494,6 @@ td.il_PDBlockSubHeader
 	background-color: #EDEDED;
 	border-top-width:1px;
 	border-top-color:#CACACA;
-	#border-top-color:#E0C8A0;
 	border-top-style:solid;
 }
 
@@ -527,7 +512,6 @@ td.il_RepHeader
 	padding:0px;
 	border-style: solid;
 	border-color:#CACACA;
-	#border-color:#E0C8A0;
 	border-width: 1px;
 	margin-bottom: 0px;
 }
@@ -594,7 +578,6 @@ div.il_Locator {
 
 a.il_LocatorLink, a.il_LocatorLink:link, a.il_LocatorLink:visited, a.il_LocatorLink:hover
 {
-	#color: #A02010;
 	color: #224499;
 }
 
@@ -675,7 +658,6 @@ li.tabactive
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #F0F2FF;
-	#border-bottom-color: #FFFFFF;
 }
 
 a.tabactive, a.tabactive:hover
@@ -754,8 +736,6 @@ ul.il_SubTab
 li.subtabinactive
 {
 	float:left;
-	#background:url("images/TabInactiveRight.gif")
-	#	no-repeat right top;
 	margin:0;
 	padding:0;
 }
@@ -772,8 +752,6 @@ a.subtabinactive, a.subtabinactive:hover
 li.subtabactive
 {
 	float:left;
-	#background:url("images/TabActiveRight.gif")
-	#	no-repeat right top;
 	margin:0;
 	padding:0;
 }
@@ -791,6 +769,7 @@ a.subtabactive, a.subtabactive:hover
 	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
 	a.subtabinactive a.subtabactive {float:none;}
 /* End IE5-Mac hack */
+
 
 
 /* InfoScreen */
@@ -844,24 +823,19 @@ td.il_InfoScreenPropertyValue
 
 div.il_Explorer
 {
-	background-color: #FFFFFF;
-	border-color: #CACACA;
-	#border-color: #E0C8A0;
-	border-width: 1px;
-	border-style: solid;
+	margin:3px;
 }
 
-div.il_RepExplorer
+/*div.il_RepExplorer
 {
 	background-color:#FFFFFF;
 	padding:20px;
 	border-spacing: 1px;
 	border-style: outset;
 	border-color: #CACACA;
-	#border-color: #E0C8A0;
 	border-width: 1px;
 	margin-bottom: 0px;
-}
+}*/
 
 div.il_ExplorerHeader
 {
@@ -877,15 +851,33 @@ div.il_ExplorerHeader
 	border-width: 1px;
 	border-style: solid;
 	border-color: #CACACA;
-	#border-color: #E0C8A0;
 	margin:0px;
 	font-weight: bold;
-	border-bottom:0px;
+}
+
+ul.il_Explorer
+{
+	margin: 0px 0px 0px 22px;
+	padding: 0px 0px;
+	list-style:none;
+}
+
+ul.il_ExplorerNoIndent
+{
+	margin: 0px;
+	padding: 0px 0px;
+	list-style:none;
+}
+
+li.il_Explorer
+{
+	margin:0;
+	padding:0;
+	white-space: nowrap;
 }
 
 a.il_HighlightedNode
 {
-	#background-color: #F0F2FF;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	border-color: #909090;
@@ -997,7 +989,6 @@ h1 {
 }
 
 h2 {
-	#font-size: 120%;
 	color:#222222;
 	background-color: #E2EAF4;
 	border-width:1px;
@@ -1142,13 +1133,11 @@ div.Access {
 a:link, a:visited {
 	text-decoration:none;
 	font-weight: bold;
-	#color:#2255a0;
 	color:#224499;
 }
 
 a:hover {
 	color:#000000;
-	font-size: 100%;
 }
 
 /* ------------------- mail links ----------- */
@@ -1300,7 +1289,6 @@ textarea
 	color:#000000;
 	border-width:1px;
 	border-color:#CACACA;
-	#border-color:#E0C8A0;
 	border-style:inset;
 	padding:3px;
 	text-decoration:none;
@@ -1322,7 +1310,6 @@ input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
 	color: #dd0000;
 	font-weight:bold;
 	text-align:center;
-	#background-color:#F9F9F9;
 	background-color:#FFFFFF;
 	margin-bottom: 2px;
 }
@@ -1377,7 +1364,6 @@ div.dp_Menu
 	border-width: 1px;
 	border-style: solid;
 	border-color: #CACACA;
-	#border-color:#E0C8A0;
 	background-color: #EBEBEB;
 	width: 152px;
 	font-size: 90%;
@@ -1491,7 +1477,6 @@ a.weekLink
 
 td.appointmentConfTitle
 {
-	#font-size: 120%;
 	font-style: italic;
 }
 
@@ -1567,8 +1552,6 @@ table.ilc_LMNavigation {
 	border-spacing: 0px;
 	margin: 0px;
 	padding: 0px;
-	#background-color:#FFFFFF;
-	#background-color: #E6ECF8;
 	background-image: url(images/TableHeader.gif);
 	background-repeat:repeat-x;
 	background-color: #EDEDED;
@@ -1580,7 +1563,6 @@ td.ilc_LMNavigation
 	padding: 3px;
 	border-style: solid;
 	border-color: #CACACA;
-	#border-width: 1px;
 	border-left-width: 0px;
 	border-right-width: 0px;
 	border-top-width: 1px;
@@ -1588,14 +1570,12 @@ td.ilc_LMNavigation
 	background-image: url(images/TableHeader.gif);
 	background-color: #EDEDED;
 	margin-bottom: 0px;
-	#font-size: 60%;
 }
 
 div.ilc_DefinitionHeader
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	#font-size: 130%;
 	padding-bottom: 5px;
 	padding-top: 5px;
 	border-bottom-width: 1px;
@@ -1630,7 +1610,6 @@ table.ilc_FileList
 	border-spacing: 1px;
 	border-style: outset;
 	border-color: #CACACA;
-	#border-color: #E0C8A0;
 	border-width: 1px;
 	margin-bottom: 5px;
 	margin-top: 5px;
@@ -1638,7 +1617,6 @@ table.ilc_FileList
 
 th.ilc_FileList
 {
-	#font-size: 80%;
 	text-align: left;
 	padding: 3px;
 }
@@ -1669,7 +1647,6 @@ a.ilc_LMMenu
 	border-width: 1px;
 	border-style: solid;
 	border-color: #B0B0B0;
-	#background-color: #EBEBEB;
 	background-color: #E6ECF8;
 	white-space: nowrap;
 }
@@ -1707,7 +1684,6 @@ div.ilc_Question
 
 .questionTitle {
 	border-bottom: thin solid #333333;
-	#font-size: 80%;
 	font-weight: bold;
 	padding-bottom: 0.5em;
 }
@@ -1771,6 +1747,5 @@ div.imagebox
 .questionheading {
 	margin-top:2px;
 	margin-bottom:5px;
-	#font-size: 80%;
 	font-weight: bold;
 }
