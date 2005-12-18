@@ -164,6 +164,8 @@ class ilForumExplorer extends ilExplorer
 	*/
 	function getOutput()
 	{
+		global $tpl;
+		
 		$this->format_options[0]["tab"] = array();
 		$depth = $this->forum->getPostMaximumDepth($this->thread_id);
 		for ($i=0;$i<$depth;++$i)
@@ -171,19 +173,51 @@ class ilForumExplorer extends ilExplorer
 			$this->createLines($i);
 		}
 
+		// set global body class
+		$tpl->setVariable("BODY_CLASS", "il_Explorer");
+		
+		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
+		
+		$tpl_tree->touchBlock("start_list_no_indent");
+		$tpl_tree->touchBlock("element");
+		$cur_depth = 0;
 		foreach ($this->format_options as $key => $options)
 		{
+			if ($options["depth"] > $cur_depth)
+			{
+				if ($options["depth"] > 0)
+				{
+					$tpl_tree->touchBlock("start_list");
+				}
+				else
+				{
+					$tpl_tree->touchBlock("start_list_no_indent");
+				}
+				$tpl_tree->touchBlock("element");
+			}
+			if ($options["depth"] < $cur_depth)
+			{
+				for ($i = 0; $i < ($cur_depth - $options["depth"]); $i++)
+				{
+					$tpl_tree->touchBlock("end_list");
+					$tpl_tree->touchBlock("element");
+				}
+			}
+			$cur_depth = $options["depth"];
+
 			if($key == 0)
 			{
-				$this->formatHeader();
+				$this->formatHeader($tpl_tree);
 			}
 			if ($options["visible"])
 			{
-				$this->formatObject($options["child"],$options);
+				$this->formatObject($tpl_tree,$options["child"],$options);
 			}
 		}
+		$tpl_tree->touchBlock("end_list");
+		$tpl_tree->touchBlock("element");
 
-		return implode('',$this->output);
+		return $tpl_tree->get();
 	}
 	
 	/**
@@ -194,7 +228,7 @@ class ilForumExplorer extends ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option)
+	function formatObject(&$tpl, $a_node_id,$a_option)
 	{
 		global $lng,$ilUser;
 
@@ -204,7 +238,7 @@ class ilForumExplorer extends ilExplorer
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		/*
 		foreach ($a_option["tab"] as $picture)
 		{
 			if ($picture == 'plus')
@@ -237,7 +271,8 @@ class ilForumExplorer extends ilExplorer
 				$tpl->parseCurrentBlock();
 			}
 			
-		}
+		}*/
+		
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 
@@ -272,7 +307,10 @@ class ilForumExplorer extends ilExplorer
 
 		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
+		$tpl->setCurrentBlock("list_item");
+		$tpl->parseCurrentBlock();
+		$tpl->touchBlock("element");
+
 	}
 
 	/**
@@ -282,11 +320,9 @@ class ilForumExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader()
+	function formatHeader(&$tpl)
 	{
 		global $lng, $ilias;
-
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$frm = new ilForum();
 		$frm->setWhereCondition("thr_pk = ".$this->thread_id);
@@ -301,8 +337,11 @@ class ilForumExplorer extends ilExplorer
 		$tpl->setVariable("TARGET","target=content");
 		$tpl->setVariable("LINK_TARGET",$this->target);
 		$tpl->parseCurrentBlock();
+		
+		//$tpl->setCurrentBlock("list_item");
+		//$tpl->parseCurrentBlock();
+		$tpl->touchBlock("element");
 
-		$this->output[] = $tpl->get();
 	}
 
 	/**

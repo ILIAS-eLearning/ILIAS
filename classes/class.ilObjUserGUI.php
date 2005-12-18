@@ -2212,5 +2212,56 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->roleassignmentObject();
 	}
 	
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems()
+	{
+		global $ilLocator;
+
+		if ($_GET["admin_mode"] == "settings")	// system settings
+		{		
+			$ilLocator->addItem($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+				
+			$ilLocator->addItem(ilObject::_lookupTitle(
+				ilObject::_lookupObjId($_GET["ref_id"])),
+				$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+			
+			if ($_GET["obj_id"] > 0)
+			{
+				$ilLocator->addItem($this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, "view"));
+			}
+		}
+		else							// repository administration
+		{
+			//?
+		}
+
+	}
+
+	function showUpperIcon()
+	{
+		global $tree, $tpl, $objDefinition;
+		
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			$tpl->setUpperIcon(
+				$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+		}
+		else
+		{		
+			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
+				$this->object->getRefId() != SYSTEM_FOLDER_ID)
+			{
+				$par_id = $tree->getParentId($this->object->getRefId());
+				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
+			}
+		}
+	}
+
 } // END class.ilObjUserGUI
 ?>

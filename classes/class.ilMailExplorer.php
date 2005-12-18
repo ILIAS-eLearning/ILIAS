@@ -72,6 +72,8 @@ class ilMailExplorer extends ilExplorer
 	*/
 	function getOutput()
 	{
+		global $tpl;
+		
 		$this->format_options[0]["tab"] = array();
 		
 		$depth = $this->tree->getMaximumDepth();
@@ -80,20 +82,53 @@ class ilMailExplorer extends ilExplorer
 		{
 			$this->createLines($i);
 		}
+		
+		// set global body class
+		$tpl->setVariable("BODY_CLASS", "il_Explorer");
+		
+		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
+		
+		$tpl_tree->touchBlock("start_list_no_indent");
+		$tpl_tree->touchBlock("element");
+		$cur_depth = 0;
 
 		foreach ($this->format_options as $key => $options)
 		{
+			if ($options["depth"] > $cur_depth)
+			{
+				if ($options["depth"] > 1)
+				{
+					$tpl_tree->touchBlock("start_list");
+				}
+				else
+				{
+					$tpl_tree->touchBlock("start_list_no_indent");
+				}
+				$tpl_tree->touchBlock("element");
+			}
+			if ($options["depth"] < $cur_depth)
+			{
+				for ($i = 0; $i < ($cur_depth - $options["depth"]); $i++)
+				{
+					$tpl_tree->touchBlock("end_list");
+					$tpl_tree->touchBlock("element");
+				}
+			}
+			$cur_depth = $options["depth"];
+
 			if ($options["visible"] and $key != 0)
 			{
-				$this->formatObject($options["child"],$options);
+				$this->formatObject($tpl_tree, $options["child"],$options);
 			}
 			if($key == 0)
 			{
-				$this->formatHeader($options["child"],$options);
+				$this->formatHeader($tpl_tree, $options["child"],$options);
 			}
 		}
-
-		return implode('',$this->output);
+		
+		$tpl_tree->touchBlock("end_list");
+		$tpl_tree->touchBlock("element");
+		return $tpl_tree->get();
 	}
 	
 
