@@ -738,8 +738,14 @@ class ilTemplate extends ilTemplateX
 	/**
 	* sets icon to upper level
 	*/
-	function setUpperIcon($a_link)
+	function setUpperIcon($a_link, $a_frame = "")
 	{
+		if ($a_frame != "")
+		{
+			$this->setCurrentBlock("target_top");
+			$this->setVariable("TARGET_TOP", $a_frame);
+			$this->parseCurrentBlock();
+		}
 		$this->setCurrentBlock("top");
 		$this->setVariable("LINK_TOP", $a_link);
 		$this->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));

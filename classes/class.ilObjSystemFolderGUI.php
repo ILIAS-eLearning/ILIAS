@@ -139,10 +139,23 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			//control information is set below
 
 	    } //foreach
+		
+		// add entry for switching to repository admin
+		$this->data["data"][] = array(
+				"type" => "root",
+				"title" => $this->lng->txt("repository_admin")."#separator#".
+					$this->lng->txt("repository_admin_desc"),
+				"last_change" => "",
+				"ref_id" => ROOT_FOLDER_ID
+			);
 
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
+		if ($_GET["sort_by"] == "")
+		{
+			$_GET["sort_by"] = "title";
+		}
 		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		// now compute control information
@@ -199,7 +212,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 		
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType()),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType()),"icon_".$this->object->getType().".gif",$this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		
 		foreach ($this->data["cols"] as $val)
@@ -209,7 +222,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		$tbl->setHeaderNames($header_names);
 		
-		$header_params = array("ref_id" => $this->ref_id);
+		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("15","75%","25%"));
 		
@@ -234,6 +247,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
+				
 
 				// color changing
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
@@ -242,73 +256,94 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
 				$this->tpl->parseCurrentBlock();
 
-				foreach ($data as $key => $val)
+				if ($ctrl["ref_id"] != ROOT_FOLDER_ID)
 				{
-					//build link
-					$obj_type = ilObject::_lookupType($ctrl["ref_id"],true);
-					$class_name = $this->objDefinition->getClassName($obj_type);
-					$class = strtolower("ilObj".$class_name."GUI");
-					$this->ctrl->setParameterByClass($class, "ref_id", $ctrl["ref_id"]);
-					$this->ctrl->setParameterByClass($class, "obj_id", $ctrl["ref_id"]);
-					$link = $this->ctrl->getLinkTargetByClass($class, "view");
-
-					//$link = "adm_object.php?";
-
-					/*
-					$n = 0;
-
-					
-					foreach ($ctrl as $key2 => $val2)
+					foreach ($data as $key => $val)
 					{
-						$link .= $key2."=".$val2;
-
-						if ($n < count($ctrl)-1)
-						{
-					    	$link .= "&";
-							$n++;
-						}
-					}*/
-					
-					if ($key == "title")
-					{
-						$name_field = explode("#separator#",$val);
-					}
-
-					if ($key == "title" || $key == "type")
-					{
-						$this->tpl->setCurrentBlock("begin_link");
-						$this->tpl->setVariable("LINK_TARGET", $link);
-
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->touchBlock("end_link");
-					}
-
-					$this->tpl->setCurrentBlock("text");
-
-					if ($key == "type")
-					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
-					}
-
-					if ($key == "title")
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+						//build link
+						$obj_type = ilObject::_lookupType($ctrl["ref_id"],true);
+						$class_name = $this->objDefinition->getClassName($obj_type);
+						$class = strtolower("ilObj".$class_name."GUI");
+						$this->ctrl->setParameterByClass($class, "ref_id", $ctrl["ref_id"]);
+						$this->ctrl->setParameterByClass($class, "obj_id", $ctrl["ref_id"]);
+						$link = $this->ctrl->getLinkTargetByClass($class, "view");
 						
-						$this->tpl->setCurrentBlock("subtitle");
-						$this->tpl->setVariable("DESC", $name_field[1]);
+						if ($key == "title")
+						{
+							$name_field = explode("#separator#",$val);
+						}
+	
+						if ($key == "title" || $key == "type")
+						{
+							$this->tpl->setCurrentBlock("begin_link");
+							$this->tpl->setVariable("LINK_TARGET", $link);
+	
+							$this->tpl->parseCurrentBlock();
+							$this->tpl->touchBlock("end_link");
+						}
+	
+						$this->tpl->setCurrentBlock("text");
+	
+						if ($key == "type")
+						{
+							$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+						}
+	
+						if ($key == "title")
+						{
+							$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+							
+							$this->tpl->setCurrentBlock("subtitle");
+							$this->tpl->setVariable("DESC", $name_field[1]);
+							$this->tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$this->tpl->setVariable("TEXT_CONTENT", $val);
+						}
+					
 						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $val);
-					}
+	
+						$this->tpl->setCurrentBlock("table_cell");
+						$this->tpl->parseCurrentBlock();
+	
+					} //foreach
+				}
+				else	// extra root folder handling (repository)
+				{
+					//$this->tpl->parseCurrentBlock();
+
+					$val = ilUtil::getImageTagByType("root",$this->tpl->tplPath);
+					$this->tpl->setCurrentBlock("text");
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
+					$this->tpl->touchBlock("table_cell");
 				
+					// link
+					$this->tpl->setCurrentBlock("begin_link");
+					$this->ctrl->setParameterByClass("iladministrationgui",
+						"admin_mode", "repository");
+					$this->ctrl->setParameterByClass("iladministrationgui",
+						"ref_id", ROOT_FOLDER_ID);
+					$this->tpl->setVariable("LINK_TARGET",
+						$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"));
+					$this->tpl->setVariable("FRAME_TARGET",
+						" target=\"".ilFrameTargetInfo::_getFrame("MainContent")."\"");
+					$this->ctrl->clearParametersByClass("iladministrationgui");
 					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->setCurrentBlock("table_cell");
+					
+					// text
+					$name_field = explode("#separator#", $data["title"]);
+					$this->tpl->setCurrentBlock("text");
+					$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
 					$this->tpl->parseCurrentBlock();
-
-				} //foreach
+					$this->tpl->setCurrentBlock("subtitle");
+					$this->tpl->setVariable("DESC", $name_field[1]);
+					$this->tpl->parseCurrentBlock();
+					
+					$this->tpl->touchBlock("end_link");
+					$this->tpl->touchBlock("table_cell");
+	
+				}
 
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->setVariable("CSS_ROW", $css_row);

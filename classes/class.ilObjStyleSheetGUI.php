@@ -28,6 +28,8 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
+* @ilCtrl_Calls ilObjStyleSheetGUI:
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -53,7 +55,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->lng =& $lng;
 
 		$this->type = "sty";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prep);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 	}
 
 	/**
@@ -63,7 +65,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
+		$this->prepareOutput();
 		switch($next_class)
 		{
 			default:
@@ -79,27 +81,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		$this->editObject();
 	}
-
-	/*
-	function setCmdUpdate($a_cmd = "update")
-	{
-		$this->cmd_update = $a_cmd;
-	}
-
-	function setCmdNewStyleParameter($a_cmd = "newStyleParameter")
-	{
-		$this->cmd_new_par = $a_cmd;
-	}
-
-	function setCmdRefresh($a_cmd = "refresh")
-	{
-		$this->cmd_refresh = $a_cmd;
-	}
-
-	function setCmdDeleteStyleParameter($a_cmd = "deleteStyleParameter")
-	{
-		$this->cmd_delete = $a_cmd;
-	}*/
 
 	/**
 	* create
@@ -362,8 +343,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$fold->addStyle($newObj->getId());
 				$fold->update();
 				
-				// to do: introduce ilCtrl in administration properly
-				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
+				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
 			}
 		}
 
@@ -407,17 +387,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $lng;
 
-		// to do: introduce ilCtrl in administration properly
-		if ($_GET["ref_id"] > 0)
-		{
-
-			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
-			if ($fold->getType() == "stys")
-			{				
-				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
-			}
-		}
-
 		sendInfo($lng->txt("msg_cancel"), true);
 		$this->ctrl->returnToParent($this);
 	}
@@ -451,28 +420,43 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
 	function getTabs(&$tabs_gui)
-	{
-		// to do: introduce ilCtrl in administration properly
-		if ($_GET["ref_id"] > 0)
-		{
-
-			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
-			if ($fold->getType() == "stys")
-			{
-				// back to upper context
-				$tabs_gui->addTarget("back",
-					"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles",
-					"", "");
-				return;
-			}
-		}
-		
+	{		
 		// back to upper context
 		$tabs_gui->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",
 			"");
 	}
 
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems()
+	{
+		global $ilLocator;
+
+		if ($_GET["admin_mode"] == "settings")	// system settings
+		{		
+			$ilLocator->addItem($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+				
+			$ilLocator->addItem(ilObject::_lookupTitle(
+				ilObject::_lookupObjId($_GET["ref_id"])),
+				$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui", "view"));
+
+			if ($_GET["obj_id"] > 0)
+			{
+				$ilLocator->addItem($this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, "edit"));
+			}
+		}
+		else							// repository administration
+		{
+			//?
+		}
+
+	}
 
 } // END class.ObjStyleSheetGUI
 ?>

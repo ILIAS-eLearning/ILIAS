@@ -84,7 +84,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->data = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
-		$this->data["cols"] = array("","type","language","status","last_change", "usr_agreement");
+		$this->data["cols"] = array("","language","status","last_change", "usr_agreement");
 
 		$languages = $this->object->getLanguages();
 		
@@ -134,7 +134,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 			// visible data part
 			$this->data["data"][] = array(
-									"type" 			=> "lng",
 									"language"		=> $lang_data["name"].$status,
 									"status"		=> $this->lng->txt($lang_data["desc"])."<br/>".$remark,
 									"last_change"	=> $lang_data["last_update"],
@@ -189,8 +188,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 		
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType()),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		//$tbl->setTitle($this->lng->txt("obj_".$this->object->getType()),"icon_".$this->object->getType().".gif",$this->lng->txt("obj_".$this->object->getType()));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		//$tbl->disable("header");
+		$tbl->disable("title");
 		
 		foreach ($this->data["cols"] as $val)
 		{
@@ -245,11 +246,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 				{
 
 					$this->tpl->setCurrentBlock("text");
-
-					if ($key == "type")
-					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
-					}
 
 					$this->tpl->setVariable("TEXT_CONTENT", $val);					
 					$this->tpl->parseCurrentBlock();

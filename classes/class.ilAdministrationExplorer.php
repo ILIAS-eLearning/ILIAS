@@ -64,19 +64,76 @@ class ilAdministrationExplorer extends ilExplorer
 	}
 
 	/**
-	* note: most of this stuff is used by ilCourseContentInterface too
+	* overwritten method from base class
+	* @access	public
+	* @param	integer obj_id
+	* @param	integer array options
+	* @return	string
+	*/
+	function formatHeader(&$tpl, $a_obj_id,$a_option)
+	{
+		global $lng, $ilias;
+		
+		if ($_GET["admin_mode"] == "settings")
+		{
+			return;
+		}
+
+		$tpl->setCurrentBlock("icon");
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("link");
+		$tpl->setVariable("TITLE", $lng->txt("repository"));
+		$tpl->setVariable("LINK_TARGET", "repository.php?ref_id=1");
+		$tpl->setVariable("TARGET", " target=\"content\"");
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("element");
+		$tpl->parseCurrentBlock();
+
+	}
+
+	/**
+	* build link target
 	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
 		global $ilCtrl, $objDefinition;
 
-		$class_name = $objDefinition->getClassName($a_type);
-		$class = strtolower("ilObj".$class_name."GUI");
-		$this->ctrl->setParameterByClass($class, "ref_id", $a_node_id);
-		$link = $this->ctrl->getLinkTargetByClass($class, "view");
+		if ($_GET["admin_mode"] == "settings" && $a_node_id == ROOT_FOLDER_ID)
+		{
+			$this->ctrl->setParameterByClass("iladministrationgui", "ref_id", ROOT_FOLDER_ID);
+			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
+			$link = $this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset");
+			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+		}
+		else
+		{
+			$class_name = $objDefinition->getClassName($a_type);
+			$class = strtolower("ilObj".$class_name."GUI");
+			$this->ctrl->setParameterByClass($class, "ref_id", $a_node_id);
+			$link = $this->ctrl->getLinkTargetByClass($class, "view");
+		}
 		return $link;
 	}
 	
+	/**
+	* get frame target (may be overwritten by derived classes)
+	*/
+	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+	{
+		if ($_GET["admin_mode"] == "settings" && $a_child == ROOT_FOLDER_ID)
+		{
+			return ilFrameTargetInfo::_getFrame("MainContent");
+		}
+		else
+		{
+			return $this->frame_target;
+		}
+	}
+
 	
 	/**
 	* get image path
@@ -99,6 +156,91 @@ class ilAdministrationExplorer extends ilExplorer
 		
 		return parent::getImage($a_name);
 	}
+	
+	function isVisible($a_ref_id,$a_type)
+	{
+		global $rbacsystem, $ilBench;
+		
+		$ilBench->start("Explorer", "setOutput_isVisible");
+		$visible = $rbacsystem->checkAccess('visible',$a_ref_id);
+		if ($a_type == "rolf" && $a_ref_id != ROLE_FOLDER_ID)
+		{
+			return false;
+		}
+		$ilBench->stop("Explorer", "setOutput_isVisible");
+
+		return $visible;
+	}
+	
+	/**
+	* modify children of parent ()
+	*/
+	function modifyChilds($a_parent_id, $a_objects)
+	{
+		global $lng;
+		
+		if ($a_parent_id == SYSTEM_FOLDER_ID)
+		{
+			$new_objects = array();
+			foreach($a_objects as $object)
+			{
+				$new_objects[$object["title"].":".$object["child"]]
+					= $object;
+			}
+
+			// add entry for switching to repository admin
+			// note: please see showChilds methods which prevents infinite look
+			$new_objects[$lng->txt("repository_admin").":".ROOT_FOLDER_ID] =
+				array(
+				"tree" => 1,
+				"child" => ROOT_FOLDER_ID,
+				"ref_id" => ROOT_FOLDER_ID,
+				"depth" => 3,
+				"type" => "root",
+				"title" => $lng->txt("repository_admin"),
+				"description" => $lng->txt("repository_admin_desc"),
+				"desc" => $lng->txt("repository_admin_desc"),
+				);
+			ksort($new_objects);
+			
+			return $new_objects;
+		}
+
+		return $a_objects;
+	}
+
+	function showChilds($a_parent_id, $a_obj_id)
+	{
+		
+		// prevent infinite loop due to (root folder tree) node
+		// that is inserted under system admin folder
+		if ($a_parent_id == ROOT_FOLDER_ID)
+		{
+			if ($this->rootfolder_shown == true)
+			{
+				return false;
+			}
+			$this->rootfolder_shown = true;
+		}
+		
+		return true;
+	}
+	
+	/**
+	* force expansion of node
+	*/
+	function forceExpanded($a_obj_id)
+	{
+		if ($a_obj_id == SYSTEM_FOLDER_ID)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 } // END class ilAdministrationExplorer
 ?>

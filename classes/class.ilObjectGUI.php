@@ -250,8 +250,7 @@ class ilObjectGUI
 		// administration prepare output
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
-			$ilLocator->addAdministrationItems();
-			$this->addLocatorItems();
+			$this->addAdminLocatorItems();
 			$tpl->setLocator();
 
 			sendInfo();
@@ -321,20 +320,35 @@ class ilObjectGUI
 		{
 			return;
 		}
-		
-		if ($this->object->getRefId() != $tree->getRootId())
-		{
-			$par_id = $tree->getParentId($this->object->getRefId());
-			if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{		
+			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
+				$this->object->getRefId() != SYSTEM_FOLDER_ID)
 			{
+				$par_id = $tree->getParentId($this->object->getRefId());
 				$obj_type = ilObject::_lookupType($par_id,true);
 				$class_name = $objDefinition->getClassName($obj_type);
 				$class = strtolower("ilObj".$class_name."GUI");
 				$this->ctrl->setParameterByClass($class, "ref_id", $par_id);
 				$tpl->setUpperIcon($this->ctrl->getLinkTargetByClass($class, "view"));
 			}
-			else
+			// link repository admin to admin settings
+			else if ($this->object->getRefId() == ROOT_FOLDER_ID)
 			{
+				$this->ctrl->setParameterByClass("iladministrationgui", "ref_id", "");
+				$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+				$tpl->setUpperIcon($this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+					ilFrameTargetInfo::_getFrame("MainContent"));
+				$this->ctrl->clearParametersByClass("iladministrationgui");
+			}
+		}
+		else
+		{		
+			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
+				$this->object->getRefId() != SYSTEM_FOLDER_ID)
+			{
+				$par_id = $tree->getParentId($this->object->getRefId());
 				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
 			}
 		}
@@ -495,6 +509,15 @@ class ilObjectGUI
 	function getAdminTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
+
+		if ($_GET["admin_mode"] == "repository")
+		{
+			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+			$tabs_gui->setBackTarget($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
+		}
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -714,6 +737,41 @@ class ilObjectGUI
 	*/
 	function addLocatorItems()
 	{
+	}
+
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems()
+	{
+		global $ilLocator;
+
+		if ($_GET["admin_mode"] == "settings")	// system settings
+		{		
+			$ilLocator->addItem($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+
+			if ($this->object->getRefId() != SYSTEM_FOLDER_ID)
+			{
+				$ilLocator->addItem($this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, "view"));
+			}
+		}
+		else							// repository administration
+		{
+			$this->ctrl->setParameterByClass("iladministrationgui",
+				"ref_id", "");
+			$this->ctrl->setParameterByClass("iladministrationgui",
+				"admin_mode", "settings");
+			$ilLocator->addItem($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+			$this->ctrl->clearParametersByClass("iladministrationgui");
+			$ilLocator->addAdministrationItems();
+		}
+
 	}
 
 	/**
@@ -1897,6 +1955,12 @@ echo "8";
 			
 			// hide object types in devmode
 			if ($this->objDefinition->getDevMode($val["type"]))
+			{
+				continue;
+			}
+			
+			// don't show administration in root node list
+			if ($val["type"] == "adm")
 			{
 				continue;
 			}

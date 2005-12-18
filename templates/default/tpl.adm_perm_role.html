@@ -39,8 +39,10 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	<td class="std" align="left">{TXT_OBJ_TYPE} <span class="alert">{TXT_NOT_IMPL}</span></td>
 	<td class="std" align="right">
 <!-- BEGIN obj_action_toggle_checkboxes -->
-    [<a href="" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
-    [<a href="" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
+	<div class="il_ContainerItemCommands">
+		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
+		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
+	</div>
 <!-- END obj_action_toggle_checkboxes -->	
 	</td>
 	</tr></table>

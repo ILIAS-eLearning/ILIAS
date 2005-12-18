@@ -28,6 +28,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilObjRoleTemplateGUI:
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -57,9 +59,43 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	function ilObjRoleTemplateGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "rolt";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		$this->rolf_ref_id =& $this->ref_id;
+		$this->ctrl->saveParameter($this, "obj_id");
 	}
+	
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		if($this->ctrl->getTargetScript() == 'role.php')
+		{
+			$this->__prepareOutput();
+		}
+		else
+		{
+			$this->prepareOutput();
+		}
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "perm";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+					
+				break;
+		}
+
+		return true;
+	}
+
 	
 	/**
 	* create new role definition template
@@ -101,8 +137,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $this->rolf_ref_id."&new_type=".$this->type));
+			$this->ctrl->setParameter($this, "new_type", $this->type);
+			$this->tpl->setVariable("FORMACTION",
+				$this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -158,8 +195,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$rbacadmin->setProtected($this->rolf_ref_id,$roltObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		
 		sendInfo($this->lng->txt("rolt_added"),true);
-
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -244,7 +280,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				$checked = in_array($operation["ops_id"],$arr_checked);
 				$disabled = false;
 
-				// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+				// Es wird eine 2-dim Post Variable ï¿½bergeben: perm[rol_id][ops_id]
 				$box = ilUtil::formCheckBox($checked,"template_perm[".$obj_data["type"]."][]",$operation["ops_id"],$disabled);
 				$output["perm"][$obj_data["obj_id"]][$operation["ops_id"]] = $box;
 			}
@@ -288,11 +324,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				}
 			}
 	
-			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+			//$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+			$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
 			// END ADOPT_PERMISSIONS
 		}
 
-		$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+		//$output["formaction"] =
+		//	"adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+		$output["formaction"] =
+			$this->ctrl->getFormAction($this);
+			"adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 
 		$this->data = $output;
 
@@ -376,7 +417,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".gif"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
 		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.gif"));
 		$this->tpl->setVariable("TBL_HELP_LINK","tbl_help.php");
@@ -443,7 +484,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
-		ilUtil::redirect("adm_object.php?obj_id=".$this->object->getId()."&ref_id=".$this->rolf_ref_id."&cmd=perm");
+		//ilUtil::redirect("adm_object.php?obj_id=".$this->object->getId()."&ref_id=".$this->rolf_ref_id."&cmd=perm");
+		$this->ctrl->redirect($this, "perm");
 	}
 
 	/**
@@ -477,7 +519,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->obj_id."&cmd=perm");
+		//ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->obj_id."&cmd=perm");
+		$this->ctrl->redirect($this, "perm");
 	}
 
 	/**
@@ -528,7 +571,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
 		$this->tpl->parseCurrentBlock();
 		
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id.$obj_str));
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
+		//$this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -541,6 +586,44 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$this->tpl->setVariable("SHOW_TITLE",$this->object->getTitle());
 		}
 	}
+	
+	/**
+	* admin and normal tabs are equal for roles
+	*/
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}
+	
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem,$rbacreview;
+
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
+		{
+			$tabs_gui->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "edit"),
+				array("edit","update"), get_class($this));
+				
+			$tabs_gui->addTarget("default_perm_settings",
+				$this->ctrl->getLinkTarget($this, "perm"),
+				array("perm"), get_class($this));
+		}
+	}
+
+	
+	/**
+	* cancelObject is called when an operation is canceled, method links back
+	* @access	public
+	*/
+	function cancelObject()
+	{
+		sendInfo($this->lng->txt("action_aborted"),true);
+		
+		$this->ctrl->redirectByClass("ilobjrolefoldergui","view");
+	}
+
+
 
 	/**
 	* update role template object
@@ -588,7 +671,58 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
+		//ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
+		$this->ctrl->returnToParent($this);
 	}
+	
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems()
+	{
+		global $ilLocator;
+
+		if ($_GET["admin_mode"] == "settings")	// system settings
+		{		
+			$ilLocator->addItem($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+				
+			$ilLocator->addItem(ilObject::_lookupTitle(
+				ilObject::_lookupObjId($_GET["ref_id"])),
+				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+
+			$ilLocator->addItem($this->object->getTitle(),
+				$this->ctrl->getLinkTarget($this, "perm"));
+		}
+		else							// repository administration
+		{
+			//?
+		}
+
+	}
+	
+	function showUpperIcon()
+	{
+		global $tree, $tpl, $objDefinition;
+		
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+				$tpl->setUpperIcon(
+					$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+		}
+		else
+		{		
+			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
+				$this->object->getRefId() != SYSTEM_FOLDER_ID)
+			{
+				$par_id = $tree->getParentId($this->object->getRefId());
+				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
+			}
+		}
+	}
+
+
 } // END class.ilObjRoleTemplateGUI
 ?>

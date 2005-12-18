@@ -548,11 +548,14 @@ class ilRepositoryExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		$tpl->setCurrentBlock("icon");
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
+		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $lng->txt("repository"));
@@ -560,10 +563,9 @@ class ilRepositoryExplorer extends ilExplorer
 		$tpl->setVariable("TARGET", " target=\"rep_content\"");
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("element");
 		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
 	}
 
 } // END class ilRepositoryExplorer

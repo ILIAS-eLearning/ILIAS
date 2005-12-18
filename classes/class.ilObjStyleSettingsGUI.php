@@ -196,7 +196,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("content_styles"),"icon_styf.gif",
+		$tbl->setTitle($this->lng->txt("content_styles"),"icon_sty.gif",
 			$this->lng->txt("content_styles"));
 
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
@@ -253,7 +253,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
 			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
 			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
-			$this->ctrl->setParameter("ilobjstylesheetgui", "obj_id", $style["id"]); 
+			$this->ctrl->setParameterByClass("ilobjstylesheetgui", "obj_id", $style["id"]); 
 			$this->tpl->setVariable("LINK_STYLE",
 				$this->ctrl->getLinkTargetByClass("ilobjstylesheetgui"), "view");
 			$this->tpl->setVariable("ROWCOL", $css_row);
@@ -486,7 +486,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		foreach ($_POST["id"] as $id)
 		{
 			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("IMG_OBJ",ilUtil::getImagePath("icon_styf.gif"));
+			$this->tpl->setVariable("IMG_OBJ",ilUtil::getImagePath("icon_sty.gif"));
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->setVariable("TEXT_CONTENT",ilObject::_lookupTitle($id));
 			$this->tpl->parseCurrentBlock();

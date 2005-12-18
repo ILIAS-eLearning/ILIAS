@@ -382,8 +382,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
+		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction());
+			$this->ctrl->getFormAction($this));
 			//$this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id."&new_type=".$this->type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -458,6 +459,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		
 		$perm_def = $this->object->__getPermissionDefinitions();
+
 		$rbac_objects =& $perm_def[0];
 		$rbac_operations =& $perm_def[1];
 
@@ -684,7 +686,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".gif"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
 		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.gif"));
 		$this->tpl->setVariable("TBL_HELP_LINK","tbl_help.php");
@@ -1456,13 +1458,16 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
+		sendInfo($this->lng->txt("action_aborted"),true);
+		
 		if ($_GET["new_type"] != "role")
 		{
-			$return_location = "userassignment";
+			$this->ctrl->redirect($this, "userassignment");
 		}
-
-		sendInfo($this->lng->txt("action_aborted"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		else
+		{
+			$this->ctrl->redirectByClass("ilobjrolefoldergui","view");
+		}
 	}
 
 	function searchObject()
@@ -2021,6 +2026,56 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems()
+	{
+		global $ilLocator;
+
+		if ($_GET["admin_mode"] == "settings")	// system settings
+		{		
+			$ilLocator->addItem($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+				
+			$ilLocator->addItem(ilObject::_lookupTitle(
+				ilObject::_lookupObjId($_GET["ref_id"])),
+				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+
+			$ilLocator->addItem($this->object->getTitle(),
+				$this->ctrl->getLinkTarget($this, "edit"));
+		}
+		else							// repository administration
+		{
+			//?
+		}
+
+	}
+	
+	function showUpperIcon()
+	{
+		global $tree, $tpl, $objDefinition;
+		
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+				$tpl->setUpperIcon(
+					$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+		}
+		else
+		{		
+			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
+				$this->object->getRefId() != SYSTEM_FOLDER_ID)
+			{
+				$par_id = $tree->getParentId($this->object->getRefId());
+				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
+			}
+		}
+	}
+
+
 
 	function getTabs(&$tabs_gui)
 	{
