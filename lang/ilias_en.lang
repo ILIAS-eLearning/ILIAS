@@ -2545,6 +2545,8 @@ common#:#repeat_scan_succeded#:#Repeat scan succeded.
 common#:#replace_file#:#Replace File
 common#:#reply#:#Reply
 common#:#repository#:#Repository
+common#:#repository_admin#:#Repository Trash and Permissions
+common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash
 common#:#require_city#:#Require city
 common#:#require_country#:#Require country
 common#:#require_default_role#:#Require role
