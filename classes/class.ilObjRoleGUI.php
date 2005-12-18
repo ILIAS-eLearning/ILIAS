@@ -2044,9 +2044,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$ilLocator->addItem(ilObject::_lookupTitle(
 				ilObject::_lookupObjId($_GET["ref_id"])),
 				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
-
-			$ilLocator->addItem($this->object->getTitle(),
-				$this->ctrl->getLinkTarget($this, "edit"));
+			
+			if ($_GET["obj_id"] > 0)
+			{
+				$ilLocator->addItem($this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, "edit"));
+			}
 		}
 		else							// repository administration
 		{

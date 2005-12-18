@@ -64,7 +64,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd("edit");
+
 		$this->prepareOutput();
 		switch($next_class)
 		{
@@ -89,7 +90,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $lng, $tpl;
 
-		$this->setTabs();
+		//$this->setTabs();
 
 		$this->lng =& $lng;
 		//$this->ctrl->setParameter($this,'new_type',$this->type);
@@ -113,7 +114,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $lng;
 
-		$this->setTabs();
+		//$this->setTabs();
 
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -239,7 +240,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
  	*/
 	function deleteObject($a_error = false)
 	{
-		$this->setTabs();
+		//$this->setTabs();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
 
@@ -366,14 +367,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		$this->object->update();
 		
-		// to do: introduce ilCtrl in administration properly
 		if ($_GET["ref_id"] > 0)
 		{
 
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
-				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
+				$this->ctrl->redirectByClass("ilobjstylesettingsgui",
+					"editContentStyles");
+				//ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
 			}
 		}
 
@@ -389,6 +391,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 		sendInfo($lng->txt("msg_cancel"), true);
 		$this->ctrl->returnToParent($this);
+	}
+	
+	/**
+	* admin and normal tabs are equal for roles
+	*/
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
 	}
 
 	/**
@@ -457,6 +467,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 
 	}
+	
+	function showUpperIcon()
+	{
+		global $tree, $tpl, $objDefinition;
+		
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+				$tpl->setUpperIcon(
+					$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui",
+						"editContentStyles"));
+		}
+		else
+		{
+			// ?
+		}
+	}
+
 
 } // END class.ObjStyleSheetGUI
 ?>

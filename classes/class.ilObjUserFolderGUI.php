@@ -222,7 +222,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$tbl->setHeaderNames($header_names);
 
-		$header_params = array("ref_id" => $this->ref_id);
+		//$header_params = array("ref_id" => $this->ref_id);
+		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("","25%","25$%","25%","25%"));
 		
@@ -727,7 +728,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("search_result"),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->lng->txt("search_result"),"icon_".$this->object->getType().".gif",$this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		
 		foreach ($this->data["cols"] as $val)
@@ -737,12 +738,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$tbl->setHeaderNames($header_names);
 
-		$header_params = array(
-							"ref_id"		=> $this->ref_id,
-							"cmd"			=> "searchUser",
-							"search_string" => urlencode($_POST["search_string"]),
-							"search_fields" => urlencode(implode(",",$_POST["search_fields"]))
-					  		);
+		$header_params = $this->ctrl->getParameterArray($this, "searchUser");
+		$header_params["search_string"] = urlencode($_POST["search_string"]);
+		$header_params["search_fields"] = urlencode(implode(",",$_POST["search_fields"]));
 
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("","25%","25$%","25%","25%"));
@@ -1521,13 +1519,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("time_limits")));
+		$header_params = $this->ctrl->getParameterArray($this, "appliedUsers");
 		$tbl->setHeaderVars(array("",
 								  "login",
 								  "firstname",
 								  "lastname",
 								  "time_limit"),
-							array("ref_id" => $this->object->getRefId(),
-								  "cmd" => "appliedUsers"));
+							array($header_params));
 		$tbl->setColumnWidth(array("3%","19%","19%","19%","40%"));
 
 
