@@ -9419,3 +9419,8 @@ while($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
 ?>
 <#613>
 ALTER TABLE scorm_tracking CHANGE ref_id obj_id INT;
+<#614>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
