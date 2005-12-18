@@ -532,6 +532,9 @@ assessment#:#tst_qst_setsolved#:#Set solved
 assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
+assessment#:#tst_question_selection#:#Question selection
+assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
+assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points
 assessment#:#tst_question_solved_state#:#Solved
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type

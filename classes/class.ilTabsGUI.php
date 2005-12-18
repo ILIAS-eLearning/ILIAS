@@ -236,7 +236,6 @@ class ilTabsGUI
 			$tpl = new ilTemplate("tpl.tabs.html", true, true);
 			$pre = $pre2 = "";
 		}
-		
 		// back 2 tab
 		if ($this->back_2_title != "")
 		{

@@ -170,8 +170,8 @@ assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Abstand von %s
 assessment#:#cloze_textgap_rating#:#Textlücken-Bewertung
 assessment#:#code#:#Code
 assessment#:#concatenation#:#Verknüpfung
-assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?
-assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten des ausgewählten Users löschen wollen?
+assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie die Testdaten aller Nutzerinnen des Tests löschen wollen?
+assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten NutzerInnen löschen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
@@ -182,7 +182,7 @@ assessment#:#create_imagemap#:#Neue Imagemap erzeugen
 assessment#:#create_new#:#Erzeuge neue(n)
 assessment#:#definition#:#Definition
 assessment#:#delete_area#:#Region löschen
-assessment#:#delete_user_data#:#Testdaten des ausgewählten Users löschen
+assessment#:#delete_user_data#:#Testdaten der ausgewählten NutzerInnen löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
@@ -294,9 +294,9 @@ assessment#:#log_no_test_fields_changed#:#Ohne Änderungen gespeichert
 assessment#:#log_question_added#:#Frage hinzugefügt an Position
 assessment#:#log_question_position_changed#:#Fragenposition geändert
 assessment#:#log_question_removed#:#Frage entfernt
-assessment#:#log_selected_user_data_removed#:#Testdaten des Nutzers entfernen
+assessment#:#log_selected_user_data_removed#:#Testdaten des Nutzers/der Nutzerin entfernen
 assessment#:#log_user_answered_question#:#Ein/e Nutzer/in beantwortet eine Frage und erhielt %s Punkte
-assessment#:#log_user_data_removed#:#Alle Nutzereingaben wurden entfernt
+assessment#:#log_user_data_removed#:#Die Testdaten aller Nutzerinnen wurden entfernt
 assessment#:#maintenance#:#Wartung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
@@ -441,7 +441,7 @@ assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Max
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!
 assessment#:#true#:#Wahr
-assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
+assessment#:#tst_all_user_data_deleted#:#Die Testdaten aller Nutzerinnen wurden gelöscht!
 assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
@@ -466,7 +466,7 @@ assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der d
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
-assessment#:#tst_eval_user_answer#:#User-Antwort
+assessment#:#tst_eval_user_answer#:#Antwort
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
@@ -483,7 +483,7 @@ assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Fra
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_introduction#:#Einführung
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..  ###06 Nov 2005 new variable
+assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Nutzerinnen vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_create_simple_mark_schema#:#Einfaches Notenschema erzeugen
@@ -522,6 +522,9 @@ assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
 assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
 assessment#:#tst_qst_setsolved#:#markiere als gelöst
 assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
+assessment#:#tst_question_selection#:#Fragenauswahl
+assessment#:#tst_question_selection_description#:#Wenn Sie nur Fragenpools verwenden, deren Fragen die gleiche maximale Punktezahl aufweisen, hat dieser Test die gleiche maximale Punktezahl für alle Teilnehmerinnen, was die Testergebnisse besser miteinander vergleichbar macht. Diese Vorgehensweise wird empfohlen.
+assessment#:#tst_question_selection_equal#:#Nur Fragenpools mit Fragen gleicher maximaler Punktezahl verwenden
 assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
 assessment#:#tst_question_solved_state#:#Gelöst
@@ -560,7 +563,7 @@ assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, i
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren
 assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
-assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully###06 Nov 2005 new variable
+assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen ist fest
 assessment#:#tst_sequence_postpone#:#Die Lernenden können einzelne Fragen zurückstellen

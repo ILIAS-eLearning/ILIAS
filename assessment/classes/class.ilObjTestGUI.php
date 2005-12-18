@@ -1881,8 +1881,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function randomQuestionsObject()
 	{
+		global $ilUser;
+		$selection_mode = $ilUser->getPref("tst_question_selection_mode_equal");
 		$total = $this->object->evalTotalPersons();
-		$available_qpl =& $this->object->getAvailableQuestionpools(true, true);
+		$available_qpl =& $this->object->getAvailableQuestionpools(true, $selection_mode);
 		include_once "./assessment/classes/class.ilObjQuestionPool.php";
 		foreach ($available_qpl as $key => $value)
 		{
@@ -1938,7 +1940,8 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 		}
-		foreach ($_POST["cmd"] as $key => $value)
+		$commands = $_POST["cmd"];
+		foreach ($commands as $key => $value)
 		{
 			if (preg_match("/deleteqpl_(\d+)/", $key, $matches))
 			{
@@ -2043,7 +2046,33 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
 		}
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable("TEXT_QUESTION_SELECTION", $this->lng->txt("tst_question_selection"));
+		$this->tpl->setVariable("VALUE_QUESTION_SELECTION", $this->lng->txt("tst_question_selection_equal"));
+		$this->tpl->setVariable("CMD_QUESTION_SELECTION", "setEqualQplSelection");
+		$this->tpl->setVariable("TEXT_QUESTION_SELECTION_DESCRIPTION", $this->lng->txt("tst_question_selection_description"));
+		$this->tpl->setVariable("BUTTON_SAVE", $this->lng->txt("change"));
+		if ($selection_mode == 1)
+		{
+			$this->tpl->setVariable("CHECKED_QUESTION_SELECTION_MODE", " checked=\"checked\"");
+		}
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	function saveQuestionSelectionModeObject()
+	{
+		global $ilUser;
+		if ($_POST["chbQuestionSelectionMode"])
+		{
+			$ilUser->setPref("tst_question_selection_mode_equal", 1);
+			$ilUser->writePref("tst_question_selection_mode_equal", 1);
+		}
+		else
+		{
+			$ilUser->setPref("tst_question_selection_mode_equal", 0);
+			$ilUser->writePref("tst_question_selection_mode_equal", 0);
+		}
+		$this->randomQuestionsObject();
 	}
 
 	function browseForQuestionsObject()
@@ -4308,7 +4337,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$tabs_gui->addTarget("info",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
-					 array("infoScreen", "outIntroductionPage"));
+					 array("infoScreen", "outIntroductionPage", "showSummary"));
 			}
 			
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
@@ -4333,7 +4362,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 "insertRandomSelection", "removeQuestions", "moveQuestions",
 					 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
 					 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-					 "addQuestionpool", "saveRandomQuestions"), 
+					 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"), 
 					 "", "", $force_active);
 					 
 				// mark schema

@@ -1530,7 +1530,15 @@ class ilObjTest extends ilObject
 		{
 			if (is_null($pass))
 			{
-				$pass = $this->_getPass($ilUser->id, $this->getTestId());
+				if ($this->getTestType() == TYPE_VARYING_RANDOMTEST)
+				{
+					$pass = $this->_getPass($ilUser->id, $this->getTestId());
+				}
+				else
+				{
+					// normal random questions are created only once, for pass 0
+					$pass = 0;
+				}
 			}
 			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
 				$db->quote($this->test_id . ""),
@@ -3209,15 +3217,6 @@ class ilObjTest extends ilObject
 		$total_max_points = 0;
 		$total_reached_points = 0;
 		
-		// retrieve the active test dataset for the user containing
-		// questions sequence and other information 
-		//$active = $this->getActiveTestUser($user_id);
-		//$sequence_array = array();
-		//if (strlen($active->sequence))
-		//{
-		//	$sequence_array = split(",", $active->sequence);
-		//	sort($sequence_array, SORT_NUMERIC);
-		//}
 		$key = 1;
 		$result_array = array();
 		include_once "./assessment/classes/class.assQuestion.php";
