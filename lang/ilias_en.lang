@@ -5503,3 +5503,8 @@ common#:#lm_edit_learning_progress#:#Edit learning progress
 common#:#append_search#:#Append search results
 common#:#search_to_short#:#Your query is to short.
 common#:#search_minimum_characters#:#The minimum word length is:
+common#:#chown_warning#:#Attention, you may loose access permissions on this object after changing the owner.
+common#:#info_owner_of_object#:#Owner of object
+common#:#user_not_known#:#Please insert a valid username.
+common#:#change_owner#:#Change owner
+common#:#owner_updated#:#Owner updated.

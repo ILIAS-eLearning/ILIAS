@@ -47,7 +47,7 @@ class ilCourseObjectivesGUI
 	{
 		include_once './course/classes/class.ilCourseObjective.php';
 
-		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree;
+		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilTabs;
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id"));
@@ -56,6 +56,7 @@ class ilCourseObjectivesGUI
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
+		$this->tabs_gui =& $ilTabs;
 
 		$this->course_id = $a_course_id;
 		$this->__initCourseObject();
@@ -66,7 +67,12 @@ class ilCourseObjectivesGUI
 	 */
 	function &executeCommand()
 	{
+		global $ilTabs;
+
+		$ilTabs->setTabActive('crs_objectives');
+		
 		$cmd = $this->ctrl->getCmd();
+
 
 		if (!$cmd = $this->ctrl->getCmd())
 		{
@@ -74,7 +80,6 @@ class ilCourseObjectivesGUI
 		}
 		
 		$this->setSubTabs();
-		
 		$this->$cmd();
 	}
 
@@ -110,7 +115,7 @@ class ilCourseObjectivesGUI
 		if(!count($lms = $this->objectives_lm_obj->getLMs()))
 		{
 			sendInfo($this->lng->txt('crs_no_lms_assigned'));
-			$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
+			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 			$this->__showButton('assignLMSelect',$this->lng->txt('crs_objective_assign_lm'));
 
 			return true;
@@ -119,7 +124,7 @@ class ilCourseObjectivesGUI
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_lm_list_row.html","course");
 
-		$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
+		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 
 		$counter = 0;
 		foreach($lms as $item)
@@ -711,10 +716,10 @@ class ilCourseObjectivesGUI
 			
 			return true;
 		}
-		else
-		{
-			$this->__showButton('editQuestionAssignment',$this->lng->txt('crs_objective_overview_question_assignment'));
-		}
+		#else
+		#{
+		#	$this->__showButton('editQuestionAssignment',$this->lng->txt('crs_objective_overview_question_assignment'));
+		#}
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_row.html","course");
@@ -1168,7 +1173,7 @@ class ilCourseObjectivesGUI
 
 		if(!count($this->__getAllTests()))
 		{
-			$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
+			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 			sendInfo($this->lng->txt('crs_no_tests_inside_crs'));
 			
 			return true;
@@ -1178,7 +1183,7 @@ class ilCourseObjectivesGUI
 		if(!count($questions = $this->objectives_qst_obj->getQuestions()))
 		{
 			sendInfo($this->lng->txt('crs_no_questions_assigned'));
-			$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
+			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 			$this->__showButton('assignTestSelect',$this->lng->txt('crs_objective_assign_question'));
 
 			return true;
@@ -1187,7 +1192,7 @@ class ilCourseObjectivesGUI
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_list_qst_row.html","course");
 
-		$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
+		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 
 		$counter = 0;
 		foreach($this->__sortQuestions($questions) as $question)
@@ -1750,6 +1755,8 @@ class ilCourseObjectivesGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setSubTabActive('crs_objective_overview_question_assignment');
+
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
 		{
@@ -1758,7 +1765,7 @@ class ilCourseObjectivesGUI
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_objectives_edit_question_assignments.html','course');
 
-		$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
+		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CSS_TABLE",'fullwidth');
@@ -1846,6 +1853,9 @@ class ilCourseObjectivesGUI
 	function updateQuestionAssignment()
 	{
 		global $rbacsystem;
+
+		$this->tabs_gui->setSubTabActive('crs_objective_overview_question_assignment');
+
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
@@ -2009,11 +2019,17 @@ class ilCourseObjectivesGUI
 
 		$ilTabs->addSubTabTarget("crs_objective_overview_objectives",
 								 $this->ctrl->getLinkTarget($this, "listObjectives"),
-								 array("listObjectives", "moveObjectiveUp", "moveObjectiveDown", "listAssignedLM"));
+								 array("listObjectives", "moveObjectiveUp", "moveObjectiveDown", "listAssignedLM"),
+								 array(),
+								 '',
+								 true);
 			
 		$ilTabs->addSubTabTarget("crs_objective_overview_question_assignment",
 								 $this->ctrl->getLinkTarget($this, "editQuestionAssignment"),
-								 "editQuestionAssignment");
+								 "editQuestionAssignment",
+								 array(),
+								 '',
+								 false);
 
 	}
 }

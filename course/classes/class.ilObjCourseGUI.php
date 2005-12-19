@@ -1178,6 +1178,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setTabActive('crs_archives');
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
@@ -1258,6 +1259,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setTabActive('crs_archives');
 
 		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
 
@@ -1399,6 +1401,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function performDeleteArchivesObject()
 	{
+
+		$this->tabs_gui->setTabActive('crs_archives');
+
 		if(!$_SESSION["crs_archives"])
 		{
 			sendInfo($this->lng->txt("crs_no_archives_selected"));
@@ -1418,7 +1423,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	function selectArchiveLanguageObject()
 	{
+
 		global $rbacsystem;
+
+		$this->tabs_gui->setTabActive('crs_archives');
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -1453,6 +1461,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setTabActive('crs_archives');
+
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -1470,6 +1480,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function addHTMLArchiveObject()
 	{
 		global $rbacsystem;
+
+		$this->tabs_gui->setTabActive('crs_archives');
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -1496,6 +1508,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './classes/class.ilConditionHandler.php';
 
 		global $rbacsystem;
+
+		$this->tabs_gui->setTabActive('members');
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -1674,6 +1688,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function editMemberObject()
 	{
 		global $rbacsystem;
+
+		$this->tabs_gui->setTabActive('members');
 
 		$this->object->initCourseMemberObject();
 
@@ -2081,6 +2097,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setTabActive('members');
+
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -2127,6 +2145,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function removeFromWaitingList()
 	{
 		global $rbacsystem;
+
+		$this->tabs_gui->setTabActive('members');
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -2213,6 +2233,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function deleteMembers()
 	{
 		global $rbacsystem;
+
+		$this->tabs_gui->setTabActive('members');
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -2371,6 +2393,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setTabActive('members');
+
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -2442,6 +2466,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function searchObject()
 	{
 		global $rbacsystem,$tree;
+
+		$this->tabs_gui->setTabActive('members');
 
 		#$this->__unsetSessionVariables();
 		
@@ -2569,6 +2595,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem,$tree;
 
+		$this->tabs_gui->setTabActive('members');
+
 		$_SESSION["crs_group"] = $_POST["group"] = $_POST["group"] ? $_POST["group"] : $_SESSION["crs_group"];
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
@@ -2635,6 +2663,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function listUsersRoleObject()
 	{
 		global $rbacsystem,$rbacreview,$tree;
+
+		$this->tabs_gui->setTabActive('members');
 
 		$_SESSION["crs_role"] = $_POST["role"] = $_POST["role"] ? $_POST["role"] : $_SESSION["crs_role"];
 
@@ -4037,6 +4067,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacreview;
 
+		$this->tabs_gui->setTabActive('members');
+
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','course');
 
 		$this->setSubTabs('members');
@@ -4215,6 +4247,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function cciObjectivesObject()
 	{
+		$this->tabs_gui->setTabActive('learners_view');
+		
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_objectives();
@@ -4223,6 +4257,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	function cciObjectivesEditObject()
 	{
+		$this->tabs_gui->setTabActive('edit_content');
+
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_view();
@@ -4231,6 +4267,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	function cciObjectivesAskResetObject()
 	{
+		$this->tabs_gui->setTabActive('learners_view');
+
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_objectives_ask_reset();
@@ -4239,6 +4277,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	function cciResetObject()
 	{
+		$this->tabs_gui->setTabActive('learners_view');
+
 		global $ilUser;
 
 		include_once './course/classes/class.ilCourseObjectiveResult.php';

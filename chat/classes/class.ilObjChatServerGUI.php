@@ -44,8 +44,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 	*/
 	function ilObjChatServerGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
 	{
-		define("ILIAS_MODULE","chat");
 
+		#define("ILIAS_MODULE","chat");
 		$this->type = "chac";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 
@@ -57,7 +57,6 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
@@ -87,7 +86,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chac_edit.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chac_edit.html",'chat');
 
         $internal_ip = $_SESSION["error_post_vars"]["chat_internal_ip"] ? 
             $_SESSION["error_post_vars"]["chat_internal_ip"] :
@@ -223,6 +222,46 @@ class ilObjChatServerGUI extends ilObjectGUI
 
 		return ilUtil::formSelect($a_status,"chat_active",$stati,false,true);
 	}
+
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getAdminTabs(&$tabs_gui)
+	{
+		global $rbacsystem,$rbacreview;
+
+		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
+
+		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
+		{
+			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "view")
+				? true
+				: false;
+			$tabs_gui->addTarget("chat_rooms",
+				$this->ctrl->getLinkTarget($this, "view"), array("view", ""), get_class($this),
+				"", $force_active);
+		}
+		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$force_active = ($_GET["cmd"] == "edit")
+				? true
+				: false;
+			$tabs_gui->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
+				"", $force_active);
+		}
+		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
+	}
+
+
+	
+
 
 } // END class.ilObjChatServerGUI
 

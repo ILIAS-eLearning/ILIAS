@@ -397,9 +397,9 @@ class ilObjCourseGroupingGUI
 
 	function &executeCommand()
 	{
-		global $ilMainTabs;
+		global $ilTabs;
 
-		$ilMainTabs->activate('crs_groupings');
+		$ilTabs->setTabActive('crs_groupings');
 
 		$cmd = $this->ctrl->getCmd();
 		if (!$cmd = $this->ctrl->getCmd())

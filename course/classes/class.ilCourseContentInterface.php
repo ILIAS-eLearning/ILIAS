@@ -48,13 +48,14 @@ class ilCourseContentInterface
 
 	function ilCourseContentInterface(&$client_class,$a_ref_id)
 	{
-		global $lng,$tpl,$ilCtrl,$tree,$ilUser;
+		global $lng,$tpl,$ilCtrl,$tree,$ilUser,$ilTabs;
 
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->tree =& $tree;
 		$this->ilUser =& $ilUser;
+		$this->tabs_gui =& $ilTabs;
 
 		$this->cci_ref_id = $a_ref_id;
 		$this->cci_read();
@@ -142,7 +143,7 @@ class ilCourseContentInterface
 	function cci_view()
 	{
 		global $objDefinition;
-		
+
 		include_once "./classes/class.ilRepositoryExplorer.php";
 		include_once "./payment/classes/class.ilPaymentObject.php";
 		include_once './course/classes/class.ilCourseStart.php';

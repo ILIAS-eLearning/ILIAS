@@ -128,7 +128,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_crs'));
 		}
 		elseif($this->getMode() == LP_MODE_PERSONAL_DESKTOP or
-		   $this->getMode() == LP_MODE_ADMINISTRATION)
+			   $this->getMode() == LP_MODE_ADMINISTRATION)
 		{
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
 		}

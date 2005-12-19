@@ -72,6 +72,13 @@ class ilLearningProgressBaseGUI
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
 		$this->usr_id = $a_usr_id;
+
+		$this->anonymized = (bool) !ilObjUserTracking::_enabledUserRelatedData();
+	}
+
+	function isAnonymized()
+	{
+		return $this->anonymized;
 	}
 	
 	function getMode()
@@ -138,9 +145,12 @@ class ilLearningProgressBaseGUI
 					$this->tabs_gui->addSubTabTarget('trac_progress',
 											   $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 											   "","","",$a_active == LP_ACTIVE_PROGRESS);
-					$this->tabs_gui->addSubTabTarget('trac_objects',
-													 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-											   "","","",$a_active == LP_ACTIVE_OBJECTS);
+					if(!$this->isAnonymized())
+					{
+						$this->tabs_gui->addSubTabTarget('trac_objects',
+														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+														 "","","",$a_active == LP_ACTIVE_OBJECTS);
+					}
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
 													 "","","",$a_active == LP_ACTIVE_SETTINGS);
