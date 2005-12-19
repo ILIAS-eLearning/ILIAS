@@ -605,8 +605,8 @@ class ilExplorer
 		
 		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
 		
-		$tpl_tree->touchBlock("start_list_no_indent");
-		$tpl_tree->touchBlock("element");
+		//$tpl_tree->touchBlock("start_list_no_indent");
+		//$tpl_tree->touchBlock("element");
 		$cur_depth = 0;
 		foreach ($this->format_options as $key => $options)
 		{
@@ -641,8 +641,8 @@ class ilExplorer
 				$this->formatHeader($tpl_tree, $options["child"],$options);
 			}
 		}
-		$tpl_tree->touchBlock("end_list");
-		$tpl_tree->touchBlock("element");
+		//$tpl_tree->touchBlock("end_list");
+		//$tpl_tree->touchBlock("element");
 		$ilBench->stop("Explorer", "getOutput");
 		
 		return $tpl_tree->get();
