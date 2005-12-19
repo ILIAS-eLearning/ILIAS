@@ -398,7 +398,7 @@
 	<property name="learningProgress">learning_progress</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="assf" class_name="AssessmentFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
+<object name="assf" class_name="AssessmentFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="settings">settings</property>
 	<property name="logs">logs</property>
 	<property name="perm">perm_settings</property>
