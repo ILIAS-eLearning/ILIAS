@@ -392,13 +392,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$obj_tpl->parseCurrentBlock();
 			}
 
-			// detail link
-			$obj_tpl->setCurrentBlock("item_command");
-			$this->ctrl->setParameter($this,'details_id',$obj_id);
-			$obj_tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
-			$obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
-			$obj_tpl->parseCurrentBlock();
-
+			// detail link on if not anonymized
+			if(!$this->isAnonymized())
+			{
+				$obj_tpl->setCurrentBlock("item_command");
+				$this->ctrl->setParameter($this,'details_id',$obj_id);
+				$obj_tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
+				$obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
+				$obj_tpl->parseCurrentBlock();
+			}
 			// hide link
 			$obj_tpl->setCurrentBlock("item_command");
 			$this->ctrl->setParameterByClass('illpfiltergui','hide',$obj_id);

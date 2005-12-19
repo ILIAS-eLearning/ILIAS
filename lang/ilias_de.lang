@@ -5467,3 +5467,8 @@ common#:#lm_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#append_search#:#Suchergebnisse anhängen
 common#:#search_to_short#:#Der eingebene Suchbegriff ist zu kurz.
 common#:#search_minimum_characters#:#Die minimale Wortlänge beträgt:
+common#:#chown_warning#:#Achtung, daß Ändern des Besitzers eines Objektes, kann dazu führen, daß Sie alle Zugriffsrechte an dem Objekt verlieren.
+common#:#info_owner_of_object#:#Besitzer des Objektes
+common#:#user_not_known#:#Bitte geben Sie einen gültigen Benutzernamen ein.
+common#:#change_owner#:#Besitzer ändern
+common#:#owner_updated#:#Die Daten wurden aktualisiert.
