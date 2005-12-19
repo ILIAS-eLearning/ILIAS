@@ -72,11 +72,14 @@ class ilLMExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
-
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		
+		$tpl->setCurrentBlock("icon");
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_lm.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_".$this->lm_obj->getType()));
+		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", ilUtil::shortenText($this->lm_obj->getTitle(), $this->textwidth, true));
@@ -84,10 +87,7 @@ class ilLMExplorer extends ilExplorer
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 		$tpl->parseCurrentBlock();
 		
-		//$tpl->setCurrentBlock("row");
-		//$tpl->parseCurrentBlock();
-
-		$this->output[] = $tpl->get();
+		$tpl->touchBlock("element");
 	}
 
 	/**

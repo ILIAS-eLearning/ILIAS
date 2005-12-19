@@ -211,7 +211,7 @@ class ilTemplate extends ilTemplateX
 	function addILIASFooter()
 	{
 		global $ilias;
-
+		
 		$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
 		$this->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
 		if (DEVMODE)

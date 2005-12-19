@@ -712,6 +712,7 @@ class ilInternalLinkGUI
 
 		}
 
+		
 		$tpl->show();
 		exit;
 	}

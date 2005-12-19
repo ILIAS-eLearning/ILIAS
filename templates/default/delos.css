@@ -883,6 +883,11 @@ a.il_HighlightedNode
 	border-color: #909090;
 }
 
+div.il_ExplorerItemDescription
+{
+	margin-left: 44px;
+}
+
 /* Table Links */
 
 a.tblheader, a.tblheader:visited
