@@ -1018,7 +1018,7 @@ class ilTree
 		$q = 'SELECT t.depth,t.parent '.
 			'FROM '.$this->table_tree.' AS t '.
 			'WHERE child='.$a_endnode_id.' '.
-			'AND tree=1 '.
+			'AND '.$this->tree_pk.' = '.$this->tree_id.' '.
 			'LIMIT 1';
 			//$this->writelog('getIdsUsingAdjacencyMap q='.$q);
 		$r = $this->ilDB->query($q);
@@ -1069,11 +1069,14 @@ class ilTree
 			for ($i = 1; $i < $nodeDepth - 2; $i++)
 			{
 				$qSelect .= ', t'.$i.'.parent as c'.$i;
-				$qJoin .= ' JOIN tree AS t'.$i.' ON t'.$i.'.child=t'.($i - 1).'.parent AND t'.$i.'.tree = 1';
+				$qJoin .= ' JOIN '.$this->table_tree.' AS t'.$i.' ON '.
+							't'.$i.'.child=t'.($i - 1).'.parent AND '.
+							't'.$i.'.'.$this->tree_pk.' = '.$this->tree_id;
 			}
 			$q = 'SELECT '.$qSelect.' '.
-				'FROM tree AS t0 '.$qJoin.' '.
-				'WHERE t0.tree = 1 AND t0.child='.$parentId.' '.
+				'FROM '.$this->table_tree.' AS t0 '.$qJoin.' '.
+				'WHERE t0.'.$this->tree_pk.' = '.$this->tree_id.' '.
+				'AND t0.child='.$parentId.' '.
 				'LIMIT 1';
 			$r = $this->ilDB->query($q);
 			if ($r->numRows() == 0)
