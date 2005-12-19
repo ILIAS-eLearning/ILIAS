@@ -918,7 +918,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$this->options = $_SESSION['search_adv'];
 		}
 		
-		$_POST['result'] = $_POST['rep_item_id'];
+		$_POST['result'] = $_POST['id'];
 
 		$this->filter = array();
 

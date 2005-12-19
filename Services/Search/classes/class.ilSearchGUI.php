@@ -161,7 +161,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 			return false;
 		}
-		if(!count($_POST['rep_item_id']))
+		if(!count($_POST['id']))
 		{
 			sendInfo($this->lng->txt('search_select_one_result'));
 			$this->showSavedResults();
@@ -171,7 +171,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		$folder_obj =& new ilSearchFolder($ilUser->getId(),(int) $_POST['folder']);
 
-		foreach($_POST['rep_item_id'] as $ref_id)
+		foreach($_POST['id'] as $ref_id)
 		{
 			$title = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
 			$target = addslashes(serialize(array('type' => ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
