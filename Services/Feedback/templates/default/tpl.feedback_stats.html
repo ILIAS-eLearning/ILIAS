@@ -1,0 +1,20 @@
+<table>
+	<tr>
+		<td valign="top"><form action="{FORMACTION}" method="post">
+		<table>
+			<tr>
+				<td>{TXT_CHART_TYPE}</td>
+				<td>{SELECTBOX_CHART_TYPE}</td>
+			</tr>
+			<tr>
+				<td>{TXT_USER}</td>
+				<td>{SELECTBOX_USER}<input type="hidden" name="cmd[stats]"></form></td>
+			</tr>
+		</table></td>
+		<td>{CHART_LINES} {CHART_PIE} <table width="600"><!-- BEGIN tablerow --><tr><td>{VALUE_VOTETIME}</td><td>{VALUE_USER}</td><td>{VALUE_VOTE}</td><!-- END tablerow --></table></td>
+	</tr>
+</table>
+
+<!-- BEGIN comment -->
+	<div><strong>{VALUE_LOGIN}</strong><br>{VALUE_NOTE}</div>
+<!-- END comment -->

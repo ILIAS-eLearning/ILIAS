@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file English
@@ -5508,3 +5508,52 @@ common#:#info_owner_of_object#:#Owner of object
 common#:#user_not_known#:#Please insert a valid username.
 common#:#change_owner#:#Change owner
 common#:#owner_updated#:#Owner updated.
+barometer#:#barometer_title#:#Feedback
+barometer#:#title#:#Title
+barometer#:#text#:#Text
+barometer#:#anonymous#:#Anonymous
+barometer#:#type#:#Type
+barometer#:#optional#:#Optional
+barometer#:#required#:#Required
+barometer#:#login#:#Login
+barometer#:#change_course#:#Change Course
+barometer#:#text_answer#:#Text answer
+barometer#:#votes#:#Votes
+barometer#:#new_vote#:#New vote
+barometer#:#day#:#Day
+barometer#:#month#:#Month
+barometer#:#year#:#Year
+barometer#:#duration#:#Duration
+barometer#:#from#:#from
+barometer#:#until#:#until
+barometer#:#days#:#Days
+barometer#:#repeat#:#Repeat
+barometer#:#every#:#every
+barometer#:#hours#:#Hours
+barometer#:#weeks#:#Weeks
+barometer#:#months#:#Months
+barometer#:#first_vote#:#1. Vote is the
+barometer#:#worst#:#Worst
+barometer#:#best#:#Best
+barometer#:#vote#:#Vote
+barometer#:#status#:#Status
+barometer#:#time#:#Running
+barometer#:#options#:#Options
+barometer#:#delete#:#Delete
+barometer#:#add#:#Add new Feedback
+barometer#:#edit#:#Edit
+barometer#:#statistics#:#Statistics
+barometer#:#create#:#Create new feedback
+barometer#:#save#:#Save
+barometer#:#chart_type#:#Chart type
+barometer#:#lines#:#Lines
+barometer#:#pie#:#Pie
+barometer#:#table#:#Table
+barometer#:#user#:#User
+barometer#:#chart_users#:#Chart user
+barometer#:#chart_votes#:#Chart votes
+barometer#:#edit_barometer#:#Edit feedback
+barometer#:#save_vote#:#Submit vote
+barometer#:#note#:#Comment
+barometer#:#skip#:#Skip
+barometer#:#missing_fields#:#Please fill in all required information
