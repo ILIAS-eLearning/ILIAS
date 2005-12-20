@@ -72,6 +72,7 @@ class ilInfoScreenGUI
 	function &executeCommand()
 	{
 		global $rbacsystem;
+		global $tpl; 
 
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -86,11 +87,12 @@ class ilInfoScreenGUI
 				break;
 
 			case "ilfeedbackgui":
-				/*
-				include_once("Services/.../classes/class.ilFeedbackGUI.php");
+				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
 				$fb_gui = new ilFeedbackGUI();
-				$this->ctrl->forwardCommand($fb_gui);
-				*/
+				$this->ctrl->setParameterByClass("ilFeedbackGUI","obj_id",$this->gui_object->object->getId());
+				$this->ctrl->setParameterByClass("ilFeedbackGUI","ref_id",$_GET['ref_id']);
+				$html = $this->ctrl->forwardCommand($fb_gui);
+				$tpl->setContent($html);
 				break;
 				
 			default:
@@ -474,18 +476,18 @@ class ilInfoScreenGUI
 		if ($this->feedback_enabled)
 		{
 			// dummy
-			$tabs_gui->addSubTabTarget("feedback",
+			/*$tabs_gui->addSubTabTarget("feedback",
 				$this->ctrl->getLinkTarget($this, "dummy"),
 				"", "ilfeedbackgui");
-
+*/
 			// this should work with feedback class available
 			// maybe a line... "@ilCtrl_Calls ilFeedbackGUI:"
 			// in the header of feedbackgui is necessary
-			/*
+			
 			$tabs_gui->addSubTabTarget("feedback",
 				$this->ctrl->getLinkTargetByClass('ilfeedbackgui','fbList'),
 				"", "ilfeedbackgui");
-			*/
+			
 		}
 	}
 

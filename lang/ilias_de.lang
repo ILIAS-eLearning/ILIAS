@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -5472,3 +5472,52 @@ common#:#info_owner_of_object#:#Besitzer des Objektes
 common#:#user_not_known#:#Bitte geben Sie einen gültigen Benutzernamen ein.
 common#:#change_owner#:#Besitzer ändern
 common#:#owner_updated#:#Die Daten wurden aktualisiert.
+barometer#:#barometer_title#:#Stimmungsbarometer
+barometer#:#title#:#Titel
+barometer#:#text#:#Text
+barometer#:#anonymous#:#Anonym
+barometer#:#type#:#Typ
+barometer#:#optional#:#Optional
+barometer#:#required#:#Plicht
+barometer#:#login#:#Login
+barometer#:#change_course#:#Kurswechsel
+barometer#:#text_answer#:#Textantwort
+barometer#:#votes#:#Wertungen
+barometer#:#new_vote#:#Neue Wertung
+barometer#:#day#:#Tag
+barometer#:#month#:#Monat
+barometer#:#year#:#Jahr
+barometer#:#duration#:#Dauer
+barometer#:#from#:#von
+barometer#:#until#:#bis
+barometer#:#days#:#Tage
+barometer#:#repeat#:#Wiederholung
+barometer#:#every#:#alle
+barometer#:#hours#:#Stunden
+barometer#:#weeks#:#Wochen
+barometer#:#months#:#Monate
+barometer#:#first_vote#:#1. Wertung ist die
+barometer#:#worst#:#schlechteste
+barometer#:#best#:#beste
+barometer#:#vote#:#Note
+barometer#:#status#:#Status
+barometer#:#time#:#Laufzeit
+barometer#:#options#:#Optionen
+barometer#:#delete#:#Löschen
+barometer#:#add#:#neues Barometer
+barometer#:#edit#:#Bearbeiten
+barometer#:#statistics#:#Statististiken
+barometer#:#create#:#Neues Barometer erstellen
+barometer#:#save#:#Speichern
+barometer#:#chart_type#:#Auswertungsart
+barometer#:#lines#:#Liniendiagramm
+barometer#:#pie#:#Tortendiagramm
+barometer#:#table#:#Tabelle
+barometer#:#user#:#Benutzer
+barometer#:#chart_users#:#Diagramm Benutzer
+barometer#:#chart_votes#:#Diagramm Wertungen
+barometer#:#edit_barometer#:#Barometer bearbeiten
+barometer#:#save_vote#:#Wertung abgeben
+barometer#:#note#:#Kommentar
+barometer#:#skip#:#Überspringen
+barometer#:#missing_fields#:#Bitte füllen Sie alle notwendigen Felder aus

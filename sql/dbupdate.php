@@ -9423,4 +9423,35 @@ ALTER TABLE scorm_tracking CHANGE ref_id obj_id INT;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#615>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#616>
+CREATE TABLE `feedback_items` (
+  `fb_id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
+  `description` text,
+  `anonymous` tinyint(1) NOT NULL default '1',
+  `required` tinyint(1) default '0',
+  `show_on` varchar(6) default NULL,
+  `text_answer` tinyint(1) default '0',
+  `votes` text,
+  `starttime` int(11) default '0',
+  `endtime` int(11) default '0',
+  `repeat_interval` int(11) default NULL,
+  `interval_unit` tinyint(4) default NULL,
+  `first_vote_best` tinyint(1) default '0',
+  `obj_id` int(11) default '0',
+  `ref_id` int(11) default '0',
+  PRIMARY KEY  (`fb_id`)
+) TYPE=MyISAM ;
+<#617>
+CREATE TABLE `feedback_results` (
+  `fb_id` int(11) NOT NULL default '0',
+  `user_id` int(11) default NULL,
+  `vote` int(11) NOT NULL default '0',
+  `note` text NOT NULL,
+  `votetime` int(11) NOT NULL default '0'
+) TYPE=MyISAM;
 
