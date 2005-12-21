@@ -303,7 +303,7 @@ class ilMDEditorGUI
 			}
 		}
 		$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
-		$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2]));
+		$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2],false));
 		$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
 
 		if(!$valid)
@@ -1591,21 +1591,19 @@ class ilMDEditorGUI
 			// Typical learning time
 			$tlt = array(0,0,0);
 			$valid = true;
-			if(is_object($this->md_section = $this->md_obj->getEducational()))
-			{
-				include_once 'Services/MetaData/classes/class.ilMDUtils.php';
+
+			include_once 'Services/MetaData/classes/class.ilMDUtils.php';
 			
-				if(!$tlt = ilMDUtils::_LOMDurationToArray($this->md_section->getTypicalLearningTime()))
+			if(!$tlt = ilMDUtils::_LOMDurationToArray($this->md_section->getTypicalLearningTime()))
+			{
+				if(strlen($this->md_section->getTypicalLearningTime()))
 				{
-					if(strlen($this->md_section->getTypicalLearningTime()))
-					{
-						$tlt = array(0,0,0);
-						$valid = false;
-					}
+					$tlt = array(0,0,0);
+					$valid = false;
 				}
 			}
 			$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
-			$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2]));
+			$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2],false));
 			$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
 
 			if(!$valid)
@@ -1749,7 +1747,20 @@ class ilMDEditorGUI
 		$this->md_section->setIntendedEndUserRole($_POST['educational']['IntendedEndUserRole']);
 		$this->md_section->setContext($_POST['educational']['Context']);
 		$this->md_section->setDifficulty($_POST['educational']['Difficulty']);
-		$this->md_section->setTypicalLearningTime(ilUtil::stripSlashes($_POST['educational']['TypicalLearningTime']));
+
+
+		// TLT
+		
+		if($_POST['tlt']['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s'])
+		{
+			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
+		}
+		else
+		{
+			$this->md_section->setTypicalLearningTime('');
+		}
+		$this->callListeners('Educational');
+
 
 		/* TypicalAgeRange */
 		foreach($ids = $this->md_section->getTypicalAgeRangeIds() as $id)

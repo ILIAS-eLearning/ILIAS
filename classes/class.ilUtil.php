@@ -778,11 +778,11 @@ class ilUtil
 	* @return	string	HTML select boxes
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
-	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "")
+	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true)
 	{
 		global $lng;
 
-		if (!strlen("$hour$minute$second")) {
+		if ($a_use_default and !strlen("$hour$minute$second")) {
 			$now = localtime();
 			$hour = $now[2];
 			$minute = $now[1];
@@ -2287,11 +2287,12 @@ class ilUtil
 		global $ilDB;
 
 		$q = "SELECT * ".
-		"FROM object_data ,object_reference ".
-		"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
-		"OR object_data.description LIKE '%".$a_search_str."%') ".
-		"AND object_data.type = 'grp' ".
-		"AND object_data.obj_id = object_reference.obj_id";
+			"FROM object_data ,object_reference ".
+			"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
+			"OR object_data.description LIKE '%".$a_search_str."%') ".
+			"AND object_data.type = 'grp' ".
+			"AND object_data.obj_id = object_reference.obj_id ".
+			"ORDER BY title ";
 
 		$res = $ilDB->query($q);
 
