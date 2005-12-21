@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -59,6 +59,11 @@ rbac#:#perm_local_role#:#Lokale Rolle
 rbac#:#perm_local_role_desc#:#Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
 rbac#:#leave#:#Verlassen
+rbac#:#filter_all_roles#:#Zeige alle Rollen im aktuellen Kontext
+rbac#:#filter_global_roles#:#Zeige nur globale Rollen
+rbac#:#filter_local_roles#:#Zeige nur lokale Rollen im aktuellen Kontext
+rbac#:#filter_roles_local_policy#:#Zeige nur Rollen mit lokaler Zugriffsregelung an dieser Position
+rbac#:#filter_local_roles_object#:#Zeige nur lokale Rollen an dieser Position
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
