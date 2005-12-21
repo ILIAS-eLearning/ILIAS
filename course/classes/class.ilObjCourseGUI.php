@@ -2821,7 +2821,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this, "listGroupings"), "listGroupings", get_class($this));
 		}
 		// learning progress
-		if($rbacsystem->checkAccess('read',$this->ref_id))
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledTracking())
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),

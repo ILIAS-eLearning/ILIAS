@@ -150,6 +150,8 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $rbacsystem;
+
 		$tabs_gui->addTarget("properties",
 			$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
 			
@@ -157,10 +159,15 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
 
 		// learning progress
-		$tabs_gui->addTarget('learning_progress',
-							 $this->ctrl->getLinkTargetByClass('illearningprogressgui',''),
-							 '',
-							 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledTracking())
+		{
+
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass('illearningprogressgui',''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
 
 	}
 
