@@ -415,7 +415,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		// IMPORT
 		$this->tpl->setCurrentBlock("create");
-		$this->tpl->setVariable("TXT_IMPORT_GRP", $this->lng->txt("import_grp"));
+		$this->tpl->setVariable("TXT_IMPORT_GRP", $this->lng->txt("import_group"));
 		$this->tpl->setVariable("TXT_GRP_FILE", $this->lng->txt("file"));
 		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 
@@ -1642,10 +1642,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		include_once 'classes/class.ilObjGroup.php';
 
-		$message = ilObjGroup::_importFromFile($_FILES['xmldoc'],$this->ref_id);
-		sendInfo($message,true);
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
-
+		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],$this->ref_id))
+		{
+			$this->ctrl->setParameter($this, "ref_id", $ref_id);
+			sendInfo($this->lng->txt("import_grp_finished"),true);
+			ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit'));
+		}
+		
+		sendInfo($this->lng->txt("import_file_not_valid"));
+		$this->createObject();
 	}	
 	// METHODS FOR COURSE CONTENT INTERFACE
 	function initCourseContentInterface()
