@@ -27,6 +27,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de>
+* 
 * @version $Id$
 *
 * @package ilias-core
@@ -1517,9 +1518,6 @@ echo "8";
 		$ret =& $this->ctrl->forwardCommand($perm_gui);
 		
 		return true;
-		
-		// deprecated code
-		// removed
 	}
 
 	/**
@@ -1638,83 +1636,6 @@ echo "8";
 		$ret =& $this->ctrl->forwardCommand($perm_gui);
 		
 		return true;
-		
-		// deprecated code
-
-		global $rbacsystem, $rbacreview, $rbacadmin;
-
-		// first save the new permission settings for all roles
-		$rbacadmin->revokePermission($this->ref_id);
-
-		if (is_array($_POST["perm"]))
-		{
-			foreach ($_POST["perm"] as $key => $new_role_perms) // $key enthaelt die aktuelle Role_Id
-			{
-				$rbacadmin->grantPermission($key,$new_role_perms,$this->ref_id);
-			}
-		}
-
-		// update object data entry (to update last modification date)
-		$this->object->update();
-
-		// Wenn die Vererbung der Rollen Templates unterbrochen werden soll,
-		// muss folgendes geschehen:
-		// - existiert kein RoleFolder, wird er angelegt und die Rechte aus den Permission Templates ausgelesen
-		// - existiert die Rolle im aktuellen RoleFolder werden die Permission Templates dieser Rolle angezeigt
-		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
-		//   und das Permission Template an den Wert des nihst hher gelegenen Permission Templates angepasst
-
-		// get rolefolder data if a rolefolder already exists
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
-		$rolf_id = $rolf_data["child"];
-		
-		$stop_inherit_roles = $_POST["stop_inherit"] ? $_POST["stop_inherit"] : array();
-
-		if ($stop_inherit_roles)
-		{
-			// rolefolder does not exist, so create one
-			if (empty($rolf_id))
-			{
-				// create a local role folder
-				$rfoldObj = $this->object->createRoleFolder();
-
-				// set rolf_id again from new rolefolder object
-				$rolf_id = $rfoldObj->getRefId();
-			}
-
-			$roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_id);
-			
-			foreach ($stop_inherit_roles as $stop_inherit)
-			{
-				// create role entries for roles with stopped inheritance
-				if (!in_array($stop_inherit,$roles_of_folder))
-				{
-					$parentRoles = $rbacreview->getParentRoleIds($rolf_id);
-					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
-												   $rolf_id,$stop_inherit);
-					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,'n');
-				}
-			}// END FOREACH
-		}// END STOP INHERIT
-		
-		if ($rolf_id)
-		{
-			// get roles where inheritance is stopped was cancelled
-			$linked_roles = $rbacreview->getLinkedRolesOfRoleFolder($rolf_id);
-			$linked_roles_to_remove = array_diff($linked_roles,$stop_inherit_roles);
-				
-			// remove roles where stopped inheritance is cancelled and purge rolefolder if empty
-			foreach ($linked_roles_to_remove as $role_id)
-			{
-				$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-				$role_obj->setParent($rolf_id);
-				$role_obj->delete();
-				unset($role_obj);
-			}
-		}
-		
-		sendinfo($this->lng->txt("saved_successfully"),true);
-		ilUtil::redirect($this->getReturnLocation("permSave",$this->ctrl->getLinkTarget($this,"perm")));
 	}
 
 	/**
@@ -2252,86 +2173,6 @@ echo "8";
 		$ret =& $this->ctrl->forwardCommand($perm_gui);
 		
 		return true;
-		
-		// deprecated code
-
-		global $rbacadmin, $rbacreview, $rbacsystem;
-
-		// first check if role title is unique
-		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// check if role title has il_ prefix
-		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// if the current object is no role folder, create one
-		if ($this->object->getType() != "rolf")
-		{
-			$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
-
-			// is there already a rolefolder?
-			if (!($rolf_id = $rolf_data["child"]))
-			{
-				// can the current object contain a rolefolder?
-				$subobjects = $this->objDefinition->getSubObjects($this->object->getType());
-
-				if (!isset($subobjects["rolf"]))
-				{
-					$this->ilias->raiseError($this->lng->txt("msg_no_rolf_allowed1")." '".$this->object->getTitle()."' ".
-											$this->lng->txt("msg_no_rolf_allowed2"),$this->ilias->error_obj->WARNING);
-				}
-
-				// CHECK ACCESS 'create' rolefolder
-				if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
-				{
-					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
-				}
-
-				// create a rolefolder
-				$rolfObj = $this->object->createRoleFolder();
-				$rolf_id = $rolfObj->getRefId();
-			}
-		}
-		else
-		{
-			// Current object is already a rolefolder. To create the role we take its reference id
-			$rolf_id = $this->object->getRefId();
-		}
-
-		// CHECK ACCESS 'write' of role folder
-		if (!$rbacsystem->checkAccess('write',$rolf_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
-		}
-		else	// create role
-		{
-			if ($this->object->getType() == "rolf")
-			{
-				$roleObj = $this->object->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
-			}
-			else
-			{
-				$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_id);
-				$roleObj = $rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
-			}
-		}
-
-		sendInfo($this->lng->txt("role_added"),true);
-		
-		if ($this->ctrl->getTargetScript() != "repository.php")
-		{
-			$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
-			$this->ctrl->setParameter($this,"ref_id",$rolf_id);
-			ilUtil::redirect($this->getReturnLocation("addRole",$this->ctrl->getLinkTarget($this,"perm")));
-		}
-
-		ilUtil::redirect($this->getReturnLocation("addRole",$this->ctrl->getLinkTarget($this,"perm")));
 	}
 
 	/**
@@ -2660,9 +2501,6 @@ echo "8";
 		$ret =& $this->ctrl->forwardCommand($perm_gui);
 		
 		return true;
-		
-		// deprecated code
-		// removed it: stefan
 	}
 	
 	function __buildRoleFilterSelect()
@@ -2748,10 +2586,6 @@ echo "8";
 		$ret =& $this->ctrl->forwardCommand($perm_gui);
 		
 		return true;
-		
-		// deprecated code
-		// removed
-
 	}
 
 	function changeOwnerObject()
@@ -2765,36 +2599,6 @@ echo "8";
 		$ret =& $this->ctrl->forwardCommand($perm_gui);
 		
 		return true;
-		
-		// deprecated code
-		
-		global $rbacsystem,$ilErr,$ilObjDataCache;
-
-		if (!$rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
-		}
-
-		if(!$user_id = ilObjUser::_lookupId($_POST['owner']))
-		{
-			sendInfo($this->lng->txt('user_not_known'));
-			$this->ownerObject();
-
-			return true;
-		}
-		$this->object->setOwner($user_id);
-		$this->object->updateOwner();
-		$ilObjDataCache->deleteCachedEntry($this->object->getId());
-		sendInfo($this->lng->txt('owner_updated'),true);
-
-		if (!$rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
-		{
-			$this->ctrl->redirect($this);
-			return true;
-		}
-		$this->ctrl->redirect($this,'owner');
-		return true;
-
 	}
 	
 	/**
