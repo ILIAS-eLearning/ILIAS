@@ -1110,11 +1110,9 @@ class ilObjGroup extends ilContainer
 
 		if(!$file_obj->validateImportFile())
 		{
-			return $lng->txt("import_file_not_valid");
+			return false;
 		}
-		$ref_id = ilObjGroup::_importFromXMLString(file_get_contents($file_obj->getImportFile()),$parent_id);
-
-		return $lng->txt("import_grp_finished");
+		return ilObjGroup::_importFromXMLString(file_get_contents($file_obj->getImportFile()),$parent_id);
 	}
 
 	/**

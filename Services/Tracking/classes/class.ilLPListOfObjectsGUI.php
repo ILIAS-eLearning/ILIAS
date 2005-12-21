@@ -57,7 +57,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->offset = (int) $_GET['offset'];
 		$this->ctrl->saveParameter($this,'offset',$this->offset);
 
-		$this->max_count = 5;
+		$this->max_count = 10;
 	}
 
 	/**
