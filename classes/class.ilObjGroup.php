@@ -1168,6 +1168,20 @@ class ilObjGroup extends ilContainer
 	{
 		return array("repository.php?ref_id=".$a_id."&set_mode=flat&cmdClass=ilobjgroupgui","");
 	}
+
+	function _lookupIdByTitle($a_title)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM object_data WHERE title = '".$a_title."' AND type = 'grp'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->obj_id;
+		}
+		return 0;
+	}
+
 	
 	function isUserRegistered($a_user_id = 0)
 	{

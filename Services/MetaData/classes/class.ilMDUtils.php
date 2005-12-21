@@ -42,7 +42,7 @@ class ilMDUtils
 	function _LOMDurationToArray($a_string)
 	{
 		$a_string = trim($a_string);
-		$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)(\d{1,2}S)?$/i';
+		$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
 
 		if(!preg_match($pattern,$a_string,$matches))
 		{
@@ -64,6 +64,13 @@ class ilMDUtils
 			#var_dump("<pre>",$matches,"<pre>");
 			$sec = $matches[1];
 		}
+		
+		// Hack for zero values
+		if(!$hours and !$min and !$sec)
+		{
+			return false;
+		}
+		
 		return array($hours,$min,$sec);
 	}
 

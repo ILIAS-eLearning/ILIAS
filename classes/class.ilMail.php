@@ -640,18 +640,14 @@ class ilMail
 		{
 			if (substr($tmp_names[$i],0,1) == '#')
 			{
-
 				if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
 				{
 					include_once("./classes/class.ilObjectFactory.php");
+					include_once('./classes/class.ilObjGroup.php');
 					
-					// GET GROUP MEMBER IDS
-					$grp_data = ilUtil::searchGroups(substr($tmp_names[$i],1));
-					
-					// INSTATIATE GROUP OBJECT
-					foreach ($grp_data as $grp)
+					foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
 					{
-						$grp_object = ilObjectFactory::getInstanceByRefId($grp["ref_id"]);
+						$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
 						break;
 					}
 					// STORE MEMBER IDS IN $ids
@@ -745,14 +741,12 @@ class ilMail
 			{
 				// GROUP THINGS
 				include_once("./classes/class.ilObjectFactory.php");
+				include_once('./classes/class.ilObjGroup.php');
 
-				// GET GROUP MEMBER IDS
-				$grp_data = ilUtil::searchGroups(substr($rcp,1));
-
-				// INSTATIATE GROUP OBJECT
-				foreach ($grp_data as $grp)
+				// Fix 
+				foreach(ilObjGroup::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
 				{
-					$grp_object = ilObjectFactory::getInstanceByRefId($grp["ref_id"]);
+					$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
 					break;
 				}
 				// GET EMAIL OF MEMBERS AND STORE THEM IN $addresses
