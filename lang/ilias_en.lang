@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file English
@@ -59,6 +59,11 @@ rbac#:#perm_local_role#:#Locale role
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
 rbac#:#edit_learning_progress#:#Edit learning progress
 rbac#:#leave#:#Leave
+rbac#:#filter_all_roles#:#Show all roles of current context
+rbac#:#filter_global_roles#:#Show only global roles
+rbac#:#filter_local_roles#:#Show only local roles of current context
+rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position
+rbac#:#filter_local_roles_object#:#Show only local roles defined at this position
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
