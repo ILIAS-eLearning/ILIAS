@@ -91,7 +91,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
 		$marks->setCompleted((bool) $_POST['completed']);
 		$marks->update();
-		sendInfo('trac_update_edit_user');
+		sendInfo($this->lng->txt('trac_update_edit_user'));
 		$this->details();
 	}
 

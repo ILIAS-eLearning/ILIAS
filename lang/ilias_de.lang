@@ -5436,7 +5436,7 @@ trac#:#trac_mode_tlt#:#Typische Lerndauer
 trac#:#trac_mode_visits#:#Anzahl der Aufrufe
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_collection#:#Auswahl von Objekten
-common#:#learning_progress#:#Zugriffsstatistiken
+common#:#learning_progress#:#Lernfortschritt
 trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_anonymized_info#:#Wenn aktiviert, werden keine personenbezogenen Daten ausgegeben
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
@@ -5521,3 +5521,61 @@ barometer#:#save_vote#:#Wertung abgeben
 barometer#:#note#:#Kommentar
 barometer#:#skip#:#Überspringen
 barometer#:#missing_fields#:#Bitte füllen Sie alle notwendigen Felder aus
+trac#:#trac_progress#:#Persönlicher Lernfortschritt
+trac#:#trac_objects#:#Objektübersicht
+trac#:#trac_settings#:#Einstellungen
+trac#:#trac_lp_filter#:#Filter
+trac#:#obj_types#:#Objekttypen:
+trac#:#trac_filter_area#:#Bereich:
+trac#:#trac_filter_hidden#:#Ausgeblendet:
+trac#:#trac_filter_repository#:#Im Magazin
+trac#:#trac_show_hidden#:#Wieder anzeigen
+trac#:#trac_query#:#Titel/Beschreibung:
+trac#:#trac_refresh#:#Ansicht aktualisieren
+trac#:#trac_hide#:#Ausblenden
+trac#:#trac_modifications_saved#:#Die Änderungen wurden übernommen
+trac#:#trac_in_progress#:#In Bearbeitung
+trac#:#trac_completed#:#Bearbeitet
+trac#:#search_area_info#:#Bitte wählen Sie ein Objekt aus.
+trac#:#trac_status#:#Status
+trac#:#trac_no_attempted#:#Noch nicht bearbeitet
+trac#:#trac_occurrences#:#Pfad:
+trac#:#trac_view_list#:#Zur Übersicht
+common#:#minutes#:#Minuten
+trac#:#trac_usr_list#:#Benutzer
+trac#:#trac_marks#:#Noten
+trac#:#trac_comments#:#Kommentare
+trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
+trac#:#trac_mark#:#Note
+trac#:#trac_comment#:#Kommentar
+trac#:#trac_update_edit_user#:#Die Änderungen wurden übernommen
+trac#:#trac_mode#:#Modus
+trac#:#meta_typical_learning_time#:#Typische Lernzeit
+trac#:#trac_learning_progress#:#Lernfortschritt
+trac#:#trac_visits#:#Anzahl der Besuche
+trac#:#trac_spent_time#:#Bearbeitungszeit
+trac#:#trac_crs_releavant_items#:#Kursobjekte
+trac#:#trac_mode_scorm#:#SCORM/AICC
+trac#:#trac_sahs_relevant_items#:#SCO's
+trac#:#trac_view_crs#:#Zur Kursübersicht
+trac#:#trac_not_attempted#:#Noch nicht begonnen
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
+trac#:#trac_mode_deactivated#:#Deaktiviert
+trac#:#trac_assignments#:#Zuordnungen
+trac#:#trac_assigned#:#Zugeordnet
+trac#:#trac_not_assigned#:#Nicht zugeordnet
+trac#:#trac_collection_assign#:#Zuordnen
+trac#:#trac_collection_deassign#:#Zurodnung entfernen
+trac#:#select_one#:#Bitte wählen Sie ein Objekt aus.
+trac#:#trac_no_sahs_items_found#:#Es wurden keine Objekte gefunden mittels derer der Lernfortschritt überprüft werden kann.
+trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Kursobjekte aus, anhand derer der Lernfortschritt bestimmt wird.
+trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
+trac#:#trac_num_visits#:#Anzahl der Besuche
+trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
+trac#:#trac_mode_test_passed#:#Test bestanden
+trac#:#trac_mode_test_finished#:#Test durchgeführt
+trac#:#trac_filter_no_access#:#Es wurden keine passenden Objekte gefunden.
+trac#:#trac_user_data#:#Benutzerdaten
+trac#:#last_login#:#Letztes Login
+trac#:#trac_total_online#:#Gesamtzeit online
+trac#:#trac_not_accessed#:#Noch nicht zugegriffen

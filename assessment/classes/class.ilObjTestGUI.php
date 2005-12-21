@@ -4409,7 +4409,9 @@ class ilObjTestGUI extends ilObjectGUI
 					 $this->ctrl->getLinkTarget($this,'status'),
 					 "status", "");
 
-				if($rbacsystem->checkAccess('edit_learning_progress',$this->ref_id))
+				// learning progress
+				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+				if(ilObjUserTracking::_enabledTracking() and $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id))
 				{
 					$tabs_gui->addTarget('learning_progress',
 										 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),

@@ -83,8 +83,8 @@ class nusoap_base {
 	* @var      soap_defencoding
 	* @access   public
 	*/
-	//var $soap_defencoding = 'UTF-8';
-    var $soap_defencoding = 'ISO-8859-1';
+	var $soap_defencoding = 'UTF-8';
+    #var $soap_defencoding = 'ISO-8859-1';
 
 	/**
 	*  load namespace uris into an array of uri => prefix
@@ -4461,7 +4461,7 @@ class soap_parser extends nusoap_base {
 	// array of id => hrefs => pos
 	var $multirefs = array();
 	// toggle for auto-decoding element content
-	var $decode_utf8 = true;
+	var $decode_utf8 = false;
 
 	/**
 	* constructor
@@ -4472,7 +4472,7 @@ class soap_parser extends nusoap_base {
 	* @param    string $decode_utf8 whether to decode UTF-8 to ISO-8859-1
 	* @access   public
 	*/
-	function soap_parser($xml,$encoding='UTF-8',$method='',$decode_utf8=true){
+	function soap_parser($xml,$encoding='UTF-8',$method='',$decode_utf8=false){
 		$this->xml = $xml;
 		$this->xml_encoding = $encoding;
 		$this->method = $method;

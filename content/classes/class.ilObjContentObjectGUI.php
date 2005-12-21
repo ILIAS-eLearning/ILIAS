@@ -2755,14 +2755,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				"editBibItem", get_class($this));
 		}
 		// learning progress
-		if($rbacsystem->checkAccess('write',$this->ref_id))
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(ilObjUserTracking::_enabledTracking())
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
-		
+
 		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{

@@ -127,11 +127,15 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 															"manageData"),
 								 "manageData",
 								 get_class($this));
-			$tabs_gui->addTarget("learning_progress",
-								 $this->ctrl->getLinkTargetByClass("illearningprogressgui",
-											"show"),
-								 "",
-								 "illearningprogressgui");
+
+			if (ilObjUserTracking::_enabledTracking())
+			{
+				$tabs_gui->addTarget("learning_progress",
+									 $this->ctrl->getLinkTargetByClass("illearningprogressgui",
+																	   "show"),
+									 "",
+									 "illearningprogressgui");
+			}
 			$tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
 								 array("perm","info","owner"),

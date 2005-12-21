@@ -542,11 +542,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			 "", "ilmdeditorgui");
 
 		// learning progress
-		$tabs_gui->addTarget('learning_progress',
-							 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-							 '',
-							 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(ilObjUserTracking::_enabledTracking())
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{

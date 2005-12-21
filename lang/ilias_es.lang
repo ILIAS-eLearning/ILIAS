@@ -36,7 +36,10 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analyze_data#:#Analizar Integridad de los datos
-administration#:#analyze_desc#:#Buscar en el sistema objetos corruptos/inválidos/inexistentes/sobredimensionados
+administration#:#analysis_options#:#Opciones de análisis
+administration#:#output_options#:#Opciones de salida
+administration#:#repair_options#:#Opciones de reparación
+administration#:#scan_desc#:#Escanear sistema en busca de objetos corruptos/inválidos/inexistentes/descolocados
 administration#:#analyzing#:#Analizando...
 administration#:#analyzing_tree_structure#:#Analizando estructura de árbol
 administration#:#check_tree#:#Comprobar estructura de árbol
@@ -60,11 +63,14 @@ rbac#:#leave#:#-Abandonar-
 administration#:#clean_desc#:#Eliminar referencias inválidas y nodos del árbol. Eliminar huecos de la estructura en árbol
 administration#:#cleaning#:#Realizando Limpieza...
 administration#:#cleaning_final#:#Limpieza Final...
-administration#:#closing_gaps#:#Eliminando huecos en el árbol...
 administration#:#disabled#:#No disponible
+administration#:#dump_tree#:#Volcar árbol
+administration#:#dump_tree_desc#:#Realizar un análisis del árbol e imprimir todos los nodos del árbol con los datos del análisis.
+administration#:#dumping_tree#:#Volcando árbol...
 administration#:#done#:#Realizado
 administration#:#found#:#Encontrado
 administration#:#found_none#:#Ninguno encontrado
+administration#:#initializing_gaps#:#Inicializando huecos en el árbol...
 administration#:#log_scan#:#resultados del Log de Exploración
 administration#:#log_scan_desc#:#Escribir resultados de la exploración a 'scanlog.log' en el directorio de datos cliente
 administration#:#nothing_to_purge#:#Nada que eliminar...
@@ -91,10 +97,10 @@ administration#:#restoring#:#Restaurando...
 administration#:#restoring_missing_objs#:#Restaurando objetos desaparecidos...
 administration#:#restoring_trash#:#Restaurando la papelera 'trash'....
 administration#:#restoring_unbound_objs#:#Restaurando objetos y subobjetos sobredimensionados ...
+administration#:#scan#:#Escanear
 administration#:#scan_completed#:#Exploracion completada
 administration#:#scan_details#:#Detalles de la Exploración
 administration#:#scan_modes#:#Modos de Exploración usados
-administration#:#scan_only#:#Explorar sólo
 administration#:#scanning_system#:#Explorando sistema
 administration#:#searching_deleted_objs#:#Buscando objetos borrados...
 administration#:#searching_invalid_childs#:#Buscando nodos del arbol no válidos...
@@ -527,6 +533,9 @@ assessment#:#tst_qst_setsolved#:#Poner como resuelta
 assessment#:#tst_qst_summary_text#:#Aquí puede ver todas las preguntas. Active las cajas para marcar una pregunta como resuelta.
 assessment#:#tst_question_no#:#Orden
 assessment#:#tst_question_offer#:#Acepta esta seleccion o quiere generar otra vez?
+assessment#:#tst_question_selection#:#Selección de preguntas
+assessment#:#tst_question_selection_description#:#Si sólo usa bancos de preguntas que contienen preguntas con un número máximo de puntos disponibles, el test tendrá un número igual de puntos máximos para todos los usuarios participantes y por tanto los resultados del test se podrán comparar mejor. Si recomienda escoger este modo de selección.
+assessment#:#tst_question_selection_equal#:#Usar bancos de preguntas con la misma puntuación máxima
 assessment#:#tst_question_solved_state#:#Resuelta
 assessment#:#tst_question_title#:#Título
 assessment#:#tst_question_type#:#Tipo de pregunta
@@ -2540,6 +2549,8 @@ common#:#repeat_scan_succeded#:#Repetir el escaneo tuvo éxito.
 common#:#replace_file#:#Reemplazar archivo
 common#:#reply#:#responder
 common#:#repository#:#Contenidos
+common#:#repository_admin#:#Contenidos, Papelera y Permisos
+common#:#repository_admin_desc#:#Configurar permisos para items de Contenidos, restaurar o eliminar objetos de la Papelera del sistema
 common#:#require_city#:#Solicitar ciudad
 common#:#require_country#:#Solicitar país
 common#:#require_default_role#:#Solicitar rol
@@ -2746,7 +2757,7 @@ common#:#small_icon#:#Icono Pequeño
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administración externa de usuarios (SOAP)
 common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas de usuario pueden ser administradas por un cliente SOAP externo.
-common#:#spacer#:#Spacer###new variable
+common#:#spacer#:#Spacer
 common#:#sort_by_this_column#:#Ordenar por esta columna
 common#:#spl#:#Banco de preguntas (Encuesta)
 common#:#spl_add#:#Añadir banco de preguntas
@@ -5493,3 +5504,8 @@ common#:#lm_edit_learning_progress#:#Editar seguimiento
 common#:#append_search#:#Añadir resultados de búsqueda
 common#:#search_to_short#:#Su consulta es demasiado corta.
 common#:#search_minimum_characters#:#La longitud mínima de palabra es:
+common#:#chown_warning#:#Atención, puede perder permisos de acceso sobre este objeto tras cambiar el propietario.
+common#:#info_owner_of_object#:#Propietario del objeto
+common#:#user_not_known#:#Por favor introduzca un identificador de usuario válido
+common#:#change_owner#:#Modificar propietario
+common#:#owner_updated#:#Propietario actualizado.
