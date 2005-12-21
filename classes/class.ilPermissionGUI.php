@@ -27,6 +27,7 @@
 * RBAC related output
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
+*
 * @version $Id$
 *
 * @package ilias-core
@@ -97,8 +98,6 @@ class ilPermissionGUI
 
 		$this->getRolesData();
 
-		//var_dump("<pre>",$this->ctrl->getFormAction($this)."&cmd=perm","</pre>");exit;		
-
 		/////////////////////
 		// START DATA OUTPUT
 		/////////////////////
@@ -121,6 +120,7 @@ class ilPermissionGUI
 		if ($num_roles < 1)
 		{
 			sendinfo($this->lng->txt("msg_no_roles_of_type"),false);
+			$this->__displayAddRoleForm();
 			return true;
 		}
 		
@@ -130,9 +130,6 @@ class ilPermissionGUI
 		$this->tpl->setVariable("FORMACTION",
 			$this->gui_obj->getFormAction("permSave",$this->ctrl->getLinkTarget($this,"permSave")));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		//$this->tpl->setVariable("TXT_OPERATION", $this->lng->txt("operation"));
-		//$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
-		//$this->tpl->parseCurrentBlock();
 
 		foreach ($this->roles as $role)
 		{
@@ -158,10 +155,6 @@ class ilPermissionGUI
 					$up_path = defined('ILIAS_MODULE') ? "../" : "";
 					$this->tpl->setVariable("LINK_ROLE_RULESET",$up_path.'role.php?cmd=perm&ref_id='.
 											$role_folder_id.'&obj_id='.$role['obj_id']);
-
-					#$this->ctrl->setParameterByClass('ilobjrolegui','obj_id',$role['obj_id']);
-					#$this->tpl->setVariable("LINK_ROLE_RULESET",
-					#						$this->ctrl->getLinkTargetByClass('ilobjrolegui','perm'));
 				}
 				else
 				{
@@ -199,8 +192,6 @@ class ilPermissionGUI
 		// create pointer to first role (need only the permission list -> TODO: change array structure)
 		reset($this->roles);
 		$first_role =& current($this->roles);
-		
-//var_dump("<pre>",$first_role,$perm_list,"</pre>");
 
 // permission settings
 
@@ -352,45 +343,10 @@ class ilPermissionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-
-		// ADD LOCAL ROLE
-		
-		// do not display this option for admin section and root node
-		/*$object_types_exclude = array("adm","root","mail","objf","lngf","trac","taxf","auth", "assf",'seas');
-
-		if (!in_array($this->gui_obj->object->getType(),$object_types_exclude) and $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
-		{
-			$this->tpl->addBlockFile("PERM_ADD_ROLE", "add_local_roles", "tpl.obj_perm_add_role.html");
-
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-			}
-
-			$this->tpl->setVariable("FORMACTION_LR",$this->gui_obj->getFormAction("addRole", $this->ctrl->getLinkTarget($this, "addRole")));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
-			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
-			$this->tpl->setVariable("TARGET", $this->gui_obj->getTargetFrame("addRole"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// PARSE BLOCKFILE
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION",
-			$this->gui_obj->getFormAction("permSave",$this->ctrl->getLinkTarget($this,"permSave")));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("COL_ANZ",$colspan);
-		$this->tpl->parseCurrentBlock();*/
-		
 		$this->tpl->setVariable("COLSPAN", $num_roles);
+
+		// ADD LOCAL ROLE		
+		$this->__displayAddRoleForm();
 	}
 
 
@@ -597,11 +553,11 @@ class ilPermissionGUI
 
 	function __buildRoleFilterSelect()
 	{
-		$action[1] = $this->lng->txt('all_roles');
-		$action[2] = $this->lng->txt('all_global_roles');
-		$action[3] = $this->lng->txt('all_local_roles');
-		$action[4] = $this->lng->txt('linked_local_roles');
-		$action[5] = $this->lng->txt('local_roles_this_object_only');
+		$action[1] = $this->lng->txt('filter_all_roles');
+		$action[2] = $this->lng->txt('filter_global_roles');
+		$action[3] = $this->lng->txt('filter_local_roles');
+		$action[4] = $this->lng->txt('filter_roles_local_policy');
+		$action[5] = $this->lng->txt('filter_local_roles_object');
 		
 		return ilUtil::formSelect($_SESSION['perm_filtered_roles'],"filter",$action,false,true);
 	}
@@ -612,11 +568,11 @@ class ilPermissionGUI
 
 		switch ($a_filter)
 		{
-			case 1:	// all roles
+			case 1:	// all roles in context
 				return $a_roles;
 				break;
 			
-			case 2:	// all global roles
+			case 2:	// only global roles
 				$arr_global_roles = $rbacreview->getGlobalRoles();
 				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_global_roles);
 
@@ -628,7 +584,7 @@ class ilPermissionGUI
 				return $a_roles;
 				break;			
 
-			case 3:	// all local roles
+			case 3:	// only local roles (all local roles in context that are not defined at ROLE_FOLDER_ID)
 				$arr_global_roles = $rbacreview->getGlobalRoles();
 
 				foreach ($arr_global_roles as $role_id)
@@ -639,12 +595,7 @@ class ilPermissionGUI
 				return $a_roles;
 				break;
 				
-			case 4:	// all roles
-				return $a_roles;
-				break;
-				
-			case 5:	// local role only at this position
-				
+			case 4:	// only roles which use a local policy 
 				$role_folder = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
 		
 				if (!$role_folder)
@@ -653,6 +604,26 @@ class ilPermissionGUI
 				}
 				
 				$arr_local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_local_roles);
+
+				foreach ($arr_remove_roles as $role_id)
+				{
+					unset($a_roles[$role_id]);
+				}
+
+				return $a_roles;
+				break;
+				
+			case 5:	// only true local role defined at current position
+				
+				$role_folder = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
+		
+				if (!$role_folder)
+				{
+					return array();
+				}
+				
+				$arr_local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"],false);
 				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_local_roles);
 
 				foreach ($arr_remove_roles as $role_id)
@@ -820,6 +791,34 @@ class ilPermissionGUI
 			
 			$this->roles[$role['obj_id']]['permissions'] = $grouped_ops;
 			unset($grouped_ops);
+		}
+	}
+	
+	function __displayAddRoleForm()
+	{
+		// do not display this option for admin section and root node
+		$object_types_exclude = array("adm","root","mail","objf","lngf","trac","taxf","auth", "assf",'seas','extt');
+
+		if (!in_array($this->gui_obj->object->getType(),$object_types_exclude) and $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
+		{
+			$this->tpl->addBlockFile("PERM_ADD_ROLE", "add_local_roles", "tpl.obj_perm_add_role.html");
+
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_LR_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+			}
+
+			$this->tpl->setVariable("FORMACTION_LR",$this->gui_obj->getFormAction("addRole", $this->ctrl->getLinkTarget($this, "addRole")));
+			$this->tpl->setVariable("TXT_LR_HEADER", $this->lng->txt("you_may_add_local_roles"));
+			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
 	}
 } // END class.ilPermissionGUI
