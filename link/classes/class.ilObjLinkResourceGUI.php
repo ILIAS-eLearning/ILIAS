@@ -743,6 +743,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setTabActive('edit_content');
+
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{

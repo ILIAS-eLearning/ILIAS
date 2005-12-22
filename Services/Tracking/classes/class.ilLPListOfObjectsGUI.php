@@ -232,6 +232,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 					$this->tpl->setVariable("ITEM_INFO",$obj_tpl->get());
 
 					$this->tpl->setVariable("ITEM_CSSROW",$cssrow);
+					#$this->tpl->setVariable("ITEM_TDCSS",'option_value');
 					$this->tpl->setVariable("ITEM_IMG",ilUtil::getImagePath('icon_'.$ilObjDataCache->lookupType($obj_id).'.gif'));
 					$this->tpl->setVariable("ITEM_ALT",$this->lng->txt('obj_'.$ilObjDataCache->lookupType($obj_id)));
 
