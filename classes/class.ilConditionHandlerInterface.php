@@ -217,11 +217,20 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit.html');
 
-		$this->__showButtons();
+		// No conditions => show add button and exit
+		if(!count($conditions = $this->__getConditionsOfTarget()))
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'selector'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("add_condition"));
+			$this->tpl->parseCurrentBlock();
+
+			sendInfo($this->lng->txt('no_conditions_found'));
+			return true;
+		}
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-
-
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -232,16 +241,12 @@ class ilConditionHandlerInterface
 		$tpl->setVariable("COLUMN_COUNTS",4);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
-		if(count($conditions = $this->__getConditionsOfTarget()))
-		{
-
-			$tpl->setCurrentBlock("tbl_action_btn");
-			$tpl->setVariable("BTN_NAME","delete");
-			$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-			$tpl->parseCurrentBlock();
-
-		}
-
+		
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","delete");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
+		$tpl->parseCurrentBlock();
+		
 		$tpl->setCurrentBlock("plain_button");
 		$tpl->setVariable("PBTN_NAME","selector");
 		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("add_condition"));
@@ -315,7 +320,7 @@ class ilConditionHandlerInterface
 		if(!count($_POST['conditions']))
 		{
 			sendInfo('no_condition_selected');
-
+			$this->listConditions();
 			return true;
 		}
 

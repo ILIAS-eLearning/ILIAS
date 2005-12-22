@@ -143,7 +143,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?cmd=sendfile&ref_id=".$a_node_id;
 
 			case 'tst':
-				return "ilias.php?baseClass=ilObjTestGUI&ref_id=".$a_node_id;
+				return "ilias.php?cmd=infoScreen&baseClass=ilObjTestGUI&ref_id=".$a_node_id;
 
 			case 'svy':
 				return "survey/survey.php?cmd=run&ref_id=".$a_node_id;
