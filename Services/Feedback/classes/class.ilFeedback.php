@@ -438,6 +438,7 @@ class ilFeedback {
 		$i=0;
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
 			$data[$i]['user'] = $row['login'];
+			$data[$i]['votetime'] = $row['timelabel'];
 			$data[$i]['note'] = $row['note'];
 			$i++;
 		}
