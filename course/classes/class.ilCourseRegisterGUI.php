@@ -223,11 +223,12 @@ class ilCourseRegisterGUI
 
 
 		// Waiting list
-		if($this->course_obj->getSubscriptionMaxMembers())
+		if($this->course_obj->getSubscriptionMaxMembers() and $this->course_obj->enabledWaitingList())
 		{
 			$this->tpl->setCurrentBlock("waiting_list");
 			$this->tpl->setVariable("TXT_WAITING_LIST",$this->lng->txt('crs_free_places'));
 			$free_places = $this->course_obj->getSubscriptionMaxMembers() - $this->course_obj->members_obj->getCountMembers();
+			$free_places = $free_places >= 0 ? $free_places : 0;
 			$this->tpl->setVariable("FREE_PLACES",$free_places);
 			$this->tpl->parseCurrentBlock();
 
@@ -390,14 +391,21 @@ class ilCourseRegisterGUI
 			   $allow_subscription)
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_max_members_reached"));
-			$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
+			if($this->course_obj->enabledWaitingList())
+			{
+				$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
+			}
+			else
+			{
+				$allow_subscription = false;
+			}
 		}
-		elseif($this->waiting_list->getCountUsers() and $allow_subscription)
+		elseif($this->waiting_list->getCountUsers() 
+			   and $allow_subscription
+			   and $this->course_obj->enabledWaitingList())
 		{
 			$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
 		}
-			
-
 		return $allow_subscription;
 	}
 	function __checkGroupingDependencies()

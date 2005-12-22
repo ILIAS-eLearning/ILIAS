@@ -667,6 +667,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$subscription_notify = $_SESSION["error_post_vars"]["crs"]["subscription_notify"] ? 1 
 			: (int) $this->object->getSubscriptionNotify();
 
+		$subscription_wait = $_SESSION["error_post_vars"]["crs"]["subscription_wait"] ? 1 
+			: (int) $this->object->enabledWaitingList();
+
+
 		$sortorder_type = $_SESSION["error_post_vars"]["crs"]["sortorder_type"] ? 
 			$_SESSION["error_post_vars"]["crs"]["sortorder_type"] : 
 			$this->object->getOrderType();
@@ -750,6 +754,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("REG_LIM_INFO",$this->lng->txt('crs_reg_lim_info'));
 		$this->tpl->setVariable("REG_MAX_INFO",$this->lng->txt('crs_reg_max_info'));
 		$this->tpl->setVariable("REG_NOTY_INFO",$this->lng->txt('crs_reg_notify_info'));
+		$this->tpl->setVariable("REG_WAIT_INFO",$this->lng->txt('crs_wait_info'));
 		
 
 		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_reg"));
@@ -764,6 +769,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_CONFIRMATION",$this->lng->txt("crs_subscription_options_confirmation"));
 		$this->tpl->setVariable("TXT_DIRECT",$this->lng->txt("crs_subscription_options_direct"));
 		$this->tpl->setVariable("TXT_PASSWORD",$this->lng->txt("crs_subscription_options_password"));
+		$this->tpl->setVariable("TXT_WAIT",$this->lng->txt('crs_waiting_list'));
+		$this->tpl->setVariable("TXT_NOTIFY",$this->lng->txt('crs_notification'));
+		
 
 		$this->tpl->setVariable("TXT_SORTORDER",$this->lng->txt("crs_sortorder_abo"));
 		$this->tpl->setVariable("TXT_MANUAL",$this->lng->txt("crs_sort_manual"));
@@ -864,6 +872,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tpl->setVariable("CHECK_SUBSCRIPTION_NOTIFY",ilUtil::formCheckbox($subscription_notify,
 																				 "crs[subscription_notify]",1));
+
+		$this->tpl->setVariable("CHECK_WAIT",ilUtil::formCheckbox($subscription_wait,
+																				 "crs[subscription_wait]",1));
 
 		$this->tpl->setVariable("RADIO_SORTORDER_MANUAL",ilUtil::formRadioButton($sortorder_type == $this->object->SORT_MANUAL ? 1 : 0
 																				 ,"crs[sortorder_type]",$this->object->SORT_MANUAL));
@@ -968,6 +979,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST["crs"]["subscription_password"]));
 		$this->object->setSubscriptionMaxMembers($_POST["crs"]["subscription_max"]);
 		$this->object->setSubscriptionNotify($_POST["crs"]["subscription_notify"]);
+		$this->object->enableWaitingList((bool) $_POST['crs']['subscription_wait']);
 		$this->object->setOrderType($_POST["crs"]["sortorder_type"]);
 		$this->object->setArchiveStart($this->__toUnix($_POST["crs"]["archive_start"]));
 		$this->object->setArchiveEnd($this->__toUnix($_POST["crs"]["archive_end"]));
