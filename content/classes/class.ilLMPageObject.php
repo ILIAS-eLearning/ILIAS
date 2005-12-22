@@ -628,7 +628,7 @@ class ilLMPageObject extends ilLMObject
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target)
+	function _goto($a_target, $a_target_ref_id = "")
 	{
 		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
@@ -637,6 +637,12 @@ class ilLMPageObject extends ilLMObject
 
 		// get all references
 		$ref_ids = ilObject::_getAllReferences($lm_id);
+
+		// always try passed ref id first
+		if (in_array($a_target_ref_id, $ref_ids))
+		{
+			$ref_ids = array_merge(array($a_target_ref_id), $ref_ids);
+		}
 
 		// check read permissions
 		foreach ($ref_ids as $ref_id)
@@ -651,6 +657,7 @@ class ilLMPageObject extends ilLMObject
 				$_GET["baseClass"] = "ilLMPresentationGUI";
 				$_GET["obj_id"] = $a_target;
 				$_GET["ref_id"] = $ref_id;
+				return;
 				//ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
 				//"&obj_id=$a_target");
 			}
