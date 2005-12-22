@@ -242,6 +242,16 @@ class ilObjCourse extends ilContainer
 		return (bool) $this->objective_view;
 	}
 
+	function enabledWaitingList()
+	{
+		return (bool) $this->waiting_list;
+	}
+
+	function enableWaitingList($a_status)
+	{
+		$this->waiting_list = (bool) $a_status;
+	}
+
 	function inSubscriptionTime()
 	{
 		if($this->getSubscriptionUnlimitedStatus())
@@ -529,6 +539,7 @@ class ilObjCourse extends ilContainer
 		$new_course->setSubscriptionPassword($this->getSubscriptionPassword());
 		$new_course->setSubscriptionMaxMembers($this->getSubscriptionMaxMembers());
 		$new_course->setSubscriptionNotify($this->getSubscriptionNotify());
+		$new_course->enableWaitingList($this->enableWaitingList());
 		$new_course->setOrderType($this->getOrderType());
 		$new_course->setArchiveStart($this->getArchiveStart());
 		$new_course->setArchiveEnd($this->getArchiveEnd());
@@ -742,7 +753,8 @@ class ilObjCourse extends ilContainer
 			"archive_end = '".$this->getArchiveEnd()."', ".
 			"archive_type = '".(int) $this->getArchiveType()."', ".
 			"abo = '".(int) $this->getAboStatus()."', ".
-			"objective_view = '".(int) $this->enabledObjectiveView()."' ".
+			"objective_view = '".(int) $this->enabledObjectiveView()."', ".
+			"waiting_list = '".(int) $this->enabledWaitingList()."' ".
 			"WHERE obj_id = '".$this->getId()."'";
 
 		$res = $ilDB->query($query);
@@ -776,7 +788,8 @@ class ilObjCourse extends ilContainer
 			"archive_end = '".$this->getArchiveEnd()."', ".
 			"archive_type = '".(int) $this->ARCHIVE_DISABLED."', ".
 			"abo = '".(int) $this->ABO_ENABLED."', ".
-			"objective_view = '0'";
+			"objective_view = '0', ".
+			"waiting_list = '1'";
 
 		$res = $ilDB->query($query);
 	}
@@ -814,6 +827,7 @@ class ilObjCourse extends ilContainer
 			$this->setArchiveType($row->archive_type);
 			$this->setAboStatus($row->abo);
 			$this->setObjectiveViewStatus($row->objective_view);
+			$this->enableWaitingList($row->waiting_list);
 		}
 		return true;
 	}

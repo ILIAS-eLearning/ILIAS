@@ -5509,3 +5509,61 @@ common#:#info_owner_of_object#:#Propietario del objeto
 common#:#user_not_known#:#Por favor introduzca un identificador de usuario válido
 common#:#change_owner#:#Modificar propietario
 common#:#owner_updated#:#Propietario actualizado.
+trac#:#trac_progress#:#Mi Progreso
+trac#:#trac_objects#:#Lista de objetos
+trac#:#trac_settings#:#Configuracion
+trac#:#trac_lp_filter#:#Filtro
+trac#:#obj_types#:#Tipos de objeto:
+trac#:#trac_filter_area#:#Area:
+trac#:#trac_filter_hidden#:#Oculto:
+trac#:#trac_filter_repository#:#En Contenidos
+trac#:#trac_show_hidden#:#Mostrar
+trac#:#trac_query#:#Titulo/descripcion:
+trac#:#trac_refresh#:#Actualizar
+trac#:#trac_hide#:#Ocultar
+trac#:#trac_modifications_saved#:#Configuracion salvada
+trac#:#trac_in_progress#:#En progreso
+trac#:#trac_completed#:#Completado
+trac#:#search_area_info#:#Por favor escoja un objeto.
+trac#:#trac_status#:#Estado
+trac#:#trac_no_attempted#:#No visitado
+trac#:#trac_occurrences#:#Ruta:
+trac#:#trac_view_list#:#Volver a la lista
+common#:#minutes#:#Minutos
+trac#:#trac_usr_list#:#Usuarios
+trac#:#trac_marks#:#Notas
+trac#:#trac_comments#:#Comentarios
+trac#:#trac_learning_progress_tbl_header#:#Progreso de:
+trac#:#trac_mark#:#Nota
+trac#:#trac_comment#:#Comentario
+trac#:#trac_update_edit_user#:#Configuracion grabada
+trac#:#trac_mode#:#Modo
+trac#:#meta_typical_learning_time#:#Tiempo tipico de aprendizaje
+trac#:#trac_learning_progress#:#Progreso de aprendizaje
+trac#:#trac_visits#:#Numero de visitas
+trac#:#trac_spent_time#:#Tiempo empleado
+trac#:#trac_crs_releavant_items#:#Items del curso
+trac#:#trac_mode_scorm#:#SCORM/AICC
+trac#:#trac_sahs_relevant_items#:#SCO's
+trac#:#trac_view_crs#:#Volver al curso
+trac#:#trac_not_attempted#:#No visitado
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
+trac#:#trac_mode_deactivated#:#Desactivado
+trac#:#trac_assignments#:#Asignaciones
+trac#:#trac_assigned#:#Asignado
+trac#:#trac_not_assigned#:#No asignado
+trac#:#trac_collection_assign#:#Asignar
+trac#:#trac_collection_deassign#:#Desasignar
+trac#:#select_one#:#Por favor seleccione un objeto
+trac#:#trac_no_sahs_items_found#:#No se encontraron objetos.
+trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
+trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
+trac#:#trac_num_visits#:#Numero de visitas
+trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
+trac#:#trac_mode_test_passed#:#Test superado
+trac#:#trac_mode_test_finished#:#Test finalizado
+trac#:#trac_filter_no_access#:#No se encontraron objetos
+trac#:#trac_user_data#:#Datos de usuario
+trac#:#last_login#:#Ultimo acceso
+trac#:#trac_total_online#:#Tiempo total online
+trac#:#trac_not_accessed#:#No accedido

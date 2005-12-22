@@ -5620,3 +5620,5 @@ trac#:#trac_user_data#:#User data
 trac#:#last_login#:#Last login
 trac#:#trac_total_online#:#Total time online
 trac#:#trac_not_accessed#:#Not accessed
+crs#:#crs_notification#:#Notification
+crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.

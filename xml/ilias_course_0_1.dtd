@@ -100,11 +100,13 @@
     registrationType: Confirmation => registration needs confirmation by a course admin or tutor
     maxMembers: "0" means unlimited
     notification: if enabled all course admins/tutors whose status is 'notification will receive a message about new registrations
+    waitin list: if enabled and the maximum number of members is exceeded, new users get possibility the use the waiting list.
 -->
 <!ATTLIST Registration
     registrationType (Confirmation | Direct | Password) #IMPLIED
     maxMembers CDATA #IMPLIED
     notification (Yes | No) #IMPLIED
+    waitingList (Yes | No) #IMPLIED
 >
 
 <!-- Sort order of course items -->

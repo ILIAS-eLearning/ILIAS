@@ -9465,4 +9465,6 @@ ALTER TABLE `frm_thread_access` ADD INDEX `usr_thread` ( `thread_id` , `usr_id`)
 ALTER TABLE `frm_posts` ADD INDEX ( `pos_thr_fk` );
 <#622>
 ALTER TABLE `frm_posts` ADD INDEX ( `pos_top_fk`);
+<#623>
+ALTER TABLE `crs_settings` ADD `waiting_list` TINYINT( 1 ) DEFAULT '1' NOT NULL ;
 
