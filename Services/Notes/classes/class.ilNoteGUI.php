@@ -410,9 +410,11 @@ class ilNoteGUI
 						$tpl->setVariable("HID_NOTE_ID", $note->getId());
 						$tpl->parseCurrentBlock();						
 					}
+					$target = $note->getObject();
 					
 					// target objects							
-					$this->showTargets($tpl, $this->rep_obj_id, $note->getId());
+					$this->showTargets($tpl, $this->rep_obj_id, $note->getId(),
+						$target["obj_type"], $target["obj_id"]);
 					
 					$rowclass = ($rowclass != "tblrow1")
 						? "tblrow1"
@@ -521,7 +523,7 @@ class ilNoteGUI
 	/**
 	* show related objects as links
 	*/
-	function showTargets($tpl, $a_rep_obj_id, $a_note_id)
+	function showTargets($tpl, $a_rep_obj_id, $a_note_id, $a_obj_type, $a_obj_id)
 	{
 		global $tree, $ilAccess, $objDefinition;
 
@@ -547,22 +549,30 @@ class ilNoteGUI
 					{
 						$type = ilObject::_lookupType($vis_ref_id, true);
 						
-						if (!is_object($this->item_list_gui[$type]))
+						if ($a_obj_type != "pg")
 						{
-							$class = $objDefinition->getClassName($type);
-							$location = $objDefinition->getLocation($type);
-							$full_class = "ilObj".$class."ListGUI";
-							include_once($location."/class.".$full_class.".php");
-							$this->item_list_gui[$type] = new $full_class();
+							if (!is_object($this->item_list_gui[$type]))
+							{
+								$class = $objDefinition->getClassName($type);
+								$location = $objDefinition->getLocation($type);
+								$full_class = "ilObj".$class."ListGUI";
+								include_once($location."/class.".$full_class.".php");
+								$this->item_list_gui[$type] = new $full_class();
+							}
+							$title = ilObject::_lookupTitle($a_rep_obj_id);
+							$this->item_list_gui[$type]->initItem($vis_ref_id, $a_rep_obj_id, $title);
+							$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
+							
+							// workaround, because # anchor can't be passed through frameset
+							$link = ilUtil::appendUrlParameterString($link, "anchor=note_".$a_note_id);
+							
+							$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link)."#note_".$a_note_id;
 						}
-						$title = ilObject::_lookupTitle($a_rep_obj_id);
-						$this->item_list_gui[$type]->initItem($vis_ref_id, $a_rep_obj_id, $title);
-						$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
-						
-						// workaround, because # anchor can't be passed through frameset
-						$link = ilUtil::appendUrlParameterString($link, "anchor=note_".$a_note_id);
-						
-						$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link)."#note_".$a_note_id;
+						else
+						{
+							$title = ilObject::_lookupTitle($a_rep_obj_id);
+							$link = "goto.php?target=pg_".$a_obj_id."_".$vis_ref_id;
+						}
 						
 						$par_id = $tree->getParentId($vis_ref_id);
 						if ($this->export_html || $this->print)
@@ -667,8 +677,9 @@ class ilNoteGUI
 				$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
 				$tpl->setVariable("VAL_DATE", substr($note->getCreationDate(),0,10));
 				
-				// target objects		
-				$this->showTargets($tpl, $target["rep_obj_id"], $note->getId());
+				// target objects
+				$this->showTargets($tpl, $target["rep_obj_id"], $note->getId(),
+					$target["obj_type"], $target["obj_id"]);
 			}
 			
 			// edit button
@@ -729,7 +740,7 @@ class ilNoteGUI
 	{
 		global $ilUser;
 
-		if($_POST["note"] != "")
+		if($_POST["note"] != "" || $_POST["sub_note"] != "")
 		{
 			$note = new ilNote();
 			$note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id);			
