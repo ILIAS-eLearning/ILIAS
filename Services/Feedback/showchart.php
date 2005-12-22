@@ -19,7 +19,14 @@
 	| along with this program; if not, write to the Free Software                 |
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
-*/		
+*/	
+
+/**
+* ShowChart
+*
+* @author	Helmuth Antholzer <helmuth.antholzer@maguma.com>
+* @version	$Id$
+*/	
 		include_once('../../survey/phplot/phplot.php');
 		
 		$data = unserialize(base64_decode($_GET['data']));
@@ -33,32 +40,16 @@
 		$chart_type = $_GET['chart_type'];
 		
 		$graph = new PHPlot(600,350);
-		/* switch($chart_type){
-			case 'pie':
-				//$graph->SetDataType('text-data-single');
-				$graph->SetDataType('text-data');
-				break;
-			default:
-				$graph->SetDataType('text-data');
-				break;
-			
-		} */
+	
 		
 		$graph->SetShading(0);
 		$graph->SetPlotType($chart_type);
 		$graph->SetDataType('text-data');
 		
 		$graph->SetTitle($title);
-/*		$graph->SetXTitle('Zeit');
-		$graph->SetYTitle('Bewertung');*/
+
 		$graph->SetXDataLabelPos('plotdown');
-		
-	/*	$data = array(
-	array("label 1",1.1,2,3,4),
-	array("label 2",2,3,4,5),
-	array("label 3",5,6,7,8),
-	array("label 4",10,12,13,14)
-);*/
+
 		$graph->setLegend($legend);
 		$graph->SetDataValues($data);
 		$graph->DrawGraph();
