@@ -966,7 +966,7 @@ class ilObjectGUI
 	{
 		global $rbacadmin, $rbacreview, $log;
 
-		$this->tree->insertNode($a_source_id,$a_dest_id);
+		$this->tree->insertNode($a_source_id,$a_dest_id, IL_LAST_NODE, true);
 		
 		// write log entry
 		$log->write("ilObjectGUI::insertSavedNodes(), restored ref_id $a_source_id from trash");
@@ -1119,7 +1119,7 @@ class ilObjectGUI
 					//$mail->sendMail($id,$msg,$affected_users);
 				}
 
-				$this->tree->saveSubTree($id);
+				$this->tree->saveSubTree($id, true);
 				$this->tree->deleteTree($this->tree->getNodeData($id));
 
 				// write log entry

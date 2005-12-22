@@ -852,6 +852,30 @@ class ilObject
 
 		return (int) $ilObjDataCache->lookupObjId($a_id);
 	}
+	
+	/**
+	* only called in ilTree::saveSubTree
+	*/
+	function _setDeletedDate($a_ref_id)
+	{
+		global $ilDB;
+		
+		$q = "UPDATE object_reference SET deleted=now() ".
+			"WHERE ref_id = ".$ilDB->quote($a_ref_id);
+		$ilDB->query($q);
+	}
+
+	/**
+	* only called in ilObjectGUI::insertSavedNodes
+	*/
+	function _resetDeletedDate($a_ref_id)
+	{
+		global $ilDB;
+		
+		$q = "UPDATE object_reference SET deleted= ".$ilDB->quote("0000-00-00 00:00:00").
+			" WHERE ref_id = ".$ilDB->quote($a_ref_id);
+		$ilDB->query($q);
+	}
 
 	/**
 	* write title to db (static)
