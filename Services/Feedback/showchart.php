@@ -46,7 +46,7 @@
 		$graph->SetPlotType($chart_type);
 		$graph->SetDataType('text-data');
 		
-		$graph->SetTitle($title);
+		$graph->SetTitle($title."\n\r\n\r");
 
 		$graph->SetXDataLabelPos('plotdown');
 
