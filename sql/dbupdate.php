@@ -9455,3 +9455,14 @@ CREATE TABLE `feedback_results` (
   `votetime` int(11) NOT NULL default '0'
 ) TYPE=MyISAM;
 
+<#618>
+ALTER TABLE `frm_user_read` ADD INDEX `obj_usr` ( `obj_id`,`usr_id`);
+<#619>
+ALTER TABLE `frm_user_read` ADD INDEX `post_usr` ( `post_id` , `usr_id`);
+<#620>
+ALTER TABLE `frm_thread_access` ADD INDEX `usr_thread` ( `thread_id` , `usr_id`);
+<#621>
+ALTER TABLE `frm_posts` ADD INDEX ( `pos_thr_fk` );
+<#622>
+ALTER TABLE `frm_posts` ADD INDEX ( `pos_top_fk`);
+
