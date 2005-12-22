@@ -828,9 +828,9 @@ common#:#add_user#:#Aggiungi utenti locali
 common#:#added_new_condition#:#Creata nuova condizione
 common#:#adm_create_tax#:#Creare una tassonomia
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
-common#:#adm_visible#:#Vedere le impostazioni di sistema
-common#:#adm_write#:#Modificare le impostazioni di sistema
+common#:#adm_read#:#Accedere in lettura alla sezione di amministrazione
+common#:#adm_visible#:#Vedere la sezione di amministrazione
+common#:#adm_write#:#Modificare la sezione di amministrazione
 common#:#admin_panel#:#Pannello di amministrazione
 common#:#admin_panel_disable#:#Disattiva i comandi di amministrazione
 common#:#admin_panel_enable#:#Attiva i comandi di amministrazione
@@ -1142,7 +1142,7 @@ common#:#cron_forum_notification_desc#:#Se selezionato, tutti gli utenti, che vo
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo che agisce in modo automatico ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
 common#:#cron_lucene_index#:#Aggiorna l'indice di ricerca di Lucene
-common#:#cron_lucene_index_info#:#Se selezionato, l'indice di ricerca di Lucene verr&#224; aggiornato. Configura il server Lucene alla pagina 'Amministrazione -> Impostazioni di sistema -> Impostazioni per le ricerche'.
+common#:#cron_lucene_index_info#:#Se selezionato, l'indice di ricerca di Lucene verr&#224; aggiornato. Configura il server Lucene alla pagina 'Amministrazione -> Impostazioni per le ricerche'.
 common#:#crs#:#Corso
 common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
@@ -1229,14 +1229,14 @@ common#:#dbk_write#:#Modificare un libro digitale
 common#:#def_repository_view#:#Vista risorse predefinite
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
-common#:#default_perm_settings#:#Impostazione dei permessi
+common#:#default_perm_settings#:#Permessi
 common#:#default_role#:#Ruolo predefinito
 common#:#default_roles#:#Ruoli predefiniti
 common#:#default_skin#:#Tema predefinito
 common#:#default_skin_style#:#Tema / Stile predefiniti
 common#:#default_style#:#Stile predefinito
 common#:#default_value#:#valore predefinito
-common#:#delete#:#Elimina
+common#:#delete#:#Eliminare
 common#:#delete_all#:#Elimina tutto
 common#:#delete_all_rec#:#Cancella tutti i record
 common#:#delete_object#:#Elimina oggetto
@@ -2237,15 +2237,15 @@ common#:#num_users#:#Numero di utenti
 common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
-common#:#obj_adm#:#Impostazioni di sistema
-common#:#obj_adm_desc#:#La sezione con le impostazioni di sistema contiene tutte le schede per poter amministrare la tua installazione di ILIAS 3.
+common#:#obj_adm#:#Amministrazione
+common#:#obj_adm_desc#:#Questa sezione contiene tutte le schede che consentono di amministrare la tua installazione di ILIAS 3.
 common#:#obj_alm#:#Modulo AICC
 common#:#obj_assf#:#Test&Valutazioni
 common#:#obj_auth#:#Autenticazione
 common#:#obj_auth_desc#:#Per configurare la modalit&#224; di autenticazione (locale o tramite LDAP)
 common#:#obj_cat#:#Contesto
 common#:#obj_cen#:#Evento principale
-common#:#obj_chac#:#Impostazioni chat
+common#:#obj_chac#:#Configurazione chat
 common#:#obj_chac_desc#:#Per configurare il server di chat, abilitare/disabilitare la chat.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
@@ -2269,7 +2269,7 @@ common#:#obj_lng#:#Lingua
 common#:#obj_lngf#:#Gestione lingue
 common#:#obj_lngf_desc#:#Per configurare e installare le lingue di sistema.
 common#:#obj_lo#:#Unit&#224; didattica
-common#:#obj_mail#:#Impostazioni posta
+common#:#obj_mail#:#Configurazione posta
 common#:#obj_mail_desc#:#Per configurare le impostazioni globali della posta.
 common#:#obj_mep#:#Libreria multimediale
 common#:#obj_mob#:#Oggetto multimediale
@@ -2277,9 +2277,9 @@ common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Gestione note
 common#:#obj_objf#:#Gestione oggetti
-common#:#obj_objf_desc#:#Per configurare i tipi di oggetti ed i permessi sugli stessi in ILIAS 3 (solo per utenti esperti!).
+common#:#obj_objf_desc#:#Per configurare i tipi di oggetti ed i permessi sugli stessi (solo per utenti esperti!).
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
-common#:#obj_pays#:#Impostazioni pagamenti
+common#:#obj_pays#:#Configurazione pagamenti
 common#:#obj_pays_desc#:#Per configurare le impostazioni dei pagamenti e dei venditori.
 common#:#obj_pg#:#Pagina
 common#:#obj_qpl#:#Raccolta di domande (per test)
@@ -2293,7 +2293,7 @@ common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
 common#:#obj_sahs#:#Modulo SCORM/AICC
-common#:#obj_seas#:#Impostazioni per le ricerche
+common#:#obj_seas#:#Configurazione ricerche
 common#:#obj_seas_desc#:#Imposta i criteri di ricerca qui.
 common#:#obj_spl#:#Raccolta di domande (per sondaggi)
 common#:#obj_st#:#Capitolo
@@ -2468,7 +2468,7 @@ common#:#question#:#Domanda
 common#:#question_pools#:#Raccolte di domande
 common#:#quit#:#Esci
 common#:#quote#:#Virgolette
-common#:#read#:#Leggi
+common#:#read#:#Leggere
 common#:#recf_edit#:#Modifica cartella di recovery
 common#:#recipient#:#Destinario
 common#:#referral_comment#:#Come hai conosciuto di ILIAS?
@@ -2975,7 +2975,7 @@ common#:#version#:#Versione
 common#:#versions#:#Versioni
 common#:#view#:#Anteprima
 common#:#view_content#:#Vedi il contenuto
-common#:#visible#:#Visibile
+common#:#visible#:#Vedere
 common#:#visible_layers#:#Livelli visibili
 common#:#visitor#:#Ospite
 common#:#visitors#:#Ospiti
@@ -3014,7 +3014,7 @@ common#:#welcome#:#Benvenuto
 common#:#who_is_online#:#Chi &#232; connesso?
 common#:#width_x_height#:#Larghezza x Altezza
 common#:#with#:#con
-common#:#write#:#Scrivi
+common#:#write#:#Scrivere
 common#:#wrong_ip_detected#:#Il tuo accesso non &#232; consentito da questo indirizzo IP.<br>Per favore contatta l'amministratore di sistema.
 common#:#yes#:#Si
 common#:#you_may_add_local_roles#:#Aggiungi ruoli locali
