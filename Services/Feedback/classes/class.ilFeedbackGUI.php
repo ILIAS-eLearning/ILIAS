@@ -212,7 +212,13 @@ class ilFeedbackGUI{
 			case 'table':
 				if(is_array($datatable)){
 					$tpl->setCurrentBlock('tablerow');
+					$tpl->setVariable('TXT_TABLE_USERNAME',$this->lng->txt('username'));	
+					$tpl->setVariable('TXT_TABLE_VOTE',$this->lng->txt('vote'));
+					$tpl->setVariable('TXT_TABLE_DATE', $this->lng->txt('date'));		
+					$tpl->parseCurrentBlock();
+					$i=0;
 					foreach($datatable as $tablerow){
+						$tpl->setVariable('VALUE_NUM',(($i++ % 2) ? 1 : 2));
 						$tpl->setVariable('VALUE_VOTETIME', $tablerow['votetime']);
 						$tpl->setVariable('VALUE_USER', $tablerow['user']);
 						$tpl->setVariable('VALUE_VOTE', $tablerow['vote']);
@@ -231,12 +237,17 @@ class ilFeedbackGUI{
 		
 
 		$comments = $feedback->getNotes();
-
 		if(is_Array($comments)){
-			$tpl->setCurrentBlock('comments');
+			$tpl->setCurrentBlock('comment_row');
+			$tpl->setVariable('TXT_USERNAME',$this->lng->txt('username'));
+			$tpl->setVariable('TXT_COMMENT',$this->lng->txt('comment'));
+			$tpl->setVariable('TXT_DATE', $this->lng->txt('date'));
+			$tpl->parseCurrentBlock();
+			$i=0;
 			foreach ($comments as $comment){
-			
+				$tpl->setVariable('VALUE_NUM',(($i++ % 2) ? 1 : 2));
 				$tpl->setVariable('VALUE_LOGIN',$comment['user']);
+				$tpl->setVariable('VALUE_DATE',$comment['votetime']);
 				$tpl->setVariable('VALUE_NOTE',$comment['note']);
 				$tpl->parseCurrentBlock();
 			}
