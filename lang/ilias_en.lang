@@ -5622,3 +5622,5 @@ trac#:#trac_total_online#:#Total time online
 trac#:#trac_not_accessed#:#Not accessed
 crs#:#crs_notification#:#Notification
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+common#:#no_condition_selected#:#Please select one precondition.
+common#:#no_conditions_found#:#No preconditions created.

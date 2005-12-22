@@ -5585,4 +5585,6 @@ trac#:#last_login#:#Letztes Login
 trac#:#trac_total_online#:#Gesamtzeit online
 trac#:#trac_not_accessed#:#Noch nicht zugegriffen
 crs#:#crs_notification#:#Benachrichtigungen
-crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen. 
+crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
+common#:#no_condition_selected#:#Sie haben keine Vorbedingung ausgewählt.
+common#:#no_conditions_found#:#Es wurden noch keine Vorbedingungen festgelegt.

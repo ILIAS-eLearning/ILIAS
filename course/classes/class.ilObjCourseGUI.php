@@ -363,6 +363,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		$this->setSubTabs("properties");
+		$this->tabs_gui->setSubTabActive('crs_crs_structure');
+
 
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 
@@ -380,28 +382,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return true;
 		}
-		else
-		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-			// display button
-		
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'edit'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit_properties'));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_crs_structure'));
-			$this->tpl->parseCurrentBlock();
-		}
-
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
@@ -460,6 +440,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		include_once './course/classes/class.ilCourseStart.php';
 
+		$this->setSubTabs("properties");
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('crs_crs_structure');
+
 		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess("write", $this->ref_id))
@@ -470,27 +454,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_add_starter.html","course");
-
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-
-		// display button
-		
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'edit'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit_properties'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_crs_structure'));
-		$this->tpl->parseCurrentBlock();
-
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
@@ -4174,22 +4137,17 @@ class ilObjCourseGUI extends ilContainerGUI
 				if($_GET['item_id'])
 				{
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+					$this->setTabActive('edit_content');
 					$this->setSubTabs("item_activation");
 
 					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
-					//$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
-					//							   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
-					//																					'listConditions')));
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				else	// preconditions for whole course
 				{
 					$this->setSubTabs("properties");
+					$this->setTabActive('settings');
 					$new_gui =& new ilConditionHandlerInterface($this);
-					//$new_gui->setBackButtons(array('edit_properties' => $this->ctrl->getLinkTarget($this,'edit'),
-					//							   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
-					//																					'listConditions'),
-					//							   'crs_crs_structure' => $this->ctrl->getLinkTarget($this,'listStructure')));
 
 					$this->ctrl->forwardCommand($new_gui);
 				}
