@@ -434,7 +434,7 @@ class ilTree
 	* @param	integer		parent_id
 	* @param	integer		IL_LAST_NODE | IL_FIRST_NODE | node id of preceding child
 	*/
-	function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE)
+	function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE, $a_reset_deletion_date = false)
 	{
 //echo "+$a_node_id+$a_parent_id+";
 		// CHECK node_id and parent_id > 0 if in main tree
@@ -463,9 +463,6 @@ class ilTree
 									 $this->table_tree."!",$this->ilErr->WARNING);
 		}
 
-		//
-		// i changed the processing here.
-		// mail any errors to alex.killing@gmx.de (22.5.2003)
 		//
 		switch ($a_pos)
 		{
@@ -720,6 +717,12 @@ class ilTree
 			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 
 		$this->ilDB->query($q);
+		
+		// reset deletion date
+		if ($a_reset_deletion_date)
+		{
+			ilObject::_resetDeletedDate($a_node_id);
+		}
 	}
 
 	/**
@@ -1590,7 +1593,7 @@ class ilTree
 	* @return	integer
 	* @access	public
 	*/
-	function saveSubTree($a_node_id)
+	function saveSubTree($a_node_id, $a_set_deleted = false)
 	{
 		if (!$a_node_id)
 		{
@@ -1604,7 +1607,8 @@ class ilTree
 		// LOCKED ###############################################
 		if($this->__isMainTree())
 		{
-			ilDBx::_lockTables(array('tree' => 'WRITE'));
+			ilDBx::_lockTables(array('tree' => 'WRITE',
+				'object_reference' => 'WRITE'));
 		}
 
 		// GET LEFT AND RIGHT VALUE
@@ -1637,6 +1641,12 @@ class ilTree
 				 "VALUES ('".-$a_node_id."','".$node["child"]."','".$node["parent"]."','".
 				 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
 			$r = $this->ilDB->query($q);
+			
+			// set node as deleted
+			if ($a_set_deleted)
+			{
+				ilObject::_setDeletedDate($node["child"]);
+			}
 		}
 		if($this->__isMainTree())
 		{
@@ -1679,6 +1689,11 @@ class ilTree
 	/**
 	* save node: copy a node (defined by obj_id and parent) to a new tree
 	* with tree_id -obj_id.This is neccessary for link
+	*
+	* DEPRECATED? (I grepped through the whole code, it seems that this
+	* method is never used) If you need this method, send me an e-mail
+	* (alex.killing@gmx.de), the deletion date handling is missing)
+	*
 	* @param	integer	node_id
 	* @param	integer	parent_id
 	* @return	boolean
