@@ -34,44 +34,21 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Analyze and repair data integrity
 administration#:#analysis_options#:#Analysis options
-administration#:#output_options#:#Output options
-administration#:#repair_options#:#Repair options
-administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
+administration#:#analyze_data#:#Analyze and repair data integrity
 administration#:#analyzing#:#Analyzing...
 administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
-rbac#:#perm_class_general#:#General operations
-rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.
-rbac#:#perm_class_object#:#Special operations
-rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.
-rbac#:#perm_class_rbac#:#Permission settings
-rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.
-rbac#:#perm_class_create#:#Create new objects
-rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
-rbac#:#perm_administrate#:#Administrate
-rbac#:#perm_use_local_policy#:#Use local policy
-rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.
-rbac#:#perm_local_role#:#Locale role
-rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
-rbac#:#edit_learning_progress#:#Edit learning progress
-rbac#:#leave#:#Leave
-rbac#:#filter_all_roles#:#Show all roles of current context
-rbac#:#filter_global_roles#:#Show only global roles
-rbac#:#filter_local_roles#:#Show only local roles of current context
-rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position
-rbac#:#filter_local_roles_object#:#Show only local roles defined at this position
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#disabled#:#disabled
+administration#:#done#:#Done
 administration#:#dump_tree#:#Dump tree
 administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.
 administration#:#dumping_tree#:#Dumping tree...
-administration#:#done#:#Done
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#initializing_gaps#:#Initializing gaps in tree...
@@ -81,6 +58,7 @@ administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
 administration#:#options#:#Options
+administration#:#output_options#:#Output options
 administration#:#passwd_auto_generate#:#Password Forwarding/Generation
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
@@ -93,6 +71,7 @@ administration#:#purging_unbound_objs#:#Purging unbound objects...
 administration#:#removing_invalid_childs#:#Removing invalid tree entries...
 administration#:#removing_invalid_refs#:#Removing invalid references...
 administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...
+administration#:#repair_options#:#Repair options
 administration#:#restore_missing#:#Restore missing objects
 administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.
 administration#:#restore_trash#:#Restore deleted objects
@@ -103,6 +82,7 @@ administration#:#restoring_trash#:#Restoring trash...
 administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...
 administration#:#scan#:#Scan
 administration#:#scan_completed#:#Scan completed
+administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#scan_details#:#Scan details
 administration#:#scan_modes#:#Scan modes used
 administration#:#scanning_system#:#Scanning system...
@@ -325,8 +305,8 @@ assessment#:#no_question_selected_for_move#:#Please check at least one question 
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
-assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
 assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.
+assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
 assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
@@ -653,6 +633,55 @@ assessment#:#width#:#Width
 assessment#:#with_order#:#with order
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
+barometer#:#add#:#Add new Feedback
+barometer#:#anonymous#:#Anonymous
+barometer#:#barometer_title#:#Feedback
+barometer#:#best#:#Best
+barometer#:#change_course#:#Change Course
+barometer#:#chart_type#:#Chart type
+barometer#:#chart_users#:#Chart user
+barometer#:#chart_votes#:#Chart votes
+barometer#:#create#:#Create new feedback
+barometer#:#day#:#Day
+barometer#:#days#:#Days
+barometer#:#delete#:#Delete
+barometer#:#duration#:#Duration
+barometer#:#edit#:#Edit
+barometer#:#edit_barometer#:#Edit feedback
+barometer#:#every#:#every
+barometer#:#first_vote#:#1. Vote is the
+barometer#:#from#:#from
+barometer#:#hours#:#Hours
+barometer#:#lines#:#Lines
+barometer#:#login#:#Login
+barometer#:#missing_fields#:#Please fill in all required information
+barometer#:#month#:#Month
+barometer#:#months#:#Months
+barometer#:#new_vote#:#New vote
+barometer#:#note#:#Comment
+barometer#:#optional#:#Optional
+barometer#:#options#:#Options
+barometer#:#pie#:#Pie
+barometer#:#repeat#:#Repeat
+barometer#:#required#:#Required
+barometer#:#save#:#Save
+barometer#:#save_vote#:#Submit vote
+barometer#:#skip#:#Skip
+barometer#:#statistics#:#Statistics
+barometer#:#status#:#Status
+barometer#:#table#:#Table
+barometer#:#text#:#Text
+barometer#:#text_answer#:#Text answer
+barometer#:#time#:#Running
+barometer#:#title#:#Title
+barometer#:#type#:#Type
+barometer#:#until#:#until
+barometer#:#user#:#User
+barometer#:#vote#:#Vote
+barometer#:#votes#:#Votes
+barometer#:#weeks#:#Weeks
+barometer#:#worst#:#Worst
+barometer#:#year#:#Year
 bibitem#:#bibitem_add#:#Add
 bibitem#:#bibitem_author#:#Author
 bibitem#:#bibitem_av#:#AV
@@ -908,6 +937,7 @@ common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
 common#:#any_language#:#Any language
+common#:#append_search#:#Append search results
 common#:#application_completed#:#Application is complete
 common#:#application_date#:#Application date
 common#:#applied_users#:#Applied users
@@ -923,7 +953,6 @@ common#:#arrow_downright#:#Arrow from top to down right
 common#:#articels_unread#:#Unread articels
 common#:#as_of#:#as of
 common#:#ascending_order#:#Ascending order
-common#:#descending_order#:#Descending order
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period
 common#:#assessment_log_datetime#:#Date/Time
 common#:#assessment_log_for_test#:#For test
@@ -1091,6 +1120,7 @@ common#:#change_existing_objects#:#Change existing Objects
 common#:#change_header_title#:#Edit Header Title
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
+common#:#change_owner#:#Change owner
 common#:#change_sort_direction#:#Change sort direction
 common#:#changeable#:#Changeable
 common#:#changed_to#:#changed to
@@ -1126,6 +1156,7 @@ common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
 common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
+common#:#chown_warning#:#Attention, you may loose access permissions on this object after changing the owner.
 common#:#city#:#City, State
 common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
@@ -1163,6 +1194,7 @@ common#:#content#:#Content
 common#:#content_styles#:#Content Styles
 common#:#context#:#Context
 common#:#continue_work#:#Continue
+common#:#contra#:#Contra
 common#:#cookies_howto#:#How to enable cookies
 common#:#copied_object#:#Copied object
 common#:#copy#:#Copy
@@ -1182,7 +1214,10 @@ common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
 common#:#created#:#Create date
 common#:#cron_forum_notification#:#Send forum notifications
+common#:#cron_forum_notification_cron#:#regularly per cron job
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.
+common#:#cron_forum_notification_directly#:#directly on new entries
+common#:#cron_forum_notification_never#:#never
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
 common#:#cron_lucene_index#:#Update Lucene search index
@@ -1219,6 +1254,7 @@ common#:#crs_create_tst#:#Create Test
 common#:#crs_create_webr#:#Create Web Resource
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
+common#:#crs_edit_learning_progress#:#Edit learning progress
 common#:#crs_edit_permission#:#Change permission settings
 common#:#crs_info#:#Info
 common#:#crs_join#:#Join Course
@@ -1265,6 +1301,7 @@ common#:#dbk_add#:#Add Digilib Book
 common#:#dbk_added#:#Digilib Book added
 common#:#dbk_create#:#Create Digilib Book
 common#:#dbk_delete#:#Delete Digilib Book
+common#:#dbk_edit_learning_progress#:#Edit learning progress
 common#:#dbk_edit_permission#:#Change permission settings
 common#:#dbk_new#:#New Digilib Book
 common#:#dbk_read#:#Read access to Digilib Book
@@ -1292,6 +1329,7 @@ common#:#deleted_user#:#The user has been deleted
 common#:#deliver#:#Deliver exercise
 common#:#department#:#Department
 common#:#desc#:#Description
+common#:#descending_order#:#Descending order
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#desktop_items#:#Personal desktop items
@@ -1306,7 +1344,6 @@ common#:#download_all_returned_files#:#Download all returned files
 common#:#drafts#:#Drafts
 common#:#drop#:#Drop
 common#:#edit#:#Edit
-common#:#file_info#:#File Information
 common#:#edit_content#:#Edit content
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
@@ -1397,6 +1434,7 @@ common#:#exc_write#:#Edit exercise
 common#:#excs#:#Exercises
 common#:#execute#:#Execute
 common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!
+common#:#exp_html#:#Export HTML
 common#:#export#:#Export
 common#:#export_group_members#:#Export group members (to Microsoft Excel)
 common#:#export_html#:#export as HTML file
@@ -1430,6 +1468,7 @@ common#:#file_added#:#File uploaded
 common#:#file_delete#:#Delete File
 common#:#file_edit#:#Edit File
 common#:#file_edit_permission#:#Change Permission settings
+common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
@@ -1448,7 +1487,6 @@ common#:#filter#:#Filter:
 common#:#firstname#:#First name
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
-common#:#exp_html#:#Export HTML
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
@@ -1707,6 +1745,7 @@ common#:#htlm#:#Learning Module HTML
 common#:#htlm_add#:#Add HTML Learning Module
 common#:#htlm_delete#:#Delete HTML Learning Module
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
+common#:#htlm_edit_learning_progress#:#Edit learning progress
 common#:#htlm_edit_permission#:#Change permission settings
 common#:#htlm_new#:#New HTML Learning Module
 common#:#htlm_read#:#Read HTML Learning Module
@@ -1841,6 +1880,7 @@ common#:#info_from_role#:#Granted by role/ownership
 common#:#info_is_member#:#User is member
 common#:#info_is_not_member#:#User is not a member
 common#:#info_not_assigned#:#not assigned
+common#:#info_owner_of_object#:#Owner of object
 common#:#info_permission_origin#:#Original position
 common#:#info_permission_source#:#effective from*
 common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
@@ -1956,6 +1996,7 @@ common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
 common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
+common#:#learning_progress#:#Learning progress
 common#:#learning_resource#:#Learning Resource
 common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
@@ -1996,6 +2037,7 @@ common#:#lm_add#:#Add ILIAS Learning Module
 common#:#lm_added#:#ILIAS Learning Module added
 common#:#lm_create#:#Create ILIAS Learning Module
 common#:#lm_delete#:#Delete ILIAS Learning Module
+common#:#lm_edit_learning_progress#:#Edit learning progress
 common#:#lm_edit_permission#:#Change permission settings
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
@@ -2063,6 +2105,7 @@ common#:#mail_maxsize_box#:#Max. mailbox size
 common#:#mail_maxsize_mail#:#Max. mail size
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
 common#:#mail_maxtime_mail#:#Max. days to keep mail
+common#:#mail_members#:#Mail to members
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_read#:#Read access to Mail settings
 common#:#mail_search_no#:#No entries found
@@ -2105,6 +2148,7 @@ common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
+common#:#minutes#:#Minutes
 common#:#missing#:#Missing
 common#:#mob#:#Media Object
 common#:#module#:#module
@@ -2251,6 +2295,8 @@ common#:#no_access_link_object#:#You are not allowed to link this object
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#No checkbox checked!
+common#:#no_condition_selected#:#Please select one precondition.
+common#:#no_conditions_found#:#No preconditions created.
 common#:#no_datasets#:#The table is empty
 common#:#no_date#:#No date
 common#:#no_description#:#No description
@@ -2283,6 +2329,8 @@ common#:#not_implemented_yet#:#Not implemented yet
 common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#You are not logged in
 common#:#note#:#Note
+common#:#note_all_pub_notes#:#All notes
+common#:#note_my_pub_notes#:#My notes only
 common#:#notes#:#Notes
 common#:#num_users#:#Number of users
 common#:#number_of_accesses#:#Number of accesses
@@ -2368,8 +2416,8 @@ common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#obj_webr#:#Web Resource
 common#:#object#:#Object
 common#:#object_added#:#Object added
-common#:#object_imported#:#Object imported
 common#:#object_duplicated#:#Object duplicated
+common#:#object_imported#:#Object imported
 common#:#objects#:#Objects
 common#:#objf#:#Object definitions
 common#:#objf_edit_permission#:#Change permission settings
@@ -2428,7 +2476,9 @@ common#:#options_for_subobjects#:#Options for subobjects
 common#:#order_by#:#Order by
 common#:#other#:#Other
 common#:#overview#:#Overview
+common#:#overwrite#:#Overwrite
 common#:#owner#:#Owner
+common#:#owner_updated#:#Owner updated.
 common#:#page#:#Page
 common#:#page_edit#:#Edit Page
 common#:#pages#:#Pages
@@ -2496,6 +2546,7 @@ common#:#presentation_options#:#Presentation Options
 common#:#previous#:#previous
 common#:#print#:#Print
 common#:#private_notes#:#Private Notes
+common#:#pro#:#Pro
 common#:#profile#:#Profile
 common#:#profile_changed#:#Your profile has changed
 common#:#profile_of#:#Profile of
@@ -2651,6 +2702,7 @@ common#:#sahs#:#Learning Module SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Learning Module added
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
 common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
+common#:#sahs_edit_learning_progress#:#Edit learning progress
 common#:#sahs_edit_permission#:#Change permission settings
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
@@ -2674,10 +2726,12 @@ common#:#search_active#:#Include active users
 common#:#search_for#:#Search For
 common#:#search_in#:#Search in
 common#:#search_inactive#:#Include inactive users
+common#:#search_minimum_characters#:#The minimum word length is:
 common#:#search_new#:#New Search
 common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.
 common#:#search_recipient#:#Search Recipient
 common#:#search_result#:#Search result
+common#:#search_to_short#:#Your query is to short.
 common#:#search_user#:#Search User
 common#:#seas_edit_permission#:#Change permission settings
 common#:#seas_max_hits#:#Max hits
@@ -2690,11 +2744,7 @@ common#:#seas_write#:#Edit search settings
 common#:#seconds#:#Seconds
 common#:#sections#:#Sections
 common#:#select#:#Select
-common#:#pro#:#Pro
-common#:#contra#:#Contra
 common#:#select_all#:#Select All
-common#:#note_my_pub_notes#:#My notes only
-common#:#note_all_pub_notes#:#All notes
 common#:#select_file#:#Select file
 common#:#select_max_one_item#:#Please select one item only
 common#:#select_mode#:#Select mode
@@ -2706,6 +2756,9 @@ common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
+common#:#send_mail_admins#:#Mail to administrators
+common#:#send_mail_members#:#Mail to members
+common#:#send_mail_tutors#:#Mail to tutors
 common#:#sender#:#Sender
 common#:#sent#:#Sent
 common#:#sequence#:#Sequence
@@ -2767,8 +2820,8 @@ common#:#small_icon#:#Small Icon
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#External user administration (SOAP)
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.
-common#:#spacer#:#Spacer
 common#:#sort_by_this_column#:#Sort by this column
+common#:#spacer#:#Spacer
 common#:#spl#:#Question Pool Survey
 common#:#spl_add#:#Add question pool for survey
 common#:#spl_delete#:#Delete Question Pool for Survey
@@ -2898,6 +2951,7 @@ common#:#tst#:#Test
 common#:#tst_add#:#Add test
 common#:#tst_anon_eval#:#Results
 common#:#tst_delete#:#Delete Test
+common#:#tst_edit_learning_progress#:#Edit learning progress
 common#:#tst_edit_permission#:#Change permission settings
 common#:#tst_new#:#New test
 common#:#tst_no_content#:#No tests available
@@ -2964,6 +3018,7 @@ common#:#user_imported#:#User import complete.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
 common#:#user_language#:#User Language
 common#:#user_not_chosen#:#You did not choose a group-member!
+common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_other#:#Other Information
 common#:#user_statistics#:#Statistical Data
 common#:#userdata#:#User data
@@ -3560,6 +3615,7 @@ crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting lis
 crs#:#crs_archive#:#Archives
 crs#:#crs_archive_disabled#:#Deactivated
 crs#:#crs_archive_download#:#Download
+crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.
 crs#:#crs_archive_lang#:#Language
 crs#:#crs_archive_read#:#Read access
 crs#:#crs_archive_select_type#:#Archive view
@@ -3703,6 +3759,7 @@ crs#:#crs_no_users_added#:#No members added
 crs#:#crs_no_users_selected#:#You did not select any user
 crs#:#crs_no_valid_member_id_given#:#No valid member Id
 crs#:#crs_not_available#:#-Not available-
+crs#:#crs_notification#:#Notification
 crs#:#crs_notify#:#Notify for new registrations
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#The following number of users has been assigned to the course:
@@ -3816,13 +3873,13 @@ crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribers#:#Subscribers
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
 crs#:#crs_subscription#:#Subscription
-crs#:#crs_subscription_requested#:#You have requested membership for the course.
 crs#:#crs_subscription_max_members#:#Maximum of users
 crs#:#crs_subscription_notify#:#Notify for subscriptions
 crs#:#crs_subscription_options_confirmation#:#Request membership
 crs#:#crs_subscription_options_deactivated#:#Deactivated
 crs#:#crs_subscription_options_direct#:#Join directly
 crs#:#crs_subscription_options_password#:#Join with course password
+crs#:#crs_subscription_requested#:#You have requested membership for the course.
 crs#:#crs_subscription_successful#:#You have joined the course
 crs#:#crs_subscription_type#:#Subscription type
 crs#:#crs_suggest_lm#:#Suggest learning materials if:
@@ -3852,6 +3909,7 @@ crs#:#crs_visibility#:#Availability
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Temporarily available
 crs#:#crs_visibility_unvisible#:#Not available
+crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting list
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Your position on the waiting list
@@ -4081,6 +4139,8 @@ dateplaner#:#viewlist#:#View
 dateplaner#:#week#:#Week
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
+forum#:#forum_anonymize#:#Write anonymously
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
 forum#:#forums_attachments#:#Attachments
@@ -4132,6 +4192,8 @@ forum#:#forums_thread_new_entry#:#New topic has been created
 forum#:#forums_threads_not_available#:#Topics Not Available
 forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
+forum#:#frm_anonymous_posting#:#Anonymous posting
+forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.
 forum#:#frm_default_view#:#Default view
 forum#:#frm_title_required#:#Please insert a title.
 forum#:#is_read#:#mark read
@@ -4217,8 +4279,12 @@ mail#:#mail_compose#:#Compose Message
 mail#:#mail_deleted#:#The mail is deleted
 mail#:#mail_deleted_entry#:#The entries are deleted
 mail#:#mail_email_forbidden#:#You are not allowed to send email
+mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
+mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
+mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
+mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.
 mail#:#mail_file_name#:#File name
 mail#:#mail_file_size#:#File size
 mail#:#mail_files_deleted#:#The file(s) are deleted
@@ -4528,6 +4594,7 @@ meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
 meta#:#meta_cost#:#Cost
 meta#:#meta_coverage#:#Coverage
 meta#:#meta_creator#:#Creator
+meta#:#meta_current_value#:#Current value
 meta#:#meta_date#:#Date
 meta#:#meta_delete#:#Delete
 meta#:#meta_description#:#Description
@@ -4565,6 +4632,7 @@ meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_index#:#Index
+meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installation Remarks
 meta#:#meta_instructional_designer#:#Instructional designer
@@ -5027,6 +5095,26 @@ pwassist#:#pwassist_password_assigned#:#The password has been successfully assig
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been emailed to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
+rbac#:#edit_learning_progress#:#Edit learning progress
+rbac#:#filter_all_roles#:#Show all roles of current context
+rbac#:#filter_global_roles#:#Show only global roles
+rbac#:#filter_local_roles#:#Show only local roles of current context
+rbac#:#filter_local_roles_object#:#Show only local roles defined at this position
+rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position
+rbac#:#leave#:#Leave
+rbac#:#perm_administrate#:#Administrate
+rbac#:#perm_class_create#:#Create new objects
+rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
+rbac#:#perm_class_general#:#General operations
+rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.
+rbac#:#perm_class_object#:#Special operations
+rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.
+rbac#:#perm_class_rbac#:#Permission settings
+rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.
+rbac#:#perm_local_role#:#Locale role
+rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
+rbac#:#perm_use_local_policy#:#Use local policy
+rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.
 search#:#search_active#:#Include active users
 search#:#search_added_new_folder#:#Added new folder.
 search#:#search_advanced#:#Advanced search
@@ -5433,14 +5521,14 @@ survey#:#survey_skip_previous#:#<<< skip
 survey#:#survey_skip_start#:#skip and go to start page
 survey#:#survey_start#:#go to start page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
+survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
+survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
+survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
 survey#:#svy_create_export_file#:#Create export file
 survey#:#svy_delete_all_user_data#:#Delete all user data
 survey#:#svy_eval_cumulated#:#Cumulated results
 survey#:#svy_eval_detail#:#Cumulated results (details)
 survey#:#svy_eval_user#:#User specific results
-survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
-survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
-survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
 survey#:#svy_export_files#:#Export files
 survey#:#svy_file#:#File
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.
@@ -5476,161 +5564,73 @@ survey#:#view_constraints_introduction#:#You are viewing the preconditions of th
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.
+trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
+trac#:#last_login#:#Last login
+trac#:#meta_typical_learning_time#:#Typical learning time
+trac#:#obj_types#:#Object types:
+trac#:#search_area_info#:#Please choose one object.
+trac#:#select_one#:#Please select one object
 trac#:#trac_activated#:#Tracking activated
 trac#:#trac_anonymized#:#Anonymized
-trac#:#trac_valid_request#:#Max. time between requests
-trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
-trac#:#trac_modus#:#Mode
-trac#:#trac_mode_manual#:#Manual
-trac#:#trac_mode_tlt#:#Typical learning time
-trac#:#trac_mode_visits#:#Number of visits
-trac#:#trac_mode_objectives#:#Learning objectives
-trac#:#trac_mode_collection#:#Collection of objects
-common#:#learning_progress#:#Learning progress
-trac#:#trac_settings_saved#:#Saved settings.
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
-trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-forum#:#frm_anonymous_posting#:#Anonymous posting
-forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.
-forum#:#forum_anonymize#:#Write anonymously
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
-common#:#cron_forum_notification_never#:#never
-common#:#cron_forum_notification_directly#:#directly on new entries
-common#:#cron_forum_notification_cron#:#regularly per cron job
-meta#:#meta_current_value#:#Current value
-meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.
-mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
-mail#:#mail_enter_valid_login#:#Please enter a valid login name.
-mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
-mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.
-common#:#overwrite#:#Overwrite
-common#:#send_mail_members#:#Mail to members
-common#:#send_mail_tutors#:#Mail to tutors
-common#:#send_mail_admins#:#Mail to administrators
-common#:#mail_members#:#Mail to members
-common#:#crs_edit_learning_progress#:#Edit learning progress
-common#:#tst_edit_learning_progress#:#Edit learning progress
-common#:#sahs_edit_learning_progress#:#Edit learning progress
-common#:#htlm_edit_learning_progress#:#Edit learning progress
-common#:#dbk_edit_learning_progress#:#Edit learning progress
-common#:#lm_edit_learning_progress#:#Edit learning progress
-common#:#append_search#:#Append search results
-common#:#search_to_short#:#Your query is to short.
-common#:#search_minimum_characters#:#The minimum word length is:
-common#:#chown_warning#:#Attention, you may loose access permissions on this object after changing the owner.
-common#:#info_owner_of_object#:#Owner of object
-common#:#user_not_known#:#Please insert a valid username.
-common#:#change_owner#:#Change owner
-common#:#owner_updated#:#Owner updated.
-barometer#:#barometer_title#:#Feedback
-barometer#:#title#:#Title
-barometer#:#text#:#Text
-barometer#:#anonymous#:#Anonymous
-barometer#:#type#:#Type
-barometer#:#optional#:#Optional
-barometer#:#required#:#Required
-barometer#:#login#:#Login
-barometer#:#change_course#:#Change Course
-barometer#:#text_answer#:#Text answer
-barometer#:#votes#:#Votes
-barometer#:#new_vote#:#New vote
-barometer#:#day#:#Day
-barometer#:#month#:#Month
-barometer#:#year#:#Year
-barometer#:#duration#:#Duration
-barometer#:#from#:#from
-barometer#:#until#:#until
-barometer#:#days#:#Days
-barometer#:#repeat#:#Repeat
-barometer#:#every#:#every
-barometer#:#hours#:#Hours
-barometer#:#weeks#:#Weeks
-barometer#:#months#:#Months
-barometer#:#first_vote#:#1. Vote is the
-barometer#:#worst#:#Worst
-barometer#:#best#:#Best
-barometer#:#vote#:#Vote
-barometer#:#status#:#Status
-barometer#:#time#:#Running
-barometer#:#options#:#Options
-barometer#:#delete#:#Delete
-barometer#:#add#:#Add new Feedback
-barometer#:#edit#:#Edit
-barometer#:#statistics#:#Statistics
-barometer#:#create#:#Create new feedback
-barometer#:#save#:#Save
-barometer#:#chart_type#:#Chart type
-barometer#:#lines#:#Lines
-barometer#:#pie#:#Pie
-barometer#:#table#:#Table
-barometer#:#user#:#User
-barometer#:#chart_users#:#Chart user
-barometer#:#chart_votes#:#Chart votes
-barometer#:#edit_barometer#:#Edit feedback
-barometer#:#save_vote#:#Submit vote
-barometer#:#note#:#Comment
-barometer#:#skip#:#Skip
-barometer#:#missing_fields#:#Please fill in all required information
-trac#:#trac_progress#:#Personal learning progress
-trac#:#trac_objects#:#List of objects
-trac#:#trac_settings#:#Settings
-trac#:#trac_lp_filter#:#Filter
-trac#:#obj_types#:#Object types:
-trac#:#trac_filter_area#:#Area:
-trac#:#trac_filter_hidden#:#Hidden:
-trac#:#trac_filter_repository#:#In the repository
-trac#:#trac_show_hidden#:#Show
-trac#:#trac_query#:#Title/description:
-trac#:#trac_refresh#:#Refresh
-trac#:#trac_hide#:#Hide
-trac#:#trac_modifications_saved#:#Saved settings
-trac#:#trac_in_progress#:#In progress
-trac#:#trac_completed#:#Completed
-trac#:#search_area_info#:#Please choose one object.
-trac#:#trac_status#:#Status
-trac#:#trac_no_attempted#:#Not attempted
-trac#:#trac_occurrences#:#Path:
-trac#:#trac_view_list#:#Back to list
-common#:#minutes#:#Minutes
-trac#:#trac_usr_list#:#Users
-trac#:#trac_marks#:#Marks
-trac#:#trac_comments#:#Comments
-trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
-trac#:#trac_mark#:#Mark
-trac#:#trac_comment#:#Comment
-trac#:#trac_update_edit_user#:#Saved settings
-trac#:#trac_mode#:#Mode
-trac#:#meta_typical_learning_time#:#Typical learning time
-trac#:#trac_learning_progress#:#Learning progress
-trac#:#trac_visits#:#Number of visits
-trac#:#trac_spent_time#:#Spent time
-trac#:#trac_crs_releavant_items#:#Course items
-trac#:#trac_mode_scorm#:#SCORM/AICC
-trac#:#trac_sahs_relevant_items#:#SCO's
-trac#:#trac_view_crs#:#Back to course
-trac#:#trac_not_attempted#:#Not attempted
-trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
-trac#:#trac_mode_deactivated#:#Deactivated
-trac#:#trac_assignments#:#Assignments
 trac#:#trac_assigned#:#Assigned
-trac#:#trac_not_assigned#:#Not assigned
+trac#:#trac_assignments#:#Assignments
 trac#:#trac_collection_assign#:#Assign
 trac#:#trac_collection_deassign#:#Deassign
-trac#:#select_one#:#Please select one object
-trac#:#trac_no_sahs_items_found#:#No objects found.
+trac#:#trac_comment#:#Comment
+trac#:#trac_comments#:#Comments
+trac#:#trac_completed#:#Completed
+trac#:#trac_crs_releavant_items#:#Course items
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
-trac#:#trac_num_visits#:#Number of visits
-trac#:#trac_visits_info#:#Every page visit counts as one visit.
-trac#:#trac_mode_test_passed#:#Test passed
-trac#:#trac_mode_test_finished#:#Test finished
+trac#:#trac_filter_area#:#Area:
+trac#:#trac_filter_hidden#:#Hidden:
 trac#:#trac_filter_no_access#:#No objects found
-trac#:#trac_user_data#:#User data
-trac#:#last_login#:#Last login
-trac#:#trac_total_online#:#Total time online
+trac#:#trac_filter_repository#:#In the repository
+trac#:#trac_hide#:#Hide
+trac#:#trac_in_progress#:#In progress
+trac#:#trac_learning_progress#:#Learning progress
+trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
+trac#:#trac_lp_filter#:#Filter
+trac#:#trac_mark#:#Mark
+trac#:#trac_marks#:#Marks
+trac#:#trac_mode#:#Mode
+trac#:#trac_mode_collection#:#Collection of objects
+trac#:#trac_mode_deactivated#:#Deactivated
+trac#:#trac_mode_manual#:#Manual
+trac#:#trac_mode_objectives#:#Learning objectives
+trac#:#trac_mode_scorm#:#SCORM/AICC
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
+trac#:#trac_mode_test_finished#:#Test finished
+trac#:#trac_mode_test_passed#:#Test passed
+trac#:#trac_mode_tlt#:#Typical learning time
+trac#:#trac_mode_visits#:#Number of visits
+trac#:#trac_modifications_saved#:#Saved settings
+trac#:#trac_modus#:#Mode
+trac#:#trac_no_attempted#:#Not attempted
+trac#:#trac_no_sahs_items_found#:#No objects found.
 trac#:#trac_not_accessed#:#Not accessed
-crs#:#crs_notification#:#Notification
-crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
-common#:#no_condition_selected#:#Please select one precondition.
-common#:#no_conditions_found#:#No preconditions created.
+trac#:#trac_not_assigned#:#Not assigned
+trac#:#trac_not_attempted#:#Not attempted
+trac#:#trac_num_visits#:#Number of visits
+trac#:#trac_objects#:#List of objects
+trac#:#trac_occurrences#:#Path:
+trac#:#trac_progress#:#Personal learning progress
+trac#:#trac_query#:#Title/description:
+trac#:#trac_refresh#:#Refresh
+trac#:#trac_sahs_relevant_items#:#SCO's
+trac#:#trac_settings#:#Settings
+trac#:#trac_settings_saved#:#Saved settings.
+trac#:#trac_show_hidden#:#Show
+trac#:#trac_spent_time#:#Spent time
+trac#:#trac_status#:#Status
+trac#:#trac_total_online#:#Total time online
+trac#:#trac_update_edit_user#:#Saved settings
+trac#:#trac_user_data#:#User data
+trac#:#trac_usr_list#:#Users
+trac#:#trac_valid_request#:#Max. time between requests
+trac#:#trac_view_crs#:#Back to course
+trac#:#trac_view_list#:#Back to list
+trac#:#trac_visits#:#Number of visits
+trac#:#trac_visits_info#:#Every page visit counts as one visit.
+trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.

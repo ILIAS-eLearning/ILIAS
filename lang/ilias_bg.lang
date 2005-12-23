@@ -34,27 +34,31 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Анализ на целостта на данните
-administration#:#analyze_desc#:#Сканиране на системата за повредени/невалидни/липсващи/несвързани обекти.
+administration#:#analysis_options#:#Analysis options###23 Dec 2005 new variable
+administration#:#analyze_data#:#Анализ на целостта на данните###23 Dec 2005 content changed
 administration#:#analyzing#:#Анализиране...
 administration#:#analyzing_tree_structure#:#Анализиране структурата на дървото с директориите...
 administration#:#check_tree#:#Проверка структурата на дървото с директориите
 administration#:#check_tree_desc#:#Проверка за последователност на цялата структура на дървото с директориите. В зависимост от размера на дървото, това може да отнеме известно време!
 administration#:#clean#:#Изчистване
-administration#:#clean_desc#:#Премахване на невалидни препратки и позиции в дървото. Попълване на празнините в структурата на дървото.
+administration#:#clean_desc#:#Премахване на невалидни препратки и позиции в дървото. Попълване на празнините в структурата на дървото.###23 Dec 2005 content changed
 administration#:#cleaning#:#Почистване...
 administration#:#cleaning_final#:#Финално почистване...
-administration#:#closing_gaps#:#Попълване на празнините в дървото...
 administration#:#disabled#:#изключено
 administration#:#done#:#Готово
+administration#:#dump_tree#:#Dump tree###23 Dec 2005 new variable
+administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.###23 Dec 2005 new variable
+administration#:#dumping_tree#:#Dumping tree...###23 Dec 2005 new variable
 administration#:#found#:#намерени.
 administration#:#found_none#:#няма намерени.
+administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Документиране на резултатите от сканирането
 administration#:#log_scan_desc#:#Запис на резултатите от сканирането във файл 'scanlog.log' в директорията с данни на клиента.
 administration#:#nothing_to_purge#:#Нищо за почистване...
 administration#:#nothing_to_remove#:#Нищо за премахване...
 administration#:#nothing_to_restore#:#Нищо за възстановяване...
 administration#:#options#:#Опции
+administration#:#output_options#:#Output options###23 Dec 2005 new variable
 administration#:#passwd_auto_generate#:#Предаване/генериране на парола
 administration#:#purge_missing#:#Изчистване на липсващи обекти
 administration#:#purge_missing_desc#:#Премахване на всички липсващи и несвързани обекти от системата.
@@ -67,6 +71,7 @@ administration#:#purging_unbound_objs#:#Изчистване на несвърз
 administration#:#removing_invalid_childs#:#Премахване на невалидни позиции в дървото...
 administration#:#removing_invalid_refs#:#Премахване на невалидни препратки...
 administration#:#removing_invalid_rolfs#:#Премахване на невалидни папки...
+administration#:#repair_options#:#Repair options###23 Dec 2005 new variable
 administration#:#restore_missing#:#Възстановяване на липсващи обекти
 administration#:#restore_missing_desc#:#Възстановяване на липсващи и несвързани обекти в папката за възстановяване RecoveryFolder.
 administration#:#restore_trash#:#Възстановяване на изтрити обекти
@@ -75,10 +80,11 @@ administration#:#restoring#:#Възстановяване...
 administration#:#restoring_missing_objs#:#Възстановяване на липсващи обекти...
 administration#:#restoring_trash#:#Възстановяване от кошчето...
 administration#:#restoring_unbound_objs#:#Възстановяване на несвързани обекти и подобекти...
+administration#:#scan#:#Scan###23 Dec 2005 new variable
 administration#:#scan_completed#:#Сканирането завършено
+administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###23 Dec 2005 new variable
 administration#:#scan_details#:#Резултати от сканирането
 administration#:#scan_modes#:#Използвани режими на сканиране
-administration#:#scan_only#:#Само сканиране
 administration#:#scanning_system#:#Сканиране на системата...
 administration#:#searching_deleted_objs#:#Търсене за изтрити обекти...
 administration#:#searching_invalid_childs#:#Търсене за невалидни записи в дървото...
@@ -127,6 +133,7 @@ assessment#:#average_reached_points#:#Средно достигнати точк
 assessment#:#backtocallingtest#:#Назад към теста
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Отмяна на теста
+assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
 assessment#:#cannot_edit_test#:#Нямате достатъчни права, за да редактирате теста!
 assessment#:#cannot_export_qpl#:#Нямате достатъчни права, за да експортирате набора с въпроси!
 assessment#:#cannot_export_test#:#Нямате достатъчно права, за да експортирате теста!
@@ -215,6 +222,7 @@ assessment#:#eval_legend_link#:#Моля, вижте легендата за з�
 assessment#:#eval_matching_result#:#Съвпадащата двойка %s - %s е %s. Получили сте %s точки.
 assessment#:#eval_order_result#:#Поредният номер на стойността %s е %s. Получили сте %s точки.
 assessment#:#eval_search_groups#:#Групи
+assessment#:#eval_search_roles#:#Roles###23 Dec 2005 new variable
 assessment#:#eval_search_term#:#Търсене на термин
 assessment#:#eval_search_users#:#Потребители
 assessment#:#eval_search_userselection#:#Търсене на потребители, които желаете да добавите към статистическата оценка
@@ -280,7 +288,7 @@ assessment#:#material#:#Материал
 assessment#:#material_download#:#Материал за даунлоуд
 assessment#:#material_file#:#Файл с материал
 assessment#:#maxchars#:#Максимален брой символи
-assessment#:#maximum_nr_of_tries_reached#:#Достигнали сте максималния брой опити за този тест. Не може да се влезе в теста!
+assessment#:#maximum_nr_of_tries_reached#:#Достигнали сте максималния брой опити за този тест. Не може да се влезе в теста!###23 Dec 2005 content changed
 assessment#:#meaning#:#Значение
 assessment#:#min_percentage_ne_0#:#Трябва да дефинирате минимален резултат от 0 процента! Схемата с оценките не е съхранена.
 assessment#:#negative_points_not_allowed#:#Не е позволено въвеждането на отрицателни точки!
@@ -289,7 +297,9 @@ assessment#:#no_passed_mark#:#Трябва да настроите поне ед
 assessment#:#no_question_selected_for_move#:#Моля, маркирайте поне един въпрос, за да го преместите!
 assessment#:#no_questions_available#:#Няма налични въпроси!
 assessment#:#no_target_selected_for_move#:#Трябва да изберете желана позиция!
-assessment#:#no_user_or_group_selected#:#Моля, маркирайте опция, каквато търсите (потребители и/или групи)!
+assessment#:#no_user_or_group_selected#:#Моля, маркирайте опция, каквато търсите (потребители и/или групи)!###23 Dec 2005 content changed
+assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
+assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
 assessment#:#or#:#или
 assessment#:#order_pictures#:#Подреждане на изображенията
 assessment#:#order_terms#:#Подреждане на термините
@@ -382,6 +392,8 @@ assessment#:#see_details_for_further_information#:#Вижте подробнос
 assessment#:#select_an_answer#:#--- Моля, изберете отговор ---
 assessment#:#select_gap#:#Изберете празнина
 assessment#:#select_max_one_item#:#Моля, изберете само едно
+assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test###23 Dec 2005 new variable
+assessment#:#select_one_user#:#Please select at least one user###23 Dec 2005 new variable
 assessment#:#select_target_position_for_move_question#:#Моля, изберете желаната позиция за да преместите въпроса(ите) и натиснете един от бутоните за вмъкване!
 assessment#:#select_tst_option#:#--- Моля, изберете тест ---
 assessment#:#selected_image#:#Избрано изображение
@@ -410,7 +422,7 @@ assessment#:#tst_all_user_data_deleted#:#Всички потребителски
 assessment#:#tst_already_taken#:#Тестовете вече са положени
 assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
 assessment#:#tst_browse_for_questions#:#Преглед на въпроси
-assessment#:#tst_confirm_delete_results#:#Така ще изтриете всички ваши предишни въведени резултати от въпросите в този тест. Това ще нулира всички въпроси до техните стойности по подразбиране. Моля, отбележете, че не можете да нулирате броя опити, от които сте се нуждаели за този тест. Наистина ли желаете да нулирате всички ваши предишни въведени резултати?
+assessment#:#tst_confirm_delete_results#:#Така ще изтриете всички ваши предишни въведени резултати от въпросите в този тест. Това ще нулира всички въпроси до техните стойности по подразбиране. Моля, отбележете, че не можете да нулирате броя опити, от които сте се нуждаели за този тест. Наистина ли желаете да нулирате всички ваши предишни въведени резултати?###23 Dec 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Вашите предишни въведени резултати от въпросите бяха изтрити. Успешно нулирахте теста!
 assessment#:#tst_delete_all_user_data#:#Изтриване на всички потребителски данни
 assessment#:#tst_delete_missing_mark#:#Моля, изберете поне една стъпка в оценките, за да я изтриете
@@ -430,7 +442,10 @@ assessment#:#tst_general_properties#:#Общи характеристики
 assessment#:#tst_generate_xls#:#Генериране в Excel
 assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
 assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
+assessment#:#tst_hide_title_points#:#Question title points###23 Dec 2005 new variable
+assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title###23 Dec 2005 new variable
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Тестът се ползва от %d потребител(и). Не можете да редактирате или премествате въпроси в този тест!
@@ -460,16 +475,20 @@ assessment#:#tst_no_questions_available#:#Няма налични въпроси
 assessment#:#tst_no_questions_for_random_test#:#Не сте използвали никакви въпроси от наборите с въпроси за този случаен тест! Моля, използвайте поне един въпрос, като настроите броя въпроси от добавения набор от въпроси.
 assessment#:#tst_no_taken_tests#:#Няма положени тестове!
 assessment#:#tst_no_tries#:#няма
-assessment#:#tst_nr_of_tries#:#Макс. брой опити
-assessment#:#tst_nr_of_tries_of_user#:#Опитите вече са завършени
+assessment#:#tst_nr_of_tries#:#Макс. брой опити###23 Dec 2005 content changed
+assessment#:#tst_nr_of_tries_of_user#:#Опитите вече са завършени###23 Dec 2005 content changed
 assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
 assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
 assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
 assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
 assessment#:#tst_percent_solved#:#Процент решени
 assessment#:#tst_processing_time#:#Макс. време за обработка
+assessment#:#tst_properties#:#Test properties###23 Dec 2005 new variable
 assessment#:#tst_question_no#:#Подреждане
 assessment#:#tst_question_offer#:#Приемате ли тази извадка или желаете друга?
+assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
+assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.###23 Dec 2005 new variable
+assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
 assessment#:#tst_question_title#:#Заглавие
 assessment#:#tst_question_type#:#Тип въпрос
 assessment#:#tst_questions_inserted#:#Вмъкнат(и) въпрос(и)!
@@ -540,6 +559,7 @@ assessment#:#tst_status_missing_elements#:#Следните елементи л�
 assessment#:#tst_status_not_entered#:#Не е започнат
 assessment#:#tst_status_ok#:#Статусът на теста е OK. Няма липсващи елементи.
 assessment#:#tst_status_progress#:#В ход
+assessment#:#tst_test_output#:#Test output###23 Dec 2005 new variable
 assessment#:#tst_time_already_spent#:#Дотук изразходено време за работа
 assessment#:#tst_total_questions#:#Общ брой въпроси
 assessment#:#tst_total_questions_description#:#Ако настроите тази стойност, въведените с наборите бройки на въпросите се игнорират. Ако не настроите тази стойност, трябва да въвеждате бройка с всеки избран набор въпроси!
@@ -566,6 +586,55 @@ assessment#:#width#:#Ширина
 assessment#:#with_order#:#с подреждане
 assessment#:#working_time#:#Време за работа
 assessment#:#you_received_a_of_b_points#:#Получили сте %d от %d възможни точки
+barometer#:#add#:#Add new Feedback###23 Dec 2005 new variable
+barometer#:#anonymous#:#Anonymous###23 Dec 2005 new variable
+barometer#:#barometer_title#:#Feedback###23 Dec 2005 new variable
+barometer#:#best#:#Best###23 Dec 2005 new variable
+barometer#:#change_course#:#Change Course###23 Dec 2005 new variable
+barometer#:#chart_type#:#Chart type###23 Dec 2005 new variable
+barometer#:#chart_users#:#Chart user###23 Dec 2005 new variable
+barometer#:#chart_votes#:#Chart votes###23 Dec 2005 new variable
+barometer#:#create#:#Create new feedback###23 Dec 2005 new variable
+barometer#:#day#:#Day###23 Dec 2005 new variable
+barometer#:#days#:#Days###23 Dec 2005 new variable
+barometer#:#delete#:#Delete###23 Dec 2005 new variable
+barometer#:#duration#:#Duration###23 Dec 2005 new variable
+barometer#:#edit#:#Edit###23 Dec 2005 new variable
+barometer#:#edit_barometer#:#Edit feedback###23 Dec 2005 new variable
+barometer#:#every#:#every###23 Dec 2005 new variable
+barometer#:#first_vote#:#1. Vote is the###23 Dec 2005 new variable
+barometer#:#from#:#from###23 Dec 2005 new variable
+barometer#:#hours#:#Hours###23 Dec 2005 new variable
+barometer#:#lines#:#Lines###23 Dec 2005 new variable
+barometer#:#login#:#Login###23 Dec 2005 new variable
+barometer#:#missing_fields#:#Please fill in all required information###23 Dec 2005 new variable
+barometer#:#month#:#Month###23 Dec 2005 new variable
+barometer#:#months#:#Months###23 Dec 2005 new variable
+barometer#:#new_vote#:#New vote###23 Dec 2005 new variable
+barometer#:#note#:#Comment###23 Dec 2005 new variable
+barometer#:#optional#:#Optional###23 Dec 2005 new variable
+barometer#:#options#:#Options###23 Dec 2005 new variable
+barometer#:#pie#:#Pie###23 Dec 2005 new variable
+barometer#:#repeat#:#Repeat###23 Dec 2005 new variable
+barometer#:#required#:#Required###23 Dec 2005 new variable
+barometer#:#save#:#Save###23 Dec 2005 new variable
+barometer#:#save_vote#:#Submit vote###23 Dec 2005 new variable
+barometer#:#skip#:#Skip###23 Dec 2005 new variable
+barometer#:#statistics#:#Statistics###23 Dec 2005 new variable
+barometer#:#status#:#Status###23 Dec 2005 new variable
+barometer#:#table#:#Table###23 Dec 2005 new variable
+barometer#:#text#:#Text###23 Dec 2005 new variable
+barometer#:#text_answer#:#Text answer###23 Dec 2005 new variable
+barometer#:#time#:#Running###23 Dec 2005 new variable
+barometer#:#title#:#Title###23 Dec 2005 new variable
+barometer#:#type#:#Type###23 Dec 2005 new variable
+barometer#:#until#:#until###23 Dec 2005 new variable
+barometer#:#user#:#User###23 Dec 2005 new variable
+barometer#:#vote#:#Vote###23 Dec 2005 new variable
+barometer#:#votes#:#Votes###23 Dec 2005 new variable
+barometer#:#weeks#:#Weeks###23 Dec 2005 new variable
+barometer#:#worst#:#Worst###23 Dec 2005 new variable
+barometer#:#year#:#Year###23 Dec 2005 new variable
 bibitem#:#bibitem_add#:#Добавяне
 bibitem#:#bibitem_author#:#Автор
 bibitem#:#bibitem_av#:#AV
@@ -645,7 +714,7 @@ chat#:#chat_blue#:#син шрифт
 chat#:#chat_bold#:#черен удебелен шрифт
 chat#:#chat_chatroom_body#:#Чат-стая:
 chat#:#chat_chatroom_rename#:#Редактиране на чат-стая
-chat#:#chat_chatrooms#:#Чат-стаи
+chat#:#chat_chatrooms#:#Чат-стаи###23 Dec 2005 content changed
 chat#:#chat_color#:#Цвят на шрифта
 chat#:#chat_delete_sure#:#Сигурни ли сте, че желаете да изтриете тази чат-стая
 chat#:#chat_drop_user#:#Потребителят е отстранен
@@ -697,7 +766,7 @@ chat#:#chat_room_added#:#Добавена нова чат-стая
 chat#:#chat_room_name#:#Име на чат-стая
 chat#:#chat_room_renamed#:#Чат-стаята преименувана.
 chat#:#chat_room_select#:#Частна чат-стая
-chat#:#chat_rooms#:#Чат-стаи
+chat#:#chat_rooms#:#Чат-стаи###23 Dec 2005 content changed
 chat#:#chat_rooms_deleted#:#Чат-стая(и) изтрита.
 chat#:#chat_select_one_room#:#Моля, изберете една чат-стая
 chat#:#chat_server_allowed#:#Позволени хостове
@@ -794,6 +863,7 @@ common#:#announce#:#Анонсиране
 common#:#announce_changes#:#Анонсиране на промени
 common#:#answers#:#Отговори
 common#:#any_language#:#Произволен език
+common#:#append_search#:#Append search results###23 Dec 2005 new variable
 common#:#application_completed#:#Молбата за кандидатстване е завършена
 common#:#application_date#:#Дата на кандидатстване
 common#:#applied_users#:#Кандидатствали потребители
@@ -805,8 +875,10 @@ common#:#approve_date#:#Одобрен на
 common#:#approve_recipient#:#ID за регистрация на одобряващия
 common#:#archive#:#Архив
 common#:#are_you_sure#:#Сигурни ли сте?
+common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
 common#:#articels_unread#:#Непрочетени статии
 common#:#as_of#:#към
+common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Създаване на архивен запис от теста и оценяването за определен времеви период
 common#:#assessment_log_datetime#:#Дата/Час
 common#:#assessment_log_for_test#:#За теста
@@ -817,18 +889,18 @@ common#:#assessment_log_select_test#:#--- Моля, изберете тест --
 common#:#assessment_log_text#:#Съобщение за регистрация
 common#:#assessment_log_user_answer#:#Потребителят отговори на въпрос
 common#:#assessment_log_user_answers#:#Показване действията на потребителя
-common#:#assessment_settings#:#Настройки за администрирането на теста и оценяването
+common#:#assessment_settings#:#Настройки за администрирането на теста и оценяването###23 Dec 2005 content changed
 common#:#assf_edit_permission#:#Промяна на разрешителните настройки
-common#:#assf_read#:#Достъп за администриране на теста и оценяването
+common#:#assf_read#:#Достъп за администриране на теста и оценяването###23 Dec 2005 content changed
 common#:#assf_visible#:#Администрирането на теста и оценяването е видимо
 common#:#assf_write#:#Редактиране на администрирането на теста и оценяването
 common#:#assign#:#Задаване
-common#:#assign_global_role#:#Задаване на глобална роля
+common#:#assign_global_role#:#Задаване на глобална роля###23 Dec 2005 content changed
 common#:#assign_lo_forum#:#Задаване на обект за обучение (LO) форум
-common#:#assign_local_role#:#Задаване на локална роля
+common#:#assign_local_role#:#Задаване на локална роля###23 Dec 2005 content changed
 common#:#assign_user_to_role#:#Задаване роля на потребител
-common#:#assigned_roles#:#Зададени роли
-common#:#assigned_users#:#Зададени потребители
+common#:#assigned_roles#:#Зададени роли###23 Dec 2005 content changed
+common#:#assigned_users#:#Зададени потребители###23 Dec 2005 content changed
 common#:#at_location#:#на място
 common#:#attachment#:#Прикрепен
 common#:#attachments#:#Прикрепени
@@ -948,6 +1020,7 @@ common#:#change_existing_objects#:#Промяна на съществуващи�
 common#:#change_header_title#:#Редактиране на заглавието
 common#:#change_lo_info#:#Промяна на информацията в обекта за обучение
 common#:#change_metadata#:#Промяна на метаданните
+common#:#change_owner#:#Change owner###23 Dec 2005 new variable
 common#:#change_sort_direction#:#Промяна посоката на сортиране
 common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#променен на
@@ -980,6 +1053,7 @@ common#:#chg_password#:#Промяна на паролата
 common#:#choose_language#:#Изберете вашия език
 common#:#choose_location#:#Изберете местоположението
 common#:#choose_only_one_language#:#Моля, изберете само един език
+common#:#chown_warning#:#Attention, you may loose access permissions on this object after changing the owner.###23 Dec 2005 new variable
 common#:#city#:#Град, Държава
 common#:#cleaned_file#:#Файлът беше почистен.
 common#:#cleaning_failed#:#Почистването неуспешно.
@@ -1010,6 +1084,7 @@ common#:#contact_data#:#Информация за контакти
 common#:#container#:#Съдържа се в
 common#:#context#:#Контекст
 common#:#continue_work#:#Продължаване
+common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#copied_object#:#Копиран обект
 common#:#copy#:#Копиране
 common#:#copyPage#:#Копиране
@@ -1025,7 +1100,10 @@ common#:#create_date#:#Създадено на
 common#:#create_in#:#Създаване в
 common#:#create_stylesheet#:#Създаване на стил
 common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_cron#:#regularly per cron job###23 Dec 2005 new variable
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
+common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
+common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Хронологично определени задачи
 common#:#cron_jobs_desc#:#Хронологично определена задача е автоматизиран процес, който функционира на предварително определени интервали от време. Ще намерите информация за настройването в 'ИНСТАЛАЦИОННАТА документация.
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
@@ -1059,10 +1137,11 @@ common#:#crs_create_svy#:#Създаване на обзор
 common#:#crs_create_tst#:#Създаване на тест
 common#:#crs_delete#:#Изтриване на курс
 common#:#crs_edit#:#Редактиране на курс
+common#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#crs_edit_permission#:#Промяна на разрешителните настройки
 common#:#crs_info#:#Info###05 Aug 2005 new variable
-common#:#crs_join#:#Абониране за курс
-common#:#crs_leave#:#Прекратяване на абонамента за курс
+common#:#crs_join#:#Абониране за курс###23 Dec 2005 content changed
+common#:#crs_leave#:#Прекратяване на абонамента за курс###23 Dec 2005 content changed
 common#:#crs_management_system#:#Система за управление на курса
 common#:#crs_member_not_passed#:#Неиздържал
 common#:#crs_member_passed#:#Издържал
@@ -1104,6 +1183,7 @@ common#:#dbk_add#:#Добавяне на Digilib книга
 common#:#dbk_added#:#Digilib книгата добавена
 common#:#dbk_create#:#Създаване на Digilib книга
 common#:#dbk_delete#:#Изтриване на Digilib книга
+common#:#dbk_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#dbk_edit_permission#:#Промяна на разрешителните настройки
 common#:#dbk_new#:#Нова Digilib книга
 common#:#dbk_read#:#Достъп за четене от Digilib книга
@@ -1128,6 +1208,7 @@ common#:#deleted_user#:#Потребителят беше изтрит
 common#:#deliver#:#Полагане на упражнение
 common#:#department#:#Отдел
 common#:#desc#:#Описание
+common#:#descending_order#:#Descending order###23 Dec 2005 new variable
 common#:#description#:#Описание
 common#:#desired_password#:#Желана парола
 common#:#disable#:#изключване
@@ -1154,7 +1235,7 @@ common#:#enable#:#Включване
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
 common#:#enable_hist_user_comments#:#Включване на потребителските коментари в историята
-common#:#enable_hist_user_comments_desc#:#Дава на авторите възможността да добавят коментари в историческия архивен запис на страниците.
+common#:#enable_hist_user_comments_desc#:#Дава на авторите възможността да добавят коментари в историческия архивен запис на страниците.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Включване на JavaScript редактирането
 common#:#enable_js_edit_info#:#Тази опция включва JavaScript редактирането за всички обекти със съдържание (ILIAS модули за обучение, речници, въпроси за оценяване, Digilib книги) 
 common#:#enable_password_assistance#:#Включване на помощта за паролата
@@ -1226,6 +1307,7 @@ common#:#exc_write#:#Редактиране на упражнение
 common#:#excs#:#Упражнения
 common#:#execute#:#Изпълнение
 common#:#exercise_time_over#:#Достигнали сте финалния момент на упражнението. Повече не можете да подавате файлове!
+common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#export#:#Експортиране
 common#:#export_group_members#:#Експортиране на членовете на групата (към Microsoft Excel)
 common#:#export_html#:#експортиране като HTML файл
@@ -1244,6 +1326,7 @@ common#:#file_added#:#Фалът зареден
 common#:#file_delete#:#Изтриване на файл
 common#:#file_edit#:#Редактиране на файл
 common#:#file_edit_permission#:#Промяна на разрешителните настройки
+common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Файлът е заразен с вирус.
 common#:#file_new#:#Нов файл
 common#:#file_not_found#:#Файлът не е намерен
@@ -1355,25 +1438,29 @@ common#:#group_details#:#Детайли на група
 common#:#group_filesharing#:#Обмен на файлове в група
 common#:#group_import#:#Импортиране на група
 common#:#group_import_file#:#Импортиране на файл
+common#:#group_info_reg#:#Admission procedure###23 Dec 2005 new variable
 common#:#group_members#:#Членове на група
 common#:#group_memstat#:#Статус на член
 common#:#group_memstat_admin#:#Администратор
 common#:#group_memstat_member#:#Член
 common#:#group_name#:#Име на група
-common#:#group_new_registrations#:#Нови регистрации
-common#:#group_no_registration#:#не се изисква регистрация
-common#:#group_no_registration_msg#:#Все още не сте член на тази група. По причини, свързани с администрирането, е необходимо да се присъедините към заявената група.<br />Като член, имате следните предимства:<br />- Получавате информация за новините и актуализациите <br />- Имате достъп до съответните обекти, като форуми, модули за обучение и т.н. <br /><br />Можете да анулирате членството си по всяко време.
+common#:#group_new_registrations#:#Нови регистрации###23 Dec 2005 content changed
+common#:#group_no_registration#:#не се изисква регистрация###23 Dec 2005 content changed
+common#:#group_no_registration_msg#:#Все още не сте член на тази група. По причини, свързани с администрирането, е необходимо да се присъедините към заявената група.<br />Като член, имате следните предимства:<br />- Получавате информация за новините и актуализациите <br />- Имате достъп до съответните обекти, като форуми, модули за обучение и т.н. <br /><br />Можете да анулирате членството си по всяко време.###23 Dec 2005 content changed
 common#:#group_not_available#:#Няма налична група
 common#:#group_objects#:#Групови обекти
-common#:#group_password_registration_expired_msg#:#Периодът на регистрация на тази група е изтекъл и вече не е възможно анонсиране. Моля, свържете се с притежателя или администратора на съответната група.
-common#:#group_password_registration_msg#:#За да се присъедините към тази група, трябва да въведете паролата, дадена от администратора на тази група.<br />Ако вашата парола е вярна, автоматично се разпределяте в групата.
+common#:#group_password_registration_msg#:#За да се присъедините към тази група, трябва да въведете паролата, дадена от администратора на тази група.<br />Ако вашата парола е вярна, автоматично се разпределяте в групата.###23 Dec 2005 content changed
+common#:#group_registration#:#Registration###23 Dec 2005 new variable
 common#:#group_registration_expiration_date#:#Дата на изтичане
 common#:#group_registration_expiration_time#:#Час на изтичане
-common#:#group_registration_expired#:#Изтекъл период на регистрация
-common#:#group_registration_mode#:#Режим на регистрация
-common#:#group_req_password#:#Необходима е регистрационна парола
-common#:#group_req_registration#:#Необходима е регистрация
-common#:#group_req_registration_msg#:#За да се присъедините към тази група, трябва да се регистрирате. Администраторът на съответната група ще ви разпредели към нея. Моля, въведете тема на заявката с причините за вашата кандидатура.<br />Ще получите съобщение, когато бъдете разпределени в групата.
+common#:#group_registration_expired#:#Изтекъл период на регистрация###23 Dec 2005 content changed
+common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
+common#:#group_registration_mode#:#Режим на регистрация###23 Dec 2005 content changed
+common#:#group_registration_time#:#Registration period###23 Dec 2005 new variable
+common#:#group_req_direct#:#Join directly###23 Dec 2005 new variable
+common#:#group_req_password#:#Необходима е регистрационна парола###23 Dec 2005 content changed
+common#:#group_req_registration#:#Необходима е регистрация###23 Dec 2005 content changed
+common#:#group_req_registration_msg#:#За да се присъедините към тази група, трябва да се регистрирате. Администраторът на съответната група ще ви разпредели към нея. Моля, въведете тема на заявката с причините за вашата кандидатура.<br />Ще получите съобщение, когато бъдете разпределени в групата.###23 Dec 2005 content changed
 common#:#group_reset#:#Нулиране на груповите разрешения
 common#:#group_status#:#Групата е
 common#:#group_status_closed#:#Закрита
@@ -1411,7 +1498,7 @@ common#:#grp_create_tst#:#Създаване на тест
 common#:#grp_delete#:#Изтриване на група
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Сигурни ли сте, че желаете да освободите следния член(ове) от групата?
-common#:#grp_dismiss_myself#:#Сигурни ли сте, че желаете да се освободите от групата?
+common#:#grp_dismiss_myself#:#Сигурни ли сте, че желаете да се освободите от групата?###23 Dec 2005 content changed
 common#:#grp_edit#:#Редактиране на група
 common#:#grp_edit_permission#:#Промяна на разрешителните настройки
 common#:#grp_err_administrator_required#:#Членът не може да бъде премахнат, необходим е поне един администратор за група !
@@ -1420,7 +1507,7 @@ common#:#grp_err_error#:#Възникнала е грешка
 common#:#grp_err_last_member#:#Последният член не може да бъде премахнат, вместо това моля, изтрийте групата.
 common#:#grp_err_member_could_not_be_removed#:#Членът не може да бъде премахнат. Моля, проверете всички параметри, зависещи от този потребител.
 common#:#grp_err_no_permission#:#Нямате разрешени права за тази операция.
-common#:#grp_err_registration_data#:#Моля, въведете парола, датата на изтичане и време за валиден период на регистрация!
+common#:#grp_err_registration_data#:#Моля, въведете парола, датата на изтичане и време за валиден период на регистрация!###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Редактиране на членове
 common#:#grp_join#:#Потребителят може да се присъедини към групата
 common#:#grp_leave#:#Потребителят може да напусне групата
@@ -1435,7 +1522,7 @@ common#:#grp_mem_send_mail#:#Изпращане на съобщение до ч�
 common#:#grp_msg_applicants_assigned#:#Кандидат(и), разпределен(и) като член(ове) на групата
 common#:#grp_msg_applicants_removed#:#Кандидат(и), премахнат(и) от списъка.
 common#:#grp_msg_member_assigned#:#Потребител(и), разпределени като член(ове) на групата
-common#:#grp_msg_membership_annulled#:#Членството анулирано
+common#:#grp_msg_membership_annulled#:#Членството анулирано###23 Dec 2005 content changed
 common#:#grp_name_exists#:#Вече има група с това име! Моля, изберете друго име.
 common#:#grp_new#:#Нова група
 common#:#grp_new_search#:#Ново търсене
@@ -1444,8 +1531,9 @@ common#:#grp_no_results_found#:#Няма намерени резултати
 common#:#grp_no_roles_selected#:#Моля, изберете роля
 common#:#grp_options#:#Опции
 common#:#grp_read#:#Достъп за четене от група
-common#:#grp_register#:#Регистриране
-common#:#grp_registration_completed#:#Регистрацията завършена
+common#:#grp_register#:#Регистриране###23 Dec 2005 content changed
+common#:#grp_registration#:#Join group###23 Dec 2005 new variable
+common#:#grp_registration_completed#:#Регистрацията завършена###23 Dec 2005 content changed
 common#:#grp_search_enter_search_string#:#Моля, въведете символен низ за търсене
 common#:#grp_search_members#:#Търсене на потребител
 common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
@@ -1492,6 +1580,7 @@ common#:#htlm#:#Модул за обучение HTML
 common#:#htlm_add#:#Добавяне на HTML модул за обучение
 common#:#htlm_delete#:#Изтриване на HTML модул за обучение
 common#:#htlm_edit#:#Редактиране на HTML модул за обучение Properties
+common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#htlm_edit_permission#:#Промяна на разрешителните настройки
 common#:#htlm_new#:#Нов HTML модул за обучение
 common#:#htlm_read#:#Четене от HTML модул за обучение
@@ -1563,7 +1652,7 @@ common#:#import_file_not_valid#:#Импортираният файл е нева
 common#:#import_finished#:#Брой импортирани съобщения.
 common#:#import_forum_finished#:#Форумът беше импортиран.
 common#:#import_glossary#:#Импортиране на речник
-common#:#import_group#:#Import group###03 Nov 2005 new variable
+common#:#import_grp#:#Import group###23 Dec 2005 new variable
 common#:#import_grp_finished#:#Импортирана група без никакви грешки
 common#:#import_hlm#:#Импортиране на HACP пакет
 common#:#import_lm#:#Импортиране на ILIAS модул за обучение
@@ -1583,10 +1672,11 @@ common#:#inactive#:#Неактивен
 common#:#inbox#:#Кутия за входящи съобщения
 common#:#info#:#Информация
 common#:#info_assign_sure#:#Сигурни ли сте, че желаете да разпределите следния потребител(и)?
-common#:#info_delete_sure#:#Сигурни ли сте, че желаете да изтриете следния обект(и)?
+common#:#info_delete_sure#:#Сигурни ли сте, че желаете да изтриете следния обект(и)?###23 Dec 2005 content changed
 common#:#info_deleted#:#Обектът(ите) изтрит(и)
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
 common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
+common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_trash#:#Изтрити обекти
 common#:#inform_user_mail#:#Изпращане на email до потребител с информация за промени
 common#:#information_abbr#:#Информация
@@ -1688,6 +1778,7 @@ common#:#ldap_visible#:#LDAP настройките са видими
 common#:#ldap_write#:#Редактиране на LDAP настройките
 common#:#learning module#:#Модул за обучение
 common#:#learning_objects#:#Обекти за обучение
+common#:#learning_progress#:#Learning progress###23 Dec 2005 new variable
 common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
 common#:#learning_resources#:#Ресурси за обучение
 common#:#level#:#Ниво
@@ -1727,6 +1818,7 @@ common#:#lm_add#:#Добавяне на ILIAS модул за обучение
 common#:#lm_added#:#ILIAS модулът за обучение добавен
 common#:#lm_create#:#Създаване на ILIAS модул за обучение
 common#:#lm_delete#:#Изтриване на ILIAS модул за обучение
+common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Промяна на разрешителните настройки
 common#:#lm_join#:#Абониране за ILIAS модул за обучение
 common#:#lm_leave#:#Прекратяване на абонамент за ILIAS модул за обучение
@@ -1789,6 +1881,7 @@ common#:#mail_maxsize_box#:#Макс. размер на пощенската к�
 common#:#mail_maxsize_mail#:#Макс. размер на съобщение
 common#:#mail_maxtime_attach#:#Макс. брой дни за запазване на прикрепените файлове 
 common#:#mail_maxtime_mail#:#Макс. брой дни за запазване на съобщенията
+common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Съобщението не беше изпратено!
 common#:#mail_read#:#Достъп за четене от настройките на пощата
 common#:#mail_search_no#:#Няма намерени записи
@@ -1829,6 +1922,7 @@ common#:#message_to#:#Съобщение до:
 common#:#meta_data#:#Метаданни
 common#:#migrate#:#Мигриране
 common#:#min_time#:#Минимално време
+common#:#minutes#:#Minutes###23 Dec 2005 new variable
 common#:#missing#:#Липсва
 common#:#mob#:#Медиен обект
 common#:#module#:#модул
@@ -1965,6 +2059,8 @@ common#:#no_access_link_object#:#Нямате права да свържете �
 common#:#no_bm_in_personal_list#:#Няма дефинирани отметки.
 common#:#no_chat_in_personal_list#:#Няма чатове в личния списък
 common#:#no_checkbox#:#Няма маркирана клетка!
+common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
+common#:#no_conditions_found#:#No preconditions created.###23 Dec 2005 new variable
 common#:#no_datasets#:#Таблицата е празна
 common#:#no_date#:#Няма дата
 common#:#no_description#:#Няма описание
@@ -1993,6 +2089,8 @@ common#:#not_implemented_yet#:#Не е реализирано все още
 common#:#not_installed#:#Не е инсталирано
 common#:#not_logged_in#:#Не сте регистрирани
 common#:#note#:#Note###03 Nov 2005 new variable
+common#:#note_all_pub_notes#:#All notes###23 Dec 2005 new variable
+common#:#note_my_pub_notes#:#My notes only###23 Dec 2005 new variable
 common#:#notes#:#Notes###03 Nov 2005 new variable
 common#:#number_of_accesses#:#Брой влизания
 common#:#number_of_records#:#Брой записи
@@ -2001,6 +2099,7 @@ common#:#obj_adm#:#Администриране
 common#:#obj_adm_desc#:#Папка с основните системни настройки, съдържаща всички панели за администриране инсталацията на вашия ILIAS.
 common#:#obj_alm#:#Модул за обучение AICC
 common#:#obj_assf#:#Тест и оценяване
+common#:#obj_assf_desc#:#Test&Assessment log settings.###23 Dec 2005 new variable
 common#:#obj_auth#:#Идентифициране
 common#:#obj_auth_desc#:#Конфигуриране на вашия режим за идентифициране (локално, LDAP, ...)
 common#:#obj_cat#:#Категория
@@ -2067,6 +2166,8 @@ common#:#obj_usrf#:#Акаунти на потребителя
 common#:#obj_usrf_desc#:#Управлявайте потребителските акаунти оттук.
 common#:#object#:#Обект
 common#:#object_added#:#Обектът добавен
+common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
+common#:#object_imported#:#Object imported###23 Dec 2005 new variable
 common#:#objects#:#Обекти
 common#:#objf#:#Обектни дефиниции
 common#:#objf_edit_permission#:#Промяна на разрешителните настройки
@@ -2121,7 +2222,9 @@ common#:#options_for_subobjects#:#Опции за подобектите
 common#:#order_by#:#Наредено от
 common#:#other#:#Други
 common#:#overview#:#Преглед
+common#:#overwrite#:#Overwrite###23 Dec 2005 new variable
 common#:#owner#:#Притежател
+common#:#owner_updated#:#Owner updated.###23 Dec 2005 new variable
 common#:#page#:#Страница
 common#:#page_edit#:#Редактиране на страница
 common#:#pages#:#Страници
@@ -2187,6 +2290,7 @@ common#:#presentation_options#:#Опции за представянето
 common#:#previous#:#предишни
 common#:#print#:#Отпечатване
 common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
+common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile_changed#:#Вашият профил беше променен
 common#:#profile_of#:#Профил на
 common#:#properties#:#Характеристики
@@ -2246,6 +2350,9 @@ common#:#repeat_scan_succeded#:#Повторното сканиране успе
 common#:#replace_file#:#Замяна на файл
 common#:#reply#:#Отговор
 common#:#repository#:#Довереник
+common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
+common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Изискване на град
 common#:#require_country#:#Изискване на страна
 common#:#require_default_role#:#Изискване на роля
@@ -2285,7 +2392,7 @@ common#:#role_assignment_updated#:#Определянето на ролите б
 common#:#role_count_users#:#Брой потребители
 common#:#role_deleted#:#Ролята изтрита
 common#:#role_edit#:#Редактиране на роля
-common#:#role_header_edit_users#:#Промяна в разпределянето на потребителите
+common#:#role_header_edit_users#:#Промяна в разпределянето на потребителите###23 Dec 2005 content changed
 common#:#role_list_users#:#Списък на потребителите
 common#:#role_new#:#Нова роля
 common#:#role_new_search#:#Ново търсене
@@ -2327,6 +2434,7 @@ common#:#sahs#:#Модул за обучение SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC модулът за обучение добавен
 common#:#sahs_create#:#Създаване на SCORM/AICC модул за обучение
 common#:#sahs_delete#:#Изтриване на SCORM/AICC модул за обучение
+common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#sahs_edit_permission#:#Промяна на разрешителните настройки
 common#:#sahs_join#:#Абониране за SCORM/AICC модул за обучение
 common#:#sahs_leave#:#Прекратяване на абонамент за SCORM/AICC модул за обучение
@@ -2350,10 +2458,12 @@ common#:#search_active#:#Включване на активните потреб
 common#:#search_for#:#Търсене за
 common#:#search_in#:#Търсене в
 common#:#search_inactive#:#Включване на неактивните потребители
+common#:#search_minimum_characters#:#The minimum word length is:###23 Dec 2005 new variable
 common#:#search_new#:#Ново търсене
 common#:#search_note#:#Ако &quot;search in&quot; бъде оставено празно, всички потребители ще бъдат търсени. Това позволява да търсите сред всички активни или всички неактивни потребители.
 common#:#search_recipient#:#Търсене на реципиент
 common#:#search_result#:#Резултат от търсенето
+common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Търсене на потребител
 common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Секции
@@ -2369,6 +2479,9 @@ common#:#select_questionpool_option#:#--- Моля, изберете набор 
 common#:#selected#:#Избрано
 common#:#selected_items#:#Лични елементи
 common#:#send#:#Изпращане
+common#:#send_mail_admins#:#Mail to administrators###23 Dec 2005 new variable
+common#:#send_mail_members#:#Mail to members###23 Dec 2005 new variable
+common#:#send_mail_tutors#:#Mail to tutors###23 Dec 2005 new variable
 common#:#sender#:#Изпращач
 common#:#sent#:#Изпратено
 common#:#sequence#:#Поредица
@@ -2399,6 +2512,7 @@ common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Външно потребителско администриране (SOAP)
 common#:#soap_user_administration_desc#:#Ако е включено, всички потребителски акаунти могат да се администрират от външен SOAP-клиент.
 common#:#sort_by_this_column#:#Сортиране по тази колона
+common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Набор въпроси за обзор
 common#:#spl_add#:#Добавяне на набор въпроси в обзор
 common#:#spl_delete#:#Изтриване на набор въпроси от обзор
@@ -2469,6 +2583,7 @@ common#:#test#:#Тест
 common#:#test_intern#:#Тестово ограничение
 common#:#test_module#:#Тестов модул
 common#:#tests#:#Тестове
+common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
 common#:#time#:#Време
 common#:#time_d#:#Ден
 common#:#time_h#:#Час
@@ -2504,6 +2619,7 @@ common#:#treeview#:#Изглед на дървото
 common#:#tst#:#Тест
 common#:#tst_add#:#Добавяне на тест
 common#:#tst_delete#:#Изтриване на тест
+common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#tst_edit_permission#:#Промяна на разрешителните настройки
 common#:#tst_new#:#Нов тест
 common#:#tst_read#:#Достъп за четене от тест
@@ -2560,6 +2676,7 @@ common#:#user_detail#:#Данни за детайлите
 common#:#user_imported#:#Импортирането на потребителя завършено.
 common#:#user_language#:#Език на потребителя
 common#:#user_not_chosen#:#Не сте избрали член на групата!
+common#:#user_not_known#:#Please insert a valid username.###23 Dec 2005 new variable
 common#:#user_profile_other#:#Друга информация
 common#:#user_statistics#:#Статистически данни
 common#:#userdata#:#Данни за потребителя
@@ -2726,7 +2843,8 @@ content#:#cont_disable_js#:#JavaScript неактивен
 content#:#cont_disable_media#:#Медиа неактивна
 content#:#cont_download_title#:#Разтоварване на заглавието
 content#:#cont_downloads#:#Разтоварвания
-content#:#cont_downloads_desc#:#Включва разтоварването на всички публични файлове за експортиране.
+content#:#cont_downloads_desc#:#Включва разтоварването на всички публични файлове за експортиране.###23 Dec 2005 content changed
+content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)###23 Dec 2005 new variable
 content#:#cont_ed_align_center#:#подравняване: центрирано
 content#:#cont_ed_align_left#:#подравняване: ляво
 content#:#cont_ed_align_left_float#:#подравняване: ляво плаващо
@@ -3032,37 +3150,38 @@ content#:#selected_pages_only#:#само избраните по-долу стр
 content#:#set_public_mode#:#Задаване режим на публичен достъп
 content#:#st#:#Глава
 content#:#start export#:#Старт на експортирането
-crs#:#crs_accept_subscriber#:#Абониране за курса
-crs#:#crs_accept_subscriber_body#:#Бяхте разпределени за този курс.
+crs#:#crs_accept_subscriber#:#Абониране за курса###23 Dec 2005 content changed
+crs#:#crs_accept_subscriber_body#:#Бяхте разпределени за този курс.###23 Dec 2005 content changed
 crs#:#crs_access_password#:#Парола
 crs#:#crs_activation#:#Активиране
 crs#:#crs_add_archive_html#:#Добавяне на HTML-архив
 crs#:#crs_add_archive_xml#:#Добавяне на XML-архив
 crs#:#crs_add_html_archive#:#Добавяне на HTML архив
 crs#:#crs_add_member#:#Добавяне на член(ове)
-crs#:#crs_add_subscribers#:#Добавяне на абонат
+crs#:#crs_add_subscribers#:#Добавяне на абонат###23 Dec 2005 content changed
 crs#:#crs_added#:#Добавен нов курс
-crs#:#crs_added_member#:#Членство в курса
-crs#:#crs_added_member_body#:#Бяхте приети в този курс.
+crs#:#crs_added_member#:#Членство в курса###23 Dec 2005 content changed
+crs#:#crs_added_member_body#:#Бяхте приети в този курс.###23 Dec 2005 content changed
 crs#:#crs_added_new_archive#:#Нов архив беше добавен
 crs#:#crs_admin#:#Администратор
 crs#:#crs_admin_no_notify#:#Администратор (без уведомяване)
 crs#:#crs_admin_notify#:#Администратор (уведомяване)
 crs#:#crs_archive#:#Архиви
-crs#:#crs_archive_disabled#:#Изключено
+crs#:#crs_archive_disabled#:#Изключено###23 Dec 2005 content changed
 crs#:#crs_archive_download#:#Даунлоуд
+crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.###23 Dec 2005 new variable
 crs#:#crs_archive_lang#:#Език
 crs#:#crs_archive_read#:#Достъп за четене
-crs#:#crs_archive_select_type#:#Достъп за четене от архив
+crs#:#crs_archive_select_type#:#Достъп за четене от архив###23 Dec 2005 content changed
 crs#:#crs_archive_type#:#Тип архив
-crs#:#crs_archive_type_disabled#:#Няма достъп
+crs#:#crs_archive_type_disabled#:#Няма достъп###23 Dec 2005 content changed
 crs#:#crs_archives_deleted#:#Архивът(ите) беше (бяха) изтрит(и)
 crs#:#crs_auto_fill#:#Автоматично попълване
 crs#:#crs_blocked#:#Достъпът отказан
-crs#:#crs_blocked_member#:#Членство в курса
-crs#:#crs_blocked_member_body#:#Вашето членство беше прекратено.
-crs#:#crs_cancel_subscription#:#Отписване от курс
-crs#:#crs_cancel_subscription_body#:#Потребител прекрати абонамента си за курса.
+crs#:#crs_blocked_member#:#Членство в курса###23 Dec 2005 content changed
+crs#:#crs_blocked_member_body#:#Вашето членство беше прекратено.###23 Dec 2005 content changed
+crs#:#crs_cancel_subscription#:#Отписване от курс###23 Dec 2005 content changed
+crs#:#crs_cancel_subscription_body#:#Потребител прекрати абонамента си за курса.###23 Dec 2005 content changed
 crs#:#crs_contact#:#Контакт
 crs#:#crs_contact_consultation#:#Консултация
 crs#:#crs_contact_email#:#Email
@@ -3079,8 +3198,8 @@ crs#:#crs_delete_members_sure#:#Желаете ли да изтриете сле
 crs#:#crs_delete_subscribers#:#Изтриване на абонат
 crs#:#crs_delete_subscribers_sure#:#Желаете ли да изтриете следните потребители
 crs#:#crs_details#:#Детайли за курса
-crs#:#crs_dismiss_member#:#Членство в курса
-crs#:#crs_dismiss_member_body#:#Вашето членство е прекратено
+crs#:#crs_dismiss_member#:#Членство в курса###23 Dec 2005 content changed
+crs#:#crs_dismiss_member_body#:#Вашето членство е прекратено###23 Dec 2005 content changed
 crs#:#crs_edit_archive#:#Редактиране на архиви
 crs#:#crs_end#:#Край
 crs#:#crs_export#:#Експортиране на курс
@@ -3088,14 +3207,15 @@ crs#:#crs_file_name#:#Име на файл
 crs#:#crs_from#:#От:
 crs#:#crs_header_archives#:#Архиви на курс
 crs#:#crs_header_delete_members#:#Изтриване на членове
+crs#:#crs_header_delete_subscribers#:#Delete subscribers###23 Dec 2005 new variable
 crs#:#crs_header_edit_members#:#Редактиране на членове
 crs#:#crs_header_members#:#Членове на курс
 crs#:#crs_html#:#HTML
-crs#:#crs_info_reg#:#Информация за регистриране
-crs#:#crs_info_reg_confirmation#:#За този курс е необходимо потвърждение от курсов администратор. Ще получите съобщение, ако сте били записани за курса.
-crs#:#crs_info_reg_deactivated#:#Няма възможност за регистрация
-crs#:#crs_info_reg_direct#:#Необходима е регистрация за този курс
-crs#:#crs_info_reg_password#:#За регистрацията е необходима валидна парола.
+crs#:#crs_info_reg#:#Информация за регистриране###23 Dec 2005 content changed
+crs#:#crs_info_reg_confirmation#:#За този курс е необходимо потвърждение от курсов администратор. Ще получите съобщение, ако сте били записани за курса.###23 Dec 2005 content changed
+crs#:#crs_info_reg_deactivated#:#Няма възможност за регистрация###23 Dec 2005 content changed
+crs#:#crs_info_reg_direct#:#Необходима е регистрация за този курс###23 Dec 2005 content changed
+crs#:#crs_info_reg_password#:#За регистрацията е необходима валидна парола.###23 Dec 2005 content changed
 crs#:#crs_list_users#:#Списък на потребителите
 crs#:#crs_max_members_reached#:#Максималният брой членове е бил достигнат
 crs#:#crs_mem_change_status#:#Промяна на статуса
@@ -3112,8 +3232,10 @@ crs#:#crs_move_down#:#Преместване надолу
 crs#:#crs_move_up#:#Преместване нагоре
 crs#:#crs_moved_item#:#Преместен елемент от курса
 crs#:#crs_new_search#:#Ново търсене
-crs#:#crs_new_subscription#:#Абонамент за нов курс
-crs#:#crs_new_subscription_body#:#Нов потребител се абонира
+crs#:#crs_new_subscription#:#Абонамент за нов курс###23 Dec 2005 content changed
+crs#:#crs_new_subscription_body#:#Нов потребител се абонира###23 Dec 2005 content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable
 crs#:#crs_no_archive_selected#:#Не са избрани архиви
 crs#:#crs_no_archives_available#:#Няма налични архиви
 crs#:#crs_no_archives_selected#:#Моля, изберете архив
@@ -3130,6 +3252,7 @@ crs#:#crs_no_users_added#:#Няма добавени членове
 crs#:#crs_no_users_selected#:#Не сте избрали никой потребител
 crs#:#crs_no_valid_member_id_given#:#Няма валидно членско ID
 crs#:#crs_not_available#:#-Не е налице-
+crs#:#crs_notification#:#Notification###23 Dec 2005 new variable
 crs#:#crs_notify#:#Със уведомяване за нови регистрации
 crs#:#crs_number_users_added#:#Следният брой потребители са записани за курса:
 crs#:#crs_offline#:#Офлайн
@@ -3142,13 +3265,13 @@ crs#:#crs_reg_subscription_deactivated#:#Регистрирането е изк�
 crs#:#crs_reg_subscription_end_earlier#:#Времето за регистриране е изтекло
 crs#:#crs_reg_subscription_max_members_reached#:#Максималният брой потребители е превишен.
 crs#:#crs_reg_subscription_start_later#:#Времето за регистриране започва по-късно
-crs#:#crs_reg_until#:#Дата на регистриране
+crs#:#crs_reg_until#:#Дата на регистриране###23 Dec 2005 content changed
 crs#:#crs_reg_user_already_assigned#:#Вече сте записани за този курс
-crs#:#crs_reg_user_already_subscribed#:#Вече сте абонирани за този курс
+crs#:#crs_reg_user_already_subscribed#:#Вече сте абонирани за този курс###23 Dec 2005 content changed
 crs#:#crs_reg_user_blocked#:#Блокирани сте от този курс
 crs#:#crs_registration#:#Регистриране за курс
-crs#:#crs_reject_subscriber#:#Абониране за курс
-crs#:#crs_reject_subscriber_body#:#Вашият абонамент беше отхвърлен.
+crs#:#crs_reject_subscriber#:#Абониране за курс###23 Dec 2005 content changed
+crs#:#crs_reject_subscriber_body#:#Вашият абонамент беше отхвърлен.###23 Dec 2005 content changed
 crs#:#crs_role#:#Роля
 crs#:#crs_role_status#:#Роля / Статус
 crs#:#crs_search_enter_search_string#:#Моля, въведете символен низ за търсене
@@ -3166,19 +3289,20 @@ crs#:#crs_sort_title#:#Сортиране по заглавие
 crs#:#crs_sortorder#:#Сортиране
 crs#:#crs_start#:#Старт
 crs#:#crs_status#:#Статус
-crs#:#crs_status_changed#:#Статус на курса
-crs#:#crs_status_changed_body#:#Статусът на вашия курс се промени.
+crs#:#crs_status_changed#:#Статус на курса###23 Dec 2005 content changed
+crs#:#crs_status_changed_body#:#Статусът на вашия курс се промени.###23 Dec 2005 content changed
 crs#:#crs_structure#:#Структура на курса
-crs#:#crs_subscribers#:#Абонаменти
+crs#:#crs_subscribers#:#Абонаменти###23 Dec 2005 content changed
 crs#:#crs_subscribers_deleted#:#Изтрит(и) абонат(и)
 crs#:#crs_subscription#:#Абонамент
 crs#:#crs_subscription_max_members#:#Максимум членове
 crs#:#crs_subscription_notify#:#Със уведомления за абонаментите
-crs#:#crs_subscription_options_confirmation#:#Абонамент с потвърждение
+crs#:#crs_subscription_options_confirmation#:#Абонамент с потвърждение###23 Dec 2005 content changed
 crs#:#crs_subscription_options_deactivated#:#Деактивиран
-crs#:#crs_subscription_options_direct#:#Директен абонамент
-crs#:#crs_subscription_options_password#:#Абонамент с парола
-crs#:#crs_subscription_successful#:#Вие сте абонирани за този курс
+crs#:#crs_subscription_options_direct#:#Директен абонамент###23 Dec 2005 content changed
+crs#:#crs_subscription_options_password#:#Абонамент с парола###23 Dec 2005 content changed
+crs#:#crs_subscription_requested#:#You have requested membership for the course.###23 Dec 2005 new variable
+crs#:#crs_subscription_successful#:#Вие сте абонирани за този курс###23 Dec 2005 content changed
 crs#:#crs_subscription_type#:#Тип абонамент
 crs#:#crs_sure_delete_selected_archives#:#Сигурни ли сте, че желаете да изтриете избраните архиви
 crs#:#crs_syllabus#:#Учебна програма
@@ -3188,14 +3312,15 @@ crs#:#crs_tutor#:#Наставник
 crs#:#crs_tutor_no_notify#:#Наставник (без уведомяване)
 crs#:#crs_tutor_notify#:#Наставник (със уведомяване)
 crs#:#crs_unblocked#:#Свободен вход
-crs#:#crs_unblocked_member#:#Членство в курса
-crs#:#crs_unblocked_member_body#:#Вашето членство е възстановено
+crs#:#crs_unblocked_member#:#Членство в курса###23 Dec 2005 content changed
+crs#:#crs_unblocked_member_body#:#Вашето членство е възстановено###23 Dec 2005 content changed
 crs#:#crs_unlimited#:#Неограничено
 crs#:#crs_unsubscribe#:#Прекратяване на абонамент
 crs#:#crs_unsubscribe_sure#:#Желаете ли да прекратите абонамента си за този курс
 crs#:#crs_unsubscribed_from_crs#:#Вие се абонирахте за този курс
 crs#:#crs_users_added#:#Добавен потребител в курса
 crs#:#crs_users_already_assigned#:#Потребителят вече е записан за този курс
+crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
 crs#:#crs_xml#:#XML
 crs#:#import_crs#:#Import course###03 Nov 2005 new variable
 crs_#:#crs_archives#:#Архиви
@@ -3419,6 +3544,8 @@ dateplaner#:#today#:#днес
 dateplaner#:#viewlist#:#преглед
 dateplaner#:#week#:#седмица
 dateplaner#:#year#:#година
+forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable
 forum#:#forums#:#Форуми
 forum#:#forums_attachments#:#Прикачени
 forum#:#forums_attachments_add#:#Добавяне на прикачени
@@ -3467,6 +3594,8 @@ forum#:#forums_thread_new_entry#:#Новата тема беше създаде�
 forum#:#forums_threads_not_available#:#Темите не са налице
 forum#:#forums_topics_overview#:#Преглед на темите
 forum#:#forums_your_reply#:#Вашият отговор
+forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
+forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Изглед по подразбиране
 forum#:#frm_title_required#:#Моля, вмъкнете заглавие.
 forum#:#is_read#:#маркиране като прочетени
@@ -3552,8 +3681,12 @@ mail#:#mail_compose#:#Съставяне на съобщение
 mail#:#mail_deleted#:#Пощата е изтрита
 mail#:#mail_deleted_entry#:#Записите са изтрити
 mail#:#mail_email_forbidden#:#Нямате права да изпращате email
+mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_login#:#Please enter a valid login name.###23 Dec 2005 new variable
 mail#:#mail_entry_added#:#Добавен нов запис
 mail#:#mail_entry_changed#:#Записът е променен
+mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.###23 Dec 2005 new variable
 mail#:#mail_file_name#:#Име на файла
 mail#:#mail_file_size#:#Размер на файла
 mail#:#mail_files_deleted#:#Файлът(овете) е (са) изтрит(и)
@@ -3861,6 +3994,7 @@ meta#:#meta_copyright#:#Copyright###03 Nov 2005 new variable
 meta#:#meta_copyright_and_other_restrictions#:#Авторско право и други ограничения
 meta#:#meta_cost#:#Цена
 meta#:#meta_coverage#:#Покритие
+meta#:#meta_current_value#:#Current value###23 Dec 2005 new variable
 meta#:#meta_date#:#Дата
 meta#:#meta_delete#:#изтриване
 meta#:#meta_description#:#Описание
@@ -3894,6 +4028,7 @@ meta#:#meta_id#:#ID
 meta#:#meta_idea#:#Идея
 meta#:#meta_identifier#:#Идентификатор
 meta#:#meta_index#:#Индекс
+meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.###23 Dec 2005 new variable
 meta#:#meta_installation_remarks#:#Бележки по инсталирането
 meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Роля на деклариран краен потребител
@@ -4344,6 +4479,26 @@ pwassist#:#pwassist_not_permitted#:#Моля, въведете друго пот
 pwassist#:#pwassist_password_assigned#:#Паролата беше успешно зададена за потребител "%1$s".
 pwassist#:#pwassist_session_expired#:#Моля, попълнете този формуляр отново.\nСесията по помощта за вашата парола е изтекла. Това може да се е случило, защото сте се опитали да използвате изпратения на вашата поща линк повече от веднъж или защото е изминало твърде много време от изпращането на линка до вас.
 pwassist#:#pwassist_update_error#:#Моля, обърнете се към вашия системен администратор.\nПаролата не може да бъде зададена за потребителския акаунт, поради грешка при актуализиране на базата данни.
+rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
+rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
+rbac#:#filter_local_roles#:#Show only local roles of current context###23 Dec 2005 new variable
+rbac#:#filter_local_roles_object#:#Show only local roles defined at this position###23 Dec 2005 new variable
+rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position###23 Dec 2005 new variable
+rbac#:#leave#:#Leave###23 Dec 2005 new variable
+rbac#:#perm_administrate#:#Administrate###23 Dec 2005 new variable
+rbac#:#perm_class_create#:#Create new objects###23 Dec 2005 new variable
+rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.###23 Dec 2005 new variable
+rbac#:#perm_class_general#:#General operations###23 Dec 2005 new variable
+rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.###23 Dec 2005 new variable
+rbac#:#perm_class_object#:#Special operations###23 Dec 2005 new variable
+rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.###23 Dec 2005 new variable
+rbac#:#perm_class_rbac#:#Permission settings###23 Dec 2005 new variable
+rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.###23 Dec 2005 new variable
+rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
+rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
 search#:#search_active#:#Включване на активните потребители
 search#:#search_all_results#:#Всички резултати
 search#:#search_and#:#и
@@ -4448,6 +4603,9 @@ survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
 survey#:#constraints#:#Ограничителни условия
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
+survey#:#constraints_list_of_entities#:#Available survey entities for preconditions###23 Dec 2005 new variable
+survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)###23 Dec 2005 new variable
+survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or questionblock!###23 Dec 2005 new variable
 survey#:#contains#:#Съдържа
 survey#:#continue#:#Продължаване >>
 survey#:#create_date#:#Създадено
@@ -4532,6 +4690,9 @@ survey#:#error_retrieving_anonymous_survey#:#Системата не успя д
 survey#:#eval_legend_link#:#Моля, вижте легендата за значението на заглавните символи на колоните.
 survey#:#evaluation#:#Оценяване
 survey#:#evaluation_access#:#Достъп до оценяването
+survey#:#evaluation_access_all#:#Evaluation access for all users###23 Dec 2005 new variable
+survey#:#evaluation_access_participants#:#Evaluation access for survey participants###23 Dec 2005 new variable
+survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Изход
 survey#:#export_data_as#:#Експортиране на данните като
 survey#:#fill_out_all_category_fields#:#Моля, попълнете всички полета за категории, преди да добавите ново!
@@ -4666,12 +4827,13 @@ survey#:#save_phrase_categories_not_checked#:#Моля, маркирайте п�
 survey#:#save_phrase_introduction#:#Ако желаете да съхраните категориите по-долу като фраза по подразбиране, моля, въведете заглавие за фразата. Имате достъп до фраза по подразбиране, когато пожелаете да добавите фраза в пореден въпрос.
 survey#:#search_field_all#:#Търсене във всички полета
 survey#:#search_for#:#Търсене за
-survey#:#search_groups#:#Групи
+survey#:#search_groups#:#Групи###23 Dec 2005 content changed
 survey#:#search_invitation#:#Търсене за потребители или групи, които да бъдат поканени
 survey#:#search_questions#:#Търсене на въпроси
+survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Търсене на термин
 survey#:#search_type_all#:#Търсене във всички типове въпроси
-survey#:#search_users#:#Потребители
+survey#:#search_users#:#Потребители###23 Dec 2005 content changed
 survey#:#select_option#:#--- Моля, изберете опция ---
 survey#:#select_phrase_to_add#:#Моля, изберете фраза, която да добавите във въпроса!
 survey#:#select_prior_question#:#Изберете предишен въпрос
@@ -4714,6 +4876,9 @@ survey#:#survey_skip_previous#:#<<< пропускане
 survey#:#survey_skip_start#:#пропускане и отиване на началната страница
 survey#:#survey_start#:#отиване на началната страница
 survey#:#svy_all_user_data_deleted#:#Всички потребителски данни от този обзор бяха изтрити!
+survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.###23 Dec 2005 new variable
 survey#:#svy_create_export_file#:#Създаване на файл за експортиране
 survey#:#svy_delete_all_user_data#:#Изтриване на всички потребителски данни
 survey#:#svy_eval_cumulated#:#Натрупани резултати
@@ -4754,3 +4919,73 @@ survey#:#view_constraints_introduction#:#Вие преглеждате огра�
 survey#:#view_phrase#:#Преглед на фраза
 survey#:#warning_question_in_use#:#Предупреждение! Въпросът, който желаете да редактирате, се използва от обзорите, изредени по-долу. Ако решите да продължите и да съхраните/приложите въпроса, всички отговори на изредените по-долу обзори ще бъдат изтрити. Ако желаете да промените въпроса и да го използвате в друг обзор, моля, изберете опцията за дублиране в браузъра на въпроса, за да създадете ново копие на този въпрос.
 survey#:#warning_question_not_complete#:#Въпросът не е пълен!
+trac#:#info_valid_request#:#The maximum valid time between two requests of an user.###23 Dec 2005 new variable
+trac#:#last_login#:#Last login###23 Dec 2005 new variable
+trac#:#meta_typical_learning_time#:#Typical learning time###23 Dec 2005 new variable
+trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
+trac#:#search_area_info#:#Please choose one object.###23 Dec 2005 new variable
+trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
+trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
+trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
+trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
+trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
+trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
+trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
+trac#:#trac_comment#:#Comment###23 Dec 2005 new variable
+trac#:#trac_comments#:#Comments###23 Dec 2005 new variable
+trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
+trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
+trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
+trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
+trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
+trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
+trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
+trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
+trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
+trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
+trac#:#trac_mark#:#Mark###23 Dec 2005 new variable
+trac#:#trac_marks#:#Marks###23 Dec 2005 new variable
+trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
+trac#:#trac_mode_collection#:#Collection of objects###23 Dec 2005 new variable
+trac#:#trac_mode_deactivated#:#Deactivated###23 Dec 2005 new variable
+trac#:#trac_mode_manual#:#Manual###23 Dec 2005 new variable
+trac#:#trac_mode_objectives#:#Learning objectives###23 Dec 2005 new variable
+trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_test_finished#:#Test finished###23 Dec 2005 new variable
+trac#:#trac_mode_test_passed#:#Test passed###23 Dec 2005 new variable
+trac#:#trac_mode_tlt#:#Typical learning time###23 Dec 2005 new variable
+trac#:#trac_mode_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_modifications_saved#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_modus#:#Mode###23 Dec 2005 new variable
+trac#:#trac_no_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_no_sahs_items_found#:#No objects found.###23 Dec 2005 new variable
+trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
+trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
+trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
+trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
+trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
+trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
+trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable
+trac#:#trac_show_hidden#:#Show###23 Dec 2005 new variable
+trac#:#trac_spent_time#:#Spent time###23 Dec 2005 new variable
+trac#:#trac_status#:#Status###23 Dec 2005 new variable
+trac#:#trac_total_online#:#Total time online###23 Dec 2005 new variable
+trac#:#trac_update_edit_user#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_user_data#:#User data###23 Dec 2005 new variable
+trac#:#trac_usr_list#:#Users###23 Dec 2005 new variable
+trac#:#trac_valid_request#:#Max. time between requests###23 Dec 2005 new variable
+trac#:#trac_view_crs#:#Back to course###23 Dec 2005 new variable
+trac#:#trac_view_list#:#Back to list###23 Dec 2005 new variable
+trac#:#trac_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_visits_info#:#Every page visit counts as one visit.###23 Dec 2005 new variable
+trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.###23 Dec 2005 new variable
