@@ -89,21 +89,48 @@ class ilRegisterGUI
 		switch ($this->object->getRegistrationFlag())
 		{
 			case 0:
-				$stat = $this->lng->txt("group_no_registration");
-				$msg  = $this->lng->txt("group_no_registration_msg");
-				$readonly ="readonly";
-				$subject ="";
-				$cmd_submit = "subscribe";
-				$txt_submit = $this->lng->txt("grp_register");
+				if ($this->object->registrationPossible() == true)
+				{
+					$stat = $this->lng->txt("group_no_registration");
+					$msg  = $this->lng->txt("group_no_registration_msg");
+					$readonly ="readonly";
+					$subject ="";
+					$cmd_submit = "subscribe";
+					$txt_submit = $this->lng->txt("grp_register");
+				}
+				else
+				{
+					$no_cancel = true;
+					$msg = $this->lng->txt("group_registration_expired_msg");
+					$cmd_submit = "cancel";
+					$txt_submit = $this->lng->txt("grp_back");
+					$readonly = "readonly";
+					$stat = $this->lng->txt("group_registration_expired");
+					sendInfo($this->lng->txt("registration_expired"));
+				}
 				break;
 
 			case 1:
-				$stat = $this->lng->txt("group_req_registration");
-				$msg  = $this->lng->txt("group_req_registration_msg");
-				$cmd_submit = "apply";
-				$txt_submit = $this->lng->txt("grp_register");
-				$txt_subject =$this->lng->txt("subject").":";
-				$textfield = "<textarea name=\"subject\" value=\"{SUBJECT}\" cols=\"50\" rows=\"5\" size=\"255\"></textarea>";
+				if ($this->object->registrationPossible() == true)
+				{
+					$stat = $this->lng->txt("group_req_registration");
+					$msg  = $this->lng->txt("group_req_registration_msg");
+					$cmd_submit = "apply";
+					$txt_submit = $this->lng->txt("request_membership");
+					$txt_subject =$this->lng->txt("subject").":";
+					$textfield = "<textarea name=\"subject\" value=\"{SUBJECT}\" cols=\"50\" rows=\"5\" size=\"255\"></textarea>";
+				}
+				else
+				{
+					$no_cancel = true;
+					$msg = $this->lng->txt("group_registration_expired_msg");
+					$msg_send = "mail_new.php?mobj_id=3&type=new&rcp_to=root";
+					$cmd_submit = "cancel";
+					$txt_submit = $this->lng->txt("grp_back");
+					$readonly = "readonly";
+					$stat = $this->lng->txt("group_registration_expired");
+					sendInfo($this->lng->txt("registration_expired"));
+				}
 				break;
 
 			case 2:
@@ -119,7 +146,7 @@ class ilRegisterGUI
 				else
 				{
 					$no_cancel = true;
-					$msg = $this->lng->txt("group_password_registration_expired_msg");
+					$msg = $this->lng->txt("group_registration_expired_msg");
 					$msg_send = "mail_new.php?mobj_id=3&type=new&rcp_to=root";
 					$cmd_submit = "cancel";
 					$txt_submit = $this->lng->txt("grp_back");
@@ -145,16 +172,20 @@ class ilRegisterGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("group_access_denied"));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_grp.gif"));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_grp"));
+		$this->tpl->setVariable("TITLE",$this->lng->txt("grp_registration"));
 		$this->tpl->setVariable("TXT_MESSAGE",$msg);
-		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("group_name").":");
+		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("group_name"));
 		$this->tpl->setVariable("GRP_NAME",$this->object->getTitle());
-		$this->tpl->setVariable("TXT_GRP_DESC",$this->lng->txt("group_desc").":");
+		$this->tpl->setVariable("TXT_GRP_DESC",$this->lng->txt("group_desc"));
 		$this->tpl->setVariable("GRP_DESC",$this->object->getDescription());
-		$this->tpl->setVariable("TXT_GRP_OWNER",$this->lng->txt("owner").":");
-		$this->tpl->setVariable("GRP_OWNER",$owner->getLogin());
-		$this->tpl->setVariable("TXT_GRP_STATUS",$this->lng->txt("group_status").":");
-		$this->tpl->setVariable("GRP_STATUS", $stat);
+		//$this->tpl->setVariable("TXT_GRP_OWNER",$this->lng->txt("owner"));
+		//$this->tpl->setVariable("GRP_OWNER",$owner->getLogin());
+		//$this->tpl->setVariable("TXT_GRP_STATUS",$this->lng->txt("group_status"));
+		//$this->tpl->setVariable("GRP_STATUS", $stat);
+		$this->tpl->setVariable("TXT_INFO_REG",$this->lng->txt("group_info_reg"));
+		$this->tpl->setVariable("INFO_REG", $msg);
 		$this->tpl->setVariable("TXT_SUBJECT",$txt_subject);
 		$this->tpl->setVariable("SUBJECT",$textfield);
 		$this->tpl->setVariable("TXT_SUBMIT",$txt_submit);

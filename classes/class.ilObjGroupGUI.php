@@ -380,13 +380,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
 
-		$opts 	= ilUtil::formSelect(0,"group_status",$stati,false,true);
+		$opts 	= ilUtil::formSelect(1,"group_status",$stati,false,true);
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
 
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration_mode"));
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
+		$this->tpl->setVariable("TXT_REGISTRATION_MODE", $this->lng->txt("group_registration_mode"));
+		$this->tpl->setVariable("TXT_REGISTRATION_TIME", $this->lng->txt("group_registration_time"));
 
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -394,11 +396,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
-		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));
+		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("group_req_direct"));
 		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);
-		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));
+		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("group_req_registration"));
 		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);
-		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));
+		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("group_req_password"));
 		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);
 
 		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
@@ -652,13 +654,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration_mode"));
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
+		$this->tpl->setVariable("TXT_REGISTRATION_MODE", $this->lng->txt("group_registration_mode"));
+		$this->tpl->setVariable("TXT_REGISTRATION_TIME", $this->lng->txt("group_registration_time"));
 
-		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));
+		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("group_req_direct"));
 		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);
-		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));
+		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("group_req_registration"));
 		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);
-		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));
+		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("group_req_password"));
 		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);
 
 		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
