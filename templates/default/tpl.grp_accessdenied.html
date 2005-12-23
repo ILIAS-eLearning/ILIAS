@@ -1,27 +1,29 @@
-<h2 class="warning">{TXT_HEADER}</h2>
 <form action="{FORMACTION}" {TARGET} method="post">
-<table class="fullwidth" >
+<table class="std" >
+<tr class="tbltitle">
+  <td colspan="3">
+        <table class="fullwidth_invisible" cellspacing="0">
+          <tr class="tbltitle">
+                <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+                <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+          </tr>
+        </table>
+  </td>
+</tr>
 <tr>
-  <td class ="tblrow1" colspan="2"><b>{TXT_MESSAGE}</b></td>
-<tr>
-  <td class ="option" width="20%" align="right"><b>{TXT_GRP_NAME}</b></td>
+  <td class ="option" align="top"><b>{TXT_GRP_NAME}</b></td>
   <td class ="option_value"><b>{GRP_NAME}</b></td>
 </tr>
 <tr>
-  <td class ="option" width="20%" align="right"><b>{TXT_GRP_DESC}</b></td>
+  <td class ="option" align="top"><b>{TXT_GRP_DESC}</b></td>
   <td class ="option_value"><b>{GRP_DESC}</b></td>
 </tr>
 <tr>
-  <td class ="option" width="20%" align="right"><b>{TXT_GRP_OWNER}</b></td>
-  <td class ="option_value"><b>{GRP_OWNER}</b></td>
+  <td class="option" align="top">{TXT_INFO_REG}</td>
+  <td class="option_value">{INFO_REG_PRE} {INFO_REG}</td>
 </tr>
 <tr>
-  <td class ="option" width="20%" align="right"><b>{TXT_GRP_STATUS}</b></td>
-  <td class ="option_value"><b>{GRP_STATUS}</b></td>
-</tr>
-<tr>
-<tr>
-  <td class="option">{TXT_SUBJECT}</td>
+  <td class="option" align="top">{TXT_SUBJECT}</td>
   <td class="option_value">{SUBJECT}</td>
 </tr>
 <tr>

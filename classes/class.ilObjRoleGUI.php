@@ -736,7 +736,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permSaveObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview,$objDefinition;
+		global $rbacsystem, $rbacadmin, $rbacreview, $objDefinition, $tree;
 
 		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
 		{

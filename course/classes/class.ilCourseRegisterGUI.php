@@ -157,8 +157,8 @@ class ilCourseRegisterGUI
 
 				if($this->course_obj->members_obj->addSubscriber($this->user_id))
 				{
-					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
-					sendInfo($this->lng->txt("crs_subscription_successful"),true);
+					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_SUBSCRIPTION_REQUEST,$this->user_id);
+					sendInfo($this->lng->txt("crs_subscription_requested"),true);
 					$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->course_id));
 
 					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
@@ -306,7 +306,14 @@ class ilCourseRegisterGUI
 		{
 			$this->tpl->setCurrentBlock("go");
 			$this->tpl->setVariable("CMD_SUBMIT","subscribe");
-			$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("register"));
+			if ($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_CONFIRMATION)
+			{
+				$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("request_membership"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("join"));
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 			

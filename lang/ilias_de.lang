@@ -750,7 +750,7 @@ chat#:#chat_invite_user#:#Benutzer einladen
 chat#:#chat_invited_by#:#Einladung von
 chat#:#chat_italic#:#Kursiv
 chat#:#chat_kick_user_session#:#Benutzer sperren
-chat#:#chat_kicked_from_room#:#Sie wurden aus diesem Chatraum ausgeperrt, sie können keine Nachrichten schreiben.
+chat#:#chat_kicked_from_room#:#Sie wurden aus diesem Chatraum ausgeperrt. Sie können keine Nachrichten schreiben.
 chat#:#chat_level_all#:#Alles
 chat#:#chat_level_debug#:#Korrektur
 chat#:#chat_level_error#:#Fehler
@@ -837,7 +837,7 @@ common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
 common#:#HH:MM#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
-common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
+common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#access#:#Zugang
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
@@ -883,7 +883,7 @@ common#:#all_roles#:#Alle Rollen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
-common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
+common#:#allow_register#:#Verfügbar im Registrierformular
 common#:#alm#:#Lernmodul AICC
 common#:#alm_added#:#AICC Learning Module angelegt
 common#:#alm_create#:#Neues AICC Lernmodul anlegen
@@ -900,8 +900,8 @@ common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
 common#:#any_language#:#Alle Sprachen
-common#:#application_completed#:#Anmeldung erfolgt
-common#:#application_date#:#Anmeldedatum
+common#:#application_completed#:#Aufnahme erfolgt
+common#:#application_date#:#Antragsdatum
 common#:#applied_users#:#Angelegte Benutzer
 common#:#apply#:#Übernehmen
 common#:#apply_filter#:#Filter anwenden
@@ -943,7 +943,7 @@ common#:#at_location#:#an Position
 common#:#attachment#:#Anhang
 common#:#attachments#:#Anhänge
 common#:#attend#:#Teilnehmen
-common#:#auth_active_roles#:#Verfügbare globale Rollen in der Neuanmeldung
+common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformular
 common#:#auth_configure#:#konfigurieren...
 common#:#auth_default#:#Standardeinstellung
 common#:#auth_default_mode_changed_to#:#Standard-Authentifizierungsmodus gewechselt nach
@@ -981,7 +981,7 @@ common#:#auth_visible#:#Authentifizierung ist sichtbar
 common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
 common#:#author#:#Autor
 common#:#authors#:#Autoren
-common#:#auto_registration#:#Neuanmeldungen automatisch freigeben
+common#:#auto_registration#:#Neu registrierte Benutzerkonten automatisch freigeben
 common#:#available#:#Verfügbar
 common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
@@ -1219,7 +1219,7 @@ common#:#crs_new#:#Neuer Kurs
 common#:#crs_no_content#:#Ohne Inhalt
 common#:#crs_read#:#Kurs lesen
 common#:#crs_status_blocked#:#[Zugang gesperrt]
-common#:#crs_status_pending#:#[Anmeldung wird bearbeitet]
+common#:#crs_status_pending#:#[Antrag wird bearbeitet]
 common#:#crs_subscribers_assigned#:#Ein neuer Benutzer wurde aufgenommen.
 common#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_write#:#Kurs bearbeiten
@@ -1316,7 +1316,7 @@ common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
 common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
-common#:#enable_registration#:#Neuanmeldung zulassen
+common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
 common#:#enabled#:#Eingeschaltet
 common#:#enter_filename_deliver#:#Geben Sie eine Bearbeitung zum Abgeben an
 common#:#enumerate#:#Nummerieren
@@ -1547,29 +1547,33 @@ common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_import#:#Gruppenimport
 common#:#group_import_file#:#Importdatei
+common#:#group_info_reg#:#Beitrittsverfahren
 common#:#group_members#:#Mitglieder
 common#:#group_memstat#:#Mitgliederstatus
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
-common#:#group_new_registrations#:#Neuanmeldungen
-common#:#group_no_registration#:#keine Registrierung erforderlich
-common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br />Als Gruppenmitglied haben Sie folgende Vorteile:<br />- Sie werden über Aktualisierungen informiert<br />- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br /><br />Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
+common#:#group_new_registrations#:#Aufnahmeanträge
+common#:#group_no_registration#:#Zur Gruppe beitreten
+common#:#group_no_registration_msg#:#Sie können direkt zu dieser Gruppe beitreten.
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
-common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br />Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
-common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br />Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
+common#:#group_password_registration_msg#:#Wenn Ihnen ein Gruppen-Administrator das Gruppen-Passwort mitgeteilt hat, können Sie zur Gruppe beitreten.
+common#:#group_registration#:#Gruppenbeitritt
 common#:#group_registration_expiration_date#:#Ablaufdatum
 common#:#group_registration_expiration_time#:#Ablaufzeit
-common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
-common#:#group_registration_mode#:#Registrierungsmodus
-common#:#group_req_password#:#Registrierungspasswort erforderlich
-common#:#group_req_registration#:#Registrierung erforderlich
-common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br />Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
+common#:#group_registration_expired#:#Zeitraum für Beitritte ist abgelaufen
+common#:#group_registration_expired_msg#:#Der Zeitraum für Beitritte in die Gruppe ist abgelaufen.<br/>Bitte wenden Sie sich an einen Gruppen-Administrator.
+common#:#group_registration_mode#:#Beitrittsverfahren
+common#:#group_registration_time#:#Zeitraum
+common#:#group_req_direct#:#Direkter Beitritt
+common#:#group_req_password#:#Beitritt mit Gruppenpasswort
+common#:#group_req_registration#:#Antrag mit Bestätigung
+common#:#group_req_registration_msg#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppen-Administrator Ihren Antrag angenommen oder abgelehnt hat.
 common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
 common#:#group_status#:#Gruppe ist
 common#:#group_status_closed#:#Geschlossen
-common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die eingestellten in den Rollenvorlagen 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen werden.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann sich anmelden. <br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
+common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die Rollenvorlage 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen wird.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann mit dem ausgewählten Beitrittsverfahren in die Gruppe beitreten.<br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
 common#:#group_status_public#:#Öffentlich
 common#:#groups#:#Gruppen
 common#:#groups_overview#:#Gruppenübersicht
@@ -1578,7 +1582,7 @@ common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_add_member#:#Mitglied(er) hinzufügen
 common#:#grp_added#:#Gruppe angelegt
-common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
+common#:#grp_already_applied#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf Bestätigung
 common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
 common#:#grp_back#:#Zurück
 common#:#grp_count_members#:#Anzahl der Mitglieder
@@ -1605,21 +1609,21 @@ common#:#grp_create_webr#:#Neue Web-Links anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
-common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
+common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
 common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppen-Administrator benötigt
 common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgeführt
 common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
 common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
-common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Registrierungszeitraums an !
+common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Beitrittszeitraums an !
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
 common#:#grp_list_users#:#Benutzer auflisten
-common#:#grp_mail_body_new_subscription#:#Sie wurden in der Gruppe als Teilnehmer aufgenommen.
+common#:#grp_mail_body_new_subscription#:#Sie sind in der Gruppe als Teilnehmer aufgenommen worden.
 common#:#grp_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
 common#:#grp_mail_subj_new_subscription#:#Neue Mitgliedschaft in
 common#:#grp_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
@@ -1627,7 +1631,7 @@ common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
 common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
-common#:#grp_msg_applicants_removed#:#Anmeldung(en) abgelehnt und aus der Liste entfernt
+common#:#grp_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt
 common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
@@ -1638,8 +1642,9 @@ common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#grp_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#grp_options#:#Optionen
 common#:#grp_read#:#Lesezugriff auf Gruppe
-common#:#grp_register#:#Anmelden
-common#:#grp_registration_completed#:#Anmeldung abgeschlossen
+common#:#grp_register#:#Beitreten
+common#:#grp_registration#:#Zur Gruppe beitreten
+common#:#grp_registration_completed#:#Sie sind zur Gruppe beigetreten
 common#:#grp_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#grp_search_members#:#Benutzersuche
 common#:#grp_select_one_file#:#Bitte wählen Sie eine Datei aus.
@@ -1752,11 +1757,11 @@ common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc S
 common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc Seminar !
 common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#ilinc_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte, um diese Operation durchzuführen.
-common#:#ilinc_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Registrierungszeitraums an !
+common#:#ilinc_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Beitrittszeitraums an !
 common#:#ilinc_header_edit_users#:#Liste der beteiligten Benutzer bearbeiten
 common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Beteiligte Benutzer
-common#:#ilinc_mail_body_new_subscription#:#Sie wurden in dem LearnLinc Seminar als Teilnehmer aufgenommen.
+common#:#ilinc_mail_body_new_subscription#:#Sie in dem LearnLinc Seminar als Teilnehmer aufgenommen worden.
 common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
 common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft
 common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
@@ -1782,6 +1787,7 @@ common#:#import_cat_localrol#:#Für jede neue Kategorie eine neue lokale Rolle a
 common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Checkbox aktiviert ist.
 common#:#import_categories#:#Kategorien importieren
 common#:#import_dbk#:#Digilib-Buch importieren
+common#:#import_grp#:#Gruppe importieren
 common#:#import_failure_log#:#Import Fehler Log
 common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
@@ -1846,10 +1852,10 @@ common#:#ingmedia_pers_dates#:#Persönliche Daten
 common#:#ingmedia_reg_fo#:#Registrierte Foren
 common#:#ingmedia_reg_le#:#Registrierte LE
 common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.
-common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dürfen, müssen Sie mit den Benutzervereinbarungen einverstanden sein.
+common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dürfen, müssen Sie mit der Nutzungsvereinbarung einverstanden sein.
 common#:#ingmedia_use_info3#:#Bitte wählen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
 common#:#ingmedia_use_title#:#Benutzerdaten ändern
-common#:#ingmedia_user_agree#:#Benutzervereinbarung
+common#:#ingmedia_user_agree#:#Nutzungsvereinbarung
 common#:#ingmedia_vis_le#:#Besuchte LE
 common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
 common#:#ingmedia_welcome#:#, willkommen an Ihrem persönlichen Schreibtisch!
@@ -2006,18 +2012,18 @@ common#:#local_language_file#:#Lokale Sprachdatei
 common#:#local_language_files#:#Lokale Sprachdateien
 common#:#local_languages_already_installed#:#Ausgewählte lokale Sprachdateien sind bereits installiert
 common#:#locator#:#Position:
-common#:#log_in#:#Einloggen
+common#:#log_in#:#Anmelden
 common#:#logic_and#:#und
 common#:#logic_or#:#oder
-common#:#login#:#Einloggen
+common#:#login#:#Benutzername
 common#:#login_as#:#Angemeldet als
-common#:#login_data#:#Logindaten
+common#:#login_data#:#Benutzerdaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
 common#:#login_invalid#:#Der gewählte Benutzername ist nicht erlaubt! Ihr Benutzername muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
-common#:#login_to_ilias_via_shibboleth#:#In ILIAS einloggen über Shibboleth
-common#:#logout#:#Logout
+common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über Shibboleth
+common#:#logout#:#Abmelden
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
 common#:#los#:#Lernmodule
@@ -2068,7 +2074,7 @@ common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
 common#:#member_status#:#Mitgliedsstatus
 common#:#members#:#Mitglieder
-common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
+common#:#membership_annulled#:#Ihre Mitgliedschaft ist beendet worden.
 common#:#mep#:#Media-Pool
 common#:#mep_add#:#Media-Pool hinzufügen
 common#:#mep_added#:#Media-Pool hinzugefügt
@@ -2139,7 +2145,7 @@ common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
-common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Anmeldeformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
+common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Registrierformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
 common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
@@ -2263,7 +2269,7 @@ common#:#not_accessed#:#Noch nicht aufgerufen
 common#:#not_accessed_yet#:#Noch nicht aufgerufen
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
-common#:#not_logged_in#:#Sie sind nicht eingeloggt
+common#:#not_logged_in#:#Sie sind nicht angemeldet
 common#:#note#:#Notiz
 common#:#notes#:#Notizen
 common#:#num_users#:#Anzahl Benutzer
@@ -2420,7 +2426,7 @@ common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht �
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
 common#:#password_assistance_disabled#:#Passwort-Unterstützung ist nur dann verfügbar, wenn die Authentisierung der Benutzer über die ILIAS-Datenbank erfolgt.
-common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Login-Seite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
+common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmelde-Seite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
 common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
@@ -2517,14 +2523,14 @@ common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene Email-Adresse geschickt.
-common#:#register#:#Anmelden
-common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
+common#:#register#:#Registrieren
+common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
-common#:#registration#:#Neuanmeldung
+common#:#registration#:#Neues Benutzerkonto registrieren
 common#:#registration_disabled#:#Nur möglich bei lokaler Authentifizierung
-common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
+common#:#registration_expired#:#Der Zeitraum für Beitritte ist abgelaufen...
 common#:#related_to#:#Verwandt mit
 common#:#remove#:#Entfernen
 common#:#remove_personal_picture#:#Löschen
@@ -2537,6 +2543,7 @@ common#:#repeat_scan_succeded#:#Repeat scan succeded.
 common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
+common#:#request_membership#:#Antrag stellen
 common#:#require_city#:#Pflichteingabe Stadt
 common#:#require_country#:#Pflichteingabe Land
 common#:#require_default_role#:#Pflichteingabe Rolle
@@ -2958,12 +2965,12 @@ common#:#usr_active_only#:#Nur aktive Benutzer
 common#:#usr_add#:#Neuer Benutzer
 common#:#usr_added#:#Benutzer angelegt
 common#:#usr_agreement#:#Nutzungsvereinbarung
-common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
+common#:#usr_agreement_empty#:#Die Nutzungsvereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_inactive_only#:#Nur nicht-aktive Nutzer
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld in der Neuanmeldung und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, daß der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Neuanmeldung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden.
+common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld im Registrierformular und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, daß der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Registrierung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden.
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
@@ -3501,8 +3508,8 @@ content#:#start export#:#Export starten
 crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
-crs#:#crs_accept_subscriber#:#Kursanmeldung
-crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
+crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
+crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
@@ -3513,14 +3520,14 @@ crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_member#:#Mitglied(er) hinzufügen
 crs#:#crs_add_objective#:#Lernziel hinzufügen
 crs#:#crs_add_starter#:#Startobjekt hinzufügen
-crs#:#crs_add_subscribers#:#Benutzer hinzufügen
+crs#:#crs_add_subscribers#:#In Kurs aufnehmen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
-crs#:#crs_added_member#:#Kursmitgliedschaft
-crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
+crs#:#crs_added_member#:#Aufnahme in Kurs "%s"
+crs#:#crs_added_member_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
 crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
 crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
-crs#:#crs_added_to_list#:#Sie wurden in die Warteliste aufgenommen.<br />Sie haben Platz %s auf der Warteliste.
+crs#:#crs_added_to_list#:#Sie sind in die Warteliste aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
@@ -3536,14 +3543,14 @@ crs#:#crs_archive_type#:#Archivtyp
 crs#:#crs_archive_type_disabled#:#Nicht verfügbar
 crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
 crs#:#crs_auto_fill#:#Automatisch auffüllen
-crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Registrierungsart!
-crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Registrierungsart - nur während eines definierten Zeitraums freizuschalten.###08 Nov 2005 content changed
-crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kursadministratoren und Tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
+crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Beitrittsart!
+crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Beitrittsart - nur während eines definierten Zeitraums freizuschalten.###08 Nov 2005 content changed
+crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kurs-Administratoren und Tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
 crs#:#crs_blocked#:#Zugang gesperrt
-crs#:#crs_blocked_member#:#Kursmitgliedschaft
-crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft wurde beendet.
-crs#:#crs_cancel_subscription#:#Kursabmeldung
-crs#:#crs_cancel_subscription_body#:#Ein Benutzer hat sich vom Kurs abgemeldet.
+crs#:#crs_blocked_member#:#Status in Kurs "\%s\"
+crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
+crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
+crs#:#crs_cancel_subscription_body#:#Ein Teilnehmer ist aus dem Kurs "%s" ausgetreten.
 crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
 crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
 crs#:#crs_contact#:#Kontakt
@@ -3565,11 +3572,11 @@ crs#:#crs_delete_from_waiting_list#:#Aus der Warteliste austragen
 crs#:#crs_delete_member#:#Mitglied(er) austragen
 crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernziele entfernt werden sollen?
-crs#:#crs_delete_subscribers#:#Anmeldungen löschen
-crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anmeldungen gelöscht werden sollen?
+crs#:#crs_delete_subscribers#:#Antrag löschen
+crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anträge gelöscht werden sollen?
 crs#:#crs_details#:#Kursdetails
-crs#:#crs_dismiss_member#:#Kursmitgliedschaft
-crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft wurde beendet.
+crs#:#crs_dismiss_member#:#Mitgliedschaft in Kurs "%s" beendet
+crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft in Kurs "%s" ist beendet worden.
 crs#:#crs_edit_archive#:#Archive bearbeiten
 crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_end#:#Ende
@@ -3593,7 +3600,7 @@ crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Kurse sind bereits zu
 crs#:#crs_grp_crs_assignment#:#Kurszuordnung
 crs#:#crs_grp_deassigned_courses#:#Die Zuordnung wurde entfernt.
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
-crs#:#crs_grp_info_reg#:#Die folgenden Kurse sind verknüpft. Sie können sich nur an einen dieser Kurse anmelden:
+crs#:#crs_grp_info_reg#:#Die folgenden Kurse sind verknüpft. Sie können nur in einen dieser Kurse beitreten:
 crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diese Kursgruppierung ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
 crs#:#crs_grp_modified_grouping#:#Die Änderungen wurden übernommen.
 crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens einen Kurs aus.
@@ -3601,6 +3608,7 @@ crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
 crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
 crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Mitglieder löschen
+crs#:#crs_header_delete_subscribers#:#Anträge löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder
 crs#:#crs_header_remove_from_waiting_list#:#Warteliste: Benutzer austragen
@@ -3609,11 +3617,11 @@ crs#:#crs_hide_link_objectives#:#Lernziele verbergen
 crs#:#crs_hide_link_or#:#Andere Objekte verbergen
 crs#:#crs_hide_link_tst#:#Tests verbergen
 crs#:#crs_html#:#HTML
-crs#:#crs_info_reg#:#Erläuterungen zur Anmeldung
-crs#:#crs_info_reg_confirmation#:#Die Aufnahme in diesen Kurs erfordert eine Bestätigung eine Kursadministrators. Sie werden benachrichtigt, sobald diese erfolgt ist.
-crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Anmeldung möglich.
-crs#:#crs_info_reg_direct#:#Sie können sich direkt für den Kurs anmelden.
-crs#:#crs_info_reg_password#:#Die Mitgliedschaft zu diesem Kurs verlangt die Eingabe eines Passwortes. Wenn Ihnen dieses nicht mitgeteilt wurde, können Sie sich nicht anmelden.
+crs#:#crs_info_reg#:#Aufnahmeverfahren
+crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie erhalten eine Nachricht, wenn ein Kurs-Administrator Ihren Antrag angenommen oder abgelehnt hat.
+crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
+crs#:#crs_info_reg_direct#:#Sie können direkt in diesen Kurs beitreten.
+crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_learning_materials#:#Lernmaterialien
 crs#:#crs_list_users#:#Benutzer auflisten
@@ -3640,8 +3648,10 @@ crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
-crs#:#crs_new_subscription#:#Kursneuanmeldung
-crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet
+crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
+crs#:#crs_new_subscription_body#:#Ein neuer Teilnehmer ist zum Kurs "%s" beigetreten.
+crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
+crs#:#crs_new_subscription_request_body#:#Ein Benutzer hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
@@ -3655,7 +3665,7 @@ crs#:#crs_no_lms_assigned#:#Diesem Lernziel sind keine Lernmaterialien zugeordne
 crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lerneinheiten, die diesem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
-crs#:#crs_no_notify#:#Keine Benachrichtigung bei Neuanmeldungen
+crs#:#crs_no_notify#:#Keine Benachrichtigung bei Beitritten
 crs#:#crs_no_objective_selected#:#Bitte wählen Sie mindestens ein Lernziel aus.
 crs#:#crs_no_objectives_created#:#Diesem Kurs sind keine Lernziele zugeordnet.
 crs#:#crs_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
@@ -3669,7 +3679,7 @@ crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
-crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
+crs#:#crs_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
 crs#:#crs_objective_accomplished#:#Erledigt
@@ -3721,27 +3731,27 @@ crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Personen auf der Warteliste
 crs#:#crs_print_list#:#Liste ausdrucken
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
-crs#:#crs_reg#:#Registrierung
+crs#:#crs_reg#:#Kursbeitritt
 crs#:#crs_reg_deactivated#:#Ausgeschaltet
-crs#:#crs_reg_lim_info#:#Registrierungen sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.
-crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Registrierungen mehr möglich. ('0' bedeutet unbegrenzt)
-crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und Tutoren die Status 'Benachrichtigung' haben, über neue Registrierungen informiert.
-crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert
-crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen
+crs#:#crs_reg_lim_info#:#Beitritte sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
+crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt)
+crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kurs-Administratoren und Tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
+crs#:#crs_reg_subscription_deactivated#:#Die Registrierung ist deaktiviert
+crs#:#crs_reg_subscription_end_earlier#:#Die Zeit für Beitritte ist abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
-crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nicht begonnen
-crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Kursregistrierungen zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.
-crs#:#crs_reg_until#:#Anmeldungszeitraum
+crs#:#crs_reg_subscription_start_later#:#Die Zeit für Beitritte hat noch nicht begonnen
+crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Beitritte zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
+crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
-crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet
+crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits Mitglied dieses Kurses
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
-crs#:#crs_registration#:#Kursanmeldung
-crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um die Registrierung zu deaktivieren. Es können sich keine neuen Benutzer registrieren.
+crs#:#crs_registration#:#Zum Kurs beitreten
+crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um Beitritte zu deaktivieren. Es können keine Benutzer zum Kurs beitreten.
 crs#:#crs_registration_limited#:#Zeitlich begrenzt
-crs#:#crs_registration_type#:#Registrierungsart
+crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
-crs#:#crs_reject_subscriber#:#Kursanmeldung
-crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt
+crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
+crs#:#crs_reject_subscriber_body#:#Ihr Antrag für den Kurs "%s" ist abgelehnt worden.
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
@@ -3755,9 +3765,9 @@ crs#:#crs_select_exactly_one_tst#:#Bitte wählen Sie genau einen Test aus.
 crs#:#crs_select_native_lm#:#Einzelne Kapitel können nur aus ILIAS-Lerneinheiten zugeordnet werden.
 crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
 crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
-crs#:#crs_select_registration_type#:#Bitte wählen Sie eine Registrierungsart aus.
+crs#:#crs_select_registration_type#:#Bitte wählen Sie ein Beitrittsverfahren aus.
 crs#:#crs_select_starter#:#Startobjekt auswählen
-crs#:#crs_set_on_waiting_list#:#Melden Sie sich an, um in die Warteliste aufgenommen zu werden. Sie erhalten dann eine Nachricht, sobald ein Platz freigeworden ist.
+crs#:#crs_set_on_waiting_list#:#Sie können sich auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, wenn Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
 crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
 crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
@@ -3776,19 +3786,21 @@ crs#:#crs_start_objects#:#Startobjekte
 crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Kursstatus
-crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert
+crs#:#crs_status_changed#:#Status in Kurs "%s"
+crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert
 crs#:#crs_structure#:#Kursstruktur
-crs#:#crs_subscribers_deleted#:#Die Anmeldung wurde gelöscht
-crs#:#crs_subscription#:#Anmeldung
+crs#:#crs_subscribers#:#Aufnahmeanträge
+crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
+crs#:#crs_subscription#:#Beitrittsverfahren
 crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl
-crs#:#crs_subscription_notify#:#Benachrichtigung bei Neuanmeldungen
-crs#:#crs_subscription_options_confirmation#:#Anmeldung mit Bestätigung
-crs#:#crs_subscription_options_deactivated#:#Anmeldung ausgeschaltet
-crs#:#crs_subscription_options_direct#:#Direkte Anmeldung
-crs#:#crs_subscription_options_password#:#Anmeldung mit Passwort
-crs#:#crs_subscription_successful#:#Sie wurden für den Kurs angemeldet
-crs#:#crs_subscription_type#:#Anmeldungsart
+crs#:#crs_subscription_notify#:#Benachrichtigung bei Beitritten
+crs#:#crs_subscription_options_confirmation#:#Antrag mit Bestätigung
+crs#:#crs_subscription_options_deactivated#:#Beantragung ausgeschaltet
+crs#:#crs_subscription_options_direct#:#Direkter Beitritt
+crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort
+crs#:#crs_subscription_requested#:#Sie haben einen Aufnahmeantrag für den Kurs gestellt.
+crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen worden.
+crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählten Archive gelöscht werden sollen
 crs#:#crs_syllabus#:#Lernziel
@@ -3796,18 +3808,18 @@ crs#:#crs_table_start_objects#:#Startobjekte
 crs#:#crs_test_status_complete#:#Fertiggestellt
 crs#:#crs_test_status_not_complete#:#Nicht fertiggestellt
 crs#:#crs_test_status_random#:#Zufallstest
-crs#:#crs_time#:#Datum der Anmeldung
+crs#:#crs_time#:#Datum der Registrierung
 crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
 crs#:#crs_unblocked#:#Freigeschaltet
-crs#:#crs_unblocked_member#:#Kursmitgliedschaft
-crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wiederhergestellt
+crs#:#crs_unblocked_member#:#Status in Kurs "%s"
+crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet
 crs#:#crs_unlimited#:#Unbegrenzt
-crs#:#crs_unsubscribe#:#Abmelden
-crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abmelden möchten?
-crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
+crs#:#crs_unsubscribe#:#Austreten
+crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie aus diesem Kurs austreten möchten?
+crs#:#crs_unsubscribed_from_crs#:#Sie sind aus dem Kurs ausgetreten.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
@@ -3820,7 +3832,7 @@ crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Ihre Position auf der Warteliste
 crs#:#edit_content#:#Kursinhalt bearbeiten
-crs#:#import_crs#:#Import Kurs
+crs#:#import_crs#:#Kurs importieren
 crs#:#learners_view#:#Lerneransicht
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
 crs_#:#crs_archives#:#Archive
@@ -5455,9 +5467,9 @@ common#:#cron_forum_notification_cron#:#regelmäßig per Cron-Job
 meta#:#meta_current_value#:#Aktueller Wert
 meta#:#meta_info_tlt_not_valid#:#Der aktuelle Wert ist nicht gültig und kann deswegen in anderen Bereichen (z.B Lernfortschritt) nicht verwertet werden. Bitte geben Sie eine Zeit in Stunden und/oder Minuten an.
 mail#:#mail_enter_valid_email_addr#:#Bitte geben Sie eine gültige E-Mail-Adresse ein.
-mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Loginnamen ein.
-mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Loginnamen oder eine E-Mail-Adresse ein.
-mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Loginnamen oder E-Mail-Adresse.
+mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernnamen ein.
+mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.
+mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen oder E-Mail-Adresse.
 common#:#overwrite#:#Überschreiben
 common#:#send_mail_members#:#Mail an Mitglieder
 common#:#send_mail_tutors#:#Mail an Tutoren

@@ -9,53 +9,49 @@
   </table>
   </td>
 </tr>
-<tr colspan="2">
+<tr>
   <td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
-  <td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
+  <td class="option_value" colspan="2"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:500px;"/></td>
 </tr>
 <tr>
   <td class="option">{TXT_DESC}</td>
-  <td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
-</tr>
-
-<tr>
-  <td class="option" rowspan="2">{TXT_REGISTRATION}</td>
-</tr>
-
-
-<tr>
-  <td class="option_value">
-  	<table border="0">
-		<tr>
-			<td class="option_value">{RB_NOREGISTRATION}{TXT_DISABLEREGISTRATION}
-	  	</tr>
-	  	<tr>
-			<td class="option_value">{RB_REGISTRATION}{TXT_ENABLEREGISTRATION}
-	  	</tr>
-		<tr>
-		  	<td class="option_value">{RB_PASSWORDREGISTRATION}{TXT_PASSWORDREGISTRATION}</td>
-		  	<td class="option_value"><input name="password" value="{PASSWORD}" size="25" maxlength="40" /></td>
-          	</tr>
-		<tr>
-			<td class="option_value">{TXT_EXPIRATIONDATE}</td>
-			<td class="option_value"><input name="expirationdate" value="{EXPIRATIONDATE}" size="10" maxlength="10" /> [{TXT_DATE}]</td>
-		</tr>
-		<tr>
-			<td class="option_value">{TXT_EXPIRATIONTIME}</td>
-			<td class="option_value"><input name="expirationtime" value="{EXPIRATIONTIME}" size="5" maxlength="5"/> [{TXT_TIME}]</td>
-		</tr>
-	</table>
-  </td>
+  <td class="option_value" colspan="2"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:500px;">{DESC}</textarea></td>
 </tr>
 <!-- BEGIN grp_status -->
 <tr>
   <td class="option">{TXT_GROUP_STATUS}</td>
-  <td class="option_value">{SELECT_GROUPSTATUS}<br/><p class="option_desc">{TXT_GROUP_STATUS_DESC}</p></td>
+  <td class="option_value" colspan="2">{SELECT_GROUPSTATUS}<div class="il_Description_no_margin">{TXT_GROUP_STATUS_DESC}</div></td>
 </tr>
 <!-- END grp_status -->
+<tr>
+  <td class="option" rowspan="4">{TXT_REGISTRATION}</td>
+  <td class="sub_option">{TXT_REGISTRATION_TIME}</td>
+  <td class="option_value">
+    <table class="option_value">
+    <tr>
+        <td>{TXT_EXPIRATIONDATE}</td>
+        <td><input name="expirationdate" value="{EXPIRATIONDATE}" size="10" maxlength="10" /> [{TXT_DATE}]</td>
+    </tr>
+    <tr>
+      <td>{TXT_EXPIRATIONTIME}</td>
+      <td><input name="expirationtime" value="{EXPIRATIONTIME}" size="5" maxlength="5"/> [{TXT_TIME}]</td>
+    </tr>
+    </table>
+</tr>
+<tr>
+  <td class="sub_option" rowspan="3">{TXT_REGISTRATION_MODE}</td>
+  <td class="option_value">{RB_NOREGISTRATION}{TXT_DISABLEREGISTRATION}
+</tr>
+<tr>
+    <td class="option_value">{RB_REGISTRATION}{TXT_ENABLEREGISTRATION}
+</tr>
+<tr>
+    <td class="option_value">{RB_PASSWORDREGISTRATION}{TXT_PASSWORDREGISTRATION}
+    <input name="password" value="{PASSWORD}" size="25" maxlength="40" /></td>
+</tr>
 {CONTAINER_ICONS}
 <tr>
-  <td class="submit" colspan="2">
+  <td class="submit" colspan="3">
   <div align="right">
 	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
 	<input class="submit" type="submit" name="cmd[{CMD_CANCEL}]" value="{TXT_CANCEL}" />
@@ -64,16 +60,16 @@
 </tr>
 <!-- BEGIN create -->
 		<tr class="tblheader">
-		  <td class="std" colspan="2">{TXT_IMPORT_GRP}</td>
+		  <td class="std" colspan="3">{TXT_IMPORT_GRP}</td>
 		</tr>
 		<tr>
 		  <td class="option">{TXT_GRP_FILE} <span class="asterisk">**</span></td>
-		  <td class="option_value">
+		  <td class="option_value" colspan="2">
 			<input type="file" name="xmldoc" />
 		  </td>
 		</tr>
 		<tr>
-		  <td class="submit" align="right" colspan="2">
+		  <td class="submit" align="right" colspan="3">
 			<input class="submit" type="submit" name="cmd[importFile]" value="{TXT_IMPORT}" />
 		  </td>
 		</tr>

@@ -59,6 +59,7 @@ class ilCourseMembers
 		$this->NOTIFY_ACCEPT_USER = 6;
 		$this->NOTIFY_ADMINS = 7;
 		$this->NOTIFY_STATUS_CHANGED = 8;
+		$this->NOTIFY_SUBSCRIPTION_REQUEST = 9;
 
 
 		$this->ROLE_ADMIN = 1;
@@ -663,33 +664,38 @@ class ilCourseMembers
 		switch($a_type)
 		{
 			case $this->NOTIFY_DISMISS_SUBSCRIBER:
-				$subject = $this->lng->txt("crs_reject_subscriber")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$subject = $this->lng->txt("crs_reject_subscriber");
 				$body = $this->lng->txt("crs_reject_subscriber_body");
 				break;
 				
 			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
-				$subject = $this->lng->txt("crs_accept_subscriber")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$subject = $this->lng->txt("crs_accept_subscriber");
 				$body = $this->lng->txt("crs_accept_subscriber_body");
 				break;
 			case $this->NOTIFY_DISMISS_MEMBER:
-				$subject = $this->lng->txt("crs_dismiss_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$subject = $this->lng->txt("crs_dismiss_member");
 				$body = $this->lng->txt("crs_dismiss_member_body");
 				break;
 			case $this->NOTIFY_BLOCK_MEMBER:
-				$subject = $this->lng->txt("crs_blocked_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$subject = $this->lng->txt("crs_blocked_member");
 				$body = $this->lng->txt("crs_blocked_member_body");
 				break;
 			case $this->NOTIFY_UNBLOCK_MEMBER:
-				$subject = $this->lng->txt("crs_unblocked_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$subject = $this->lng->txt("crs_unblocked_member");
 				$body = $this->lng->txt("crs_unblocked_member_body");
 				break;
 			case $this->NOTIFY_ACCEPT_USER:
-				$subject = $this->lng->txt("crs_added_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$subject = $this->lng->txt("crs_added_member");
 				$body = $this->lng->txt("crs_added_member_body");
 				break;
 			case $this->NOTIFY_STATUS_CHANGED:
-				$subject = $this->lng->txt("crs_status_changed")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$subject = $this->lng->txt("crs_status_changed");
 				$body = $this->__buildStatusBody($tmp_user);
+				break;
+
+			case $this->NOTIFY_SUBSCRIPTION_REQUEST:
+				$this->sendSubscriptionRequestToAdmins($a_usr_id);
+				return true;
 				break;
 
 			case $this->NOTIFY_ADMINS:
@@ -698,6 +704,8 @@ class ilCourseMembers
 				return true;
 				break;
 		}
+		$subject = sprintf($subject, $this->course_obj->getTitle());
+		$body = sprintf($body, $this->course_obj->getTitle());
 
 		include_once("./classes/class.ilFormatMail.php");
 
@@ -719,8 +727,38 @@ class ilCourseMembers
 		include_once("./classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
-		$subject = $this->lng->txt("crs_new_subscription")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
-		$body = $this->lng->txt("crs_new_subscription_body");
+		$subject = sprintf($this->lng->txt("crs_new_subscription"),$this->course_obj->getTitle());
+		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$this->course_obj->getTitle());
+
+		$query = "SELECT usr_id FROM crs_members ".
+			"WHERE status = '".$this->STATUS_NOTIFY."' ".
+			"AND obj_id = '".$this->course_obj->getId()."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
+
+			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
+			unset($tmp_user);
+		}
+		unset($mail);
+
+		return true;
+	}
+	function sendSubscriptionRequestToAdmins($a_usr_id)
+	{
+		if(!$this->course_obj->getSubscriptionNotify())
+		{
+			return true;
+		}
+
+
+		include_once("./classes/class.ilFormatMail.php");
+
+		$mail =& new ilFormatMail($a_usr_id);
+		$subject = sprintf($this->lng->txt("crs_new_subscription_request"),$this->course_obj->getTitle());
+		$body = sprintf($this->lng->txt("crs_new_subscription_request_body"),$this->course_obj->getTitle());
 
 		$query = "SELECT usr_id FROM crs_members ".
 			"WHERE status = '".$this->STATUS_NOTIFY."' ".
@@ -748,8 +786,8 @@ class ilCourseMembers
 		include_once("./classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
-		$subject = $this->lng->txt("crs_cancel_subscription")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
-		$body = $this->lng->txt("crs_cancel_subscription_body");
+		$subject = sprintf($this->lng->txt("crs_cancel_subscription"), $this->course_obj->getTitle());
+		$body = sprintf($this->lng->txt("crs_cancel_subscription_body"), $this->course_obj->getTitle());
 
 		$query = "SELECT usr_id FROM crs_members ".
 			"WHERE status = '".$this->STATUS_NOTIFY."' ".
