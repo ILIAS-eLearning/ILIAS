@@ -916,7 +916,7 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tmp_or->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("or_desklink");
-					$this->tpl->setVariable("DESK_LINK_OR", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+					$this->tpl->setVariable("DESK_LINK_OR", "repository.php?cmd=addToDesk&ref_id=".$this->cci_ref_id.
 											"&item_ref_id=".$tmp_or->getRefId()."&type=".$tmp_or->getType());
 
 					$this->tpl->setVariable("TXT_DESK_OR", $this->lng->txt("to_desktop"));
@@ -1012,7 +1012,7 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tmp_lm->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("lm_desklink");
-					$this->tpl->setVariable("DESK_LINK_LMS", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+					$this->tpl->setVariable("DESK_LINK_LMS", "repository.php?cmd=addToDesk&ref_id=".$this->cci_ref_id.
 											"&item_ref_id=".$tmp_lm->getRefId()."&type=".$tmp_lm->getType());
 
 					$this->tpl->setVariable("TXT_DESK_LMS", $this->lng->txt("to_desktop"));
@@ -1178,7 +1178,7 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tmp_tst->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("tst_desklink");
-					$this->tpl->setVariable("DESK_LINK_TST", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+					$this->tpl->setVariable("DESK_LINK_TST", "repository.php?cmd=addToDesk&ref_id=".$this->cci_ref_id.
 											"&item_ref_id=".$tmp_tst->getRefId()."&type=".$tmp_tst->getType());
 
 					$this->tpl->setVariable("TXT_DESK_TST", $this->lng->txt("to_desktop"));
@@ -1248,7 +1248,7 @@ class ilCourseContentInterface
 		}
 
 		// show table header
-		for($i = 0; $i < 2; ++$i)
+		for($i = 0; $i < 1; ++$i)
 		{
 			$this->tpl->setCurrentBlock("tbl_header_columns");
 			$this->tpl->setVariable("TBL_HEADER_WIDTH_OBJECTIVES","5%");
@@ -1266,8 +1266,9 @@ class ilCourseContentInterface
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$max = count($objective_ids) % 2 ? count($objective_ids) + 1 : count($objective_ids); 
-		for($i = 0; $i < $max/2; ++$i)
+		//$max = count($objective_ids) % 2 ? count($objective_ids) + 1 : count($objective_ids); 
+		$max = count($objective_ids); 
+		for($i = 0; $i < $max; ++$i)
 		{
 			$tmp_objective =& new ilCourseObjective($this->cci_course_obj,$objective_ids[$i]);
 
