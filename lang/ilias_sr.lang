@@ -34,27 +34,31 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Analiziraj integritet podataka
-administration#:#analyze_desc#:#Skeniraj sistem radi oštecenih/nevažecih/nedostajucih/nevezanih objekata.
+administration#:#analysis_options#:#Analysis options###23 Dec 2005 new variable
+administration#:#analyze_data#:#Analiziraj integritet podataka###23 Dec 2005 content changed
 administration#:#analyzing#:#Analiza...
 administration#:#analyzing_tree_structure#:#Analiza strukture stabla...
 administration#:#check_tree#:#Provera strukture stabla
 administration#:#check_tree_desc#:#Provera konzistentnosti celokupne strukture stabla. U zavisnosti od velicine stabla, ovo može potrajati!
 administration#:#clean#:#Cišcenje
-administration#:#clean_desc#:#Uklonite nevažece primedbe i unose na stablu. Zatvorite praznine u strukturi stabla.
+administration#:#clean_desc#:#Uklonite nevažece primedbe i unose na stablu. Zatvorite praznine u strukturi stabla.###23 Dec 2005 content changed
 administration#:#cleaning#:#Cišcenje...
 administration#:#cleaning_final#:#Završno cišcenje...
-administration#:#closing_gaps#:#Zatvaranje praznina u strukturi stabla...
 administration#:#disabled#:#onemoguceno
 administration#:#done#:#završeno
+administration#:#dump_tree#:#Dump tree###23 Dec 2005 new variable
+administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.###23 Dec 2005 new variable
+administration#:#dumping_tree#:#Dumping tree...###23 Dec 2005 new variable
 administration#:#found#:#nadeno.
 administration#:#found_none#:#nije nadeno.
+administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Registruj skenirane rezultate
 administration#:#log_scan_desc#:#Unesite skenirane rezultate na 'scanlog.log' u registru podataka klijenta.
 administration#:#nothing_to_purge#:#Nema nicega za brisanje....
 administration#:#nothing_to_remove#:#Nema nicega za uklanjanje....
 administration#:#nothing_to_restore#:#Nema nicega za obnavljanje...
 administration#:#options#:#Opcije
+administration#:#output_options#:#Output options###23 Dec 2005 new variable
 administration#:#passwd_auto_generate#:#Prosledivanje/Generisanje šifre
 administration#:#purge_missing#:#Brisanje nestalih objekata
 administration#:#purge_missing_desc#:#Uklonite iz sistema sve nadene, nestale i nevezane objekte.
@@ -67,6 +71,7 @@ administration#:#purging_unbound_objs#:#Cišcenje nevezanih objekata...
 administration#:#removing_invalid_childs#:#Uklanjanje nevažecih objekata...
 administration#:#removing_invalid_refs#:#Uklanjanje nevažecih podataka...
 administration#:#removing_invalid_rolfs#:#Uklanjanje nevažecih funkcija registratora...
+administration#:#repair_options#:#Repair options###23 Dec 2005 new variable
 administration#:#restore_missing#:#Obnovi nestale objekte
 administration#:#restore_missing_desc#:#Obnovi nestale i nevezane objekte u folder za restauraciju.
 administration#:#restore_trash#:#Obnovi obrisane objekte
@@ -75,10 +80,11 @@ administration#:#restoring#:#Obnavljanje...
 administration#:#restoring_missing_objs#:#Obnavljanje nestalih objekata...
 administration#:#restoring_trash#:#Obnavljanje otpadaka...
 administration#:#restoring_unbound_objs#:#Obnavljanje nevezanih objekata i pomocnih objekata...
+administration#:#scan#:#Scan###23 Dec 2005 new variable
 administration#:#scan_completed#:#Skeniranje završeno
+administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###23 Dec 2005 new variable
 administration#:#scan_details#:#Detalji skeniranja
 administration#:#scan_modes#:#Korišcen metod skeniranja
-administration#:#scan_only#:#Skeniraj samo
 administration#:#scanning_system#:#Skeniranje sistema...
 administration#:#searching_deleted_objs#:#Traženje obrisanih objekata...
 administration#:#searching_invalid_childs#:#Traženje nevažecih unosa u stablo...
@@ -127,6 +133,7 @@ assessment#:#average_reached_points#:#Prosek osvojenih poena
 assessment#:#backtocallingtest#:#Povratak na test za pozivanje
 assessment#:#by#:#od
 assessment#:#cancel_test#:#Opozovi test
+assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
 assessment#:#cannot_edit_test#:#Ne posedujete potrebnu dozvolu da biste uredili test!
 assessment#:#cannot_execute_test#:#Ne posedujete potrebnu dozvolu da biste obradili test!
 assessment#:#cannot_export_qpl#:#Ne posedujete potrebnu dozvolu za prenos/izvoz pitanja!###09 Aug 2005 content changed
@@ -217,6 +224,7 @@ assessment#:#eval_legend_link#:#Molimo pogledajte legendu znacenja zaglavlja sim
 assessment#:#eval_matching_result#:#Uporedni par %s - %s je %s. Osvojili ste %s poena.
 assessment#:#eval_order_result#:#Narudžba za vrednost %s je %s. Osvojili ste %s poena.
 assessment#:#eval_search_groups#:#Grupe
+assessment#:#eval_search_roles#:#Roles###23 Dec 2005 new variable
 assessment#:#eval_search_term#:#Nadi termin
 assessment#:#eval_search_users#:#Korisnici
 assessment#:#eval_search_userselection#:#Pronadite korisnike koje želite da dodate statistickom ocenjivanju
@@ -283,7 +291,7 @@ assessment#:#material#:#Materijal
 assessment#:#material_download#:#Materijal za skidanje
 assessment#:#material_file#:#Bitan dokument
 assessment#:#maxchars#:#Maksimalan broj karaktera
-assessment#:#maximum_nr_of_tries_reached#:#Dostigli ste maksimalan broj pokušaja za ovog testa. Test ne može biti unet!
+assessment#:#maximum_nr_of_tries_reached#:#Dostigli ste maksimalan broj pokušaja za ovog testa. Test ne može biti unet!###23 Dec 2005 content changed
 assessment#:#meaning#:#Znacenje
 assessment#:#min_percentage_ne_0#:#Morate definisati minimalan procenat od 0 procenata! Šema ocena nije sacuvana.
 assessment#:#negative_points_not_allowed#:#Nije vam dozvoljeno da unosite negativne poene!
@@ -292,7 +300,9 @@ assessment#:#no_passed_mark#:#Morate dati bar jednu ocenu da biste PROŠLI! Šem
 assessment#:#no_question_selected_for_move#:#Molimo vas da proverite bar jedno pitanje da biste ga pomerili!
 assessment#:#no_questions_available#:#Nema dostupnih pitanja!
 assessment#:#no_target_selected_for_move#:#Morate selektovati ciljnu poziciju!
-assessment#:#no_user_or_group_selected#:#Molimo proverite opciju šta pretražujete (korisnike i/ili grupe)!
+assessment#:#no_user_or_group_selected#:#Molimo proverite opciju šta pretražujete (korisnike i/ili grupe)!###23 Dec 2005 content changed
+assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
+assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
 assessment#:#or#:#ili
 assessment#:#order_pictures#:#Poruci slike
 assessment#:#order_terms#:#Poruci termine
@@ -313,7 +323,6 @@ assessment#:#postponed#:#odloženo
 assessment#:#preview#:#Pregled 
 assessment#:#previous_question_rows#:#<< Pitanja %d - %d od %d
 assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
-assessment#:#print_results#:#Print Results###20 Jun 2005 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Nema raspoložive provere za odabrano pitanje! Pitanje nikad nije korišceno u testu.
 assessment#:#qpl_assessment_of_questions#:#Provera pitanja
 assessment#:#qpl_assessment_total_of_answers#:#Ukupni odgovori
@@ -387,6 +396,8 @@ assessment#:#see_details_for_further_information#:#Pogledaj detalje za predlože
 assessment#:#select_an_answer#:#-- Molimo odaberite odgovor
 assessment#:#select_gap#:#Odaberite razmak
 assessment#:#select_max_one_item#:#Molimo odaberite samo jedno polje
+assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test###23 Dec 2005 new variable
+assessment#:#select_one_user#:#Please select at least one user###23 Dec 2005 new variable
 assessment#:#select_target_position_for_move_question#:#Molimo odaberite krajnju poziciju za premeštanje pitanja i pritisnite jedno od dugmadi za ubacivanje!
 assessment#:#select_tst_option#:#-- Molimo odaberite test
 assessment#:#selected_image#:#Odabrana slika
@@ -415,7 +426,7 @@ assessment#:#tst_all_user_data_deleted#:#Svi podaci o korisniku ovog testa su ob
 assessment#:#tst_already_taken#:#Testovi su vec preuzeti
 assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
 assessment#:#tst_browse_for_questions#:#Pregledajte pitanja
-assessment#:#tst_confirm_delete_results#:#Želite da obrišete sve prethodno unete rezultate ovog testa. To ce vratiti sva pitanja na njihove pretpostavljene vrednosti. Molimo obratite pažnju da ne možete vratiti broj pokušaja, koji ste vec tražili za ovaj test. Da li zaista želite da vratite sve prethodno unete rezultate?
+assessment#:#tst_confirm_delete_results#:#Želite da obrišete sve prethodno unete rezultate ovog testa. To ce vratiti sva pitanja na njihove pretpostavljene vrednosti. Molimo obratite pažnju da ne možete vratiti broj pokušaja, koji ste vec tražili za ovaj test. Da li zaista želite da vratite sve prethodno unete rezultate?###23 Dec 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Vaši prethodno uneti rezultati su obrisani. Uspešno ste vratili test!
 assessment#:#tst_delete_all_user_data#:#Obriši sve podatke o korisniku
 assessment#:#tst_delete_missing_mark#:#Molimo odaberite bar jedan postupak ocenjivanja da biste ga obrisali
@@ -435,7 +446,10 @@ assessment#:#tst_general_properties#:#Osnovne osobine
 assessment#:#tst_generate_xls#:#Generiši Excel
 assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
 assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
+assessment#:#tst_hide_title_points#:#Question title points###23 Dec 2005 new variable
+assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title###23 Dec 2005 new variable
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Test je u upotrebi od strane %s korisnika. Nije vam dozvoljeno da menjate ili uklanjate pitanja u ovom testu!
@@ -465,16 +479,20 @@ assessment#:#tst_no_questions_available#:#Ne postoje dostupna pitanja! Morate kr
 assessment#:#tst_no_questions_for_random_test#:#Niste preuzeli nijedno pitanje iz baze pitanja za ovaj nasumican test! Molimo preuzmite bar jedno pitanje nameštanjem zbira pitanja za dodatu bazu pitanja.###09 Aug 2005 content changed
 assessment#:#tst_no_taken_tests#:#Nema preuzetih testova!
 assessment#:#tst_no_tries#:#Nijedan
-assessment#:#tst_nr_of_tries#:#Maksimalan broj pokušaja
-assessment#:#tst_nr_of_tries_of_user#:#Pokušaji su vec iskorišceni
+assessment#:#tst_nr_of_tries#:#Maksimalan broj pokušaja###23 Dec 2005 content changed
+assessment#:#tst_nr_of_tries_of_user#:#Pokušaji su vec iskorišceni###23 Dec 2005 content changed
 assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
 assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
 assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
 assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
 assessment#:#tst_percent_solved#:#Procenat rešenih
 assessment#:#tst_processing_time#:#Max. vreme obrade
+assessment#:#tst_properties#:#Test properties###23 Dec 2005 new variable
 assessment#:#tst_question_no#:#Poruci
 assessment#:#tst_question_offer#:#Da li prihvatate ovaj uzorak ili želite drugi?
+assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
+assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.###23 Dec 2005 new variable
+assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
 assessment#:#tst_question_title#:#Naziv
 assessment#:#tst_question_type#:#Vrsta pitanja
 assessment#:#tst_questions_inserted#:#Pitanje(a) ubaceno(a)!
@@ -549,6 +567,7 @@ assessment#:#tst_status_missing_elements#:#Sledeci elementi nedostaju:
 assessment#:#tst_status_not_entered#:#Nije zapoceto
 assessment#:#tst_status_ok#:#Status test je OK. Nema nedostajucih elemenata.
 assessment#:#tst_status_progress#:#U napretku
+assessment#:#tst_test_output#:#Test output###23 Dec 2005 new variable
 assessment#:#tst_time_already_spent#:#Vreme za rad je vec potrošeno
 assessment#:#tst_total_questions#:#Ukupan zbir pitanja
 assessment#:#tst_total_questions_description#:#Ukoliko setujete ovu vrednost, zbir pitanja unetih sa bazom pitanja je ignorisana. Ukoliko ne setujete ovu vrednost, potrebno je da unesete iznos za svaku odabranu bazu pitanja!###09 Aug 2005 content changed
@@ -575,6 +594,55 @@ assessment#:#width#:#Širina
 assessment#:#with_order#:#redom
 assessment#:#working_time#:#Vreme rada
 assessment#:#you_received_a_of_b_points#:#Osvojili ste %s od %s mogucih poena
+barometer#:#add#:#Add new Feedback###23 Dec 2005 new variable
+barometer#:#anonymous#:#Anonymous###23 Dec 2005 new variable
+barometer#:#barometer_title#:#Feedback###23 Dec 2005 new variable
+barometer#:#best#:#Best###23 Dec 2005 new variable
+barometer#:#change_course#:#Change Course###23 Dec 2005 new variable
+barometer#:#chart_type#:#Chart type###23 Dec 2005 new variable
+barometer#:#chart_users#:#Chart user###23 Dec 2005 new variable
+barometer#:#chart_votes#:#Chart votes###23 Dec 2005 new variable
+barometer#:#create#:#Create new feedback###23 Dec 2005 new variable
+barometer#:#day#:#Day###23 Dec 2005 new variable
+barometer#:#days#:#Days###23 Dec 2005 new variable
+barometer#:#delete#:#Delete###23 Dec 2005 new variable
+barometer#:#duration#:#Duration###23 Dec 2005 new variable
+barometer#:#edit#:#Edit###23 Dec 2005 new variable
+barometer#:#edit_barometer#:#Edit feedback###23 Dec 2005 new variable
+barometer#:#every#:#every###23 Dec 2005 new variable
+barometer#:#first_vote#:#1. Vote is the###23 Dec 2005 new variable
+barometer#:#from#:#from###23 Dec 2005 new variable
+barometer#:#hours#:#Hours###23 Dec 2005 new variable
+barometer#:#lines#:#Lines###23 Dec 2005 new variable
+barometer#:#login#:#Login###23 Dec 2005 new variable
+barometer#:#missing_fields#:#Please fill in all required information###23 Dec 2005 new variable
+barometer#:#month#:#Month###23 Dec 2005 new variable
+barometer#:#months#:#Months###23 Dec 2005 new variable
+barometer#:#new_vote#:#New vote###23 Dec 2005 new variable
+barometer#:#note#:#Comment###23 Dec 2005 new variable
+barometer#:#optional#:#Optional###23 Dec 2005 new variable
+barometer#:#options#:#Options###23 Dec 2005 new variable
+barometer#:#pie#:#Pie###23 Dec 2005 new variable
+barometer#:#repeat#:#Repeat###23 Dec 2005 new variable
+barometer#:#required#:#Required###23 Dec 2005 new variable
+barometer#:#save#:#Save###23 Dec 2005 new variable
+barometer#:#save_vote#:#Submit vote###23 Dec 2005 new variable
+barometer#:#skip#:#Skip###23 Dec 2005 new variable
+barometer#:#statistics#:#Statistics###23 Dec 2005 new variable
+barometer#:#status#:#Status###23 Dec 2005 new variable
+barometer#:#table#:#Table###23 Dec 2005 new variable
+barometer#:#text#:#Text###23 Dec 2005 new variable
+barometer#:#text_answer#:#Text answer###23 Dec 2005 new variable
+barometer#:#time#:#Running###23 Dec 2005 new variable
+barometer#:#title#:#Title###23 Dec 2005 new variable
+barometer#:#type#:#Type###23 Dec 2005 new variable
+barometer#:#until#:#until###23 Dec 2005 new variable
+barometer#:#user#:#User###23 Dec 2005 new variable
+barometer#:#vote#:#Vote###23 Dec 2005 new variable
+barometer#:#votes#:#Votes###23 Dec 2005 new variable
+barometer#:#weeks#:#Weeks###23 Dec 2005 new variable
+barometer#:#worst#:#Worst###23 Dec 2005 new variable
+barometer#:#year#:#Year###23 Dec 2005 new variable
 bibitem#:#bibitem_add#:#Dodati
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#audiovizuelni
@@ -657,7 +725,7 @@ chat#:#chat_blue#:#plava
 chat#:#chat_bold#:#polucrno
 chat#:#chat_chatroom_body#:#Soba za caskanje
 chat#:#chat_chatroom_rename#:#Uredi sobu za caskanje 
-chat#:#chat_chatrooms#:#Sobe za caskanje
+chat#:#chat_chatrooms#:#Sobe za caskanje###23 Dec 2005 content changed
 chat#:#chat_color#:#Boja pisma
 chat#:#chat_delete_sure#:#Da li ste sigurni da želite da obrišete ovu sobu za caskanje?
 chat#:#chat_drop_user#:#Korisnik izbacen
@@ -726,7 +794,7 @@ chat#:#chat_room_added#:#Nova soba za caskanje je dodata
 chat#:#chat_room_name#:#Naziv sobe za caskanje
 chat#:#chat_room_renamed#:#Soba za caskanje je preimenovana.
 chat#:#chat_room_select#:#Privatna soba za caskanje
-chat#:#chat_rooms#:#Sobe za caskanje
+chat#:#chat_rooms#:#Sobe za caskanje###23 Dec 2005 content changed
 chat#:#chat_rooms_deleted#:#Soba(e) za caskanje obrisane.
 chat#:#chat_select_one_room#:#Molimo odaberite jednu sobu za caskanje.
 chat#:#chat_server_allowed#:#Primljeni domacini
@@ -830,6 +898,7 @@ common#:#announce#:#Saopštiti
 common#:#announce_changes#:#Promene saopštenja
 common#:#answers#:#Odgovori
 common#:#any_language#:#Bilo koji jezik
+common#:#append_search#:#Append search results###23 Dec 2005 new variable
 common#:#application_completed#:#Aplikacija je kompletna
 common#:#application_date#:#Datum prijave
 common#:#applied_users#:#Primljeni korisnici
@@ -841,8 +910,10 @@ common#:#approve_date#:#Odobren###20 Jun 2005 content changed
 common#:#approve_recipient#:#Registracija identifikacije odobravaoca
 common#:#archive#:#Arhiviraj
 common#:#are_you_sure#:#Da li ste sigurni?
+common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
 common#:#articels_unread#:#Neprocitani clanci
 common#:#as_of#:#kao od 
+common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Krirajte test i proveru beleški za odredeni vremenski period
 common#:#assessment_log_datetime#:#Datum/Vreme
 common#:#assessment_log_for_test#:#Za test
@@ -853,18 +924,18 @@ common#:#assessment_log_select_test#:#--Molimo odaberite test
 common#:#assessment_log_text#:#Ubeležiti poruku
 common#:#assessment_log_user_answer#:#Korisnik je odgovorio na pitanje
 common#:#assessment_log_user_answers#:#Prikaži rad korisnika
-common#:#assessment_settings#:#Test i procena upravljackih podešavanja
+common#:#assessment_settings#:#Test i procena upravljackih podešavanja###23 Dec 2005 content changed
 common#:#assf_edit_permission#:#Promenite okvir za dozvolu
-common#:#assf_read#:#Pristupi testu i proveri upravljanja
+common#:#assf_read#:#Pristupi testu i proveri upravljanja###23 Dec 2005 content changed
 common#:#assf_visible#:#Test i procena upravljackih podešavanja su vidljivi
 common#:#assf_write#:#Uredi test i provenu upravljanja
 common#:#assign#:#Pridružiti
-common#:#assign_global_role#:#Pridruži opštoj funkciji
+common#:#assign_global_role#:#Pridruži opštoj funkciji###23 Dec 2005 content changed
 common#:#assign_lo_forum#:#Pridruži LO forum
-common#:#assign_local_role#:#Pridruži lokalnoj funkciji
+common#:#assign_local_role#:#Pridruži lokalnoj funkciji###23 Dec 2005 content changed
 common#:#assign_user_to_role#:#Pridruži Korisnika funkciji
-common#:#assigned_roles#:#Pridružene funkcije
-common#:#assigned_users#:#Pridruženi korisnici
+common#:#assigned_roles#:#Pridružene funkcije###23 Dec 2005 content changed
+common#:#assigned_users#:#Pridruženi korisnici###23 Dec 2005 content changed
 common#:#associated_user#:#associated User###20 Jun 2005 new variable
 common#:#associated_users#:#associated Users###20 Jun 2005 new variable
 common#:#at_least_one_style#:#Najmanje jedan stil mora ostati aktiviran.
@@ -1004,6 +1075,7 @@ common#:#change_existing_objects#:#Promenite postojeci cilj
 common#:#change_header_title#:#Izmenite naziv zaglavlja
 common#:#change_lo_info#:#Promenite LO informacije
 common#:#change_metadata#:#Promenite metapodatke
+common#:#change_owner#:#Change owner###23 Dec 2005 new variable
 common#:#change_sort_direction#:#Promenite vrstu naredbe
 common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#promenjeno u
@@ -1037,6 +1109,7 @@ common#:#chg_password#:#Promenite šifru
 common#:#choose_language#:#Izaberite Vaš jezik
 common#:#choose_location#:#Izaberite lokaciju
 common#:#choose_only_one_language#:#Molimo izaberite samo jedan jezik
+common#:#chown_warning#:#Attention, you may loose access permissions on this object after changing the owner.###23 Dec 2005 new variable
 common#:#city#:#Grad, država
 common#:#cleaned_file#:#Datoteka je ocišcena.
 common#:#cleaning_failed#:#Cišcene nije uspelo.
@@ -1074,6 +1147,7 @@ common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Sadržaj Naslova
 common#:#context#:#Objašnjenje
 common#:#continue_work#:#Nastavi
+common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#copied_object#:#Kopirani objekti
 common#:#copy#:#Kopiraj
 common#:#copyChapter#:#Copy###20 Jun 2005 new variable
@@ -1091,7 +1165,10 @@ common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Kreiran u
 common#:#create_stylesheet#:#Kreiraj naslov
 common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_cron#:#regularly per cron job###23 Dec 2005 new variable
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
+common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
+common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Cron poslovi
 common#:#cron_jobs_desc#:#Crone poslovi su automatizovan proces koji radi u odredenim vremenskim intervalima. Naci cete informacije o postavljanju u 'INSTAL Documentation'.
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
@@ -1127,10 +1204,11 @@ common#:#crs_create_svy#:#Kreiraj Anketu
 common#:#crs_create_tst#:#Kreiraj Test
 common#:#crs_delete#:#Obriši Kurs
 common#:#crs_edit#:#Uredi Kurs
+common#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#crs_edit_permission#:#Promenite okvir za dozvolu
 common#:#crs_info#:#Info###05 Aug 2005 new variable
-common#:#crs_join#:#Prijavite se na Kurs
-common#:#crs_leave#:#Ispišite se sa Kursa
+common#:#crs_join#:#Prijavite se na Kurs###23 Dec 2005 content changed
+common#:#crs_leave#:#Ispišite se sa Kursa###23 Dec 2005 content changed
 common#:#crs_management_system#:#Sistem upravljanja Kursom
 common#:#crs_member_not_passed#:#Nije prošao
 common#:#crs_member_passed#:#Prošao
@@ -1172,6 +1250,7 @@ common#:#dbk_add#:#Dodajte Digilib knjigu
 common#:#dbk_added#:#Digilib knjiga dodata
 common#:#dbk_create#:#Kreiraj Digilib knjigu
 common#:#dbk_delete#:#Obriši Digilib knjigu
+common#:#dbk_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#dbk_edit_permission#:#Promenite okvir za dozvolu
 common#:#dbk_new#:#Nova Digilib knjiga
 common#:#dbk_read#:#Procitaj o pristupu Digilib knjizi
@@ -1199,6 +1278,7 @@ common#:#deleted_user#:#Korisnik je izbrisan
 common#:#deliver#:#Predaj vežbu
 common#:#department#:#Odeljenje
 common#:#desc#:#Opis
+common#:#descending_order#:#Descending order###23 Dec 2005 new variable
 common#:#description#:#Opis
 common#:#desired_password#:#Željena šifra
 common#:#desktop_items#:#Licni detalji na radnoj površini
@@ -1227,7 +1307,7 @@ common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
 common#:#enable_hist_user_comments#:#Omoguci korisnikove komentare u istoriji
-common#:#enable_hist_user_comments_desc#:#Daje autorima mogucnost da dodaju komentare u istoriji pristupa stranicama.
+common#:#enable_hist_user_comments_desc#:#Daje autorima mogucnost da dodaju komentare u istoriji pristupa stranicama.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Omoguci JavaScript prikazivanje
 common#:#enable_js_edit_info#:#Opcija omogucava JavaScript prikazivanje za sve sadržane objekte (ILIAS metode ucenje, Recnike termina, pitanja za proveru, Digilib knige)
 common#:#enable_password_assistance#:#Omoguci pomoc za šifru
@@ -1299,6 +1379,7 @@ common#:#exc_write#:#Uredi vežbu
 common#:#excs#:#Vežbe
 common#:#execute#:#Izvrši
 common#:#exercise_time_over#:#Vreme za vežbu vam je isteklo. Više ne možete isporucivati fajlove!
+common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#export#:#Izvoz
 common#:#export_group_members#:#Izvezi clanove grupe (u Microsoft Excel)
 common#:#export_html#:#Izvezi kao HTML fajl
@@ -1332,6 +1413,7 @@ common#:#file_added#:#Fajl postavljen
 common#:#file_delete#:#Obriši fajl
 common#:#file_edit#:#Uredi fajl
 common#:#file_edit_permission#:#Promenite okvir za dozvolu
+common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Fajl je zaražen virusom.
 common#:#file_new#:#Novi fajl
 common#:#file_not_found#:#Fajl nije pronaden
@@ -1453,25 +1535,29 @@ common#:#group_details#:#Detalji o Grupi
 common#:#group_filesharing#:#Raspodela fajlova Grupe
 common#:#group_import#:#Unos grupe
 common#:#group_import_file#:#Uvezi fajl
+common#:#group_info_reg#:#Admission procedure###23 Dec 2005 new variable
 common#:#group_members#:#Clanovi Grupe
 common#:#group_memstat#:#Status clana
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Clan
 common#:#group_name#:#Naziv Grupe
-common#:#group_new_registrations#:#Nove registracije
-common#:#group_no_registration#:#nema zahtevane registracije
-common#:#group_no_registration_msg#:#Vi niste clan ove grupe od ranije. Iz administrativnih razloga neophodno je da se pridružite zahtevanoj grupi. <br /> Kao clan imate sledece prednosti:<br / >- Bicete informisani o novostima i ažuriranjima<br />- Možete pristupiti prema objektima kao što su forumi, metode ucenja, itd.<br /> Možete poništiti svoje clanstvo u bilo kada. 
+common#:#group_new_registrations#:#Nove registracije###23 Dec 2005 content changed
+common#:#group_no_registration#:#nema zahtevane registracije###23 Dec 2005 content changed
+common#:#group_no_registration_msg#:#Vi niste clan ove grupe od ranije. Iz administrativnih razloga neophodno je da se pridružite zahtevanoj grupi. <br /> Kao clan imate sledece prednosti:<br / >- Bicete informisani o novostima i ažuriranjima<br />- Možete pristupiti prema objektima kao što su forumi, metode ucenja, itd.<br /> Možete poništiti svoje clanstvo u bilo kada. ###23 Dec 2005 content changed
 common#:#group_not_available#:#Nema raspoložive grupe
 common#:#group_objects#:#Ciljevi Grupe
-common#:#group_password_registration_expired_msg#:#Period registracije ove grupe je istekao, oglašavanje više nije moguce. Molimo kontaktirajte vlasnika grupe ili administratora.
-common#:#group_password_registration_msg#:#Da biste se prikljucili ovoj grupi morate uneti šifru koju vam je dodelio administrator ove grupe.<br />Automatski možete pristupiti grupi ukoliko je vaša šifra ispravna.
+common#:#group_password_registration_msg#:#Da biste se prikljucili ovoj grupi morate uneti šifru koju vam je dodelio administrator ove grupe.<br />Automatski možete pristupiti grupi ukoliko je vaša šifra ispravna.###23 Dec 2005 content changed
+common#:#group_registration#:#Registration###23 Dec 2005 new variable
 common#:#group_registration_expiration_date#:#Datum završetka
 common#:#group_registration_expiration_time#:#Vreme završetka
-common#:#group_registration_expired#:#Period registracije je istekao
-common#:#group_registration_mode#:#Nacin registracije
-common#:#group_req_password#:#Zahteva se registracija šifre
-common#:#group_req_registration#:#Zahteva se registracija
-common#:#group_req_registration_msg#:#Da biste se prikljucili ovoj grupi morate se registrovati. Administrator grupe ce vas pridružiti grupi. Molimo vas unesite predmet kako biste izneli razloge vašeg zahteva. Primicete poruku kada budete pridruženi grupi.
+common#:#group_registration_expired#:#Period registracije je istekao###23 Dec 2005 content changed
+common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
+common#:#group_registration_mode#:#Nacin registracije###23 Dec 2005 content changed
+common#:#group_registration_time#:#Registration period###23 Dec 2005 new variable
+common#:#group_req_direct#:#Join directly###23 Dec 2005 new variable
+common#:#group_req_password#:#Zahteva se registracija šifre###23 Dec 2005 content changed
+common#:#group_req_registration#:#Zahteva se registracija###23 Dec 2005 content changed
+common#:#group_req_registration_msg#:#Da biste se prikljucili ovoj grupi morate se registrovati. Administrator grupe ce vas pridružiti grupi. Molimo vas unesite predmet kako biste izneli razloge vašeg zahteva. Primicete poruku kada budete pridruženi grupi.###23 Dec 2005 content changed
 common#:#group_reset#:#Vratite dozvolu za grupu
 common#:#group_status#:#Grupa je
 common#:#group_status_closed#:#Zatvoreno
@@ -1510,7 +1596,7 @@ common#:#grp_create_tst#:#Kreiraj Test
 common#:#grp_delete#:#Obriši Grupu
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Da li ste sigurni da želite da udaljite sledece(g) clanove/clana iz grupe?
-common#:#grp_dismiss_myself#:#Da li ste sigurni da želite da udaljite sebe iz grupe?
+common#:#grp_dismiss_myself#:#Da li ste sigurni da želite da udaljite sebe iz grupe?###23 Dec 2005 content changed
 common#:#grp_edit#:#Uredi Grupu
 common#:#grp_edit_permission#:#Promenite okvir za dozvolu
 common#:#grp_err_administrator_required#:#Clan ne može biti uklonjen, najmanje jedan administrator po grupi je potreban!
@@ -1519,7 +1605,7 @@ common#:#grp_err_error#:#Dogodila se greška
 common#:#grp_err_last_member#:#Poslednji clan ne može biti uklonjen, molimo da umesto toga obrišite grupu.
 common#:#grp_err_member_could_not_be_removed#:#Clan ne može biti uklonjen. Molimo proverite svaku zavisnost ovog korisnika.
 common#:#grp_err_no_permission#:#Nemate dozvolu za ovu operaciju.
-common#:#grp_err_registration_data#:#Molimo unesite šifru, datum i vreme isteka za važeci registracioni period!
+common#:#grp_err_registration_data#:#Molimo unesite šifru, datum i vreme isteka za važeci registracioni period!###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Uredi clanove
 common#:#grp_join#:#Korisnik se može pridružiti Grupi
 common#:#grp_leave#:#Korisnik može napustiti Grupu
@@ -1534,7 +1620,7 @@ common#:#grp_mem_send_mail#:#Pošalji poruku clanu
 common#:#grp_msg_applicants_assigned#:#Kandidat(i) je(su) pridružen(i) kao clan(ovi) grupe
 common#:#grp_msg_applicants_removed#:#Kandidat(i) je(su) uklonjen(i) sa liste.
 common#:#grp_msg_member_assigned#:#Korisnik je oznacen kao clan grupe
-common#:#grp_msg_membership_annulled#:#Clanstvo je poništeno
+common#:#grp_msg_membership_annulled#:#Clanstvo je poništeno###23 Dec 2005 content changed
 common#:#grp_name_exists#:#Vec postoji grupa sa tim nazivom! Molimo vas da odaberete drugo ime.
 common#:#grp_new#:#Nova Grupa
 common#:#grp_new_search#:#Nova pretraga
@@ -1543,8 +1629,9 @@ common#:#grp_no_results_found#:#Nema nadenih rezultata
 common#:#grp_no_roles_selected#:#Molimo odaberite funkciju
 common#:#grp_options#:#Opcije
 common#:#grp_read#:#Upoznajte se sa pristupom Grupi
-common#:#grp_register#:#Registruj
-common#:#grp_registration_completed#:#Registracija je kompletirana
+common#:#grp_register#:#Registruj###23 Dec 2005 content changed
+common#:#grp_registration#:#Join group###23 Dec 2005 new variable
+common#:#grp_registration_completed#:#Registracija je kompletirana###23 Dec 2005 content changed
 common#:#grp_search_enter_search_string#:#Molimo vas da odaberete redosled pretrage
 common#:#grp_search_members#:#Pretraga korisnika
 common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
@@ -1591,6 +1678,7 @@ common#:#htlm#:#Metod ucenja HTML
 common#:#htlm_add#:#Dodaj HTML metod ucenja
 common#:#htlm_delete#:#Obriši HTML metod ucenja
 common#:#htlm_edit#:#Uredi karakteristike HTML metode ucenja
+common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#htlm_edit_permission#:#Promenite okvir za dozvolu
 common#:#htlm_new#:#Novi HTML metod ucenja
 common#:#htlm_read#:#Upoznaj HTML metod ucenja
@@ -1690,7 +1778,7 @@ common#:#import_file_not_valid#:#Uvezeni fajl nije ispravan.
 common#:#import_finished#:#Broj uvezenih poruka.
 common#:#import_forum_finished#:#Forum je uvezen.
 common#:#import_glossary#:#Uvezi Recnik termina
-common#:#import_group#:#Import group###03 Nov 2005 new variable
+common#:#import_grp#:#Import group###23 Dec 2005 new variable
 common#:#import_grp_finished#:#Grupa je uvezena bez ikakvih grešaka
 common#:#import_hlm#:#Uvezi HACP Paket
 common#:#import_lm#:#Uvezi ILIAS metod ucenja
@@ -1716,7 +1804,7 @@ common#:#info_assign_sure#:#Da li ste sigurni da želite da pridružite sledece 
 common#:#info_assigned#:#assigned###20 Jun 2005 new variable
 common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
 common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
-common#:#info_delete_sure#:#Da li ste sigurni da želite da obrišete sledeci(e) objekat/objekte?
+common#:#info_delete_sure#:#Da li ste sigurni da želite da obrišete sledeci(e) objekat/objekte?###23 Dec 2005 content changed
 common#:#info_deleted#:#Objekat/objekti obrisan(i)
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
 common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
@@ -1724,6 +1812,7 @@ common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#User is member###20 Jun 2005 new variable
 common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
 common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
 common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
 common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
@@ -1836,6 +1925,7 @@ common#:#ldap_visible#:#LDAP podešavanja su vidljiva
 common#:#ldap_write#:#Uredi LDAP podešavanja
 common#:#learning module#:#Metod ucenja
 common#:#learning_objects#:#Predmeti ucenja
+common#:#learning_progress#:#Learning progress###23 Dec 2005 new variable
 common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
 common#:#learning_resources#:#Izvori ucenja
 common#:#level#:#Nivo
@@ -1876,6 +1966,7 @@ common#:#lm_add#:#Dodaj ILIAS metod ucenja
 common#:#lm_added#:#ILIAS metod ucenja je dodat
 common#:#lm_create#:#Kreiraj ILIAS metod ucenja
 common#:#lm_delete#:#Odriši ILIAS metod ucenja
+common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Promenite okvir za dozvolu
 common#:#lm_join#:#Prijavite se na ILIAS metod ucenja
 common#:#lm_leave#:#Odjavite se sa ILIAS metode ucenja
@@ -1938,6 +2029,7 @@ common#:#mail_maxsize_box#:#Maksimalna velicina poštanskog sanduceta
 common#:#mail_maxsize_mail#:#Maksimalna velicina pošte
 common#:#mail_maxtime_attach#:#Maksimalan broj dana za cuvanje dodataka
 common#:#mail_maxtime_mail#:#Maksimalan broj dana za cuvanje pošte
+common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Pošta nije poslata!
 common#:#mail_read#:#Procitaj o pristupu podešavanjima za poštu
 common#:#mail_search_no#:#Nikakvi unosi nisu pronadeni
@@ -1979,6 +2071,7 @@ common#:#message_to#:#Poruka za:
 common#:#meta_data#:#Metapodaci
 common#:#migrate#:#Preseli
 common#:#min_time#:#Minimalno vreme
+common#:#minutes#:#Minutes###23 Dec 2005 new variable
 common#:#missing#:#Nedostajuce
 common#:#mob#:#Objekat medija
 common#:#module#:#metod
@@ -2122,6 +2215,8 @@ common#:#no_access_link_object#:#Nije vam dozvoljeno da povežete ovaj objekat
 common#:#no_bm_in_personal_list#:#Obeleživaci nisu definisani.
 common#:#no_chat_in_personal_list#:#Nema caskanja na licnoj listi
 common#:#no_checkbox#:#Ispitni okvir nije proveren!
+common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
+common#:#no_conditions_found#:#No preconditions created.###23 Dec 2005 new variable
 common#:#no_datasets#:#Tabela je prazna
 common#:#no_date#:#Nema datuma
 common#:#no_description#:#Nema opisa
@@ -2152,6 +2247,8 @@ common#:#not_implemented_yet#:#Još uvek nije primenjeno
 common#:#not_installed#:#Nije instalirano
 common#:#not_logged_in#:#Niste se prijavili###16 Aug 2005 content changed
 common#:#note#:#Note###03 Nov 2005 new variable
+common#:#note_all_pub_notes#:#All notes###23 Dec 2005 new variable
+common#:#note_my_pub_notes#:#My notes only###23 Dec 2005 new variable
 common#:#notes#:#Notes###03 Nov 2005 new variable
 common#:#num_users#:#Broj korisnika
 common#:#number_of_accesses#:#Broj pristupa
@@ -2161,6 +2258,7 @@ common#:#obj_adm#:#Upravljanje
 common#:#obj_adm_desc#:#Glavna registrator sistemskog podešavanja sadrži sve table radi administriranja vaše ILIAS instalacije.
 common#:#obj_alm#:#AICC metod ucenja
 common#:#obj_assf#:#Test i provera
+common#:#obj_assf_desc#:#Test&Assessment log settings.###23 Dec 2005 new variable
 common#:#obj_auth#:#Autenticnost
 common#:#obj_auth_desc#:#Konfigurišite svoj metod autentifikacije (lokalni, LDAP, ....)
 common#:#obj_cat#:#Kategorija
@@ -2233,6 +2331,8 @@ common#:#obj_usrf#:#Nalozi korisnika
 common#:#obj_usrf_desc#:#Odredite naloge korisnika
 common#:#object#:#Objekat
 common#:#object_added#:#Objekat je dodat
+common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
+common#:#object_imported#:#Object imported###23 Dec 2005 new variable
 common#:#objects#:#Objekti
 common#:#objf#:#Definicije objekta
 common#:#objf_edit_permission#:#Promenite okvir za dozvolu
@@ -2290,7 +2390,9 @@ common#:#options_for_subobjects#:#Opcije za podobjekte
 common#:#order_by#:#Naruceno od
 common#:#other#:#Drugo
 common#:#overview#:#Pregled
+common#:#overwrite#:#Overwrite###23 Dec 2005 new variable
 common#:#owner#:#Vlasnik
+common#:#owner_updated#:#Owner updated.###23 Dec 2005 new variable
 common#:#page#:#Stranica
 common#:#page_edit#:#Uredi stranicu
 common#:#pages#:#Stranice
@@ -2358,6 +2460,7 @@ common#:#presentation_options#:#Mogucnosti prezentacije
 common#:#previous#:#prethodno
 common#:#print#:#Štampaj
 common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
+common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Vaš profil je izmenjen
 common#:#profile_of#:#Profil
@@ -2419,6 +2522,9 @@ common#:#repeat_scan_succeded#:#Ponovljeno osmatranje je uspelo.
 common#:#replace_file#:#Premesti fajl
 common#:#reply#:#Odgovori
 common#:#repository#:#Skladište
+common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
+common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Zahteva grad
 common#:#require_country#:#Zahteva državu
 common#:#require_default_role#:#Zahteva funkciju
@@ -2463,7 +2569,7 @@ common#:#role_deleted_desktop_items#:#Raspodela je obrisana.
 common#:#role_desk_add#:#Dodeli predmet radnoj površini
 common#:#role_desk_none_created#:#Nijedan predmet radne površine nije dodeljen ovoj funkciji.
 common#:#role_edit#:#Uredi funkciju
-common#:#role_header_edit_users#:#Promeni raspodelu korisnika
+common#:#role_header_edit_users#:#Promeni raspodelu korisnika###23 Dec 2005 content changed
 common#:#role_list_users#:#Lista korisnika
 common#:#role_new#:#Nova funkcija
 common#:#role_new_search#:#Nova pretraga
@@ -2509,6 +2615,7 @@ common#:#sahs#:#SCORM/AICC metod ucenja
 common#:#sahs_added#:#SCORM/AICC metod ucenja je dodat
 common#:#sahs_create#:#Kreiraj SCORM/AICC metod ucenja
 common#:#sahs_delete#:#Obriši SCORM/AICC metod ucenja
+common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#sahs_edit_permission#:#Promeni okvir za dozvolu
 common#:#sahs_join#:#Prijavi se na SCORM/AICC metod ucenja
 common#:#sahs_leave#:#Odjavi se sa SCORM/AICC metode ucenja
@@ -2532,10 +2639,12 @@ common#:#search_active#:#Ukljuci aktivne korisnike
 common#:#search_for#:#Pronadi
 common#:#search_in#:#Traži u
 common#:#search_inactive#:#Ukljuci neaktivne korisnike
+common#:#search_minimum_characters#:#The minimum word length is:###23 Dec 2005 new variable
 common#:#search_new#:#Nova pretraga
 common#:#search_note#:#Ako&kvota; traži u&kvota; je levo prazno svi korisnici bice pretraženi. Ovo vam omogucava da nadete sve aktivne i sve neaktivne korisnike
 common#:#search_recipient#:#Nadi primaoca
 common#:#search_result#:#Nadi rezultat
+common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Nadi korisnika
 common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Segmenti
@@ -2552,6 +2661,9 @@ common#:#select_questionpool_option#:#Molimo odaberite bazu pitanja
 common#:#selected#:#Odabrano
 common#:#selected_items#:#Licni predmeti
 common#:#send#:#Pošalji
+common#:#send_mail_admins#:#Mail to administrators###23 Dec 2005 new variable
+common#:#send_mail_members#:#Mail to members###23 Dec 2005 new variable
+common#:#send_mail_tutors#:#Mail to tutors###23 Dec 2005 new variable
 common#:#sender#:#Pošiljaoc
 common#:#sent#:#Poslato
 common#:#sequence#:#Sekvenca
@@ -2583,6 +2695,7 @@ common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Spoljašnja administracija korisnika (SOAP)
 common#:#soap_user_administration_desc#:#Ukoliko je omoguceno, svi korisnicki nalozi mogu biti administrirani od strane spoljašnjeg SOAPClient.
 common#:#sort_by_this_column#:#Razvrstaj po ovoj koloni
+common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Baza pitanja za Anketu
 common#:#spl_add#:#Dodaj bazu pitanja za Anketu
 common#:#spl_delete#:#Obriši bazu pitanja za Anketu
@@ -2667,6 +2780,7 @@ common#:#test#:#Test
 common#:#test_intern#:#Test stažista
 common#:#test_module#:#Model testa
 common#:#tests#:#Testovi
+common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
 common#:#time#:#Vreme
 common#:#time_d#:#Dan
 common#:#time_h#:#Cas
@@ -2710,6 +2824,7 @@ common#:#tst#:#Test
 common#:#tst_add#:#Dodaj Test
 common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Obriši Test
+common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#tst_edit_permission#:#Promeni okvir za dozvolu
 common#:#tst_new#:#Novi Test
 common#:#tst_no_content#:#Nema testova na raspolaganju
@@ -2775,6 +2890,7 @@ common#:#user_imported#:#Unos korisnika je završen.
 common#:#user_imported_with_warnings#:#Unos korisnika je završen uz upozorenja.
 common#:#user_language#:#Jezik korisnika
 common#:#user_not_chosen#:#Niste odabrali grupno clanstvo!
+common#:#user_not_known#:#Please insert a valid username.###23 Dec 2005 new variable
 common#:#user_profile_other#:#Druge informacije
 common#:#user_statistics#:#Statisticki podaci
 common#:#userdata#:#Podaci o korisniku
@@ -2977,7 +3093,8 @@ content#:#cont_disable_js#:#JavaScript neaktivan
 content#:#cont_disable_media#:#Medij neaktivan
 content#:#cont_download_title#:#Prenesi naslov
 content#:#cont_downloads#:#Prenošenja
-content#:#cont_downloads_desc#:#Omogucava skidanje svih javno ispisanih fajlova.
+content#:#cont_downloads_desc#:#Omogucava skidanje svih javno ispisanih fajlova.###23 Dec 2005 content changed
+content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)###23 Dec 2005 new variable
 content#:#cont_ed_align_center#:#poravnaj: centar
 content#:#cont_ed_align_left#:#poravnaj: levo
 content#:#cont_ed_align_left_float#:#poravnaj: relativno levo
@@ -3300,8 +3417,8 @@ content#:#st#:#Poglavlje
 content#:#start export#:#Zapocni izvoz
 crs#:#assigned#:#Prijavljeno
 crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
-crs#:#crs_accept_subscriber#:#Prijava na kurs
-crs#:#crs_accept_subscriber_body#:#Upisani ste na kurs
+crs#:#crs_accept_subscriber#:#Prijava na kurs###23 Dec 2005 content changed
+crs#:#crs_accept_subscriber_body#:#Upisani ste na kurs###23 Dec 2005 content changed
 crs#:#crs_access_password#:#Lozinka
 crs#:#crs_activation#:#Aktivacija
 crs#:#crs_add_archive_html#:#Kreiraj HTML arhivu
@@ -3312,10 +3429,10 @@ crs#:#crs_add_html_archive#:#Dodaj HTML arhivu
 crs#:#crs_add_member#:#Dodaj Clana/Clanove
 crs#:#crs_add_objective#:#Dodaj cilj
 crs#:#crs_add_starter#:#Dodaj pocetni objekat
-crs#:#crs_add_subscribers#:#Dodaj pretplatnika
+crs#:#crs_add_subscribers#:#Dodaj pretplatnika###23 Dec 2005 content changed
 crs#:#crs_added#:#Dodat novi kurs
-crs#:#crs_added_member#:#Clanstvo na kursu
-crs#:#crs_added_member_body#:#Primljeni ste na ovaj kurs.
+crs#:#crs_added_member#:#Clanstvo na kursu###23 Dec 2005 content changed
+crs#:#crs_added_member_body#:#Primljeni ste na ovaj kurs.###23 Dec 2005 content changed
 crs#:#crs_added_new_archive#:#Nova arhiva je dodata
 crs#:#crs_added_objective#:#Novi ciljevi ucenja su kreirani.
 crs#:#crs_added_starters#:#Prijavljeni startni objekti.
@@ -3326,20 +3443,21 @@ crs#:#crs_admin_notify#:#Administrator (nema obaveštenja)
 crs#:#crs_allow_abo#:#Dozvolite prijavu predmeta kursa
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Arhive
-crs#:#crs_archive_disabled#:#Onemoguceno
+crs#:#crs_archive_disabled#:#Onemoguceno###23 Dec 2005 content changed
 crs#:#crs_archive_download#:#Skini
+crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.###23 Dec 2005 new variable
 crs#:#crs_archive_lang#:#Jezik
 crs#:#crs_archive_read#:#Procitaj o pristupu
-crs#:#crs_archive_select_type#:#Arhiviraj vrstu pristupa
+crs#:#crs_archive_select_type#:#Arhiviraj vrstu pristupa###23 Dec 2005 content changed
 crs#:#crs_archive_type#:#Arhiviraj vrstu
-crs#:#crs_archive_type_disabled#:#Nema pristupa
+crs#:#crs_archive_type_disabled#:#Nema pristupa###23 Dec 2005 content changed
 crs#:#crs_archives_deleted#:#Arhiva(e) je (su) obrisana(e)
 crs#:#crs_auto_fill#:#Automatsko popunjavanje
 crs#:#crs_blocked#:#Pristup je odbacen
-crs#:#crs_blocked_member#:#Clanstvo na kursu
-crs#:#crs_blocked_member_body#:#Vaše clanstvo je završeno.
-crs#:#crs_cancel_subscription#:#Odjava sa kursa
-crs#:#crs_cancel_subscription_body#:#Korisnik je ispisan sa kursa
+crs#:#crs_blocked_member#:#Clanstvo na kursu###23 Dec 2005 content changed
+crs#:#crs_blocked_member_body#:#Vaše clanstvo je završeno.###23 Dec 2005 content changed
+crs#:#crs_cancel_subscription#:#Odjava sa kursa###23 Dec 2005 content changed
+crs#:#crs_cancel_subscription_body#:#Korisnik je ispisan sa kursa###23 Dec 2005 content changed
 crs#:#crs_change_status#:#Promena statusa cilja:
 crs#:#crs_chapter_already_assigned#:#Ova poglavlja su vec odredena.
 crs#:#crs_contact#:#Kontakt
@@ -3364,8 +3482,8 @@ crs#:#crs_delete_objectve_sure#:#Da li ste sigurni da želite da obrišete odabr
 crs#:#crs_delete_subscribers#:#Obriši pretplatnika
 crs#:#crs_delete_subscribers_sure#:#Da li želite da obrišete sledece korisnike
 crs#:#crs_details#:#Detalji kursa
-crs#:#crs_dismiss_member#:#Clanstvo kursa
-crs#:#crs_dismiss_member_body#:#Vaše clanstvo je prekinuto
+crs#:#crs_dismiss_member#:#Clanstvo kursa###23 Dec 2005 content changed
+crs#:#crs_dismiss_member_body#:#Vaše clanstvo je prekinuto###23 Dec 2005 content changed
 crs#:#crs_edit_archive#:#Uredi arhive
 crs#:#crs_edit_content#:#Uredi predmete
 crs#:#crs_end#:#Kraj
@@ -3397,6 +3515,7 @@ crs#:#crs_grp_no_courses_assigned#:#Nema namenjenog kursa.
 crs#:#crs_grp_table_assigned_courses#:#Namenjeni kursevi
 crs#:#crs_header_archives#:#Arhiva kursa
 crs#:#crs_header_delete_members#:#Obriši clanove
+crs#:#crs_header_delete_subscribers#:#Delete subscribers###23 Dec 2005 new variable
 crs#:#crs_header_edit_members#:#Uredi clanove
 crs#:#crs_header_members#:#Clanovi kursa
 crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
@@ -3405,11 +3524,11 @@ crs#:#crs_hide_link_objectives#:#Sakri ciljeve
 crs#:#crs_hide_link_or#:#Sakri druga sredstva
 crs#:#crs_hide_link_tst#:#Sakri testove
 crs#:#crs_html#:#HTML
-crs#:#crs_info_reg#:#Informacije za registraciju
-crs#:#crs_info_reg_confirmation#:#Ovaj kurs zahteva potvrdu adimistratora kursa. Dobicete poruku ako ste upisani na kurs.
-crs#:#crs_info_reg_deactivated#:#Registracija nije moguca
-crs#:#crs_info_reg_direct#:#Neophodno je da se registrujete na ovaj kurs
-crs#:#crs_info_reg_password#:#Registracija zahteva validnu lozinku
+crs#:#crs_info_reg#:#Informacije za registraciju###23 Dec 2005 content changed
+crs#:#crs_info_reg_confirmation#:#Ovaj kurs zahteva potvrdu adimistratora kursa. Dobicete poruku ako ste upisani na kurs.###23 Dec 2005 content changed
+crs#:#crs_info_reg_deactivated#:#Registracija nije moguca###23 Dec 2005 content changed
+crs#:#crs_info_reg_direct#:#Neophodno je da se registrujete na ovaj kurs###23 Dec 2005 content changed
+crs#:#crs_info_reg_password#:#Registracija zahteva validnu lozinku###23 Dec 2005 content changed
 crs#:#crs_info_start#:#Molimo radite kroz sve predmete kursa.<br/>Nakon što predete sve crveno markirane objekte novi predmeti kursa ce biti aktivirani.
 crs#:#crs_learning_materials#:#Materijal ucenja
 crs#:#crs_list_users#:#Spisak korisnika
@@ -3434,8 +3553,10 @@ crs#:#crs_move_up#:#Pomeri gore
 crs#:#crs_moved_item#:#Pomereni predmeti kursa
 crs#:#crs_moved_objective#:#Pomereni ciljevi ucenja.
 crs#:#crs_new_search#:#Nova pretraga
-crs#:#crs_new_subscription#:#Nova prijava na kurs
-crs#:#crs_new_subscription_body#:#Novi korisnik je prijavljen
+crs#:#crs_new_subscription#:#Nova prijava na kurs###23 Dec 2005 content changed
+crs#:#crs_new_subscription_body#:#Novi korisnik je prijavljen###23 Dec 2005 content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable
 crs#:#crs_no_archive_selected#:#Nijedna arhiva nije selektovana
 crs#:#crs_no_archives_available#:#Nema raspoloživih arhiva
 crs#:#crs_no_archives_selected#:#Molimo odaberite arhivu
@@ -3463,6 +3584,7 @@ crs#:#crs_no_users_added#:#Nema dodatih clanova
 crs#:#crs_no_users_selected#:#Niste odabrali nijednog korisnika
 crs#:#crs_no_valid_member_id_given#:#Nema validne identifikacije clana
 crs#:#crs_not_available#:#-Nije dostupno-
+crs#:#crs_notification#:#Notification###23 Dec 2005 new variable
 crs#:#crs_notify#:#Obavesti o novim registracijama
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Sledeci broj korisnika je prijavljen na kurs:
@@ -3519,13 +3641,13 @@ crs#:#crs_reg_subscription_deactivated#:#Registracija je onemogucena
 crs#:#crs_reg_subscription_end_earlier#:#Vreme za registraciju je isteklo
 crs#:#crs_reg_subscription_max_members_reached#:#Maksimalan broj korisnika je premašen
 crs#:#crs_reg_subscription_start_later#:#Vreme za registraciju pocinje kasnije
-crs#:#crs_reg_until#:#Datum registracije
+crs#:#crs_reg_until#:#Datum registracije###23 Dec 2005 content changed
 crs#:#crs_reg_user_already_assigned#:#Vec ste se perijavili na ovaj kurs
-crs#:#crs_reg_user_already_subscribed#:#Vec ste se pretplatili na ovaj kurs
+crs#:#crs_reg_user_already_subscribed#:#Vec ste se pretplatili na ovaj kurs###23 Dec 2005 content changed
 crs#:#crs_reg_user_blocked#:#Blokirani ste od strane ovog kursa
 crs#:#crs_registration#:#Registracija kursa
-crs#:#crs_reject_subscriber#:#Pretplata na kurs
-crs#:#crs_reject_subscriber_body#:#Vaša pretplata je odbijena.
+crs#:#crs_reject_subscriber#:#Pretplata na kurs###23 Dec 2005 content changed
+crs#:#crs_reject_subscriber_body#:#Vaša pretplata je odbijena.###23 Dec 2005 content changed
 crs#:#crs_reset_results#:#Vrati rezultate
 crs#:#crs_role#:#Funkcija
 crs#:#crs_role_status#:#Funkcija / Status
@@ -3559,19 +3681,20 @@ crs#:#crs_start_objects#:#Pocetni predmet
 crs#:#crs_starter_deleted#:#Uklonjena raspodela
 crs#:#crs_starters_already_assigned#:#Ovaj predmet je vec rasporeden.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Status kursa
-crs#:#crs_status_changed_body#:#Status vašeg kursa je promenjen.
+crs#:#crs_status_changed#:#Status kursa###23 Dec 2005 content changed
+crs#:#crs_status_changed_body#:#Status vašeg kursa je promenjen.###23 Dec 2005 content changed
 crs#:#crs_structure#:#Struktura kursa
-crs#:#crs_subscribers#:#Pretplata
+crs#:#crs_subscribers#:#Pretplata###23 Dec 2005 content changed
 crs#:#crs_subscribers_deleted#:#Obrisani pretplatnik(ci)
 crs#:#crs_subscription#:#Pretplata
 crs#:#crs_subscription_max_members#:#Maksimum clanova
 crs#:#crs_subscription_notify#:#Obavesti o preplatama
-crs#:#crs_subscription_options_confirmation#:#Pretplata sa potvrdom
+crs#:#crs_subscription_options_confirmation#:#Pretplata sa potvrdom###23 Dec 2005 content changed
 crs#:#crs_subscription_options_deactivated#:#Deaktiviran
-crs#:#crs_subscription_options_direct#:#Direktna pretplata
-crs#:#crs_subscription_options_password#:#Pretplata sa lozinkom
-crs#:#crs_subscription_successful#:#Pretplaceni ste na ovaj kurs
+crs#:#crs_subscription_options_direct#:#Direktna pretplata###23 Dec 2005 content changed
+crs#:#crs_subscription_options_password#:#Pretplata sa lozinkom###23 Dec 2005 content changed
+crs#:#crs_subscription_requested#:#You have requested membership for the course.###23 Dec 2005 new variable
+crs#:#crs_subscription_successful#:#Pretplaceni ste na ovaj kurs###23 Dec 2005 content changed
 crs#:#crs_subscription_type#:#Vrsta pretplate
 crs#:#crs_suggest_lm#:#Sugeriši materijal za ucenje ako
 crs#:#crs_sure_delete_selected_archives#:#Da li ste sigurni za brisanje odabranih arhiva
@@ -3586,8 +3709,8 @@ crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (bez obaveštenja)
 crs#:#crs_tutor_notify#:#Tutor (obaveštenje)
 crs#:#crs_unblocked#:#Slobodan ulaz
-crs#:#crs_unblocked_member#:#Clanstvo kursa
-crs#:#crs_unblocked_member_body#:#Vaše clanstvo je vraceno
+crs#:#crs_unblocked_member#:#Clanstvo kursa###23 Dec 2005 content changed
+crs#:#crs_unblocked_member_body#:#Vaše clanstvo je vraceno###23 Dec 2005 content changed
 crs#:#crs_unlimited#:#Neograniceno
 crs#:#crs_unsubscribe#:#Odjava
 crs#:#crs_unsubscribe_sure#:#Da li želite da se odjavite sa kursa
@@ -3596,6 +3719,7 @@ crs#:#crs_update_objective#:#Uredi predmete ucenja
 crs#:#crs_users_added#:#dodat korisnik kursa
 crs#:#crs_users_already_assigned#:#Korisnik je vec rasporeden na kurs
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
+crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
 crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
@@ -3824,6 +3948,8 @@ dateplaner#:#viewlist#:#Pregled###02 Aug 2005 content changed
 dateplaner#:#week#:#nedelja###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#godina###02 Aug 2005 content changed
+forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable
 forum#:#forums#:#Forumi
 forum#:#forums_attachments#:#Dodaci
 forum#:#forums_attachments_add#:#Dodaj dodatak
@@ -3872,6 +3998,8 @@ forum#:#forums_thread_new_entry#:#Nova tema je kreirana
 forum#:#forums_threads_not_available#:#Teme nisu dostupne
 forum#:#forums_topics_overview#:#Pregled tema
 forum#:#forums_your_reply#:#Vaš odgovor
+forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
+forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Standardni pregled
 forum#:#frm_title_required#:#Molimo ubacite naslov.
 forum#:#is_read#:#markiraj procitano
@@ -3957,8 +4085,12 @@ mail#:#mail_compose#:#sastavi poruku
 mail#:#mail_deleted#:#Pošta je obrisana
 mail#:#mail_deleted_entry#:#Unosi su obrisani
 mail#:#mail_email_forbidden#:#Niste ovlašteni da šaljete elektronsku poštu
+mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_login#:#Please enter a valid login name.###23 Dec 2005 new variable
 mail#:#mail_entry_added#:#Dodat novi unos
 mail#:#mail_entry_changed#:#unos je promenjen
+mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.###23 Dec 2005 new variable
 mail#:#mail_file_name#:#Ime datoteke
 mail#:#mail_file_size#:#Velicina datoteke
 mail#:#mail_files_deleted#:#datoteka(e) je(su) obrisana(e)
@@ -4268,6 +4400,7 @@ meta#:#meta_copyright_and_other_restrictions#:#Autorska prava i druga ogranicenj
 meta#:#meta_cost#:#Cena
 meta#:#meta_coverage#:#Reportaža
 meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
+meta#:#meta_current_value#:#Current value###23 Dec 2005 new variable
 meta#:#meta_date#:#datum
 meta#:#meta_delete#:#Obriši
 meta#:#meta_description#:#Opis
@@ -4305,6 +4438,7 @@ meta#:#meta_id#:#LK
 meta#:#meta_idea#:#Ideja
 meta#:#meta_identifier#:#Pokazatelj
 meta#:#meta_index#:#Indeks
+meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.###23 Dec 2005 new variable
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Instalacione napomene
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
@@ -4767,6 +4901,26 @@ pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku 
 pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata.
 pwassist#:#pwassist_update_error#:#Molimo kontaktirajte sistem administratora.\nLozinka ne može biti prijavljena korisnickom nalogu usled greške tokom ažuriranja baze podataka.
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
+rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
+rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
+rbac#:#filter_local_roles#:#Show only local roles of current context###23 Dec 2005 new variable
+rbac#:#filter_local_roles_object#:#Show only local roles defined at this position###23 Dec 2005 new variable
+rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position###23 Dec 2005 new variable
+rbac#:#leave#:#Leave###23 Dec 2005 new variable
+rbac#:#perm_administrate#:#Administrate###23 Dec 2005 new variable
+rbac#:#perm_class_create#:#Create new objects###23 Dec 2005 new variable
+rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.###23 Dec 2005 new variable
+rbac#:#perm_class_general#:#General operations###23 Dec 2005 new variable
+rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.###23 Dec 2005 new variable
+rbac#:#perm_class_object#:#Special operations###23 Dec 2005 new variable
+rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.###23 Dec 2005 new variable
+rbac#:#perm_class_rbac#:#Permission settings###23 Dec 2005 new variable
+rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.###23 Dec 2005 new variable
+rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
+rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
 search#:#search_active#:#Ukljuci aktivne korisnike
 search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
 search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
@@ -4889,6 +5043,9 @@ survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
 survey#:#constraints#:#Ogranicenja###03 Nov 2005 content changed
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
+survey#:#constraints_list_of_entities#:#Available survey entities for preconditions###23 Dec 2005 new variable
+survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)###23 Dec 2005 new variable
+survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or questionblock!###23 Dec 2005 new variable
 survey#:#contains#:#Cinioci
 survey#:#continue#:#Nastavi >>
 survey#:#create_date#:#Kreirano
@@ -4973,6 +5130,9 @@ survey#:#error_retrieving_anonymous_survey#:#Sistem ne može da pronade anketne 
 survey#:#eval_legend_link#:#Molimo pogledajte u legendi znacenje simbola u zaglavlju kolone.
 survey#:#evaluation#:#Vrednovanje
 survey#:#evaluation_access#:#Pristup vrednovanju
+survey#:#evaluation_access_all#:#Evaluation access for all users###23 Dec 2005 new variable
+survey#:#evaluation_access_participants#:#Evaluation access for survey participants###23 Dec 2005 new variable
+survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Izlaz
 survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
 survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
@@ -5110,12 +5270,13 @@ survey#:#save_phrase_categories_not_checked#:#Molimo proverite najmanje dve kate
 survey#:#save_phrase_introduction#:#Ukoliko želite da sacuvate kategorije ispod kao standardnu frazu, molimo unesite naziv fraze. Možete pristupiti standardnoj frazi kad god želite da dodate frazu u neko redno pitanje.###03 Nov 2005 content changed
 survey#:#search_field_all#:#Pretraga po svim poljima
 survey#:#search_for#:#Traži za
-survey#:#search_groups#:#Grupe
+survey#:#search_groups#:#Grupe###23 Dec 2005 content changed
 survey#:#search_invitation#:#Pretražite korisnike grupe radi pozivanja
 survey#:#search_questions#:#Traži pitanja
+survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Traži termin
 survey#:#search_type_all#:#Traži u svim vrstama pitanja
-survey#:#search_users#:#Korisnici
+survey#:#search_users#:#Korisnici###23 Dec 2005 content changed
 survey#:#select_option#:#--molimo odredite opciju--
 survey#:#select_phrase_to_add#:#Molimo odaberite frazu kako biste je dodali u pitanja!
 survey#:#select_prior_question#:#Odaberi ranije pitanje
@@ -5160,6 +5321,9 @@ survey#:#survey_skip_previous#:#<<< preskoci
 survey#:#survey_skip_start#:#Preskoci i idi na pocetnu stranicu
 survey#:#survey_start#:#idi na pocetnu stranicu
 survey#:#svy_all_user_data_deleted#:#Svi korisnicki podaci ove ankete su obrisani!
+survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.###23 Dec 2005 new variable
 survey#:#svy_create_export_file#:#Kreiraj izvoznu datoteku
 survey#:#svy_delete_all_user_data#:#Obrišite sve korisnicke podatke
 survey#:#svy_eval_cumulated#:#Akumulirani rezultati
@@ -5200,3 +5364,73 @@ survey#:#view_constraints_introduction#:#Gledate ogranicenja sledecih pitanja/bl
 survey#:#view_phrase#:#Pregled fraze
 survey#:#warning_question_in_use#:#Upozorenje! Pitanje koje želite da uredite koristi se u anketi sa donjeg spiska. Ako odlucite da nastavite i snimite/primenite pitanje svi odgovori u dole navedenim anketama bice obrisani. Ako želite da promenite pitanje i iskoristite ga u drugoj anketi, molimo odaberite kopiju u pretraživacu pitanja da biste stvorili primerak ovog pitanja.
 survey#:#warning_question_not_complete#:#Pitanje nije potpuno!
+trac#:#info_valid_request#:#The maximum valid time between two requests of an user.###23 Dec 2005 new variable
+trac#:#last_login#:#Last login###23 Dec 2005 new variable
+trac#:#meta_typical_learning_time#:#Typical learning time###23 Dec 2005 new variable
+trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
+trac#:#search_area_info#:#Please choose one object.###23 Dec 2005 new variable
+trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
+trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
+trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
+trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
+trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
+trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
+trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
+trac#:#trac_comment#:#Comment###23 Dec 2005 new variable
+trac#:#trac_comments#:#Comments###23 Dec 2005 new variable
+trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
+trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
+trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
+trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
+trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
+trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
+trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
+trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
+trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
+trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
+trac#:#trac_mark#:#Mark###23 Dec 2005 new variable
+trac#:#trac_marks#:#Marks###23 Dec 2005 new variable
+trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
+trac#:#trac_mode_collection#:#Collection of objects###23 Dec 2005 new variable
+trac#:#trac_mode_deactivated#:#Deactivated###23 Dec 2005 new variable
+trac#:#trac_mode_manual#:#Manual###23 Dec 2005 new variable
+trac#:#trac_mode_objectives#:#Learning objectives###23 Dec 2005 new variable
+trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_test_finished#:#Test finished###23 Dec 2005 new variable
+trac#:#trac_mode_test_passed#:#Test passed###23 Dec 2005 new variable
+trac#:#trac_mode_tlt#:#Typical learning time###23 Dec 2005 new variable
+trac#:#trac_mode_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_modifications_saved#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_modus#:#Mode###23 Dec 2005 new variable
+trac#:#trac_no_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_no_sahs_items_found#:#No objects found.###23 Dec 2005 new variable
+trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
+trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
+trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
+trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
+trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
+trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
+trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable
+trac#:#trac_show_hidden#:#Show###23 Dec 2005 new variable
+trac#:#trac_spent_time#:#Spent time###23 Dec 2005 new variable
+trac#:#trac_status#:#Status###23 Dec 2005 new variable
+trac#:#trac_total_online#:#Total time online###23 Dec 2005 new variable
+trac#:#trac_update_edit_user#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_user_data#:#User data###23 Dec 2005 new variable
+trac#:#trac_usr_list#:#Users###23 Dec 2005 new variable
+trac#:#trac_valid_request#:#Max. time between requests###23 Dec 2005 new variable
+trac#:#trac_view_crs#:#Back to course###23 Dec 2005 new variable
+trac#:#trac_view_list#:#Back to list###23 Dec 2005 new variable
+trac#:#trac_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_visits_info#:#Every page visit counts as one visit.###23 Dec 2005 new variable
+trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.###23 Dec 2005 new variable

@@ -39,27 +39,31 @@
 // to the corresponding mode!
 // language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Phân tích tính toàn vẹn dữ liệu
-administration#:#analyze_desc#:#Quét hệ thống tìm những đối tượng sai lạc, không hợp lệ, thiếu, không ràng buộc.
+administration#:#analysis_options#:#Analysis options###23 Dec 2005 new variable
+administration#:#analyze_data#:#Phân tích tính toàn vẹn dữ liệu###23 Dec 2005 content changed
 administration#:#analyzing#:#Đang phân tích...
 administration#:#analyzing_tree_structure#:#Đang phân tích cây cấu trúc...
 administration#:#check_tree#:#Kiểm tra cây cấu trúc
 administration#:#check_tree_desc#:#Kiểm tra tính bền vững của toàn bộ cây cấu trúc. Tùy thuộc vào kích thước cây, có thể chiếm nhiều hay ít thời gian!
 administration#:#clean#:#Dọn sạch
-administration#:#clean_desc#:#Loại bỏ các tham chiếu và mục không hợp lệ trong cây. Điền các chỗ trống trên cây cấu trúc.
+administration#:#clean_desc#:#Loại bỏ các tham chiếu và mục không hợp lệ trong cây. Điền các chỗ trống trên cây cấu trúc.###23 Dec 2005 content changed
 administration#:#cleaning#:#Đang dọn...
 administration#:#cleaning_final#:#Đang kết thúc dọn...
-administration#:#closing_gaps#:#Đang điền các chỗ trống trong cây...
 administration#:#disabled#:#đã khóa 
 administration#:#done#:#Đã hoàn thành
+administration#:#dump_tree#:#Dump tree###23 Dec 2005 new variable
+administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.###23 Dec 2005 new variable
+administration#:#dumping_tree#:#Dumping tree...###23 Dec 2005 new variable
 administration#:#found#:#tìm thấy.
 administration#:#found_none#:#không tìm thấy.
+administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Kết quả quét nhật ký
 administration#:#log_scan_desc#:#Viết kết quả quét vào 'scanlog.log' trong thư mục dữ liệu máy trạm.
 administration#:#nothing_to_purge#:#Không có gì để thanh lọc...
 administration#:#nothing_to_remove#:#Không có gì để loại bỏ...
 administration#:#nothing_to_restore#:#Không có gì để phục hồi...
 administration#:#options#:#Tùy chọn
+administration#:#output_options#:#Output options###23 Dec 2005 new variable
 administration#:#passwd_auto_generate#:#Chuyển tiếp / Sinh mới mật khẩu
 administration#:#purge_missing#:#Thanh lọc các đối tượng thiếu
 administration#:#purge_missing_desc#:#Xóa tất cả đối tượng thiếu và không ràng buộc (đã tìm thấy) khỏi hệ thống.
@@ -72,6 +76,7 @@ administration#:#purging_unbound_objs#:#Đang thanh lọc các đối tượng k
 administration#:#removing_invalid_childs#:#Đang xóa các mục không hợp lệ trên cây...
 administration#:#removing_invalid_refs#:#Đang xóa các tham chiếu không hợp lệ...
 administration#:#removing_invalid_rolfs#:#Đang xóa các thư mục vai trò không hợp lệ...
+administration#:#repair_options#:#Repair options###23 Dec 2005 new variable
 administration#:#restore_missing#:#Phục hồi các đối tượng bị thiếu
 administration#:#restore_missing_desc#:#Phục hồi các đối tượng bị thiếu và không ràng buộc về THƯ MỤC PHỤC HỒI.
 administration#:#restore_trash#:#Phục hồi các đối tượng đã xóa
@@ -80,10 +85,11 @@ administration#:#restoring#:#Đang phục hồi...
 administration#:#restoring_missing_objs#:#Đang phục hồi các đối tượng bị thiếu...
 administration#:#restoring_trash#:#Đang phục hồi rác...
 administration#:#restoring_unbound_objs#:#Đang phục hồi các đối tượng không ràng buộc và các đối tượng con...
+administration#:#scan#:#Scan###23 Dec 2005 new variable
 administration#:#scan_completed#:#Quét hoàn thành
+administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###23 Dec 2005 new variable
 administration#:#scan_details#:#Chi tiết quét
 administration#:#scan_modes#:#Kiểu quét đã sử dụng
-administration#:#scan_only#:#Chỉ quét
 administration#:#scanning_system#:#Đang quét hệ thống...
 administration#:#searching_deleted_objs#:#Đang tìm kiếm các đối tượng đã xóa...
 administration#:#searching_invalid_childs#:#Đang tìm kiếm các mục không hợp lệ trên cây...
@@ -122,7 +128,7 @@ assessment#:#applet_parameter#:#Tham số
 assessment#:#applet_parameters#:#Tham số applet
 assessment#:#apply#:#Áp dụng
 assessment#:#ass_create_export_file#:#Tạo file xuất ra
-assessment#:#ass_create_export_test_results#:#Xuất ra Kết quả bài kiểm tra
+assessment#:#ass_create_export_test_results#:#Xuất ra Kết quả bài kiểm tra###23 Dec 2005 content changed
 assessment#:#ass_export_files#:#Các file xuất ra
 assessment#:#ass_file#:#File
 assessment#:#ass_question#:#Câu hỏi
@@ -133,6 +139,7 @@ assessment#:#average_reached_points#:#Điểm trung bình đạt được
 assessment#:#backtocallingtest#:#Quay lại bài kiểm tra đang gọi
 assessment#:#by#:#bằng
 assessment#:#cancel_test#:#Đình chỉ bài kiểm tra
+assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
 assessment#:#cannot_edit_test#:#Bạn không đủ quyền hạn sửa bài kiểm tra!
 assessment#:#cannot_execute_test#:#Bạn không đủ quyền hạn thực hiện bài kiểm tra!
 assessment#:#cannot_export_qpl#:#Bạn không đủ quyền hạn xuất thư viện câu hỏi!
@@ -220,6 +227,7 @@ assessment#:#eval_legend_link#:#Hãy xem chú thích để biết ý nghĩa củ
 assessment#:#eval_matching_result#:#Cặp tương ứng %s - %s là %s. Bạn được %s diểm.
 assessment#:#eval_order_result#:#Thứ tự của giá trị %s là %s. Bạn được %s diểm.
 assessment#:#eval_search_groups#:#Nhóm
+assessment#:#eval_search_roles#:#Roles###23 Dec 2005 new variable
 assessment#:#eval_search_term#:#Từ khóa
 assessment#:#eval_search_users#:#Người sử dụng
 assessment#:#eval_search_userselection#:#Tìm kiếm những người sử dụng bạn muốn thêm vào thống kê đánh giá
@@ -286,7 +294,7 @@ assessment#:#material#:#Tài liệu tham khảo
 assessment#:#material_download#:#Tài liệu tham khảo để tải xuống
 assessment#:#material_file#:#File tài liệu tham khảo
 assessment#:#maxchars#:#Số ký tự tối đa
-assessment#:#maximum_nr_of_tries_reached#:#Bạn đã hết số lần có thể làm bài kiểm tra này. Không thể vào được bài này nữa!
+assessment#:#maximum_nr_of_tries_reached#:#Bạn đã hết số lần có thể làm bài kiểm tra này. Không thể vào được bài này nữa!###23 Dec 2005 content changed
 assessment#:#meaning#:#Nghĩa là
 assessment#:#min_percentage_ne_0#:#Bạn phải định nghĩa phần trăm tối thiếu là 0 phần trăm! Giản đồ điểm không được ghi.
 assessment#:#negative_points_not_allowed#:#Bạn không được phép nhập điểm âm!
@@ -295,7 +303,9 @@ assessment#:#no_passed_mark#:#Bạn phải đạt ít nhất một  điểm đ�
 assessment#:#no_question_selected_for_move#:#Hãy chọn ít nhất một  câu hỏi để di chuyển nó!
 assessment#:#no_questions_available#:#Không có câu hỏi nào sử dụng được!
 assessment#:#no_target_selected_for_move#:#Bạn phải chọn mục tiêu để di chuyển!
-assessment#:#no_user_or_group_selected#:#Hãy đánh dấu một tùy chọn bạn đang tìm kiếm để có (người sử dụng và/hoặc nhóm)!
+assessment#:#no_user_or_group_selected#:#Hãy đánh dấu một tùy chọn bạn đang tìm kiếm để có (người sử dụng và/hoặc nhóm)!###23 Dec 2005 content changed
+assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
+assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
 assessment#:#or#:#hoặc
 assessment#:#order_pictures#:#Sắp thứ tự ảnh
 assessment#:#order_terms#:#Sắp thứ tự thuật ngữ
@@ -316,7 +326,6 @@ assessment#:#postponed#:#đã hoãn
 assessment#:#preview#:#Xem trước
 assessment#:#previous_question_rows#:#<< Câu hỏi %d - %d trong số %d
 assessment#:#print_answers#:#In các câu trả lời
-assessment#:#print_results#:#In kết quả
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Không có đánh giá nào của câu hỏi sử dụng được cho câu hỏi đã chọn. Câu hỏi chưa bao giờ được dùng trong một bài kiểm tra.
 assessment#:#qpl_assessment_of_questions#:#Đánh giá của câu hỏi
 assessment#:#qpl_assessment_total_of_answers#:#Tổng số của câu trả lời
@@ -385,6 +394,8 @@ assessment#:#see_details_for_further_information#:#Xem chi tiết các đáp án
 assessment#:#select_an_answer#:#--- Hãy chọn một câu trả lời ---
 assessment#:#select_gap#:#Chỗ trống lựa chọn
 assessment#:#select_max_one_item#:#Hãy chọn chỉ một mục
+assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test###23 Dec 2005 new variable
+assessment#:#select_one_user#:#Please select at least one user###23 Dec 2005 new variable
 assessment#:#select_target_position_for_move_question#:#Hãy chọn một mục tiêu để di chuyển (các) câu hỏi và nhấn một trong các nút chèn!
 assessment#:#select_tst_option#:#--- Hãy chọn một bài kiểm tra ---
 assessment#:#selected_image#:#đã chọn ảnh
@@ -412,7 +423,7 @@ assessment#:#tst_already_submitted#:#Bài kiểm tra đã kết thúc và 
 assessment#:#tst_already_taken#:#Bài kiểm tra đã làm
 assessment#:#tst_answer_sheet#:#Bảng câu trả lời bài kiểm tra
 assessment#:#tst_browse_for_questions#:#Duyệt tìm câu hỏi
-assessment#:#tst_confirm_delete_results#:#Bạn đang xóa tất cả các kết quả câu hỏi của bài kiểm tra này. Điều này sẽ đặt lại toàn bộ câu hỏi về giá trị mặc định. Hãy chú ý, nếu không thể đặt lại số lần thử, bạn bắt buộc phải làm bài kiểm tra này. Bạn có chắc muốn đặt lại các kết quả trước không?
+assessment#:#tst_confirm_delete_results#:#Bạn đang xóa tất cả các kết quả câu hỏi của bài kiểm tra này. Điều này sẽ đặt lại toàn bộ câu hỏi về giá trị mặc định. Hãy chú ý, nếu không thể đặt lại số lần thử, bạn bắt buộc phải làm bài kiểm tra này. Bạn có chắc muốn đặt lại các kết quả trước không?###23 Dec 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Những kết quả bạn vào câu hỏi trước đó đã bị xóa. Bạn đã đặt lại bài kiểm tra thành công!
 assessment#:#tst_confirm_print#:#Nhấn nút để in tất cả câu hỏi cùng với điểm và giải pháp. Câu hỏi luôn ở cuối trang.
 assessment#:#tst_confirm_submit_answers#:#Hãy xác nhận giải pháp bạn nộp lên. Bạn sẽ không thể phục hồi câu hỏi sau khi nhấn nút đệ trình. Hãy sử dụng máy in để in bảng câu trả lời xuất hiện.
@@ -436,6 +447,9 @@ assessment#:#tst_finished#:#Kết thúc
 assessment#:#tst_general_properties#:#Thuộc tính chung
 assessment#:#tst_generate_xls#:#Sinh bảng Excel
 assessment#:#tst_heading_scoring#:#Ghi điểm
+assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
+assessment#:#tst_hide_title_points#:#Question title points###23 Dec 2005 new variable
+assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title###23 Dec 2005 new variable
 assessment#:#tst_import_no_items#:#Lỗi: File nhập không chứa câu hỏi nào!
 assessment#:#tst_import_verify_found_questions#:#ILIAS tìm thấy các câu hỏi sau trong file nhập chứa bài kiểm tra. Hãy chọn các câu hỏi bạn muốn nhập vào bài kiểm tra này.
 assessment#:#tst_in_use_edit_questions_disabled#:#Bài kiểm tra đang được sử dụng bởi %d người sử dụng. Bạn không được phép sửa hoặc di chuyển câu hỏi trong bài kiểm tra này!
@@ -466,13 +480,14 @@ assessment#:#tst_no_questions_for_random_test#:#Bạn chưa lấy câu hỏi nà
 assessment#:#tst_no_solution_available#:#Câu hỏi trả lời ngắn không có giải pháp.
 assessment#:#tst_no_taken_tests#:#Không có bài kiểm tra nào đã làm!
 assessment#:#tst_no_tries#:#không
-assessment#:#tst_nr_of_tries#:#Số lần được làm bài tối đa
-assessment#:#tst_nr_of_tries_of_user#:#Số lần đã hoàn thành
+assessment#:#tst_nr_of_tries#:#Số lần được làm bài tối đa###23 Dec 2005 content changed
+assessment#:#tst_nr_of_tries_of_user#:#Số lần đã hoàn thành###23 Dec 2005 content changed
 assessment#:#tst_participating_users#:#Đang mời người tham dự
 assessment#:#tst_percent_solved#:#Phần trăm làm được
 assessment#:#tst_print#:#Xem Kiểm tra & Đánh giá kiểu in
 assessment#:#tst_print_date#:#Ngày in
 assessment#:#tst_processing_time#:#Thời gian làm bài tối đa
+assessment#:#tst_properties#:#Test properties###23 Dec 2005 new variable
 assessment#:#tst_qst_order#:#Thứ tự
 assessment#:#tst_qst_resetsolved#:#Reset
 assessment#:#tst_qst_result_sheet#:#Hiện bảng kết quả
@@ -480,6 +495,9 @@ assessment#:#tst_qst_setsolved#:#Đặt đã giải quyết
 assessment#:#tst_qst_summary_text#:#Ở đây bạn thấy tất cả các câu hỏi. Sử dụng bóng đèn để đánh dấu câu hỏi nào đã giải quyết.
 assessment#:#tst_question_no#:#Số thứ tự
 assessment#:#tst_question_offer#:#Bạn có chấp nhận mẫu này hoặc bạn muốn một mẫu khác?
+assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
+assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.###23 Dec 2005 new variable
+assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
 assessment#:#tst_question_solved_state#:#Đã giải quyết
 assessment#:#tst_question_title#:#Tiêu đề
 assessment#:#tst_question_type#:#Kiểu câu hỏi
@@ -519,7 +537,7 @@ assessment#:#tst_sequence_postpone#:#Người học có thể hoãn một câu h
 assessment#:#tst_sequence_properties#:#Thuộc tính trình tự
 assessment#:#tst_session_settings#:#Thiết lập phiên làm việc
 assessment#:#tst_show_answer_print_sheet#:#Xem kiểu trang in các câu trả lời
-assessment#:#tst_show_answer_sheet#:#hiển thị câu trả lời
+assessment#:#tst_show_answer_sheet#:#hiển thị câu trả lời###23 Dec 2005 content changed
 assessment#:#tst_show_results#:#Hiện kết quả bài kiểm tra
 assessment#:#tst_signature#:#Chữ ký
 assessment#:#tst_start_test#:#Bắt đầu bài kiểm tra
@@ -556,6 +574,7 @@ assessment#:#tst_status_progress#:#Đang tiến hành
 assessment#:#tst_submit_answers#:#Đúng, tôi muốn nộp các câu trả lời của tôi
 assessment#:#tst_submit_answers_txt#:#Bây giờ bạn có thể kết thúc bài kiểm tra bằng cách nộp các câu trả lời.
 assessment#:#tst_submit_results#:#Đúng, tôi xác nhận việc nộp lên.
+assessment#:#tst_test_output#:#Test output###23 Dec 2005 new variable
 assessment#:#tst_text_count_system#:#Hệ thống ghi điểm
 assessment#:#tst_time_already_spent#:#Thời gian đã dùng
 assessment#:#tst_total_questions#:#Tổng số câu hỏi
@@ -587,6 +606,55 @@ assessment#:#width#:#Độ rộng
 assessment#:#with_order#:#với thứ tự
 assessment#:#working_time#:#Thời gian làm
 assessment#:#you_received_a_of_b_points#:#Bạn đạt %d trong số %d điểm có thể
+barometer#:#add#:#Add new Feedback###23 Dec 2005 new variable
+barometer#:#anonymous#:#Anonymous###23 Dec 2005 new variable
+barometer#:#barometer_title#:#Feedback###23 Dec 2005 new variable
+barometer#:#best#:#Best###23 Dec 2005 new variable
+barometer#:#change_course#:#Change Course###23 Dec 2005 new variable
+barometer#:#chart_type#:#Chart type###23 Dec 2005 new variable
+barometer#:#chart_users#:#Chart user###23 Dec 2005 new variable
+barometer#:#chart_votes#:#Chart votes###23 Dec 2005 new variable
+barometer#:#create#:#Create new feedback###23 Dec 2005 new variable
+barometer#:#day#:#Day###23 Dec 2005 new variable
+barometer#:#days#:#Days###23 Dec 2005 new variable
+barometer#:#delete#:#Delete###23 Dec 2005 new variable
+barometer#:#duration#:#Duration###23 Dec 2005 new variable
+barometer#:#edit#:#Edit###23 Dec 2005 new variable
+barometer#:#edit_barometer#:#Edit feedback###23 Dec 2005 new variable
+barometer#:#every#:#every###23 Dec 2005 new variable
+barometer#:#first_vote#:#1. Vote is the###23 Dec 2005 new variable
+barometer#:#from#:#from###23 Dec 2005 new variable
+barometer#:#hours#:#Hours###23 Dec 2005 new variable
+barometer#:#lines#:#Lines###23 Dec 2005 new variable
+barometer#:#login#:#Login###23 Dec 2005 new variable
+barometer#:#missing_fields#:#Please fill in all required information###23 Dec 2005 new variable
+barometer#:#month#:#Month###23 Dec 2005 new variable
+barometer#:#months#:#Months###23 Dec 2005 new variable
+barometer#:#new_vote#:#New vote###23 Dec 2005 new variable
+barometer#:#note#:#Comment###23 Dec 2005 new variable
+barometer#:#optional#:#Optional###23 Dec 2005 new variable
+barometer#:#options#:#Options###23 Dec 2005 new variable
+barometer#:#pie#:#Pie###23 Dec 2005 new variable
+barometer#:#repeat#:#Repeat###23 Dec 2005 new variable
+barometer#:#required#:#Required###23 Dec 2005 new variable
+barometer#:#save#:#Save###23 Dec 2005 new variable
+barometer#:#save_vote#:#Submit vote###23 Dec 2005 new variable
+barometer#:#skip#:#Skip###23 Dec 2005 new variable
+barometer#:#statistics#:#Statistics###23 Dec 2005 new variable
+barometer#:#status#:#Status###23 Dec 2005 new variable
+barometer#:#table#:#Table###23 Dec 2005 new variable
+barometer#:#text#:#Text###23 Dec 2005 new variable
+barometer#:#text_answer#:#Text answer###23 Dec 2005 new variable
+barometer#:#time#:#Running###23 Dec 2005 new variable
+barometer#:#title#:#Title###23 Dec 2005 new variable
+barometer#:#type#:#Type###23 Dec 2005 new variable
+barometer#:#until#:#until###23 Dec 2005 new variable
+barometer#:#user#:#User###23 Dec 2005 new variable
+barometer#:#vote#:#Vote###23 Dec 2005 new variable
+barometer#:#votes#:#Votes###23 Dec 2005 new variable
+barometer#:#weeks#:#Weeks###23 Dec 2005 new variable
+barometer#:#worst#:#Worst###23 Dec 2005 new variable
+barometer#:#year#:#Year###23 Dec 2005 new variable
 bibitem#:#bibitem_add#:#Thêm
 bibitem#:#bibitem_author#:#Tác giả
 bibitem#:#bibitem_av#:#AV
@@ -667,7 +735,7 @@ chat#:#chat_blue#:#xanh da trời
 chat#:#chat_bold#:#Đậm
 chat#:#chat_chatroom_body#:#Phòng chat:
 chat#:#chat_chatroom_rename#:#Sửa phòng chat
-chat#:#chat_chatrooms#:#Các phòng chat
+chat#:#chat_chatrooms#:#Các phòng chat###23 Dec 2005 content changed
 chat#:#chat_color#:#Màu font
 chat#:#chat_delete_sure#:#Bạn có chắc, bạn muốn xóa phòng chat này?
 chat#:#chat_drop_user#:#Người sử dụng bị kick
@@ -736,7 +804,7 @@ chat#:#chat_room_added#:#Đã thêm phòng chat mới
 chat#:#chat_room_name#:#Tên phòng chat
 chat#:#chat_room_renamed#:#Đã đổi tên phòng chat.
 chat#:#chat_room_select#:#Phòng chat riêng
-chat#:#chat_rooms#:#Các phòng chat
+chat#:#chat_rooms#:#Các phòng chat###23 Dec 2005 content changed
 chat#:#chat_rooms_deleted#:#Đã xóa (các) phòng chat.
 chat#:#chat_select_one_room#:#Hãy chọn một phòng chat
 chat#:#chat_server_allowed#:#Các máy được phép
@@ -839,6 +907,7 @@ common#:#announce#:#Thông báo
 common#:#announce_changes#:#Thông báo thay đổi
 common#:#answers#:#Trả lời
 common#:#any_language#:#Tất cả ngôn ngữ
+common#:#append_search#:#Append search results###23 Dec 2005 new variable
 common#:#application_completed#:#Đơn đã hoàn thành
 common#:#application_date#:#Ngày nộp đơn
 common#:#applied_users#:#Những người sử dụng đã nộp đơn
@@ -850,8 +919,10 @@ common#:#approve_date#:#Được phê chuẩn vào ngày
 common#:#approve_recipient#:#Tên đăng nhập của người phê chuẩn
 common#:#archive#:#File nén
 common#:#are_you_sure#:#Bạn có chắc chắn không?
+common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
 common#:#articels_unread#:#Các bài chưa đọc
 common#:#as_of#:#như của 
+common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Tạo một nhật ký kiểm tra&đánh giá cho một khoảng thời gian định trước
 common#:#assessment_log_datetime#:#Ngày/Giờ
 common#:#assessment_log_for_test#:#Cho bài kiểm tra
@@ -862,19 +933,19 @@ common#:#assessment_log_select_test#:#--- Hãy chọn một bài kiểm tra ---
 common#:#assessment_log_text#:#Thông báo nhật ký
 common#:#assessment_log_user_answer#:#Người sử dụng đã trả lời một câu hỏi
 common#:#assessment_log_user_answers#:#Hiện các hoạt động của người sử dụng
-common#:#assessment_settings#:#Thiết lập quản trị kiểm tra&đánh giá
+common#:#assessment_settings#:#Thiết lập quản trị kiểm tra&đánh giá###23 Dec 2005 content changed
 common#:#assessment_settings_reporting_language#:#Ngôn ngữ báo cáo
 common#:#assf_edit_permission#:#Thay đổi thiết lập quyền hạn
-common#:#assf_read#:#Truy cập quản trị kiểm tra&đánh giá
+common#:#assf_read#:#Truy cập quản trị kiểm tra&đánh giá###23 Dec 2005 content changed
 common#:#assf_visible#:#Nhìn thấy quản trị kiểm tra&đánh giá
 common#:#assf_write#:#Sửa quản trị kiểm tra&đánh giá
 common#:#assign#:#Chỉ định
-common#:#assign_global_role#:#Chỉ định vai trò toàn cục
+common#:#assign_global_role#:#Chỉ định vai trò toàn cục###23 Dec 2005 content changed
 common#:#assign_lo_forum#:#Chỉ định LO Forum
-common#:#assign_local_role#:#Chỉ định vai trò nội bộ
+common#:#assign_local_role#:#Chỉ định vai trò nội bộ###23 Dec 2005 content changed
 common#:#assign_user_to_role#:#Chỉ định người sử dụng vào vai trò
-common#:#assigned_roles#:#Các vai trò đã chỉ định
-common#:#assigned_users#:#Những người sử dụng đã chỉ định
+common#:#assigned_roles#:#Các vai trò đã chỉ định###23 Dec 2005 content changed
+common#:#assigned_users#:#Những người sử dụng đã chỉ định###23 Dec 2005 content changed
 common#:#associated_user#:#người sử dụng cộng tác
 common#:#associated_users#:#người sử dụng cộng tác
 common#:#at_least_one_style#:#Ít nhất một stye phải đang hoạt động.
@@ -882,7 +953,7 @@ common#:#at_location#:#tại vị trí
 common#:#attachment#:#Đính kèm
 common#:#attachments#:#Đính kèm
 common#:#attend#:#Chăm sóc
-common#:#auth_active_roles#:#Kích hoạt vai trò toàn cục để đăng ký
+common#:#auth_active_roles#:#Kích hoạt vai trò toàn cục để đăng ký###23 Dec 2005 content changed
 common#:#auth_configure#:#cấu hình...
 common#:#auth_default#:#Thiết lập mặc định
 common#:#auth_default_mode_changed_to#:#Phương thức xác thực mặc định thay đổi thành
@@ -1012,6 +1083,7 @@ common#:#change_existing_objects#:#Thay đổi các đối tượng đang tồn 
 common#:#change_header_title#:#Sửa tiêu đề
 common#:#change_lo_info#:#Thay đổi LO Info
 common#:#change_metadata#:#Thay đổi siêu dữ liệu
+common#:#change_owner#:#Change owner###23 Dec 2005 new variable
 common#:#change_sort_direction#:#Thay đổi cách sắp xếp
 common#:#changeable#:#Thay đổi được
 common#:#changed_to#:#thay đổi thành
@@ -1044,6 +1116,7 @@ common#:#chg_password#:#Đổi mật khẩu
 common#:#choose_language#:#Chọn ngôn ngữ
 common#:#choose_location#:#Chọn địa danh
 common#:#choose_only_one_language#:#Hãy chọn một ngôn ngữ duy nhất
+common#:#chown_warning#:#Attention, you may loose access permissions on this object after changing the owner.###23 Dec 2005 new variable
 common#:#city#:#Thành phố (Tỉnh)
 common#:#cleaned_file#:#Đã diệt virus trên file.
 common#:#cleaning_failed#:#Không diệt được virus.
@@ -1081,6 +1154,7 @@ common#:#content#:#Nội dung
 common#:#content_styles#:#Nội dung Styles
 common#:#context#:#Vị trí
 common#:#continue_work#:#Tiếp tục
+common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#cookies_howto#:#Làm sao để cho phép cookies
 common#:#copied_object#:#Đối tượng đã sao chép
 common#:#copy#:#Sao chép
@@ -1100,7 +1174,10 @@ common#:#create_in#:#Tạo trong
 common#:#create_stylesheet#:#Tạo Style
 common#:#created#:#Ngày tạo
 common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_cron#:#regularly per cron job###23 Dec 2005 new variable
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
+common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
+common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Một cron job là một tiến trình tự động thực hiện vào một chu kỳ thời gian định trước. Bạn sẽ tìm thấy thông tin về cài đặt trong Hướng dẫn cài đặt ILIAS <Đỗ Xuân Tiến 091 2283720>.
 common#:#cron_lucene_index#:#Cập nhật chỉ mục tìm kiếm Lucene
@@ -1137,10 +1214,11 @@ common#:#crs_create_tst#:#Tạo bài kiểm tra
 common#:#crs_create_webr#:#Tạo tài nguyên web mới
 common#:#crs_delete#:#Xóa khóa học
 common#:#crs_edit#:#Sửa khóa học
+common#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#crs_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#crs_info#:#Thông tin
-common#:#crs_join#:#Đăng ký khóa học
-common#:#crs_leave#:#Hủy đăng ký khóa học
+common#:#crs_join#:#Đăng ký khóa học###23 Dec 2005 content changed
+common#:#crs_leave#:#Hủy đăng ký khóa học###23 Dec 2005 content changed
 common#:#crs_management_system#:#Hệ thống quản lý khóa học
 common#:#crs_member_not_passed#:#Không đạt
 common#:#crs_member_passed#:#Đạt
@@ -1181,6 +1259,7 @@ common#:#dbk_add#:#Thêm Digilib Book
 common#:#dbk_added#:#Đã thêm Digilib Book
 common#:#dbk_create#:#Tạo Digilib Book
 common#:#dbk_delete#:#Xóa Digilib Book
+common#:#dbk_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#dbk_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#dbk_new#:#Digilib Book mới
 common#:#dbk_read#:#Đọc Digilib Book
@@ -1208,6 +1287,7 @@ common#:#deleted_user#:#Đã xóa người sử dụng
 common#:#deliver#:#Nộp bài tập
 common#:#department#:#Phòng (Khoa)
 common#:#desc#:#Mô tả
+common#:#descending_order#:#Descending order###23 Dec 2005 new variable
 common#:#description#:#Mô tả
 common#:#desired_password#:#Mật khẩu mới
 common#:#desktop_items#:#Các khoản mục trên bàn làm việc
@@ -1237,7 +1317,7 @@ common#:#email_not_valid#:#Địa chỉ email bạn nhập không hợp lệ!
 common#:#enable#:#Cho phép
 common#:#enable_calendar#:#Cho phép sử dụng lịch
 common#:#enable_hist_user_comments#:#Cho phép đưa bình luận của người sử dụng vào lịch sử
-common#:#enable_hist_user_comments_desc#:#Cho phép tác giả thêm bình luận vào nhật ký lịch sử của các trang (khi thay đổi).
+common#:#enable_hist_user_comments_desc#:#Cho phép tác giả thêm bình luận vào nhật ký lịch sử của các trang (khi thay đổi).###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Cho phép soạn thảo bằng JavaScript
 common#:#enable_js_edit_info#:#Tùy chọn này cho phép soạn thảo có kết hợp JavaScript cho tất cả đối tượng nội dung (Học phần ILIAS, Bảng chú giải, Câu hỏi đánh giá, Digilib Books) 
 common#:#enable_password_assistance#:#Cho phép trợ giúp mật khẩu và tên đăng nhập
@@ -1310,6 +1390,7 @@ common#:#exc_write#:#Sửa bài tập
 common#:#excs#:#Bài tập
 common#:#execute#:#Thực hiện
 common#:#exercise_time_over#:#Bạn đã hết giờ làm việc với bài tập. Bạn không thể nộp các file nữa!
+common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#export#:#Xuất ra
 common#:#export_group_members#:#Xuất thành viên của nhóm (sang Microsoft Excel)
 common#:#export_html#:#xuất ra dạng HTML
@@ -1343,6 +1424,7 @@ common#:#file_added#:#Đã tải lên file
 common#:#file_delete#:#Xóa file
 common#:#file_edit#:#Sửa file
 common#:#file_edit_permission#:#Thay đổi thiết lập quyền hạn
+common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#File này bị nhiễm virus.
 common#:#file_new#:#File mới
 common#:#file_not_found#:#Không tìm thấy file
@@ -1472,25 +1554,29 @@ common#:#group_details#:#Chi tiết nhóm
 common#:#group_filesharing#:#Chia sẻ file trong nhóm
 common#:#group_import#:#Nhập nhóm
 common#:#group_import_file#:#Nhập file
+common#:#group_info_reg#:#Admission procedure###23 Dec 2005 new variable
 common#:#group_members#:#Thành viên nhóm
 common#:#group_memstat#:#Trạng thái thành viên
 common#:#group_memstat_admin#:#Quản trị
 common#:#group_memstat_member#:#Thành viên
 common#:#group_name#:#Tên nhóm
-common#:#group_new_registrations#:#Đăng ký mới
-common#:#group_no_registration#:#không yêu cầu đăng ký
-common#:#group_no_registration_msg#:#Bạn không còn là thành viên của nhóm này. Vì lý do quản trị cần phải gia nhập vào nhóm đã yêu cầu.<br />Là thành viên bạn có các thuận lợi sau:<br />- Được thông báo tin tức, cập nhật<br />- Có thể truy cập tùy mức độ các đối tượng như diễn đàn, học phần, v.v...<br /><br />Bạn có thể hủy bỏ quyền thành viên bất kỳ lúc nào.
+common#:#group_new_registrations#:#Đăng ký mới###23 Dec 2005 content changed
+common#:#group_no_registration#:#không yêu cầu đăng ký###23 Dec 2005 content changed
+common#:#group_no_registration_msg#:#Bạn không còn là thành viên của nhóm này. Vì lý do quản trị cần phải gia nhập vào nhóm đã yêu cầu.<br />Là thành viên bạn có các thuận lợi sau:<br />- Được thông báo tin tức, cập nhật<br />- Có thể truy cập tùy mức độ các đối tượng như diễn đàn, học phần, v.v...<br /><br />Bạn có thể hủy bỏ quyền thành viên bất kỳ lúc nào.###23 Dec 2005 content changed
 common#:#group_not_available#:#Không có nhóm nào sử dụng được
 common#:#group_objects#:#Đối tượng của nhóm
-common#:#group_password_registration_expired_msg#:#Thời gian đăng ký nhóm này đã hết, một thông báo không còn có thể. Hãy liên hệ chủ nhóm hoặc quản trị.
-common#:#group_password_registration_msg#:#Để gia nhập nhóm này bạn phải nhập mật khẩu được cung cấp bởi quản trị của nhóm này.<br />Bạn sẽ được tự động chỉ định vào nhóm nếu mật khẩu đúng.
+common#:#group_password_registration_msg#:#Để gia nhập nhóm này bạn phải nhập mật khẩu được cung cấp bởi quản trị của nhóm này.<br />Bạn sẽ được tự động chỉ định vào nhóm nếu mật khẩu đúng.###23 Dec 2005 content changed
+common#:#group_registration#:#Registration###23 Dec 2005 new variable
 common#:#group_registration_expiration_date#:#Ngày hết hạn
 common#:#group_registration_expiration_time#:#Thời gian hết hạn
-common#:#group_registration_expired#:#Thời kỳ hết hạn đăng ký
-common#:#group_registration_mode#:#Phương thức đăng ký
-common#:#group_req_password#:#Bắt buộc mật khẩu đăng ký
-common#:#group_req_registration#:#Bắt buộc đăng ký
-common#:#group_req_registration_msg#:#Để gia nhập nhóm này bạn phải đăng ký. Quản trị nhóm sẽ chỉ định bạn vào nhóm. Hãy nhập vào tiêu đề cho biết lý do trong đơn.<br />Bạn sẽ nhận được thư khi bạn được chỉ định vào nhóm.
+common#:#group_registration_expired#:#Thời kỳ hết hạn đăng ký###23 Dec 2005 content changed
+common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
+common#:#group_registration_mode#:#Phương thức đăng ký###23 Dec 2005 content changed
+common#:#group_registration_time#:#Registration period###23 Dec 2005 new variable
+common#:#group_req_direct#:#Join directly###23 Dec 2005 new variable
+common#:#group_req_password#:#Bắt buộc mật khẩu đăng ký###23 Dec 2005 content changed
+common#:#group_req_registration#:#Bắt buộc đăng ký###23 Dec 2005 content changed
+common#:#group_req_registration_msg#:#Để gia nhập nhóm này bạn phải đăng ký. Quản trị nhóm sẽ chỉ định bạn vào nhóm. Hãy nhập vào tiêu đề cho biết lý do trong đơn.<br />Bạn sẽ nhận được thư khi bạn được chỉ định vào nhóm.###23 Dec 2005 content changed
 common#:#group_reset#:#Reset quyền hạn nhóm
 common#:#group_status#:#Nhóm là
 common#:#group_status_closed#:#Đã đóng
@@ -1529,7 +1615,7 @@ common#:#grp_create_tst#:#Tạo bài kiểm tra
 common#:#grp_create_webr#:#Tạo tài nguyên web mới
 common#:#grp_delete#:#Xóa nhóm
 common#:#grp_dismiss_member#:#Bạn có chắc bạn muốn gạt bỏ những thành viên sau ra khỏi nhóm?
-common#:#grp_dismiss_myself#:#Bạn có chắc bạn muốn gạt bỏ chính bạn ra khỏi nhóm?
+common#:#grp_dismiss_myself#:#Bạn có chắc bạn muốn gạt bỏ chính bạn ra khỏi nhóm?###23 Dec 2005 content changed
 common#:#grp_edit#:#Sửa nhóm
 common#:#grp_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#grp_err_administrator_required#:#Không thể bỏ thành viên, cần ít nhất một quản trị cho nhóm!
@@ -1538,7 +1624,7 @@ common#:#grp_err_error#:#Một lỗi xảy ra
 common#:#grp_err_last_member#:#Thành viên cuối cùng không thể xóa, thay vào đó hãy xóa nhóm.
 common#:#grp_err_member_could_not_be_removed#:#Thành viên không thể xóa. Hãy thẩm tra lại toàn bộ sự phụ thuộc của người sử dụng này.
 common#:#grp_err_no_permission#:#Bạn không có quyền thực hiện thao tác này.
-common#:#grp_err_registration_data#:#Hãy nhập vào mật khẩu, ngày hết hạn và thời gian có thể đăng ký được !
+common#:#grp_err_registration_data#:#Hãy nhập vào mật khẩu, ngày hết hạn và thời gian có thể đăng ký được !###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Sửa các thành viên
 common#:#grp_join#:#Người sử dụng có thể gia nhập nhóm
 common#:#grp_leave#:#Người sử dụng có thể ra khỏi nhóm
@@ -1553,7 +1639,7 @@ common#:#grp_mem_send_mail#:#Gửi thư cho thành viên
 common#:#grp_msg_applicants_assigned#:#Người nộp đơn đã được chỉ định là thành viên nhóm
 common#:#grp_msg_applicants_removed#:#Người nộp đơn đã xóa khỏi danh sách.
 common#:#grp_msg_member_assigned#:#Người sử dụng đã được chỉ định là thành viên nhóm
-common#:#grp_msg_membership_annulled#:#Hủy bỏ quyền thành viên
+common#:#grp_msg_membership_annulled#:#Hủy bỏ quyền thành viên###23 Dec 2005 content changed
 common#:#grp_name_exists#:#Đã có nhóm trùng tên! Hãy chọn tên khác.
 common#:#grp_new#:#Nhóm mới
 common#:#grp_new_search#:#Tìm kiếm mới
@@ -1562,8 +1648,9 @@ common#:#grp_no_results_found#:#Không tìm thấy kết quả nào
 common#:#grp_no_roles_selected#:#Hãy chọn một vai trò
 common#:#grp_options#:#Tùy chọn
 common#:#grp_read#:#Đọc nhóm
-common#:#grp_register#:#Đăng ký
-common#:#grp_registration_completed#:#Đã hoàn thành đăng ký
+common#:#grp_register#:#Đăng ký###23 Dec 2005 content changed
+common#:#grp_registration#:#Join group###23 Dec 2005 new variable
+common#:#grp_registration_completed#:#Đã hoàn thành đăng ký###23 Dec 2005 content changed
 common#:#grp_search_enter_search_string#:#Hãy nhập vào một xâu để tìm kiếm
 common#:#grp_search_members#:#Tìm kiếm người sử dụng
 common#:#grp_visible#:#Nhìn thấy nhóm
@@ -1609,6 +1696,7 @@ common#:#htlm#:#Học phần HTML
 common#:#htlm_add#:#Thêm học phần HTML
 common#:#htlm_delete#:#Xóa học phần HTML
 common#:#htlm_edit#:#Sửa thuộc tính học phần HTML
+common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#htlm_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#htlm_new#:#Học phần HTML mới
 common#:#htlm_read#:#Đọc học phần HTML
@@ -1701,6 +1789,7 @@ common#:#import_file_not_valid#:#File nhập không hợp lệ.
 common#:#import_finished#:#Số thư đã nhập.
 common#:#import_forum_finished#:#Đã nhập diễn đàn.
 common#:#import_glossary#:#Nhập bảng chú giải
+common#:#import_grp#:#Import group###23 Dec 2005 new variable
 common#:#import_grp_finished#:#Đã nhập nhóm mà không có lỗi nào
 common#:#import_hlm#:#Nhập gói HACP
 common#:#import_lm#:#Nhập học phần ILIAS
@@ -1726,7 +1815,7 @@ common#:#info_assign_sure#:#Bạn có chắc bạn muốn chỉ định những 
 common#:#info_assigned#:#đã chỉ định
 common#:#info_available_roles#:#Các vai trò có thể
 common#:#info_change_user_view#:#Thay đổi người sử dụng để xem
-common#:#info_delete_sure#:#Bạn có chắc chắn muốn xóa (các) đối tượng sau không?
+common#:#info_delete_sure#:#Bạn có chắc chắn muốn xóa (các) đối tượng sau không?###23 Dec 2005 content changed
 common#:#info_deleted#:#Đã xóa (các) đối tượng
 common#:#info_enter_login_or_id#:#<nhập vào tên đăng nhập>
 common#:#info_err_user_not_exist#:#Người sử dụng có tên đăng nhập như thế không tồn tại
@@ -1734,6 +1823,7 @@ common#:#info_from_role#:#Cho bởi vai trò
 common#:#info_is_member#:#Người sử dụng không phải là thành viên
 common#:#info_is_not_member#:#Người sử dụng không phải là thành viên
 common#:#info_not_assigned#:#chưa được chỉ định
+common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_permission_origin#:#Vị trí gốc
 common#:#info_permission_source#:#Có hiệu lực từ*
 common#:#info_remark_interrupted#:#Vai trò bị ngắt tại vị trí này. Thiết lập quyền hạn mặc định có hiệu lực tại vị trí đó.
@@ -1848,6 +1938,7 @@ common#:#ldap_visible#:#Nhìn thấy thiết lập LDAP
 common#:#ldap_write#:#Sửa thiết lập LDAP
 common#:#learning module#:#Học phần
 common#:#learning_objects#:#Đối tượng kiến thức
+common#:#learning_progress#:#Learning progress###23 Dec 2005 new variable
 common#:#learning_resources#:#Tài nguyên kiến thức
 common#:#level#:#Cấp độ
 common#:#link#:#Liên kết
@@ -1871,6 +1962,7 @@ common#:#lm_add#:#Thêm học phần ILIAS
 common#:#lm_added#:#Đã thêm học phần ILIAS
 common#:#lm_create#:#Tạo học phần ILIAS
 common#:#lm_delete#:#Xóa học phần ILIAS
+common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#lm_join#:#Đăng ký học phần ILIAS
 common#:#lm_leave#:#Hủy đăng ký học phần ILIAS
@@ -1938,6 +2030,7 @@ common#:#mail_maxsize_box#:#Kích thước hộp thư tối đa
 common#:#mail_maxsize_mail#:#Kích thước thư tối đa
 common#:#mail_maxtime_attach#:#Số ngày tối đa lưu giữ đính kèm
 common#:#mail_maxtime_mail#:#Số ngày tối đa lưu giữ thư
+common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Thư chưa gửi!
 common#:#mail_read#:#Đọc thiết lập thư
 common#:#mail_search_no#:#Không có mục nào
@@ -1959,7 +2052,7 @@ common#:#matriculation#:#Số trúng tuyển
 common#:#max_number_rec#:#Số bản ghi tối đa
 common#:#max_time#:#Thời gian tối đa
 common#:#member#:#Thành viên
-common#:#member_status#:#Trạng thái thành viên:
+common#:#member_status#:#Trạng thái thành viên:###23 Dec 2005 content changed
 common#:#members#:#Thành viên
 common#:#membership_annulled#:#Quyền thành viên của bạn đã bị hủy bỏ
 common#:#mep#:#Thư viện phương tiện
@@ -1980,6 +2073,7 @@ common#:#message_to#:#Thư tới:
 common#:#meta_data#:#Siêu dữ liệu
 common#:#migrate#:#Chuyển (nâng cấp)
 common#:#min_time#:#Thời gian tối thiểu
+common#:#minutes#:#Minutes###23 Dec 2005 new variable
 common#:#missing#:#Thiếu
 common#:#mob#:#Đối tượng phương tiện truyền thông
 common#:#module#:#học phần
@@ -2126,6 +2220,8 @@ common#:#no_access_link_object#:#Bạn không được phép liên kết đối 
 common#:#no_bm_in_personal_list#:#Không có đánh dấu nào.
 common#:#no_chat_in_personal_list#:#Không có chat nào trong danh sách cá nhân
 common#:#no_checkbox#:#Không có hộp nào được đánh dấu
+common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
+common#:#no_conditions_found#:#No preconditions created.###23 Dec 2005 new variable
 common#:#no_datasets#:#Bảng rỗng
 common#:#no_date#:#Không có cuộc hẹn nào
 common#:#no_description#:#Không có mô tả
@@ -2157,6 +2253,8 @@ common#:#not_accessed_yet#:#Chưa được truy cập
 common#:#not_implemented_yet#:#Chưa thực hiện
 common#:#not_installed#:#Chưa cài đặt
 common#:#not_logged_in#:#Bạn chưa đăng nhập
+common#:#note_all_pub_notes#:#All notes###23 Dec 2005 new variable
+common#:#note_my_pub_notes#:#My notes only###23 Dec 2005 new variable
 common#:#num_users#:#Số người sử dụng
 common#:#number_of_accesses#:#Số truy cập
 common#:#number_of_records#:#Số bản ghi
@@ -2165,6 +2263,7 @@ common#:#obj_adm#:#Quản trị
 common#:#obj_adm_desc#:#Thiết lập hệ thống chính chứa tất cả thứ để quản trị bản cài đặt ILIAS.
 common#:#obj_alm#:#Học phần AICC
 common#:#obj_assf#:#Kiểm tra&Đánh giá
+common#:#obj_assf_desc#:#Test&Assessment log settings.###23 Dec 2005 new variable
 common#:#obj_auth#:#Xác nhận
 common#:#obj_auth_desc#:#Cấu hình chế độ xác nhận (nội bộ, LDAP, ...)
 common#:#obj_cat#:#Chuyên mục
@@ -2240,6 +2339,8 @@ common#:#obj_usrf_desc#:#Quản lý tài khoản người sử dụng ở đây.
 common#:#obj_webr#:#Tài nguyên web
 common#:#object#:#Đối tượng
 common#:#object_added#:#Đã thêm đối tượng
+common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
+common#:#object_imported#:#Object imported###23 Dec 2005 new variable
 common#:#objects#:#Đối tượng
 common#:#objf#:#Định nghĩa đối tượng
 common#:#objf_edit_permission#:#Thay đổi thiết lập quyền hạn
@@ -2298,7 +2399,9 @@ common#:#options_for_subobjects#:#Tùy chọn cho các đối tượng con
 common#:#order_by#:#Sắp xếp theo
 common#:#other#:#Khác
 common#:#overview#:#Tổng quan
+common#:#overwrite#:#Overwrite###23 Dec 2005 new variable
 common#:#owner#:#Chủ nhân
+common#:#owner_updated#:#Owner updated.###23 Dec 2005 new variable
 common#:#page#:#Trang
 common#:#page_edit#:#Sửa trang
 common#:#pages#:#Trang
@@ -2365,6 +2468,7 @@ common#:#predefined_template#:#Vai trò mẫu định nghĩa trước
 common#:#presentation_options#:#Tùy chọn trình bày
 common#:#previous#:#Trước
 common#:#print#:#In
+common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile#:#Hồ sơ
 common#:#profile_changed#:#Hồ sơ của bạn đã thay đổi
 common#:#profile_of#:#Hồ sơ cá nhân của 
@@ -2425,6 +2529,9 @@ common#:#repeat_scan_succeded#:#Quét lặp lại thành công.
 common#:#replace_file#:#Thay thế file
 common#:#reply#:#Trả lời
 common#:#repository#:#Kho kiến thức
+common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
+common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Yêu cầu thành phố
 common#:#require_country#:#Yêu cầu quốc gia
 common#:#require_default_role#:#Yêu cầu vai trò
@@ -2469,7 +2576,7 @@ common#:#role_deleted_desktop_items#:#Đã xóa chỉ định.
 common#:#role_desk_add#:#Chỉ định khoản mục trên bàn làm việc
 common#:#role_desk_none_created#:#Chưa có khoản mục nào được chỉ định trên bàn làm việc của vai trò này.
 common#:#role_edit#:#Sửa vai trò
-common#:#role_header_edit_users#:#Thay đổi chỉ định người sử dụng
+common#:#role_header_edit_users#:#Thay đổi chỉ định người sử dụng###23 Dec 2005 content changed
 common#:#role_list_users#:#Danh sách những người sử dụng
 common#:#role_new#:#Vai trò mới
 common#:#role_new_search#:#Tìm kiếm mới
@@ -2515,6 +2622,7 @@ common#:#sahs#:#Học phần SCORM/AICC
 common#:#sahs_added#:#Đã thêm học phần SCORM/AICC
 common#:#sahs_create#:#Tạo học phần SCORM/AICC
 common#:#sahs_delete#:#Xóa học phần SCORM/AICC
+common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#sahs_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#sahs_join#:#Đăng ký vào học phần SCORM/AICC
 common#:#sahs_leave#:#Đăng ký bỏ học phần SCORM/AICC
@@ -2538,10 +2646,12 @@ common#:#search_active#:#Bao gồm những người sử dụng đang hoạt đ�
 common#:#search_for#:#Tìm để có
 common#:#search_in#:#Tìm kiếm trong
 common#:#search_inactive#:#Bao gồm cả những người sử dụng không hoạt động
+common#:#search_minimum_characters#:#The minimum word length is:###23 Dec 2005 new variable
 common#:#search_new#:#Tìm kiếm mới
 common#:#search_note#:#Nếu &quot;tìm kiếm trong&quot; để trống, tất cả người sử dụng sẽ được tìm. Cho phép bạn tìm kiếm cả những người sử dụng hoạt động và không hoạt động.
 common#:#search_recipient#:#Tìm kiếm người nhận
 common#:#search_result#:#Kết quả tìm kiếm
+common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Tìm kiếm người sử dụng
 common#:#seas_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#seas_max_hits#:#Số kết quả tối đa
@@ -2566,6 +2676,9 @@ common#:#select_questionpool_option#:#--- Hãy chọn một thư viện câu h�
 common#:#selected#:#đã chọn
 common#:#selected_items#:#Khoản mục cá nhân
 common#:#send#:#Gửi
+common#:#send_mail_admins#:#Mail to administrators###23 Dec 2005 new variable
+common#:#send_mail_members#:#Mail to members###23 Dec 2005 new variable
+common#:#send_mail_tutors#:#Mail to tutors###23 Dec 2005 new variable
 common#:#sender#:#Người gửi
 common#:#sent#:#Đã gửi
 common#:#sequence#:#Trình tự
@@ -2625,6 +2738,7 @@ common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Quản trị người sử dụng từ bên ngoài (SOAP)
 common#:#soap_user_administration_desc#:#Nếu được cho phép, tất cả tài khoản người sử dụng có thể được quản trị bởi một SOAP-Client bên ngoài.
 common#:#sort_by_this_column#:#Sắp xếp theo cột này
+common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Thư viện câu hỏi khảo sát
 common#:#spl_add#:#Thêm thư viện câu hỏi khảo sát
 common#:#spl_delete#:#Xóa thư viện câu hỏi khảo sát
@@ -2709,6 +2823,7 @@ common#:#test#:#Bài kiểm tra
 common#:#test_intern#:#Bài kiểm tra nội trú
 common#:#test_module#:#Đơn vị bài kiểm tra
 common#:#tests#:#Bài kiểm tra
+common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
 common#:#time#:#Thời gian
 common#:#time_d#:#Ngày
 common#:#time_h#:#Giờ
@@ -2752,6 +2867,7 @@ common#:#tst#:#Bài kiểm tra
 common#:#tst_add#:#Thêm bài kiểm tra
 common#:#tst_anon_eval#:#Kết quả
 common#:#tst_delete#:#Xóa bài kiểm tra
+common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#tst_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#tst_new#:#Bài kiểm tra mới
 common#:#tst_no_content#:#Không có bài kiểm tra nào
@@ -2817,6 +2933,7 @@ common#:#user_imported#:#Hoàn thành nhập người sử dụng.
 common#:#user_imported_with_warnings#:#Hoàn thành nhập người sử dụng (có cảnh báo).
 common#:#user_language#:#Ngôn ngữ người sử dụng
 common#:#user_not_chosen#:#Bạn chưa chọn thành viên nhóm!
+common#:#user_not_known#:#Please insert a valid username.###23 Dec 2005 new variable
 common#:#user_profile_other#:#Thông tin khác
 common#:#user_statistics#:#Dữ liệu thống kê
 common#:#userdata#:#Thông tin cá nhân
@@ -3051,7 +3168,8 @@ content#:#cont_disable_js#:#JavaScript không hoạt động
 content#:#cont_disable_media#:#Phương tiện không hoạt động
 content#:#cont_download_title#:#Tiêu đề bản tải xuống
 content#:#cont_downloads#:#Tải xuống
-content#:#cont_downloads_desc#:#Cho phép tải xuống các file xuất công khai.
+content#:#cont_downloads_desc#:#Cho phép tải xuống các file xuất công khai.###23 Dec 2005 content changed
+content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)###23 Dec 2005 new variable
 content#:#cont_ed_align_center#:#căn lề: giữa
 content#:#cont_ed_align_left#:#căn lề: trái
 content#:#cont_ed_align_left_float#:#căn lề: lơ lửng trái
@@ -3378,8 +3496,8 @@ content#:#start export#:#Bắt đầu xuất ra
 crs#:#activation_times_not_valid#:#Khoảng thời gian hiệu lực không hợp lệ.
 crs#:#assigned#:#Đã chỉ định
 crs#:#contact_email_not_valid#:#địa chỉ email liên hệ không hợp lệ.
-crs#:#crs_accept_subscriber#:#Đăng ký khóa học
-crs#:#crs_accept_subscriber_body#:#Bạn đã được chỉ định vào khóa học này.
+crs#:#crs_accept_subscriber#:#Đăng ký khóa học###23 Dec 2005 content changed
+crs#:#crs_accept_subscriber_body#:#Bạn đã được chỉ định vào khóa học này.###23 Dec 2005 content changed
 crs#:#crs_access_password#:#Mật khẩu
 crs#:#crs_activation#:#Kích hoạt
 crs#:#crs_add_archive_html#:#Tạo file nén HTML
@@ -3390,10 +3508,10 @@ crs#:#crs_add_html_archive#:#Thêm file nén HTML
 crs#:#crs_add_member#:#Thêm (các) thành viên
 crs#:#crs_add_objective#:#Thêm mục tiêu
 crs#:#crs_add_starter#:#Thêm đối tượng khởi động
-crs#:#crs_add_subscribers#:#Thêm người đăng ký
+crs#:#crs_add_subscribers#:#Thêm người đăng ký###23 Dec 2005 content changed
 crs#:#crs_added#:#Đã thêm khóa học mới
-crs#:#crs_added_member#:#Quyền thành viên khóa học của
-crs#:#crs_added_member_body#:#Bạn đã được chấp nhận vào khóa học này.
+crs#:#crs_added_member#:#Quyền thành viên khóa học của###23 Dec 2005 content changed
+crs#:#crs_added_member_body#:#Bạn đã được chấp nhận vào khóa học này.###23 Dec 2005 content changed
 crs#:#crs_added_new_archive#:#Đã thêm file nén mới
 crs#:#crs_added_objective#:#Đã tạo mục tiêu học tập mới.
 crs#:#crs_added_starters#:#(Các) đối tượng khởi động đã chỉ định.
@@ -3404,23 +3522,24 @@ crs#:#crs_admin_notify#:#Quản trị (thông báo)
 crs#:#crs_allow_abo#:#Cho phép đăng ký các mục của khóa học
 crs#:#crs_already_assigned_to_list#:#Bạn đã được chỉ định vào danh sách đợi trước đó.
 crs#:#crs_archive#:#File nén
-crs#:#crs_archive_disabled#:#Khóa
+crs#:#crs_archive_disabled#:#Khóa###23 Dec 2005 content changed
 crs#:#crs_archive_download#:#Tải xuống
+crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.###23 Dec 2005 new variable
 crs#:#crs_archive_lang#:#Ngôn ngữ
 crs#:#crs_archive_read#:#Đọc
-crs#:#crs_archive_select_type#:#Kiểu truy cập file nén
+crs#:#crs_archive_select_type#:#Kiểu truy cập file nén###23 Dec 2005 content changed
 crs#:#crs_archive_type#:#Kiểu file nén
-crs#:#crs_archive_type_disabled#:#Không được truy cập
+crs#:#crs_archive_type_disabled#:#Không được truy cập###23 Dec 2005 content changed
 crs#:#crs_archives_deleted#:#(Các) file nén đã bị xóa
 crs#:#crs_auto_fill#:#Auto fill
 crs#:#crs_availability_limitless_info#:#Chọn phương thức này để làm cho khóa học sử dụng được và có thể truy cập bởi những người sử dụng (phụ thuộc vào thiết lập đăng ký phía dưới).
 crs#:#crs_availability_until_info#:#Chọn phương thức này để làm cho khóa học sử dụng được và có thể truy cập bởi những người sử dụng trong một khoảng thời gian cố định.
 crs#:#crs_availability_unvisible_info#:#Chọn phương thức này để chuẩn bị khóa học. Chỉ các quản trị khóa học và trợ giảng có thể thấy và sửa khóa học.
 crs#:#crs_blocked#:#Từ chối truy cập
-crs#:#crs_blocked_member#:#Quyền thành viên khóa học của
-crs#:#crs_blocked_member_body#:#Quyền thành viên của bạn đã bị hủy.
-crs#:#crs_cancel_subscription#:#Xóa tên trong sổ khóa học
-crs#:#crs_cancel_subscription_body#:#Một người sử dụng đã hủy đăng ký khóa học.
+crs#:#crs_blocked_member#:#Quyền thành viên khóa học của###23 Dec 2005 content changed
+crs#:#crs_blocked_member_body#:#Quyền thành viên của bạn đã bị hủy.###23 Dec 2005 content changed
+crs#:#crs_cancel_subscription#:#Xóa tên trong sổ khóa học###23 Dec 2005 content changed
+crs#:#crs_cancel_subscription_body#:#Một người sử dụng đã hủy đăng ký khóa học.###23 Dec 2005 content changed
 crs#:#crs_change_status#:#Thay đổi trạng thái mục tiêu:
 crs#:#crs_chapter_already_assigned#:#Những chương này đã được chỉ định.
 crs#:#crs_contact#:#Liên hệ
@@ -3445,8 +3564,8 @@ crs#:#crs_delete_objectve_sure#:#Bạn có chắc muốn xóa các mục tiêu �
 crs#:#crs_delete_subscribers#:#Xóa người đăng ký
 crs#:#crs_delete_subscribers_sure#:#Bạn có chắc muốn xóa những người sử dụng sau?
 crs#:#crs_details#:#Chi tiết khóa học
-crs#:#crs_dismiss_member#:#Quyền thành viên khóa học của
-crs#:#crs_dismiss_member_body#:#Quyền thành viên của bạn đã bị hủy
+crs#:#crs_dismiss_member#:#Quyền thành viên khóa học của###23 Dec 2005 content changed
+crs#:#crs_dismiss_member_body#:#Quyền thành viên của bạn đã bị hủy###23 Dec 2005 content changed
 crs#:#crs_edit_archive#:#Sửa file nén
 crs#:#crs_edit_content#:#Sửa mục
 crs#:#crs_end#:#Kết thúc
@@ -3478,6 +3597,7 @@ crs#:#crs_grp_no_courses_assigned#:#Không có khóa học nào được chỉ �
 crs#:#crs_grp_table_assigned_courses#:#Các khóa học đã chỉ định
 crs#:#crs_header_archives#:#Các file nén của khóa học
 crs#:#crs_header_delete_members#:#Xóa thành viên
+crs#:#crs_header_delete_subscribers#:#Delete subscribers###23 Dec 2005 new variable
 crs#:#crs_header_edit_members#:#Sửa thành viên
 crs#:#crs_header_members#:#Thành viên khóa học
 crs#:#crs_header_remove_from_waiting_list#:#Danh sách đợi: hủy chỉ định người sử dụng
@@ -3486,11 +3606,11 @@ crs#:#crs_hide_link_objectives#:#Ẩn mục tiêu
 crs#:#crs_hide_link_or#:#Ẩn các tài nguyên khác
 crs#:#crs_hide_link_tst#:#Ẩn bài kiểm tra
 crs#:#crs_html#:#HTML
-crs#:#crs_info_reg#:#Thông tin đăng ký
-crs#:#crs_info_reg_confirmation#:#Khóa học này cần xác thực của một quản trị khóa học. Bạn sẽ nhận được thư nếu bạn được chỉ định cho khóa học.
-crs#:#crs_info_reg_deactivated#:#Không thể đăng ký
-crs#:#crs_info_reg_direct#:#Cần đăng ký cho khóa học này
-crs#:#crs_info_reg_password#:#Đăng ký cần mật khẩu hợp lệ.
+crs#:#crs_info_reg#:#Thông tin đăng ký###23 Dec 2005 content changed
+crs#:#crs_info_reg_confirmation#:#Khóa học này cần xác thực của một quản trị khóa học. Bạn sẽ nhận được thư nếu bạn được chỉ định cho khóa học.###23 Dec 2005 content changed
+crs#:#crs_info_reg_deactivated#:#Không thể đăng ký###23 Dec 2005 content changed
+crs#:#crs_info_reg_direct#:#Cần đăng ký cho khóa học này###23 Dec 2005 content changed
+crs#:#crs_info_reg_password#:#Đăng ký cần mật khẩu hợp lệ.###23 Dec 2005 content changed
 crs#:#crs_info_start#:#Hãy làm hết tất cả các khoản mục đã công bố dưới đây của khóa học.<br />Sau khi bạn đã thực hiện tất cả đối tượng có dấu đỏ những khoản mục khóa học mới sẽ được kích hoạt.
 crs#:#crs_learning_materials#:#Tài liệu học tập
 crs#:#crs_list_users#:#List những người sử dụng
@@ -3517,8 +3637,10 @@ crs#:#crs_move_up#:#Di chuyển lên
 crs#:#crs_moved_item#:#Mục khóa học đã di chuyển
 crs#:#crs_moved_objective#:#Mục tiêu học tập đã di chuyển.
 crs#:#crs_new_search#:#Tìm kiếm mới
-crs#:#crs_new_subscription#:#Đăng ký mới khóa học
-crs#:#crs_new_subscription_body#:#Một người sử dụng mới đã đăng ký
+crs#:#crs_new_subscription#:#Đăng ký mới khóa học###23 Dec 2005 content changed
+crs#:#crs_new_subscription_body#:#Một người sử dụng mới đã đăng ký###23 Dec 2005 content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable
 crs#:#crs_no_archive_selected#:#Chưa lựa chọn file nén nào
 crs#:#crs_no_archives_available#:#Không có file nén sử dụng được
 crs#:#crs_no_archives_selected#:#Hãy chọn một file nén
@@ -3546,6 +3668,7 @@ crs#:#crs_no_users_added#:#Không thêm thành viên nào
 crs#:#crs_no_users_selected#:#Bạn chưa chọn người sử dụng
 crs#:#crs_no_valid_member_id_given#:#Định danh thành viên không hợp lệ
 crs#:#crs_not_available#:#-không sử dụng được-
+crs#:#crs_notification#:#Notification###23 Dec 2005 new variable
 crs#:#crs_notify#:#Thông báo về đăng ký mới
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Số của những người sử dụng sau đây được chỉ định vào khóa học:
@@ -3607,18 +3730,18 @@ crs#:#crs_reg_subscription_deactivated#:#Đăng ký đã khóa
 crs#:#crs_reg_subscription_end_earlier#:#Thời gian đăng ký đã hết
 crs#:#crs_reg_subscription_max_members_reached#:#Đã quá số tối đa người sử dụng.
 crs#:#crs_reg_subscription_start_later#:#Thời gian đăng ký sẽ bắt đầu sau (chưa đến)
-crs#:#crs_reg_unlim_info#:#Nếu được cho phép, không có giới hạn đăng ký nào. Hãy chọn một kiểu đăng ký phía trên.
-crs#:#crs_reg_until#:#Ngày đăng ký
+crs#:#crs_reg_unlim_info#:#Nếu được cho phép, không có giới hạn đăng ký nào. Hãy chọn một kiểu đăng ký phía trên.###23 Dec 2005 content changed
+crs#:#crs_reg_until#:#Ngày đăng ký###23 Dec 2005 content changed
 crs#:#crs_reg_user_already_assigned#:#Bạn are đã được chỉ định cho khóa học này
-crs#:#crs_reg_user_already_subscribed#:#Bạn đã đăng ký cho khóa học này
+crs#:#crs_reg_user_already_subscribed#:#Bạn đã đăng ký cho khóa học này###23 Dec 2005 content changed
 crs#:#crs_reg_user_blocked#:#Bạn đã bị chặn từ khóa học này
 crs#:#crs_registration#:#Đăng ký khóa học
-crs#:#crs_registration_deactivated#:#Chọn tùy chọn này để khóa đăng ký. Không có người sử dụng nào có thể đăng ký khóa học này.
+crs#:#crs_registration_deactivated#:#Chọn tùy chọn này để khóa đăng ký. Không có người sử dụng nào có thể đăng ký khóa học này.###23 Dec 2005 content changed
 crs#:#crs_registration_limited#:#Tạm thời đăng ký có giới hạn
-crs#:#crs_registration_type#:#Kiểu đăng ký
+crs#:#crs_registration_type#:#Kiểu đăng ký###23 Dec 2005 content changed
 crs#:#crs_registration_unlimited#:#Tạm thời không giới hạn
-crs#:#crs_reject_subscriber#:#Đăng ký khóa học
-crs#:#crs_reject_subscriber_body#:#đăng ký của bạn bị từ chối.
+crs#:#crs_reject_subscriber#:#Đăng ký khóa học###23 Dec 2005 content changed
+crs#:#crs_reject_subscriber_body#:#đăng ký của bạn bị từ chối.###23 Dec 2005 content changed
 crs#:#crs_reset_results#:#Reset các kết quả
 crs#:#crs_role#:#Vai trò
 crs#:#crs_role_status#:#Vai trò / Trạng thái
@@ -3632,9 +3755,9 @@ crs#:#crs_select_exactly_one_tst#:#Hãy chọn chính xác một bài kiểm tra
 crs#:#crs_select_native_lm#:#Chương đơn chỉ có thể được chỉ định cho các học phần ILIAS tự nhiên.
 crs#:#crs_select_one_archive#:#Hãy chọn một file nén
 crs#:#crs_select_one_object#:#Hãy chọn một mục khóa học.
-crs#:#crs_select_registration_type#:#Hãy chọn một kiểu đăng ký.
+crs#:#crs_select_registration_type#:#Hãy chọn một kiểu đăng ký.###23 Dec 2005 content changed
 crs#:#crs_select_starter#:#Chọn đối tượng khởi động
-crs#:#crs_set_on_waiting_list#:#Hãy đăng ký vào khóa học để được chỉ định vào danh sách đợi.
+crs#:#crs_set_on_waiting_list#:#Hãy đăng ký vào khóa học để được chỉ định vào danh sách đợi.###23 Dec 2005 content changed
 crs#:#crs_settings#:#Thiết lập khóa học
 crs#:#crs_settings_saved#:#Đã ghi các thiết lập
 crs#:#crs_show_link_lms#:#Hiện tài liệu học tập
@@ -3653,19 +3776,20 @@ crs#:#crs_start_objects#:#Đối tượng khởi động
 crs#:#crs_starter_deleted#:#Đã xóa chỉ định.
 crs#:#crs_starters_already_assigned#:#Đối tượng này đã được chỉ định.
 crs#:#crs_status#:#Trạng thái
-crs#:#crs_status_changed#:#Thay đổi trạng thái khóa học
-crs#:#crs_status_changed_body#:#Trạng thái khóa học của bạn đã thay đổi.
+crs#:#crs_status_changed#:#Thay đổi trạng thái khóa học###23 Dec 2005 content changed
+crs#:#crs_status_changed_body#:#Trạng thái khóa học của bạn đã thay đổi.###23 Dec 2005 content changed
 crs#:#crs_structure#:#Cấu trúc khóa học
-crs#:#crs_subscribers#:#Người đăng ký
+crs#:#crs_subscribers#:#Người đăng ký###23 Dec 2005 content changed
 crs#:#crs_subscribers_deleted#:#Đã xóa người đăng ký
 crs#:#crs_subscription#:#Đăng ký
 crs#:#crs_subscription_max_members#:#Số lớn nhất người sử dụng
 crs#:#crs_subscription_notify#:#Thông báo đăng ký
-crs#:#crs_subscription_options_confirmation#:#Đăng ký có xác nhận
+crs#:#crs_subscription_options_confirmation#:#Đăng ký có xác nhận###23 Dec 2005 content changed
 crs#:#crs_subscription_options_deactivated#:#Khử kích hoạt
-crs#:#crs_subscription_options_direct#:#Đăng ký trực tiếp
-crs#:#crs_subscription_options_password#:#Đăng ký có mật khẩu
-crs#:#crs_subscription_successful#:#Bạn đã đăng ký cho khóa học này
+crs#:#crs_subscription_options_direct#:#Đăng ký trực tiếp###23 Dec 2005 content changed
+crs#:#crs_subscription_options_password#:#Đăng ký có mật khẩu###23 Dec 2005 content changed
+crs#:#crs_subscription_requested#:#You have requested membership for the course.###23 Dec 2005 new variable
+crs#:#crs_subscription_successful#:#Bạn đã đăng ký cho khóa học này###23 Dec 2005 content changed
 crs#:#crs_subscription_type#:#Kiểu đăng ký
 crs#:#crs_suggest_lm#:#Đề nghị, gợi ý tài liệu học tập nếu:
 crs#:#crs_sure_delete_selected_archives#:#Bạn có chắc xóa các file nén đã chọn
@@ -3680,8 +3804,8 @@ crs#:#crs_tutor#:#Trợ giảng
 crs#:#crs_tutor_no_notify#:#Trợ giảng (không thông báo)
 crs#:#crs_tutor_notify#:#Trợ giảng (thông báo)
 crs#:#crs_unblocked#:#Gia nhập tự do
-crs#:#crs_unblocked_member#:#Quyền thành viên khóa học của
-crs#:#crs_unblocked_member_body#:#Quyền thành viên của bạn đã được phục hồi
+crs#:#crs_unblocked_member#:#Quyền thành viên khóa học của###23 Dec 2005 content changed
+crs#:#crs_unblocked_member_body#:#Quyền thành viên của bạn đã được phục hồi###23 Dec 2005 content changed
 crs#:#crs_unlimited#:#Không giới hạn
 crs#:#crs_unsubscribe#:#Hủy đăng ký
 crs#:#crs_unsubscribe_sure#:#Bạn có chắc muốn hủy đăng ký khóa học này
@@ -3694,6 +3818,7 @@ crs#:#crs_visibility#:#Sử dụng được
 crs#:#crs_visibility_limitless#:#Không giới hạn
 crs#:#crs_visibility_until#:#Tạm thời sử dụng được
 crs#:#crs_visibility_unvisible#:#Không sử dụng được
+crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
 crs#:#crs_waiting_list#:#Danh sách đợi
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Vị trí của bạn trong danh sách đợi
@@ -3922,6 +4047,8 @@ dateplaner#:#viewlist#:#Xem
 dateplaner#:#week#:#tuần
 dateplaner#:#wk_short#:#Tuần
 dateplaner#:#year#:#năm
+forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable
 forum#:#forums#:#Diễn đàn
 forum#:#forums_all_threads_marked_read#:#Tất cả chủ đề đã được đánh dấu đã đọc
 forum#:#forums_attachments#:#Đính kèm
@@ -3973,6 +4100,8 @@ forum#:#forums_thread_new_entry#:#Đã tạo đề tài mới
 forum#:#forums_threads_not_available#:#Đề tài không sử dụng được
 forum#:#forums_topics_overview#:#Tổng quan các đề tài
 forum#:#forums_your_reply#:#Trả lời của bạn
+forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
+forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Xem mặc định
 forum#:#frm_title_required#:#Hãy nhập tiêu đề.
 forum#:#is_read#:#đánh dấu đã đọc
@@ -4058,8 +4187,12 @@ mail#:#mail_compose#:#Soạn thư
 mail#:#mail_deleted#:#Thư đã xóa
 mail#:#mail_deleted_entry#:#Mục nhập đã xóa
 mail#:#mail_email_forbidden#:#Bạn không được phép gửi thư
+mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_login#:#Please enter a valid login name.###23 Dec 2005 new variable
 mail#:#mail_entry_added#:#Đã thêm mục nhập mới
 mail#:#mail_entry_changed#:#Mục nhập đã thay đổi
+mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.###23 Dec 2005 new variable
 mail#:#mail_file_name#:#Tên file
 mail#:#mail_file_size#:#Kích thước file
 mail#:#mail_files_deleted#:#Đã xóa (các) file
@@ -4368,6 +4501,7 @@ meta#:#meta_copyright_and_other_restrictions#:#Bản quyền và các hạn ch�
 meta#:#meta_cost#:#Giá cả
 meta#:#meta_coverage#:#Mức bao phủ
 meta#:#meta_creator#:#Người tạo
+meta#:#meta_current_value#:#Current value###23 Dec 2005 new variable
 meta#:#meta_date#:#Ngày
 meta#:#meta_delete#:#Xóa
 meta#:#meta_description#:#Mô tả
@@ -4404,6 +4538,7 @@ meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Ý tưởng
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_index#:#Index
+meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.###23 Dec 2005 new variable
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installation Remarks
 meta#:#meta_instructional_designer#:#instructional designer
@@ -4865,6 +5000,26 @@ pwassist#:#pwassist_password_assigned#:#Mật khẩu đã được chỉ định
 pwassist#:#pwassist_session_expired#:#Hãy điền lại mẫu sau.\nPhiên làm việc trợ giúp mật khẩu của bạn đã hết hạn. Điều này có thể xảy ra, vì bạn đã cố sử dụng hai lần liên kết được gửi cho bạn qua email, hoặc đã quá hạn thời gian kể từ khi liên kết được gửi cho bạn.
 pwassist#:#pwassist_update_error#:#Hãy liên hệ quản trị hệ thống.\nMật khẩu không thể chỉ định được cho tài khoản người sử dụng vì không thể cập nhật cơ sở dữ liệu.
 pwassist#:#pwassist_username_mail_body#:#Có những người sử dụng hoạt động sau được tìm thấy tương ứng với địa chỉ email đã cho:\n%s\n\nThông điệp này được tạo tự động bở máy chủ ILIAS:\n\t%s\n\nBạn (hoặc ai đó với địa chỉ IP  %s) đã yêu cầu hỗ trợ phục hồi tên đăng nhập cho địa chỉ email '%s'.\n\nHãy xem dưới đây và hành động theo hướng dẫn::\n\n- Nếu bạn lỡ tay yêu cầu trợ giúp tên đăng nhập từ máy chủ:\nXóa thư này.\n\n- Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp tên đăng nhập tại máy chủ:\nHãy liên hệ %5$s.\n\n- Nếu bạn yêu cầu trợ giúp tên đăng nhập, hãy tiếp tục như sau:\n\n1. Mở trình duyệt web.\n\n2. nhập địa chỉ web dưới đây vào trình duyệt:\n\t%1$s\n\nQuan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.\n\n3. Trên trang web hiển thị tại trình duyệt, nhập tên đăng nhập và mật khẩu mới cho tài khoản người sử dụng.\n\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ phải sử dụng trang trợ giúp tên đăng nhập trên máy chủ.
+rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
+rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
+rbac#:#filter_local_roles#:#Show only local roles of current context###23 Dec 2005 new variable
+rbac#:#filter_local_roles_object#:#Show only local roles defined at this position###23 Dec 2005 new variable
+rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position###23 Dec 2005 new variable
+rbac#:#leave#:#Leave###23 Dec 2005 new variable
+rbac#:#perm_administrate#:#Administrate###23 Dec 2005 new variable
+rbac#:#perm_class_create#:#Create new objects###23 Dec 2005 new variable
+rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.###23 Dec 2005 new variable
+rbac#:#perm_class_general#:#General operations###23 Dec 2005 new variable
+rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.###23 Dec 2005 new variable
+rbac#:#perm_class_object#:#Special operations###23 Dec 2005 new variable
+rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.###23 Dec 2005 new variable
+rbac#:#perm_class_rbac#:#Permission settings###23 Dec 2005 new variable
+rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.###23 Dec 2005 new variable
+rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
+rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
 search#:#search_active#:#Bao gồm cả những người sử dụng không hoạt động
 search#:#search_added_new_folder#:#Đã thêm thư mục mới.
 search#:#search_advanced#:#Tìm kiếm nâng cao
@@ -4982,6 +5137,9 @@ survey#:#confirm_delete_all_user_data#:#Bạn có chắc bạn muốn xóa tất
 survey#:#confirm_remove_heading#:#Bạn có chắc bạn muốn xóa tiêu đề?
 survey#:#confirm_sync_questions#:#Câu hỏi bạn đã thay đổi là một bản sao được tạo để sử dụng với khảo sát đang hoạt động. Bạn có muốn thay đổi bản gốc của câu hỏi không?
 survey#:#constraints#:#Phụ thuộc
+survey#:#constraints_list_of_entities#:#Available survey entities for preconditions###23 Dec 2005 new variable
+survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)###23 Dec 2005 new variable
+survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or questionblock!###23 Dec 2005 new variable
 survey#:#contains#:#Chứa
 survey#:#continue#:#Tiếp tục >>
 survey#:#create_date#:#Đã tạo
@@ -5066,6 +5224,9 @@ survey#:#error_retrieving_anonymous_survey#:#Hệ thống không tìm thấy d�
 survey#:#eval_legend_link#:#Hãy xem bảng chú giải ngữ nghĩa của các chữ cái tiêu đề cột.
 survey#:#evaluation#:#Đánh giá
 survey#:#evaluation_access#:#Truy cập đánh giá
+survey#:#evaluation_access_all#:#Evaluation access for all users###23 Dec 2005 new variable
+survey#:#evaluation_access_participants#:#Evaluation access for survey participants###23 Dec 2005 new variable
+survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Thoát
 survey#:#exp_type_csv#:#Giá trị phân biệt bằng dấu phẩy (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
@@ -5206,12 +5367,13 @@ survey#:#save_phrase_categories_not_checked#:#Hãy đánh dấu ít nhất hai m
 survey#:#save_phrase_introduction#:#Nếu bạn muốn ghi các mục dưới đây như là cụm từ mặc định, hãy nhập một tiêu đề cụm từ. Bạn có thể truy cập một cụm từ mặc định bất cứ khi nào bạn muốn thêm một cụm từ vào một câu hỏi sắp thứ tự.
 survey#:#search_field_all#:#Tìm kiếm trong tất cả
 survey#:#search_for#:#Tìm kiếm trong
-survey#:#search_groups#:#Nhóm
+survey#:#search_groups#:#Nhóm###23 Dec 2005 content changed
 survey#:#search_invitation#:#Tìm kiếm người sử dụng hoặc nhóm để mời
 survey#:#search_questions#:#Tìm kiếm câu hỏi
+survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Từ khóa tìm kiếm
 survey#:#search_type_all#:#Tìm kiếm trong tất cả kiểu câu hỏi
-survey#:#search_users#:#Người sử dụng
+survey#:#search_users#:#Người sử dụng###23 Dec 2005 content changed
 survey#:#select_option#:#--- Hãy lựa chọn một ---
 survey#:#select_phrase_to_add#:#Hãy chọn một cụm từ để thêm vào câu hỏi!
 survey#:#select_prior_question#:#Chọn một câu hỏi ưu tiên
@@ -5252,6 +5414,9 @@ survey#:#survey_skip_previous#:#<<< Bỏ qua
 survey#:#survey_skip_start#:#Bỏ qua và đi đến trang đầu
 survey#:#survey_start#:#Đi tới trang đầu
 survey#:#svy_all_user_data_deleted#:#Tất cả thông tin người sử dụng của khảo sát này đã được xóa!
+survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.###23 Dec 2005 new variable
 survey#:#svy_create_export_file#:#Tạo file xuất ra
 survey#:#svy_delete_all_user_data#:#Xóa tất cả dữ liệu người sử dụng
 survey#:#svy_eval_cumulated#:#Kết quả tích lũy
@@ -5292,3 +5457,73 @@ survey#:#view_constraints_introduction#:#Bạn đang xem phụ thuộc của câ
 survey#:#view_phrase#:#Xem cụm từ
 survey#:#warning_question_in_use#:#CẢNH BÁO! Câu hỏi bạn muốn sửa đang được sử dụng trong các khảo sát dưới đây. Nếu bạn quyết định tiếp tục và ghi / áp dụng câu hỏi, tất cả câu trả lời của các khảo sát dưới đây sẽ bị xóa. Nếu bạn muốn thay đổi câu hỏi và sử dụng nó trong một khảo sát khác, hãy nhân đôi câu hỏi này.
 survey#:#warning_question_not_complete#:#Chưa hoàn thành câu hỏi!
+trac#:#info_valid_request#:#The maximum valid time between two requests of an user.###23 Dec 2005 new variable
+trac#:#last_login#:#Last login###23 Dec 2005 new variable
+trac#:#meta_typical_learning_time#:#Typical learning time###23 Dec 2005 new variable
+trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
+trac#:#search_area_info#:#Please choose one object.###23 Dec 2005 new variable
+trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
+trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
+trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
+trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
+trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
+trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
+trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
+trac#:#trac_comment#:#Comment###23 Dec 2005 new variable
+trac#:#trac_comments#:#Comments###23 Dec 2005 new variable
+trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
+trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
+trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
+trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
+trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
+trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
+trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
+trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
+trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
+trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
+trac#:#trac_mark#:#Mark###23 Dec 2005 new variable
+trac#:#trac_marks#:#Marks###23 Dec 2005 new variable
+trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
+trac#:#trac_mode_collection#:#Collection of objects###23 Dec 2005 new variable
+trac#:#trac_mode_deactivated#:#Deactivated###23 Dec 2005 new variable
+trac#:#trac_mode_manual#:#Manual###23 Dec 2005 new variable
+trac#:#trac_mode_objectives#:#Learning objectives###23 Dec 2005 new variable
+trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_test_finished#:#Test finished###23 Dec 2005 new variable
+trac#:#trac_mode_test_passed#:#Test passed###23 Dec 2005 new variable
+trac#:#trac_mode_tlt#:#Typical learning time###23 Dec 2005 new variable
+trac#:#trac_mode_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_modifications_saved#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_modus#:#Mode###23 Dec 2005 new variable
+trac#:#trac_no_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_no_sahs_items_found#:#No objects found.###23 Dec 2005 new variable
+trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
+trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
+trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
+trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
+trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
+trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
+trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable
+trac#:#trac_show_hidden#:#Show###23 Dec 2005 new variable
+trac#:#trac_spent_time#:#Spent time###23 Dec 2005 new variable
+trac#:#trac_status#:#Status###23 Dec 2005 new variable
+trac#:#trac_total_online#:#Total time online###23 Dec 2005 new variable
+trac#:#trac_update_edit_user#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_user_data#:#User data###23 Dec 2005 new variable
+trac#:#trac_usr_list#:#Users###23 Dec 2005 new variable
+trac#:#trac_valid_request#:#Max. time between requests###23 Dec 2005 new variable
+trac#:#trac_view_crs#:#Back to course###23 Dec 2005 new variable
+trac#:#trac_view_list#:#Back to list###23 Dec 2005 new variable
+trac#:#trac_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_visits_info#:#Every page visit counts as one visit.###23 Dec 2005 new variable
+trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.###23 Dec 2005 new variable

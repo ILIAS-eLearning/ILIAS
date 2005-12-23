@@ -34,8 +34,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+administration#:#analysis_options#:#Analysis options###23 Dec 2005 new variable
 administration#:#analyze_data#:#Analyseer Data-integriteit###07 Apr 2005 content changed
-administration#:#analyze_desc#:#Doorzoek systeem op corrupte/ongeldige/missende/ongebonden objecten.###07 Apr 2005 content changed
 administration#:#analyzing#:#Analyseert...###07 Apr 2005 content changed
 administration#:#analyzing_tree_structure#:#Analyzing tree structure...###17 Nov 2004 new variable
 administration#:#check_tree#:#Check tree structure###17 Nov 2004 new variable
@@ -44,17 +44,21 @@ administration#:#clean#:#Opruimen###07 Apr 2005 content changed
 administration#:#clean_desc#:#Verwijder ongeldige referenties & ingangen. Sluit gaten in de boom-structuur.###07 Apr 2005 content changed
 administration#:#cleaning#:#Opruimend..###07 Apr 2005 content changed
 administration#:#cleaning_final#:#Finale opruiming...###07 Apr 2005 content changed
-administration#:#closing_gaps#:#Sluiten van gaten in boomstruktuur...###07 Apr 2005 content changed
 administration#:#disabled#:#uitgeschakeld###07 Apr 2005 content changed
 administration#:#done#:#Klaar###07 Apr 2005 content changed
+administration#:#dump_tree#:#Dump tree###23 Dec 2005 new variable
+administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.###23 Dec 2005 new variable
+administration#:#dumping_tree#:#Dumping tree...###23 Dec 2005 new variable
 administration#:#found#:#gevonden###07 Apr 2005 content changed
 administration#:#found_none#:#geen enkele gevonden.###07 Apr 2005 content changed
+administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Vastleggen resultaten scan###07 Apr 2005 content changed
 administration#:#log_scan_desc#:#Schrijven resulaten scan naar ' scanlog.log" in gegevensmap cliënt.###07 Apr 2005 content changed
 administration#:#nothing_to_purge#:#Niets te elimineren...###07 Apr 2005 content changed
 administration#:#nothing_to_remove#:#Niets te verwijderen...###07 Apr 2005 content changed
 administration#:#nothing_to_restore#:#Niets te herstellen...###07 Apr 2005 content changed
 administration#:#options#:#Opties###07 Apr 2005 content changed
+administration#:#output_options#:#Output options###23 Dec 2005 new variable
 administration#:#passwd_auto_generate#:#Password Forwarding/Generation###29 Nov 2004 new variable
 administration#:#purge_missing#:#Verwijder missende objecten###07 Apr 2005 content changed
 administration#:#purge_missing_desc#:#Verwijder alle missende en ongebonden objecten van het systeem.###07 Apr 2005 content changed
@@ -67,6 +71,7 @@ administration#:#purging_unbound_objs#:#Elimineert ongebonden objecten...###07 A
 administration#:#removing_invalid_childs#:#Verwijdert ongeldige boom-ingangen...###07 Apr 2005 content changed
 administration#:#removing_invalid_refs#:#Verwijdert ongeldige referenties...###07 Apr 2005 content changed
 administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...###17 Nov 2004 new variable
+administration#:#repair_options#:#Repair options###23 Dec 2005 new variable
 administration#:#restore_missing#:#Herstel vermiste objecten###07 Apr 2005 content changed
 administration#:#restore_missing_desc#:#Herstel vermiste en ongebonden objecten en leg ze aan in de herstelmap.###07 Apr 2005 content changed
 administration#:#restore_trash#:#Herstel verwijderde objecten###07 Apr 2005 content changed
@@ -75,10 +80,11 @@ administration#:#restoring#:#Herstelt...###07 Apr 2005 content changed
 administration#:#restoring_missing_objs#:#Herstelt vermiste objecten...###07 Apr 2005 content changed
 administration#:#restoring_trash#:#Herstelt inhoud prullenbak...###07 Apr 2005 content changed
 administration#:#restoring_unbound_objs#:#Herstelt ongebonden objecten & subobjecten...###07 Apr 2005 content changed
+administration#:#scan#:#Scan###23 Dec 2005 new variable
 administration#:#scan_completed#:#Scan gereed###07 Apr 2005 content changed
+administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###23 Dec 2005 new variable
 administration#:#scan_details#:#Doorzoek details###07 Apr 2005 content changed
 administration#:#scan_modes#:#Scan-modus gebruikt###07 Apr 2005 content changed
-administration#:#scan_only#:#Scan alleen###07 Apr 2005 content changed
 administration#:#scanning_system#:#Doorzoek systeem...###07 Apr 2005 content changed
 administration#:#searching_deleted_objs#:#Zoekt naar verwijderde objecten...###07 Apr 2005 content changed
 administration#:#searching_invalid_childs#:#Zoekt naar ongeldige boom-ingangen...###07 Apr 2005 content changed
@@ -128,6 +134,7 @@ assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new v
 assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#door###07 Apr 2005 content changed
 assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
+assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
@@ -220,6 +227,7 @@ assessment#:#eval_legend_link#:#Raadpleeg de legende voor de betekenis van de sy
 assessment#:#eval_matching_result#:#Het overeenkomend paar %s - %s is %s. U kreeg %s punten.###07 Apr 2005 content changed
 assessment#:#eval_order_result#:#De volgorder voor de waarde %s is %s. U kreeg %s punten.###07 Apr 2005 content changed
 assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
+assessment#:#eval_search_roles#:#Roles###23 Dec 2005 new variable
 assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
 assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
@@ -297,6 +305,8 @@ assessment#:#no_question_selected_for_move#:#Selecteer tenminste één vraag om 
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar###07 Apr 2005 content changed
 assessment#:#no_target_selected_for_move#:#U moet een doel-positie selecteren!###07 Apr 2005 content changed
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
+assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
+assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
 assessment#:#or#:#of###07 Apr 2005 content changed
 assessment#:#order_pictures#:#Volgorder plaatjes###07 Apr 2005 content changed
 assessment#:#order_terms#:#Sorteer begrippen###07 Apr 2005 content changed
@@ -319,7 +329,6 @@ assessment#:#postponed#:#Uitgesteld###07 Apr 2005 content changed
 assessment#:#preview#:#Laten zien###07 Apr 2005 content changed
 assessment#:#previous_question_rows#:#<< Vragen %d - %d van %d###07 Apr 2005 content changed
 assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
-assessment#:#print_results#:#Print Results###20 Jun 2005 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Er is geen schatting beschikbaar voor de geselecteerde vraag. De vraag is nog nooit in een test gebruikt###07 Apr 2005 content changed
 assessment#:#qpl_assessment_of_questions#:#Schatting van vragen###07 Apr 2005 content changed
 assessment#:#qpl_assessment_total_of_answers#:#Totaal aantal antwoorden###07 Apr 2005 content changed
@@ -397,6 +406,8 @@ assessment#:#see_details_for_further_information#:#See details for suggested sol
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Selecteren gat###07 Apr 2005 content changed
 assessment#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test###23 Dec 2005 new variable
+assessment#:#select_one_user#:#Please select at least one user###23 Dec 2005 new variable
 assessment#:#select_target_position_for_move_question#:#Selecteer a.u.b. doel-positie om de vraag/vragen te verplaatsen en druk op één van de invoeg-buttons!###07 Apr 2005 content changed
 assessment#:#select_tst_option#:#--- Please select a test ---###05 Nov 2004 new variable
 assessment#:#selected_image#:#Plaatje geselecteerd###07 Apr 2005 content changed
@@ -453,7 +464,10 @@ assessment#:#tst_generate_xls#:#Genereer Excel###07 Apr 2005 content changed
 assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
+assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
 assessment#:#tst_hide_previous_results_introduction#:#If you process more than one pass of this test, your previous entered results will not be used as default values###03 Nov 2005 new variable
+assessment#:#tst_hide_title_points#:#Question title points###23 Dec 2005 new variable
+assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title###23 Dec 2005 new variable
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
@@ -495,6 +509,7 @@ assessment#:#tst_percent_solved#:#Percentage opgelost###07 Apr 2005 content chan
 assessment#:#tst_print#:#Test & Assessment Print View###08 Apr 2005 new variable
 assessment#:#tst_print_date#:#Date of Print###08 Apr 2005 new variable
 assessment#:#tst_processing_time#:#Max. processing-tijd###07 Apr 2005 content changed
+assessment#:#tst_properties#:#Test properties###23 Dec 2005 new variable
 assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
 assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
 assessment#:#tst_qst_result_sheet#:#Show result sheet###08 Apr 2005 new variable
@@ -502,6 +517,9 @@ assessment#:#tst_qst_setsolved#:#Set Solved###08 Apr 2005 new variable
 assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###08 Apr 2005 new variable
 assessment#:#tst_question_no#:#Sorteervolgorde###07 Apr 2005 content changed
 assessment#:#tst_question_offer#:#Accepteert u dit monster of wilt u een andere?###07 Apr 2005 content changed
+assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
+assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.###23 Dec 2005 new variable
+assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
 assessment#:#tst_question_solved_state#:#Solved###08 Apr 2005 new variable
 assessment#:#tst_question_title#:#Titel###07 Apr 2005 content changed
 assessment#:#tst_question_type#:#Vraag-type###07 Apr 2005 content changed
@@ -582,6 +600,7 @@ assessment#:#tst_status_progress#:#In voortgang###07 Apr 2005 content changed
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
+assessment#:#tst_test_output#:#Test output###23 Dec 2005 new variable
 assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Reeds benodige werktijd###07 Apr 2005 content changed
 assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
@@ -614,6 +633,55 @@ assessment#:#width#:#Breedte###07 Apr 2005 content changed
 assessment#:#with_order#:#met sorteervolgorde###07 Apr 2005 content changed
 assessment#:#working_time#:#Werktijd###07 Apr 2005 content changed
 assessment#:#you_received_a_of_b_points#:#U ontving  %d van %d mogelijke aantal punten###07 Apr 2005 content changed
+barometer#:#add#:#Add new Feedback###23 Dec 2005 new variable
+barometer#:#anonymous#:#Anonymous###23 Dec 2005 new variable
+barometer#:#barometer_title#:#Feedback###23 Dec 2005 new variable
+barometer#:#best#:#Best###23 Dec 2005 new variable
+barometer#:#change_course#:#Change Course###23 Dec 2005 new variable
+barometer#:#chart_type#:#Chart type###23 Dec 2005 new variable
+barometer#:#chart_users#:#Chart user###23 Dec 2005 new variable
+barometer#:#chart_votes#:#Chart votes###23 Dec 2005 new variable
+barometer#:#create#:#Create new feedback###23 Dec 2005 new variable
+barometer#:#day#:#Day###23 Dec 2005 new variable
+barometer#:#days#:#Days###23 Dec 2005 new variable
+barometer#:#delete#:#Delete###23 Dec 2005 new variable
+barometer#:#duration#:#Duration###23 Dec 2005 new variable
+barometer#:#edit#:#Edit###23 Dec 2005 new variable
+barometer#:#edit_barometer#:#Edit feedback###23 Dec 2005 new variable
+barometer#:#every#:#every###23 Dec 2005 new variable
+barometer#:#first_vote#:#1. Vote is the###23 Dec 2005 new variable
+barometer#:#from#:#from###23 Dec 2005 new variable
+barometer#:#hours#:#Hours###23 Dec 2005 new variable
+barometer#:#lines#:#Lines###23 Dec 2005 new variable
+barometer#:#login#:#Login###23 Dec 2005 new variable
+barometer#:#missing_fields#:#Please fill in all required information###23 Dec 2005 new variable
+barometer#:#month#:#Month###23 Dec 2005 new variable
+barometer#:#months#:#Months###23 Dec 2005 new variable
+barometer#:#new_vote#:#New vote###23 Dec 2005 new variable
+barometer#:#note#:#Comment###23 Dec 2005 new variable
+barometer#:#optional#:#Optional###23 Dec 2005 new variable
+barometer#:#options#:#Options###23 Dec 2005 new variable
+barometer#:#pie#:#Pie###23 Dec 2005 new variable
+barometer#:#repeat#:#Repeat###23 Dec 2005 new variable
+barometer#:#required#:#Required###23 Dec 2005 new variable
+barometer#:#save#:#Save###23 Dec 2005 new variable
+barometer#:#save_vote#:#Submit vote###23 Dec 2005 new variable
+barometer#:#skip#:#Skip###23 Dec 2005 new variable
+barometer#:#statistics#:#Statistics###23 Dec 2005 new variable
+barometer#:#status#:#Status###23 Dec 2005 new variable
+barometer#:#table#:#Table###23 Dec 2005 new variable
+barometer#:#text#:#Text###23 Dec 2005 new variable
+barometer#:#text_answer#:#Text answer###23 Dec 2005 new variable
+barometer#:#time#:#Running###23 Dec 2005 new variable
+barometer#:#title#:#Title###23 Dec 2005 new variable
+barometer#:#type#:#Type###23 Dec 2005 new variable
+barometer#:#until#:#until###23 Dec 2005 new variable
+barometer#:#user#:#User###23 Dec 2005 new variable
+barometer#:#vote#:#Vote###23 Dec 2005 new variable
+barometer#:#votes#:#Votes###23 Dec 2005 new variable
+barometer#:#weeks#:#Weeks###23 Dec 2005 new variable
+barometer#:#worst#:#Worst###23 Dec 2005 new variable
+barometer#:#year#:#Year###23 Dec 2005 new variable
 bibitem#:#bibitem_add#:#Toevoegen###07 Apr 2005 content changed
 bibitem#:#bibitem_author#:#Auteur###07 Apr 2005 content changed
 bibitem#:#bibitem_av#:#AV###05 Nov 2004 new variable
@@ -869,6 +937,7 @@ common#:#announce#:#Aankondigen###07 Apr 2005 content changed
 common#:#announce_changes#:#Wijzigingen aankondigen###07 Apr 2005 content changed
 common#:#answers#:#Antwoorden###07 Apr 2005 content changed
 common#:#any_language#:#Elke taal###07 Apr 2005 content changed
+common#:#append_search#:#Append search results###23 Dec 2005 new variable
 common#:#application_completed#:#De toepassing is compleet###07 Apr 2005 content changed
 common#:#application_date#:#Applicatie-datum###07 Apr 2005 content changed
 common#:#applied_users#:#Toegevoegde gebruikers###07 Apr 2005 content changed
@@ -880,8 +949,10 @@ common#:#approve_date#:#Goedgekeurd op###07 Apr 2005 content changed
 common#:#approve_recipient#:#login-ID van keurder###07 Apr 2005 content changed
 common#:#archive#:#Archief###07 Apr 2005 content changed
 common#:#are_you_sure#:#Weet u het zeker?###07 Apr 2005 content changed
+common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
 common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
+common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
 common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
 common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
@@ -1049,6 +1120,7 @@ common#:#change_existing_objects#:#Bestaande objecten wijzigen###07 Apr 2005 con
 common#:#change_header_title#:#Wijzig hoofd-titel###07 Apr 2005 content changed
 common#:#change_lo_info#:#Leerobject-informatie wijzigen###07 Apr 2005 content changed
 common#:#change_metadata#:#Metadata wijzigen###07 Apr 2005 content changed
+common#:#change_owner#:#Change owner###23 Dec 2005 new variable
 common#:#change_sort_direction#:#Sorteervolgorde wijzigen###07 Apr 2005 content changed
 common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#gewijzigd in###07 Apr 2005 content changed
@@ -1084,6 +1156,7 @@ common#:#chg_password#:#Wijzig wachtwoord###07 Apr 2005 content changed
 common#:#choose_language#:#A.u.b. kies uw taal###07 Apr 2005 content changed
 common#:#choose_location#:#Kies locatie###07 Apr 2005 content changed
 common#:#choose_only_one_language#:#A.u.b. slechts één taal kiezen###07 Apr 2005 content changed
+common#:#chown_warning#:#Attention, you may loose access permissions on this object after changing the owner.###23 Dec 2005 new variable
 common#:#city#:#Stad###07 Apr 2005 content changed
 common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
 common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
@@ -1121,6 +1194,7 @@ common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Context###05 Nov 2004 new variable
 common#:#continue_work#:#Doorlopend###07 Apr 2005 content changed
+common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Gecopiëerd object###07 Apr 2005 content changed
 common#:#copy#:#Copie###07 Apr 2005 content changed
@@ -1140,7 +1214,10 @@ common#:#create_in#:#Creëren in###07 Apr 2005 content changed
 common#:#create_stylesheet#:#Creëer stijl###07 Apr 2005 content changed
 common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
+common#:#cron_forum_notification_cron#:#regularly per cron job###23 Dec 2005 new variable
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
+common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
+common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
@@ -1177,6 +1254,7 @@ common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Verwijderen cursus###07 Apr 2005 content changed
 common#:#crs_edit#:#Cursus wijzigen###07 Apr 2005 content changed
+common#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#crs_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
 common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Abonneren op cursus###07 Apr 2005 content changed
@@ -1223,6 +1301,7 @@ common#:#dbk_add#:#Digilib-boek toevoegen###07 Apr 2005 content changed
 common#:#dbk_added#:#Digilib-boek toegevoegd###07 Apr 2005 content changed
 common#:#dbk_create#:#Creëer digibook###07 Apr 2005 content changed
 common#:#dbk_delete#:#Verwijd Digiboek###07 Apr 2005 content changed
+common#:#dbk_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#dbk_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
 common#:#dbk_new#:#Nieuw Digilib-boek###07 Apr 2005 content changed
 common#:#dbk_read#:#Lees-toegang op Digiboek###07 Apr 2005 content changed
@@ -1250,6 +1329,7 @@ common#:#deleted_user#:#De gebruiker is verwijderd###07 Apr 2005 content changed
 common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
 common#:#department#:#Afdeling###07 Apr 2005 content changed
 common#:#desc#:#Beschrijving###07 Apr 2005 content changed
+common#:#descending_order#:#Descending order###23 Dec 2005 new variable
 common#:#description#:#Beschrijving###07 Apr 2005 content changed
 common#:#desired_password#:#Gewenste wachtwoord###07 Apr 2005 content changed
 common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
@@ -1354,6 +1434,7 @@ common#:#exc_write#:#Wijzigen oefening###07 Apr 2005 content changed
 common#:#excs#:#Oefeningen###07 Apr 2005 content changed
 common#:#execute#:#Uitvoeren###07 Apr 2005 content changed
 common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
+common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#export#:#Exporteer###07 Apr 2005 content changed
 common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
 common#:#export_html#:#exporteren als html-bestand###07 Apr 2005 content changed
@@ -1387,6 +1468,7 @@ common#:#file_added#:#Bestand uploaded###07 Apr 2005 content changed
 common#:#file_delete#:#Verwijder bestand###07 Apr 2005 content changed
 common#:#file_edit#:#Wijzig bestand###07 Apr 2005 content changed
 common#:#file_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
+common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
 common#:#file_new#:#Nieuw bestand###07 Apr 2005 content changed
 common#:#file_not_found#:#Bestand niet gevonden###07 Apr 2005 content changed
@@ -1516,6 +1598,7 @@ common#:#group_details#:#Groep File Sharing###07 Apr 2005 content changed
 common#:#group_filesharing#:#Groeps-file-sharing###07 Apr 2005 content changed
 common#:#group_import#:#Groep importeren###07 Apr 2005 content changed
 common#:#group_import_file#:#Importeren bestand###07 Apr 2005 content changed
+common#:#group_info_reg#:#Admission procedure###23 Dec 2005 new variable
 common#:#group_members#:#Groepsleden###07 Apr 2005 content changed
 common#:#group_memstat#:#Status lid###07 Apr 2005 content changed
 common#:#group_memstat_admin#:#Administrateur###07 Apr 2005 content changed
@@ -1526,12 +1609,15 @@ common#:#group_no_registration#:#nee registratie-verplicht###07 Apr 2005 content
 common#:#group_no_registration_msg#:#U bent tot nog toe geen lid van deze groep. Tengevolge van administratieve redenen is het nodig lid te worden van de gevraagde groep.<br />Als lid heeft u de volgende voordelen:<br />- U wordt over actuele zaken geïnformeerd<br />- U heeft toegang tot de bijbehorende objects zoals forums, lesmodules, enz.<br /><br />U kunt uw lidmaatschap op elk moment geëindigen.###07 Apr 2005 content changed
 common#:#group_not_available#:#Groep objecten###07 Apr 2005 content changed
 common#:#group_objects#:#Groeps-objecten###07 Apr 2005 content changed
-common#:#group_password_registration_expired_msg#:#De periode voor registratie voor deze groep is voorbij, een meededeling is niet langer mogelijk. A.u.b. neem contact op met de groeps-eigenaar of de administrateur.###07 Apr 2005 content changed
 common#:#group_password_registration_msg#:#Om aan deze groep deel te nemen moet u het door de administateur van deze groep gegevens wachtwoord invoeren.<br />Als uw wachtwoord correct is wordt u automatsch aan deze groep toegevoegd.###07 Apr 2005 content changed
+common#:#group_registration#:#Registration###23 Dec 2005 new variable
 common#:#group_registration_expiration_date#:#Verval-datum###07 Apr 2005 content changed
 common#:#group_registration_expiration_time#:#Verval-tijd###07 Apr 2005 content changed
 common#:#group_registration_expired#:#Registratie-periode verstreken###07 Apr 2005 content changed
+common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
 common#:#group_registration_mode#:#Registratie-modus###07 Apr 2005 content changed
+common#:#group_registration_time#:#Registration period###23 Dec 2005 new variable
+common#:#group_req_direct#:#Join directly###23 Dec 2005 new variable
 common#:#group_req_password#:#Registratie wachtwoord nodig###07 Apr 2005 content changed
 common#:#group_req_registration#:#Registratie-verplicht###07 Apr 2005 content changed
 common#:#group_req_registration_msg#:#Om tot deze groep toe te treden moet u zich registreren. De betreffende groeps-administrateur zal u aan de groep toevoegen. Geef een reden voor uw toetreding.  U ontvangt een bericht wanneer u aan de groep bent toegevoegd.###07 Apr 2005 content changed
@@ -1608,6 +1694,7 @@ common#:#grp_no_roles_selected#:#Selecteer a.u.b. een rol###07 Apr 2005 content 
 common#:#grp_options#:#Opties###07 Apr 2005 content changed
 common#:#grp_read#:#Lees-rechten op groep###07 Apr 2005 content changed
 common#:#grp_register#:#Registreer###07 Apr 2005 content changed
+common#:#grp_registration#:#Join group###23 Dec 2005 new variable
 common#:#grp_registration_completed#:#De registratie is klaar###07 Apr 2005 content changed
 common#:#grp_search_enter_search_string#:#Voer een zoek-string in###07 Apr 2005 content changed
 common#:#grp_search_members#:#Gebruiker zoeken###07 Apr 2005 content changed
@@ -1658,6 +1745,7 @@ common#:#htlm#:#HTML Lesmodule###07 Apr 2005 content changed
 common#:#htlm_add#:#Voeg HTML lesmodule toe###07 Apr 2005 content changed
 common#:#htlm_delete#:#Verwijder HTML lesmodule###07 Apr 2005 content changed
 common#:#htlm_edit#:#Wijzig eigenschappen lesmodule###07 Apr 2005 content changed
+common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#htlm_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
 common#:#htlm_new#:#Nieuwe HTML lesmodule###07 Apr 2005 content changed
 common#:#htlm_read#:#Lezen HTML lesmodule###07 Apr 2005 content changed
@@ -1757,7 +1845,7 @@ common#:#import_file_not_valid#:#Het te importeren bestand is niet geldig.###07 
 common#:#import_finished#:#Aantal geïmporteerde berichten.###07 Apr 2005 content changed
 common#:#import_forum_finished#:#Het forum werd geïmporteerd.###07 Apr 2005 content changed
 common#:#import_glossary#:#Importeer woordenlijst###07 Apr 2005 content changed
-common#:#import_group#:#Import group###03 Nov 2005 new variable
+common#:#import_grp#:#Import group###23 Dec 2005 new variable
 common#:#import_grp_finished#:#Geïmporteerd groep zonder een enkele fout###07 Apr 2005 content changed
 common#:#import_hlm#:#Importeren HACP Package###07 Apr 2005 content changed
 common#:#import_lm#:#Importeren Lesmodule###07 Apr 2005 content changed
@@ -1792,6 +1880,7 @@ common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#User is member###20 Jun 2005 new variable
 common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
 common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
 common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
 common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
@@ -1907,6 +1996,7 @@ common#:#ldap_visible#:#LDAP-instellingen zijn zichtbaar###07 Apr 2005 content c
 common#:#ldap_write#:#Wijzigen LDAP-instellingen###07 Apr 2005 content changed
 common#:#learning module#:#Lesmodule###07 Apr 2005 content changed
 common#:#learning_objects#:#Lesobjecten###07 Apr 2005 content changed
+common#:#learning_progress#:#Learning progress###23 Dec 2005 new variable
 common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
 common#:#learning_resources#:#Leerbronnen###07 Apr 2005 content changed
 common#:#level#:#Niveau###07 Apr 2005 content changed
@@ -1947,6 +2037,7 @@ common#:#lm_add#:#Lesmodule toevoegen###07 Apr 2005 content changed
 common#:#lm_added#:#Toevoegen lesmodule###07 Apr 2005 content changed
 common#:#lm_create#:#Creëer lesmodule###07 Apr 2005 content changed
 common#:#lm_delete#:#Verwijderen Lesmodule###07 Apr 2005 content changed
+common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
 common#:#lm_join#:#Abonneren op lesmodule###07 Apr 2005 content changed
 common#:#lm_leave#:#Abonnement beëindigen op lesmodule###07 Apr 2005 content changed
@@ -2014,6 +2105,7 @@ common#:#mail_maxsize_box#:#Max. mailbox-grootte###07 Apr 2005 content changed
 common#:#mail_maxsize_mail#:#Max. mail-grootte###07 Apr 2005 content changed
 common#:#mail_maxtime_attach#:#Max. dagen bewaartijd attachments###07 Apr 2005 content changed
 common#:#mail_maxtime_mail#:#Max. aantal dagen mail bewaren###07 Apr 2005 content changed
+common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Mail niet gezonden!###07 Apr 2005 content changed
 common#:#mail_read#:#Lees-toegang op Mail-instellingen###07 Apr 2005 content changed
 common#:#mail_search_no#:#Geen ingangen gevonden###07 Apr 2005 content changed
@@ -2056,6 +2148,7 @@ common#:#message_to#:#Bericht aan:###07 Apr 2005 content changed
 common#:#meta_data#:#Metagegevens###07 Apr 2005 content changed
 common#:#migrate#:#Migreren###07 Apr 2005 content changed
 common#:#min_time#:#Minimum tijd###07 Apr 2005 content changed
+common#:#minutes#:#Minutes###23 Dec 2005 new variable
 common#:#missing#:#Missing###23 Dec 2004 new variable
 common#:#mob#:#Media-object###07 Apr 2005 content changed
 common#:#module#:#module###05 Nov 2004 new variable
@@ -2202,6 +2295,8 @@ common#:#no_access_link_object#:#Uw mag dit object niet linken###07 Apr 2005 con
 common#:#no_bm_in_personal_list#:#Geen bookmarken gedefiniëerd.###07 Apr 2005 content changed
 common#:#no_chat_in_personal_list#:#Geen chats in persoonlijke lijst###07 Apr 2005 content changed
 common#:#no_checkbox#:#Geen keuze gemaakt!###07 Apr 2005 content changed
+common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
+common#:#no_conditions_found#:#No preconditions created.###23 Dec 2005 new variable
 common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
 common#:#no_date#:#Geen datum###07 Apr 2005 content changed
 common#:#no_description#:#geen beschrijving###07 Apr 2005 content changed
@@ -2234,6 +2329,8 @@ common#:#not_implemented_yet#:#Nog niet geïmplementeerd###07 Apr 2005 content c
 common#:#not_installed#:#Niet geïnstalleerd###07 Apr 2005 content changed
 common#:#not_logged_in#:#U bent niet ingelogd###07 Apr 2005 content changed
 common#:#note#:#Note###03 Nov 2005 new variable
+common#:#note_all_pub_notes#:#All notes###23 Dec 2005 new variable
+common#:#note_my_pub_notes#:#My notes only###23 Dec 2005 new variable
 common#:#notes#:#Notes###03 Nov 2005 new variable
 common#:#num_users#:#Number of users###02 Mar 2005 new variable
 common#:#number_of_accesses#:#Aantal  benaderingen###07 Apr 2005 content changed
@@ -2243,6 +2340,7 @@ common#:#obj_adm#:#Administratie###07 Apr 2005 content changed
 common#:#obj_adm_desc#:#Bevat alle functionaliteit voor de administratie van uw ILIAS-installatie.###07 Apr 2005 content changed
 common#:#obj_alm#:#AICC Lesmodule###07 Apr 2005 content changed
 common#:#obj_assf#:#Test&Assessment###07 Jan 2005 new variable
+common#:#obj_assf_desc#:#Test&Assessment log settings.###23 Dec 2005 new variable
 common#:#obj_auth#:#Authenticatie###07 Apr 2005 content changed
 common#:#obj_auth_desc#:#Configureer uw authenticatie-modus (local, LDAP, ...)###07 Apr 2005 content changed
 common#:#obj_cat#:#Kategorie###07 Apr 2005 content changed
@@ -2318,6 +2416,8 @@ common#:#obj_usrf_desc#:#Beheer gebruiker-accounts hier.###07 Apr 2005 content c
 common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Object###05 Nov 2004 new variable
 common#:#object_added#:#Object toegevoegd###07 Apr 2005 content changed
+common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
+common#:#object_imported#:#Object imported###23 Dec 2005 new variable
 common#:#objects#:#Objecten###07 Apr 2005 content changed
 common#:#objf#:#Object-definities###07 Apr 2005 content changed
 common#:#objf_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
@@ -2376,7 +2476,9 @@ common#:#options_for_subobjects#:#Opties voor subobjecten###07 Apr 2005 content 
 common#:#order_by#:#In volgorder van###07 Apr 2005 content changed
 common#:#other#:#Andere###07 Apr 2005 content changed
 common#:#overview#:#Overzicht###07 Apr 2005 content changed
+common#:#overwrite#:#Overwrite###23 Dec 2005 new variable
 common#:#owner#:#Eigenaar###07 Apr 2005 content changed
+common#:#owner_updated#:#Owner updated.###23 Dec 2005 new variable
 common#:#page#:#Bladzijde###07 Apr 2005 content changed
 common#:#page_edit#:#Wijzigen Pagina###07 Apr 2005 content changed
 common#:#pages#:#Pagina's###07 Apr 2005 content changed
@@ -2444,6 +2546,7 @@ common#:#presentation_options#:#Presentatie van opties###07 Apr 2005 content cha
 common#:#previous#:#vorige###07 Apr 2005 content changed
 common#:#print#:#Print###05 Nov 2004 new variable
 common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
+common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Uw profiel is gewijzigd###07 Apr 2005 content changed
 common#:#profile_of#:#Profiel van###07 Apr 2005 content changed
@@ -2506,6 +2609,9 @@ common#:#repeat_scan_succeded#:#Repeat scan succeded.###07 Jan 2005 new variable
 common#:#replace_file#:#Replace File###29 Nov 2004 new variable
 common#:#reply#:#Beantwoorden###07 Apr 2005 content changed
 common#:#repository#:#Depot###07 Apr 2005 content changed
+common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
+common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Stad vereist###07 Apr 2005 content changed
 common#:#require_country#:#Land vereist###07 Apr 2005 content changed
 common#:#require_default_role#:#Vereiste rol###07 Apr 2005 content changed
@@ -2596,6 +2702,7 @@ common#:#sahs#:#SCORM/AICC Lesmodule###07 Apr 2005 content changed
 common#:#sahs_added#:#SCORM/AICC lesmodule toegevoegd###07 Apr 2005 content changed
 common#:#sahs_create#:#Creëer SCORM/AICC lesmodule###07 Apr 2005 content changed
 common#:#sahs_delete#:#Verwijder SCORM/AICC lesmodule###07 Apr 2005 content changed
+common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#sahs_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
 common#:#sahs_join#:#Abonneren op  SCORM/AICC Lesmodule###07 Apr 2005 content changed
 common#:#sahs_leave#:#Abonnement beëindigen van SCORM/AICC Lesmodule###07 Apr 2005 content changed
@@ -2619,10 +2726,12 @@ common#:#search_active#:#Voeg aktieve gebruikers in###07 Apr 2005 content change
 common#:#search_for#:#Zoeken naar###07 Apr 2005 content changed
 common#:#search_in#:#Zoeken in###07 Apr 2005 content changed
 common#:#search_inactive#:#Include inactieve gebruikers###07 Apr 2005 content changed
+common#:#search_minimum_characters#:#The minimum word length is:###23 Dec 2005 new variable
 common#:#search_new#:#Nieuwe zoekopdracht###07 Apr 2005 content changed
 common#:#search_note#:#Als &quot;zoeken in&quot; leeg gelaten wordt zullen alle  gebruikers doorzocht worden. Op deze manier is het mogelijk alle actieve en inactieve gebruikers te vinden.###07 Apr 2005 content changed
 common#:#search_recipient#:#Zoek ontvanger###07 Apr 2005 content changed
 common#:#search_result#:#Zoek resultaat###07 Apr 2005 content changed
+common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Zoek gebruiker###07 Apr 2005 content changed
 common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
 common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
@@ -2647,6 +2756,9 @@ common#:#select_questionpool_option#:#Please select a question pool###14 Oct 200
 common#:#selected#:#Geselecteerd###07 Apr 2005 content changed
 common#:#selected_items#:#Persoonlijke onderdelen###07 Apr 2005 content changed
 common#:#send#:#zend###07 Apr 2005 content changed
+common#:#send_mail_admins#:#Mail to administrators###23 Dec 2005 new variable
+common#:#send_mail_members#:#Mail to members###23 Dec 2005 new variable
+common#:#send_mail_tutors#:#Mail to tutors###23 Dec 2005 new variable
 common#:#sender#:#Zender###07 Apr 2005 content changed
 common#:#sent#:#Gezonden###07 Apr 2005 content changed
 common#:#sequence#:#Volgorde###07 Apr 2005 content changed
@@ -2709,6 +2821,7 @@ common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
 common#:#sort_by_this_column#:#Sorteer op deze kolom###07 Apr 2005 content changed
+common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Vraagpool (Survey)###07 Apr 2005 content changed
 common#:#spl_add#:#Toevoegen vraag aan pool###07 Apr 2005 content changed
 common#:#spl_delete#:#Verwijderen vraag uit pool###07 Apr 2005 content changed
@@ -2794,6 +2907,7 @@ common#:#test#:#Test###05 Nov 2004 new variable
 common#:#test_intern#:#Interne test###07 Apr 2005 content changed
 common#:#test_module#:#Test-module###07 Apr 2005 content changed
 common#:#tests#:#Testen###07 Apr 2005 content changed
+common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
 common#:#time#:#Tijd###07 Apr 2005 content changed
 common#:#time_d#:#Dag###07 Apr 2005 content changed
 common#:#time_h#:#Uur###07 Apr 2005 content changed
@@ -2837,6 +2951,7 @@ common#:#tst#:#Test###05 Nov 2004 new variable
 common#:#tst_add#:#Toevoegen test###07 Apr 2005 content changed
 common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Verwijderen test###07 Apr 2005 content changed
+common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#tst_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
 common#:#tst_new#:#Nieuwe test###07 Apr 2005 content changed
 common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
@@ -2903,6 +3018,7 @@ common#:#user_imported#:#Gebruikers-import gereed###07 Apr 2005 content changed
 common#:#user_imported_with_warnings#:#User import complete with warnings.###09 Mar 2005 new variable
 common#:#user_language#:#Gebruikers-taal###07 Apr 2005 content changed
 common#:#user_not_chosen#:#U heeft geen groeps-lid gekozen!###07 Apr 2005 content changed
+common#:#user_not_known#:#Please insert a valid username.###23 Dec 2005 new variable
 common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
 common#:#user_statistics#:#Statistische gegevens###07 Apr 2005 content changed
 common#:#userdata#:#Gebruikers-gegevens###07 Apr 2005 content changed
@@ -3139,6 +3255,7 @@ content#:#cont_disable_media#:#Details###29 Nov 2004 content changed
 content#:#cont_download_title#:#Directory/Bestand###07 Apr 2005 content changed
 content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
 content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
+content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)###23 Dec 2005 new variable
 content#:#cont_ed_align_center#:#Media onmogelijk maken###07 Apr 2005 content changed
 content#:#cont_ed_align_left#:#Download-titel###07 Apr 2005 content changed
 content#:#cont_ed_align_left_float#:#uitlijnen: midden###07 Apr 2005 content changed
@@ -3498,6 +3615,7 @@ crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting lis
 crs#:#crs_archive#:#Administrateur (nee bekendmaking)###07 Apr 2005 content changed
 crs#:#crs_archive_disabled#:#Administrateur (bekendmaking)###07 Apr 2005 content changed
 crs#:#crs_archive_download#:#Archiveer###07 Apr 2005 content changed
+crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.###23 Dec 2005 new variable
 crs#:#crs_archive_lang#:#Uitgeschakeld###07 Apr 2005 content changed
 crs#:#crs_archive_read#:#Download###07 Apr 2005 content changed
 crs#:#crs_archive_select_type#:#Taal###07 Apr 2005 content changed
@@ -3570,6 +3688,7 @@ crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###01 Mar 2005 new varia
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses###01 Mar 2005 new variable
 crs#:#crs_header_archives#:#Bestands-naam###07 Apr 2005 content changed
 crs#:#crs_header_delete_members#:#Van:###07 Apr 2005 content changed
+crs#:#crs_header_delete_subscribers#:#Delete subscribers###23 Dec 2005 new variable
 crs#:#crs_header_edit_members#:#Cursus archiveer###07 Apr 2005 content changed
 crs#:#crs_header_members#:#Verwijder leden###07 Apr 2005 content changed
 crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
@@ -3611,6 +3730,8 @@ crs#:#crs_moved_objective#:#Moved learing objective.###01 Mar 2005 new variable
 crs#:#crs_new_search#:#Verplaatsen omhoog###07 Apr 2005 content changed
 crs#:#crs_new_subscription#:#Verplaats cursus-bijdrage###07 Apr 2005 content changed
 crs#:#crs_new_subscription_body#:#Nieuwe zoekopdracht###07 Apr 2005 content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable
 crs#:#crs_no_archive_selected#:#Nieuw cursus-abonnement###07 Apr 2005 content changed
 crs#:#crs_no_archives_available#:#Een nieuwe gebruiker heeft zich geabonneerd###07 Apr 2005 content changed
 crs#:#crs_no_archives_selected#:#Geen archief geselecteerd###07 Apr 2005 content changed
@@ -3638,6 +3759,7 @@ crs#:#crs_no_users_added#:#Selecteer a.u.b. een rol###07 Apr 2005 content change
 crs#:#crs_no_users_selected#:#Selecteer a.u.b een gebruiker.###07 Apr 2005 content changed
 crs#:#crs_no_valid_member_id_given#:#Geen leden toegevoegd###07 Apr 2005 content changed
 crs#:#crs_not_available#:#U selecteerde geen gebruiker###07 Apr 2005 content changed
+crs#:#crs_notification#:#Notification###23 Dec 2005 new variable
 crs#:#crs_notify#:#Geen geldig lid-id###07 Apr 2005 content changed
 crs#:#crs_nr#:#Nr.###01 Mar 2005 new variable
 crs#:#crs_number_users_added#:#-Niet beschikbaar-###07 Apr 2005 content changed
@@ -3757,6 +3879,7 @@ crs#:#crs_subscription_options_confirmation#:#Maximum aantal leden###07 Apr 2005
 crs#:#crs_subscription_options_deactivated#:#Informeren voor nieuwe aanmeldingen###07 Apr 2005 content changed
 crs#:#crs_subscription_options_direct#:#Abonnement met bevestiging###07 Apr 2005 content changed
 crs#:#crs_subscription_options_password#:#Gedeactiveerd###07 Apr 2005 content changed
+crs#:#crs_subscription_requested#:#You have requested membership for the course.###23 Dec 2005 new variable
 crs#:#crs_subscription_successful#:#Directe abonnering###07 Apr 2005 content changed
 crs#:#crs_subscription_type#:#Abonnement met wachtwoord###07 Apr 2005 content changed
 crs#:#crs_suggest_lm#:#Suggest learning materials if:###01 Mar 2005 new variable
@@ -3786,6 +3909,7 @@ crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
+crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
 crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#Nieuwe gebruiker aan cursus toegevoegd###07 Apr 2005 content changed
 crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
@@ -4015,6 +4139,8 @@ dateplaner#:#viewlist#:#naar###07 Apr 2005 content changed
 dateplaner#:#week#:#vandaag###07 Apr 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#tonen###07 Apr 2005 content changed
+forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable
 forum#:#forums#:#week###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
 forum#:#forums_attachments#:#Forums###07 Apr 2005 content changed
@@ -4066,6 +4192,8 @@ forum#:#forums_thread_new_entry#:#Gecreëerd op###07 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Nieuw thema werd gecreërd###07 Apr 2005 content changed
 forum#:#forums_topics_overview#:#Threads###07 Apr 2005 content changed
 forum#:#forums_your_reply#:#Thema niet beschikbaar###07 Apr 2005 content changed
+forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
+forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
 forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
 forum#:#is_read#:#mark read###02 Dec 2004 new variable
@@ -4151,8 +4279,12 @@ mail#:#mail_compose#:#Ga naar map:###07 Apr 2005 content changed
 mail#:#mail_deleted#:#Uw email-adres is niet geldig###07 Apr 2005 content changed
 mail#:#mail_deleted_entry#:#Samenstellen Bericht###07 Apr 2005 content changed
 mail#:#mail_email_forbidden#:#De mail is verwijderd###07 Apr 2005 content changed
+mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.###23 Dec 2005 new variable
+mail#:#mail_enter_valid_login#:#Please enter a valid login name.###23 Dec 2005 new variable
 mail#:#mail_entry_added#:#De bijdragen worden gewist###07 Apr 2005 content changed
 mail#:#mail_entry_changed#:#U bent niet gemachtigd email te zenden###07 Apr 2005 content changed
+mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.###23 Dec 2005 new variable
 mail#:#mail_file_name#:#Voeg een nieuwe post toe###07 Apr 2005 content changed
 mail#:#mail_file_size#:#De bijdrage is gewijzigd###07 Apr 2005 content changed
 mail#:#mail_files_deleted#:#Bestands-naam###07 Apr 2005 content changed
@@ -4462,6 +4594,7 @@ meta#:#meta_copyright_and_other_restrictions#:#Context###07 Apr 2005 content cha
 meta#:#meta_cost#:#Bijdragen###07 Apr 2005 content changed
 meta#:#meta_coverage#:#Copyright en andere restricties###07 Apr 2005 content changed
 meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
+meta#:#meta_current_value#:#Current value###23 Dec 2005 new variable
 meta#:#meta_date#:#Kosten###07 Apr 2005 content changed
 meta#:#meta_delete#:#Dekking###07 Apr 2005 content changed
 meta#:#meta_description#:#Datum###07 Apr 2005 content changed
@@ -4499,6 +4632,7 @@ meta#:#meta_id#:#Hoog###07 Apr 2005 content changed
 meta#:#meta_idea#:#Hogere opleiding###07 Apr 2005 content changed
 meta#:#meta_identifier#:#Id###07 Apr 2005 content changed
 meta#:#meta_index#:#Idee###07 Apr 2005 content changed
+meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.###23 Dec 2005 new variable
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Kenmerk###07 Apr 2005 content changed
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
@@ -4961,6 +5095,26 @@ pwassist#:#pwassist_password_assigned#:#The password has been successfully assig
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.###12 Nov 2004 new variable
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###12 Nov 2004 new variable
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
+rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
+rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
+rbac#:#filter_local_roles#:#Show only local roles of current context###23 Dec 2005 new variable
+rbac#:#filter_local_roles_object#:#Show only local roles defined at this position###23 Dec 2005 new variable
+rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position###23 Dec 2005 new variable
+rbac#:#leave#:#Leave###23 Dec 2005 new variable
+rbac#:#perm_administrate#:#Administrate###23 Dec 2005 new variable
+rbac#:#perm_class_create#:#Create new objects###23 Dec 2005 new variable
+rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.###23 Dec 2005 new variable
+rbac#:#perm_class_general#:#General operations###23 Dec 2005 new variable
+rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.###23 Dec 2005 new variable
+rbac#:#perm_class_object#:#Special operations###23 Dec 2005 new variable
+rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.###23 Dec 2005 new variable
+rbac#:#perm_class_rbac#:#Permission settings###23 Dec 2005 new variable
+rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.###23 Dec 2005 new variable
+rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
+rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
+rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
 search#:#search_active#:#Deze gebruiker is al aan de leveranciers-lijst toegevoegd###07 Apr 2005 content changed
 search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
 search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
@@ -5083,6 +5237,9 @@ survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
 survey#:#constraints#:#Aantal gebruikers dat deze kategorie selecteerde###07 Apr 2005 content changed
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###03 Nov 2005 new variable
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.###03 Nov 2005 new variable
+survey#:#constraints_list_of_entities#:#Available survey entities for preconditions###23 Dec 2005 new variable
+survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)###23 Dec 2005 new variable
+survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or questionblock!###23 Dec 2005 new variable
 survey#:#contains#:#Aaneenschakeling###07 Apr 2005 content changed
 survey#:#continue#:#Beperkingen###07 Apr 2005 content changed
 survey#:#create_date#:#Bevat###07 Apr 2005 content changed
@@ -5167,6 +5324,9 @@ survey#:#error_retrieving_anonymous_survey#:#The system could not find your surv
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Voer een gezegde-titel in###07 Apr 2005 content changed
 survey#:#evaluation_access#:#Voer een waarde in###07 Apr 2005 content changed
+survey#:#evaluation_access_all#:#Evaluation access for all users###23 Dec 2005 new variable
+survey#:#evaluation_access_participants#:#Evaluation access for survey participants###23 Dec 2005 new variable
+survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Toegang tot evaluatie###07 Apr 2005 content changed
 survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
 survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
@@ -5313,6 +5473,7 @@ survey#:#search_for#:#Als u de onderstaande kategoriën als standaard gezegden w
 survey#:#search_groups#:#Zoek in alle velden###07 Apr 2005 content changed
 survey#:#search_invitation#:#Zoeken naar###07 Apr 2005 content changed
 survey#:#search_questions#:#Groepen###07 Apr 2005 content changed
+survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Zoek naar gebruikers of groep om uit te nodigen###07 Apr 2005 content changed
 survey#:#search_type_all#:#Zoek in vragen###07 Apr 2005 content changed
 survey#:#search_users#:#Zoek-begrip###07 Apr 2005 content changed
@@ -5360,6 +5521,9 @@ survey#:#survey_skip_previous#:#Sla over en beëindig enquête###07 Apr 2005 con
 survey#:#survey_skip_start#:#Sla over >>>###07 Apr 2005 content changed
 survey#:#survey_start#:#<<< overslaan###26 Nov 2004 content changed
 survey#:#svy_all_user_data_deleted#:#sla over en ga naar de start-pagina###07 Apr 2005 content changed
+survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.###23 Dec 2005 new variable
 survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Sla op en ga naar start-pagina###07 Apr 2005 content changed
 survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
@@ -5400,3 +5564,73 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#Aantal gebruikers dat deze waarde invoerde###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Waarden###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Toon gezegde###07 Apr 2005 content changed
+trac#:#info_valid_request#:#The maximum valid time between two requests of an user.###23 Dec 2005 new variable
+trac#:#last_login#:#Last login###23 Dec 2005 new variable
+trac#:#meta_typical_learning_time#:#Typical learning time###23 Dec 2005 new variable
+trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
+trac#:#search_area_info#:#Please choose one object.###23 Dec 2005 new variable
+trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
+trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
+trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
+trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
+trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
+trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
+trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
+trac#:#trac_comment#:#Comment###23 Dec 2005 new variable
+trac#:#trac_comments#:#Comments###23 Dec 2005 new variable
+trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
+trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
+trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
+trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
+trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
+trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
+trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
+trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
+trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
+trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
+trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
+trac#:#trac_mark#:#Mark###23 Dec 2005 new variable
+trac#:#trac_marks#:#Marks###23 Dec 2005 new variable
+trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
+trac#:#trac_mode_collection#:#Collection of objects###23 Dec 2005 new variable
+trac#:#trac_mode_deactivated#:#Deactivated###23 Dec 2005 new variable
+trac#:#trac_mode_manual#:#Manual###23 Dec 2005 new variable
+trac#:#trac_mode_objectives#:#Learning objectives###23 Dec 2005 new variable
+trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_test_finished#:#Test finished###23 Dec 2005 new variable
+trac#:#trac_mode_test_passed#:#Test passed###23 Dec 2005 new variable
+trac#:#trac_mode_tlt#:#Typical learning time###23 Dec 2005 new variable
+trac#:#trac_mode_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_modifications_saved#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_modus#:#Mode###23 Dec 2005 new variable
+trac#:#trac_no_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_no_sahs_items_found#:#No objects found.###23 Dec 2005 new variable
+trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
+trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
+trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
+trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
+trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
+trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
+trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable
+trac#:#trac_show_hidden#:#Show###23 Dec 2005 new variable
+trac#:#trac_spent_time#:#Spent time###23 Dec 2005 new variable
+trac#:#trac_status#:#Status###23 Dec 2005 new variable
+trac#:#trac_total_online#:#Total time online###23 Dec 2005 new variable
+trac#:#trac_update_edit_user#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_user_data#:#User data###23 Dec 2005 new variable
+trac#:#trac_usr_list#:#Users###23 Dec 2005 new variable
+trac#:#trac_valid_request#:#Max. time between requests###23 Dec 2005 new variable
+trac#:#trac_view_crs#:#Back to course###23 Dec 2005 new variable
+trac#:#trac_view_list#:#Back to list###23 Dec 2005 new variable
+trac#:#trac_visits#:#Number of visits###23 Dec 2005 new variable
+trac#:#trac_visits_info#:#Every page visit counts as one visit.###23 Dec 2005 new variable
+trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.###23 Dec 2005 new variable
