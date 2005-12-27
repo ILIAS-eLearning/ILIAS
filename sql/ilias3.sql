@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Nov 07, 2005 at 12:45 PM
+# Generation Time: Dec 27, 2005 at 12:30 PM
 # Server version: 3.23.56
 # PHP Version: 4.4.0
-# Database : `ilias360alpha`
+# Database : `ilias360beta`
 # --------------------------------------------------------
 
 #
@@ -377,6 +377,7 @@ CREATE TABLE `content_object` (
   `public_html_file` varchar(50) NOT NULL default '',
   `public_xml_file` varchar(50) NOT NULL default '',
   `downloads_active` enum('y','n') default 'n',
+  `downloads_public_active` enum('y','n') NOT NULL default 'y',
   `pub_notes` enum('y','n') NOT NULL default 'n',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
@@ -611,6 +612,7 @@ CREATE TABLE `crs_settings` (
   `archive_type` int(2) default NULL,
   `abo` tinyint(2) default '1',
   `objective_view` tinyint(2) default '0',
+  `waiting_list` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`obj_id`)
 ) TYPE=MyISAM;
 
@@ -686,12 +688,21 @@ CREATE TABLE `ctrl_calls` (
 # Dumping data for table `ctrl_calls`
 #
 
+INSERT INTO `ctrl_calls` VALUES ('ilobjchatservergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjchatgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjlinkresourcegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjlinkresourcegui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjlinkresourcegui', 'ilinfoscreengui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjhacplearningmodulegui', 'ilfilesystemgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjhacplearningmodulegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjhacplearningmodulegui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsahslearningmodulegui', 'ilfilesystemgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsahslearningmodulegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsahslearningmodulegui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediapoolgui', 'ilobjmediaobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediapoolgui', 'ilobjfoldergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediapoolgui', 'ileditclipboardgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjmediapoolgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediaobjectgui', 'ilinternallinkgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjmediaobjectgui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpageobjectgui', 'ilpageeditorgui');
@@ -714,30 +725,43 @@ INSERT INTO `ctrl_calls` VALUES ('illmeditorgui', 'ilmetadatagui');
 INSERT INTO `ctrl_calls` VALUES ('illmeditorgui', 'ilobjlearningmodulegui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjglossarygui', 'ilglossarytermgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjglossarygui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjglossarygui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'ilfilesystemgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'illearningprogressgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjdlbookgui', 'illmpageobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjdlbookgui', 'ilstructureobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjdlbookgui', 'ilobjstylesheetgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjdlbookgui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjdlbookgui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjdlbookgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilstructureobjectgui', 'ilconditionhandlerinterface');
 INSERT INTO `ctrl_calls` VALUES ('ilstructureobjectgui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('illmpageobjectgui', 'ilpageobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('illmpageobjectgui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilglossaryeditorgui', 'ilobjglossarygui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjfilebasedlmgui', 'ilfilesystemgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjfilebasedlmgui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjfilebasedlmgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('illmpresentationgui', 'ilnotegui');
-INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'ilfilesystemgui');
-INSERT INTO `ctrl_calls` VALUES ('ilobjaicclearningmodulegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('illmpresentationgui', 'ilinfoscreengui');
 INSERT INTO `ctrl_calls` VALUES ('iltermdefinitioneditorgui', 'ilpageobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('iltermdefinitioneditorgui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'illmpageobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilstructureobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilobjstylesheetgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilglossarytermgui', 'iltermdefinitioneditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ileditclipboardgui', 'ilobjmediaobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'ilfilesystemgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjscormlearningmodulegui', 'illearningprogressgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjilinccoursegui', 'ilobjilincclassroomgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjilinccoursegui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjilincclassroomgui', '');
 INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ilpageobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_multiplechoicegui');
@@ -748,33 +772,50 @@ INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_imagemapquestiongu
 INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_javaappletgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_textquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'ilobjcoursegui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'ilmdeditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'iltestoutputgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'iltestevaluationgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'ilinfoscreengui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjtestgui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsearchsettingsgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilsearchcontroller', 'ilsearchgui');
 INSERT INTO `ctrl_calls` VALUES ('ilsearchcontroller', 'iladvancedsearchgui');
 INSERT INTO `ctrl_calls` VALUES ('ilsearchcontroller', 'ilsearchresultgui');
-INSERT INTO `ctrl_calls` VALUES ('illplistofobjectsgui', '');
+INSERT INTO `ctrl_calls` VALUES ('illplistofobjectsgui', 'illpfiltergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjusertrackinggui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjusertrackinggui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('illpgui', '');
+INSERT INTO `ctrl_calls` VALUES ('illplistofprogressgui', '');
+INSERT INTO `ctrl_calls` VALUES ('illplistofprogressgui', 'illpfiltergui');
 INSERT INTO `ctrl_calls` VALUES ('illearningprogressgui', 'illplistofobjectsgui');
+INSERT INTO `ctrl_calls` VALUES ('illearningprogressgui', 'illplistofsettingsgui');
+INSERT INTO `ctrl_calls` VALUES ('illearningprogressgui', 'illplistofprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('illpfiltergui', '');
+INSERT INTO `ctrl_calls` VALUES ('illplistofsettingsgui', '');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilcourseregistergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilpaymentpurchasegui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilcourseobjectivesgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilconditionhandlerinterface');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilobjcoursegroupinggui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilmdeditorgui');
-INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilnotegui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilinfoscreengui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilcoursecontentinterface', 'ilconditionhandlerinterface');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveygui', 'ilsurveyevaluationgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveygui', 'ilsurveyexecutiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveygui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsurveygui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'surveynominalquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'surveymetricquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'surveyordinalquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'surveytextquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsurveyquestionpoolgui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjpaymentsettingsgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentgui', 'ilpaymentshoppincartgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentgui', 'ilpaymentshoppingcartgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentgui', 'ilpaymentbuyedobjectsgui');
@@ -782,15 +823,67 @@ INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymenttrusteegui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymentstatisticgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymentobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpaymentadmingui', 'ilpaymentbilladmingui');
+INSERT INTO `ctrl_calls` VALUES ('ilpermissiongui', 'ilobjrolegui');
 INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilpersonalprofilegui');
 INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilbookmarkadministrationgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilobjusergui');
 INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'ilpdnotesgui');
+INSERT INTO `ctrl_calls` VALUES ('ilpersonaldesktopgui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjgroupgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjfilegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjcoursegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilcourseobjectivesgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjsahslearningmodulegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjchatgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjforumgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjlearningmodulegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjdlbookgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjglossarygui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjquestionpoolgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjsurveyquestionpoolgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjtestgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjsurveygui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjexercisegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjmediapoolgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjfilebasedlmgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjcategorygui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjusergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjrolegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjuserfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjilinccoursegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjilincclassroomgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjlinkresourcegui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjroletemplategui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjstylesheetgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjrootfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjsystemfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjrolefoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjauthsettingsgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjchatservergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjlanguagefoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjmailgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjobjectfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjpaymentsettingsgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjrecoveryfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjsearchsettingsgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjstylesettingsgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjtaxonomyfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjassessmentfoldergui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjexternaltoolssettingsgui');
+INSERT INTO `ctrl_calls` VALUES ('iladministrationgui', 'ilobjusertrackinggui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjmailgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilpersonalprofilegui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjauthsettingsgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjgroupgui', 'ilregistergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjgroupgui', 'ilconditionhandlerinterface');
-INSERT INTO `ctrl_calls` VALUES ('ilobjrootfoldergui', '');
-INSERT INTO `ctrl_calls` VALUES ('ilobjcategorygui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjgroupgui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjstylesettingsgui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjexternaltoolssettingsgui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjobjectfoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjroletemplategui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjrootfoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjcategorygui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjgroupgui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjfoldergui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjfilegui');
@@ -815,11 +908,28 @@ INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjrolegui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjuserfoldergui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjilinccoursegui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjilincclassroomgui');
+INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjlinkresourcegui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjrootfoldergui');
-INSERT INTO `ctrl_calls` VALUES ('ilobjfilegui', '');
-INSERT INTO `ctrl_calls` VALUES ('ilobjuserfoldergui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjlanguagefoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjfilegui', 'ilmdeditorgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjfilegui', 'ilinfoscreengui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjfilegui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsystemfoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilinfoscreengui', 'ilnotegui');
+INSERT INTO `ctrl_calls` VALUES ('ilinfoscreengui', 'ilfeedbackgui');
+INSERT INTO `ctrl_calls` VALUES ('ilfeedbackgui', '"');
+INSERT INTO `ctrl_calls` VALUES ('ilobjuserfoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjrolegui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjassessmentfoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjrecoveryfoldergui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjfoldergui', 'ilconditionhandlerinterface');
-INSERT INTO `ctrl_calls` VALUES ('ilobjforumgui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjfoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjstylesheetgui', '');
+INSERT INTO `ctrl_calls` VALUES ('ilobjsysusertrackinggui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjusergui', 'illearningprogressgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjexercisegui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjrolefoldergui', 'ilpermissiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjforumgui', 'ilpermissiongui');
 INSERT INTO `ctrl_calls` VALUES ('ilpdnotesgui', 'ilnotegui');
 # --------------------------------------------------------
 
@@ -837,20 +947,24 @@ CREATE TABLE `ctrl_classfile` (
 # Dumping data for table `ctrl_classfile`
 #
 
+INSERT INTO `ctrl_classfile` VALUES ('ilobjchatservergui', 'chat/classes/class.ilObjChatServerGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjchatgui', 'chat/classes/class.ilObjChatGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjlinkresourcegui', 'link/classes/class.ilObjLinkResourceGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjhacplearningmodulegui', 'content/classes/class.ilObjHACPLearningModuleGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjsahslearningmodulegui', 'content/classes/class.ilObjSAHSLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjmediapoolgui', 'content/classes/class.ilObjMediaPoolGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjmediaobjectgui', 'content/classes/Media/class.ilObjMediaObjectGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpageobjectgui', 'content/classes/Pages/class.ilPageObjectGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpageeditorgui', 'content/classes/Pages/class.ilPageEditorGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('illmeditorgui', 'content/classes/class.ilLMEditorGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjglossarygui', 'content/classes/class.ilObjGlossaryGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjaicclearningmodulegui', 'content/classes/class.ilObjAICCLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjdlbookgui', 'content/classes/class.ilObjDlBookGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilstructureobjectgui', 'content/classes/class.ilStructureObjectGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('illmpageobjectgui', 'content/classes/class.ilLMPageObjectGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilglossaryeditorgui', 'content/classes/class.ilGlossaryEditorGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjfilebasedlmgui', 'content/classes/class.ilObjFileBasedLMGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('illmpresentationgui', 'content/classes/class.ilLMPresentationGUI.php');
-INSERT INTO `ctrl_classfile` VALUES ('ilobjaicclearningmodulegui', 'content/classes/class.ilObjAICCLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('iltermdefinitioneditorgui', 'content/classes/class.ilTermDefinitionEditorGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjlearningmodulegui', 'content/classes/class.ilObjLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilglossarytermgui', 'content/classes/class.ilGlossaryTermGUI.php');
@@ -860,28 +974,76 @@ INSERT INTO `ctrl_classfile` VALUES ('ilobjilinccoursegui', 'ilinc/classes/class
 INSERT INTO `ctrl_classfile` VALUES ('ilobjilincclassroomgui', 'ilinc/classes/class.ilObjiLincClassroomGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjquestionpoolgui', 'assessment/classes/class.ilObjQuestionPoolGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjtestgui', 'assessment/classes/class.ilObjTestGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjsearchsettingsgui', 'Services/Search/classes/class.ilObjSearchSettingsGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilsearchcontroller', 'Services/Search/classes/class.ilSearchController.php');
 INSERT INTO `ctrl_classfile` VALUES ('illplistofobjectsgui', 'Services/Tracking/classes/class.ilLPListOfObjectsGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjusertrackinggui', 'Services/Tracking/classes/class.ilObjUserTrackingGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('illpgui', 'Services/Tracking/classes/class.ilLPGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('illplistofprogressgui', 'Services/Tracking/classes/class.ilLPListOfProgressGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('illearningprogressgui', 'Services/Tracking/classes/class.ilLearningProgressGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('illpfiltergui', 'Services/Tracking/classes/class.ilLPFilterGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('illplistofsettingsgui', 'Services/Tracking/classes/class.ilLPListOfSettingsGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjcoursegui', 'course/classes/class.ilObjCourseGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilcoursecontentinterface', 'course/classes/class.ilCourseContentInterface.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjsurveygui', 'survey/classes/class.ilObjSurveyGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjsurveyquestionpoolgui', 'survey/classes/class.ilObjSurveyQuestionPoolGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjpaymentsettingsgui', 'payment/classes/class.ilObjPaymentSettingsGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpaymentgui', 'payment/classes/class.ilPaymentGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpaymentadmingui', 'payment/classes/class.ilPaymentAdminGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilpermissiongui', 'classes/class.ilPermissionGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpersonaldesktopgui', 'classes/class.ilPersonalDesktopGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('iladministrationgui', 'classes/class.ilAdministrationGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjmailgui', 'classes/class.ilObjMailGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpersonalprofilegui', 'classes/class.ilPersonalProfileGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjauthsettingsgui', 'classes/class.ilObjAuthSettingsGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjgroupgui', 'classes/class.ilObjGroupGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjstylesettingsgui', 'classes/class.ilObjStyleSettingsGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjexternaltoolssettingsgui', 'classes/class.ilObjExternalToolsSettingsGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjobjectfoldergui', 'classes/class.ilObjObjectFolderGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjroletemplategui', 'classes/class.ilObjRoleTemplateGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjrootfoldergui', 'classes/class.ilObjRootFolderGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjcategorygui', 'classes/class.ilObjCategoryGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilrepositorygui', 'classes/class.ilRepositoryGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjlanguagefoldergui', 'classes/class.ilObjLanguageFolderGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjfilegui', 'classes/class.ilObjFileGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjsystemfoldergui', 'classes/class.ilObjSystemFolderGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilinfoscreengui', 'classes/class.ilInfoScreenGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilfeedbackgui', 'classes/class.ilInfoScreenGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjuserfoldergui', 'classes/class.ilObjUserFolderGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjrolegui', 'classes/class.ilObjRoleGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjassessmentfoldergui', 'classes/class.ilObjAssessmentFolderGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjrecoveryfoldergui', 'classes/class.ilObjRecoveryFolderGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjfoldergui', 'classes/class.ilObjFolderGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjstylesheetgui', 'classes/class.ilObjStyleSheetGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjsysusertrackinggui', 'classes/class.ilObjSysUserTrackingGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjusergui', 'classes/class.ilObjUserGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjexercisegui', 'classes/class.ilObjExerciseGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjrolefoldergui', 'classes/class.ilObjRoleFolderGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjforumgui', 'classes/class.ilObjForumGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilpdnotesgui', 'classes/class.ilPDNotesGUI.php');
+# --------------------------------------------------------
+
+#
+# Table structure for table `ctrl_structure`
+#
+
+CREATE TABLE `ctrl_structure` (
+  `root_class` varchar(40) NOT NULL default '',
+  `call_node` mediumtext,
+  `forward` mediumtext,
+  `parent` mediumtext,
+  PRIMARY KEY  (`root_class`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ctrl_structure`
+#
+
+INSERT INTO `ctrl_structure` VALUES ('ilrepositorygui', 'a:337:{i:1;a:2:{s:5:"class";s:15:"ilrepositorygui";s:6:"parent";i:0;}i:2;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:1;}i:3;a:2:{s:5:"class";s:16:"ilobjcategorygui";s:6:"parent";i:1;}i:4;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3;}i:5;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:4;}i:6;a:2:{s:5:"class";s:0:"";s:6:"parent";i:5;}i:7;a:2:{s:5:"class";s:12:"ilobjchatgui";s:6:"parent";i:1;}i:8;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:7;}i:9;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:8;}i:10;a:2:{s:5:"class";s:0:"";s:6:"parent";i:9;}i:11;a:2:{s:5:"class";s:14:"ilobjcoursegui";s:6:"parent";i:1;}i:12;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:11;}i:13;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:11;}i:14;a:2:{s:5:"class";s:19:"ilcourseregistergui";s:6:"parent";i:11;}i:15;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:11;}i:16;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:15;}i:17;a:2:{s:5:"class";s:1:""";s:6:"parent";i:16;}i:18;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:15;}i:19;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:11;}i:20;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:19;}i:21;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:20;}i:22;a:2:{s:5:"class";s:0:"";s:6:"parent";i:21;}i:23;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:19;}i:24;a:2:{s:5:"class";s:0:"";s:6:"parent";i:23;}i:25;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:23;}i:26;a:2:{s:5:"class";s:0:"";s:6:"parent";i:25;}i:27;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:19;}i:28;a:2:{s:5:"class";s:0:"";s:6:"parent";i:27;}i:29;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:11;}i:30;a:2:{s:5:"class";s:22:"ilobjcoursegroupinggui";s:6:"parent";i:11;}i:31;a:2:{s:5:"class";s:20:"ilpaymentpurchasegui";s:6:"parent";i:11;}i:32;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:11;}i:33;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:32;}i:34;a:2:{s:5:"class";s:0:"";s:6:"parent";i:33;}i:35;a:2:{s:5:"class";s:14:"ilobjdlbookgui";s:6:"parent";i:1;}i:36;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:35;}i:37;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:36;}i:38;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:37;}i:39;a:2:{s:5:"class";s:0:"";s:6:"parent";i:38;}i:40;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:36;}i:41;a:2:{s:5:"class";s:0:"";s:6:"parent";i:40;}i:42;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:40;}i:43;a:2:{s:5:"class";s:0:"";s:6:"parent";i:42;}i:44;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:36;}i:45;a:2:{s:5:"class";s:0:"";s:6:"parent";i:44;}i:46;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:35;}i:47;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:46;}i:48;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:46;}i:49;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:48;}i:50;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:49;}i:51;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:50;}i:52;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:50;}i:53;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:48;}i:54;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:48;}i:55;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:54;}i:56;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:54;}i:57;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:56;}i:58;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:56;}i:59;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:54;}i:60;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:54;}i:61;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:54;}i:62;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:54;}i:63;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:54;}i:64;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:54;}i:65;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:54;}i:66;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:54;}i:67;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:54;}i:68;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:54;}i:69;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:35;}i:70;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:35;}i:71;a:2:{s:5:"class";s:0:"";s:6:"parent";i:70;}i:72;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:35;}i:73;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:72;}i:74;a:2:{s:5:"class";s:0:"";s:6:"parent";i:73;}i:75;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:35;}i:76;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:75;}i:77;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:75;}i:78;a:2:{s:5:"class";s:16:"ilobjexercisegui";s:6:"parent";i:1;}i:79;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:78;}i:80;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:79;}i:81;a:2:{s:5:"class";s:0:"";s:6:"parent";i:80;}i:82;a:2:{s:5:"class";s:19:"ilobjfilebasedlmgui";s:6:"parent";i:1;}i:83;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:82;}i:84;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:82;}i:85;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:82;}i:86;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:85;}i:87;a:2:{s:5:"class";s:0:"";s:6:"parent";i:86;}i:88;a:2:{s:5:"class";s:12:"ilobjfilegui";s:6:"parent";i:1;}i:89;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:88;}i:90;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:89;}i:91;a:2:{s:5:"class";s:1:""";s:6:"parent";i:90;}i:92;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:89;}i:93;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:88;}i:94;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:88;}i:95;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:94;}i:96;a:2:{s:5:"class";s:0:"";s:6:"parent";i:95;}i:97;a:2:{s:5:"class";s:14:"ilobjfoldergui";s:6:"parent";i:1;}i:98;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:97;}i:99;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:97;}i:100;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:99;}i:101;a:2:{s:5:"class";s:0:"";s:6:"parent";i:100;}i:102;a:2:{s:5:"class";s:13:"ilobjforumgui";s:6:"parent";i:1;}i:103;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:102;}i:104;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:103;}i:105;a:2:{s:5:"class";s:0:"";s:6:"parent";i:104;}i:106;a:2:{s:5:"class";s:16:"ilobjglossarygui";s:6:"parent";i:1;}i:107;a:2:{s:5:"class";s:17:"ilglossarytermgui";s:6:"parent";i:106;}i:108;a:2:{s:5:"class";s:25:"iltermdefinitioneditorgui";s:6:"parent";i:107;}i:109;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:108;}i:110;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:108;}i:111;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:110;}i:112;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:111;}i:113;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:112;}i:114;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:112;}i:115;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:110;}i:116;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:110;}i:117;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:116;}i:118;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:116;}i:119;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:118;}i:120;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:118;}i:121;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:116;}i:122;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:116;}i:123;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:116;}i:124;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:116;}i:125;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:116;}i:126;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:116;}i:127;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:116;}i:128;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:116;}i:129;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:116;}i:130;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:116;}i:131;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:106;}i:132;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:106;}i:133;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:132;}i:134;a:2:{s:5:"class";s:0:"";s:6:"parent";i:133;}i:135;a:2:{s:5:"class";s:13:"ilobjgroupgui";s:6:"parent";i:1;}i:136;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:135;}i:137;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:135;}i:138;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:137;}i:139;a:2:{s:5:"class";s:0:"";s:6:"parent";i:138;}i:140;a:2:{s:5:"class";s:13:"ilregistergui";s:6:"parent";i:135;}i:141;a:2:{s:5:"class";s:22:"ilobjilincclassroomgui";s:6:"parent";i:1;}i:142;a:2:{s:5:"class";s:0:"";s:6:"parent";i:141;}i:143;a:2:{s:5:"class";s:19:"ilobjilinccoursegui";s:6:"parent";i:1;}i:144;a:2:{s:5:"class";s:22:"ilobjilincclassroomgui";s:6:"parent";i:143;}i:145;a:2:{s:5:"class";s:0:"";s:6:"parent";i:144;}i:146;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:143;}i:147;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:146;}i:148;a:2:{s:5:"class";s:0:"";s:6:"parent";i:147;}i:149;a:2:{s:5:"class";s:22:"ilobjlearningmodulegui";s:6:"parent";i:1;}i:150;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:149;}i:151;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:150;}i:152;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:151;}i:153;a:2:{s:5:"class";s:0:"";s:6:"parent";i:152;}i:154;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:150;}i:155;a:2:{s:5:"class";s:0:"";s:6:"parent";i:154;}i:156;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:154;}i:157;a:2:{s:5:"class";s:0:"";s:6:"parent";i:156;}i:158;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:150;}i:159;a:2:{s:5:"class";s:0:"";s:6:"parent";i:158;}i:160;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:149;}i:161;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:160;}i:162;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:160;}i:163;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:162;}i:164;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:163;}i:165;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:164;}i:166;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:164;}i:167;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:162;}i:168;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:162;}i:169;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:168;}i:170;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:168;}i:171;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:170;}i:172;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:170;}i:173;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:168;}i:174;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:168;}i:175;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:168;}i:176;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:168;}i:177;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:168;}i:178;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:168;}i:179;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:168;}i:180;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:168;}i:181;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:168;}i:182;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:168;}i:183;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:149;}i:184;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:149;}i:185;a:2:{s:5:"class";s:0:"";s:6:"parent";i:184;}i:186;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:149;}i:187;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:186;}i:188;a:2:{s:5:"class";s:0:"";s:6:"parent";i:187;}i:189;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:149;}i:190;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:189;}i:191;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:189;}i:192;a:2:{s:5:"class";s:20:"ilobjlinkresourcegui";s:6:"parent";i:1;}i:193;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:192;}i:194;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:193;}i:195;a:2:{s:5:"class";s:1:""";s:6:"parent";i:194;}i:196;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:193;}i:197;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:192;}i:198;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:192;}i:199;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:198;}i:200;a:2:{s:5:"class";s:0:"";s:6:"parent";i:199;}i:201;a:2:{s:5:"class";s:17:"ilobjmediapoolgui";s:6:"parent";i:1;}i:202;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:201;}i:203;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:202;}i:204;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:203;}i:205;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:203;}i:206;a:2:{s:5:"class";s:14:"ilobjfoldergui";s:6:"parent";i:201;}i:207;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:206;}i:208;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:206;}i:209;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:208;}i:210;a:2:{s:5:"class";s:0:"";s:6:"parent";i:209;}i:211;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:201;}i:212;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:211;}i:213;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:211;}i:214;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:201;}i:215;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:214;}i:216;a:2:{s:5:"class";s:0:"";s:6:"parent";i:215;}i:217;a:2:{s:5:"class";s:20:"ilobjquestionpoolgui";s:6:"parent";i:1;}i:218;a:2:{s:5:"class";s:16:"ass_clozetestgui";s:6:"parent";i:217;}i:219;a:2:{s:5:"class";s:23:"ass_imagemapquestiongui";s:6:"parent";i:217;}i:220;a:2:{s:5:"class";s:17:"ass_javaappletgui";s:6:"parent";i:217;}i:221;a:2:{s:5:"class";s:23:"ass_matchingquestiongui";s:6:"parent";i:217;}i:222;a:2:{s:5:"class";s:21:"ass_multiplechoicegui";s:6:"parent";i:217;}i:223;a:2:{s:5:"class";s:23:"ass_orderingquestiongui";s:6:"parent";i:217;}i:224;a:2:{s:5:"class";s:19:"ass_textquestiongui";s:6:"parent";i:217;}i:225;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:217;}i:226;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:217;}i:227;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:226;}i:228;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:227;}i:229;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:228;}i:230;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:228;}i:231;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:226;}i:232;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:226;}i:233;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:232;}i:234;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:232;}i:235;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:234;}i:236;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:234;}i:237;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:232;}i:238;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:232;}i:239;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:232;}i:240;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:232;}i:241;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:232;}i:242;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:232;}i:243;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:232;}i:244;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:232;}i:245;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:232;}i:246;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:232;}i:247;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:217;}i:248;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:247;}i:249;a:2:{s:5:"class";s:0:"";s:6:"parent";i:248;}i:250;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1;}i:251;a:2:{s:5:"class";s:0:"";s:6:"parent";i:250;}i:252;a:2:{s:5:"class";s:18:"ilobjrootfoldergui";s:6:"parent";i:1;}i:253;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:252;}i:254;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:253;}i:255;a:2:{s:5:"class";s:0:"";s:6:"parent";i:254;}i:256;a:2:{s:5:"class";s:26:"ilobjsahslearningmodulegui";s:6:"parent";i:1;}i:257;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:256;}i:258;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:256;}i:259;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:256;}i:260;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:259;}i:261;a:2:{s:5:"class";s:0:"";s:6:"parent";i:260;}i:262;a:2:{s:5:"class";s:14:"ilobjsurveygui";s:6:"parent";i:1;}i:263;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:262;}i:264;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:262;}i:265;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:264;}i:266;a:2:{s:5:"class";s:0:"";s:6:"parent";i:265;}i:267;a:2:{s:5:"class";s:21:"ilsurveyevaluationgui";s:6:"parent";i:262;}i:268;a:2:{s:5:"class";s:20:"ilsurveyexecutiongui";s:6:"parent";i:262;}i:269;a:2:{s:5:"class";s:26:"ilobjsurveyquestionpoolgui";s:6:"parent";i:1;}i:270;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:269;}i:271;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:269;}i:272;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:271;}i:273;a:2:{s:5:"class";s:0:"";s:6:"parent";i:272;}i:274;a:2:{s:5:"class";s:23:"surveymetricquestiongui";s:6:"parent";i:269;}i:275;a:2:{s:5:"class";s:24:"surveynominalquestiongui";s:6:"parent";i:269;}i:276;a:2:{s:5:"class";s:24:"surveyordinalquestiongui";s:6:"parent";i:269;}i:277;a:2:{s:5:"class";s:21:"surveytextquestiongui";s:6:"parent";i:269;}i:278;a:2:{s:5:"class";s:12:"ilobjtestgui";s:6:"parent";i:1;}i:279;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:278;}i:280;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:279;}i:281;a:2:{s:5:"class";s:1:""";s:6:"parent";i:280;}i:282;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:279;}i:283;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:278;}i:284;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:283;}i:285;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:284;}i:286;a:2:{s:5:"class";s:0:"";s:6:"parent";i:285;}i:287;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:283;}i:288;a:2:{s:5:"class";s:0:"";s:6:"parent";i:287;}i:289;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:287;}i:290;a:2:{s:5:"class";s:0:"";s:6:"parent";i:289;}i:291;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:283;}i:292;a:2:{s:5:"class";s:0:"";s:6:"parent";i:291;}i:293;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:278;}i:294;a:2:{s:5:"class";s:14:"ilobjcoursegui";s:6:"parent";i:278;}i:295;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:294;}i:296;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:294;}i:297;a:2:{s:5:"class";s:19:"ilcourseregistergui";s:6:"parent";i:294;}i:298;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:294;}i:299;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:298;}i:300;a:2:{s:5:"class";s:1:""";s:6:"parent";i:299;}i:301;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:298;}i:302;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:294;}i:303;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:302;}i:304;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:303;}i:305;a:2:{s:5:"class";s:0:"";s:6:"parent";i:304;}i:306;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:302;}i:307;a:2:{s:5:"class";s:0:"";s:6:"parent";i:306;}i:308;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:306;}i:309;a:2:{s:5:"class";s:0:"";s:6:"parent";i:308;}i:310;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:302;}i:311;a:2:{s:5:"class";s:0:"";s:6:"parent";i:310;}i:312;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:294;}i:313;a:2:{s:5:"class";s:22:"ilobjcoursegroupinggui";s:6:"parent";i:294;}i:314;a:2:{s:5:"class";s:20:"ilpaymentpurchasegui";s:6:"parent";i:294;}i:315;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:294;}i:316;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:315;}i:317;a:2:{s:5:"class";s:0:"";s:6:"parent";i:316;}i:318;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:278;}i:319;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:318;}i:320;a:2:{s:5:"class";s:0:"";s:6:"parent";i:319;}i:321;a:2:{s:5:"class";s:19:"iltestevaluationgui";s:6:"parent";i:278;}i:322;a:2:{s:5:"class";s:15:"iltestoutputgui";s:6:"parent";i:278;}i:323;a:2:{s:5:"class";s:18:"ilobjuserfoldergui";s:6:"parent";i:1;}i:324;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:323;}i:325;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:324;}i:326;a:2:{s:5:"class";s:0:"";s:6:"parent";i:325;}i:327;a:2:{s:5:"class";s:12:"ilobjusergui";s:6:"parent";i:1;}i:328;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:327;}i:329;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:328;}i:330;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:329;}i:331;a:2:{s:5:"class";s:0:"";s:6:"parent";i:330;}i:332;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:328;}i:333;a:2:{s:5:"class";s:0:"";s:6:"parent";i:332;}i:334;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:332;}i:335;a:2:{s:5:"class";s:0:"";s:6:"parent";i:334;}i:336;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:328;}i:337;a:2:{s:5:"class";s:0:"";s:6:"parent";i:336;}}', 'a:44:{s:0:"";a:183:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";i:14;s:0:"";i:15;s:0:"";i:16;s:0:"";i:17;s:0:"";i:18;s:0:"";i:19;s:0:"";i:20;s:0:"";i:21;s:0:"";i:22;s:0:"";i:23;s:0:"";i:24;s:0:"";i:25;s:0:"";i:26;s:0:"";i:27;s:0:"";i:28;s:0:"";i:29;s:0:"";i:30;s:0:"";i:31;s:0:"";i:32;s:0:"";i:33;s:0:"";i:34;s:0:"";i:35;s:0:"";i:36;s:0:"";i:37;s:0:"";i:38;s:0:"";i:39;s:0:"";i:40;s:0:"";i:41;s:0:"";i:42;s:0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";i:46;s:0:"";i:47;s:0:"";i:48;s:0:"";i:49;s:0:"";i:50;s:0:"";i:51;s:0:"";i:52;s:0:"";i:53;s:0:"";i:54;s:0:"";i:55;s:0:"";i:56;s:0:"";i:57;s:0:"";i:58;s:0:"";i:59;s:0:"";i:60;s:0:"";i:61;s:0:"";i:62;s:0:"";i:63;s:0:"";i:64;s:0:"";i:65;s:0:"";i:66;s:0:"";i:67;s:0:"";i:68;s:0:"";i:69;s:0:"";i:70;s:0:"";i:71;s:0:"";i:72;s:0:"";i:73;s:0:"";i:74;s:0:"";i:75;s:0:"";i:76;s:0:"";i:77;s:0:"";i:78;s:0:"";i:79;s:0:"";i:80;s:0:"";i:81;s:0:"";i:82;s:0:"";i:83;s:0:"";i:84;s:0:"";i:85;s:0:"";i:86;s:0:"";i:87;s:0:"";i:88;s:0:"";i:89;s:0:"";i:90;s:0:"";i:91;s:0:"";i:92;s:0:"";i:93;s:0:"";i:94;s:0:"";i:95;s:0:"";i:96;s:0:"";i:97;s:0:"";i:98;s:0:"";i:99;s:0:"";i:100;s:0:"";i:101;s:0:"";i:102;s:0:"";i:103;s:0:"";i:104;s:0:"";i:105;s:0:"";i:106;s:0:"";i:107;s:0:"";i:108;s:0:"";i:109;s:0:"";i:110;s:0:"";i:111;s:0:"";i:112;s:0:"";i:113;s:0:"";i:114;s:0:"";i:115;s:0:"";i:116;s:0:"";i:117;s:0:"";i:118;s:0:"";i:119;s:0:"";i:120;s:0:"";i:121;s:0:"";i:122;s:0:"";i:123;s:0:"";i:124;s:0:"";i:125;s:0:"";i:126;s:0:"";i:127;s:0:"";i:128;s:0:"";i:129;s:0:"";i:130;s:0:"";i:131;s:0:"";i:132;s:0:"";i:133;s:0:"";i:134;s:0:"";i:135;s:0:"";i:136;s:0:"";i:137;s:0:"";i:138;s:0:"";i:139;s:0:"";i:140;s:0:"";i:141;s:0:"";i:142;s:0:"";i:143;s:0:"";i:144;s:0:"";i:145;s:0:"";i:146;s:0:"";i:147;s:0:"";i:148;s:0:"";i:149;s:0:"";i:150;s:0:"";i:151;s:0:"";i:152;s:0:"";i:153;s:0:"";i:154;s:0:"";i:155;s:0:"";i:156;s:0:"";i:157;s:0:"";i:158;s:0:"";i:159;s:0:"";i:160;s:0:"";i:161;s:0:"";i:162;s:0:"";i:163;s:0:"";i:164;s:0:"";i:165;s:0:"";i:166;s:0:"";i:167;s:0:"";i:168;s:0:"";i:169;s:0:"";i:170;s:0:"";i:171;s:0:"";i:172;s:0:"";i:173;s:0:"";i:174;s:0:"";i:175;s:0:"";i:176;s:0:"";i:177;s:0:"";i:178;s:0:"";i:179;s:0:"";i:180;s:0:"";i:181;s:0:"";i:182;s:0:"";}s:12:"ilobjrolegui";a:25:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";i:14;s:0:"";i:15;s:0:"";i:16;s:0:"";i:17;s:0:"";i:18;s:0:"";i:19;s:0:"";i:20;s:0:"";i:21;s:0:"";i:22;s:0:"";i:23;s:0:"";i:24;s:0:"";}s:15:"ilpermissiongui";a:24:{i:0;s:12:"ilobjrolegui";i:1;s:12:"ilobjrolegui";i:2;s:12:"ilobjrolegui";i:3;s:12:"ilobjrolegui";i:4;s:12:"ilobjrolegui";i:5;s:12:"ilobjrolegui";i:6;s:12:"ilobjrolegui";i:7;s:12:"ilobjrolegui";i:8;s:12:"ilobjrolegui";i:9;s:12:"ilobjrolegui";i:10;s:12:"ilobjrolegui";i:11;s:12:"ilobjrolegui";i:12;s:12:"ilobjrolegui";i:13;s:12:"ilobjrolegui";i:14;s:12:"ilobjrolegui";i:15;s:12:"ilobjrolegui";i:16;s:12:"ilobjrolegui";i:17;s:12:"ilobjrolegui";i:18;s:12:"ilobjrolegui";i:19;s:12:"ilobjrolegui";i:20;s:12:"ilobjrolegui";i:21;s:12:"ilobjrolegui";i:22;s:12:"ilobjrolegui";i:23;s:12:"ilobjrolegui";}s:16:"ilobjcategorygui";a:1:{i:0;s:15:"ilpermissiongui";}s:12:"ilobjchatgui";a:1:{i:0;s:15:"ilpermissiongui";}s:13:"ilfeedbackgui";a:5:{i:0;s:1:""";i:1;s:1:""";i:2;s:1:""";i:3;s:1:""";i:4;s:1:""";}s:15:"ilinfoscreengui";a:10:{i:0;s:13:"ilfeedbackgui";i:1;s:9:"ilnotegui";i:2;s:13:"ilfeedbackgui";i:3;s:9:"ilnotegui";i:4;s:13:"ilfeedbackgui";i:5;s:9:"ilnotegui";i:6;s:13:"ilfeedbackgui";i:7;s:9:"ilnotegui";i:8;s:13:"ilfeedbackgui";i:9;s:9:"ilnotegui";}s:13:"illpfiltergui";a:12:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";}s:20:"illplistofobjectsgui";a:6:{i:0;s:13:"illpfiltergui";i:1;s:13:"illpfiltergui";i:2;s:13:"illpfiltergui";i:3;s:13:"illpfiltergui";i:4;s:13:"illpfiltergui";i:5;s:13:"illpfiltergui";}s:21:"illplistofprogressgui";a:12:{i:0;s:0:"";i:1;s:13:"illpfiltergui";i:2;s:0:"";i:3;s:13:"illpfiltergui";i:4;s:0:"";i:5;s:13:"illpfiltergui";i:6;s:0:"";i:7;s:13:"illpfiltergui";i:8;s:0:"";i:9;s:13:"illpfiltergui";i:10;s:0:"";i:11;s:13:"illpfiltergui";}s:21:"illplistofsettingsgui";a:6:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";}s:21:"illearningprogressgui";a:18:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:21:"illplistofsettingsgui";i:3;s:20:"illplistofobjectsgui";i:4;s:21:"illplistofprogressgui";i:5;s:21:"illplistofsettingsgui";i:6;s:20:"illplistofobjectsgui";i:7;s:21:"illplistofprogressgui";i:8;s:21:"illplistofsettingsgui";i:9;s:20:"illplistofobjectsgui";i:10;s:21:"illplistofprogressgui";i:11;s:21:"illplistofsettingsgui";i:12;s:20:"illplistofobjectsgui";i:13;s:21:"illplistofprogressgui";i:14;s:21:"illplistofsettingsgui";i:15;s:20:"illplistofobjectsgui";i:16;s:21:"illplistofprogressgui";i:17;s:21:"illplistofsettingsgui";}s:14:"ilobjcoursegui";a:18:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:21:"ilcourseobjectivesgui";i:2;s:19:"ilcourseregistergui";i:3;s:15:"ilinfoscreengui";i:4;s:21:"illearningprogressgui";i:5;s:13:"ilmdeditorgui";i:6;s:22:"ilobjcoursegroupinggui";i:7;s:20:"ilpaymentpurchasegui";i:8;s:15:"ilpermissiongui";i:9;s:27:"ilconditionhandlerinterface";i:10;s:21:"ilcourseobjectivesgui";i:11;s:19:"ilcourseregistergui";i:12;s:15:"ilinfoscreengui";i:13;s:21:"illearningprogressgui";i:14;s:13:"ilmdeditorgui";i:15;s:22:"ilobjcoursegroupinggui";i:16;s:20:"ilpaymentpurchasegui";i:17;s:15:"ilpermissiongui";}s:19:"ilobjmediaobjectgui";a:20:{i:0;s:17:"ilinternallinkgui";i:1;s:13:"ilmdeditorgui";i:2;s:17:"ilinternallinkgui";i:3;s:13:"ilmdeditorgui";i:4;s:17:"ilinternallinkgui";i:5;s:13:"ilmdeditorgui";i:6;s:17:"ilinternallinkgui";i:7;s:13:"ilmdeditorgui";i:8;s:17:"ilinternallinkgui";i:9;s:13:"ilmdeditorgui";i:10;s:17:"ilinternallinkgui";i:11;s:13:"ilmdeditorgui";i:12;s:17:"ilinternallinkgui";i:13;s:13:"ilmdeditorgui";i:14;s:17:"ilinternallinkgui";i:15;s:13:"ilmdeditorgui";i:16;s:17:"ilinternallinkgui";i:17;s:13:"ilmdeditorgui";i:18;s:17:"ilinternallinkgui";i:19;s:13:"ilmdeditorgui";}s:18:"ileditclipboardgui";a:5:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:19:"ilobjmediaobjectgui";i:3;s:19:"ilobjmediaobjectgui";i:4;s:19:"ilobjmediaobjectgui";}s:15:"ilpageeditorgui";a:48:{i:0;s:17:"ilinternallinkgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:15:"ilpcfileitemgui";i:3;s:15:"ilpcfilelistgui";i:4;s:11:"ilpclistgui";i:5;s:15:"ilpclistitemgui";i:6;s:18:"ilpcmediaobjectgui";i:7;s:16:"ilpcparagraphgui";i:8;s:15:"ilpcquestiongui";i:9;s:17:"ilpcsourcecodegui";i:10;s:16:"ilpctabledatagui";i:11;s:12:"ilpctablegui";i:12;s:17:"ilinternallinkgui";i:13;s:19:"ilobjmediaobjectgui";i:14;s:15:"ilpcfileitemgui";i:15;s:15:"ilpcfilelistgui";i:16;s:11:"ilpclistgui";i:17;s:15:"ilpclistitemgui";i:18;s:18:"ilpcmediaobjectgui";i:19;s:16:"ilpcparagraphgui";i:20;s:15:"ilpcquestiongui";i:21;s:17:"ilpcsourcecodegui";i:22;s:16:"ilpctabledatagui";i:23;s:12:"ilpctablegui";i:24;s:17:"ilinternallinkgui";i:25;s:19:"ilobjmediaobjectgui";i:26;s:15:"ilpcfileitemgui";i:27;s:15:"ilpcfilelistgui";i:28;s:11:"ilpclistgui";i:29;s:15:"ilpclistitemgui";i:30;s:18:"ilpcmediaobjectgui";i:31;s:16:"ilpcparagraphgui";i:32;s:15:"ilpcquestiongui";i:33;s:17:"ilpcsourcecodegui";i:34;s:16:"ilpctabledatagui";i:35;s:12:"ilpctablegui";i:36;s:17:"ilinternallinkgui";i:37;s:19:"ilobjmediaobjectgui";i:38;s:15:"ilpcfileitemgui";i:39;s:15:"ilpcfilelistgui";i:40;s:11:"ilpclistgui";i:41;s:15:"ilpclistitemgui";i:42;s:18:"ilpcmediaobjectgui";i:43;s:16:"ilpcparagraphgui";i:44;s:15:"ilpcquestiongui";i:45;s:17:"ilpcsourcecodegui";i:46;s:16:"ilpctabledatagui";i:47;s:12:"ilpctablegui";}s:15:"ilpageobjectgui";a:12:{i:0;s:18:"ileditclipboardgui";i:1;s:25:"ilmediapooltargetselector";i:2;s:15:"ilpageeditorgui";i:3;s:18:"ileditclipboardgui";i:4;s:25:"ilmediapooltargetselector";i:5;s:15:"ilpageeditorgui";i:6;s:18:"ileditclipboardgui";i:7;s:25:"ilmediapooltargetselector";i:8;s:15:"ilpageeditorgui";i:9;s:18:"ileditclipboardgui";i:10;s:25:"ilmediapooltargetselector";i:11;s:15:"ilpageeditorgui";}s:17:"illmpageobjectgui";a:4:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:15:"ilpageobjectgui";}s:18:"ilobjstylesheetgui";a:2:{i:0;s:0:"";i:1;s:0:"";}s:20:"ilstructureobjectgui";a:4:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:13:"ilmdeditorgui";i:2;s:27:"ilconditionhandlerinterface";i:3;s:13:"ilmdeditorgui";}s:14:"ilobjdlbookgui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:17:"illmpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:18:"ilobjstylesheetgui";i:4;s:15:"ilpermissiongui";i:5;s:20:"ilstructureobjectgui";}s:16:"ilobjexercisegui";a:1:{i:0;s:15:"ilpermissiongui";}s:19:"ilobjfilebasedlmgui";a:3:{i:0;s:15:"ilfilesystemgui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:12:"ilobjfilegui";a:3:{i:0;s:15:"ilinfoscreengui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:14:"ilobjfoldergui";a:4:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:15:"ilpermissiongui";i:2;s:27:"ilconditionhandlerinterface";i:3;s:15:"ilpermissiongui";}s:13:"ilobjforumgui";a:1:{i:0;s:15:"ilpermissiongui";}s:25:"iltermdefinitioneditorgui";a:2:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpageobjectgui";}s:17:"ilglossarytermgui";a:1:{i:0;s:25:"iltermdefinitioneditorgui";}s:16:"ilobjglossarygui";a:3:{i:0;s:17:"ilglossarytermgui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:13:"ilobjgroupgui";a:3:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:15:"ilpermissiongui";i:2;s:13:"ilregistergui";}s:22:"ilobjilincclassroomgui";a:2:{i:0;s:0:"";i:1;s:0:"";}s:19:"ilobjilinccoursegui";a:2:{i:0;s:22:"ilobjilincclassroomgui";i:1;s:15:"ilpermissiongui";}s:22:"ilobjlearningmodulegui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:17:"illmpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:18:"ilobjstylesheetgui";i:4;s:15:"ilpermissiongui";i:5;s:20:"ilstructureobjectgui";}s:20:"ilobjlinkresourcegui";a:3:{i:0;s:15:"ilinfoscreengui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:17:"ilobjmediapoolgui";a:4:{i:0;s:18:"ileditclipboardgui";i:1;s:14:"ilobjfoldergui";i:2;s:19:"ilobjmediaobjectgui";i:3;s:15:"ilpermissiongui";}s:20:"ilobjquestionpoolgui";a:10:{i:0;s:16:"ass_clozetestgui";i:1;s:23:"ass_imagemapquestiongui";i:2;s:17:"ass_javaappletgui";i:3;s:23:"ass_matchingquestiongui";i:4;s:21:"ass_multiplechoicegui";i:5;s:23:"ass_orderingquestiongui";i:6;s:19:"ass_textquestiongui";i:7;s:13:"ilmdeditorgui";i:8;s:15:"ilpageobjectgui";i:9;s:15:"ilpermissiongui";}s:18:"ilobjrootfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:26:"ilobjsahslearningmodulegui";a:3:{i:0;s:15:"ilfilesystemgui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:14:"ilobjsurveygui";a:4:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpermissiongui";i:2;s:21:"ilsurveyevaluationgui";i:3;s:20:"ilsurveyexecutiongui";}s:26:"ilobjsurveyquestionpoolgui";a:6:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpermissiongui";i:2;s:23:"surveymetricquestiongui";i:3;s:24:"surveynominalquestiongui";i:4;s:24:"surveyordinalquestiongui";i:5;s:21:"surveytextquestiongui";}s:12:"ilobjtestgui";a:7:{i:0;s:15:"ilinfoscreengui";i:1;s:21:"illearningprogressgui";i:2;s:13:"ilmdeditorgui";i:3;s:14:"ilobjcoursegui";i:4;s:15:"ilpermissiongui";i:5;s:19:"iltestevaluationgui";i:6;s:15:"iltestoutputgui";}s:18:"ilobjuserfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:12:"ilobjusergui";a:1:{i:0;s:21:"illearningprogressgui";}s:15:"ilrepositorygui";a:26:{i:0;s:21:"ilcourseobjectivesgui";i:1;s:16:"ilobjcategorygui";i:2;s:12:"ilobjchatgui";i:3;s:14:"ilobjcoursegui";i:4;s:14:"ilobjdlbookgui";i:5;s:16:"ilobjexercisegui";i:6;s:19:"ilobjfilebasedlmgui";i:7;s:12:"ilobjfilegui";i:8;s:14:"ilobjfoldergui";i:9;s:13:"ilobjforumgui";i:10;s:16:"ilobjglossarygui";i:11;s:13:"ilobjgroupgui";i:12;s:22:"ilobjilincclassroomgui";i:13;s:19:"ilobjilinccoursegui";i:14;s:22:"ilobjlearningmodulegui";i:15;s:20:"ilobjlinkresourcegui";i:16;s:17:"ilobjmediapoolgui";i:17;s:20:"ilobjquestionpoolgui";i:18;s:12:"ilobjrolegui";i:19;s:18:"ilobjrootfoldergui";i:20;s:26:"ilobjsahslearningmodulegui";i:21;s:14:"ilobjsurveygui";i:22;s:26:"ilobjsurveyquestionpoolgui";i:23;s:12:"ilobjtestgui";i:24;s:18:"ilobjuserfoldergui";i:25;s:12:"ilobjusergui";}}', 'a:80:{s:0:"";a:236:{i:0;s:0:"";i:1;s:0:"";i:2;s:12:"ilobjrolegui";i:3;s:0:"";i:4;s:12:"ilobjrolegui";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:13:"illpfiltergui";i:12;s:0:"";i:13;s:0:"";i:14;s:13:"illpfiltergui";i:15;s:21:"illplistofprogressgui";i:16;s:0:"";i:17;s:21:"illplistofsettingsgui";i:18;s:0:"";i:19;s:0:"";i:20;s:0:"";i:21;s:0:"";i:22;s:12:"ilobjrolegui";i:23;s:0:"";i:24;s:13:"illpfiltergui";i:25;s:0:"";i:26;s:0:"";i:27;s:13:"illpfiltergui";i:28;s:21:"illplistofprogressgui";i:29;s:0:"";i:30;s:21:"illplistofsettingsgui";i:31;s:0:"";i:32;s:0:"";i:33;s:0:"";i:34;s:0:"";i:35;s:0:"";i:36;s:0:"";i:37;s:0:"";i:38;s:0:"";i:39;s:0:"";i:40;s:0:"";i:41;s:0:"";i:42;s:0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";i:46;s:0:"";i:47;s:0:"";i:48;s:0:"";i:49;s:0:"";i:50;s:18:"ilobjstylesheetgui";i:51;s:0:"";i:52;s:12:"ilobjrolegui";i:53;s:0:"";i:54;s:0:"";i:55;s:0:"";i:56;s:12:"ilobjrolegui";i:57;s:0:"";i:58;s:0:"";i:59;s:0:"";i:60;s:12:"ilobjrolegui";i:61;s:0:"";i:62;s:0:"";i:63;s:0:"";i:64;s:0:"";i:65;s:12:"ilobjrolegui";i:66;s:0:"";i:67;s:0:"";i:68;s:12:"ilobjrolegui";i:69;s:0:"";i:70;s:12:"ilobjrolegui";i:71;s:0:"";i:72;s:0:"";i:73;s:0:"";i:74;s:0:"";i:75;s:0:"";i:76;s:0:"";i:77;s:0:"";i:78;s:0:"";i:79;s:0:"";i:80;s:0:"";i:81;s:0:"";i:82;s:0:"";i:83;s:0:"";i:84;s:0:"";i:85;s:0:"";i:86;s:0:"";i:87;s:0:"";i:88;s:0:"";i:89;s:0:"";i:90;s:12:"ilobjrolegui";i:91;s:0:"";i:92;s:0:"";i:93;s:12:"ilobjrolegui";i:94;s:0:"";i:95;s:0:"";i:96;s:22:"ilobjilincclassroomgui";i:97;s:0:"";i:98;s:22:"ilobjilincclassroomgui";i:99;s:0:"";i:100;s:12:"ilobjrolegui";i:101;s:0:"";i:102;s:13:"illpfiltergui";i:103;s:0:"";i:104;s:0:"";i:105;s:13:"illpfiltergui";i:106;s:21:"illplistofprogressgui";i:107;s:0:"";i:108;s:21:"illplistofsettingsgui";i:109;s:0:"";i:110;s:0:"";i:111;s:0:"";i:112;s:0:"";i:113;s:0:"";i:114;s:0:"";i:115;s:0:"";i:116;s:0:"";i:117;s:0:"";i:118;s:0:"";i:119;s:0:"";i:120;s:0:"";i:121;s:0:"";i:122;s:0:"";i:123;s:0:"";i:124;s:0:"";i:125;s:0:"";i:126;s:0:"";i:127;s:0:"";i:128;s:18:"ilobjstylesheetgui";i:129;s:0:"";i:130;s:12:"ilobjrolegui";i:131;s:0:"";i:132;s:0:"";i:133;s:0:"";i:134;s:0:"";i:135;s:0:"";i:136;s:0:"";i:137;s:12:"ilobjrolegui";i:138;s:0:"";i:139;s:0:"";i:140;s:0:"";i:141;s:0:"";i:142;s:12:"ilobjrolegui";i:143;s:0:"";i:144;s:0:"";i:145;s:0:"";i:146;s:12:"ilobjrolegui";i:147;s:0:"";i:148;s:0:"";i:149;s:0:"";i:150;s:0:"";i:151;s:0:"";i:152;s:0:"";i:153;s:0:"";i:154;s:0:"";i:155;s:0:"";i:156;s:0:"";i:157;s:0:"";i:158;s:0:"";i:159;s:0:"";i:160;s:0:"";i:161;s:0:"";i:162;s:0:"";i:163;s:0:"";i:164;s:0:"";i:165;s:0:"";i:166;s:0:"";i:167;s:0:"";i:168;s:0:"";i:169;s:0:"";i:170;s:0:"";i:171;s:0:"";i:172;s:12:"ilobjrolegui";i:173;s:0:"";i:174;s:12:"ilobjrolegui";i:175;s:0:"";i:176;s:12:"ilobjrolegui";i:177;s:0:"";i:178;s:0:"";i:179;s:0:"";i:180;s:12:"ilobjrolegui";i:181;s:0:"";i:182;s:0:"";i:183;s:12:"ilobjrolegui";i:184;s:0:"";i:185;s:0:"";i:186;s:0:"";i:187;s:0:"";i:188;s:12:"ilobjrolegui";i:189;s:0:"";i:190;s:0:"";i:191;s:0:"";i:192;s:0:"";i:193;s:0:"";i:194;s:0:"";i:195;s:0:"";i:196;s:13:"illpfiltergui";i:197;s:0:"";i:198;s:0:"";i:199;s:13:"illpfiltergui";i:200;s:21:"illplistofprogressgui";i:201;s:0:"";i:202;s:21:"illplistofsettingsgui";i:203;s:0:"";i:204;s:0:"";i:205;s:0:"";i:206;s:0:"";i:207;s:0:"";i:208;s:0:"";i:209;s:0:"";i:210;s:13:"illpfiltergui";i:211;s:0:"";i:212;s:0:"";i:213;s:13:"illpfiltergui";i:214;s:21:"illplistofprogressgui";i:215;s:0:"";i:216;s:21:"illplistofsettingsgui";i:217;s:0:"";i:218;s:0:"";i:219;s:0:"";i:220;s:0:"";i:221;s:12:"ilobjrolegui";i:222;s:0:"";i:223;s:12:"ilobjrolegui";i:224;s:0:"";i:225;s:0:"";i:226;s:0:"";i:227;s:12:"ilobjrolegui";i:228;s:0:"";i:229;s:13:"illpfiltergui";i:230;s:0:"";i:231;s:0:"";i:232;s:13:"illpfiltergui";i:233;s:21:"illplistofprogressgui";i:234;s:0:"";i:235;s:21:"illplistofsettingsgui";}s:12:"ilobjrolegui";a:25:{i:0;s:15:"ilpermissiongui";i:1;s:15:"ilpermissiongui";i:2;s:15:"ilpermissiongui";i:3;s:15:"ilpermissiongui";i:4;s:15:"ilpermissiongui";i:5;s:15:"ilpermissiongui";i:6;s:15:"ilpermissiongui";i:7;s:15:"ilpermissiongui";i:8;s:15:"ilpermissiongui";i:9;s:15:"ilpermissiongui";i:10;s:15:"ilpermissiongui";i:11;s:15:"ilpermissiongui";i:12;s:15:"ilpermissiongui";i:13;s:15:"ilpermissiongui";i:14;s:15:"ilpermissiongui";i:15;s:15:"ilpermissiongui";i:16;s:15:"ilpermissiongui";i:17;s:15:"ilpermissiongui";i:18;s:15:"ilpermissiongui";i:19;s:15:"ilpermissiongui";i:20;s:15:"ilpermissiongui";i:21;s:15:"ilpermissiongui";i:22;s:15:"ilpermissiongui";i:23;s:15:"ilpermissiongui";i:24;s:15:"ilrepositorygui";}s:15:"ilpermissiongui";a:24:{i:0;s:16:"ilobjcategorygui";i:1;s:12:"ilobjchatgui";i:2;s:14:"ilobjcoursegui";i:3;s:14:"ilobjdlbookgui";i:4;s:16:"ilobjexercisegui";i:5;s:19:"ilobjfilebasedlmgui";i:6;s:12:"ilobjfilegui";i:7;s:14:"ilobjfoldergui";i:8;s:13:"ilobjforumgui";i:9;s:16:"ilobjglossarygui";i:10;s:13:"ilobjgroupgui";i:11;s:19:"ilobjilinccoursegui";i:12;s:22:"ilobjlearningmodulegui";i:13;s:20:"ilobjlinkresourcegui";i:14;s:14:"ilobjfoldergui";i:15;s:17:"ilobjmediapoolgui";i:16;s:20:"ilobjquestionpoolgui";i:17;s:18:"ilobjrootfoldergui";i:18;s:26:"ilobjsahslearningmodulegui";i:19;s:14:"ilobjsurveygui";i:20;s:26:"ilobjsurveyquestionpoolgui";i:21;s:14:"ilobjcoursegui";i:22;s:12:"ilobjtestgui";i:23;s:18:"ilobjuserfoldergui";}s:1:""";a:5:{i:0;s:13:"ilfeedbackgui";i:1;s:13:"ilfeedbackgui";i:2;s:13:"ilfeedbackgui";i:3;s:13:"ilfeedbackgui";i:4;s:13:"ilfeedbackgui";}s:13:"ilfeedbackgui";a:5:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilinfoscreengui";i:2;s:15:"ilinfoscreengui";i:3;s:15:"ilinfoscreengui";i:4;s:15:"ilinfoscreengui";}s:9:"ilnotegui";a:5:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilinfoscreengui";i:2;s:15:"ilinfoscreengui";i:3;s:15:"ilinfoscreengui";i:4;s:15:"ilinfoscreengui";}s:13:"illpfiltergui";a:12:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:20:"illplistofobjectsgui";i:3;s:21:"illplistofprogressgui";i:4;s:20:"illplistofobjectsgui";i:5;s:21:"illplistofprogressgui";i:6;s:20:"illplistofobjectsgui";i:7;s:21:"illplistofprogressgui";i:8;s:20:"illplistofobjectsgui";i:9;s:21:"illplistofprogressgui";i:10;s:20:"illplistofobjectsgui";i:11;s:21:"illplistofprogressgui";}s:20:"illplistofobjectsgui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";i:2;s:21:"illearningprogressgui";i:3;s:21:"illearningprogressgui";i:4;s:21:"illearningprogressgui";i:5;s:21:"illearningprogressgui";}s:21:"illplistofprogressgui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";i:2;s:21:"illearningprogressgui";i:3;s:21:"illearningprogressgui";i:4;s:21:"illearningprogressgui";i:5;s:21:"illearningprogressgui";}s:21:"illplistofsettingsgui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";i:2;s:21:"illearningprogressgui";i:3;s:21:"illearningprogressgui";i:4;s:21:"illearningprogressgui";i:5;s:21:"illearningprogressgui";}s:27:"ilconditionhandlerinterface";a:7:{i:0;s:14:"ilobjcoursegui";i:1;s:20:"ilstructureobjectgui";i:2;s:14:"ilobjfoldergui";i:3;s:13:"ilobjgroupgui";i:4;s:20:"ilstructureobjectgui";i:5;s:14:"ilobjfoldergui";i:6;s:14:"ilobjcoursegui";}s:21:"ilcourseobjectivesgui";a:3:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";i:2;s:15:"ilrepositorygui";}s:19:"ilcourseregistergui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";}s:15:"ilinfoscreengui";a:5:{i:0;s:14:"ilobjcoursegui";i:1;s:12:"ilobjfilegui";i:2;s:20:"ilobjlinkresourcegui";i:3;s:14:"ilobjcoursegui";i:4;s:12:"ilobjtestgui";}s:21:"illearningprogressgui";a:6:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjdlbookgui";i:2;s:22:"ilobjlearningmodulegui";i:3;s:14:"ilobjcoursegui";i:4;s:12:"ilobjtestgui";i:5;s:12:"ilobjusergui";}s:13:"ilmdeditorgui";a:28:{i:0;s:14:"ilobjcoursegui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:19:"ilobjmediaobjectgui";i:3;s:17:"illmpageobjectgui";i:4;s:20:"ilstructureobjectgui";i:5;s:14:"ilobjdlbookgui";i:6;s:19:"ilobjfilebasedlmgui";i:7;s:12:"ilobjfilegui";i:8;s:19:"ilobjmediaobjectgui";i:9;s:19:"ilobjmediaobjectgui";i:10;s:25:"iltermdefinitioneditorgui";i:11;s:16:"ilobjglossarygui";i:12;s:19:"ilobjmediaobjectgui";i:13;s:19:"ilobjmediaobjectgui";i:14;s:17:"illmpageobjectgui";i:15;s:20:"ilstructureobjectgui";i:16;s:22:"ilobjlearningmodulegui";i:17;s:20:"ilobjlinkresourcegui";i:18;s:19:"ilobjmediaobjectgui";i:19;s:19:"ilobjmediaobjectgui";i:20;s:19:"ilobjmediaobjectgui";i:21;s:19:"ilobjmediaobjectgui";i:22;s:20:"ilobjquestionpoolgui";i:23;s:26:"ilobjsahslearningmodulegui";i:24;s:14:"ilobjsurveygui";i:25;s:26:"ilobjsurveyquestionpoolgui";i:26;s:14:"ilobjcoursegui";i:27;s:12:"ilobjtestgui";}s:22:"ilobjcoursegroupinggui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";}s:20:"ilpaymentpurchasegui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";}s:17:"ilinternallinkgui";a:14:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:15:"ilpageeditorgui";i:3;s:19:"ilobjmediaobjectgui";i:4;s:19:"ilobjmediaobjectgui";i:5;s:15:"ilpageeditorgui";i:6;s:19:"ilobjmediaobjectgui";i:7;s:19:"ilobjmediaobjectgui";i:8;s:15:"ilpageeditorgui";i:9;s:19:"ilobjmediaobjectgui";i:10;s:19:"ilobjmediaobjectgui";i:11;s:19:"ilobjmediaobjectgui";i:12;s:19:"ilobjmediaobjectgui";i:13;s:15:"ilpageeditorgui";}s:19:"ilobjmediaobjectgui";a:10:{i:0;s:18:"ileditclipboardgui";i:1;s:15:"ilpageeditorgui";i:2;s:18:"ileditclipboardgui";i:3;s:15:"ilpageeditorgui";i:4;s:18:"ileditclipboardgui";i:5;s:15:"ilpageeditorgui";i:6;s:18:"ileditclipboardgui";i:7;s:17:"ilobjmediapoolgui";i:8;s:18:"ileditclipboardgui";i:9;s:15:"ilpageeditorgui";}s:15:"ilpcfileitemgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:15:"ilpcfilelistgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:11:"ilpclistgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:15:"ilpclistitemgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:18:"ilpcmediaobjectgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:16:"ilpcparagraphgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:15:"ilpcquestiongui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:17:"ilpcsourcecodegui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:16:"ilpctabledatagui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:12:"ilpctablegui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:18:"ileditclipboardgui";a:5:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";i:2;s:15:"ilpageobjectgui";i:3;s:17:"ilobjmediapoolgui";i:4;s:15:"ilpageobjectgui";}s:25:"ilmediapooltargetselector";a:4:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";i:2;s:15:"ilpageobjectgui";i:3;s:15:"ilpageobjectgui";}s:15:"ilpageeditorgui";a:4:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";i:2;s:15:"ilpageobjectgui";i:3;s:15:"ilpageobjectgui";}s:15:"ilpageobjectgui";a:4:{i:0;s:17:"illmpageobjectgui";i:1;s:25:"iltermdefinitioneditorgui";i:2;s:17:"illmpageobjectgui";i:3;s:20:"ilobjquestionpoolgui";}s:17:"illmpageobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:18:"ilobjstylesheetgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:20:"ilstructureobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:15:"ilfilesystemgui";a:2:{i:0;s:19:"ilobjfilebasedlmgui";i:1;s:26:"ilobjsahslearningmodulegui";}s:25:"iltermdefinitioneditorgui";a:1:{i:0;s:17:"ilglossarytermgui";}s:17:"ilglossarytermgui";a:1:{i:0;s:16:"ilobjglossarygui";}s:13:"ilregistergui";a:1:{i:0;s:13:"ilobjgroupgui";}s:22:"ilobjilincclassroomgui";a:2:{i:0;s:19:"ilobjilinccoursegui";i:1;s:15:"ilrepositorygui";}s:14:"ilobjfoldergui";a:2:{i:0;s:17:"ilobjmediapoolgui";i:1;s:15:"ilrepositorygui";}s:16:"ass_clozetestgui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:23:"ass_imagemapquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:17:"ass_javaappletgui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:23:"ass_matchingquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:21:"ass_multiplechoicegui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:23:"ass_orderingquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:19:"ass_textquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:21:"ilsurveyevaluationgui";a:1:{i:0;s:14:"ilobjsurveygui";}s:20:"ilsurveyexecutiongui";a:1:{i:0;s:14:"ilobjsurveygui";}s:23:"surveymetricquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:24:"surveynominalquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:24:"surveyordinalquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:21:"surveytextquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:14:"ilobjcoursegui";a:2:{i:0;s:12:"ilobjtestgui";i:1;s:15:"ilrepositorygui";}s:19:"iltestevaluationgui";a:1:{i:0;s:12:"ilobjtestgui";}s:15:"iltestoutputgui";a:1:{i:0;s:12:"ilobjtestgui";}s:16:"ilobjcategorygui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjchatgui";a:1:{i:0;s:15:"ilrepositorygui";}s:14:"ilobjdlbookgui";a:1:{i:0;s:15:"ilrepositorygui";}s:16:"ilobjexercisegui";a:1:{i:0;s:15:"ilrepositorygui";}s:19:"ilobjfilebasedlmgui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjfilegui";a:1:{i:0;s:15:"ilrepositorygui";}s:13:"ilobjforumgui";a:1:{i:0;s:15:"ilrepositorygui";}s:16:"ilobjglossarygui";a:1:{i:0;s:15:"ilrepositorygui";}s:13:"ilobjgroupgui";a:1:{i:0;s:15:"ilrepositorygui";}s:19:"ilobjilinccoursegui";a:1:{i:0;s:15:"ilrepositorygui";}s:22:"ilobjlearningmodulegui";a:1:{i:0;s:15:"ilrepositorygui";}s:20:"ilobjlinkresourcegui";a:1:{i:0;s:15:"ilrepositorygui";}s:17:"ilobjmediapoolgui";a:1:{i:0;s:15:"ilrepositorygui";}s:20:"ilobjquestionpoolgui";a:1:{i:0;s:15:"ilrepositorygui";}s:18:"ilobjrootfoldergui";a:1:{i:0;s:15:"ilrepositorygui";}s:26:"ilobjsahslearningmodulegui";a:1:{i:0;s:15:"ilrepositorygui";}s:14:"ilobjsurveygui";a:1:{i:0;s:15:"ilrepositorygui";}s:26:"ilobjsurveyquestionpoolgui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjtestgui";a:1:{i:0;s:15:"ilrepositorygui";}s:18:"ilobjuserfoldergui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjusergui";a:1:{i:0;s:15:"ilrepositorygui";}}');
+INSERT INTO `ctrl_structure` VALUES ('ilpersonaldesktopgui', 'a:27:{i:1;a:2:{s:5:"class";s:20:"ilpersonaldesktopgui";s:6:"parent";i:0;}i:2;a:2:{s:5:"class";s:27:"ilbookmarkadministrationgui";s:6:"parent";i:1;}i:3;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:1;}i:4;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:3;}i:5;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:4;}i:6;a:2:{s:5:"class";s:0:"";s:6:"parent";i:5;}i:7;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:3;}i:8;a:2:{s:5:"class";s:0:"";s:6:"parent";i:7;}i:9;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:7;}i:10;a:2:{s:5:"class";s:0:"";s:6:"parent";i:9;}i:11;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:3;}i:12;a:2:{s:5:"class";s:0:"";s:6:"parent";i:11;}i:13;a:2:{s:5:"class";s:12:"ilobjusergui";s:6:"parent";i:1;}i:14;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:13;}i:15;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:14;}i:16;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:15;}i:17;a:2:{s:5:"class";s:0:"";s:6:"parent";i:16;}i:18;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:14;}i:19;a:2:{s:5:"class";s:0:"";s:6:"parent";i:18;}i:20;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:18;}i:21;a:2:{s:5:"class";s:0:"";s:6:"parent";i:20;}i:22;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:14;}i:23;a:2:{s:5:"class";s:0:"";s:6:"parent";i:22;}i:24;a:2:{s:5:"class";s:12:"ilpdnotesgui";s:6:"parent";i:1;}i:25;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:24;}i:26;a:2:{s:5:"class";s:20:"ilpersonalprofilegui";s:6:"parent";i:1;}i:27;a:2:{s:5:"class";s:0:"";s:6:"parent";i:26;}}', 'a:10:{s:0:"";a:11:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";}s:13:"illpfiltergui";a:4:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";}s:20:"illplistofobjectsgui";a:2:{i:0;s:13:"illpfiltergui";i:1;s:13:"illpfiltergui";}s:21:"illplistofprogressgui";a:4:{i:0;s:0:"";i:1;s:13:"illpfiltergui";i:2;s:0:"";i:3;s:13:"illpfiltergui";}s:21:"illplistofsettingsgui";a:2:{i:0;s:0:"";i:1;s:0:"";}s:21:"illearningprogressgui";a:6:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:21:"illplistofsettingsgui";i:3;s:20:"illplistofobjectsgui";i:4;s:21:"illplistofprogressgui";i:5;s:21:"illplistofsettingsgui";}s:12:"ilobjusergui";a:1:{i:0;s:21:"illearningprogressgui";}s:12:"ilpdnotesgui";a:1:{i:0;s:9:"ilnotegui";}s:20:"ilpersonalprofilegui";a:1:{i:0;s:0:"";}s:20:"ilpersonaldesktopgui";a:5:{i:0;s:27:"ilbookmarkadministrationgui";i:1;s:21:"illearningprogressgui";i:2;s:12:"ilobjusergui";i:3;s:12:"ilpdnotesgui";i:4;s:20:"ilpersonalprofilegui";}}', 'a:11:{s:0:"";a:20:{i:0;s:0:"";i:1;s:0:"";i:2;s:13:"illpfiltergui";i:3;s:0:"";i:4;s:0:"";i:5;s:13:"illpfiltergui";i:6;s:21:"illplistofprogressgui";i:7;s:0:"";i:8;s:21:"illplistofsettingsgui";i:9;s:0:"";i:10;s:13:"illpfiltergui";i:11;s:0:"";i:12;s:0:"";i:13;s:13:"illpfiltergui";i:14;s:21:"illplistofprogressgui";i:15;s:0:"";i:16;s:21:"illplistofsettingsgui";i:17;s:0:"";i:18;s:0:"";i:19;s:20:"ilpersonalprofilegui";}s:13:"illpfiltergui";a:4:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:20:"illplistofobjectsgui";i:3;s:21:"illplistofprogressgui";}s:20:"illplistofobjectsgui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";}s:21:"illplistofprogressgui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";}s:21:"illplistofsettingsgui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";}s:21:"illearningprogressgui";a:2:{i:0;s:12:"ilobjusergui";i:1;s:20:"ilpersonaldesktopgui";}s:9:"ilnotegui";a:1:{i:0;s:12:"ilpdnotesgui";}s:27:"ilbookmarkadministrationgui";a:1:{i:0;s:20:"ilpersonaldesktopgui";}s:12:"ilobjusergui";a:1:{i:0;s:20:"ilpersonaldesktopgui";}s:12:"ilpdnotesgui";a:1:{i:0;s:20:"ilpersonaldesktopgui";}s:20:"ilpersonalprofilegui";a:1:{i:0;s:20:"ilpersonaldesktopgui";}}');
+INSERT INTO `ctrl_structure` VALUES ('illmpresentationgui', 'a:6:{i:1;a:2:{s:5:"class";s:19:"illmpresentationgui";s:6:"parent";i:0;}i:2;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1;}i:3;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2;}i:4;a:2:{s:5:"class";s:1:""";s:6:"parent";i:3;}i:5;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2;}i:6;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1;}}', 'a:4:{s:0:"";a:3:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";}s:13:"ilfeedbackgui";a:1:{i:0;s:1:""";}s:15:"ilinfoscreengui";a:2:{i:0;s:13:"ilfeedbackgui";i:1;s:9:"ilnotegui";}s:19:"illmpresentationgui";a:2:{i:0;s:15:"ilinfoscreengui";i:1;s:9:"ilnotegui";}}', 'a:5:{s:0:"";a:3:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";}s:1:""";a:1:{i:0;s:13:"ilfeedbackgui";}s:13:"ilfeedbackgui";a:1:{i:0;s:15:"ilinfoscreengui";}s:9:"ilnotegui";a:2:{i:0;s:15:"ilinfoscreengui";i:1;s:19:"illmpresentationgui";}s:15:"ilinfoscreengui";a:1:{i:0;s:19:"illmpresentationgui";}}');
+INSERT INTO `ctrl_structure` VALUES ('illmeditorgui', 'a:88:{i:1;a:2:{s:5:"class";s:13:"illmeditorgui";s:6:"parent";i:0;}i:2;a:2:{s:5:"class";s:13:"ilmetadatagui";s:6:"parent";i:1;}i:3;a:2:{s:5:"class";s:14:"ilobjdlbookgui";s:6:"parent";i:1;}i:4;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:3;}i:5;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:4;}i:6;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:5;}i:7;a:2:{s:5:"class";s:0:"";s:6:"parent";i:6;}i:8;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:4;}i:9;a:2:{s:5:"class";s:0:"";s:6:"parent";i:8;}i:10;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:8;}i:11;a:2:{s:5:"class";s:0:"";s:6:"parent";i:10;}i:12;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:4;}i:13;a:2:{s:5:"class";s:0:"";s:6:"parent";i:12;}i:14;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:3;}i:15;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:14;}i:16;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:14;}i:17;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:16;}i:18;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:17;}i:19;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:18;}i:20;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:18;}i:21;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:16;}i:22;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:16;}i:23;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:22;}i:24;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:22;}i:25;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:24;}i:26;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:24;}i:27;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:22;}i:28;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:22;}i:29;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:22;}i:30;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:22;}i:31;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:22;}i:32;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:22;}i:33;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:22;}i:34;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:22;}i:35;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:22;}i:36;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:22;}i:37;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3;}i:38;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:3;}i:39;a:2:{s:5:"class";s:0:"";s:6:"parent";i:38;}i:40;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3;}i:41;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:40;}i:42;a:2:{s:5:"class";s:0:"";s:6:"parent";i:41;}i:43;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:3;}i:44;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:43;}i:45;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:43;}i:46;a:2:{s:5:"class";s:22:"ilobjlearningmodulegui";s:6:"parent";i:1;}i:47;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:46;}i:48;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:47;}i:49;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:48;}i:50;a:2:{s:5:"class";s:0:"";s:6:"parent";i:49;}i:51;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:47;}i:52;a:2:{s:5:"class";s:0:"";s:6:"parent";i:51;}i:53;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:51;}i:54;a:2:{s:5:"class";s:0:"";s:6:"parent";i:53;}i:55;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:47;}i:56;a:2:{s:5:"class";s:0:"";s:6:"parent";i:55;}i:57;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:46;}i:58;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:57;}i:59;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:57;}i:60;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:59;}i:61;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:60;}i:62;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:61;}i:63;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:61;}i:64;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:59;}i:65;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:59;}i:66;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:65;}i:67;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:65;}i:68;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:67;}i:69;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:67;}i:70;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:65;}i:71;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:65;}i:72;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:65;}i:73;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:65;}i:74;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:65;}i:75;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:65;}i:76;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:65;}i:77;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:65;}i:78;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:65;}i:79;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:65;}i:80;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:46;}i:81;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:46;}i:82;a:2:{s:5:"class";s:0:"";s:6:"parent";i:81;}i:83;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:46;}i:84;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:83;}i:85;a:2:{s:5:"class";s:0:"";s:6:"parent";i:84;}i:86;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:46;}i:87;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:86;}i:88;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:86;}}', 'a:18:{s:0:"";a:53:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";i:14;s:0:"";i:15;s:0:"";i:16;s:0:"";i:17;s:0:"";i:18;s:0:"";i:19;s:0:"";i:20;s:0:"";i:21;s:0:"";i:22;s:0:"";i:23;s:0:"";i:24;s:0:"";i:25;s:0:"";i:26;s:0:"";i:27;s:0:"";i:28;s:0:"";i:29;s:0:"";i:30;s:0:"";i:31;s:0:"";i:32;s:0:"";i:33;s:0:"";i:34;s:0:"";i:35;s:0:"";i:36;s:0:"";i:37;s:0:"";i:38;s:0:"";i:39;s:0:"";i:40;s:0:"";i:41;s:0:"";i:42;s:0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";i:46;s:0:"";i:47;s:0:"";i:48;s:0:"";i:49;s:0:"";i:50;s:0:"";i:51;s:0:"";i:52;s:0:"";}s:13:"illpfiltergui";a:4:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";}s:20:"illplistofobjectsgui";a:2:{i:0;s:13:"illpfiltergui";i:1;s:13:"illpfiltergui";}s:21:"illplistofprogressgui";a:4:{i:0;s:0:"";i:1;s:13:"illpfiltergui";i:2;s:0:"";i:3;s:13:"illpfiltergui";}s:21:"illplistofsettingsgui";a:2:{i:0;s:0:"";i:1;s:0:"";}s:21:"illearningprogressgui";a:6:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:21:"illplistofsettingsgui";i:3;s:20:"illplistofobjectsgui";i:4;s:21:"illplistofprogressgui";i:5;s:21:"illplistofsettingsgui";}s:19:"ilobjmediaobjectgui";a:8:{i:0;s:17:"ilinternallinkgui";i:1;s:13:"ilmdeditorgui";i:2;s:17:"ilinternallinkgui";i:3;s:13:"ilmdeditorgui";i:4;s:17:"ilinternallinkgui";i:5;s:13:"ilmdeditorgui";i:6;s:17:"ilinternallinkgui";i:7;s:13:"ilmdeditorgui";}s:18:"ileditclipboardgui";a:2:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjmediaobjectgui";}s:15:"ilpageeditorgui";a:24:{i:0;s:17:"ilinternallinkgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:15:"ilpcfileitemgui";i:3;s:15:"ilpcfilelistgui";i:4;s:11:"ilpclistgui";i:5;s:15:"ilpclistitemgui";i:6;s:18:"ilpcmediaobjectgui";i:7;s:16:"ilpcparagraphgui";i:8;s:15:"ilpcquestiongui";i:9;s:17:"ilpcsourcecodegui";i:10;s:16:"ilpctabledatagui";i:11;s:12:"ilpctablegui";i:12;s:17:"ilinternallinkgui";i:13;s:19:"ilobjmediaobjectgui";i:14;s:15:"ilpcfileitemgui";i:15;s:15:"ilpcfilelistgui";i:16;s:11:"ilpclistgui";i:17;s:15:"ilpclistitemgui";i:18;s:18:"ilpcmediaobjectgui";i:19;s:16:"ilpcparagraphgui";i:20;s:15:"ilpcquestiongui";i:21;s:17:"ilpcsourcecodegui";i:22;s:16:"ilpctabledatagui";i:23;s:12:"ilpctablegui";}s:15:"ilpageobjectgui";a:6:{i:0;s:18:"ileditclipboardgui";i:1;s:25:"ilmediapooltargetselector";i:2;s:15:"ilpageeditorgui";i:3;s:18:"ileditclipboardgui";i:4;s:25:"ilmediapooltargetselector";i:5;s:15:"ilpageeditorgui";}s:17:"illmpageobjectgui";a:4:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:15:"ilpageobjectgui";}s:18:"ilobjstylesheetgui";a:2:{i:0;s:0:"";i:1;s:0:"";}s:12:"ilobjrolegui";a:2:{i:0;s:0:"";i:1;s:0:"";}s:15:"ilpermissiongui";a:2:{i:0;s:12:"ilobjrolegui";i:1;s:12:"ilobjrolegui";}s:20:"ilstructureobjectgui";a:4:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:13:"ilmdeditorgui";i:2;s:27:"ilconditionhandlerinterface";i:3;s:13:"ilmdeditorgui";}s:14:"ilobjdlbookgui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:17:"illmpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:18:"ilobjstylesheetgui";i:4;s:15:"ilpermissiongui";i:5;s:20:"ilstructureobjectgui";}s:22:"ilobjlearningmodulegui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:17:"illmpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:18:"ilobjstylesheetgui";i:4;s:15:"ilpermissiongui";i:5;s:20:"ilstructureobjectgui";}s:13:"illmeditorgui";a:3:{i:0;s:13:"ilmetadatagui";i:1;s:14:"ilobjdlbookgui";i:2;s:22:"ilobjlearningmodulegui";}}', 'a:32:{s:0:"";a:65:{i:0;s:0:"";i:1;s:0:"";i:2;s:13:"illpfiltergui";i:3;s:0:"";i:4;s:0:"";i:5;s:13:"illpfiltergui";i:6;s:21:"illplistofprogressgui";i:7;s:0:"";i:8;s:21:"illplistofsettingsgui";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";i:14;s:0:"";i:15;s:0:"";i:16;s:0:"";i:17;s:0:"";i:18;s:0:"";i:19;s:0:"";i:20;s:0:"";i:21;s:0:"";i:22;s:0:"";i:23;s:0:"";i:24;s:0:"";i:25;s:0:"";i:26;s:0:"";i:27;s:0:"";i:28;s:18:"ilobjstylesheetgui";i:29;s:0:"";i:30;s:12:"ilobjrolegui";i:31;s:0:"";i:32;s:0:"";i:33;s:0:"";i:34;s:13:"illpfiltergui";i:35;s:0:"";i:36;s:0:"";i:37;s:13:"illpfiltergui";i:38;s:21:"illplistofprogressgui";i:39;s:0:"";i:40;s:21:"illplistofsettingsgui";i:41;s:0:"";i:42;s:0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";i:46;s:0:"";i:47;s:0:"";i:48;s:0:"";i:49;s:0:"";i:50;s:0:"";i:51;s:0:"";i:52;s:0:"";i:53;s:0:"";i:54;s:0:"";i:55;s:0:"";i:56;s:0:"";i:57;s:0:"";i:58;s:0:"";i:59;s:0:"";i:60;s:18:"ilobjstylesheetgui";i:61;s:0:"";i:62;s:12:"ilobjrolegui";i:63;s:0:"";i:64;s:0:"";}s:13:"illpfiltergui";a:4:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:20:"illplistofobjectsgui";i:3;s:21:"illplistofprogressgui";}s:20:"illplistofobjectsgui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";}s:21:"illplistofprogressgui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";}s:21:"illplistofsettingsgui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";}s:17:"ilinternallinkgui";a:6:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:15:"ilpageeditorgui";i:3;s:19:"ilobjmediaobjectgui";i:4;s:19:"ilobjmediaobjectgui";i:5;s:15:"ilpageeditorgui";}s:13:"ilmdeditorgui";a:10:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:17:"illmpageobjectgui";i:3;s:20:"ilstructureobjectgui";i:4;s:14:"ilobjdlbookgui";i:5;s:19:"ilobjmediaobjectgui";i:6;s:19:"ilobjmediaobjectgui";i:7;s:17:"illmpageobjectgui";i:8;s:20:"ilstructureobjectgui";i:9;s:22:"ilobjlearningmodulegui";}s:19:"ilobjmediaobjectgui";a:4:{i:0;s:18:"ileditclipboardgui";i:1;s:15:"ilpageeditorgui";i:2;s:18:"ileditclipboardgui";i:3;s:15:"ilpageeditorgui";}s:15:"ilpcfileitemgui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:15:"ilpcfilelistgui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:11:"ilpclistgui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:15:"ilpclistitemgui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:18:"ilpcmediaobjectgui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:16:"ilpcparagraphgui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:15:"ilpcquestiongui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:17:"ilpcsourcecodegui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:16:"ilpctabledatagui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:12:"ilpctablegui";a:2:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";}s:18:"ileditclipboardgui";a:2:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";}s:25:"ilmediapooltargetselector";a:2:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";}s:15:"ilpageeditorgui";a:2:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";}s:15:"ilpageobjectgui";a:2:{i:0;s:17:"illmpageobjectgui";i:1;s:17:"illmpageobjectgui";}s:12:"ilobjrolegui";a:2:{i:0;s:15:"ilpermissiongui";i:1;s:15:"ilpermissiongui";}s:27:"ilconditionhandlerinterface";a:2:{i:0;s:20:"ilstructureobjectgui";i:1;s:20:"ilstructureobjectgui";}s:21:"illearningprogressgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:17:"illmpageobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:18:"ilobjstylesheetgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:15:"ilpermissiongui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:20:"ilstructureobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:13:"ilmetadatagui";a:1:{i:0;s:13:"illmeditorgui";}s:14:"ilobjdlbookgui";a:1:{i:0;s:13:"illmeditorgui";}s:22:"ilobjlearningmodulegui";a:1:{i:0;s:13:"illmeditorgui";}}');
+INSERT INTO `ctrl_structure` VALUES ('iladministrationgui', 'a:408:{i:1;a:2:{s:5:"class";s:19:"iladministrationgui";s:6:"parent";i:0;}i:2;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:1;}i:3;a:2:{s:5:"class";s:24:"ilobjassessmentfoldergui";s:6:"parent";i:1;}i:4;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3;}i:5;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:4;}i:6;a:2:{s:5:"class";s:0:"";s:6:"parent";i:5;}i:7;a:2:{s:5:"class";s:20:"ilobjauthsettingsgui";s:6:"parent";i:1;}i:8;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:7;}i:9;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:8;}i:10;a:2:{s:5:"class";s:0:"";s:6:"parent";i:9;}i:11;a:2:{s:5:"class";s:16:"ilobjcategorygui";s:6:"parent";i:1;}i:12;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:11;}i:13;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:12;}i:14;a:2:{s:5:"class";s:0:"";s:6:"parent";i:13;}i:15;a:2:{s:5:"class";s:12:"ilobjchatgui";s:6:"parent";i:1;}i:16;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:15;}i:17;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:16;}i:18;a:2:{s:5:"class";s:0:"";s:6:"parent";i:17;}i:19;a:2:{s:5:"class";s:18:"ilobjchatservergui";s:6:"parent";i:1;}i:20;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:19;}i:21;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:20;}i:22;a:2:{s:5:"class";s:0:"";s:6:"parent";i:21;}i:23;a:2:{s:5:"class";s:14:"ilobjcoursegui";s:6:"parent";i:1;}i:24;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:23;}i:25;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:23;}i:26;a:2:{s:5:"class";s:19:"ilcourseregistergui";s:6:"parent";i:23;}i:27;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:23;}i:28;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:27;}i:29;a:2:{s:5:"class";s:1:""";s:6:"parent";i:28;}i:30;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:27;}i:31;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:23;}i:32;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:31;}i:33;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:32;}i:34;a:2:{s:5:"class";s:0:"";s:6:"parent";i:33;}i:35;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:31;}i:36;a:2:{s:5:"class";s:0:"";s:6:"parent";i:35;}i:37;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:35;}i:38;a:2:{s:5:"class";s:0:"";s:6:"parent";i:37;}i:39;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:31;}i:40;a:2:{s:5:"class";s:0:"";s:6:"parent";i:39;}i:41;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:23;}i:42;a:2:{s:5:"class";s:22:"ilobjcoursegroupinggui";s:6:"parent";i:23;}i:43;a:2:{s:5:"class";s:20:"ilpaymentpurchasegui";s:6:"parent";i:23;}i:44;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:23;}i:45;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:44;}i:46;a:2:{s:5:"class";s:0:"";s:6:"parent";i:45;}i:47;a:2:{s:5:"class";s:14:"ilobjdlbookgui";s:6:"parent";i:1;}i:48;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:47;}i:49;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:48;}i:50;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:49;}i:51;a:2:{s:5:"class";s:0:"";s:6:"parent";i:50;}i:52;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:48;}i:53;a:2:{s:5:"class";s:0:"";s:6:"parent";i:52;}i:54;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:52;}i:55;a:2:{s:5:"class";s:0:"";s:6:"parent";i:54;}i:56;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:48;}i:57;a:2:{s:5:"class";s:0:"";s:6:"parent";i:56;}i:58;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:47;}i:59;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:58;}i:60;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:58;}i:61;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:60;}i:62;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:61;}i:63;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:62;}i:64;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:62;}i:65;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:60;}i:66;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:60;}i:67;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:66;}i:68;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:66;}i:69;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:68;}i:70;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:68;}i:71;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:66;}i:72;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:66;}i:73;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:66;}i:74;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:66;}i:75;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:66;}i:76;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:66;}i:77;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:66;}i:78;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:66;}i:79;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:66;}i:80;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:66;}i:81;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:47;}i:82;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:47;}i:83;a:2:{s:5:"class";s:0:"";s:6:"parent";i:82;}i:84;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:47;}i:85;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:84;}i:86;a:2:{s:5:"class";s:0:"";s:6:"parent";i:85;}i:87;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:47;}i:88;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:87;}i:89;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:87;}i:90;a:2:{s:5:"class";s:16:"ilobjexercisegui";s:6:"parent";i:1;}i:91;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:90;}i:92;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:91;}i:93;a:2:{s:5:"class";s:0:"";s:6:"parent";i:92;}i:94;a:2:{s:5:"class";s:29:"ilobjexternaltoolssettingsgui";s:6:"parent";i:1;}i:95;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:94;}i:96;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:95;}i:97;a:2:{s:5:"class";s:0:"";s:6:"parent";i:96;}i:98;a:2:{s:5:"class";s:19:"ilobjfilebasedlmgui";s:6:"parent";i:1;}i:99;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:98;}i:100;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:98;}i:101;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:98;}i:102;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:101;}i:103;a:2:{s:5:"class";s:0:"";s:6:"parent";i:102;}i:104;a:2:{s:5:"class";s:12:"ilobjfilegui";s:6:"parent";i:1;}i:105;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:104;}i:106;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:105;}i:107;a:2:{s:5:"class";s:1:""";s:6:"parent";i:106;}i:108;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:105;}i:109;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:104;}i:110;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:104;}i:111;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:110;}i:112;a:2:{s:5:"class";s:0:"";s:6:"parent";i:111;}i:113;a:2:{s:5:"class";s:14:"ilobjfoldergui";s:6:"parent";i:1;}i:114;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:113;}i:115;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:113;}i:116;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:115;}i:117;a:2:{s:5:"class";s:0:"";s:6:"parent";i:116;}i:118;a:2:{s:5:"class";s:13:"ilobjforumgui";s:6:"parent";i:1;}i:119;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:118;}i:120;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:119;}i:121;a:2:{s:5:"class";s:0:"";s:6:"parent";i:120;}i:122;a:2:{s:5:"class";s:16:"ilobjglossarygui";s:6:"parent";i:1;}i:123;a:2:{s:5:"class";s:17:"ilglossarytermgui";s:6:"parent";i:122;}i:124;a:2:{s:5:"class";s:25:"iltermdefinitioneditorgui";s:6:"parent";i:123;}i:125;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:124;}i:126;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:124;}i:127;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:126;}i:128;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:127;}i:129;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:128;}i:130;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:128;}i:131;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:126;}i:132;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:126;}i:133;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:132;}i:134;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:132;}i:135;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:134;}i:136;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:134;}i:137;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:132;}i:138;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:132;}i:139;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:132;}i:140;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:132;}i:141;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:132;}i:142;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:132;}i:143;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:132;}i:144;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:132;}i:145;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:132;}i:146;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:132;}i:147;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:122;}i:148;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:122;}i:149;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:148;}i:150;a:2:{s:5:"class";s:0:"";s:6:"parent";i:149;}i:151;a:2:{s:5:"class";s:13:"ilobjgroupgui";s:6:"parent";i:1;}i:152;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:151;}i:153;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:151;}i:154;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:153;}i:155;a:2:{s:5:"class";s:0:"";s:6:"parent";i:154;}i:156;a:2:{s:5:"class";s:13:"ilregistergui";s:6:"parent";i:151;}i:157;a:2:{s:5:"class";s:22:"ilobjilincclassroomgui";s:6:"parent";i:1;}i:158;a:2:{s:5:"class";s:0:"";s:6:"parent";i:157;}i:159;a:2:{s:5:"class";s:19:"ilobjilinccoursegui";s:6:"parent";i:1;}i:160;a:2:{s:5:"class";s:22:"ilobjilincclassroomgui";s:6:"parent";i:159;}i:161;a:2:{s:5:"class";s:0:"";s:6:"parent";i:160;}i:162;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:159;}i:163;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:162;}i:164;a:2:{s:5:"class";s:0:"";s:6:"parent";i:163;}i:165;a:2:{s:5:"class";s:22:"ilobjlanguagefoldergui";s:6:"parent";i:1;}i:166;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:165;}i:167;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:166;}i:168;a:2:{s:5:"class";s:0:"";s:6:"parent";i:167;}i:169;a:2:{s:5:"class";s:22:"ilobjlearningmodulegui";s:6:"parent";i:1;}i:170;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:169;}i:171;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:170;}i:172;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:171;}i:173;a:2:{s:5:"class";s:0:"";s:6:"parent";i:172;}i:174;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:170;}i:175;a:2:{s:5:"class";s:0:"";s:6:"parent";i:174;}i:176;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:174;}i:177;a:2:{s:5:"class";s:0:"";s:6:"parent";i:176;}i:178;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:170;}i:179;a:2:{s:5:"class";s:0:"";s:6:"parent";i:178;}i:180;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:169;}i:181;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:180;}i:182;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:180;}i:183;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:182;}i:184;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:183;}i:185;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:184;}i:186;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:184;}i:187;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:182;}i:188;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:182;}i:189;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:188;}i:190;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:188;}i:191;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:190;}i:192;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:190;}i:193;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:188;}i:194;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:188;}i:195;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:188;}i:196;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:188;}i:197;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:188;}i:198;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:188;}i:199;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:188;}i:200;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:188;}i:201;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:188;}i:202;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:188;}i:203;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:169;}i:204;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:169;}i:205;a:2:{s:5:"class";s:0:"";s:6:"parent";i:204;}i:206;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:169;}i:207;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:206;}i:208;a:2:{s:5:"class";s:0:"";s:6:"parent";i:207;}i:209;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:169;}i:210;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:209;}i:211;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:209;}i:212;a:2:{s:5:"class";s:20:"ilobjlinkresourcegui";s:6:"parent";i:1;}i:213;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:212;}i:214;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:213;}i:215;a:2:{s:5:"class";s:1:""";s:6:"parent";i:214;}i:216;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:213;}i:217;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:212;}i:218;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:212;}i:219;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:218;}i:220;a:2:{s:5:"class";s:0:"";s:6:"parent";i:219;}i:221;a:2:{s:5:"class";s:12:"ilobjmailgui";s:6:"parent";i:1;}i:222;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:221;}i:223;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:222;}i:224;a:2:{s:5:"class";s:0:"";s:6:"parent";i:223;}i:225;a:2:{s:5:"class";s:17:"ilobjmediapoolgui";s:6:"parent";i:1;}i:226;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:225;}i:227;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:226;}i:228;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:227;}i:229;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:227;}i:230;a:2:{s:5:"class";s:14:"ilobjfoldergui";s:6:"parent";i:225;}i:231;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:230;}i:232;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:230;}i:233;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:232;}i:234;a:2:{s:5:"class";s:0:"";s:6:"parent";i:233;}i:235;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:225;}i:236;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:235;}i:237;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:235;}i:238;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:225;}i:239;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:238;}i:240;a:2:{s:5:"class";s:0:"";s:6:"parent";i:239;}i:241;a:2:{s:5:"class";s:20:"ilobjobjectfoldergui";s:6:"parent";i:1;}i:242;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:241;}i:243;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:242;}i:244;a:2:{s:5:"class";s:0:"";s:6:"parent";i:243;}i:245;a:2:{s:5:"class";s:23:"ilobjpaymentsettingsgui";s:6:"parent";i:1;}i:246;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:245;}i:247;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:246;}i:248;a:2:{s:5:"class";s:0:"";s:6:"parent";i:247;}i:249;a:2:{s:5:"class";s:20:"ilobjquestionpoolgui";s:6:"parent";i:1;}i:250;a:2:{s:5:"class";s:16:"ass_clozetestgui";s:6:"parent";i:249;}i:251;a:2:{s:5:"class";s:23:"ass_imagemapquestiongui";s:6:"parent";i:249;}i:252;a:2:{s:5:"class";s:17:"ass_javaappletgui";s:6:"parent";i:249;}i:253;a:2:{s:5:"class";s:23:"ass_matchingquestiongui";s:6:"parent";i:249;}i:254;a:2:{s:5:"class";s:21:"ass_multiplechoicegui";s:6:"parent";i:249;}i:255;a:2:{s:5:"class";s:23:"ass_orderingquestiongui";s:6:"parent";i:249;}i:256;a:2:{s:5:"class";s:19:"ass_textquestiongui";s:6:"parent";i:249;}i:257;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:249;}i:258;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:249;}i:259;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:258;}i:260;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:259;}i:261;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:260;}i:262;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:260;}i:263;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:258;}i:264;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:258;}i:265;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:264;}i:266;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:264;}i:267;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:266;}i:268;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:266;}i:269;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:264;}i:270;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:264;}i:271;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:264;}i:272;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:264;}i:273;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:264;}i:274;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:264;}i:275;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:264;}i:276;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:264;}i:277;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:264;}i:278;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:264;}i:279;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:249;}i:280;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:279;}i:281;a:2:{s:5:"class";s:0:"";s:6:"parent";i:280;}i:282;a:2:{s:5:"class";s:22:"ilobjrecoveryfoldergui";s:6:"parent";i:1;}i:283;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:282;}i:284;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:283;}i:285;a:2:{s:5:"class";s:0:"";s:6:"parent";i:284;}i:286;a:2:{s:5:"class";s:18:"ilobjrolefoldergui";s:6:"parent";i:1;}i:287;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:286;}i:288;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:287;}i:289;a:2:{s:5:"class";s:0:"";s:6:"parent";i:288;}i:290;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1;}i:291;a:2:{s:5:"class";s:0:"";s:6:"parent";i:290;}i:292;a:2:{s:5:"class";s:20:"ilobjroletemplategui";s:6:"parent";i:1;}i:293;a:2:{s:5:"class";s:0:"";s:6:"parent";i:292;}i:294;a:2:{s:5:"class";s:18:"ilobjrootfoldergui";s:6:"parent";i:1;}i:295;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:294;}i:296;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:295;}i:297;a:2:{s:5:"class";s:0:"";s:6:"parent";i:296;}i:298;a:2:{s:5:"class";s:26:"ilobjsahslearningmodulegui";s:6:"parent";i:1;}i:299;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:298;}i:300;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:298;}i:301;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:298;}i:302;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:301;}i:303;a:2:{s:5:"class";s:0:"";s:6:"parent";i:302;}i:304;a:2:{s:5:"class";s:22:"ilobjsearchsettingsgui";s:6:"parent";i:1;}i:305;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:304;}i:306;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:305;}i:307;a:2:{s:5:"class";s:0:"";s:6:"parent";i:306;}i:308;a:2:{s:5:"class";s:21:"ilobjstylesettingsgui";s:6:"parent";i:1;}i:309;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:308;}i:310;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:309;}i:311;a:2:{s:5:"class";s:0:"";s:6:"parent";i:310;}i:312;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:1;}i:313;a:2:{s:5:"class";s:0:"";s:6:"parent";i:312;}i:314;a:2:{s:5:"class";s:14:"ilobjsurveygui";s:6:"parent";i:1;}i:315;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:314;}i:316;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:314;}i:317;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:316;}i:318;a:2:{s:5:"class";s:0:"";s:6:"parent";i:317;}i:319;a:2:{s:5:"class";s:21:"ilsurveyevaluationgui";s:6:"parent";i:314;}i:320;a:2:{s:5:"class";s:20:"ilsurveyexecutiongui";s:6:"parent";i:314;}i:321;a:2:{s:5:"class";s:26:"ilobjsurveyquestionpoolgui";s:6:"parent";i:1;}i:322;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:321;}i:323;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:321;}i:324;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:323;}i:325;a:2:{s:5:"class";s:0:"";s:6:"parent";i:324;}i:326;a:2:{s:5:"class";s:23:"surveymetricquestiongui";s:6:"parent";i:321;}i:327;a:2:{s:5:"class";s:24:"surveynominalquestiongui";s:6:"parent";i:321;}i:328;a:2:{s:5:"class";s:24:"surveyordinalquestiongui";s:6:"parent";i:321;}i:329;a:2:{s:5:"class";s:21:"surveytextquestiongui";s:6:"parent";i:321;}i:330;a:2:{s:5:"class";s:20:"ilobjsystemfoldergui";s:6:"parent";i:1;}i:331;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:330;}i:332;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:331;}i:333;a:2:{s:5:"class";s:0:"";s:6:"parent";i:332;}i:334;a:2:{s:5:"class";s:22:"ilobjtaxonomyfoldergui";s:6:"parent";i:1;}i:335;a:2:{s:5:"class";s:12:"ilobjtestgui";s:6:"parent";i:1;}i:336;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:335;}i:337;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:336;}i:338;a:2:{s:5:"class";s:1:""";s:6:"parent";i:337;}i:339;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:336;}i:340;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:335;}i:341;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:340;}i:342;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:341;}i:343;a:2:{s:5:"class";s:0:"";s:6:"parent";i:342;}i:344;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:340;}i:345;a:2:{s:5:"class";s:0:"";s:6:"parent";i:344;}i:346;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:344;}i:347;a:2:{s:5:"class";s:0:"";s:6:"parent";i:346;}i:348;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:340;}i:349;a:2:{s:5:"class";s:0:"";s:6:"parent";i:348;}i:350;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:335;}i:351;a:2:{s:5:"class";s:14:"ilobjcoursegui";s:6:"parent";i:335;}i:352;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:351;}i:353;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:351;}i:354;a:2:{s:5:"class";s:19:"ilcourseregistergui";s:6:"parent";i:351;}i:355;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:351;}i:356;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:355;}i:357;a:2:{s:5:"class";s:1:""";s:6:"parent";i:356;}i:358;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:355;}i:359;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:351;}i:360;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:359;}i:361;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:360;}i:362;a:2:{s:5:"class";s:0:"";s:6:"parent";i:361;}i:363;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:359;}i:364;a:2:{s:5:"class";s:0:"";s:6:"parent";i:363;}i:365;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:363;}i:366;a:2:{s:5:"class";s:0:"";s:6:"parent";i:365;}i:367;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:359;}i:368;a:2:{s:5:"class";s:0:"";s:6:"parent";i:367;}i:369;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:351;}i:370;a:2:{s:5:"class";s:22:"ilobjcoursegroupinggui";s:6:"parent";i:351;}i:371;a:2:{s:5:"class";s:20:"ilpaymentpurchasegui";s:6:"parent";i:351;}i:372;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:351;}i:373;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:372;}i:374;a:2:{s:5:"class";s:0:"";s:6:"parent";i:373;}i:375;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:335;}i:376;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:375;}i:377;a:2:{s:5:"class";s:0:"";s:6:"parent";i:376;}i:378;a:2:{s:5:"class";s:19:"iltestevaluationgui";s:6:"parent";i:335;}i:379;a:2:{s:5:"class";s:15:"iltestoutputgui";s:6:"parent";i:335;}i:380;a:2:{s:5:"class";s:18:"ilobjuserfoldergui";s:6:"parent";i:1;}i:381;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:380;}i:382;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:381;}i:383;a:2:{s:5:"class";s:0:"";s:6:"parent";i:382;}i:384;a:2:{s:5:"class";s:12:"ilobjusergui";s:6:"parent";i:1;}i:385;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:384;}i:386;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:385;}i:387;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:386;}i:388;a:2:{s:5:"class";s:0:"";s:6:"parent";i:387;}i:389;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:385;}i:390;a:2:{s:5:"class";s:0:"";s:6:"parent";i:389;}i:391;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:389;}i:392;a:2:{s:5:"class";s:0:"";s:6:"parent";i:391;}i:393;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:385;}i:394;a:2:{s:5:"class";s:0:"";s:6:"parent";i:393;}i:395;a:2:{s:5:"class";s:20:"ilobjusertrackinggui";s:6:"parent";i:1;}i:396;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:395;}i:397;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:396;}i:398;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:397;}i:399;a:2:{s:5:"class";s:0:"";s:6:"parent";i:398;}i:400;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:396;}i:401;a:2:{s:5:"class";s:0:"";s:6:"parent";i:400;}i:402;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:400;}i:403;a:2:{s:5:"class";s:0:"";s:6:"parent";i:402;}i:404;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:396;}i:405;a:2:{s:5:"class";s:0:"";s:6:"parent";i:404;}i:406;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:395;}i:407;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:406;}i:408;a:2:{s:5:"class";s:0:"";s:6:"parent";i:407;}}', 'a:59:{s:0:"";a:204:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";i:14;s:0:"";i:15;s:0:"";i:16;s:0:"";i:17;s:0:"";i:18;s:0:"";i:19;s:0:"";i:20;s:0:"";i:21;s:0:"";i:22;s:0:"";i:23;s:0:"";i:24;s:0:"";i:25;s:0:"";i:26;s:0:"";i:27;s:0:"";i:28;s:0:"";i:29;s:0:"";i:30;s:0:"";i:31;s:0:"";i:32;s:0:"";i:33;s:0:"";i:34;s:0:"";i:35;s:0:"";i:36;s:0:"";i:37;s:0:"";i:38;s:0:"";i:39;s:0:"";i:40;s:0:"";i:41;s:0:"";i:42;s:0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";i:46;s:0:"";i:47;s:0:"";i:48;s:0:"";i:49;s:0:"";i:50;s:0:"";i:51;s:0:"";i:52;s:0:"";i:53;s:0:"";i:54;s:0:"";i:55;s:0:"";i:56;s:0:"";i:57;s:0:"";i:58;s:0:"";i:59;s:0:"";i:60;s:0:"";i:61;s:0:"";i:62;s:0:"";i:63;s:0:"";i:64;s:0:"";i:65;s:0:"";i:66;s:0:"";i:67;s:0:"";i:68;s:0:"";i:69;s:0:"";i:70;s:0:"";i:71;s:0:"";i:72;s:0:"";i:73;s:0:"";i:74;s:0:"";i:75;s:0:"";i:76;s:0:"";i:77;s:0:"";i:78;s:0:"";i:79;s:0:"";i:80;s:0:"";i:81;s:0:"";i:82;s:0:"";i:83;s:0:"";i:84;s:0:"";i:85;s:0:"";i:86;s:0:"";i:87;s:0:"";i:88;s:0:"";i:89;s:0:"";i:90;s:0:"";i:91;s:0:"";i:92;s:0:"";i:93;s:0:"";i:94;s:0:"";i:95;s:0:"";i:96;s:0:"";i:97;s:0:"";i:98;s:0:"";i:99;s:0:"";i:100;s:0:"";i:101;s:0:"";i:102;s:0:"";i:103;s:0:"";i:104;s:0:"";i:105;s:0:"";i:106;s:0:"";i:107;s:0:"";i:108;s:0:"";i:109;s:0:"";i:110;s:0:"";i:111;s:0:"";i:112;s:0:"";i:113;s:0:"";i:114;s:0:"";i:115;s:0:"";i:116;s:0:"";i:117;s:0:"";i:118;s:0:"";i:119;s:0:"";i:120;s:0:"";i:121;s:0:"";i:122;s:0:"";i:123;s:0:"";i:124;s:0:"";i:125;s:0:"";i:126;s:0:"";i:127;s:0:"";i:128;s:0:"";i:129;s:0:"";i:130;s:0:"";i:131;s:0:"";i:132;s:0:"";i:133;s:0:"";i:134;s:0:"";i:135;s:0:"";i:136;s:0:"";i:137;s:0:"";i:138;s:0:"";i:139;s:0:"";i:140;s:0:"";i:141;s:0:"";i:142;s:0:"";i:143;s:0:"";i:144;s:0:"";i:145;s:0:"";i:146;s:0:"";i:147;s:0:"";i:148;s:0:"";i:149;s:0:"";i:150;s:0:"";i:151;s:0:"";i:152;s:0:"";i:153;s:0:"";i:154;s:0:"";i:155;s:0:"";i:156;s:0:"";i:157;s:0:"";i:158;s:0:"";i:159;s:0:"";i:160;s:0:"";i:161;s:0:"";i:162;s:0:"";i:163;s:0:"";i:164;s:0:"";i:165;s:0:"";i:166;s:0:"";i:167;s:0:"";i:168;s:0:"";i:169;s:0:"";i:170;s:0:"";i:171;s:0:"";i:172;s:0:"";i:173;s:0:"";i:174;s:0:"";i:175;s:0:"";i:176;s:0:"";i:177;s:0:"";i:178;s:0:"";i:179;s:0:"";i:180;s:0:"";i:181;s:0:"";i:182;s:0:"";i:183;s:0:"";i:184;s:0:"";i:185;s:0:"";i:186;s:0:"";i:187;s:0:"";i:188;s:0:"";i:189;s:0:"";i:190;s:0:"";i:191;s:0:"";i:192;s:0:"";i:193;s:0:"";i:194;s:0:"";i:195;s:0:"";i:196;s:0:"";i:197;s:0:"";i:198;s:0:"";i:199;s:0:"";i:200;s:0:"";i:201;s:0:"";i:202;s:0:"";i:203;s:0:"";}s:12:"ilobjrolegui";a:39:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";i:14;s:0:"";i:15;s:0:"";i:16;s:0:"";i:17;s:0:"";i:18;s:0:"";i:19;s:0:"";i:20;s:0:"";i:21;s:0:"";i:22;s:0:"";i:23;s:0:"";i:24;s:0:"";i:25;s:0:"";i:26;s:0:"";i:27;s:0:"";i:28;s:0:"";i:29;s:0:"";i:30;s:0:"";i:31;s:0:"";i:32;s:0:"";i:33;s:0:"";i:34;s:0:"";i:35;s:0:"";i:36;s:0:"";i:37;s:0:"";i:38;s:0:"";}s:15:"ilpermissiongui";a:38:{i:0;s:12:"ilobjrolegui";i:1;s:12:"ilobjrolegui";i:2;s:12:"ilobjrolegui";i:3;s:12:"ilobjrolegui";i:4;s:12:"ilobjrolegui";i:5;s:12:"ilobjrolegui";i:6;s:12:"ilobjrolegui";i:7;s:12:"ilobjrolegui";i:8;s:12:"ilobjrolegui";i:9;s:12:"ilobjrolegui";i:10;s:12:"ilobjrolegui";i:11;s:12:"ilobjrolegui";i:12;s:12:"ilobjrolegui";i:13;s:12:"ilobjrolegui";i:14;s:12:"ilobjrolegui";i:15;s:12:"ilobjrolegui";i:16;s:12:"ilobjrolegui";i:17;s:12:"ilobjrolegui";i:18;s:12:"ilobjrolegui";i:19;s:12:"ilobjrolegui";i:20;s:12:"ilobjrolegui";i:21;s:12:"ilobjrolegui";i:22;s:12:"ilobjrolegui";i:23;s:12:"ilobjrolegui";i:24;s:12:"ilobjrolegui";i:25;s:12:"ilobjrolegui";i:26;s:12:"ilobjrolegui";i:27;s:12:"ilobjrolegui";i:28;s:12:"ilobjrolegui";i:29;s:12:"ilobjrolegui";i:30;s:12:"ilobjrolegui";i:31;s:12:"ilobjrolegui";i:32;s:12:"ilobjrolegui";i:33;s:12:"ilobjrolegui";i:34;s:12:"ilobjrolegui";i:35;s:12:"ilobjrolegui";i:36;s:12:"ilobjrolegui";i:37;s:12:"ilobjrolegui";}s:24:"ilobjassessmentfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:20:"ilobjauthsettingsgui";a:1:{i:0;s:15:"ilpermissiongui";}s:16:"ilobjcategorygui";a:1:{i:0;s:15:"ilpermissiongui";}s:12:"ilobjchatgui";a:1:{i:0;s:15:"ilpermissiongui";}s:18:"ilobjchatservergui";a:1:{i:0;s:15:"ilpermissiongui";}s:13:"ilfeedbackgui";a:5:{i:0;s:1:""";i:1;s:1:""";i:2;s:1:""";i:3;s:1:""";i:4;s:1:""";}s:15:"ilinfoscreengui";a:10:{i:0;s:13:"ilfeedbackgui";i:1;s:9:"ilnotegui";i:2;s:13:"ilfeedbackgui";i:3;s:9:"ilnotegui";i:4;s:13:"ilfeedbackgui";i:5;s:9:"ilnotegui";i:6;s:13:"ilfeedbackgui";i:7;s:9:"ilnotegui";i:8;s:13:"ilfeedbackgui";i:9;s:9:"ilnotegui";}s:13:"illpfiltergui";a:14:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";i:7;s:0:"";i:8;s:0:"";i:9;s:0:"";i:10;s:0:"";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";}s:20:"illplistofobjectsgui";a:7:{i:0;s:13:"illpfiltergui";i:1;s:13:"illpfiltergui";i:2;s:13:"illpfiltergui";i:3;s:13:"illpfiltergui";i:4;s:13:"illpfiltergui";i:5;s:13:"illpfiltergui";i:6;s:13:"illpfiltergui";}s:21:"illplistofprogressgui";a:14:{i:0;s:0:"";i:1;s:13:"illpfiltergui";i:2;s:0:"";i:3;s:13:"illpfiltergui";i:4;s:0:"";i:5;s:13:"illpfiltergui";i:6;s:0:"";i:7;s:13:"illpfiltergui";i:8;s:0:"";i:9;s:13:"illpfiltergui";i:10;s:0:"";i:11;s:13:"illpfiltergui";i:12;s:0:"";i:13;s:13:"illpfiltergui";}s:21:"illplistofsettingsgui";a:7:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";i:3;s:0:"";i:4;s:0:"";i:5;s:0:"";i:6;s:0:"";}s:21:"illearningprogressgui";a:21:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:21:"illplistofsettingsgui";i:3;s:20:"illplistofobjectsgui";i:4;s:21:"illplistofprogressgui";i:5;s:21:"illplistofsettingsgui";i:6;s:20:"illplistofobjectsgui";i:7;s:21:"illplistofprogressgui";i:8;s:21:"illplistofsettingsgui";i:9;s:20:"illplistofobjectsgui";i:10;s:21:"illplistofprogressgui";i:11;s:21:"illplistofsettingsgui";i:12;s:20:"illplistofobjectsgui";i:13;s:21:"illplistofprogressgui";i:14;s:21:"illplistofsettingsgui";i:15;s:20:"illplistofobjectsgui";i:16;s:21:"illplistofprogressgui";i:17;s:21:"illplistofsettingsgui";i:18;s:20:"illplistofobjectsgui";i:19;s:21:"illplistofprogressgui";i:20;s:21:"illplistofsettingsgui";}s:14:"ilobjcoursegui";a:18:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:21:"ilcourseobjectivesgui";i:2;s:19:"ilcourseregistergui";i:3;s:15:"ilinfoscreengui";i:4;s:21:"illearningprogressgui";i:5;s:13:"ilmdeditorgui";i:6;s:22:"ilobjcoursegroupinggui";i:7;s:20:"ilpaymentpurchasegui";i:8;s:15:"ilpermissiongui";i:9;s:27:"ilconditionhandlerinterface";i:10;s:21:"ilcourseobjectivesgui";i:11;s:19:"ilcourseregistergui";i:12;s:15:"ilinfoscreengui";i:13;s:21:"illearningprogressgui";i:14;s:13:"ilmdeditorgui";i:15;s:22:"ilobjcoursegroupinggui";i:16;s:20:"ilpaymentpurchasegui";i:17;s:15:"ilpermissiongui";}s:19:"ilobjmediaobjectgui";a:20:{i:0;s:17:"ilinternallinkgui";i:1;s:13:"ilmdeditorgui";i:2;s:17:"ilinternallinkgui";i:3;s:13:"ilmdeditorgui";i:4;s:17:"ilinternallinkgui";i:5;s:13:"ilmdeditorgui";i:6;s:17:"ilinternallinkgui";i:7;s:13:"ilmdeditorgui";i:8;s:17:"ilinternallinkgui";i:9;s:13:"ilmdeditorgui";i:10;s:17:"ilinternallinkgui";i:11;s:13:"ilmdeditorgui";i:12;s:17:"ilinternallinkgui";i:13;s:13:"ilmdeditorgui";i:14;s:17:"ilinternallinkgui";i:15;s:13:"ilmdeditorgui";i:16;s:17:"ilinternallinkgui";i:17;s:13:"ilmdeditorgui";i:18;s:17:"ilinternallinkgui";i:19;s:13:"ilmdeditorgui";}s:18:"ileditclipboardgui";a:5:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:19:"ilobjmediaobjectgui";i:3;s:19:"ilobjmediaobjectgui";i:4;s:19:"ilobjmediaobjectgui";}s:15:"ilpageeditorgui";a:48:{i:0;s:17:"ilinternallinkgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:15:"ilpcfileitemgui";i:3;s:15:"ilpcfilelistgui";i:4;s:11:"ilpclistgui";i:5;s:15:"ilpclistitemgui";i:6;s:18:"ilpcmediaobjectgui";i:7;s:16:"ilpcparagraphgui";i:8;s:15:"ilpcquestiongui";i:9;s:17:"ilpcsourcecodegui";i:10;s:16:"ilpctabledatagui";i:11;s:12:"ilpctablegui";i:12;s:17:"ilinternallinkgui";i:13;s:19:"ilobjmediaobjectgui";i:14;s:15:"ilpcfileitemgui";i:15;s:15:"ilpcfilelistgui";i:16;s:11:"ilpclistgui";i:17;s:15:"ilpclistitemgui";i:18;s:18:"ilpcmediaobjectgui";i:19;s:16:"ilpcparagraphgui";i:20;s:15:"ilpcquestiongui";i:21;s:17:"ilpcsourcecodegui";i:22;s:16:"ilpctabledatagui";i:23;s:12:"ilpctablegui";i:24;s:17:"ilinternallinkgui";i:25;s:19:"ilobjmediaobjectgui";i:26;s:15:"ilpcfileitemgui";i:27;s:15:"ilpcfilelistgui";i:28;s:11:"ilpclistgui";i:29;s:15:"ilpclistitemgui";i:30;s:18:"ilpcmediaobjectgui";i:31;s:16:"ilpcparagraphgui";i:32;s:15:"ilpcquestiongui";i:33;s:17:"ilpcsourcecodegui";i:34;s:16:"ilpctabledatagui";i:35;s:12:"ilpctablegui";i:36;s:17:"ilinternallinkgui";i:37;s:19:"ilobjmediaobjectgui";i:38;s:15:"ilpcfileitemgui";i:39;s:15:"ilpcfilelistgui";i:40;s:11:"ilpclistgui";i:41;s:15:"ilpclistitemgui";i:42;s:18:"ilpcmediaobjectgui";i:43;s:16:"ilpcparagraphgui";i:44;s:15:"ilpcquestiongui";i:45;s:17:"ilpcsourcecodegui";i:46;s:16:"ilpctabledatagui";i:47;s:12:"ilpctablegui";}s:15:"ilpageobjectgui";a:12:{i:0;s:18:"ileditclipboardgui";i:1;s:25:"ilmediapooltargetselector";i:2;s:15:"ilpageeditorgui";i:3;s:18:"ileditclipboardgui";i:4;s:25:"ilmediapooltargetselector";i:5;s:15:"ilpageeditorgui";i:6;s:18:"ileditclipboardgui";i:7;s:25:"ilmediapooltargetselector";i:8;s:15:"ilpageeditorgui";i:9;s:18:"ileditclipboardgui";i:10;s:25:"ilmediapooltargetselector";i:11;s:15:"ilpageeditorgui";}s:17:"illmpageobjectgui";a:4:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:15:"ilpageobjectgui";}s:18:"ilobjstylesheetgui";a:3:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";}s:20:"ilstructureobjectgui";a:4:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:13:"ilmdeditorgui";i:2;s:27:"ilconditionhandlerinterface";i:3;s:13:"ilmdeditorgui";}s:14:"ilobjdlbookgui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:17:"illmpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:18:"ilobjstylesheetgui";i:4;s:15:"ilpermissiongui";i:5;s:20:"ilstructureobjectgui";}s:16:"ilobjexercisegui";a:1:{i:0;s:15:"ilpermissiongui";}s:29:"ilobjexternaltoolssettingsgui";a:1:{i:0;s:15:"ilpermissiongui";}s:19:"ilobjfilebasedlmgui";a:3:{i:0;s:15:"ilfilesystemgui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:12:"ilobjfilegui";a:3:{i:0;s:15:"ilinfoscreengui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:14:"ilobjfoldergui";a:4:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:15:"ilpermissiongui";i:2;s:27:"ilconditionhandlerinterface";i:3;s:15:"ilpermissiongui";}s:13:"ilobjforumgui";a:1:{i:0;s:15:"ilpermissiongui";}s:25:"iltermdefinitioneditorgui";a:2:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpageobjectgui";}s:17:"ilglossarytermgui";a:1:{i:0;s:25:"iltermdefinitioneditorgui";}s:16:"ilobjglossarygui";a:3:{i:0;s:17:"ilglossarytermgui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:13:"ilobjgroupgui";a:3:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:15:"ilpermissiongui";i:2;s:13:"ilregistergui";}s:22:"ilobjilincclassroomgui";a:2:{i:0;s:0:"";i:1;s:0:"";}s:19:"ilobjilinccoursegui";a:2:{i:0;s:22:"ilobjilincclassroomgui";i:1;s:15:"ilpermissiongui";}s:22:"ilobjlanguagefoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:22:"ilobjlearningmodulegui";a:6:{i:0;s:21:"illearningprogressgui";i:1;s:17:"illmpageobjectgui";i:2;s:13:"ilmdeditorgui";i:3;s:18:"ilobjstylesheetgui";i:4;s:15:"ilpermissiongui";i:5;s:20:"ilstructureobjectgui";}s:20:"ilobjlinkresourcegui";a:3:{i:0;s:15:"ilinfoscreengui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:12:"ilobjmailgui";a:1:{i:0;s:15:"ilpermissiongui";}s:17:"ilobjmediapoolgui";a:4:{i:0;s:18:"ileditclipboardgui";i:1;s:14:"ilobjfoldergui";i:2;s:19:"ilobjmediaobjectgui";i:3;s:15:"ilpermissiongui";}s:20:"ilobjobjectfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:23:"ilobjpaymentsettingsgui";a:1:{i:0;s:15:"ilpermissiongui";}s:20:"ilobjquestionpoolgui";a:10:{i:0;s:16:"ass_clozetestgui";i:1;s:23:"ass_imagemapquestiongui";i:2;s:17:"ass_javaappletgui";i:3;s:23:"ass_matchingquestiongui";i:4;s:21:"ass_multiplechoicegui";i:5;s:23:"ass_orderingquestiongui";i:6;s:19:"ass_textquestiongui";i:7;s:13:"ilmdeditorgui";i:8;s:15:"ilpageobjectgui";i:9;s:15:"ilpermissiongui";}s:22:"ilobjrecoveryfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:18:"ilobjrolefoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:20:"ilobjroletemplategui";a:1:{i:0;s:0:"";}s:18:"ilobjrootfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:26:"ilobjsahslearningmodulegui";a:3:{i:0;s:15:"ilfilesystemgui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilpermissiongui";}s:22:"ilobjsearchsettingsgui";a:1:{i:0;s:15:"ilpermissiongui";}s:21:"ilobjstylesettingsgui";a:1:{i:0;s:15:"ilpermissiongui";}s:14:"ilobjsurveygui";a:4:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpermissiongui";i:2;s:21:"ilsurveyevaluationgui";i:3;s:20:"ilsurveyexecutiongui";}s:26:"ilobjsurveyquestionpoolgui";a:6:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpermissiongui";i:2;s:23:"surveymetricquestiongui";i:3;s:24:"surveynominalquestiongui";i:4;s:24:"surveyordinalquestiongui";i:5;s:21:"surveytextquestiongui";}s:20:"ilobjsystemfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:12:"ilobjtestgui";a:7:{i:0;s:15:"ilinfoscreengui";i:1;s:21:"illearningprogressgui";i:2;s:13:"ilmdeditorgui";i:3;s:14:"ilobjcoursegui";i:4;s:15:"ilpermissiongui";i:5;s:19:"iltestevaluationgui";i:6;s:15:"iltestoutputgui";}s:18:"ilobjuserfoldergui";a:1:{i:0;s:15:"ilpermissiongui";}s:12:"ilobjusergui";a:1:{i:0;s:21:"illearningprogressgui";}s:20:"ilobjusertrackinggui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:15:"ilpermissiongui";}s:19:"iladministrationgui";a:43:{i:0;s:21:"ilcourseobjectivesgui";i:1;s:24:"ilobjassessmentfoldergui";i:2;s:20:"ilobjauthsettingsgui";i:3;s:16:"ilobjcategorygui";i:4;s:12:"ilobjchatgui";i:5;s:18:"ilobjchatservergui";i:6;s:14:"ilobjcoursegui";i:7;s:14:"ilobjdlbookgui";i:8;s:16:"ilobjexercisegui";i:9;s:29:"ilobjexternaltoolssettingsgui";i:10;s:19:"ilobjfilebasedlmgui";i:11;s:12:"ilobjfilegui";i:12;s:14:"ilobjfoldergui";i:13;s:13:"ilobjforumgui";i:14;s:16:"ilobjglossarygui";i:15;s:13:"ilobjgroupgui";i:16;s:22:"ilobjilincclassroomgui";i:17;s:19:"ilobjilinccoursegui";i:18;s:22:"ilobjlanguagefoldergui";i:19;s:22:"ilobjlearningmodulegui";i:20;s:20:"ilobjlinkresourcegui";i:21;s:12:"ilobjmailgui";i:22;s:17:"ilobjmediapoolgui";i:23;s:20:"ilobjobjectfoldergui";i:24;s:23:"ilobjpaymentsettingsgui";i:25;s:20:"ilobjquestionpoolgui";i:26;s:22:"ilobjrecoveryfoldergui";i:27;s:18:"ilobjrolefoldergui";i:28;s:12:"ilobjrolegui";i:29;s:20:"ilobjroletemplategui";i:30;s:18:"ilobjrootfoldergui";i:31;s:26:"ilobjsahslearningmodulegui";i:32;s:22:"ilobjsearchsettingsgui";i:33;s:21:"ilobjstylesettingsgui";i:34;s:18:"ilobjstylesheetgui";i:35;s:14:"ilobjsurveygui";i:36;s:26:"ilobjsurveyquestionpoolgui";i:37;s:20:"ilobjsystemfoldergui";i:38;s:22:"ilobjtaxonomyfoldergui";i:39;s:12:"ilobjtestgui";i:40;s:18:"ilobjuserfoldergui";i:41;s:12:"ilobjusergui";i:42;s:20:"ilobjusertrackinggui";}}', 'a:96:{s:0:"";a:277:{i:0;s:0:"";i:1;s:0:"";i:2;s:12:"ilobjrolegui";i:3;s:0:"";i:4;s:12:"ilobjrolegui";i:5;s:0:"";i:6;s:12:"ilobjrolegui";i:7;s:0:"";i:8;s:12:"ilobjrolegui";i:9;s:0:"";i:10;s:12:"ilobjrolegui";i:11;s:0:"";i:12;s:0:"";i:13;s:0:"";i:14;s:0:"";i:15;s:0:"";i:16;s:0:"";i:17;s:13:"illpfiltergui";i:18;s:0:"";i:19;s:0:"";i:20;s:13:"illpfiltergui";i:21;s:21:"illplistofprogressgui";i:22;s:0:"";i:23;s:21:"illplistofsettingsgui";i:24;s:0:"";i:25;s:0:"";i:26;s:0:"";i:27;s:0:"";i:28;s:12:"ilobjrolegui";i:29;s:0:"";i:30;s:13:"illpfiltergui";i:31;s:0:"";i:32;s:0:"";i:33;s:13:"illpfiltergui";i:34;s:21:"illplistofprogressgui";i:35;s:0:"";i:36;s:21:"illplistofsettingsgui";i:37;s:0:"";i:38;s:0:"";i:39;s:0:"";i:40;s:0:"";i:41;s:0:"";i:42;s:0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";i:46;s:0:"";i:47;s:0:"";i:48;s:0:"";i:49;s:0:"";i:50;s:0:"";i:51;s:0:"";i:52;s:0:"";i:53;s:0:"";i:54;s:0:"";i:55;s:0:"";i:56;s:18:"ilobjstylesheetgui";i:57;s:0:"";i:58;s:12:"ilobjrolegui";i:59;s:0:"";i:60;s:0:"";i:61;s:0:"";i:62;s:12:"ilobjrolegui";i:63;s:0:"";i:64;s:12:"ilobjrolegui";i:65;s:0:"";i:66;s:0:"";i:67;s:0:"";i:68;s:12:"ilobjrolegui";i:69;s:0:"";i:70;s:0:"";i:71;s:0:"";i:72;s:0:"";i:73;s:12:"ilobjrolegui";i:74;s:0:"";i:75;s:0:"";i:76;s:12:"ilobjrolegui";i:77;s:0:"";i:78;s:12:"ilobjrolegui";i:79;s:0:"";i:80;s:0:"";i:81;s:0:"";i:82;s:0:"";i:83;s:0:"";i:84;s:0:"";i:85;s:0:"";i:86;s:0:"";i:87;s:0:"";i:88;s:0:"";i:89;s:0:"";i:90;s:0:"";i:91;s:0:"";i:92;s:0:"";i:93;s:0:"";i:94;s:0:"";i:95;s:0:"";i:96;s:0:"";i:97;s:0:"";i:98;s:12:"ilobjrolegui";i:99;s:0:"";i:100;s:0:"";i:101;s:12:"ilobjrolegui";i:102;s:0:"";i:103;s:0:"";i:104;s:22:"ilobjilincclassroomgui";i:105;s:0:"";i:106;s:22:"ilobjilincclassroomgui";i:107;s:0:"";i:108;s:12:"ilobjrolegui";i:109;s:0:"";i:110;s:12:"ilobjrolegui";i:111;s:0:"";i:112;s:13:"illpfiltergui";i:113;s:0:"";i:114;s:0:"";i:115;s:13:"illpfiltergui";i:116;s:21:"illplistofprogressgui";i:117;s:0:"";i:118;s:21:"illplistofsettingsgui";i:119;s:0:"";i:120;s:0:"";i:121;s:0:"";i:122;s:0:"";i:123;s:0:"";i:124;s:0:"";i:125;s:0:"";i:126;s:0:"";i:127;s:0:"";i:128;s:0:"";i:129;s:0:"";i:130;s:0:"";i:131;s:0:"";i:132;s:0:"";i:133;s:0:"";i:134;s:0:"";i:135;s:0:"";i:136;s:0:"";i:137;s:0:"";i:138;s:18:"ilobjstylesheetgui";i:139;s:0:"";i:140;s:12:"ilobjrolegui";i:141;s:0:"";i:142;s:0:"";i:143;s:0:"";i:144;s:0:"";i:145;s:0:"";i:146;s:0:"";i:147;s:12:"ilobjrolegui";i:148;s:0:"";i:149;s:12:"ilobjrolegui";i:150;s:0:"";i:151;s:0:"";i:152;s:0:"";i:153;s:0:"";i:154;s:12:"ilobjrolegui";i:155;s:0:"";i:156;s:0:"";i:157;s:0:"";i:158;s:12:"ilobjrolegui";i:159;s:0:"";i:160;s:12:"ilobjrolegui";i:161;s:0:"";i:162;s:12:"ilobjrolegui";i:163;s:0:"";i:164;s:0:"";i:165;s:0:"";i:166;s:0:"";i:167;s:0:"";i:168;s:0:"";i:169;s:0:"";i:170;s:0:"";i:171;s:0:"";i:172;s:0:"";i:173;s:0:"";i:174;s:0:"";i:175;s:0:"";i:176;s:0:"";i:177;s:0:"";i:178;s:0:"";i:179;s:0:"";i:180;s:0:"";i:181;s:0:"";i:182;s:0:"";i:183;s:0:"";i:184;s:0:"";i:185;s:0:"";i:186;s:0:"";i:187;s:0:"";i:188;s:12:"ilobjrolegui";i:189;s:0:"";i:190;s:12:"ilobjrolegui";i:191;s:0:"";i:192;s:12:"ilobjrolegui";i:193;s:0:"";i:194;s:12:"ilobjrolegui";i:195;s:0:"";i:196;s:20:"ilobjroletemplategui";i:197;s:0:"";i:198;s:12:"ilobjrolegui";i:199;s:0:"";i:200;s:0:"";i:201;s:0:"";i:202;s:12:"ilobjrolegui";i:203;s:0:"";i:204;s:12:"ilobjrolegui";i:205;s:0:"";i:206;s:12:"ilobjrolegui";i:207;s:0:"";i:208;s:18:"ilobjstylesheetgui";i:209;s:0:"";i:210;s:0:"";i:211;s:12:"ilobjrolegui";i:212;s:0:"";i:213;s:0:"";i:214;s:0:"";i:215;s:0:"";i:216;s:12:"ilobjrolegui";i:217;s:0:"";i:218;s:0:"";i:219;s:0:"";i:220;s:0:"";i:221;s:0:"";i:222;s:12:"ilobjrolegui";i:223;s:0:"";i:224;s:0:"";i:225;s:0:"";i:226;s:0:"";i:227;s:13:"illpfiltergui";i:228;s:0:"";i:229;s:0:"";i:230;s:13:"illpfiltergui";i:231;s:21:"illplistofprogressgui";i:232;s:0:"";i:233;s:21:"illplistofsettingsgui";i:234;s:0:"";i:235;s:0:"";i:236;s:0:"";i:237;s:0:"";i:238;s:0:"";i:239;s:0:"";i:240;s:0:"";i:241;s:13:"illpfiltergui";i:242;s:0:"";i:243;s:0:"";i:244;s:13:"illpfiltergui";i:245;s:21:"illplistofprogressgui";i:246;s:0:"";i:247;s:21:"illplistofsettingsgui";i:248;s:0:"";i:249;s:0:"";i:250;s:0:"";i:251;s:0:"";i:252;s:12:"ilobjrolegui";i:253;s:0:"";i:254;s:12:"ilobjrolegui";i:255;s:0:"";i:256;s:0:"";i:257;s:0:"";i:258;s:12:"ilobjrolegui";i:259;s:0:"";i:260;s:13:"illpfiltergui";i:261;s:0:"";i:262;s:0:"";i:263;s:13:"illpfiltergui";i:264;s:21:"illplistofprogressgui";i:265;s:0:"";i:266;s:21:"illplistofsettingsgui";i:267;s:0:"";i:268;s:13:"illpfiltergui";i:269;s:0:"";i:270;s:0:"";i:271;s:13:"illpfiltergui";i:272;s:21:"illplistofprogressgui";i:273;s:0:"";i:274;s:21:"illplistofsettingsgui";i:275;s:0:"";i:276;s:12:"ilobjrolegui";}s:12:"ilobjrolegui";a:39:{i:0;s:15:"ilpermissiongui";i:1;s:15:"ilpermissiongui";i:2;s:15:"ilpermissiongui";i:3;s:15:"ilpermissiongui";i:4;s:15:"ilpermissiongui";i:5;s:15:"ilpermissiongui";i:6;s:15:"ilpermissiongui";i:7;s:15:"ilpermissiongui";i:8;s:15:"ilpermissiongui";i:9;s:15:"ilpermissiongui";i:10;s:15:"ilpermissiongui";i:11;s:15:"ilpermissiongui";i:12;s:15:"ilpermissiongui";i:13;s:15:"ilpermissiongui";i:14;s:15:"ilpermissiongui";i:15;s:15:"ilpermissiongui";i:16;s:15:"ilpermissiongui";i:17;s:15:"ilpermissiongui";i:18;s:15:"ilpermissiongui";i:19;s:15:"ilpermissiongui";i:20;s:15:"ilpermissiongui";i:21;s:15:"ilpermissiongui";i:22;s:15:"ilpermissiongui";i:23;s:15:"ilpermissiongui";i:24;s:15:"ilpermissiongui";i:25;s:15:"ilpermissiongui";i:26;s:15:"ilpermissiongui";i:27;s:15:"ilpermissiongui";i:28;s:15:"ilpermissiongui";i:29;s:15:"ilpermissiongui";i:30;s:15:"ilpermissiongui";i:31;s:15:"ilpermissiongui";i:32;s:15:"ilpermissiongui";i:33;s:15:"ilpermissiongui";i:34;s:15:"ilpermissiongui";i:35;s:15:"ilpermissiongui";i:36;s:15:"ilpermissiongui";i:37;s:15:"ilpermissiongui";i:38;s:19:"iladministrationgui";}s:15:"ilpermissiongui";a:38:{i:0;s:24:"ilobjassessmentfoldergui";i:1;s:20:"ilobjauthsettingsgui";i:2;s:16:"ilobjcategorygui";i:3;s:12:"ilobjchatgui";i:4;s:18:"ilobjchatservergui";i:5;s:14:"ilobjcoursegui";i:6;s:14:"ilobjdlbookgui";i:7;s:16:"ilobjexercisegui";i:8;s:29:"ilobjexternaltoolssettingsgui";i:9;s:19:"ilobjfilebasedlmgui";i:10;s:12:"ilobjfilegui";i:11;s:14:"ilobjfoldergui";i:12;s:13:"ilobjforumgui";i:13;s:16:"ilobjglossarygui";i:14;s:13:"ilobjgroupgui";i:15;s:19:"ilobjilinccoursegui";i:16;s:22:"ilobjlanguagefoldergui";i:17;s:22:"ilobjlearningmodulegui";i:18;s:20:"ilobjlinkresourcegui";i:19;s:12:"ilobjmailgui";i:20;s:14:"ilobjfoldergui";i:21;s:17:"ilobjmediapoolgui";i:22;s:20:"ilobjobjectfoldergui";i:23;s:23:"ilobjpaymentsettingsgui";i:24;s:20:"ilobjquestionpoolgui";i:25;s:22:"ilobjrecoveryfoldergui";i:26;s:18:"ilobjrolefoldergui";i:27;s:18:"ilobjrootfoldergui";i:28;s:26:"ilobjsahslearningmodulegui";i:29;s:22:"ilobjsearchsettingsgui";i:30;s:21:"ilobjstylesettingsgui";i:31;s:14:"ilobjsurveygui";i:32;s:26:"ilobjsurveyquestionpoolgui";i:33;s:20:"ilobjsystemfoldergui";i:34;s:14:"ilobjcoursegui";i:35;s:12:"ilobjtestgui";i:36;s:18:"ilobjuserfoldergui";i:37;s:20:"ilobjusertrackinggui";}s:1:""";a:5:{i:0;s:13:"ilfeedbackgui";i:1;s:13:"ilfeedbackgui";i:2;s:13:"ilfeedbackgui";i:3;s:13:"ilfeedbackgui";i:4;s:13:"ilfeedbackgui";}s:13:"ilfeedbackgui";a:5:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilinfoscreengui";i:2;s:15:"ilinfoscreengui";i:3;s:15:"ilinfoscreengui";i:4;s:15:"ilinfoscreengui";}s:9:"ilnotegui";a:5:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilinfoscreengui";i:2;s:15:"ilinfoscreengui";i:3;s:15:"ilinfoscreengui";i:4;s:15:"ilinfoscreengui";}s:13:"illpfiltergui";a:14:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";i:2;s:20:"illplistofobjectsgui";i:3;s:21:"illplistofprogressgui";i:4;s:20:"illplistofobjectsgui";i:5;s:21:"illplistofprogressgui";i:6;s:20:"illplistofobjectsgui";i:7;s:21:"illplistofprogressgui";i:8;s:20:"illplistofobjectsgui";i:9;s:21:"illplistofprogressgui";i:10;s:20:"illplistofobjectsgui";i:11;s:21:"illplistofprogressgui";i:12;s:20:"illplistofobjectsgui";i:13;s:21:"illplistofprogressgui";}s:20:"illplistofobjectsgui";a:7:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";i:2;s:21:"illearningprogressgui";i:3;s:21:"illearningprogressgui";i:4;s:21:"illearningprogressgui";i:5;s:21:"illearningprogressgui";i:6;s:21:"illearningprogressgui";}s:21:"illplistofprogressgui";a:7:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";i:2;s:21:"illearningprogressgui";i:3;s:21:"illearningprogressgui";i:4;s:21:"illearningprogressgui";i:5;s:21:"illearningprogressgui";i:6;s:21:"illearningprogressgui";}s:21:"illplistofsettingsgui";a:7:{i:0;s:21:"illearningprogressgui";i:1;s:21:"illearningprogressgui";i:2;s:21:"illearningprogressgui";i:3;s:21:"illearningprogressgui";i:4;s:21:"illearningprogressgui";i:5;s:21:"illearningprogressgui";i:6;s:21:"illearningprogressgui";}s:27:"ilconditionhandlerinterface";a:7:{i:0;s:14:"ilobjcoursegui";i:1;s:20:"ilstructureobjectgui";i:2;s:14:"ilobjfoldergui";i:3;s:13:"ilobjgroupgui";i:4;s:20:"ilstructureobjectgui";i:5;s:14:"ilobjfoldergui";i:6;s:14:"ilobjcoursegui";}s:21:"ilcourseobjectivesgui";a:3:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";i:2;s:19:"iladministrationgui";}s:19:"ilcourseregistergui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";}s:15:"ilinfoscreengui";a:5:{i:0;s:14:"ilobjcoursegui";i:1;s:12:"ilobjfilegui";i:2;s:20:"ilobjlinkresourcegui";i:3;s:14:"ilobjcoursegui";i:4;s:12:"ilobjtestgui";}s:21:"illearningprogressgui";a:7:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjdlbookgui";i:2;s:22:"ilobjlearningmodulegui";i:3;s:14:"ilobjcoursegui";i:4;s:12:"ilobjtestgui";i:5;s:12:"ilobjusergui";i:6;s:20:"ilobjusertrackinggui";}s:13:"ilmdeditorgui";a:28:{i:0;s:14:"ilobjcoursegui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:19:"ilobjmediaobjectgui";i:3;s:17:"illmpageobjectgui";i:4;s:20:"ilstructureobjectgui";i:5;s:14:"ilobjdlbookgui";i:6;s:19:"ilobjfilebasedlmgui";i:7;s:12:"ilobjfilegui";i:8;s:19:"ilobjmediaobjectgui";i:9;s:19:"ilobjmediaobjectgui";i:10;s:25:"iltermdefinitioneditorgui";i:11;s:16:"ilobjglossarygui";i:12;s:19:"ilobjmediaobjectgui";i:13;s:19:"ilobjmediaobjectgui";i:14;s:17:"illmpageobjectgui";i:15;s:20:"ilstructureobjectgui";i:16;s:22:"ilobjlearningmodulegui";i:17;s:20:"ilobjlinkresourcegui";i:18;s:19:"ilobjmediaobjectgui";i:19;s:19:"ilobjmediaobjectgui";i:20;s:19:"ilobjmediaobjectgui";i:21;s:19:"ilobjmediaobjectgui";i:22;s:20:"ilobjquestionpoolgui";i:23;s:26:"ilobjsahslearningmodulegui";i:24;s:14:"ilobjsurveygui";i:25;s:26:"ilobjsurveyquestionpoolgui";i:26;s:14:"ilobjcoursegui";i:27;s:12:"ilobjtestgui";}s:22:"ilobjcoursegroupinggui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";}s:20:"ilpaymentpurchasegui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjcoursegui";}s:17:"ilinternallinkgui";a:14:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:15:"ilpageeditorgui";i:3;s:19:"ilobjmediaobjectgui";i:4;s:19:"ilobjmediaobjectgui";i:5;s:15:"ilpageeditorgui";i:6;s:19:"ilobjmediaobjectgui";i:7;s:19:"ilobjmediaobjectgui";i:8;s:15:"ilpageeditorgui";i:9;s:19:"ilobjmediaobjectgui";i:10;s:19:"ilobjmediaobjectgui";i:11;s:19:"ilobjmediaobjectgui";i:12;s:19:"ilobjmediaobjectgui";i:13;s:15:"ilpageeditorgui";}s:19:"ilobjmediaobjectgui";a:10:{i:0;s:18:"ileditclipboardgui";i:1;s:15:"ilpageeditorgui";i:2;s:18:"ileditclipboardgui";i:3;s:15:"ilpageeditorgui";i:4;s:18:"ileditclipboardgui";i:5;s:15:"ilpageeditorgui";i:6;s:18:"ileditclipboardgui";i:7;s:17:"ilobjmediapoolgui";i:8;s:18:"ileditclipboardgui";i:9;s:15:"ilpageeditorgui";}s:15:"ilpcfileitemgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:15:"ilpcfilelistgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:11:"ilpclistgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:15:"ilpclistitemgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:18:"ilpcmediaobjectgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:16:"ilpcparagraphgui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:15:"ilpcquestiongui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:17:"ilpcsourcecodegui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:16:"ilpctabledatagui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:12:"ilpctablegui";a:4:{i:0;s:15:"ilpageeditorgui";i:1;s:15:"ilpageeditorgui";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageeditorgui";}s:18:"ileditclipboardgui";a:5:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";i:2;s:15:"ilpageobjectgui";i:3;s:17:"ilobjmediapoolgui";i:4;s:15:"ilpageobjectgui";}s:25:"ilmediapooltargetselector";a:4:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";i:2;s:15:"ilpageobjectgui";i:3;s:15:"ilpageobjectgui";}s:15:"ilpageeditorgui";a:4:{i:0;s:15:"ilpageobjectgui";i:1;s:15:"ilpageobjectgui";i:2;s:15:"ilpageobjectgui";i:3;s:15:"ilpageobjectgui";}s:15:"ilpageobjectgui";a:4:{i:0;s:17:"illmpageobjectgui";i:1;s:25:"iltermdefinitioneditorgui";i:2;s:17:"illmpageobjectgui";i:3;s:20:"ilobjquestionpoolgui";}s:17:"illmpageobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:18:"ilobjstylesheetgui";a:3:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";i:2;s:19:"iladministrationgui";}s:20:"ilstructureobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:15:"ilfilesystemgui";a:2:{i:0;s:19:"ilobjfilebasedlmgui";i:1;s:26:"ilobjsahslearningmodulegui";}s:25:"iltermdefinitioneditorgui";a:1:{i:0;s:17:"ilglossarytermgui";}s:17:"ilglossarytermgui";a:1:{i:0;s:16:"ilobjglossarygui";}s:13:"ilregistergui";a:1:{i:0;s:13:"ilobjgroupgui";}s:22:"ilobjilincclassroomgui";a:2:{i:0;s:19:"ilobjilinccoursegui";i:1;s:19:"iladministrationgui";}s:14:"ilobjfoldergui";a:2:{i:0;s:17:"ilobjmediapoolgui";i:1;s:19:"iladministrationgui";}s:16:"ass_clozetestgui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:23:"ass_imagemapquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:17:"ass_javaappletgui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:23:"ass_matchingquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:21:"ass_multiplechoicegui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:23:"ass_orderingquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:19:"ass_textquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:21:"ilsurveyevaluationgui";a:1:{i:0;s:14:"ilobjsurveygui";}s:20:"ilsurveyexecutiongui";a:1:{i:0;s:14:"ilobjsurveygui";}s:23:"surveymetricquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:24:"surveynominalquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:24:"surveyordinalquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:21:"surveytextquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:14:"ilobjcoursegui";a:2:{i:0;s:12:"ilobjtestgui";i:1;s:19:"iladministrationgui";}s:19:"iltestevaluationgui";a:1:{i:0;s:12:"ilobjtestgui";}s:15:"iltestoutputgui";a:1:{i:0;s:12:"ilobjtestgui";}s:24:"ilobjassessmentfoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:20:"ilobjauthsettingsgui";a:1:{i:0;s:19:"iladministrationgui";}s:16:"ilobjcategorygui";a:1:{i:0;s:19:"iladministrationgui";}s:12:"ilobjchatgui";a:1:{i:0;s:19:"iladministrationgui";}s:18:"ilobjchatservergui";a:1:{i:0;s:19:"iladministrationgui";}s:14:"ilobjdlbookgui";a:1:{i:0;s:19:"iladministrationgui";}s:16:"ilobjexercisegui";a:1:{i:0;s:19:"iladministrationgui";}s:29:"ilobjexternaltoolssettingsgui";a:1:{i:0;s:19:"iladministrationgui";}s:19:"ilobjfilebasedlmgui";a:1:{i:0;s:19:"iladministrationgui";}s:12:"ilobjfilegui";a:1:{i:0;s:19:"iladministrationgui";}s:13:"ilobjforumgui";a:1:{i:0;s:19:"iladministrationgui";}s:16:"ilobjglossarygui";a:1:{i:0;s:19:"iladministrationgui";}s:13:"ilobjgroupgui";a:1:{i:0;s:19:"iladministrationgui";}s:19:"ilobjilinccoursegui";a:1:{i:0;s:19:"iladministrationgui";}s:22:"ilobjlanguagefoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:22:"ilobjlearningmodulegui";a:1:{i:0;s:19:"iladministrationgui";}s:20:"ilobjlinkresourcegui";a:1:{i:0;s:19:"iladministrationgui";}s:12:"ilobjmailgui";a:1:{i:0;s:19:"iladministrationgui";}s:17:"ilobjmediapoolgui";a:1:{i:0;s:19:"iladministrationgui";}s:20:"ilobjobjectfoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:23:"ilobjpaymentsettingsgui";a:1:{i:0;s:19:"iladministrationgui";}s:20:"ilobjquestionpoolgui";a:1:{i:0;s:19:"iladministrationgui";}s:22:"ilobjrecoveryfoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:18:"ilobjrolefoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:20:"ilobjroletemplategui";a:1:{i:0;s:19:"iladministrationgui";}s:18:"ilobjrootfoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:26:"ilobjsahslearningmodulegui";a:1:{i:0;s:19:"iladministrationgui";}s:22:"ilobjsearchsettingsgui";a:1:{i:0;s:19:"iladministrationgui";}s:21:"ilobjstylesettingsgui";a:1:{i:0;s:19:"iladministrationgui";}s:14:"ilobjsurveygui";a:1:{i:0;s:19:"iladministrationgui";}s:26:"ilobjsurveyquestionpoolgui";a:1:{i:0;s:19:"iladministrationgui";}s:20:"ilobjsystemfoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:22:"ilobjtaxonomyfoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:12:"ilobjtestgui";a:1:{i:0;s:19:"iladministrationgui";}s:18:"ilobjuserfoldergui";a:1:{i:0;s:19:"iladministrationgui";}s:12:"ilobjusergui";a:1:{i:0;s:19:"iladministrationgui";}s:20:"ilobjusertrackinggui";a:1:{i:0;s:19:"iladministrationgui";}}');
 # --------------------------------------------------------
 
 #
@@ -1094,6 +1256,53 @@ CREATE TABLE `exc_returned` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `feedback_items`
+#
+
+CREATE TABLE `feedback_items` (
+  `fb_id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
+  `description` text,
+  `anonymous` tinyint(1) NOT NULL default '1',
+  `required` tinyint(1) default '0',
+  `show_on` varchar(6) default NULL,
+  `text_answer` tinyint(1) default '0',
+  `votes` text,
+  `starttime` int(11) default '0',
+  `endtime` int(11) default '0',
+  `repeat_interval` int(11) default NULL,
+  `interval_unit` tinyint(4) default NULL,
+  `first_vote_best` tinyint(1) default '0',
+  `obj_id` int(11) default '0',
+  `ref_id` int(11) default '0',
+  PRIMARY KEY  (`fb_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `feedback_items`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `feedback_results`
+#
+
+CREATE TABLE `feedback_results` (
+  `fb_id` int(11) NOT NULL default '0',
+  `user_id` int(11) default NULL,
+  `vote` int(11) NOT NULL default '0',
+  `note` text NOT NULL,
+  `votetime` int(11) NOT NULL default '0'
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `feedback_results`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `file_based_lm`
 #
 
@@ -1119,6 +1328,7 @@ CREATE TABLE `file_data` (
   `file_name` char(128) NOT NULL default '',
   `file_type` char(64) NOT NULL default '',
   `version` int(11) default NULL,
+  `mode` char(8) default 'object',
   PRIMARY KEY  (`file_id`)
 ) TYPE=MyISAM;
 
@@ -1209,7 +1419,9 @@ CREATE TABLE `frm_posts` (
   `notify` tinyint(1) NOT NULL default '0',
   `import_name` text,
   PRIMARY KEY  (`pos_pk`),
-  FULLTEXT KEY `message_subject` (`pos_message`,`pos_subject`)
+  FULLTEXT KEY `message_subject` (`pos_message`,`pos_subject`),
+  KEY `pos_thr_fk` (`pos_thr_fk`),
+  KEY `pos_top_fk` (`pos_top_fk`)
 ) TYPE=MyISAM;
 
 #
@@ -1267,7 +1479,8 @@ CREATE TABLE `frm_thread_access` (
   `thread_id` int(11) NOT NULL default '0',
   `access_old` int(11) NOT NULL default '0',
   `access_last` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`usr_id`,`obj_id`,`thread_id`)
+  PRIMARY KEY  (`usr_id`,`obj_id`,`thread_id`),
+  KEY `usr_thread` (`thread_id`,`usr_id`)
 ) TYPE=MyISAM;
 
 #
@@ -1310,7 +1523,9 @@ CREATE TABLE `frm_user_read` (
   `obj_id` int(11) NOT NULL default '0',
   `thread_id` int(11) NOT NULL default '0',
   `post_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`usr_id`,`obj_id`,`thread_id`,`post_id`)
+  PRIMARY KEY  (`usr_id`,`obj_id`,`thread_id`,`post_id`),
+  KEY `obj_usr` (`obj_id`,`usr_id`),
+  KEY `post_usr` (`post_id`,`usr_id`)
 ) TYPE=MyISAM;
 
 #
@@ -1590,8 +1805,6 @@ CREATE TABLE `il_meta_format` (
   `rbac_id` int(11) default NULL,
   `obj_id` int(11) default NULL,
   `obj_type` varchar(6) default NULL,
-  `parent_type` varchar(16) default NULL,
-  `parent_id` int(11) default NULL,
   `format` text,
   PRIMARY KEY  (`meta_format_id`),
   KEY `rbac_obj` (`rbac_id`,`obj_id`)
@@ -2146,27 +2359,31 @@ CREATE TABLE `lng_data` (
 # Dumping data for table `lng_data`
 #
 
-INSERT INTO `lng_data` VALUES ('administration', 'analyze_data', 'en', 'Analyze data Integrity');
-INSERT INTO `lng_data` VALUES ('administration', 'analyze_desc', 'en', 'Scan system for corrupted/invalid/missing/unbound objects.');
+INSERT INTO `lng_data` VALUES ('administration', 'analysis_options', 'en', 'Analysis options');
+INSERT INTO `lng_data` VALUES ('administration', 'analyze_data', 'en', 'Analyze and repair data integrity');
 INSERT INTO `lng_data` VALUES ('administration', 'analyzing', 'en', 'Analyzing...');
 INSERT INTO `lng_data` VALUES ('administration', 'analyzing_tree_structure', 'en', 'Analyzing tree structure...');
 INSERT INTO `lng_data` VALUES ('administration', 'check_tree', 'en', 'Check tree structure');
 INSERT INTO `lng_data` VALUES ('administration', 'check_tree_desc', 'en', 'Check consistence of entire tree structure. Depending on tree size this may take a while!');
 INSERT INTO `lng_data` VALUES ('administration', 'clean', 'en', 'Clean up');
-INSERT INTO `lng_data` VALUES ('administration', 'clean_desc', 'en', 'Remove invalid references & tree entries. Close gaps in tree structure.');
+INSERT INTO `lng_data` VALUES ('administration', 'clean_desc', 'en', 'Remove invalid references & tree entries. Initialize gaps in tree structure.');
 INSERT INTO `lng_data` VALUES ('administration', 'cleaning', 'en', 'Cleaning...');
 INSERT INTO `lng_data` VALUES ('administration', 'cleaning_final', 'en', 'Final cleaning...');
-INSERT INTO `lng_data` VALUES ('administration', 'closing_gaps', 'en', 'Closing gaps in tree...');
 INSERT INTO `lng_data` VALUES ('administration', 'disabled', 'en', 'disabled');
 INSERT INTO `lng_data` VALUES ('administration', 'done', 'en', 'Done');
+INSERT INTO `lng_data` VALUES ('administration', 'dump_tree', 'en', 'Dump tree');
+INSERT INTO `lng_data` VALUES ('administration', 'dump_tree_desc', 'en', 'Perform an analysis of the tree and print all tree nodes along with analysis data.');
+INSERT INTO `lng_data` VALUES ('administration', 'dumping_tree', 'en', 'Dumping tree...');
 INSERT INTO `lng_data` VALUES ('administration', 'found', 'en', 'found.');
 INSERT INTO `lng_data` VALUES ('administration', 'found_none', 'en', 'none found.');
+INSERT INTO `lng_data` VALUES ('administration', 'initializing_gaps', 'en', 'Initializing gaps in tree...');
 INSERT INTO `lng_data` VALUES ('administration', 'log_scan', 'en', 'Log scan results');
 INSERT INTO `lng_data` VALUES ('administration', 'log_scan_desc', 'en', 'Write scan results to \'scanlog.log\' in client data directory.');
 INSERT INTO `lng_data` VALUES ('administration', 'nothing_to_purge', 'en', 'Nothing to purge...');
 INSERT INTO `lng_data` VALUES ('administration', 'nothing_to_remove', 'en', 'Nothing to remove...');
 INSERT INTO `lng_data` VALUES ('administration', 'nothing_to_restore', 'en', 'Nothing to restore...');
 INSERT INTO `lng_data` VALUES ('administration', 'options', 'en', 'Options');
+INSERT INTO `lng_data` VALUES ('administration', 'output_options', 'en', 'Output options');
 INSERT INTO `lng_data` VALUES ('administration', 'passwd_auto_generate', 'en', 'Password Forwarding/Generation');
 INSERT INTO `lng_data` VALUES ('administration', 'purge_missing', 'en', 'Purge missing objects');
 INSERT INTO `lng_data` VALUES ('administration', 'purge_missing_desc', 'en', 'Remove all missing and unbound objects found from system.');
@@ -2179,6 +2396,7 @@ INSERT INTO `lng_data` VALUES ('administration', 'purging_unbound_objs', 'en', '
 INSERT INTO `lng_data` VALUES ('administration', 'removing_invalid_childs', 'en', 'Removing invalid tree entries...');
 INSERT INTO `lng_data` VALUES ('administration', 'removing_invalid_refs', 'en', 'Removing invalid references...');
 INSERT INTO `lng_data` VALUES ('administration', 'removing_invalid_rolfs', 'en', 'Removing invalid rolefolders...');
+INSERT INTO `lng_data` VALUES ('administration', 'repair_options', 'en', 'Repair options');
 INSERT INTO `lng_data` VALUES ('administration', 'restore_missing', 'en', 'Restore missing objects');
 INSERT INTO `lng_data` VALUES ('administration', 'restore_missing_desc', 'en', 'Restore missing and unbound objects to RecoveryFolder.');
 INSERT INTO `lng_data` VALUES ('administration', 'restore_trash', 'en', 'Restore deleted objects');
@@ -2187,10 +2405,11 @@ INSERT INTO `lng_data` VALUES ('administration', 'restoring', 'en', 'Restoring..
 INSERT INTO `lng_data` VALUES ('administration', 'restoring_missing_objs', 'en', 'Restoring missing objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'restoring_trash', 'en', 'Restoring trash...');
 INSERT INTO `lng_data` VALUES ('administration', 'restoring_unbound_objs', 'en', 'Restoring unbound objects & subobjects...');
+INSERT INTO `lng_data` VALUES ('administration', 'scan', 'en', 'Scan');
 INSERT INTO `lng_data` VALUES ('administration', 'scan_completed', 'en', 'Scan completed');
+INSERT INTO `lng_data` VALUES ('administration', 'scan_desc', 'en', 'Scan system for corrupted/invalid/missing/unbound objects.');
 INSERT INTO `lng_data` VALUES ('administration', 'scan_details', 'en', 'Scan details');
 INSERT INTO `lng_data` VALUES ('administration', 'scan_modes', 'en', 'Scan modes used');
-INSERT INTO `lng_data` VALUES ('administration', 'scan_only', 'en', 'Scan only');
 INSERT INTO `lng_data` VALUES ('administration', 'scanning_system', 'en', 'Scanning system...');
 INSERT INTO `lng_data` VALUES ('administration', 'searching_deleted_objs', 'en', 'Searching for deleted objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'searching_invalid_childs', 'en', 'Searching for invalid tree entries...');
@@ -2215,7 +2434,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'add_area', 'en', 'Add area');
 INSERT INTO `lng_data` VALUES ('assessment', 'add_gap', 'en', 'Add Gap Text');
 INSERT INTO `lng_data` VALUES ('assessment', 'add_imagemap', 'en', 'Import image map');
 INSERT INTO `lng_data` VALUES ('assessment', 'add_matching_pair', 'en', 'Add matching pair');
-INSERT INTO `lng_data` VALUES ('assessment', 'add_questionpool', 'en', 'Add questionpool');
+INSERT INTO `lng_data` VALUES ('assessment', 'add_questionpool', 'en', 'Add question pool');
 INSERT INTO `lng_data` VALUES ('assessment', 'add_solution', 'en', 'Add suggested solution');
 INSERT INTO `lng_data` VALUES ('assessment', 'all_available_question_pools', 'en', 'All available question pools');
 INSERT INTO `lng_data` VALUES ('assessment', 'answer', 'en', 'Answer');
@@ -2229,7 +2448,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'applet_parameter', 'en', 'Paramete
 INSERT INTO `lng_data` VALUES ('assessment', 'applet_parameters', 'en', 'Applet parameters');
 INSERT INTO `lng_data` VALUES ('assessment', 'apply', 'en', 'Apply');
 INSERT INTO `lng_data` VALUES ('assessment', 'ass_create_export_file', 'en', 'Create export file');
-INSERT INTO `lng_data` VALUES ('assessment', 'ass_create_export_test_results', 'en', 'Export<br>Test Results');
+INSERT INTO `lng_data` VALUES ('assessment', 'ass_create_export_test_results', 'en', 'Export test results');
 INSERT INTO `lng_data` VALUES ('assessment', 'ass_export_files', 'en', 'Export files');
 INSERT INTO `lng_data` VALUES ('assessment', 'ass_file', 'en', 'File');
 INSERT INTO `lng_data` VALUES ('assessment', 'ass_question', 'en', 'Question');
@@ -2240,12 +2459,13 @@ INSERT INTO `lng_data` VALUES ('assessment', 'average_reached_points', 'en', 'Av
 INSERT INTO `lng_data` VALUES ('assessment', 'backtocallingtest', 'en', 'Back to the calling test');
 INSERT INTO `lng_data` VALUES ('assessment', 'by', 'en', 'by');
 INSERT INTO `lng_data` VALUES ('assessment', 'cancel_test', 'en', 'Suspend the test');
+INSERT INTO `lng_data` VALUES ('assessment', 'cannot_edit_marks', 'en', 'There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_edit_test', 'en', 'You do not possess sufficient permissions to edit the test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_execute_test', 'en', 'You do not possess sufficient permissions to run the test!');
-INSERT INTO `lng_data` VALUES ('assessment', 'cannot_export_qpl', 'en', 'You do not possess sufficient permissions to export the questionpool!');
+INSERT INTO `lng_data` VALUES ('assessment', 'cannot_export_qpl', 'en', 'You do not possess sufficient permissions to export the question pool!');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_export_test', 'en', 'You do not possess sufficient permissions to export the test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_maintain_test', 'en', 'You do not possess sufficient permissions to maintain the test!');
-INSERT INTO `lng_data` VALUES ('assessment', 'cannot_read_questionpool', 'en', 'You do not possess sufficient permissions to read the questionpool data!');
+INSERT INTO `lng_data` VALUES ('assessment', 'cannot_read_questionpool', 'en', 'You do not possess sufficient permissions to read the question pool data!');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_save_metaobject', 'en', 'You do not possess sufficient permissions to save the meta data!');
 INSERT INTO `lng_data` VALUES ('assessment', 'change_solution', 'en', 'Change suggested solution');
 INSERT INTO `lng_data` VALUES ('assessment', 'checkbox_checked', 'en', 'Checked');
@@ -2256,9 +2476,14 @@ INSERT INTO `lng_data` VALUES ('assessment', 'circle_click_circle', 'en', 'Pleas
 INSERT INTO `lng_data` VALUES ('assessment', 'clientip', 'en', 'Client IP');
 INSERT INTO `lng_data` VALUES ('assessment', 'close_text_hint', 'en', 'You can define a gap by entering <gap></gap> at the text position of your choice. Press the \'Create gaps\' button to add an editable form for every gap.');
 INSERT INTO `lng_data` VALUES ('assessment', 'cloze_text', 'en', 'Cloze text');
+INSERT INTO `lng_data` VALUES ('assessment', 'cloze_textgap_case_insensitive', 'en', 'Case insensitive');
+INSERT INTO `lng_data` VALUES ('assessment', 'cloze_textgap_case_sensitive', 'en', 'Case sensitive');
+INSERT INTO `lng_data` VALUES ('assessment', 'cloze_textgap_levenshtein_of', 'en', 'Levenshtein distance of %s');
+INSERT INTO `lng_data` VALUES ('assessment', 'cloze_textgap_rating', 'en', 'Text gap rating');
 INSERT INTO `lng_data` VALUES ('assessment', 'code', 'en', 'Code');
 INSERT INTO `lng_data` VALUES ('assessment', 'concatenation', 'en', 'Concatenation');
 INSERT INTO `lng_data` VALUES ('assessment', 'confirm_delete_all_user_data', 'en', 'Are you sure you want to delete all user data of the test?');
+INSERT INTO `lng_data` VALUES ('assessment', 'confirm_delete_single_user_data', 'en', 'Are you sure you want to delete the test data of the selected users?');
 INSERT INTO `lng_data` VALUES ('assessment', 'confirm_sync_questions', 'en', 'The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?');
 INSERT INTO `lng_data` VALUES ('assessment', 'coordinates', 'en', 'Coordinates');
 INSERT INTO `lng_data` VALUES ('assessment', 'correct_solution_is', 'en', 'The correct solution is');
@@ -2267,7 +2492,9 @@ INSERT INTO `lng_data` VALUES ('assessment', 'create_date', 'en', 'Created');
 INSERT INTO `lng_data` VALUES ('assessment', 'create_gaps', 'en', 'Create gaps');
 INSERT INTO `lng_data` VALUES ('assessment', 'create_imagemap', 'en', 'Create an Image map');
 INSERT INTO `lng_data` VALUES ('assessment', 'create_new', 'en', 'Create new');
+INSERT INTO `lng_data` VALUES ('assessment', 'definition', 'en', 'Definition');
 INSERT INTO `lng_data` VALUES ('assessment', 'delete_area', 'en', 'Delete area');
+INSERT INTO `lng_data` VALUES ('assessment', 'delete_user_data', 'en', 'Delete test data of the selected users');
 INSERT INTO `lng_data` VALUES ('assessment', 'description_maxchars', 'en', 'If nothing entered the maximum number of characters for this text answer is unlimited.');
 INSERT INTO `lng_data` VALUES ('assessment', 'detail_ending_time_reached', 'en', 'You have reached the ending time of the test. The test isn\'t available since %s');
 INSERT INTO `lng_data` VALUES ('assessment', 'detail_max_processing_time_reached', 'en', 'You have reached the maximum allowed processing time of the test!');
@@ -2325,6 +2552,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'eval_legend_link', 'en', 'Please r
 INSERT INTO `lng_data` VALUES ('assessment', 'eval_matching_result', 'en', 'The matching pair %s - %s is %s. You received %s points.');
 INSERT INTO `lng_data` VALUES ('assessment', 'eval_order_result', 'en', 'The order for the value %s is %s. You received %s points.');
 INSERT INTO `lng_data` VALUES ('assessment', 'eval_search_groups', 'en', 'Groups');
+INSERT INTO `lng_data` VALUES ('assessment', 'eval_search_roles', 'en', 'Roles');
 INSERT INTO `lng_data` VALUES ('assessment', 'eval_search_term', 'en', 'Search term');
 INSERT INTO `lng_data` VALUES ('assessment', 'eval_search_users', 'en', 'Users');
 INSERT INTO `lng_data` VALUES ('assessment', 'eval_search_userselection', 'en', 'Search the users you want to add to the statistical evaluation');
@@ -2349,7 +2577,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'filter', 'en', 'Filter');
 INSERT INTO `lng_data` VALUES ('assessment', 'filter_all_question_types', 'en', 'All question types');
 INSERT INTO `lng_data` VALUES ('assessment', 'filter_all_questionpools', 'en', 'All question pools');
 INSERT INTO `lng_data` VALUES ('assessment', 'filter_show_question_types', 'en', 'Show question types');
-INSERT INTO `lng_data` VALUES ('assessment', 'filter_show_questionpools', 'en', 'Show questionpools');
+INSERT INTO `lng_data` VALUES ('assessment', 'filter_show_questionpools', 'en', 'Show question pools');
 INSERT INTO `lng_data` VALUES ('assessment', 'gap', 'en', 'Gap');
 INSERT INTO `lng_data` VALUES ('assessment', 'gap_definition', 'en', 'Gap definition');
 INSERT INTO `lng_data` VALUES ('assessment', 'gap_selection', 'en', 'Gap selection');
@@ -2379,6 +2607,8 @@ INSERT INTO `lng_data` VALUES ('assessment', 'log_no_test_fields_changed', 'en',
 INSERT INTO `lng_data` VALUES ('assessment', 'log_question_added', 'en', 'Question added at position');
 INSERT INTO `lng_data` VALUES ('assessment', 'log_question_position_changed', 'en', 'Question position changed');
 INSERT INTO `lng_data` VALUES ('assessment', 'log_question_removed', 'en', 'Question removed');
+INSERT INTO `lng_data` VALUES ('assessment', 'log_selected_user_data_removed', 'en', 'Removed test data of user %s');
+INSERT INTO `lng_data` VALUES ('assessment', 'log_user_answered_question', 'en', 'User answered a question and received %s points');
 INSERT INTO `lng_data` VALUES ('assessment', 'log_user_data_removed', 'en', 'Removed all user data');
 INSERT INTO `lng_data` VALUES ('assessment', 'maintenance', 'en', 'Maintenance');
 INSERT INTO `lng_data` VALUES ('assessment', 'mark_schema', 'en', 'Mark schema');
@@ -2390,7 +2620,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'material', 'en', 'Material');
 INSERT INTO `lng_data` VALUES ('assessment', 'material_download', 'en', 'Material to download');
 INSERT INTO `lng_data` VALUES ('assessment', 'material_file', 'en', 'Material file');
 INSERT INTO `lng_data` VALUES ('assessment', 'maxchars', 'en', 'Maximum number of characters');
-INSERT INTO `lng_data` VALUES ('assessment', 'maximum_nr_of_tries_reached', 'en', 'You have reached the maximum number of tries for this test. The test cannot be entered!');
+INSERT INTO `lng_data` VALUES ('assessment', 'maximum_nr_of_tries_reached', 'en', 'You have reached the maximum number of passes for this test. The test cannot be entered!');
 INSERT INTO `lng_data` VALUES ('assessment', 'meaning', 'en', 'Meaning');
 INSERT INTO `lng_data` VALUES ('assessment', 'min_percentage_ne_0', 'en', 'You must define a minimum percentage of 0 percent! The mark schema wasn\'t saved.');
 INSERT INTO `lng_data` VALUES ('assessment', 'negative_points_not_allowed', 'en', 'You are not allowed to enter negative points!');
@@ -2399,15 +2629,19 @@ INSERT INTO `lng_data` VALUES ('assessment', 'no_passed_mark', 'en', 'You must s
 INSERT INTO `lng_data` VALUES ('assessment', 'no_question_selected_for_move', 'en', 'Please check at least one question to move it!');
 INSERT INTO `lng_data` VALUES ('assessment', 'no_questions_available', 'en', 'There are no questions available!');
 INSERT INTO `lng_data` VALUES ('assessment', 'no_target_selected_for_move', 'en', 'You must select a target position!');
-INSERT INTO `lng_data` VALUES ('assessment', 'no_user_or_group_selected', 'en', 'Please check an option what are you searching for (users and/or groups)!');
+INSERT INTO `lng_data` VALUES ('assessment', 'no_user_or_group_selected', 'en', 'Please check an option what are you searching for (users, groups, roles)!');
+INSERT INTO `lng_data` VALUES ('assessment', 'online_exam_show_answer_print_sheet', 'en', 'You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.');
+INSERT INTO `lng_data` VALUES ('assessment', 'online_exam_show_finish_test', 'en', 'You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.');
 INSERT INTO `lng_data` VALUES ('assessment', 'or', 'en', 'or');
 INSERT INTO `lng_data` VALUES ('assessment', 'order_pictures', 'en', 'Order pictures');
 INSERT INTO `lng_data` VALUES ('assessment', 'order_terms', 'en', 'Order terms');
 INSERT INTO `lng_data` VALUES ('assessment', 'participants', 'en', 'Participants');
+INSERT INTO `lng_data` VALUES ('assessment', 'pass', 'en', 'Pass');
 INSERT INTO `lng_data` VALUES ('assessment', 'passed_official', 'en', 'passed');
 INSERT INTO `lng_data` VALUES ('assessment', 'passed_short', 'en', 'passed');
 INSERT INTO `lng_data` VALUES ('assessment', 'percentage_solved', 'en', 'You have solved %.2f percent of this question!');
 INSERT INTO `lng_data` VALUES ('assessment', 'percentile', 'en', 'Percentile');
+INSERT INTO `lng_data` VALUES ('assessment', 'picture', 'en', 'Picture');
 INSERT INTO `lng_data` VALUES ('assessment', 'please_select', 'en', '-- please select --');
 INSERT INTO `lng_data` VALUES ('assessment', 'points', 'en', 'Points');
 INSERT INTO `lng_data` VALUES ('assessment', 'points_short', 'en', 'Pt.');
@@ -2420,12 +2654,13 @@ INSERT INTO `lng_data` VALUES ('assessment', 'postponed', 'en', 'postponed');
 INSERT INTO `lng_data` VALUES ('assessment', 'preview', 'en', 'Preview');
 INSERT INTO `lng_data` VALUES ('assessment', 'previous_question_rows', 'en', '<< Questions %d - %d of %d');
 INSERT INTO `lng_data` VALUES ('assessment', 'print_answers', 'en', 'Print Answers');
-INSERT INTO `lng_data` VALUES ('assessment', 'print_results', 'en', 'Print Results');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_assessment_no_assessment_of_questions', 'en', 'There is no assessment of questions available for the selected question. The question was never used in a test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_assessment_of_questions', 'en', 'Assessment of questions');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_assessment_total_of_answers', 'en', 'Total of answers');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_assessment_total_of_right_answers', 'en', 'Total percentage of right answers (percentage of maximum points)');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_confirm_delete_questions', 'en', 'Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_copy_insert_clipboard', 'en', 'The selected question(s) are copied to the clipboard');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_copy_select_none', 'en', 'Please check at least one question to copy it to the clipboard');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_delete_rbac_error', 'en', 'You have no rights to delete this question!');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_delete_select_none', 'en', 'Please check at least one question to delete it');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_display_fullsize_image', 'en', 'Click here to display the original image!');
@@ -2434,9 +2669,18 @@ INSERT INTO `lng_data` VALUES ('assessment', 'qpl_edit_rbac_error', 'en', 'You h
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_edit_select_multiple', 'en', 'Please check only one question for editing');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_edit_select_none', 'en', 'Please check one question for editing');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_export_select_none', 'en', 'Please check at least one question to export it');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_general_properties', 'en', 'General properties');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_imagemap_preview_missing', 'en', 'ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver\'s ImageMagick tool isn\'t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_import_create_new_qpl', 'en', 'Import the questions in a new question pool');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_import_no_items', 'en', 'Error: The import file contains no questions!');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_import_non_ilias_files', 'en', 'Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_import_verify_found_questions', 'en', 'ILIAS found the following questions in the import file. Please select the questions you want to import.');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_move_insert_clipboard', 'en', 'The selected question(s) are marked for moving');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_move_select_none', 'en', 'Please check at least one question to select it for moving');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_online_property', 'en', 'Online');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_online_property_description', 'en', 'If the questionpool is not online, it cannot be used in tests.');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_paste_no_objects', 'en', 'There are no questions in the clipboard. Please copy or move a question into the clipboard.');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_paste_success', 'en', 'The question(s) have been pasted into the question pool');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_question_is_in_use', 'en', 'The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_questions_deleted', 'en', 'Question(s) deleted.');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_select_file_for_import', 'en', 'You must select a file for import!');
@@ -2487,19 +2731,25 @@ INSERT INTO `lng_data` VALUES ('assessment', 'see_details_for_further_informatio
 INSERT INTO `lng_data` VALUES ('assessment', 'select_an_answer', 'en', '--- Please select an answer ---');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_gap', 'en', 'Select gap');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_max_one_item', 'en', 'Please select one item only');
+INSERT INTO `lng_data` VALUES ('assessment', 'select_one_submitted_test', 'en', 'Please select at least one user who finished the test');
+INSERT INTO `lng_data` VALUES ('assessment', 'select_one_user', 'en', 'Please select at least one user');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_target_position_for_move_question', 'en', 'Please select a target position to move the question(s) and press one of the insert buttons!');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_tst_option', 'en', '--- Please select a test ---');
 INSERT INTO `lng_data` VALUES ('assessment', 'selected_image', 'en', 'Selected image');
 INSERT INTO `lng_data` VALUES ('assessment', 'set_filter', 'en', 'Set filter');
 INSERT INTO `lng_data` VALUES ('assessment', 'shape', 'en', 'Shape');
 INSERT INTO `lng_data` VALUES ('assessment', 'shuffle_answers', 'en', 'Shuffle answers');
+INSERT INTO `lng_data` VALUES ('assessment', 'solution_comment_count_system', 'en', 'Questions which are answered partially correct will be scored with 0 points');
+INSERT INTO `lng_data` VALUES ('assessment', 'solution_comment_mc_scoring', 'en', 'Multiple choice questions with no checked answer will be scored with 0 points');
 INSERT INTO `lng_data` VALUES ('assessment', 'solution_hint', 'en', 'Suggested solution');
 INSERT INTO `lng_data` VALUES ('assessment', 'solution_order', 'en', 'Solution order');
 INSERT INTO `lng_data` VALUES ('assessment', 'start_tag', 'en', 'Start tag');
 INSERT INTO `lng_data` VALUES ('assessment', 'starting_time_not_reached', 'en', 'You have not reached the starting time');
 INSERT INTO `lng_data` VALUES ('assessment', 'statistical_data', 'en', 'Statistical data');
+INSERT INTO `lng_data` VALUES ('assessment', 'statistics', 'en', 'Statistics');
 INSERT INTO `lng_data` VALUES ('assessment', 'suggested_solution_added_successfully', 'en', 'You successfully set a suggested solution!');
 INSERT INTO `lng_data` VALUES ('assessment', 'symbol', 'en', 'Symbol');
+INSERT INTO `lng_data` VALUES ('assessment', 'term', 'en', 'Term');
 INSERT INTO `lng_data` VALUES ('assessment', 'test_cancelled', 'en', 'The test was cancelled');
 INSERT INTO `lng_data` VALUES ('assessment', 'text_answers_saved', 'en', 'Essay points modified!');
 INSERT INTO `lng_data` VALUES ('assessment', 'text_gap', 'en', 'Text gap');
@@ -2511,11 +2761,12 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_all_user_data_deleted', 'en', 
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_already_submitted', 'en', 'Test has already been finish and submitted.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_already_taken', 'en', 'Tests already taken');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_answer_sheet', 'en', 'Test Answer Sheet');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_answered_questions', 'en', 'Answered questions');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_browse_for_questions', 'en', 'Browse for questions');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_confirm_delete_results', 'en', 'You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results?');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_confirm_delete_results', 'en', 'You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_confirm_delete_results_info', 'en', 'Your previous entered question results were deleted. You have successfully reset the test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_confirm_print', 'en', 'Press button to print all questions with points and solution. The question always appears at the end of a page.');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_confirm_submit_answers', 'en', 'Please confirm your submission of your solution. You won\'t be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_confirm_submit_answers', 'en', 'Please confirm your submission of your solution. You won\'t be able to revert your answers after pressing the submit button.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_count_correct_solutions', 'en', 'Count only complete solutions');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_count_partial_solutions', 'en', 'Count partial solutions');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_delete_all_user_data', 'en', 'Delete all user data');
@@ -2524,6 +2775,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_delete_results', 'en', 'Reset 
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_ending_time', 'en', 'Ending time');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_enter_questionpool', 'en', 'Please enter a question pool name where the new question will be stored');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_eval_no_anonymous_aggregation', 'en', 'No one has entered the test yet. There are no anonymous aggregated test results available.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_eval_results_by_pass', 'en', 'Detailed question results');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_eval_show_answer', 'en', 'Show answer');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_eval_total_finished', 'en', 'Total completed tests');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_eval_total_finished_average_time', 'en', 'Average processing time for completed tests');
@@ -2535,6 +2787,12 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_finished', 'en', 'Finished');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_general_properties', 'en', 'General properties');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_generate_xls', 'en', 'Generate Excel');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_heading_scoring', 'en', 'Scoring');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_hide_previous_results', 'en', 'Hide previous results');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_hide_previous_results_description', 'en', 'If checked, the previous results of a learner will not be used as default values in future test passes');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_hide_previous_results_hide', 'en', 'If checked your results from a previous test pass will be hidden');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_hide_previous_results_introduction', 'en', 'If you\'re processing more than one pass of this test, your previous entered results will not be used as default values');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_hide_title_points', 'en', 'Question title points');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_hide_title_points_description', 'en', 'Hide the output of the maximum points in the question title');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_import_no_items', 'en', 'Error: The import file contains no questions!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_import_verify_found_questions', 'en', 'ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_in_use_edit_questions_disabled', 'en', 'The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!');
@@ -2542,6 +2800,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_missing_question', 'en'
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_questions', 'en', 'Are you sure you want to insert the following question(s) to the test?');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_questions_and_results', 'en', 'This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_introduction', 'en', 'Introduction');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_maintenance_information_no_results', 'en', 'There are no existing user datasets for the test. You need at least one user dataset to maintain the data..');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_mark', 'en', 'Mark');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_mark_create_new_mark_step', 'en', 'Create new mark step');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_mark_create_simple_mark_schema', 'en', 'Create simple mark schema');
@@ -2554,37 +2813,46 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_missing_author', 'en', 'You ha
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_missing_marks', 'en', 'You do not have a mark schema in the test! Please add at least a simple mark schema to the test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_missing_questions', 'en', 'You do not have any questions in the test! Please add at least one question into the test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_missing_title', 'en', 'You have not entered a test title! Please go to the metadata section and enter a title.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_must_be_online_exam', 'en', 'This option is only available for online exams!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_marks_defined', 'en', 'There are no marks defined, please create at least a simple mark schema!');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_more_available_questionpools', 'en', 'There are no more questionpools available');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_more_available_questionpools', 'en', 'There are no more question pools available');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_question_selected_for_removal', 'en', 'Please check at least one question to remove it!');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_questionpools_for_random_test', 'en', 'You have not added a questionpool for this random test! Please select at least one questionpool.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_questionpools_for_random_test', 'en', 'You have not added a question pool for this random test! Please select at least one question pool.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_questions_available', 'en', 'There are no questions available! You need to create new questions or browse for questions.');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_questions_for_random_test', 'en', 'You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_questions_for_random_test', 'en', 'You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added question pool.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_solution_available', 'en', 'Short answer question don\'t have a solution.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_taken_tests', 'en', 'There are no taken tests!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_no_tries', 'en', 'none');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_nr_of_tries', 'en', 'Max. number of tries');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_nr_of_tries_of_user', 'en', 'Tries already completed');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_nr_of_tries', 'en', 'Max. number of passes');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_nr_of_tries_of_user', 'en', 'Passes already completed');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_participating_users', 'en', 'Participating Users');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_pass_best_pass', 'en', 'Score the best pass of a user');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_pass_details', 'en', 'Show details');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_pass_last_pass', 'en', 'Score the last pass of a user');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_pass_scoring', 'en', 'Multiple pass scoring');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_percent_solved', 'en', 'Percent solved');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_print', 'en', 'Test & Assessment Print View');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_print_date', 'en', 'Date of Print');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_processing_time', 'en', 'Max. processing time');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_properties', 'en', 'Test properties');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_qst_order', 'en', 'Order');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_qst_resetsolved', 'en', 'Reset');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_qst_resetsolved', 'en', 'Set unsolved');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_qst_result_sheet', 'en', 'Show result sheet');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_qst_setsolved', 'en', 'Set Solved');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_qst_setsolved', 'en', 'Set solved');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_qst_summary_text', 'en', 'Here you can see all questions. Use the bulbs to mark a question as solved.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_no', 'en', 'Order');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_offer', 'en', 'Do you accept this sample or do you want another one?');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_selection', 'en', 'Question selection');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_selection_description', 'en', 'If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_selection_equal', 'en', 'Use question pools with equal maximum points');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_solved_state', 'en', 'Solved');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_title', 'en', 'Title');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_question_type', 'en', 'Question type');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_questions_inserted', 'en', 'Question(s) inserted!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_questions_removed', 'en', 'Question(s) removed!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_nr_of_questions', 'en', 'How many questions?');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_qpl_unselected', 'en', 'There is at least one unselected questionpool! You don\'t need to add a new questionpool.');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_questionpools', 'en', 'Source questionpools');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_qpl_unselected', 'en', 'There is at least one unselected question pool! You don\'t need to add a new question pool.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_questionpools', 'en', 'Source question pools');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_select_questionpool', 'en', 'Select the question pool to choose the questions from');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_test', 'en', 'Random test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_random_test_description', 'en', 'If checked, the questions of the test will be generated by a random generator');
@@ -2595,7 +2863,12 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_report_after_question', 'en', 
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_report_after_test', 'en', 'Report the score after completing the whole test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_result_congratulations', 'en', 'Congratulations! You passed the test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_result_sorry', 'en', 'Sorry, you failed the test.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_result_user_name', 'en', 'Test results for %s');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_results', 'en', 'Test results');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_results_aggregated', 'en', 'Aggregated test results');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_results_back_evaluation', 'en', 'Back to evaluation overview');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_results_back_introduction', 'en', 'Back to introduction');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_results_back_overview', 'en', 'Back to results overview');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_resume_test', 'en', 'Resume the test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_questions', 'en', 'Multiple choice questions');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_use_scoring_system', 'en', 'Set the defined score, even when no answer was checked');
@@ -2606,14 +2879,16 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_type', 'en', 'Score repo
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_file_for_import', 'en', 'You must select a file for import!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_questionpool', 'en', 'Please select a question pool to store the created question');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_questionpools', 'en', 'Please select a question pool to store the imported questions');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_random_questions', 'en', 'Select the questionpool(s) and the amount of questions for the random test');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_random_questions', 'en', 'Select the question pool(s) and the amount of questions for the random test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_tsts', 'en', 'Please select a test for duplication');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_selected_user_data_deleted', 'en', 'The test data of the selected user(s) was deleted successfully');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_sequence', 'en', 'Sequence');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_sequence_fixed', 'en', 'The sequence of questions is fixed');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_sequence_postpone', 'en', 'The learner may postpone a question to the end of the test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_sequence_properties', 'en', 'Sequence properties');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_session_settings', 'en', 'Session settings');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_show_answer_sheet', 'en', 'show answers');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_show_answer_print_sheet', 'en', 'Answers Printview');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_show_answer_sheet', 'en', 'Show answers');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_show_results', 'en', 'Show test results');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_signature', 'en', 'Signature');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_start_test', 'en', 'Start the test');
@@ -2650,23 +2925,25 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_status_progress', 'en', 'In pr
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_submit_answers', 'en', 'Yes, I want to submit my answers');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_submit_answers_txt', 'en', 'You now may finish the test by submitting your answers.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_submit_results', 'en', 'Yes, I do confirm the submission.');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_test_output', 'en', 'Test output');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_text_count_system', 'en', 'Scoring system');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_time_already_spent', 'en', 'Time already spent working');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_total_questions', 'en', 'Total amount of questions');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_total_questions_description', 'en', 'If you set this value, the amount of questions entered with the questionpools are ignored. If you don\'t set this value, you need to enter an amount with every selected questionpool!');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_total_questions_description', 'en', 'If you set this value, the amount of questions entered with the question pools are ignored. If you don\'t set this value, you need to enter an amount with every selected question pool!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_tst_date', 'en', 'Date of Test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_type', 'en', 'Test type');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_type_changed', 'en', 'You have changed the test type. All previous processed tests have been deleted!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_type_comment', 'en', 'Warning: Changing the test type of a running test will delete all previous processed tests!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_types', 'en', 'Test types');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_use_javascript', 'en', 'Use Javascript for drag and drop actions');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_your_answer_was', 'en', 'Your answer was');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_your_answers', 'en', 'These are your answers given to the following questions.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_your_ects_mark_is', 'en', 'Your ECTS grade is');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_your_mark_is', 'en', 'Your mark is');
 INSERT INTO `lng_data` VALUES ('assessment', 'tt_assessment', 'en', 'Assessment test');
-INSERT INTO `lng_data` VALUES ('assessment', 'tt_navigation_controlling', 'en', 'Controlling learners navigation test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tt_online_exam', 'en', 'Online Exam');
 INSERT INTO `lng_data` VALUES ('assessment', 'tt_self_assessment', 'en', 'Self assessment test');
+INSERT INTO `lng_data` VALUES ('assessment', 'tt_varying_randomtest', 'en', 'Varying random test');
 INSERT INTO `lng_data` VALUES ('assessment', 'unlimited', 'en', 'unlimited');
 INSERT INTO `lng_data` VALUES ('assessment', 'unlock', 'en', 'Unlock');
 INSERT INTO `lng_data` VALUES ('assessment', 'unlock_question', 'en', 'This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you do not want to delete the users test results, you can duplicate the question in the question pool and change that version.');
@@ -2675,6 +2952,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'uploaded_material', 'en', 'Uploade
 INSERT INTO `lng_data` VALUES ('assessment', 'user_not_invited', 'en', 'You are not supposed to take this exam.');
 INSERT INTO `lng_data` VALUES ('assessment', 'user_wrong_clientip', 'en', 'You don\'t have the right ip using this test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'warning_question_not_complete', 'en', 'The question is not complete!');
+INSERT INTO `lng_data` VALUES ('assessment', 'warning_test_not_complete', 'en', 'The test is not complete!');
 INSERT INTO `lng_data` VALUES ('assessment', 'when', 'en', 'when');
 INSERT INTO `lng_data` VALUES ('assessment', 'width', 'en', 'Width');
 INSERT INTO `lng_data` VALUES ('assessment', 'with_order', 'en', 'with order');
@@ -2738,8 +3016,11 @@ INSERT INTO `lng_data` VALUES ('bibitem', 'bibitem_unpublished', 'en', 'Unpublis
 INSERT INTO `lng_data` VALUES ('bibitem', 'bibitem_url', 'en', 'URL');
 INSERT INTO `lng_data` VALUES ('bibitem', 'bibitem_where_published', 'en', 'Where published');
 INSERT INTO `lng_data` VALUES ('bibitem', 'bibitem_year', 'en', 'Year');
+INSERT INTO `lng_data` VALUES ('chat', 'cancel_talk', 'en', 'Cancel address');
+INSERT INTO `lng_data` VALUES ('chat', 'cancel_whisper', 'en', 'Cancel whisper');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_access_blocked', 'en', 'You are excluded from these chatrooms');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_active', 'en', 'Active');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_active_users', 'en', 'User (active)');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_active_users', 'en', 'Further users (present)');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_add_allowed_hosts', 'en', 'Please add the address of the host(s) which are allowed to access the chat server.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_add_external_ip', 'en', 'Please add the server\'s external IP.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_add_internal_ip', 'en', 'Please add the server\'s internal IP.');
@@ -2751,16 +3032,21 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_address_user', 'en', 'Address');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_aqua', 'en', 'aqua');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_arial', 'en', 'Arial');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_black', 'en', 'black');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_block_user', 'en', 'Block');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_blocked', 'en', 'Restricted access');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_blocked_unlocked', 'en', 'Unlock');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_blocked_users', 'en', 'Blocked users');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_blue', 'en', 'blue');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_bold', 'en', 'Bold');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_chatroom_body', 'en', 'Chat room:');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_chatroom_rename', 'en', 'Edit chat room');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_chatrooms', 'en', 'Chat rooms');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_chatrooms', 'en', 'Chat Rooms');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_color', 'en', 'Font color');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_delete_sure', 'en', 'Are you sure, you want to delete this chat room');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_drop_user', 'en', 'User kicked');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_edit', 'en', 'Edit chat');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_empty', 'en', 'Empty');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_enter_valid_username', 'en', 'Please enter a valid username.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_face', 'en', 'Font type');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_fuchsia', 'en', 'fuchsia');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_gray', 'en', 'gray');
@@ -2770,12 +3056,14 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_html_export', 'en', 'HTML export');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_ilias', 'en', 'ILIAS Chat module');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_inactive', 'en', 'Inactive');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_input', 'en', 'Input');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_insert_message', 'en', 'PLease insert a message');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_insert_message', 'en', 'Please insert a message');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_invitation_body', 'en', 'Invitation to chat from:');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_invitation_subject', 'en', 'Chat invitation');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_invite_user', 'en', 'Invite user');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_invited_by', 'en', 'Invited by');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_italic', 'en', 'Italic');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_kick_user_session', 'en', 'Kick user');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_kicked_from_room', 'en', 'You have been kicked from this chatroom, you cannot write messages.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_level_all', 'en', 'All');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_level_debug', 'en', 'Debug');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_level_error', 'en', 'Error');
@@ -2786,15 +3074,17 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_maroon', 'en', 'maroon');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_messages_deleted', 'en', 'Messages have been deleted.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_moderator_password', 'en', 'Moderator password');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_navy', 'en', 'navy');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_no_active_users', 'en', 'No users present.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_no_active_users', 'en', 'No further users present.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_no_blocked', 'en', 'No blocked users available');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_connection', 'en', 'Cannot contact chat server.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_delete_public', 'en', 'The public chat room cannot be deleted');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_recordings_available', 'en', 'No recordings are available at the moment.');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_no_refresh_public', 'en', 'the public chat room cannot be refreshed.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_no_refresh_public', 'en', 'The public chat room cannot be refreshed.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_rename_public', 'en', 'The public room cannot be renamed');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_no_users_selected', 'en', 'You have to select one user.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_write_perm', 'en', 'No permission to write');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_olive', 'en', 'olive');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_online_users', 'en', 'User (online)');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_online_users', 'en', 'Further users (online)');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_private_message', 'en', 'Private Message');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_profile', 'en', 'Profile');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_public_room', 'en', 'Public chat room');
@@ -2819,7 +3109,7 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_room_added', 'en', 'Added new chat 
 INSERT INTO `lng_data` VALUES ('chat', 'chat_room_name', 'en', 'Name of chat room');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_room_renamed', 'en', 'Chat room renamed.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_room_select', 'en', 'Private chat room');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_rooms', 'en', 'Chat rooms');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_rooms', 'en', 'Chat Rooms');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_rooms_deleted', 'en', 'Chat room(s) deleted.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_select_one_room', 'en', 'Please select one chat room');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_server_allowed', 'en', 'Allowed hosts');
@@ -2844,9 +3134,14 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_times', 'en', 'Times');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_title_missing', 'en', 'Please insert a name.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_to_chat_body', 'en', 'To the chat');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_type', 'en', 'Font face');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_unblocked_user', 'en', 'The selected user have been unlocked.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_underlined', 'en', 'Underlined');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_unkick_user_session', 'en', 'Unkick user');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_user_already_blocked', 'en', 'The access for the selected user is already blocked.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_user_blocked', 'en', 'Blocked access for the selected user.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_user_dropped', 'en', 'User kicked');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_user_invited', 'en', 'Invited user to chat.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_user_name', 'en', 'Username');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_whisper', 'en', 'Whisper');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_yellow', 'en', 'yellow');
 INSERT INTO `lng_data` VALUES ('chat', 'chats', 'en', 'Chats');
@@ -2873,6 +3168,7 @@ INSERT INTO `lng_data` VALUES ('common', 'add_author', 'en', 'Add Author');
 INSERT INTO `lng_data` VALUES ('common', 'add_condition', 'en', 'Create new association');
 INSERT INTO `lng_data` VALUES ('common', 'add_member', 'en', 'Add Member');
 INSERT INTO `lng_data` VALUES ('common', 'add_members', 'en', 'Add Members');
+INSERT INTO `lng_data` VALUES ('common', 'add_note', 'en', 'Add Note');
 INSERT INTO `lng_data` VALUES ('common', 'add_translation', 'en', 'Add translation');
 INSERT INTO `lng_data` VALUES ('common', 'add_user', 'en', 'Add local user');
 INSERT INTO `lng_data` VALUES ('common', 'added_new_condition', 'en', 'Created new condition.');
@@ -2888,7 +3184,7 @@ INSERT INTO `lng_data` VALUES ('common', 'administrate', 'en', 'Administrate');
 INSERT INTO `lng_data` VALUES ('common', 'administrate_users', 'en', 'Local user administration');
 INSERT INTO `lng_data` VALUES ('common', 'administration', 'en', 'Administration');
 INSERT INTO `lng_data` VALUES ('common', 'administrator', 'en', 'Administrator');
-INSERT INTO `lng_data` VALUES ('common', 'adopt', 'en', 'adopt');
+INSERT INTO `lng_data` VALUES ('common', 'adopt', 'en', 'Adopt');
 INSERT INTO `lng_data` VALUES ('common', 'adopt_perm_from_template', 'en', 'Adopt permission settings from Role Template');
 INSERT INTO `lng_data` VALUES ('common', 'agree_date', 'en', 'Agreed on');
 INSERT INTO `lng_data` VALUES ('common', 'all_authors', 'en', 'All authors');
@@ -2917,6 +3213,7 @@ INSERT INTO `lng_data` VALUES ('common', 'announce', 'en', 'Announce');
 INSERT INTO `lng_data` VALUES ('common', 'announce_changes', 'en', 'Announce Changes');
 INSERT INTO `lng_data` VALUES ('common', 'answers', 'en', 'Answers');
 INSERT INTO `lng_data` VALUES ('common', 'any_language', 'en', 'Any language');
+INSERT INTO `lng_data` VALUES ('common', 'append_search', 'en', 'Append search results');
 INSERT INTO `lng_data` VALUES ('common', 'application_completed', 'en', 'Application is complete');
 INSERT INTO `lng_data` VALUES ('common', 'application_date', 'en', 'Application date');
 INSERT INTO `lng_data` VALUES ('common', 'applied_users', 'en', 'Applied users');
@@ -2928,8 +3225,10 @@ INSERT INTO `lng_data` VALUES ('common', 'approve_date', 'en', 'Approved on');
 INSERT INTO `lng_data` VALUES ('common', 'approve_recipient', 'en', 'Login ID of approver');
 INSERT INTO `lng_data` VALUES ('common', 'archive', 'en', 'Archive');
 INSERT INTO `lng_data` VALUES ('common', 'are_you_sure', 'en', 'Are you sure?');
+INSERT INTO `lng_data` VALUES ('common', 'arrow_downright', 'en', 'Arrow from top to down right');
 INSERT INTO `lng_data` VALUES ('common', 'articels_unread', 'en', 'Unread articels');
 INSERT INTO `lng_data` VALUES ('common', 'as_of', 'en', 'as of');
+INSERT INTO `lng_data` VALUES ('common', 'ascending_order', 'en', 'Ascending order');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_log', 'en', 'Create an Test&Assessment log for a specific time period');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_log_datetime', 'en', 'Date/Time');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_log_for_test', 'en', 'For test');
@@ -2940,19 +3239,19 @@ INSERT INTO `lng_data` VALUES ('common', 'assessment_log_select_test', 'en', '--
 INSERT INTO `lng_data` VALUES ('common', 'assessment_log_text', 'en', 'Log message');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_log_user_answer', 'en', 'User answered a question');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_log_user_answers', 'en', 'Show user actions');
-INSERT INTO `lng_data` VALUES ('common', 'assessment_settings', 'en', 'Test&Assessment administration settings');
+INSERT INTO `lng_data` VALUES ('common', 'assessment_settings', 'en', 'Test&Assessment Administration Settings');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_settings_reporting_language', 'en', 'Reporting language');
 INSERT INTO `lng_data` VALUES ('common', 'assf_edit_permission', 'en', 'Change permission settings');
-INSERT INTO `lng_data` VALUES ('common', 'assf_read', 'en', 'Access Test&Assessment administration');
+INSERT INTO `lng_data` VALUES ('common', 'assf_read', 'en', 'Access Test&Assessment Administration');
 INSERT INTO `lng_data` VALUES ('common', 'assf_visible', 'en', 'Test&Assessment administration is visible');
 INSERT INTO `lng_data` VALUES ('common', 'assf_write', 'en', 'Edit Test&Assessment administration');
 INSERT INTO `lng_data` VALUES ('common', 'assign', 'en', 'Assign');
-INSERT INTO `lng_data` VALUES ('common', 'assign_global_role', 'en', 'Assign to global role');
+INSERT INTO `lng_data` VALUES ('common', 'assign_global_role', 'en', 'Assign to Global Role');
 INSERT INTO `lng_data` VALUES ('common', 'assign_lo_forum', 'en', 'Assign LO Forum');
-INSERT INTO `lng_data` VALUES ('common', 'assign_local_role', 'en', 'Assign to local role');
+INSERT INTO `lng_data` VALUES ('common', 'assign_local_role', 'en', 'Assign to Local Role');
 INSERT INTO `lng_data` VALUES ('common', 'assign_user_to_role', 'en', 'Assign User to Role');
-INSERT INTO `lng_data` VALUES ('common', 'assigned_roles', 'en', 'Assigned roles');
-INSERT INTO `lng_data` VALUES ('common', 'assigned_users', 'en', 'Assigned users');
+INSERT INTO `lng_data` VALUES ('common', 'assigned_roles', 'en', 'Assigned Roles');
+INSERT INTO `lng_data` VALUES ('common', 'assigned_users', 'en', 'Assigned Users');
 INSERT INTO `lng_data` VALUES ('common', 'associated_user', 'en', 'associated User');
 INSERT INTO `lng_data` VALUES ('common', 'associated_users', 'en', 'associated Users');
 INSERT INTO `lng_data` VALUES ('common', 'at_least_one_style', 'en', 'At least one style must remain activated.');
@@ -2960,7 +3259,7 @@ INSERT INTO `lng_data` VALUES ('common', 'at_location', 'en', 'at location');
 INSERT INTO `lng_data` VALUES ('common', 'attachment', 'en', 'Attachment');
 INSERT INTO `lng_data` VALUES ('common', 'attachments', 'en', 'Attachments');
 INSERT INTO `lng_data` VALUES ('common', 'attend', 'en', 'Attend');
-INSERT INTO `lng_data` VALUES ('common', 'auth_active_roles', 'en', 'Global roles activated for registration');
+INSERT INTO `lng_data` VALUES ('common', 'auth_active_roles', 'en', 'Global roles available on registration form');
 INSERT INTO `lng_data` VALUES ('common', 'auth_configure', 'en', 'configure...');
 INSERT INTO `lng_data` VALUES ('common', 'auth_default', 'en', 'Default setting');
 INSERT INTO `lng_data` VALUES ('common', 'auth_default_mode_changed_to', 'en', 'Default authentication mode changed to');
@@ -3005,10 +3304,15 @@ INSERT INTO `lng_data` VALUES ('common', 'average_time', 'en', 'Average time');
 INSERT INTO `lng_data` VALUES ('common', 'back', 'en', 'Back');
 INSERT INTO `lng_data` VALUES ('common', 'basedn', 'en', 'BaseDN');
 INSERT INTO `lng_data` VALUES ('common', 'basic_data', 'en', 'Basic Data');
+INSERT INTO `lng_data` VALUES ('common', 'basic_settings', 'en', 'Basic Settings');
 INSERT INTO `lng_data` VALUES ('common', 'benchmark', 'en', 'Benchmark');
 INSERT INTO `lng_data` VALUES ('common', 'benchmark_settings', 'en', 'Benchmark Settings');
 INSERT INTO `lng_data` VALUES ('common', 'benchmarks', 'en', 'Benchmarks');
 INSERT INTO `lng_data` VALUES ('common', 'bib_data', 'en', 'Bibliographical Data');
+INSERT INTO `lng_data` VALUES ('common', 'big_icon', 'en', 'Big Icon');
+INSERT INTO `lng_data` VALUES ('common', 'bkm_import', 'en', 'Import bookmarks');
+INSERT INTO `lng_data` VALUES ('common', 'bkm_import_ok', 'en', 'Successfully imported %d bookmarks and %d bookmark folders.');
+INSERT INTO `lng_data` VALUES ('common', 'bkm_sendmail', 'en', 'Send as attachment');
 INSERT INTO `lng_data` VALUES ('common', 'bm', 'en', 'Bookmark');
 INSERT INTO `lng_data` VALUES ('common', 'bmf', 'en', 'Bookmark Folder');
 INSERT INTO `lng_data` VALUES ('common', 'bookmark_edit', 'en', 'Edit Bookmark');
@@ -3021,6 +3325,8 @@ INSERT INTO `lng_data` VALUES ('common', 'bookmarks_of', 'en', 'Bookmarks of');
 INSERT INTO `lng_data` VALUES ('common', 'btn_remove_system', 'en', 'Remove from System');
 INSERT INTO `lng_data` VALUES ('common', 'btn_undelete', 'en', 'Undelete');
 INSERT INTO `lng_data` VALUES ('common', 'by', 'en', 'By');
+INSERT INTO `lng_data` VALUES ('common', 'by_location', 'en', 'Order by location');
+INSERT INTO `lng_data` VALUES ('common', 'by_type', 'en', 'Order by type');
 INSERT INTO `lng_data` VALUES ('common', 'bytes', 'en', 'Bytes');
 INSERT INTO `lng_data` VALUES ('common', 'calendar', 'en', 'Calendar');
 INSERT INTO `lng_data` VALUES ('common', 'cancel', 'en', 'Cancel');
@@ -3090,18 +3396,23 @@ INSERT INTO `lng_data` VALUES ('common', 'change_existing_objects', 'en', 'Chang
 INSERT INTO `lng_data` VALUES ('common', 'change_header_title', 'en', 'Edit Header Title');
 INSERT INTO `lng_data` VALUES ('common', 'change_lo_info', 'en', 'Change LO Info');
 INSERT INTO `lng_data` VALUES ('common', 'change_metadata', 'en', 'Change Metadata');
+INSERT INTO `lng_data` VALUES ('common', 'change_owner', 'en', 'Change owner');
 INSERT INTO `lng_data` VALUES ('common', 'change_sort_direction', 'en', 'Change sort direction');
+INSERT INTO `lng_data` VALUES ('common', 'changeable', 'en', 'Changeable');
 INSERT INTO `lng_data` VALUES ('common', 'changed_to', 'en', 'changed to');
 INSERT INTO `lng_data` VALUES ('common', 'chapter', 'en', 'Chapter');
 INSERT INTO `lng_data` VALUES ('common', 'chapter_number', 'en', 'Chapter Number');
 INSERT INTO `lng_data` VALUES ('common', 'chapter_title', 'en', 'Chapter Title');
 INSERT INTO `lng_data` VALUES ('common', 'chat', 'en', 'Chat');
+INSERT INTO `lng_data` VALUES ('common', 'chat_active_in', 'en', 'Active in chat:');
 INSERT INTO `lng_data` VALUES ('common', 'chat_add', 'en', 'Add Chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_delete', 'en', 'Delete chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_edit_permission', 'en', 'Change permission settings');
+INSERT INTO `lng_data` VALUES ('common', 'chat_invite', 'en', 'Chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_moderate', 'en', 'Moderate chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_new', 'en', 'New Chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_read', 'en', 'Read/Write access to chat');
+INSERT INTO `lng_data` VALUES ('common', 'chat_users_active', 'en', 'Active users');
 INSERT INTO `lng_data` VALUES ('common', 'chat_visible', 'en', 'Chat is visible');
 INSERT INTO `lng_data` VALUES ('common', 'chat_write', 'en', 'Edit chat');
 INSERT INTO `lng_data` VALUES ('common', 'check', 'en', 'Check');
@@ -3121,6 +3432,7 @@ INSERT INTO `lng_data` VALUES ('common', 'chg_password', 'en', 'Change Password'
 INSERT INTO `lng_data` VALUES ('common', 'choose_language', 'en', 'Choose Your Language');
 INSERT INTO `lng_data` VALUES ('common', 'choose_location', 'en', 'Choose Location');
 INSERT INTO `lng_data` VALUES ('common', 'choose_only_one_language', 'en', 'Please choose only one language');
+INSERT INTO `lng_data` VALUES ('common', 'chown_warning', 'en', 'Attention, you may loose access permissions on this object after changing the owner.');
 INSERT INTO `lng_data` VALUES ('common', 'city', 'en', 'City, State');
 INSERT INTO `lng_data` VALUES ('common', 'cleaned_file', 'en', 'File has been cleaned.');
 INSERT INTO `lng_data` VALUES ('common', 'cleaning_failed', 'en', 'Cleaning failed.');
@@ -3158,6 +3470,7 @@ INSERT INTO `lng_data` VALUES ('common', 'content', 'en', 'Content');
 INSERT INTO `lng_data` VALUES ('common', 'content_styles', 'en', 'Content Styles');
 INSERT INTO `lng_data` VALUES ('common', 'context', 'en', 'Context');
 INSERT INTO `lng_data` VALUES ('common', 'continue_work', 'en', 'Continue');
+INSERT INTO `lng_data` VALUES ('common', 'contra', 'en', 'Contra');
 INSERT INTO `lng_data` VALUES ('common', 'cookies_howto', 'en', 'How to enable cookies');
 INSERT INTO `lng_data` VALUES ('common', 'copied_object', 'en', 'Copied object');
 INSERT INTO `lng_data` VALUES ('common', 'copy', 'en', 'Copy');
@@ -3165,16 +3478,22 @@ INSERT INTO `lng_data` VALUES ('common', 'copyChapter', 'en', 'Copy');
 INSERT INTO `lng_data` VALUES ('common', 'copyPage', 'en', 'Copy');
 INSERT INTO `lng_data` VALUES ('common', 'copy_of', 'en', 'Copy of');
 INSERT INTO `lng_data` VALUES ('common', 'copy_to', 'en', 'to');
+INSERT INTO `lng_data` VALUES ('common', 'could_not_verify_account', 'en', 'Sorry, we could not verify your account. Please contact the system administrator.');
 INSERT INTO `lng_data` VALUES ('common', 'count', 'en', 'Count');
 INSERT INTO `lng_data` VALUES ('common', 'country', 'en', 'Country');
 INSERT INTO `lng_data` VALUES ('common', 'course', 'en', 'Course');
 INSERT INTO `lng_data` VALUES ('common', 'courses', 'en', 'Courses');
 INSERT INTO `lng_data` VALUES ('common', 'create', 'en', 'Create');
-INSERT INTO `lng_data` VALUES ('common', 'create_date', 'en', 'Created On');
+INSERT INTO `lng_data` VALUES ('common', 'create_date', 'en', 'Created on');
 INSERT INTO `lng_data` VALUES ('common', 'create_export_file', 'en', 'Create export file');
 INSERT INTO `lng_data` VALUES ('common', 'create_in', 'en', 'Create in');
 INSERT INTO `lng_data` VALUES ('common', 'create_stylesheet', 'en', 'Create Style');
 INSERT INTO `lng_data` VALUES ('common', 'created', 'en', 'Create date');
+INSERT INTO `lng_data` VALUES ('common', 'cron_forum_notification', 'en', 'Send forum notifications');
+INSERT INTO `lng_data` VALUES ('common', 'cron_forum_notification_cron', 'en', 'regularly per cron job');
+INSERT INTO `lng_data` VALUES ('common', 'cron_forum_notification_desc', 'en', 'If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.');
+INSERT INTO `lng_data` VALUES ('common', 'cron_forum_notification_directly', 'en', 'directly on new entries');
+INSERT INTO `lng_data` VALUES ('common', 'cron_forum_notification_never', 'en', 'never');
 INSERT INTO `lng_data` VALUES ('common', 'cron_jobs', 'en', 'Cron jobs');
 INSERT INTO `lng_data` VALUES ('common', 'cron_jobs_desc', 'en', 'A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the \'INSTALL Documentation.');
 INSERT INTO `lng_data` VALUES ('common', 'cron_lucene_index', 'en', 'Update Lucene search index');
@@ -3211,9 +3530,11 @@ INSERT INTO `lng_data` VALUES ('common', 'crs_create_tst', 'en', 'Create Test');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_webr', 'en', 'Create Web Resource');
 INSERT INTO `lng_data` VALUES ('common', 'crs_delete', 'en', 'Delete Course');
 INSERT INTO `lng_data` VALUES ('common', 'crs_edit', 'en', 'Edit Course');
+INSERT INTO `lng_data` VALUES ('common', 'crs_edit_learning_progress', 'en', 'Edit learning progress');
 INSERT INTO `lng_data` VALUES ('common', 'crs_edit_permission', 'en', 'Change permission settings');
-INSERT INTO `lng_data` VALUES ('common', 'crs_join', 'en', 'Subscribe to Course');
-INSERT INTO `lng_data` VALUES ('common', 'crs_leave', 'en', 'Unsubscribe from Course');
+INSERT INTO `lng_data` VALUES ('common', 'crs_info', 'en', 'Info');
+INSERT INTO `lng_data` VALUES ('common', 'crs_join', 'en', 'Join Course');
+INSERT INTO `lng_data` VALUES ('common', 'crs_leave', 'en', 'Leave Course');
 INSERT INTO `lng_data` VALUES ('common', 'crs_management_system', 'en', 'Course Management System');
 INSERT INTO `lng_data` VALUES ('common', 'crs_member_not_passed', 'en', 'Not passed');
 INSERT INTO `lng_data` VALUES ('common', 'crs_member_passed', 'en', 'Passed');
@@ -3230,6 +3551,8 @@ INSERT INTO `lng_data` VALUES ('common', 'cur_number_rec', 'en', 'Current number
 INSERT INTO `lng_data` VALUES ('common', 'current_ip', 'en', 'Current IP:');
 INSERT INTO `lng_data` VALUES ('common', 'current_ip_alert', 'en', 'Notice: if you enter a wrong ip you won\'t be able to access the system with this profile anymore.');
 INSERT INTO `lng_data` VALUES ('common', 'current_password', 'en', 'Current Password');
+INSERT INTO `lng_data` VALUES ('common', 'custom_icon_size_big', 'en', 'Custom icon size (big)');
+INSERT INTO `lng_data` VALUES ('common', 'custom_icon_size_small', 'en', 'Custom icon size (small)');
 INSERT INTO `lng_data` VALUES ('common', 'cut', 'en', 'Cut');
 INSERT INTO `lng_data` VALUES ('common', 'cutPage', 'en', 'Cut');
 INSERT INTO `lng_data` VALUES ('common', 'daily', 'en', 'daily');
@@ -3254,6 +3577,7 @@ INSERT INTO `lng_data` VALUES ('common', 'dbk_add', 'en', 'Add Digilib Book');
 INSERT INTO `lng_data` VALUES ('common', 'dbk_added', 'en', 'Digilib Book added');
 INSERT INTO `lng_data` VALUES ('common', 'dbk_create', 'en', 'Create Digilib Book');
 INSERT INTO `lng_data` VALUES ('common', 'dbk_delete', 'en', 'Delete Digilib Book');
+INSERT INTO `lng_data` VALUES ('common', 'dbk_edit_learning_progress', 'en', 'Edit learning progress');
 INSERT INTO `lng_data` VALUES ('common', 'dbk_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'dbk_new', 'en', 'New Digilib Book');
 INSERT INTO `lng_data` VALUES ('common', 'dbk_read', 'en', 'Read access to Digilib Book');
@@ -3281,6 +3605,7 @@ INSERT INTO `lng_data` VALUES ('common', 'deleted_user', 'en', 'The user has bee
 INSERT INTO `lng_data` VALUES ('common', 'deliver', 'en', 'Deliver exercise');
 INSERT INTO `lng_data` VALUES ('common', 'department', 'en', 'Department');
 INSERT INTO `lng_data` VALUES ('common', 'desc', 'en', 'Description');
+INSERT INTO `lng_data` VALUES ('common', 'descending_order', 'en', 'Descending order');
 INSERT INTO `lng_data` VALUES ('common', 'description', 'en', 'Description');
 INSERT INTO `lng_data` VALUES ('common', 'desired_password', 'en', 'Desired Password');
 INSERT INTO `lng_data` VALUES ('common', 'desktop_items', 'en', 'Personal desktop items');
@@ -3304,13 +3629,15 @@ INSERT INTO `lng_data` VALUES ('common', 'edit_roleassignment', 'en', 'Edit role
 INSERT INTO `lng_data` VALUES ('common', 'edit_stylesheet', 'en', 'Edit Style');
 INSERT INTO `lng_data` VALUES ('common', 'edited_at', 'en', 'Edited at');
 INSERT INTO `lng_data` VALUES ('common', 'editor', 'en', 'Editor');
-INSERT INTO `lng_data` VALUES ('common', 'email', 'en', 'Email');
+INSERT INTO `lng_data` VALUES ('common', 'email', 'en', 'Mail');
 INSERT INTO `lng_data` VALUES ('common', 'email_footer', 'en', '<br />powered by ILIAS');
 INSERT INTO `lng_data` VALUES ('common', 'email_not_valid', 'en', 'The email address you entered is not valid!');
 INSERT INTO `lng_data` VALUES ('common', 'enable', 'en', 'Enable');
 INSERT INTO `lng_data` VALUES ('common', 'enable_calendar', 'en', 'Enable Calendar');
+INSERT INTO `lng_data` VALUES ('common', 'enable_custom_icons', 'en', 'Enable custom icons');
+INSERT INTO `lng_data` VALUES ('common', 'enable_custom_icons_info', 'en', 'This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.');
 INSERT INTO `lng_data` VALUES ('common', 'enable_hist_user_comments', 'en', 'Enable user comments in history');
-INSERT INTO `lng_data` VALUES ('common', 'enable_hist_user_comments_desc', 'en', 'Gives authors the opportunity to add comments to the history log of pages.');
+INSERT INTO `lng_data` VALUES ('common', 'enable_hist_user_comments_desc', 'en', 'Give authors the opportunity to add comments to the history log of pages.');
 INSERT INTO `lng_data` VALUES ('common', 'enable_js_edit', 'en', 'Enable JavaScript Editing');
 INSERT INTO `lng_data` VALUES ('common', 'enable_js_edit_info', 'en', 'This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books)');
 INSERT INTO `lng_data` VALUES ('common', 'enable_password_assistance', 'en', 'Enable password assistance');
@@ -3383,6 +3710,7 @@ INSERT INTO `lng_data` VALUES ('common', 'exc_write', 'en', 'Edit exercise');
 INSERT INTO `lng_data` VALUES ('common', 'excs', 'en', 'Exercises');
 INSERT INTO `lng_data` VALUES ('common', 'execute', 'en', 'Execute');
 INSERT INTO `lng_data` VALUES ('common', 'exercise_time_over', 'en', 'You have reached the end time of the exercise. You cannot longer deliver files!');
+INSERT INTO `lng_data` VALUES ('common', 'exp_html', 'en', 'Export HTML');
 INSERT INTO `lng_data` VALUES ('common', 'export', 'en', 'Export');
 INSERT INTO `lng_data` VALUES ('common', 'export_group_members', 'en', 'Export group members (to Microsoft Excel)');
 INSERT INTO `lng_data` VALUES ('common', 'export_html', 'en', 'export as HTML file');
@@ -3393,13 +3721,15 @@ INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc', 'en', 'netucate LearnLinc
 INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_customer_id', 'en', 'Customer ID');
 INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_desc', 'en', 'Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com');
 INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_enable', 'en', 'Enable LearnLinc support');
-INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_port', 'en', 'Port');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_protocol_port', 'en', 'Protocol & Port');
 INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_registrar_login', 'en', 'Login ID');
 INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_registrar_passwd', 'en', 'Password');
 INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_server', 'en', 'Server');
 INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_settings_saved', 'en', 'LearnLinc settings saved');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_timeout', 'en', 'Max time waiting for server response');
 INSERT INTO `lng_data` VALUES ('common', 'extt_name', 'en', 'Software/Service');
 INSERT INTO `lng_data` VALUES ('common', 'extt_read', 'en', 'Access third party software settings');
+INSERT INTO `lng_data` VALUES ('common', 'extt_remark', 'en', 'All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.');
 INSERT INTO `lng_data` VALUES ('common', 'extt_title_configure', 'en', 'Configure external software');
 INSERT INTO `lng_data` VALUES ('common', 'extt_visible', 'en', 'Third party software settings are visible');
 INSERT INTO `lng_data` VALUES ('common', 'extt_write', 'en', 'Configure third party software');
@@ -3414,6 +3744,7 @@ INSERT INTO `lng_data` VALUES ('common', 'file_added', 'en', 'File uploaded');
 INSERT INTO `lng_data` VALUES ('common', 'file_delete', 'en', 'Delete File');
 INSERT INTO `lng_data` VALUES ('common', 'file_edit', 'en', 'Edit File');
 INSERT INTO `lng_data` VALUES ('common', 'file_edit_permission', 'en', 'Change Permission settings');
+INSERT INTO `lng_data` VALUES ('common', 'file_info', 'en', 'File Information');
 INSERT INTO `lng_data` VALUES ('common', 'file_is_infected', 'en', 'The file is infected by a virus.');
 INSERT INTO `lng_data` VALUES ('common', 'file_new', 'en', 'New File');
 INSERT INTO `lng_data` VALUES ('common', 'file_not_found', 'en', 'File Not Found');
@@ -3543,25 +3874,29 @@ INSERT INTO `lng_data` VALUES ('common', 'group_details', 'en', 'Group Details')
 INSERT INTO `lng_data` VALUES ('common', 'group_filesharing', 'en', 'Group File Sharing');
 INSERT INTO `lng_data` VALUES ('common', 'group_import', 'en', 'Group import');
 INSERT INTO `lng_data` VALUES ('common', 'group_import_file', 'en', 'Import file');
+INSERT INTO `lng_data` VALUES ('common', 'group_info_reg', 'en', 'Admission procedure');
 INSERT INTO `lng_data` VALUES ('common', 'group_members', 'en', 'Group Members');
 INSERT INTO `lng_data` VALUES ('common', 'group_memstat', 'en', 'Member Status');
 INSERT INTO `lng_data` VALUES ('common', 'group_memstat_admin', 'en', 'Administrator');
 INSERT INTO `lng_data` VALUES ('common', 'group_memstat_member', 'en', 'Member');
 INSERT INTO `lng_data` VALUES ('common', 'group_name', 'en', 'Group name');
-INSERT INTO `lng_data` VALUES ('common', 'group_new_registrations', 'en', 'New registrations');
-INSERT INTO `lng_data` VALUES ('common', 'group_no_registration', 'en', 'no registration required');
-INSERT INTO `lng_data` VALUES ('common', 'group_no_registration_msg', 'en', 'You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br />As a member you have the following advantages:<br />- You get informed about news and updates<br />- You can access the according objects like forums, learning modules, etc.<br /><br />You can annul your membership at any time.');
+INSERT INTO `lng_data` VALUES ('common', 'group_new_registrations', 'en', 'Join requests');
+INSERT INTO `lng_data` VALUES ('common', 'group_no_registration', 'en', 'Join group');
+INSERT INTO `lng_data` VALUES ('common', 'group_no_registration_msg', 'en', 'You can join this group directly.');
 INSERT INTO `lng_data` VALUES ('common', 'group_not_available', 'en', 'No group available');
 INSERT INTO `lng_data` VALUES ('common', 'group_objects', 'en', 'Group Objects');
-INSERT INTO `lng_data` VALUES ('common', 'group_password_registration_expired_msg', 'en', 'The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.');
-INSERT INTO `lng_data` VALUES ('common', 'group_password_registration_msg', 'en', 'To join this group you must enter the password provided by the administrator of this group.<br />You are automatically assigned to the group if your password is correct.');
+INSERT INTO `lng_data` VALUES ('common', 'group_password_registration_msg', 'en', 'If you know the group password, you can join this group. Please contact a group administrator, if you don\'t know the password.');
+INSERT INTO `lng_data` VALUES ('common', 'group_registration', 'en', 'Registration');
 INSERT INTO `lng_data` VALUES ('common', 'group_registration_expiration_date', 'en', 'Expiration Date');
 INSERT INTO `lng_data` VALUES ('common', 'group_registration_expiration_time', 'en', 'Expiration Time');
-INSERT INTO `lng_data` VALUES ('common', 'group_registration_expired', 'en', 'Period of registration expired');
-INSERT INTO `lng_data` VALUES ('common', 'group_registration_mode', 'en', 'Registration Mode');
-INSERT INTO `lng_data` VALUES ('common', 'group_req_password', 'en', 'Registration password required');
-INSERT INTO `lng_data` VALUES ('common', 'group_req_registration', 'en', 'Registration required');
-INSERT INTO `lng_data` VALUES ('common', 'group_req_registration_msg', 'en', 'To join this group you must register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br />You will receive a message when you get assigned to the group.');
+INSERT INTO `lng_data` VALUES ('common', 'group_registration_expired', 'en', 'The time period for joining this group has expired');
+INSERT INTO `lng_data` VALUES ('common', 'group_registration_expired_msg', 'en', 'The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.');
+INSERT INTO `lng_data` VALUES ('common', 'group_registration_mode', 'en', 'Registration procedure');
+INSERT INTO `lng_data` VALUES ('common', 'group_registration_time', 'en', 'Registration period');
+INSERT INTO `lng_data` VALUES ('common', 'group_req_direct', 'en', 'Join directly');
+INSERT INTO `lng_data` VALUES ('common', 'group_req_password', 'en', 'Join with group password');
+INSERT INTO `lng_data` VALUES ('common', 'group_req_registration', 'en', 'Request membership');
+INSERT INTO `lng_data` VALUES ('common', 'group_req_registration_msg', 'en', 'You can request membership for this group. You will receive a message when a group administrator has accepted or declined your request.');
 INSERT INTO `lng_data` VALUES ('common', 'group_reset', 'en', 'Reset Group Permissions');
 INSERT INTO `lng_data` VALUES ('common', 'group_status', 'en', 'Group is');
 INSERT INTO `lng_data` VALUES ('common', 'group_status_closed', 'en', 'Closed');
@@ -3599,8 +3934,9 @@ INSERT INTO `lng_data` VALUES ('common', 'grp_create_svy', 'en', 'Create Survey'
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_tst', 'en', 'Create Test');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_webr', 'en', 'Create Web Resource');
 INSERT INTO `lng_data` VALUES ('common', 'grp_delete', 'en', 'Delete Group');
+INSERT INTO `lng_data` VALUES ('common', 'grp_deleted_export_files', 'en', 'Deleted selected files.');
 INSERT INTO `lng_data` VALUES ('common', 'grp_dismiss_member', 'en', 'Are you sure you want to dismiss the following member(s) from the group?');
-INSERT INTO `lng_data` VALUES ('common', 'grp_dismiss_myself', 'en', 'Are you sure you want to dismiss yourself from the group?');
+INSERT INTO `lng_data` VALUES ('common', 'grp_dismiss_myself', 'en', 'Are you sure you want to leave the group?');
 INSERT INTO `lng_data` VALUES ('common', 'grp_edit', 'en', 'Edit Group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'grp_err_administrator_required', 'en', 'Member could not be removed, at least one administrator per group is required !');
@@ -3609,18 +3945,22 @@ INSERT INTO `lng_data` VALUES ('common', 'grp_err_error', 'en', 'An error occurr
 INSERT INTO `lng_data` VALUES ('common', 'grp_err_last_member', 'en', 'Last member could not be removed, please delete group instead.');
 INSERT INTO `lng_data` VALUES ('common', 'grp_err_member_could_not_be_removed', 'en', 'Member could not be removed. Please verify all dependencies of this user.');
 INSERT INTO `lng_data` VALUES ('common', 'grp_err_no_permission', 'en', 'You do not possess the permissions for this operation.');
-INSERT INTO `lng_data` VALUES ('common', 'grp_err_registration_data', 'en', 'Please enter a password, the expiration date and time for a valid registration period !');
+INSERT INTO `lng_data` VALUES ('common', 'grp_err_registration_data', 'en', 'Please enter a password, the expiration date and time for a valid joining period !');
 INSERT INTO `lng_data` VALUES ('common', 'grp_header_edit_members', 'en', 'Edit members');
 INSERT INTO `lng_data` VALUES ('common', 'grp_join', 'en', 'User may join Group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_leave', 'en', 'User may leave Group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_list_users', 'en', 'List users');
+INSERT INTO `lng_data` VALUES ('common', 'grp_mail_body_new_subscription', 'en', 'You have been subscribed to this group.');
+INSERT INTO `lng_data` VALUES ('common', 'grp_mail_body_subscription_cancelled', 'en', 'Your membership has been cancelled.');
+INSERT INTO `lng_data` VALUES ('common', 'grp_mail_subj_new_subscription', 'en', 'New subscription');
+INSERT INTO `lng_data` VALUES ('common', 'grp_mail_subj_subscription_cancelled', 'en', 'Subscription cancelled');
 INSERT INTO `lng_data` VALUES ('common', 'grp_mem_change_status', 'en', 'Change member status');
 INSERT INTO `lng_data` VALUES ('common', 'grp_mem_leave', 'en', 'Dismiss member from group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_mem_send_mail', 'en', 'Send member a message');
 INSERT INTO `lng_data` VALUES ('common', 'grp_msg_applicants_assigned', 'en', 'Applicant(s) assigned as group member(s)');
 INSERT INTO `lng_data` VALUES ('common', 'grp_msg_applicants_removed', 'en', 'Applicant(s) removed from list.');
 INSERT INTO `lng_data` VALUES ('common', 'grp_msg_member_assigned', 'en', 'User(s) assigned as group member(s)');
-INSERT INTO `lng_data` VALUES ('common', 'grp_msg_membership_annulled', 'en', 'Membership annulled');
+INSERT INTO `lng_data` VALUES ('common', 'grp_msg_membership_annulled', 'en', 'You left the group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_name_exists', 'en', 'There is already a group with this name! Please choose another name.');
 INSERT INTO `lng_data` VALUES ('common', 'grp_new', 'en', 'New Group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_new_search', 'en', 'New search');
@@ -3629,10 +3969,13 @@ INSERT INTO `lng_data` VALUES ('common', 'grp_no_results_found', 'en', 'No resul
 INSERT INTO `lng_data` VALUES ('common', 'grp_no_roles_selected', 'en', 'Please select a role');
 INSERT INTO `lng_data` VALUES ('common', 'grp_options', 'en', 'Options');
 INSERT INTO `lng_data` VALUES ('common', 'grp_read', 'en', 'Read access to Group');
-INSERT INTO `lng_data` VALUES ('common', 'grp_register', 'en', 'Register');
-INSERT INTO `lng_data` VALUES ('common', 'grp_registration_completed', 'en', 'Registration completed');
+INSERT INTO `lng_data` VALUES ('common', 'grp_register', 'en', 'Join');
+INSERT INTO `lng_data` VALUES ('common', 'grp_registration', 'en', 'Join group');
+INSERT INTO `lng_data` VALUES ('common', 'grp_registration_completed', 'en', 'You have joined the group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_search_enter_search_string', 'en', 'Please enter a search string');
 INSERT INTO `lng_data` VALUES ('common', 'grp_search_members', 'en', 'User search');
+INSERT INTO `lng_data` VALUES ('common', 'grp_select_one_file', 'en', 'Please select one file.');
+INSERT INTO `lng_data` VALUES ('common', 'grp_select_one_file_only', 'en', 'Please select exactly one file.');
 INSERT INTO `lng_data` VALUES ('common', 'grp_visible', 'en', 'Group is visible');
 INSERT INTO `lng_data` VALUES ('common', 'grp_write', 'en', 'Edit Group');
 INSERT INTO `lng_data` VALUES ('common', 'guest', 'en', 'Guest');
@@ -3641,6 +3984,8 @@ INSERT INTO `lng_data` VALUES ('common', 'header_title', 'en', 'Header Title');
 INSERT INTO `lng_data` VALUES ('common', 'help', 'en', 'Help');
 INSERT INTO `lng_data` VALUES ('common', 'hide', 'en', 'hide');
 INSERT INTO `lng_data` VALUES ('common', 'hide_details', 'en', 'Hide Details');
+INSERT INTO `lng_data` VALUES ('common', 'hide_private_notes', 'en', 'Hide private notes');
+INSERT INTO `lng_data` VALUES ('common', 'hide_public_notes', 'en', 'Hide public notes');
 INSERT INTO `lng_data` VALUES ('common', 'hide_structure', 'en', 'Disable Structured-View');
 INSERT INTO `lng_data` VALUES ('common', 'hist_dbk:pg_create', 'en', 'Page created');
 INSERT INTO `lng_data` VALUES ('common', 'hist_dbk:pg_cut', 'en', 'Page cut out of chapter "%1" [%2]');
@@ -3676,21 +4021,33 @@ INSERT INTO `lng_data` VALUES ('common', 'htlm', 'en', 'Learning Module HTML');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_add', 'en', 'Add HTML Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_delete', 'en', 'Delete HTML Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_edit', 'en', 'Edit HTML Learning Module Properties');
+INSERT INTO `lng_data` VALUES ('common', 'htlm_edit_learning_progress', 'en', 'Edit learning progress');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_new', 'en', 'New HTML Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_read', 'en', 'Read HTML Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_visible', 'en', 'HTML Learning Module is visible');
 INSERT INTO `lng_data` VALUES ('common', 'htlm_write', 'en', 'Edit HTML Learning Module');
+INSERT INTO `lng_data` VALUES ('common', 'http', 'en', 'HTTP');
 INSERT INTO `lng_data` VALUES ('common', 'http_not_possible', 'en', 'This server is not supporting http requests.');
 INSERT INTO `lng_data` VALUES ('common', 'http_path', 'en', 'Http Path');
 INSERT INTO `lng_data` VALUES ('common', 'https_not_possible', 'en', 'This server is not supporting HTTPS connnections.');
 INSERT INTO `lng_data` VALUES ('common', 'i2passwd', 'en', 'ILIAS 2 password');
 INSERT INTO `lng_data` VALUES ('common', 'icla', 'en', 'LearnLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'icla_add', 'en', 'Add LearnLinc Seminar room');
-INSERT INTO `lng_data` VALUES ('common', 'icla_new', 'en', 'New LearnLinc Seminar room');
+INSERT INTO `lng_data` VALUES ('common', 'icla_add', 'en', 'Add LearnLinc Classroom');
+INSERT INTO `lng_data` VALUES ('common', 'icla_deleted', 'en', 'LearnLinc classroom(s) deleted');
+INSERT INTO `lng_data` VALUES ('common', 'icla_edit', 'en', 'Edit LearnLinc Classroom');
+INSERT INTO `lng_data` VALUES ('common', 'icla_new', 'en', 'New LearnLinc Classroom');
+INSERT INTO `lng_data` VALUES ('common', 'icon_settings', 'en', 'Icon Settings');
+INSERT INTO `lng_data` VALUES ('common', 'icons_in_header', 'en', 'Header row');
+INSERT INTO `lng_data` VALUES ('common', 'icons_in_item_rows', 'en', 'Item rows');
+INSERT INTO `lng_data` VALUES ('common', 'icons_in_typed_lists', 'en', 'Icon position in item lists');
+INSERT INTO `lng_data` VALUES ('common', 'icons_in_typed_lists_info', 'en', 'Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.');
 INSERT INTO `lng_data` VALUES ('common', 'icrs', 'en', 'LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'icrs_add', 'en', 'Add LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_added', 'en', 'LearnLinc Seminar added');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_create_icla', 'en', 'Create LearnLinc Classrooms');
 INSERT INTO `lng_data` VALUES ('common', 'icrs_delete', 'en', 'Delete LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_edit', 'en', 'Edit LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'icrs_edit_permission', 'en', 'Edit permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'icrs_join', 'en', 'User may join LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'icrs_leave', 'en', 'User may leave LearnLinc Seminar');
@@ -3713,13 +4070,49 @@ INSERT INTO `lng_data` VALUES ('common', 'il_grp_member', 'en', 'Group member');
 INSERT INTO `lng_data` VALUES ('common', 'il_icrs_admin', 'en', 'LearnLinc Seminar administrator');
 INSERT INTO `lng_data` VALUES ('common', 'il_icrs_member', 'en', 'LearnLinc Seminar member');
 INSERT INTO `lng_data` VALUES ('common', 'ilias_version', 'en', 'ILIAS version');
-INSERT INTO `lng_data` VALUES ('common', 'ilinc_classrooms', 'en', 'LearnLinc Seminar rooms');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_add_user', 'en', 'Add user(s)');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_classroom_always_open', 'en', 'Classroom is always open');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_classroom_closed', 'en', 'Classroom is closed');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_classroom_open', 'en', 'Classroom is open');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_classrooms', 'en', 'LearnLinc Classrooms');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_coursemember_status', 'en', 'Attending as');
 INSERT INTO `lng_data` VALUES ('common', 'ilinc_courses', 'en', 'LearnLinc Seminars');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_dismiss_member', 'en', 'Are you sure you want to dismiss the following user(s) from the LearnLinc Seminar?');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_dismiss_myself', 'en', 'Are you sure you want to dismiss yourself from the LearnLinc Seminar?');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_docent', 'en', 'Instructor');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_err_administrator_required', 'en', 'Member could not be removed, at least one administrator per LearnLinc Seminar is required !');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_err_at_least_one_groupadministrator_is_neede', 'en', 'Each LearnLinc Seminar needs at least one administrator');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_err_last_member', 'en', 'Last member could not be removed, please delete LearnLinc Seminar instead.');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_err_member_could_not_be_removed', 'en', 'User could not be removed. Please verify all dependencies of that user.');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_err_no_permission', 'en', 'You do not possess the permissions for this operation.');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_err_registration_data', 'en', 'Please enter a password, the expiration date and time for a valid registration period !');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_header_edit_users', 'en', 'Edit list of involved users');
 INSERT INTO `lng_data` VALUES ('common', 'ilinc_id', 'en', 'iLinc ID');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_involved_users', 'en', 'Involved Users');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_mail_body_new_subscription', 'en', 'You have been subscribed to this LearnLinc Seminar.');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_mail_body_subscription_cancelled', 'en', 'Your membership has been cancelled.');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_mail_subj_new_subscription', 'en', 'New subscription');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_mail_subj_subscription_cancelled', 'en', 'Subscription cancelled');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_manage_course_documents', 'en', 'Materials');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_mem_change_status', 'en', 'Change user\'s status');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_mem_leave', 'en', 'Dismiss user from LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_mem_send_mail', 'en', 'Send user a message');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_msg_joined', 'en', 'You joined the LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_msg_member_assigned', 'en', 'User(s) assigned');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_msg_membership_annulled', 'en', 'Subscription cancelled');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_no_docent_assigned', 'en', 'Not assigned');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_notset', 'en', 'Not set');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_remark', 'en', 'Remark');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_server_not_active', 'en', 'iLinc server not activated');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_student', 'en', 'Participant');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_upload_pic_linktext', 'en', 'Upload');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_upload_pic_text', 'en', 'To display your picture in LearnLinc Seminars please use this link:');
 INSERT INTO `lng_data` VALUES ('common', 'image', 'en', 'Image');
 INSERT INTO `lng_data` VALUES ('common', 'image_gen_unsucc', 'en', 'Image generation unsuccessful. Contact your system administrator and verify the convert path.');
 INSERT INTO `lng_data` VALUES ('common', 'import', 'en', 'Import');
 INSERT INTO `lng_data` VALUES ('common', 'import_alm', 'en', 'Import AICC Package');
+INSERT INTO `lng_data` VALUES ('common', 'import_cat_localrol', 'en', 'Create local role for every new category');
+INSERT INTO `lng_data` VALUES ('common', 'import_cat_table', 'en', 'The following table is only meaningful if the checkbox is set');
 INSERT INTO `lng_data` VALUES ('common', 'import_categories', 'en', 'Import Categories');
 INSERT INTO `lng_data` VALUES ('common', 'import_dbk', 'en', 'Import Digilib Book');
 INSERT INTO `lng_data` VALUES ('common', 'import_failure_log', 'en', 'Import failure log');
@@ -3728,18 +4121,20 @@ INSERT INTO `lng_data` VALUES ('common', 'import_file_not_valid', 'en', 'The imp
 INSERT INTO `lng_data` VALUES ('common', 'import_finished', 'en', 'Number of imported messages.');
 INSERT INTO `lng_data` VALUES ('common', 'import_forum_finished', 'en', 'The forum has been imported.');
 INSERT INTO `lng_data` VALUES ('common', 'import_glossary', 'en', 'Import Glossary');
+INSERT INTO `lng_data` VALUES ('common', 'import_grp', 'en', 'Import group');
 INSERT INTO `lng_data` VALUES ('common', 'import_grp_finished', 'en', 'Imported group without any error');
 INSERT INTO `lng_data` VALUES ('common', 'import_hlm', 'en', 'Import HACP Package');
 INSERT INTO `lng_data` VALUES ('common', 'import_lm', 'en', 'Import ILIAS Learning module');
-INSERT INTO `lng_data` VALUES ('common', 'import_qpl', 'en', 'Import Questionpool Test');
-INSERT INTO `lng_data` VALUES ('common', 'import_questions_into_qpl', 'en', 'Import question(s) into questionpool');
+INSERT INTO `lng_data` VALUES ('common', 'import_qpl', 'en', 'Import Question pool Test');
+INSERT INTO `lng_data` VALUES ('common', 'import_questions_into_qpl', 'en', 'Import question(s) into question pool');
 INSERT INTO `lng_data` VALUES ('common', 'import_root_user', 'en', 'Import Root User');
 INSERT INTO `lng_data` VALUES ('common', 'import_sahs', 'en', 'Import SCORM/AICC Package');
-INSERT INTO `lng_data` VALUES ('common', 'import_spl', 'en', 'Import Questionpool Survey');
+INSERT INTO `lng_data` VALUES ('common', 'import_spl', 'en', 'Import Question pool Survey');
 INSERT INTO `lng_data` VALUES ('common', 'import_svy', 'en', 'Import Survey');
 INSERT INTO `lng_data` VALUES ('common', 'import_tst', 'en', 'Import Test');
 INSERT INTO `lng_data` VALUES ('common', 'import_users', 'en', 'Import Users');
 INSERT INTO `lng_data` VALUES ('common', 'import_warning_log', 'en', 'Import warning log');
+INSERT INTO `lng_data` VALUES ('common', 'important', 'en', 'Important');
 INSERT INTO `lng_data` VALUES ('common', 'imported', 'en', 'imported');
 INSERT INTO `lng_data` VALUES ('common', 'in', 'en', 'in');
 INSERT INTO `lng_data` VALUES ('common', 'in_use', 'en', 'User Language');
@@ -3752,21 +4147,23 @@ INSERT INTO `lng_data` VALUES ('common', 'info_access_permissions', 'en', 'Acces
 INSERT INTO `lng_data` VALUES ('common', 'info_assign_sure', 'en', 'Are you sure you want to assign the following user(s)?');
 INSERT INTO `lng_data` VALUES ('common', 'info_assigned', 'en', 'assigned');
 INSERT INTO `lng_data` VALUES ('common', 'info_available_roles', 'en', 'Available roles');
-INSERT INTO `lng_data` VALUES ('common', 'info_change_user_view', 'en', 'Change view of user');
-INSERT INTO `lng_data` VALUES ('common', 'info_delete_sure', 'en', 'Are you sure you want to delete the following object(s)?');
+INSERT INTO `lng_data` VALUES ('common', 'info_change_user_view', 'en', 'Change User');
+INSERT INTO `lng_data` VALUES ('common', 'info_delete_sure', 'en', 'Are you sure that you want to delete the following item(s)?');
 INSERT INTO `lng_data` VALUES ('common', 'info_deleted', 'en', 'Object(s) Deleted');
-INSERT INTO `lng_data` VALUES ('common', 'info_enter_user_id', 'en', '<enter user_id>');
-INSERT INTO `lng_data` VALUES ('common', 'info_err_user_not_exist', 'en', 'User with that user_id does not exists');
+INSERT INTO `lng_data` VALUES ('common', 'info_enter_login_or_id', 'en', '<i>(Enter login name or user ID)</i>');
+INSERT INTO `lng_data` VALUES ('common', 'info_err_user_not_exist', 'en', 'User with that login name or user_id does not exists');
+INSERT INTO `lng_data` VALUES ('common', 'info_from_role', 'en', 'Granted by role/ownership');
 INSERT INTO `lng_data` VALUES ('common', 'info_is_member', 'en', 'User is member');
 INSERT INTO `lng_data` VALUES ('common', 'info_is_not_member', 'en', 'User is not a member');
 INSERT INTO `lng_data` VALUES ('common', 'info_not_assigned', 'en', 'not assigned');
+INSERT INTO `lng_data` VALUES ('common', 'info_owner_of_object', 'en', 'Owner of object');
 INSERT INTO `lng_data` VALUES ('common', 'info_permission_origin', 'en', 'Original position');
 INSERT INTO `lng_data` VALUES ('common', 'info_permission_source', 'en', 'effective from*');
 INSERT INTO `lng_data` VALUES ('common', 'info_remark_interrupted', 'en', 'Role is interrupted at this position. The role\'s default permission settings in effect are located in that position.');
 INSERT INTO `lng_data` VALUES ('common', 'info_short', 'en', 'Info');
-INSERT INTO `lng_data` VALUES ('common', 'info_status_info', 'en', 'Statusinformation');
+INSERT INTO `lng_data` VALUES ('common', 'info_status_info', 'en', 'Permissions of User');
 INSERT INTO `lng_data` VALUES ('common', 'info_trash', 'en', 'Deleted Objects');
-INSERT INTO `lng_data` VALUES ('common', 'info_view_of_user', 'en', 'View of user');
+INSERT INTO `lng_data` VALUES ('common', 'info_view_of_user', 'en', 'User');
 INSERT INTO `lng_data` VALUES ('common', 'inform_user_mail', 'en', 'Send email to inform user about changes');
 INSERT INTO `lng_data` VALUES ('common', 'information_abbr', 'en', 'Info');
 INSERT INTO `lng_data` VALUES ('common', 'ingmedia_all_offers', 'en', 'All LE');
@@ -3851,6 +4248,7 @@ INSERT INTO `lng_data` VALUES ('common', 'languages_already_uninstalled', 'en', 
 INSERT INTO `lng_data` VALUES ('common', 'languages_updated', 'en', 'All installed languages have been updated');
 INSERT INTO `lng_data` VALUES ('common', 'last_access', 'en', 'Last access:');
 INSERT INTO `lng_data` VALUES ('common', 'last_change', 'en', 'Last Change');
+INSERT INTO `lng_data` VALUES ('common', 'last_edited_on', 'en', 'Last edited on');
 INSERT INTO `lng_data` VALUES ('common', 'last_update', 'en', 'Last Update');
 INSERT INTO `lng_data` VALUES ('common', 'last_visit', 'en', 'Last Visit');
 INSERT INTO `lng_data` VALUES ('common', 'lastname', 'en', 'Last name');
@@ -3874,6 +4272,8 @@ INSERT INTO `lng_data` VALUES ('common', 'ldap_visible', 'en', 'LDAP settings ar
 INSERT INTO `lng_data` VALUES ('common', 'ldap_write', 'en', 'Edit LDAP settings');
 INSERT INTO `lng_data` VALUES ('common', 'learning module', 'en', 'Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'learning_objects', 'en', 'Learning Objects');
+INSERT INTO `lng_data` VALUES ('common', 'learning_progress', 'en', 'Learning progress');
+INSERT INTO `lng_data` VALUES ('common', 'learning_resource', 'en', 'Learning Resource');
 INSERT INTO `lng_data` VALUES ('common', 'learning_resources', 'en', 'Learning Resources');
 INSERT INTO `lng_data` VALUES ('common', 'level', 'en', 'Level');
 INSERT INTO `lng_data` VALUES ('common', 'link', 'en', 'Link');
@@ -3884,9 +4284,25 @@ INSERT INTO `lng_data` VALUES ('common', 'link_check_message_disabled', 'en', 'M
 INSERT INTO `lng_data` VALUES ('common', 'link_check_message_enabled', 'en', 'Messages enabled');
 INSERT INTO `lng_data` VALUES ('common', 'link_check_subject', 'en', '[ILIAS 3] Link check');
 INSERT INTO `lng_data` VALUES ('common', 'link_checker_refreshed', 'en', 'Refreshed view');
+INSERT INTO `lng_data` VALUES ('common', 'link_dynamic_info', 'en', 'You can add dynamic parameters like the ILIAS user id.');
 INSERT INTO `lng_data` VALUES ('common', 'link_selected_items', 'en', 'Link selected items');
 INSERT INTO `lng_data` VALUES ('common', 'linked_object', 'en', 'The object has been linked');
 INSERT INTO `lng_data` VALUES ('common', 'linked_pages', 'en', 'Linked Pages');
+INSERT INTO `lng_data` VALUES ('common', 'links_add_param', 'en', 'Add parameter:');
+INSERT INTO `lng_data` VALUES ('common', 'links_dyn_parameter', 'en', 'Dynamic parameters');
+INSERT INTO `lng_data` VALUES ('common', 'links_dynamic', 'en', 'Dynamic Web Links parameters');
+INSERT INTO `lng_data` VALUES ('common', 'links_dynamic_info', 'en', 'If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.');
+INSERT INTO `lng_data` VALUES ('common', 'links_existing_params', 'en', 'Existing parameters:');
+INSERT INTO `lng_data` VALUES ('common', 'links_name', 'en', 'Parameter name');
+INSERT INTO `lng_data` VALUES ('common', 'links_no_name_given', 'en', 'Please choose a parameter name.');
+INSERT INTO `lng_data` VALUES ('common', 'links_no_value_given', 'en', 'Please choose a parameter value.');
+INSERT INTO `lng_data` VALUES ('common', 'links_not_available', 'en', 'Not available');
+INSERT INTO `lng_data` VALUES ('common', 'links_parameter_deleted', 'en', 'Parameter deleted.');
+INSERT INTO `lng_data` VALUES ('common', 'links_select_one', 'en', '- Select one -');
+INSERT INTO `lng_data` VALUES ('common', 'links_session_id', 'en', 'ILIAS session id');
+INSERT INTO `lng_data` VALUES ('common', 'links_user_id', 'en', 'ILIAS user id');
+INSERT INTO `lng_data` VALUES ('common', 'links_user_name', 'en', 'ILIAS username');
+INSERT INTO `lng_data` VALUES ('common', 'links_value', 'en', 'Parameter value');
 INSERT INTO `lng_data` VALUES ('common', 'list_of_pages', 'en', 'Pages List');
 INSERT INTO `lng_data` VALUES ('common', 'list_of_questions', 'en', 'Question List');
 INSERT INTO `lng_data` VALUES ('common', 'literature', 'en', 'Literature');
@@ -3897,6 +4313,7 @@ INSERT INTO `lng_data` VALUES ('common', 'lm_add', 'en', 'Add ILIAS Learning Mod
 INSERT INTO `lng_data` VALUES ('common', 'lm_added', 'en', 'ILIAS Learning Module added');
 INSERT INTO `lng_data` VALUES ('common', 'lm_create', 'en', 'Create ILIAS Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'lm_delete', 'en', 'Delete ILIAS Learning Module');
+INSERT INTO `lng_data` VALUES ('common', 'lm_edit_learning_progress', 'en', 'Edit learning progress');
 INSERT INTO `lng_data` VALUES ('common', 'lm_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'lm_join', 'en', 'Subscribe to ILIAS Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'lm_leave', 'en', 'Unsubscribe from ILIASLearning Module');
@@ -3925,6 +4342,7 @@ INSERT INTO `lng_data` VALUES ('common', 'local_language_file', 'en', 'local lan
 INSERT INTO `lng_data` VALUES ('common', 'local_language_files', 'en', 'local language files');
 INSERT INTO `lng_data` VALUES ('common', 'local_languages_already_installed', 'en', 'Selected local language file(s) are already installed');
 INSERT INTO `lng_data` VALUES ('common', 'locator', 'en', 'Location:');
+INSERT INTO `lng_data` VALUES ('common', 'log_in', 'en', 'Login');
 INSERT INTO `lng_data` VALUES ('common', 'logic_and', 'en', 'and');
 INSERT INTO `lng_data` VALUES ('common', 'logic_or', 'en', 'or');
 INSERT INTO `lng_data` VALUES ('common', 'login', 'en', 'Login');
@@ -3963,6 +4381,7 @@ INSERT INTO `lng_data` VALUES ('common', 'mail_maxsize_box', 'en', 'Max. mailbox
 INSERT INTO `lng_data` VALUES ('common', 'mail_maxsize_mail', 'en', 'Max. mail size');
 INSERT INTO `lng_data` VALUES ('common', 'mail_maxtime_attach', 'en', 'Max. days to keep attachments');
 INSERT INTO `lng_data` VALUES ('common', 'mail_maxtime_mail', 'en', 'Max. days to keep mail');
+INSERT INTO `lng_data` VALUES ('common', 'mail_members', 'en', 'Mail to members');
 INSERT INTO `lng_data` VALUES ('common', 'mail_not_sent', 'en', 'Mail not sent!');
 INSERT INTO `lng_data` VALUES ('common', 'mail_read', 'en', 'Read access to Mail settings');
 INSERT INTO `lng_data` VALUES ('common', 'mail_search_no', 'en', 'No entries found');
@@ -3984,7 +4403,7 @@ INSERT INTO `lng_data` VALUES ('common', 'matriculation', 'en', 'Matriculation n
 INSERT INTO `lng_data` VALUES ('common', 'max_number_rec', 'en', 'Maximum number of records');
 INSERT INTO `lng_data` VALUES ('common', 'max_time', 'en', 'Maximum time');
 INSERT INTO `lng_data` VALUES ('common', 'member', 'en', 'Member');
-INSERT INTO `lng_data` VALUES ('common', 'member_status', 'en', 'Member Status:');
+INSERT INTO `lng_data` VALUES ('common', 'member_status', 'en', 'Member Status');
 INSERT INTO `lng_data` VALUES ('common', 'members', 'en', 'Members');
 INSERT INTO `lng_data` VALUES ('common', 'membership_annulled', 'en', 'Your membership has been cancelled');
 INSERT INTO `lng_data` VALUES ('common', 'mep', 'en', 'Media Pool');
@@ -4005,6 +4424,7 @@ INSERT INTO `lng_data` VALUES ('common', 'message_to', 'en', 'Message to:');
 INSERT INTO `lng_data` VALUES ('common', 'meta_data', 'en', 'Metadata');
 INSERT INTO `lng_data` VALUES ('common', 'migrate', 'en', 'Migrate');
 INSERT INTO `lng_data` VALUES ('common', 'min_time', 'en', 'Minimum time');
+INSERT INTO `lng_data` VALUES ('common', 'minutes', 'en', 'Minutes');
 INSERT INTO `lng_data` VALUES ('common', 'missing', 'en', 'Missing');
 INSERT INTO `lng_data` VALUES ('common', 'mob', 'en', 'Media Object');
 INSERT INTO `lng_data` VALUES ('common', 'module', 'en', 'module');
@@ -4069,6 +4489,7 @@ INSERT INTO `lng_data` VALUES ('common', 'msg_no_delete_yourself', 'en', 'You ca
 INSERT INTO `lng_data` VALUES ('common', 'msg_no_file', 'en', 'You didn\'t choose a file');
 INSERT INTO `lng_data` VALUES ('common', 'msg_no_language_selected', 'en', 'No translation language specified! You must define a language for each translation');
 INSERT INTO `lng_data` VALUES ('common', 'msg_no_perm_assign_role_to_user', 'en', 'You have no permission to change user\'s role assignment');
+INSERT INTO `lng_data` VALUES ('common', 'msg_no_perm_assign_user_to_role', 'en', 'You have no permission to change the user assignment');
 INSERT INTO `lng_data` VALUES ('common', 'msg_no_perm_copy', 'en', 'You have no permission to create a copy of the following object(s):');
 INSERT INTO `lng_data` VALUES ('common', 'msg_no_perm_create', 'en', 'You have no permission to create the following object(s):');
 INSERT INTO `lng_data` VALUES ('common', 'msg_no_perm_create_object1', 'en', 'You have no permission to create');
@@ -4150,6 +4571,8 @@ INSERT INTO `lng_data` VALUES ('common', 'no_access_link_object', 'en', 'You are
 INSERT INTO `lng_data` VALUES ('common', 'no_bm_in_personal_list', 'en', 'No bookmarks defined.');
 INSERT INTO `lng_data` VALUES ('common', 'no_chat_in_personal_list', 'en', 'No chats in personal list');
 INSERT INTO `lng_data` VALUES ('common', 'no_checkbox', 'en', 'No checkbox checked!');
+INSERT INTO `lng_data` VALUES ('common', 'no_condition_selected', 'en', 'Please select one precondition.');
+INSERT INTO `lng_data` VALUES ('common', 'no_conditions_found', 'en', 'No preconditions created.');
 INSERT INTO `lng_data` VALUES ('common', 'no_datasets', 'en', 'The table is empty');
 INSERT INTO `lng_data` VALUES ('common', 'no_date', 'en', 'No date');
 INSERT INTO `lng_data` VALUES ('common', 'no_description', 'en', 'No description');
@@ -4177,9 +4600,14 @@ INSERT INTO `lng_data` VALUES ('common', 'non_internal_local_roles_only', 'en', 
 INSERT INTO `lng_data` VALUES ('common', 'none', 'en', 'None');
 INSERT INTO `lng_data` VALUES ('common', 'normal', 'en', 'Normal');
 INSERT INTO `lng_data` VALUES ('common', 'not_accessed', 'en', 'Not accessed');
+INSERT INTO `lng_data` VALUES ('common', 'not_accessed_yet', 'en', 'Not accessed yet');
 INSERT INTO `lng_data` VALUES ('common', 'not_implemented_yet', 'en', 'Not implemented yet');
 INSERT INTO `lng_data` VALUES ('common', 'not_installed', 'en', 'Not Installed');
-INSERT INTO `lng_data` VALUES ('common', 'not_logged_in', 'en', 'Your are not logged in');
+INSERT INTO `lng_data` VALUES ('common', 'not_logged_in', 'en', 'You are not logged in');
+INSERT INTO `lng_data` VALUES ('common', 'note', 'en', 'Note');
+INSERT INTO `lng_data` VALUES ('common', 'note_all_pub_notes', 'en', 'All notes');
+INSERT INTO `lng_data` VALUES ('common', 'note_my_pub_notes', 'en', 'My notes only');
+INSERT INTO `lng_data` VALUES ('common', 'notes', 'en', 'Notes');
 INSERT INTO `lng_data` VALUES ('common', 'num_users', 'en', 'Number of users');
 INSERT INTO `lng_data` VALUES ('common', 'number_of_accesses', 'en', 'Number of accesses');
 INSERT INTO `lng_data` VALUES ('common', 'number_of_records', 'en', 'Number of records');
@@ -4188,6 +4616,7 @@ INSERT INTO `lng_data` VALUES ('common', 'obj_adm', 'en', 'Administration');
 INSERT INTO `lng_data` VALUES ('common', 'obj_adm_desc', 'en', 'Main system settings folder containing all panels to administrate your ILIAS installation.');
 INSERT INTO `lng_data` VALUES ('common', 'obj_alm', 'en', 'Learning Module AICC');
 INSERT INTO `lng_data` VALUES ('common', 'obj_assf', 'en', 'Test&Assessment');
+INSERT INTO `lng_data` VALUES ('common', 'obj_assf_desc', 'en', 'Test&Assessment log settings.');
 INSERT INTO `lng_data` VALUES ('common', 'obj_auth', 'en', 'Authentication');
 INSERT INTO `lng_data` VALUES ('common', 'obj_auth_desc', 'en', 'Configure your authentication mode (local, LDAP, ...)');
 INSERT INTO `lng_data` VALUES ('common', 'obj_cat', 'en', 'Category');
@@ -4207,7 +4636,7 @@ INSERT INTO `lng_data` VALUES ('common', 'obj_glo', 'en', 'Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'obj_grp', 'en', 'Group');
 INSERT INTO `lng_data` VALUES ('common', 'obj_hlm', 'en', 'Learning Module HACP');
 INSERT INTO `lng_data` VALUES ('common', 'obj_htlm', 'en', 'Learning Module HTML');
-INSERT INTO `lng_data` VALUES ('common', 'obj_icla', 'en', 'LearnLinc Seminar room');
+INSERT INTO `lng_data` VALUES ('common', 'obj_icla', 'en', 'LearnLinc Classroom');
 INSERT INTO `lng_data` VALUES ('common', 'obj_icrs', 'en', 'LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'obj_ldap', 'en', 'LDAP Settings');
 INSERT INTO `lng_data` VALUES ('common', 'obj_ldap_desc', 'en', 'Configure global LDAP Settings here.');
@@ -4263,6 +4692,8 @@ INSERT INTO `lng_data` VALUES ('common', 'obj_usrf_desc', 'en', 'Manage user acc
 INSERT INTO `lng_data` VALUES ('common', 'obj_webr', 'en', 'Web Resource');
 INSERT INTO `lng_data` VALUES ('common', 'object', 'en', 'Object');
 INSERT INTO `lng_data` VALUES ('common', 'object_added', 'en', 'Object added');
+INSERT INTO `lng_data` VALUES ('common', 'object_duplicated', 'en', 'Object duplicated');
+INSERT INTO `lng_data` VALUES ('common', 'object_imported', 'en', 'Object imported');
 INSERT INTO `lng_data` VALUES ('common', 'objects', 'en', 'Objects');
 INSERT INTO `lng_data` VALUES ('common', 'objf', 'en', 'Object definitions');
 INSERT INTO `lng_data` VALUES ('common', 'objf_edit_permission', 'en', 'Change permission settings');
@@ -4284,7 +4715,7 @@ INSERT INTO `lng_data` VALUES ('common', 'objs_glo', 'en', 'Glossaries');
 INSERT INTO `lng_data` VALUES ('common', 'objs_grp', 'en', 'Groups');
 INSERT INTO `lng_data` VALUES ('common', 'objs_hlm', 'en', 'HACP Learning Modules');
 INSERT INTO `lng_data` VALUES ('common', 'objs_htlm', 'en', 'HTML Learning Modules');
-INSERT INTO `lng_data` VALUES ('common', 'objs_icla', 'en', 'LearnLinc Seminar rooms');
+INSERT INTO `lng_data` VALUES ('common', 'objs_icla', 'en', 'LearnLinc Classrooms');
 INSERT INTO `lng_data` VALUES ('common', 'objs_icrs', 'en', 'LearnLinc Seminars');
 INSERT INTO `lng_data` VALUES ('common', 'objs_lm', 'en', 'ILIAS Learning Modules');
 INSERT INTO `lng_data` VALUES ('common', 'objs_lng', 'en', 'Languages');
@@ -4321,7 +4752,9 @@ INSERT INTO `lng_data` VALUES ('common', 'options_for_subobjects', 'en', 'Option
 INSERT INTO `lng_data` VALUES ('common', 'order_by', 'en', 'Order by');
 INSERT INTO `lng_data` VALUES ('common', 'other', 'en', 'Other');
 INSERT INTO `lng_data` VALUES ('common', 'overview', 'en', 'Overview');
+INSERT INTO `lng_data` VALUES ('common', 'overwrite', 'en', 'Overwrite');
 INSERT INTO `lng_data` VALUES ('common', 'owner', 'en', 'Owner');
+INSERT INTO `lng_data` VALUES ('common', 'owner_updated', 'en', 'Owner updated.');
 INSERT INTO `lng_data` VALUES ('common', 'page', 'en', 'Page');
 INSERT INTO `lng_data` VALUES ('common', 'page_edit', 'en', 'Edit Page');
 INSERT INTO `lng_data` VALUES ('common', 'pages', 'en', 'Pages');
@@ -4376,6 +4809,7 @@ INSERT INTO `lng_data` VALUES ('common', 'phone_home', 'en', 'Phone, Home');
 INSERT INTO `lng_data` VALUES ('common', 'phone_mobile', 'en', 'Phone, Mobile');
 INSERT INTO `lng_data` VALUES ('common', 'phone_office', 'en', 'Phone, Office');
 INSERT INTO `lng_data` VALUES ('common', 'phrase', 'en', 'Phrase');
+INSERT INTO `lng_data` VALUES ('common', 'please_choose', 'en', '-- Select --');
 INSERT INTO `lng_data` VALUES ('common', 'please_enter_target', 'en', 'Please enter a target');
 INSERT INTO `lng_data` VALUES ('common', 'please_enter_title', 'en', 'Please enter a title');
 INSERT INTO `lng_data` VALUES ('common', 'please_select_a_delivered_file_to_delete', 'en', 'You must select at least one delivered file to delete it!');
@@ -4387,12 +4821,15 @@ INSERT INTO `lng_data` VALUES ('common', 'predefined_template', 'en', 'Predefine
 INSERT INTO `lng_data` VALUES ('common', 'presentation_options', 'en', 'Presentation Options');
 INSERT INTO `lng_data` VALUES ('common', 'previous', 'en', 'previous');
 INSERT INTO `lng_data` VALUES ('common', 'print', 'en', 'Print');
+INSERT INTO `lng_data` VALUES ('common', 'private_notes', 'en', 'Private Notes');
+INSERT INTO `lng_data` VALUES ('common', 'pro', 'en', 'Pro');
 INSERT INTO `lng_data` VALUES ('common', 'profile', 'en', 'Profile');
 INSERT INTO `lng_data` VALUES ('common', 'profile_changed', 'en', 'Your profile has changed');
 INSERT INTO `lng_data` VALUES ('common', 'profile_of', 'en', 'Profile of');
 INSERT INTO `lng_data` VALUES ('common', 'properties', 'en', 'Properties');
 INSERT INTO `lng_data` VALUES ('common', 'pub_section', 'en', 'Public Area');
 INSERT INTO `lng_data` VALUES ('common', 'public', 'en', 'public');
+INSERT INTO `lng_data` VALUES ('common', 'public_notes', 'en', 'Public Notes');
 INSERT INTO `lng_data` VALUES ('common', 'public_profile', 'en', 'Public Profile');
 INSERT INTO `lng_data` VALUES ('common', 'publication', 'en', 'Publication');
 INSERT INTO `lng_data` VALUES ('common', 'publication_date', 'en', 'Publication Date');
@@ -4436,6 +4873,7 @@ INSERT INTO `lng_data` VALUES ('common', 'registered_users', 'en', 'registered U
 INSERT INTO `lng_data` VALUES ('common', 'registration', 'en', 'New account registration');
 INSERT INTO `lng_data` VALUES ('common', 'registration_disabled', 'en', 'Only available when using local authentication');
 INSERT INTO `lng_data` VALUES ('common', 'registration_expired', 'en', 'Registration period expired...');
+INSERT INTO `lng_data` VALUES ('common', 'related_to', 'en', 'Related to');
 INSERT INTO `lng_data` VALUES ('common', 'remove', 'en', 'Remove');
 INSERT INTO `lng_data` VALUES ('common', 'remove_personal_picture', 'en', 'Remove');
 INSERT INTO `lng_data` VALUES ('common', 'remove_translation', 'en', 'Remove translation');
@@ -4447,6 +4885,9 @@ INSERT INTO `lng_data` VALUES ('common', 'repeat_scan_succeded', 'en', 'Repeat s
 INSERT INTO `lng_data` VALUES ('common', 'replace_file', 'en', 'Replace File');
 INSERT INTO `lng_data` VALUES ('common', 'reply', 'en', 'Reply');
 INSERT INTO `lng_data` VALUES ('common', 'repository', 'en', 'Repository');
+INSERT INTO `lng_data` VALUES ('common', 'repository_admin', 'en', 'Repository, Trash and Permissions');
+INSERT INTO `lng_data` VALUES ('common', 'repository_admin_desc', 'en', 'Set permissions for repository items, restore or remove objects from system trash');
+INSERT INTO `lng_data` VALUES ('common', 'request_membership', 'en', 'Request membership');
 INSERT INTO `lng_data` VALUES ('common', 'require_city', 'en', 'Require city');
 INSERT INTO `lng_data` VALUES ('common', 'require_country', 'en', 'Require country');
 INSERT INTO `lng_data` VALUES ('common', 'require_default_role', 'en', 'Require role');
@@ -4491,7 +4932,7 @@ INSERT INTO `lng_data` VALUES ('common', 'role_deleted_desktop_items', 'en', 'De
 INSERT INTO `lng_data` VALUES ('common', 'role_desk_add', 'en', 'Assign desktop item');
 INSERT INTO `lng_data` VALUES ('common', 'role_desk_none_created', 'en', 'No desktop items assigned to this role.');
 INSERT INTO `lng_data` VALUES ('common', 'role_edit', 'en', 'Edit Role');
-INSERT INTO `lng_data` VALUES ('common', 'role_header_edit_users', 'en', 'Change userassignment');
+INSERT INTO `lng_data` VALUES ('common', 'role_header_edit_users', 'en', 'Change User Assignment');
 INSERT INTO `lng_data` VALUES ('common', 'role_list_users', 'en', 'List users');
 INSERT INTO `lng_data` VALUES ('common', 'role_new', 'en', 'New Role');
 INSERT INTO `lng_data` VALUES ('common', 'role_new_search', 'en', 'New search');
@@ -4537,6 +4978,7 @@ INSERT INTO `lng_data` VALUES ('common', 'sahs', 'en', 'Learning Module SCORM/AI
 INSERT INTO `lng_data` VALUES ('common', 'sahs_added', 'en', 'SCORM/AICC Learning Module added');
 INSERT INTO `lng_data` VALUES ('common', 'sahs_create', 'en', 'Create SCORM/AICC Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'sahs_delete', 'en', 'Delete SCORM/AICC Learning Module');
+INSERT INTO `lng_data` VALUES ('common', 'sahs_edit_learning_progress', 'en', 'Edit learning progress');
 INSERT INTO `lng_data` VALUES ('common', 'sahs_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'sahs_join', 'en', 'Subscribe to SCORM/AICC Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'sahs_leave', 'en', 'Unsubscribe from SCORM/AICC Learning Module');
@@ -4560,10 +5002,12 @@ INSERT INTO `lng_data` VALUES ('common', 'search_active', 'en', 'Include active 
 INSERT INTO `lng_data` VALUES ('common', 'search_for', 'en', 'Search For');
 INSERT INTO `lng_data` VALUES ('common', 'search_in', 'en', 'Search in');
 INSERT INTO `lng_data` VALUES ('common', 'search_inactive', 'en', 'Include inactive users');
+INSERT INTO `lng_data` VALUES ('common', 'search_minimum_characters', 'en', 'The minimum word length is:');
 INSERT INTO `lng_data` VALUES ('common', 'search_new', 'en', 'New Search');
 INSERT INTO `lng_data` VALUES ('common', 'search_note', 'en', 'If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.');
 INSERT INTO `lng_data` VALUES ('common', 'search_recipient', 'en', 'Search Recipient');
 INSERT INTO `lng_data` VALUES ('common', 'search_result', 'en', 'Search result');
+INSERT INTO `lng_data` VALUES ('common', 'search_to_short', 'en', 'Your query is to short.');
 INSERT INTO `lng_data` VALUES ('common', 'search_user', 'en', 'Search User');
 INSERT INTO `lng_data` VALUES ('common', 'seas_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'seas_max_hits', 'en', 'Max hits');
@@ -4573,6 +5017,7 @@ INSERT INTO `lng_data` VALUES ('common', 'seas_search', 'en', 'Allow to use the 
 INSERT INTO `lng_data` VALUES ('common', 'seas_settings', 'en', 'Search settings');
 INSERT INTO `lng_data` VALUES ('common', 'seas_visible', 'en', 'Search settings are visible');
 INSERT INTO `lng_data` VALUES ('common', 'seas_write', 'en', 'Edit search settings');
+INSERT INTO `lng_data` VALUES ('common', 'seconds', 'en', 'Seconds');
 INSERT INTO `lng_data` VALUES ('common', 'sections', 'en', 'Sections');
 INSERT INTO `lng_data` VALUES ('common', 'select', 'en', 'Select');
 INSERT INTO `lng_data` VALUES ('common', 'select_all', 'en', 'Select All');
@@ -4587,6 +5032,9 @@ INSERT INTO `lng_data` VALUES ('common', 'select_questionpool_option', 'en', '--
 INSERT INTO `lng_data` VALUES ('common', 'selected', 'en', 'Selected');
 INSERT INTO `lng_data` VALUES ('common', 'selected_items', 'en', 'Personal Items');
 INSERT INTO `lng_data` VALUES ('common', 'send', 'en', 'Send');
+INSERT INTO `lng_data` VALUES ('common', 'send_mail_admins', 'en', 'Mail to administrators');
+INSERT INTO `lng_data` VALUES ('common', 'send_mail_members', 'en', 'Mail to members');
+INSERT INTO `lng_data` VALUES ('common', 'send_mail_tutors', 'en', 'Mail to tutors');
 INSERT INTO `lng_data` VALUES ('common', 'sender', 'en', 'Sender');
 INSERT INTO `lng_data` VALUES ('common', 'sent', 'en', 'Sent');
 INSERT INTO `lng_data` VALUES ('common', 'sequence', 'en', 'Sequence');
@@ -4637,15 +5085,19 @@ INSERT INTO `lng_data` VALUES ('common', 'show_details', 'en', 'Show Details');
 INSERT INTO `lng_data` VALUES ('common', 'show_list', 'en', 'Show List');
 INSERT INTO `lng_data` VALUES ('common', 'show_members', 'en', 'Display Members');
 INSERT INTO `lng_data` VALUES ('common', 'show_owner', 'en', 'Show Owner');
+INSERT INTO `lng_data` VALUES ('common', 'show_private_notes', 'en', 'Show private notes');
+INSERT INTO `lng_data` VALUES ('common', 'show_public_notes', 'en', 'Show public notes');
 INSERT INTO `lng_data` VALUES ('common', 'show_structure', 'en', 'Enable Structured-View');
 INSERT INTO `lng_data` VALUES ('common', 'show_users_online', 'en', 'Show active users');
 INSERT INTO `lng_data` VALUES ('common', 'signature', 'en', 'Signature');
 INSERT INTO `lng_data` VALUES ('common', 'size', 'en', 'Size');
 INSERT INTO `lng_data` VALUES ('common', 'skin_style', 'en', 'Default Skin / Style');
+INSERT INTO `lng_data` VALUES ('common', 'small_icon', 'en', 'Small Icon');
 INSERT INTO `lng_data` VALUES ('common', 'smtp', 'en', 'SMTP');
 INSERT INTO `lng_data` VALUES ('common', 'soap_user_administration', 'en', 'External user administration (SOAP)');
 INSERT INTO `lng_data` VALUES ('common', 'soap_user_administration_desc', 'en', 'If enabled, all user accounts can be administrated by an external SOAP-Client.');
 INSERT INTO `lng_data` VALUES ('common', 'sort_by_this_column', 'en', 'Sort by this column');
+INSERT INTO `lng_data` VALUES ('common', 'spacer', 'en', 'Spacer');
 INSERT INTO `lng_data` VALUES ('common', 'spl', 'en', 'Question Pool Survey');
 INSERT INTO `lng_data` VALUES ('common', 'spl_add', 'en', 'Add question pool for survey');
 INSERT INTO `lng_data` VALUES ('common', 'spl_delete', 'en', 'Delete Question Pool for Survey');
@@ -4655,6 +5107,7 @@ INSERT INTO `lng_data` VALUES ('common', 'spl_read', 'en', 'Read access to Quest
 INSERT INTO `lng_data` VALUES ('common', 'spl_upload_file', 'en', 'Upload file');
 INSERT INTO `lng_data` VALUES ('common', 'spl_visible', 'en', 'Question Pool for Survey is visible');
 INSERT INTO `lng_data` VALUES ('common', 'spl_write', 'en', 'Edit Question Pool for Survey');
+INSERT INTO `lng_data` VALUES ('common', 'ssl', 'en', 'SSL (HTTPS)');
 INSERT INTO `lng_data` VALUES ('common', 'st_a', 'en', 'a chapter');
 INSERT INTO `lng_data` VALUES ('common', 'st_add', 'en', 'Add chapter');
 INSERT INTO `lng_data` VALUES ('common', 'st_added', 'en', 'Chapter added');
@@ -4709,6 +5162,7 @@ INSERT INTO `lng_data` VALUES ('common', 'system_information', 'en', 'System Inf
 INSERT INTO `lng_data` VALUES ('common', 'system_language', 'en', 'System Language');
 INSERT INTO `lng_data` VALUES ('common', 'system_message', 'en', 'System Message');
 INSERT INTO `lng_data` VALUES ('common', 'system_style_settings', 'en', 'System Style Settings');
+INSERT INTO `lng_data` VALUES ('common', 'system_styles', 'en', 'System Styles');
 INSERT INTO `lng_data` VALUES ('common', 'table_mail_import', 'en', 'Mail import');
 INSERT INTO `lng_data` VALUES ('common', 'target', 'en', 'Target');
 INSERT INTO `lng_data` VALUES ('common', 'tax', 'en', 'Taxonomy');
@@ -4729,6 +5183,7 @@ INSERT INTO `lng_data` VALUES ('common', 'test', 'en', 'Test');
 INSERT INTO `lng_data` VALUES ('common', 'test_intern', 'en', 'Test Intern');
 INSERT INTO `lng_data` VALUES ('common', 'test_module', 'en', 'Test Module');
 INSERT INTO `lng_data` VALUES ('common', 'tests', 'en', 'Tests');
+INSERT INTO `lng_data` VALUES ('common', 'thumbnail', 'en', 'Thumbnail');
 INSERT INTO `lng_data` VALUES ('common', 'time', 'en', 'Time');
 INSERT INTO `lng_data` VALUES ('common', 'time_d', 'en', 'Day');
 INSERT INTO `lng_data` VALUES ('common', 'time_h', 'en', 'Hour');
@@ -4772,6 +5227,7 @@ INSERT INTO `lng_data` VALUES ('common', 'tst', 'en', 'Test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_add', 'en', 'Add test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_anon_eval', 'en', 'Results');
 INSERT INTO `lng_data` VALUES ('common', 'tst_delete', 'en', 'Delete Test');
+INSERT INTO `lng_data` VALUES ('common', 'tst_edit_learning_progress', 'en', 'Edit learning progress');
 INSERT INTO `lng_data` VALUES ('common', 'tst_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'tst_new', 'en', 'New test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_no_content', 'en', 'No tests available');
@@ -4779,6 +5235,8 @@ INSERT INTO `lng_data` VALUES ('common', 'tst_read', 'en', 'Read access to Test'
 INSERT INTO `lng_data` VALUES ('common', 'tst_run', 'en', 'Run');
 INSERT INTO `lng_data` VALUES ('common', 'tst_statistical_evaluation', 'en', 'Statistics');
 INSERT INTO `lng_data` VALUES ('common', 'tst_upload_file', 'en', 'Upload file');
+INSERT INTO `lng_data` VALUES ('common', 'tst_user_not_invited', 'en', 'You are not supposed to take this exam.');
+INSERT INTO `lng_data` VALUES ('common', 'tst_user_wrong_clientip', 'en', 'You don\'t have the right ip using this test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_visible', 'en', 'Test is visible');
 INSERT INTO `lng_data` VALUES ('common', 'tst_warning_test_not_complete', 'en', 'The test is not complete!');
 INSERT INTO `lng_data` VALUES ('common', 'tst_write', 'en', 'Edit Test');
@@ -4795,6 +5253,7 @@ INSERT INTO `lng_data` VALUES ('common', 'uncheck_all', 'en', 'Uncheck all');
 INSERT INTO `lng_data` VALUES ('common', 'uninstall', 'en', 'Uninstall');
 INSERT INTO `lng_data` VALUES ('common', 'uninstalled', 'en', 'uninstalled.');
 INSERT INTO `lng_data` VALUES ('common', 'unknown', 'en', 'UNKNOWN');
+INSERT INTO `lng_data` VALUES ('common', 'unlabeled', 'en', 'Unlabeled');
 INSERT INTO `lng_data` VALUES ('common', 'unread', 'en', 'Unread');
 INSERT INTO `lng_data` VALUES ('common', 'unread_lowercase', 'en', 'unread');
 INSERT INTO `lng_data` VALUES ('common', 'unselected', 'en', 'Unselected');
@@ -4835,6 +5294,7 @@ INSERT INTO `lng_data` VALUES ('common', 'user_imported', 'en', 'User import com
 INSERT INTO `lng_data` VALUES ('common', 'user_imported_with_warnings', 'en', 'User import complete with warnings.');
 INSERT INTO `lng_data` VALUES ('common', 'user_language', 'en', 'User Language');
 INSERT INTO `lng_data` VALUES ('common', 'user_not_chosen', 'en', 'You did not choose a group-member!');
+INSERT INTO `lng_data` VALUES ('common', 'user_not_known', 'en', 'Please insert a valid username.');
 INSERT INTO `lng_data` VALUES ('common', 'user_profile_other', 'en', 'Other Information');
 INSERT INTO `lng_data` VALUES ('common', 'user_statistics', 'en', 'Statistical Data');
 INSERT INTO `lng_data` VALUES ('common', 'userdata', 'en', 'User data');
@@ -4864,7 +5324,7 @@ INSERT INTO `lng_data` VALUES ('common', 'usr_edit', 'en', 'Edit User');
 INSERT INTO `lng_data` VALUES ('common', 'usr_hits_per_page', 'en', 'Hits/page in tables');
 INSERT INTO `lng_data` VALUES ('common', 'usr_inactive_only', 'en', 'Inactive Users only');
 INSERT INTO `lng_data` VALUES ('common', 'usr_new', 'en', 'New User');
-INSERT INTO `lng_data` VALUES ('common', 'usr_settings_explanation_profile', 'en', 'Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.');
+INSERT INTO `lng_data` VALUES ('common', 'usr_settings_explanation_profile', 'en', 'Check \'Visible\' to show fields in the registration form and personal user profile on the personal desktop. Check \'Changeable\' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings.');
 INSERT INTO `lng_data` VALUES ('common', 'usr_settings_header_profile', 'en', 'User profile settings');
 INSERT INTO `lng_data` VALUES ('common', 'usr_settings_header_profile_profile', 'en', 'Personal profile setting');
 INSERT INTO `lng_data` VALUES ('common', 'usr_settings_saved', 'en', 'Global user settings saved successfully!');
@@ -4948,8 +5408,10 @@ INSERT INTO `lng_data` VALUES ('common', 'weekly', 'en', 'weekly');
 INSERT INTO `lng_data` VALUES ('common', 'weeks', 'en', 'Weeks');
 INSERT INTO `lng_data` VALUES ('common', 'welcome', 'en', 'Welcome');
 INSERT INTO `lng_data` VALUES ('common', 'who_is_online', 'en', 'Who is online?');
+INSERT INTO `lng_data` VALUES ('common', 'width_x_height', 'en', 'Width x Height');
 INSERT INTO `lng_data` VALUES ('common', 'with', 'en', 'with');
 INSERT INTO `lng_data` VALUES ('common', 'write', 'en', 'Write');
+INSERT INTO `lng_data` VALUES ('common', 'wrong_ip_detected', 'en', 'Your access is denied because of a wrong client ip.<br>Please contact the system administrator.');
 INSERT INTO `lng_data` VALUES ('common', 'yes', 'en', 'Yes');
 INSERT INTO `lng_data` VALUES ('common', 'you_may_add_local_roles', 'en', 'You May Add Local Roles');
 INSERT INTO `lng_data` VALUES ('common', 'your_message', 'en', 'Your Message');
@@ -5025,8 +5487,6 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_choose_media_source', 'en', 'Cho
 INSERT INTO `lng_data` VALUES ('content', 'cont_citation_err_one', 'en', 'You must select exactly one edition');
 INSERT INTO `lng_data` VALUES ('content', 'cont_citation_selection_not_valid', 'en', 'You\'re selection is not valid');
 INSERT INTO `lng_data` VALUES ('content', 'cont_citations', 'en', 'Citations');
-INSERT INTO `lng_data` VALUES ('content', 'cont_clean_frames', 'en', 'Clean additional frames on navigation');
-INSERT INTO `lng_data` VALUES ('content', 'cont_clean_frames_desc', 'en', 'This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_click_br_corner', 'en', 'Please click on the bottom right corner of the desired area.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_click_center', 'en', 'Please click on center of the desired area.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_click_circle', 'en', 'Please click on a circle point of the desired area.');
@@ -5070,7 +5530,8 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_disable_js', 'en', 'JavaScript i
 INSERT INTO `lng_data` VALUES ('content', 'cont_disable_media', 'en', 'Media inactive');
 INSERT INTO `lng_data` VALUES ('content', 'cont_download_title', 'en', 'Download Title');
 INSERT INTO `lng_data` VALUES ('content', 'cont_downloads', 'en', 'Downloads');
-INSERT INTO `lng_data` VALUES ('content', 'cont_downloads_desc', 'en', 'Enables download of all public export files.');
+INSERT INTO `lng_data` VALUES ('content', 'cont_downloads_desc', 'en', 'Enable download of all public export files.');
+INSERT INTO `lng_data` VALUES ('content', 'cont_downloads_public_desc', 'en', 'Allow download even for anonymous users (in public area)');
 INSERT INTO `lng_data` VALUES ('content', 'cont_ed_align_center', 'en', 'align: center');
 INSERT INTO `lng_data` VALUES ('content', 'cont_ed_align_left', 'en', 'align: left');
 INSERT INTO `lng_data` VALUES ('content', 'cont_ed_align_left_float', 'en', 'align: left float');
@@ -5247,6 +5708,8 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_prerequisites', 'en', 'adlcp:pre
 INSERT INTO `lng_data` VALUES ('content', 'cont_preview', 'en', 'Preview');
 INSERT INTO `lng_data` VALUES ('content', 'cont_print_view', 'en', 'Print View');
 INSERT INTO `lng_data` VALUES ('content', 'cont_public_access', 'en', 'Public access');
+INSERT INTO `lng_data` VALUES ('content', 'cont_public_notes', 'en', 'Public Notes');
+INSERT INTO `lng_data` VALUES ('content', 'cont_public_notes_desc', 'en', 'Allow users to share notes on every page of the learning module.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_publisher', 'en', 'Publisher');
 INSERT INTO `lng_data` VALUES ('content', 'cont_purpose', 'en', 'Purpose');
 INSERT INTO `lng_data` VALUES ('content', 'cont_ref_helptext', 'en', '(e.g. http://www.server.org/myimage.jpg)');
@@ -5323,6 +5786,8 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_std_view', 'en', 'Standard View'
 INSERT INTO `lng_data` VALUES ('content', 'cont_structure', 'en', 'structure');
 INSERT INTO `lng_data` VALUES ('content', 'cont_style', 'en', 'Style');
 INSERT INTO `lng_data` VALUES ('content', 'cont_subchapters', 'en', 'Subchapters');
+INSERT INTO `lng_data` VALUES ('content', 'cont_synchronize_frames', 'en', 'Synchronise frames');
+INSERT INTO `lng_data` VALUES ('content', 'cont_synchronize_frames_desc', 'en', 'This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_table', 'en', 'Table');
 INSERT INTO `lng_data` VALUES ('content', 'cont_table_border', 'en', 'Table Border');
 INSERT INTO `lng_data` VALUES ('content', 'cont_table_cellpadding', 'en', 'Table Cell Padding');
@@ -5372,6 +5837,7 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_xml_base', 'en', 'xml:base');
 INSERT INTO `lng_data` VALUES ('content', 'cont_year', 'en', 'Year');
 INSERT INTO `lng_data` VALUES ('content', 'cont_zip_file_invalid', 'en', 'File is not a valid import file.<br>It does not contain a file \'%s\'.');
 INSERT INTO `lng_data` VALUES ('content', 'copied_to_clipboard', 'en', 'Copied object(s) to clipboard.');
+INSERT INTO `lng_data` VALUES ('content', 'glo_definition_abbr', 'en', 'Def.');
 INSERT INTO `lng_data` VALUES ('content', 'glo_term_used_in', 'en', 'The following resources linking to that term');
 INSERT INTO `lng_data` VALUES ('content', 'lm_menu_edit_entry', 'en', 'Edit menu entry');
 INSERT INTO `lng_data` VALUES ('content', 'lm_menu_entry_target', 'en', 'Target');
@@ -5397,8 +5863,8 @@ INSERT INTO `lng_data` VALUES ('content', 'start export', 'en', 'Start Export');
 INSERT INTO `lng_data` VALUES ('crs', 'activation_times_not_valid', 'en', 'The availability period is not valid.');
 INSERT INTO `lng_data` VALUES ('crs', 'assigned', 'en', 'Assigned');
 INSERT INTO `lng_data` VALUES ('crs', 'contact_email_not_valid', 'en', 'the contact email is not valid.');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_accept_subscriber', 'en', 'Course subscription');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_accept_subscriber_body', 'en', 'You have been assigned to this course.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_accept_subscriber', 'en', 'Admission to course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_accept_subscriber_body', 'en', 'You have been admitted to course "%s".');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_access_password', 'en', 'Password');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_activation', 'en', 'Activation');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_add_archive_html', 'en', 'Create a HTML Archive');
@@ -5409,10 +5875,10 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_add_html_archive', 'en', 'Add HTML ar
 INSERT INTO `lng_data` VALUES ('crs', 'crs_add_member', 'en', 'Add Member(s)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_add_objective', 'en', 'Add objective');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_add_starter', 'en', 'Add start object');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_add_subscribers', 'en', 'Add Subscriber');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_add_subscribers', 'en', 'Add subscriber');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_added', 'en', 'Added new course');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_added_member', 'en', 'Course membership');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_added_member_body', 'en', 'You have been accepted to this course.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_added_member', 'en', 'Addmission to course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_added_member_body', 'en', 'You have been admitted to course "%s".');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_added_new_archive', 'en', 'A new archive has been added');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_added_objective', 'en', 'A new learning objective has been created.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_added_starters', 'en', 'Assigned start object(s).');
@@ -5423,28 +5889,29 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_admin_notify', 'en', 'Administrator (
 INSERT INTO `lng_data` VALUES ('crs', 'crs_allow_abo', 'en', 'Allow subscription of course items');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_already_assigned_to_list', 'en', 'You are already assigned to the waiting list.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive', 'en', 'Archives');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_disabled', 'en', 'Disabled');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_disabled', 'en', 'Deactivated');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_download', 'en', 'Download');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_info', 'en', 'If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_lang', 'en', 'Language');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_read', 'en', 'Read access');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_select_type', 'en', 'Archive access type');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_select_type', 'en', 'Archive view');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_type', 'en', 'Archive type');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_type_disabled', 'en', 'No access');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_type_disabled', 'en', 'Not available');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archives_deleted', 'en', 'The archive(s) have been deleted');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_auto_fill', 'en', 'Auto fill');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_availability_limitless_info', 'en', 'Choose this mode for making the course available and accessible to users (depending on the registration settings below).');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_availability_until_info', 'en', 'Choose this mode for making the course available and accessible to users for a fixed period of time.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_availability_until_info', 'en', 'Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_availability_unvisible_info', 'en', 'Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_blocked', 'en', 'Access refused');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_blocked_member', 'en', 'Course membership');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_blocked_member_body', 'en', 'Your membership has been terminated.');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_cancel_subscription', 'en', 'Course deregistration');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_cancel_subscription_body', 'en', 'A user has unsubscribed from the course.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_blocked_member', 'en', 'Membership status in course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_blocked_member_body', 'en', 'Your membership for course "%s" has been blocked.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_cancel_subscription', 'en', 'Resigned from course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_cancel_subscription_body', 'en', 'A member has resigned from course "%s".');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_change_status', 'en', 'Changes status of objective:');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_chapter_already_assigned', 'en', 'These chapters are already assigned.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_contact', 'en', 'Contact');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_contact_consultation', 'en', 'Consultation');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_contact_email', 'en', 'Email');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_contact_email', 'en', 'Mail');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_contact_name', 'en', 'Name');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_contact_phone', 'en', 'Telephone');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_contact_responsibility', 'en', 'Responsibility');
@@ -5464,15 +5931,15 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_objectve_sure', 'en', 'Are you
 INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_subscribers', 'en', 'Delete subscriber');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_subscribers_sure', 'en', 'Do you want to delete the following users');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_details', 'en', 'Course Details');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_dismiss_member', 'en', 'Course membership');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_dismiss_member_body', 'en', 'You membership has been terminated');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_dismiss_member', 'en', 'Terminated membership for course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_dismiss_member_body', 'en', 'You membership for course "%s" has been terminated');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_edit_archive', 'en', 'Edit Archives');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_edit_content', 'en', 'Edit items');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_end', 'en', 'End');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_export', 'en', 'Course export');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_file_name', 'en', 'File name');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_free_places', 'en', 'Available places');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_from', 'en', 'From:');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_from', 'en', 'From');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_grouping', 'en', 'Course grouping');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_grouping_assign', 'en', 'Change assignment');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_grouping_delete_sure', 'en', 'Do you really want to delete the following course groupings?');
@@ -5497,6 +5964,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_grp_no_courses_assigned', 'en', 'No a
 INSERT INTO `lng_data` VALUES ('crs', 'crs_grp_table_assigned_courses', 'en', 'Assigned courses');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_archives', 'en', 'Course archives');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_delete_members', 'en', 'Delete members');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_header_delete_subscribers', 'en', 'Delete subscribers');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_edit_members', 'en', 'Edit members');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_members', 'en', 'Course members');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_remove_from_waiting_list', 'en', 'Waiting list: deassign users');
@@ -5505,11 +5973,11 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_hide_link_objectives', 'en', 'Hide ob
 INSERT INTO `lng_data` VALUES ('crs', 'crs_hide_link_or', 'en', 'Hide other resources');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_hide_link_tst', 'en', 'Hide tests');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_html', 'en', 'HTML');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg', 'en', 'Information for registration');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_confirmation', 'en', 'This course needs confimation by a course administrator. You will get a message if you have been assigned to the course.');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_deactivated', 'en', 'There is no registration possible');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_direct', 'en', 'It is necessary to register to this course');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_password', 'en', 'Registration needs a valid password.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg', 'en', 'Admittance');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_confirmation', 'en', 'You can request membership for this course. You will get a message from a course administrator when your request has been admitted or declined.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_deactivated', 'en', 'Course admittance is closed.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_direct', 'en', 'You can join this course directly.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_info_reg_password', 'en', 'If a course administrator has given you the course password, you can join this course.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_info_start', 'en', 'Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_learning_materials', 'en', 'Learning materials');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_list_users', 'en', 'List users');
@@ -5523,6 +5991,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_mem_change_status', 'en', 'Change sta
 INSERT INTO `lng_data` VALUES ('crs', 'crs_mem_send_mail', 'en', 'Send mail');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member', 'en', 'Member');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member_blocked', 'en', 'Member (blocked)');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_member_of', 'en', 'Member of course:');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member_unblocked', 'en', 'Member (unblocked)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member_updated', 'en', 'The member has been updated');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_members_deleted', 'en', 'Deleted members');
@@ -5535,8 +6004,10 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_move_up', 'en', 'Move up');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_moved_item', 'en', 'Moved course item');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_moved_objective', 'en', 'Moved learning objective.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_new_search', 'en', 'New search');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription', 'en', 'New course subscription');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription_body', 'en', 'A new user has been subscribed');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription', 'en', 'User joined course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription_body', 'en', 'A user has joined course "%s".');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription_request', 'en', 'Request to join course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription_request_body', 'en', 'A user has requested to join course "%s".');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_archive_selected', 'en', 'No archives selected');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_archives_available', 'en', 'There are no archives available');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_archives_selected', 'en', 'Please select an archive');
@@ -5564,6 +6035,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_no_users_added', 'en', 'No members ad
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_users_selected', 'en', 'You did not select any user');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_valid_member_id_given', 'en', 'No valid member Id');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_not_available', 'en', '-Not available-');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_notification', 'en', 'Notification');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_notify', 'en', 'Notify for new registrations');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_nr', 'en', 'Nr.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_number_users_added', 'en', 'The following number of users has been assigned to the course:');
@@ -5625,18 +6097,18 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_deactivated', 'en', 
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_end_earlier', 'en', 'The registration time is expired');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_max_members_reached', 'en', 'The maximum number of users is exceeded.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_start_later', 'en', 'The registration time starts later');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_unlim_info', 'en', 'If enabled, there is no time limit for registrations. Please choose one of the registration types below.');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_until', 'en', 'Registration date');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_unlim_info', 'en', 'If enabled, there is no time limit for registrations. Please choose one of the registration procedures below.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_until', 'en', 'Registration period');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_user_already_assigned', 'en', 'You are already assigned to this course');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_user_already_subscribed', 'en', 'You have already subscribed to this course');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_user_already_subscribed', 'en', 'You have already requested membership for this course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_user_blocked', 'en', 'You are blocked from this course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_registration', 'en', 'Course registration');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_deactivated', 'en', 'Choose this option for disabling the registration. No you user can register for this course.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_deactivated', 'en', 'Choose this option for disabling course registration. No user can join this course.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_limited', 'en', 'Limited registration period');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_type', 'en', 'Registration type');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_type', 'en', 'Registration procedure');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_unlimited', 'en', 'Unlimited registration period');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_reject_subscriber', 'en', 'Course subscription');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_reject_subscriber_body', 'en', 'Your subscription has been declined.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_reject_subscriber', 'en', 'Declined for course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_reject_subscriber_body', 'en', 'Your request to join course "%s" has been declined.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reset_results', 'en', 'Reset results');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_role', 'en', 'Role');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_role_status', 'en', 'Role / Status');
@@ -5650,9 +6122,9 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_select_exactly_one_tst', 'en', 'Pleas
 INSERT INTO `lng_data` VALUES ('crs', 'crs_select_native_lm', 'en', 'Single chapters can only be assigned to native ILIAS learning modules.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_select_one_archive', 'en', 'Please select one archive');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_select_one_object', 'en', 'Please select one course item.');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_select_registration_type', 'en', 'Please select one registration type.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_select_registration_type', 'en', 'Please select an admittance procedure.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_select_starter', 'en', 'Select start object');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_set_on_waiting_list', 'en', 'Please register to the course to be assigned to the waiting list.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_set_on_waiting_list', 'en', 'You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_settings', 'en', 'Course settings');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_settings_saved', 'en', 'Settings saved');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_show_link_lms', 'en', 'Show learning materials');
@@ -5671,19 +6143,20 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_start_objects', 'en', 'Start objects'
 INSERT INTO `lng_data` VALUES ('crs', 'crs_starter_deleted', 'en', 'Removed assignment.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_starters_already_assigned', 'en', 'This object was already assigned.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_status', 'en', 'Status');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_status_changed', 'en', 'Course status');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_status_changed_body', 'en', 'Your course status has been changed.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_status_changed', 'en', 'Status in course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_status_changed_body', 'en', 'Your status in course "%s" has been changed.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_structure', 'en', 'Course structure');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_subscribers', 'en', 'Subscriptions');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_subscribers', 'en', 'Subscribers');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_subscribers_deleted', 'en', 'Deleted subscriber(s)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription', 'en', 'Subscription');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_max_members', 'en', 'Maximum of users');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_notify', 'en', 'Notify for subscriptions');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_options_confirmation', 'en', 'Subscription with confirmation');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_options_confirmation', 'en', 'Request membership');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_options_deactivated', 'en', 'Deactivated');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_options_direct', 'en', 'Direct subscription');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_options_password', 'en', 'Subscription with password');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_successful', 'en', 'You have been subscribed to this course');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_options_direct', 'en', 'Join directly');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_options_password', 'en', 'Join with course password');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_requested', 'en', 'You have requested membership for the course.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_successful', 'en', 'You have joined the course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_subscription_type', 'en', 'Subscription type');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_suggest_lm', 'en', 'Suggest learning materials if:');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_sure_delete_selected_archives', 'en', 'Are you sure to delete the selected archives');
@@ -5693,17 +6166,17 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_test_status_complete', 'en', 'Complet
 INSERT INTO `lng_data` VALUES ('crs', 'crs_test_status_not_complete', 'en', 'Not complete');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_test_status_random', 'en', 'Random test');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_time', 'en', 'Subscription time');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_to', 'en', 'To:');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_to', 'en', 'To');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_tutor', 'en', 'Tutor');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_tutor_no_notify', 'en', 'Tutor (no notification)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_tutor_notify', 'en', 'Tutor (notification)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_unblocked', 'en', 'Free entrance');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_unblocked_member', 'en', 'Course membership');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_unblocked_member_body', 'en', 'Your membership has been restored');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_unblocked_member', 'en', 'Status in course "%s"');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_unblocked_member_body', 'en', 'Your membership in course "%s" has been restored');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_unlimited', 'en', 'Unlimited');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_unsubscribe', 'en', 'Unsubscribe');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_unsubscribe_sure', 'en', 'Do you want to unsubscribe from this course');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_unsubscribed_from_crs', 'en', 'You subscribed to this course');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_unsubscribed_from_crs', 'en', 'You have been unsubscribed from this course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_update_objective', 'en', 'Edit learning objective');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_users_added', 'en', 'Added user to the course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_users_already_assigned', 'en', 'The user is already assigned to this course');
@@ -5712,19 +6185,21 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility', 'en', 'Availability');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility_limitless', 'en', 'Unlimited');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility_until', 'en', 'Temporarily available');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility_unvisible', 'en', 'Not available');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_wait_info', 'en', 'If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_waiting_list', 'en', 'Waiting list');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_xml', 'en', 'XML');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_youre_position', 'en', 'Youre position on the waiting list');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_youre_position', 'en', 'Your position on the waiting list');
 INSERT INTO `lng_data` VALUES ('crs', 'edit_content', 'en', 'Edit content');
+INSERT INTO `lng_data` VALUES ('crs', 'import_crs', 'en', 'Import course');
 INSERT INTO `lng_data` VALUES ('crs', 'learners_view', 'en', 'Learners view');
 INSERT INTO `lng_data` VALUES ('crs', 'subscription_times_not_valid', 'en', 'The registration period is not valid.');
 INSERT INTO `lng_data` VALUES ('crs_', 'crs_archives', 'en', 'Archives');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'DateText', 'en', 'Message');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Day_long', 'en', 'Day View');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_DATE_EXISTS', 'en', 'This date already exists.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_DATE_EXISTS', 'en', 'This event already exists.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_DB', 'en', 'Database write error!');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_DB_CONNECT', 'en', 'The database is disconnected.');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_DEL_MSG', 'en', 'This is a recurring date. Would you like to delete one date or the series');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_DEL_MSG', 'en', 'This is a recurring event. Would you like to delete one event or the series');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_ENDDATE', 'en', 'Wrong end date input. Format: dd/mm/yyyy');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_ENDTIME', 'en', 'Wrong end time. Format: hh:mm');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_END_START', 'en', 'Wrong end date input. End date is before start date.');
@@ -5739,7 +6214,7 @@ INSERT INTO `lng_data` VALUES ('dateplaner', 'ERROR_TS', 'en', 'Incorrect date f
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Fr_long', 'en', 'Friday');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Fr_short', 'en', 'Fr');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Language_file', 'en', 'English');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'Listbox_long', 'en', 'List of Dates');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'Listbox_long', 'en', 'List of Events');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Mo_long', 'en', 'Monday');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Mo_short', 'en', 'Mo');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Month_long', 'en', 'Month View');
@@ -5756,35 +6231,35 @@ INSERT INTO `lng_data` VALUES ('dateplaner', 'View', 'en', 'View:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'We_long', 'en', 'Wednesday');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'We_short', 'en', 'We');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'Week_long', 'en', 'Week View');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'add_data', 'en', 'Additional data');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_', 'en', 'group dates inbox');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_date', 'en', 'insert date');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_day', 'en', 'day view');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_freetime', 'en', 'free time of other group members (catch a time)');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_inbox', 'en', 'group dates inbox');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_list', 'en', 'date list');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_month', 'en', 'month view');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_properties', 'en', 'properties');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'app_week', 'en', 'week view');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'add_data', 'en', 'Additional Data');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_', 'en', 'Group Events Inbox');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_date', 'en', 'Create Event');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_day', 'en', 'Day View');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_freetime', 'en', 'Free time of other group members (catch a time)');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_inbox', 'en', 'Group Events Inbox');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_list', 'en', 'List of Events');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_month', 'en', 'Month View');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_properties', 'en', 'Properties');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'app_week', 'en', 'Week View');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'application', 'en', 'Calendar');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'apply', 'en', 'apply');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'back', 'en', 'back');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'apply', 'en', 'Apply');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'back', 'en', 'Back');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'begin_date', 'en', 'Begin Date');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'busytime', 'en', 'busy time in group');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'c_date', 'en', 'Create Date');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'busytime', 'en', 'Busy time in group');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'c_date', 'en', 'Create Event');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'changeTo', 'en', 'Change to:');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'changedDates', 'en', 'Changed dates');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'changedDates', 'en', 'Changed Events');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'checkforfreetime', 'en', 'Check for free time');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'created', 'en', 'Created');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'date', 'en', 'Date');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'date_format', 'en', 'm/d/Y H:i');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'date_format_middle', 'en', 'm/d/y');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'del_all', 'en', 'delete all dates');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'del_one', 'en', 'delete one date');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'delete', 'en', 'delete');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'deletedDates', 'en', 'Deleted dates');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'discard', 'en', 'discard');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_Grouptime', 'en', 'free time');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'del_all', 'en', 'Delete all events');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'del_one', 'en', 'Delete one event');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'delete', 'en', 'Delete');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'deletedDates', 'en', 'Deleted Events');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'discard', 'en', 'Discard');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_Grouptime', 'en', 'Free time');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_button_cancel', 'en', 'Cancel');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_button_delete', 'en', 'Delete');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_button_insert', 'en', 'Insert');
@@ -5794,7 +6269,7 @@ INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_date_end', 'en', 'End Date:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_date_hm', 'en', 'Hour:Minute');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_enddate', 'en', 'End date:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_groupselect', 'en', 'Group select:');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_groupview', 'en', 'Group date:');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_groupview', 'en', 'Group event:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_groupview_text', 'en', 'Group:<br />');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_keywords', 'en', 'Keywords:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_keywordselect', 'en', 'Keyword select:');
@@ -5813,41 +6288,41 @@ INSERT INTO `lng_data` VALUES ('dateplaner', 'dv_whole_rotation', 'en', 'Would y
 INSERT INTO `lng_data` VALUES ('dateplaner', 'end_date', 'en', 'End Date');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'endtime_for_view', 'en', 'End time for view:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'error_minical_img', 'en', 'Cannot create GD-picture-stream');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'execute', 'en', 'execute choices');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'extra_dates', 'en', 'One Day Dates');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'free', 'en', 'free');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'freetime', 'en', 'free Time in group');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'group', 'en', 'group');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_day', 'en', 'Calendar day view');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_day_l', 'en', 'In the day view all dates of a chosen day are displayed.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'execute', 'en', 'Execute choices');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'extra_dates', 'en', 'One Day Events');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'free', 'en', 'Free');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'freetime', 'en', 'Free Time in group');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'group', 'en', 'Group');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_day', 'en', 'Calendar Day View');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_day_l', 'en', 'In the day view all events of a chosen day are displayed.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_enddate', 'en', 'End date - syntax[dd/mm/yyyy]');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_enddate_l', 'en', 'Contains the endpoint of the appointment.<br />The symbol opens a small calendar for choosing the appropriate date.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_enddate_l', 'en', 'Contains the end time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_endrotation', 'en', 'End time syntax[dd/mm/yyyy]');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_endrotation_l', 'en', 'At this day the repetition will end.<br />The symbol opens a small calendar for choosing the appropriate date');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_endtime', 'en', 'End time - syntax[hh/mm] 24-hour format');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_endtime_l', 'en', 'Contains the end time of the appointment using 24-hour format.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_filename', 'en', 'dp_help_en.html');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_fullday', 'en', 'Whole day date - syntax[on/off]');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_fullday_l', 'en', 'If the date stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_fullday', 'en', 'Whole day event - syntax[on/off]');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_fullday_l', 'en', 'If the event stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_further', 'en', '<br /><b>click here for further information.</b>');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_group', 'en', 'Group dates selection');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_group', 'en', 'Group events selection');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_group_l', 'en', 'Contains the groups for which the logged-in user has administrator rights and for which a date can be created.<br />After choosing this it is possible to view the unscheduled time of the group.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_inbox', 'en', 'Calendar Inbox');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_inbox_l', 'en', 'Here all new, changed, and deleted group dates are displayed.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_inbox_l', 'en', 'Here all new, changed, and deleted group events are displayed.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_keyword', 'en', 'Keyword selection');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_keywordUse', 'en', 'Keyword selection');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_keywordUse_l', 'en', 'Choose one or more keywords from the dialog box.<br />TIP: use the CTRL key for selecting several entries.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_keyword_l', 'en', 'Contains the keywords which a user can associate to dates.');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_list', 'en', 'Calendar date list');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_list_l', 'en', 'In the date list, all dates over a given period of time are displayed.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_list', 'en', 'Calendar event list');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_list_l', 'en', 'In the event list, all events of a given period of time are displayed.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_month', 'en', 'Calendar month view');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_month_l', 'en', 'In the month view all dates of a given month are displayed.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_month_l', 'en', 'In the month view all events of a given month are displayed.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_alt', 'en', 'Changes the keyword');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_alt_l', 'en', 'Choose a keyword from the dialog box.<br />Change the keyword in the text field. Important: max. 20 characters.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_del', 'en', 'Deletes the keyword');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_del_l', 'en', 'Choose a keyword from the dialog box. Click the button to delete the keyword.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_import', 'en', 'Import of Outlook-CSV-Files');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_import_l', 'en', 'Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the calendar.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_import_l', 'en', 'Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_new', 'en', 'Add a keyword, max. 20 characters');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_new_l', 'en', 'Add a new keyword to the field \\"new\\". Important: max. 20 characters.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_properties_time', 'en', 'Display time for day view/week view');
@@ -5857,19 +6332,19 @@ INSERT INTO `lng_data` VALUES ('dateplaner', 'help_rotation_l', 'en', 'Contains 
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_shorttext', 'en', 'Short text, max. 50 characters');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_shorttext_l', 'en', 'Here one can enter the short text for a given date.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_startdate', 'en', 'Start date - syntax[dd/mm/yyyy]');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_startdate_l', 'en', 'Contains the start point of the appointment.<br />The symbol opens a small calendar for choosing the appropriate date.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_startdate_l', 'en', 'Contains the starting time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_starttime', 'en', 'Start time - syntax[hh/mm] 24-hour format');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_starttime_l', 'en', 'Contains the start point of the appointment using 24-hour format.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_starttime_l', 'en', 'Contains the starting time of the event using 24-hour format.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_text', 'en', 'Text');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_text_l', 'en', 'Here one can enter the text for a given date.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_text_l', 'en', 'Here one can enter the text for a given event.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'help_week', 'en', 'Calendar week view');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'help_week_l', 'en', 'In the week view all dates of a given week are displayed.');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'help_week_l', 'en', 'In the week view all events of a given week are displayed.');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'hour', 'en', 'hour');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'importDates', 'en', 'Import of Outlook Dates');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'importDates', 'en', 'Import of Outlook Events');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'inbox', 'en', 'Inbox');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'insertImportDates', 'en', 'These dates were successfully registered:');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'k_alldates', 'en', 'all dates');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'keep', 'en', 'keep');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'insertImportDates', 'en', 'These events were successfully registered:');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'k_alldates', 'en', 'All Events');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'keep', 'en', 'Keep');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'keyword', 'en', 'Keyword');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'keywords', 'en', 'Keywords');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'last_change', 'en', 'Last changed');
@@ -5885,36 +6360,36 @@ INSERT INTO `lng_data` VALUES ('dateplaner', 'long_09', 'en', 'September');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'long_10', 'en', 'October');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'long_11', 'en', 'November');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'long_12', 'en', 'December');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'main_dates', 'en', 'Main Dates');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'main_dates', 'en', 'Main Events');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'menue', 'en', 'Menu');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'mmonth', 'en', 'last month');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'month', 'en', 'month');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'more', 'en', 'more');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'mweek', 'en', 'last week');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'myeahr', 'en', 'last year');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'newDates', 'en', 'New dates');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'mmonth', 'en', 'Last Month');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'month', 'en', 'Month');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'more', 'en', 'More');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'mweek', 'en', 'Last Week');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'myeahr', 'en', 'Last Year');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'newDates', 'en', 'New Events');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'newKeyword', 'en', 'New:');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'new_doc', 'en', 'create new date');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'no_entry', 'en', 'no dates available');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'o_day_date', 'en', '24-hour date');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'new_doc', 'en', 'Create new event');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'no_entry', 'en', 'No events available');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'o_day_date', 'en', '24-hour event');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'of', 'en', 'of');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'open_day', 'en', 'day view');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'pmonth', 'en', 'next month');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'printlist', 'en', 'print');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'open_day', 'en', 'Day View');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'pmonth', 'en', 'Next Month');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'printlist', 'en', 'Print');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'properties', 'en', 'Properties');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'pweek', 'en', 'next week');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'pyear', 'en', 'next year');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'r_14', 'en', 'every 14 days');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'r_4_weeks', 'en', 'every 4 weeks');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'r_day', 'en', 'every day');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'r_halfyear', 'en', 'every half year');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'r_month', 'en', 'every month');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'pweek', 'en', 'Next Week');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'pyear', 'en', 'Next Year');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'r_14', 'en', 'Every 14 days');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'r_4_weeks', 'en', 'Every 4 weeks');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'r_day', 'en', 'Every day');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'r_halfyear', 'en', 'Every half year');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'r_month', 'en', 'Every month');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'r_nonrecurring', 'en', 'Once');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'r_week', 'en', 'every week');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'r_year', 'en', 'every year');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'readimportfile', 'en', 'insert');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'r_week', 'en', 'Every week');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'r_year', 'en', 'Every year');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'readimportfile', 'en', 'Insert');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'rotation', 'en', 'Recurrence');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'rotation_dates', 'en', 'Recurrence dates');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'rotation_dates', 'en', 'Recurrence events');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'semester_name', 'en', 'Semester Name');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'short_01', 'en', 'Jan');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'short_02', 'en', 'Feb');
@@ -5929,17 +6404,19 @@ INSERT INTO `lng_data` VALUES ('dateplaner', 'short_10', 'en', 'Oct');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'short_11', 'en', 'Nov');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'short_12', 'en', 'Dec');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'shorttext', 'en', 'Short Text');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'singleDate', 'en', 'single date');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'singleDate', 'en', 'Single Event');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'starttime_for_view', 'en', 'Start time for view:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'timedate', 'en', 'Time / Date');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'timeslice', 'en', 'Time:');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'title', 'en', 'ILIAS calendar');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'to', 'en', 'to');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'today', 'en', 'today');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'viewlist', 'en', 'view');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'week', 'en', 'week');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'today', 'en', 'Today');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'viewlist', 'en', 'View');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'week', 'en', 'Week');
 INSERT INTO `lng_data` VALUES ('dateplaner', 'wk_short', 'en', 'WK');
-INSERT INTO `lng_data` VALUES ('dateplaner', 'year', 'en', 'year');
+INSERT INTO `lng_data` VALUES ('dateplaner', 'year', 'en', 'Year');
+INSERT INTO `lng_data` VALUES ('forum', 'forum_anonymize', 'en', 'Write anonymously');
+INSERT INTO `lng_data` VALUES ('forum', 'forum_anonymize_desc', 'en', 'Write this message anonymously (your ILIAS user name won\'t be shown anywhere).');
 INSERT INTO `lng_data` VALUES ('forum', 'forums', 'en', 'Forums');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_all_threads_marked_read', 'en', 'All threads have been marked as read');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_attachments', 'en', 'Attachments');
@@ -5952,8 +6429,10 @@ INSERT INTO `lng_data` VALUES ('forum', 'forums_count_art', 'en', 'Number of Art
 INSERT INTO `lng_data` VALUES ('forum', 'forums_count_thr', 'en', 'Number of Threads');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_created_by', 'en', 'Created by');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_delete_file', 'en', 'Delete attachment');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_disable_notification', 'en', 'Disable notification');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_download_attachment', 'en', 'Download file');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_edit_post', 'en', 'Edit Article');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_enable_notification', 'en', 'Enable notification');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_info_censor2_post', 'en', 'Revoke Censorship?');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_info_censor_post', 'en', 'Are you sure you want to hide this article?');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_info_delete_post', 'en', 'Are you sure you want to delete this article including any responses?');
@@ -5961,6 +6440,13 @@ INSERT INTO `lng_data` VALUES ('forum', 'forums_mark_read', 'en', 'Mark all read
 INSERT INTO `lng_data` VALUES ('forum', 'forums_new_entries', 'en', 'New Forums Entries');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_new_thread', 'en', 'New Topic');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_not_available', 'en', 'Forums Not Available');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_notification', 'en', 'Notification');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_notification_enabled', 'en', 'Notification enabled');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_notification_intro', 'en', 'This e-mail was automatically sent to you by the ILIAS installation %s, %s');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_notification_is_disabled', 'en', 'Your notification about new posts in this thread is not (yet) enabled.');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_notification_is_enabled', 'en', 'At the moment your notification about new posts in this thread is already enabled.');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_notification_show_post', 'en', 'Show post: %s');
+INSERT INTO `lng_data` VALUES ('forum', 'forums_notification_subject', 'en', 'New post in a forum topic');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_overview', 'en', 'Forums Overview');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_post_deleted', 'en', 'Article has been deleted');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_post_modified', 'en', 'Article has been modified');
@@ -5982,9 +6468,13 @@ INSERT INTO `lng_data` VALUES ('forum', 'forums_thread_new_entry', 'en', 'New to
 INSERT INTO `lng_data` VALUES ('forum', 'forums_threads_not_available', 'en', 'Topics Not Available');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_topics_overview', 'en', 'Topics Overview');
 INSERT INTO `lng_data` VALUES ('forum', 'forums_your_reply', 'en', 'Your Reply');
+INSERT INTO `lng_data` VALUES ('forum', 'frm_anonymous_posting', 'en', 'Anonymous posting');
+INSERT INTO `lng_data` VALUES ('forum', 'frm_anonymous_posting_desc', 'en', 'If enabled, anonymous posting is allowed within this forum.');
 INSERT INTO `lng_data` VALUES ('forum', 'frm_default_view', 'en', 'Default view');
 INSERT INTO `lng_data` VALUES ('forum', 'frm_title_required', 'en', 'Please insert a title.');
 INSERT INTO `lng_data` VALUES ('forum', 'is_read', 'en', 'mark read');
+INSERT INTO `lng_data` VALUES ('forum', 'new_post', 'en', 'New post');
+INSERT INTO `lng_data` VALUES ('forum', 'thread', 'en', 'Topic');
 INSERT INTO `lng_data` VALUES ('jscalendar', 'about_calendar', 'en', 'About the calendar');
 INSERT INTO `lng_data` VALUES ('jscalendar', 'about_calendar_long', 'en', 'DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\\n\\nDate selection:\\n- Use the «, » buttons to select year\\n- Use the <, > buttons to select month\\n- Hold mouse button on any of the above buttons for faster selection.');
 INSERT INTO `lng_data` VALUES ('jscalendar', 'about_time', 'en', '\\n\\nTime selection:\\n- Click on any of the time parts to increase it\\n- or Shift-click to decrease it\\n- or click and drag for faster selection.');
@@ -6065,8 +6555,12 @@ INSERT INTO `lng_data` VALUES ('mail', 'mail_compose', 'en', 'Compose Message');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_deleted', 'en', 'The mail is deleted');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_deleted_entry', 'en', 'The entries are deleted');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_email_forbidden', 'en', 'You are not allowed to send email');
+INSERT INTO `lng_data` VALUES ('mail', 'mail_enter_login_or_email_addr', 'en', 'Please enter a valid login name or e-mail address.');
+INSERT INTO `lng_data` VALUES ('mail', 'mail_enter_valid_email_addr', 'en', 'Please enter a valid e-mail address.');
+INSERT INTO `lng_data` VALUES ('mail', 'mail_enter_valid_login', 'en', 'Please enter a valid login name.');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_entry_added', 'en', 'Added new Entry');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_entry_changed', 'en', 'The entry is changed');
+INSERT INTO `lng_data` VALUES ('mail', 'mail_entry_exists', 'en', 'An entry with the given login name or e-mail address already exists.');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_file_name', 'en', 'File name');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_file_size', 'en', 'File size');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_files_deleted', 'en', 'The file(s) are deleted');
@@ -6111,6 +6605,7 @@ INSERT INTO `lng_data` VALUES ('mail', 'mail_sure_delete', 'en', 'Are sure you w
 INSERT INTO `lng_data` VALUES ('mail', 'mail_sure_delete_entry', 'en', 'Are sure you want to delete the following entries');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_sure_delete_file', 'en', 'The file will be removed permanently');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_sure_delete_folder', 'en', 'The folder and its contents will be removed permanently');
+INSERT INTO `lng_data` VALUES ('mail', 'mail_to', 'en', 'To');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_to_search', 'en', 'To search');
 INSERT INTO `lng_data` VALUES ('mail', 'mail_user_addr_n_valid', 'en', 'Following users have no valid email address');
 INSERT INTO `lng_data` VALUES ('mail', 'search_bc_recipient', 'en', 'Search BCC Recipient');
@@ -6370,16 +6865,18 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_competency', 'en', 'Competency');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_contentprovider', 'en', 'Content provider');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_context', 'en', 'Context');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_contribute', 'en', 'Contribute');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_copyright', 'en', 'Copyright');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_copyright_and_other_restrictions', 'en', 'Copyright and Other Restrictions');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_cost', 'en', 'Cost');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_coverage', 'en', 'Coverage');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_creator', 'en', 'Creator');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_current_value', 'en', 'Current value');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_date', 'en', 'Date');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_delete', 'en', 'Delete');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_description', 'en', 'Description');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_diagramm', 'en', 'Diagram');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_difficult', 'en', 'Difficult');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_difficulty', 'en', 'Difficulty');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_dificult', 'en', 'Difficult');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_draft', 'en', 'Draft');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_duration', 'en', 'Duration');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_easy', 'en', 'Easy');
@@ -6411,9 +6908,11 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_id', 'en', 'Id');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_idea', 'en', 'Idea');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_identifier', 'en', 'Identifier');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_index', 'en', 'Index');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_info_tlt_not_valid', 'en', 'The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_initiator', 'en', 'Initiator');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_installation_remarks', 'en', 'Installation Remarks');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_instructional_designer', 'en', 'instructional designer');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_instructional_designer', 'en', 'Instructional designer');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_instructionaldesigner', 'en', 'Instructional designer');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_intended_end_user_role', 'en', 'Intended End User Role');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_interactivity_level', 'en', 'Interactivity Level');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_interactivity_type', 'en', 'Interactivity Type');
@@ -6609,6 +7108,7 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_problem_statement', 'en', 'Problem 
 INSERT INTO `lng_data` VALUES ('meta', 'meta_publisher', 'en', 'Publisher');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_purpose', 'en', 'Purpose');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_questionnaire', 'en', 'Questionnaire');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_quickedit', 'en', 'Quick Edit');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_reference', 'en', 'Reference');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_references', 'en', 'References');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_relation', 'en', 'Relation');
@@ -6871,6 +7371,26 @@ INSERT INTO `lng_data` VALUES ('pwassist', 'pwassist_password_assigned', 'en', '
 INSERT INTO `lng_data` VALUES ('pwassist', 'pwassist_session_expired', 'en', 'Please fill in this form again.\\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been emailed to you more than once, or because too much time has passed since the link has been sent to you.');
 INSERT INTO `lng_data` VALUES ('pwassist', 'pwassist_update_error', 'en', 'Please contact your system administrator.\\nThe password could not be assigned to the user account due to an error whe updating the data base.');
 INSERT INTO `lng_data` VALUES ('pwassist', 'pwassist_username_mail_body', 'en', 'These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address \'%s\'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.');
+INSERT INTO `lng_data` VALUES ('rbac', 'edit_learning_progress', 'en', 'Edit learning progress');
+INSERT INTO `lng_data` VALUES ('rbac', 'filter_all_roles', 'en', 'Show all roles of current context');
+INSERT INTO `lng_data` VALUES ('rbac', 'filter_global_roles', 'en', 'Show only global roles');
+INSERT INTO `lng_data` VALUES ('rbac', 'filter_local_roles', 'en', 'Show only local roles of current context');
+INSERT INTO `lng_data` VALUES ('rbac', 'filter_local_roles_object', 'en', 'Show only local roles defined at this position');
+INSERT INTO `lng_data` VALUES ('rbac', 'filter_roles_local_policy', 'en', 'Show only roles using a local policy at this position');
+INSERT INTO `lng_data` VALUES ('rbac', 'leave', 'en', 'Leave');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_administrate', 'en', 'Administrate');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_create', 'en', 'Create new objects');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_create_desc', 'en', 'Determine which object types may be created under the current object.');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_general', 'en', 'General operations');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_general_desc', 'en', 'Common operations available for all objects. Hover the mousepointer over operation to get more information.');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_object', 'en', 'Special operations');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_object_desc', 'en', 'Object-specific operations, only available to certain object types.');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_rbac', 'en', 'Permission settings');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_class_rbac_desc', 'en', 'Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_local_role', 'en', 'Locale role');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_local_role_desc', 'en', 'This role is locally defined at the current object and correspond to a local policy');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_use_local_policy', 'en', 'Use local policy');
+INSERT INTO `lng_data` VALUES ('rbac', 'perm_use_local_policy_desc', 'en', 'If local policy is activated, you may define different default permission settings for the current object.');
 INSERT INTO `lng_data` VALUES ('search', 'search_active', 'en', 'Include active users');
 INSERT INTO `lng_data` VALUES ('search', 'search_added_new_folder', 'en', 'Added new folder.');
 INSERT INTO `lng_data` VALUES ('search', 'search_advanced', 'en', 'Advanced search');
@@ -6883,6 +7403,7 @@ INSERT INTO `lng_data` VALUES ('search', 'search_area', 'en', 'Search area');
 INSERT INTO `lng_data` VALUES ('search', 'search_area_info', 'en', 'Please select an area where the search should start.');
 INSERT INTO `lng_data` VALUES ('search', 'search_below', 'en', 'Beneath:');
 INSERT INTO `lng_data` VALUES ('search', 'search_change', 'en', 'Change');
+INSERT INTO `lng_data` VALUES ('search', 'search_choose_object_type', 'en', 'Please choose one object type.');
 INSERT INTO `lng_data` VALUES ('search', 'search_concatenation', 'en', 'Concatenation');
 INSERT INTO `lng_data` VALUES ('search', 'search_content', 'en', 'Page Content');
 INSERT INTO `lng_data` VALUES ('search', 'search_dbk_content', 'en', 'Digital Library (content)');
@@ -6893,11 +7414,13 @@ INSERT INTO `lng_data` VALUES ('search', 'search_direct', 'en', 'Direct search')
 INSERT INTO `lng_data` VALUES ('search', 'search_fast_info', 'en', 'Search for titles, descriptions and keywords in all object types');
 INSERT INTO `lng_data` VALUES ('search', 'search_full_info', 'en', 'Choose this option to search in a large amount of data.');
 INSERT INTO `lng_data` VALUES ('search', 'search_group', 'en', 'Groups');
+INSERT INTO `lng_data` VALUES ('search', 'search_hits', 'en', 'Found in:');
 INSERT INTO `lng_data` VALUES ('search', 'search_in_magazin', 'en', 'In the repository');
 INSERT INTO `lng_data` VALUES ('search', 'search_in_result', 'en', 'Search within results');
 INSERT INTO `lng_data` VALUES ('search', 'search_inactive', 'en', 'Include inactive users');
 INSERT INTO `lng_data` VALUES ('search', 'search_index', 'en', 'Indexed search');
 INSERT INTO `lng_data` VALUES ('search', 'search_like_info', 'en', 'Choose this option to get best results.');
+INSERT INTO `lng_data` VALUES ('search', 'search_limit_reached', 'en', 'Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.');
 INSERT INTO `lng_data` VALUES ('search', 'search_lm_content', 'en', 'Learning materials (content)');
 INSERT INTO `lng_data` VALUES ('search', 'search_lm_meta', 'en', 'Learning materials (metadata)');
 INSERT INTO `lng_data` VALUES ('search', 'search_lucene', 'en', 'Lucene search');
@@ -6941,11 +7464,12 @@ INSERT INTO `lng_data` VALUES ('search', 'search_tst_svy', 'en', 'Tests/Surveys'
 INSERT INTO `lng_data` VALUES ('search', 'search_type', 'en', 'Search type');
 INSERT INTO `lng_data` VALUES ('search', 'search_user', 'en', 'Users');
 INSERT INTO `lng_data` VALUES ('search', 'until', 'en', 'up to');
-INSERT INTO `lng_data` VALUES ('survey', 'add_category', 'en', 'Add category');
+INSERT INTO `lng_data` VALUES ('survey', 'add_category', 'en', 'Add answer');
 INSERT INTO `lng_data` VALUES ('survey', 'add_heading', 'en', 'Add heading');
-INSERT INTO `lng_data` VALUES ('survey', 'add_limits_for_standard_numbers', 'en', 'Please enter a lower and upper limit for the standard numbers you want to add as categories.');
+INSERT INTO `lng_data` VALUES ('survey', 'add_limits_for_standard_numbers', 'en', 'Please enter a lower and upper limit for the standard numbers you want to add as answers.');
 INSERT INTO `lng_data` VALUES ('survey', 'add_phrase', 'en', 'Add phrase');
 INSERT INTO `lng_data` VALUES ('survey', 'add_phrase_introduction', 'en', 'Please select a phrase:');
+INSERT INTO `lng_data` VALUES ('survey', 'add_standard_numbers', 'en', 'Add standard numbers');
 INSERT INTO `lng_data` VALUES ('survey', 'already_completed_survey', 'en', 'You have already completed the survey! You are not able to enter the survey again.');
 INSERT INTO `lng_data` VALUES ('survey', 'anonymize_anonymous_introduction', 'en', 'This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.');
 INSERT INTO `lng_data` VALUES ('survey', 'anonymize_key_introduction', 'en', 'This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.');
@@ -6963,28 +7487,35 @@ INSERT INTO `lng_data` VALUES ('survey', 'before', 'en', 'before');
 INSERT INTO `lng_data` VALUES ('survey', 'browse_for_questions', 'en', 'Browse for questions');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_create_survey_codes', 'en', 'You do not possess sufficient permissions to create survey access codes!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_edit_survey', 'en', 'You do not possess sufficient permissions to edit the survey!');
-INSERT INTO `lng_data` VALUES ('survey', 'cannot_export_questionpool', 'en', 'You do not possess sufficient permissions to export the survey questionpool!');
+INSERT INTO `lng_data` VALUES ('survey', 'cannot_export_questionpool', 'en', 'You do not possess sufficient permissions to export the survey question pool!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_export_survey', 'en', 'You do not possess sufficient permissions to export the survey!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_maintain_survey', 'en', 'You do not possess sufficient permissions to maintain the survey!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_manage_phrases', 'en', 'You do not possess sufficient permissions to manage the phrases!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_participate_survey', 'en', 'You do not possess sufficient permissions to participate in the survey!');
-INSERT INTO `lng_data` VALUES ('survey', 'cannot_read_questionpool', 'en', 'You do not possess sufficient permissions to read the questionpool data!');
+INSERT INTO `lng_data` VALUES ('survey', 'cannot_read_questionpool', 'en', 'You do not possess sufficient permissions to read the question pool data!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_read_survey', 'en', 'You do not possess sufficient permissions to read the survey data!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_save_metaobject', 'en', 'You do not possess sufficient permissions to save the meta data!');
-INSERT INTO `lng_data` VALUES ('survey', 'cannot_switch_to_online_no_questions', 'en', 'The status cannot be changed to &quot;online&quot; because there are no questions in the test!');
-INSERT INTO `lng_data` VALUES ('survey', 'category', 'en', 'Category');
-INSERT INTO `lng_data` VALUES ('survey', 'category_delete_confirm', 'en', 'Are you sure you want to delete the following categories?');
-INSERT INTO `lng_data` VALUES ('survey', 'category_delete_select_none', 'en', 'Please check at least one category to delete it!');
-INSERT INTO `lng_data` VALUES ('survey', 'category_nr_selected', 'en', 'Number of users that selected this category');
+INSERT INTO `lng_data` VALUES ('survey', 'cannot_switch_to_online_no_questions', 'en', 'The status cannot be changed to &quot;online&quot; because there are no questions in the survey!');
+INSERT INTO `lng_data` VALUES ('survey', 'categories', 'en', 'Answers');
+INSERT INTO `lng_data` VALUES ('survey', 'category', 'en', 'Answer');
+INSERT INTO `lng_data` VALUES ('survey', 'category_delete_confirm', 'en', 'Are you sure you want to delete the following answers?');
+INSERT INTO `lng_data` VALUES ('survey', 'category_delete_select_none', 'en', 'Please check at least one answer to delete it!');
+INSERT INTO `lng_data` VALUES ('survey', 'category_nr_selected', 'en', 'Number of users that selected this answer');
 INSERT INTO `lng_data` VALUES ('survey', 'chart', 'en', 'Chart');
-INSERT INTO `lng_data` VALUES ('survey', 'check_category_to_save_phrase', 'en', 'You must select a least one category to save a phrase!');
+INSERT INTO `lng_data` VALUES ('survey', 'check_category_to_save_phrase', 'en', 'You must select a least one answer to save a phrase!');
 INSERT INTO `lng_data` VALUES ('survey', 'codes', 'en', 'Access codes');
 INSERT INTO `lng_data` VALUES ('survey', 'combobox', 'en', 'Combobox');
 INSERT INTO `lng_data` VALUES ('survey', 'concatenation', 'en', 'Concatenation');
 INSERT INTO `lng_data` VALUES ('survey', 'confirm_delete_all_user_data', 'en', 'Are you sure you want to delete all user data of the survey?');
 INSERT INTO `lng_data` VALUES ('survey', 'confirm_remove_heading', 'en', 'Are you sure you want to remove the heading?');
 INSERT INTO `lng_data` VALUES ('survey', 'confirm_sync_questions', 'en', 'The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?');
-INSERT INTO `lng_data` VALUES ('survey', 'constraints', 'en', 'Constraints');
+INSERT INTO `lng_data` VALUES ('survey', 'constraint_add', 'en', 'Add precondition');
+INSERT INTO `lng_data` VALUES ('survey', 'constraints', 'en', 'Preconditions');
+INSERT INTO `lng_data` VALUES ('survey', 'constraints_first_question_description', 'en', 'The first entity could not have any preconditions because there are no previous questions.');
+INSERT INTO `lng_data` VALUES ('survey', 'constraints_introduction', 'en', 'For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it.');
+INSERT INTO `lng_data` VALUES ('survey', 'constraints_list_of_entities', 'en', 'Available survey entities for preconditions');
+INSERT INTO `lng_data` VALUES ('survey', 'constraints_no_nonessay_available', 'en', 'There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)');
+INSERT INTO `lng_data` VALUES ('survey', 'constraints_no_questions_or_questionblocks_selecte', 'en', 'Please select at least one question or questionblock!');
 INSERT INTO `lng_data` VALUES ('survey', 'contains', 'en', 'Contains');
 INSERT INTO `lng_data` VALUES ('survey', 'continue', 'en', 'Continue >>');
 INSERT INTO `lng_data` VALUES ('survey', 'create_date', 'en', 'Created');
@@ -7027,7 +7558,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'dc_verygood', 'en', 'very good');
 INSERT INTO `lng_data` VALUES ('survey', 'dc_yes', 'en', 'yes');
 INSERT INTO `lng_data` VALUES ('survey', 'define_questionblock', 'en', 'Define question block');
 INSERT INTO `lng_data` VALUES ('survey', 'description_maxchars', 'en', 'If nothing entered the maximum number of characters for this text answer is unlimited.');
-INSERT INTO `lng_data` VALUES ('survey', 'disinvite', 'en', 'Uninvite');
+INSERT INTO `lng_data` VALUES ('survey', 'disinvite', 'en', 'Disinvite');
 INSERT INTO `lng_data` VALUES ('survey', 'display_all_available', 'en', 'Display all available');
 INSERT INTO `lng_data` VALUES ('survey', 'dp_standard_attitude_agree5', 'en', 'Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)');
 INSERT INTO `lng_data` VALUES ('survey', 'dp_standard_attitude_agree_disagree', 'en', 'Standard attitude (agree-disagree)');
@@ -7054,7 +7585,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'dp_standard_numbers', 'en', 'Standard 
 INSERT INTO `lng_data` VALUES ('survey', 'duplicate', 'en', 'Duplicate');
 INSERT INTO `lng_data` VALUES ('survey', 'duplicate_svy', 'en', 'Duplicate survey');
 INSERT INTO `lng_data` VALUES ('survey', 'edit_ask_continue', 'en', 'Do you want to continue and edit this question?');
-INSERT INTO `lng_data` VALUES ('survey', 'edit_constraints_introduction', 'en', 'You have selected the following question(s)/question block(s) to edit the constraints');
+INSERT INTO `lng_data` VALUES ('survey', 'edit_constraints_introduction', 'en', 'You have selected the following question(s)/question block(s) to edit the preconditions');
 INSERT INTO `lng_data` VALUES ('survey', 'edit_heading', 'en', 'Edit heading');
 INSERT INTO `lng_data` VALUES ('survey', 'end_date', 'en', 'End date');
 INSERT INTO `lng_data` VALUES ('survey', 'end_date_reached', 'en', 'You cannot start the survey. The end date is reached!');
@@ -7069,21 +7600,25 @@ INSERT INTO `lng_data` VALUES ('survey', 'error_retrieving_anonymous_survey', 'e
 INSERT INTO `lng_data` VALUES ('survey', 'eval_legend_link', 'en', 'Please refer to the legend for the meaning of the column header symbols.');
 INSERT INTO `lng_data` VALUES ('survey', 'evaluation', 'en', 'Evaluation');
 INSERT INTO `lng_data` VALUES ('survey', 'evaluation_access', 'en', 'Evaluation access');
+INSERT INTO `lng_data` VALUES ('survey', 'evaluation_access_all', 'en', 'Evaluation access for all users');
+INSERT INTO `lng_data` VALUES ('survey', 'evaluation_access_participants', 'en', 'Evaluation access for survey participants');
+INSERT INTO `lng_data` VALUES ('survey', 'existing_constraints', 'en', 'Existing preconditions');
 INSERT INTO `lng_data` VALUES ('survey', 'exit', 'en', 'Exit');
 INSERT INTO `lng_data` VALUES ('survey', 'exp_type_csv', 'en', 'Comma separated value (CSV)');
 INSERT INTO `lng_data` VALUES ('survey', 'exp_type_excel', 'en', 'Microsoft Excel (Intel x86)');
 INSERT INTO `lng_data` VALUES ('survey', 'exp_type_excel_mac', 'en', 'Microsoft Excel (IBM PPC)');
 INSERT INTO `lng_data` VALUES ('survey', 'export_data_as', 'en', 'Export data as');
-INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_category_fields', 'en', 'Please fill out all category fields before you add a new one!');
-INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_required_fields_add_category', 'en', 'Please fill out all required fields before you add categories!');
-INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_required_fields_delete_category', 'en', 'Please fill out all required fields before you delete categories!');
-INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_required_fields_move_category', 'en', 'Please fill out all required fields before you move categories!');
+INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_category_fields', 'en', 'Please fill out all answer fields before you add a new one!');
+INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_required_fields_add_category', 'en', 'Please fill out all required fields before you add answers!');
+INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_required_fields_delete_category', 'en', 'Please fill out all required fields before you delete answers!');
+INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_required_fields_move_category', 'en', 'Please fill out all required fields before you move answers!');
 INSERT INTO `lng_data` VALUES ('survey', 'fill_out_all_required_fields_save_phrase', 'en', 'Please fill out all required fields before you save a phrase!');
 INSERT INTO `lng_data` VALUES ('survey', 'filter', 'en', 'Filter');
 INSERT INTO `lng_data` VALUES ('survey', 'filter_all_question_types', 'en', 'All question types');
-INSERT INTO `lng_data` VALUES ('survey', 'filter_all_questionpools', 'en', 'All questionpools');
+INSERT INTO `lng_data` VALUES ('survey', 'filter_all_questionpools', 'en', 'All question pools');
 INSERT INTO `lng_data` VALUES ('survey', 'filter_show_question_types', 'en', 'Show question types');
-INSERT INTO `lng_data` VALUES ('survey', 'filter_show_questionpools', 'en', 'Show questionpools');
+INSERT INTO `lng_data` VALUES ('survey', 'filter_show_questionpools', 'en', 'Show question pools');
+INSERT INTO `lng_data` VALUES ('survey', 'form_data_modified_press_save', 'en', 'The form data has been modified. Press the save button to keep the changes.');
 INSERT INTO `lng_data` VALUES ('survey', 'found_questions', 'en', 'Found questions');
 INSERT INTO `lng_data` VALUES ('survey', 'geometric_mean', 'en', 'Geometric mean');
 INSERT INTO `lng_data` VALUES ('survey', 'given_answers', 'en', 'Given answers');
@@ -7137,10 +7672,10 @@ INSERT INTO `lng_data` VALUES ('survey', 'multiple_choice_multiple_response', 'e
 INSERT INTO `lng_data` VALUES ('survey', 'multiple_choice_single_response', 'en', 'Multiple choice (single response)');
 INSERT INTO `lng_data` VALUES ('survey', 'new_survey_codes', 'en', 'new survey access code(s)');
 INSERT INTO `lng_data` VALUES ('survey', 'next_question_rows', 'en', 'Questions %d - %d of %d >>');
-INSERT INTO `lng_data` VALUES ('survey', 'no_available_constraints', 'en', 'There are no constraints defined!');
-INSERT INTO `lng_data` VALUES ('survey', 'no_category_selected_for_deleting', 'en', 'Please select a least one category if you want to delete categories!');
-INSERT INTO `lng_data` VALUES ('survey', 'no_category_selected_for_move', 'en', 'Please check at least one category to move it!');
-INSERT INTO `lng_data` VALUES ('survey', 'no_constraints_checked', 'en', 'Please select a least one question or question block to edit the constraints!');
+INSERT INTO `lng_data` VALUES ('survey', 'no_available_constraints', 'en', 'There are no preconditions defined!');
+INSERT INTO `lng_data` VALUES ('survey', 'no_category_selected_for_deleting', 'en', 'Please select a least one answer if you want to delete answers!');
+INSERT INTO `lng_data` VALUES ('survey', 'no_category_selected_for_move', 'en', 'Please check at least one answer to move it!');
+INSERT INTO `lng_data` VALUES ('survey', 'no_constraints_checked', 'en', 'Please select a least one question or question block to edit the preconditions!');
 INSERT INTO `lng_data` VALUES ('survey', 'no_question_selected_for_move', 'en', 'Please check at least one question to move it!');
 INSERT INTO `lng_data` VALUES ('survey', 'no_question_selected_for_removal', 'en', 'Please check at least one question or question block to remove it!');
 INSERT INTO `lng_data` VALUES ('survey', 'no_questionblocks_available', 'en', 'There are no question blocks available');
@@ -7161,7 +7696,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'or', 'en', 'or');
 INSERT INTO `lng_data` VALUES ('survey', 'ordinal_question_not_checked', 'en', 'Please check one of the offered answers!');
 INSERT INTO `lng_data` VALUES ('survey', 'orientation', 'en', 'Orientation');
 INSERT INTO `lng_data` VALUES ('survey', 'percentage_of_entered_values', 'en', 'Percentage of users that entered this value');
-INSERT INTO `lng_data` VALUES ('survey', 'percentage_of_selections', 'en', 'Percentage of users that selected this category');
+INSERT INTO `lng_data` VALUES ('survey', 'percentage_of_selections', 'en', 'Percentage of users that selected this answer');
 INSERT INTO `lng_data` VALUES ('survey', 'phrase_saved', 'en', 'The phrase was saved successfully!');
 INSERT INTO `lng_data` VALUES ('survey', 'predefined_users', 'en', 'Predefined user set');
 INSERT INTO `lng_data` VALUES ('survey', 'preview', 'en', 'Preview');
@@ -7186,12 +7721,13 @@ INSERT INTO `lng_data` VALUES ('survey', 'qt_metric', 'en', 'Metric question');
 INSERT INTO `lng_data` VALUES ('survey', 'qt_nominal', 'en', 'Nominal question');
 INSERT INTO `lng_data` VALUES ('survey', 'qt_ordinal', 'en', 'Ordinal question');
 INSERT INTO `lng_data` VALUES ('survey', 'qt_text', 'en', 'Essay');
-INSERT INTO `lng_data` VALUES ('survey', 'question_has_constraints', 'en', 'Constraints');
+INSERT INTO `lng_data` VALUES ('survey', 'question_contains_no_categories', 'en', 'There are no answers defined for this question');
+INSERT INTO `lng_data` VALUES ('survey', 'question_has_constraints', 'en', 'Preconditions');
 INSERT INTO `lng_data` VALUES ('survey', 'question_obligatory', 'en', 'The question is obligatory!');
 INSERT INTO `lng_data` VALUES ('survey', 'question_saved_for_upload', 'en', 'The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!');
 INSERT INTO `lng_data` VALUES ('survey', 'question_type', 'en', 'Question type');
 INSERT INTO `lng_data` VALUES ('survey', 'questionblock', 'en', 'Question block');
-INSERT INTO `lng_data` VALUES ('survey', 'questionblock_has_constraints', 'en', 'Constraints');
+INSERT INTO `lng_data` VALUES ('survey', 'questionblock_has_constraints', 'en', 'Preconditions');
 INSERT INTO `lng_data` VALUES ('survey', 'questionblocks', 'en', 'Question blocks');
 INSERT INTO `lng_data` VALUES ('survey', 'questions', 'en', 'Questions');
 INSERT INTO `lng_data` VALUES ('survey', 'questions_inserted', 'en', 'Question(s) inserted!');
@@ -7200,21 +7736,23 @@ INSERT INTO `lng_data` VALUES ('survey', 'questiontype', 'en', 'Question type');
 INSERT INTO `lng_data` VALUES ('survey', 'ratio_absolute', 'en', 'Ratio-Absolute');
 INSERT INTO `lng_data` VALUES ('survey', 'ratio_non_absolute', 'en', 'Ratio-Non-Absolute');
 INSERT INTO `lng_data` VALUES ('survey', 'remove_question', 'en', 'Remove');
-INSERT INTO `lng_data` VALUES ('survey', 'remove_questions', 'en', 'Are you sure you want to remove the following question(s) and/or question block(s) from the test?');
+INSERT INTO `lng_data` VALUES ('survey', 'remove_questions', 'en', 'Are you sure you want to remove the following question(s) and/or question block(s) from the survey?');
 INSERT INTO `lng_data` VALUES ('survey', 'reset_filter', 'en', 'Reset filter');
 INSERT INTO `lng_data` VALUES ('survey', 'resume_survey', 'en', 'Resume the survey');
+INSERT INTO `lng_data` VALUES ('survey', 'save_back_to_survey', 'en', 'Save and go back to the survey');
 INSERT INTO `lng_data` VALUES ('survey', 'save_obligatory_state', 'en', 'Save obligatory states');
 INSERT INTO `lng_data` VALUES ('survey', 'save_phrase', 'en', 'Save as phrase');
-INSERT INTO `lng_data` VALUES ('survey', 'save_phrase_categories_not_checked', 'en', 'Please check at least two categories to save categories in a new phrase!');
-INSERT INTO `lng_data` VALUES ('survey', 'save_phrase_introduction', 'en', 'If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.');
+INSERT INTO `lng_data` VALUES ('survey', 'save_phrase_categories_not_checked', 'en', 'Please check at least two answers to save answers in a new phrase!');
+INSERT INTO `lng_data` VALUES ('survey', 'save_phrase_introduction', 'en', 'If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.');
 INSERT INTO `lng_data` VALUES ('survey', 'search_field_all', 'en', 'Search in all fields');
 INSERT INTO `lng_data` VALUES ('survey', 'search_for', 'en', 'Search for');
-INSERT INTO `lng_data` VALUES ('survey', 'search_groups', 'en', 'Groups');
+INSERT INTO `lng_data` VALUES ('survey', 'search_groups', 'en', 'Found groups');
 INSERT INTO `lng_data` VALUES ('survey', 'search_invitation', 'en', 'Search for users or groups to invite');
 INSERT INTO `lng_data` VALUES ('survey', 'search_questions', 'en', 'Search questions');
+INSERT INTO `lng_data` VALUES ('survey', 'search_roles', 'en', 'Found roles');
 INSERT INTO `lng_data` VALUES ('survey', 'search_term', 'en', 'Search term');
 INSERT INTO `lng_data` VALUES ('survey', 'search_type_all', 'en', 'Search in all question types');
-INSERT INTO `lng_data` VALUES ('survey', 'search_users', 'en', 'Users');
+INSERT INTO `lng_data` VALUES ('survey', 'search_users', 'en', 'Found users');
 INSERT INTO `lng_data` VALUES ('survey', 'select_option', 'en', '--- Please select an option ---');
 INSERT INTO `lng_data` VALUES ('survey', 'select_phrase_to_add', 'en', 'Please select a phrase to add it to the question!');
 INSERT INTO `lng_data` VALUES ('survey', 'select_prior_question', 'en', 'Select a prior question');
@@ -7222,12 +7760,15 @@ INSERT INTO `lng_data` VALUES ('survey', 'select_questionpool', 'en', 'Please se
 INSERT INTO `lng_data` VALUES ('survey', 'select_questionpool_short', 'en', 'Question pool for Survey');
 INSERT INTO `lng_data` VALUES ('survey', 'select_relation', 'en', 'Select a relation');
 INSERT INTO `lng_data` VALUES ('survey', 'select_svy_option', 'en', '--- Please select a survey ---');
-INSERT INTO `lng_data` VALUES ('survey', 'select_target_position_for_move', 'en', 'Please select a target position to move the categories and press one of the insert buttons!');
+INSERT INTO `lng_data` VALUES ('survey', 'select_target_position_for_move', 'en', 'Please select a target position to move the answers and press one of the insert buttons!');
 INSERT INTO `lng_data` VALUES ('survey', 'select_target_position_for_move_question', 'en', 'Please select a target position to move the question(s) and press one of the insert buttons!');
 INSERT INTO `lng_data` VALUES ('survey', 'select_value', 'en', 'Select a value');
 INSERT INTO `lng_data` VALUES ('survey', 'selection', 'en', 'Selection');
 INSERT INTO `lng_data` VALUES ('survey', 'set_filter', 'en', 'Set filter');
 INSERT INTO `lng_data` VALUES ('survey', 'skipped', 'en', 'skipped');
+INSERT INTO `lng_data` VALUES ('survey', 'spl_general_properties', 'en', 'General properties');
+INSERT INTO `lng_data` VALUES ('survey', 'spl_online_property', 'en', 'Online');
+INSERT INTO `lng_data` VALUES ('survey', 'spl_online_property_description', 'en', 'If the questionpool is not online, it cannot be used in surveys.');
 INSERT INTO `lng_data` VALUES ('survey', 'spl_select_file_for_import', 'en', 'You must select a file for import!');
 INSERT INTO `lng_data` VALUES ('survey', 'start_date', 'en', 'Start date');
 INSERT INTO `lng_data` VALUES ('survey', 'start_date_not_reached', 'en', 'You cannot start the survey until the start date is reached!');
@@ -7248,6 +7789,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'survey_offline_message', 'en', 'Can\'t
 INSERT INTO `lng_data` VALUES ('survey', 'survey_online_warning', 'en', 'The survey is online. You cannot edit the survey questions!');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_previous', 'en', '<<< previous');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_question_obligatory', 'en', '(This question is obligatory. You must answer the question)');
+INSERT INTO `lng_data` VALUES ('survey', 'survey_question_optional', 'en', '(Optional)');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_questions', 'en', 'Questions');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_skip_finish', 'en', 'skip and finish survey');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_skip_next', 'en', 'skip >>>');
@@ -7255,6 +7797,9 @@ INSERT INTO `lng_data` VALUES ('survey', 'survey_skip_previous', 'en', '<<< skip
 INSERT INTO `lng_data` VALUES ('survey', 'survey_skip_start', 'en', 'skip and go to start page');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_start', 'en', 'go to start page');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_all_user_data_deleted', 'en', 'All user data of this survey has been deleted!');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_check_evaluation_access_introduction', 'en', 'Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_check_evaluation_authentication_needed', 'en', 'Authentication needed');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_check_evaluation_wrong_key', 'en', 'You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_create_export_file', 'en', 'Create export file');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_delete_all_user_data', 'en', 'Delete all user data');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_eval_cumulated', 'en', 'Cumulated results');
@@ -7291,10 +7836,80 @@ INSERT INTO `lng_data` VALUES ('survey', 'users_skipped', 'en', 'Users skipped')
 INSERT INTO `lng_data` VALUES ('survey', 'value_nr_entered', 'en', 'Number of users that entered that value');
 INSERT INTO `lng_data` VALUES ('survey', 'values', 'en', 'Values');
 INSERT INTO `lng_data` VALUES ('survey', 'vertical', 'en', 'vertical');
-INSERT INTO `lng_data` VALUES ('survey', 'view_constraints_introduction', 'en', 'You are viewing the constraints of the following question/question block:');
+INSERT INTO `lng_data` VALUES ('survey', 'view_constraints_introduction', 'en', 'You are viewing the preconditions of the following question/question block:');
 INSERT INTO `lng_data` VALUES ('survey', 'view_phrase', 'en', 'View phrase');
 INSERT INTO `lng_data` VALUES ('survey', 'warning_question_in_use', 'en', 'Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.');
 INSERT INTO `lng_data` VALUES ('survey', 'warning_question_not_complete', 'en', 'The question is not complete!');
+INSERT INTO `lng_data` VALUES ('trac', 'info_valid_request', 'en', 'The maximum valid time between two requests of an user.');
+INSERT INTO `lng_data` VALUES ('trac', 'last_login', 'en', 'Last login');
+INSERT INTO `lng_data` VALUES ('trac', 'meta_typical_learning_time', 'en', 'Typical learning time');
+INSERT INTO `lng_data` VALUES ('trac', 'obj_types', 'en', 'Object types:');
+INSERT INTO `lng_data` VALUES ('trac', 'search_area_info', 'en', 'Please choose one object.');
+INSERT INTO `lng_data` VALUES ('trac', 'select_one', 'en', 'Please select one object');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_activated', 'en', 'Tracking activated');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_anonymized', 'en', 'Anonymized');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_anonymized_info', 'en', 'If enabled, all statistics will be anonymized.');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_assigned', 'en', 'Assigned');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_assignments', 'en', 'Assignments');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_collection_assign', 'en', 'Assign');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_collection_deassign', 'en', 'Deassign');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_comment', 'en', 'Comment');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_comments', 'en', 'Comments');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_completed', 'en', 'Completed');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_crs_releavant_items', 'en', 'Course items');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_edit_collection', 'en', 'Please assign course items. If the status of all assigned items is \'Completed\' the whole course is completed by the user.');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_edit_visits', 'en', 'Please define the number of visits that is neccessary to complete this object.');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_filter_area', 'en', 'Area:');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_filter_hidden', 'en', 'Hidden:');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_filter_no_access', 'en', 'No objects found');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_filter_repository', 'en', 'In the repository');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_hide', 'en', 'Hide');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_in_progress', 'en', 'In progress');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_learning_progress', 'en', 'Learning progress');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_learning_progress_tbl_header', 'en', 'Learning progress of:');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_lp_filter', 'en', 'Filter');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mark', 'en', 'Mark');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_marks', 'en', 'Marks');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode', 'en', 'Mode');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_collection', 'en', 'Collection of objects');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_deactivated', 'en', 'Deactivated');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_manual', 'en', 'Manual');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_objectives', 'en', 'Learning objectives');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_scorm', 'en', 'SCORM/AICC');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_scorm_aicc', 'en', 'SCORM/AICC');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_test_finished', 'en', 'Test finished');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_test_passed', 'en', 'Test passed');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_tlt', 'en', 'Typical learning time');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_mode_visits', 'en', 'Number of visits');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_modifications_saved', 'en', 'Saved settings');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_modus', 'en', 'Mode');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_no_attempted', 'en', 'Not attempted');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_no_sahs_items_found', 'en', 'No objects found.');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_not_accessed', 'en', 'Not accessed');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_not_assigned', 'en', 'Not assigned');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_not_attempted', 'en', 'Not attempted');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_num_visits', 'en', 'Number of visits');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_objects', 'en', 'List of objects');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_occurrences', 'en', 'Path:');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_progress', 'en', 'Personal learning progress');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_query', 'en', 'Title/description:');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_refresh', 'en', 'Refresh');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_sahs_relevant_items', 'en', 'SCO\'s');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_settings', 'en', 'Settings');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_settings_saved', 'en', 'Saved settings.');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_show_hidden', 'en', 'Show');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_spent_time', 'en', 'Spent time');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_status', 'en', 'Status');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_total_online', 'en', 'Total time online');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_update_edit_user', 'en', 'Saved settings');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_user_data', 'en', 'User data');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_usr_list', 'en', 'Users');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_valid_request', 'en', 'Max. time between requests');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_view_crs', 'en', 'Back to course');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_view_list', 'en', 'Back to list');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_visits', 'en', 'Number of visits');
+INSERT INTO `lng_data` VALUES ('trac', 'trac_visits_info', 'en', 'Every page visit counts as one visit.');
+INSERT INTO `lng_data` VALUES ('trac', 'tracking_time_span_not_valid', 'en', 'Please enter a valid number of seconds.');
 # --------------------------------------------------------
 
 #
@@ -7669,9 +8284,10 @@ CREATE TABLE `module` (
 #
 
 INSERT INTO `module` VALUES ('ILIASLearningModule', 'content');
+INSERT INTO `module` VALUES ('Glossary', 'content');
 INSERT INTO `module` VALUES ('Assessment', 'assessment');
+INSERT INTO `module` VALUES ('Survey', 'survey');
 INSERT INTO `module` VALUES ('Course', 'course');
-INSERT INTO `module` VALUES ('News', 'Modules/News');
 # --------------------------------------------------------
 
 #
@@ -7691,6 +8307,11 @@ CREATE TABLE `module_class` (
 
 INSERT INTO `module_class` VALUES ('ilLMEditorGUI', 'ILIASLearningModule', 'classes');
 INSERT INTO `module_class` VALUES ('ilLMPresentationGUI', 'ILIASLearningModule', 'classes');
+INSERT INTO `module_class` VALUES ('ilGlossaryEditorGUI', 'Glossary', 'classes');
+INSERT INTO `module_class` VALUES ('ilObjQuestionPoolGUI', 'Assessment', 'classes');
+INSERT INTO `module_class` VALUES ('ilObjTestGUI', 'Assessment', 'classes');
+INSERT INTO `module_class` VALUES ('ilObjSurveyQuestionPoolGUI', 'Survey', 'classes');
+INSERT INTO `module_class` VALUES ('ilObjSurveyGUI', 'Survey', 'classes');
 # --------------------------------------------------------
 
 #
@@ -7793,7 +8414,7 @@ INSERT INTO `object_data` VALUES (29, 'typ', 'lng', 'Language object', -1, '2002
 INSERT INTO `object_data` VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37', '');
 INSERT INTO `object_data` VALUES (31, 'typ', 'dbk', 'Digilib Book', -1, '2003-08-15 10:07:29', '2003-08-15 12:30:19', '');
 INSERT INTO `object_data` VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2003-08-15 12:04:20', '');
-INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-07-28 16:20:02', '');
+INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-12-27 12:28:07', '');
 INSERT INTO `object_data` VALUES (14, 'role', 'Anonymous', 'Default role for anonymous users (with no account)', -1, '2003-08-15 12:06:19', '2005-07-20 15:15:06', '');
 INSERT INTO `object_data` VALUES (18, 'typ', 'mob', 'Multimedia object', -1, '0000-00-00 00:00:00', '2003-08-15 12:03:20', '');
 INSERT INTO `object_data` VALUES (35, 'typ', 'notf', 'Note Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00', '');
@@ -8393,6 +9014,8 @@ CREATE TABLE `rbac_operations` (
   `ops_id` int(11) NOT NULL auto_increment,
   `operation` char(32) NOT NULL default '',
   `description` char(255) default NULL,
+  `class` enum('create','general','object','rbac','admin','notused') NOT NULL default 'notused',
+  `op_order` smallint(5) unsigned default NULL,
   PRIMARY KEY  (`ops_id`),
   UNIQUE KEY `operation` (`operation`)
 ) TYPE=MyISAM;
@@ -8401,52 +9024,53 @@ CREATE TABLE `rbac_operations` (
 # Dumping data for table `rbac_operations`
 #
 
-INSERT INTO `rbac_operations` VALUES (1, 'edit_permission', 'edit permissions');
-INSERT INTO `rbac_operations` VALUES (2, 'visible', 'view object');
-INSERT INTO `rbac_operations` VALUES (3, 'read', 'access object');
-INSERT INTO `rbac_operations` VALUES (4, 'write', 'modify object');
-INSERT INTO `rbac_operations` VALUES (6, 'delete', 'remove object');
-INSERT INTO `rbac_operations` VALUES (7, 'join', 'join/subscribe');
-INSERT INTO `rbac_operations` VALUES (8, 'leave', 'leave/unsubscribe');
-INSERT INTO `rbac_operations` VALUES (9, 'edit_post', 'edit forum articles');
-INSERT INTO `rbac_operations` VALUES (10, 'delete_post', 'delete forum articles');
-INSERT INTO `rbac_operations` VALUES (11, 'smtp_mail', 'send external mail');
-INSERT INTO `rbac_operations` VALUES (12, 'system_message', 'allow to send system messages');
-INSERT INTO `rbac_operations` VALUES (13, 'create_user', 'create new user account');
-INSERT INTO `rbac_operations` VALUES (14, 'create_role', 'create new role definition');
-INSERT INTO `rbac_operations` VALUES (15, 'create_rolt', 'create new role definition template');
-INSERT INTO `rbac_operations` VALUES (16, 'create_cat', 'create new category');
-INSERT INTO `rbac_operations` VALUES (17, 'create_grp', 'create new group');
-INSERT INTO `rbac_operations` VALUES (18, 'create_frm', 'create new forum');
-INSERT INTO `rbac_operations` VALUES (19, 'create_crs', 'create new course');
-INSERT INTO `rbac_operations` VALUES (20, 'create_lm', 'create new learning module');
-INSERT INTO `rbac_operations` VALUES (21, 'create_sahs', 'create new SCORM/AICC learning module');
-INSERT INTO `rbac_operations` VALUES (22, 'create_glo', 'create new glossary');
-INSERT INTO `rbac_operations` VALUES (23, 'create_dbk', 'create new digibook');
-INSERT INTO `rbac_operations` VALUES (24, 'create_exc', 'create new exercise');
-INSERT INTO `rbac_operations` VALUES (25, 'create_file', 'upload new file');
-INSERT INTO `rbac_operations` VALUES (26, 'create_fold', 'create new folder');
-INSERT INTO `rbac_operations` VALUES (40, 'edit_userassignment', 'change userassignment of roles');
-INSERT INTO `rbac_operations` VALUES (41, 'edit_roleassignment', 'change roleassignments of user accounts');
-INSERT INTO `rbac_operations` VALUES (27, 'create_tst', 'create new test');
-INSERT INTO `rbac_operations` VALUES (28, 'create_qpl', 'create new question pool');
-INSERT INTO `rbac_operations` VALUES (29, 'create_chat', 'create chat object');
-INSERT INTO `rbac_operations` VALUES (30, 'mail_visible', 'users can use mail system');
-INSERT INTO `rbac_operations` VALUES (31, 'create_mep', 'create new media pool');
-INSERT INTO `rbac_operations` VALUES (32, 'create_htlm', 'create new html learning module');
-INSERT INTO `rbac_operations` VALUES (42, 'create_svy', 'create new survey');
-INSERT INTO `rbac_operations` VALUES (43, 'create_spl', 'create new question pool (Survey)');
-INSERT INTO `rbac_operations` VALUES (44, 'create_tax', 'create taxonomy object');
-INSERT INTO `rbac_operations` VALUES (45, 'invite', 'invite');
-INSERT INTO `rbac_operations` VALUES (46, 'participate', 'participate');
-INSERT INTO `rbac_operations` VALUES (47, 'cat_administrate_users', 'Administrate local user');
-INSERT INTO `rbac_operations` VALUES (48, 'read_users', 'read local users');
-INSERT INTO `rbac_operations` VALUES (49, 'push_desktop_items', 'Allow pushing desktop items');
-INSERT INTO `rbac_operations` VALUES (50, 'create_webr', 'create web resource');
-INSERT INTO `rbac_operations` VALUES (51, 'search', 'Allow using search');
-INSERT INTO `rbac_operations` VALUES (52, 'moderate', 'Moderate objects');
-INSERT INTO `rbac_operations` VALUES (53, 'create_icrs', 'create LearnLink Seminar');
-INSERT INTO `rbac_operations` VALUES (54, 'create_icla', 'create LearnLink Seminar room');
+INSERT INTO `rbac_operations` VALUES (1, 'edit_permission', 'edit permissions', 'rbac', NULL);
+INSERT INTO `rbac_operations` VALUES (2, 'visible', 'view object', 'general', 100);
+INSERT INTO `rbac_operations` VALUES (3, 'read', 'access object', 'general', 110);
+INSERT INTO `rbac_operations` VALUES (4, 'write', 'modify object', 'general', 120);
+INSERT INTO `rbac_operations` VALUES (6, 'delete', 'remove object', 'general', 130);
+INSERT INTO `rbac_operations` VALUES (7, 'join', 'join/subscribe', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (8, 'leave', 'leave/unsubscribe', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (9, 'edit_post', 'edit forum articles', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (10, 'delete_post', 'delete forum articles', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (11, 'smtp_mail', 'send external mail', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (12, 'system_message', 'allow to send system messages', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (13, 'create_user', 'create new user account', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (14, 'create_role', 'create new role definition', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (15, 'create_rolt', 'create new role definition template', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (16, 'create_cat', 'create new category', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (17, 'create_grp', 'create new group', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (18, 'create_frm', 'create new forum', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (19, 'create_crs', 'create new course', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (20, 'create_lm', 'create new learning module', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (21, 'create_sahs', 'create new SCORM/AICC learning module', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (22, 'create_glo', 'create new glossary', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (23, 'create_dbk', 'create new digibook', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (24, 'create_exc', 'create new exercise', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (25, 'create_file', 'upload new file', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (26, 'create_fold', 'create new folder', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (40, 'edit_userassignment', 'change userassignment of roles', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (41, 'edit_roleassignment', 'change roleassignments of user accounts', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (27, 'create_tst', 'create new test', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (28, 'create_qpl', 'create new question pool', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (29, 'create_chat', 'create chat object', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (30, 'mail_visible', 'users can use mail system', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (31, 'create_mep', 'create new media pool', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (32, 'create_htlm', 'create new html learning module', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (42, 'create_svy', 'create new survey', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (43, 'create_spl', 'create new question pool (Survey)', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (44, 'create_tax', 'create taxonomy object', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (45, 'invite', 'invite', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (46, 'participate', 'participate', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (47, 'cat_administrate_users', 'Administrate local user', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (48, 'read_users', 'read local users', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (49, 'push_desktop_items', 'Allow pushing desktop items', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (50, 'create_webr', 'create web resource', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (51, 'search', 'Allow using search', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (52, 'moderate', 'Moderate objects', 'object', NULL);
+INSERT INTO `rbac_operations` VALUES (53, 'create_icrs', 'create LearnLink Seminar', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (54, 'create_icla', 'create LearnLink Seminar room', 'create', NULL);
+INSERT INTO `rbac_operations` VALUES (55, 'edit_learning_progress', 'edit learning progress', 'object', NULL);
 # --------------------------------------------------------
 
 #
@@ -8571,6 +9195,7 @@ INSERT INTO `rbac_ta` VALUES (17, 42);
 INSERT INTO `rbac_ta` VALUES (17, 43);
 INSERT INTO `rbac_ta` VALUES (17, 50);
 INSERT INTO `rbac_ta` VALUES (17, 53);
+INSERT INTO `rbac_ta` VALUES (17, 55);
 INSERT INTO `rbac_ta` VALUES (19, 1);
 INSERT INTO `rbac_ta` VALUES (19, 2);
 INSERT INTO `rbac_ta` VALUES (19, 3);
@@ -8585,6 +9210,7 @@ INSERT INTO `rbac_ta` VALUES (20, 4);
 INSERT INTO `rbac_ta` VALUES (20, 6);
 INSERT INTO `rbac_ta` VALUES (20, 7);
 INSERT INTO `rbac_ta` VALUES (20, 8);
+INSERT INTO `rbac_ta` VALUES (20, 55);
 INSERT INTO `rbac_ta` VALUES (21, 1);
 INSERT INTO `rbac_ta` VALUES (21, 2);
 INSERT INTO `rbac_ta` VALUES (21, 3);
@@ -8619,6 +9245,7 @@ INSERT INTO `rbac_ta` VALUES (31, 2);
 INSERT INTO `rbac_ta` VALUES (31, 3);
 INSERT INTO `rbac_ta` VALUES (31, 4);
 INSERT INTO `rbac_ta` VALUES (31, 6);
+INSERT INTO `rbac_ta` VALUES (31, 55);
 INSERT INTO `rbac_ta` VALUES (32, 1);
 INSERT INTO `rbac_ta` VALUES (32, 2);
 INSERT INTO `rbac_ta` VALUES (32, 3);
@@ -8638,6 +9265,7 @@ INSERT INTO `rbac_ta` VALUES (34, 4);
 INSERT INTO `rbac_ta` VALUES (34, 6);
 INSERT INTO `rbac_ta` VALUES (34, 7);
 INSERT INTO `rbac_ta` VALUES (34, 8);
+INSERT INTO `rbac_ta` VALUES (34, 55);
 INSERT INTO `rbac_ta` VALUES (37, 1);
 INSERT INTO `rbac_ta` VALUES (37, 2);
 INSERT INTO `rbac_ta` VALUES (37, 3);
@@ -8686,6 +9314,7 @@ INSERT INTO `rbac_ta` VALUES (94, 2);
 INSERT INTO `rbac_ta` VALUES (94, 3);
 INSERT INTO `rbac_ta` VALUES (94, 4);
 INSERT INTO `rbac_ta` VALUES (94, 6);
+INSERT INTO `rbac_ta` VALUES (94, 55);
 INSERT INTO `rbac_ta` VALUES (95, 1);
 INSERT INTO `rbac_ta` VALUES (95, 2);
 INSERT INTO `rbac_ta` VALUES (95, 3);
@@ -8711,6 +9340,7 @@ INSERT INTO `rbac_ta` VALUES (102, 2);
 INSERT INTO `rbac_ta` VALUES (102, 3);
 INSERT INTO `rbac_ta` VALUES (102, 4);
 INSERT INTO `rbac_ta` VALUES (102, 6);
+INSERT INTO `rbac_ta` VALUES (102, 55);
 INSERT INTO `rbac_ta` VALUES (103, 1);
 INSERT INTO `rbac_ta` VALUES (103, 2);
 INSERT INTO `rbac_ta` VALUES (103, 3);
@@ -9606,6 +10236,24 @@ INSERT INTO `rbac_templates` VALUES (130, 'icrs', 8, 8);
 INSERT INTO `rbac_templates` VALUES (131, 'crs', 2, 8);
 INSERT INTO `rbac_templates` VALUES (131, 'crs', 7, 8);
 INSERT INTO `rbac_templates` VALUES (131, 'crs', 8, 8);
+INSERT INTO `rbac_templates` VALUES (3, 'lm', 55, 8);
+INSERT INTO `rbac_templates` VALUES (3, 'tst', 55, 8);
+INSERT INTO `rbac_templates` VALUES (3, 'dbk', 55, 8);
+INSERT INTO `rbac_templates` VALUES (3, 'sahs', 55, 8);
+INSERT INTO `rbac_templates` VALUES (3, 'htlm', 55, 8);
+INSERT INTO `rbac_templates` VALUES (3, 'crs', 55, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 55, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'tst', 55, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'dbk', 55, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'sahs', 55, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'htlm', 55, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 55, 8);
+INSERT INTO `rbac_templates` VALUES (125, 'lm', 55, 8);
+INSERT INTO `rbac_templates` VALUES (125, 'tst', 55, 8);
+INSERT INTO `rbac_templates` VALUES (125, 'dbk', 55, 8);
+INSERT INTO `rbac_templates` VALUES (125, 'sahs', 55, 8);
+INSERT INTO `rbac_templates` VALUES (125, 'htlm', 55, 8);
+INSERT INTO `rbac_templates` VALUES (125, 'crs', 55, 8);
 # --------------------------------------------------------
 
 #
@@ -9867,7 +10515,7 @@ CREATE TABLE `scorm_tracking` (
   `sco_id` int(11) NOT NULL default '0',
   `lvalue` varchar(64) NOT NULL default '',
   `rvalue` text,
-  `ref_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) default NULL,
   PRIMARY KEY  (`user_id`,`sco_id`,`lvalue`)
 ) TYPE=MyISAM;
 
@@ -9954,6 +10602,7 @@ CREATE TABLE `service` (
 
 INSERT INTO `service` VALUES ('Help', 'Services/Help');
 INSERT INTO `service` VALUES ('PersonalDesktop', '.');
+INSERT INTO `service` VALUES ('Administration', '.');
 # --------------------------------------------------------
 
 #
@@ -9973,6 +10622,7 @@ CREATE TABLE `service_class` (
 
 INSERT INTO `service_class` VALUES ('ilHelpGUI', 'Help', 'classes');
 INSERT INTO `service_class` VALUES ('ilPersonalDesktopGUI', 'PersonalDesktop', 'classes');
+INSERT INTO `service_class` VALUES ('ilAdministrationGUI', 'Administration', 'classes');
 # --------------------------------------------------------
 
 #
@@ -9990,7 +10640,7 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '569');
+INSERT INTO `settings` VALUES ('db_version', '624');
 INSERT INTO `settings` VALUES ('ilias_version', '3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
@@ -10661,7 +11311,7 @@ CREATE TABLE `survey_survey` (
   `status` enum('0','1') NOT NULL default '1',
   `startdate` date default NULL,
   `enddate` date default NULL,
-  `evaluation_access` enum('0','1') NOT NULL default '0',
+  `evaluation_access` enum('0','1','2') NOT NULL default '0',
   `invitation` enum('0','1') NOT NULL default '0',
   `invitation_mode` enum('0','1') NOT NULL default '1',
   `complete` enum('0','1') NOT NULL default '0',
@@ -11063,7 +11713,6 @@ CREATE TABLE `tst_test_type` (
 
 INSERT INTO `tst_test_type` VALUES (1, 'tt_assessment');
 INSERT INTO `tst_test_type` VALUES (2, 'tt_self_assessment');
-INSERT INTO `tst_test_type` VALUES (3, 'tt_navigation_controlling');
 INSERT INTO `tst_test_type` VALUES (4, 'tt_online_exam');
 INSERT INTO `tst_test_type` VALUES (5, 'tt_varying_randomtest');
 # --------------------------------------------------------
@@ -11082,6 +11731,7 @@ CREATE TABLE `tst_tests` (
   `score_reporting` tinyint(3) unsigned NOT NULL default '0',
   `nr_of_tries` tinyint(3) unsigned NOT NULL default '0',
   `hide_previous_results` enum('0','1') NOT NULL default '0',
+  `hide_title_points` enum('0','1') NOT NULL default '0',
   `processing_time` time default NULL,
   `enable_processing_time` enum('0','1') NOT NULL default '0',
   `reporting_date` varchar(14) default NULL,
@@ -11330,16 +11980,17 @@ CREATE TABLE `ut_learning_progress` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `ut_login`
+# Table structure for table `ut_lp_collections`
 #
 
-CREATE TABLE `ut_login` (
-  `usr_id` int(11) NOT NULL default '0',
-  `login_time` int(10) NOT NULL default '0'
+CREATE TABLE `ut_lp_collections` (
+  `obj_id` int(11) NOT NULL default '0',
+  `item_id` int(11) NOT NULL default '0',
+  KEY `obj_id` (`obj_id`,`item_id`)
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table `ut_login`
+# Dumping data for table `ut_lp_collections`
 #
 
 # --------------------------------------------------------
@@ -11349,13 +12000,12 @@ CREATE TABLE `ut_login` (
 #
 
 CREATE TABLE `ut_lp_filter` (
-  `lpf_id` int(11) NOT NULL auto_increment,
-  `user_id` int(11) NOT NULL default '0',
-  `shown` text NOT NULL,
+  `usr_id` int(11) NOT NULL default '0',
+  `filter_type` varchar(4) NOT NULL default '',
+  `root_node` int(11) NOT NULL default '0',
   `hidden` text NOT NULL,
-  `mode` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`lpf_id`),
-  KEY `user_id` (`user_id`)
+  `query_string` varchar(128) NOT NULL default '',
+  PRIMARY KEY  (`usr_id`)
 ) TYPE=MyISAM;
 
 #
@@ -11365,20 +12015,56 @@ CREATE TABLE `ut_lp_filter` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `ut_lp_marks`
+#
+
+CREATE TABLE `ut_lp_marks` (
+  `obj_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  `completed` int(1) NOT NULL default '0',
+  `mark` char(32) NOT NULL default '',
+  `comment` char(255) NOT NULL default '',
+  PRIMARY KEY  (`obj_id`,`usr_id`),
+  KEY `obj_usr` (`obj_id`,`usr_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ut_lp_marks`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `ut_lp_settings`
 #
 
 CREATE TABLE `ut_lp_settings` (
-  `lps_id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) NOT NULL default '0',
   `obj_type` char(4) NOT NULL default '',
   `mode` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`lps_id`),
-  KEY `obj_id` (`obj_id`)
+  `visits` int(4) default '0',
+  PRIMARY KEY  (`obj_id`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `ut_lp_settings`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `ut_online`
+#
+
+CREATE TABLE `ut_online` (
+  `usr_id` int(11) NOT NULL default '0',
+  `online_time` int(11) NOT NULL default '0',
+  `access_time` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ut_online`
 #
 
 # --------------------------------------------------------
