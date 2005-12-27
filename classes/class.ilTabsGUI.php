@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -126,6 +126,14 @@ class ilTabsGUI
 		$this->target[] = array("text" => $a_text, "link" => $a_link,
 			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame,
 			"activate" => $a_activate);
+	}
+	
+	/**
+	* clear all targets
+	*/
+	function clearTargets()
+	{
+		$this->target = array();
 	}
 
 	/**

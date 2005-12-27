@@ -66,11 +66,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		define("USER_FOLDER_ID",7);
 
 		// copy ref_id for later use.
-		$this->rolf_ref_id = $_GET['ref_id'];
+		if ($_GET['rolf_ref_id'] != "")
+		{
+			$this->rolf_ref_id = $_GET['rolf_ref_id'];
+		}
+		else
+		{
+			$this->rolf_ref_id = $_GET['ref_id'];
+		}
 
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		$this->ctrl->saveParameter($this, "obj_id");
+		$this->ctrl->saveParameter($this, array("obj_id", "rolf_ref_id"));
 	}
 
 
@@ -78,7 +85,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if($this->ctrl->getTargetScript() == 'role.php')
+		if($this->ctrl->getTargetScript() == 'repository.php' ||
+			$this->ctrl->getTargetScript() == 'role.php' ||
+			$_GET["admin_mode"] == "repository")
 		{
 			$this->__prepareOutput();
 		}
@@ -104,6 +113,15 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		return true;
+	}
+	
+	/**
+	* set back tab target
+	*/
+	function setBackTarget($a_text, $a_link)
+	{
+		$this->back_target = array("text" => $a_text,
+			"link" => $a_link);
 	}
 	
 	/**
@@ -1256,8 +1274,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		foreach ($assigned_users as $user)
 		{
 			$link_contact = "mail_new.php?type=new&rcp_to=".$user["login"];
-			$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]); 
-			$link_change = $this->ctrl->getLinkTargetByClass("ilobjusergui", "edit");
+			
+			if ($_GET["admin_mode"] == "settings")
+			{
+				$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]); 
+				$link_change = $this->ctrl->getLinkTargetByClass("ilobjusergui", "edit");
+			}
 			//$link_change = "adm_object.php?ref_id=7&obj_id=".$user["usr_id"]."&cmd=edit";
 			$this->ctrl->setParameter($this, "user_id", $user["usr_id"]);
 			$link_leave = $this->ctrl->getLinkTarget($this,"deassignUser");
@@ -1269,7 +1291,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
                 //build function
                 $member_functions = "<a href=\"".$link_contact."\">".$val_contact."</a>";
-				if($_GET["baseClass"] == 'iladministrationgui')
+				if($_GET["baseClass"] == 'iladministrationgui' && $_GET["admin_mode"] == "settings")
 				{
 					$member_functions .= "<a href=\"".$link_change."\">".$val_change."</a>";
 				}
@@ -1359,7 +1381,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		//user must be administrator
 		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),
 			$this->lng->txt("lastname"),$this->lng->txt("grp_options")));
-		$tbl->setHeaderVars(array("","login","firstname","lastname","functions"),$this->ctrl->getParameterArray($this,"",false));
+		$tbl->setHeaderVars(array("","login","firstname","lastname","functions"),
+			$this->ctrl->getParameterArray($this,"",false));
 		$tbl->setColumnWidth(array("","30%","30%","30%","10%"));
 		
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"userassignment");
@@ -1673,11 +1696,12 @@ class ilObjRoleGUI extends ilObjectGUI
 								  "login",
 								  "firstname",
 								  "lastname"),
-							array("ref_id" => $this->rolf_ref_id,
-                                  "obj_id" => $this->object->getId(),
-								  "cmd" => $a_cmd,
-								  "cmdClass" => "ilobjrolegui",
-								  "cmdNode" => $_GET["cmdNode"]));
+							$this->ctrl->getParameterArray($this,$a_cmd,false));
+			//array("ref_id" => $this->rolf_ref_id,
+			//  "obj_id" => $this->object->getId(),
+			// "cmd" => $a_cmd,
+			//"cmdClass" => "ilobjrolegui",
+			// "cmdNode" => $_GET["cmdNode"]));
 
 		$tbl->setColumnWidth(array("","33%","33%","33%"));
 
@@ -1731,11 +1755,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tbl->setHeaderVars(array("",
 								  "title",
 								  "nr_members"),
-							array("ref_id" => $this->rolf_ref_id,
-                                  "obj_id" => $this->object->getId(),
-								  "cmd" => "search",
-								  "cmdClass" => "ilobjrolegui",
-								  "cmdNode" => $_GET["cmdNode"]));
+							$this->ctrl->getParameterArray($this,"search",false));
+			//array("ref_id" => $this->rolf_ref_id,
+			//"obj_id" => $this->object->getId(),
+			//"cmd" => "search",
+			//"cmdClass" => "ilobjrolegui",
+			//"cmdNode" => $_GET["cmdNode"]));
 
 		$tbl->setColumnWidth(array("","80%","19%"));
 
@@ -1958,7 +1983,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// output locator
-		$this->__setLocator();
+		//$this->__setLocator();
 
 		// output message
 		if ($this->message)
@@ -1977,8 +2002,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		include_once './classes/class.ilTabsGUI.php';
 
-		$this->tpl->setVariable("HEADER",$this->lng->txt('role'));
-		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getTitle());
+		$this->tpl->setTitle($this->lng->txt('role'));
+		$this->tpl->setDescription($this->object->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_role.gif"));
 
 		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($this->tabs_gui);
@@ -2053,7 +2079,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else							// repository administration
 		{
-			//?
+			// ?
 		}
 
 	}
@@ -2064,8 +2090,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
+			if ($_GET["admin_mode"] == "settings")
+			{
 				$tpl->setUpperIcon(
 					$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+			}
 		}
 		else
 		{		
@@ -2085,12 +2114,34 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem,$rbacreview;
 
 		$base_role_folder = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
-		$real_local_role = in_array($this->rolf_ref_id,$base_role_folder);
+//var_dump($base_role_folder);
+//echo "-".$this->rolf_ref_id."-";
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+		$activate_role_edit = false;
+		
+		// todo: activate the following (allow editing of local roles in
+		// roles administration)
+		//if (in_array($this->rolf_ref_id,$base_role_folder) ||
+		//	(strtolower($_GET["baseClass"]) == "iladministrationgui" &&
+		//	$_GET["admin_mode"] == "settings"))
+		if (in_array($this->rolf_ref_id,$base_role_folder))
+		{
+			$activate_role_edit = true;
+		}
+
+		// not so nice (workaround for using tabs in repository)
+		$tabs_gui->clearTargets();
+		
+		if ($this->back_target != "")
+		{
+			$tabs_gui->setBackTarget(
+				$this->back_target["text"],$this->back_target["link"]);
+		}
+
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("edit_properties",
-								 $this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
+				$this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
@@ -2104,7 +2155,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				"", $force_active);
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("user_assignment",
 				$this->ctrl->getLinkTarget($this, "userassignment"),
@@ -2112,7 +2163,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				get_class($this));
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("desktop_items",
 				$this->ctrl->getLinkTarget($this, "listDesktopItems"),

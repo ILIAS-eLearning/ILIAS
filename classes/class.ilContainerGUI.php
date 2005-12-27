@@ -160,6 +160,12 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $tpl;
 		
+		// dont show icon, if role (permission gui->rolegui) is edited
+		if ($_GET["obj_id"] != "")
+		{
+			return;
+		}
+		
 		$mode = ($_SESSION["il_rep_mode"] == "flat")
 			? "tree"
 			: "flat";

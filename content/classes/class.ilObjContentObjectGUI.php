@@ -189,7 +189,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				if ($cmd == "create" &&
 					!in_array($new_type, array("dbk", "lm")))
 				{
-					$this->addLocations();
+					//$this->addLocations();
 					switch ($new_type)
 					{
 						case "pg":

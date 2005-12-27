@@ -610,6 +610,10 @@ class ilExplorer
 		$cur_depth = 0;
 		foreach ($this->format_options as $key => $options)
 		{
+			if (!$options["visible"])
+			{
+				continue;
+			}
 			if ($options["depth"] > $cur_depth)
 			{
 				if ($options["depth"] > 1)
