@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -27,8 +27,10 @@
 * RBAC related output
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
-*
+
 * @version $Id$
+*
+* @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI
 *
 * @package ilias-core
 */
@@ -81,8 +83,22 @@ class ilPermissionGUI
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-		$this->$cmd();
+
+		switch($next_class)
+		{
+			case "ilobjrolegui":
+				include_once("classes/class.ilObjRoleGUI.php");
+				$this->gui_obj = new ilObjRoleGUI("",(int) $_GET["obj_id"], false, false);
+				$this->gui_obj->setBackTarget($this->lng->txt("perm_settings"),
+					$this->ctrl->getLinkTarget($this, "perm"));
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				break;
+				
+			default:
+				$cmd = $this->ctrl->getCmd();
+				$this->$cmd();
+				break;
+		}
 
 		return true;
 	}
@@ -153,8 +169,15 @@ class ilPermissionGUI
 				if ($this->ctrl->getTargetScript() != 'adm_object.php')
 				{
 					$up_path = defined('ILIAS_MODULE') ? "../" : "";
-					$this->tpl->setVariable("LINK_ROLE_RULESET",$up_path.'role.php?cmd=perm&ref_id='.
-											$role_folder_id.'&obj_id='.$role['obj_id']);
+					$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id",
+						$role['obj_id']);
+					$this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id",
+						$role_folder_id);
+					$this->tpl->setVariable("LINK_ROLE_RULESET",
+						$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm"));
+					//$this->tpl->setVariable("LINK_ROLE_RULESET",
+					//	$up_path.'role.php?cmd=perm&ref_id='.
+					//	$role_folder_id.'&obj_id='.$role['obj_id']);
 				}
 				else
 				{
@@ -188,6 +211,7 @@ class ilPermissionGUI
 			
 			$this->tpl->parseCurrentBlock();
 		}
+		$this->ctrl->clearParametersByClass("ilobjrolegui");
 		
 		// create pointer to first role (need only the permission list -> TODO: change array structure)
 		reset($this->roles);

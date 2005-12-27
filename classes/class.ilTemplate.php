@@ -166,7 +166,7 @@ class ilTemplate extends ilTemplateX
 	* @param	string
 	* @param bool fill template variable {TABS} with content of ilTabs
 	*/
-	function show($part = "DEFAULT",$a_fill_tabs = true)
+	function show($part = "DEFAULT", $a_fill_tabs = true)
 	{
 		global $ilias;
 
@@ -180,11 +180,19 @@ class ilTemplate extends ilTemplateX
 			$this->addILIASFooter();
 		}
 
-		// Show tabs
+		// set standard parts (tabs and title icon)
 		if($a_fill_tabs)
 		{
 			$this->fillTabs();
+			
+			if ($this->icon_path != "")
+			{
+				$this->setCurrentBlock("header_image");
+				$this->setVariable("IMG_HEADER", $this->icon_path);
+				$this->parseCurrentBlock();
+			}
 		}
+		
 		if ($part == "DEFAULT" or is_bool($part))
 		{
 			parent::show();
@@ -651,9 +659,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTitleIcon($a_icon_path)
 	{
-		$this->setCurrentBlock("header_image");
-		$this->setVariable("IMG_HEADER", $a_icon_path);
-		$this->parseCurrentBlock();
+		$this->icon_path = $a_icon_path;
 	}
 	
 	/**
