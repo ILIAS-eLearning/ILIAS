@@ -166,7 +166,12 @@ class ilPersonalProfileGUI
 				$thumb_file = "$image_dir/usr_".$ilUser->getId()."_small.jpg";
 				$xthumb_file = "$image_dir/usr_".$ilUser->getId()."_xsmall.jpg"; 
 				$xxthumb_file = "$image_dir/usr_".$ilUser->getId()."_xxsmall.jpg";
-			
+				$uploaded_file = ilUtil::escapeShellArg($uploaded_file);
+				$show_file = ilUtil::escapeShellArg($show_file);
+				$thumb_file = ilUtil::escapeShellArg($thumb_file);
+				$xthumb_file = ilUtil::escapeShellArg($xthumb_file);
+				$xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
+				
 				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
 				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
 				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
