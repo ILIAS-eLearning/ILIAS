@@ -42,7 +42,7 @@
 <!-- BEGIN tbl_mails_row -->
 <tr class="{ROWCOL}">
   <td class="std" valign="middle" width="1px">
-  	<img src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
+  	<img src="{IMG_SENDER}" title="{ALT_SENDER}" alt="{ALT_SENDER}" border="0" />
   </td>
   <td class="std" valign="middle">{NEW_MAIL_FROM}<br />{NEW_MAIL_FROM_LOGIN}</td>
   <td class="std" valign="middle"><a class="{NEW_MAILCLASS}" href="{NEW_MAIL_LINK_READ}" target="bottom">{NEW_MAIL_SUBJ}</a>
@@ -69,12 +69,12 @@
 <tr class="{ROWCOL}">
 	<td class="std" valign="middle" align="center" width="1%">{NO_IMAGE}
 		<!-- BEGIN usr_image -->
-		<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
+		<img border="0" src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" style="vertical-align:text-bottom" />
 		<!-- END usr_image -->
 	</td>
 	<td class="std" valign="top">
 		<span class='navigation'>{USR_FULLNAME}</span>
-		<br>{USR_LOGIN}
+		<br />{USR_LOGIN}
 		<!--  BEGIN chat_info -->
 		<div class="il_Description_no_margin">
 		{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="_blank">{CHAT_TITLE}</a>

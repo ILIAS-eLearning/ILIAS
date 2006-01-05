@@ -179,15 +179,9 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		infoPanel();
 
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
-
-		// to do: not nice; get rid of this include
-		//global $tpl, $lng, $ilias;
-		//include "./include/inc.personaldesktop_buttons.php";
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+			$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
@@ -798,7 +792,7 @@ class ilPersonalDesktopGUI
 
 		if ($a_image_type != "")
 		{
-			if (!is_array($a_image_type))
+			if (!is_array($a_image_type) && !in_array($a_image_type, array("lm", "dbk", "htlm", "sahs")))
 			{
 				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
 				$title = $this->lng->txt("obj_".$a_image_type);
@@ -1143,7 +1137,7 @@ class ilPersonalDesktopGUI
 					$this->tpl->setCurrentBlock("usr_image");
 					$this->tpl->setVariable("USR_IMAGE",
 						$user_obj->getPersonalPicturePath("xxsmall"));
-						//$xxthumb_file."?t=".rand(1, 99999));
+					$this->tpl->setVariable("USR_ALT", $this->lng->txt("personal_picture"));
 					$this->tpl->parseCurrentBlock();
 
                     $this->tpl->setCurrentBlock("tbl_users_row");
