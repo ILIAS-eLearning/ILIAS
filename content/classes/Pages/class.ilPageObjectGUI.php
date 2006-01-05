@@ -728,6 +728,10 @@ class ilPageObjectGUI
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;", "&", $output);
 
+		// replace latex code: todo: finish
+		$output = preg_replace('/\[tex\](.*?)\[\/tex\]/ie',
+			"'<img src=\"/cgi-bin/mimetex.cgi?'.rawurlencode('$1').'\" />'", $output);
+
 		// (horrible) workaround for preventing template engine
 		// from hiding paragraph text that is enclosed
 		// in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
@@ -738,7 +742,7 @@ class ilPageObjectGUI
 
 		// remove all newlines (important for code / pre output)
 		$output = str_replace("\n", "", $output);
-
+	
 		// output
 		if($this->outputToTemplate())
 		{
