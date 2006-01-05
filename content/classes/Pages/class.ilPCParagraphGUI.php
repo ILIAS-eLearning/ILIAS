@@ -449,8 +449,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 //echo "<br>PARupdate3:".htmlentities($this->content_obj->input2xml($_POST["par_content"])).":";
 //echo "<br>PARupdate4:".$this->content_obj->input2xml($_POST["par_content"]).":";
 
+		//$this->updated = $this->content_obj->setText(
+		//	$this->content_obj->input2xml(stripslashes($_POST["par_content"]),
+		//		$_POST["usedwsiwygeditor"]));
 		$this->updated = $this->content_obj->setText(
-			$this->content_obj->input2xml(stripslashes($_POST["par_content"]),
+			$this->content_obj->input2xml($_POST["par_content"],
 				$_POST["usedwsiwygeditor"]));
 //echo "<br>PARupdate2";
 		if ($this->updated !== true)
@@ -489,7 +492,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 
 		$this->updated = $this->content_obj->setText(
-			$this->content_obj->input2xml(stripslashes($_POST["par_content"]),
+			$this->content_obj->input2xml($_POST["par_content"],
 				$_POST["usedwsiwygeditor"]));
 
 		if ($this->updated !== true)
