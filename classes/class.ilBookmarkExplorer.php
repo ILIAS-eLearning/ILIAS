@@ -206,6 +206,7 @@ class ilBookmarkExplorer extends ilExplorer
 	function formatObject($a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
+		
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
@@ -222,6 +223,9 @@ class ilBookmarkExplorer extends ilExplorer
 
 			if ($picture == 'plus')
 			{
+				$tpl->setCurrentBlock("exp_desc");
+				$tpl->setVariable("EXP_DESC", $lng->txt("expand"));
+				$tpl->parseCurrentBlock();
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
@@ -232,6 +236,9 @@ class ilBookmarkExplorer extends ilExplorer
 
 			if ($picture == 'minus')
 			{
+				$tpl->setCurrentBlock("exp_desc");
+				$tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
+				$tpl->parseCurrentBlock();
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
@@ -256,7 +263,7 @@ class ilBookmarkExplorer extends ilExplorer
 			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".gif", $a_option["type"], $a_obj_id));
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			$this->iconList[] = "iconid_".$a_node_id;
-			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["type"]));
 			$tpl->parseCurrentBlock();
 		}
 

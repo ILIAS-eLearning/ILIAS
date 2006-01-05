@@ -200,10 +200,9 @@ class ilBookmarkAdministrationGUI
 		}
 		infoPanel();
 
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("HEADER",$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+			$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 	}
 
 	/*
@@ -252,6 +251,7 @@ class ilBookmarkAdministrationGUI
 
 			$val = ilUtil::getImagePath("icon_cat.gif");
 			$this->tpl->setVariable("IMG", $val);
+			$this->tpl->setVariable("ALT_IMG", $this->lng->txt("bmf"));
 
 			// title
 			$this->ctrl->setParameter($this, "bmf_id", $mtree->getParentId($this->id));
@@ -312,6 +312,7 @@ class ilBookmarkAdministrationGUI
 			$img_type = ($object["type"] == "bmf") ? "cat" : $object["type"];
 			$val = ilUtil::getImagePath("icon_".$img_type.".gif");
 			$this->tpl->setVariable("IMG", $val);
+			$this->tpl->setVariable("ALT_IMG", $this->lng->txt($object["type"]));
 
 			// title
 			$this->ctrl->setParameter($this, "bmf_id", $object["obj_id"]);
@@ -1157,6 +1158,7 @@ class ilBookmarkAdministrationGUI
 				: "tblrow1";
 			$tpl->setVariable("ROWCOL", $rowcol);
 			$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
+			$tpl->setVariable("IMG_ALT", $this->lng->txt("bmf"));
 			$tpl->setVariable("BM_TITLE", "..");
 			$this->ctrl->setParameter($this, "curBMFolder",
 				ilBookmarkFolder::_getParentId($_SESSION["ilCurBMFolder"]));
@@ -1184,6 +1186,7 @@ class ilBookmarkAdministrationGUI
 			{
 				case "bmf":
 					$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
+					$tpl->setVariable("IMG_ALT", $this->lng->txt("bmf"));
 					$tpl->setVariable("BM_TITLE", ilUtil::prepareFormOutput($bm_item["title"]));
 					$this->ctrl->setParameter($this, "curBMFolder", $bm_item["obj_id"]);
 					$tpl->setVariable("BM_LINK",
@@ -1193,6 +1196,7 @@ class ilBookmarkAdministrationGUI
 
 				case "bm":
 					$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_bm.gif"));
+					$tpl->setVariable("IMG_ALT", $this->lng->txt("bm"));
 					$tpl->setVariable("BM_TITLE", ilUtil::prepareFormOutput($bm_item["title"]));
 					$tpl->setVariable("BM_LINK", ilUtil::prepareFormOutput($bm_item["target"]));
 					$tpl->setVariable("BM_TARGET", "_blank");

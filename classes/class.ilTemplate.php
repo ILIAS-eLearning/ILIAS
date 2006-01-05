@@ -112,11 +112,19 @@ class ilTemplate extends ilTemplateX
 	* @return	string
 	*/
 	function get($part = "DEFAULT", $add_error_mess = false,
-		$handle_referer = false, $add_ilias_footer = false)
+		$handle_referer = false, $add_ilias_footer = false,
+		$add_standard_elements = false)
 	{
 		if ($add_error_mess)
 		{
 			$this->addErrorMessage();
+		}
+
+		// set standard parts (tabs and title icon)
+		if($add_standard_elements)
+		{
+			$this->fillTabs();
+			$this->fillHeaderIcon();
 		}
 
 		if ($add_ilias_footer)
@@ -184,13 +192,7 @@ class ilTemplate extends ilTemplateX
 		if($a_fill_tabs)
 		{
 			$this->fillTabs();
-			
-			if ($this->icon_path != "")
-			{
-				$this->setCurrentBlock("header_image");
-				$this->setVariable("IMG_HEADER", $this->icon_path);
-				$this->parseCurrentBlock();
-			}
+			$this->fillHeaderIcon();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
@@ -212,7 +214,25 @@ class ilTemplate extends ilTemplateX
 		
 		$this->setVariable("TABS",$ilTabs->getHTML());
 		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
-	}		
+	}
+	
+	function fillHeaderIcon()
+	{
+		if ($this->icon_path != "")
+		{
+			if ($this->icon_desc != "")
+			{
+				$this->setCurrentBlock("header_image_desc");
+				$this->setVariable("IMAGE_DESC", $this->icon_desc);
+				$this->parseCurrentBlock();
+			}
+			$this->setCurrentBlock("header_image");
+			$this->setVariable("IMG_HEADER", $this->icon_path);
+			$this->parseCurrentBlock();
+		}
+	}
+	
+	
 	/**
 	* add ILIAS footer
 	*/
@@ -256,7 +276,8 @@ class ilTemplate extends ilTemplateX
 //echo "-".ilValidatorAdapter::validate($template2->get(), $_GET["do_dev_validate"])."-";
 				$this->setCurrentBlock("xhtml_validation");
 				$this->setVariable("VALIDATION",
-					ilValidatorAdapter::validate($template2->get(), $_GET["do_dev_validate"]));
+					ilValidatorAdapter::validate($template2->get("DEFAULT",
+					false, false, false, true), $_GET["do_dev_validate"]));
 				$this->parseCurrentBlock();
 			}
 		}
@@ -657,8 +678,9 @@ class ilTemplate extends ilTemplateX
 	/**
 	* set title icon
 	*/
-	function setTitleIcon($a_icon_path)
+	function setTitleIcon($a_icon_path, $a_icon_desc = "")
 	{
+		$this->icon_desc = $a_icon_desc;
 		$this->icon_path = $a_icon_path;
 	}
 	

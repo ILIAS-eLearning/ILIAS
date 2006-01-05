@@ -426,22 +426,27 @@ class ilNoteGUI
 						{
 							case IL_NOTE_UNLABELED:
 								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_unlabeled.gif"));
+								$tpl->setVariable("ALT_NOTE", $lng->txt("note"));
 								break;
 								
 							case IL_NOTE_IMPORTANT:
 								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_important.gif"));
+								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("important"));
 								break;
 								
 							case IL_NOTE_QUESTION:
 								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
+								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("question"));
 								break;
 								
 							case IL_NOTE_PRO:
 								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_pro.gif"));
+								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("pro"));
 								break;
 								
 							case IL_NOTE_CONTRA:
 								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_contra.gif"));
+								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("contra"));
 								break;
 						}
 						$tpl->parseCurrentBlock();
@@ -649,22 +654,27 @@ class ilNoteGUI
 			{
 				case IL_NOTE_UNLABELED:
 					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_unlabeled.gif"));
+					$tpl->setVariable("ALT_NOTE", $lng->txt("note"));
 					break;
 					
 				case IL_NOTE_IMPORTANT:
 					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_important.gif"));
+					$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("important"));
 					break;
 					
 				case IL_NOTE_QUESTION:
 					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
+					$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("question"));
 					break;
 					
 				case IL_NOTE_PRO:
 					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_pro.gif"));
+					$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("pro"));
 					break;
 					
 				case IL_NOTE_CONTRA:
 					$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_contra.gif"));
+					$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("contra"));
 					break;
 			}
 
