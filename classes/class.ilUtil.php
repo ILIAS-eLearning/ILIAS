@@ -2812,6 +2812,21 @@ class ilUtil
 		}
 		return $ref_ids ? $ref_ids : array();
 	}
+	
+	/**
+	* replace [text]...[/tex] tags with formula image code
+	*/
+	function insertLatexImages($a_text)
+	{
+		// todo:
+		// - provide custom path for mimetex.cgi
+		// - take care of html exports
+		$a_text = preg_replace('/\[tex\](.*?)\[\/tex\]/ie',
+			"'<img alt=\"'.htmlentities('$1').'\" src=\"/cgi-bin/mimetex.cgi?'.rawurlencode('$1').'\" ".
+			" />'", $a_text);
+
+		return $a_text;
+	}
 
 } // END class.ilUtil
 ?>

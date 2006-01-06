@@ -404,7 +404,7 @@ class ilForum
 		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','";
 		$q .= $pos_data["pos_message"]."','".$pos_data["pos_subject"]."','".$pos_data["pos_date"]."','".$notify."','";
 		$q .= ilUtil::prepareDBString($this->getImportName())."')";
-
+//echo "<br>2:".htmlentities($pos_data["pos_message"]);
 		$result = $this->ilias->db->query($q);
 
 		// get last insert id and return it
@@ -1198,7 +1198,8 @@ class ilForum
 					"import_name"   => $a_row->import_name
 					);
 		
-		$data["message"] = stripslashes($data["message"]);
+		// why this line? data should be stored without slashes in db
+		//$data["message"] = stripslashes($data["message"]);
 		
 		return $data ? $data : array();
 	}
@@ -1372,7 +1373,21 @@ class ilForum
 				}
 			}
 		}
-		$text = stripslashes($text);
+		
+		// this removes real slashes of the content (e.g. in latex code)
+		//$text = stripslashes($text);
+		
+		if ($edit == 0)
+		{
+			$text = ilUtil::insertLatexImages($text);
+		}
+		
+		// workaround for preventing template engine
+		// from hiding text that is enclosed
+		// in curly brackets (e.g. "{a}")
+		$text = str_replace("{", "&#123;", $text);
+		$text = str_replace("}", "&#125;", $text);
+
 		return $text;
 	}
 
