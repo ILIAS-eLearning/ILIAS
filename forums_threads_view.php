@@ -252,6 +252,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				if ($_GET["cmd"] == "ready_showreply")
 				{
 					// reply: new post
+//echo "<br>1:".htmlentities($formData["message"]);
 					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
 												  $_SESSION["AccountId"], ilUtil::stripSlashes($formData["message"]),
 												  $_GET["pos_pk"],$_POST["notify"],$_POST["anonymize"],
