@@ -1170,6 +1170,7 @@ common#:#client_ip#:#Ip Cliente
 common#:#clipboard#:#Portapapeles
 common#:#close#:#Cerrar
 common#:#close_window#:#Cerrar ventana
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#separado por comas
 common#:#comment#:#comentario
 common#:#compose#:#Nuevo mensaje
@@ -1436,6 +1437,7 @@ common#:#excs#:#Actividades
 common#:#execute#:#ejecutar
 common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
 common#:#exp_html#:#Exportar a HTML
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
 common#:#export_html#:#Exportar como fichero HTML

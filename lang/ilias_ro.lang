@@ -1047,6 +1047,7 @@ common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Inchideti
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Separat prin virgula
 common#:#comment#:#comentariu
 common#:#compose#:#Compuneti
@@ -1283,6 +1284,7 @@ common#:#excs#:#Exercitii
 common#:#execute#:#Executati
 common#:#exercise_time_over#:#Ati ajuns la finalul timpului pentru acest exercitiu. Nu mai puteti trimite fisiere!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Exporta
 common#:#export_group_members#:#Exportati membrii grupului (catre Microsoft Excel)
 common#:#export_html#:#Exportati ca fisier HTML

@@ -1167,6 +1167,7 @@ common#:#client_ip#:#Client IP
 common#:#clipboard#:#Cartella appunti
 common#:#close#:#Chiudi
 common#:#close_window#:#Chiudi la finestra
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Separati da virgola
 common#:#comment#:#Commento
 common#:#compose#:#Scrivi
@@ -1433,6 +1434,7 @@ common#:#excs#:#Esercitazioni
 common#:#execute#:#Esegui
 common#:#exercise_time_over#:#E' terminato il tempo a disposizione dell'esercitazione. Non puoi pi&#249; inviare file!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Esporta
 common#:#export_group_members#:#Esporta un gruppo di utenti (a Microsoft Excel)
 common#:#export_html#:#Esporta come file html

@@ -1129,6 +1129,7 @@ common#:#client_ip#:#Địa chỉ IP máy trạm
 common#:#clipboard#:#Bộ nhớ đệm
 common#:#close#:#Đóng
 common#:#close_window#:#Đóng cửa sổ
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Đã phân biệt bằng dấu phẩy
 common#:#comment#:#chú thích
 common#:#compose#:#Soạn thư mới
@@ -1391,6 +1392,7 @@ common#:#excs#:#Bài tập
 common#:#execute#:#Thực hiện
 common#:#exercise_time_over#:#Bạn đã hết giờ làm việc với bài tập. Bạn không thể nộp các file nữa!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Xuất ra
 common#:#export_group_members#:#Xuất thành viên của nhóm (sang Microsoft Excel)
 common#:#export_html#:#xuất ra dạng HTML

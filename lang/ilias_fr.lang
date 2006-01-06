@@ -1161,6 +1161,7 @@ common#:#client_ip#:#IP client###07 Apr 2005 content changed
 common#:#clipboard#:#Presse-papier###07 Apr 2005 content changed
 common#:#close#:#Fermer###07 Apr 2005 content changed
 common#:#close_window#:#Fermer la fenêtre###06 oct 2005 content changed
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Séparé par des virgules (CSV)###07 Apr 2005 content changed
 common#:#comment#:#commentaire###07 Apr 2005 content changed
 common#:#compose#:#Composer###07 Apr 2005 content changed
@@ -1423,6 +1424,7 @@ common#:#exc_write#:#Modifier exercice###07 Apr 2005 content changed
 common#:#excs#:#Exercices###07 Apr 2005 content changed
 common#:#execute#:#Exécuter###07 Apr 2005 content changed
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Exporter###07 Apr 2005 content changed
 common#:#export_group_members#:#Exporter les membres du groupe (vers MS Excel)###07 Apr 2005 content changed
 common#:#export_html#:#exporter sous la forme d'un fichier html###07 Apr 2005 content changed

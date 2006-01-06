@@ -1122,6 +1122,7 @@ common#:#client_ip#:#IP e Klientit
 common#:#clipboard#:#Klipbord
 common#:#close#:#Mbyll
 common#:#close_window#:#Close window###20 Jun 2005 new variable
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Ndarë me Presje
 common#:#comment#:#koment
 common#:#compose#:#Përgatit
@@ -1380,6 +1381,7 @@ common#:#excs#:#Ushtrimet
 common#:#execute#:#Ekzekuto
 common#:#exercise_time_over#:#Keni kaluar kohën e ushtrimit. Nuk mundeni më të shpërndani skedarë!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Eksporto
 common#:#export_group_members#:#Eksporto grupin e anëtarëve (në Microsoft Excel)
 common#:#export_html#:#eksporto në skedar HTML

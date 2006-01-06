@@ -1169,6 +1169,7 @@ common#:#client_ip#:#IP Klienta
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
 common#:#close_window#:#Zamknij okno
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Odzielony przecinkiem
 common#:#comment#:#Komentarz
 common#:#compose#:#Nowa wiadomość
@@ -1435,6 +1436,7 @@ common#:#excs#:#Ćwiczenia
 common#:#execute#:#Wykonaj
 common#:#exercise_time_over#:#Osiągnałeś limit czasu przeznaczony na wykonanie ćwiczenia.  Już nie możesz dostarczać plików!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Eksport
 common#:#export_group_members#:#Eksport członków grup (do Microsoft Excel)
 common#:#export_html#:#Eksportuj jako plik html

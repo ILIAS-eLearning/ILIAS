@@ -1064,6 +1064,7 @@ common#:#client_id#:#Клиентско ID
 common#:#client_ip#:#Клиентски IP
 common#:#clipboard#:#Клипборд
 common#:#close#:#Затваряне
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#с разделяне от запетаи
 common#:#comment#:#коментар
 common#:#compose#:#Съставяне
@@ -1308,6 +1309,7 @@ common#:#excs#:#Упражнения
 common#:#execute#:#Изпълнение
 common#:#exercise_time_over#:#Достигнали сте финалния момент на упражнението. Повече не можете да подавате файлове!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Експортиране
 common#:#export_group_members#:#Експортиране на членовете на групата (към Microsoft Excel)
 common#:#export_html#:#експортиране като HTML файл
