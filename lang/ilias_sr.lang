@@ -1122,6 +1122,7 @@ common#:#client_ip#:#Klijentov IP
 common#:#clipboard#:#Tablica
 common#:#close#:#Zatvori
 common#:#close_window#:#Close window###20 Jun 2005 new variable
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Razdvojeno zarezom
 common#:#comment#:#komentar
 common#:#compose#:#Sastavi
@@ -1380,6 +1381,7 @@ common#:#excs#:#Vežbe
 common#:#execute#:#Izvrši
 common#:#exercise_time_over#:#Vreme za vežbu vam je isteklo. Više ne možete isporucivati fajlove!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Izvoz
 common#:#export_group_members#:#Izvezi clanove grupe (u Microsoft Excel)
 common#:#export_html#:#Izvezi kao HTML fajl

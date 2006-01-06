@@ -1169,6 +1169,7 @@ common#:#client_ip#:#Kliens IP
 common#:#clipboard#:#Vágólap
 common#:#close#:#Bezárás
 common#:#close_window#:#Ablak bezárása
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Vesszővel elválasztva
 common#:#comment#:#megjegyzés
 common#:#compose#:#Levél írása
@@ -1435,6 +1436,7 @@ common#:#excs#:#Gyakorlatok
 common#:#execute#:#Végrehajtás
 common#:#exercise_time_over#:#Elérte a gyakorlat használati idejének végét. Nem szolgáltathatja tovább ezeket a fájlokat.
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Export
 common#:#export_group_members#:#Exportált csoporttagok (Microsoft Excel-be)
 common#:#export_html#:#exportálás html fájlként

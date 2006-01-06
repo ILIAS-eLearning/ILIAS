@@ -1167,6 +1167,7 @@ common#:#client_ip#:#Ip Клієнта
 common#:#clipboard#:#Буфер обміну
 common#:#close#:#Закрити
 common#:#close_window#:#Close window###20 Jun 2005 new variable
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Розділений Комами
 common#:#comment#:#коментар
 common#:#compose#:#Створити
@@ -1433,6 +1434,7 @@ common#:#excs#:#Вправи
 common#:#execute#:#Виконати
 common#:#exercise_time_over#:#Ваш час для вправи закінчився. Ви не можете більше доставляти файли!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Експорт
 common#:#export_group_members#:#Експортувати членів групи (в Microsoft Excel)
 common#:#export_html#:#експортувати як HTML файл

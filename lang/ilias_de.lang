@@ -1168,6 +1168,7 @@ common#:#client_ip#:#Client IP
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
 common#:#close_window#:#Fenster schließen
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
@@ -1434,6 +1435,7 @@ common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Export
 common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Excel)
 common#:#export_html#:#Exportieren als HTML-Datei

@@ -1169,6 +1169,7 @@ common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Schránka###07 Apr 2005 content changed
 common#:#close#:#Zavřít###07 Apr 2005 content changed
 common#:#close_window#:#Close window###20 Jun 2005 new variable
+common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Čárkami oddělený###07 Apr 2005 content changed
 common#:#comment#:#komentář###07 Apr 2005 content changed
 common#:#compose#:#Vytvořit###07 Apr 2005 content changed
@@ -1435,6 +1436,7 @@ common#:#excs#:#Cvičení###07 Apr 2005 content changed
 common#:#execute#:#Vykonat###07 Apr 2005 content changed
 common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#export#:#Export###20 Mar 2004 new variable
 common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
 common#:#export_html#:#exportovat jako html soubor###14 Sep 2004 content changed
