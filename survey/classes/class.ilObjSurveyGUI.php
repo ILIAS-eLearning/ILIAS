@@ -712,7 +712,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					else
 					{
-						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
+						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
 					}
 					$this->tpl->parseCurrentBlock();
 					$counter++;
@@ -730,8 +730,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 				$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 				$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "questions") . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
-				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "questions") . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
+				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
+				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -771,7 +771,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					else
 					{
-						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
+						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
 					}
 					$this->tpl->parseCurrentBlock();
 					$counter++;
@@ -789,8 +789,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 				$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 				$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "questions") . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
-				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "questions") . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
+				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
+				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		}

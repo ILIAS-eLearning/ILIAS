@@ -3620,7 +3620,6 @@ class ilObjSurvey extends ilObject
 		{
 			$forbidden .= " AND survey_question.complete = " . $this->ilias->db->quote("1");
 		}
-
 		$existing = "";
 		$existing_questions =& $this->getExistingQuestions();
 		if (count($existing_questions))
