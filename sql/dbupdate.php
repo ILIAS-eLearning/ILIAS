@@ -9471,3 +9471,10 @@ ALTER TABLE `crs_settings` ADD `waiting_list` TINYINT( 1 ) DEFAULT '1' NOT NULL 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#625>
+ALTER TABLE `tst_eval_users` DROP INDEX `test_fi_2`;
+ALTER TABLE `tst_eval_users` DROP INDEX `user_fi`;
+ALTER TABLE `tst_eval_users` DROP INDEX `evaluator_fi`;
+ALTER TABLE `tst_eval_users` DROP INDEX `test_fi`;
+ALTER TABLE `tst_eval_users` ADD INDEX ( `test_fi` , `evaluator_fi` , `user_fi` ) ;
+DROP TABLE `tst_eval_groups`;
