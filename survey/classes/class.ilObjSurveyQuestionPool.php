@@ -473,16 +473,18 @@ class ilObjSurveyQuestionPool extends ilObject
 				break;
 		}
 		$question->loadFromDb($question_id);
-    $counter = 2;
-    while ($question->questionTitleExists($question->getTitle() . " ($counter)")) 
+		$suffix = "";
+    $counter = 1;
+    while ($question->questionTitleExists($question->getTitle().$suffix, $obj_id)) 
 		{
       $counter++;
+			if ($counter > 1) $suffix = " ($counter)";
     }
 		if ($obj_id)
 		{
 			$question->setObjId($obj_id);
 		}
-		$question->duplicate(false, $question->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
+		$question->duplicate(false, $question->getTitle() . $suffix, $ilUser->fullname, $ilUser->id);
   }
 	
 /**
