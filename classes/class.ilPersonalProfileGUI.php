@@ -703,9 +703,8 @@ class ilPersonalProfileGUI
 			}
 		}
 		
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+			$this->lng->txt("personal_desktop"));
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -789,6 +788,7 @@ class ilPersonalProfileGUI
 			{
 				$this->tpl->setCurrentBlock("pers_image");
 				$this->tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
+				$this->tpl->setVariable("ALT_IMG_PERSONAL",$this->lng->txt("personal_picture"));
 				$this->tpl->parseCurrentBlock();
 				if ($this->userSettingEnabled("upload"))
 				{

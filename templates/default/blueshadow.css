@@ -193,6 +193,7 @@ td.nobackground {
 
 td.std, th.std {
 	padding:2px;
+	text-align: left;
 }
 
 th.il_invisible, td.il_invisible {

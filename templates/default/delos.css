@@ -194,6 +194,7 @@ td.std, th.std {
 	padding:2px;
 	overflow:hidden;
 	white-space: wrap;
+	text-align: left;
 }
 
 th.il_invisible, td.il_invisible {
