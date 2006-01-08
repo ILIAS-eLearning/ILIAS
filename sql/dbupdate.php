@@ -9478,3 +9478,6 @@ ALTER TABLE `tst_eval_users` DROP INDEX `evaluator_fi`;
 ALTER TABLE `tst_eval_users` DROP INDEX `test_fi`;
 ALTER TABLE `tst_eval_users` ADD INDEX ( `test_fi` , `evaluator_fi` , `user_fi` ) ;
 DROP TABLE `tst_eval_groups`;
+<#626>
+ALTER TABLE `tst_eval_users` DROP `eval_users_id`;
+ALTER TABLE `tst_eval_users` DROP `TIMESTAMP`;
