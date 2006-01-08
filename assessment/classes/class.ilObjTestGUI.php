@@ -1501,8 +1501,10 @@ class ilObjTestGUI extends ilObjectGUI
 		foreach ($filter_fields as $key => $value) {
 			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
 			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
-			if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) {
-				if (strcmp($filter_type, $key) == 0) {
+			if (strcmp($this->ctrl->getCmd(), "resetFilter") != 0) 
+			{
+				if (strcmp($filter_type, $key) == 0) 
+				{
 					$this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
 				}
 			}
@@ -1541,7 +1543,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_ALL_QUESTIONPOOLS", $this->lng->txt("filter_all_questionpools"));
 		$this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
 		$this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
-		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
+		if (strcmp($this->ctrl->getCmd(), "resetFilter") != 0) 
 		{
 			$this->tpl->setVariable("VALUE_FILTER_TEXT", $filter_text);
 		}
@@ -4184,7 +4186,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+		                                 
 		$info->addSection($this->lng->txt("tst_sequence_properties"));
 		$info->addProperty($this->lng->txt("tst_sequence"), $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)? "tst_sequence_fixed":"tst_sequence_postpone"));
 		
@@ -4356,7 +4358,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$tabs_gui->addTarget("ass_questions",
 					 $this->ctrl->getLinkTarget($this,'questions'),
-					 array("questions", "browseForQuestions", "createQuestion", 
+					 array("questions", "browseForQuestions", "questionBrowser", "createQuestion", 
 					 "randomselect", "filter", "resetFilter", "insertQuestions",
 					 "back", "createRandomSelection", "cancelRandomSelect",
 					 "insertRandomSelection", "removeQuestions", "moveQuestions",
