@@ -458,7 +458,7 @@ table.il_PDBlock
 	margin-bottom:25px;
 }
 
-td.il_PDBlockHeader
+th.il_PDBlockHeader
 {
 	background-image: url(blueshadow/images/cellpic5.gif);
 	background-repeat: repeat-x;
@@ -466,13 +466,13 @@ td.il_PDBlockHeader
 	padding: 3px;
 	font-size:14px;
 	background-color: #CCCCCC;
-	
+	text-align:left;
 	border-bottom-width:1px;
 	border-bottom-color:#909090;
 	border-bottom-style:solid;
 }
 
-td.il_PDBlockSubHeader
+th.il_PDBlockSubHeader
 {
 	color:#000000;
 	font-size:13px;
@@ -480,7 +480,7 @@ td.il_PDBlockSubHeader
 	background-color:#e3e3e3;
 	background-image:url(blueshadow/images/cellpic1.gif);
 	background-repeat:repeat-x;
-	
+	text-align:left;
 	border-top-width:1px;
 	border-top-color:#909090;
 	border-top-style:solid;

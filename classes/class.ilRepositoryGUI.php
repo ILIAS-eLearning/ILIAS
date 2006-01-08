@@ -242,7 +242,10 @@ class ilRepositoryGUI
 					$class_name = $this->objDefinition->getClassName($obj_type);
 					$next_class = strtolower("ilObj".$class_name."GUI");
 					$this->ctrl->setCmdClass($next_class);
-					$this->ctrl->setCmd("");
+					if ($this->ctrl->getCmd() == "return")
+					{
+						$this->ctrl->setCmd("");
+					}
 				}
 			}
 		}
@@ -335,6 +338,7 @@ class ilRepositoryGUI
 
 					$this->gui_obj->setCreationMode($this->creation_mode);
 					$this->ctrl->setReturn($this, "return");
+//echo "forwarding-".$_GET["cmd"]."-";
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);	
 					$html = $this->gui_obj->getHTML();
 					if ($html != "")

@@ -389,6 +389,7 @@ class ilPersonalDesktopGUI
 		{
 			$tpl->setCurrentBlock("pd_header_row");
 			$tpl->setVariable("PD_BLOCK_HEADER_CONTENT", $this->lng->txt("selected_items"));
+			$tpl->setVariable("PD_BLOCK_HEADER_ID", "th_selected_items");
 			if ($ilUser->getPref("pd_selected_items_details") == "y")
 			{
 				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("hide_details"));
@@ -461,6 +462,13 @@ class ilPersonalDesktopGUI
 
 			$items = $this->ilias->account->getDesktopItems($type);
 			$item_html = array();
+			
+			if ($ilUser->getPref("pd_selected_items_details") != "n")
+			{
+				$rel_header = (is_array($type))
+					? "th_lres"
+					: "th_".$type;
+			}
 
 			if (count($items) > 0)
 			{
@@ -540,11 +548,11 @@ class ilPersonalDesktopGUI
 						if ($ilUser->getPref("pd_selected_items_details") != "y" ||
 							$this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 						{
-							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $type);
+							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $type, $rel_header);
 						}
 						else
 						{
-							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"]);
+							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], "", $rel_header);
 						}
 						$output = true;
 					}
@@ -630,7 +638,8 @@ class ilPersonalDesktopGUI
 					//if ($ilUser->getPref("pd_selected_items_details") != "y" ||
 					//	$this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 					//{
-						$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $item["type"]);
+						$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $item["type"],
+							"th_".$cur_parent_ref);
 					//}
 					//else
 					//{
@@ -681,11 +690,13 @@ class ilPersonalDesktopGUI
 		{
 			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
 			$title = $this->lng->txt("objs_".$a_type);
+			$header_id = "th_".$a_type;
 		}
 		else
 		{
 			$icon = ilUtil::getImagePath("icon_lm.gif");
 			$title = $this->lng->txt("learning_resources");
+			$header_id = "th_lres";
 		}
 		if ($a_show_image)
 		{
@@ -699,6 +710,7 @@ class ilPersonalDesktopGUI
 		}
 
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
+		$a_tpl->setVariable("BLOCK_HEADER_ID", $header_id);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}
@@ -771,6 +783,7 @@ class ilPersonalDesktopGUI
 		}
 		
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $html);
+		$a_tpl->setVariable("BLOCK_HEADER_ID", "th_".$a_ref_id);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}
@@ -783,7 +796,7 @@ class ilPersonalDesktopGUI
 	* @access	private
 	*/
 	function addStandardRow(&$a_tpl, $a_html, $a_item_ref_id = "", $a_item_obj_id = "",
-		$a_image_type = "")
+		$a_image_type = "", $a_related_header = "")
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -825,6 +838,10 @@ class ilPersonalDesktopGUI
 		}
 		$a_tpl->setCurrentBlock("container_standard_row");
 		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
+		$rel_headers = ($a_related_header != "")
+			? "th_selected_items ".$a_related_header
+			: "th_selected_items";
+		$a_tpl->setVariable("BLOCK_ROW_HEADERS", $rel_headers);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}
@@ -867,7 +884,7 @@ class ilPersonalDesktopGUI
                 $inbox = $mbox->getInboxFolder();
 
                 $this->tpl->setCurrentBlock("tbl_system_msg_row");
-                $this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
+                $this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow2' : 'tblrow1');
 
                 // GET SENDER NAME
                 $user = new ilObjUser($mail["sender_id"]);

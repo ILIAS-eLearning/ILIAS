@@ -259,6 +259,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function infoScreen()
 	{
 		global $rbacsystem;
+		
+		$this->tabs_gui->setTabActive('info_short');
 
 		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
 		{
@@ -268,7 +270,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
-		$info->enableFeedback();
+		//$info->enableFeedback();
 		
 		// syllabus section
 		$info->addSection($this->lng->txt("crs_syllabus"));
@@ -4137,7 +4139,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				if($_GET['item_id'])
 				{
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-					$this->setTabActive('edit_content');
+					$this->tabs_gui->setTabActive('edit_content');
 					$this->setSubTabs("item_activation");
 
 					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
@@ -4146,7 +4148,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				else	// preconditions for whole course
 				{
 					$this->setSubTabs("properties");
-					$this->setTabActive('settings');
+					$this->tabs_gui->setTabActive('settings');
 					$new_gui =& new ilConditionHandlerInterface($this);
 
 					$this->ctrl->forwardCommand($new_gui);
