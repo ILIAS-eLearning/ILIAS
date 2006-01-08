@@ -1,8 +1,8 @@
 {RELOAD}
-<form method="POST" action="{FORMACTION}" ENCTYPE="MULTIPART/FORM-DATA">
+<form method="post" action="{FORMACTION}" ENCTYPE="MULTIPART/FORM-DATA">
 <table class="std">
 <tr class="tblheader">
-    <td class="std" colspan="4">{TXT_USR_DATA} {TXT_OF} {USR_FULLNAME}</td>
+    <th class="std" colspan="4">{TXT_USR_DATA} {TXT_OF} {USR_FULLNAME}</th>
 </tr>
 <tr>
     <td class="option">{TXT_NICKNAME}</td>
@@ -13,15 +13,15 @@
     <td class="option_value" colspan="3">{DEFAULT_ROLES}</td>
 </tr>
 <tr class="tblheader">
-    <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
-    <td class="std">{TXT_PUBLIC_PROFILE}</td>
-    <td class="std"><input type="checkbox" name="chk_pub" {CHK_PUB} /></td>
+    <th class="std" colspan="2">{TXT_PERSONAL_DATA}</th>
+    <th class="std">{TXT_PUBLIC_PROFILE}</th>
+    <th class="std" id="pub_profile"><input type="checkbox" name="chk_pub" {CHK_PUB} /></th>
 </tr>
 <!-- BEGIN gender -->
 <tr>
     <td class="option">{TXT_GENDER}</td>
     <td class="option_value">
-    <input type="radio" id="gender_f" name="usr_gender" value="f" {BTN_GENDER_F}{DISABLED_GENDER} /> <label for="gender_f">{TXT_GENDER_F}<label>
+    <input type="radio" id="gender_f" name="usr_gender" value="f" {BTN_GENDER_F}{DISABLED_GENDER} /> <label for="gender_f">{TXT_GENDER_F}</label>
     &nbsp;&nbsp;&nbsp;<input type="radio" id="gender_m" name="usr_gender" value="m" {BTN_GENDER_M}{DISABLED_GENDER} /> <label for="gender_m">{TXT_GENDER_M}</label>
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
@@ -53,7 +53,7 @@
     <td class="option">{TXT_UPLOAD}
         <!-- BEGIN pers_image -->
         <br />
-        <img src="{IMG_PERSONAL}" border="0">
+        <img src="{IMG_PERSONAL}" alt="{ALT_IMG_PERSONAL}" border="0" />
         <!-- END pers_image -->
     </td>
     <td class="option_value"><input type="file" name="userfile"{DISABLED_UPLOAD} />
@@ -68,13 +68,13 @@
         <br /><i>{TXT_ILINC_UPLOAD}<a href="{ILINC_UPLOAD_LINK}" target="_blank">{ILINC_UPLOAD_LINKTXT}</a></i>
         <!-- END ilinc_upload_pic -->
     </td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_upload" {CHK_UPLOAD} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_upload" {CHK_UPLOAD} /></center></td>
 </tr>
 <!-- END upload -->
 
 <!-- BEGIN change_password -->
 <tr class="tblheader">
-    <td class="std" colspan="4">{TXT_CHANGE_PASSWORD}</td>
+    <th class="std" colspan="4">{TXT_CHANGE_PASSWORD}</th>
 </tr>
 <tr>
     <td class="option">{TXT_CURRENT_PW}</td>
@@ -99,7 +99,7 @@
 
 <!-- BEGIN select_password -->
 <tr class="tblheader">
-    <td class="std" colspan="4">{TXT_CHANGE_PASSWORD}</td>
+    <th class="std" colspan="4">{TXT_CHANGE_PASSWORD}</th>
 </tr>
 <tr>
     <td class="option">{TXT_CURRENT_PASSWORD}</td>
@@ -125,7 +125,7 @@
 <!-- END select_password -->
 <!-- BEGIN disabled_password -->
 <tr class="tblheader">
-    <td class="std" colspan="4">{TXT_DISABLED_PASSWORD}</td>
+    <th class="std" colspan="4">{TXT_DISABLED_PASSWORD}</th>
 </tr>
 <tr>
     <td class="option">{TXT_DISABLED_CURRENT_PW}</td>
@@ -136,83 +136,83 @@
 <!-- END disabled_password -->
 
 <tr class="tblheader">
-    <td class="std" colspan="4">{TXT_CONTACT_DATA}</td>
+    <th class="std" colspan="4">{TXT_CONTACT_DATA}</th>
 </tr>
 <!-- BEGIN institution -->
 <tr>
     <td class="option">{TXT_INSTITUTION}</td>
     <td class="option_value"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}"{DISABLED_INSTITUTION} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_institution" {CHK_INSTITUTION} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_institution" {CHK_INSTITUTION} /></center></td>
 </tr>
 <!-- END institution -->
 <!-- BEGIN department -->
 <tr>
     <td class="option">{TXT_DEPARTMENT}</td>
     <td class="option_value"><input type="text" name="usr_department" maxlength="80" size="40" value="{DEPARTMENT}"{DISABLED_DEPARTMENT} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_department" {CHK_DEPARTMENT} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_department" {CHK_DEPARTMENT} /></center></td>
 </tr>
 <!-- END department -->
 <!-- BEGIN street -->
 <tr>
     <td class="option">{TXT_STREET}</td>
     <td class="option_value"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}"{DISABLED_STREET} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_street" {CHK_STREET} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_street" {CHK_STREET} /></center></td>
 </tr>
 <!-- END street -->
 <!-- BEGIN zipcode -->
 <tr>
     <td class="option">{TXT_ZIPCODE}</td>
     <td class="option_value"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}"{DISABLED_ZIPCODE} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_zip" {CHK_ZIP} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_zip" {CHK_ZIP} /></center></td>
 </tr>
 <!-- END zipcode -->
 <!-- BEGIN city -->
 <tr>
     <td class="option">{TXT_CITY}</td>
     <td class="option_value"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}"{DISABLED_CITY} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_city" {CHK_CITY} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_city" {CHK_CITY} /></center></td>
 </tr>
 <!-- END city -->
 <!-- BEGIN country -->
 <tr>
     <td class="option">{TXT_COUNTRY}</td>
     <td class="option_value"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}"{DISABLED_COUNTRY} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_country" {CHK_COUNTRY} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_country" {CHK_COUNTRY} /></center></td>
 </tr>
 <!-- END country -->
 <!-- BEGIN phone_office -->
 <tr>
     <td class="option">{TXT_PHONE_OFFICE}</td>
     <td class="option_value"><input type="text" name="usr_phone_office" maxlength="40" size="40" value="{PHONE_OFFICE}"{DISABLED_PHONE_OFFICE} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_office" {CHK_PHONE_OFFICE} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_phone_office" {CHK_PHONE_OFFICE} /></center></td>
 </tr>
 <!-- END phone_office -->
 <!-- BEGIN phone_home -->
 <tr>
     <td class="option">{TXT_PHONE_HOME}</td>
     <td class="option_value"><input type="text" name="usr_phone_home" maxlength="40" size="40" value="{PHONE_HOME}"{DISABLED_PHONE_HOME} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_home" {CHK_PHONE_HOME} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_phone_home" {CHK_PHONE_HOME} /></center></td>
 </tr>
 <!-- END phone_home -->
 <!-- BEGIN phone_mobile -->
 <tr>
     <td class="option">{TXT_PHONE_MOBILE}</td>
     <td class="option_value"><input type="text" name="usr_phone_mobile" maxlength="40" size="40" value="{PHONE_MOBILE}"{DISABLED_PHONE_MOBILE} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_mobile" {CHK_PHONE_MOBILE} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_phone_mobile" {CHK_PHONE_MOBILE} /></center></td>
 </tr>
 <!-- END phone_mobile -->
 <!-- BEGIN fax -->
 <tr>
     <td class="option">{TXT_FAX}</td>
     <td class="option_value"><input type="text" name="usr_fax" maxlength="40" size="40" value="{FAX}"{DISABLED_FAX} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_fax" {CHK_FAX} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_fax" {CHK_FAX} /></center></td>
 </tr>
 <!-- END fax -->
 <!-- BEGIN email -->
 <tr>
     <td class="option">{TXT_EMAIL}</td>
     <td class="option_value"><input type="text" name="usr_email" maxlength="80" size="40" value="{EMAIL}"{DISABLED_EMAIL} /></td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_email" {CHK_EMAIL} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_email" {CHK_EMAIL} /></center></td>
 </tr>
 <!-- END email -->
 <!-- BEGIN hobby -->
@@ -221,7 +221,7 @@
     <td class="option_value">
     <textarea name="usr_hobby" rows="3" cols="45"{DISABLED_HOBBY}>{HOBBY}</textarea>
     </td>
-    <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_hobby" {CHK_HOBBY} /></center></td>
+    <td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_hobby" {CHK_HOBBY} /></center></td>
 </tr>
 <!-- END hobby -->
 <!-- BEGIN referral_comment -->
@@ -235,16 +235,16 @@
 <!-- END referral_comment -->
 <!-- BEGIN matriculation -->
 <tr class="tblheader">
-	<td class="std" colspan="4">{TXT_OTHER}</td>
+	<th class="std" colspan="4">{TXT_OTHER}</th>
 </tr>
 <tr>
 	<td class="option">{TXT_MATRICULATION}</td>
 	<td class="option_value"><input type="text" name="usr_matriculation" maxlength="40" size="40" value="{MATRICULATION}"{DISABLED_MATRICULATION} /></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_matriculation" {CHK_MATRICULATION} /></center></td>
+	<td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_matriculation" {CHK_MATRICULATION} /></center></td>
 </tr>
 <!-- END matriculation -->
 <tr class="tblheader">
-    <td class="std" colspan="4">{TXT_SETTINGS}</td>
+    <th class="std" colspan="4">{TXT_SETTINGS}</th>
 
 </tr>
 <!-- BEGIN language -->
