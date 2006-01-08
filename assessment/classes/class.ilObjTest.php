@@ -5351,15 +5351,14 @@ class ilObjTest extends ilObject
 */
 	function addSelectedUser($user_id, $evaluator_id)
 	{
-		$query = sprintf("SELECT user_fi FROM tst_eval_users WHERE test_fi = %s AND evaluator_fi = %s AND user_fi = %s",
+		$query = sprintf("SELECT user_fi FROM tst_active WHERE test_fi = %s AND user_fi = %s",
 			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($evaluator_id . ""),
 			$this->ilias->db->quote($user_id . "")
 		);
 		$result = $this->ilias->db->query($query);
-		if ($result->numRows() < 1)
+		if ($result->numRows() == 1)
 		{
-			$query = sprintf("INSERT INTO tst_eval_users (eval_users_id, test_fi, evaluator_fi, user_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$query = sprintf("REPLACE INTO tst_eval_users (test_fi, evaluator_fi, user_fi) VALUES (%s, %s, %s)",
 				$this->ilias->db->quote($this->getTestId() . ""),
 				$this->ilias->db->quote($evaluator_id . ""),
 				$this->ilias->db->quote($user_id . "")
