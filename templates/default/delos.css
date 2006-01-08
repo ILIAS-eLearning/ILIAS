@@ -404,6 +404,7 @@ div.il_Preconditions
 {
 	margin-top: 3px;
 	text-align:left;
+	font-size: 90%;
 }
 
 a.il_ItemProperty:link, a.il_ItemProperty:visited {
@@ -471,24 +472,25 @@ table.il_PDBlock
 	margin-bottom:25px;
 }
 
-td.il_PDBlockHeader
+th.il_PDBlockHeader
 {
 	background-image: url(images/TableHeaderBlue.gif);
 	background-repeat:repeat-x;
 	font-weight: bold;
 	padding: 3px;
 	background-color: #E2EAF4;
-	
+	text-align:left;
 	border-bottom-width:1px;
 	border-bottom-color:#CACACA;
 	border-bottom-style:solid;
 }
 
-td.il_PDBlockSubHeader
+th.il_PDBlockSubHeader
 {
 	background-image: url(images/TableHeader.gif);
 	background-repeat:repeat-x;
 	font-weight: bold;
+	text-align:left;
 	font-size: 100%;
 	padding: 2px;
 	background-color: #EDEDED;

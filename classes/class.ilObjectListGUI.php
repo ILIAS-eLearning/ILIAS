@@ -759,7 +759,8 @@ class ilObjectListGUI
 
 		$missing_cond_exist = false;
 		
-		if ($this->condition_depth > 5)
+		// do not show multi level conditions (messes up layout)
+		if ($this->condition_depth > 0)
 		{
 			return;
 		}
@@ -782,6 +783,7 @@ class ilObjectListGUI
 			include_once($location."/class.".$full_class.".php");
 			$item_list_gui = new $full_class($this);
 			$item_list_gui->setMode(IL_LIST_AS_TRIGGER);
+			$item_list_gui->enablePath(true);
 			$item_list_gui->setConditionDepth($this->condition_depth + 1);
 			$trigger_html = $item_list_gui->getListItemHTML($condition['trigger_ref_id'],
 				$condition['trigger_obj_id'], trim($cond_txt).": ".ilObject::_lookupTitle($condition["trigger_obj_id"]),
