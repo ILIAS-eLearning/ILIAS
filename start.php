@@ -67,6 +67,8 @@ $start_script = (!empty($_GET["script"])) ? $_GET["script"] : $default_start_scr
 
 	$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 	$tpl->setVariable("SCRIPT", $start_script);
+	$tpl->setVariable("TOP_TITLE", $lng->txt("main_menu_frame"));
+	$tpl->setVariable("BOTTOM_TITLE", $lng->txt("bottom_frame"));
 	$tpl->show();
 //}
 //else
