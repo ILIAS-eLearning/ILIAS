@@ -870,6 +870,8 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
+common#:#main_menu_frame#:#Top Level Menu
+common#:#bottom_frame#:#Main Content
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
