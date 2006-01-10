@@ -1044,6 +1044,7 @@ common#:#bookmark_new#:#Нова Закладинка
 common#:#bookmark_target#:#Ціль
 common#:#bookmarks#:#Закладинки
 common#:#bookmarks_of#:#Закладинки
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Видалити з Системи
 common#:#btn_undelete#:#Відмінити видалення
 common#:#by#:#
@@ -2112,6 +2113,7 @@ common#:#mail_visible#:#Настройки Пошти є видимі
 common#:#mail_write#:#Редагувати Поштові настройки
 common#:#mail_z_local#:#Папки Користувача
 common#:#mails#:#Пошта
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Управляти Даними Відслідковування
 common#:#mark_all_read#:#Помітити усе як прочитане
 common#:#mark_all_unread#:#Помітити усе як непрочитане

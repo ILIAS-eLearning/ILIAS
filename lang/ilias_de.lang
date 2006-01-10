@@ -1045,6 +1045,7 @@ common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmark_target#:#Ziel
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks von
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
@@ -2121,6 +2122,7 @@ common#:#mail_visible#:#Maileinstellungen sind sichtbar
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Tracking-Daten verwalten
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren

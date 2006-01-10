@@ -1046,6 +1046,7 @@ common#:#bookmark_new#:#Nová záložka###07 Apr 2005 content changed
 common#:#bookmark_target#:#Cíl###07 Apr 2005 content changed
 common#:#bookmarks#:#Záložky###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Záložky pro uživatele###07 Apr 2005 content changed
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Odstranit ze systému###07 Apr 2005 content changed
 common#:#btn_undelete#:#Obnovit odstraněné###07 Apr 2005 content changed
 common#:#by#:#-###untranslatable in this context!
@@ -2122,6 +2123,7 @@ common#:#mail_visible#:#Mail settings are visible###16 Mar 2004 new variable
 common#:#mail_write#:#Edit Mail settings###16 Mar 2004 new variable
 common#:#mail_z_local#:#Uživatelské složky###07 Apr 2005 content changed
 common#:#mails#:#Pošta###14 Sep 2004 content changed
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Označit všechny jako přečtené###07 Apr 2005 content changed
 common#:#mark_all_unread#:#Označit všechny jako nepřečtené###07 Apr 2005 content changed

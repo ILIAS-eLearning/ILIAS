@@ -1003,6 +1003,7 @@ common#:#bookmark_new#:#Adres e Re
 common#:#bookmark_target#:#Objektiv
 common#:#bookmarks#:#Adresat
 common#:#bookmarks_of#:#Adresat e
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Largo nga Sistemi
 common#:#btn_undelete#:#Rikthe të fshirat
 common#:#by#:#Nga
@@ -2046,6 +2047,7 @@ common#:#mail_visible#:#Konfigurimet e E-Mailit janë të dukshme
 common#:#mail_write#:#Edito Konfigurimet për E-Mail
 common#:#mail_z_local#:#Direktoriumet e Shfrytëzuesit
 common#:#mails#:#E-Mail
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Administro shënimet për gjurmim
 common#:#mark_all_read#:#Shënjo të gjitha si të lexuara
 common#:#mark_all_unread#:#Shënjo të gjitha si të palexuara

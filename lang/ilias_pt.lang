@@ -1046,6 +1046,7 @@ common#:#bookmark_new#:#Novo Marcador###07 Apr 2005 content changed
 common#:#bookmark_target#:#Alvo###07 Apr 2005 content changed
 common#:#bookmarks#:#Marcadores###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Marcadores de###07 Apr 2005 content changed
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Remover do Sistema###07 Apr 2005 content changed
 common#:#btn_undelete#:#Repor###07 Apr 2005 content changed
 common#:#by#:#Por###07 Apr 2005 content changed
@@ -2122,6 +2123,7 @@ common#:#mail_visible#:#Definções de Correio são visíveis###07 Apr 2005 cont
 common#:#mail_write#:#Editar definições de Correio###07 Apr 2005 content changed
 common#:#mail_z_local#:#Pastas de Utilizador###07 Apr 2005 content changed
 common#:#mails#:#Mensagens###14 Sep 2004 content changed
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Marcar Todas como Lidas###07 Apr 2005 content changed
 common#:#mark_all_unread#:#Marcar Todas como Não Lidas###07 Apr 2005 content changed
