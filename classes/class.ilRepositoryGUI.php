@@ -512,6 +512,7 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("EXPLORER", $output);
 		//$this->tpl->setVariable("ACTION", "repository.php?repexpand=".$_GET["repexpand"]);
 		$this->tpl->parseCurrentBlock();
+		//$this->tpl->show(true);
 		$this->tpl->show(false);
 	}
 

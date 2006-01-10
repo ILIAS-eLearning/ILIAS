@@ -321,7 +321,7 @@ class ilBookmarkExplorer extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		$tpl = new ilTemplate("tpl.tree_tooltip.html", true, true);
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);

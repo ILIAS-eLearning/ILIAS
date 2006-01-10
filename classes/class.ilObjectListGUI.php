@@ -1046,8 +1046,11 @@ class ilObjectListGUI
 		if (substr($script,0,14) != "repository.php" &&
 			is_int(strpos($a_link,"repository.php")))
 		{
-			$a_link = 
-				ilUtil::appendUrlParameterString($a_link, "rep_frame=1");
+			if ($this->type != "frm")
+			{
+				$a_link = 
+					ilUtil::appendUrlParameterString($a_link, "rep_frame=1");
+			}
 		}
 		
 		return $a_link;
