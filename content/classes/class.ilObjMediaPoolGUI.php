@@ -75,7 +75,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function executeCommand()
+	function &executeCommand()
 	{
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{

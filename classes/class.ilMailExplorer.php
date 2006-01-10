@@ -88,30 +88,21 @@ class ilMailExplorer extends ilExplorer
 		
 		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
 		
-		$cur_depth = 0;
+		$cur_depth = -1;
 
 		foreach ($this->format_options as $key => $options)
 		{
-			if ($options["depth"] > $cur_depth)
+			if (!$options["visible"])
 			{
-				if ($options["depth"] > 1)
-				{
-					$tpl_tree->touchBlock("start_list");
-				}
-				else
-				{
-					$tpl_tree->touchBlock("start_list_no_indent");
-				}
-				$tpl_tree->touchBlock("element");
+				continue;
 			}
-			if ($options["depth"] < $cur_depth)
-			{
-				for ($i = 0; $i < ($cur_depth - $options["depth"]); $i++)
-				{
-					$tpl_tree->touchBlock("end_list");
-					$tpl_tree->touchBlock("element");
-				}
-			}
+
+			// end tags
+			$this->handleListEndTags($tpl_tree, $cur_depth, $options["depth"]);
+			
+			// start tags
+			$this->handleListStartTags($tpl_tree, $cur_depth, $options["depth"]);
+			
 			$cur_depth = $options["depth"];
 
 			if ($options["visible"] and $key != 0)
@@ -123,6 +114,8 @@ class ilMailExplorer extends ilExplorer
 				$this->formatHeader($tpl_tree, $options["child"],$options);
 			}
 		}
+		
+		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
 		
 		return $tpl_tree->get();
 	}

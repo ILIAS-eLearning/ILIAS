@@ -180,43 +180,30 @@ class ilForumExplorer extends ilExplorer
 		
 		//$tpl_tree->touchBlock("start_list_no_indent");
 		//$tpl_tree->touchBlock("element");
-		$cur_depth = 0;
+		$cur_depth = -1;
+		
 		foreach ($this->format_options as $key => $options)
 		{
-			if ($options["depth"] > $cur_depth)
-			{
-				if ($options["depth"] > 0)
-				{
-					$tpl_tree->touchBlock("start_list");
-				}
-				else
-				{
-					$tpl_tree->touchBlock("start_list_no_indent");
-				}
-				$tpl_tree->touchBlock("element");
-			}
-			if ($options["depth"] < $cur_depth)
-			{
-				for ($i = 0; $i < ($cur_depth - $options["depth"]); $i++)
-				{
-					$tpl_tree->touchBlock("end_list");
-					$tpl_tree->touchBlock("element");
-				}
-			}
+			// end tags
+			$this->handleListEndTags($tpl_tree, $cur_depth, $options["depth"]);
+			
+			// start tags
+			$this->handleListStartTags($tpl_tree, $cur_depth, $options["depth"]);
+			
 			$cur_depth = $options["depth"];
 
-			if($key == 0)
-			{
-				$this->formatHeader($tpl_tree);
-			}
-			if ($options["visible"])
-			{
-				$this->formatObject($tpl_tree,$options["child"],$options);
-			}
+			//if($key == 0)
+			//{
+				//$this->formatHeader($tpl_tree);
+			//}
+			//else
+			//{
+				$this->formatObject($tpl_tree,$options["child"],$options, $key);
+			//}
 		}
-		//$tpl_tree->touchBlock("end_list");
-		//$tpl_tree->touchBlock("element");
-
+		
+		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
+		
 		return $tpl_tree->get();
 	}
 	
@@ -228,7 +215,7 @@ class ilForumExplorer extends ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject(&$tpl, $a_node_id,$a_option)
+	function formatObject(&$tpl, $a_node_id,$a_option, $key)
 	{
 		global $lng,$ilUser;
 
@@ -236,6 +223,14 @@ class ilForumExplorer extends ilExplorer
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+		}
+		
+		if ($key == 0)
+		{
+			$tpl->setCurrentBlock("icon");
+			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm.gif"));
+			$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_frm"));
+			$tpl->parseCurrentBlock();
 		}
 
 		/*
@@ -281,7 +276,15 @@ class ilForumExplorer extends ilExplorer
 		#$a_option["title"] = strlen($a_option["title"]) <= FULLNAME_MAXLENGTH
 		#	? $a_option["title"]
 		#	: substr($a_option["title"],0,FULLNAME_MAXLENGTH)."...";
-		$tpl->setVariable("TITLE", $a_option["title"]);
+
+		if ($key == 0)
+		{
+			$tpl->setVariable("TITLE", "<strong>".$a_option["title"]."</strong>");
+		}
+		else
+		{
+			$tpl->setVariable("TITLE", $a_option["title"]);
+		}
 
 		if($this->forum_obj->isRead($ilUser->getId(),$a_node_id))
 		{
@@ -334,12 +337,13 @@ class ilForumExplorer extends ilExplorer
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $a_option["title"]." ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
+		//$tpl->setVariable("DESC", $lng->txt("from").": ".$a_option["loginname"]." [".$this->forum->convertDate($a_option["date"])."]");
 		$tpl->setVariable("TARGET","target=content");
 		$tpl->setVariable("LINK_TARGET",$this->target);
 		$tpl->parseCurrentBlock();
 		
-		//$tpl->setCurrentBlock("list_item");
-		//$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("list_item");
+		$tpl->parseCurrentBlock();
 		$tpl->touchBlock("element");
 
 	}

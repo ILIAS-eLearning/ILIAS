@@ -54,4 +54,5 @@ $tpl->setVariable("ACTION", "forums_menu.php?fexpand=".$_GET["fexpand"]."&thr_pk
 $tpl->parseCurrentBlock();
 
 $tpl->show(false);
+//$tpl->show(true);
 ?>
