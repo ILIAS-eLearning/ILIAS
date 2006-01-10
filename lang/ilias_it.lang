@@ -1044,6 +1044,7 @@ common#:#bookmark_new#:#Nuovo preferito
 common#:#bookmark_target#:#Indirizzo
 common#:#bookmarks#:#Preferiti
 common#:#bookmarks_of#:#Preferiti di
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Rimuovi dal sistema
 common#:#btn_undelete#:#Ripristina gli oggetti
 common#:#by#:#con
@@ -2120,6 +2121,7 @@ common#:#mail_visible#:#Vedere le impostazioni della posta
 common#:#mail_write#:#Modificare le impostazioni della posta
 common#:#mail_z_local#:#Cartelle utente
 common#:#mails#:#eMail
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Gestione dati di tracciamento
 common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto

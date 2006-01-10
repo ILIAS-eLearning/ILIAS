@@ -1046,6 +1046,7 @@ common#:#bookmark_new#:#Nowa zakładka
 common#:#bookmark_target#:#Przeznacznie
 common#:#bookmarks#:#Zakładki
 common#:#bookmarks_of#:#Zakładki do
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Usuń z systemu
 common#:#btn_undelete#:#Przywróć
 common#:#by#:#Przez
@@ -2122,6 +2123,7 @@ common#:#mail_visible#:#Ustawienia poczty są widoczne
 common#:#mail_write#:#Edycja ustawień poczty
 common#:#mail_z_local#:#Foldery użytkownika
 common#:#mails#:#Wiadomości
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Zarządzanie  danymi śledzenia
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane

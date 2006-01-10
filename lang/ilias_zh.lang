@@ -1064,6 +1064,7 @@ common#:#bookmark_new#:#新书签###07 Apr 2005 content changed
 common#:#bookmark_target#:#目标###07 Apr 2005 content changed
 common#:#bookmarks#:#书签###07 Apr 2005 content changed
 common#:#bookmarks_of#:#的书签###07 Apr 2005 content changed
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#从系统中删除###07 Apr 2005 content changed
 common#:#btn_undelete#:#恢复删除###07 Apr 2005 content changed
 common#:#by#:#由###07 Apr 2005 content changed
@@ -2140,6 +2141,7 @@ common#:#mail_visible#:#邮件设置可视###07 Apr 2005 content changed
 common#:#mail_write#:#编辑邮件设置###07 Apr 2005 content changed
 common#:#mail_z_local#:#用户文件夹###07 Apr 2005 content changed
 common#:#mails#:#邮件###14 Sep 2004 content changed
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#全部邮件标记为已读###07 Apr 2005 content changed
 common#:#mark_all_unread#:#全部邮件标记为未读###07 Apr 2005 content changed

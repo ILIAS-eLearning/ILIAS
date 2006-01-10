@@ -1003,6 +1003,7 @@ common#:#bookmark_new#:#Novi obeleživac
 common#:#bookmark_target#:#Cilj
 common#:#bookmarks#:#Obeleživaci
 common#:#bookmarks_of#:#Obeleživaci ...
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Ukloni iz sistema
 common#:#btn_undelete#:#Neobrisano
 common#:#by#:#Pomocu
@@ -2046,6 +2047,7 @@ common#:#mail_visible#:#Podešavanja pošte su vidljiva
 common#:#mail_write#:#Uredi podešavanje pošte
 common#:#mail_z_local#:#Registratori korisnika
 common#:#mails#:#Pošta
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Uredi pracenje podataka
 common#:#mark_all_read#:#Obeleži sve kao Procitano
 common#:#mark_all_unread#:#Obeleži sve kao Neprocitano

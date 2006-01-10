@@ -1038,6 +1038,7 @@ common#:#bookmark_new#:#Nouveau lien internet###07 Apr 2005 content changed
 common#:#bookmark_target#:#Cible###07 Apr 2005 content changed
 common#:#bookmarks#:#Liens internet###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Liens internet de###07 Apr 2005 content changed
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Supprimer du système###07 Apr 2005 content changed
 common#:#btn_undelete#:#Restaurer###07 Apr 2005 content changed
 common#:#by#:#par###07 Apr 2005 content changed
@@ -2110,6 +2111,7 @@ common#:#mail_visible#:#Les paramètres de messagerie sont visibles###07 Apr 200
 common#:#mail_write#:#Modifier paramètres de messagerie###07 Apr 2005 content changed
 common#:#mail_z_local#:#Dossiers utilisateur###07 Apr 2005 content changed
 common#:#mails#:#Messages###07 Apr 2005 content changed
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Gérer données de suivi###07 Apr 2005 content changed
 common#:#mark_all_read#:#Marquer tout comme lu###07 Apr 2005 content changed
 common#:#mark_all_unread#:#Marquer tout comme non lu###07 Apr 2005 content changed

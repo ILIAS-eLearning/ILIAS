@@ -934,6 +934,7 @@ common#:#bookmark_new#:#Nou Semn de Carte
 common#:#bookmark_target#:#Tinta
 common#:#bookmarks#:#Semne de Carte
 common#:#bookmarks_of#:#Semne de carte ale
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Eliminati din Sistem
 common#:#btn_undelete#:#Reabilitati fisierele sterse
 common#:#by#:#De catre
@@ -1847,6 +1848,7 @@ common#:#mail_visible#:#Setarile de mail sunt vizibile
 common#:#mail_write#:#Editati setarile de Mail
 common#:#mail_z_local#:#Dosarele utilizatorului
 common#:#mails#:#Mail
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Administrati datele de urmarire
 common#:#mark_all_read#:#Marcati toate ca citite
 common#:#mark_all_unread#:#Marcati toate ca necitite

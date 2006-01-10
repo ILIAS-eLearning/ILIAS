@@ -870,8 +870,6 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
-common#:#main_menu_frame#:#Top Level Menu
-common#:#bottom_frame#:#Main Content
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -1048,6 +1046,7 @@ common#:#bookmark_new#:#New Bookmark
 common#:#bookmark_target#:#Target
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks of
+common#:#bottom_frame#:#Main Content
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
@@ -2124,6 +2123,7 @@ common#:#mail_visible#:#Mail settings are visible
 common#:#mail_write#:#Edit Mail settings
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mail
+common#:#main_menu_frame#:#Top Level Menu
 common#:#manage_tracking_data#:#Manage Tracking Data
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread

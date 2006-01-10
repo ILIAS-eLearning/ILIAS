@@ -1046,6 +1046,7 @@ common#:#bookmark_new#:#Új webcím
 common#:#bookmark_target#:#Cél
 common#:#bookmarks#:#Webcímek
 common#:#bookmarks_of#:#Webcímei:
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Eltávolítás a rendszerből
 common#:#btn_undelete#:#Törlés visszavonása
 common#:#by#:#Létrehozta
@@ -2122,6 +2123,7 @@ common#:#mail_visible#:#Az e-mail beállítások láthatók
 common#:#mail_write#:#E-mail beállítások szerkesztése
 common#:#mail_z_local#:#Felhasználói mappák
 common#:#mails#:#E-mailek
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Nyomkövetési adatok menedzselése
 common#:#mark_all_read#:#Minden bejelölése olvasottnak
 common#:#mark_all_unread#:#Minden bejelölése olvasatlannak

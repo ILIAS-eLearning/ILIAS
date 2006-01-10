@@ -803,6 +803,7 @@ common#:#bookmark_new#:#Новая Закладка
 common#:#bookmark_target#:#Объект
 common#:#bookmarks#:#Закладки
 common#:#bookmarks_of#:#Закладки
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Переместить из Системы
 common#:#btn_undelete#:#Восстановить
 common#:#by#:#
@@ -1674,6 +1675,7 @@ common#:#mail_visible#:#Параметры почты видимы
 common#:#mail_write#:#Редактировать параметры почты
 common#:#mail_z_local#:#Каталоги пользователя
 common#:#mails#:#Почта
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Управлять данными мониторинга
 common#:#mark_all_read#:#Пометить все как прочтенные
 common#:#mark_all_unread#:#Пометить все как непрочтенные

@@ -1011,6 +1011,7 @@ common#:#bookmark_new#:#Tạo đánh dấu mới
 common#:#bookmark_target#:#Mục tiêu
 common#:#bookmarks#:#Đánh dấu
 common#:#bookmarks_of#:#Đánh dấu của
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Xóa khỏi hệ thống
 common#:#btn_undelete#:#Hủy việc xóa
 common#:#by#:#Do
@@ -2047,6 +2048,7 @@ common#:#mail_visible#:#Nhìn thấy thiết lập thư
 common#:#mail_write#:#Sửa thiết lập thư
 common#:#mail_z_local#:#Thư mục riêng
 common#:#mails#:#Thư
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Quản lý thông tin theo dõi
 common#:#mark_all_read#:#Đánh dấu tất cả như là đã đọc
 common#:#mark_all_unread#:#Đánh dấu tất cả như là chưa đọc

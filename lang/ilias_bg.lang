@@ -950,6 +950,7 @@ common#:#bookmark_new#:#Нова отметка
 common#:#bookmark_target#:#Направление
 common#:#bookmarks#:#Отметки
 common#:#bookmarks_of#:#Отметки на
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Премахване от системата
 common#:#btn_undelete#:#Възстановяване на изтрити
 common#:#by#:#По
@@ -1898,6 +1899,7 @@ common#:#mail_visible#:#Настройките на пощата са видим
 common#:#mail_write#:#Редактиране настройките на пощата
 common#:#mail_z_local#:#Потребителски папки
 common#:#mails#:#Поща
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Управление проследяването на данни
 common#:#mark_all_read#:#Маркиране на всички като “прочетени”
 common#:#mark_all_unread#:#Маркиране на всички като “непрочетени”

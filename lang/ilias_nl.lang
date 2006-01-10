@@ -1046,6 +1046,7 @@ common#:#bookmark_new#:#Nieuwe bookmark###07 Apr 2005 content changed
 common#:#bookmark_target#:#Doel###07 Apr 2005 content changed
 common#:#bookmarks#:#Bookmarken###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Bookmarken van###07 Apr 2005 content changed
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Uit het systeem verwijderen###07 Apr 2005 content changed
 common#:#btn_undelete#:#Herstellen###07 Apr 2005 content changed
 common#:#by#:#Door###07 Apr 2005 content changed
@@ -2122,6 +2123,7 @@ common#:#mail_visible#:#Mail-instellingen zijn zichtbaar###07 Apr 2005 content c
 common#:#mail_write#:#Wijzigen Mail-instellingen###07 Apr 2005 content changed
 common#:#mail_z_local#:#Gebruikers-mappen###07 Apr 2005 content changed
 common#:#mails#:#Mail###05 Nov 2004 new variable
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Beheer tracking-gegevens###07 Apr 2005 content changed
 common#:#mark_all_read#:#Markeer alles als gelezen###07 Apr 2005 content changed
 common#:#mark_all_unread#:#Markeer alles als niet gelezen###07 Apr 2005 content changed

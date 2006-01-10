@@ -1002,6 +1002,7 @@ common#:#bookmark_new#:#Nye Foretrukne
 common#:#bookmark_target#:#M&aring;l
 common#:#bookmarks#:#Foretrukne
 common#:#bookmarks_of#:#Til foretrukne 
+common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
 common#:#btn_remove_system#:#Fjern fra system
 common#:#btn_undelete#:#Uslettet
 common#:#by#:#Af
@@ -2036,6 +2037,7 @@ common#:#mail_visible#:#Mail indstillinger er synlige
 common#:#mail_write#:#Rediger Mail indstillinger
 common#:#mail_z_local#:#Bruger mapper
 common#:#mails#:#Mail###21 Apr 2005 new variable
+common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Kontroller Sporingsdata
 common#:#mark_all_read#:#Marker alle som l&aelig;st
 common#:#mark_all_unread#:#Marker alle som ul&aelig;st
