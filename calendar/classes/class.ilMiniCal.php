@@ -60,7 +60,7 @@ class ilMiniCal {
 		
 		$startday = $lastday - $firstday;
 	
-		if ($lastday != 31 || $cal_month == "8")
+		if ($lastday != 31 || $cal_month == "8" || $cal_month == "1")
 		{
 			$days_in_month = 31;				// decide how many days the actual month has
 		}

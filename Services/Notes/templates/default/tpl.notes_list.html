@@ -106,7 +106,7 @@ a.il_PrintBack
 	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
 	<!-- END edit_note -->
 	</div>
-	<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><img src="{IMG_NOTE}" border="0" /><!-- END note_img --></a>
+	<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" border="0" /><!-- END note_img --></a>
 	<b>{VAL_SUBJECT}
 	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
 		</b><br /><div style="margin-top:4px;">{NOTE_TEXT}</div>
@@ -130,14 +130,14 @@ a.il_PrintBack
 <!-- BEGIN multiple_commands -->
 <tr>
 	<td class="submit" width="1px">
-	<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">
+	<input type="checkbox" name="all" value="check_all" onClick="CheckAll();" />
 	</td>
 	<td class="submit">{TXT_SELECT_ALL}
 	</td>
 </tr>
 <tr>
 	<td class="submit" colspan="2">
-		<img border="0" src="{IMG_ARROW}" />
+		<img border="0" src="{IMG_ARROW}" alt="{ALT_ARROW}" />
 		<input type="submit" class="submit" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" />
 		<input type="submit" class="submit" name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
 		<input type="submit" class="submit" name="cmd[printNotes]" value="{TXT_PRINT_NOTES}" />

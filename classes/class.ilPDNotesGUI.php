@@ -93,10 +93,9 @@ class ilPDNotesGUI
 	*/
 	function displayHeader()
 	{
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("HEADER",$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+			$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		
 		// set locator
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
