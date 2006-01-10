@@ -270,7 +270,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
-		//$info->enableFeedback();
+		$info->enableFeedback();
 		
 		// syllabus section
 		$info->addSection($this->lng->txt("crs_syllabus"));
