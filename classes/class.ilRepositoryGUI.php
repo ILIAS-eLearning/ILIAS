@@ -309,12 +309,20 @@ class ilRepositoryGUI
 				if ($next_class != "" && $next_class != "ilrepositorygui")
 				{
 					$class_path = $this->ctrl->lookupClassPath($next_class);
-
+//echo "<br>repositorygui:forwarding_to:".$next_class;
+//echo "<br>creation_mode:".$this->creation_mode.":";
 					// get gui class instance
 					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
 					
-					$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+					if (!$this->creation_mode)
+					{
+						$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+					}
+					else
+					{
+						$this->gui_obj = new $class_name("", 0, true, false);
+					}
 					//$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
 
 					// special treatment for old admin compliance
@@ -338,7 +346,7 @@ class ilRepositoryGUI
 
 					$this->gui_obj->setCreationMode($this->creation_mode);
 					$this->ctrl->setReturn($this, "return");
-//echo "forwarding-".$_GET["cmd"]."-";
+//echo "<br>forwarding-".$_GET["cmd"]."-";
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);	
 					$html = $this->gui_obj->getHTML();
 					if ($html != "")

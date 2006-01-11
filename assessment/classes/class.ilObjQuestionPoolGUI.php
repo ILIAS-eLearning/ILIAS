@@ -246,6 +246,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 	
 	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+	}
+
+	
+	/**
 	* Save questionpool properties
 	*/
 	function savePropertiesObject()

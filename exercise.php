@@ -22,9 +22,13 @@
 */
 
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilObjExerciseGUIAdapter.php";
+//require_once "./classes/class.ilObjExerciseGUIAdapter.php";
+require_once "./classes/class.ilObjExerciseGUI.php";
+$ilCtrl->setTargetScript("exercise.php");
 $ilCtrl->getCallStructure(strtolower("ilObjExerciseGUI"));
-$exc_adapter =& new ilObjExerciseGUIAdapter($_GET["ref_id"],$_GET["cmd"]);
+$exercise_gui =& new ilObjExerciseGUI("", $_GET["ref_id"],true, false);
+$ilCtrl->forwardCommand($exercise_gui);
+//$exc_adapter =& new ilObjExerciseGUIAdapter($_GET["ref_id"],$_GET["cmd"]);
 
 $tpl->show();
 ?>

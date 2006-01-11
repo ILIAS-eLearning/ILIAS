@@ -119,7 +119,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_create.html","course");
-		$this->tpl->setVariable("FORMACTION",'repository.php?ref_id='.$this->object->getRefId().'&cmd=post&new_type=crs');
+		$this->tpl->setVariable("FORMACTION",'repository.php?ref_id='.$_GET["ref_id"].'&cmd=post&new_type=crs');
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("crs_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("crs_add"));
@@ -4075,22 +4075,25 @@ class ilObjCourseGUI extends ilContainerGUI
 		// check if object is purchased
 		include_once './payment/classes/class.ilPaymentObject.php';
 
-		if(!ilPaymentObject::_hasAccess($this->object->getRefId()))
+		if (!$this->creation_mode)	// don't check, if new object is created
 		{
-			if ($cmd != "addToShoppingCart")
+			if(!ilPaymentObject::_hasAccess($this->object->getRefId()))
 			{
-				$this->ctrl->setCmd("");
-				$cmd = "";
+				if ($cmd != "addToShoppingCart")
+				{
+					$this->ctrl->setCmd("");
+					$cmd = "";
+				}
+	
+				include_once './payment/classes/class.ilPaymentPurchaseGUI.php';
+	
+				$this->ctrl->setReturn($this,"");
+				$pp_gui =& new ilPaymentPurchaseGUI($this->object->getRefId());
+	
+				$this->ctrl->forwardCommand($pp_gui);
+	
+				return true;
 			}
-
-			include_once './payment/classes/class.ilPaymentPurchaseGUI.php';
-
-			$this->ctrl->setReturn($this,"");
-			$pp_gui =& new ilPaymentPurchaseGUI($this->object->getRefId());
-
-			$this->ctrl->forwardCommand($pp_gui);
-
-			return true;
 		}
 
 		switch($next_class)
@@ -4170,8 +4173,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			default:
-				if((!$rbacsystem->checkAccess("read",$this->object->getRefId()) or $cmd == 'join' or $cmd == 'subscribe')
-				   and $cmd != 'infoScreen')
+				if( !$this->creation_mode
+					&& (!$rbacsystem->checkAccess("read",$this->object->getRefId()) or $cmd == 'join' or $cmd == 'subscribe')
+					&& $cmd != 'infoScreen')
 				{
 					$this->ctrl->setReturn($this,"");
 					$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());

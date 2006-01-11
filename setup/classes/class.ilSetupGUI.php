@@ -1699,7 +1699,7 @@ class ilSetupGUI extends ilSetup
 	 */
 	function displayDatabase()
 	{
-		global $ilErr,$ilDB;
+		global $ilErr,$ilDB,$ilLog;
 
 		$this->checkDisplayMode("setup_database");
 
