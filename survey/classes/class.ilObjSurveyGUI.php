@@ -131,6 +131,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilObjSurveyGUI");
 	}
+	
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+	}
 
 	/**
 	* Cancel actions in the properties form

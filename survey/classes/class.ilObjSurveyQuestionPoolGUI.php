@@ -133,6 +133,17 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+	}
+
 
 	/**
 	* save object

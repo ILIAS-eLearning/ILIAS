@@ -52,24 +52,25 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjMediaPoolGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function ilObjMediaPoolGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
 	{
 		global $lng, $ilCtrl;
 
+//echo "<br>ilobjmediapoolgui-constructor-id-$a_id";
+
 		$this->ctrl =& $ilCtrl;
-
 		$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
-
 		$this->type = "mep";
 		$lng->loadLanguageModule("content");
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->output_prepared = $a_prepare_output;
 
-		if (defined("ILIAS_MODULE"))
-		{
-			$this->setTabTargetScript("mep_edit.php");
-		}
+		//if (defined("ILIAS_MODULE"))
+		//{
+		//	$this->setTabTargetScript("mep_edit.php");
+		//}
+//echo "ilobjmediapoolgui-".get_class($this->object)."-";
 	}
 
 	/**
@@ -82,8 +83,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->explorer();
 			return;
 		}
+//echo "-".$cmd."-";
 
-		$tree =& $this->object->getTree();
+		if (!$this->creation_mode)
+		{
+			$tree =& $this->object->getTree();
+		}
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
@@ -214,10 +219,22 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				break;
 
 			default:
+				$this->prepareOutput();
 				$cmd = $this->ctrl->getCmd("frameset");
-				$this->$cmd();
+				if ($this->creation_mode)
+				{
+					$cmd.= "Object";
+				}
+				$this->$cmd();	
 				break;
 		}
+	}
+	
+	function createObject()
+	{
+		parent::createObject();
+		$this->tpl->setVariable("TARGET", ' target="'.
+				ilFrameTargetInfo::_getFrame("MainContent").'" ');
 	}
 
 	/**
@@ -242,7 +259,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		ilUtil::redirect("content/mep_edit.php?ref_id=".$newObj->getRefId());
+
 	}
 
 	/**
@@ -279,7 +298,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function edit()
 	{
-		$this->prepareOutput();
+		//$this->prepareOutput();
 		$this->setFormAction("update", "mep_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]);
 		$this->editObject();
@@ -291,10 +310,24 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function cancel()
 	{
-		$this->setReturnLocation("cancel","mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]);
-		$this->cancelObject();
+		//$this->setReturnLocation("cancel","mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"].
+		//	"&obj_id=".$_GET["obj_id"]);
+		//$this->cancelObject();
+		$this->ctrl->redirect($this, "listMedia");
 	}
+	
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject($in_rep = false)
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+	}
+
 
 	/**
 	* update properties
@@ -309,23 +342,24 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	/**
 	* permission form
 	*/
+	/*
 	function perm()
 	{
-		$this->prepareOutput();
+		//$this->prepareOutput();
 		$this->setFormAction("permSave", "mep_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]);
 		$this->setFormAction("addRole", "mep_edit.php?ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
 		$this->permObject();
 		$this->tpl->show();
-	}
+	}*/
 
 	/**
 	* info form
 	*/
 	function info()
 	{
-		$this->prepareOutput();
+		//$this->prepareOutput();
 		$this->infoObject();
 		$this->tpl->show();
 	}
@@ -353,12 +387,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	/**
 	* show owner of media pool
 	*/
+	/*
 	function owner()
 	{
 		$this->prepareOutput();
 		$this->ownerObject();
 		$this->tpl->show();
-	}
+	}*/
 
 	/**
 	* list media objects
@@ -369,7 +404,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		if (!$this->output_prepared)
 		{
-			$this->prepareOutput();
+			//$this->prepareOutput();
 		}
 
 		//add template for view button
@@ -711,7 +746,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->prepareOutput();
+		//$this->prepareOutput();
 
 		// SAVE POST VALUES
 		$_SESSION["ilMepRemove"] = $_POST["id"];
@@ -969,7 +1004,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function createFolderForm()
 	{
-		$this->prepareOutput();
+		//$this->prepareOutput();
 
 		$folder_gui =& new ilObjFolderGUI("", 0, false, false);
 		$folder_gui->setFormAction("save", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
@@ -983,11 +1018,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function prepareOutput()
 	{
-		if (!defined("ILIAS_MODULE"))
-		{
+		//if (!defined("ILIAS_MODULE"))
+		//{
 			parent::prepareOutput();
 			return;
-		}
+		//}
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");

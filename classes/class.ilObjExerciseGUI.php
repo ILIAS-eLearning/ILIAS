@@ -349,6 +349,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",$year));
 		
 		$this->tpl->setVariable("CMD_SUBMIT","update");
+		$this->tpl->setVariable("CMD_CANCEL","cancelEdit");
 
 		// SHOW FILES
 		if(count($files = $this->object->getFiles()))
@@ -393,7 +394,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->object->deleteFiles($_POST["delete_file"]);
 		}
-		parent::updateObject();
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$this->update = $this->object->update();
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		$this->ctrl->redirect($this, "edit");
+
+	}
+	
+	function cancelEditObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirect($this, "view");
 	}
 		
 	function uploadFileObject()
@@ -407,7 +421,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("exc_upload_error"),true);
 		}
-		$this->ctrl->redirect($this, "");
+		$this->ctrl->redirect($this, "edit");
 		//header("location: ".$this->getReturnLocation("uploadFile","adm_object.php?ref_id=$_GET[ref_id]"));
 		//exit;
 	}
@@ -1011,7 +1025,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 
-//echo "-".$next_class."-".$cmd."-";
+//echo "-".$next_class."-".$cmd."-"; exit;
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
@@ -1021,6 +1035,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				break;
 
 			default:
+			
 				if(!$cmd)
 				{
 					$cmd = "view";

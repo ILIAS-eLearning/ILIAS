@@ -48,15 +48,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjContentObjectGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function ilObjContentObjectGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
 	{
 		global $lng, $ilCtrl;
-
+//echo "<br>ilobjcontobjgui-constructor-id-$a_id";
 		$this->ctrl =& $ilCtrl;
 		$lng->loadLanguageModule("content");
 		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		$this->actions = $this->objDefinition->getActions("lm");
-
 	}
 
 	/**

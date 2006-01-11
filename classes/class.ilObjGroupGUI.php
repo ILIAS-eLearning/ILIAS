@@ -393,6 +393,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("CMD_CANCEL", "cancel");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 

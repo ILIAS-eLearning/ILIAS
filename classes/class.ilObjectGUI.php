@@ -226,7 +226,7 @@ class ilObjectGUI
 	function assignObject()
 	{
 		// TODO: it seems that we always have to pass only the ref_id
-//echo "assign:".get_class($this).":".$this->id.":<br>";
+//echo "<br>ilObjectGUIassign:".get_class($this).":".$this->id.":<br>";
 		if ($this->id != 0)
 		{
 			if ($this->call_by_reference)
@@ -279,14 +279,15 @@ class ilObjectGUI
 		// do not fit
 		if ($this->getCreationMode() == true)
 		{
-			// get gui class and call their title and description method
-			$obj_type = ilObject::_lookupType($this->object->getRefId(),true);
+			// get gui class of parent and call their title and description method
+			$obj_type = ilObject::_lookupType($_GET["ref_id"],true);
 			$class_name = $this->objDefinition->getClassName($obj_type);
 			$class = strtolower("ilObj".$class_name."GUI");
 			$class_path = $this->ctrl->lookupClassPath($class);
 			include_once($class_path);
 			$class_name = $this->ctrl->getClassForClasspath($class_path);
-			$this->parent_gui_obj = new $class_name("", $this->object->getRefId(), true, false);
+//echo "<br>instantiating parent for title and description";
+			$this->parent_gui_obj = new $class_name("", $_GET["ref_id"], true, false);
 			$this->parent_gui_obj->setTitleAndDescription();
 		}
 		else
@@ -350,8 +351,13 @@ class ilObjectGUI
 				$this->object->getRefId() != SYSTEM_FOLDER_ID &&
 				$_GET["obj_id"] == "")
 			{
+				if (defined("ILIAS_MODULE"))
+				{
+					$prefix = "../";
+				}
 				$par_id = $tree->getParentId($this->object->getRefId());
-				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
+				$tpl->setUpperIcon($prefix."repository.php?cmd=frameset&ref_id=".$par_id,
+					ilFrameTargetInfo::_getFrame("MainContent"));
 			}
 		}
 	}
@@ -1231,7 +1237,7 @@ class ilObjectGUI
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
-echo "8";
+
 		//ilUtil::redirect($this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
 		$this->ctrl->returnToParent($this);
 
@@ -1356,14 +1362,17 @@ echo "8";
 		$return_location = $_GET["cmd_return_location"];
 //echo "-".$_GET["cmd_return_location"]."-".$this->ctrl->getLinkTarget($this,$return_location);
 		//ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
-		if ($in_rep)
-		{
+//echo "1";
+		//if ($in_rep)
+		//{
+//echo "2";
 			$this->ctrl->returnToParent($this);
-		}
-		else
-		{
-			ilUtil::redirect($this->getReturnLocation("cancel",$this->ctrl->getTargetScript()."?".$this->link_params));
-		}
+		//}
+		//else
+		//{
+//echo "3";
+		//	ilUtil::redirect($this->getReturnLocation("cancel",$this->ctrl->getTargetScript()."?".$this->link_params));
+		//}
 	}
 
 	/**

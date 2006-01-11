@@ -99,6 +99,7 @@ $lng = new ilLanguage($lang);
 
 // init log
 $log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
+$ilLog =& $log;
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template
