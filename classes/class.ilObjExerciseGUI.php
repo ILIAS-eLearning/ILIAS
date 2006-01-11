@@ -566,7 +566,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// SEARCH CANCELED
 		if(isset($_POST["cancel"]))
 		{
-			$this->ctrl->redirect($this, "");
+			$this->ctrl->redirect($this, "members");
 			//header("location: ".$this->getReturnLocation("members","adm_object.php?ref_id=$_GET[ref_id]"));
 			//exit;
 		}
@@ -583,7 +583,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				{
 					sendInfo($this->lng->txt("exc_members_assigned"),true);
 				}
-				$this->ctrl->redirect($this, "");
+				$this->ctrl->redirect($this, "members");
 				//header("location: ".$this->getReturnLocation("members","adm_object.php?ref_id=$_GET[ref_id]"));
 				//exit;
 			}
@@ -591,7 +591,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$show_search = true;
 
 		$this->getTemplateFile("add_member","exc");
-		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("F_ACTION",$this->ctrl->getLinkTarget($this, "newMembers"));
 		//$this->tpl->setVariable("F_ACTION", 
 		//	$this->getFormAction("newMembers","adm_object.php?ref_id=$_GET[ref_id]&cmd=newMembers"));
 		
@@ -994,14 +994,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// deliver exercise
 		$tabs_gui->addTarget("deliver",
 			$this->ctrl->getLinkTarget($this, 'deliver'),
-			"deliver", get_class($this));
+			array("deliver", "deliverFile"), "");
 
 		// members
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$tabs_gui->addTarget("show_members",
 				$this->ctrl->getLinkTarget($this, 'members'),
-				"members", "");
+				array("members", "newMembers", "newmembers"), "");
 
 			// add member
 			/*
