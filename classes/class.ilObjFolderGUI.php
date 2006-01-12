@@ -209,8 +209,33 @@ class ilObjFolderGUI extends ilContainerGUI
 		$folderObj->putInTree($a_parent);
 			
 		sendInfo($this->lng->txt("fold_added"),true);
-		$this->ctrl->redirect($this,"");
+		$this->ctrl->returnToParent($this);
+		//$this->ctrl->redirect($this,"");
 	}
+	
+		/**
+	* updates object entry in object_data
+	*
+	* @access	public
+	*/
+	function updateObject($a_return_to_parent = false)
+	{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$this->update = $this->object->update();
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		if ($a_return_to_parent)
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			$this->ctrl->redirect($this);
+		}
+	}
+
 
 	// get tabs
 	function getTabs(&$tabs_gui)

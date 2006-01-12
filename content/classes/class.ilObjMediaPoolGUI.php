@@ -158,6 +158,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 			case "ilobjfoldergui":
 				$folder_gui = new ilObjFolderGUI("", 0, false, false);
+				$this->ctrl->setReturn($this, "listMedia");
 				$cmd.="Object";
 				switch($cmd)
 				{
@@ -171,12 +172,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						break;
 
 					case "saveObject":
-						$folder_gui->setReturnLocation("save", $this->ctrl->getLinkTarget($this, "listMedia"));
+						//$folder_gui->setReturnLocation("save", $this->ctrl->getLinkTarget($this, "listMedia"));
 						$parent = ($_GET["obj_id"] == "")
 							? $tree->getRootId()
 							: $_GET["obj_id"];
 						$folder_gui->setFolderTree($tree);
 						$folder_gui->saveObject($parent);
+						//$this->ctrl->redirect($this, "listMedia");
 						break;
 
 					case "editObject":
@@ -189,8 +191,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 					case "updateObject":
 						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
-						$folder_gui->setReturnLocation("update", $this->ctrl->getLinkTarget($this, "listMedia"));
-						$folder_gui->updateObject();
+						//$folder_gui->setReturnLocation("update", $this->ctrl->getLinkTarget($this, "listMedia"));
+						$folder_gui->updateObject(true);
+						$this->ctrl->redirect($this, "listMedia");
 						break;
 
 					case "cancelObject":
@@ -444,8 +447,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "mep_edit.php?ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]."&cmd=post");
 
-		$tbl->setTitle($this->lng->txt("cont_content"));
-
 		$tbl->setHeaderNames(array("", "", $this->lng->txt("title")));
 
 		$cols = array("", "", "title");
@@ -454,6 +455,16 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "1%", "98%"));
 
+		if ($obj_id != $this->object->tree->getRootId())
+		{
+			$node = $this->object->tree->getNodeData($obj_id);
+			$tbl->setTitle($node["title"]);
+		}
+		else
+		{
+			$tbl->setTitle($this->object->getTitle());
+		}
+		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
@@ -486,7 +497,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 		
-							
 		// get current folders
 		$fobjs = $this->object->getChilds($_GET["obj_id"], "fold");
 		$f2objs = array();
@@ -610,6 +620,33 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 
+	
+	/**
+	* show upper icon (standard procedure will work, if no
+	* obj_id is given)
+	*/
+	function showUpperIcon()
+	{
+		global $tpl;
+		
+		parent::showUpperIcon();
+		
+		if ($_GET["obj_id"] != "")
+		{
+			$par_id = $this->object->tree->getParentId($_GET["obj_id"]);
+			if ($par_id != $this->object->tree->getRootId())
+			{
+				$this->ctrl->setParameter($this, "obj_id", $par_id);
+			}
+			else
+			{
+				$this->ctrl->setParameter($this, "obj_id", "");
+			}
+			$tpl->setUpperIcon($this->ctrl->getLinkTarget($this, "listMedia"));
+			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		}
+	}
+	
 	/**
 	* output main frameset of media pool
 	* left frame: explorer tree of folders
@@ -888,117 +925,36 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* set locator
+	* add locator items for media pool
 	*/
-	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
+	function addLocatorItems()
 	{
-		global $ilias_locator;
-
-		if (!defined("ILIAS_MODULE"))
+		global $ilLocator;
+		
+		$tree =& $this->object->getTree();
+		$obj_id = ($_GET["obj_id"] == "")
+			? $tree->getRootId()
+			: $_GET["obj_id"];
+		$path = $tree->getPathFull($obj_id);
+		foreach($path as $node)
 		{
-			parent::setLocator();
-			return;
-		}
-		else
-		{
-			$tree =& $this->object->getTree();
-			$obj_id = ($_GET["obj_id"] == "")
-				? $tree->getRootId()
-				: $_GET["obj_id"];
-			parent::setLocator($tree, $obj_id, "mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"],
-				"obj_id", false, $this->object->getTitle());
-		}
-		return;
-
-		if (!is_object($a_tree))
-		{
-			$a_tree =& $this->tree;
-		}
-
-		if (!($a_id))
-		{
-			$a_id = $_GET["ref_id"];
-		}
-
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-		$path = $a_tree->getPathFull($a_id);
-
-        //check if object isn't in tree, this is the case if parent_parent is set
-		// TODO: parent_parent no longer exist. need another marker
-		if ($a_parent_parent)
-		{
-			//$subObj = getObject($a_ref_id);
-			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
-
-			$path[] = array(
-				"id"	 => $a_ref_id,
-				"title"  => $this->lng->txt($subObj->getTitle())
-				);
-		}
-
-		// this is a stupid workaround for a bug in PEAR:IT
-		$modifier = 1;
-
-		if (isset($_GET["obj_id"]))
-		{
-			$modifier = 0;
-		}
-
-		// ### AA 03.11.10 added new locator GUI class ###
-		$i = 1;
-
-		foreach ($path as $key => $row)
-		{
-			if ($key < count($path)-$modifier)
+			if ($node["child"] == $tree->getRootId())
 			{
-				$this->tpl->touchBlock("locator_separator");
+				$this->ctrl->setParameter($this, "obj_id", "");
+				$link = $this->ctrl->getLinkTarget($this, "listMedia");
+				$title = $this->object->getTitle();
 			}
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $row["title"]);
-
-			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$row["child"]);
-			$this->tpl->parseCurrentBlock();
-
-			// ### AA 03.11.10 added new locator GUI class ###
-			// navigate locator
-			$ilias_locator->navigate($i++,$row["title"],$scriptname."?ref_id=".$row["child"],"bottom");
+			else
+			{
+				$this->ctrl->setParameter($this, "obj_id", $node["child"]);
+				$link = $this->ctrl->getLinkTarget($this, "listMedia");
+				$title = $node["title"];
+			}
+			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+			$ilLocator->addItem($title, $link);
 		}
-
-		if (isset($_GET["obj_id"]))
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
-
-			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-			$this->tpl->parseCurrentBlock();
-
-			// ### AA 03.11.10 added new locator GUI class ###
-			// navigate locator
-			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
-		}
-
-		$this->tpl->setCurrentBlock("locator");
-
-		if (DEBUG)
-		{
-			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
-		}
-
-		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
-
-		if ($_GET["cmd"] == "confirmDeleteAdm")
-		{
-			$prop_name = "delete_object";
-		}
-
-		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
-		$this->tpl->parseCurrentBlock();
 	}
-
+	
 	/**
 	* create folder form
 	*/

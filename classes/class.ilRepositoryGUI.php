@@ -975,6 +975,7 @@ class ilRepositoryGUI
 	/**
 	* old admin command handling compliance
 	*/
+/*
 	function cmd_admin_compliance($cmd, $execute = true)
 	{
 return;
@@ -1122,7 +1123,8 @@ return;
 				break;
 		}
 	}
-
+*/
+	
 //todo: check all these commands
 
 /*

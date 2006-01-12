@@ -317,7 +317,7 @@ class ilObjectGUI
 	function showUpperIcon()
 	{
 		global $tree, $tpl, $objDefinition;
-		
+
 		if ($this->object->getRefId() == "")
 		{
 			return;
@@ -346,7 +346,7 @@ class ilObjectGUI
 			}
 		}
 		else
-		{		
+		{
 			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
 				$this->object->getRefId() != SYSTEM_FOLDER_ID &&
 				$_GET["obj_id"] == "")
