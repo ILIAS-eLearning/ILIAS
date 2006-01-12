@@ -71,11 +71,17 @@ class ilMediaPoolExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		//$tpl = new ilTemplate("tpl.tree.html", true, true);
+
+		$tpl->setCurrentBlock("icon");
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_mep.gif"));
+		$tpl->setVariable("TXT_ALT_IMG",
+			ilUtil::shortenText($this->media_pool->getTitle(), $this->textwidth, true));
+		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", ilUtil::shortenText($this->media_pool->getTitle(), $this->textwidth, true));
@@ -83,10 +89,10 @@ class ilMediaPoolExplorer extends ilExplorer
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("element");
 		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
+		//$this->output[] = $tpl->get();
 	}
 
 } // END class ilLMExplorer
