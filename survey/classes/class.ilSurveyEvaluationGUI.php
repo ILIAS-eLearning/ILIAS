@@ -283,16 +283,16 @@ class ilSurveyEvaluationGUI
 					switch ($eval["QUESTION_TYPE"])
 					{
 						case "qt_metric":
-							$mainworksheet->write($counter+1, 5, $eval["MODE"]);
-							$mainworksheet->write($counter+1, 6, $eval["MODE"]);
+							$mainworksheet->write($counter+1, 5, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
+							$mainworksheet->write($counter+1, 6, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
 							break;
 						default:
-							$mainworksheet->write($counter+1, 5, $matches[1]);
-							$mainworksheet->write($counter+1, 6, $matches[2]);
+							$mainworksheet->write($counter+1, 5, ilExcelUtils::_convert_text($matches[1], $_POST["export_format"]));
+							$mainworksheet->write($counter+1, 6, ilExcelUtils::_convert_text($matches[2], $_POST["export_format"]));
 							break;
 					}
 					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
-					$mainworksheet->write($counter+1, 8, $eval["MEDIAN"]);
+					$mainworksheet->write($counter+1, 8, ilExcelUtils::_convert_text($eval["MEDIAN"], $_POST["export_format"]));
 					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
 					break;
 				case (TYPE_SPSS || TYPE_PRINT):
@@ -362,19 +362,19 @@ class ilSurveyEvaluationGUI
 							case TYPE_XLS:
 							case TYPE_XLS_MAC:
 								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[1]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[2]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("median"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MEDIAN"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("categories"), $format_bold);
-								$worksheet->write($rowcounter, 1, $this->lng->txt("title"), $format_title);
-								$worksheet->write($rowcounter, 2, $this->lng->txt("value"), $format_title);
-								$worksheet->write($rowcounter, 3, $this->lng->txt("category_nr_selected"), $format_title);
-								$worksheet->write($rowcounter++, 4, $this->lng->txt("percentage_of_selections"), $format_title);
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[1], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[2], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_NR_OF_SELECTIONS"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MEDIAN"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
 								break;
 						}
 						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
@@ -394,10 +394,10 @@ class ilSurveyEvaluationGUI
 								{
 									case TYPE_XLS:
 									case TYPE_XLS_MAC:
-										$worksheet->write($rowcounter, 1, $value["title"]);
+										$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"], $_POST["export_format"]));
 										$worksheet->write($rowcounter, 2, $key+1);
-										$worksheet->write($rowcounter, 3, $value["selected"]);
-										$worksheet->write($rowcounter++, 4, $value["percentage"], $format_percent);
+										$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
+										$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
 										break;
 								}
 						}
@@ -432,17 +432,17 @@ class ilSurveyEvaluationGUI
 							case TYPE_XLS:
 							case TYPE_XLS_MAC:
 								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[1]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $matches[2]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("categories"), $format_bold);
-								$worksheet->write($rowcounter, 1, $this->lng->txt("title"), $format_title);
-								$worksheet->write($rowcounter, 2, $this->lng->txt("value"), $format_title);
-								$worksheet->write($rowcounter, 3, $this->lng->txt("category_nr_selected"), $format_title);
-								$worksheet->write($rowcounter++, 4, $this->lng->txt("percentage_of_selections"), $format_title);
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[1], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[2], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_NR_OF_SELECTIONS"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
 								break;
 						}
 						array_push($printDetail, $this->lng->txt("subtype"));
@@ -475,10 +475,10 @@ class ilSurveyEvaluationGUI
 							{
 								case TYPE_XLS:
 								case TYPE_XLS_MAC:
-									$worksheet->write($rowcounter, 1, $value["title"]);
+									$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"], $_POST["export_format"]));
 									$worksheet->write($rowcounter, 2, $key+1);
-									$worksheet->write($rowcounter, 3, $value["selected"]);
-									$worksheet->write($rowcounter++, 4, $value["percentage"], $format_percent);
+									$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
+									$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
 									break;
 							}
 						}
@@ -515,29 +515,29 @@ class ilSurveyEvaluationGUI
 								switch ($data["subtype"])
 								{
 									case SUBTYPE_NON_RATIO:
-										$worksheet->write($rowcounter++, 1, $this->lng->txt("non_ratio"), $format_bold);
+										$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("non_ratio"), $_POST["export_format"]), $format_bold);
 										break;
 									case SUBTYPE_RATIO_NON_ABSOLUTE:
-										$worksheet->write($rowcounter++, 1, $this->lng->txt("ratio_non_absolute"), $format_bold);
+										$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_non_absolute"), $_POST["export_format"]), $format_bold);
 										break;
 									case SUBTYPE_RATIO_ABSOLUTE:
-										$worksheet->write($rowcounter++, 1, $this->lng->txt("ratio_absolute"), $format_bold);
+										$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_absolute"), $_POST["export_format"]), $format_bold);
 										break;
 								}
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("median"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["MEDIAN"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("arithmetic_mean"), $format_bold);
-								$worksheet->write($rowcounter++, 1, $eval["ARITHMETIC_MEAN"]);
-								$worksheet->write($rowcounter, 0, $this->lng->txt("values"), $format_bold);
-								$worksheet->write($rowcounter, 1, $this->lng->txt("value"), $format_title);
-								$worksheet->write($rowcounter, 2, $this->lng->txt("category_nr_selected"), $format_title);
-								$worksheet->write($rowcounter++, 3, $this->lng->txt("percentage_of_selections"), $format_title);
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_NR_OF_SELECTIONS"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MEDIAN"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["ARITHMETIC_MEAN"], $_POST["export_format"]));
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("values"), $_POST["export_format"]), $format_bold);
+								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected"), $_POST["export_format"]), $format_title);
+								$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
 								break;
 						}
 						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
@@ -576,9 +576,9 @@ class ilSurveyEvaluationGUI
 							{
 								case TYPE_XLS:
 								case TYPE_XLS_MAC:
-									$worksheet->write($rowcounter, 1, $value["value"]);
-									$worksheet->write($rowcounter, 2, $value["selected"]);
-									$worksheet->write($rowcounter++, 3, $value["percentage"], $format_percent);
+									$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["value"], $_POST["export_format"]));
+									$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
+									$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
 									break;
 							}
 						}
@@ -612,7 +612,7 @@ class ilSurveyEvaluationGUI
 						{
 							case TYPE_XLS:
 							case TYPE_XLS_MAC:
-								$worksheet->write($rowcounter, 0, $this->lng->txt("given_answers"), $format_bold);
+								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("given_answers"), $_POST["export_format"]), $format_bold);
 								break;
 						}
 						$this->tpl->setVariable("TEXT_TEXTVALUES", $this->lng->txt("given_answers"));

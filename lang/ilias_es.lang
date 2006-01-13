@@ -941,7 +941,7 @@ common#:#any_language#:#Cualquier idioma
 common#:#append_search#:#Añadir resultados de búsqueda
 common#:#application_completed#:#Solicitud completada
 common#:#application_date#:#Fecha de Solicitud
-common#:#applied_users#:#Usuarios ¿matriculados?
+common#:#applied_users#:#Usuarios ¿matrículados?
 common#:#apply#:#-Aplicar-
 common#:#apply_filter#:#Aplicar filtro
 common#:#appointment#:#Cita
@@ -1408,7 +1408,7 @@ common#:#exc_delete#:#Eliminar Actividad
 common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
 common#:#exc_edit_permission#:#Modificar configuración de permisos
-common#:#exc_edit_until#:#Enviar hasta
+common#:#exc_edit_until#:#Fecha limite de entrega
 common#:#exc_files#:#Archivos
 common#:#exc_files_returned#:#Archivos entregados
 common#:#exc_groups#:#Grupos
@@ -1614,14 +1614,14 @@ common#:#group_no_registration_msg#:#Ha dejado de ser un miembro de este grupo. 
 common#:#group_not_available#:#cualquier grupo disponible
 common#:#group_objects#:#Objetos de Grupo
 common#:#group_password_registration_msg#:#Para unirse a este grupo tiene que introducir la contraseña asignada por el administrador del mismo.<br>Estará automáticamente asignado a este grupo si su contraseña es correcta.###23 Dec 2005 content changed
-common#:#group_registration#:#Registration###23 Dec 2005 new variable
+common#:#group_registration#:#Matrícula
 common#:#group_registration_expiration_date#:#Fecha de Expiración
 common#:#group_registration_expiration_time#:#Hora de Expiración
-common#:#group_registration_expired#:#El Período de Registro finalizó###23 Dec 2005 content changed
-common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
+common#:#group_registration_expired#:#El Período de Matrícula
+common#:#group_registration_expired_msg#:#El periodo para unirse a este grupo expiro. Por favor contacte con un administrador del grupo, si se quiere unir a este grupo.
 common#:#group_registration_mode#:#Modo de Registro###23 Dec 2005 content changed
-common#:#group_registration_time#:#Registration period###23 Dec 2005 new variable
-common#:#group_req_direct#:#Join directly###23 Dec 2005 new variable
+common#:#group_registration_time#:#Periodo de Matrícula
+common#:#group_req_direct#:#Unirse directamente
 common#:#group_req_password#:#Se requiere contraseña para el Registro###23 Dec 2005 content changed
 common#:#group_req_registration#:#Se requiere el registro###23 Dec 2005 content changed
 common#:#group_req_registration_msg#:#Para unirse a este grupo tiene que registrarse. El administrador de grupo le asignará al grupo. Por favor escriba un asunto para explicar las razones de su solicitud.<br>Recibirá un mensaje cuando le asignen al grupo.###23 Dec 2005 content changed
@@ -2128,7 +2128,7 @@ common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento
 common#:#mark_all_read#:#marcar cadena como leída
 common#:#mark_all_unread#:#marcar cadena como no leída
-common#:#matriculation#:#Número de matrícula
+common#:#matrículation#:#Número de matrícula
 common#:#max_number_rec#:#Máximo número de registros
 common#:#max_time#:#Tiempo Máximo
 common#:#member#:#Miembro
@@ -2630,7 +2630,7 @@ common#:#require_institution#:#Solicitar institución
 common#:#require_lastname#:#Solicitar apellidos
 common#:#require_login#:#Solicitar login
 common#:#require_mandatory#:#obligatorio
-common#:#require_matriculation#:#Número de Matrícula Requerido
+common#:#require_matrículation#:#Número de Matrícula Requerido
 common#:#require_passwd#:#Solicitar contraseña
 common#:#require_passwd2#:#Solicitar reescribir contraseña
 common#:#require_phone_home#:#Solicitar teléfono de casa
@@ -3686,7 +3686,7 @@ crs#:#crs_grp_crs_assignment#:#Asignación de curso
 crs#:#crs_grp_deassigned_courses#:#Eliminar asignación
 crs#:#crs_grp_enter_title#:#Por favor introduzca un título.
 crs#:#crs_grp_info_reg#:#Únicamente puede registrarse en uno de estos cursos:
-crs#:#crs_grp_matriculation_required#:#Esta agrupación requiere un número de matriculación único. <br />Por favor inserte este valor un su configuración personal del escritorio.
+crs#:#crs_grp_matrículation_required#:#Esta agrupación requiere un número de matrículación único. <br />Por favor inserte este valor un su configuración personal del escritorio.
 crs#:#crs_grp_modified_grouping#:#Modificaciones guardadas.
 crs#:#crs_grp_no_course_selected#:#Por favor seleccione un curso.
 crs#:#crs_grp_no_courses_assigned#:#No hay cursos asignados.
@@ -3817,24 +3817,24 @@ crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Personas en la lista de espera
 crs#:#crs_print_list#:#Imprimir lista
 crs#:#crs_question_assignment#:#Asignación de preguntas
-crs#:#crs_reg#:#Registro
+crs#:#crs_reg#:#Matrícula
 crs#:#crs_reg_deactivated#:#Deshabilitado
-crs#:#crs_reg_lim_info#:#El registro es únicamente posible durante un período fijo de tiempo.
+crs#:#crs_reg_lim_info#:#La matrícula es únicamente posible durante un período fijo de tiempo.
 crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignado a este curso. '0' significa ilimitado.
-crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado 'Notificar' serán informados vía e-mail de los nuevos registros en el curso.
-crs#:#crs_reg_subscription_deactivated#:#Registro deshabilitado
-crs#:#crs_reg_subscription_end_earlier#:#El período de registro ha expirado
+crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado 'Notificar' serán informados vía e-mail de los nuevas matrícula en el curso.
+crs#:#crs_reg_subscription_deactivated#:#Matrículacion deshabilitada
+crs#:#crs_reg_subscription_end_earlier#:#El período de matrícula ha finalizado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
-crs#:#crs_reg_subscription_start_later#:#El período de registro comienza más tarde
-crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limitación de tiempo para el registro. Por favor escoja uno de los modos de registro comentados.###23 Dec 2005 content changed
-crs#:#crs_reg_until#:#Fecha de Registro###23 Dec 2005 content changed
+crs#:#crs_reg_subscription_start_later#:#El período de matrícula comienza más tarde
+crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limite de tiempo para la matrícula. Por favor escoja uno de los modos de matrícula comentados.###23 Dec 2005 content changed
+crs#:#crs_reg_until#:#Fecha de matrícula
 crs#:#crs_reg_user_already_assigned#:#Usted ya está asignado a este curso
 crs#:#crs_reg_user_already_subscribed#:#Usted ya se ha suscrito a este curso###23 Dec 2005 content changed
 crs#:#crs_reg_user_blocked#:#Se ha bloqueado su acceso a este curso
-crs#:#crs_registration#:#Registro de Curso
-crs#:#crs_registration_deactivated#:#Escoja esta opción para deshabilitar el registro. Ningún usuario puede registrarse para este curso###23 Dec 2005 content changed
-crs#:#crs_registration_limited#:#Registro de tiempo limitado
-crs#:#crs_registration_type#:#Modo de registro###23 Dec 2005 content changed
+crs#:#crs_registration#:#Matrícula de Curso
+crs#:#crs_registration_deactivated#:#Escoja esta opción para deshabilitar la matrícula. Ningún usuario puede matrícularse en este curso
+crs#:#crs_registration_limited#:#Periodo de matrícula limitado
+crs#:#crs_registration_type#:#Modo de matrícula
 crs#:#crs_registration_unlimited#:#Ilimitado en el tiempo
 crs#:#crs_reject_subscriber#:#Suscripción al Curso###23 Dec 2005 content changed
 crs#:#crs_reject_subscriber_body#:#Su suscripción ha sido rechazada###23 Dec 2005 content changed
@@ -3851,7 +3851,7 @@ crs#:#crs_select_exactly_one_tst#:#Por favor seleccione exáctamente un test.
 crs#:#crs_select_native_lm#:#Los capítulos sólo puede ser asignados a módulos de aprendizaje ILIAS
 crs#:#crs_select_one_archive#:#Por favor seleccione un archivo
 crs#:#crs_select_one_object#:#Por favor seleccione un item del curso.
-crs#:#crs_select_registration_type#:#Por favor seleccione un modo de registro###23 Dec 2005 content changed
+crs#:#crs_select_registration_type#:#Por favor seleccione un modo de matrícula
 crs#:#crs_select_starter#:#Seleccione un objeto inicial
 crs#:#crs_set_on_waiting_list#:#Por favor regístrate en el curso para ser asignado a la lista de espera.###23 Dec 2005 content changed
 crs#:#crs_settings#:#Configuración del Curso
@@ -3914,14 +3914,14 @@ crs#:#crs_visibility#:#Visibilidad
 crs#:#crs_visibility_limitless#:#Visible (ilimitado)
 crs#:#crs_visibility_until#:#Visible (desde ... hasta)
 crs#:#crs_visibility_unvisible#:#No visible
-crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
+crs#:#crs_wait_info#:#Si se habilita y el numero maximo de usuarios se sobrepasa, las nuevas matrículas seran colocadas en una lista de espera.
 crs#:#crs_waiting_list#:#Lista de espera
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Tu posición en la lista de espera
 crs#:#edit_content#:#Editar contenido
 crs#:#import_crs#:#Importar curso
 crs#:#learners_view#:#Vista de alumnos
-crs#:#subscription_times_not_valid#:#El período de registro no es válido.
+crs#:#subscription_times_not_valid#:#El período de matrícula no es válido.
 crs_#:#crs_archives#:#Archivar
 dateplaner#:#DateText#:#Mensaje
 dateplaner#:#Day_long#:#Vista diaria
