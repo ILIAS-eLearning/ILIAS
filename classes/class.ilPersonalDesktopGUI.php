@@ -33,7 +33,7 @@ include_once "classes/class.ilPersonalDesktopGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI
 *
 * @package content
 */
@@ -73,6 +73,13 @@ class ilPersonalDesktopGUI
 		$this->ctrl->setReturn($this, "show");
 		switch($next_class)
 		{
+			//Feedback
+			case "ilfeedbackgui":
+				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
+				$feedback_gui = new ilFeedbackGUI();
+				$this->setTabs();
+				$ret =& $this->ctrl->forwardCommand($feedback_gui);
+				break;
 			// bookmarks
 			case "ilbookmarkadministrationgui":
 				include_once("classes/class.ilBookmarkAdministrationGUI.php");
@@ -192,6 +199,7 @@ class ilPersonalDesktopGUI
 		$this->displayNotes();
 		$this->displayUsersOnline();
 		$this->displayBookmarks();
+		$this->displayFeedback();
 		$this->tpl->show();
 	}
 
@@ -1192,6 +1200,15 @@ class ilPersonalDesktopGUI
 		$html = $bookmark_gui->getPDBookmarkListHTML();
 		$this->tpl->setVariable("BOOKMARKS", $html);
     }
+	/**
+	* Display Links for Feedback
+	*/
+	function displayFeedback(){
+		include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
+		$feedback_gui = new ilFeedbackGUI();
+		$html = $feedback_gui->getPDFeedbackListHTML();
+		$this->tpl->setVariable('FEEDBACK', $html);
+	}
 
 	/**
 	 * Returns the multidimenstional sorted array
