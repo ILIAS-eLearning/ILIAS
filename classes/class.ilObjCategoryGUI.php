@@ -85,10 +85,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->setLocator();
 				sendInfo();
 				infoPanel();
-				$this->setTitleAndDescription();
-				$this->setPageEditorTabs();
 				//$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
+				$this->setTitleAndDescription();
 				$this->setPageEditorTabs();
 				return $ret;
 				break;
