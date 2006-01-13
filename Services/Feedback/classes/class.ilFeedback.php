@@ -278,11 +278,23 @@ class ilFeedback {
 	}
 	
 	/**
-	* gert all barometers for a certain ref_id
+	* get all barometers for a certain ref_id
+	* if no ref_id is set we get all barometers,
+	* this is needed for the personal desktop box.
 	*/
-	function getAllBarometer(){
+	function getAllBarometer($a_show_inactive=1){
 		global $ilDB;
-		$q = "SELECT * FROM feedback_items WHERE ref_id=".$ilDB->quote($this->ref_id);
+		
+		if($this->ref_id)
+			 $where.=" ref_id=".$ilDB->quote($this->ref_id);
+		$q = "SELECT * FROM feedback_items WHERE ".$where;
+		if($a_show_inactive==0){
+			if($where!='')
+				$where = ' AND'.$where;
+			$q = "SELECT * FROM feedback_items WHERE ".
+			" ((starttime<=UNIX_TIMESTAMP() AND".
+			" endtime>=UNIX_TIMESTAMP()) OR(starttime<=0 AND endtime<=0))".$where;
+		}
 		$res = $ilDB->query($q);
 		$i = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
@@ -328,8 +340,6 @@ class ilFeedback {
 	
 	/**
 	* check if a certain user has already answerd a certain barometer
-	* TODO interval add the interval. Checken ob die letzte antwort > als interval damit er wieder antworten kann!!!
-	* Evtl. Umbenennen in canVote
 	*/
 	function canVote($a_user_id,$a_fb_id){
 		global $ilDB, $ilUser;
