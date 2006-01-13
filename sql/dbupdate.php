@@ -9481,3 +9481,7 @@ DROP TABLE `tst_eval_groups`;
 <#626>
 ALTER TABLE `tst_eval_users` DROP `eval_users_id`;
 ALTER TABLE `tst_eval_users` DROP `TIMESTAMP`;
+<#627>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
