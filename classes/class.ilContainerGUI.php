@@ -179,7 +179,7 @@ class ilContainerGUI extends ilObjectGUI
 	function setTitleAndDescription()
 	{
 		global $ilias;
-//echo "1-".get_class($this)."-";
+//echo "1-".get_class($this)."-".$this->object->getTitle()."-";
 		$this->tpl->setTitle($this->object->getTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());
 
@@ -371,7 +371,7 @@ class ilContainerGUI extends ilObjectGUI
 			$tpl->parseCurrentBlock();
 			
 			// administration panel
-			if ($ilAccess->checkAccess("edit", "", $this->object->getRefId())
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
 				&& in_array($this->object->getType(), array("cat")))
 			{
 				$tpl->setCurrentBlock("edit_cmd");
@@ -800,25 +800,25 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $lng;
 		
-		if (!$this->isActiveAdministrationPanel())
+		if (!$this->isActiveAdministrationPanel()
+			|| strtolower($this->ctrl->getCmdClass()) != "ilpageobjectgui")
 		{
 			return;
 		}
 
-		
 		$lng->loadLanguageModule("content");
-		$tabs_gui = new ilTabsGUI();
+		//$tabs_gui = new ilTabsGUI();
 		//$tabs_gui->setSubTabs();
 		
 		// back to upper context
-		$tabs_gui->setBackTarget($this->lng->txt("obj_cat"),
+		$this->tabs_gui->setBackTarget($this->lng->txt("obj_cat"),
 			$this->ctrl->getLinkTarget($this, "frameset"),
 			ilFrameTargetInfo::_getFrame("MainContent"));
 
-		$tabs_gui->addTarget("edit", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view")
+		$this->tabs_gui->addTarget("edit", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view")
 			, array("", "view"), "ilpageobjectgui");
 
-		$this->tpl->setTabs($tabs_gui->getHTML());
+		//$this->tpl->setTabs($tabs_gui->getHTML());
 	}
 
 
