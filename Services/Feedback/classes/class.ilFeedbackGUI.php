@@ -708,19 +708,19 @@ class ilFeedbackGUI{
 		$tpl = new ilTemplate("tpl.feedback_pdbox.html", true,true, "Services/Feedback");
 		$tpl->setVariable('TXT_TITLE',$this->lng->txt('feedback'));
 		$rownum = 0;
-		
-		foreach ($barometers as $barometer){
-			if($barometer->canVote($ilUser->getId(),$barometer->getId())==1){
-				$tpl->setCurrentBlock('tbl_row');
-				$tpl->setVariable('ROWCOL', 'tblrow'.(($rownum++ % 2)+1));
-				$link = '<a href="repository.php?ref_id='.$barometer->getRefId().'&cmdClass=ilfeedbackgui&cmd=a">'.$barometer->getTitle().'</a>';
-				$this->ctrl->setParameter($this,"barometer_id",$barometer->getId());
-				$link ='<a href="'.$this->ctrl->getLinkTargetByClass('ilfeedbackgui','voteform').'">'.$barometer->getTitle().'</a>';
-				$tpl->setVariable('BAROMETER_LINK',$link);
-				$tpl->parseCurrentBlock();
+		if(count($barometers)){
+			foreach ($barometers as $barometer){
+				if($barometer->canVote($ilUser->getId(),$barometer->getId())==1){
+					$tpl->setCurrentBlock('tbl_row');
+					$tpl->setVariable('ROWCOL', 'tblrow'.(($rownum++ % 2)+1));
+					$link = '<a href="repository.php?ref_id='.$barometer->getRefId().'&cmdClass=ilfeedbackgui&cmd=a">'.$barometer->getTitle().'</a>';
+					$this->ctrl->setParameter($this,"barometer_id",$barometer->getId());
+					$link ='<a href="'.$this->ctrl->getLinkTargetByClass('ilfeedbackgui','voteform').'">'.$barometer->getTitle().'</a>';
+					$tpl->setVariable('BAROMETER_LINK',$link);
+					$tpl->parseCurrentBlock();
+				}
 			}
 		}
-		
 		$output = $rownum ? $tpl->get() : '' ;
 		return($output);
 	}
