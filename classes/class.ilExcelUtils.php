@@ -103,7 +103,7 @@ class ilExcelUtils
 					utf8_decode("þ") => chr(0xFE),
 					utf8_decode("Þ") => chr(0xDE)
 				);
-				return strtr(utf8_decode($a_text), $charmap_latin1);
+				return strtr(str_replace("<br />", " - ", utf8_decode($a_text)), $charmap_latin1);
 				break;
 			case CHARSET_MACOS:
 				$charmap_macos = array(
@@ -169,7 +169,7 @@ class ilExcelUtils
 					utf8_decode("þ") => chr(0x20),
 					utf8_decode("Þ") => chr(0x20)
 				);
-				return strtr(utf8_decode($a_text), $charmap_macos);
+				return strtr(str_replace("<br />", " - ", utf8_decode($a_text)), $charmap_macos);
 				break;
 			case "unknown":
 			default:
