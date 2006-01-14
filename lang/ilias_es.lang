@@ -2128,7 +2128,6 @@ common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento
 common#:#mark_all_read#:#marcar cadena como leída
 common#:#mark_all_unread#:#marcar cadena como no leída
-common#:#matrículation#:#Número de matrícula
 common#:#max_number_rec#:#Máximo número de registros
 common#:#max_time#:#Tiempo Máximo
 common#:#member#:#Miembro
@@ -2630,7 +2629,6 @@ common#:#require_institution#:#Solicitar institución
 common#:#require_lastname#:#Solicitar apellidos
 common#:#require_login#:#Solicitar login
 common#:#require_mandatory#:#obligatorio
-common#:#require_matrículation#:#Número de Matrícula Requerido
 common#:#require_passwd#:#Solicitar contraseña
 common#:#require_passwd2#:#Solicitar reescribir contraseña
 common#:#require_phone_home#:#Solicitar teléfono de casa
@@ -3686,7 +3684,6 @@ crs#:#crs_grp_crs_assignment#:#Asignación de curso
 crs#:#crs_grp_deassigned_courses#:#Eliminar asignación
 crs#:#crs_grp_enter_title#:#Por favor introduzca un título.
 crs#:#crs_grp_info_reg#:#Únicamente puede registrarse en uno de estos cursos:
-crs#:#crs_grp_matrículation_required#:#Esta agrupación requiere un número de matrículación único. <br />Por favor inserte este valor un su configuración personal del escritorio.
 crs#:#crs_grp_modified_grouping#:#Modificaciones guardadas.
 crs#:#crs_grp_no_course_selected#:#Por favor seleccione un curso.
 crs#:#crs_grp_no_courses_assigned#:#No hay cursos asignados.
