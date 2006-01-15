@@ -500,6 +500,9 @@ class ilTableGUI
 				$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params."sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			$this->tpl->setCurrentBlock("tbl_header");
+			$this->tpl->parseCurrentBlock();
 		}
 
 		// table data

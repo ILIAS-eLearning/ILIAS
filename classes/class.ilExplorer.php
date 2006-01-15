@@ -760,6 +760,7 @@ class ilExplorer
 			}
 			*/
 		}
+		
 		if (!$pic)
 		{
 			$tpl->setCurrentBlock("blank");
@@ -780,7 +781,6 @@ class ilExplorer
 
 		if ($this->isClickable($a_option["type"], $a_node_id,$a_obj_id))	// output link
 		{
-
 			$tpl->setCurrentBlock("link");
 			//$target = (strpos($this->target, "?") === false) ?
 			//	$this->target."?" : $this->target."&";

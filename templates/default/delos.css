@@ -879,6 +879,12 @@ li.il_Explorer
 	white-space: nowrap;
 }
 
+li.il_ExplorerInline
+{
+	margin:0;
+	padding:0;
+}
+
 a.il_HighlightedNode
 {
 	border-bottom-width: 2px;
@@ -1036,6 +1042,7 @@ td.il_LeftColumn
 {
 	padding-left:15px;
 	vertical-align:top;
+	width:20%;
 }
 
 td.il_CenterColumn
@@ -1051,6 +1058,7 @@ td.il_RightColumn
 	padding-left:15px;
 	padding-left:15px;
 	vertical-align:top;
+	width:20%;
 }
 
 /* ------- Helptext --------- */

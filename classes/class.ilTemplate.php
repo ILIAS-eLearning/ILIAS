@@ -782,12 +782,18 @@ class ilTemplate extends ilTemplateX
 	
 	/**
 	* set tree/flat icon
+	* @param	string		link target
+	* @param	strong		mode ("treeview" | "flatview")
 	*/
 	function setTreeFlatIcon($a_link, $a_mode)
 	{
+		global $lng;
+		
 		$this->setCurrentBlock("tree_mode");
 		$this->setVariable("LINK_MODE", $a_link);
 		$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$a_mode."view.gif"));
+		$this->setVariable("ALT_TREE",$lng->txt($a_mode."view"));
+		
 		$this->parseCurrentBlock();
 	}
 

@@ -229,8 +229,8 @@ class ilBookmarkAdministrationGUI
 				: "tree";
 		$this->tpl->setCurrentBlock("tree_mode");
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
-		$this->tpl->setVariable("LINK_MODE", $this->ctrl->getLinkTarget($this)."&set_mode=".$s_mode);
-		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$s_mode."view.gif"));
+		$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this)."&set_mode=".$s_mode,
+			$s_mode);
 		$this->tpl->parseCurrentBlock();
 
 
@@ -288,6 +288,7 @@ class ilBookmarkAdministrationGUI
 				$this->tpl->setVariable("TXT_TARGET",
 					ilUtil::prepareFormOutput(ilUtil::shortenText(
 						$object["target"],$this->textwidth, true)));
+				$this->tpl->setVariable("LINK_TARGET", $object["target"]);
 				$this->tpl->parseCurrentBlock();
 			}
 			// description
@@ -374,16 +375,15 @@ class ilBookmarkAdministrationGUI
 		// SHOW toggle checkboxes
 		if (!empty($a_ids))
 		{
-			$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			$this->tpl->setVariable("JS_VARNAME","id");
-			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_ids));
-			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$this->tpl->setCurrentBlock("tbl_select_all");
+			$this->tpl->setVariable("COLUMN_COUNTS",4);
+			$this->tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
 			$this->tpl->parseCurrentBlock();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 		$this->tpl->setVariable("NUM_COLS", 5);
 		$this->showPossibleSubObjects();
 
