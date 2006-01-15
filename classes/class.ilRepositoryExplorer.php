@@ -553,7 +553,7 @@ class ilRepositoryExplorer extends ilExplorer
 		global $lng, $ilias;
 
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.gif"));
+		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_root.gif"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 
@@ -565,7 +565,6 @@ class ilRepositoryExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("element");
 		$tpl->parseCurrentBlock();
-
 	}
 
 } // END class ilRepositoryExplorer

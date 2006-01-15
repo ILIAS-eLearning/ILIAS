@@ -341,6 +341,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("tbl_action_btn");
 				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+				$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 				$this->tpl->setVariable("BTN_NAME", $val["name"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();
@@ -357,13 +358,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 			if (!empty($this->ids))
 			{
+				$this->tpl->setCurrentBlock("tbl_select_all");
+				$this->tpl->setVariable("COLUMN_COUNTS",
+					count($this->data["cols"]));
+				$this->tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->parseCurrentBlock();
+
 				// set checkbox toggles
+				/*
 				$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
 				$this->tpl->setVariable("JS_VARNAME","id");			
 				$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($this->ids));
 				$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
 				$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->parseCurrentBlock();*/
 			}
 		
 			$this->tpl->setCurrentBlock("tbl_action_row");
@@ -1509,6 +1517,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 		$tpl->parseCurrentBlock();
 
 
@@ -1902,6 +1911,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// cancel/confirm button
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
 			"deleteExportFile"  => $this->lng->txt("confirm"));
 		foreach ($buttons as $name => $value)
@@ -2003,6 +2013,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// delete button
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));

@@ -80,6 +80,8 @@ class ilBookmarkExplorer extends ilExplorer
 	*/
 	function getOutput()
 	{
+		global $ilBench, $tpl;
+		
 		$this->format_options[0]["tab"] = array();
 
 		$depth = $this->tree->getMaximumDepth();
@@ -88,21 +90,39 @@ class ilBookmarkExplorer extends ilExplorer
 		{
 			$this->createLines($i);
 		}
+		
+		$tpl_tree = new ilTemplate("tpl.tree_tooltip.html", true, true);
 
+		$cur_depth = -1;
 		foreach ($this->format_options as $key => $options)
 		{
+			if (!$options["visible"])
+			{
+				continue;
+			}
+
+			
+			// end tags
+			$this->handleListEndTags($tpl_tree, $cur_depth, $options["depth"]);
+			
+			// start tags
+			$this->handleListStartTags($tpl_tree, $cur_depth, $options["depth"]);
+			
+			$cur_depth = $options["depth"];
+			
 			if ($options["visible"] and $key != 0)
 			{
-
-				$this->formatObject($options["child"],$options);
+				$this->formatObject($tpl_tree, $options["child"],$options,$options['obj_id']);
 			}
-			if($key == 0)
+			if ($key == 0)
 			{
-				//$this->formatHeader($options["child"],$options);
+				//$this->formatHeader($tpl_tree, $options["child"],$options);
 			}
 		}
+		
+		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
 
-		return implode('',$this->output);
+		return $tpl_tree->get();
 	}
 
 
@@ -203,7 +223,7 @@ class ilBookmarkExplorer extends ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option,$a_obj_id = 0)
+	function formatObject(&$tpl, $a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
 		
@@ -213,13 +233,11 @@ class ilBookmarkExplorer extends ilExplorer
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new ilTemplate("tpl.tree_tooltip.html", true, true);
-
+		$pic = false;
 		foreach ($a_option["tab"] as $picture)
 		{
 				//$tpl->touchBlock("checkbox");
 				//$tpl->parseCurrentBlock();
-
 
 			if ($picture == 'plus')
 			{
@@ -232,6 +250,7 @@ class ilBookmarkExplorer extends ilExplorer
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
+				$pic = true;
 			}
 
 			if ($picture == 'minus')
@@ -245,8 +264,10 @@ class ilBookmarkExplorer extends ilExplorer
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
+				$pic = true;
 			}
 
+			/*
 			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
@@ -255,6 +276,14 @@ class ilBookmarkExplorer extends ilExplorer
 				$tpl->setVariable("IMGPATH_LINES", $this->getImage("browser/".$picture.".gif"));
 				$tpl->parseCurrentBlock();
 			}
+			*/
+		}
+		
+		if (!$pic)
+		{
+			$tpl->setCurrentBlock("blank");
+			$tpl->setVariable("BLANK_PATH", $this->getImage("browser/blank.gif"));
+			$tpl->parseCurrentBlock();
 		}
 
 		if ($this->output_icons)
@@ -305,11 +334,11 @@ class ilBookmarkExplorer extends ilExplorer
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("list_item");
 		$tpl->parseCurrentBlock();
-
-		$this->output[] = $tpl->get();
+		$tpl->touchBlock("element");
 	}
+
 	/**
 	* overwritten method from base class
 	* @access	public
@@ -321,20 +350,19 @@ class ilBookmarkExplorer extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree_tooltip.html", true, true);
-
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TYPE", $a_option["type"]);
 		$tpl->setVariable("TITLE", $lng->txt("bookmarks_of")." ".$ilias->account->getFullname());
 		$sep = (is_int(strpos($this->target, "?")))
 			? "&"
 			: "?";
-
 		$tpl->setVariable("LINK_TARGET", $this->target.$sep.$this->target_get."=1");
 		$tpl->setVariable("TARGET", " target=\"content\"");
 		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
+		$tpl->setCurrentBlock("element");
+		$tpl->parseCurrentBlock();
+
 	}
 
 	/**
@@ -396,6 +424,7 @@ class ilBookmarkExplorer extends ilExplorer
 				return '';
 		}
 	}
+
 	/**
 	* buid tooltip
 	*/
@@ -438,7 +467,7 @@ class ilBookmarkExplorer extends ilExplorer
 	{
 		if ($this->show_details=='y' && !empty($a_desc))
 		{
-			return '<br>'.ilUtil::prepareFormOutput($a_desc);
+			return '<br />'.ilUtil::prepareFormOutput($a_desc);
 
 		}
 		else

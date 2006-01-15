@@ -55,7 +55,7 @@ class ilFrameTargetInfo
 						
 					// frame for external content (e.g. web bookmarks, external links) 
 					case "ExternalContent":
-						return "_new";
+						return "_blank";
 				}
 		}
 		

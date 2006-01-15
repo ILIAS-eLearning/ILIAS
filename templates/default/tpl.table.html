@@ -13,44 +13,33 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 //-->
 </script>
 <!-- BEGIN tbl_form_header -->
-<form action="{FORMACTION}" name="ObjectItems" method="post" target="{ACTIONTARGET}">
+<form action="{FORMACTION}" name="cmd" method="post" target="{ACTIONTARGET}">
 <!-- END tbl_form_header -->
 <table class="{CSS_TABLE}" {WIDTH}>
 <!-- BEGIN tbl_header_title -->
   <tr class="tbltitle">
-    <td colspan="{COLUMN_COUNT}">
-	<table class="fullwidth_invisible" cellspacing="0">
-	  <tr class="tbltitle">
-<!-- BEGIN tbl_header_title_icon -->
-	    <td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
-<!-- END tbl_header_title_icon -->
-		<td class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
-<!-- BEGIN tbl_header_hits_page -->
-		<td class="tblfooter" align="right">&nbsp;</td>
-		<!-- <td class="tblfooter" align="right">{HITS_PER_PAGE}: <input class="tblfooter" type="text" name="hitsperpage" value="{LIMIT}" size="2" /><input class="tblfooter" type="hidden" name="cmd[hitsperpage]" value=""/></td> -->
-<!-- END tbl_header_hits_page -->
-<!-- BEGIN tbl_header_title_help -->
-		<td align="right"><a href="#" onclick="return popup_window('{TBL_HELP_LINK}',60,90,20,80);"><img src="{TBL_HELP_IMG}" alt="{TBL_HELP_IMG_ALT}" title="{TBL_HELP_IMG_ALT}" border="0" align="right" /></a></td>
-<!-- END tbl_header_title_help -->
-	  </tr>
-	</table>
-    </td>
+    <th class="std" colspan="{COLUMN_COUNT}">
+<!-- BEGIN tbl_header_title_icon --><img src="{TBL_TITLE_IMG}" style="vertical-align:middle" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />
+<!-- END tbl_header_title_icon -->{TBL_TITLE}
+    </th>
   </tr>
 <!-- END tbl_header_title -->
+<!-- BEGIN tbl_header -->
   <tr class="tblheader">
 <!-- BEGIN tbl_header_no_link -->
-		<td class="std"{TBL_COLUMN_WIDTH_NO_LINK}>{TBL_HEADER_CELL_NO_LINK}</td>
+		<th class="std"{TBL_COLUMN_WIDTH_NO_LINK}>{TBL_HEADER_CELL_NO_LINK}</th>
 <!-- END tbl_header_no_link -->
 <!-- BEGIN tbl_header_cell -->
-    <td class="std" nowrap="nowrap"{TBL_COLUMN_WIDTH}>
+    <th class="std" nowrap="nowrap"{TBL_COLUMN_WIDTH}>
 	  <a class="tblheader" href="{TBL_ORDER_LINK}" alt="{TBL_ORDER_ALT}" title="{TBL_ORDER_ALT}">{TBL_HEADER_CELL}
 <!-- BEGIN tbl_order_image -->
 	  <img src="{IMG_ORDER_DIR}" border="0" valign="absmiddle" />
 <!-- END tbl_order_image -->
 	  </a>
-	</td>
+	</th>
 <!-- END tbl_header_cell -->
   </tr>
+<!-- END tbl_header -->
 <!-- BEGIN tbl_content_row -->
   <tr class="{ROWCOLOR}">
 <!-- BEGIN tbl_content_cell -->
@@ -65,34 +54,37 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 {TBL_CONTENT}
 <!-- BEGIN tbl_footer -->
   <tr class="tblfooter">
-    <td colspan="{COLUMN_COUNT}">
-	<table class="fullwidth_invisible" cellspacing="0">
-	  <tr class="tblfooter">
-	    <td>
-<!-- BEGIN tbl_footer_numinfo -->
-          {NUMINFO}
-<!-- END tbl_footer_numinfo -->
-				  <!-- BEGIN tbl_footer_info -->
-				  <br/><font class="quote">{INFO_TEXT}</font>
-				  <!-- END tbl_footer_info -->&nbsp;</td>
-<!-- BEGIN tbl_footer_linkbar -->
-	    <td class="tblfooter" align="right">{LINKBAR}</td>
-<!-- END tbl_footer_linkbar -->
-	  </tr>
-	</table>
+    <td colspan="{COLUMN_COUNT}" class="tblfooter">
+	<div style="float:left;">
+		<!-- BEGIN tbl_footer_numinfo -->
+		{NUMINFO}
+		<!-- END tbl_footer_numinfo -->
+		<!-- BEGIN tbl_footer_info -->
+		<br /><font class="quote">{INFO_TEXT}</font>
+		<!-- END tbl_footer_info -->
+	</div>
+	<div style="text-align:right;">
+		<!-- BEGIN tbl_footer_linkbar -->
+			{LINKBAR}
+		<!-- END tbl_footer_linkbar -->
+	</div>
 	</td>
   </tr>
 <!-- END tbl_footer -->
 <!-- BEGIN tbl_action_row -->
+<!-- BEGIN tbl_select_all -->
+<tr>
+	<td class="submit" colspan="{COLUMN_COUNTS}">
+	<input type="checkbox" name="all" value="check_all" onClick="CheckAll();" />
+	{TXT_SELECT_ALL}
+	</td>
+</tr>
+<!-- END tbl_select_all -->
   <tr>
 	<td class="submit" colspan="{COLUMN_COUNTS}" align="left" nowrap="nowrap">
-	<table width="100%" cellpadding="0" cellspacing="0" border="0">
-	  <tr>
-		<td align="left" width="10">
+		<div style="float:left;">
 		  <!-- <img src="{TPLPATH}/images/arrow_downright.gif" border="0" />-->
-		  <img src="{IMG_ARROW}" border="0" />
-		</td>
-		<td align="left">&nbsp;
+		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
 <!-- BEGIN tbl_action_select -->
 				  {SELECT_ACTION}&nbsp;
 				  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
@@ -104,31 +96,29 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 				  {SELECT_ACTION}&nbsp;
 <!-- END tbl_action_plain_select -->
 <!-- BEGIN tbl_action_toggle_checkboxes -->
-    [<a href="" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
-    [<a href="" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
+    [<a href="" onclick="setCheckboxes('cmd','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
+    [<a href="" onclick="setCheckboxes('cmd','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
 <!-- END tbl_action_toggle_checkboxes -->
-		</td>
+		</div>
 <!-- BEGIN add_object -->
-	<td align="right" valign="top">
+	<div style="text-align:right;">
 		{SELECT_OBJTYPE}
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
 <!-- BEGIN import_object -->
 		<input class="submit" type="submit" name="cmd[{BTN_IMP}]" value="{TXT_IMP}" />
 <!-- END import_object -->
-	</td>
+	</div>
 <!-- END add_object -->
 <!-- BEGIN plain_buttons -->
-			  <td align="right" valign="top">
+			  <div style="text-align:right;">
 <!-- BEGIN input_text -->
 				<input class="std" type="text" name="{PB_TXT_NAME}" value="{PB_TXT_VALUE}" />
 <!-- END input_text -->
 <!-- BEGIN plain_button -->
 				<input class="submit" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" />
 <!-- END plain_button -->
-			  </td>
+			  </div>
 <!-- END plain_buttons -->
-	  </tr>
-	</table>
     </td>
   </tr>
 <!-- END tbl_action_row -->
