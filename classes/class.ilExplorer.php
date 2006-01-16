@@ -729,6 +729,9 @@ class ilExplorer
 		{
 			if ($picture == 'plus')
 			{
+				$tpl->setCurrentBlock("exp_desc");
+				$tpl->setVariable("EXP_DESC", $lng->txt("expand"));
+				$tpl->parseCurrentBlock();
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
@@ -740,6 +743,9 @@ class ilExplorer
 
 			if ($picture == 'minus' && $this->show_minus)
 			{
+				$tpl->setCurrentBlock("exp_desc");
+				$tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
+				$tpl->parseCurrentBlock();
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);

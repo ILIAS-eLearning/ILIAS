@@ -414,12 +414,13 @@ span.il_ItemProperty,
 	font-size: 13px;
 }
 
-td.il_ContainerBlockHeader
+th.il_ContainerBlockHeader
 {
 	background-image: url(blueshadow/images/cellpic5.gif);
 	background-color:#e5e5e5;
 	font-weight: bold;
 	padding: 2px;
+	text-align:left;
 }
 
 table.il_ContainerBlock

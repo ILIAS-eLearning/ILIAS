@@ -431,6 +431,8 @@ class ilRepositoryGUI
 	*/
 	function frameset()
 	{
+		global $lng;
+		
 		$this->tpl = new ilTemplate("tpl.rep_frameset.html", false, false);
 		if ($_GET["rep_frame"] == 1)
 		{
@@ -447,6 +449,8 @@ class ilRepositoryGUI
 				"repository.php?getlast=true&ref_id=".$this->cur_ref_id);
 		}
 		$this->tpl->setVariable("REF_ID",$this->cur_ref_id);
+		$this->tpl->setVariable("TXT_EXPLORER_FRAME", $lng->txt("explorer_frame"));
+		$this->tpl->setVariable("TXT_CONTENT_FRAME", $lng->txt("repository_frame"));
 		$this->tpl->show();
 	}
 
