@@ -194,7 +194,7 @@ class ilContainerGUI extends ilObjectGUI
 				$icon = $path;
 			}
 		}
-		$this->tpl->setTitleIcon($icon);
+		$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
 	}
 
 
@@ -409,6 +409,7 @@ class ilContainerGUI extends ilObjectGUI
 			}
 			$tpl->setCurrentBlock("admin_panel");
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 			$tpl->setVariable("TXT_ADMIN_PANEL", $this->lng->txt("admin_panel"));
 			$tpl->parseCurrentBlock();
 			$this->ctrl->setParameter($this, "type", "");
@@ -706,10 +707,12 @@ class ilContainerGUI extends ilObjectGUI
 			$icon = ilUtil::getImagePath("icon_lm.gif");
 			$title = $this->lng->txt("learning_resources");
 		}
-				if ($a_show_image)
+		
+		if ($a_show_image)
 		{
 			$a_tpl->setCurrentBlock("container_header_row_image");
 			$a_tpl->setVariable("HEADER_IMG", $icon);
+			$a_tpl->setVariable("HEADER_ALT", $title);
 		}
 		else
 		{
@@ -743,12 +746,12 @@ class ilContainerGUI extends ilObjectGUI
 			if ($a_image_type != "lres")
 			{
 				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
-				$title = $this->lng->txt("objs_".$a_image_type);
+				$alt = $this->lng->txt("obj_".$a_image_type);
 			}
 			else
 			{
 				$icon = ilUtil::getImagePath("icon_lm.gif");
-				$title = $this->lng->txt("learning_resources");
+				$alt = $this->lng->txt("learning_resource");
 			}
 			
 			// custom icon
@@ -764,6 +767,7 @@ class ilContainerGUI extends ilObjectGUI
 
 			$a_tpl->setCurrentBlock("block_row_image");
 			$a_tpl->setVariable("ROW_IMG", $icon);
+			$a_tpl->setVariable("ROW_ALT", $alt);
 			$a_tpl->parseCurrentBlock();
 			$nbsp = false;
 		}

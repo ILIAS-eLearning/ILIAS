@@ -427,13 +427,14 @@ span.il_ItemProperty,
 {
 }
 
-td.il_ContainerBlockHeader
+th.il_ContainerBlockHeader
 {
 	background-image: url(images/TableHeader.gif);
 	background-color:#EDEDED;
 	background-repeat: repeat-x;
 	font-weight: bold;
 	padding: 2px;
+	text-align:left;
 }
 
 table.il_ContainerBlock
