@@ -3147,6 +3147,11 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
+content#:#cont_frame_toc#:#Table of Contents
+content#:#cont_frame_maincontent#:#Learning Resource Main Content
+content#:#cont_frame_right#:#Content Details
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)
+content#:#cont_frame_botright#:#Content Details (Glossary)
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
