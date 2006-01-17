@@ -181,7 +181,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->tpl->setVariable("ACT_TRACK_CHECKED", " checked=\"1\" ");
 		}
 		// Anonymized
-		if($this->object->_enabledUserRelatedData())
+		if(!$this->object->_enabledUserRelatedData())
 		{
 			$this->tpl->setVariable("USER_RELATED_CHECKED", " checked=\"1\" ");
 		}
@@ -198,7 +198,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	function saveSettingsObject()
 	{
 		$this->object->enableTracking((int) $_POST["act_track"]);
-		$this->object->enableUserRelatedData((int) $_POST['user_related']);
+		$this->object->enableUserRelatedData((int) !$_POST['user_related']);
 		$this->object->setValidTimeSpan($_POST['valid_request']);
 
 		if(!$this->object->validateSettings())

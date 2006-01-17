@@ -241,7 +241,7 @@ class ilFileDataExercise extends ilFileData
 		}
 
 		$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/";
-		copy($tmpfile, $savepath . "users.txt"); 
+		copy($tmpfile, $savepath . "users.txt");
 		$cdir = getcwd();
 
 		// important check: if the directory does not exist

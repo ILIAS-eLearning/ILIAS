@@ -1368,7 +1368,7 @@ common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
 common#:#enabled#:#Eingeschaltet
-common#:#enter_filename_deliver#:#Geben Sie eine Bearbeitung zum Abgeben an
+common#:#enter_filename_deliver#:#Bitte geben Sie hier Ihre Lösungsergebnisse ab
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
@@ -2147,7 +2147,7 @@ common#:#mep_visible#:#Media-Pool ist sichtbar
 common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
-common#:#message_no_delivered_files#:#Sie haben noch keine Bearbeitung abgegeben!
+common#:#message_no_delivered_files#:#Sie haben noch keine Lösungsergebnisse abgegeben!
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
