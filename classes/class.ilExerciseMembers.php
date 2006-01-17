@@ -306,6 +306,18 @@ class ilExerciseMembers
 		return $result->numRows();
 	}
 
+	function getAllDeliveredFiles()
+	{
+		$query = "SELECT * FROM exc_returned WHERE obj_id = '".$this->getObjId()."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$delivered[] = $row;
+		}
+		return $delivered ? $delivered : array();
+	}
+			
 	/**
 	* Returns an array of all delivered files of an user
 	*

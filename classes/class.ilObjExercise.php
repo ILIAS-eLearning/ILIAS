@@ -103,7 +103,9 @@ class ilObjExercise extends ilObject
 		$deliver_result = $this->file_obj->deliverFile($a_http_post_files, $user_id);
 		if ($deliver_result)
 		{
-			$query = sprintf("INSERT INTO exc_returned (returned_id, obj_id, user_id, filename, filetitle, mimetype, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO exc_returned ".
+							 "(returned_id, obj_id, user_id, filename, filetitle, mimetype, TIMESTAMP) ".
+							 "VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote($this->getId() . ""),
 				$this->ilias->db->quote($user_id . ""),
 				$this->ilias->db->quote($deliver_result["fullname"]),
@@ -195,6 +197,13 @@ class ilObjExercise extends ilObject
 	function deleteDeliveredFiles($file_id_array, $user_id)
 	{
 		$this->members_obj->deleteDeliveredFiles($file_id_array, $user_id);
+
+		// Finally update status 'returned' of member if no file exists
+		if(!count($this->members_obj->getDeliveredFiles($user_id)))
+		{
+			$this->members_obj->setStatusReturnedForMember($user_id,0);
+		}
+
 	}
 	
 	/**

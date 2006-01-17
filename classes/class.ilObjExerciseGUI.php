@@ -88,15 +88,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->getTemplateFile("view", "exc");
 
 		$this->tpl->setVariable("FORM_DOWNLOAD_ACTION", $this->ctrl->getFormAction($this, "downloadFile"));
-		//$this->tpl->setVariable("FORM_DOWNLOAD_ACTION",$this->getFormAction("downloadFile",
-		//	"adm_object.php?cmd=downloadFile&ref_id=".$this->ref_id));
-
 		$this->tpl->setVariable("TITLE",$this->object->getTitle());
 		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
 		$this->tpl->setVariable("INSTRUCTION_TXT",$this->lng->txt("exc_instruction"));
 		$this->tpl->setVariable("INSTRUCTION",nl2br($this->object->getInstruction()));
 		$this->tpl->setVariable("EDIT_UNTIL_TXT",$this->lng->txt("exc_edit_until"));
 		$this->tpl->setVariable("EDIT_UNTIL",date("d.m.Y",$this->object->getTimestamp()));
+
+		if(!count($this->object->getFiles()))
+		{
+			return true;
+		}
 
 		foreach($this->object->getFiles() as $file)
 		{
@@ -532,11 +534,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			$this->__showMembersTableContent($this->__showMembersTable($f_result,$member_ids));
 			
-			$this->tpl->addBlockFile("SPECIAL_BUTTONS", "special_buttons", "tpl.exc_download_all.html");
-			$this->tpl->setCurrentBlock("download_all");
-			$this->tpl->setVariable("BUTTON_DOWNLOAD_ALL", $this->lng->txt("download_all_returned_files"));
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("downloadAll", "exercise.php?cmd=downloadAll&ref_id=".$this->ref_id));
-			$this->tpl->parseCurrentBlock();
+			
+			if(count($this->object->members_obj->getAllDeliveredFiles()))
+			{
+				$this->tpl->addBlockFile("SPECIAL_BUTTONS", "special_buttons", "tpl.exc_download_all.html");
+				$this->tpl->setCurrentBlock("download_all");
+				$this->tpl->setVariable("BUTTON_DOWNLOAD_ALL", $this->lng->txt("download_all_returned_files"));
+				$this->tpl->setVariable("FORMACTION", 
+										$this->getFormAction("downloadAll", "exercise.php?cmd=downloadAll&ref_id=".$this->ref_id));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 	
