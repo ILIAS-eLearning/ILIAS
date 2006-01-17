@@ -1383,6 +1383,7 @@ common#:#execute#:#Eksekver
 common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###21 Apr 2005 new variable
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#expand#:#Expand###06 Jan 2006 new variable
+common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Eksport
 common#:#export_group_members#:#Exporter gruppemedlemmer (til Microsoft Excel)
 common#:#export_html#:#eksporter som HTML fil
@@ -2523,6 +2524,7 @@ common#:#reply#:#Svar
 common#:#repository#:#Oversigt
 common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
 common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Kr&aelig;ver by
 common#:#require_country#:#Kr&aelig;ver land

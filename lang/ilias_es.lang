@@ -1439,6 +1439,7 @@ common#:#execute#:#ejecutar
 common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
 common#:#exp_html#:#Exportar a HTML
 common#:#expand#:#Expand###06 Jan 2006 new variable
+common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
 common#:#export_html#:#Exportar como fichero HTML
@@ -2615,6 +2616,7 @@ common#:#reply#:#responder
 common#:#repository#:#Contenidos
 common#:#repository_admin#:#Contenidos, Papelera y Permisos
 common#:#repository_admin_desc#:#Configurar permisos para items de Contenidos, restaurar o eliminar objetos de la Papelera del sistema
+common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
 common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Solicitar ciudad
 common#:#require_country#:#Solicitar país

@@ -1394,6 +1394,7 @@ common#:#execute#:#Thực hiện
 common#:#exercise_time_over#:#Bạn đã hết giờ làm việc với bài tập. Bạn không thể nộp các file nữa!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#expand#:#Expand###06 Jan 2006 new variable
+common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Xuất ra
 common#:#export_group_members#:#Xuất thành viên của nhóm (sang Microsoft Excel)
 common#:#export_html#:#xuất ra dạng HTML
@@ -2535,6 +2536,7 @@ common#:#reply#:#Trả lời
 common#:#repository#:#Kho kiến thức
 common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
 common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Yêu cầu thành phố
 common#:#require_country#:#Yêu cầu quốc gia
