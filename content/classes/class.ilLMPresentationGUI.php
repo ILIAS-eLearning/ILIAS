@@ -1973,6 +1973,7 @@ class ilLMPresentationGUI
 						unset($attributes["template_location"]);
 						$attributes["src"] =
 							$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"]);
+						$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 						$a_content .= $this->buildTag("", "frame", $attributes);
 						$this->frames[$attributes["name"]] = $attributes["name"];
 //echo "<br>processNodes:add1 ".$attributes["name"];
@@ -1990,6 +1991,7 @@ class ilLMPresentationGUI
 					unset($attributes["template_location"]);
 					$attributes["src"] =
 						$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"]);
+					$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 					if ($attributes["name"] == "toc")
 					{
 						$attributes["src"].= "#".$_GET["obj_id"];
