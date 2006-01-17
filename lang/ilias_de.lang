@@ -1437,6 +1437,7 @@ common#:#execute#:#Ausführen
 common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#expand#:#Expand###06 Jan 2006 new variable
+common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Export
 common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Excel)
 common#:#export_html#:#Exportieren als HTML-Datei
@@ -2614,6 +2615,7 @@ common#:#reply#:#Antworten
 common#:#repository#:#Magazin
 common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
 common#:#request_membership#:#Antrag stellen
 common#:#require_city#:#Pflichteingabe Stadt
 common#:#require_country#:#Pflichteingabe Land

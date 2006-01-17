@@ -1155,6 +1155,7 @@ common#:#excs#:#Упражнения
 common#:#execute#:#Выполнить
 common#:#exercise_time_over#:#Время пересылки файлов упражнения вышло. Вы не можете больше передавать файлы!
 common#:#expand#:#Expand###06 Jan 2006 new variable
+common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Экспорт
 common#:#export_group_members#:#Экспортировать группу членов (в Microsoft Excel)
 common#:#export_html#:#экспортировать как HTML файл
@@ -2133,6 +2134,7 @@ common#:#repeat_scan_succeded#:#Повтор сканирования успеш
 common#:#replace_file#:#Заменить файл
 common#:#reply#:#Ответ
 common#:#repository#:#Репозиторий
+common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
 common#:#require_city#:#Требуется город
 common#:#require_country#:#Требуется страна
 common#:#require_default_role#:#Требуется роль

@@ -1383,6 +1383,7 @@ common#:#execute#:#Ekzekuto
 common#:#exercise_time_over#:#Keni kaluar kohën e ushtrimit. Nuk mundeni më të shpërndani skedarë!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#expand#:#Expand###06 Jan 2006 new variable
+common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Eksporto
 common#:#export_group_members#:#Eksporto grupin e anëtarëve (në Microsoft Excel)
 common#:#export_html#:#eksporto në skedar HTML
@@ -2528,6 +2529,7 @@ common#:#reply#:#Përgjigju
 common#:#repository#:#Magazina
 common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
 common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Kërko qytetin
 common#:#require_country#:#Kërko vendin

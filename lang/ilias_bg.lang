@@ -1311,6 +1311,7 @@ common#:#execute#:#Изпълнение
 common#:#exercise_time_over#:#Достигнали сте финалния момент на упражнението. Повече не можете да подавате файлове!
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
 common#:#expand#:#Expand###06 Jan 2006 new variable
+common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Експортиране
 common#:#export_group_members#:#Експортиране на членовете на групата (към Microsoft Excel)
 common#:#export_html#:#експортиране като HTML файл
@@ -2356,6 +2357,7 @@ common#:#reply#:#Отговор
 common#:#repository#:#Довереник
 common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
 common#:#request_membership#:#Request membership###23 Dec 2005 new variable
 common#:#require_city#:#Изискване на град
 common#:#require_country#:#Изискване на страна
