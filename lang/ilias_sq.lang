@@ -3162,6 +3162,11 @@ content#:#cont_fix_tree#:#Rregullo strukturën (për probleme)
 content#:#cont_fix_tree_confirm#:#Ju lutem të ekzekutoni këtë komandë vetëm kur struktura e modulit mësimor është korruptuar, p.sh. Nëse paraqiten artikuj të zbrazët gjatë paraqitjes së strukturës.
 content#:#cont_format#:#Formati
 content#:#cont_format_error#:#Ky veprim nuk lejohet këtu!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Faqe të Lira
 content#:#cont_full_is_in_dir#:#Fshirja nuk është e mundur. Skedari Full Screen është në direktorium.
 content#:#cont_fullscreen#:#Full Screen

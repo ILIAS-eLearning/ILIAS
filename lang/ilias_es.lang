@@ -3322,6 +3322,11 @@ content#:#cont_fix_tree#:#Reparar estructura
 content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la estructura en árbol de este módulo está corrupta. ej: si aparecen items en blanco en la vista -'explorer'-.
 content#:#cont_format#:#Formato
 content#:#cont_format_error#:#¡Esta operación no está permitida aquí!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Páginas -Libres-
 content#:#cont_full_is_in_dir#:#No es posible eliminar. El archivo de pantalla completa está en el directorio.
 content#:#cont_fullscreen#:#Pantalla Completa

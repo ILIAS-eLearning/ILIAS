@@ -3323,6 +3323,11 @@ content#:#cont_fix_tree#:#Rögzített struktúra
 content#:#cont_fix_tree_confirm#:#Csak akkor hajtsa végre ezt az utasítást, ha ennek a tananyagnak a faszerkezete hibás, pl. ha üres tételek jelennek meg a böngészőnézetben.
 content#:#cont_format#:#Formázás
 content#:#cont_format_error#:#Ez a művelet nincs engedélyezve itt.
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Szabad lapok
 content#:#cont_full_is_in_dir#:#A törlés nem lehetséges. Teljesképernyős fájl van a könyvtárban.
 content#:#cont_fullscreen#:#Teljesképernyő

@@ -3311,6 +3311,11 @@ content#:#cont_fix_tree#:#Налагодити структуру
 content#:#cont_fix_tree_confirm#:#Будь ласка виконуйте цю команду тільки якщо деревоподібна структура цього учбового модуля пошкоджена, наприклад в огляді трапляються порожні об'єкти.
 content#:#cont_format#:#Формат
 content#:#cont_format_error#:#Ця операція не дозволена тут!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Вільні Сторінки
 content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
 content#:#cont_fullscreen#:#Повний Екран

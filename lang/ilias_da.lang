@@ -3225,6 +3225,11 @@ content#:#cont_fix_tree#:#Fix structure###21 Apr 2005 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###21 Apr 2005 new variable
 content#:#cont_format#:#Format###21 Apr 2005 new variable
 content#:#cont_format_error#:#This operation is not allowed here!###21 Apr 2005 new variable
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Ledige sider
 content#:#cont_full_is_in_dir#:#Sletning er ikke mulig
 content#:#cont_fullscreen#:#Fuldsk&aelig;rm

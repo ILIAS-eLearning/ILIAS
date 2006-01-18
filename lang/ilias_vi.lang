@@ -3237,6 +3237,11 @@ content#:#cont_fix_tree#:#Sửa chữa cấu trúc
 content#:#cont_fix_tree_confirm#:#Hãy thực thi lệnh này chỉ khi cây cấu trúc của học phần này bị hỏng, ví dụ có những đối tượng trắng xuất hiện trong khung nhìn.
 content#:#cont_format#:#Định dạng
 content#:#cont_format_error#:#Thao tác này không được phép!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Các trang miễn phí - tự do
 content#:#cont_full_is_in_dir#:#Không thể xóa. File toàn màn hình đang ở trong thư mục.
 content#:#cont_fullscreen#:#Xem toàn màn hình

@@ -3162,6 +3162,11 @@ content#:#cont_fix_tree#:#Utvrdi strukturu
 content#:#cont_fix_tree_confirm#:#Molimo izvršite ovu komandu samo ukoliko je struktura ovog metoda ucenja oštecena, npr. Ako se prazni predmeti pojave u explorer projekciji.
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Ova operacija nije dozvoljena ovde!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Slobodne stranice
 content#:#cont_full_is_in_dir#:#Brisanje nije moguce. Faj celog ekrana je u direktorijumu.
 content#:#cont_fullscreen#:#Ceo ekran
