@@ -2965,7 +2965,7 @@ class ilObjSurvey extends ilObject
 				$umail->setSaveInSentbox(true);
 				if($error_message = $umail->sendMail($ilUser->getLogin(),"",
 													 "",$subject,$f_message,
-													 "",array("normal")))
+													 array(),array("normal")))
 				{
 					sendInfo($error_message);
 				}

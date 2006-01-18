@@ -567,19 +567,22 @@ class ilSurveyEvaluationGUI
 						$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
 						$this->tpl->setVariable("TEXT_VALUES", $this->lng->txt("values"));
 						$values = "";
-						foreach ($eval["values"] as $key => $value)
+						if (is_array($eval["value"]))
 						{
-							$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" .
-								$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-								$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
-							switch ($_POST["export_format"])
+							foreach ($eval["values"] as $key => $value)
 							{
-								case TYPE_XLS:
-								case TYPE_XLS_MAC:
-									$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["value"], $_POST["export_format"]));
-									$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
-									$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
-									break;
+								$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" .
+									$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
+									$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+								switch ($_POST["export_format"])
+								{
+									case TYPE_XLS:
+									case TYPE_XLS_MAC:
+										$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["value"], $_POST["export_format"]));
+										$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
+										$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
+										break;
+								}
 							}
 						}
 						$values = "<ol>$values</ol>";
@@ -617,15 +620,18 @@ class ilSurveyEvaluationGUI
 						}
 						$this->tpl->setVariable("TEXT_TEXTVALUES", $this->lng->txt("given_answers"));
 						$textvalues = "";
-						foreach ($eval["textvalues"] as $textvalue)
+						if (is_array($eval["textvalues"]))
 						{
-							$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
-							switch ($_POST["export_format"])
+							foreach ($eval["textvalues"] as $textvalue)
 							{
-								case TYPE_XLS:
-								case TYPE_XLS_MAC:
-									$worksheet->write($rowcounter++, 1, $textvalue);
-									break;
+								$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
+								switch ($_POST["export_format"])
+								{
+									case TYPE_XLS:
+									case TYPE_XLS_MAC:
+										$worksheet->write($rowcounter++, 1, $textvalue);
+										break;
+								}
 							}
 						}
 						$textvalues = "<ul>$textvalues</ul>";
