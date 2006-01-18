@@ -3323,6 +3323,11 @@ content#:#cont_fix_tree#:#Bestand###07 Apr 2005 content changed
 content#:#cont_fix_tree_confirm#:#Bestanden###07 Apr 2005 content changed
 content#:#cont_format#:#Structuur repareren###07 Apr 2005 content changed
 content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Voer deze opdracht alleen maar als de boom-struktuur van deze lesmodule corrupt is, bijv. als lege ingaven in de hoofstuk-struktuur voorkomen.###07 Apr 2005 content changed
 content#:#cont_full_is_in_dir#:#Formaat###07 Apr 2005 content changed
 content#:#cont_fullscreen#:#Vrije pagina's###07 Apr 2005 content changed

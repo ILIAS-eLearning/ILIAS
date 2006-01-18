@@ -3323,6 +3323,11 @@ content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Formato###07 Apr 2005 content changed
 content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#Eliminação não possível. Ficheiro de ecrã inteiro está na directoria.###14 Sep 2004 content changed
 content#:#cont_fullscreen#:#Ecrã inteiro###14 Sep 2004 content changed

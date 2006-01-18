@@ -2849,6 +2849,11 @@ content#:#cont_fix_tree#:#Reparati structura
 content#:#cont_fix_tree_confirm#:#Va rugam executati aceasta operatiune numai daca structura acestui modul de invatare este corupta, ex. daca exista spatii libere in vizualizarea explorer-ului.
 content#:#cont_format#:#Formatati
 content#:#cont_format_error#:#Aceasta operatiune nu va este permisa de aici!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Pagini libere
 content#:#cont_full_is_in_dir#:#Stergerea nu a fost posibila. Fisierul full screen se afla in director.
 content#:#cont_fullscreen#:#Full Screen

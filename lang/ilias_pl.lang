@@ -3323,6 +3323,11 @@ content#:#cont_fix_tree#:#Napraw strukturę
 content#:#cont_fix_tree_confirm#:#Wykonuj tę komendę tylko jeśli struktura drzewa tego modułu nauczania jest uszkodzona, np. jeśli pusta pozycja jest widoczna w widoku eksploratora.
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Ta operacja nie jest w tym miejscu dozwolona!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Wolne strony
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran

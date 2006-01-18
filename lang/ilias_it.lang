@@ -3318,6 +3318,11 @@ content#:#cont_fix_tree#:#Correggi la struttura
 content#:#cont_fix_tree_confirm#:#Per favore, esegui questo comando solo se la struttura dell'albero del modulo &#232; corrotta, cio&#232; se sono presenti elementi vuoti nella vista ad albero.
 content#:#cont_format#:#Formato
 content#:#cont_format_error#:#Questa operazione non &#232; consentita in questo caso!
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Pagine libere
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
 content#:#cont_fullscreen#:#A tutto schermo

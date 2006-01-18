@@ -3310,6 +3310,11 @@ content#:#cont_fix_tree#:#Réparer la structure###07 Apr 2005 content changed
 content#:#cont_fix_tree_confirm#:#Veuillez exécuter cette commande seulement si l'arborescence de ce document est corrompue, par ex. si des objets vides apparaissent dans la vue d'exploration.###07 Apr 2005 content changed
 content#:#cont_format#:#Format###07 Apr 2005 content changed
 content#:#cont_format_error#:#Cette opération n'est pas possible!###07 Apr 2005 content changed
+content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
+content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Pages libres###07 Apr 2005 content changed
 content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran est dans le dossier.###07 Apr 2005 content changed
 content#:#cont_fullscreen#:#Plein écran###07 Apr 2005 content changed
