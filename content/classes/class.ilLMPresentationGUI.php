@@ -1889,12 +1889,14 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("HREF_PREV", $prev_href);
 			$this->tpl->setVariable("FRAME_PREV", $prev_target);
 			$this->tpl->setVariable("TXT_PREV", $prev_title);
+			$this->tpl->setVariable("ALT_PREV", $this->lng->txt("previous"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
 			$this->tpl->setVariable("IMG_PREV2", $prev_img);
 			$this->tpl->setVariable("HREF_PREV2", $prev_href);
 			$this->tpl->setVariable("FRAME_PREV2", $prev_target);
 			$this->tpl->setVariable("TXT_PREV2", $prev_title);
+			$this->tpl->setVariable("ALT_PREV2", $this->lng->txt("previous"));
 			$this->tpl->parseCurrentBlock();
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputPredecessor");
 		}
@@ -1940,12 +1942,14 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("HREF_SUCC", $succ_href);
 			$this->tpl->setVariable("FRAME_SUCC", $succ_target);
 			$this->tpl->setVariable("TXT_SUCC", $succ_title);
+			$this->tpl->setVariable("ALT_SUCC", $this->lng->txt("next"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Next2");
 			$this->tpl->setVariable("IMG_SUCC2", $succ_img);
 			$this->tpl->setVariable("HREF_SUCC2", $succ_href);
 			$this->tpl->setVariable("FRAME_SUCC2", $succ_target);
 			$this->tpl->setVariable("TXT_SUCC2", $succ_title);
+			$this->tpl->setVariable("ALT_SUCC2", $this->lng->txt("next"));
 			$this->tpl->parseCurrentBlock();
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputSuccessor");
 		}
