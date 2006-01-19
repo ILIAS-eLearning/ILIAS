@@ -142,10 +142,10 @@ class ilQueryParser
 	{
 		$this->words = array();
 
-		if(!strlen($this->getQueryString()))
-		{
-			return false;
-		}
+		#if(!strlen($this->getQueryString()))
+		#{
+		#	return false;
+		#}
 
 		$words = explode(' ',trim($this->getQueryString()));
 		foreach($words as $word)
@@ -173,6 +173,7 @@ class ilQueryParser
 	{
 		if(!strlen($this->getQueryString()))
 		{
+			$this->quoted_words[] = '';
 			return false;
 		}
 		$query_str = $this->getQueryString();
@@ -202,7 +203,7 @@ class ilQueryParser
 			return false;
 		}
 		// No search string given
-		if(!count($this->getWords()))
+		if($this->getMinWordLength() and !count($this->getWords()))
 		{
 			$this->setMessage($this->lng->txt('msg_no_search_string'));
 			return false;
