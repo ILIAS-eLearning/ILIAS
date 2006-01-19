@@ -261,7 +261,7 @@ class ilFeedback {
 			$this->setAllData($row);
 	
 	}
-// TODO Check for multiple, check ob schun geantwortet
+
 	/**
 	* get a required baromter for a certain ref_id
 	*/
@@ -282,11 +282,16 @@ class ilFeedback {
 	* if no ref_id is set we get all barometers,
 	* this is needed for the personal desktop box.
 	*/
-	function getAllBarometer($a_show_inactive=1){
+	function getAllBarometer($a_show_inactive=1,$a_only_req=0){
 		global $ilDB;
 		
 		if($this->ref_id)
 			 $where.=" ref_id=".$ilDB->quote($this->ref_id);
+		if($a_only_req==1)
+			if($where!='')
+				$where .= ' AND required=1 ';
+			else
+				$where = ' required = 1 ';
 		$q = "SELECT * FROM feedback_items WHERE ".$where;
 		if($a_show_inactive==0){
 			if($where!='')
@@ -326,7 +331,7 @@ class ilFeedback {
 	function saveResult(){
 		global $ilDB;
 		//Save Only if there is not already a result from this user for this barometer	
-		//TODO checken ob vote gespeichert werden darf
+		
 		if($this->canVote($this->user_id,$this->id)==1){
 			$q = "INSERT INTO feedback_results (".
 				"fb_id,user_id,vote,note,votetime) VALUES (".
