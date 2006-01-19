@@ -40,6 +40,8 @@ include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 class ilLPFilter
 {
 	var $permission = 'write';
+	var $limit = 0;
+	var $limit_reached = false;
 
 	// Default values for filter
 	var $root_node = ROOT_FOLDER_ID;
@@ -51,11 +53,24 @@ class ilLPFilter
 
 	function ilLPFilter($a_usr_id)
 	{
-		global $ilDB;
+		global $ilDB,$ilias;
 
 		$this->usr_id = $a_usr_id;
 		$this->db =& $ilDB;
 		$this->__read();
+
+		// Limit of filtered objects is search max hits
+		$this->limit = $ilias->getSetting('search_max_hits',50);
+	}
+
+	function getLimit()
+	{
+		return $this->limit;
+	}
+
+	function limitReached()
+	{
+		return $this->limit_reached;
 	}
 
 	function setRequiredPermission($a_permission)
@@ -149,6 +164,11 @@ class ilLPFilter
 
 	function getObjects()
 	{
+		return $this->__searchObjects();
+
+
+		// All is done by search class
+		/*
 		if(strlen($this->getQueryString()))
 		{
 			return $this->__searchObjects();
@@ -157,6 +177,7 @@ class ilLPFilter
 		{
 			return $this->__getAllObjects();
 		}
+		*/
 	}
 
 
@@ -209,6 +230,7 @@ class ilLPFilter
 		}
 	}
 
+	// Function is disabled everything shouild be done by search class
 	function __getAllObjects()
 	{
 		global $tree,$ilObjDataCache;
@@ -216,7 +238,8 @@ class ilLPFilter
 		$objects = array();
 		foreach(ilUtil::_getObjectsByOperations($this->prepareType(),
 												$this->getRequiredPermission(),
-												$this->getUserId()) as $ref_id)
+												$this->getUserId(),
+												$this->getLimit()) as $ref_id)
 		{
 			$obj_id = $ilObjDataCache->lookupObjId($ref_id);
 			if($this->isHidden($obj_id))
@@ -238,6 +261,7 @@ class ilLPFilter
 		return $objects ? $objects : array();
 	}
 
+
 	function __searchObjects()
 	{
 		global $ilObjDataCache;
@@ -253,33 +277,32 @@ class ilLPFilter
 			echo $query_parser->getMessage();
 		}
 
-		include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
 
-		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+		// only like search since fulltext does not support search with less than 3 characters
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search =& new ilLikeObjectSearch($query_parser);
+
+		#include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
+		#$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+
+
 		$object_search->setFilter($this->prepareType());
-
 		$res =& $object_search->performSearch();
-
-		#if($user_id)
-		#{
-		#	$res->setUserId($user_id);
-		#}
-
 		$res->setRequiredPermission($this->getRequiredPermission());
+
+		// Add callback functions to receive only search_max_hits valid results
+		$res->addObserver($this,'searchFilterListener');
 		$res->filter($this->getRootNode(),false);
 		foreach($res->getResults() as $obj_data)
 		{
-			if($this->isHidden($obj_data['obj_id']))
-			{
-				continue;
-			}
-			if(ilLPObjSettings::_lookupMode($obj_data['obj_id']) != LP_MODE_DEACTIVATED)
-			{
-				$objects[$obj_data['obj_id']]['ref_ids'][] = $obj_data['ref_id'];
-				$objects[$obj_data['obj_id']]['title'] = $ilObjDataCache->lookupTitle($obj_data['obj_id']);
-				$objects[$obj_data['obj_id']]['description'] = $ilObjDataCache->lookupDescription($obj_data['obj_id']);
-			}
+			$objects[$obj_data['obj_id']]['ref_ids'][] = $obj_data['ref_id'];
+			$objects[$obj_data['obj_id']]['title'] = $ilObjDataCache->lookupTitle($obj_data['obj_id']);
+			$objects[$obj_data['obj_id']]['description'] = $ilObjDataCache->lookupDescription($obj_data['obj_id']);
 		}
+
+		// Check if search max hits is reached
+		$this->limit_reached = $res->isLimitReached();
+
 		return $objects ? $objects : array();
 	}
 
@@ -294,5 +317,24 @@ class ilLPFilter
 				return array($this->getFilterType());
 		}
 	}
+
+	/**
+	 * Listener for SearchResultFilter
+	 * Checks wheather the object is hidden and mode is not LP_MODE_DEACTIVATED
+	 * @access public
+	 */
+	function searchFilterListener($a_ref_id,$a_data)
+	{
+		if($this->isHidden($a_data['obj_id']))
+		{
+			return false;
+		}
+		if(ilLPObjSettings::_lookupMode($a_data['obj_id']) == LP_MODE_DEACTIVATED)
+		{
+			return false;
+		}
+		return true;
+	}
+		
 }	
 ?>

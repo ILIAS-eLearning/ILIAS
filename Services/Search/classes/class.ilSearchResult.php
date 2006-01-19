@@ -346,15 +346,19 @@ class ilSearchResult
 				{
 					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
 					{
-						$this->addResult($ref_id,$entry['obj_id'],$type);
-						$this->__updateResultChilds($ref_id,$entry['child']);
-						
-						$counter += count($entry['child']);
-						// Stop if maximum of hits is reached
-						if(++$counter > $this->search_settings->getMaxHits())
+						// Call listeners
+						if($this->callListeners($ref_id,$entry))
 						{
-							$this->limit_reached = true;
-							return true;
+							$this->addResult($ref_id,$entry['obj_id'],$type);
+							$this->__updateResultChilds($ref_id,$entry['child']);
+							
+							$counter += count($entry['child']);
+							// Stop if maximum of hits is reached
+							if(++$counter > $this->search_settings->getMaxHits())
+							{
+								$this->limit_reached = true;
+								return true;
+							}
 						}
 					}
 				}
@@ -489,6 +493,34 @@ class ilSearchResult
 		$this->search_settings = new ilSearchSettings();
 	}
 
+	/**
+	 * The observer is used to call functions for filtering result.
+	 * Every callback function should support the following parameters:
+	 * array of ids. E.g: ref_id = 5,array(obj_id = 1,type = 'crs'),
+	 * The function should return true or false.
+	 * @param object class of callback function
+	 * @param string name of callback method
+	 * @access public
+	 */
+	function addObserver(&$a_class,$a_method)
+	{
+		$this->observers[] = array('class' => $a_class,
+								   'method' => $a_method);
+		return true;
+	}
+	function callListeners($a_ref_id,&$a_data)
+	{
+		foreach($this->observers as $observer)
+		{
+			$class =& $observer['class'];
+			$method = $observer['method'];
 
+			if(!$class->$method($a_ref_id,$a_data))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 } // END class.Search
 ?>

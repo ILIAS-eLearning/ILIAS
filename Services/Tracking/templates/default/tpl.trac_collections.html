@@ -1,5 +1,5 @@
 	<br />
-	<table class="std" width="75%">
+	<table class="std" width="75%" border="0">
 		<tr class="tbltitle">
 		  <td colspan="4">
 			<table class="fullwidth_invisible" cellspacing="0">
@@ -13,7 +13,7 @@
 		<tr class="tblheader">
 		  <td class="std" nowrap="nowrap" width="1%"></td>
 		  <td class="std" nowrap="nowrap" width="80%">{ITEM_DESC}</td>
-		  <td class="std" nowrap="nowrap" width="20%">{ITEM_ASSIGNED}</td>
+		  <td class="std" nowrap="nowrap" width="20%"><div align="center">{ITEM_ASSIGNED}</div></td>
 		</tr>
 		<!-- BEGIN trac_row -->
 		<tr>
@@ -21,7 +21,7 @@
 			{CHECK_TRAC}
 		  </td>
 		  <td class="{ROW_CLASS}">
-			{COLL_TITLE}
+			<b>{COLL_TITLE}</b>
 			<!-- BEGIN description -->
 			<div class="il_Description_no_margin">{COLL_DESC}</div>
 			<!-- END description -->

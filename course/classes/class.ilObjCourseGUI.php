@@ -348,7 +348,15 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveStart())." ".
 				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveEnd()));
 		}
-		
+
+		// Learning progress type manual
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
+
+		if(ilObjUserTracking::_enabledTracking() and ilLPObjSettings::_lookupMode($this->object->getId()) == LP_MODE_MANUAL)
+		{
+			$info->addSection($this->lng->txt('learning_progress'));
+		}
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}
@@ -1058,6 +1066,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function setSubTabs($a_tab)
 	{
+		global $rbacsystem,$ilUser;
 		#include_once("classes/class.ilTabsGUI.php");
 		#$tab_gui = new ilTabsGUI();
 		#$tab_gui->setSubTabs(true);
@@ -1098,6 +1107,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("mail_members",
 					$this->ctrl->getLinkTarget($this,'mailMembers'),
 					"mailMembers", get_class($this));
+
 				break;
 
 				
@@ -1481,10 +1491,14 @@ class ilObjCourseGUI extends ilContainerGUI
 	// MEMBER METHODS
 	function membersObject()
 	{
+<<<<<<< class.ilObjCourseGUI.php
 		include_once './course/classes/class.ilObjCourseGrouping.php';
 		include_once './classes/class.ilConditionHandler.php';
 
 		global $rbacsystem;
+=======
+		global $rbacsystem,$ilUser;
+>>>>>>> 1.98.2.11
 
 		$this->tabs_gui->setTabActive('members');
 
@@ -1498,9 +1512,27 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->setSubTabs('members');
 
+<<<<<<< class.ilObjCourseGUI.php
+=======
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html","course");
+
+		// print
+>>>>>>> 1.98.2.11
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
+<<<<<<< class.ilObjCourseGUI.php
 
 		// INFO NO MEMBERS
+=======
+
+		// unsubscribe
+		if($rbacsystem->checkAccess('leave',$this->object->getRefId()) and 
+		   $this->object->members_obj->isMember($ilUser->getId()))
+		{
+			$this->__showButton('unsubscribe',$this->lng->txt('crs_unsubscribe'));
+		}
+		
+		// Info no members => Shouldn't happen
+>>>>>>> 1.98.2.11
 		$this->object->initCourseMemberObject();
 
 		if(!count($this->object->members_obj->getAssignedUsers()) and
@@ -2178,6 +2210,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->tabs_gui->setTabActive('members');
+		#$this->setSubTabs('members');
+
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html","course");
 		sendInfo($this->lng->txt('crs_unsubscribe_sure'));
 		
@@ -2833,12 +2869,6 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "");
 		}			
 
-		if($rbacsystem->checkAccess('leave',$this->ref_id) and 
-		   $this->object->members_obj->isMember($this->ilias->account->getId()))
-		{
-			$tabs_gui->addTarget("crs_unsubscribe",
-								 $this->ctrl->getLinkTarget($this, "unsubscribe"), "unsubscribe", get_class($this));
-		}
 	}
 
 	function printMembersObject()

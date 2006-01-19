@@ -227,27 +227,26 @@ class ilLearningProgressBaseGUI
 	*/
 	function __insertPath(&$a_tpl,$a_ref_id)
 	{
+		global $tree;
 
-		global $tree, $lng;
-
-		$path = $tree->getPathId($a_ref_id);
-		$sep = false;
-		unset($path[count($path) - 1]);
-		unset($path[0]);
-		foreach ($path as $id)
+		$path_arr = $tree->getPathFull($a_ref_id);
+		$counter = 0;
+		foreach($tree->getPathFull($a_ref_id) as $data)
 		{
-			$a_tpl->setCurrentBlock("path_item");
-			if ($sep)
+			if($counter++)
 			{
-				$a_tpl->setVariable("SEPARATOR", " > ");
+				$path .= " -> ";
 			}
-			$a_tpl->setVariable("PATH_ITEM",
-									ilObject::_lookupTitle(ilObject::_lookupObjId($id)));
-			$a_tpl->parseCurrentBlock();
-			$sep = true;
+			$path .= $data['title'];
 		}
+		$a_tpl->setCurrentBlock("path_item");
+		$a_tpl->setVariable("PATH_ITEM",$path);
+		$a_tpl->parseCurrentBlock();
+
 		$a_tpl->setCurrentBlock("path");
 		$a_tpl->parseCurrentBlock();
+
+		return $path;
 	}
 
 
@@ -306,6 +305,46 @@ class ilLearningProgressBaseGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+
+
+	/**
+	* Function that sorts ids by a given table field using WHERE IN
+	* E.g: __sort(array(6,7),'usr_data','lastname','usr_id') => sorts by lastname
+	* 
+	* @param array Array of ids
+	* @param string table name
+	* @param string table field
+	* @param string id name
+	* @return array sorted ids
+	*
+	* @access protected
+	*/
+	function __sort($a_ids,$a_table,$a_field,$a_id_name)
+	{
+		global $ilDB;
+
+		if(!$a_ids)
+		{
+			return array();
+		}
+
+		// use database to sort user array
+		$where = "WHERE ".$a_id_name." IN ('";
+		$where .= implode("','",$a_ids);
+		$where .= "') ";
+
+		$query = "SELECT ".$a_id_name." FROM ".$a_table." ".
+			$where.
+			"ORDER BY ".$a_field;
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = $row->$a_id_name;
+		}
+		return $ids ? $ids : array();
+	}
+
 
 
 }

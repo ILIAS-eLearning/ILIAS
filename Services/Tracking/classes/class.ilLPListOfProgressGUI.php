@@ -409,14 +409,25 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			sendInfo($this->lng->txt('trac_filter_no_access'));
 			return true;
 		}
+
+
+		if($this->filter->limitReached())
+		{
+			$info = sprintf($this->lng->txt('trac_filter_limit_reached'),$this->filter->getLimit());
+			$tpl->setVariable("LIMIT_REACHED",$info);
+		}
 		$type = $this->filter->getFilterType();
 		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
 		$tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_'.$type));
 		$tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('objs_'.$type));
 
+		// Sort objects by title
+		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
 		$counter = 0;
-		foreach($objs as $obj_id => $obj_data)
+		foreach($sorted_objs as $obj_id)
 		{
+			$obj_data =& $objs[$obj_id];
+
 			$tpl->touchBlock(ilUtil::switchColor($counter++,'row_type_1','row_type_2'));
 			$tpl->setCurrentBlock("container_standard_row");
 			$tpl->setVariable("ITEM_ID",$obj_id);

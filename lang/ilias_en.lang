@@ -5645,3 +5645,9 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+trac#:#trac_required_visits#:#Number of required visits
+trac#:#trac_no_content#:#No informations about the learning progress available.
+trac#:#trac_filter_none#:#None
+trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.
+trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
+trac#:#trac_select_one#:#You made no selection

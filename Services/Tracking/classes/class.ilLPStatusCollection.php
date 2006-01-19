@@ -53,8 +53,7 @@ class ilLPStatusCollection extends ilLPStatus
 		// diff in progress and completed (use stored result in LPStatusWrapper)
 		$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
 		$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-		
-		#var_dump("<pre>",$users,$inp,$com,"<pre>");
+
 		return $users;
 	}
 
@@ -71,6 +70,7 @@ class ilLPStatusCollection extends ilLPStatus
 	function _getInProgress($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once 'course/classes/class.ilCourseMembers.php';
 
 		$in_progress = 0;
 		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
@@ -79,7 +79,13 @@ class ilLPStatusCollection extends ilLPStatus
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($item_id)));
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompleted($item_id)));
 		}
+
+		// Exclude all users with status completed.
 		$users = array_diff((array) $users,ilLPStatusCollection::_getCompleted($a_obj_id));
+
+		// Exclude all non members
+		$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+
 		return $users;
 	}
 
@@ -91,6 +97,7 @@ class ilLPStatusCollection extends ilLPStatus
 	function _getCompleted($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once 'course/classes/class.ilCourseMembers.php';
 
 		$counter = 0;
 		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
@@ -106,6 +113,9 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 
 		}
+		// Exclude all non members
+		$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+
 		return (array) $users;
 	}		
 

@@ -253,8 +253,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_assignments'));
 		$tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_trac.gif'));
-		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_assignments'));
-		$tpl->setVariable("ITEM_DESC",$this->lng->txt('description'));
+		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_crs_assignments'));
+		$tpl->setVariable("ITEM_DESC",$this->lng->txt('trac_crs_items'));
 		$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
 
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
@@ -277,8 +277,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$obj_id));
 
-			$path = $this->__formatPath($tree->getPathFull($ref_id));
-			$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
+			#$path = $this->__formatPath($tree->getPathFull($ref_id));
+			#$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
 
 			// Assigned
 			$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($obj_id)
@@ -327,6 +327,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 	function __formatPath($a_path_arr)
 	{
+			#$path = $this->__formatPath($tree->getPathFull($ref_id));
+			#$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
 		$counter = 0;
 		foreach($a_path_arr as $data)
 		{

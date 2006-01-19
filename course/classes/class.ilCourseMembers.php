@@ -1018,8 +1018,9 @@ class ilCourseMembers
 		global $ilDB;
 		// In the moment all users that have entries in crs_members
 		
-		$query = "SELECT DISTINCT(usr_id) FROM crs_members ".
-			"WHERE obj_id = '".$a_obj_id."'";
+		$query = "SELECT DISTINCT(crs_members.usr_id) AS usr_id FROM crs_members JOIN usr_data ".
+			"WHERE crs_members.usr_id = usr_data.usr_id ".
+			"AND obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

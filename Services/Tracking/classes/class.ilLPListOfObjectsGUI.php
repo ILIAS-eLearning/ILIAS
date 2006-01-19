@@ -187,8 +187,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_id);
 		$completed = ilLPStatusWrapper::_getCompleted($this->details_id);
 
-		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted));
-		
+		#$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted));
+		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted),'usr_data','lastname','usr_id');
 		$counter = 0;
 		// Slice array
 		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
@@ -369,14 +369,24 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			sendInfo($this->lng->txt('trac_filter_no_access'));
 			return true;
 		}
+		if($this->filter->limitReached())
+		{
+			$info = sprintf($this->lng->txt('trac_filter_limit_reached'),$this->filter->getLimit());
+			$tpl->setVariable("LIMIT_REACHED",$info);
+		}
+
 		$type = $this->filter->getFilterType();
 		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
 		$tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_'.$type));
 		$tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('objs_'.$type));
 
+		// Sort objects by title
+		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
 		$counter = 0;
-		foreach($objs as $obj_id => $obj_data)
+		foreach($sorted_objs as $obj_id)
 		{
+			$obj_data =& $objs[$obj_id];
+
 			$tpl->touchBlock(ilUtil::switchColor($counter++,'row_type_1','row_type_2'));
 			$tpl->setCurrentBlock("container_standard_row");
 			$tpl->setVariable("ITEM_ID",$obj_id);
@@ -481,33 +491,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->details_type = $ilObjDataCache->lookupType($this->details_id);
 			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_id);
 		}
-	}
-
-	function __sort($a_user_ids)
-	{
-		global $ilDB;
-
-		if(!$a_user_ids)
-		{
-			return array();
-		}
-
-		// use database to sort user array
-		$where = "WHERE usr_id IN ('";
-		$where .= implode("','",$a_user_ids);
-		$where .= "') ";
-
-		$query = "SELECT usr_id FROM usr_data ".
-			$where.
-			"ORDER BY login";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$user_ids[] = $row->usr_id;
-		}
-
-		return $user_ids ? $user_ids : array();
 	}
 }
 ?>
