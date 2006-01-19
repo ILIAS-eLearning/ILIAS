@@ -56,7 +56,7 @@ class ilFeedbackGUI{
 		
 			$cmd = $this->ctrl->getCmd('fbList');
 			//No write permissions, so this has to be a normal user..
-			//Alle anzeigen nicht nur required
+			
 			if((!$ilAccess->checkAccess('write','edit',$params['ref_id']))&&(in_array($cmd,array('fbList','save','delete','update','edit'))))
 				$cmd = 'showBarometer';
 			
@@ -66,7 +66,7 @@ class ilFeedbackGUI{
 					return($this->$cmd());
 				break;
 			}
-		//}
+		
 	}
 	
 	function getFeedbackHTML(){
@@ -157,7 +157,7 @@ class ilFeedbackGUI{
 		#$tbl->disable('sort');
 		$tbl->setFooter("tblfooter");
 		$tbl->render();
-		//echo '<a href="'.$this->ctrl->getLinkTargetByClass('ilfeedbackgui','fbList').'" class="submit">dfsa</a>';
+	
 		return($tbl->tpl->get());
 	
 	}
@@ -184,7 +184,6 @@ class ilFeedbackGUI{
 		$tpl = new ilTemplate("tpl.feedback_stats.html", true, true, "Services/Feedback");
 		$feedback = new ilFeedback();
 		$feedback->setUserId($_POST['chart_user']);
-		//$feedback->setRefId($_GET['ref_id']);
 		$feedback->setId($_GET['barometer_id']);
 		$chartdata = $feedback->getChartData();
 		$data = $chartdata['data'];
@@ -522,9 +521,7 @@ class ilFeedbackGUI{
 	function getButtons($a_barometer_id){
 	
 		$tpl = new ilTemplate("tpl.buttons.html", true, true,"Services/Feedback");
-		//$tpl->setVariable("BTN_LINK", "link");
-	//	$tpl->setVariable("BTN_TXT", "meinlink");
-	//	$tpl->parseCurrentBlock();
+	
 		$tpl->setCurrentBlock("btn_cell");
 		$this->ctrl->setParameter($this,"barometer_id",$a_barometer_id);
 		$this->ctrl->setParameter($this,"ref_id",$_GET['ref_id']);
@@ -581,11 +578,12 @@ class ilFeedbackGUI{
                 }
         }
 	
-	function showBarometerById($a_id){
+	function showBarometerById($a_id=0){
 		global $ilAccess,$ilUser;
 		include_once('Services/Feedback/classes/class.ilFeedback.php');
 		$feedback = new ilFeedback();
-		$feedback->setId($a_id);
+		$bid = $a_id ? $a_id :$_GET['barometer_id'];
+		$feedback->setId($bid);
 		$feedback->getBarometer();
 		if($feedback->getId()&& ($feedback->canVote($ilUser->getId(),$feedback->getId())==1)){
 			$tpl = new ilTemplate("tpl.feedback_vote.html", true,true, "Services/Feedback");
@@ -620,7 +618,7 @@ class ilFeedbackGUI{
 		
 		$feedback = new ilFeedback();
 		$feedback->getFeedback();
-		//echo $ilUser->getRole();
+
 		if(($feedback->getId())&&(ilCourseMembers::_isMember($ilUser->getId(),$feedback->getObjId())))
 			
 			return($feedback->getRefId());
@@ -636,7 +634,7 @@ class ilFeedbackGUI{
 		$ilfeedback = new ilFeedback();
 		$ilfeedback->setRefId($_GET['ref_id']);
 		$feedbacks = $ilfeedback->getAllBarometer();
-		//$feedback->getBarometerByRefId();
+		
 		//There can be more then 1 Barometer for a ref_id so we show show always only the first_vote_best
 		//Barometer a user can vote, the next time he acceses this page, he will get the next barometer a.s.o.
 		foreach($feedbacks as $feedback){
@@ -713,8 +711,8 @@ class ilFeedbackGUI{
 				if($barometer->canVote($ilUser->getId(),$barometer->getId())==1){
 					$tpl->setCurrentBlock('tbl_row');
 					$tpl->setVariable('ROWCOL', 'tblrow'.(($rownum++ % 2)+1));
-					$link = '<a href="repository.php?ref_id='.$barometer->getRefId().'&cmdClass=ilfeedbackgui&cmd=a">'.$barometer->getTitle().'</a>';
 					$this->ctrl->setParameter($this,"barometer_id",$barometer->getId());
+					
 					$link ='<a href="'.$this->ctrl->getLinkTargetByClass('ilfeedbackgui','voteform').'">'.$barometer->getTitle().'</a>';
 					$tpl->setVariable('BAROMETER_LINK',$link);
 					$tpl->parseCurrentBlock();
@@ -724,9 +722,54 @@ class ilFeedbackGUI{
 		$output = $rownum ? $tpl->get() : '' ;
 		return($output);
 	}
-	function voteform(){
+
+	function getCRSFeedbackListHTML(){
+		global $ilUser;
+	
+		include_once('Services/Feedback/classes/class.ilFeedback.php');
+		$feedback = new ilFeedback();
+		$barometers = $feedback->getAllBarometer(0);
+		
+		$tpl = new ilTemplate("tpl.feedback_pdbox.html", true,true, "Services/Feedback");
+		$tpl->setVariable('TXT_TITLE',$this->lng->txt('feedback'));
+		$rownum = 0;
+		if(count($barometers)){
+			foreach ($barometers as $barometer){
+				if($barometer->canVote($ilUser->getId(),$barometer->getId())==1){
+					$tpl->setCurrentBlock('tbl_row');
+					$tpl->setVariable('ROWCOL', 'tblrow'.(($rownum++ % 2)+1));
+					$this->ctrl->setParameter($this,"barometer_id",$barometer->getId());
+					$link ='<a href="'.$this->ctrl->getLinkTargetByClass(array('ilinfoscreengui','ilfeedbackgui'),'fbList').'">'.$barometer->getTitle().'</a>';
+					
+					$tpl->setVariable('BAROMETER_LINK',$link);
+					$tpl->parseCurrentBlock();
+				}
+			}
+		}
+		$output = $rownum ? $tpl->get() : '' ;
+		return($output);
+	}
+	function handleRequiredFeedback(){
+		global $ilUser;
+	
+		include_once('Services/Feedback/classes/class.ilFeedback.php');
+		$feedback = new ilFeedback();
+		$barometers = $feedback->getAllBarometer(0,1);
+			
+		$rownum = 0;
+		if(count($barometers)){
+			foreach ($barometers as $barometer){
+				if($barometer->canVote($ilUser->getId(),$barometer->getId())==1){
+					$this->ctrl->setParameter($this,"barometer_id",$barometer->getId());
+					$this->ctrl->redirectByClass(array("ilinfoscreengui", "ilfeedbackgui"), "showBarometerById");
+				}
+			}
+		}	
+	}
+	function voteform($a_barometer_id=0){
 		global $tpl;
-		$tpl->setVariable('CONTENT',$this->showBarometerById($_GET['barometer_id']));
+		$barometer_id = $a_barometer_id ? $a_barometer_id :$_GET['barometer_id'];
+		$tpl->setVariable('CONTENT',$this->showBarometerById($a_barometer_id));
 		$tpl->parseCurrentBlock();
 		$tpl->show();
 
