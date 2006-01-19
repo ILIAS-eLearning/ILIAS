@@ -33,7 +33,7 @@
     		<zipfileset dir="${src}" prefix="src" />
     		<zipfileset file="*.xml" />
     		<zipfileset file="*.properties" />
-	</zip>
+	    </zip>
 	<delete dir="${tmp}" />
     </target>
     <target name="build" depends="compile">
@@ -46,7 +46,7 @@
     		<fileset dir="${build}" />
 			<fileset dir="${tmp}" />
     		<manifest>
-    			<attribute name="Main-Class" value="databay.ilias.ilServer"/>
+    			<attribute name="Main-Class" value="ilias.ilServer"/>
     			<attribute name="MODULE-VERSION" value="1.0" />
    			</manifest>
     	</jar>
