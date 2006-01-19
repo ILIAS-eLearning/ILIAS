@@ -4193,7 +4193,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 
 				
-				if(!$rbacsystem->checkAccess("write",$this->object->getRefId())){
+				if((!$this->creation_mode)&&(!$rbacsystem->checkAccess("write",$this->object->getRefId()))){
 					include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
 					$feedbackGUI = new ilFeedbackGUI();
 					$feedbackGUI->handleRequiredFeedback();
