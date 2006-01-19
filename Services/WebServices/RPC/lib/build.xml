@@ -7,7 +7,7 @@
 	<property name="tmp" location="tmp" />
 	<property name="build" location="bin"/>
 	<property name="lib" location="jarfiles" />
-	<property name="classpath" value="lib/chardet.jar;lib/lucene-1.4.3.jar;lib/xmlrpc-2.0.jar;lib/xmlrpc-2.0-applet.jar;lib/Tidy.jar;lib/servletapi-2-2.jar;lib/PDFBox-0.7.2.jar;lib/log4j-1.2.11.jar;lib/junit-3.8.1.jar;lib/commons-logging-1.0.2.jar;lib/commons-httpclient-2.0.2.jar;lib/commons-codec-1.3.jar" />
+	<property name="classpath" value="jarfiles/chardet.jar;jarfiles/lucene-1.4.3.jar;jarfiles/xmlrpc-2.0.jar;jarfiles/xmlrpc-2.0-applet.jar;jarfiles/Tidy.jar;jarfiles/servletapi-2-2.jar;jarfiles/PDFBox-0.7.2.jar;jarfiles/log4j-1.2.11.jar;jarfiles/junit-3.8.1.jar;jarfiles/commons-logging-1.0.2.jar;jarfiles/commons-httpclient-2.0.2.jar;jarfiles/commons-codec-1.3.jar" />
 
 	<target name="init" depends="">
     	<delete dir="bin" />
