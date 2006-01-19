@@ -4191,6 +4191,14 @@ class ilObjCourseGUI extends ilContainerGUI
 					$ret =& $this->ctrl->forwardCommand($obj_gui);
 					break;
 				}
+
+				
+				if(!$rbacsystem->checkAccess("write",$this->object->getRefId())){
+					include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
+					$feedbackGUI = new ilFeedbackGUI();
+					$feedbackGUI->handleRequiredFeedback();
+				}
+
 				if(!$cmd)
 				{
 					$cmd = "view";
