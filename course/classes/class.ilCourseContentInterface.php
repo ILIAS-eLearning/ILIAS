@@ -178,14 +178,14 @@ class ilCourseContentInterface
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_view.html","course");
-/*
-		if($this->cci_client_obj->getType() == 'crs'){
+
+		if($this->cci_client_obj->object->getType()=='crs'){
 			include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
 			$feedbackGUI = new ilFeedbackGUI();
 			$feedbackHTML = $feedbackGUI->getCRSFeedbackListHTML();
 			$this->tpl->setVariable("FEEDBACK",$feedbackHTML);
 		}
-*/
+
 		if($write_perm)
 		{
 			$this->tabs_gui->setTabActive('edit_content');
