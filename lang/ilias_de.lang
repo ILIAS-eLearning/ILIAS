@@ -5580,6 +5580,7 @@ trac#:#obj_types#:#Objekttypen:
 trac#:#search_area_info#:#Bitte wählen Sie ein Objekt aus.
 trac#:#select_one#:#Bitte wählen Sie ein Objekt aus.
 trac#:#trac_activated#:#Tracking aktiviert
+trac#:#trac_added_no_shown_list#:#Die ausgewählten Objekte wurden ausgeblendet.
 trac#:#trac_anonymized#:#Anonymisierung der Daten
 trac#:#trac_anonymized_info#:#Wenn aktiviert, werden keine personenbezogenen Daten ausgegeben
 trac#:#trac_assigned#:#Ausgewählt
@@ -5594,7 +5595,9 @@ trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Kursobjekte aus, anhand 
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
 trac#:#trac_filter_area#:#Bereich:
 trac#:#trac_filter_hidden#:#Ausgeblendet:
+trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
 trac#:#trac_filter_no_access#:#Es wurden keine passenden Objekte gefunden.
+trac#:#trac_filter_none#:#Keine
 trac#:#trac_filter_repository#:#Im Magazin
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
@@ -5617,6 +5620,7 @@ trac#:#trac_mode_visits#:#Anzahl der Aufrufe
 trac#:#trac_modifications_saved#:#Die Änderungen wurden übernommen
 trac#:#trac_modus#:#Modus
 trac#:#trac_no_attempted#:#Noch nicht bearbeitet
+trac#:#trac_no_content#:#Keine Daten zum Lernfortschritt verfügbar.
 trac#:#trac_no_sahs_items_found#:#Es wurden keine Objekte gefunden mittels derer der Lernfortschritt überprüft werden kann.
 trac#:#trac_not_accessed#:#Noch nicht zugegriffen
 trac#:#trac_not_assigned#:#Nicht ausgewählt
@@ -5627,7 +5631,9 @@ trac#:#trac_occurrences#:#Pfad:
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_query#:#Titel/Beschreibung:
 trac#:#trac_refresh#:#Ansicht aktualisieren
+trac#:#trac_required_visits#:#Anzahl benötigter Besuche
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
 trac#:#trac_settings#:#Einstellungen
 trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_show_hidden#:#Wieder anzeigen
@@ -5643,11 +5649,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
-trac#:#trac_crs_items#:#Kurselemente
-trac#:#trac_required_visits#:#Anzahl benötigter Besuche
-trac#:#trac_no_content#:#Keine Daten zum Lernfortschritt verfügbar.
-trac#:#trac_filter_none#:#Keine
-trac#:#trac_added_no_shown_list#:#Die ausgewählten Objekte wurden ausgeblendet.
-trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
-trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.

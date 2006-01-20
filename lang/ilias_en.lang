@@ -5582,6 +5582,7 @@ trac#:#obj_types#:#Object types:
 trac#:#search_area_info#:#Please choose one object.
 trac#:#select_one#:#Please select one object
 trac#:#trac_activated#:#Tracking activated
+trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.
 trac#:#trac_anonymized#:#Anonymized
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
 trac#:#trac_assigned#:#Assigned
@@ -5596,7 +5597,9 @@ trac#:#trac_edit_collection#:#Please assign course items. If the status of all a
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
 trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Hidden:
+trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
 trac#:#trac_filter_no_access#:#No objects found
+trac#:#trac_filter_none#:#None
 trac#:#trac_filter_repository#:#In the repository
 trac#:#trac_hide#:#Hide
 trac#:#trac_in_progress#:#In progress
@@ -5619,6 +5622,7 @@ trac#:#trac_mode_visits#:#Number of visits
 trac#:#trac_modifications_saved#:#Saved settings
 trac#:#trac_modus#:#Mode
 trac#:#trac_no_attempted#:#Not attempted
+trac#:#trac_no_content#:#No informations about the learning progress available.
 trac#:#trac_no_sahs_items_found#:#No objects found.
 trac#:#trac_not_accessed#:#Not accessed
 trac#:#trac_not_assigned#:#Not assigned
@@ -5629,7 +5633,9 @@ trac#:#trac_occurrences#:#Path:
 trac#:#trac_progress#:#Personal learning progress
 trac#:#trac_query#:#Title/description:
 trac#:#trac_refresh#:#Refresh
+trac#:#trac_required_visits#:#Number of required visits
 trac#:#trac_sahs_relevant_items#:#SCO's
+trac#:#trac_select_one#:#You made no selection
 trac#:#trac_settings#:#Settings
 trac#:#trac_settings_saved#:#Saved settings.
 trac#:#trac_show_hidden#:#Show
@@ -5645,9 +5651,3 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-trac#:#trac_required_visits#:#Number of required visits
-trac#:#trac_no_content#:#No informations about the learning progress available.
-trac#:#trac_filter_none#:#None
-trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.
-trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
-trac#:#trac_select_one#:#You made no selection

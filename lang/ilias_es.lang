@@ -5580,6 +5580,7 @@ trac#:#obj_types#:#Tipos de objeto:
 trac#:#search_area_info#:#Por favor escoja un objeto.
 trac#:#select_one#:#Por favor seleccione un objeto
 trac#:#trac_activated#:#Tracking activado
+trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
 trac#:#trac_anonymized#:#Anonimo
 trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
 trac#:#trac_assigned#:#Asignado
@@ -5594,7 +5595,9 @@ trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de 
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Oculto:
+trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
 trac#:#trac_filter_no_access#:#No se encontraron objetos
+trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
@@ -5617,6 +5620,7 @@ trac#:#trac_mode_visits#:#Numero de visitas
 trac#:#trac_modifications_saved#:#Configuracion salvada
 trac#:#trac_modus#:#Modo
 trac#:#trac_no_attempted#:#No visitado
+trac#:#trac_no_content#:#No informations about the learning progress available.###20 Jan 2006 new variable
 trac#:#trac_no_sahs_items_found#:#No se encontraron objetos.
 trac#:#trac_not_accessed#:#No accedido
 trac#:#trac_not_assigned#:#No asignado
@@ -5627,7 +5631,9 @@ trac#:#trac_occurrences#:#Ruta:
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:
 trac#:#trac_refresh#:#Actualizar
+trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_settings#:#Configuracion
 trac#:#trac_settings_saved#:#Configuracion guardada.
 trac#:#trac_show_hidden#:#Mostrar
