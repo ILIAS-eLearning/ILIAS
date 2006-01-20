@@ -5563,6 +5563,7 @@ trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
 trac#:#search_area_info#:#Please choose one object.###23 Dec 2005 new variable
 trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
 trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
+trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
 trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
 trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
@@ -5577,7 +5578,9 @@ trac#:#trac_edit_collection#:#Please assign course items. If the status of all a
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
+trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
 trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
+trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
@@ -5600,6 +5603,7 @@ trac#:#trac_mode_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_modifications_saved#:#Saved settings###23 Dec 2005 new variable
 trac#:#trac_modus#:#Mode###23 Dec 2005 new variable
 trac#:#trac_no_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_no_content#:#No informations about the learning progress available.###20 Jan 2006 new variable
 trac#:#trac_no_sahs_items_found#:#No objects found.###23 Dec 2005 new variable
 trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
 trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
@@ -5610,7 +5614,9 @@ trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
 trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
 trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
 trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable
 trac#:#trac_show_hidden#:#Show###23 Dec 2005 new variable
