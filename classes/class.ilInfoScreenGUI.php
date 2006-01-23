@@ -57,11 +57,13 @@ class ilInfoScreenGUI
 
 		$this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
 		$this->tabs_gui =& $ilTabs;
 		$this->gui_object =& $a_gui_object;
 		$this->sec_nr = 0;
 		$this->private_notes_enabled = false;
 		$this->feedback_enabled = false;
+		$this->learning_progress_enabled = false;
 		$this->form_action = "";
 		$this->top_formbuttons = array();
 	}
@@ -109,6 +111,15 @@ class ilInfoScreenGUI
 	{
 		$this->private_notes_enabled = $a_enable;
 	}
+
+	/**
+	* enable learning progress
+	*/
+	function enableLearningProgress($a_enable = true)
+	{
+		$this->learning_progress_enabled = $a_enable;
+	}
+	
 	
 	/**
 	* enable feedback
@@ -410,6 +421,14 @@ class ilInfoScreenGUI
 				}
 			}
 		}
+		// learning progress
+		if($this->learning_progress_enabled and $html = $this->showLearningProgress())
+		{
+			$tpl->setCurrentBlock("learning_progress");
+			$tpl->setVariable("LP_TABLE",$html);
+			$tpl->parseCurrentBlock();
+		}
+			
 		
 		// notes section
 		if ($this->private_notes_enabled)
@@ -421,6 +440,93 @@ class ilInfoScreenGUI
 		}
 		
 		return $tpl->get();
+	}
+
+	function showLearningProgress()
+	{
+		global $ilUser;
+
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if (!ilObjUserTracking::_enabledTracking())
+		{
+			return false;
+		}
+
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+
+		if(ilLPObjSettings::_lookupMode($this->gui_object->object->getId()) != LP_MODE_MANUAL)
+		{
+			return false;
+		}
+
+		$this->lng->loadLanguageModule('trac');
+		$tpl = new ilTemplate("tpl.lp_edit_manual.html",true,true,'Services/Tracking');
+		
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_trac.gif'));
+		$tpl->setVariable("ALT_IMG",$this->lng->txt('learning_progress'));
+		$tpl->setVariable("TXT_EDIT_PROGRESS",$this->lng->txt('trac_edit_progress'));
+
+		$tpl->setVariable("TXT_STATUS",$this->lng->txt('trac_status'));
+
+
+		$tpl->setVariable("CHECK_EDITED",ilUtil::formSelect((int) ilLPMarks::_hasCompleted($ilUser->getId(),
+																						   $this->gui_object->object->getId()),
+															'lp_edit',
+															array(0 => $this->lng->txt('trac_not_completed'),
+																  1 => $this->lng->txt('trac_completed')),
+															false,
+															true));
+															
+															
+		$tpl->setVariable("INFO_EDITED",$this->lng->txt('trac_info_edited'));
+
+		// More infos for lm's
+		if($this->gui_object->object->getType() == 'lm')
+		{
+			$tpl->setCurrentBlock("lm_infos");
+			$tpl->setVariable("TXT_LAST_ACCESS",$this->lng->txt('trac_last_access'));
+
+			include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+			$progress = ilLearningProgress::_getProgress($ilUser->getId(),$this->gui_object->object->getId());
+			if($progress['access_time'])
+			{
+				$tpl->setVariable("LAST_ACCESS",date('Y-m-d H:i:s',$progress['access_time']));
+			}
+			else
+			{
+				$tpl->setVariable("LAST_ACCESS",$this->lng->txt('trac_not_accessed'));
+			}
+			
+			$tpl->setVariable("TXT_VISITS",$this->lng->txt('trac_visits'));
+			$tpl->setVariable("VISITS",(int) $progress['visits']);
+
+			$tpl->setVariable("TXT_DURATION",$this->lng->txt('trac_spent_time'));
+			$tpl->setVariable("DURATION",ilFormat::_secondsToString($progress['spent_time']));
+
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+
+		return $tpl->get();
+	}
+
+	function saveProgress()
+	{
+		global $ilUser;
+
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+		
+		$lp_marks = new ilLPMarks($this->gui_object->object->getId(),$ilUser->getId());
+		$lp_marks->setCompleted((bool) $_POST['lp_edit']);
+		$lp_marks->update();
+
+		$this->lng->loadLanguageModule('trac');
+		sendInfo($this->lng->txt('trac_updated_status'));
+
+		$this->showSummary();
 	}
 	
 	

@@ -169,7 +169,7 @@ class ilLPMarks
 	function __read()
 	{
 		$res = $this->db->query("SELECT * FROM ut_lp_marks ".
-								"WHERE obj_id = '".$this->db->quote($this->obj_id)."' ".
+								"WHERE obj_id = ".$this->db->quote($this->obj_id)." ".
 								"AND usr_id = '".(int) $this->usr_id."'");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
