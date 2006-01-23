@@ -5651,3 +5651,8 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+trac#:#trac_edit_progress#:#Edit learning progress
+trac#:#trac_not_completed#:#Not Completed
+trac#:#trac_last_access#:#Last access
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.
+trac#:#trac_updated_status#:#Saved learning progress status.

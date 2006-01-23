@@ -349,14 +349,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveEnd()));
 		}
 
-		// Learning progress type manual
-		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
+		$info->enableLearningProgress(true);
 
-		if(ilObjUserTracking::_enabledTracking() and ilLPObjSettings::_lookupMode($this->object->getId()) == LP_MODE_MANUAL)
-		{
-			$info->addSection($this->lng->txt('learning_progress'));
-		}
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}
@@ -2750,7 +2744,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		elseif($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTarget('view',
+			$tabs_gui->addTarget('content',
 								 $this->ctrl->getLinkTarget($this, ""),
 								 array("", "view","addToDesk","removeFromDesk",'cciEdit','listConditions'));
 		}

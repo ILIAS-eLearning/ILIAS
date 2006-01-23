@@ -100,6 +100,7 @@ class ilLMPresentationGUI
 				break;
 		}
 		$this->lm =& $this->lm_gui->object;
+
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
@@ -2193,6 +2194,7 @@ class ilLMPresentationGUI
 
 		$info = new ilInfoScreenGUI($this->lm_gui);
 		$info->enablePrivateNotes();
+		$info->enableLearningProgress();
 
 		// add read / back button
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
