@@ -1261,8 +1261,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function importObject()
 	{
+		global $rbacsystem;
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 		$this->getTemplateFile("import", "spl");
-		//$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("BTN_NAME", "uploadSpl");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));

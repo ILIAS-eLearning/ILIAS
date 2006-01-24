@@ -587,6 +587,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function importObject()
 	{
+		global $rbacsystem;
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 		$this->getTemplateFile("import", "qpl");
 		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
