@@ -5592,6 +5592,7 @@ trac#:#trac_comments#:#Kommentare
 trac#:#trac_completed#:#Bearbeitet
 trac#:#trac_crs_releavant_items#:#Kursobjekte
 trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Kursobjekte aus, anhand derer der Lernfortschritt bestimmt wird.
+trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
 trac#:#trac_filter_area#:#Bereich:
 trac#:#trac_filter_hidden#:#Ausgeblendet:
@@ -5601,6 +5602,8 @@ trac#:#trac_filter_none#:#Keine
 trac#:#trac_filter_repository#:#Im Magazin
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
+trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, daß Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
+trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
 trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
@@ -5625,6 +5628,7 @@ trac#:#trac_no_sahs_items_found#:#Es wurden keine Objekte gefunden mittels derer
 trac#:#trac_not_accessed#:#Noch nicht zugegriffen
 trac#:#trac_not_assigned#:#Nicht ausgewählt
 trac#:#trac_not_attempted#:#Noch nicht begonnen
+trac#:#trac_not_completed#:#Nicht bearbeitet
 trac#:#trac_num_visits#:#Anzahl der Besuche
 trac#:#trac_objects#:#Objektübersicht
 trac#:#trac_occurrences#:#Pfad:
@@ -5641,6 +5645,7 @@ trac#:#trac_spent_time#:#Gesamtbearbeitungszeit
 trac#:#trac_status#:#Status###23 Dec 2005 new variable
 trac#:#trac_total_online#:#Gesamtzeit online
 trac#:#trac_update_edit_user#:#Die Änderungen wurden übernommen
+trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
 trac#:#trac_user_data#:#Benutzerdaten
 trac#:#trac_usr_list#:#Benutzer
 trac#:#trac_valid_request#:#Max. Zeit zwischen Anfragen
@@ -5649,10 +5654,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
-trac#:#trac_crs_items#:#Kurselemente
-trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
-trac#:#trac_not_completed#:#Nicht bearbeitet
-trac#:#trac_last_access#:#Letzter Zugriff
-trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, daß Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
-trac#:#trac_updated_status#:#Der Status wurde aktualisiert.

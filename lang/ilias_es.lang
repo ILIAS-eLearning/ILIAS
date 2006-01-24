@@ -5592,6 +5592,7 @@ trac#:#trac_comments#:#Comentarios
 trac#:#trac_completed#:#Completado
 trac#:#trac_crs_releavant_items#:#Items del curso
 trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
+trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Oculto:
@@ -5601,6 +5602,8 @@ trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable
+trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Progreso de aprendizaje
 trac#:#trac_learning_progress_tbl_header#:#Progreso de:
 trac#:#trac_lp_filter#:#Filtro
@@ -5625,6 +5628,7 @@ trac#:#trac_no_sahs_items_found#:#No se encontraron objetos.
 trac#:#trac_not_accessed#:#No accedido
 trac#:#trac_not_assigned#:#No asignado
 trac#:#trac_not_attempted#:#No visitado
+trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
 trac#:#trac_num_visits#:#Numero de visitas
 trac#:#trac_objects#:#Lista de objetos
 trac#:#trac_occurrences#:#Ruta:
@@ -5641,6 +5645,7 @@ trac#:#trac_spent_time#:#Tiempo empleado
 trac#:#trac_status#:#Estado
 trac#:#trac_total_online#:#Tiempo total online
 trac#:#trac_update_edit_user#:#Configuracion grabada
+trac#:#trac_updated_status#:#Saved learning progress status.###24 Jan 2006 new variable
 trac#:#trac_user_data#:#Datos de usuario
 trac#:#trac_usr_list#:#Usuarios
 trac#:#trac_valid_request#:#Max. tiempo entre peticiones

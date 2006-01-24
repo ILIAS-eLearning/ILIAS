@@ -4843,8 +4843,13 @@ survey#:#view_phrase#:#Просмотреть фразу
 survey#:#warning_question_in_use#:#Предупреждение! Вопрос, который Вы хотите редактировать, находится в использовании упомянутыми ниже опросами. Если Вы хотите продолжить и сохранить/применить вопрос, то все ответы упомянутых ниже опросов будут удалены. Если Вы хотите изменить вопрос и использовать его в другом опросе, пожалуйста, выберите дубликат в браузере вопросов.
 survey#:#warning_question_not_complete#:#Вопрос не завершен!
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
+trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable
+trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_no_content#:#No informations about the learning progress available.###20 Jan 2006 new variable
+trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
+trac#:#trac_updated_status#:#Saved learning progress status.###24 Jan 2006 new variable

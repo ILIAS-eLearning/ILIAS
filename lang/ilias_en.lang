@@ -5594,6 +5594,7 @@ trac#:#trac_comments#:#Comments
 trac#:#trac_completed#:#Completed
 trac#:#trac_crs_releavant_items#:#Course items
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
+trac#:#trac_edit_progress#:#Edit learning progress
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
 trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Hidden:
@@ -5603,6 +5604,8 @@ trac#:#trac_filter_none#:#None
 trac#:#trac_filter_repository#:#In the repository
 trac#:#trac_hide#:#Hide
 trac#:#trac_in_progress#:#In progress
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.
+trac#:#trac_last_access#:#Last access
 trac#:#trac_learning_progress#:#Learning progress
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
 trac#:#trac_lp_filter#:#Filter
@@ -5627,6 +5630,7 @@ trac#:#trac_no_sahs_items_found#:#No objects found.
 trac#:#trac_not_accessed#:#Not accessed
 trac#:#trac_not_assigned#:#Not assigned
 trac#:#trac_not_attempted#:#Not attempted
+trac#:#trac_not_completed#:#Not Completed
 trac#:#trac_num_visits#:#Number of visits
 trac#:#trac_objects#:#List of objects
 trac#:#trac_occurrences#:#Path:
@@ -5643,6 +5647,7 @@ trac#:#trac_spent_time#:#Spent time
 trac#:#trac_status#:#Status
 trac#:#trac_total_online#:#Total time online
 trac#:#trac_update_edit_user#:#Saved settings
+trac#:#trac_updated_status#:#Saved learning progress status.
 trac#:#trac_user_data#:#User data
 trac#:#trac_usr_list#:#Users
 trac#:#trac_valid_request#:#Max. time between requests
@@ -5651,8 +5656,3 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-trac#:#trac_edit_progress#:#Edit learning progress
-trac#:#trac_not_completed#:#Not Completed
-trac#:#trac_last_access#:#Last access
-trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.
-trac#:#trac_updated_status#:#Saved learning progress status.

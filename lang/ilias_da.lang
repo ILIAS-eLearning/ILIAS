@@ -5464,6 +5464,7 @@ trac#:#trac_comments#:#Comments###23 Dec 2005 new variable
 trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
+trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
@@ -5473,6 +5474,8 @@ trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable
+trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
 trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
@@ -5497,6 +5500,7 @@ trac#:#trac_no_sahs_items_found#:#No objects found.###23 Dec 2005 new variable
 trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
 trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
 trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
+trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
 trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
 trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
@@ -5513,6 +5517,7 @@ trac#:#trac_spent_time#:#Spent time###23 Dec 2005 new variable
 trac#:#trac_status#:#Status###23 Dec 2005 new variable
 trac#:#trac_total_online#:#Total time online###23 Dec 2005 new variable
 trac#:#trac_update_edit_user#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_updated_status#:#Saved learning progress status.###24 Jan 2006 new variable
 trac#:#trac_user_data#:#User data###23 Dec 2005 new variable
 trac#:#trac_usr_list#:#Users###23 Dec 2005 new variable
 trac#:#trac_valid_request#:#Max. time between requests###23 Dec 2005 new variable
