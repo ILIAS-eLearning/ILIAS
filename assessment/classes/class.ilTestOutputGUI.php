@@ -174,7 +174,7 @@ class ilTestOutputGUI
 				    ) && (isset ($_GET["sequence"]) && is_numeric ($_GET["sequence"])));
 
 	 	return $do_save == true &&				
-				!$this->isEndingTimeReached() && !$this->isMaxProcessingTimeReached();
+				!$this->isEndingTimeReached() && !$this->isMaxProcessingTimeReached() && !$this->isNrOfTriesReached();
 	 }
 	 
 	/**
