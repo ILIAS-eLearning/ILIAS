@@ -5678,3 +5678,7 @@ common#:#udf_value#:#Value
 common#:#btn_new_value#:#New value
 common#:#udf_no_entries#:#Please enter minimum one value.
 common#:#udf_duplicate_entries#:#The values have to be unique.
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?
+common#:#udf_delete_header#:#Delete field
+common#:#udf_field_deleted#:#Deleted field.
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.

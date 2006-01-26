@@ -91,7 +91,14 @@ class ilUserDefinedFields
 	}
 	function setFieldValues($a_values)
 	{
-		$this->field_values = $a_values;
+		$this->field_values = array();
+		foreach($a_values as $value)
+		{
+			if(strlen($value))
+			{
+				$this->field_values[] = $value;
+			}
+		}
 	}
 	function getFieldValues()
 	{

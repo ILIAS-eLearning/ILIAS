@@ -1691,7 +1691,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_DELETE_FIELD",$this->lng->txt('udf_delete_sure'));
+		$this->tpl->setVariable("TXT_DELETE_FIELD",$this->lng->txt('udf_delete_header'));
 		$this->tpl->setVariable("TXT_FIELD_NAME",$this->lng->txt('field_name'));
 
 		$user_field_definitions = new ilUserDefinedFields();
