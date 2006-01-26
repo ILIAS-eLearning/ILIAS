@@ -127,6 +127,12 @@ function saveForm()
         }
     }
 
+	if(!checkUserDefinedRequiredFields())
+	{
+		$ilias->raiseError($lng->txt("fill_out_all_required_fields"),$ilias->error_obj->MESSAGE);
+	}
+		
+
     // validate username
 	if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
 	{
@@ -226,6 +232,8 @@ function saveForm()
 	$userObj->setTimeLimitUnlimited(1);
 	$userObj->setTimeLimitFrom(time());
 	$userObj->setTimeLimitUntil(time());
+
+	$userObj->setUserDefinedData($_POST['udf']);
 
 	$userObj->create();
 
@@ -358,7 +366,9 @@ function saveForm()
 		$mmail->Send();
     }
 
-	ilUtil::redirect("register.php?lang=".$_GET["lang"]."&cmd=login&user=".base64_encode($_POST["Fobject"]["login"])."&pass=".base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
+	ilUtil::redirect("register.php?lang=".$_GET["lang"]."&cmd=login&user=".
+					 base64_encode($_POST["Fobject"]["login"])."&pass=".
+					 base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
 }
 
 
@@ -539,7 +549,8 @@ function displayForm()
 		*/
 
 	// preselect previous chosen language otherwise default language
-	$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $lng->lang_key;
+	$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? 
+		$_SESSION["error_post_vars"]["Fobject"]["language"] : $lng->lang_key;
 
 	foreach ($languages as $lang_key)
 	{
@@ -574,9 +585,75 @@ function displayForm()
 	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
     $tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement") . '<span class="asterisk">*</span>');
 
+	showUserDefinedFields();
+
 	$tpl->show();
 
 }
+function showUserDefinedFields()
+{
+	global $tpl;
+
+	include_once './classes/class.ilUserDefinedFields.php';
+	$user_defined_fields = new ilUserDefinedFields();
+
+	#$user_defined_data = $ilUser->getUserDefinedData();
+	foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+	{
+		if($definition['field_type'] == UDF_TYPE_TEXT)
+		{
+			$old = isset($_SESSION["error_post_vars"]["udf"][$field_id]) ?
+				$_SESSION["error_post_vars"]["udf"][$field_id] : '';
+
+
+			$tpl->setCurrentBlock("field_text");
+			$tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
+			$tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($old));
+			if(!$definition['changeable'])
+			{
+				$tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
+			}
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setCurrentBlock("field_select");
+			$tpl->setVariable("SELECT_BOX",ilUtil::formSelect($old,
+															  'udf['.$definition['field_id'].']',
+															  $user_defined_fields->fieldValuesToSelectArray(
+																  $definition['field_values']),
+															  false,
+															  true));
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setCurrentBlock("user_defined");
+
+		if($definition['required'])
+		{
+			$name = $definition['field_name']."<span class=\"asterisk\">*</span>";
+		}
+		else
+		{
+			$name = $definition['field_name'];
+		}
+		$tpl->setVariable("TXT_FIELD_NAME",$name);
+		$tpl->parseCurrentBlock();
+	}
+	return true;
+}
+function checkUserDefinedRequiredFields()
+{
+	include_once './classes/class.ilUserDefinedFields.php';
+	$user_defined_fields = new ilUserDefinedFields();
+
+	foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+	{
+		if($definition['required'] and !strlen($_POST['udf'][$field_id]))
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
 ?>
-

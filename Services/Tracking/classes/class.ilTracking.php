@@ -112,6 +112,7 @@ class ilTracking {
 		$session_id = session_id();
 
 		$last_access = ilTracking::_getLastAccess();
+
 		if(($session_id == $last_access["session_id"]) &&
 			($a_obj_id == $last_access["acc_obj_id"]) &&
 			($a_obj_type == $last_access["acc_obj_type"]) &&

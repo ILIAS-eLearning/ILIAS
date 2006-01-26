@@ -233,18 +233,39 @@
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <!-- END referral_comment -->
-<!-- BEGIN matriculation -->
+		<!-- BEGIN other -->
+		<tr class="tblheader">
+		  <th class="std" colspan="4">{TXT_OTHER}</th>
+		</tr>
+		<!-- BEGIN matriculation -->
+		<tr>
+		  <td class="option">{TXT_MATRICULATION}</td>
+		  <td class="option_value">
+			<input type="text" name="usr_matriculation" maxlength="40" size="40" value="{MATRICULATION}"{DISABLED_MATRICULATION} />
+		  </td>
+		  <td class="option_value" colspan="2" headers="pub_profile">
+			<center>
+			  <input type="checkbox" name="chk_matriculation" {CHK_MATRICULATION} />
+			</center>
+		  </td>
+		</tr>
+		<!-- END matriculation -->
+		<!-- BEGIN user_defined -->
+		<tr>
+		  <td class="option">{TXT_FIELD_NAME}</td>
+		  <td class="option_value" colspan="3">
+			<!-- BEGIN field_text -->
+			<input type="text" name="{FIELD_NAME}" maxlength="255" size="40" value="{FIELD_VALUE}"{DISABLED_FIELD} />
+			<!-- END field_text -->
+			<!-- BEGIN field_select -->
+			{SELECT_BOX}
+			<!-- END field_select -->
+		  </td>
+		</tr>
+		<!-- END user_defined -->
+		<!-- END other -->
 <tr class="tblheader">
-	<th class="std" colspan="4">{TXT_OTHER}</th>
-</tr>
-<tr>
-	<td class="option">{TXT_MATRICULATION}</td>
-	<td class="option_value"><input type="text" name="usr_matriculation" maxlength="40" size="40" value="{MATRICULATION}"{DISABLED_MATRICULATION} /></td>
-	<td class="option_value" colspan="2" headers="pub_profile"><center><input type="checkbox" name="chk_matriculation" {CHK_MATRICULATION} /></center></td>
-</tr>
-<!-- END matriculation -->
-<tr class="tblheader">
-    <th class="std" colspan="4">{TXT_SETTINGS}</th>
+<th class="std" colspan="4">{TXT_SETTINGS}</th>
 
 </tr>
 <!-- BEGIN language -->

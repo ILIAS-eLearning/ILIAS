@@ -5654,3 +5654,25 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+common#:#standard_fields#:#Standardfelder
+common#:#user_defined_fields#:#Benutzerdefinierte Felder
+common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
+common#:#field_name#:#Feldname
+common#:#header_searchable#:#Durchsuchbar
+common#:#add_user_defined_field#:#Neues Feld anlegen
+common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
+common#:#field_type#:#Feldtyp
+common#:#udf_type_text#:#Textfeld (beliebige Werte)
+common#:#udf_type_select#:#Auswahlliste (feste Werte)
+common#:#btn_next#:#Weiter
+common#:#add_new_user_defined_text_field#:#Neues Textfeld anlegen
+common#:#udf_add_field#:#Feld anlegen
+common#:#btn_previous#:#Zurück
+common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
+common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
+common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
+common#:#add_new_user_defined_select_field#:#Neue Auswahlliste anlegen
+common#:#udf_value#:#Wert
+common#:#btn_new_value#:#Neuer Wert
+common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
+common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.

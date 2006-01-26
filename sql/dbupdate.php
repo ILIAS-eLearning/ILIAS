@@ -9485,3 +9485,36 @@ ALTER TABLE `tst_eval_users` DROP `TIMESTAMP`;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#628>
+DROP TABLE IF EXISTS `user_defined_field_definition`;
+CREATE TABLE `user_defined_field_definition` (
+  `field_id` int(3) NOT NULL auto_increment,
+  `field_name` tinytext NOT NULL,
+  `field_type` tinyint(1) NOT NULL default '0',
+  `field_values` text NOT NULL,
+  `visible` tinyint(1) NOT NULL default '0',
+  `changeable` tinyint(1) NOT NULL default '0',
+  `required` tinyint(1) NOT NULL default '0',
+  `searchable` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`field_id`)
+) TYPE = MyISAM;
+
+<#629>
+DROP TABLE IF EXISTS `usr_defined_data`;
+CREATE TABLE `usr_defined_data` (
+  `usr_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`)
+) TYPE = MyISAM;
+
+<#630>
+<?php
+$query = "SELECT DISTINCT usr_id FROM usr_data";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO usr_defined_data ".
+		"SET usr_id = '".$row->usr_id."'";
+	$ilDB->query($query);
+}
+?>

@@ -92,6 +92,8 @@ class ilObjUser extends ilObject
 	var $client_ip; // client ip to check before login
 	var $auth_mode; // authentication mode
 
+	var $user_defined_data = array();
+
 	/**
 	* Contains variable Userdata (Prefs, Settings)
 	* @var		array
@@ -129,10 +131,11 @@ class ilObjUser extends ilObject
 	*/
 	function ilObjUser($a_user_id = 0, $a_call_by_reference = false)
 	{
-		global $ilias;
+		global $ilias,$ilDB;
 
 		// init variables
 		$this->ilias =& $ilias;
+		$this->db =& $ilDB;
 
 		$this->type = "usr";
 		$this->ilObject($a_user_id, $a_call_by_reference);
@@ -236,8 +239,12 @@ class ilObjUser extends ilObject
 		}
 		else
 		{
-			$ilErr->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
+			$ilErr->raiseError("<b>Error: There is no dataset with id ".
+							   $this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__.
+							   "<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
+
+		$this->readUserDefinedFields();
 
 		parent::read();
 	}
@@ -338,7 +345,9 @@ class ilObjUser extends ilObject
 				break;
 
 			default :
-				 $ilErr->raiseError("<b>Error: passwd_type missing in function saveAsNew. ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
+				 $ilErr->raiseError("<b>Error: passwd_type missing in function saveAsNew. ".
+									$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__.
+									"<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 
 		if ($a_from_formular)
@@ -356,11 +365,14 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::addSlashes($this->email)."','".ilUtil::addSlashes($this->hobby)."', "
                 . "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."', "
                 . "'".ilUtil::addSlashes($this->street)."', "
-                . "'".ilUtil::addSlashes($this->city)."','".ilUtil::addSlashes($this->zipcode)."','".ilUtil::addSlashes($this->country)."', "
+                . "'".ilUtil::addSlashes($this->city)."','".ilUtil::addSlashes($this->zipcode)."','".
+				ilUtil::addSlashes($this->country)."', "
                 . "'".ilUtil::addSlashes($this->phone_office)."','".ilUtil::addSlashes($this->phone_home)."', "
                 . "'".ilUtil::addSlashes($this->phone_mobile)."','".ilUtil::addSlashes($this->fax)."', 0, now(), now(), "
-                . "'".ilUtil::addSlashes($this->referral_comment)."', '". ilUtil::addSlashes($this->matriculation) . "', '". ilUtil::addSlashes($this->client_ip) . "', '" .$this->approve_date."', '".$this->active."', "
-                . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."', "
+                . "'".ilUtil::addSlashes($this->referral_comment)."', '". ilUtil::addSlashes($this->matriculation) . "', '".
+				ilUtil::addSlashes($this->client_ip) . "', '" .$this->approve_date."', '".$this->active."', "
+                . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
+				$this->getTimeLimitOwner()."', "
                 . "'".$this->getAuthMode()."')";
 		}
 		else
@@ -378,15 +390,23 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::prepareDBString($this->email)."','".ilUtil::prepareDBString($this->hobby)."', "
                 . "'".ilUtil::prepareDBString($this->institution)."','".ilUtil::prepareDBString($this->department)."', "
                 . "'".ilUtil::prepareDBString($this->street)."', "
-                . "'".ilUtil::prepareDBString($this->city)."','".ilUtil::prepareDBString($this->zipcode)."','".ilUtil::prepareDBString($this->country)."', "
+                . "'".ilUtil::prepareDBString($this->city)."','".ilUtil::prepareDBString($this->zipcode)."','".
+				ilUtil::prepareDBString($this->country)."', "
                 . "'".ilUtil::prepareDBString($this->phone_office)."','".ilUtil::prepareDBString($this->phone_home)."', "
                 . "'".ilUtil::prepareDBString($this->phone_mobile)."','".ilUtil::prepareDBString($this->fax)."', 0, now(), now(), "
-                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".ilUtil::prepareDBString($this->matriculation)."', '".ilUtil::prepareDBString($this->client_ip)."', '".$this->approve_date."','".$this->active."', "
-                . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
+                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".ilUtil::prepareDBString($this->matriculation)."', '".
+				ilUtil::prepareDBString($this->client_ip)."', '".$this->approve_date."','".$this->active."', "
+                . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
+				$this->getTimeLimitOwner()."'"
                 . ")";
 		}
 
 		$this->ilias->db->query($q);
+
+		// add new entry in usr_defined_data
+		$this->addUserDefinedFieldEntry();
+		// ... and update
+		$this->updateUserDefinedFields();
 
 		// CREATE ENTRIES FOR MAIL BOX
 		include_once ("classes/class.ilMailbox.php");
@@ -432,7 +452,8 @@ class ilObjUser extends ilObject
 				break;
 
 			default :
-				$ilErr->raiseError("<b>Error: passwd_type missing in function update()".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
+				$ilErr->raiseError("<b>Error: passwd_type missing in function update()".$this->id."!</b><br />class: ".
+								   get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 		$q = "UPDATE usr_data SET ".
             "gender='".$this->gender."', ".
@@ -470,8 +491,11 @@ class ilObjUser extends ilObject
             "WHERE usr_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
-
 		$this->writePrefs();
+
+		// update user defined fields
+		$this->updateUserDefinedFields();
+		
 
 		parent::update();
         parent::updateOwner();
@@ -938,6 +962,9 @@ class ilObjUser extends ilObject
 		include_once './course/classes/class.ilCourseObjectiveResult.php';
 
 		ilCourseObjectiveResult::_deleteAll($this->getId());
+
+		// Delete user defined field entries
+		$this->deleteUserDefinedFieldEntries();
 
 		// delete object data
 		parent::delete();
@@ -2641,6 +2668,70 @@ class ilObjUser extends ilObject
 		return $file;
 	}
 
+	function setUserDefinedData($a_data)
+	{
+		if(!is_array($a_data))
+		{
+			return false;
+		}
+		foreach($a_data as $field => $data)
+		{
+			$new_data[$field] = ilUtil::stripSlashes($data);
+		}
+		$this->user_defined_data = $new_data;
+
+		return true;
+	}
+
+	function getUserDefinedData()
+	{
+		return $this->user_defined_data ? $this->user_defined_data : array();
+	}
+
+	function updateUserDefinedFields()
+	{
+		foreach($this->user_defined_data as $field => $value)
+		{
+			$query = "UPDATE usr_defined_data ".
+				"SET `".$field."` = '".ilUtil::prepareDBString($value)."' ".
+				"WHERE usr_id = '".$this->getId()."'";
+
+			$this->db->query($query);
+		}
+		return true;
+	}
+
+	function readUserDefinedFields()
+	{
+		$query = "SELECT * FROM usr_defined_data ".
+			"WHERE usr_id = '".$this->getId()."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->user_defined_data = $row;
+		}
+		return true;
+	}
+
+	function addUserDefinedFieldEntry()
+	{
+		$query = "INSERT INTO usr_defined_data ".
+			"SET usr_id = '".$this->getId()."'";
+		$this->db->query($query);
+
+		return true;
+	}
+
+	function deleteUserDefinedFieldEntries()
+	{
+		$query = "DELETE FROM usr_defined_data ".
+			"WHERE usr_id = '".$this->getId()."'";
+		$this->db->query($query);
+
+		return true;
+	}
+	  
 
 } // END class ilObjUser
 ?>
