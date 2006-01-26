@@ -5676,3 +5676,7 @@ common#:#udf_value#:#Wert
 common#:#btn_new_value#:#Neuer Wert
 common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
+common#:#udf_delete_sure#:#Sind Sie sicher, daß Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
+common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen
+common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
+common#:#no_user_defined_fields_defined#:#Keine Felder vorhanden.

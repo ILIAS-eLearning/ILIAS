@@ -622,10 +622,6 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("field_text");
 				$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
 				$this->tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($old));
-				if(!$definition['changeable'])
-				{
-					$this->tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
-				}
 				$this->tpl->parseCurrentBlock();
 			}
 			else
