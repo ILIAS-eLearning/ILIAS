@@ -140,7 +140,21 @@
 	<tr>
 			<td class="option">{TXT_CLIENT_IP}</td>
 			<td class="option_value"><input type="text" name="Fobject[client_ip]" maxlength="40" size="40" value="{CLIENT_IP}" />&nbsp;{TXT_CURRENT_IP}<br><small class="warning">{TXT_CURRENT_IP_ALERT}</small></td>
-	</tr>		
+	</tr>
+		<!-- BEGIN user_defined -->
+		<tr>
+		  <td class="option">{TXT_FIELD_NAME}</td>
+		  <td class="option_value" colspan="3">
+			<!-- BEGIN field_text -->
+			<input type="text" name="{FIELD_NAME}" maxlength="255" size="40" value="{FIELD_VALUE}"{DISABLED_FIELD} />
+			<!-- END field_text -->
+			<!-- BEGIN field_select -->
+			{SELECT_BOX}
+			<!-- END field_select -->
+		  </td>
+		</tr>
+		<!-- END user_defined -->
+
     <tr class="tblheader">
         <td class="std" colspan="2">{TXT_SETTINGS}</td>
     </tr>

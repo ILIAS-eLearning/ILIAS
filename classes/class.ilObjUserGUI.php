@@ -378,7 +378,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
 
 		// preselect previous chosen auth mode otherwise default auth mode
-		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ? $_SESSION["error_post_vars"]["Fobject"]["auth_mode"] : 'default';
+		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ? 
+			$_SESSION["error_post_vars"]["Fobject"]["auth_mode"] : 'default';
 
 		foreach ($active_auth_modes as $auth_name => $auth_key)
 		{
@@ -409,7 +410,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$languages = $this->lng->getInstalledLanguages();
 		
 		// preselect previous chosen language otherwise default language
-		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $this->ilias->getSetting("language");
+		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? 
+			$_SESSION["error_post_vars"]["Fobject"]["language"] : $this->ilias->getSetting("language");
 		
 		foreach ($languages as $lang_key)
 		{
@@ -581,7 +583,78 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 
+		$this->__showUserDefinedFields();
+
 	}
+
+	function __checkUserDefinedRequiredFields()
+	{
+		include_once './classes/class.ilUserDefinedFields.php';
+		$this->user_defined_fields = new ilUserDefinedFields();
+
+		foreach($this->user_defined_fields->getDefinitions() as $field_id => $definition)
+		{
+			if($definition['required'] and !strlen($_POST['udf'][$field_id]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	function __showUserDefinedFields()
+	{
+		include_once './classes/class.ilUserDefinedFields.php';
+		$this->user_defined_fields = new ilUserDefinedFields();
+		
+		if($this->object->getType() == 'usr')
+		{
+			$user_defined_data = $this->object->getUserDefinedData();
+		}
+		foreach($this->user_defined_fields->getDefinitions() as $field_id => $definition)
+		{
+			$old = isset($_SESSION["error_post_vars"]["udf"][$field_id]) ?
+				$_SESSION["error_post_vars"]["udf"][$field_id] : $user_defined_data[$field_id];
+
+			if($definition['field_type'] == UDF_TYPE_TEXT)
+			{
+				$this->tpl->setCurrentBlock("field_text");
+				$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
+				$this->tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($old));
+				if(!$definition['changeable'])
+				{
+					$this->tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("field_select");
+				$this->tpl->setVariable("SELECT_BOX",ilUtil::formSelect($old,
+																		'udf['.$definition['field_id'].']',
+																		$this->user_defined_fields->fieldValuesToSelectArray(
+																			$definition['field_values']),
+																		false,
+																		true));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("user_defined");
+
+			if($definition['required'])
+			{
+				$name = $definition['field_name']."<span class=\"asterisk\">*</span>";
+			}
+			else
+			{
+				$name = $definition['field_name'];
+			}
+			$this->tpl->setVariable("TXT_FIELD_NAME",$name);
+			$this->tpl->parseCurrentBlock();
+		}
+		return true;
+	}
+
 	
 	/**
 	* set admin tabs
@@ -1191,6 +1264,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			// END ACTIVE ROLES
 		}
+		$this->__showUserDefinedFields();
 	}
 
 	/**
@@ -1230,6 +1304,11 @@ class ilObjUserGUI extends ilObjectGUI
                 }
             }
         }
+
+		if(!$this->__checkUserDefinedRequiredFields())
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}			
 
 		// validate login
 		if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
@@ -1296,6 +1375,8 @@ class ilObjUserGUI extends ilObjectGUI
         $userObj->setTimeLimitUnlimited($_POST["time_limit"]["unlimited"]);
         $userObj->setTimeLimitFrom($this->__toUnix($_POST["time_limit"]["from"]));
         $userObj->setTimeLimitUntil($this->__toUnix($_POST["time_limit"]["until"]));
+
+		$userObj->setUserDefinedData($_POST['udf']);
 
 		$userObj->create();
 
@@ -1400,12 +1481,17 @@ class ilObjUserGUI extends ilObjectGUI
                     {
                         if (empty($_POST["Fobject"][$val]))
                         {
-                            $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
+                            $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
+													 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
                         }
                     }
                 }
             }
-            
+
+			if(!$this->__checkUserDefinedRequiredFields())
+			{
+				$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+			}
 			// validate login
 			if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
 			{
@@ -1499,6 +1585,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		$this->object->assignData($_POST["Fobject"]);
+		$this->object->setUserDefinedData($_POST['udf']);
 		
 		if ($this->object->getAuthMode(true) == AUTH_LOCAL)
 		{

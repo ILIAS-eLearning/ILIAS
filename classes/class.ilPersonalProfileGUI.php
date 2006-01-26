@@ -39,6 +39,8 @@ class ilPersonalProfileGUI
     var $ilias;
 	var $ctrl;
 
+	var $user_defined_fields = null;
+
 
 	/**
 	* constructor
@@ -47,6 +49,9 @@ class ilPersonalProfileGUI
     {
         global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl;
 
+		include_once './classes/class.ilUserDefinedFields.php';
+
+		$this->user_defined_fields = new ilUserDefinedFields();
 
         $this->tpl =& $tpl;
         $this->lng =& $lng;
@@ -359,6 +364,13 @@ class ilPersonalProfileGUI
 			}
 		}
 
+		// Check user defined required fields
+		if($form_valid and !$this->__checkUserDefinedRequiredFields())
+		{
+			sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			$form_valid = false;
+		}
+
 		// check email
 		if ($this->workWithUserSetting("email"))
 		{
@@ -443,6 +455,8 @@ class ilPersonalProfileGUI
 		{
 			$ilUser->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
 		}
+		// Set user defined data
+		$ilUser->setUserDefinedData($_POST['udf']);
 
 		// everthing's ok. save form data
 		if ($form_valid)
@@ -856,7 +870,8 @@ class ilPersonalProfileGUI
 		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
 		$this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
-		if ($this->userSettingVisible("matriculation"))
+
+		if($this->__showOtherInformations())
 		{
 			$this->tpl->setVariable("TXT_OTHER", $this->lng->txt("user_profile_other"));
 		}
@@ -954,6 +969,9 @@ class ilPersonalProfileGUI
 			$this->tpl->setVariable("MATRICULATION", ilUtil::prepareFormOutput($ilUser->getMatriculation()));
 		}
 		
+		// show user defined visible fields
+		$this->__showUserDefinedFields();
+
 		// get assigned global roles (default roles)
 		$global_roles = $rbacreview->getGlobalRoles();
 		
@@ -1042,5 +1060,74 @@ class ilPersonalProfileGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
+
+
+	function __showOtherInformations()
+	{
+		if($this->userSettingVisible("matriculation") or count($this->user_defined_fields->getVisibleDefinitions()))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	function __showUserDefinedFields()
+	{
+		global $ilUser;
+
+		$user_defined_data = $ilUser->getUserDefinedData();
+		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+		{
+			if($definition['field_type'] == UDF_TYPE_TEXT)
+			{
+				$this->tpl->setCurrentBlock("field_text");
+				$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
+				$this->tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($user_defined_data[$field_id]));
+				if(!$definition['changeable'])
+				{
+					$this->tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("field_select");
+				$this->tpl->setVariable("SELECT_BOX",ilUtil::formSelect($user_defined_data[$field_id],
+																		'udf['.$definition['field_id'].']',
+																		$this->user_defined_fields->fieldValuesToSelectArray(
+																			$definition['field_values']),
+																		false,
+																		true));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("user_defined");
+
+			if($definition['required'])
+			{
+				$name = $definition['field_name']."<span class=\"asterisk\">*</span>";
+			}
+			else
+			{
+				$name = $definition['field_name'];
+			}
+			$this->tpl->setVariable("TXT_FIELD_NAME",$name);
+			$this->tpl->parseCurrentBlock();
+		}
+		return true;
+	}
+
+	function __checkUserDefinedRequiredFields()
+	{
+		foreach($this->user_defined_fields->getVisibleDefinitions() as $definition)
+		{
+			$field_id = $definition['field_id'];
+			if($definition['required'] and !strlen($_POST['udf'][$field_id]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+		
 }
 ?>

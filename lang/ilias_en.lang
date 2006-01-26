@@ -5656,3 +5656,25 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+common#:#standard_fields#:#Standard fields
+common#:#user_defined_fields#:#User-defined fields
+common#:#user_defined_list#:#Overview user-defined fields
+common#:#field_name#:#Field name
+common#:#header_searchable#:#Searchable
+common#:#add_user_defined_field#:#Add new field
+common#:#add_new_user_defined_field#:#Add new user-defined field
+common#:#field_type#:#Field type
+common#:#udf_type_text#:#Text field (optional values)
+common#:#udf_type_select#:#Select box (fixed values)
+common#:#btn_next#:#Continue
+common#:#add_new_user_defined_text_field#:#Add new text field
+common#:#udf_add_field#:#Add field
+common#:#btn_previous#:#Back
+common#:#udf_no_name_given#:#Please enter a field name.
+common#:#udf_added_field#:#Added new filed.
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
+common#:#add_new_user_defined_select_field#:#Add new select box
+common#:#udf_value#:#Value
+common#:#btn_new_value#:#New value
+common#:#udf_no_entries#:#Please enter minimum one value.
+common#:#udf_duplicate_entries#:#The values have to be unique.

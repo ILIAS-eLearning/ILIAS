@@ -71,7 +71,6 @@ if (isset($_GET["client_id"]))
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
-
 // check correct setup
 if (!$ilias->getSetting("setup_ok"))
 {
