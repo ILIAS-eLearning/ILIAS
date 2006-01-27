@@ -892,9 +892,13 @@ common#:#add_author#:#Přidat authora###07 Apr 2005 content changed
 common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Přidat člena###07 Apr 2005 content changed
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
+common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
 common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#Přidat překlad###07 Apr 2005 content changed
 common#:#add_user#:#Add local user###11 Sep 2004 new variable
+common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#Change permission settings###16 Mar 2004 new variable
@@ -1047,6 +1051,9 @@ common#:#bookmark_target#:#Cíl###07 Apr 2005 content changed
 common#:#bookmarks#:#Záložky###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Záložky pro uživatele###07 Apr 2005 content changed
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#New value###27 Jan 2006 new variable
+common#:#btn_next#:#Continue###27 Jan 2006 new variable
+common#:#btn_previous#:#Back###27 Jan 2006 new variable
 common#:#btn_remove_system#:#Odstranit ze systému###07 Apr 2005 content changed
 common#:#btn_undelete#:#Obnovit odstraněné###07 Apr 2005 content changed
 common#:#by#:#-###untranslatable in this context!
@@ -1465,6 +1472,8 @@ common#:#faq_exercise#:#Cvičení FAQ###07 Apr 2005 content changed
 common#:#fax#:#Fax### identical translation
 common#:#feedback#:#Dejte nám vědět###07 Apr 2005 content changed
 common#:#feedback_recipient#:#Příjemce odezvy###07 Apr 2005 content changed
+common#:#field_name#:#Field name###27 Jan 2006 new variable
+common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#Soubor###07 Apr 2005 content changed
 common#:#file_a#:#soubor###07 Apr 2005 content changed
 common#:#file_add#:#Nahrát soubor###07 Apr 2005 content changed
@@ -1708,6 +1717,7 @@ common#:#grp_visible#:#Group is visible###16 Mar 2004 new variable
 common#:#grp_write#:#Edit Group###16 Mar 2004 new variable
 common#:#guest#:#Host###07 Apr 2005 content changed
 common#:#guests#:#Hosté###07 Apr 2005 content changed
+common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Nápověda###07 Apr 2005 content changed
 common#:#hide#:#hide###26 Jan 2005 new variable
@@ -2321,6 +2331,7 @@ common#:#no_permission_to_join#:#Nemáte oprávnění pro vstup do skupiny!###07
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#Žádný název###07 Apr 2005 content changed
 common#:#no_tst_in_personal_list#:#No tests in personal list.###16 Mar 2004 new variable
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
 common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
@@ -2843,6 +2854,7 @@ common#:#st_add#:#Přidat kapitolu###07 Apr 2005 content changed
 common#:#st_added#:#Kapitola přidána###07 Apr 2005 content changed
 common#:#st_edit#:#Upravit kapitolu###07 Apr 2005 content changed
 common#:#st_new#:#Nová kapitola###07 Apr 2005 content changed
+common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
 common#:#startpage#:#Úvodní stránka###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Stav###07 Apr 2005 content changed
@@ -2977,6 +2989,18 @@ common#:#txt_submitted#:#You successfully submitted an account request to ILIAS.
 common#:#typ#:#Definice typů objektů###07 Apr 2005 content changed
 common#:#type#:#Typ###07 Apr 2005 content changed
 common#:#type_your_message_here#:#Napište zprávu sem###07 Apr 2005 content changed
+common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
+common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
+common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
+common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
+common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
+common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
+common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#UID### identical translation
 common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
 common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
@@ -3017,6 +3041,8 @@ common#:#user_added#:#Uživatel přidán###07 Apr 2005 content changed
 common#:#user_assignment#:#Přiřazení uživatelů###07 Apr 2005 content changed
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_comment#:#User comment###03 Dec 2004 new variable
+common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
+common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#Uživatel odstraněn###07 Apr 2005 content changed
 common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable

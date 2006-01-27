@@ -885,9 +885,13 @@ common#:#add_author#:#Ajouter auteur###07 Apr 2005 content changed
 common#:#add_condition#:#Créer nouvelle association###07 Apr 2005 content changed
 common#:#add_member#:#Ajouter membre###07 Apr 2005 content changed
 common#:#add_members#:#Ajouter membres###07 Apr 2005 content changed
+common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
 common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#Ajouter traduction###07 Apr 2005 content changed
 common#:#add_user#:#Ajouter utilisateur local###07 Apr 2005 content changed
+common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Nouvelle condition créée###07 Apr 2005 content changed
 common#:#adm_create_tax#:#Créer taxinomie###07 Apr 2005 content changed
 common#:#adm_edit_permission#:#Changer les paramètres de permission###07 Apr 2005 content changed
@@ -1039,6 +1043,9 @@ common#:#bookmark_target#:#Cible###07 Apr 2005 content changed
 common#:#bookmarks#:#Liens internet###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Liens internet de###07 Apr 2005 content changed
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#New value###27 Jan 2006 new variable
+common#:#btn_next#:#Continue###27 Jan 2006 new variable
+common#:#btn_previous#:#Back###27 Jan 2006 new variable
 common#:#btn_remove_system#:#Supprimer du système###07 Apr 2005 content changed
 common#:#btn_undelete#:#Restaurer###07 Apr 2005 content changed
 common#:#by#:#par###07 Apr 2005 content changed
@@ -1453,6 +1460,8 @@ common#:#faq_exercise#:#Exercice de FAQ###07 Apr 2005 content changed
 common#:#fax#:#Fax###07 Apr 2005 content changed
 common#:#feedback#:#Retours###07 Apr 2005 content changed
 common#:#feedback_recipient#:#Destinataires des retours###07 Apr 2005 content changed
+common#:#field_name#:#Field name###27 Jan 2006 new variable
+common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#Fichier###07 Apr 2005 content changed
 common#:#file_a#:#un fichier###07 Apr 2005 content changed
 common#:#file_add#:#Téléverser un fichier###07 Apr 2005 content changed
@@ -1696,6 +1705,7 @@ common#:#grp_visible#:#Le groupe est visible###07 Apr 2005 content changed
 common#:#grp_write#:#Modifier groupe###07 Apr 2005 content changed
 common#:#guest#:#Invité###07 Apr 2005 content changed
 common#:#guests#:#Invités###07 Apr 2005 content changed
+common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Titre d'entête###07 Apr 2005 content changed
 common#:#help#:#Aide###07 Apr 2005 content changed
 common#:#hide#:#masquer###07 Apr 2005 content changed
@@ -2308,6 +2318,7 @@ common#:#no_permission_to_join#:#Vous n'êtes pas autorisé à rejoindre ce grou
 common#:#no_roles_user_can_be_assigned_to#:#Il n'y a aucun rôle global auquel l'utilisateur peut être assigné. Vous n'êtes donc pas autorisé à ajouter des utilisateurs.###07 Apr 2005 content changed
 common#:#no_title#:#Pas de titre###07 Apr 2005 content changed
 common#:#no_tst_in_personal_list#:#Pas de tests dans la liste personnelle###07 Apr 2005 content changed
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
 common#:#no_users_applied#:#Veuillez sélectionner un utilisateur###07 Apr 2005 content changed
 common#:#no_users_selected#:#Veuillez sélectionner un utilisateur###07 Apr 2005 content changed
 common#:#no_xml_file_found_in_zip#:#Pas de fichier XML trouvé dans le fichier ZIP.###07 Apr 2005 content changed
@@ -2830,6 +2841,7 @@ common#:#st_add#:#Ajouter chapitre###07 Apr 2005 content changed
 common#:#st_added#:#Chapitre ajouté###07 Apr 2005 content changed
 common#:#st_edit#:#Modifier chapitre###07 Apr 2005 content changed
 common#:#st_new#:#Nouveau chapitre###07 Apr 2005 content changed
+common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
 common#:#startpage#:#Page de départ###07 Apr 2005 content changed
 common#:#statistic#:#Statistiques###07 Apr 2005 content changed
 common#:#status#:#Etat###07 Apr 2005 content changed
@@ -2964,6 +2976,18 @@ common#:#txt_submitted#:#Vous avez soumis une demande d'inscription à ILIAS. Vo
 common#:#typ#:#Définition de type d'objet###07 Apr 2005 content changed
 common#:#type#:#Type###07 Apr 2005 content changed
 common#:#type_your_message_here#:#Saisissez votre message ici###07 Apr 2005 content changed
+common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
+common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
+common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
+common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
+common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
+common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
+common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#UID###07 Apr 2005 content changed
 common#:#unambiguousness#:#Non ambiguïté###07 Apr 2005 content changed
 common#:#uncheck_all#:#Ne rien cocher###07 Apr 2005 content changed
@@ -3004,6 +3028,8 @@ common#:#user_added#:#Utilisateur ajouté###07 Apr 2005 content changed
 common#:#user_assignment#:#Assignation d'utilisateur###07 Apr 2005 content changed
 common#:#user_cant_receive_mail#:#L'utilisateur n'est pas autorisé à utiliser l'envoi de message système### 06 oct 2005 content changed
 common#:#user_comment#:#Commentaire de l'utilisateur###07 Apr 2005 content changed
+common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
+common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#Utilisateur détruit###07 Apr 2005 content changed
 common#:#user_detail#:#Détail###07 Apr 2005 content changed
 common#:#user_import_failed#:#Echec de l'importation d'utilisateurs###07 Apr 2005 content changed

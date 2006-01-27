@@ -853,9 +853,13 @@ common#:#add_author#:#Shto Autor
 common#:#add_condition#:#Krijo asociacion të ri
 common#:#add_member#:#Shto Anëtar
 common#:#add_members#:#Shto Anëtarë
+common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
 common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#Shto përkthim
 common#:#add_user#:#Shto shfrytëzues lokal
+common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Krijo konditë të re.
 common#:#adm_create_tax#:#Krijo taksonomi
 common#:#adm_edit_permission#:#Ndërro konfigurimin për të drejtat
@@ -1004,6 +1008,9 @@ common#:#bookmark_target#:#Objektiv
 common#:#bookmarks#:#Adresat
 common#:#bookmarks_of#:#Adresat e
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#New value###27 Jan 2006 new variable
+common#:#btn_next#:#Continue###27 Jan 2006 new variable
+common#:#btn_previous#:#Back###27 Jan 2006 new variable
 common#:#btn_remove_system#:#Largo nga Sistemi
 common#:#btn_undelete#:#Rikthe të fshirat
 common#:#by#:#Nga
@@ -1410,6 +1417,8 @@ common#:#faq_exercise#:#PBSH të Ushtrimit (Pyetjet e Bëra Shpesh)
 common#:#fax#:#Faks
 common#:#feedback#:#Reagimet
 common#:#feedback_recipient#:#Reagimet e Pranuara
+common#:#field_name#:#Field name###27 Jan 2006 new variable
+common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#Skedar
 common#:#file_a#:#një Skedar
 common#:#file_add#:#Ngarko Skedar
@@ -1644,6 +1653,7 @@ common#:#grp_visible#:#Grupi është i dukshëm
 common#:#grp_write#:#Edito Grupin
 common#:#guest#:#Vizitor
 common#:#guests#:#Vizitorët
+common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Titulli Kryesues
 common#:#help#:#Ndihmë
 common#:#hide#:#fsheh
@@ -2239,6 +2249,7 @@ common#:#no_permission_to_join#:#Nuk lejoheni t'i bashkoheni këtij grupi!
 common#:#no_roles_user_can_be_assigned_to#:#Nuk ka role globale ku mund të caktohet shfrytëzuesi. Prandaj nuk mund të shtoni shfrytëzues.
 common#:#no_title#:#Asnjë Titull
 common#:#no_tst_in_personal_list#:#Nuk ka asnjë test në listën personale.
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
 common#:#no_users_applied#:#Ju lutem zgjedhëni një shfrytëzues.
 common#:#no_users_selected#:#Ju lutem zgjedh një shfrytëzues.
 common#:#no_xml_file_found_in_zip#:#Nuk gjendet skedari XML brenda zip skedarit
@@ -2717,6 +2728,7 @@ common#:#st_add#:#Shto Kapitull
 common#:#st_added#:#Kapitulli u shtua
 common#:#st_edit#:#Edito kapitullin
 common#:#st_new#:#Kapitull i Ri
+common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
 common#:#startpage#:#Faqja e fillimit
 common#:#statistic#:#Statistika
 common#:#status#:#Statusi
@@ -2850,6 +2862,18 @@ common#:#txt_submitted#:#Keni kryer me sukses procedurën e kërkesës së lloga
 common#:#typ#:#Definimi i Tipit të Objektit
 common#:#type#:#Tipi
 common#:#type_your_message_here#:#Shkruaj Porosinë Tuaj Këtu
+common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
+common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
+common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
+common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
+common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
+common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
+common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#UID
 common#:#unambiguousness#:#Njohuri të bazuara
 common#:#uncheck_all#:#Largo të gjitha përzgjedhjet
@@ -2889,6 +2913,8 @@ common#:#user_added#:#Shfrytëzuesi eshë shtuar
 common#:#user_assignment#:#Caktimi i Shfrytëzuesve
 common#:#user_cant_receive_mail#:#shfrytëzuesi nuk lejohet të përdor këtë e-mail sistem
 common#:#user_comment#:#Komenti i shfrytëzuesit
+common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
+common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#Shfrytëzuesi është fshirë
 common#:#user_detail#:#Të dhënat në Detaje
 common#:#user_import_failed#:#Importimi i shfrytëzuesit ka dështuar

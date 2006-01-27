@@ -892,9 +892,13 @@ common#:#add_author#:#Add Author
 common#:#add_condition#:#Create new association
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
+common#:#add_new_user_defined_field#:#Add new user-defined field
+common#:#add_new_user_defined_select_field#:#Add new select box
+common#:#add_new_user_defined_text_field#:#Add new text field
 common#:#add_note#:#Add Note
 common#:#add_translation#:#Add translation
 common#:#add_user#:#Add local user
+common#:#add_user_defined_field#:#Add new field
 common#:#added_new_condition#:#Created new condition.
 common#:#adm_create_tax#:#Create taxonomy
 common#:#adm_edit_permission#:#Change permission settings
@@ -1047,6 +1051,9 @@ common#:#bookmark_target#:#Target
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks of
 common#:#bottom_frame#:#Main Content
+common#:#btn_new_value#:#New value
+common#:#btn_next#:#Continue
+common#:#btn_previous#:#Back
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
@@ -1465,6 +1472,8 @@ common#:#faq_exercise#:#FAQ Exercise
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback Recipient
+common#:#field_name#:#Field name
+common#:#field_type#:#Field type
 common#:#file#:#File
 common#:#file_a#:#a File
 common#:#file_add#:#Upload File
@@ -1708,6 +1717,7 @@ common#:#grp_visible#:#Group is visible
 common#:#grp_write#:#Edit Group
 common#:#guest#:#Guest
 common#:#guests#:#Guests
+common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide#:#hide
@@ -2321,6 +2331,7 @@ common#:#no_permission_to_join#:#You are not allowed to join this group!
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.
 common#:#no_title#:#No Title
 common#:#no_tst_in_personal_list#:#No tests in personal list.
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.
 common#:#no_users_applied#:#Please select a user.
 common#:#no_users_selected#:#Please select one user.
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
@@ -2843,6 +2854,7 @@ common#:#st_add#:#Add chapter
 common#:#st_added#:#Chapter added
 common#:#st_edit#:#Edit chapter
 common#:#st_new#:#New chapter
+common#:#standard_fields#:#Standard fields
 common#:#startpage#:#Start page
 common#:#statistic#:#Statistic
 common#:#status#:#Status
@@ -2977,6 +2989,18 @@ common#:#txt_submitted#:#You successfully submitted an account request to ILIAS.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type Your Message Here
+common#:#udf_add_field#:#Add field
+common#:#udf_added_field#:#Added new filed.
+common#:#udf_delete_header#:#Delete field
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?
+common#:#udf_duplicate_entries#:#The values have to be unique.
+common#:#udf_field_deleted#:#Deleted field.
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
+common#:#udf_no_entries#:#Please enter minimum one value.
+common#:#udf_no_name_given#:#Please enter a field name.
+common#:#udf_type_select#:#Select box (fixed values)
+common#:#udf_type_text#:#Text field (optional values)
+common#:#udf_value#:#Value
 common#:#uid#:#UID
 common#:#unambiguousness#:#Unambiguousness
 common#:#uncheck_all#:#Uncheck all
@@ -3017,6 +3041,8 @@ common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#user_comment#:#User comment
+common#:#user_defined_fields#:#User-defined fields
+common#:#user_defined_list#:#Overview user-defined fields
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
 common#:#user_import_failed#:#User import failed.
@@ -5656,29 +5682,3 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-common#:#standard_fields#:#Standard fields
-common#:#user_defined_fields#:#User-defined fields
-common#:#user_defined_list#:#Overview user-defined fields
-common#:#field_name#:#Field name
-common#:#header_searchable#:#Searchable
-common#:#add_user_defined_field#:#Add new field
-common#:#add_new_user_defined_field#:#Add new user-defined field
-common#:#field_type#:#Field type
-common#:#udf_type_text#:#Text field (optional values)
-common#:#udf_type_select#:#Select box (fixed values)
-common#:#btn_next#:#Continue
-common#:#add_new_user_defined_text_field#:#Add new text field
-common#:#udf_add_field#:#Add field
-common#:#btn_previous#:#Back
-common#:#udf_no_name_given#:#Please enter a field name.
-common#:#udf_added_field#:#Added new filed.
-common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
-common#:#add_new_user_defined_select_field#:#Add new select box
-common#:#udf_value#:#Value
-common#:#btn_new_value#:#New value
-common#:#udf_no_entries#:#Please enter minimum one value.
-common#:#udf_duplicate_entries#:#The values have to be unique.
-common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?
-common#:#udf_delete_header#:#Delete field
-common#:#udf_field_deleted#:#Deleted field.
-common#:#no_user_defined_fields_defined#:#No user-defined fields available.

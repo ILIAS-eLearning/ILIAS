@@ -683,8 +683,12 @@ common#:#add_author#:#Добавить Автора
 common#:#add_condition#:#Создать новую Ассоциацию
 common#:#add_member#:#Добавить Участника
 common#:#add_members#:#Добавить Участников
+common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
 common#:#add_translation#:#Добавить Перевод
 common#:#add_user#:#Добавить локального пользователя
+common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Создать новые условия.
 common#:#adm_create_tax#:#Создать Таксономию
 common#:#adm_edit_permission#:#Изменить настройки прав
@@ -804,6 +808,9 @@ common#:#bookmark_target#:#Объект
 common#:#bookmarks#:#Закладки
 common#:#bookmarks_of#:#Закладки
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#New value###27 Jan 2006 new variable
+common#:#btn_next#:#Continue###27 Jan 2006 new variable
+common#:#btn_previous#:#Back###27 Jan 2006 new variable
 common#:#btn_remove_system#:#Переместить из Системы
 common#:#btn_undelete#:#Восстановить
 common#:#by#:#
@@ -1164,6 +1171,8 @@ common#:#faq_exercise#:#ЧАВО Упражнения
 common#:#fax#:#Факс
 common#:#feedback#:#Обратная связь
 common#:#feedback_recipient#:#Получатель по обратной связи
+common#:#field_name#:#Field name###27 Jan 2006 new variable
+common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#файл
 common#:#file_a#:#файл
 common#:#file_add#:#Переслать файл
@@ -1379,6 +1388,7 @@ common#:#grp_visible#:#Группа видима
 common#:#grp_write#:#Редактировать Группу
 common#:#guest#:#Гость
 common#:#guests#:#Гости
+common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Заголовок названия(книги)
 common#:#help#:#Помощь
 common#:#hide#:#Скрыть
@@ -1864,6 +1874,7 @@ common#:#no_permission_to_join#:#Вы не можете присоединить
 common#:#no_roles_user_can_be_assigned_to#:#Нет глобальных ролей, которые может назначать пользователь. Поэтому вы не можете назначить дополнительных пользователей.
 common#:#no_title#:#Нет заглавия
 common#:#no_tst_in_personal_list#:#Нет тестов в персональном листе.
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
 common#:#no_users_applied#:#Пожалуйста, выберите пользователя.
 common#:#no_users_selected#:#Пожалуйста, выберите одного пользователя.
 common#:#no_xml_file_found_in_zip#:#файл XML file внутри zip файла не найден:
@@ -2308,6 +2319,7 @@ common#:#st_add#:#Добавить главу
 common#:#st_added#:#Глава удалена
 common#:#st_edit#:#Редактировать главу
 common#:#st_new#:#Новая глава
+common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
 common#:#startpage#:#Стартовая страница
 common#:#statistic#:#Статистика
 common#:#status#:#Статус
@@ -2422,6 +2434,18 @@ common#:#txt_submitted#:#Вы успешно подтвердили запрос
 common#:#typ#:#Определение Типа объекта
 common#:#type#:#Тип
 common#:#type_your_message_here#:#Тип Вашего сообщения
+common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
+common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
+common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
+common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
+common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
+common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
+common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#UID
 common#:#unambiguousness#:#Unambiguousness
 common#:#uncheck_all#:#Снять все
@@ -2461,6 +2485,8 @@ common#:#user_added#:#Пользователь добавлен
 common#:#user_assignment#:#Соглашения пользователя
 common#:#user_cant_receive_mail#:#пользователю неразрешено работать с почтовой системой
 common#:#user_comment#:#Комментарии пользователя
+common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
+common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#Пользователь удален
 common#:#user_detail#:#Данные (детальнее)
 common#:#user_import_failed#:#Импорт пользователя неудачен.

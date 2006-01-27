@@ -892,9 +892,13 @@ common#:#add_author#:#Toevoegen auteur###07 Apr 2005 content changed
 common#:#add_condition#:#Creëer een nieuwe associatie###07 Apr 2005 content changed
 common#:#add_member#:#Lid toevoegen###07 Apr 2005 content changed
 common#:#add_members#:#Voeg lid(leden) toe###07 Apr 2005 content changed
+common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
 common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#Vertaling toevoegen###07 Apr 2005 content changed
 common#:#add_user#:#Voeg lokale gebruiker toe###07 Apr 2005 content changed
+common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Een nieuwe conditie gecreëerd.###07 Apr 2005 content changed
 common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
@@ -1047,6 +1051,9 @@ common#:#bookmark_target#:#Doel###07 Apr 2005 content changed
 common#:#bookmarks#:#Bookmarken###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Bookmarken van###07 Apr 2005 content changed
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#New value###27 Jan 2006 new variable
+common#:#btn_next#:#Continue###27 Jan 2006 new variable
+common#:#btn_previous#:#Back###27 Jan 2006 new variable
 common#:#btn_remove_system#:#Uit het systeem verwijderen###07 Apr 2005 content changed
 common#:#btn_undelete#:#Herstellen###07 Apr 2005 content changed
 common#:#by#:#Door###07 Apr 2005 content changed
@@ -1465,6 +1472,8 @@ common#:#faq_exercise#:#FAQ-oefening###07 Apr 2005 content changed
 common#:#fax#:#Fax###05 Nov 2004 new variable
 common#:#feedback#:#Feedback###05 Nov 2004 new variable
 common#:#feedback_recipient#:#Feedback ontvanger###07 Apr 2005 content changed
+common#:#field_name#:#Field name###27 Jan 2006 new variable
+common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#Bestand###07 Apr 2005 content changed
 common#:#file_a#:#een bestand###07 Apr 2005 content changed
 common#:#file_add#:#Upload-bestand###07 Apr 2005 content changed
@@ -1708,6 +1717,7 @@ common#:#grp_visible#:#Groep is zichtbaar###07 Apr 2005 content changed
 common#:#grp_write#:#Groep wijzigen###07 Apr 2005 content changed
 common#:#guest#:#Gast###07 Apr 2005 content changed
 common#:#guests#:#Gasten###07 Apr 2005 content changed
+common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Hoofdtitel###07 Apr 2005 content changed
 common#:#help#:#Hulp###07 Apr 2005 content changed
 common#:#hide#:#hide###26 Jan 2005 new variable
@@ -2321,6 +2331,7 @@ common#:#no_permission_to_join#:#Het is niet toegestaan bij deze groep tegaan!##
 common#:#no_roles_user_can_be_assigned_to#:#Er zijn geen globale rollen die aan de gebruiker kan worden toegekend. Daarom is het niet toegestaan gebruikers toe te voegen.###07 Apr 2005 content changed
 common#:#no_title#:#Geen titel###07 Apr 2005 content changed
 common#:#no_tst_in_personal_list#:#Geen testen in persoonlijke lijst.###07 Apr 2005 content changed
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
 common#:#no_users_applied#:#Selecteer a.u.b een gebruiker.###07 Apr 2005 content changed
 common#:#no_users_selected#:#Selecteer a.u.b. één gebruiker###07 Apr 2005 content changed
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
@@ -2843,6 +2854,7 @@ common#:#st_add#:#Voeg hoofdstuk toe###07 Apr 2005 content changed
 common#:#st_added#:#Hoofdstuk toegevoegd###07 Apr 2005 content changed
 common#:#st_edit#:#Wijzigen hoofdstuk###07 Apr 2005 content changed
 common#:#st_new#:#Nieuw hoofdstuk###07 Apr 2005 content changed
+common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
 common#:#startpage#:#Start-pagina###07 Apr 2005 content changed
 common#:#statistic#:#Statistiek###07 Apr 2005 content changed
 common#:#status#:#Status###05 Nov 2004 new variable
@@ -2977,6 +2989,18 @@ common#:#txt_submitted#:#U heeft met succes een aanvraag voor een gebruiker aan 
 common#:#typ#:#Objecttype-definition###07 Apr 2005 content changed
 common#:#type#:#Type###05 Nov 2004 new variable
 common#:#type_your_message_here#:#Type uw bericht hier###07 Apr 2005 content changed
+common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
+common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
+common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
+common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
+common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
+common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
+common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#UID###05 Nov 2004 new variable
 common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
 common#:#uncheck_all#:#Keuzen verwijderen###07 Apr 2005 content changed
@@ -3017,6 +3041,8 @@ common#:#user_added#:#Gebruiker toegevoegd###07 Apr 2005 content changed
 common#:#user_assignment#:#Gebruiker-toewijzing###07 Apr 2005 content changed
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_comment#:#User comment###03 Dec 2004 new variable
+common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
+common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#Gebruiker gewist###07 Apr 2005 content changed
 common#:#user_detail#:#Detail-gegevens###07 Apr 2005 content changed
 common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable
