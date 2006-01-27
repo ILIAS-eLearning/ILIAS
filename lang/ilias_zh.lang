@@ -910,9 +910,13 @@ common#:#add_author#:#增加作者###07 Apr 2005 content changed
 common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#增加成员###07 Apr 2005 content changed
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
+common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
 common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#增加翻译###07 Apr 2005 content changed
 common#:#add_user#:#Add local user###11 Sep 2004 new variable
+common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#更改许可设置###07 Apr 2005 content changed
@@ -1065,6 +1069,9 @@ common#:#bookmark_target#:#目标###07 Apr 2005 content changed
 common#:#bookmarks#:#书签###07 Apr 2005 content changed
 common#:#bookmarks_of#:#的书签###07 Apr 2005 content changed
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#New value###27 Jan 2006 new variable
+common#:#btn_next#:#Continue###27 Jan 2006 new variable
+common#:#btn_previous#:#Back###27 Jan 2006 new variable
 common#:#btn_remove_system#:#从系统中删除###07 Apr 2005 content changed
 common#:#btn_undelete#:#恢复删除###07 Apr 2005 content changed
 common#:#by#:#由###07 Apr 2005 content changed
@@ -1483,6 +1490,8 @@ common#:#faq_exercise#:#常见问题解答　练习###07 Apr 2005 content change
 common#:#fax#:#传真###07 Apr 2005 content changed
 common#:#feedback#:#反馈###07 Apr 2005 content changed
 common#:#feedback_recipient#:#反馈收件人###07 Apr 2005 content changed
+common#:#field_name#:#Field name###27 Jan 2006 new variable
+common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#文件###07 Apr 2005 content changed
 common#:#file_a#:#一个文件###07 Apr 2005 content changed
 common#:#file_add#:#上载文件###07 Apr 2005 content changed
@@ -1726,6 +1735,7 @@ common#:#grp_visible#:#组可视###07 Apr 2005 content changed
 common#:#grp_write#:#编辑组###07 Apr 2005 content changed
 common#:#guest#:#客人###07 Apr 2005 content changed
 common#:#guests#:#客人###07 Apr 2005 content changed
+common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#帮助###07 Apr 2005 content changed
 common#:#hide#:#hide###26 Jan 2005 new variable
@@ -2339,6 +2349,7 @@ common#:#no_permission_to_join#:#您不允许加入此组！###07 Apr 2005 conte
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#无标题###07 Apr 2005 content changed
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
 common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
@@ -2861,6 +2872,7 @@ common#:#st_add#:#增加章###07 Apr 2005 content changed
 common#:#st_added#:#已增加章###07 Apr 2005 content changed
 common#:#st_edit#:#编辑章###07 Apr 2005 content changed
 common#:#st_new#:#新章###07 Apr 2005 content changed
+common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
 common#:#startpage#:#始页###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#状态###07 Apr 2005 content changed
@@ -2995,6 +3007,18 @@ common#:#txt_submitted#:#You successfully submitted an account request to ILIAS.
 common#:#typ#:#对象类型定义###07 Apr 2005 content changed
 common#:#type#:#类型###07 Apr 2005 content changed
 common#:#type_your_message_here#:#在此输入您的消息###07 Apr 2005 content changed
+common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
+common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
+common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
+common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
+common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
+common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
+common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#UID###05 Nov 2004 new variable
 common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
 common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
@@ -3035,6 +3059,8 @@ common#:#user_added#:#用户已增加###07 Apr 2005 content changed
 common#:#user_assignment#:#用户指派###07 Apr 2005 content changed
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_comment#:#User comment###03 Dec 2004 new variable
+common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
+common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#用户已删除###07 Apr 2005 content changed
 common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable

@@ -891,9 +891,13 @@ common#:#add_author#:#Autor hinzufügen
 common#:#add_condition#:#Neue Verknüpfung anlegen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
+common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
+common#:#add_new_user_defined_select_field#:#Neue Auswahlliste anlegen
+common#:#add_new_user_defined_text_field#:#Neues Textfeld anlegen
 common#:#add_note#:#Notiz hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#add_user#:#Lokalen Benutzer hinzufügen
+common#:#add_user_defined_field#:#Neues Feld anlegen
 common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
 common#:#adm_create_tax#:#Neue Taxonomie anlegen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
@@ -1046,6 +1050,9 @@ common#:#bookmark_target#:#Ziel
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks von
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#Neuer Wert
+common#:#btn_next#:#Weiter
+common#:#btn_previous#:#Zurück
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
@@ -1464,6 +1471,8 @@ common#:#faq_exercise#:#FAQ/übungskapitel
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
+common#:#field_name#:#Feldname
+common#:#field_type#:#Feldtyp
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
@@ -1707,6 +1716,7 @@ common#:#grp_visible#:#Gruppe ist sichtbar
 common#:#grp_write#:#Gruppe bearbeiten
 common#:#guest#:#Gast
 common#:#guests#:#Gäste
+common#:#header_searchable#:#Durchsuchbar
 common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide#:#ausblenden
@@ -2320,6 +2330,7 @@ common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutrete
 common#:#no_roles_user_can_be_assigned_to#:#Sie haben keinen Zugriff auf globale Rollen, deswegen können Sie keine lokalen Benutzer anlegen.
 common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
+common#:#no_user_defined_fields_defined#:#Keine Felder vorhanden.
 common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.
 common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 common#:#no_xml_file_found_in_zip#:#Die XML-Datei konnte nicht innerhalb der zip-Datei gefunden werden:
@@ -2842,6 +2853,7 @@ common#:#st_add#:#Kapitel anlegen
 common#:#st_added#:#Kapitel angelegt
 common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
+common#:#standard_fields#:#Standardfelder
 common#:#startpage#:#Startseite
 common#:#statistic#:#Statistik
 common#:#status#:#Status
@@ -2976,6 +2988,18 @@ common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr B
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
+common#:#udf_add_field#:#Feld anlegen
+common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
+common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen
+common#:#udf_delete_sure#:#Sind Sie sicher, daß Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
+common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
+common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
+common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
+common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
+common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
+common#:#udf_type_select#:#Auswahlliste (feste Werte)
+common#:#udf_type_text#:#Textfeld (beliebige Werte)
+common#:#udf_value#:#Wert
 common#:#uid#:#UID
 common#:#unambiguousness#:#Eindeutigkeit
 common#:#uncheck_all#:#Auswahl aufheben
@@ -3016,6 +3040,8 @@ common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsystem zu benutzen.
 common#:#user_comment#:#User-Kommentar
+common#:#user_defined_fields#:#Benutzerdefinierte Felder
+common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
 common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
@@ -5654,29 +5680,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-common#:#standard_fields#:#Standardfelder
-common#:#user_defined_fields#:#Benutzerdefinierte Felder
-common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
-common#:#field_name#:#Feldname
-common#:#header_searchable#:#Durchsuchbar
-common#:#add_user_defined_field#:#Neues Feld anlegen
-common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
-common#:#field_type#:#Feldtyp
-common#:#udf_type_text#:#Textfeld (beliebige Werte)
-common#:#udf_type_select#:#Auswahlliste (feste Werte)
-common#:#btn_next#:#Weiter
-common#:#add_new_user_defined_text_field#:#Neues Textfeld anlegen
-common#:#udf_add_field#:#Feld anlegen
-common#:#btn_previous#:#Zurück
-common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
-common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
-common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
-common#:#add_new_user_defined_select_field#:#Neue Auswahlliste anlegen
-common#:#udf_value#:#Wert
-common#:#btn_new_value#:#Neuer Wert
-common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
-common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
-common#:#udf_delete_sure#:#Sind Sie sicher, daß Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
-common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen
-common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
-common#:#no_user_defined_fields_defined#:#Keine Felder vorhanden.

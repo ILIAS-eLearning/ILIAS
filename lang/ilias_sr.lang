@@ -853,9 +853,13 @@ common#:#add_author#:#Dodati autora
 common#:#add_condition#:#Kreiraj novu asocijaciju
 common#:#add_member#:#Dodaj clana
 common#:#add_members#:#Dodaj clanove
+common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
 common#:#add_note#:#Add Note###03 Nov 2005 new variable
 common#:#add_translation#:#Dodaj prevod
 common#:#add_user#:#Dodaj lokalnog korisnika
+common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Kreiran novi uslov.
 common#:#adm_create_tax#:#Kreiraj taksonomiju
 common#:#adm_edit_permission#:#Promenite okvir za dozvolu
@@ -1004,6 +1008,9 @@ common#:#bookmark_target#:#Cilj
 common#:#bookmarks#:#Obeleživaci
 common#:#bookmarks_of#:#Obeleživaci ...
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_new_value#:#New value###27 Jan 2006 new variable
+common#:#btn_next#:#Continue###27 Jan 2006 new variable
+common#:#btn_previous#:#Back###27 Jan 2006 new variable
 common#:#btn_remove_system#:#Ukloni iz sistema
 common#:#btn_undelete#:#Neobrisano
 common#:#by#:#Pomocu
@@ -1410,6 +1417,8 @@ common#:#faq_exercise#:#Vežba cesto postavljanih pitanja
 common#:#fax#:#Faks
 common#:#feedback#:#Povratna informacija
 common#:#feedback_recipient#:#Primalac povratne informacije
+common#:#field_name#:#Field name###27 Jan 2006 new variable
+common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#Fajl
 common#:#file_a#:#Fajl
 common#:#file_add#:#Postavi fajl
@@ -1644,6 +1653,7 @@ common#:#grp_visible#:#Grupa je vidljiva
 common#:#grp_write#:#Uredi Grupu
 common#:#guest#:#Gost
 common#:#guests#:#Gosti
+common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Naziv zaglavlja
 common#:#help#:#Pomoc
 common#:#hide#:#sakri
@@ -2239,6 +2249,7 @@ common#:#no_permission_to_join#:#Nije vam dozvoljeno da se pridružite ovoj grup
 common#:#no_roles_user_can_be_assigned_to#:#Nema opštih funkcija na koje bi korisnik mogao biti registrovan. Zbog toga vam nije dozvoljeno da dodajete korisnike.
 common#:#no_title#:#Nema Naziva
 common#:#no_tst_in_personal_list#:#Nema testova na licnoj listi.
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
 common#:#no_users_applied#:#Molimo odaberite korisnika.
 common#:#no_users_selected#:#Molimo odaberite jednog korisnika.
 common#:#no_xml_file_found_in_zip#:#XML fajl nije pronaden u okviru zip fajla
@@ -2717,6 +2728,7 @@ common#:#st_add#:#Dodaj poglavlje
 common#:#st_added#:#Poglavlje dodato
 common#:#st_edit#:#Uredi poglavlje
 common#:#st_new#:#Novo poglavlje
+common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
 common#:#startpage#:#Pocetna stranica
 common#:#statistic#:#Statistika
 common#:#status#:#Status
@@ -2850,6 +2862,18 @@ common#:#txt_submitted#:#Uspešno ste dali na izvršenje vaš zahtev za nalogom 
 common#:#typ#:#Definicija vrste objekta
 common#:#type#:#Ukucaj
 common#:#type_your_message_here#:#Ovde ukucajte vašu poruku
+common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
+common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
+common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
+common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
+common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
+common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
+common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#UID
 common#:#unambiguousness#:#Nedvosmislenost
 common#:#uncheck_all#:#Ne proveravaj sve
@@ -2889,6 +2913,8 @@ common#:#user_added#:#Korisnik dodat
 common#:#user_assignment#:#Raspodela korisnika
 common#:#user_cant_receive_mail#:#korisniku nije dozvoljeno da koristi sistem pošte
 common#:#user_comment#:#Komentar korisnika
+common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
+common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#Korisnik obrisan
 common#:#user_detail#:#Detaljni podaci
 common#:#user_import_failed#:#Unos korisnika nije uspeo.
