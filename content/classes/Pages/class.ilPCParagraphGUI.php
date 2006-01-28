@@ -204,7 +204,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		if (key($_POST["cmd"]) == "update")
 		{
-			$s_text = stripslashes($_POST["par_content"]);
+			$s_text = ilUtil::stripSlashes($_POST["par_content"], false);
 		}
 		else
 		{
@@ -407,7 +407,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		if (key($_POST["cmd"]) == "create_par")
 		{
-			$this->tpl->setVariable("PAR_TA_CONTENT", stripslashes($_POST["par_content"]));
+			$this->tpl->setVariable("PAR_TA_CONTENT",
+				ilUtil::stripSlashes($_POST["par_content"], false));
 		}
 		else
 		{

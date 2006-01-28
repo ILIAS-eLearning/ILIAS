@@ -287,7 +287,7 @@ class ilPCParagraph extends ilPageContent
 	*/
 	function input2xml($a_text, $a_wysiwyg = 0)
 	{
-		$a_text = ilUtil::stripSlashes($a_text);
+		$a_text = ilUtil::stripSlashes($a_text, false);
 
 		// note: the order of the processing steps is crucial
 		// and should be the same as in xml2output() in REVERSE order!
