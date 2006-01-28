@@ -192,8 +192,6 @@ td.nobackground {
 
 td.std, th.std {
 	padding:2px;
-	overflow:hidden;
-	white-space: wrap;
 	text-align: left;
 }
 
@@ -253,7 +251,7 @@ td.option {
 	padding:3px;
 	font-weight : bold;
 	vertical-align:top;
-	text-align:righ t;
+	text-align:right;
 	border-top-width:1px;
 	border-top-color:#CACACA;
 	border-top-style:solid;
