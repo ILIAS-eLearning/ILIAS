@@ -5457,7 +5457,7 @@ class ilObjTest extends ilObject
 		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
 			include_once "./classes/class.ilUtil.php";
-			ilUtil::redirect("assessment/test.php?cmd=run&ref_id=$a_target");
+			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=$a_target");
 		}
 		else
 		{

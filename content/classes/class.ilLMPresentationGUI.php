@@ -1539,13 +1539,13 @@ class ilLMPresentationGUI
 						{
 							if ($type == "PageObject")
 							{
-								$href = "../goto.php?target=pg_".$target_id;
+								$href = "./goto.php?target=pg_".$target_id;
 							}
 							else
 							{
-								$href = "../goto.php?target=st_".$target_id;
+								$href = "./goto.php?target=st_".$target_id;
 							}
-							$ltarget = "ilContObj".$lm_id;
+							//$ltarget = "ilContObj".$lm_id;
 						}
 						break;
 
@@ -1574,7 +1574,8 @@ class ilLMPresentationGUI
 					case "RepositoryItem":
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);
-						$href = "../goto.php?target=".$obj_type."_".$target_id;
+						$href = "./goto.php?target=".$obj_type."_".$target_id;
+						$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
 						break;
 
 				}
