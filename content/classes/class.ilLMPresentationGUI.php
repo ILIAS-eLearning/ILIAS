@@ -3042,7 +3042,7 @@ class ilLMPresentationGUI
 			switch ($a_cmd)
 			{
 				case "fullscreen":
-					$this->ctrl->getLinkTarget($this, "fullscreen");
+					$link = $this->ctrl->getLinkTarget($this, "fullscreen");
 					//$link.= "&cmd=fullscreen";
 					break;
 				
