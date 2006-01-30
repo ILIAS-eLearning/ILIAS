@@ -115,7 +115,6 @@ class ilSoapUtils extends ilSoapAdministration
 
 			$ilDB->query($query);
 		}
-		
 		return true;
 	}
 }

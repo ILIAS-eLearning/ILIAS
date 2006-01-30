@@ -256,14 +256,23 @@ class ASS_JavaApplet extends ASS_Question
 				);
 				$a_xml_writer->xmlElement("mattext", $attrs, $this->getPoints());
 				$attrs = array(
+					"label" => "session_id"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $_COOKIE["PHPSESSID"]);
+				$attrs = array(
+					"label" => "client"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, CLIENT_ID);
+				include_once "./assessment/classes/class.ilObjTest.php";
+				$attrs = array(
 					"label" => "pass"
 				);
-				include_once "./assessment/classes/class.ilObjTest.php";
 				$pass = ilObjTest::_getPass($ilUser->id, $test_output);
 				$a_xml_writer->xmlElement("mattext", $attrs, $pass);
 				$attrs = array(
 					"label" => "post_url"
 				);
+//				$a_xml_writer->xmlElement("mattext", $attrs, "http://localhost/ilias36x/assessment/save_java_question_result.php");
 				$a_xml_writer->xmlElement("mattext", $attrs, ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
 
 				$info = array();
