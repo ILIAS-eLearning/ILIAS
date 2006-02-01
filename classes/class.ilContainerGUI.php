@@ -150,7 +150,8 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			if ($this->getCreationMode() != true && $a_show_subobjects)
 			{
-				$this->showPossibleSubObjects();
+				// This method is called directly from ilContainerGUI::renderObject
+				#$this->showPossibleSubObjects();
 				$this->showTreeFlatIcon();
 			}
 		}
@@ -208,11 +209,11 @@ class ilContainerGUI extends ilObjectGUI
 			? $this->cmd
 			: $this->ctrl->getCmd();
 
-		if ($cmd != "" && $cmd != "showList" && $cmd != "render"
-			&& $cmd != "view")
-		{
-			return;
-		}
+		#if ($cmd != "" && $cmd != "showList" && $cmd != "render"
+		#	&& $cmd != "view")
+		#{
+		#	return;
+		#}
 		
 		$type = $this->object->getType();
 
@@ -321,6 +322,9 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $ilBench, $tree;
 		
+		// 'add object'
+		$this->showPossibleSubObjects();
+
 		// course content interface methods could probably
 		// move to this class
 		if($this->type != 'icrs' and $tree->checkForParentType($this->ref_id,'crs'))

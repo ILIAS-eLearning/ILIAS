@@ -252,11 +252,13 @@ class ilFileDataExercise extends ilFileData
 		{
 			return;
 		}
-		chdir($savepath);
+		// Safe mode fix
+		chdir($this->getExercisePath());
 		$zip = PATH_TO_ZIP;
 		$tmpfile = ilUtil::ilTempnam();
 		$tmpzipfile = $tmpfile . ".zip";
-		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($tmpzipfile)." *";
+		// Safe mode fix
+		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($tmpzipfile)." ".$this->obj_id;
 		exec($zipcmd);
 		ilUtil::deliverFile($tmpzipfile, strtolower($lng->txt("excs")) . ".zip");
 		chdir($cdir);

@@ -1557,10 +1557,10 @@ common#:#frm_added#:#Foro añadido
 common#:#frm_article#:#mensaje
 common#:#frm_create#:#Crear Foro
 common#:#frm_delete#:#Eliminar Foro
-common#:#frm_delete_post#:#Eliminar un envío
+common#:#frm_delete_post#:#Eliminar un mensaje, censurar
 common#:#frm_edit#:#Editar Foro
 common#:#frm_edit_permission#:#Modificar configuración de permisos
-common#:#frm_edit_post#:#Editar un envío
+common#:#frm_edit_post#:#Anadir nueva cadena, mensaje
 common#:#frm_new#:#Nuevo Foro
 common#:#frm_read#:#Acceso de Lecutra al Foro
 common#:#frm_status_new#:#Estado 'Nuevo'
@@ -5457,7 +5457,7 @@ survey#:#orientation#:#Orientación
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
 survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
 survey#:#phrase_saved#:#El conjunto fue grabado con éxito 2005 content changed
-survey#:#predefined_users#:#Predefined user set
+survey#:#predefined_users#:#Conjunto predefinido de usuarios
 survey#:#preview#:#vista previa
 survey#:#previous_question_rows#:#<< Preguntas %d - %d de %d
 survey#:#qpl_confirm_delete_phrases#:#¿Está seguro de que quiere eliminar los siguientes conjuntos?
@@ -5638,7 +5638,7 @@ trac#:#trac_marks#:#Notas
 trac#:#trac_mode#:#Modo
 trac#:#trac_mode_collection#:#Coleccion de objetos
 trac#:#trac_mode_deactivated#:#Desactivado
-trac#:#trac_mode_manual#:#Manual###23 Dec 2005 new variable
+trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_objectives#:#Objetivos de aprendizaje
 trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
 trac#:#trac_mode_scorm_aicc#:#SCORM/AICC###23 Dec 2005 new variable
