@@ -298,6 +298,30 @@ class ilObjectSearchFactory
 		return new ilFulltextWebresourceSearch($query_parser);
 	}
 
+	/*
+	 * get reference of ilLikeUserSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilWebresourceAdvancedSearch
+	 */
+	function &_getUserSearchInstance(&$query_parser)
+	{
+		include_once 'Services/Search/classes/Like/class.ilLikeUserSearch.php';
 
+		return new ilLikeUserSearch($query_parser);
+	}
+
+	/*
+	 * get reference of ilLikeUserDefinedFieldSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilLikeUserDefinedFieldSearch
+	 */
+	function &_getUserDefinedFieldSearchInstance(&$query_parser)
+	{
+		include_once 'Services/Search/classes/Like/class.ilLikeUserDefinedFieldSearch.php';
+		
+		return new ilLikeUserDefinedFieldSearch($query_parser);
+	}
 }
 ?>

@@ -30,6 +30,7 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -109,6 +110,20 @@ class ilObjGroupGUI extends ilContainerGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search->setCallback($this,'addUserObject');
+
+				// Set tabs
+				$this->tabs_gui->setTabActive('members');
+				$this->ctrl->setReturn($this,'members');
+				$ret =& $this->ctrl->forwardCommand($rep_search);
+				$this->setSubTabs('members');
+				$this->tabs_gui->setSubTabActive('members');
+				break;
+
 
 			default:
 				if (!in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"]) and ($this->object->requireRegistration() and !$this->object->isUserRegistered()))
@@ -845,7 +860,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		if (empty($user_ids[0]))
 		{
 			// TODO: jumps back to grp content. go back to last search result
-			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
+			#$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"));
+		
+			return false;
 		}
 
 		foreach ($user_ids as $new_member)
@@ -1078,6 +1096,18 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
 		$this->setSubTabs('members');
+
+		// display member search button
+		$this->lng->loadLanguageModule('crs');
+		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
+		if($is_admin)
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','show'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("crs_add_member"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 
 		$ilBench->start("GroupGUI", "membersObject");
@@ -1978,12 +2008,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{			//user is administrator
-            $tpl->setCurrentBlock("plain_button");
-		    $tpl->setVariable("PBTN_NAME","searchUserForm");
-		    $tpl->setVariable("PBTN_VALUE",$this->lng->txt("grp_add_member"));
-		    $tpl->parseCurrentBlock();
-		    $tpl->setCurrentBlock("plain_buttons");
-		    $tpl->parseCurrentBlock();
+            #$tpl->setCurrentBlock("plain_button");
+		    #$tpl->setVariable("PBTN_NAME","searchUserForm");
+		    #$tpl->setVariable("PBTN_VALUE",$this->lng->txt("grp_add_member"));
+		    #$tpl->parseCurrentBlock();
+		    #$tpl->setCurrentBlock("plain_buttons");
+		    #$tpl->parseCurrentBlock();
 		
 			$tpl->setVariable("COLUMN_COUNTS",7);
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
