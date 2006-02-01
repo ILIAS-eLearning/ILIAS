@@ -120,7 +120,7 @@ class ilCourseContentInterface
 	function cci_objectives_ask_reset()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html","course");
-		$this->tabs_gui->setTabActive('view');
+		$this->tabs_gui->setTabActive('content');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this->cci_client_obj));
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_reset_sure'));
@@ -152,6 +152,8 @@ class ilCourseContentInterface
 		global $rbacsystem;
 		global $ilias;
 		global $ilUser;
+
+		$this->cci_client_obj->showPossibleSubObjects();
 
 		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
 		$enabled_objectives = $this->cci_course_obj->enabledObjectiveView();
@@ -185,14 +187,14 @@ class ilCourseContentInterface
 			$this->tpl->setVariable("FEEDBACK",$feedbackHTML);
 		}
 
-		if($write_perm)
+		if($write_perm and $enabled_objectives)
 		{
 			$this->tabs_gui->setTabActive('edit_content');
 			$items = $this->cci_course_obj->items_obj->getAllItems();
 		}
 		else
 		{
-			$this->tabs_gui->setTabActive('view');
+			$this->tabs_gui->setTabActive('content');
 			$items = $this->cci_course_obj->items_obj->getItems();
 		}
 		

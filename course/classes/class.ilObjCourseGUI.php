@@ -1593,7 +1593,7 @@ class ilObjCourseGUI extends ilContainerGUI
 								$f_result[$counter][] = $this->lng->txt("crs_unblocked");
 								break;
 						}
-						$f_result[$counter]['passed'] = $member_data['passed'] ?
+						$f_result[$counter][] = $member_data['passed'] ?
 							$this->lng->txt('crs_member_passed') :
 							$this->lng->txt('crs_member_not_passed');
 					}
@@ -4130,7 +4130,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function &executeCommand()
 	{
 		global $rbacsystem;
-
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -4227,7 +4227,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
-
+				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 				
 			case 'ilpermissiongui':
