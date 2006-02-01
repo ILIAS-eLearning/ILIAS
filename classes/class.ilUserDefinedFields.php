@@ -73,6 +73,19 @@ class ilUserDefinedFields
 		return $visible_definition ? $visible_definition : array();
 	}
 
+	function getSearchableDefinitions()
+	{
+		foreach($this->definitions as $id => $definition)
+		{
+			if($definition['searchable'])
+			{
+				$searchable_definition[$id] = $definition;
+			}
+		}
+		return $searchable_definition ? $searchable_definition : array();
+	}
+
+
 	function setFieldName($a_name)
 	{
 		$this->field_name = $a_name;

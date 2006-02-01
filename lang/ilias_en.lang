@@ -5682,3 +5682,11 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+search#:#add_members_header#:#Add members
+search#:#search_for_users#:#Search for users
+search#:#search_for_grp_members#:#Search for group members
+search#:#search_for_role_members#:#Search for role members
+search#:#search_grp_title#:#Group name
+search#:#search_role_title#:#Role name
+search#:#search_results#:#Search results
+common#:#btn_add#:#Add

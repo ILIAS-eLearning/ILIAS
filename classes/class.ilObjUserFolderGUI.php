@@ -1885,6 +1885,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		if($_REQUEST['field_type'] == UDF_TYPE_SELECT)
 		{
+			$user_field_definitions->setFieldType(UDF_TYPE_SELECT);
 			$user_field_definitions->setFieldValues($_POST['field_values']);
 			if($error = $user_field_definitions->validateValues())
 			{
@@ -1927,6 +1928,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
+		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
+
 		global $ilias;
 		
 		$this->getTemplateFile("settings","usr");
@@ -1959,6 +1962,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("PROFILE_OPTION_ENABLED", "enabled_" . $field);
 			$this->tpl->setVariable("PROFILE_OPTION_VISIBLE", "visible_" . $field);
 			$this->tpl->setVariable("PROFILE_OPTION_REQUIRED", "required_" . $field);
+
+			// Check searchable
+			if(ilUserSearchOptions::_isSearchable($field))
+			{
+				$this->tpl->setVariable("CHECK_SEARCH",ilUtil::formCheckbox(ilUserSearchOptions::_isEnabled($field),
+																			"cbh[$field][searchable]",
+																			1));
+			}
 
 			// BEGIN Enable field in Personal Profile
 			if ($ilias->getSetting("usr_settings_disable_".$field) != "1")
@@ -2049,6 +2060,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER_PROFILE_DATA", $this->lng->txt("usr_settings_header_profile_profile"));
 		$this->tpl->setVariable("HEADER_ENABLED", $this->lng->txt("changeable"));
 		$this->tpl->setVariable("HEADER_VISIBLE", $this->lng->txt("visible"));
+		$this->tpl->setVariable("HEADER_SEARCH",$this->lng->txt('header_searchable'));
 		$this->tpl->setVariable("HEADER_REQUIRED", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("HEADER_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("HEADER_DEFAULT_VALUE", $this->lng->txt("default_value"));
@@ -2057,6 +2069,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	function saveGlobalUserSettingsObject()
 	{
+		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
+
 		global $ilias;
 		
 		$profile_fields =& $this->object->getProfileFields();
@@ -2076,6 +2090,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		foreach ($profile_fields as $field)
 		{
+			// Enable disable searchable
+			if(ilUserSearchOptions::_isSearchable($field))
+			{
+				ilUserSearchOptions::_saveStatus($field,(bool) $_POST['cbh'][$field]['searchable']);
+			}
+
 			if (! $_POST["chb"]["visible_".$field])
 			{
 				$ilias->setSetting("usr_settings_hide_".$field, "1");

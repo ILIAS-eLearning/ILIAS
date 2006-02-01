@@ -5680,3 +5680,11 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+search#:#add_members_header#:#Benutzer hinzufügen
+search#:#search_for_users#:#Nach Benutzern suchen
+search#:#search_for_grp_members#:#Nach Gruppenmitgliedern suchen
+search#:#search_for_role_members#:#Nach Rollenmitgliedern suchen
+search#:#search_grp_title#:#Gruppenname
+search#:#search_role_title#:#Rollenname
+search#:#search_results#:#Suchergebnisse
+common#:#btn_add#:#Hinzufügen
