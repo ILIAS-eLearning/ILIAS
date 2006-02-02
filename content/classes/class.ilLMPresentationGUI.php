@@ -1645,6 +1645,7 @@ class ilLMPresentationGUI
 		$term_gui->setLinkXML($link_xml);
 
 		$term_gui->output($this->offlineMode());
+		//$term_gui->listDefinitions($this->offlineMode());
 
 		$ilBench->stop("ContentPresentation", "ilGlossary");
 	}
@@ -3134,7 +3135,7 @@ class ilLMPresentationGUI
 					break;
 					
 				case "glossary":
-				$link = "term_".$a_obj_id.".html";
+					$link = "term_".$a_obj_id.".html";
 					break;
 				
 				case "media":
@@ -3145,6 +3146,8 @@ class ilLMPresentationGUI
 					break;
 			}
 		}
+		
+		$this->ctrl->clearParameters($this);
 		
 		return $link;
 	}

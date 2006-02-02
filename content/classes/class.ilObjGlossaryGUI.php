@@ -388,7 +388,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK",
+			"content/glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
@@ -612,7 +613,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK", "content/glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
