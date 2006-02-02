@@ -1069,6 +1069,7 @@ common#:#bookmark_target#:#目标###07 Apr 2005 content changed
 common#:#bookmarks#:#书签###07 Apr 2005 content changed
 common#:#bookmarks_of#:#的书签###07 Apr 2005 content changed
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_add#:#Add###02 Feb 2006 new variable
 common#:#btn_new_value#:#New value###27 Jan 2006 new variable
 common#:#btn_next#:#Continue###27 Jan 2006 new variable
 common#:#btn_previous#:#Back###27 Jan 2006 new variable
@@ -5170,6 +5171,7 @@ rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
+search#:#add_members_header#:#Add members###02 Feb 2006 new variable
 search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
 search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
@@ -5191,8 +5193,12 @@ search#:#search_delete_sure#:#此对象及其内容将被永久删除###14 Sep 2
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
 search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_for_grp_members#:#Search for group members###02 Feb 2006 new variable
+search#:#search_for_role_members#:#Search for role members###02 Feb 2006 new variable
+search#:#search_for_users#:#Search for users###02 Feb 2006 new variable
 search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#组###07 Apr 2005 content changed
+search#:#search_grp_title#:#Group name###02 Feb 2006 new variable
 search#:#search_hits#:#Found in:###03 Nov 2005 new variable
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#在结果中搜索###07 Apr 2005 content changed
@@ -5225,7 +5231,9 @@ search#:#search_objects_moved#:#对象已移动。###07 Apr 2005 content changed
 search#:#search_one_action#:#选择一项操作。###07 Apr 2005 content changed
 search#:#search_or#:#or###14 Sep 2004 new variable
 search#:#search_rename_title#:#题目更名###07 Apr 2005 content changed
+search#:#search_results#:#Search results###02 Feb 2006 new variable
 search#:#search_results_saved#:#搜索已存结果###07 Apr 2005 content changed
+search#:#search_role_title#:#Role name###02 Feb 2006 new variable
 search#:#search_save_as_select#:#存为：###07 Apr 2005 content changed
 search#:#search_search_for#:#搜索###07 Apr 2005 content changed
 search#:#search_search_no_results_saved#:#无任何已存搜索结果###07 Apr 2005 content changed

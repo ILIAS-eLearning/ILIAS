@@ -1049,6 +1049,7 @@ common#:#bookmark_target#:#Indirizzo
 common#:#bookmarks#:#Preferiti
 common#:#bookmarks_of#:#Preferiti di
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_add#:#Add###02 Feb 2006 new variable
 common#:#btn_new_value#:#New value###27 Jan 2006 new variable
 common#:#btn_next#:#Continue###27 Jan 2006 new variable
 common#:#btn_previous#:#Back###27 Jan 2006 new variable
@@ -5147,6 +5148,7 @@ rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
+search#:#add_members_header#:#Add members###02 Feb 2006 new variable
 search#:#search_active#:#Includi utenti attivi
 search#:#search_added_new_folder#:#Aggiunta nuova cartella
 search#:#search_advanced#:#Ricerca avanzata
@@ -5168,8 +5170,12 @@ search#:#search_delete_sure#:#L'oggetto ed il suo contenuto verranno eliminati p
 search#:#search_details_info#:#Ricerca in dettaglio. Scegli uno o pi&#249; oggetti tra quelli indicati sopra.
 search#:#search_direct#:#Ricerca diretta
 search#:#search_fast_info#:#Ricerca nel titolo, nella descrizione e tra le chiavi di ricerca.
+search#:#search_for_grp_members#:#Search for group members###02 Feb 2006 new variable
+search#:#search_for_role_members#:#Search for role members###02 Feb 2006 new variable
+search#:#search_for_users#:#Search for users###02 Feb 2006 new variable
 search#:#search_full_info#:#Scegli questa opzione se vuoi ricercare in un grande numero di informazioni.
 search#:#search_group#:#Gruppo di ricerca
+search#:#search_grp_title#:#Group name###02 Feb 2006 new variable
 search#:#search_hits#:#Trovato in:
 search#:#search_in_magazin#:#Tra le risorse
 search#:#search_in_result#:#Ricerca all&#039;interno dei risultati
@@ -5202,7 +5208,9 @@ search#:#search_objects_moved#:#Oggetto spostato.
 search#:#search_one_action#:#Seleziona una azione.
 search#:#search_or#:#OR
 search#:#search_rename_title#:#Rinomina il titolo
+search#:#search_results#:#Search results###02 Feb 2006 new variable
 search#:#search_results_saved#:#Ricerca i risultati salvati
+search#:#search_role_title#:#Role name###02 Feb 2006 new variable
 search#:#search_save_as_select#:#Salva come:
 search#:#search_search_for#:#Ricerca in
 search#:#search_search_no_results_saved#:#Non ci sono risultati salvati

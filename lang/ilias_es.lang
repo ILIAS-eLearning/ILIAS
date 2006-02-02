@@ -1052,6 +1052,7 @@ common#:#bookmark_target#:#URL
 common#:#bookmarks#:#Favoritos
 common#:#bookmarks_of#:#Favoritos de
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_add#:#Add###02 Feb 2006 new variable
 common#:#btn_new_value#:#New value###27 Jan 2006 new variable
 common#:#btn_next#:#Continue###27 Jan 2006 new variable
 common#:#btn_previous#:#Back###27 Jan 2006 new variable
@@ -5150,6 +5151,7 @@ rbac#:#perm_local_role#:#Rol Local
 rbac#:#perm_local_role_desc#:#Este rol está definido localmente en el objeto actual y corresponde a una política local
 rbac#:#perm_use_local_policy#:#Usar política local
 rbac#:#perm_use_local_policy_desc#:#Si la opción política local está activada, podrá definir una configuración de permisos diferentes para el objeto actual.
+search#:#add_members_header#:#Add members###02 Feb 2006 new variable
 search#:#search_active#:#Incluir usuarios activos
 search#:#search_added_new_folder#:#Añadida nueva carpeta
 search#:#search_advanced#:#Búsqueda avanzada
@@ -5171,8 +5173,12 @@ search#:#search_delete_sure#:#El objeto y su contenido serán eliminados serán 
 search#:#search_details_info#:#Búsqueda detallada. Por favor seleccione un o más objetos abajo.
 search#:#search_direct#:#Búsqueda directa
 search#:#search_fast_info#:#Buscar en títulos, descripciones y palabras clave en todos los tipos de objeto.
+search#:#search_for_grp_members#:#Search for group members###02 Feb 2006 new variable
+search#:#search_for_role_members#:#Search for role members###02 Feb 2006 new variable
+search#:#search_for_users#:#Search for users###02 Feb 2006 new variable
 search#:#search_full_info#:#Escoja esta opción para buscar en una cantidad grande de datos
 search#:#search_group#:#Grupos
+search#:#search_grp_title#:#Group name###02 Feb 2006 new variable
 search#:#search_hits#:#Encontrado en:
 search#:#search_in_magazin#:#En el repositorio
 search#:#search_in_result#:#Buscar en los resultados
@@ -5205,7 +5211,9 @@ search#:#search_objects_moved#:#Objetos movidos.
 search#:#search_one_action#:#Seleccione una acción.
 search#:#search_or#:#o
 search#:#search_rename_title#:#Renombrar título
+search#:#search_results#:#Search results###02 Feb 2006 new variable
 search#:#search_results_saved#:#Resultados de Búsqueda guardados
+search#:#search_role_title#:#Role name###02 Feb 2006 new variable
 search#:#search_save_as_select#:#Guardar como:
 search#:#search_search_for#:#Buscar
 search#:#search_search_no_results_saved#:#No hay resultados de búsqueda guardados

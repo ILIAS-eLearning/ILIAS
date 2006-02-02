@@ -1016,6 +1016,7 @@ common#:#bookmark_target#:#Mục tiêu
 common#:#bookmarks#:#Đánh dấu
 common#:#bookmarks_of#:#Đánh dấu của
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_add#:#Add###02 Feb 2006 new variable
 common#:#btn_new_value#:#New value###27 Jan 2006 new variable
 common#:#btn_next#:#Continue###27 Jan 2006 new variable
 common#:#btn_previous#:#Back###27 Jan 2006 new variable
@@ -5057,6 +5058,7 @@ rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
+search#:#add_members_header#:#Add members###02 Feb 2006 new variable
 search#:#search_active#:#Bao gồm cả những người sử dụng không hoạt động
 search#:#search_added_new_folder#:#Đã thêm thư mục mới.
 search#:#search_advanced#:#Tìm kiếm nâng cao
@@ -5078,8 +5080,12 @@ search#:#search_delete_sure#:#Đối tượng và nội dung của nó sẽ bị
 search#:#search_details_info#:#Tìm kiếm chi tiết. Hãy chọn một hoặc nhiều đối tượng ở bên dưới.
 search#:#search_direct#:#Tìm kiếm trực tiếp
 search#:#search_fast_info#:#Tìm kiếm tiêu đề, mô tả và từ khóa trong tất cả kiểu đối tượng
+search#:#search_for_grp_members#:#Search for group members###02 Feb 2006 new variable
+search#:#search_for_role_members#:#Search for role members###02 Feb 2006 new variable
+search#:#search_for_users#:#Search for users###02 Feb 2006 new variable
 search#:#search_full_info#:#Chọn lựa chọn này để tìm kiếm trong dữ liệu lớn.
 search#:#search_group#:#Nhóm
+search#:#search_grp_title#:#Group name###02 Feb 2006 new variable
 search#:#search_hits#:#Tìm thấy trong:
 search#:#search_in_magazin#:#Trong kho kiến thức
 search#:#search_in_result#:#Tìm kiếm trong kết quả
@@ -5112,7 +5118,9 @@ search#:#search_objects_moved#:#(Các) đối tượng đã di chuyển.
 search#:#search_one_action#:#Chọn một thao tác.
 search#:#search_or#:#hoặc
 search#:#search_rename_title#:#Đổi tên tiêu đề
+search#:#search_results#:#Search results###02 Feb 2006 new variable
 search#:#search_results_saved#:#Đã ghi kết quả tìm kiếm
+search#:#search_role_title#:#Role name###02 Feb 2006 new variable
 search#:#search_save_as_select#:#Ghi lại như là:
 search#:#search_search_for#:#Tìm kiếm để có
 search#:#search_search_no_results_saved#:#Không có kết quả tìm kiếm nào đã ghi
