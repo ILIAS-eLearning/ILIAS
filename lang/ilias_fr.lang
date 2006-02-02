@@ -1043,6 +1043,7 @@ common#:#bookmark_target#:#Cible###07 Apr 2005 content changed
 common#:#bookmarks#:#Liens internet###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Liens internet de###07 Apr 2005 content changed
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_add#:#Add###02 Feb 2006 new variable
 common#:#btn_new_value#:#New value###27 Jan 2006 new variable
 common#:#btn_next#:#Continue###27 Jan 2006 new variable
 common#:#btn_previous#:#Back###27 Jan 2006 new variable
@@ -5139,6 +5140,7 @@ rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
+search#:#add_members_header#:#Add members###02 Feb 2006 new variable
 search#:#search_active#:#Inclure utilisateurs actifs###07 Apr 2005 content changed
 search#:#search_added_new_folder#:#Nouveau dossier ajouté### 06 oct 2005 Content changed
 search#:#search_advanced#:#Recherche avancée### 06 oct 2005 Content changed
@@ -5160,8 +5162,12 @@ search#:#search_delete_sure#:#L'objet et son contenu seront détruits de façon 
 search#:#search_details_info#:#Recherche détaillée. Choisissez au moins un objet au-dessus.###06 oct 2005 Content changed 
 search#:#search_direct#:#Recherche directe### 06 oct 2005 Content changed
 search#:#search_fast_info#:#Recherche dans les titres, descriptions et mot-clé de tous les types d'objets### 06 oct 2005 Content changed
+search#:#search_for_grp_members#:#Search for group members###02 Feb 2006 new variable
+search#:#search_for_role_members#:#Search for role members###02 Feb 2006 new variable
+search#:#search_for_users#:#Search for users###02 Feb 2006 new variable
 search#:#search_full_info#:#Choisissez cette option pour effectuer une recherche dans la totalité des données.### 06 oct 2005 Content changed
 search#:#search_group#:#Groupes###07 Apr 2005 content changed
+search#:#search_grp_title#:#Group name###02 Feb 2006 new variable
 search#:#search_hits#:#Trouvé dans :### 06 oct 2005 Content changed
 search#:#search_in_magazin#:#Dans Activités### 06 oct 2005 Content changed
 search#:#search_in_result#:#Chercher dans les résultats###07 Apr 2005 content changed
@@ -5194,7 +5200,9 @@ search#:#search_objects_moved#:#Objets déplacés###07 Apr 2005 content changed
 search#:#search_one_action#:#Sélectionner une action###07 Apr 2005 content changed
 search#:#search_or#:#ou###07 Apr 2005 content changed
 search#:#search_rename_title#:#Renommer titre###07 Apr 2005 content changed
+search#:#search_results#:#Search results###02 Feb 2006 new variable
 search#:#search_results_saved#:#Résultats de recherche enregistrés###07 Apr 2005 content changed
+search#:#search_role_title#:#Role name###02 Feb 2006 new variable
 search#:#search_save_as_select#:#Enregistrer sous :###07 Apr 2005 content changed
 search#:#search_search_for#:#Rechercher###07 Apr 2005 content changed
 search#:#search_search_no_results_saved#:#Aucun résultat de recherche enregistré###07 Apr 2005 content changed

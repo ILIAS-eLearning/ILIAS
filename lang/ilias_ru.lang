@@ -808,6 +808,7 @@ common#:#bookmark_target#:#Объект
 common#:#bookmarks#:#Закладки
 common#:#bookmarks_of#:#Закладки
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_add#:#Add###02 Feb 2006 new variable
 common#:#btn_new_value#:#New value###27 Jan 2006 new variable
 common#:#btn_next#:#Continue###27 Jan 2006 new variable
 common#:#btn_previous#:#Back###27 Jan 2006 new variable
@@ -4472,6 +4473,7 @@ pwassist#:#pwassist_not_permitted#:#Пожалуйста, задайте дру�
 pwassist#:#pwassist_password_assigned#:#Для пользователя "%1$s" пароль был успешно изменен.
 pwassist#:#pwassist_session_expired#:#Пожалуйста, заполните форму снова.\nСессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма.
 pwassist#:#pwassist_update_error#:#Пожалуйста, свяжитесь с вашим системным администратором.\nПароль не может быть изменен из-за ошибки обновления базы данных.
+search#:#add_members_header#:#Add members###02 Feb 2006 new variable
 search#:#search_active#:#Включая активных пользователей 
 search#:#search_all_results#:#Все результаты 
 search#:#search_and#:#и
@@ -4480,7 +4482,11 @@ search#:#search_content#:#Содержимое страницы
 search#:#search_dbk_content#:#Цифровая библиотека (содержимое)
 search#:#search_dbk_meta#:#Цифровая библиотека (метаданные)
 search#:#search_delete_sure#:#Объект и его содержимое удалены 
+search#:#search_for_grp_members#:#Search for group members###02 Feb 2006 new variable
+search#:#search_for_role_members#:#Search for role members###02 Feb 2006 new variable
+search#:#search_for_users#:#Search for users###02 Feb 2006 new variable
 search#:#search_group#:#Группы
+search#:#search_grp_title#:#Group name###02 Feb 2006 new variable
 search#:#search_in_result#:#Поиск в результатах 
 search#:#search_inactive#:#Включая неактивных пользователей 
 search#:#search_lm_content#:#Обучающие материалы (содержимое)
@@ -4502,7 +4508,9 @@ search#:#search_objects_moved#:#Объект перемещен.
 search#:#search_one_action#:#Выберите одно действие.
 search#:#search_or#:#или
 search#:#search_rename_title#:#Переименовать заголовок 
+search#:#search_results#:#Search results###02 Feb 2006 new variable
 search#:#search_results_saved#:#Результаты поиска сохранены 
+search#:#search_role_title#:#Role name###02 Feb 2006 new variable
 search#:#search_save_as_select#:#Сохранить как:
 search#:#search_search_for#:#Искать  
 search#:#search_search_no_results_saved#:#Нет сохраненных результатов поиска 

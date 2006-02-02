@@ -1050,6 +1050,7 @@ common#:#bookmark_target#:#Ziel
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks von
 common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#btn_add#:#Hinzufügen
 common#:#btn_new_value#:#Neuer Wert
 common#:#btn_next#:#Weiter
 common#:#btn_previous#:#Zurück
@@ -5150,6 +5151,7 @@ rbac#:#perm_local_role#:#Lokale Rolle
 rbac#:#perm_local_role_desc#:#Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung
 rbac#:#perm_use_local_policy#:#Verwende lokale Zugriffsregelung
 rbac#:#perm_use_local_policy_desc#:#Wenn die lokale Zugriffsregelung aktiviert ist, können an dieser Stelle andere Rechtevorgaben definiert werden
+search#:#add_members_header#:#Benutzer hinzufügen
 search#:#search_active#:#Aktive Benutzer
 search#:#search_added_new_folder#:#Ein neuer Ordner wurde angelegt.
 search#:#search_advanced#:#Erweiterte Suche
@@ -5171,8 +5173,12 @@ search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gel
 search#:#search_details_info#:#Detailsuche in den unten ausgewählten Objekttypen
 search#:#search_direct#:#Direktsuche
 search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlüsselwörtern
+search#:#search_for_grp_members#:#Nach Gruppenmitgliedern suchen
+search#:#search_for_role_members#:#Nach Rollenmitgliedern suchen
+search#:#search_for_users#:#Nach Benutzern suchen
 search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
 search#:#search_group#:#Gruppen
+search#:#search_grp_title#:#Gruppenname
 search#:#search_hits#:#Gefunden in:
 search#:#search_in_magazin#:#Im Magazin
 search#:#search_in_result#:#In den Resultaten suchen
@@ -5205,7 +5211,9 @@ search#:#search_objects_moved#:#Die Objekte wurden verschoben.
 search#:#search_one_action#:#Bitte wählen Sie eine Aktion.
 search#:#search_or#:#oder
 search#:#search_rename_title#:#Titel umbenennen
+search#:#search_results#:#Suchergebnisse
 search#:#search_results_saved#:#Die Suchergebnisse wurden gespeichert
+search#:#search_role_title#:#Rollenname
 search#:#search_save_as_select#:#Speichern unter:
 search#:#search_search_for#:#Suchen nach
 search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse gespeichert
@@ -5680,11 +5688,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-search#:#add_members_header#:#Benutzer hinzufügen
-search#:#search_for_users#:#Nach Benutzern suchen
-search#:#search_for_grp_members#:#Nach Gruppenmitgliedern suchen
-search#:#search_for_role_members#:#Nach Rollenmitgliedern suchen
-search#:#search_grp_title#:#Gruppenname
-search#:#search_role_title#:#Rollenname
-search#:#search_results#:#Suchergebnisse
-common#:#btn_add#:#Hinzufügen
