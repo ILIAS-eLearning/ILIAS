@@ -200,8 +200,11 @@ class ilUtil
 		}
 		
 		// add version as parameter to force reload for new releases
-		$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
-		$vers = "?vers=".str_replace(".", "-", $vers);
+		if ($mode != "filesystem")
+		{
+			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = "?vers=".str_replace(".", "-", $vers);
+		}
 				
 		return $base."templates/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css".$vers;
 	}

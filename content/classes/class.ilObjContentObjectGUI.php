@@ -107,6 +107,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				include_once ("classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "properties");
 				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui->omitLocator();
+				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				{
+					$style_gui->setCreationMode(true);
+				}
 				$ret =& $this->ctrl->forwardCommand($style_gui);
 				//$ret =& $style_gui->executeCommand();
 
@@ -2621,8 +2626,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function addLocations()
 	{
-		global $lng, $tree;
-
+		global $lng, $tree, $ilLocator;
+		
+		//$ilLocator->clearItems();
+		
 		$this->ctrl->addLocation(
 			"...",
 			"");

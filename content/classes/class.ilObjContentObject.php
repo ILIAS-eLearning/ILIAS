@@ -1677,12 +1677,12 @@ class ilObjContentObject extends ilObject
 		$ilBench->start("ExportHTML", "exportHTMLPages");
 		$this->exportHTMLPages($lm_gui, $a_target_dir);
 		$ilBench->stop("ExportHTML", "exportHTMLPages");
-		
+
 		// export glossary terms
 		$ilBench->start("ExportHTML", "exportHTMLGlossaryTerms");
 		$this->exportHTMLGlossaryTerms($lm_gui, $a_target_dir);
 		$ilBench->stop("ExportHTML", "exportHTMLGlossaryTerms");
-		
+
 		// export all media objects
 		$ilBench->start("ExportHTML", "exportHTMLMediaObjects");
 		foreach ($this->offline_mobs as $mob)
@@ -1693,7 +1693,7 @@ class ilObjContentObject extends ilObject
 		$_GET["obj_id"]  = $a_mob_id;
 		$_GET["cmd"] = "";
 		$ilBench->stop("ExportHTML", "exportHTMLMediaObjects");
-		
+
 		// export all file objects
 		$ilBench->start("ExportHTML", "exportHTMLFileObjects");
 		foreach ($this->offline_files as $file)
@@ -1701,7 +1701,7 @@ class ilObjContentObject extends ilObject
 			$this->exportHTMLFile($a_target_dir, $file);
 		}
 		$ilBench->stop("ExportHTML", "exportHTMLFileObjects");
-		
+
 		// export table of contents
 		$ilBench->start("ExportHTML", "exportHTMLTOC");
 		if ($this->isActiveTOC())
@@ -1753,7 +1753,7 @@ class ilObjContentObject extends ilObject
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		
+
 		// zip everything
 		$ilBench->start("ExportHTML", "zip");
 		if ($a_zip_file)
@@ -1767,6 +1767,7 @@ class ilObjContentObject extends ilObject
 			ilUtil::delDir($a_target_dir);
 		}
 		$ilBench->stop("ExportHTML", "zip");
+
 	}
 	
 	/**

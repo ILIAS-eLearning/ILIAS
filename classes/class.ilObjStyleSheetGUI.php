@@ -484,6 +484,5 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 	}
 
-
 } // END class.ObjStyleSheetGUI
 ?>
