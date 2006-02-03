@@ -27,6 +27,7 @@
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+* @version $Id$
 *
 * @ilCtrl_Calls ilPersonalProfileGUI:
 *
@@ -237,13 +238,13 @@ class ilPersonalProfileGUI
 	function changeUserPassword()
 	{
 		global $ilUser;
-		
+
 		// do nothing if auth mode is not local database
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL)
 		{
 			$this->password_error = $this->lng->txt("not_changeable_for_non_local_auth");
 		}
-	
+
 		// select password from auto generated passwords
 		if ($this->ilias->getSetting("passwd_auto_generate") == 1)
 		{
@@ -252,13 +253,12 @@ class ilPersonalProfileGUI
 			{
 				$this->password_error = $this->lng->txt("passwd_wrong");
 			}
-	
 			// validate transmitted password
 			if (!ilUtil::isPassword($_POST["new_passwd"]))
 			{
 				$this->password_error = $this->lng->txt("passwd_not_selected");
 			}
-			
+
 			if (empty($this->password_error))
 			{
 				sendInfo($this->lng->txt("saved_successfully"));
@@ -545,7 +545,9 @@ class ilPersonalProfileGUI
 	*/
 	function showProfile()
 	{
-		global $ilUser, $styleDefinition, $rbacreview;
+		global $ilUser, $styleDefinition, $rbacreview, $ilias;
+		
+		$settings = $ilias->getAllSettings();
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
 		
