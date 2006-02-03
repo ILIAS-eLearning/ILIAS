@@ -1474,6 +1474,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		{
 			$this->tpl->addBlockFile("CONTAINER_ICONS", "container_icon_settings",
 				"tpl.container_icon_settings.html");
+
 			if (($big_icon = $this->object->getBigIconPath()) != "")
 			{
 				$this->tpl->setCurrentBlock("big_icon");

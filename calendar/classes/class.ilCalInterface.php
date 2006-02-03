@@ -4,7 +4,7 @@
 	| ILIAS open source															  |
 	|	Dateplaner Modul														  |													
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	| Copyright (c) 2006 ILIAS open source & University of Applied Sciences Bremen|
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -380,7 +380,7 @@ class ilCalInterface
 	{
 		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
 		#$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
-		
+
 		$IliasArryGroups = ilUtil::_getObjectsByOperations(array('grp','crs'),'read');
 
 		if($IliasArryGroups[0]!="") {

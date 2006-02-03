@@ -181,6 +181,11 @@ class ilLocatorGUI
 			"link" => $a_link, "frame" => $a_frame); 
 	}
 	
+	function clearItems()
+	{
+		$this->entries = array();
+	}
+	
 	/**
 	* get all locator entries
 	*/

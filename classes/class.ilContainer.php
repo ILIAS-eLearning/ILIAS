@@ -120,7 +120,7 @@ class ilContainer extends ilObject
 		$size = ($a_size == "small")
 			? "small"
 			: "big";
-			
+
 		if (ilContainer::_lookupContainerSetting($a_id, "icon_".$size))
 		{
 			$cont_dir = ilContainer::_getContainerDirectory($a_id);
@@ -151,11 +151,13 @@ class ilContainer extends ilObject
 		$big_file_name = $cont_dir."/icon_big.gif";
 		if (is_file($a_big_icon["tmp_name"]))
 		{
+			$a_big_icon["tmp_name"] = ilUtil::escapeShellArg($a_big_icon["tmp_name"]);
+			$big_file_name = ilUtil::escapeShellArg($big_file_name);
 			$cmd = ilUtil::getConvertCmd()." ".$a_big_icon["tmp_name"]."[0] -geometry $big_geom GIF:$big_file_name";
 			system($cmd);
 		}
 
-		if (is_file($big_file_name))
+		if (is_file($cont_dir."/icon_big.gif"))
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_big", 1);
 		}
@@ -171,10 +173,12 @@ class ilContainer extends ilObject
 
 		if (is_file($a_small_icon["tmp_name"]))
 		{
+			$a_small_icon["tmp_name"] = ilUtil::escapeShellArg($a_small_icon["tmp_name"]);
+			$small_file_name = ilUtil::escapeShellArg($small_file_name);
 			$cmd = ilUtil::getConvertCmd()." ".$a_small_icon["tmp_name"]."[0] -geometry $small_geom GIF:$small_file_name";
 			system($cmd);
 		}
-		if (is_file($small_file_name))
+		if (is_file($cont_dir."/icon_small.gif"))
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_small", 1);
 		}

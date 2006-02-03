@@ -92,6 +92,7 @@ class ilObjectGUI
 	var $tab_target_script;
 	var $actions;
 	var $sub_objects;
+	var $omit_locator = false;
 
 	/**
 	* Constructor
@@ -620,6 +621,11 @@ class ilObjectGUI
 	{
 		global $ilLocator, $tpl;
 		
+		if ($this->omit_locator)
+		{
+			return;
+		}
+		
 		// todo: admin workaround
 		// in the future, objectgui classes should not be called in
 		// admin section anymore (rbac/trash handling in own classes)
@@ -759,6 +765,11 @@ class ilObjectGUI
 	*/
 	function addLocatorItems()
 	{
+	}
+	
+	function omitLocator($a_omit = true)
+	{
+		$this->omit_locator = $a_omit;
 	}
 
 	/**

@@ -2089,10 +2089,15 @@ class ilLMPresentationGUI
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 
-		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
-		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-		$this->tpl->setVariable("LINK_BACK",
-			$this->ctrl->getLinkTarget($this, ""));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setCurrentBlock("back_to_lm");
+			$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+			$this->tpl->setVariable("LINK_BACK",
+				$this->ctrl->getLinkTarget($this, ""));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		include_once ("content/classes/class.ilLMTableOfContentsExplorer.php");
 		$exp = new ilTableOfContentsExplorer(
@@ -2209,7 +2214,7 @@ class ilLMPresentationGUI
 			}
 			else
 			{
-				$info->addButton($this->lng->txt("read"),
+				$info->addButton($this->lng->txt("view"),
 					$this->ctrl->getLinkTarget($this, "layout"));
 			}
 		}
