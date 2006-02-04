@@ -730,7 +730,15 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				//replace all checked answers with x or checkbox
 				if (!$show_question_page) 
 				{
-					$output = $this->replaceInputElements($repl_str,"X",$output); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
+					// rku $output = $this->replaceInputElements($repl_str,"X",$output); 
+					if ($this->object->get_response() == RESPONSE_SINGLE)
+					{
+						$output = $this->replaceInputElements($repl_str,"X",$output,"(",")"); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
+					} 
+					else 
+					{
+						$output = $this->replaceInputElements($repl_str,"X",$output,"[","]"); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
+					}
 				}
 				else $output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);				
 			}
@@ -738,7 +746,15 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			// now replace all not-checked checkboxes with an 0
 			if (!$show_question_page) 
 			{
-				$output = $this->replaceInputElements("","O", $output); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
+				// rku $output = $this->replaceInputElements("","O", $output); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
+				if ($this->object->get_response() == RESPONSE_SINGLE)
+				{						
+					$output = $this->replaceInputElements("","O", $output,"(",")"); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
+				} 
+				else 
+				{
+					$output = $this->replaceInputElements("","O", $output,"[","]"); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
+				}
 			}
 		}
 
@@ -843,17 +859,22 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$repl_str = "dummy=\"solution_mc$maxindex\"";				
 				if ($show_solution_only) 
 				{
-					$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
+					// rku $solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
+					$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput,"(",")");
 				}
 				else 
 					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
 			}
-			if ($show_solution_only && ($this->object->get_response() == RESPONSE_SINGLE)) {
-				if ($maxindex > -1) {
+			if ($show_solution_only && ($this->object->get_response() == RESPONSE_SINGLE)) 
+			{
+				if ($maxindex > -1) 
+				{
 					$repl_str = "dummy=\"solution_mc$maxindex\"";				
-					$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
+					// rku $solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
+					$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput,"(",")");
 				}
-				$solutionoutput = $this->replaceInputElements("","O",$solutionoutput);
+				// rku $solutionoutput = $this->replaceInputElements("","O",$solutionoutput);
+				$solutionoutput = $this->replaceInputElements("","O",$solutionoutput,"(",")");
 			}
 
 			if (!$show_solution_only)
