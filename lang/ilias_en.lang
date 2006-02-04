@@ -2883,18 +2883,18 @@ common#:#svy_add#:#Add survey
 common#:#svy_delete#:#Delete survey
 common#:#svy_edit_permission#:#Change permission settings
 common#:#svy_evaluation#:#Evaluation
-common#:#svy_finished#:#completed
+common#:#svy_finished#:#finished
 common#:#svy_invite#:#Invite users to a survey
 common#:#svy_new#:#New survey
 common#:#svy_no_content#:#No surveys available
-common#:#svy_not_finished#:#not completed
+common#:#svy_not_finished#:#not finished
 common#:#svy_not_started#:#not started
 common#:#svy_participate#:#Participate in a survey
 common#:#svy_read#:#Read access to survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Upload file
 common#:#svy_visible#:#Survey is visible
-common#:#svy_warning_survey_not_complete#:#The survey is not complete!
+common#:#svy_warning_survey_not_complete#:#The survey is not finished!
 common#:#svy_write#:#Edit survey
 common#:#system#:#System
 common#:#system_check#:#System Check
@@ -5239,7 +5239,7 @@ survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit 
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#add_standard_numbers#:#Add standard numbers
-survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
+survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
@@ -5551,7 +5551,7 @@ survey#:#survey_code_url#:#URL for direct access
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
 survey#:#survey_finish#:#finish survey
-survey#:#survey_finished#:#You have completed the survey. Thank you for your participation!
+survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_next#:#next >>>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
