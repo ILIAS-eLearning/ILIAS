@@ -33,30 +33,7 @@
 */
 
 include_once "./classes/class.ilObject.php";
-
-define("STATUS_OFFLINE", 0);
-define("STATUS_ONLINE", 1);
-
-define("EVALUATION_ACCESS_OFF", 0);
-define("EVALUATION_ACCESS_ALL", 1);
-define("EVALUATION_ACCESS_PARTICIPANTS", 2);
-
-define("INVITATION_OFF", 0);
-define("INVITATION_ON", 1);
-
-define("MODE_UNLIMITED", 0);
-define("MODE_PREDEFINED_USERS", 1);
-
-define("SURVEY_START_ALLOWED", 0);
-define("SURVEY_START_START_DATE_NOT_REACHED", 1);
-define("SURVEY_START_END_DATE_REACHED", 2);
-define("SURVEY_START_OFFLINE", 3);
-
-define("ANONYMIZE_OFF", 0);
-define("ANONYMIZE_ON", 1);
-
-define("QUESTIONTITLES_HIDDEN", 0);
-define("QUESTIONTITLES_VISIBLE", 1);
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurvey extends ilObject
 {

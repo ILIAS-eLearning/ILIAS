@@ -21,6 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
+include_once "./survey/classes/inc.SurveyConstants.php";
+
 /**
 * Basic class for all survey question types
 *
@@ -468,17 +470,20 @@ class SurveyQuestionGUI
 		{
 			case "surveynominalquestiongui":
 			case "surveyordinalquestiongui":
-				$ilTabs->addSubTabTarget("categories",
-										 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
-										 array("categories", "addCategory", "insertBeforeCategory",
-											   "insertAfterCategory", "moveCategory", "deleteCategory",
-											   "saveCategories", "savePhrase", "addPhrase",
-											   "savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
-											   "cancelSavePhrase",
-											   "confirmDeleteCategory", "cancelDeleteCategory"
-											 ),
-										 $guiclass
+				if ($this->object->getId() > 0) 
+				{
+					$ilTabs->addSubTabTarget("categories",
+											 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
+											 array("categories", "addCategory", "insertBeforeCategory",
+													 "insertAfterCategory", "moveCategory", "deleteCategory",
+													 "saveCategories", "savePhrase", "addPhrase",
+													 "savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
+													 "cancelSavePhrase",
+													 "confirmDeleteCategory", "cancelDeleteCategory"
+												 ),
+											 $guiclass
 					);
+				}
 				break;
 		}
 		

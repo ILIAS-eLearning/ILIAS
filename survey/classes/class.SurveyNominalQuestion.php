@@ -22,11 +22,7 @@
 */
 
 include_once "./survey/classes/class.SurveyQuestion.php";
-
-define("SUBTYPE_MCSR", 1);
-define("SUBTYPE_MCMR", 2);
-
-define("NOMINAL_QUESTION_IDENTIFIER", "Nominal Question");
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 /**
 * Nominal survey question

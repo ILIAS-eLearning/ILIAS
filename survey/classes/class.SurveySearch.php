@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-define ("CONCAT_AND", 0);
-define ("CONCAT_OR", 1);
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 /**
 * Class for search actions in ILIAS survey tool

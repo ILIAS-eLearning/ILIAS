@@ -22,6 +22,7 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 /**
 * Class ilObjSurveyQuestionPoolGUI
@@ -832,7 +833,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("qpl_warning");
 				include_once "./classes/class.ilUtil.php";
-				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
+				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
 				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
