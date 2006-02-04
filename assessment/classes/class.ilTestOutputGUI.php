@@ -1351,7 +1351,7 @@ class ilTestOutputGUI
 					$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "outEvaluationForm") . "&evaluation=" . $value["qid"] . "\">" . $value["title"] . "</a>");
 				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
-				if (preg_match("/http/", $value["solution"]))
+				if ((preg_match("/http/", $value["solution"])) || (preg_match("/goto/", $value["solution"])))
 				{
 					$this->tpl->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
 				}
