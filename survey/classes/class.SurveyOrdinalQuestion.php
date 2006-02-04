@@ -22,8 +22,7 @@
 */
 
 include_once "./survey/classes/class.SurveyQuestion.php";
-
-define("ORDINAL_QUESTION_IDENTIFIER", "Ordinal Question");
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 /**
 * Ordinal survey question

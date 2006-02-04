@@ -21,46 +21,70 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./classes/class.ilObjectAccess.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
-
 /**
-* Class ilObjSurveyQuestionPoolAccess
-*
-*
-* @author		Helmut Schottmueller <helmut.schottmueller@mac.com>
-* @author 		Alex Killing <alex.killing@gmx.de>
+* Survey constants
+* 
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
-* @package Survey
 */
-class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
-{
 
-	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show",
-	 *			"default" => true),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	function _getCommands()
-	{
-		$commands = array
-		(
-			array("permission" => "write", "cmd" => "questions", "lang_var" => "edit",
-				"default" => true),
-		);
-		
-		return $commands;
-	}
+/**
+* Survey question subtypes
+*/
+define("SUBTYPE_MCSR", 1);
+define("SUBTYPE_MCMR", 2);
+define("SUBTYPE_NON_RATIO", 3);
+define("SUBTYPE_RATIO_NON_ABSOLUTE", 4);
+define("SUBTYPE_RATIO_ABSOLUTE", 5);
 
-}
+/**
+* Survey question import/export identifiers
+*/
+define("METRIC_QUESTION_IDENTIFIER", "Metric Question");
+define("NOMINAL_QUESTION_IDENTIFIER", "Nominal Question");
+define("ORDINAL_QUESTION_IDENTIFIER", "Ordinal Question");
+define("TEXT_QUESTION_IDENTIFIER", "Text Question");
+
+/**
+* Survey object constants
+*/
+define("STATUS_OFFLINE", 0);
+define("STATUS_ONLINE", 1);
+
+define("EVALUATION_ACCESS_OFF", 0);
+define("EVALUATION_ACCESS_ALL", 1);
+define("EVALUATION_ACCESS_PARTICIPANTS", 2);
+
+define("INVITATION_OFF", 0);
+define("INVITATION_ON", 1);
+
+define("MODE_UNLIMITED", 0);
+define("MODE_PREDEFINED_USERS", 1);
+
+define("SURVEY_START_ALLOWED", 0);
+define("SURVEY_START_START_DATE_NOT_REACHED", 1);
+define("SURVEY_START_END_DATE_REACHED", 2);
+define("SURVEY_START_OFFLINE", 3);
+
+define("ANONYMIZE_OFF", 0);
+define("ANONYMIZE_ON", 1);
+
+define("QUESTIONTITLES_HIDDEN", 0);
+define("QUESTIONTITLES_VISIBLE", 1);
+
+/**
+* File export constants
+*/
+define("TYPE_XLS", "latin1");
+define("TYPE_XLS_MAC", "macos");
+define("TYPE_SPSS", "csv");
+define("TYPE_PRINT", "prnt");
+
+/**
+* Search constants
+*/
+define("CONCAT_AND", 0);
+define("CONCAT_OR", 1);
 
 ?>

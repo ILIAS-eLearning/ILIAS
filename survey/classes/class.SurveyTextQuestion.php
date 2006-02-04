@@ -22,8 +22,7 @@
 */
 
 include_once "./survey/classes/class.SurveyQuestion.php";
-
-define("TEXT_QUESTION_IDENTIFIER", "Text Question");
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 /**
 * Text survey question

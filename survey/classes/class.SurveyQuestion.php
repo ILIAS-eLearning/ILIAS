@@ -21,6 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
+include_once "./survey/classes/inc.SurveyConstants.php";
+
 /**
 * Basic class for all survey question types
 *

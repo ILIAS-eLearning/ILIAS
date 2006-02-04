@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./survey/classes/inc.SurveyConstants.php";
+
 /**
 * Export class for surveys
 *

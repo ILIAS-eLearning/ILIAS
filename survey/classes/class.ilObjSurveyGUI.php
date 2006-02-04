@@ -38,6 +38,7 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyGUI extends ilObjectGUI
 {

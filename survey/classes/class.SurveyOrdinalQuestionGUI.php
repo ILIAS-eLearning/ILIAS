@@ -22,6 +22,7 @@
 */
 
 include_once "./survey/classes/class.SurveyQuestionGUI.php";
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 /**
 * Ordinal survey question GUI representation

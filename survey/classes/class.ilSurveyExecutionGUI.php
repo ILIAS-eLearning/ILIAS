@@ -21,6 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
+include_once "./survey/classes/inc.SurveyConstants.php";
+
 /**
 * Survey execution graphical output
 *
@@ -140,7 +142,6 @@ class ilSurveyExecutionGUI
 		}
 		
 		$direction = 0;
-		$error_messages = array();
 
 		if ($this->object->getAnonymize())
 		{
@@ -262,6 +263,11 @@ class ilSurveyExecutionGUI
 				$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 				$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
 				$question_gui->object->setObligatory($data["obligatory"]);
+				$error_messages = array();
+				if (is_array($_SESSION["svy_errors"]))
+				{
+					$error_messages = $_SESSION["svy_errors"];
+				}
 				$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
 				$qid = "&qid=" . $data["question_id"];
 				$this->tpl->parse("survey_content");
@@ -291,11 +297,10 @@ class ilSurveyExecutionGUI
 
 		// check users input when it is a metric question
 		$page_error = 0;
-		$error_messages = array();
 		$page = $this->object->getNextPage($_GET["qid"], 0);
 		foreach ($page as $data)
 		{
-			$page_error += $this->saveActiveQuestionData($data, $error_messages);
+			$page_error += $this->saveActiveQuestionData($data);
 		}
 
 		if ($page_error)
@@ -339,14 +344,16 @@ class ilSurveyExecutionGUI
 *
 * @access private
 */
-	function saveActiveQuestionData(&$data, &$error_messages)
+	function saveActiveQuestionData(&$data)
 	{
 		global $ilUser;
 		
 		$page_error = 0;
 		$save_answer = 0;
 		$error = 0;
-
+		$error_messages = array();
+		unset($_SESSION["svy_errors"]);
+		
 		if (strcmp($data["type_tag"], "qt_metric") == 0)
 		{
 			// there is a metric question -> check input
@@ -372,6 +379,7 @@ class ilSurveyExecutionGUI
 				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
 				$error = 1;
 			}
+			include_once "./survey/classes/class.SurveyMetricQuestion.php";
 			if (($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)) && ($data["obligatory"]))
 			{
 				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_floating_point");
@@ -385,13 +393,15 @@ class ilSurveyExecutionGUI
 		if (strcmp($data["type_tag"], "qt_nominal") == 0)
 		{
 			$variables =& $this->object->getVariables($data["question_id"]);
+			include_once "./survey/classes/class.SurveyNominalQuestion.php";
 			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and ($data["obligatory"]))
 			{
 				// none of the radio buttons was checked
 				$error_messages[$data["question_id"]] = $this->lng->txt("nominal_question_not_checked");
 				$error = 1;
 			}
-			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and (!$data["obligatory"])) {
+			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and (!$data["obligatory"])) 
+			{
 				$save_answer = 0;
 			}
 			else
@@ -481,6 +491,10 @@ class ilSurveyExecutionGUI
 					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
 					break;
 			}
+		}
+		else
+		{
+			$_SESSION["svy_errors"] = $error_messages;
 		}
 		return $page_error;
 	}

@@ -33,6 +33,7 @@
 */
 
 include_once "./classes/class.ilObject.php";
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyQuestionPool extends ilObject
 {

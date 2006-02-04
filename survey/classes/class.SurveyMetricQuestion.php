@@ -22,12 +22,7 @@
 */
 
 include_once "./survey/classes/class.SurveyQuestion.php";
-
-define("SUBTYPE_NON_RATIO", 3);
-define("SUBTYPE_RATIO_NON_ABSOLUTE", 4);
-define("SUBTYPE_RATIO_ABSOLUTE", 5);
-
-define("METRIC_QUESTION_IDENTIFIER", "Metric Question");
+include_once "./survey/classes/inc.SurveyConstants.php";
 
 /**
 * Metric survey question
