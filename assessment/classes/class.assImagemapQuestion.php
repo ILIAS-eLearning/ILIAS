@@ -30,7 +30,7 @@ define ("IMAGEMAP_QUESTION_IDENTIFIER", "IMAGE MAP QUESTION");
 *
 * ASS_ImagemapQuestion is a class for imagemap question.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assImagemapQuestion.php
 * @modulegroup   Assessment

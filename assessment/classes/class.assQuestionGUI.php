@@ -27,7 +27,7 @@
 * The ASS_QuestionGUI class encapsulates basic GUI functions
 * for assessment questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assQuestionGUI.php
 * @modulegroup   Assessment

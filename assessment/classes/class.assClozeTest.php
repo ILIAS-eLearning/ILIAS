@@ -40,7 +40,7 @@ define("TEXTGAP_RATING_LEVENSHTEIN5", "l5");
 *
 * ASS_ClozeText is a class for cloze tests using text or select gaps.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de> 
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
 * @version	$Id$
 * @module   class.assClozeTest.php
 * @modulegroup   Assessment

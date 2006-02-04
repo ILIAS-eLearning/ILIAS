@@ -29,7 +29,7 @@ define ("BOOLEAN_NOT_PREFIX", 1);
 * 
 * AnswerblockAnswer is a class encapsulating answerblock answers in enhanced question mode
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assAnswerblockAnswer.php
 * @modulegroup   Assessment

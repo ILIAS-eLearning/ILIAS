@@ -29,7 +29,7 @@ define("TEXT_QUESTION_IDENTIFIER", "TEXT QUESTION");
 *
 * ASS_TextQuestion is a class for text questions
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assTextQuestion.php
 * @modulegroup   Assessment

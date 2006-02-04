@@ -28,7 +28,7 @@ include_once "./assessment/classes/class.assAnswerSimple.php";
 * 
 * ASS_AnswerBinaryState is a class for answers with a binary state indicator (checked/unchecked, set/unset)
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assAnswerBinaryState.php
 * @modulegroup   Assessment

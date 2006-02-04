@@ -26,7 +26,7 @@
 * 
 * ASS_AnswerSimple is a class for simple answers used for example in cloze tests with text gap.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assAnswerSimple.php
 * @modulegroup   Assessment

@@ -25,7 +25,7 @@
 /**
 * Class ilObjQuestionPoolListGUI
 *
-* @author		Helmut Schottmueller <hschottm@tzi.de>
+* @author		Helmut Schottmueller <helmut.schottmueller@mac.com>
 * @author 		Alex Killing <alex.killing@gmx.de>
 * $Id$
 *

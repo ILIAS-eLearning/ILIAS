@@ -26,7 +26,7 @@
 * 
 * A class defining mark schemas for assessment test objects
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assMarkSchema.php
 * @modulegroup   Assessment

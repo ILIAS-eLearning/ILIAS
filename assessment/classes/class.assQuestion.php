@@ -33,7 +33,7 @@ define("OUTPUT_JAVASCRIPT", 1);
 * The ASS_Question class defines and encapsulates basic methods and attributes
 * for assessment question types to be used for all parent classes.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assQuestion.php
 * @modulegroup   Assessment

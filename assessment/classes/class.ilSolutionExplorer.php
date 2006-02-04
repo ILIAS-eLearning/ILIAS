@@ -24,7 +24,7 @@
 /*
 * Solution Explorer for question pools
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @package assessment

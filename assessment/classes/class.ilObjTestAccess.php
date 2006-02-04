@@ -29,7 +29,7 @@ include_once "./classes/class.ilObjectAccess.php";
 * This class contains methods that check object specific conditions
 * for accessing test objects.
 *
-* @author	Helmut Schottmueller <hschottm@tzi.de>
+* @author	Helmut Schottmueller <helmut.schottmueller@mac.com>
 * @author 	Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
