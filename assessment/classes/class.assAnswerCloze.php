@@ -28,7 +28,7 @@ include_once "./assessment/classes/class.assAnswerBinaryState.php";
 * 
 * ASS_AnswerCloze is a class for cloze questions answers used in cloze questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assAnswerCloze.php
 * @modulegroup   Assessment

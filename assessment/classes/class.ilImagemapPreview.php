@@ -27,7 +27,7 @@
 * Takes an image and imagemap areas and creates a preview image containing
 * the imagemap areas.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.ilImagemapPreview.php
 * @modulegroup   Assessment

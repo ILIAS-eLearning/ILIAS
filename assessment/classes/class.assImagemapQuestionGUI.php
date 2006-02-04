@@ -29,7 +29,7 @@ include_once "./assessment/classes/class.assQuestionGUI.php";
 * The ASS_ImagemapQuestionGUI class encapsulates the GUI representation
 * for image map questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assImagemapQuestionGUI.php
 * @modulegroup   Assessment

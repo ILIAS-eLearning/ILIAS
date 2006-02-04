@@ -28,7 +28,7 @@ include_once "./assessment/classes/class.assAnswerSimple.php";
 * 
 * ASS_AnswerOrdering is a class for ordering question answers used in ordering questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assAnswerOrdering.php
 * @modulegroup   Assessment

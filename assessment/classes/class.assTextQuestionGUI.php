@@ -29,7 +29,7 @@ include_once "./assessment/classes/class.assQuestionGUI.php";
 * The ASS_TextQuestionGUI class encapsulates the GUI representation
 * for text questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assTextQuestionGUI.php
 * @modulegroup   assessment

@@ -29,7 +29,7 @@ define ("JAVAAPPLET_QUESTION_IDENTIFIER", "JAVA APPLET QUESTION");
 *
 * ASS_JavaApplet is a class for Java Applet Questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assJavaApplet.php
 * @modulegroup   Assessment
