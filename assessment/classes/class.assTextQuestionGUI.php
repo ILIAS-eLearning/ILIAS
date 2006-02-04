@@ -292,7 +292,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		}
 		if ($this->object->getMaxNumOfChars())
 		{
-			$output = str_replace("</textarea>", "</textarea><p>" . sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()) . "</p>", $output);
+			$output = str_replace("<textarea", "<p class=\"quote\">" . sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()) . "</p><textarea", $output);
 		}
 		$this->tpl->setVariable("TEXT_QUESTION", $output);
 	}
