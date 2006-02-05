@@ -222,16 +222,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
     // create an array of all checked checkboxes
     $checked_questions = array();
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/cb_(\d+)/", $key, $matches)) {
+    foreach ($_POST as $key => $value) 
+		{
+      if (preg_match("/cb_(\d+)/", $key, $matches)) 
+			{
         array_push($checked_questions, $matches[1]);
       }
     }
 		
 		// copy button was pressed
-		if (count($checked_questions) > 0) {
+		if (count($checked_questions) > 0) 
+		{
 			$_SESSION["spl_copied_questions"] = join($checked_questions, ",");
-		} elseif (count($checked_questions) == 0) {
+		} 
+		else if (count($checked_questions) == 0) 
+		{
 			sendInfo($this->lng->txt("qpl_copy_select_none"));
 			$_SESSION["spl_copied_questions"] = "";
 		}
@@ -755,7 +760,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function resetObject()
 	{
 		$this->questionsObject();
-		$_POST["filter_text"] = "";
 	}
 	
 	/**
@@ -765,6 +769,30 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
   function questionsObject()
   {
     global $rbacsystem;
+
+		$filter_text = "";
+		$filter_type = "";
+		if (count($_POST))
+		{
+			$filter_text = $_POST["filter_text"];
+			$filter_type = $_POST["sel_filter_type"];
+		}
+		else
+		{
+			$filter_text = $_GET["filter_text"];
+			$filter_type = $_GET["sel_filter_type"];
+		}
+		
+		if (strcmp($this->ctrl->getCmd(), "reset") == 0)
+		{
+			$filter_text = "";
+			$filter_type = "";
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "filter_text", $filter_text);
+			$this->ctrl->setParameter($this, "sel_filter_type", $filter_type);
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questions.html", true);
 	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
@@ -780,23 +808,27 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       "author" => $this->lng->txt("author"),
     );
     $this->tpl->setCurrentBlock("filterrow");
-    foreach ($filter_fields as $key => $value) {
+    foreach ($filter_fields as $key => $value) 
+		{
       $this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
       $this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
-      if (!$_POST["cmd"]["reset"]) {
-        if (strcmp($_POST["sel_filter_type"], $key) == 0) {
+      if (!$_POST["cmd"]["reset"]) 
+			{
+        if (strcmp($filter_type, $key) == 0) 
+				{
           $this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
         }
       }
       $this->tpl->parseCurrentBlock();
     }
-    
+
     $this->tpl->setCurrentBlock("filter_questions");
     $this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
     $this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
-    if (!$_POST["cmd"]["reset"]) {
-      $this->tpl->setVariable("VALUE_FILTER_TEXT", $_POST["filter_text"]);
-    }
+		if (strcmp($this->ctrl->getCmd(), "reset") != 0)
+		{
+			$this->tpl->setVariable("VALUE_FILTER_TEXT", $filter_text);
+		}
     $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
     $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
     $this->tpl->parseCurrentBlock();
@@ -819,7 +851,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// default sort order
 			$_GET["sort"] = array("title" => "ASC");
 		}
-		$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
+		$table = $this->object->getQuestionsTable($_GET["sort"], $filter_text, $filter_type, $startrow);
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
 		$last_questionblock_id = 0;
