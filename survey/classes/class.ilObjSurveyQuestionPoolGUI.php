@@ -632,7 +632,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("Footer");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 				$this->tpl->setVariable("TEXT_DELETE", $this->lng->txt("delete"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -988,7 +988,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("Footer");
 					include_once "./classes/class.ilUtil.php";
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 					$this->tpl->parseCurrentBlock();
 			}    
 		}
@@ -1233,6 +1233,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_file.gif"));
+				$this->tpl->setVariable("TEXT_IMG_OBJ", $this->lng->txt("file_icon"));
 				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 				$this->tpl->setVariable("TEXT_CONTENT", $file);
 				$this->tpl->parseCurrentBlock();

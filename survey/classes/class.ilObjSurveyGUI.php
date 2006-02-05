@@ -835,7 +835,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 			$this->tpl->setCurrentBlock("Footer");
 			include_once "./classes/class.ilUtil.php";
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->parseCurrentBlock();
 		}
     // define the sort column parameters
@@ -953,7 +953,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_QUESTION_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_QUESTION_POOL", $this->lng->txt("obj_spl"));
 			$this->tpl->setVariable("BTN_INSERT", $this->lng->txt("insert"));
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->setVariable("FOUND_QUESTIONS", $this->lng->txt("found_questions"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -1762,7 +1762,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("block");
-					$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("questionblock.gif", true) . "\" alt=\"\" />");
+					$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("questionblock.gif", true) . "\" alt=\"".$this->lng->txt("questionblock_icon")."\" />");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
@@ -1831,7 +1831,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. ". $data["title"]);
 				}
-				$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("question.gif", true) . "\" alt=\"\" />");
+				$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("question.gif", true) . "\" alt=\"".$this->lng->txt("question_icon")."\" />");
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
 					$obligatory_checked = "";
@@ -1855,11 +1855,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 						// up/down buttons for non-questionblock questions
 						if ($data["question_id"] != $this->object->questions[0])
 						{
-							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"Up\" border=\"0\" /></a>");
+							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"".$this->lng->txt("up")."\" border=\"0\" /></a>");
 						}
 						if ($data["question_id"] != $this->object->questions[count($this->object->questions)-1])
 						{
-							$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"Down\" border=\"0\" /></a>");
+							$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"".$this->lng->txt("down")."\" border=\"0\" /></a>");
 						}
 					}
 					else
@@ -1867,7 +1867,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						// up/down buttons for questionblock questions
 						if ($data["questionblock_id"] == $last_questionblock_id)
 						{
-							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"Up\" border=\"0\" /></a>");
+							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"".$this->lng->txt("up")."\" border=\"0\" /></a>");
 						}
 						$tmp_questions = array_keys($survey_questions);
 						$blockkey = array_search($question_id, $tmp_questions);
@@ -1875,7 +1875,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							if ($data["questionblock_id"] == $survey_questions[$tmp_questions[$blockkey+1]]["questionblock_id"])
 							{
-								$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"Down\" border=\"0\" /></a>");
+								$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"".$this->lng->txt("down")."\" border=\"0\" /></a>");
 							}
 						}
 					}
@@ -1906,7 +1906,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("QFooter");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
 				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
@@ -2049,7 +2049,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock($block_result);
 				include_once "./classes/class.ilUtil.php";
-				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr.gif") . "\" alt=\"".$this->lng->txt("obj_usr")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
@@ -2059,7 +2059,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -2087,7 +2087,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock($block_result);
 				include_once "./classes/class.ilUtil.php";
-				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp.gif") . "\" alt=\"".$this->lng->txt("obj_grp")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
@@ -2096,7 +2096,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -2124,7 +2124,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock($block_result);
 				include_once "./classes/class.ilUtil.php";
-				$this->tpl->setVariable("TEXT_ROLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_role.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_ROLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_role.gif") . "\" alt=\"".$this->lng->txt("obj_role")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
@@ -2133,7 +2133,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
 					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -2966,6 +2966,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_file.gif"));
+				$this->tpl->setVariable("TEXT_IMG_OBJ", $this->lng->txt("file_icon"));
 				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 				$this->tpl->setVariable("TEXT_CONTENT", $file);
 				$this->tpl->parseCurrentBlock();
@@ -3478,7 +3480,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$this->tpl->setCurrentBlock("delete_button");
 							$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
 							include_once "./classes/class.ilUtil.php";
-							$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+							$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 							$this->tpl->parseCurrentBlock();
 						}
 					}
@@ -3526,7 +3528,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("buttons");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->setVariable("BTN_CREATE_CONSTRAINTS", $this->lng->txt("constraint_add"));
 			$this->tpl->parseCurrentBlock();
 		}
