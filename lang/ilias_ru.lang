@@ -4530,6 +4530,7 @@ survey#:#add_limits_for_standard_numbers#:#Пожалуйста, введите 
 survey#:#add_phrase#:#Добавить фразу 
 survey#:#add_phrase_introduction#:#Пожалуйста, выберите фразу:
 survey#:#already_completed_survey#:#Вы уже завершили опрос! Нельзя зайти в опрос снова.
+###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Анонимный опрос. Для доступа введите 32-разрядный числовой код в поле ниже.
 survey#:#anonymize_key_introduction#:#Анонимный опрос. Для доступа к результатам используется сгенерированный 32-разрядный код (вы его получите на почтовый ящик Илиас-системы после ответа на первый вопрос). Ваш код доступа <br /><span class="bold">%s</span><br />Пожалуйста, введите его в текстовое поле ниже.
 survey#:#anonymize_resume_introduction#:#Пожалуйста, введите код доступа, который вы получили по почте Илиас-системы в начале опроса.
@@ -4823,6 +4824,7 @@ survey#:#survey_code_no_codes#:#Вы все же не создали кодов 
 survey#:#survey_code_used#:#Код использовался
 survey#:#survey_finish#:#закончить опрос
 survey#:#survey_finished#:#Вы закончили опрос. Спасибо за ваше участие!
+###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Вы не можете начать опрос! Опрос в офлайн.
 survey#:#survey_next#:#следующий >>>
 survey#:#survey_offline_message#:#Не может пригласить пользователей. Опрос в офлайн!

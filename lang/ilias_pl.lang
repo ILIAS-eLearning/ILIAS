@@ -2883,18 +2883,18 @@ common#:#svy_add#:#Dodaj ankietę
 common#:#svy_delete#:#Usuń ankietę
 common#:#svy_edit_permission#:#Zmiana uprawnień dostępu
 common#:#svy_evaluation#:#Ewaluacja
-common#:#svy_finished#:#skompletowany
+common#:#svy_finished#:#skompletowany###05 Feb 2006 content changed
 common#:#svy_invite#:#Zaproś użytkowników do ankiety
 common#:#svy_new#:#Nowa ankieta
 common#:#svy_no_content#:#Brak dostępnych ankiet
-common#:#svy_not_finished#:#nie skompletowany
+common#:#svy_not_finished#:#nie skompletowany###05 Feb 2006 content changed
 common#:#svy_not_started#:#nieuruchomiony
 common#:#svy_participate#:#Branie udziału w ankiecie
 common#:#svy_read#:#Prawo czytania ankiety
 common#:#svy_run#:#Uruchom
 common#:#svy_upload_file#:#Załaduj plik
 common#:#svy_visible#:#Ankieta jest widoczna
-common#:#svy_warning_survey_not_complete#:#Ankieta nie jest kompletna!
+common#:#svy_warning_survey_not_complete#:#Ankieta nie jest kompletna!###05 Feb 2006 content changed
 common#:#svy_write#:#Edycja ankiety
 common#:#system#:#System
 common#:#system_check#:#Sprawdzenie Systemu
@@ -5239,7 +5239,7 @@ survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numera
 survey#:#add_phrase#:#Dodaj frazę
 survey#:#add_phrase_introduction#:#Wybierz frazę:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
-survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
+survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, musisz użyć 32-knakowego kodu, który otrzymasz z kreatora ankiety<br />Podaj go w poniższym polu tekstowym.
 survey#:#anonymize_key_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, system utworzył 32-znakowy kod. Gdy rozpoczniesz ankietę ten kod zostanie przesłany do twojej skrzynki pocztowej ILIAS. Twój kod dostępu do ankiety to <br /><span class="bold">%s</span><br />Podaj go w poniższym polu tekstowym.
 survey#:#anonymize_resume_introduction#:#Podaj swój kod dostępu do ankiety aby wrócić do ankiety. Został on przesłany do twojej skrzynki pocztowej ILIAS, gdy rozpocząłeś ankietę.
@@ -5551,7 +5551,7 @@ survey#:#survey_code_url#:#URL dla dostępu bezpośredniego
 survey#:#survey_code_url_name#:#URL (użyj prawego klawisza myszy dla skopiowania URL)
 survey#:#survey_code_used#:#Kody użyte
 survey#:#survey_finish#:#zapisz i zakończ ankietę >>>
-survey#:#survey_finished#:#ankieta jest zakończona. Dziękujemy za uczestnictwo!
+survey#:#survey_finished#:#ankieta jest zakończona. Dziękujemy za uczestnictwo!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Nie możesz rozpocząć ankiety! Ankieta nie jest aktywna.
 survey#:#survey_next#:#zapisz i przejdź do nast. strony >>>
 survey#:#survey_offline_message#:#Nie można zaprosić użytkowników. Ankieta jest offline!

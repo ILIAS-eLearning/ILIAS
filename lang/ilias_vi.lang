@@ -2800,18 +2800,18 @@ common#:#svy_add#:#Thêm khảo sát
 common#:#svy_delete#:#Xóa khảo sát
 common#:#svy_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#svy_evaluation#:#Ước lượng
-common#:#svy_finished#:#đã hoàn thành
+common#:#svy_finished#:#đã hoàn thành###05 Feb 2006 content changed
 common#:#svy_invite#:#Mời người sử dụng vào một khảo sát
 common#:#svy_new#:#Khảo sát mới
 common#:#svy_no_content#:#Không có khảo sát nào sử dụng được
-common#:#svy_not_finished#:#chưa hoàn thành
+common#:#svy_not_finished#:#chưa hoàn thành###05 Feb 2006 content changed
 common#:#svy_not_started#:#chưa bắt đầu
 common#:#svy_participate#:#Tham gia trong một khảo sát
 common#:#svy_read#:#Đọc khảo sát
 common#:#svy_run#:#Chạy
 common#:#svy_upload_file#:#Tải lên file
 common#:#svy_visible#:#Nhìn thấy khảo sát
-common#:#svy_warning_survey_not_complete#:#Chưa hoàn thành khảo sát!
+common#:#svy_warning_survey_not_complete#:#Chưa hoàn thành khảo sát!###05 Feb 2006 content changed
 common#:#svy_write#:#Sửa khảo sát
 common#:#system#:#Hệ thống
 common#:#system_check#:#Kiểm tra hệ thống
@@ -5143,7 +5143,7 @@ survey#:#add_heading#:#Thêm tiêu đề
 survey#:#add_limits_for_standard_numbers#:#Hãy nhập vào giới hạn dưới và giới hạn trên cho số chuẩn bạn muốn thêm như là mục.
 survey#:#add_phrase#:#Thêm cụm từ
 survey#:#add_phrase_introduction#:#Hãy chọn một cụm từ:
-survey#:#already_completed_survey#:#Bạn đã hoàn thành khảo sát! Bạn không thể vào khảo sát lần nữa.
+survey#:#already_completed_survey#:#Bạn đã hoàn thành khảo sát! Bạn không thể vào khảo sát lần nữa.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Khảo sát này vô danh hóa tất cả thông tin người sử dụng. Để truy cập khảo sát, bạn phải sử dụng mã khảo sát 32-ký tự do người tạo/người duy trì khảo sát này cung cấp<br />Hãy nhập vào ô phía dưới.
 survey#:#anonymize_key_introduction#:#Khảo sát này vô danh hóa tất cả thông tin người sử dụng. Để truy cập khảo sát, mã 32-ký tự sẽ được tạo bởi hệ thống và được gửi tới hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát (sau khi trả lời câu hỏi thứ nhất). Mã truy cập khảo sát là<br /><span class="bold">%s</span><br />Hãy nhập nó vào ô phía dưới.
 survey#:#anonymize_resume_introduction#:#Hãy nhập vào mã truy cập khảo sát để tiếp tục khảo sát. Thư chứa mã đã được gửi vào hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát.
@@ -5445,7 +5445,7 @@ survey#:#survey_code_url#:#Địa chỉ URL để truy cập trực tiếp
 survey#:#survey_code_url_name#:#Địa chỉ URL (sử dụng chuột phải để sao chép)
 survey#:#survey_code_used#:#Mã được sử dụng
 survey#:#survey_finish#:#Kết thúc khảo sát
-survey#:#survey_finished#:#Bạn đã hoàn thành khảo sát. Cảm ơn sự tham gia của bạn!
+survey#:#survey_finished#:#Bạn đã hoàn thành khảo sát. Cảm ơn sự tham gia của bạn!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Bạn không thể bắt đầu khảo sát! Khảo sát đang offline.
 survey#:#survey_next#:#Tiếp >>>
 survey#:#survey_offline_message#:#Không thể mời những người sử dụng. Khảo sát đang offline!

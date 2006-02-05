@@ -2879,18 +2879,18 @@ common#:#svy_add#:#Aggiungi sondaggio
 common#:#svy_delete#:#Eliminare un sondaggio
 common#:#svy_edit_permission#:#Modificare le impostazioni dei permessi 
 common#:#svy_evaluation#:#Sondaggio di valuazione
-common#:#svy_finished#:#completato
+common#:#svy_finished#:#completato###05 Feb 2006 content changed
 common#:#svy_invite#:#Invitare utenti ad un sondaggio
 common#:#svy_new#:#Nuovo sondaggio
 common#:#svy_no_content#:#Nessun sondaggio disponibile
-common#:#svy_not_finished#:#non completato
+common#:#svy_not_finished#:#non completato###05 Feb 2006 content changed
 common#:#svy_not_started#:#non iniziato
 common#:#svy_participate#:#Participare ad un sondaggio
 common#:#svy_read#:#Accedere in lettura ad un sondaggio
 common#:#svy_run#:#Esegui
 common#:#svy_upload_file#:#Scegli il file
 common#:#svy_visible#:#Vedere un sondaggio
-common#:#svy_warning_survey_not_complete#:#Il sondaggio non &#232; stato completato!
+common#:#svy_warning_survey_not_complete#:#Il sondaggio non &#232; stato completato!###05 Feb 2006 content changed
 common#:#svy_write#:#Modificare un sondaggio
 common#:#system#:#Sistema
 common#:#system_check#:#Verifica del sistema
@@ -5234,7 +5234,7 @@ survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferior
 survey#:#add_phrase#:#Aggiungi la frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
 survey#:#add_standard_numbers#:#Aggiungi numeri standard
-survey#:#already_completed_survey#:#Hai gi&#224; completato il sondaggio! Non puoi eseguirlo di nuovo.
+survey#:#already_completed_survey#:#Hai gi&#224; completato il sondaggio! Non puoi eseguirlo di nuovo.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.
 survey#:#anonymize_key_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter riprendere il sondaggio, vverr&#224; creata dal sistema una stringa di 32 caratteri che ti sar&#224; inviata nella tua casella postale in ILIAS quando inizierai il sondaggio. Il tuo codice di accesso &#232; <br /><span class="bold">%s</span><br />Per favore inseriscilo nel campo testo qui sotto.
 survey#:#anonymize_resume_introduction#:#Per favore inserisci il tuo codice di accesso per riprendere il sondaggio. Ti &#232; stato inviato nella casella postale di ILIAS quando hai iniziato il sondaggio.
@@ -5546,7 +5546,7 @@ survey#:#survey_code_url#:#URL per l'accesso diretto
 survey#:#survey_code_url_name#:#URL (usa il tasto destro del mouse per copiare l'URL)
 survey#:#survey_code_used#:#Stato del codice
 survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
-survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!
+survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Non puoi eseguire il sondaggio! Il sondaggio &#232; offline.
 survey#:#survey_next#:#Salva e vai avanti >>>
 survey#:#survey_offline_message#:#Non puoi invitare partecipanti. Il sondaggio &#232; offline!

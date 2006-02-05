@@ -2882,18 +2882,18 @@ common#:#svy_add#:#Añadir encuesta
 common#:#svy_delete#:#Eliminar encuesta
 common#:#svy_edit_permission#:#Modificar configuración de permisos
 common#:#svy_evaluation#:#Evaluación
-common#:#svy_finished#:#completada
+common#:#svy_finished#:#completada###05 Feb 2006 content changed
 common#:#svy_invite#:#Invitar usuarios a encuesta
 common#:#svy_new#:#Nueva encuesta
 common#:#svy_no_content#:#No hay encuestas disponibles
-common#:#svy_not_finished#:#no completada
+common#:#svy_not_finished#:#no completada###05 Feb 2006 content changed
 common#:#svy_not_started#:#no comenzada
 common#:#svy_participate#:#Participar en encuesta
 common#:#svy_read#:#Acceso de lectura a la encuesta
 common#:#svy_run#:#Ejecutar
 common#:#svy_upload_file#:#Cargar archivo
 common#:#svy_visible#:#Encuesta visible
-common#:#svy_warning_survey_not_complete#:#¡La encuesta no está completa!
+common#:#svy_warning_survey_not_complete#:#¡La encuesta no está completa!###05 Feb 2006 content changed
 common#:#svy_write#:#Editar encuesta
 common#:#system#:#sistema
 common#:#system_check#:#Chequear Sistema
@@ -5237,7 +5237,7 @@ survey#:#add_limits_for_standard_numbers#:#Por favor introduzca un límite super
 survey#:#add_phrase#:#Añadir conjunto
 survey#:#add_phrase_introduction#:#Por favor seleccione un conjunto:
 survey#:#add_standard_numbers#:#Añadir números estandar
-survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
+survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente
 survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior.
 survey#:#anonymize_resume_introduction#:#Por favor introduzca su código de acceso a la encuesta. Le fué enviado a su bandeja de entrada cuando comenzó la encuesta.
@@ -5549,7 +5549,7 @@ survey#:#survey_code_url#:#URL para acceso directo
 survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copiar la URL)
 survey#:#survey_code_used#:#Código fue usado
 survey#:#survey_finish#:#Salvar y terminar encuesta
-survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
+survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
 survey#:#survey_next#:#salvar y pasar a siguiente página >>>
 survey#:#survey_offline_message#:#No puede invitar usuarios. ¡La encuesta está offline!

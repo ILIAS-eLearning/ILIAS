@@ -2883,18 +2883,18 @@ common#:#svy_add#:#Kérdőív hozzáadása
 common#:#svy_delete#:#Kérdőív törlése
 common#:#svy_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#svy_evaluation#:#Kiértékelés
-common#:#svy_finished#:#befejezve
+common#:#svy_finished#:#befejezve###05 Feb 2006 content changed
 common#:#svy_invite#:#Felhasználók meghívása kérdőív készítésére
 common#:#svy_new#:#Új kérdőív
 common#:#svy_no_content#:#Nincs elérhető kérdőív
-common#:#svy_not_finished#:#nincs befejezve
+common#:#svy_not_finished#:#nincs befejezve###05 Feb 2006 content changed
 common#:#svy_not_started#:#nincs elkezdve
 common#:#svy_participate#:#Részvétel kérdőív kitöltésében
 common#:#svy_read#:#Olvasási elérés kérdőívhez
 common#:#svy_run#:#Indítás
 common#:#svy_upload_file#:#Feltöltött fájl
 common#:#svy_visible#:#A kérdőív látható
-common#:#svy_warning_survey_not_complete#:#A kérdőív nincs befejezve.
+common#:#svy_warning_survey_not_complete#:#A kérdőív nincs befejezve.###05 Feb 2006 content changed
 common#:#svy_write#:#Kérdőív szerkesztése
 common#:#system#:#Rendszer
 common#:#system_check#:#Rendszerellenőrzés
@@ -5239,7 +5239,7 @@ survey#:#add_limits_for_standard_numbers#:#Adjon meg egy alacsonyabb és magasab
 survey#:#add_phrase#:#Mondat hozzáadása
 survey#:#add_phrase_introduction#:#Válasszon egy mondatot:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
-survey#:#already_completed_survey#:#A kérdőív kitöltésével végzett. Nem tud már belépni.
+survey#:#already_completed_survey#:#A kérdőív kitöltésével végzett. Nem tud már belépni.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kérdőívkódot kell megadni, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg az alábbi szövegmezőben.
 survey#:#anonymize_key_introduction#:#A kérdőív hallgatónként csak egyszer tölthető ki. Kitöltését a kurzus befejezését követően javasoljuk.<br><br>Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kódot hozott létre a rendszer, amelyet elküld az Ön ILIAS postafiókjába, a kérdőív kitöltésének megkezdésekor (az első kérdés megválaszolása után).<br> Az Ön kérdőívhez tartozó kódja<br/><br/><span class="bold">%s</span><br/><br/>Adja meg az alábbi szövegmezőben.
 survey#:#anonymize_resume_introduction#:#Adja meg a kérdőívhez tartozó kódját a kérdőív folytatásához. Megküldésre került az Ön ILIAS postafiókjába, amikor megkezdte a kérdőív kitöltését.
@@ -5551,7 +5551,7 @@ survey#:#survey_code_url#:#URL direkt eléréshez
 survey#:#survey_code_url_name#:#URL (használja a jobb egérgombot az URL másolásához)
 survey#:#survey_code_used#:#A kód használva volt
 survey#:#survey_finish#:#kérdőív befejezése
-survey#:#survey_finished#:#Befejezte a kérdőív kitöltését. Köszönjük részvételét!
+survey#:#survey_finished#:#Befejezte a kérdőív kitöltését. Köszönjük részvételét!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Nem kezdheti el a kérdőívet. A kérdőív off-line.
 survey#:#survey_next#:#következő >>>
 survey#:#survey_offline_message#:#Nem hívhatók meg felhasználók, mert a kérdőív off-line.
