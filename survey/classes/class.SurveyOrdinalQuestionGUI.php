@@ -414,7 +414,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 			$this->tpl->setVariable("VALUE_SAVE_PHRASE", $this->lng->txt("save_phrase"));
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->parseCurrentBlock();
 		}
 		

@@ -1482,6 +1482,7 @@ common#:#file_added#:#File uploaded
 common#:#file_delete#:#Delete File
 common#:#file_edit#:#Edit File
 common#:#file_edit_permission#:#Change Permission settings
+common#:#file_icon#:#File icon
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_new#:#New File
@@ -5486,6 +5487,8 @@ survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
 survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
+survey#:#questionblock_icon#:#Questionblock icon
+survey#:#question_icon#:#Question icon
 survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
 survey#:#qt_ordinal#:#Ordinal question

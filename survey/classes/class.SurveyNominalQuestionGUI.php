@@ -487,7 +487,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setCurrentBlock("existingcategories");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->parseCurrentBlock();
 		}
 
