@@ -232,10 +232,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (count($checked_questions) > 0) {
 			$_SESSION["spl_copied_questions"] = join($checked_questions, ",");
 		} elseif (count($checked_questions) == 0) {
-			sendInfo($this->lng->txt("qpl_copy_select_none"), true);
+			sendInfo($this->lng->txt("qpl_copy_select_none"));
 			$_SESSION["spl_copied_questions"] = "";
 		}
-		$this->ctrl->redirect($this, "questions");
+		$this->questionsObject();
 	}	
 	
 /**
@@ -260,9 +260,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->object->duplicateQuestion($value);
 			}
 		} elseif (count($checked_questions) == 0) {
-			sendInfo($this->lng->txt("qpl_duplicate_select_none"), true);
+			sendInfo($this->lng->txt("qpl_duplicate_select_none"));
 		}
-		$this->ctrl->redirect($this, "questions");
+		$this->questionsObject();
 	}
 
 	/**
@@ -285,8 +285,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_export_select_none"), true);
-			$this->ctrl->redirect($this, "questions");
+			sendInfo($this->lng->txt("qpl_export_select_none"));
+			$this->questionsObject();
 		}
 	}
 	
@@ -314,13 +314,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			if ($rbacsystem->checkAccess('write', $this->ref_id)) {
 				sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
 			} else {
-				sendInfo($this->lng->txt("qpl_delete_rbac_error"), true);
-				$this->ctrl->redirect($this, "questions");
+				sendInfo($this->lng->txt("qpl_delete_rbac_error"));
+				$this->questionsObject();
 				return;
 			}
 		} elseif (count($checked_questions) == 0) {
-			sendInfo($this->lng->txt("qpl_delete_select_none"), true);
-			$this->ctrl->redirect($this, "questions");
+			sendInfo($this->lng->txt("qpl_delete_select_none"));
+			$this->questionsObject();
 			return;
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_questions.html", true);
@@ -1006,7 +1006,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[created]=" . $sortcolumns["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
     $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[updated]=" . $sortcolumns["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
     $this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
-    $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
+    $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this) . $sort);
     $this->tpl->parseCurrentBlock();
 		unset($_SESSION["calling_survey"]);
   }
