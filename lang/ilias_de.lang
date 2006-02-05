@@ -2882,18 +2882,18 @@ common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Evaluation
-common#:#svy_finished#:#beendet
+common#:#svy_finished#:#beendet###05 Feb 2006 content changed
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
-common#:#svy_not_finished#:#nicht beendet
+common#:#svy_not_finished#:#nicht beendet###05 Feb 2006 content changed
 common#:#svy_not_started#:#nicht gestartet
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_run#:#Ausführen
 common#:#svy_upload_file#:#Datei hochladen
 common#:#svy_visible#:#Umfrage ist sichtbar
-common#:#svy_warning_survey_not_complete#:#Die Umfrage ist nicht vollständig!
+common#:#svy_warning_survey_not_complete#:#Die Umfrage ist nicht vollständig!###05 Feb 2006 content changed
 common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
@@ -5237,7 +5237,7 @@ survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#add_standard_numbers#:#Standardzahlen hinzufügen
-survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
+survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 32stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
@@ -5549,7 +5549,7 @@ survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die URL zu kopieren)
 survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
 survey#:#survey_finish#:#Umfrage beenden >>>
-survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
+survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_next#:#Weiter >>>
 survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden. Die Umfrage ist nicht online!

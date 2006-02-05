@@ -5120,7 +5120,7 @@ survey#:#add_heading#:#Tilf&oslash;j retning
 survey#:#add_limits_for_standard_numbers#:#Indtast venligst en nedre og &oslash;vre gr&aelig;nse for de standart numre du vil tilf&oslash;je tilkatagorier.
 survey#:#add_phrase#:#Tilf&oslash;j s&aelig;tning
 survey#:#add_phrase_introduction#:#V&aelig;lg venligst en s&aelig;tning:
-survey#:#already_completed_survey#:#Du har allerede afsluttet unders&oslash;gelsen! Det er ikke muligt at &aring;bne unders&oslash;gelsen igen.
+survey#:#already_completed_survey#:#Du har allerede afsluttet unders&oslash;gelsen! Det er ikke muligt at &aring;bne unders&oslash;gelsen igen.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###21 Apr 2005 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.###21 Apr 2005 new variable
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###21 Apr 2005 new variable
@@ -5422,7 +5422,7 @@ survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Code was used###21 Apr 2005 new variable
 survey#:#survey_finish#:#afslut sp&oslash;rgeskema
-survey#:#survey_finished#:#Du har afsluttet sp&oslash;rgeskemaet. Tak for din deltagelse!
+survey#:#survey_finished#:#Du har afsluttet sp&oslash;rgeskemaet. Tak for din deltagelse!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Du kan ikke starte sp&oslash;rgeskemaet da det er offline.
 survey#:#survey_next#:#n&aelig;ste >>>
 survey#:#survey_offline_message#:#Kan ikke invitere brugere. Sp&oslash;rgeskemaet er offline!

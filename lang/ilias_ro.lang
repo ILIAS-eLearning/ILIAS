@@ -4536,7 +4536,7 @@ survey#:#add_limits_for_standard_numbers#:#Va rugam introduceti o limita inferio
 survey#:#add_phrase#:#Adaugati fraza
 survey#:#add_phrase_introduction#:#VA rugam selectati o fraza:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
-survey#:#already_completed_survey#:#Ati completat deja acest sondaj! Nu aveti permisiunea de a-l accesa din nou.
+survey#:#already_completed_survey#:#Ati completat deja acest sondaj! Nu aveti permisiunea de a-l accesa din nou.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.
 survey#:#anonymize_key_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a vi se oferi accesul la acest sondaj a fost creat un cod de 32 caractere de catre sistem, care va va fi trimis in casuta de mail atunci cand incepeti completarea sondajului (dupa ce ati raspuns la prima intrebare). Codul dvs de acces in sondaj este<br /><span class="bold">%s</span><br />Va rugam introduceti codul in campul de mai jos.
 survey#:#anonymize_resume_introduction#:#Va rugam introduceti codul de acces pentru a va reintoarce in sondaj. V-a fost trimis pe mail in momentul in care ati raspuns la prima intrebare.
@@ -4835,7 +4835,7 @@ survey#:#survey_code_message_sent#:#Un cod de acces care va permite revenirea la
 survey#:#survey_code_no_codes#:#Inca nu ati creat nici un cod de acces la sondaj.
 survey#:#survey_code_used#:#Codul a fost folosit
 survey#:#survey_finish#:#Incheiati sondajul
-survey#:#survey_finished#:#Ati completat sondajul. Va multumim pentru participare!
+survey#:#survey_finished#:#Ati completat sondajul. Va multumim pentru participare!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Nu puteti incepe sondajul! Acesta este offline.
 survey#:#survey_next#:#urmatorul >>>
 survey#:#survey_offline_message#:#Nu puteti invita utilizatorii. Sondajul este offline!

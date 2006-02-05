@@ -5220,7 +5220,7 @@ survey#:#add_limits_for_standard_numbers#:#Будь ласка введіть н
 survey#:#add_phrase#:#Додати фразу
 survey#:#add_phrase_introduction#:#Будь ласка виберіть фразу:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
-survey#:#already_completed_survey#:#Ви вдало завершили опитування! Ви не можете пройти опитування знову.
+survey#:#already_completed_survey#:#Ви вдало завершили опитування! Ви не можете пройти опитування знову.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Це опитування анонімізує усі дані користувача. Для надання вам доступу до опитування, ви маєте використати 32 символи, які ви маєте отримати з власника/підтримувача цього опитування<br />Будь ласка введіть їх в текстове поле внизу.
 survey#:#anonymize_key_introduction#:#Це опитування анонімізує усі дані користувача. Для надання вам доступу до опитування, 32-символьний код був створений системою та буде відісланий на вашу поштову скриньку в ILIAS коли ви запустите опитування. Ваш код доступу к опитуванню<br /><span class="bold">%s</span><br />Будь ласка введіть його в тектове поле нижче.
 survey#:#anonymize_resume_introduction#:#Будь ласка введіть ваш код доступу до опитування щоб відновити опитування. Він був відісланий на вашу поштову скриньку в ILIAS коли ви створювали опитування.
@@ -5532,7 +5532,7 @@ survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Код був використаний
 survey#:#survey_finish#:#зберегти за закінчити опитування >>>
-survey#:#survey_finished#:#Опитування закінчене. Дякуємо за вашу участь!
+survey#:#survey_finished#:#Опитування закінчене. Дякуємо за вашу участь!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Ви не можете почати опитування! Опитування зараз оффлайн.
 survey#:#survey_next#:#збрегти та наступна сторінка >>>
 survey#:#survey_offline_message#:#Неможливо запросити користувачів. Опитування є оффлайн!

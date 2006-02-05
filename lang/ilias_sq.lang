@@ -5045,7 +5045,7 @@ survey#:#add_limits_for_standard_numbers#:#Ju lutem jepni limitin e poshtëm dhe
 survey#:#add_phrase#:#Shto frazë
 survey#:#add_phrase_introduction#:#Ju lutem zgjedhni një frazë:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
-survey#:#already_completed_survey#:#Tanimë keni kompletuar kuestionerin! Nuk mund të filloni këtë kuestioner përsëri.
+survey#:#already_completed_survey#:#Tanimë keni kompletuar kuestionerin! Nuk mund të filloni këtë kuestioner përsëri.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Ky kuestioner anonimizon të gjithë të dhënat e shfrytëzuesve. Për të pasur qasje në kuestioner, duhet të përdorni kodin 32-karakteresh që merret nga krijuesi/mbajtësi i kuestionerit<br/> Ju lutem shënoni atë në fushën për tekst me poshtë.
 survey#:#anonymize_key_introduction#:#Ky kuestioner anonimizon të gjithë të dhënat e shfrytëzuesve. Për të pasur qasje në kuestioner, një kod 32-karakteresh do tu dërgohet në inbox-in tuaj të e-mailave kur të filloni kuestionerin (pas përgjigjes së pyetjes së parë). Kodi juaj për qasje në kuestioner është<br/><span class="bold">%s<span/>.<br/>Ju lutem shënoni atë në fushën për tekst më poshtë.
 survey#:#anonymize_resume_introduction#:#Ju lutem shënoni kodin për qasje në kuestioner për të vazhduar. Kodi ju është dërguar në e-mail inbox kur keni filluar kuestionerin.
@@ -5351,7 +5351,7 @@ survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Ky kod është ne përdorim
 survey#:#survey_finish#:#përfundo kuestionerin
-survey#:#survey_finished#:#Ju e keni përfunduar kuestionerin. Ju falënderojmë për participimin tuaj!
+survey#:#survey_finished#:#Ju e keni përfunduar kuestionerin. Ju falënderojmë për participimin tuaj!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Nuk mund ta filloni kuestionerin sepse është offline.
 survey#:#survey_next#:#vazhdo >>
 survey#:#survey_offline_message#:#Nuk mund të ftohen shfrytëzues. Kuestioneri është offline!

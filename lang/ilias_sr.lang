@@ -5045,7 +5045,7 @@ survey#:#add_limits_for_standard_numbers#:#Molimo unesite donju i gornju granicu
 survey#:#add_phrase#:#Dodaj frazu
 survey#:#add_phrase_introduction#:#Molimo odaberite frazu:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
-survey#:#already_completed_survey#:#Vec ste popunili anketu! Ne možete ponovo pristupiti anketi.
+survey#:#already_completed_survey#:#Vec ste popunili anketu! Ne možete ponovo pristupiti anketi.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi morate koristiti 32-karakterni kod za anketu koji možete dobiti od autora/administratora ove ankete<br />Molimo unesite je u polje sa tekstom ispod.
 survey#:#anonymize_key_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi, 32-karakterni kod je kreiran od strane sitema i bice poslat u vaše ILIAS poštansko sanduce kada stratujete anketu (pošto odgovorite na prvo pitanje) .Vaše pristpni kod za anketu je<br /><span class="bold">%s</span>.<br />Molimo unesite je u polje sa tekstom ispod.
 survey#:#anonymize_resume_introduction#:#Molimo unesite vaš pristupni kod za anketu da biste nastavili sa anketom. U vaše ILIAS poštansko sanduce poslato je kada ste zapoceli anketu. 
@@ -5351,7 +5351,7 @@ survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#kod je korišcen
 survey#:#survey_finish#:#završi anketu
-survey#:#survey_finished#:#Završili ste anketu. Hvala vam na ucešcu!
+survey#:#survey_finished#:#Završili ste anketu. Hvala vam na ucešcu!###05 Feb 2006 content changed
 survey#:#survey_is_offline#:#Ne možete zapoceti anketu! Anketa je oflajn.
 survey#:#survey_next#:#sledeci >>
 survey#:#survey_offline_message#:#Ne možete pozvati korisnike. Anketa je oflajn.
