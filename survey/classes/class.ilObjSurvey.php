@@ -3311,7 +3311,7 @@ class ilObjSurvey extends ilObject
 						{
 							if ($maxvalues > 0)
 							{
-								$percentage = (float)((int)$cumulated[$key]/$maxvalues);
+								$percentage = (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]);
 							}
 						}
 						else
