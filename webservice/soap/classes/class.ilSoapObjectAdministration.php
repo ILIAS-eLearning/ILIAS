@@ -54,7 +54,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
-		return $obj_id = ilObject::_lookupObjIdByImportId($import_id) ? $obj_id : "0";
+		global $ilLog;
+
+		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
+		$ilLog->write("SOAP getObjIdByImportId(): import_id = ".$import_id.' obj_id = '.$obj_id);
+
+		return $obj_id ? $obj_id : "0";
 	}
 
 		

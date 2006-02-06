@@ -107,9 +107,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
-			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+			{
+				return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			}
 		}
 
 		if(!$rbacsystem->checkAccess('delete',$course_id))
@@ -158,9 +162,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
-		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
-			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+			{
+				return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			}
 		}
 
 		if(!$rbacsystem->checkAccess('write',$course_id))
@@ -229,9 +237,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
-			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+			{
+				return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			}
 		}
 
 		if(ilObject::_lookupType($user_id) != 'usr')
@@ -280,9 +292,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
-			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+			{
+				return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			}
 		}
 
 		if(ilObject::_lookupType($user_id) != 'usr')
@@ -336,9 +352,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
-		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
-			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+			{
+				return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			}
 		}
 
 		if(!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id,false))
@@ -376,9 +396,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
-			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+			{
+				return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+			}
 		}
 
 		if(!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id,false))

@@ -55,10 +55,12 @@ class ilCourseXMLParser extends ilMDSaxParser
 	*/
 	function ilCourseXMLParser(&$a_course_obj, $a_xml_file = '')
 	{
-		global $lng;
+		global $lng,$ilLog;
 
 		parent::ilMDSaxParser($a_xml_file);
 
+		$this->log =& $ilLog;
+		
 		$this->course_obj =& $a_course_obj;
 		$this->course_members = new ilCourseMembers($this->course_obj);
 		$this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
@@ -104,6 +106,16 @@ class ilCourseXMLParser extends ilMDSaxParser
 
 		switch($a_name)
 		{
+			case 'Course':
+
+				if(strlen($a_attribs['importId']))
+				{
+					$this->log->write("CourseXMLParser: importId = ".$a_attribs['importId']);
+					$this->course_obj->setImportId($a_attribs['importId']);
+					ilObject::_writeImportId($this->course_obj->getId(),$a_attribs['importId']);
+				}
+				break;
+
 			case 'Admin':
 				if($id_data = $this->__parseId($a_attribs['id']))
 				{
@@ -301,6 +313,8 @@ class ilCourseXMLParser extends ilMDSaxParser
 		switch($a_name)
 		{
 			case 'Course':
+
+				$this->log->write('CourseXMLParser: import_id = '.$this->course_obj->getImportId());
 				$this->course_obj->updateSettings();
 				break;
 
