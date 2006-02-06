@@ -79,6 +79,11 @@ switch($target_type)
 		ilObjContentObject::_goto($target_id);
 		include("ilias.php");
 		break;
+
+	case "htlm":
+		require_once("./content/classes/class.ilObjFileBasedLM.php");
+		ilObjFileBasedLM::_goto($target_id);
+		break;
 		
 	case "frm":
 		require_once("./classes/class.ilObjForum.php");
