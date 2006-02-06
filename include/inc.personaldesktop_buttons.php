@@ -71,12 +71,15 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	$inc_type = $script_name == "usr_agreement.php" ? "tabactive" : "tabinactive";
 	$inhalt1[] = array($inc_type,"usr_agreement.php",$lng->txt("usr_agreement"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 */
+	// private notes
+	$inc_type = "tabinactive";
+	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",$lng->txt("private_notes"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+
 	// user bookmarks
 	$inc_type = ($script_name == "usr_bookmarks.php")
 		? "tabactive"
 		: "tabinactive";
 	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",$lng->txt("bookmarks"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
-
 }
 
 

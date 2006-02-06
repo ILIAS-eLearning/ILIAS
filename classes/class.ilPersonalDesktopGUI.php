@@ -1378,6 +1378,14 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("ilbookmarkadministrationgui");
 	}
 
+	/**
+	* workaround for menu in calendar only
+	*/
+	function jumpToNotes()
+	{
+		$this->ctrl->redirectByClass("ilpdnotesgui");
+	}
+	
 	function __showActiveChatsOfUser($a_usr_id)
 	{
 		global $rbacsystem;
