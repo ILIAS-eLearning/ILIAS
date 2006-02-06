@@ -1181,6 +1181,7 @@ common#:#file_added#:#файл отослан
 common#:#file_delete#:#Удалить файл
 common#:#file_edit#:#Редактировать файл
 common#:#file_edit_permission#:#Может изменять параметры доступа
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_is_infected#:#файл инфицирован вирусом.
 common#:#file_new#:#Новый файл
 common#:#file_not_found#:#файл не найден
@@ -4771,11 +4772,13 @@ survey#:#qt_nominal#:#Номинальный вопрос
 survey#:#qt_ordinal#:#Порядковый вопрос
 survey#:#qt_text#:#Текст вопроса
 survey#:#question_has_constraints#:#Ограничения
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Вопрос обязателен!
 survey#:#question_saved_for_upload#:#Вопрос был сохранен автоматически в порядке пересылки на жесткий диск и сохранения загруженных файлов. Если вы пропустите эту форму сейчас, то всегда можете удалить вопросы из сборника вопросов, если не захотите их там хранить!
 survey#:#question_type#:#Тип вопроса 
 survey#:#questionblock#:#Блок вопроса
 survey#:#questionblock_has_constraints#:#Ограничения 
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Блоки вопроса 
 survey#:#questions#:#Вопросы
 survey#:#questions_inserted#:#Вопрос(ы) вставлен(ы)!

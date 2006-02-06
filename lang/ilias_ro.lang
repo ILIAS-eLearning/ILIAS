@@ -1313,6 +1313,7 @@ common#:#file_added#:#Fisier incarcat
 common#:#file_delete#:#Stergeti Fisierul
 common#:#file_edit#:#Editati Fisierul
 common#:#file_edit_permission#:#Schimbati setarile de permisiune
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Fisierul este infectat de un virus.
 common#:#file_new#:#Fisier nou
@@ -4778,11 +4779,13 @@ survey#:#qt_ordinal#:#Intrebare ordinala
 survey#:#qt_text#:#Intrebare text
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Restrictionari###03 Nov 2005 content changed
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Intrebarea este obligatorie!
 survey#:#question_saved_for_upload#:#Intrebarea a fost salvata automat pentru a rezerva spatiu pe hard pentru fisierul incarcat. Daca anulati acum trebuie sa stergeti intrebarea din baza de intrebari daca nu doriti sa o pastrati!
 survey#:#question_type#:#Tipul intrebarii
 survey#:#questionblock#:#Baraj de intrebari
 survey#:#questionblock_has_constraints#:#Restrictionari###03 Nov 2005 content changed
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Baraje de intrebari
 survey#:#questions#:#Intrebari
 survey#:#questions_inserted#:#Intrebari inserate!

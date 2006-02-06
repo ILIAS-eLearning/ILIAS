@@ -1482,6 +1482,7 @@ common#:#file_added#:#Fájl feltöltve
 common#:#file_delete#:#Fájl törlése
 common#:#file_edit#:#Fájl szerkesztése
 common#:#file_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#A fájl vírussal fertőzött.
 common#:#file_new#:#Új fájl
@@ -5492,11 +5493,13 @@ survey#:#qt_ordinal#:#Sorrendbe rakó kérdés
 survey#:#qt_text#:#Esszé
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Megszorítások
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#A kérdés kötelező.
 survey#:#question_saved_for_upload#:#A kérdés automatikusan elmentésre került, hogy lefoglalja a merevlemezen a feltöltött fájl számára szükséges helyet. Ha most kikapcsolja ezt az űrlapot, készüljön fel, hogy törölnie kell a kérdést a kérdésgyűjteményből, ha nem akarja megtartani.
 survey#:#question_type#:#Kérdéstípus
 survey#:#questionblock#:#Kérdésblokk
 survey#:#questionblock_has_constraints#:#Megszorítások
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Kérdésblokkok
 survey#:#questions#:#Kérdések
 survey#:#questions_inserted#:#Kérdés(ek) beszúrva.

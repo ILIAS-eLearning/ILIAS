@@ -1470,6 +1470,7 @@ common#:#file_added#:#Fichier téléversé###07 Apr 2005 content changed
 common#:#file_delete#:#Détruire fichier###07 Apr 2005 content changed
 common#:#file_edit#:#Modifier fichier###07 Apr 2005 content changed
 common#:#file_edit_permission#:#Changer paramètres de permission###07 Apr 2005 content changed
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Le fichier est infecté par un virus###07 Apr 2005 content changed
 common#:#file_new#:#Nouveau fichier###07 Apr 2005 content changed
@@ -5479,11 +5480,13 @@ survey#:#qt_ordinal#:#Question ordinale###07 Apr 2005 content changed
 survey#:#qt_text#:#Question à texte###07 Apr 2005 content changed
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Contraintes###07 Apr 2005 content changed
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#La question est obligatoire.###07 Apr 2005 content changed
 survey#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace disque pour stocker le fichier téléversé. Si vous quittez ce formulaire en annulant maintenant, pensez à détruire la question du jeu de questions si vous ne voulez pas la conserver.###07 Apr 2005 content changed
 survey#:#question_type#:#Type de question###07 Apr 2005 content changed
 survey#:#questionblock#:#Bloc de uestions###07 Apr 2005 content changed
 survey#:#questionblock_has_constraints#:#Contraintes###07 Apr 2005 content changed
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Blocs de questions###07 Apr 2005 content changed
 survey#:#questions#:#Questions###07 Apr 2005 content changed
 survey#:#questions_inserted#:#Question(s) insérée(s)###07 Apr 2005 content changed

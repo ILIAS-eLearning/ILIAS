@@ -1480,6 +1480,7 @@ common#:#file_added#:#Файл завантажено
 common#:#file_delete#:#Видалити Файл
 common#:#file_edit#:#Редагувати Файл
 common#:#file_edit_permission#:#Змінити настройки Прав
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Файл інфікований вірусом.
 common#:#file_new#:#Новий Файл
@@ -5473,11 +5474,13 @@ survey#:#qt_ordinal#:#Порядкове питання
 survey#:#qt_text#:#Текстове питання###25 Jun 2005 content changed
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Обмеження###03 Nov 2005 content changed
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Питання є обов'язковим!
 survey#:#question_saved_for_upload#:#Питання було збережено автоматично для того щоб зарезервувати місце на жорстокому диску для збереження завантаженого файлу. Якщо ви відміните цю форму зараз, будьте впевнені, що ви видалите питання з банку питань, якщо ви не бажаєте його більше зберігати!
 survey#:#question_type#:#Тип питання
 survey#:#questionblock#:#Блок питань
 survey#:#questionblock_has_constraints#:#Обмеження###03 Nov 2005 content changed
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Блоки питань
 survey#:#questions#:#Питання
 survey#:#questions_inserted#:#Питання вставлені!

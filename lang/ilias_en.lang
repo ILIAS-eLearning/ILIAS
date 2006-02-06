@@ -5487,19 +5487,19 @@ survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
 survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
-survey#:#questionblock_icon#:#Questionblock icon
-survey#:#question_icon#:#Question icon
 survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
 survey#:#qt_ordinal#:#Ordinal question
 survey#:#qt_text#:#Essay
 survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Preconditions
+survey#:#question_icon#:#Question icon
 survey#:#question_obligatory#:#The question is obligatory!
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 survey#:#question_type#:#Question type
 survey#:#questionblock#:#Question block
 survey#:#questionblock_has_constraints#:#Preconditions
+survey#:#questionblock_icon#:#Questionblock icon
 survey#:#questionblocks#:#Question blocks
 survey#:#questions#:#Questions
 survey#:#questions_inserted#:#Question(s) inserted!

@@ -1340,6 +1340,7 @@ common#:#file_added#:#Фалът зареден
 common#:#file_delete#:#Изтриване на файл
 common#:#file_edit#:#Редактиране на файл
 common#:#file_edit_permission#:#Промяна на разрешителните настройки
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Файлът е заразен с вирус.
 common#:#file_new#:#Нов файл
@@ -4849,11 +4850,13 @@ survey#:#qt_ordinal#:#Пореден въпрос
 survey#:#qt_text#:#Текстов въпрос
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Ограничителни условия
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Въпросът е задължителен!
 survey#:#question_saved_for_upload#:#Въпросът беше съхранен автоматично, за да се резервира харддисково пространство за съхранението на заредения файл. Ако сега отмените този формуляр, имайте предвид, че трябва да изтриете въпроса в набора от въпроси, ако не желаете да го запазите!
 survey#:#question_type#:#Тип въпрос
 survey#:#questionblock#:#Блок въпроси
 survey#:#questionblock_has_constraints#:#Ограничителни условия
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Блокове въпроси
 survey#:#questions#:#Въпроси
 survey#:#questions_inserted#:#Въпросът(ите) вмъкнат(и)!

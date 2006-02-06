@@ -1427,6 +1427,7 @@ common#:#file_added#:#Fajl postavljen
 common#:#file_delete#:#Obriši fajl
 common#:#file_edit#:#Uredi fajl
 common#:#file_edit_permission#:#Promenite okvir za dozvolu
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Fajl je zaražen virusom.
 common#:#file_new#:#Novi fajl
@@ -5292,11 +5293,13 @@ survey#:#qt_ordinal#:#Redno pitanje
 survey#:#qt_text#:#Tekstualno pitanje###25 Jun 2005 content changed
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Ogranicenja###03 Nov 2005 content changed
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Ovo pitanje je obavezujuce!
 survey#:#question_saved_for_upload#:#Pitanje je automatski sacuvano u nameri da obezbedi prostor na hard disku za slanje datoteke. Ukoliko otkažete ovu formu sda, budite svesni da morate obrisati pitanje iz baze pitanja ako želite da ga sacuvate.
 survey#:#question_type#:#Vrsta pitanja
 survey#:#questionblock#:#Blok pitanja
 survey#:#questionblock_has_constraints#:#Ogranicenja###03 Nov 2005 content changed
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Blokovi pitanja
 survey#:#questions#:#Pitanja
 survey#:#questions_inserted#:#Pitanja ubacena!
