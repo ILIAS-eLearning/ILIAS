@@ -439,7 +439,15 @@ class ilSurveyEvaluationGUI
 								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_title);
 								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
 								$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
+								switch ($data["subtype"])
+								{
+									case SUBTYPE_MCSR:
+										$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
+										break;
+									case SUBTYPE_MCMR:
+										$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_offered_answers"), $_POST["export_format"]), $format_title);
+										break;
+								}
 								break;
 						}
 						array_push($printDetail, $this->lng->txt("subtype"));
@@ -465,9 +473,19 @@ class ilSurveyEvaluationGUI
 						$categories = "";
 						foreach ($eval["variables"] as $key => $value)
 						{
-							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
-								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+							switch ($data["subtype"])
+							{
+								case SUBTYPE_MCSR:
+									$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+										$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
+										$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+									break;
+								case SUBTYPE_MCMR:
+									$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+										$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
+										$this->lng->txt("percentage_of_offered_answers") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+									break;
+							}
 							switch ($_POST["export_format"])
 							{
 								case TYPE_XLS:
