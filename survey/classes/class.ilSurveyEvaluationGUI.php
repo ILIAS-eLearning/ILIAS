@@ -876,7 +876,7 @@ class ilSurveyEvaluationGUI
 								}
 								else
 								{
-									array_push($csvrow, $resultset["answers"][$question_id][0]["value"]);
+									array_push($csvrow, $resultset["answers"][$question_id][0]["value"]+1);
 								}
 							}
 							else
@@ -897,7 +897,7 @@ class ilSurveyEvaluationGUI
 							{
 								foreach ($resultset["answers"][$question_id] as $key => $answer)
 								{
-									array_push($csvrow, $answer["value"]);
+									array_push($csvrow, $answer["value"]+1);
 								}
 							}
 							else
