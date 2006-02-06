@@ -5147,7 +5147,7 @@ rbac#:#perm_class_rbac#:#Ipostazioni dei permessi
 rbac#:#perm_class_rbac_desc#:#Controllo degli accessi alle 'Impostazioni dei permessi' (questo menu) e impostazione delle politiche locali per gli oggetti creati.
 rbac#:#perm_local_role#:#Ruoli locali
 rbac#:#perm_local_role_desc#:#Questo ruolo &#232; definito localmente all'oggetto corrente in base ad una politica locale.
-rbac#:#perm_use_local_policy#:#Utilizza la politica locale
+rbac#:#perm_use_local_policy#:#Utilizzare una politica locale
 rbac#:#perm_use_local_policy_desc#:#Se la politica locale &#232; attiva puoi definire una differente impostazione predefinita dei permessi per questo oggetto.
 search#:#add_members_header#:#Aggiungi un membro
 search#:#search_active#:#Includi utenti attivi
