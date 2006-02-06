@@ -95,24 +95,24 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("EDIT_UNTIL_TXT",$this->lng->txt("exc_edit_until"));
 		$this->tpl->setVariable("EDIT_UNTIL",date("d.m.Y",$this->object->getTimestamp()));
 
-		if(!count($this->object->getFiles()))
-		{
-			return true;
-		}
-
+		$anyfiles = false;
 		foreach($this->object->getFiles() as $file)
 		{
 			$this->tpl->setCurrentBlock("FILES_ROW");
 			$this->tpl->setVariable("FILE_DATA",$file["name"]);
 			$this->tpl->setVariable("FILE_CHECK",ilUtil::formRadioButton(0,"file",urlencode($file["name"])));
 			$this->tpl->parseCurrentBlock();
+			$anyfiles = true;
 		}
 
-		$this->tpl->setCurrentBlock("FILES");
-		$this->tpl->setVariable("FILES_TXT",$this->lng->txt("exc_files"));
-		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("download"));
-		$this->tpl->setVariable("IMG",ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->parseCurrentBlock();
+		if ($anyfiles)
+		{
+			$this->tpl->setCurrentBlock("FILES");
+			$this->tpl->setVariable("FILES_TXT",$this->lng->txt("exc_files"));
+			$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("download"));
+			$this->tpl->setVariable("IMG",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		return true;
 	}
@@ -225,9 +225,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("exc_select_one_file"),true);
 			$this->ctrl->redirect($this, "view");
-			//header("location: ".$this->getReturnLocation("view",
-			//	"adm_object.php?cmd=view&ref_id=".$this->ref_id));
-			//exit;
 		}
 		$files = $this->object->getFiles();
 		$file_exist = false;

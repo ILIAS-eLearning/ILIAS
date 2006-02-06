@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.5 2005/11/21 17:12:08 shofmann Exp $
+* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.6.2.1 2006/02/06 14:41:03 akill Exp $
 * 
 * @extends ilObjectGUIAdapter
 * @package ilias-core
@@ -84,6 +84,7 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 		$this->gui_obj->setReturnLocation("addRole","exercise.php?cmd=perm&ref_id=".$this->getId());
 		$this->gui_obj->setReturnLocation("addRole","exercise.php?cmd=perm&ref_id=".$this->getId());
 		$this->gui_obj->setReturnLocation("cancel","exercise.php?cmd=view&ref_id=".$this->getId());
+		$this->gui_obj->setReturnLocation("view","exercise.php?cmd=view&ref_id=".$this->getId());
 		$this->gui_obj->setReturnLocation("update","exercise.php?cmd=edit&ref_id=".$this->getId());
 		$this->gui_obj->setReturnLocation("uploadFile","exercise.php?cmd=edit&ref_id=".$this->getId());
 		$this->gui_obj->setReturnLocation("members","exercise.php?cmd=members&ref_id=".$this->getId());
