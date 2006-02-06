@@ -165,6 +165,15 @@ function updateCourse($sid,$course_id,$xml)
 	return $sca->updateCourse($sid,$course_id,$xml);
 }
 // Object admninistration
+function getObjIdByImportId($sid,$import_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getObjIdByImportId($sid,$import_id);
+}	
+
 function getObjectByReference($sid,$a_ref_id,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
