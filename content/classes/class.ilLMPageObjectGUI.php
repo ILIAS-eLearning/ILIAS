@@ -244,6 +244,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$cont_obj =& $this->content_object;
 						if ($lm_id == $cont_obj->getId())
 						{
+							$ltarget = "";
 							if ($type == "PageObject")
 							{
 								$this->ctrl->setParameter($this, "obj_id", $target_id);
@@ -296,7 +297,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
-
+//echo ":".htmlentities($link_info).":";
 		return $link_info;
 	}
 	
