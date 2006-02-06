@@ -1481,6 +1481,7 @@ common#:#file_added#:#Datei hochgeladen
 common#:#file_delete#:#Datei löschen
 common#:#file_edit#:#Datei bearbeiten
 common#:#file_edit_permission#:#Rechteeinstellungen ändern
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_new#:#Neue Datei
@@ -5490,11 +5491,13 @@ survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
 survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
 survey#:#question_has_constraints#:#Vorbedingungen
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_has_constraints#:#Vorbedingungen
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Fragenblöcke
 survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt

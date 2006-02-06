@@ -1438,6 +1438,7 @@ common#:#file_added#:#Đã tải lên file
 common#:#file_delete#:#Xóa file
 common#:#file_edit#:#Sửa file
 common#:#file_edit_permission#:#Thay đổi thiết lập quyền hạn
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#File này bị nhiễm virus.
 common#:#file_new#:#File mới
@@ -5390,11 +5391,13 @@ survey#:#qt_nominal#:#Nominal câu hỏi
 survey#:#qt_ordinal#:#Câu hỏi sắp thứ tự
 survey#:#qt_text#:#Văn bản câu hỏi
 survey#:#question_has_constraints#:#Các phụ thuộc
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Câu hỏi là bắt buộc!
 survey#:#question_saved_for_upload#:#Câu hỏi đã được ghi tự động để dự trữ không gian đĩa cứng để chứa file tải lên. Nếu bạn hủy bỏ mẫu này ngay bây giờ, bạn sẽ phải xóa câu hỏi trong thư viện câu hỏi nếu bạn không muốn giữ nó!
 survey#:#question_type#:#Kiểu câu hỏi
 survey#:#questionblock#:#Khối câu hỏi
 survey#:#questionblock_has_constraints#:#Các phụ thuộc
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Khối câu hỏi
 survey#:#questions#:#Câu hỏi
 survey#:#questions_inserted#:#Đã thêm (các) câu hỏi!

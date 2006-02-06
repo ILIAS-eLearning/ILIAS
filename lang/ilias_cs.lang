@@ -1482,6 +1482,7 @@ common#:#file_added#:#Soubor přijat###07 Apr 2005 content changed
 common#:#file_delete#:#Delete File###17 Apr 2004 new variable
 common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
 common#:#file_new#:#Nový Soubor###07 Apr 2005 content changed
@@ -5492,11 +5493,13 @@ survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
 survey#:#qt_text#:#Text question###21 May 2004 new variable
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
 survey#:#question_type#:#Question type###21 May 2004 new variable
 survey#:#questionblock#:#Question block###25 May 2004 new variable
 survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Questionblocks###10 Jun 2004 new variable
 survey#:#questions#:#Questions###10 Jun 2004 new variable
 survey#:#questions_inserted#:#Question(s) inserted!###24 May 2004 new variable

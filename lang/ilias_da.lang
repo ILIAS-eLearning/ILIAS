@@ -1427,6 +1427,7 @@ common#:#file_added#:#Filen er  uploaded
 common#:#file_delete#:#Slet Fil
 common#:#file_edit#:#Rediger Fil
 common#:#file_edit_permission#:#&aelig;ndrer rettigheds indstillinger
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#The file is infected by a virus.###21 Apr 2005 new variable
 common#:#file_new#:#Ny Fil
@@ -5367,11 +5368,13 @@ survey#:#qt_nominal#:#Nomale sp&oslash;rgsm&aring;l
 survey#:#qt_ordinal#:#Ordinal sp&oslash;rgsm&aring;l
 survey#:#qt_text#:#Tekst sp&oslash;rgsm&aring;l###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Begr&aelig;nsninger.
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Sp&oslash;rgsm&aring;let er obligatorisk!
 survey#:#question_saved_for_upload#:#Sp&oslash;rgsm&aring;let blev gemt automatisk for at spare hard disk plads til at gemme den uploadede fil. hvis du stopper denne handling ny, skal du v&aelig;re opm&aelig;rksom p&aring; at du skal slette sp&oslash;rgsm&aring;let fra sp&oslash;rgsm&aring;lsgruppen hvis du ikke &oslash;nsker at beholde det!
 survey#:#question_type#:#Sp&oslash;rgsm&aring;ls type
 survey#:#questionblock#:#Sp&oslash;rgsm&aring;ls blok
 survey#:#questionblock_has_constraints#:#Begr&aelig;nsninger.
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Sp&oslash;rgsm&aring;ls blok
 survey#:#questions#:#Sp&oslash;rgsm&aring;l
 survey#:#questions_inserted#:#Sp&oslash;rgsm&aring;l indsat!

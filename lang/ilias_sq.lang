@@ -1427,6 +1427,7 @@ common#:#file_added#:#Skedari u ngarkua
 common#:#file_delete#:#Fshij Skedar
 common#:#file_edit#:#Edito Skedar
 common#:#file_edit_permission#:#Ndërro konfigurimet e të Drejtave
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Skedari është infektuar me virus.
 common#:#file_new#:#Skedar i Ri
@@ -5292,11 +5293,13 @@ survey#:#qt_ordinal#:#Pyetje Ordinare
 survey#:#qt_text#:#Pyetje Tekst###25 Jun 2005 content changed
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Detyrimet###03 Nov 2005 content changed
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Pyetja është obligative
 survey#:#question_saved_for_upload#:#Pyetja është ruajtur automatikisht në mënyrë që të rezervoj hapësirë të diskut për të ruajtur skedarin e ngarkuar. Nëse anuloni këtë formë tani, keni kujdes se duhet ta fshini pyetjen në fondin e pyetjeve nëse nuk dëshironi ta mbani më!
 survey#:#question_type#:#Tipi i pyetjes
 survey#:#questionblock#:#Grupi i pyetjeve
 survey#:#questionblock_has_constraints#:#Detyrimet###03 Nov 2005 content changed
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Grupet e pyetjeve
 survey#:#questions#:#Pyetjet
 survey#:#questions_inserted#:#Pyetjet janë vendosur!

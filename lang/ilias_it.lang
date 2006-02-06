@@ -1480,6 +1480,7 @@ common#:#file_added#:#Importazione del file eseguita
 common#:#file_delete#:#Cancellare un file
 common#:#file_edit#:#Modificare un file
 common#:#file_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Il file &#232; stato infettato da un virus.
 common#:#file_new#:#Nuovo file
@@ -5487,11 +5488,13 @@ survey#:#qt_ordinal#:#con risposte da ordinare
 survey#:#qt_text#:#con risposta libera
 survey#:#question_contains_no_categories#:#Non sono state definite risposte per questa domanda
 survey#:#question_has_constraints#:#Vincoli
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Questa domanda &#232; obbligatoria!
 survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, stai attento che devi cancellare la domanda anche dalla raccolta di domande se non vuoi pi&#249; tenerla!
 survey#:#question_type#:#Tipo di domanda
 survey#:#questionblock#:#Blocco di domande
 survey#:#questionblock_has_constraints#:#Vincoli
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Blocchi di domande
 survey#:#questions#:#Domande
 survey#:#questions_inserted#:#Domande inserite!

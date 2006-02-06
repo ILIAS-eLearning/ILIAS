@@ -1482,6 +1482,7 @@ common#:#file_added#:#Plik załadowany
 common#:#file_delete#:#Usuń plik
 common#:#file_edit#:#Edytuj plik
 common#:#file_edit_permission#:#Zmiana ustawienia uprawnień
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Plik jest zainfekowany wirusem.
 common#:#file_new#:#Nowy plik
@@ -5492,11 +5493,13 @@ survey#:#qt_ordinal#:#Pytanie porządkowe
 survey#:#qt_text#:#Pytanie tekstowe
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Ograniczenia wyboru###03 Nov 2005 content changed
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Pytanie jest obowiązkowe!
 survey#:#question_saved_for_upload#:#Pytanie zostało automatycznie zapisane aby zarezerwować miejsce na dysku dla ładowanego pliku. Jeśli anulujesz ten formularz, to będziesz musiał usunąć pytanie z puli pytań!
 survey#:#question_type#:#Typ pytania
 survey#:#questionblock#:#Blok pytań
 survey#:#questionblock_has_constraints#:#Ograniczenia wyboru###03 Nov 2005 content changed
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Bloki pytań
 survey#:#questions#:#Pytania
 survey#:#questions_inserted#:#Pytania wstawione!

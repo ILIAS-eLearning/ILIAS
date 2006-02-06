@@ -1482,6 +1482,7 @@ common#:#file_added#:#Bestand uploaded###07 Apr 2005 content changed
 common#:#file_delete#:#Verwijder bestand###07 Apr 2005 content changed
 common#:#file_edit#:#Wijzig bestand###07 Apr 2005 content changed
 common#:#file_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
 common#:#file_new#:#Nieuw bestand###07 Apr 2005 content changed
@@ -5492,11 +5493,13 @@ survey#:#qt_ordinal#:#Metric-vraag###07 Apr 2005 content changed
 survey#:#qt_text#:#Nominale vraag###07 Apr 2005 content changed
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Ordinale vraag###07 Apr 2005 content changed
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#Tekst-vraag###07 Apr 2005 content changed
 survey#:#question_saved_for_upload#:#Beperkingen###07 Apr 2005 content changed
 survey#:#question_type#:#De vraag is verplicht!###07 Apr 2005 content changed
 survey#:#questionblock#:#De vraag werd automatisch opgeslagen om schrijfruimte te reserveren voor het te uploadenbestand. Als u de verwerking van deze vraag nu annuleert moet u de vraag in de vraagpool, als u deze niet wilt bewaren, zelf verwijderen !###07 Apr 2005 content changed
 survey#:#questionblock_has_constraints#:#Vraag-type###07 Apr 2005 content changed
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Vraag-blok###07 Apr 2005 content changed
 survey#:#questions#:#Beperkingen###07 Apr 2005 content changed
 survey#:#questions_inserted#:#Vraag-blokken###07 Apr 2005 content changed

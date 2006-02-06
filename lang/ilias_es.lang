@@ -1483,6 +1483,7 @@ common#:#file_added#:#Archivo cargado
 common#:#file_delete#:#Eliminar archivo
 common#:#file_edit#:#Editar archivo
 common#:#file_edit_permission#:#Modificar configuración de permisos
+common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#Información de archivo
 common#:#file_is_infected#:#El archivo está infectado por un virus.
 common#:#file_new#:#Nuevo archivo
@@ -5490,11 +5491,13 @@ survey#:#qt_ordinal#:#Pregunta Ordinal
 survey#:#qt_text#:#Pregunta de Texto
 survey#:#question_contains_no_categories#:#No hay respuetas definidas para esta pregunta
 survey#:#question_has_constraints#:#Restricciones
+survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
 survey#:#question_obligatory#:#¡La pregunta es obligatoria!
 survey#:#question_saved_for_upload#:#La pregunta fue grabada automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela, sea consciente de que tendrá que eliminar la pregunta en el banco si no quiere mantenerla.
 survey#:#question_type#:#Tipo de pregunta
 survey#:#questionblock#:#Bloque de preguntas
 survey#:#questionblock_has_constraints#:#Restricciones
+survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
 survey#:#questionblocks#:#Bloques de preguntas
 survey#:#questions#:#Preguntas
 survey#:#questions_inserted#:#Pregunta(s) insertada(s)
