@@ -345,7 +345,7 @@ echo htmlentities($a_text);*/
 		$ws= "[ \t\r\f\v\n]*";
 
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
-			"((page|chap|term|media|lm|dbk|glo|frm|exc|tst|svy|webr)$ws=$ws([\"0-9])*)$ws".
+			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr)$ws=$ws([\"0-9])*)$ws".
 			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws))\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -413,13 +413,15 @@ echo htmlentities($a_text);*/
 			// be replaced by object id for export purposes)
 			else if (isset($attribs["lm"]) || isset($attribs["dbk"]) || isset($attribs["glo"])
 					 || isset($attribs["frm"]) || isset($attribs["exc"]) || isset($attribs["tst"])
-					 || isset($attribs["svy"]) || isset($attribs["obj"]) || isset($attribs['webr']))
+					 || isset($attribs["svy"]) || isset($attribs["obj"]) || isset($attribs['webr'])
+					 || isset($attribs["htlm"]))
 			{
 				$obj_id = (isset($attribs["lm"])) ? $attribs["lm"] : $obj_id;
 				$obj_id = (isset($attribs["dbk"])) ? $attribs["dbk"] : $obj_id;
 				$obj_id = (isset($attribs["glo"])) ? $attribs["glo"] : $obj_id;
 				$obj_id = (isset($attribs["frm"])) ? $attribs["frm"] : $obj_id;
 				$obj_id = (isset($attribs["exc"])) ? $attribs["exc"] : $obj_id;
+				$obj_id = (isset($attribs["htlm"])) ? $attribs["htlm"] : $obj_id;
 				$obj_id = (isset($attribs["tst"])) ? $attribs["tst"] : $obj_id;
 				$obj_id = (isset($attribs["svy"])) ? $attribs["svy"] : $obj_id;
 				$obj_id = (isset($attribs["obj"])) ? $attribs["obj"] : $obj_id;

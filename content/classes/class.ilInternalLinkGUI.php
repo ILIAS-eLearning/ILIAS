@@ -965,6 +965,7 @@ class ilInternalLinkGUI
 		$exp->addFilter("fold");
 		$exp->addFilter("crs");
 		$exp->addFilter("lm");
+		$exp->addFilter("htlm");
 		$exp->addFilter("dbk");
 		$exp->addFilter("glo");
 		$exp->addFilter("frm");
@@ -973,7 +974,7 @@ class ilInternalLinkGUI
 		$exp->addFilter("svy");
 		$exp->addFilter("webr");
 
-		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy','webr');
+		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr');
 		$exp->setSelectableTypes($sel_types);
 
 		/*
