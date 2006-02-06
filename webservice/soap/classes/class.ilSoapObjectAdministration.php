@@ -38,6 +38,25 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	{
 		parent::ilSoapAdministration();
 	}
+
+	function getObjIdByImportId($sid,$import_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!$import_id)
+		{
+			return $this->__raiseError('No import id given.',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		return $obj_id = ilObject::_lookupObjIdByImportId($import_id) ? $obj_id : "0";
+	}
+
 		
 	function getObjectByReference($sid,$a_ref_id,$user_id)
 	{

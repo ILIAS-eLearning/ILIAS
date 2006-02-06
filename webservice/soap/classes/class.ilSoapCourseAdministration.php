@@ -419,8 +419,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		return true;
 	}
 
-		
-		
 	// PRIVATE
 
 }

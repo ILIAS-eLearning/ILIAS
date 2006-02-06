@@ -427,6 +427,20 @@ class ilObject
 		$this->import_id = $a_import_id;
 	}
 
+	function _lookupObjIdByImportId($a_import_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM object_data ".
+			"WHERE import_id = '".$a_import_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->obj_id;
+		}
+		return 0;
+	}
+
 	/**
 	* get object owner
 	*

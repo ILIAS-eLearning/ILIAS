@@ -320,6 +320,18 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS updateCourse(). Update course settings, assigned members, tutors, administrators with a '.
 								'given xml description');
 
+		// get obj_id by import id
+		$this->server->register('getObjIdByImportId',
+								array('sid' => 'xsd:string',
+									  'import_id' => 'xsd:string'),
+								array('obj_id' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getCourseIdByImportId',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getObjIdByImportId(). Get the obj_id of an ILIAS obj by a given import id.');
+
+
 		// Object administration
 		$this->server->register('getObjectByReference',
 								array('sid' => 'xsd:string',
@@ -570,7 +582,7 @@ class ilNusoapUserAdministrationAdapter
 
 		$this->server->register('groupExists',
 								array('sid' => 'xsd:string',
-									  'title' => 'xsd:title'),
+									  'title' => 'xsd:string'),
 								array('exists' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#groupExists',
