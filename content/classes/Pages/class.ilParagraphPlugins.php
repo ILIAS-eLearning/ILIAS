@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * class which contains all registered plugins
  */
