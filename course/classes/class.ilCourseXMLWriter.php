@@ -101,7 +101,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Course SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_course_0_1.dtd\">");
+		#$this->xmlSetDtdDef("<!DOCTYPE Course SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_course_0_1.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS course ".
 							$this->course_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
 		$this->xmlHeader();
