@@ -1193,7 +1193,10 @@ class ilContainerGUI extends ilObjectGUI
 				foreach ($tnodes as $tnode)
 				{
 					$rbacadmin->revokePermission($tnode["child"],0,false);
-					$affected_users = ilUtil::removeItemFromDesktops($tnode["child"]);
+					
+					// we don't remove the item from the personal desktop,
+					// just due to moving it
+					//$affected_users = ilUtil::removeItemFromDesktops($tnode["child"]);
 				}
 
 				$this->tree->saveSubTree($ref_id);
