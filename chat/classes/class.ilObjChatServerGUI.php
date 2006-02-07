@@ -57,6 +57,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
+
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
@@ -81,6 +82,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 	function editObject()
 	{
 		global $rbacsystem;
+
+		$this->tabs_gui->setTabActive('edit_properties');
 
 		if (!$rbacsystem->checkAccess("read", $this->ref_id))
 		{
@@ -133,8 +136,9 @@ class ilObjChatServerGUI extends ilObjectGUI
 
 
 		// SET TEXT VARIABLES
-		$this->tpl->setVariable("FORMACTION", 
-								$this->getFormAction("gateway","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway"));
+		$this->tpl->setVariable("FORMACTION",
+								$this->ctrl->getFormAction($this));
+								#$this->getFormAction("gateway","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_SETTINGS",$this->lng->txt("chat_server_settings"));
         $this->tpl->setVariable("TXT_CHAT_SERVER_INTERNAL_IP",$this->lng->txt("chat_server_internal_ip"));
         $this->tpl->setVariable("TXT_CHAT_SERVER_EXTERNAL_IP",$this->lng->txt("chat_server_external_ip"));
@@ -190,8 +194,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 			}
 		}
 		sendInfo($this->lng->txt("chat_settings_saved"),true);
-		header("location: ".$this->getReturnLocation("update","adm_object.php?ref_id=$_GET[ref_id]"));
-		exit;
+		$this->editObject();
 	}
 
 	function activateObject()
@@ -199,9 +202,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$this->object->server_conf->setActiveStatus((bool) $_POST["chat_active"]);
 		$this->object->server_conf->updateStatus();
 
-		sendInfo($this->lng->txt("chat_status_saved"),true);
-		header("location: ".$this->getReturnLocation("update","adm_object.php?ref_id=$_GET[ref_id]"));
-		exit;
+		sendInfo($this->lng->txt("chat_status_saved"));
+		$this->editObject();
 	}
 
 	// PRIVATE

@@ -378,12 +378,16 @@ class ilCalInterface
 	*/
 	function getGroupIds()
 	{
+		// Everything is done here
+		return ilUtil::_getObjectsByOperations(array('grp','crs'),'read');
+
+
 		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
 		#$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
 
-		$IliasArryGroups = ilUtil::_getObjectsByOperations(array('grp','crs'),'read');
 
 		if($IliasArryGroups[0]!="") {
+		
 			$i = 0;
 			foreach ($IliasArryGroups as $Row){
 				$groupContainer = $Row[ref_id];
@@ -489,11 +493,19 @@ class ilCalInterface
 	*/
 	function getUserGroups ($userId)
 	{
+		global $ilObjDataCache;
 	
 		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
 		#$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
 
-		$IliasArryGroups = ilUtil::_getObjectsByOperations(array('grp','crs'),'read');
+		$counter = 0;
+		foreach(ilUtil::_getObjectsByOperations(array('grp','crs'),'read') as $ref_id)
+		{
+			$groups[$counter][0] = $ref_id;
+			$groups[$counter][1] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($ref_id));
+			++$counter;
+		}
+		return $groups;
 
 		if($IliasArryGroups[0]!="") {
 	   		$i = 0;
@@ -569,6 +581,10 @@ class ilCalInterface
 	*/
 	function getGroupName ($groupId)
 	{
+		global $ilObjDataCache;
+
+		return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId());
+
 			
 		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
 		#$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations("crs", "read", False,False));

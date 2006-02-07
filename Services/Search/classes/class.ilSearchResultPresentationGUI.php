@@ -236,8 +236,8 @@ class ilSearchResultPresentationGUI
 					break;
 			}
 			$item_list_gui->setChildId($child);
-			$tpl->setVariable("LINK",$item_list_gui->getCommandLink('list'));
-			$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame('list'));
+			$tpl->setVariable("LINK",$item_list_gui->getCommandLink('view'));
+			$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame('view'));
 			$tpl->setVariable("TITLE",ilLMObject::_lookupTitle($child));
 			$tpl->parseCurrentBlock();
 		}

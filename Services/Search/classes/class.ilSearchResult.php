@@ -40,6 +40,7 @@ class ilSearchResult
 	var $user_id;
 	var $entries = array();
 	var $results = array();
+	var $observers = array();
 
 	// OBJECT VARIABLES
 	var $ilias;
@@ -510,7 +511,6 @@ class ilSearchResult
 	}
 	function callListeners($a_ref_id,&$a_data)
 	{
-		$this->observers = array();
 		foreach($this->observers as $observer)
 		{
 			$class =& $observer['class'];
