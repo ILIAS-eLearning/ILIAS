@@ -6,17 +6,20 @@
 </tr>
 </table>
 <table class="fullwidth">
-<tr class="tblheader">
-<td class="std"></td>
-<td class="std">{QUESTION_TITLE}</td>
-<td class="std">{QUESTION_EDIT}</td>
-<td class="std">{QUESTION_PREVIEW}</td>
-<td class="std">{QUESTION_DESCRIPTION}</td>
-<td class="std">{QUESTION_TYPE}</td>
-<td class="std">{QUESTION_AUTHOR}</td>
-<td class="std">{QUESTION_CREATED}</td>
-<td class="std">{QUESTION_UPDATED}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th class="std"></th>
+		<th class="std">{QUESTION_TITLE}</th>
+		<th class="std">{QUESTION_EDIT}</th>
+		<th class="std">{QUESTION_PREVIEW}</th>
+		<th class="std">{QUESTION_DESCRIPTION}</th>
+		<th class="std">{QUESTION_TYPE}</th>
+		<th class="std">{QUESTION_AUTHOR}</th>
+		<th class="std">{QUESTION_CREATED}</th>
+		<th class="std">{QUESTION_UPDATED}</th>
+	</tr>
+</thead>
+<tbody>
 <!-- BEGIN QTab --> 
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}">
@@ -51,9 +54,12 @@
 	<td class="{COLOR_CLASS}" colspan="8"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall -->
+</tbody>
+<tfoot>
 <!-- BEGIN Footer -->
 <tr><td class="submit">{ARROW}</td><td class="submit" colspan="8">{A_BUTTONS}</td></tr>
 <!-- END Footer -->
+</tfoot>
 </table>
 <p align="right">
 <input type="submit" class="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}" />

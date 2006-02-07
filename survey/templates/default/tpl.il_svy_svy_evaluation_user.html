@@ -4,11 +4,14 @@
 {EXPORT_DATA} <select name="export_format" size="1"><option value="latin1">{TEXT_EXCEL}</option><option value="macos">{TEXT_EXCEL_MAC}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{CMD_EXPORT}]" value="{BTN_EXPORT}" /></form></td><td><form name="form_print" method="POST" action="{PRINT_ACTION}" target="_blank"><input class="submit" type="button" name="cmd[printEvaluation]" value="{BTN_PRINT}" onclick="javascript:window.print();" /><input type="hidden" name="evaltype" value="user"></form></td></tr></table>
 <p class="small"><a href="#legend" id="legend">{TEXT_LEGEND_LINK}</a></p>
 <table class="fullwidth">
+<thead>
 <tr class="tblheader">
 <!-- BEGIN headercell -->
-<td class="tblheader">{TEXT_HEADER_CELL}</td>
+<th class="tblheader">{TEXT_HEADER_CELL}</th>
 <!-- END headercell -->
 </tr>
+</thead>
+<tbody>
 <!-- BEGIN row -->
 <tr>
 <!-- BEGIN bodycell -->
@@ -19,18 +22,23 @@
 <!-- BEGIN Emptytable -->
 <tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
+</tbody>
 </table>
 <p><a name="legend"></a>
 <table class="std">
+<thead>
 <tr class="tblheader">
-  <td class="std" colspan="2">{TEXT_LEGEND}</td>
+  <th class="std" colspan="2">{TEXT_LEGEND}</th>
 </tr>
+</thead>
+<tbody>
 <!-- BEGIN legendrow -->
 <tr>
   <td class="option">{TEXT_KEY}:</td>
   <td class="option_value">{TEXT_VALUE}</td>
 </tr>
 <!-- END legendrow -->
+</tbody>
 </table>
 </p>
 </form>

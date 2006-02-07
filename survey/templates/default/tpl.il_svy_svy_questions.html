@@ -14,17 +14,20 @@
 </select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /></p>
 <!-- END browser_actions -->
 <table class="fullwidth">
+<thead>
 <tr class="tblheader">
-	<td class="std"></td>
-	<td class="std" width="24"></td>
-	<td class="std"></td>
-	<td class="std">{QUESTION_TITLE}</td>
-	<td class="std">{QUESTION_OBLIGATORY}</td>
-	<td class="std">{QUESTION_COMMENT}</td>
-	<td class="std">{QUESTION_TYPE}</td>
-	<td class="std">{QUESTION_AUTHOR}</td>
-	<td class="std"></td>
+	<th class="std"></th>
+	<th class="std" width="24"></th>
+	<th class="std"></th>
+	<th class="std">{QUESTION_TITLE}</th>
+	<th class="std">{QUESTION_OBLIGATORY}</th>
+	<th class="std">{QUESTION_COMMENT}</th>
+	<th class="std">{QUESTION_TYPE}</th>
+	<th class="std">{QUESTION_AUTHOR}</th>
+	<th class="std"></td>
 </tr>
+</thead>
+<tbody>
 <!-- BEGIN QTab --> 
 <tr>
 <td class="{COLOR_CLASS}">
@@ -91,6 +94,8 @@
 <!-- BEGIN Emptytable -->
 <tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
+</tbody>
+<tfoot>
 <!-- BEGIN QFooter -->
 <tr class="tblfooter"><td>{ARROW}</td><td colspan="8">
 <input class="submit" type="submit" name="cmd[removeQuestions]" value="{REMOVE}" />
@@ -111,5 +116,6 @@
 	</td>
 </tr>
 <!-- END actionbuttons -->
+</tfoot>
 </table>
 </form>
