@@ -762,13 +762,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function __showMembersSelect($a_result)
 	{
 		include_once "./classes/class.ilObjectFactory.php";
+		include_once "./classes/class.ilUtil.php";
 		
+		$ids = array();
+
 		foreach($a_result as $user)
 		{
+		  array_push($ids, $user["id"]);
+
 			$tmp_obj =& ilObjectFactory::getInstanceByObjId($user["id"]);
 
 			$this->tpl->setCurrentBlock("USR_SELECT_ROW");
 			$this->tpl->setVariable("ROW_LOGIN",$tmp_obj->getLogin());
+			$this->tpl->setVariable("NAME_ID","id_".$tmp_obj->getId());
 			$this->tpl->setVariable("ROW_ID",$tmp_obj->getId());
 			$this->tpl->setVariable("ROW_FIRSTNAME",$tmp_obj->getFirstname());
 			$this->tpl->setVariable("ROW_LASTNAME",$tmp_obj->getLastname());
@@ -776,6 +782,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 			unset($tmp_obj);
 		}
+
 		$this->tpl->setCurrentBlock("USR_SELECT");
 		$this->tpl->setVariable("SELECT_LOGIN",$this->lng->txt("login"));
 		$this->tpl->setVariable("SELECT_FIRSTNAME",$this->lng->txt("firstname"));
@@ -783,6 +790,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("assign"));
 		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("JS_VARNAME","id");
+		$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($ids));
+		$this->tpl->setVariable("TXT_CHECKALL",$this->lng->txt("check_all"));
+		$this->tpl->setVariable("TXT_UNCHECKALL",$this->lng->txt("uncheck_all"));
 
 		$this->tpl->parseCurrentBlock();
 	}
