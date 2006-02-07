@@ -661,11 +661,8 @@ class ilLMPageObject extends ilLMObject
 				//ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
 				//"&obj_id=$a_target");
 			}
-			else
-			{
-				$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-			}
 		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 }
 ?>
