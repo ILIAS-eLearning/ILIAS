@@ -1,19 +1,25 @@
 <form name="removeCategories" method="post" action="{FORM_ACTION}">
 <table class="fullwidth">
-<tr class="tblheader">
-<td class="std" colspan="2">{TXT_TITLE}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th class="std" colspan="2">{TXT_TITLE}</th>
+	</tr>
+</thead>
+<tbody>
 <!-- BEGIN row -->
-<tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}">{TXT_TITLE}</td>
-</tr>
+	<tr class="{COLOR_CLASS}">
+		<td class="{COLOR_CLASS}">{TXT_TITLE}</td>
+	</tr>
 <!-- END row -->
-<tr class="std">
-<td class="std" colspan="2">
-<input type="submit" class="submit" name="cmd[confirmDeleteCategory]" value="{BTN_CONFIRM}" />
-<input type="submit" class="submit" name="cmd[cancelDeleteCategory]" value="{BTN_CANCEL}" />
-</td>
-</tr>
+</tbody>
+<tfoot>
+	<tr class="std">
+		<td class="std" colspan="2">
+			<input type="submit" class="submit" name="cmd[confirmDeleteCategory]" value="{BTN_CONFIRM}" />
+			<input type="submit" class="submit" name="cmd[cancelDeleteCategory]" value="{BTN_CANCEL}" />
+		</td>
+	</tr>
+</tfoot>
 </table>
 <!-- BEGIN hidden -->
 <input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />

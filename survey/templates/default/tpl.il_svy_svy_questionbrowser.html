@@ -6,26 +6,29 @@
 </tr>
 </table>
 <table class="fullwidth">
+<thead>
 <!-- BEGIN questions_header -->
 <tr class="tblheader">
-<td class="std"></td>
-<td class="std">{QUESTION_TITLE}</td>
-<td class="std"></td>
-<td class="std">{QUESTION_COMMENT}</td>
-<td class="std">{QUESTION_TYPE}</td>
-<td class="std">{QUESTION_AUTHOR}</td>
-<td class="std">{QUESTION_CREATED}</td>
-<td class="std">{QUESTION_UPDATED}</td>
-<td class="std">{QUESTION_POOL}</td>
+	<th class="std"></th>
+	<th class="std">{QUESTION_TITLE}</th>
+	<th class="std"></th>
+	<th class="std">{QUESTION_COMMENT}</th>
+	<th class="std">{QUESTION_TYPE}</th>
+	<th class="std">{QUESTION_AUTHOR}</th>
+	<th class="std">{QUESTION_CREATED}</th>
+	<th class="std">{QUESTION_UPDATED}</th>
+	<th class="std">{QUESTION_POOL}</th>
 <!-- END questions_header -->
 <!-- BEGIN questionblocks_header -->
 <tr class="tblheader">
-<td class="std"></td>
-<td class="std">{QUESTIONBLOCK_TITLE}</td>
-<td class="std">{QUESTIONS_TITLE}</td>
-<td class="std" colspan="6">{SURVEY_TITLE}</td>
+	<th class="std"></th>
+	<th class="std">{QUESTIONBLOCK_TITLE}</th>
+	<th class="std">{QUESTIONS_TITLE}</th>
+	<th class="std" colspan="6">{SURVEY_TITLE}</th>
 <!-- END questionblocks_header -->
 </tr>
+</thead>
+<tbody>
 <!-- BEGIN questionblock_row --> 
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}" width="20">
@@ -64,6 +67,8 @@
 <!-- BEGIN Emptytable -->
 <tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
+</tbody>
+<tfoot>
 <!-- BEGIN questions_navigation_bottom -->
 <tr class="tblfooter"><td></td><td colspan="4">({TEXT_ITEM} {TEXT_ITEM_START} - {TEXT_ITEM_END} {TEXT_OF} {TEXT_ITEM_COUNT})</td><td colspan="5"><div align="right"><a href="{HREF_PREV_ROWS}">{TEXT_PREVIOUS}</a> <!-- BEGIN pages_questions --> [{PAGE_NUMBER}] <!-- END pages_questions --><a href="{HREF_NEXT_ROWS}">{TEXT_NEXT}</a></div></td></tr>
 <!-- END questions_navigation_bottom -->
@@ -73,5 +78,6 @@
 <!-- BEGIN Footer -->
 <tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="8">{A_BUTTONS}</td></tr>
 <!-- END Footer -->
+</tfoot>
 </table>
 </form>

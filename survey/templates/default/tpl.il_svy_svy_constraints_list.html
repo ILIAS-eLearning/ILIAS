@@ -1,9 +1,12 @@
 <form name="form_constraints" method="post" action="{FORM_ACTION}">
 <p>{CONSTRAINTS_INTRODUCTION}</p>
 <table class="fullwidth">
-<tr class="tblheader">
-	<td colspan="4">{CONSTRAINTS_HEADER}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="4">{CONSTRAINTS_HEADER}</th>
+	</tr>
+</thead>
+<tbody>
 <!-- BEGIN constraint_section -->
 <tr class="{COLOR_CLASS}">
 	<td width="25"><!-- BEGIN include_elements --><input type="checkbox" name="includeElements[]" value="{QUESTION_NR}" /><!-- END include_elements --></td>
@@ -51,11 +54,14 @@
   <td class="{COLOR_CLASS}" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall -->
+</tbody>
+<tfoot>
 <!-- BEGIN buttons -->
 <tr>
 	<td class="submit">{ARROW}</td>
 	<td class="submit" align="left" colspan="3"><input type="submit" class="submit" name="cmd[createConstraints]" value="{BTN_CREATE_CONSTRAINTS}" /></td>
 </tr>
 <!-- END buttons -->
+</tfoot>
 </table>
 </form>

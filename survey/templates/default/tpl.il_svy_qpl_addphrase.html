@@ -2,11 +2,14 @@
 <form name="addPhrases" method="post" action="{FORM_ACTION}">
 <p>{TEXT_INTRODUCTION}</p>
 <table class="fullwidth_invisible">
-<tr class="tblheader">
-<td></td>
-<td>{TEXT_PHRASE}</td>
-<td>{TEXT_CONTENT}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th></th>
+		<th>{TEXT_PHRASE}</th>
+		<th>{TEXT_CONTENT}</th>
+	</tr>
+</thead>
+<tbody>
 <!-- BEGIN phraserow -->
 <tr class="{COLOR_CLASS}" valign="top">
 <td><input type="radio" name="phrases" id="phrase_{PHRASE_VALUE}" value="{PHRASE_VALUE}" /></td>
@@ -14,6 +17,7 @@
 <td>{PHRASE_CONTENT}</td>
 </tr>
 <!-- END phraserow -->
+</tbody>
 </table>
 <!-- BEGIN hidden -->
 <input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />

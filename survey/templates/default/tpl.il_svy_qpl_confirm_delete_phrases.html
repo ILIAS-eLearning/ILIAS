@@ -1,21 +1,27 @@
 <form name="deletePhrases" method="post" action="{FORM_ACTION}">
 <table class="fullwidth">
-<tr class="tblheader">
-<td>{TEXT_PHRASE_TITLE}</td>
-<td>{TEXT_PHRASE_CONTENT}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th>{TEXT_PHRASE_TITLE}</th>
+		<th>{TEXT_PHRASE_CONTENT}</th>
+	</tr>
+</thead>
+<tbody>
 <!-- BEGIN row -->
-<tr class="{COLOR_CLASS}" valign="top">
-<td>{PHRASE_TITLE}</td>
-<td>{PHRASE_CONTENT}</td>
-</tr>
+	<tr class="{COLOR_CLASS}" valign="top">
+		<td>{PHRASE_TITLE}</td>
+		<td>{PHRASE_CONTENT}</td>
+	</tr>
 <!-- END row -->
-<tr class="std">
-<td class="std" colspan="2">
-<input type="submit" class="submit" name="cmd[confirmDeletePhrase]" value="{BTN_CONFIRM}" />
-<input type="submit" class="submit" name="cmd[cancelDeletePhrase]" value="{BTN_CANCEL}" />
-</td>
-</tr>
+</tbody>
+<tfoot>
+	<tr class="std">
+		<td class="std" colspan="2">
+			<input type="submit" class="submit" name="cmd[confirmDeletePhrase]" value="{BTN_CONFIRM}" />
+			<input type="submit" class="submit" name="cmd[cancelDeletePhrase]" value="{BTN_CANCEL}" />
+		</td>
+	</tr>
+</tfoot>
 </table>
 <!-- BEGIN hidden -->
 <input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />

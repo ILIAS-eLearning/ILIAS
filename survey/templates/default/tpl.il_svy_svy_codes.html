@@ -3,12 +3,15 @@
 <input type="submit" class="submit" name="cmd[createSurveyCodes]" value="{TEXT_CREATE}" /> <input type="text" name="nrOfCodes" size="3" value="1" /> {TEXT_SURVEY_CODES}
 </p>
 <table class="fullwidth">
+<thead>
 <tr class="tblheader">
-	<th class="std" colspan="2">{SURVEY_CODE}</td>
-	<th class="std">{CODE_CREATED}</td>
-	<th class="std">{CODE_USED}</td>
-	<th class="std">{CODE_URL}</td>
+	<th class="std" colspan="2">{SURVEY_CODE}</th>
+	<th class="std">{CODE_CREATED}</th>
+	<th class="std">{CODE_USED}</th>
+	<th class="std">{CODE_URL}</th>
 </tr>
+</thead>
+<tbody>
 <!-- BEGIN coderow --> 
 <tr>
 	<td class="{COLOR_CLASS}">{CODE_SEQUENCE}</td>
@@ -17,11 +20,14 @@
 	<td class="{COLOR_CLASS}">{CODE_USED}</td>
 	<td class="{COLOR_CLASS}"><a href="{CODE_URL}">{CODE_URL_NAME}</a></td>
 </tr>
-<!-- END coderow --> 
-<!-- BEGIN emptyrow --> 
+<!-- END coderow -->
+</tbody>
+<!-- BEGIN emptyrow -->
+<tbody>
 <tr>
 	<td class="{COLOR_CLASS}" colspan="5">{NO_CODES}</td>
 </tr>
+</tbody>
 <!-- END emptyrow --> 
 </table>
 </td>

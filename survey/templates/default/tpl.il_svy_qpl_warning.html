@@ -1,13 +1,17 @@
 <form name="form_warning" method="POST" action="{FORM_ACTION}">
 <p>{TEXT_WARNING}</p>
 <table class="fullwidth">
-<tr class="tblheader">
-<td class="std">{TEXT_TITLE}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th class="std">{TEXT_TITLE}</th>
+	</tr>
+</thead>
+<tbody>
 <!-- BEGIN row -->
 <td class="{COLOR_CLASS}">{VALUE_TITLE}</td>
 </tr>
 <!-- END row -->
+</tbody>
 </table>
 <p>{TEXT_ASK_CONTINUE}</p>
 <input type="submit" class="submit" name="cmd[continue]" value="{BTN_CONTINUE}" />&nbsp;<input type="submit" class="submit" name="cmd[cancel]" value="{BTN_CANCEL}" />

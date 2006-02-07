@@ -3,17 +3,20 @@
 <form name="form_evaluation" method="POST" action="{FORM_ACTION}" id="form_evaluation">
 {EXPORT_DATA} <select name="export_format" size="1"><option value="latin1">{TEXT_EXCEL}</option><option value="macos">{TEXT_EXCEL_MAC}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{CMD_EXPORT}]" value="{BTN_EXPORT}" /></form></td><td><form name="form_print" method="POST" action="{PRINT_ACTION}" target="_blank"><input class="submit" type="button" name="cmd[printEvaluation]" value="{BTN_PRINT}" onclick="javascript:window.print();" /><input type="hidden" name="detail" value="{VALUE_DETAIL}"></form></td></tr></table>
 <table class="fullwidth">
-<tr class="tblheader">
-<td class="tblheader">{QUESTION_TITLE}</td>
-<td class="tblheader">{QUESTION_TEXT}</td>
-<td class="tblheader">{QUESTION_TYPE}</td>
-<td class="tblheader">{USERS_ANSWERED}</td>
-<td class="tblheader">{USERS_SKIPPED}</td>
-<td class="tblheader">{MODE}</td>
-<td class="tblheader">{MODE_NR_OF_SELECTIONS}</td>
-<td class="tblheader">{MEDIAN}</td>
-<td class="tblheader">{ARITHMETIC_MEAN}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th class="tblheader">{QUESTION_TITLE}</th>
+		<th class="tblheader">{QUESTION_TEXT}</th>
+		<th class="tblheader">{QUESTION_TYPE}</th>
+		<th class="tblheader">{USERS_ANSWERED}</th>
+		<th class="tblheader">{USERS_SKIPPED}</th>
+		<th class="tblheader">{MODE}</th>
+		<th class="tblheader">{MODE_NR_OF_SELECTIONS}</th>
+		<th class="tblheader">{MEDIAN}</th>
+		<th class="tblheader">{ARITHMETIC_MEAN}</th>
+	</tr>
+</thead>
+<tbody>
 <!-- BEGIN row -->
 <tr>
 <td class="{COLOR_CLASS}">{QUESTION_TITLE}</td>
@@ -30,6 +33,7 @@
 <!-- BEGIN Emptytable -->
 <tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
+</tbody>
 </table>
 <!-- BEGIN detail -->
 <h2>{QUESTION_TITLE}</h2>

@@ -96,8 +96,11 @@
 <!-- BEGIN role_result -->
 <br />
 <table class="fullwidth">
-<tr class="tblheader"><td colspan="3">{TEXT_ROLE_TITLE}</td></tr>
-<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<thead>
+<tr class="tblheader"><th colspan="3">{TEXT_ROLE_TITLE}</th></tr>
+<tr class="tblheader"><th class="std"></th><th class="std">{TEXT_TITLE}</th><th class="std">{TEXT_DESCRIPTION}</th></tr>
+</thead>
+<tbody>
 <!-- BEGIN role_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="role_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
@@ -110,14 +113,20 @@
   <td class="{COLOR_CLASS}" colspan="2"><label for="chb_role_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall_role_result -->
+</tbody>
+<tfoot>
 <tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[inviteUserGroup]" value="{VALUE_ADD}" /></td></tr>
+</tfoot>
 </table>
 <!-- END role_result -->
 <!-- BEGIN invited_user_result -->
 <br />
 <table class="fullwidth">
-<tr class="tblheader"><td colspan="4">{TEXT_USER_TITLE}</td></tr>
-<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<thead>
+<tr class="tblheader"><th colspan="4">{TEXT_USER_TITLE}</th></tr>
+<tr class="tblheader"><th class="std"></th><th class="std">{TEXT_LOGIN}</th><th class="std">{TEXT_FIRSTNAME}</th><th class="std">{TEXT_LASTNAME}</th></tr>
+</thead>
+<tbody>
 <!-- BEGIN invited_user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_users[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -131,8 +140,11 @@
   <td class="{COLOR_CLASS}" colspan="3"><label for="chb_invited_users_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall_invited_user_result -->
+</tbody>
 <!-- BEGIN user_action_buttons -->
+<tfoot>
 <tr><td class="submit">{ARROW}</td><td class="submit" colspan="3"><input type="submit" class="submit" name="cmd[disinviteUserGroup]" value="{VALUE_DISINVITE}" /></td></tr>
+</tfoot>
 <!-- END user_action_buttons -->
 </table>
 <!-- END invited_user_result -->

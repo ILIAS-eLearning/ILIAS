@@ -1,10 +1,13 @@
 <form action="{FORMACTION}" method="post">
 <table class="fullwidth">
 	<!-- BEGIN table_header -->
+	<thead>
 	<tr class="tblheader">
-		<td class="std" colspan="2">{TEXT}</td>
+		<th class="std" colspan="2">{TEXT}</th>
 	</tr>
+	</thead>
 	<!-- END table_header -->
+	<tbody>
 	<!-- BEGIN table_row -->
 	<tr class="{CSS_ROW}">
 		<td class="std" valign="top" nowrap="1" width="1">
@@ -15,6 +18,8 @@
 		</td>
 	</tr>
 	<!-- END table_row -->
+	</tbody>
+	<tfoot>
 	<tr>
 		<td class="submit" align="left" colspan="2">
 		<!-- BEGIN operation_btn -->
@@ -22,5 +27,6 @@
 		<!-- END operation_btn -->
 		</td>
 	</tr>
+	</tfoot>
 </table>
 </form>
