@@ -4,13 +4,14 @@
 </p>
 <table class="fullwidth">
 <tr class="tblheader">
-	<td class="std">{SURVEY_CODE}</td>
-	<td class="std">{CODE_CREATED}</td>
-	<td class="std">{CODE_USED}</td>
-	<td class="std">{CODE_URL}</td>
+	<th class="std" colspan="2">{SURVEY_CODE}</td>
+	<th class="std">{CODE_CREATED}</td>
+	<th class="std">{CODE_USED}</td>
+	<th class="std">{CODE_URL}</td>
 </tr>
 <!-- BEGIN coderow --> 
 <tr>
+	<td class="{COLOR_CLASS}">{CODE_SEQUENCE}</td>
 	<td class="{COLOR_CLASS}">{SURVEY_CODE}</td>
 	<td class="{COLOR_CLASS}">{CODE_CREATED}</td>
 	<td class="{COLOR_CLASS}">{CODE_USED}</td>
@@ -19,7 +20,7 @@
 <!-- END coderow --> 
 <!-- BEGIN emptyrow --> 
 <tr>
-	<td class="{COLOR_CLASS}" colspan="4">{NO_CODES}</td>
+	<td class="{COLOR_CLASS}" colspan="5">{NO_CODES}</td>
 </tr>
 <!-- END emptyrow --> 
 </table>
