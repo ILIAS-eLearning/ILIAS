@@ -36,13 +36,13 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analysis_options#:#Opciones de análisis
-administration#:#analyze_data#:#Analizar Integridad de los datos###23 Dec 2005 content changed
+administration#:#analyze_data#:#Analizar Integridad de los datos
 administration#:#analyzing#:#Analizando...
 administration#:#analyzing_tree_structure#:#Analizando estructura de árbol
 administration#:#check_tree#:#Comprobar estructura de árbol
 administration#:#check_tree_desc#:#Comprobar consistencia de la estructura de árbol completa. Dependiendo del tamaño del mismo, esta operación puede llevar unos minutos.
 administration#:#clean#:#Limpiar
-administration#:#clean_desc#:#Eliminar referencias inválidas y nodos del árbol. Eliminar huecos de la estructura en árbol###23 Dec 2005 content changed
+administration#:#clean_desc#:#Eliminar referencias inválidas y nodos del árbol. Eliminar huecos de la estructura en árbol
 administration#:#cleaning#:#Realizando Limpieza...
 administration#:#cleaning_final#:#Limpieza Final...
 administration#:#disabled#:#No disponible
@@ -124,7 +124,7 @@ assessment#:#applet_parameter#:#Parámetro
 assessment#:#applet_parameters#:#Parámetros del applet
 assessment#:#apply#:#Aplicar
 assessment#:#ass_create_export_file#:#Crear fichero de exportación
-assessment#:#ass_create_export_test_results#:#Exportar Resultados del Test###23 Dec 2005 content changed
+assessment#:#ass_create_export_test_results#:#Exportar Resultados del Test
 assessment#:#ass_export_files#:#Exportar ficheros
 assessment#:#ass_file#:#Archivo
 assessment#:#ass_question#:#Pregunta
@@ -296,7 +296,7 @@ assessment#:#material#:#Material
 assessment#:#material_download#:#Material para descargar
 assessment#:#material_file#:#Archivo de Material
 assessment#:#maxchars#:#Máximo número de caracteres
-assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. El test no puede ser introducido!###23 Dec 2005 content changed
+assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. El test no puede ser introducido!
 assessment#:#meaning#:#Significado
 assessment#:#min_percentage_ne_0#:#¡Debe definir un porcentaje mínimo de 0 por ciento! El esquema de calificación no fue grabado.
 assessment#:#negative_points_not_allowed#:#¡No está permitido introducir puntos negativos!
@@ -305,7 +305,7 @@ assessment#:#no_passed_mark#:#¡Debe configurar al menos una calificación a "SU
 assessment#:#no_question_selected_for_move#:#Por favor marque al menos una pregunta para moverla!
 assessment#:#no_questions_available#:#No hay preguntas disponibles!
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
-assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué está buscando (usuarios y/o grupos)###23 Dec 2005 content changed
+assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué está buscando (usuarios y/o grupos)
 assessment#:#online_exam_show_answer_print_sheet#:#Ha finalizado su examen online. Para ver la vista de impresión de respuestas para imprimir sus resultados de test por favor haga click en el botón &quot;Vista de impresión de respuestas&quot;.
 assessment#:#online_exam_show_finish_test#:#Todavía tiene que llegar al envío final de su examen online. Por favor haga click en el botón &quot;Finalizar el test&quot; para enviar el examen.
 assessment#:#or#:#o
@@ -439,7 +439,7 @@ assessment#:#tst_already_taken#:#Tests realizados
 assessment#:#tst_answer_sheet#:#Hoja de Respuestas de Test
 assessment#:#tst_answered_questions#:#Preguntas contestadas
 assessment#:#tst_browse_for_questions#:#Explorar en busca de preguntas
-assessment#:#tst_confirm_delete_results#:#Va usted a borrar todas sus resultados de preguntas de este test. Esto reiniciará todas las preguntas a sus valores por defecto. Por favor advierta que no puede reiniciar el número de intentos que necesita para este test. Quiere reiniciar los resultados de lo anteriormente rellenado?###23 Dec 2005 content changed
+assessment#:#tst_confirm_delete_results#:#Va usted a borrar todas sus resultados de preguntas de este test. Esto reiniciará todas las preguntas a sus valores por defecto. Por favor advierta que no puede reiniciar el número de intentos que necesita para este test. Quiere reiniciar los resultados de lo anteriormente rellenado?
 assessment#:#tst_confirm_delete_results_info#:#Los resultados de preguntas anteriormente completadas han sido eliminados. Se ha reiniciado satisfactoriamente el test!
 assessment#:#tst_confirm_print#:#Haga click en el botón para imprimir todas las preguntas con puntuación y solución. La pregunta siempre aparece al final de una página.
 assessment#:#tst_confirm_submit_answers#:#Por favor confirme el envío de su solución. No será posible modificar sus respuestas después de hacer click el botón de enviar. Por favor use el motor de impresión de su navegador para imprimir la hoja de respuestas actual.
@@ -466,7 +466,7 @@ assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
 assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán
-assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto###23 Dec 2005 content changed
+assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto
 assessment#:#tst_hide_title_points#:#Puntuación en título de la pregunta
 assessment#:#tst_hide_title_points_description#:#Ocultar la puntuación máxima en el título de la pregunta
 assessment#:#tst_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
@@ -499,8 +499,8 @@ assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de 
 assessment#:#tst_no_solution_available#:#La pregunta de respuesta corta no tiene una solución
 assessment#:#tst_no_taken_tests#:#No hay tests realizados!
 assessment#:#tst_no_tries#:#ninguno
-assessment#:#tst_nr_of_tries#:#Número máximo de intentos###23 Dec 2005 content changed
-assessment#:#tst_nr_of_tries_of_user#:#Intentos ya completados###23 Dec 2005 content changed
+assessment#:#tst_nr_of_tries#:#Número máximo de intentos
+assessment#:#tst_nr_of_tries_of_user#:#Intentos ya completados
 assessment#:#tst_participating_users#:#Usuarios participando
 assessment#:#tst_pass_best_pass#:#Puntuar la mejor ejecución de un usuario
 assessment#:#tst_pass_details#:#Mostrar detalles
@@ -564,7 +564,7 @@ assessment#:#tst_sequence_postpone#:#El estudiante puede posponer una pregunta p
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia
 assessment#:#tst_session_settings#:#Configuración de Sesión
 assessment#:#tst_show_answer_print_sheet#:#Vista de impresión de respuestas
-assessment#:#tst_show_answer_sheet#:#mostrar respuestas###23 Dec 2005 content changed
+assessment#:#tst_show_answer_sheet#:#mostrar respuestas
 assessment#:#tst_show_results#:#Mostrar resultados del test
 assessment#:#tst_signature#:#Firma
 assessment#:#tst_start_test#:#Comenzar el Test
@@ -765,7 +765,7 @@ chat#:#chat_blue#:#azul
 chat#:#chat_bold#:#Negrita
 chat#:#chat_chatroom_body#:#Sala de Chat
 chat#:#chat_chatroom_rename#:#Editar Sala de Chat
-chat#:#chat_chatrooms#:#Salas de chat###23 Dec 2005 content changed
+chat#:#chat_chatrooms#:#Salas de chat
 chat#:#chat_color#:#color de fuente
 chat#:#chat_delete_sure#:#¿Está seguro de que quiere eliminar esta sala?
 chat#:#chat_drop_user#:#Usuario expulsado
@@ -834,7 +834,7 @@ chat#:#chat_room_added#:#Nueva sala de chat añadida
 chat#:#chat_room_name#:#Nombre de la sala
 chat#:#chat_room_renamed#:#Sala renombrada
 chat#:#chat_room_select#:#Sala Privada
-chat#:#chat_rooms#:#Salas###23 Dec 2005 content changed
+chat#:#chat_rooms#:#Salas
 chat#:#chat_rooms_deleted#:#Sala(s) eliminada(s)
 chat#:#chat_select_one_room#:#Por favor seleccione una sala
 chat#:#chat_server_allowed#:#máquinas permitidas
@@ -871,6 +871,12 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#amarillo
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Mis chats
+common#:#explorer_frame#:#Árbol Explorador
+common#:#repository_frame#:#Sección Contenidos
+common#:#main_menu_frame#:#Menú de nivel superior
+common#:#bottom_frame#:#Contenido Principal
+common#:#expand#:#Expandir
+common#:#collapse#:#Reducir
 common#:#3rd_party_software#:#software externo
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -946,8 +952,8 @@ common#:#append_search#:#Añadir resultados de búsqueda
 common#:#application_completed#:#Solicitud completada
 common#:#application_date#:#Fecha de Solicitud
 common#:#applied_users#:#Usuarios ¿matrículados?
-common#:#apply#:#-Aplicar-
-common#:#apply_filter#:#Aplicar filtro
+common#:#apply#:#Aplicar
+common#:#apply_filter#:#aplicar filtro
 common#:#appointment#:#Cita
 common#:#appointment_list#:#Lista de citas
 common#:#approve_date#:#Admitido
@@ -968,19 +974,19 @@ common#:#assessment_log_select_test#:#--- Por favor seleccione un test ---
 common#:#assessment_log_text#:#Mensaje de Log
 common#:#assessment_log_user_answer#:#El usuario respondió una pregunta
 common#:#assessment_log_user_answers#:#Mostrar acciones de usuario
-common#:#assessment_settings#:#Configuración de la herramienta de Test###23 Dec 2005 content changed
+common#:#assessment_settings#:#Configuración de la herramienta de Test
 common#:#assessment_settings_reporting_language#:#Idioma del informe
 common#:#assf_edit_permission#:#Modificar configuración de permisos
-common#:#assf_read#:#Acceso a la administración de Tests###23 Dec 2005 content changed
+common#:#assf_read#:#Acceso a la administración de Tests
 common#:#assf_visible#:#La administración de Test es visible
 common#:#assf_write#:#Editar administración de Tests
 common#:#assign#:#Asignar
-common#:#assign_global_role#:#Asignar al rol global###23 Dec 2005 content changed
+common#:#assign_global_role#:#Asignar al rol global
 common#:#assign_lo_forum#:#asignar objeto de aprendizaje foro
-common#:#assign_local_role#:#Asignar a rol local###23 Dec 2005 content changed
+common#:#assign_local_role#:#Asignar a rol local
 common#:#assign_user_to_role#:#Asignar usuario al rol
-common#:#assigned_roles#:#Roles asignados###23 Dec 2005 content changed
-common#:#assigned_users#:#Usuarios asignados###23 Dec 2005 content changed
+common#:#assigned_roles#:#Roles asignados
+common#:#assigned_users#:#Usuarios asignados
 common#:#associated_user#:#Usuario relacionado
 common#:#associated_users#:#Usuarios relacionados
 common#:#at_least_one_style#:#Al menos un estilo debe quedar activado.
@@ -988,7 +994,7 @@ common#:#at_location#:#-at location-
 common#:#attachment#:#Fichero adjunto
 common#:#attachments#:#Ficheros adjuntos
 common#:#attend#:#-Attend-
-common#:#auth_active_roles#:#Roles globales activados para el registro###23 Dec 2005 content changed
+common#:#auth_active_roles#:#Roles globales activados para el registro
 common#:#auth_configure#:#configurar...
 common#:#auth_default#:#Configuración por defecto
 common#:#auth_default_mode_changed_to#:#Modo de autenticación por defecto cambiado a
@@ -1154,7 +1160,7 @@ common#:#check_all#:#seleccionar todo
 common#:#check_langfile#:#Por favor, compruebe su archivo de idioma
 common#:#check_languages#:#Comprobar Idiomas
 common#:#check_link#:#Comprobar Enlaces
-common#:#check_link_desc#:#Si se habilita, todos los enlaces externos en los módulos de aprendizaje ILIAS serán chequeados si están activos.
+common#:#check_link_desc#:#Si se habilita, se comprueba que todos los enlaces externos en los módulos de aprendizaje ILIAS no están rotos.
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
 common#:#check_user_accounts#:#Comprobar cuentas de usuario
 common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico.
@@ -1268,8 +1274,8 @@ common#:#crs_edit#:#Editar Curso
 common#:#crs_edit_learning_progress#:#Editar seguimiento
 common#:#crs_edit_permission#:#Modificar configuración de permisos
 common#:#crs_info#:#Info
-common#:#crs_join#:#Subscribir al Curso###23 Dec 2005 content changed
-common#:#crs_leave#:#Darse de baja en el Curso###23 Dec 2005 content changed
+common#:#crs_join#:#Subscribir al Curso
+common#:#crs_leave#:#Darse de baja en el Curso
 common#:#crs_management_system#:#Sistema de Gestión de Cursos
 common#:#crs_member_not_passed#:#No superado
 common#:#crs_member_passed#:#Superado
@@ -1372,7 +1378,7 @@ common#:#enable_calendar#:#Habilitar calendario
 common#:#enable_custom_icons#:#Habilitar iconos personalizados
 common#:#enable_custom_icons_info#:#Esta opción permite definir iconos personalizados para categorías, cursos y grupos. La sección de propiedades de categorías, cursos y grupos mostrarán un diálogo de carga de imágenes.
 common#:#enable_hist_user_comments#:#Habilitar comentarios de usuario en la historia
-common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al log de historia de páginas.###23 Dec 2005 content changed
+common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al log de historia de páginas.
 common#:#enable_js_edit#:#Habilitar Edición JavaScript
 common#:#enable_js_edit_info#:#Esta opción habilita la Edición JavaScript para todos los objectos de contenido (módulos de aprendizaje, Glosarios, Preguntas de Evaluación, Libros Digitales)
 common#:#enable_password_assistance#:#Habilitar Asistencia de Contraseña
@@ -1483,7 +1489,7 @@ common#:#file_added#:#Archivo cargado
 common#:#file_delete#:#Eliminar archivo
 common#:#file_edit#:#Editar archivo
 common#:#file_edit_permission#:#Modificar configuración de permisos
-common#:#file_icon#:#File icon###06 Feb 2006 new variable
+common#:#file_icon#:#Fichero de icono
 common#:#file_info#:#Información de archivo
 common#:#file_is_infected#:#El archivo está infectado por un virus.
 common#:#file_new#:#Nuevo archivo
@@ -1620,23 +1626,23 @@ common#:#group_memstat#:#Estado de Miembro
 common#:#group_memstat_admin#:#Administrador
 common#:#group_memstat_member#:#Miembro
 common#:#group_name#:#Nombre de Grupo
-common#:#group_new_registrations#:#Nuevos registrados###23 Dec 2005 content changed
-common#:#group_no_registration#:#no se requiere registrarse###23 Dec 2005 content changed
-common#:#group_no_registration_msg#:#Ha dejado de ser un miembro de este grupo. Debido a motivos de administración es necesario unirse grupo solicitado.<br> Como miembro de este grupo tiene las siguientes ventajas:<br>Será informado de noticias y actualizaciones  As a member you have the following advantages:<br>-<br>- Puede acceder a los objetos tales como foros, objetos de aprendizaje, etc...<br><br>Puede anular su pertenencia al grupo en cualquier momento###23 Dec 2005 content changed
+common#:#group_new_registrations#:#Nuevos registrados
+common#:#group_no_registration#:#no se requiere registrarse
+common#:#group_no_registration_msg#:#Ha dejado de ser un miembro de este grupo. Debido a motivos de administración es necesario unirse grupo solicitado.<br> Como miembro de este grupo tiene las siguientes ventajas:<br>Será informado de noticias y actualizaciones  As a member you have the following advantages:<br>-<br>- Puede acceder a los objetos tales como foros, objetos de aprendizaje, etc...<br><br>Puede anular su pertenencia al grupo en cualquier momento
 common#:#group_not_available#:#cualquier grupo disponible
 common#:#group_objects#:#Objetos de Grupo
-common#:#group_password_registration_msg#:#Para unirse a este grupo tiene que introducir la contraseña asignada por el administrador del mismo.<br>Estará automáticamente asignado a este grupo si su contraseña es correcta.###23 Dec 2005 content changed
+common#:#group_password_registration_msg#:#Para unirse a este grupo tiene que introducir la contraseña asignada por el administrador del mismo.<br>Estará automáticamente asignado a este grupo si su contraseña es correcta.
 common#:#group_registration#:#Matrícula
 common#:#group_registration_expiration_date#:#Fecha de Expiración
 common#:#group_registration_expiration_time#:#Hora de Expiración
 common#:#group_registration_expired#:#El Período de Matrícula
 common#:#group_registration_expired_msg#:#El periodo para unirse a este grupo expiro. Por favor contacte con un administrador del grupo, si se quiere unir a este grupo.
-common#:#group_registration_mode#:#Modo de Registro###23 Dec 2005 content changed
+common#:#group_registration_mode#:#Modo de Registro
 common#:#group_registration_time#:#Periodo de Matrícula
 common#:#group_req_direct#:#Unirse directamente
-common#:#group_req_password#:#Se requiere contraseña para el Registro###23 Dec 2005 content changed
-common#:#group_req_registration#:#Se requiere el registro###23 Dec 2005 content changed
-common#:#group_req_registration_msg#:#Para unirse a este grupo tiene que registrarse. El administrador de grupo le asignará al grupo. Por favor escriba un asunto para explicar las razones de su solicitud.<br>Recibirá un mensaje cuando le asignen al grupo.###23 Dec 2005 content changed
+common#:#group_req_password#:#Se requiere contraseña para el Registro
+common#:#group_req_registration#:#Se requiere el registro
+common#:#group_req_registration_msg#:#Para unirse a este grupo tiene que registrarse. El administrador de grupo le asignará al grupo. Por favor escriba un asunto para explicar las razones de su solicitud.<br>Recibirá un mensaje cuando le asignen al grupo.
 common#:#group_reset#:#Resetear Grupo
 common#:#group_status#:#Estado del Grupo
 common#:#group_status_closed#:#Cerrado
@@ -1676,7 +1682,7 @@ common#:#grp_create_webr#:#Crear nuevo Recurso Web
 common#:#grp_delete#:#Eliminar Grupo
 common#:#grp_deleted_export_files#:#Archivos seleccionados eliminados.
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
-common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?###23 Dec 2005 content changed
+common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
 common#:#grp_edit#:#Editar Grupo
 common#:#grp_edit_permission#:#Modificar configuración de permisos
 common#:#grp_err_administrator_required#:#El miembro no puede ser borrado, al menos se requiere un administrador por grupo!
@@ -1685,7 +1691,7 @@ common#:#grp_err_error#:#Ocurrió un error
 common#:#grp_err_last_member#:#El último miembro no pudo ser eliminado, por favor, en su lugar, elimine el grupo
 common#:#grp_err_member_could_not_be_removed#:#El Miembro no pudo ser eliminado. Por favor, verifique todas las dependencias de este usuario.
 common#:#grp_err_no_permission#:#No tiene permiso para esta operación.
-common#:#grp_err_registration_data#:#Por favor introduzca un password, la fecha de expiración y un período de registro válido!###23 Dec 2005 content changed
+common#:#grp_err_registration_data#:#Por favor introduzca un password, la fecha de expiración y un período de registro válido!
 common#:#grp_header_edit_members#:#Editar Miembros
 common#:#grp_join#:#El Usuario puede unirse al Grupo
 common#:#grp_leave#:#El Usuario puede dejar el Grupo
@@ -1700,7 +1706,7 @@ common#:#grp_mem_send_mail#:#Enviar al miembro un mensaje
 common#:#grp_msg_applicants_assigned#:#Solicitante(s) asignado(s) como miembro(s) de grupo
 common#:#grp_msg_applicants_removed#:#Solicitante(s) eliminados de la lista.
 common#:#grp_msg_member_assigned#:#Usuario(s) asignado(s) como miembro(s) del grupo.
-common#:#grp_msg_membership_annulled#:#Pertenencia al Grupo anulada###23 Dec 2005 content changed
+common#:#grp_msg_membership_annulled#:#Pertenencia al Grupo anulada
 common#:#grp_name_exists#:#Ya existe un grupo con este nombre! Por favor, escoja otro nombre
 common#:#grp_new#:#Nuevo Grupo
 common#:#grp_new_search#:#Nueva búsqueda
@@ -1709,9 +1715,9 @@ common#:#grp_no_results_found#:#No se han encontrado resultados
 common#:#grp_no_roles_selected#:#No hay roles seleccionados
 common#:#grp_options#:#Opciones
 common#:#grp_read#:#Acceso de lectura al Grupo
-common#:#grp_register#:#Registrar###23 Dec 2005 content changed
-common#:#grp_registration#:#Join group###23 Dec 2005 new variable
-common#:#grp_registration_completed#:#Registro completado###23 Dec 2005 content changed
+common#:#grp_register#:#Registrar
+common#:#grp_registration#:#Unirse al grupo
+common#:#grp_registration_completed#:#Registro completado
 common#:#grp_search_enter_search_string#:#Por favor entre una cadena de búsqueda
 common#:#grp_search_members#:#Búsqueda de usuarios (miembros)
 common#:#grp_select_one_file#:#Por favor seleccione un archivo
@@ -1889,7 +1895,7 @@ common#:#info_assign_sure#:#¿Está seguro de que quiere asignar los siguientes 
 common#:#info_assigned#:#asignado
 common#:#info_available_roles#:#roles disponibles
 common#:#info_change_user_view#:#actualizar info de usuario
-common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente objeto?###23 Dec 2005 content changed
+common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente objeto?
 common#:#info_deleted#:#Objeto(s) eliminado(s)
 common#:#info_enter_login_or_id#:#<i>(Introduzca nombre de usuario o ID de usuario)</i>
 common#:#info_err_user_not_exist#:#El usuario con ese user_id no existe
@@ -2141,10 +2147,11 @@ common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento
 common#:#mark_all_read#:#marcar cadena como leída
 common#:#mark_all_unread#:#marcar cadena como no leída
+common#:#matriculation#:#Número de matrícula
 common#:#max_number_rec#:#Máximo número de registros
 common#:#max_time#:#Tiempo Máximo
 common#:#member#:#Miembro
-common#:#member_status#:#Estado del participante:###23 Dec 2005 content changed
+common#:#member_status#:#Estado del participante:
 common#:#members#:#Miembros
 common#:#membership_annulled#:#Tu pertenencia ha sido cancelada
 common#:#mep#:#Banco Multimedia
@@ -2363,7 +2370,7 @@ common#:#obj_auth#:#Autenticación
 common#:#obj_auth_desc#:#Configure su modo de autenticación (local, LDAP, ...)
 common#:#obj_cat#:#Categoría
 common#:#obj_cen#:#Evento Centra
-common#:#obj_chac#:#Configuración de chat
+common#:#obj_chac#:#Configuración del Servidor de Chat
 common#:#obj_chac_desc#:#Configure el servidor de chat aquí. Habilitar / deshabilitar chats
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Curso
@@ -2415,7 +2422,7 @@ common#:#obj_seas#:#Buscar
 common#:#obj_seas_desc#:#Gestione la configuración de búsqueda aquí
 common#:#obj_spl#:#Banco de preguntas (Encuesta)
 common#:#obj_st#:#Capítulo
-common#:#obj_stys#:#Configuración de estilos
+common#:#obj_stys#:#Configuración de Estilos
 common#:#obj_stys_desc#:#Gestionar 'skin' del sistema y configuración de estilos
 common#:#obj_svy#:#Encuesta
 common#:#obj_tax#:#Taxonomía
@@ -2644,6 +2651,7 @@ common#:#require_institution#:#Solicitar institución
 common#:#require_lastname#:#Solicitar apellidos
 common#:#require_login#:#Solicitar login
 common#:#require_mandatory#:#obligatorio
+common#:#require_matriculation#:#Requiere número de matrícula
 common#:#require_passwd#:#Solicitar contraseña
 common#:#require_passwd2#:#Solicitar reescribir contraseña
 common#:#require_phone_home#:#Solicitar teléfono de casa
@@ -2674,7 +2682,7 @@ common#:#role_deleted_desktop_items#:#Asignación eliminada.
 common#:#role_desk_add#:#Añadir item al Escritorio Personal
 common#:#role_desk_none_created#:#Este rol no tiene asignado ningun item en el Escritorio Personal
 common#:#role_edit#:#Editar Rol
-common#:#role_header_edit_users#:#Modificar asignación de usuarios###23 Dec 2005 content changed
+common#:#role_header_edit_users#:#Modificar asignación de usuarios
 common#:#role_list_users#:#Listar usuarios
 common#:#role_new#:#Nuevo Rol
 common#:#role_new_search#:#Nueva búsqueda
@@ -2839,7 +2847,7 @@ common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administración externa de usuarios (SOAP)
 common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas de usuario pueden ser administradas por un cliente SOAP externo.
 common#:#sort_by_this_column#:#Ordenar por esta columna
-common#:#spacer#:#Spacer###23 Dec 2005 new variable
+common#:#spacer#:#Spacer
 common#:#spl#:#Banco de preguntas (Encuesta)
 common#:#spl_add#:#Añadir banco de preguntas
 common#:#spl_delete#:#Eliminar banco de preguntas
@@ -2926,7 +2934,7 @@ common#:#test#:#Test
 common#:#test_intern#:#test interno
 common#:#test_module#:#Módulo de Test
 common#:#tests#:#Tests
-common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
+common#:#thumbnail#:#Thumbnail
 common#:#time#:#hora
 common#:#time_d#:#Día
 common#:#time_h#:#Hora
@@ -3128,7 +3136,7 @@ common#:#version#:#versión
 common#:#versions#:#versiones
 common#:#view#:#Ver
 common#:#view_content#:#Ver contenido
-common#:#visible#:#Visible
+common#:#visible#:#visible
 common#:#visible_layers#:#capas visibles
 common#:#visitor#:#Visitante
 common#:#visitors#:#Visitantes
@@ -3174,8 +3182,13 @@ common#:#you_may_add_local_roles#:#Puede añadir roles locales
 common#:#your_message#:#su mensaje
 common#:#zip#:#Código postal
 common#:#zipcode#:#Código postal
-content#:#HTML export#:#Exportar a HTML
-content#:#PDF export#:#Exportar a PDF
+content#:#cont_frame_toc#:#Tabla de Contenidos
+content#:#cont_frame_maincontent#:#Contenido Principal Recurso de Aprendizaje
+content#:#cont_frame_right#:#Detalles de Contenido
+content#:#cont_frame_topright#:#Detalles de Contenido (FAQ y Media)
+content#:#cont_frame_botright#:#Detalles de Contenido (Glosario)
+content#:#HTML export#:#exportar a HTML
+content#:#PDF export#:#exportar a PDF
 content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir opción de menú >>
 content#:#all#:#-Todo-
@@ -3287,7 +3300,7 @@ content#:#cont_disable_js#:#Deshabilitar JavaScript
 content#:#cont_disable_media#:#Deshabilitar Multimedia
 content#:#cont_download_title#:#Nombre del archivo de descarga
 content#:#cont_downloads#:#Descargas
-content#:#cont_downloads_desc#:#Habilita la descarga de todos los archivos públicos de exportación.###23 Dec 2005 content changed
+content#:#cont_downloads_desc#:#Habilita la descarga de todos los archivos públicos de exportación.
 content#:#cont_downloads_public_desc#:#Permitir descarga incluso para usuarios anónimos (en área pública)
 content#:#cont_ed_align_center#:#alinear: centro
 content#:#cont_ed_align_left#:#alinear : izquierda
@@ -3471,7 +3484,7 @@ content#:#cont_preview#:#previsualizar
 content#:#cont_print_view#:#Vista de impresión
 content#:#cont_public_access#:#Acceso público
 content#:#cont_public_notes#:#Notas Públicas
-content#:#cont_public_notes_desc#:#Permite a los usuarios compartir notas en cada página de un módulo de aprendizaje###23 Dec 2005 content changed
+content#:#cont_public_notes_desc#:#Permite a los usuarios compartir notas en cada página de un módulo de aprendizaje
 content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
 content#:#cont_ref_helptext#:#(ej: http://www.server.org/myimage.jpg)
@@ -3625,8 +3638,8 @@ content#:#start export#:#Exportar
 crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
 crs#:#assigned#:#Asignado
 crs#:#contact_email_not_valid#:#El email de contacto no es válido.
-crs#:#crs_accept_subscriber#:#Suscripción de Curso###23 Dec 2005 content changed
-crs#:#crs_accept_subscriber_body#:#Has sido asignado a este curso###23 Dec 2005 content changed
+crs#:#crs_accept_subscriber#:#Suscripción de Curso
+crs#:#crs_accept_subscriber_body#:#Has sido asignado a este curso
 crs#:#crs_access_password#:#Contraseña
 crs#:#crs_activation#:#Activación
 crs#:#crs_add_archive_html#:#Añadir Archivo-HTML
@@ -3637,10 +3650,10 @@ crs#:#crs_add_html_archive#:#Añadir Archivo-HTML
 crs#:#crs_add_member#:#Añadir miembros
 crs#:#crs_add_objective#:#Añadir objetivo
 crs#:#crs_add_starter#:#Añadir objeto inicial
-crs#:#crs_add_subscribers#:#Añadir suscriptores###23 Dec 2005 content changed
+crs#:#crs_add_subscribers#:#Añadir suscriptores
 crs#:#crs_added#:#Añadido nuevo curso
-crs#:#crs_added_member#:#Pertenencia al Curso###23 Dec 2005 content changed
-crs#:#crs_added_member_body#:#Ha sido aceptado en este curso.###23 Dec 2005 content changed
+crs#:#crs_added_member#:#Pertenencia al Curso
+crs#:#crs_added_member_body#:#Ha sido aceptado en este curso.
 crs#:#crs_added_new_archive#:#Un nuevo archivo ha sido añadido
 crs#:#crs_added_objective#:#Se ha creado un nuevo objetivo de aprendizaje.
 crs#:#crs_added_starters#:#objeto(s) inicial(es) asignado(s)
@@ -3651,24 +3664,24 @@ crs#:#crs_admin_notify#:#Administrador (notificacion)
 crs#:#crs_allow_abo#:#Permitir suscripción a los items del curso
 crs#:#crs_already_assigned_to_list#:#Ha sido asignado a la lista de espera.
 crs#:#crs_archive#:#Archivar
-crs#:#crs_archive_disabled#:#Deshabilitado###23 Dec 2005 content changed
+crs#:#crs_archive_disabled#:#Deshabilitado
 crs#:#crs_archive_download#:#Descargar
 crs#:#crs_archive_info#:#Si se habilita, todo el contenido del curso será suprimido. Sólo los archivos HTML exportados de este curso estarán disponibles para los miembros del curso.
 crs#:#crs_archive_lang#:#Idioma
 crs#:#crs_archive_read#:#Acceso de lectura
-crs#:#crs_archive_select_type#:#Acceso a Archivos###23 Dec 2005 content changed
+crs#:#crs_archive_select_type#:#Acceso a Archivos
 crs#:#crs_archive_type#:#Tipo de Archivo
-crs#:#crs_archive_type_disabled#:#Sin acceso###23 Dec 2005 content changed
+crs#:#crs_archive_type_disabled#:#Sin acceso
 crs#:#crs_archives_deleted#:#El/Los archivo(s) ha(n) sido eliminado(s)
 crs#:#crs_auto_fill#:#Auto relleno
 crs#:#crs_availability_limitless_info#:#Escoja este modo para hacer el curso disponible y accesible a usuarios (en función de la configuración de registro más abajo)
 crs#:#crs_availability_until_info#:#Escoja este modo para hacer el curso disponible y accesible a usuarios durante un período de tiempo fijo.
 crs#:#crs_availability_unvisible_info#:#Escoja este modo para preparar el curso. Sólo los administradores y tutores podrán ver y editar el curso.
 crs#:#crs_blocked#:#Acceso rechazado
-crs#:#crs_blocked_member#:#Pertenencia al Curso###23 Dec 2005 content changed
-crs#:#crs_blocked_member_body#:#Tu pertenencia ha finalizado###23 Dec 2005 content changed
-crs#:#crs_cancel_subscription#:#Cancelar suscripción al curso###23 Dec 2005 content changed
-crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso###23 Dec 2005 content changed
+crs#:#crs_blocked_member#:#Pertenencia al Curso
+crs#:#crs_blocked_member_body#:#Tu pertenencia ha finalizado
+crs#:#crs_cancel_subscription#:#Cancelar suscripción al curso
+crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso
 crs#:#crs_change_status#:#Modificar estado del objetivo:
 crs#:#crs_chapter_already_assigned#:#Estos capítulos ya están asignados
 crs#:#crs_contact#:#Contacto
@@ -3693,8 +3706,8 @@ crs#:#crs_delete_objectve_sure#:#¿Está seguro de que quiere eliminar los objet
 crs#:#crs_delete_subscribers#:#Eliminar subscriptor
 crs#:#crs_delete_subscribers_sure#:#¿Quiere eliminar los siguientes usuarios?
 crs#:#crs_details#:#Detalles del curso
-crs#:#crs_dismiss_member#:#Pertenencia al curso###23 Dec 2005 content changed
-crs#:#crs_dismiss_member_body#:#Su pertenencia ha finalizado###23 Dec 2005 content changed
+crs#:#crs_dismiss_member#:#Pertenencia al curso
+crs#:#crs_dismiss_member_body#:#Su pertenencia ha finalizado
 crs#:#crs_edit_archive#:#Crear Archivos de Curso
 crs#:#crs_edit_content#:#Editar items
 crs#:#crs_end#:#Fin
@@ -3719,6 +3732,7 @@ crs#:#crs_grp_crs_assignment#:#Asignación de curso
 crs#:#crs_grp_deassigned_courses#:#Eliminar asignación
 crs#:#crs_grp_enter_title#:#Por favor introduzca un título.
 crs#:#crs_grp_info_reg#:#Únicamente puede registrarse en uno de estos cursos:
+crs#:#crs_grp_matriculation_required#:#Esta agrupación de cursos requiere un número de matricula única.<br />Por favor inserte este valor en su configuración en el escritorio personal.
 crs#:#crs_grp_modified_grouping#:#Modificaciones guardadas.
 crs#:#crs_grp_no_course_selected#:#Por favor seleccione un curso.
 crs#:#crs_grp_no_courses_assigned#:#No hay cursos asignados.
@@ -3734,11 +3748,11 @@ crs#:#crs_hide_link_objectives#:#Ocultar objetivos
 crs#:#crs_hide_link_or#:#Ocultar otros recursos
 crs#:#crs_hide_link_tst#:#Ocultar tests
 crs#:#crs_html#:#HTML
-crs#:#crs_info_reg#:#Información de registro###23 Dec 2005 content changed
-crs#:#crs_info_reg_confirmation#:#Este curso necesita confirmación por un administrador del curso. Recibirá un mensaje si ha sido asignado al curso.###23 Dec 2005 content changed
-crs#:#crs_info_reg_deactivated#:#No es posible el registro###23 Dec 2005 content changed
-crs#:#crs_info_reg_direct#:#Es necesario registrarse en este curso###23 Dec 2005 content changed
-crs#:#crs_info_reg_password#:#El registro necesita una contraseña válida###23 Dec 2005 content changed
+crs#:#crs_info_reg#:#Información de registro
+crs#:#crs_info_reg_confirmation#:#Este curso necesita confirmación por un administrador del curso. Recibirá un mensaje si ha sido asignado al curso.
+crs#:#crs_info_reg_deactivated#:#No es posible el registro
+crs#:#crs_info_reg_direct#:#Es necesario registrarse en este curso
+crs#:#crs_info_reg_password#:#El registro necesita una contraseña válida
 crs#:#crs_info_start#:#Por favor, trabaje sobre los items del curso señalados más abajo..<br />Después de haber estudiado todos los objetos marcados en rojo, se activarán nuevos items del curso.
 crs#:#crs_learning_materials#:#Materiales de aprendizaje
 crs#:#crs_list_users#:#Listar usuarios
@@ -3765,10 +3779,10 @@ crs#:#crs_move_up#:#Mover arriba
 crs#:#crs_moved_item#:#item del curso movido
 crs#:#crs_moved_objective#:#Objetivo de aprendizaje 'movido'
 crs#:#crs_new_search#:#Nueva Búsqueda
-crs#:#crs_new_subscription#:#Nueva suscripción a curso###23 Dec 2005 content changed
-crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario###23 Dec 2005 content changed
-crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable
+crs#:#crs_new_subscription#:#Nueva suscripción a curso
+crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario
+crs#:#crs_new_subscription_request#:#Peticion para unirse al curso "%s"
+crs#:#crs_new_subscription_request_body#:#Un usuario ha solicitado unirse al curso "%s"
 crs#:#crs_no_archive_selected#:#No hay archivos seleccionados
 crs#:#crs_no_archives_available#:#No hay archivos disponibles
 crs#:#crs_no_archives_selected#:#Por favor seleccione un archivo
@@ -3858,18 +3872,18 @@ crs#:#crs_reg_subscription_deactivated#:#Matrículacion deshabilitada
 crs#:#crs_reg_subscription_end_earlier#:#El período de matrícula ha finalizado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
 crs#:#crs_reg_subscription_start_later#:#El período de matrícula comienza más tarde
-crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limite de tiempo para la matrícula. Por favor escoja uno de los modos de matrícula comentados.###23 Dec 2005 content changed
+crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limite de tiempo para la matrícula. Por favor escoja uno de los modos de matrícula comentados.
 crs#:#crs_reg_until#:#Fecha de matrícula
 crs#:#crs_reg_user_already_assigned#:#Usted ya está asignado a este curso
-crs#:#crs_reg_user_already_subscribed#:#Usted ya se ha suscrito a este curso###23 Dec 2005 content changed
+crs#:#crs_reg_user_already_subscribed#:#Usted ya se ha suscrito a este curso
 crs#:#crs_reg_user_blocked#:#Se ha bloqueado su acceso a este curso
 crs#:#crs_registration#:#Matrícula de Curso
 crs#:#crs_registration_deactivated#:#Escoja esta opción para deshabilitar la matrícula. Ningún usuario puede matrícularse en este curso
 crs#:#crs_registration_limited#:#Periodo de matrícula limitado
 crs#:#crs_registration_type#:#Modo de matrícula
 crs#:#crs_registration_unlimited#:#Ilimitado en el tiempo
-crs#:#crs_reject_subscriber#:#Suscripción al Curso###23 Dec 2005 content changed
-crs#:#crs_reject_subscriber_body#:#Su suscripción ha sido rechazada###23 Dec 2005 content changed
+crs#:#crs_reject_subscriber#:#Suscripción al Curso
+crs#:#crs_reject_subscriber_body#:#Su suscripción ha sido rechazada
 crs#:#crs_reset_results#:#Reinicializar resultados
 crs#:#crs_role#:#Rol
 crs#:#crs_role_status#:#Rol / Estado
@@ -3885,7 +3899,7 @@ crs#:#crs_select_one_archive#:#Por favor seleccione un archivo
 crs#:#crs_select_one_object#:#Por favor seleccione un item del curso.
 crs#:#crs_select_registration_type#:#Por favor seleccione un modo de matrícula
 crs#:#crs_select_starter#:#Seleccione un objeto inicial
-crs#:#crs_set_on_waiting_list#:#Por favor regístrate en el curso para ser asignado a la lista de espera.###23 Dec 2005 content changed
+crs#:#crs_set_on_waiting_list#:#Por favor regístrate en el curso para ser asignado a la lista de espera.
 crs#:#crs_settings#:#Configuración del Curso
 crs#:#crs_settings_saved#:#Configuración guardada
 crs#:#crs_show_link_lms#:#Mostrar materiales de aprendizaje
@@ -3904,20 +3918,20 @@ crs#:#crs_start_objects#:#Objetos iniciales
 crs#:#crs_starter_deleted#:#Asignación eliminada
 crs#:#crs_starters_already_assigned#:#Este objeto ya ha sido asignado.
 crs#:#crs_status#:#Estado
-crs#:#crs_status_changed#:#Estado del curso###23 Dec 2005 content changed
-crs#:#crs_status_changed_body#:#El estado del curso ha sido modificado###23 Dec 2005 content changed
+crs#:#crs_status_changed#:#Estado del curso
+crs#:#crs_status_changed_body#:#El estado del curso ha sido modificado
 crs#:#crs_structure#:#Estructura del curso
-crs#:#crs_subscribers#:#Suscripciones###23 Dec 2005 content changed
+crs#:#crs_subscribers#:#Suscripciones
 crs#:#crs_subscribers_deleted#:#Suscriptores eliminado(s)
 crs#:#crs_subscription#:#Suscripción
 crs#:#crs_subscription_max_members#:#Máximo nº de miembros
 crs#:#crs_subscription_notify#:#Notificar suscripciones
-crs#:#crs_subscription_options_confirmation#:#Suscripción con confirmación###23 Dec 2005 content changed
+crs#:#crs_subscription_options_confirmation#:#Suscripción con confirmación
 crs#:#crs_subscription_options_deactivated#:#Desactivado
-crs#:#crs_subscription_options_direct#:#Suscripción directa###23 Dec 2005 content changed
-crs#:#crs_subscription_options_password#:#Suscripción con contraseña###23 Dec 2005 content changed
-crs#:#crs_subscription_requested#:#You have requested membership for the course.###23 Dec 2005 new variable
-crs#:#crs_subscription_successful#:#Ha sido suscrito a este curso###23 Dec 2005 content changed
+crs#:#crs_subscription_options_direct#:#Suscripción directa
+crs#:#crs_subscription_options_password#:#Suscripción con contraseña
+crs#:#crs_subscription_requested#:#Ha solicitado pertenecer a este curso
+crs#:#crs_subscription_successful#:#Ha sido suscrito a este curso
 crs#:#crs_subscription_type#:#Tipo de suscripción
 crs#:#crs_suggest_lm#:#Sugerir materiales de aprendizaje si:
 crs#:#crs_sure_delete_selected_archives#:#¿Está seguro de eliminar los archivos seleccionados?
@@ -3932,8 +3946,8 @@ crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (sin notificación)
 crs#:#crs_tutor_notify#:#Tutor (notificación)
 crs#:#crs_unblocked#:#Entrada Libre
-crs#:#crs_unblocked_member#:#Pertenencia al Curso###23 Dec 2005 content changed
-crs#:#crs_unblocked_member_body#:#Su pertenencia a sido restaurada###23 Dec 2005 content changed
+crs#:#crs_unblocked_member#:#Pertenencia al Curso
+crs#:#crs_unblocked_member_body#:#Su pertenencia a sido restaurada
 crs#:#crs_unlimited#:#Ilimitada
 crs#:#crs_unsubscribe#:#Dar de baja
 crs#:#crs_unsubscribe_sure#:#¿Quiere darse de baja en este curso?
@@ -4904,7 +4918,7 @@ meta#:#meta_title#:#Título
 meta#:#meta_training#:#Formación
 meta#:#meta_type#:#Tipo
 meta#:#meta_typical_age_range#:#Rango de edad típico
-meta#:#meta_typical_learning_time#:#Tiempo de aprendizaje típico
+meta#:#meta_typical_learning_time#:#Tiempo típico de aprendizaje
 meta#:#meta_unavailable#:#No disponible
 meta#:#meta_unix#:#Unix
 meta#:#meta_unknown#:#Desconocido
@@ -5280,7 +5294,7 @@ survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha 
 survey#:#constraint_add#:#Añadir precondición
 survey#:#constraints#:#Restricciones
 survey#:#constraints_first_question_description#:#La primera entidad no podría tener ninguna precondición porque no hay preguntas previas.
-survey#:#constraints_introduction#:#Para cada entidad (una pregunta simple o un bloque de preguntas con múltiples preguntas) una o más precondiciones podrían ser definidas. Estas precondiciones derivarán de las respuestas de participantes en la encuesta, de preguntas que ya han aparecido antes en este test.###23 Dec 2005 content changed
+survey#:#constraints_introduction#:#Para cada entidad (una pregunta simple o un bloque de preguntas con múltiples preguntas) una o más precondiciones podrían ser definidas. Estas precondiciones derivarán de las respuestas de participantes en la encuesta, de preguntas que ya han aparecido antes en este test.
 survey#:#constraints_list_of_entities#:#Entidades de encuesta disponibles para precondiciones
 survey#:#constraints_no_nonessay_available#:#No hay preguntas previas o sólo hay disponibles preguntas de texto para calcular precondiciones (las preguntas de texto no son válidas en este caso)
 survey#:#constraints_no_questions_or_questionblocks_selected#:#¡Por favor seleccione al menos una pregunta o bloque de preguntas!
@@ -5406,7 +5420,7 @@ survey#:#insert_before#:#Insertar antes
 survey#:#insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en la encuesta!
 survey#:#insert_missing_questionblock#:#Por favor seleccione al menos un bloque de preguntas para insertar en la encuesta!
 survey#:#introduction#:#Introducción
-survey#:#introduction_manage_phrases#:#Gestionar los conjuntos que están disponibles para todas las preguntas ordinales que edita/crea.
+survey#:#introduction_manage_phrases#:#Gestione los conjuntos de respuestas disponibles para las preguntas ordinales que edite o cree.
 survey#:#invitation#:#Invitación
 survey#:#invitation_mode#:#Modo Invitación
 survey#:#invite_participants#:#Invitar participantes
@@ -5451,7 +5465,7 @@ survey#:#no_questions_available#:#No hay preguntas disponibles!
 survey#:#no_search_results#:#No hay resultados de búsqueda!
 survey#:#no_target_selected_for_move#:#Debe seleccionar una posición de destino!
 survey#:#no_user_or_group_selected#:#Por favor seleccione una opción de lo que está buscando (usuarios y/o grupos)
-survey#:#no_user_phrases_defined#:#No hay conjuntos definidos por el usuario disponibles!
+survey#:#no_user_phrases_defined#:#No hay conjuntos de respuestas definidos por el usuario disponibles!
 survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuestas ofrecidas!
 survey#:#non_ratio#:#Non-Ratio
 survey#:#not_used#:#no usada
@@ -5466,9 +5480,10 @@ survey#:#orientation#:#Orientación
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
-survey#:#phrase_saved#:#El conjunto fue grabado con éxito 2005 content changed
+survey#:#percentage_of_offered_answers#:#Porcentaje de respuestas ofrecidas
+survey#:#phrase_saved#:#El conjunto fue grabado con éxito
 survey#:#predefined_users#:#Conjunto predefinido de usuarios
-survey#:#preview#:#vista previa
+survey#:#preview#:#Vista previa
 survey#:#previous_question_rows#:#<< Preguntas %d - %d de %d
 survey#:#qpl_confirm_delete_phrases#:#¿Está seguro de que quiere eliminar los siguientes conjuntos?
 survey#:#qpl_confirm_delete_questions#:#¿Está seguro de que quiere eliminar las siguientes preguntas?
@@ -5486,6 +5501,8 @@ survey#:#qpl_questions_pasted#:#Pregunta(s) pegada(s)
 survey#:#qpl_savephrase_empty#:#Por favor introduzca un título para el conjunto
 survey#:#qpl_savephrase_exists#:#¡El título para ese conjunto ya existe! Por favor seleccione otro título
 survey#:#qpl_unfold_select_none#:#Por favor seleccione al menos un bloque de preguntas si quiere deshacer el bloque
+survey#:#questionblock_icon#:#Icono de bloque de preguntas
+survey#:#question_icon#:#Icono de pregunta
 survey#:#qt_metric#:#Pregunta Métrica
 survey#:#qt_nominal#:#Pregunta Nominal
 survey#:#qt_ordinal#:#Pregunta Ordinal
@@ -5517,13 +5534,13 @@ survey#:#save_phrase_categories_not_checked#:#Por favor elija al menos dos categ
 survey#:#save_phrase_introduction#:#Si quiere salvar las categorías siguientes como conjunto por defecto, por favor introduzca un título de conjunto. Usted puede acceder a un conjunto por defecto cuando quiera añadir un conjunto a una pregunta ordinal
 survey#:#search_field_all#:#Buscar en todos los campos
 survey#:#search_for#:#Buscar
-survey#:#search_groups#:#Grupos###23 Dec 2005 content changed
+survey#:#search_groups#:#Grupos
 survey#:#search_invitation#:#Buscar usuarios o grupos a invitar
 survey#:#search_questions#:#Buscar preguntas
 survey#:#search_roles#:#Roles encontrados
 survey#:#search_term#:#Buscar término
 survey#:#search_type_all#:#Buscar en todos los tipos de pregunta
-survey#:#search_users#:#Usuarios###23 Dec 2005 content changed
+survey#:#search_users#:#Usuarios
 survey#:#select_option#:#--- Por favor seleccione una opción ---
 survey#:#select_phrase_to_add#:#¡Por favor seleccione una conjunto para añadirlo a la pregunta!
 survey#:#select_prior_question#:#Seleccione una pregunta previa
@@ -5692,3 +5709,14 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
+trac#:#trac_required_visits#:#Número de visitas requeridas
+trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
+trac#:#trac_filter_none#:#Ninguno
+trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
+trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
+trac#:#trac_select_one#:#No hizo selección
+trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
+trac#:#trac_not_completed#:#No completado
+trac#:#trac_last_access#:#Último acceso
+trac#:#trac_info_edited#:#Cambie el estado a 'Completado' si piensas que has procesado todo el contenido.
+trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
