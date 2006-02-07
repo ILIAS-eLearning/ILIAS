@@ -5342,6 +5342,7 @@ survey#:#or#:#eller
 survey#:#ordinal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#orientation#:#Orientering
 survey#:#percentage_of_entered_values#:#Procent af brugere der har indtastet denne v&aelig;rdi
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Procent af brugere der har valgt denne gruppe
 survey#:#phrase_saved#:#The phrase was saved successfully!###21 Apr 2005 new variable
 survey#:#predefined_users#:#Pr&aelig;defineret brugers&aelig;t

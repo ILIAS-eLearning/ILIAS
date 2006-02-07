@@ -5461,6 +5461,7 @@ survey#:#or#:#OR
 survey#:#ordinal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#orientation#:#Orientamento
 survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato questo valore
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria
 survey#:#phrase_saved#:#La frase &#232; stata salvata con successo!
 survey#:#predefined_users#:#Utenti predefiniti

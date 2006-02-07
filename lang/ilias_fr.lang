@@ -5453,6 +5453,7 @@ survey#:#or#:#ou###07 Apr 2005 content changed
 survey#:#ordinal_question_not_checked#:#Veuillez cocher une des réponses proposées.###07 Apr 2005 content changed
 survey#:#orientation#:#Orientation###07 Apr 2005 content changed
 survey#:#percentage_of_entered_values#:#Pourcentage des utilisateurs qui ont saisi cette valeur###07 Apr 2005 content changed
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Pourcentage des utilisateurs qui ont sélectionné cette catégorie###07 Apr 2005 content changed
 survey#:#phrase_saved#:#L'expression a été enregistrée###07 Apr 2005 content changed
 survey#:#predefined_users#:#Predefined user set XXX###07 Apr 2005 content changed

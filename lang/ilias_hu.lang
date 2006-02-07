@@ -5466,6 +5466,7 @@ survey#:#or#:#vagy
 survey#:#ordinal_question_not_checked#:#Ellenőrizzen egy felajánlott választ.
 survey#:#orientation#:#Tájékoztatás
 survey#:#percentage_of_entered_values#:#Felhasználók azon százaléka, akik ezt az értéket adták meg.
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Felhasználók azon százaléka, akik kiválasztották ezt a kategóriát.
 survey#:#phrase_saved#:#A mondat sikeresen el lett mentve.
 survey#:#predefined_users#:#Előredefiniált felhasználói beállítás
