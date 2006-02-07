@@ -1293,7 +1293,7 @@ common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Eintrag
 common#:#date#:#Datum
-common#:#dateplaner#:#Terminplaner
+common#:#dateplaner#:#Kalender
 common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#days_of_period#:#Alle Tage des Zeitraums
@@ -4002,7 +4002,7 @@ dateplaner#:#app_list#:#Terminliste
 dateplaner#:#app_month#:#Monatsansicht
 dateplaner#:#app_properties#:#Einstellungen
 dateplaner#:#app_week#:#Wochenansicht
-dateplaner#:#application#:#Terminplaner
+dateplaner#:#application#:#Kalender
 dateplaner#:#apply#:#übernehmen
 dateplaner#:#back#:#zurück
 dateplaner#:#begin_date#:#Termin Anfang
@@ -4054,7 +4054,7 @@ dateplaner#:#extra_dates#:#Ganztages Termine
 dateplaner#:#free#:#frei
 dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
 dateplaner#:#group#:#Gruppe
-dateplaner#:#help_day#:#Terminplaner Tagesansicht
+dateplaner#:#help_day#:#Kalender Tagesansicht
 dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
 dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
 dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
@@ -4068,22 +4068,22 @@ dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen
 dateplaner#:#help_further#:#<br /> <b>weitere Informationen durch klicken.</b>
 dateplaner#:#help_group#:#Gruppentermine Auswahl
 dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
-dateplaner#:#help_inbox#:#Terminplaner Inbox
+dateplaner#:#help_inbox#:#Kalender Inbox
 dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
 dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
 dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
 dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br />TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
 dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
-dateplaner#:#help_list#:#Terminplaner Terminliste
+dateplaner#:#help_list#:#Kalender Terminliste
 dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
-dateplaner#:#help_month#:#Terminplaner Monatsansicht
+dateplaner#:#help_month#:#Kalender Monatsansicht
 dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
 dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
 dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br />Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
 dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
-dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
+dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Kalender von Outlook erstellt wurde, um diese zu importieren.
 dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
 dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
@@ -4098,7 +4098,7 @@ dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_text#:#Text
 dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
-dateplaner#:#help_week#:#Terminplaner Wochenansicht
+dateplaner#:#help_week#:#Kalender Wochenansicht
 dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
 dateplaner#:#hour#:#Stunde
 dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
@@ -4169,7 +4169,7 @@ dateplaner#:#singleDate#:#Einzeltermin
 dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
 dateplaner#:#timedate#:#Zeit / Datum
 dateplaner#:#timeslice#:#Zeitraum:
-dateplaner#:#title#:#Ilias Terminplaner
+dateplaner#:#title#:#Ilias Kalender
 dateplaner#:#to#:#bis
 dateplaner#:#today#:#Heute
 dateplaner#:#viewlist#:#Ansicht aktualisieren
