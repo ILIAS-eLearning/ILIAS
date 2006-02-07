@@ -91,10 +91,13 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$this->prepareOutput();
-		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		if ($cmd != "deliverVCard")
+		{
+			$this->prepareOutput();
+		}
 
 		switch($next_class)
 		{

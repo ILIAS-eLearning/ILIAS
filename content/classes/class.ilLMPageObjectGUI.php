@@ -340,7 +340,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	function setTabs()
 	{
 		global $ilTabs;
-
+//echo "setTabs";
 		// catch feedback message
 		#include_once("classes/class.ilTabsGUI.php");
 		#$tabs_gui =& new ilTabsGUI();
