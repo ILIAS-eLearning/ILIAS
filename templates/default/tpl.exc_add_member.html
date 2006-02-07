@@ -1,3 +1,17 @@
+<script type="text/javascript">
+<!--
+function setCheckboxes(a_form, a_varname, a_elements, a_check)
+{
+        for(i=0;i<a_elements.length;i++) {
+                if (typeof(document.forms[a_form].elements[a_varname + a_elements[i]]) != 'undefined') {
+                document.forms[a_form].elements[a_varname + a_elements[i]].checked = a_check;
+        }
+    }
+
+    return true;
+}
+//-->
+</script>
 	<form action="{F_ACTION}" name="post" method="post" >
 	  <!-- BEGIN USR_SEARCH -->
 	  <table class="std">
@@ -21,6 +35,7 @@
 			<td class="submit" colspan="2">
 			  <input class="submit" type="submit" name="search" value="{BTN1_VALUE}" />&nbsp;
 			  <input class="submit" type="submit" name="cancel" value="{BTN2_VALUE}" />&nbsp;
+
 			</td>
 		  </tr>
 	  </table>
@@ -36,7 +51,7 @@
 		  </tr>
 		  <!-- BEGIN USR_SELECT_ROW -->
 		  <tr class="std">
-			<td class="option_value"><input type="checkbox" name="id[]" value="{ROW_ID}" /></td>
+			<td class="option_value"><input type="checkbox" name="id[]" id="{NAME_ID}" value="{ROW_ID}" /></td>
 			<td class="option_value">{ROW_LOGIN}</td>
 			<td class="option_value">{ROW_FIRSTNAME}</td>
 			<td class="option_value">{ROW_LASTNAME}</td>
@@ -46,6 +61,10 @@
 			<td colspan="4">
 			  <input class="submit" type="submit" name="select" value="{BTN1_VALUE}" />&nbsp;
 			  <input class="submit" type="submit" name="cancel" value="{BTN2_VALUE}" />&nbsp;
+			   [<a href="" onclick="setCheckboxes('post','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
+			   [<a href="" onclick="setCheckboxes('post','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
+
+
 			</td>
 		  </tr>
 	  </table>
