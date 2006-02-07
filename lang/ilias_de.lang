@@ -2114,7 +2114,7 @@ common#:#mail_import#:#Import
 common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
-common#:#mail_mails_of#:#Nachrichten
+common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. Attachment-Grösse
 common#:#mail_maxsize_box#:#Max. Mailbox-Grösse
 common#:#mail_maxsize_mail#:#Max. Mail-Grösse

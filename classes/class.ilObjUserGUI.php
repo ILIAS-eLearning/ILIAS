@@ -1996,10 +1996,12 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
 		
-		$webspace_dir = ilUtil::getWebspaceDir("output");
+		$webspace_dir = ilUtil::getWebspaceDir("user");
+		$check_dir = ilUtil::getWebspaceDir();
 		$imagefile = $webspace_dir."/usr_images/".$this->object->getPref("profile_image");
-		
-		if ($this->object->getPref("public_upload")=="y" && @is_file($imagefile))
+		$check_file = $check_dir."/usr_images/".$this->object->getPref("profile_image");
+
+		if ($this->object->getPref("public_upload")=="y" && @is_file($check_file))
 		{
 			//Getting the flexible path of image form ini file
 			//$webspace_dir = ilUtil::getWebspaceDir("output");
