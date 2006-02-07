@@ -4651,7 +4651,7 @@ class ilObjSurvey extends ilObject
 	function &getSurveyCodes()
 	{
 		$codes = array();
-		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s ORDER BY TIMESTAMP14",
+		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s ORDER BY TIMESTAMP14, survey_finished.anonymous_id",
 			$this->ilias->db->quote($this->getSurveyId() . "")
 		);
 		$result = $this->ilias->db->query($query);

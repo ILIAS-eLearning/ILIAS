@@ -3055,10 +3055,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			else
 			{
+				$counter = 1;
 				foreach ($survey_codes as $key => $row)
 				{
 					$this->tpl->setCurrentBlock("coderow");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$key % 2]);
+					$this->tpl->setVariable("CODE_SEQUENCE", $counter);
 					$this->tpl->setVariable("SURVEY_CODE", $row["survey_key"]);
 					include_once "./classes/class.ilFormat.php";
 					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date"));
@@ -3074,6 +3076,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					$this->tpl->setVariable("CODE_USED", $state);
 					$this->tpl->parseCurrentBlock();
+					$counter++;
 				}
 			}
 			$this->tpl->setCurrentBlock("adm_content");
