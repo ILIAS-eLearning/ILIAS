@@ -5536,7 +5536,7 @@ survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielp
 survey#:#select_value#:#Wert auswählen
 survey#:#selection#:#Auswahl
 survey#:#set_filter#:#Filter setzen
-survey#:#skipped#:#überprungen
+survey#:#skipped#:#übersprungen
 survey#:#spl_general_properties#:#Allgemeine Eigenschaften
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
