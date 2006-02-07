@@ -3004,7 +3004,7 @@ common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
 common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#uid#:#uid
 common#:#unambiguousness#:#Identificación
-common#:#uncheck_all#:#Desactivar todo
+common#:#uncheck_all#:#deseleccionar todo
 common#:#uninstall#:#desinstalar
 common#:#uninstalled#:#desinstalado
 common#:#unknown#:#DESCONOCIDO

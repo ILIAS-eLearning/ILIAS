@@ -1,6 +1,6 @@
 <form name="searchQuestionsForm" method="post" action="{FORM_ACTION}">
 <table class="std">
-<tr class="tblheader"><td class="std" colspan="2">&nbsp;</td></tr>
+<tr class="tblheader"><th class="std" colspan="2">&nbsp;</th></tr>
 <tr>
 	<td class="option"><label for="search_term">{TEXT_SEARCH_TERM}</label>:</td>
 	<td class="option_value"><input type="text" name="search_term" id="search_term" value="{VALUE_SEARCH_TERM}" size="60" /></td>
@@ -43,14 +43,16 @@
 <p></p>
 <h2><img src="{RESULT_IMAGE}" alt="{ALT_IMAGE}" /> {FOUND_QUESTIONS}</h2>
 <table class="fullwidth">
+<thead>
 <tr class="tblheader">
-	<td class="std"><input type="checkbox" name="chb_check_all" value="1" onclick="setChecked('searchQuestionsForm', 'cb_', document.searchQuestionsForm.chb_check_all.checked);" /></td>
-	<td class="std">{TEXT_QUESTION_TITLE}</td>
-	<td class="std">{TEXT_QUESTION_DESCRIPTION}</td>
-	<td class="std">{TEXT_QUESTION_TYPE}</td>
-	<td class="std">{TEXT_QUESTION_AUTHOR}</td>
-	<td class="std">{TEXT_QUESTION_POOL}</td>
+	<th class="std"><input type="checkbox" name="chb_check_all" value="1" onclick="setChecked('searchQuestionsForm', 'cb_', document.searchQuestionsForm.chb_check_all.checked);" /></th>
+	<th class="std">{TEXT_QUESTION_TITLE}</th>
+	<th class="std">{TEXT_QUESTION_DESCRIPTION}</th>
+	<th class="std">{TEXT_QUESTION_TYPE}</th>
+	<th class="std">{TEXT_QUESTION_AUTHOR}</th>
+	<th class="std">{TEXT_QUESTION_POOL}</th>
 </tr>
+</thead>
 <!-- BEGIN result_row -->
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}" width="20"><input type="checkbox" name="cb_{QUESTION_ID}" value="1" /></td>
