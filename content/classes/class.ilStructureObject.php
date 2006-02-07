@@ -167,14 +167,10 @@ class ilStructureObject extends ilLMObject
 				$_GET["baseClass"] = "ilLMPresentationGUI";
 				$_GET["obj_id"] = $a_target;
 				$_GET["ref_id"] = $ref_id;
-				//ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
-				//	"&obj_id=$a_target");
-			}
-			else
-			{
-				$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+				return;
 			}
 		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
 
