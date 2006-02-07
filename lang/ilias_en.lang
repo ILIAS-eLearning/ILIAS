@@ -2504,7 +2504,7 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passed#:#Passed
 common#:#passwd#:#Password
-common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
