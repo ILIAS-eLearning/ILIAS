@@ -1,9 +1,11 @@
 <form name="frm_javaapplet" action="{ACTION_JAVAAPPLET_QUESTION}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="id" value="{JAVAAPPLET_ID}" />
 <table class="fullwidth">
-<tr class="tblheader">
-	<td colspan="5">{TEXT_QUESTION_TYPE}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="5">{TEXT_QUESTION_TYPE}</th>
+	</tr>
+</thead>
 <tr>
 	<td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
 	<td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_JAVAAPPLET_TITLE}" size="50" /></td>
@@ -57,7 +59,9 @@
 	<td class="option_value" colspan="4"><input type="text" name="applet_points" value="{VALUE_APPLET_POINTS}" size="3" /></td>
 </tr>
 <!-- BEGIN appletcode -->
-<tr><td colspan="5" class="std">{APPLET_ATTRIBUTES}</td></tr>
+<tr class="tblheader">
+	<th colspan="5" class="std">{APPLET_ATTRIBUTES}</th>
+</tr>
 <tr>
 	<td class="option">{TEXT_CODE}:</td>
 	<td class="option_value" colspan="4"><input type="text" name="java_code" value="{VALUE_CODE}" size="50" /></td>
@@ -70,7 +74,9 @@
 	<td class="option">{TEXT_HEIGHT}<span class="asterisk">*</span>:</td>
 	<td class="option_value" colspan="4"><input type="text" name="java_height" value="{VALUE_HEIGHT}" size="5" /></td>
 </tr>
-<tr><td colspan="5" class="std">{APPLET_PARAMETERS}</td></tr>
+<tr class="tblheader">
+	<th colspan="5">{APPLET_PARAMETERS}</th>
+</tr>
 <tr><td colspan="5" class="option"><input name="cmd[addParameter]" type="submit" class="submit" id="add_parameter" value="{VALUE_ADD_PARAMETER}" /></td>
 <!-- BEGIN applet_parameter -->
 <tr>

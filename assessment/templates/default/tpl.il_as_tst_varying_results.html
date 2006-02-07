@@ -1,13 +1,15 @@
 <form name="test_output" method="post" action="{FORMACTION}">
 <table class="fullwidth">
-<tr class="tblheader">
-<td class="std">{PASS_COUNTER}</td>
-<td class="std">{DATE}</td>
-<td class="std">{ANSWERED_QUESTIONS}</td>
-<td class="std">{REACHED_POINTS}</td>
-<td class="std">{PERCENTAGE_CORRECT}</td>
-<td class="std"></td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th>{PASS_COUNTER}</th>
+		<th>{DATE}</th>
+		<th>{ANSWERED_QUESTIONS}</th>
+		<th>{REACHED_POINTS}</th>
+		<th>{PERCENTAGE_CORRECT}</th>
+		<th></th>
+	</tr>
+</thead>
 <!-- BEGIN result_row -->
 <tr>
 <td class="{COLOR_CLASS}">{VALUE_PASS}</td>

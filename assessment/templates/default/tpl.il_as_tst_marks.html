@@ -3,13 +3,15 @@
 <p><input type="submit" class="submit" name="cmd[addMarkStep]" value="{BUTTON_NEW}" />&nbsp;<input type="submit" class="submit" name="cmd[addSimpleMarkSchema]" value="{BUTTON_NEW_SIMPLE}" /></p>
 <!-- END mark_actions -->
 <table class="std">
-<tr class="tblheader">
-  <td class="std"></td>
-  <td class="std">{HEADER_SHORT}</td>
-  <td class="std">{HEADER_OFFICIAL}</td>
-  <td class="std">{HEADER_PERCENTAGE}</td>
-  <td class="std">{HEADER_PASSED}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th></th>
+		<th>{HEADER_SHORT}</th>
+		<th>{HEADER_OFFICIAL}</th>
+		<th>{HEADER_PERCENTAGE}</th>
+		<th>{HEADER_PASSED}</th>
+	</tr>
+</thead>
 <!-- BEGIN markrow -->
 <tr class="{ROW_CLASS}">
   <td class="{ROW_CLASS}"><input type="checkbox" name="cb_{MARK_ID}" value="1" id="cb_{MARK_ID}" /></td>
@@ -35,10 +37,12 @@
 <!-- BEGIN ects -->
 <br />
 <table class="std">
-<tr class="tblheader">
-	<td class="std"></td>
-	<td class="std">{TEXT_OUTPUT_ECTS_GRADES}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th></th>
+		<th>{TEXT_OUTPUT_ECTS_GRADES}</th>
+	</tr>
+</thead>
 <tr class="tblrow1">
 	<td class="tblrow1" valign="top"><input type="checkbox" name="chbECTS" value="1" id="chbECTS"{CHECKED_ECTS} /></td>
 	<td class="tblrow1"><label for="chbECTS">{TEXT_ALLOW_ECTS_GRADES}</label>
