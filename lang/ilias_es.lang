@@ -5718,5 +5718,5 @@ trac#:#trac_select_one#:#No hizo selección
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_not_completed#:#No completado
 trac#:#trac_last_access#:#Último acceso
-trac#:#trac_info_edited#:#Cambie el estado a 'Completado' si piensas que has procesado todo el contenido.
+trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
 trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.

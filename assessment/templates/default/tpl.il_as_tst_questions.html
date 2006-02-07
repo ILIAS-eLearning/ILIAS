@@ -11,7 +11,17 @@
 </select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /> {TXT_OR} <input type="submit" class="submit" name="cmd[randomselect]" value="{TEXT_RANDOM_SELECT}" /></p>
 <!-- END browser_actions -->
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"></td><td class="std">{QUESTION_TITLE}</td><td class="std">{QUESTION_SEQUENCE}</td><td class="std">{QUESTION_COMMENT}</td><td class="std">{QUESTION_TYPE}</td><td class="std">{QUESTION_AUTHOR}</td><td class="std">{QUESTION_POOL}</td></tr>
+<thead>
+	<tr class="tblheader">
+		<th></th>
+		<th>{QUESTION_TITLE}</th>
+		<th>{QUESTION_SEQUENCE}</th>
+		<th>{QUESTION_COMMENT}</th>
+		<th>{QUESTION_TYPE}</th>
+		<th>{QUESTION_AUTHOR}</th>
+		<th>{QUESTION_POOL}</th>
+	</tr>
+</thead>
 <!-- BEGIN QTab --> 
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}"><input type="checkbox" name="cb_{QUESTION_ID}" value="1" /></td>

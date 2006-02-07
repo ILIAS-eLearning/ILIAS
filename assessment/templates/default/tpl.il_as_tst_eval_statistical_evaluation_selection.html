@@ -2,9 +2,11 @@
 <p>{TXT_STAT_USERS_INTRO} <input type="submit" class="submit" name="cmd[{CMD_EVAL}]" value="{TXT_STAT_ALL_USERS}" /></p>
 <!-- BEGIN userselection -->
 <table class="std">
-<tr class="tblheader">
-  <th class="std" colspan="2">{SEARCH_USERSELECTION}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="2">{SEARCH_USERSELECTION}</th>
+	</tr>
+</th>
 <tr>
   <td class="option">{SEARCH_TERM}:</td>
   <td class="option_value"><input type="text" name="search_term" value="{VALUE_SEARCH_TERM}" size="50" /></td>
@@ -34,8 +36,17 @@
 <!-- BEGIN user_result -->
 <br />
 <table class="fullwidth">
-<tr class="tblheader"><td colspan="4"><img alt="{ALT_USER_IMAGE}" src="{SRC_USER_IMAGE}" /> {TEXT_USER_TITLE}</td></tr>
-<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="4"><img alt="{ALT_USER_IMAGE}" src="{SRC_USER_IMAGE}" /> {TEXT_USER_TITLE}</th>
+	</tr>
+	<tr class="tblheader">
+		<th></th>
+		<th>{TEXT_LOGIN}</th>
+		<th>{TEXT_FIRSTNAME}</th>
+		<th>{TEXT_LASTNAME}</th>
+	</tr>
+</thead>
 <!-- BEGIN user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="user_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
@@ -57,8 +68,16 @@
 <!-- BEGIN group_result -->
 <br />
 <table class="fullwidth">
-<tr class="tblheader"><td colspan="3"><img alt="{ALT_GROUP_IMAGE}" src="{SRC_GROUP_IMAGE}" /> {TEXT_GROUP_TITLE}</td></tr>
-<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="3"><img alt="{ALT_GROUP_IMAGE}" src="{SRC_GROUP_IMAGE}" /> {TEXT_GROUP_TITLE}</th>
+	</tr>
+	<tr class="tblheader">
+		<th></th>
+		<th>{TEXT_TITLE}</th>
+		<th>{TEXT_DESCRIPTION}</th>
+	</tr>
+</thead>
 <!-- BEGIN group_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="group_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
@@ -79,8 +98,16 @@
 <!-- BEGIN role_result -->
 <br />
 <table class="fullwidth">
-<tr class="tblheader"><td colspan="3"><img alt="{ALT_ROLE_IMAGE}" src="{SRC_ROLE_IMAGE}" /> {TEXT_ROLE_TITLE}</td></tr>
-<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="3"><img alt="{ALT_ROLE_IMAGE}" src="{SRC_ROLE_IMAGE}" /> {TEXT_ROLE_TITLE}</th>
+	</tr>
+	<tr class="tblheader">
+		<th></th>
+		<th>{TEXT_TITLE}</th>
+		<th>{TEXT_DESCRIPTION}</th>
+	</tr>
+</thead>
 <!-- BEGIN role_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="role_select[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
@@ -101,8 +128,17 @@
 <!-- BEGIN selected_user_result -->
 <br />
 <table class="fullwidth">
-<tr class="tblheader"><td colspan="4"><img alt="{ALT_USER_IMAGE}" src="{SRC_USER_IMAGE}" /> {TEXT_USER_TITLE}</td></tr>
-<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="4"><img alt="{ALT_USER_IMAGE}" src="{SRC_USER_IMAGE}" /> {TEXT_USER_TITLE}</th>
+	</tr>
+	<tr class="tblheader">
+		<th></th>
+		<th>{TEXT_LOGIN}</th>
+		<th>{TEXT_FIRSTNAME}</th>
+		<th>{TEXT_LASTNAME}</th>
+	</tr>
+</thead>
 <!-- BEGIN selected_user_row -->
 <td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="selected_users[]" value="{COUNTER}" /></td>
 <td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>

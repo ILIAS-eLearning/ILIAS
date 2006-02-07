@@ -1,8 +1,10 @@
 <form name="frm_properties" action="{ACTION_PROPERTIES}" method="post">
 <table class="std">
-<tr class="tblheader">
-  <td class="std" colspan="2">{HEADING_GENERAL}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th colspan="2">{HEADING_GENERAL}</th>
+	</tr>
+</thead>
 <tr>
   <td class="option">{TEXT_TEST_TYPES}:</td>
   <td class="option_value"><select name="sel_test_types"{ENABLED_TEST_TYPES}>
@@ -29,14 +31,14 @@
   <td class="option_value"><textarea name="introduction" style="width:95%" rows="10" cols="60">{VALUE_INTRODUCTION}</textarea></td>
 </tr>
 <tr class="tblheader">
-  <td class="std" colspan="2">{HEADING_SEQUENCE}</td>
+  <th colspan="2">{HEADING_SEQUENCE}</th>
 </tr>
 <tr>
   <td class="option">{TEXT_SEQUENCE}:</td>
   <td class="option_value"><select name="sequence_settings" {DISABLE_SEQUENCE}><option value="0"{SELECTED_FIXED}>{SEQUENCE_FIXED}</option><option value="1"{SELECTED_POSTPONE}>{SEQUENCE_POSTPONE}</option></select>
 </tr>
 <tr class="tblheader">
-  <td class="std" colspan="2">{HEADING_SCORING}</td>
+  <th colspan="2">{HEADING_SCORING}</th>
 </tr>
 <tr>
   <td class="option">{TEXT_COUNT_SYSTEM}:</td>
@@ -51,7 +53,7 @@
   <td class="option_value"><select name="pass_scoring" {DISABLE_PASS_SCORING}><option value="0"{SELECTED_LASTPASS}>{TEXT_LASTPASS}</option><option value="1"{SELECTED_BESTPASS}>{TEXT_BESTPASS}</option></select>
 </tr>
 <tr class="tblheader">
-  <td class="std" colspan="2">{HEADING_SCORE}</td>
+  <th colspan="2">{HEADING_SCORE}</th>
 </tr>
 <tr>
   <td class="option">{TEXT_SCORE_TYPE}:</td>
@@ -64,7 +66,7 @@
 </tr>
 <!-- END reporting_date -->
 <tr class="tblheader">
-  <td class="std" colspan="2">{HEADING_SESSION}</td>
+  <th colspan="2">{HEADING_SESSION}</th>
 </tr>
 <tr>
   <td class="option">{TEXT_NR_OF_TRIES}:</td>

@@ -1,13 +1,15 @@
 <form name="test_output" method="post" action="{FORMACTION}">
 <table class="fullwidth">
-<tr class="tblheader">
-<td class="std">{QUESTION_COUNTER}</td>
-<td class="std">{QUESTION_TITLE}</td>
-<td class="std">{MAX_POINTS}</td>
-<td class="std">{REACHED_POINTS}</td>
-<td class="std">{PERCENT_SOLVED}</td>
-<td class="std">{SOLUTION_HINT_HEADER}</td>
-</tr>
+<thead>
+	<tr class="tblheader">
+		<th>{QUESTION_COUNTER}</th>
+		<th>{QUESTION_TITLE}</th>
+		<th>{MAX_POINTS}</th>
+		<th>{REACHED_POINTS}</th>
+		<th>{PERCENT_SOLVED}</th>
+		<th>{SOLUTION_HINT_HEADER}</th>
+	</tr>
+</thead>
 <!-- BEGIN question -->
 <tr>
 <td class="{COLOR_CLASS}">{VALUE_QUESTION_COUNTER}</td>
