@@ -228,7 +228,7 @@ assessment#:#eval_legend_link#:#Por favor, revise la leyenda para el significado
 assessment#:#eval_matching_result#:#La pareja %s - %s es %s.Usted recibió %s puntos.
 assessment#:#eval_order_result#:#El orden para el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_search_groups#:#Grupos
-assessment#:#eval_search_roles#:#Roles###23 Dec 2005 new variable
+assessment#:#eval_search_roles#:#Roles
 assessment#:#eval_search_term#:#Buscar término
 assessment#:#eval_search_users#:#Usuarios
 assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir a la evaluación estadística
@@ -634,55 +634,55 @@ assessment#:#width#:#Anchura
 assessment#:#with_order#:#con orden
 assessment#:#working_time#:#Tiempo de Trabajo
 assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles
-barometer#:#add#:#Add new Feedback###23 Dec 2005 new variable
-barometer#:#anonymous#:#Anonymous###23 Dec 2005 new variable
-barometer#:#barometer_title#:#Feedback###23 Dec 2005 new variable
-barometer#:#best#:#Best###23 Dec 2005 new variable
-barometer#:#change_course#:#Change Course###23 Dec 2005 new variable
-barometer#:#chart_type#:#Chart type###23 Dec 2005 new variable
-barometer#:#chart_users#:#Chart user###23 Dec 2005 new variable
-barometer#:#chart_votes#:#Chart votes###23 Dec 2005 new variable
-barometer#:#create#:#Create new feedback###23 Dec 2005 new variable
-barometer#:#day#:#Day###23 Dec 2005 new variable
-barometer#:#days#:#Days###23 Dec 2005 new variable
-barometer#:#delete#:#Delete###23 Dec 2005 new variable
-barometer#:#duration#:#Duration###23 Dec 2005 new variable
-barometer#:#edit#:#Edit###23 Dec 2005 new variable
-barometer#:#edit_barometer#:#Edit feedback###23 Dec 2005 new variable
-barometer#:#every#:#every###23 Dec 2005 new variable
-barometer#:#first_vote#:#1. Vote is the###23 Dec 2005 new variable
-barometer#:#from#:#from###23 Dec 2005 new variable
-barometer#:#hours#:#Hours###23 Dec 2005 new variable
-barometer#:#lines#:#Lines###23 Dec 2005 new variable
-barometer#:#login#:#Login###23 Dec 2005 new variable
-barometer#:#missing_fields#:#Please fill in all required information###23 Dec 2005 new variable
-barometer#:#month#:#Month###23 Dec 2005 new variable
-barometer#:#months#:#Months###23 Dec 2005 new variable
-barometer#:#new_vote#:#New vote###23 Dec 2005 new variable
-barometer#:#note#:#Comment###23 Dec 2005 new variable
-barometer#:#optional#:#Optional###23 Dec 2005 new variable
-barometer#:#options#:#Options###23 Dec 2005 new variable
-barometer#:#pie#:#Pie###23 Dec 2005 new variable
-barometer#:#repeat#:#Repeat###23 Dec 2005 new variable
-barometer#:#required#:#Required###23 Dec 2005 new variable
-barometer#:#save#:#Save###23 Dec 2005 new variable
-barometer#:#save_vote#:#Submit vote###23 Dec 2005 new variable
-barometer#:#skip#:#Skip###23 Dec 2005 new variable
-barometer#:#statistics#:#Statistics###23 Dec 2005 new variable
-barometer#:#status#:#Status###23 Dec 2005 new variable
-barometer#:#table#:#Table###23 Dec 2005 new variable
-barometer#:#text#:#Text###23 Dec 2005 new variable
-barometer#:#text_answer#:#Text answer###23 Dec 2005 new variable
-barometer#:#time#:#Running###23 Dec 2005 new variable
-barometer#:#title#:#Title###23 Dec 2005 new variable
-barometer#:#type#:#Type###23 Dec 2005 new variable
-barometer#:#until#:#until###23 Dec 2005 new variable
-barometer#:#user#:#User###23 Dec 2005 new variable
-barometer#:#vote#:#Vote###23 Dec 2005 new variable
-barometer#:#votes#:#Votes###23 Dec 2005 new variable
-barometer#:#weeks#:#Weeks###23 Dec 2005 new variable
-barometer#:#worst#:#Worst###23 Dec 2005 new variable
-barometer#:#year#:#Year###23 Dec 2005 new variable
+barometer#:#add#:#Add new Feedback###new variable
+barometer#:#anonymous#:#Anonymous###new variable
+barometer#:#barometer_title#:#Feedback###new variable
+barometer#:#best#:#Best###new variable
+barometer#:#change_course#:#Change Course###new variable
+barometer#:#chart_type#:#Chart type###new variable
+barometer#:#chart_users#:#Chart user###new variable
+barometer#:#chart_votes#:#Chart votes###new variable
+barometer#:#create#:#Create new feedback###new variable
+barometer#:#day#:#Day###new variable
+barometer#:#days#:#Days###new variable
+barometer#:#delete#:#Delete###new variable
+barometer#:#duration#:#Duration###new variable
+barometer#:#edit#:#Edit###new variable
+barometer#:#edit_barometer#:#Edit feedback###new variable
+barometer#:#every#:#every###new variable
+barometer#:#first_vote#:#1. Vote is the###new variable
+barometer#:#from#:#from###new variable
+barometer#:#hours#:#Hours###new variable
+barometer#:#lines#:#Lines###new variable
+barometer#:#login#:#Login###new variable
+barometer#:#missing_fields#:#Please fill in all required information###new variable
+barometer#:#month#:#Month###new variable
+barometer#:#months#:#Months###new variable
+barometer#:#new_vote#:#New vote###new variable
+barometer#:#note#:#Comment###new variable
+barometer#:#optional#:#Optional###new variable
+barometer#:#options#:#Options###new variable
+barometer#:#pie#:#Pie###new variable
+barometer#:#repeat#:#Repeat###new variable
+barometer#:#required#:#Required###new variable
+barometer#:#save#:#Save###new variable
+barometer#:#save_vote#:#Submit vote###new variable
+barometer#:#skip#:#Skip###new variable
+barometer#:#statistics#:#Statistics###new variable
+barometer#:#status#:#Status###new variable
+barometer#:#table#:#Table###new variable
+barometer#:#text#:#Text###new variable
+barometer#:#text_answer#:#Text answer###new variable
+barometer#:#time#:#Running###new variable
+barometer#:#title#:#Title###new variable
+barometer#:#type#:#Type###new variable
+barometer#:#until#:#until###new variable
+barometer#:#user#:#User###new variable
+barometer#:#vote#:#Vote###new variable
+barometer#:#votes#:#Votes###new variable
+barometer#:#weeks#:#Weeks###new variable
+barometer#:#worst#:#Worst###new variable
+barometer#:#year#:#Year###new variable
 bibitem#:#bibitem_add#:#añadir
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#AV
@@ -871,12 +871,6 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#amarillo
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Mis chats
-common#:#explorer_frame#:#Árbol Explorador
-common#:#repository_frame#:#Sección Contenidos
-common#:#main_menu_frame#:#Menú de nivel superior
-common#:#bottom_frame#:#Contenido Principal
-common#:#expand#:#Expandir
-common#:#collapse#:#Reducir
 common#:#3rd_party_software#:#software externo
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -899,13 +893,13 @@ common#:#add_author#:#añadir author
 common#:#add_condition#:#Crear nueva asociación
 common#:#add_member#:#Añadir miembro
 common#:#add_members#:#Añadir Miembros
-common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
-common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
-common#:#add_new_user_defined_text_field#:#Add new text field###27 Jan 2006 new variable
+common#:#add_new_user_defined_field#:#Add new user-defined field###new variable
+common#:#add_new_user_defined_select_field#:#Add new select box###new variable
+common#:#add_new_user_defined_text_field#:#Add new text field###new variable
 common#:#add_note#:#Añadir nota
 common#:#add_translation#:#Añadir Traducción
 common#:#add_user#:#Añadir usuario local
-common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
+common#:#add_user_defined_field#:#Add new field###new variable
 common#:#added_new_condition#:#Crear nueva condición.
 common#:#adm_create_tax#:#Crear taxonomía
 common#:#adm_edit_permission#:#Modificar configuración de permisos
@@ -1057,11 +1051,11 @@ common#:#bookmark_new#:#Nuevo favorito
 common#:#bookmark_target#:#URL
 common#:#bookmarks#:#Favoritos
 common#:#bookmarks_of#:#Favoritos de
-common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
-common#:#btn_add#:#Add###02 Feb 2006 new variable
-common#:#btn_new_value#:#New value###27 Jan 2006 new variable
-common#:#btn_next#:#Continue###27 Jan 2006 new variable
-common#:#btn_previous#:#Back###27 Jan 2006 new variable
+common#:#bottom_frame#:#Contenido Principal
+common#:#btn_add#:#Add###new variable
+common#:#btn_new_value#:#New value###new variable
+common#:#btn_next#:#Continue###new variable
+common#:#btn_previous#:#Back###new variable
 common#:#btn_remove_system#:#eliminar del sistema
 common#:#btn_undelete#:#recuperaar
 common#:#by#:#por
@@ -1185,7 +1179,7 @@ common#:#client_ip#:#Ip Cliente
 common#:#clipboard#:#Portapapeles
 common#:#close#:#Cerrar
 common#:#close_window#:#Cerrar ventana
-common#:#collapse#:#Collapse###06 Jan 2006 new variable
+common#:#collapse#:#Reducir
 common#:#comma_separated#:#separado por comas
 common#:#comment#:#comentario
 common#:#compose#:#Nuevo mensaje
@@ -1451,9 +1445,9 @@ common#:#exc_write#:#Editar actividad
 common#:#excs#:#Actividades
 common#:#execute#:#ejecutar
 common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
-common#:#exp_html#:#Exportar a HTML
-common#:#expand#:#Expand###06 Jan 2006 new variable
-common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
+common#:#exp_html#:#exportar a HTML
+common#:#expand#:#Expandir
+common#:#explorer_frame#:#Árbol Explorador
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
 common#:#export_html#:#Exportar como fichero HTML
@@ -1480,8 +1474,8 @@ common#:#faq_exercise#:#actividad FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#feedback
 common#:#feedback_recipient#:#destinatario feedback
-common#:#field_name#:#Field name###27 Jan 2006 new variable
-common#:#field_type#:#Field type###27 Jan 2006 new variable
+common#:#field_name#:#Field name###new variable
+common#:#field_type#:#Field type###new variable
 common#:#file#:#Archivo
 common#:#file_a#:#un Archivo
 common#:#file_add#:#Cargar archivo
@@ -1620,7 +1614,7 @@ common#:#group_details#:#Detalles de Grupo
 common#:#group_filesharing#:#Compartir archivos en grupo
 common#:#group_import#:#Importar Grupo
 common#:#group_import_file#:#Importar fichero
-common#:#group_info_reg#:#Admission procedure###23 Dec 2005 new variable
+common#:#group_info_reg#:#Procedimiento de admision
 common#:#group_members#:#Miembros de Grupo
 common#:#group_memstat#:#Estado de Miembro
 common#:#group_memstat_admin#:#Administrador
@@ -1726,7 +1720,7 @@ common#:#grp_visible#:#Grupo visible
 common#:#grp_write#:#Editar Grupo
 common#:#guest#:#Invitado
 common#:#guests#:#Invitados
-common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
+common#:#header_searchable#:#Searchable###new variable
 common#:#header_title#:#Título de Cabecera
 common#:#help#:#Ayuda
 common#:#hide#:#ocultar
@@ -1868,7 +1862,7 @@ common#:#import_file_not_valid#:#La importación del archivo no es válida
 common#:#import_finished#:#Número de mensajes importados
 common#:#import_forum_finished#:#El foro ha sido importado
 common#:#import_glossary#:#Importar Glosario
-common#:#import_grp#:#Import group###23 Dec 2005 new variable
+common#:#import_grp#:#Importar grupo
 common#:#import_grp_finished#:#Grupo importado sin errores
 common#:#import_hlm#:#Importar Paquete HACP
 common#:#import_lm#:#Importar Módulo de Aprendizaje
@@ -2019,7 +2013,7 @@ common#:#ldap_visible#:#La configuración LDAP es visible
 common#:#ldap_write#:#Editar configuración LDAP
 common#:#learning module#:#Módulo de aprendizaje
 common#:#learning_objects#:#Objetos de aprendizaje
-common#:#learning_progress#:#Datos de seguimiento
+common#:#learning_progress#:#Seguimiento
 common#:#learning_resource#:#Recurso de aprendizaje
 common#:#learning_resources#:#Recursos de aprendizaje
 common#:#level#:#nivel
@@ -2143,7 +2137,7 @@ common#:#mail_visible#:#La configuración de correo está visible
 common#:#mail_write#:#Editar configuración del Correo
 common#:#mail_z_local#:#Carpetas de usuario
 common#:#mails#:#correos
-common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
+common#:#main_menu_frame#:#Menú de nivel superior
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento
 common#:#mark_all_read#:#marcar cadena como leída
 common#:#mark_all_unread#:#marcar cadena como no leída
@@ -2319,8 +2313,8 @@ common#:#no_access_link_object#:#No tiene permisos para enlazar este objeto
 common#:#no_bm_in_personal_list#:#No hay favoritos definidos
 common#:#no_chat_in_personal_list#:#No hay chats en la lista personal
 common#:#no_checkbox#:#No se ha marcado ningún checkbox!
-common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
-common#:#no_conditions_found#:#No preconditions created.###23 Dec 2005 new variable
+common#:#no_condition_selected#:#Por favor seleccione una precondicion
+common#:#no_conditions_found#:#No se crearon precondiciones
 common#:#no_datasets#:#La tabla está vacía
 common#:#no_date#:#-No date-
 common#:#no_description#:#Sin descripción
@@ -2340,7 +2334,7 @@ common#:#no_permission_to_join#:#No tiene permiso para unirse a este grupo!
 common#:#no_roles_user_can_be_assigned_to#:#No hay roles globales a los que asignar el usuario. Por tanto, no tiene permiso para añadir usuarios.
 common#:#no_title#:#sin título
 common#:#no_tst_in_personal_list#:#No hay tests en la lista personal.
-common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
+common#:#no_user_defined_fields_defined#:#No user-defined fields available.###new variable
 common#:#no_users_applied#:#Por favor seleccione un usuario
 common#:#no_users_selected#:#Por favor seleccione un usuario.
 common#:#no_xml_file_found_in_zip#:#Fichero XML no encontrado dentro del archivo ZIP:
@@ -2546,7 +2540,7 @@ common#:#person_title#:#estado civil
 common#:#personal_data#:#Información personal
 common#:#personal_desktop#:#Escritorio Personal
 common#:#personal_picture#:#Foto personal
-common#:#personal_profile#:#Perfil de usuario
+common#:#personal_profile#:#Preferencias
 common#:#persons#:#Personas
 common#:#pg_a#:#una página
 common#:#pg_add#:#Añadir página
@@ -2636,8 +2630,8 @@ common#:#reply#:#responder
 common#:#repository#:#Contenidos
 common#:#repository_admin#:#Contenidos, Papelera y Permisos
 common#:#repository_admin_desc#:#Configurar permisos para items de Contenidos, restaurar o eliminar objetos de la Papelera del sistema
-common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
-common#:#request_membership#:#Request membership###23 Dec 2005 new variable
+common#:#repository_frame#:#Sección Contenidos
+common#:#request_membership#:#Solicitar pertenencia
 common#:#require_city#:#Solicitar ciudad
 common#:#require_country#:#Solicitar país
 common#:#require_default_role#:#Solicitar rol
@@ -2863,7 +2857,7 @@ common#:#st_add#:#Añadir capítulo
 common#:#st_added#:#Capítulo añadido
 common#:#st_edit#:#Editar capítulo
 common#:#st_new#:#Nuevo capítulo
-common#:#standard_fields#:#Standard fields###27 Jan 2006 new variable
+common#:#standard_fields#:#Standard fields###new variable
 common#:#startpage#:#página principal
 common#:#statistic#:#Estadística
 common#:#status#:#Estado
@@ -2891,18 +2885,18 @@ common#:#svy_add#:#Añadir encuesta
 common#:#svy_delete#:#Eliminar encuesta
 common#:#svy_edit_permission#:#Modificar configuración de permisos
 common#:#svy_evaluation#:#Evaluación
-common#:#svy_finished#:#completada###05 Feb 2006 content changed
+common#:#svy_finished#:#completada
 common#:#svy_invite#:#Invitar usuarios a encuesta
 common#:#svy_new#:#Nueva encuesta
 common#:#svy_no_content#:#No hay encuestas disponibles
-common#:#svy_not_finished#:#no completada###05 Feb 2006 content changed
+common#:#svy_not_finished#:#no completada
 common#:#svy_not_started#:#no comenzada
 common#:#svy_participate#:#Participar en encuesta
 common#:#svy_read#:#Acceso de lectura a la encuesta
 common#:#svy_run#:#Ejecutar
 common#:#svy_upload_file#:#Cargar archivo
 common#:#svy_visible#:#Encuesta visible
-common#:#svy_warning_survey_not_complete#:#¡La encuesta no está completa!###05 Feb 2006 content changed
+common#:#svy_warning_survey_not_complete#:#¡La encuesta no está completa!
 common#:#svy_write#:#Editar encuesta
 common#:#system#:#sistema
 common#:#system_check#:#Chequear Sistema
@@ -2998,18 +2992,18 @@ common#:#txt_submitted#:#Se envió con éxito una solicitud de cuenta a ILIAS. S
 common#:#typ#:#Definición de Tipo de Objeto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#escriba su mensaje aquí
-common#:#udf_add_field#:#Add field###27 Jan 2006 new variable
-common#:#udf_added_field#:#Added new filed.###27 Jan 2006 new variable
-common#:#udf_delete_header#:#Delete field###27 Jan 2006 new variable
-common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###27 Jan 2006 new variable
-common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
-common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
-common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
-common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new variable
-common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
-common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
-common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
-common#:#udf_value#:#Value###27 Jan 2006 new variable
+common#:#udf_add_field#:#Add field###new variable
+common#:#udf_added_field#:#Added new filed.###new variable
+common#:#udf_delete_header#:#Delete field###new variable
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###new variable
+common#:#udf_duplicate_entries#:#The values have to be unique.###new variable
+common#:#udf_field_deleted#:#Deleted field.###new variable
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###new variable
+common#:#udf_no_entries#:#Please enter minimum one value.###new variable
+common#:#udf_no_name_given#:#Please enter a field name.###new variable
+common#:#udf_type_select#:#Select box (fixed values)###new variable
+common#:#udf_type_text#:#Text field (optional values)###new variable
+common#:#udf_value#:#Value###new variable
 common#:#uid#:#uid
 common#:#unambiguousness#:#Identificación
 common#:#uncheck_all#:#deseleccionar todo
@@ -3050,8 +3044,8 @@ common#:#user_added#:#Usuario añadido
 common#:#user_assignment#:#Asignación de usuarios
 common#:#user_cant_receive_mail#:#el usuario no tiene permiso para usar el sistema de correo
 common#:#user_comment#:#comentario de Usuario
-common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
-common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
+common#:#user_defined_fields#:#User-defined fields###new variable
+common#:#user_defined_list#:#Overview user-defined fields###new variable
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_import_failed#:#La importación de usuarios falló.
@@ -3182,11 +3176,6 @@ common#:#you_may_add_local_roles#:#Puede añadir roles locales
 common#:#your_message#:#su mensaje
 common#:#zip#:#Código postal
 common#:#zipcode#:#Código postal
-content#:#cont_frame_toc#:#Tabla de Contenidos
-content#:#cont_frame_maincontent#:#Contenido Principal Recurso de Aprendizaje
-content#:#cont_frame_right#:#Detalles de Contenido
-content#:#cont_frame_topright#:#Detalles de Contenido (FAQ y Media)
-content#:#cont_frame_botright#:#Detalles de Contenido (Glosario)
 content#:#HTML export#:#exportar a HTML
 content#:#PDF export#:#exportar a PDF
 content#:#Pages#:#Páginas
@@ -3363,11 +3352,11 @@ content#:#cont_fix_tree#:#Reparar estructura
 content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la estructura en árbol de este módulo está corrupta. ej: si aparecen items en blanco en la vista -'explorer'-.
 content#:#cont_format#:#Formato
 content#:#cont_format_error#:#¡Esta operación no está permitida aquí!
-content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
-content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
-content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
-content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
-content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
+content#:#cont_frame_botright#:#Detalles de Contenido (Glosario)
+content#:#cont_frame_maincontent#:#Contenido Principal Recurso de Aprendizaje
+content#:#cont_frame_right#:#Detalles de Contenido
+content#:#cont_frame_toc#:#Tabla de Contenidos
+content#:#cont_frame_topright#:#Detalles de Contenido (FAQ y Media)
 content#:#cont_free_pages#:#Páginas -Libres-
 content#:#cont_full_is_in_dir#:#No es posible eliminar. El archivo de pantalla completa está en el directorio.
 content#:#cont_fullscreen#:#Pantalla Completa
@@ -3739,7 +3728,7 @@ crs#:#crs_grp_no_courses_assigned#:#No hay cursos asignados.
 crs#:#crs_grp_table_assigned_courses#:#Cursos asignados.
 crs#:#crs_header_archives#:#Archivos del Curso
 crs#:#crs_header_delete_members#:#Eliminar miembros
-crs#:#crs_header_delete_subscribers#:#Delete subscribers###23 Dec 2005 new variable
+crs#:#crs_header_delete_subscribers#:#Eliminar miembros
 crs#:#crs_header_edit_members#:#Editar miembros
 crs#:#crs_header_members#:#Miembros del Curso
 crs#:#crs_header_remove_from_waiting_list#:#Lista de espera: quitar usuarios
@@ -3789,7 +3778,7 @@ crs#:#crs_no_archives_selected#:#Por favor seleccione un archivo
 crs#:#crs_no_chapter_selected#:#Por favor seleccione un capítulo.
 crs#:#crs_no_groupings_assigned#:#Este curso no está asociado con ningún otro curso
 crs#:#crs_no_groups_selected#:#Por favor seleccione un grupo
-crs#:#crs_no_items_found#:#El curso no tiene ningun elemento
+crs#:#crs_no_items_found#:#No hay items en este objeto
 crs#:#crs_no_language#:#Sin idioma
 crs#:#crs_no_lm_selected#:#Por favor seleccione un material de aprendizaje
 crs#:#crs_no_lms_assigned#:#No hay materiales de aprendizaje asignados
@@ -3810,7 +3799,7 @@ crs#:#crs_no_users_added#:#No se añadieron miembros
 crs#:#crs_no_users_selected#:#No ha seleccionado ningún usuario
 crs#:#crs_no_valid_member_id_given#:#Id de miembro no válido
 crs#:#crs_not_available#:#No disponible
-crs#:#crs_notification#:#Notification###23 Dec 2005 new variable
+crs#:#crs_notification#:#Notificacion
 crs#:#crs_notify#:#Notificar nuevos registros
 crs#:#crs_nr#:#Num
 crs#:#crs_number_users_added#:#El siguiente número de usuarios ha sido asignado al curso
@@ -5147,12 +5136,12 @@ pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo
 pwassist#:#pwassist_update_error#:#Por favor contacte con su administrador de sistema.\nLa contraseña pudo no haber sido asignada a la cuenta de usuario debido a un error cuando se actualizaba la base de datos
 pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\n%s\n\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\n\t%s\n\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.\n\nPor favor compruebe lo siguiente y actue como se sugiere::\n\n-Usted ha solicitado este mail por accidente::\nElimine este correo.\n\n-Está seguro de que nunca solicitó este correo::\nPor favor contacte con %s.\n\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\n\n1. Ejecute su navegador de internet.\n\n2. Introduzca la siguiente URL:\n\t%s\n\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\n\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña.
 rbac#:#edit_learning_progress#:#Editar progreso de aprendizaje
-rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
-rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
-rbac#:#filter_local_roles#:#Show only local roles of current context###23 Dec 2005 new variable
-rbac#:#filter_local_roles_object#:#Show only local roles defined at this position###23 Dec 2005 new variable
-rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position###23 Dec 2005 new variable
-rbac#:#leave#:#-Abandonar-
+rbac#:#filter_all_roles#:#Mostrar todos los roles del contexto actual
+rbac#:#filter_global_roles#:#Mostrar solo roles globales
+rbac#:#filter_local_roles#:#Mostrar solo roles locales del contexto actual
+rbac#:#filter_local_roles_object#:#Mostrar solo roles locales definidos en esta posicion
+rbac#:#filter_roles_local_policy#:#Mostrar solo roles usando una politica local en esta posicion
+rbac#:#leave#:#Abandonar
 rbac#:#perm_administrate#:#Administrar
 rbac#:#perm_class_create#:#Crear nuevos objetos
 rbac#:#perm_class_create_desc#:#Determina qué tipos de objeto pueden ser creados dentro del objeto actual
@@ -5166,7 +5155,7 @@ rbac#:#perm_local_role#:#Rol Local
 rbac#:#perm_local_role_desc#:#Este rol está definido localmente en el objeto actual y corresponde a una política local
 rbac#:#perm_use_local_policy#:#Usar política local
 rbac#:#perm_use_local_policy_desc#:#Si la opción política local está activada, podrá definir una configuración de permisos diferentes para el objeto actual.
-search#:#add_members_header#:#Add members###02 Feb 2006 new variable
+search#:#add_members_header#:#Add members###new variable
 search#:#search_active#:#Incluir usuarios activos
 search#:#search_added_new_folder#:#Añadida nueva carpeta
 search#:#search_advanced#:#Búsqueda avanzada
@@ -5188,12 +5177,12 @@ search#:#search_delete_sure#:#El objeto y su contenido serán eliminados serán 
 search#:#search_details_info#:#Búsqueda detallada. Por favor seleccione un o más objetos abajo.
 search#:#search_direct#:#Búsqueda directa
 search#:#search_fast_info#:#Buscar en títulos, descripciones y palabras clave en todos los tipos de objeto.
-search#:#search_for_grp_members#:#Search for group members###02 Feb 2006 new variable
-search#:#search_for_role_members#:#Search for role members###02 Feb 2006 new variable
-search#:#search_for_users#:#Search for users###02 Feb 2006 new variable
+search#:#search_for_grp_members#:#Search for group members###new variable
+search#:#search_for_role_members#:#Search for role members###new variable
+search#:#search_for_users#:#Search for users###new variable
 search#:#search_full_info#:#Escoja esta opción para buscar en una cantidad grande de datos
 search#:#search_group#:#Grupos
-search#:#search_grp_title#:#Group name###02 Feb 2006 new variable
+search#:#search_grp_title#:#Group name###new variable
 search#:#search_hits#:#Encontrado en:
 search#:#search_in_magazin#:#En el repositorio
 search#:#search_in_result#:#Buscar en los resultados
@@ -5226,9 +5215,9 @@ search#:#search_objects_moved#:#Objetos movidos.
 search#:#search_one_action#:#Seleccione una acción.
 search#:#search_or#:#o
 search#:#search_rename_title#:#Renombrar título
-search#:#search_results#:#Search results###02 Feb 2006 new variable
+search#:#search_results#:#Search results###new variable
 search#:#search_results_saved#:#Resultados de Búsqueda guardados
-search#:#search_role_title#:#Role name###02 Feb 2006 new variable
+search#:#search_role_title#:#Role name###new variable
 search#:#search_save_as_select#:#Guardar como:
 search#:#search_search_for#:#Buscar
 search#:#search_search_no_results_saved#:#No hay resultados de búsqueda guardados
@@ -5252,7 +5241,7 @@ survey#:#add_limits_for_standard_numbers#:#Por favor introduzca un límite super
 survey#:#add_phrase#:#Añadir conjunto
 survey#:#add_phrase_introduction#:#Por favor seleccione un conjunto:
 survey#:#add_standard_numbers#:#Añadir números estandar
-survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.###05 Feb 2006 content changed
+survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente
 survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior.
 survey#:#anonymize_resume_introduction#:#Por favor introduzca su código de acceso a la encuesta. Le fué enviado a su bandeja de entrada cuando comenzó la encuesta.
@@ -5478,9 +5467,8 @@ survey#:#or#:#o
 survey#:#ordinal_question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
 survey#:#orientation#:#Orientación
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
-survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
-survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
 survey#:#percentage_of_offered_answers#:#Porcentaje de respuestas ofrecidas
+survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
 survey#:#phrase_saved#:#El conjunto fue grabado con éxito
 survey#:#predefined_users#:#Conjunto predefinido de usuarios
 survey#:#preview#:#Vista previa
@@ -5501,21 +5489,19 @@ survey#:#qpl_questions_pasted#:#Pregunta(s) pegada(s)
 survey#:#qpl_savephrase_empty#:#Por favor introduzca un título para el conjunto
 survey#:#qpl_savephrase_exists#:#¡El título para ese conjunto ya existe! Por favor seleccione otro título
 survey#:#qpl_unfold_select_none#:#Por favor seleccione al menos un bloque de preguntas si quiere deshacer el bloque
-survey#:#questionblock_icon#:#Icono de bloque de preguntas
-survey#:#question_icon#:#Icono de pregunta
 survey#:#qt_metric#:#Pregunta Métrica
 survey#:#qt_nominal#:#Pregunta Nominal
 survey#:#qt_ordinal#:#Pregunta Ordinal
 survey#:#qt_text#:#Pregunta de Texto
 survey#:#question_contains_no_categories#:#No hay respuetas definidas para esta pregunta
 survey#:#question_has_constraints#:#Restricciones
-survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
+survey#:#question_icon#:#Icono de pregunta
 survey#:#question_obligatory#:#¡La pregunta es obligatoria!
 survey#:#question_saved_for_upload#:#La pregunta fue grabada automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela, sea consciente de que tendrá que eliminar la pregunta en el banco si no quiere mantenerla.
 survey#:#question_type#:#Tipo de pregunta
 survey#:#questionblock#:#Bloque de preguntas
 survey#:#questionblock_has_constraints#:#Restricciones
-survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
+survey#:#questionblock_icon#:#Icono de bloque de preguntas
 survey#:#questionblocks#:#Bloques de preguntas
 survey#:#questions#:#Preguntas
 survey#:#questions_inserted#:#Pregunta(s) insertada(s)
@@ -5570,7 +5556,7 @@ survey#:#survey_code_url#:#URL para acceso directo
 survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copiar la URL)
 survey#:#survey_code_used#:#Código fue usado
 survey#:#survey_finish#:#Salvar y terminar encuesta
-survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!###05 Feb 2006 content changed
+survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
 survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
 survey#:#survey_next#:#salvar y pasar a siguiente página >>>
 survey#:#survey_offline_message#:#No puede invitar usuarios. ¡La encuesta está offline!
@@ -5635,7 +5621,7 @@ trac#:#obj_types#:#Tipos de objeto:
 trac#:#search_area_info#:#Por favor escoja un objeto.
 trac#:#select_one#:#Por favor seleccione un objeto
 trac#:#trac_activated#:#Tracking activado
-trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
+trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
 trac#:#trac_anonymized#:#Anonimo
 trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
 trac#:#trac_assigned#:#Asignado
@@ -5647,18 +5633,18 @@ trac#:#trac_comments#:#Comentarios
 trac#:#trac_completed#:#Completado
 trac#:#trac_crs_releavant_items#:#Items del curso
 trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
-trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
+trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
-trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
+trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Oculto:
-trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
+trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
 trac#:#trac_filter_no_access#:#No se encontraron objetos
-trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
+trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
-trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable
-trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
+trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
+trac#:#trac_last_access#:#Último acceso
 trac#:#trac_learning_progress#:#Progreso de aprendizaje
 trac#:#trac_learning_progress_tbl_header#:#Progreso de:
 trac#:#trac_lp_filter#:#Filtro
@@ -5669,8 +5655,8 @@ trac#:#trac_mode_collection#:#Coleccion de objetos
 trac#:#trac_mode_deactivated#:#Desactivado
 trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_objectives#:#Objetivos de aprendizaje
-trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
-trac#:#trac_mode_scorm_aicc#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_scorm#:#SCORM/AICC
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
 trac#:#trac_mode_test_finished#:#Test finalizado
 trac#:#trac_mode_test_passed#:#Test superado
 trac#:#trac_mode_tlt#:#Tiempo tipico de aprendizaje
@@ -5678,21 +5664,21 @@ trac#:#trac_mode_visits#:#Numero de visitas
 trac#:#trac_modifications_saved#:#Configuracion salvada
 trac#:#trac_modus#:#Modo
 trac#:#trac_no_attempted#:#No visitado
-trac#:#trac_no_content#:#No informations about the learning progress available.###20 Jan 2006 new variable
+trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
 trac#:#trac_no_sahs_items_found#:#No se encontraron objetos.
 trac#:#trac_not_accessed#:#No accedido
 trac#:#trac_not_assigned#:#No asignado
 trac#:#trac_not_attempted#:#No visitado
-trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
+trac#:#trac_not_completed#:#No completado
 trac#:#trac_num_visits#:#Numero de visitas
 trac#:#trac_objects#:#Lista de objetos
 trac#:#trac_occurrences#:#Ruta:
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:
 trac#:#trac_refresh#:#Actualizar
-trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
-trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
-trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
+trac#:#trac_required_visits#:#Número de visitas requeridas
+trac#:#trac_sahs_relevant_items#:#SCO's
+trac#:#trac_select_one#:#No hizo selección
 trac#:#trac_settings#:#Configuracion
 trac#:#trac_settings_saved#:#Configuracion guardada.
 trac#:#trac_show_hidden#:#Mostrar
@@ -5700,7 +5686,7 @@ trac#:#trac_spent_time#:#Tiempo empleado
 trac#:#trac_status#:#Estado
 trac#:#trac_total_online#:#Tiempo total online
 trac#:#trac_update_edit_user#:#Configuracion grabada
-trac#:#trac_updated_status#:#Saved learning progress status.###24 Jan 2006 new variable
+trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
 trac#:#trac_user_data#:#Datos de usuario
 trac#:#trac_usr_list#:#Usuarios
 trac#:#trac_valid_request#:#Max. tiempo entre peticiones
@@ -5709,14 +5695,3 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
-trac#:#trac_required_visits#:#Número de visitas requeridas
-trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
-trac#:#trac_filter_none#:#Ninguno
-trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
-trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
-trac#:#trac_select_one#:#No hizo selección
-trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
-trac#:#trac_not_completed#:#No completado
-trac#:#trac_last_access#:#Último acceso
-trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
-trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
