@@ -5447,6 +5447,7 @@ survey#:#or#:#або
 survey#:#ordinal_question_not_checked#:#Будь ласка перевірте одну с запропонованих відповідей!
 survey#:#orientation#:#Орієнтація
 survey#:#percentage_of_entered_values#:#Відсоток користувачів що ввели це значення
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Відстоток користувачів що вибрали цю категорію###03 Nov 2005 content changed
 survey#:#phrase_saved#:#Фраза була збережена вдало!
 survey#:#predefined_users#:#Напередвизначений користувач встановив

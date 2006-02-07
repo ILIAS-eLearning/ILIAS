@@ -4752,6 +4752,7 @@ survey#:#or#:#sau
 survey#:#ordinal_question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
 survey#:#orientation#:#Orientare
 survey#:#percentage_of_entered_values#:#Procentajul utilizatorilor care au introdus aceasat valoare
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Procentajul utilizatorilor care au selectat aceasta categorie###03 Nov 2005 content changed
 survey#:#phrase_saved#:#Fraza a fost salvata cu succes!
 survey#:#predefined_users#:#Utilizatori predefiniti

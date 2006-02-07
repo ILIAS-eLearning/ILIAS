@@ -4823,6 +4823,7 @@ survey#:#or#:#или
 survey#:#ordinal_question_not_checked#:#Моля, маркирайте един от предложените отговори!
 survey#:#orientation#:#Ориентация
 survey#:#percentage_of_entered_values#:#Процент на потребителите, въвели тази стойност
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Процент на потребителите, избрали тази категория
 survey#:#phrase_saved#:#Фразата беше съхранена успешно!
 survey#:#predefined_users#:#Набор от предварително дефинираните потребители

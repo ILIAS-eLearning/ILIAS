@@ -5484,6 +5484,7 @@ survey#:#or#:#or###24 May 2004 new variable
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
 survey#:#phrase_saved#:#The phrase was saved successfully!###29 Nov 2004 new variable
 survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable

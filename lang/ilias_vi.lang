@@ -5365,6 +5365,7 @@ survey#:#or#:#hoặc
 survey#:#ordinal_question_not_checked#:#Hãy đánh dấu một trong các câu trả lời cho trước!
 survey#:#orientation#:#Hướng
 survey#:#percentage_of_entered_values#:#Phần trăm của những người sử dụng đã nhập giá trị này
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Phần trăm của những người sử dụng đã chọn mục này
 survey#:#phrase_saved#:#Đã ghi cụm từ thành công!
 survey#:#predefined_users#:#Tập hợp người sử dụng xác định trước

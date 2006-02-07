@@ -5266,6 +5266,7 @@ survey#:#or#:#ili
 survey#:#ordinal_question_not_checked#:#Molimo proverite jedan od ponudenih odgovora!
 survey#:#orientation#:#Orijentacija
 survey#:#percentage_of_entered_values#:#Procenat korisnika koji su uneli ovu vrednost
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Procenat korisnika koji je odabrao ovu kategoriju###03 Nov 2005 content changed
 survey#:#phrase_saved#:#Fraza je uspešno sacuvana1
 survey#:#predefined_users#:#Predodreden korisnik postavljen

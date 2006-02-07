@@ -4746,6 +4746,7 @@ survey#:#or#:#или
 survey#:#ordinal_question_not_checked#:#Пожалуйста, выберите один из предлагаемых ответов!
 survey#:#orientation#:#Ориентация 
 survey#:#percentage_of_entered_values#:#Процент пользователей по этому значению
+survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Процент пользователей по этой категории
 survey#:#phrase_saved#:#Фраза была сохранена успешно!
 survey#:#predefined_users#:#Предопределенные настройки пользователя
