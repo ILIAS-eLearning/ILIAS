@@ -2504,7 +2504,7 @@ common#:#parameter#:#Paraméter
 common#:#parse#:#Szövegszerkezet elemzés
 common#:#passed#:#Passed
 common#:#passwd#:#Jelszó
-common#:#passwd_invalid#:#Az új jelszó nem megfelelő. Csak a következő karakterek használhatók (min. 6 karakter): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_invalid#:#Az új jelszó nem megfelelő. Csak a következő karakterek használhatók (min. 6 karakter): A-Z a-z 0-9 _.-+*@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#A begépelt nem illeszkedik az új jelszóra. Adja meg ismét az új jelszót.
 common#:#passwd_wrong#:#A megadott jelszó hibás.
 common#:#password#:#Jelszó

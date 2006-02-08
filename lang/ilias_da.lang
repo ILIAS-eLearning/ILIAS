@@ -2415,7 +2415,7 @@ common#:#parameter#:#Parameter###21 Apr 2005 new variable
 common#:#parse#:#Parse###21 Apr 2005 new variable
 common#:#passed#:#Passed###21 Apr 2005 new variable
 common#:#passwd#:#Password###21 Apr 2005 new variable
-common#:#passwd_invalid#:#Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_invalid#:#Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###21 Apr 2005 new variable
 common#:#passwd_wrong#:#Det password du har indtastet er forkert!
 common#:#password#:#Password###21 Apr 2005 new variable

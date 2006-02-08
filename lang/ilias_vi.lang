@@ -2427,7 +2427,7 @@ common#:#parameter#:#Tham số
 common#:#parse#:#Dịch
 common#:#passed#:#Đạt
 common#:#passwd#:#Mật khẩu
-common#:#passwd_invalid#:#Mật khẩu mới không hợp lệ! Chỉ các ký tự sau là được phép (ít nhất 6 ký tự): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_invalid#:#Mật khẩu mới không hợp lệ! Chỉ các ký tự sau là được phép (ít nhất 6 ký tự): A-Z a-z 0-9 _.-+*@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Mật khẩu mới không trùng khớp! Hãy nhập lại mật khẩu mới.
 common#:#passwd_wrong#:#Mật khẩu nhập sai!
 common#:#password#:#Mật khẩu
