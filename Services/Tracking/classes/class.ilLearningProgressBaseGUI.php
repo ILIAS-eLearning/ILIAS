@@ -249,6 +249,28 @@ class ilLearningProgressBaseGUI
 		return $path;
 	}
 
+	function __showImageByStatus(&$tpl,$a_status)
+	{
+		switch($a_status)
+		{
+			case LP_STATUS_IN_PROGRESS:
+				$tpl->setVariable("STATUS_IMG",ilUtil::getImagePath('scorm/incomplete.gif'));
+				$tpl->setVariable("STATUS_ALT",$this->lng->txt($a_status));
+				break;
+
+			case LP_STATUS_COMPLETED:
+				$tpl->setVariable("STATUS_IMG",ilUtil::getImagePath('scorm/complete.gif'));
+				$tpl->setVariable("STATUS_ALT",$this->lng->txt($a_status));
+				break;
+			
+			case LP_STATUS_NOT_ATTEMPTED:
+				$tpl->setVariable("STATUS_IMG",ilUtil::getImagePath('scorm/running.gif'));
+				$tpl->setVariable("STATUS_ALT",$this->lng->txt($a_status));
+				break;
+		}
+		return true;
+	}
+
 
 	// Protected Table gui methods
 	function &__initTableGUI()
