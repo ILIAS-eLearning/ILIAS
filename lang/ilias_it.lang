@@ -2500,7 +2500,7 @@ common#:#parameter#:#Parametro
 common#:#parse#:#Analizza
 common#:#passed#:#Superato
 common#:#passwd#:#Password
-common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegli un'altra password.
+common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegli un'altra password.###08 Feb 2006 content changed
 common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per favore, riscrivi la nuova password.
 common#:#passwd_wrong#:#La password inserita &#232; sbagliata!
 common#:#password#:#Password

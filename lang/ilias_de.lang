@@ -2503,7 +2503,7 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
-common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~
+common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort

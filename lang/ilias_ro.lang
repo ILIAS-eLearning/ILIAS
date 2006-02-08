@@ -2199,7 +2199,7 @@ common#:#parameter#:#Parametru
 common#:#parse#:#Parse
 common#:#passed#:#Trecut
 common#:#passwd#:#Parola
-common#:#passwd_invalid#:#Noua parola nu este valabila! Numai urmatoarele caractere sunt permise (minimum 6 caractere): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_invalid#:#Noua parola nu este valabila! Numai urmatoarele caractere sunt permise (minimum 6 caractere): A-Z a-z 0-9 _.-+*@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Introducerile pentru noua parola nu se potrivesc! Va rugam reintroduceti noua parola.
 common#:#passwd_wrong#:#Parola pe care ati introdus-o este gresita!
 common#:#password#:#Parola

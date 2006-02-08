@@ -2418,7 +2418,7 @@ common#:#parameter#:#Parametër
 common#:#parse#:#Analizo
 common#:#passed#:#Kalon
 common#:#passwd#:#Parulla
-common#:#passwd_invalid#:#Parulla e re është jovalide! Vetëm karakteret vijuese lejohen (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_invalid#:#Parulla e re është jovalide! Vetëm karakteret vijuese lejohen (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Të dhënat për parullë të re nuk po përputhen! Ju lutem shënoni edhe një herë parullën e re.
 common#:#passwd_wrong#:#Parulla është dhënë gabimisht!
 common#:#password#:#Parulla

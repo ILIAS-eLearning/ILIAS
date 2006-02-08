@@ -2418,7 +2418,7 @@ common#:#parameter#:#Parametar
 common#:#parse#:#Rasclani
 common#:#passed#:#Prošlo
 common#:#passwd#:#lozinka
-common#:#passwd_invalid#:#Nova lozinka je pogrešna! Samo su sledeci karakteri dozvoljeni (minimalno 6 karaktera): A-Z a-z 0-9 _.-@!$%~
+common#:#passwd_invalid#:#Nova lozinka je pogrešna! Samo su sledeci karakteri dozvoljeni (minimalno 6 karaktera): A-Z a-z 0-9 _.-@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Unosi za novu lozinku ne odgovaraju! Molimo ponovo unesite vašu novu lozinku.
 common#:#passwd_wrong#:#Lozinka koju ste uneli je pogrešna!
 common#:#password#:#Lozinka

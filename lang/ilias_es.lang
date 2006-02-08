@@ -2505,7 +2505,7 @@ common#:#parameter#:#Parámetro
 common#:#parse#:#Analizar
 common#:#passed#:#Superado
 common#:#passwd#:#contraseña
-common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
+common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña###08 Feb 2006 content changed
 common#:#passwd_not_match#:#La introducción de nueva contraseña es distinta! Por favor introdúzca de nuevo las dos repeticiones
 common#:#passwd_wrong#:#La contraseña introducida es incorrecta!
 common#:#password#:#contraseña

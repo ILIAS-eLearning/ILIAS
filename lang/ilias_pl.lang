@@ -2504,7 +2504,7 @@ common#:#parameter#:#Parametr
 common#:#parse#:#Wykonaj
 common#:#passed#:#Wykonane
 common#:#passwd#:#Hasło
-common#:#passwd_invalid#:#Nowe hasło jest niewłaściwe! Wybierz inne hasło.
+common#:#passwd_invalid#:#Nowe hasło jest niewłaściwe! Wybierz inne hasło.###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Wpisy dla nowego hasła się nie zgadzają! Podaj ponownie nowe hasło.
 common#:#passwd_wrong#:#Hasło, które podałeś jest błędne!
 common#:#password#:#Hasło

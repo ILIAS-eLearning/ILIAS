@@ -2033,6 +2033,7 @@ common#:#parse#:#Фраза
 common#:#passed#:#Сдан
 common#:#passwd#:#Пароль
 common#:#passwd_invalid#:#Новый пароль ошибочен! Разрешены только следующие символы (более 6 символов): A-Z a-z 0-9 _.-+*@!$%~
+###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Пароль и повтор пароля не совпадают! Пожалуйста, повторите ваш новый пароль.
 common#:#passwd_wrong#:#Введенный вами пароль ошибочен!
 common#:#password#:#Пароль
