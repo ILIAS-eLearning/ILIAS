@@ -2083,7 +2083,7 @@ common#:#local_language_file#:#archivo de idioma local
 common#:#local_language_files#:#archivos de idioma local
 common#:#local_languages_already_installed#:#El archivo(s) de idioma local seleccionado(s) ya están instalados
 common#:#locator#:#Estás en:
-common#:#log_in#:#Login
+common#:#log_in#:#Entrar
 common#:#logic_and#:#y
 common#:#logic_or#:#o
 common#:#login#:#Usuario
@@ -2094,7 +2094,7 @@ common#:#login_invalid#:#El login escogido es inválido! Sólo los siguientes ca
 common#:#login_time#:#Tiempo online
 common#:#login_to_ilias#:#entrada a ILIAS
 common#:#login_to_ilias_via_shibboleth#:#Entrar a ILIAS via Shibboleth
-common#:#logout#:#salir
+common#:#logout#:#Salir
 common#:#logout_text#:#Ha abandonado ILIAS. Su sesión ha sido cerrada.
 common#:#logs#:#Datos de Log
 common#:#los#:#objetos de aprendizaje
@@ -3108,7 +3108,7 @@ common#:#usrimport_cant_update#:#No se puede realizar la acción "Update". No ex
 common#:#usrimport_conflict_handling_info#:#Cuando se selecciona "Ignorar si hay conflicto", ILIAS ignora una acción, si no puede ser llevada a cabo (e. g. una acción "Insert" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)\nCuando se selecciona "Actualizar si hay conflicto", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción "Insert" es reemplazada por una acción "Update", si un usuario con el mismo login existe en la base de datos)
 common#:#usrimport_global_role_for_action_required#:#Al menos un rol global ha de ser especificado para la acción "%1$s".
 common#:#usrimport_ignore_role#:#Ignorar rol
-common#:#usrimport_login_is_not_unique#:#El Login no es único.
+common#:#usrimport_login_is_not_unique#:#El ID de usuario no es único.
 common#:#usrimport_with_specified_role_not_permitted#:#La Importación con el rol especificado no permitida.
 common#:#usrimport_xml_attribute_missing#:#Atributo "%2$s" en el elemento "%1$s" no existe.
 common#:#usrimport_xml_attribute_value_illegal#:#Valor "%3$s" del atributo "%2$s" en el elemento "%1$s" es ilegal
