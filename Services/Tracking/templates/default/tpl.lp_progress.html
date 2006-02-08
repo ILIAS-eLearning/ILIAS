@@ -1,0 +1,65 @@
+<font class="smallred">{LIMIT_REACHED}</font><br /><br />
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth" border="0">
+		  <tr class="tbltitle">
+			<th class="std" width="1">
+			  <img border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			</th>
+			<th class="std" colspan="3">{BLOCK_HEADER_CONTENT}</th>
+		  </tr>
+		  <tr class="tblheader">
+			<th class="std" colspan="2">{EMPTY}</th>
+			<th class="std"><div align="center">{HEAD_STATUS}</div></th>
+			<th class="std">{HEAD_OPTIONS}</th>
+		  </tr>
+		  <!-- BEGIN container_standard_row -->
+		  <tr class="{TBLROW}">
+			<td class="std" valign="top" width="1">
+			  <input type="checkbox" name="item_id[]" value="{ITEM_ID}" />
+			<td class="std" width="60%">
+			  <b>{TXT_TITLE}</b>
+			  <!-- BEGIN item_description -->
+			  <div class="il_Description">{TXT_DESC}</div>
+			  <!-- END item_description -->
+
+			  <!-- BEGIN item_properties -->
+			  <div class="il_ItemProperties">
+				<!-- BEGIN item_property -->
+				<!-- BEGIN newline_prop --><br /><!-- END newline_prop -->
+				<span class="il_ItemAlertProperty">
+				  {TXT_PROP}: {VAL_PROP}&nbsp;&nbsp;</span>
+				<!-- END item_property -->
+			  </div>
+			  <!-- END item_properties -->
+
+			  <div class="il_ItemProperties">{OCCURRENCES}</div>
+			  <!-- BEGIN path -->
+			  <div class="il_ItemProperties">&nbsp;&nbsp;
+				<!-- BEGIN path_item -->
+				{PATH_ITEM}
+				<!-- END path_item -->
+			  </div>
+			  <!-- END path -->
+			</td>
+			<td class="std" valign="top" align="center" width="20%">
+			  <div align="center">
+				<img border="0" src="{STATUS_IMG}" alt="{STATUS_ALT}" title="{STATUS_ALT}" />
+			  </div>
+			</td>
+			<td class="std" valign="top" nowrap="nowrap" width="20%" align="center">
+			  <!-- BEGIN item_command -->
+				<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+			  <!-- END item_command -->
+			</td>
+		  </tr>
+		  <!-- END container_standard_row -->
+		  <tr class="tblfooter">
+			<td class="std" valign="center" align="left" width="1%">
+			  <img src="{DOWNRIGHT}" border="0" />
+			</td>
+			<td class="std" colspan="3" valign="center" align="left">
+			  &nbsp;<input class="submit" type="SUBMIT" name="cmd[hideSelected]" value="{BTN_HIDE_SELECTED}"/>
+			</td>
+		  </tr>
+	  </table>
+	</form>
