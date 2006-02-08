@@ -46,6 +46,8 @@ require_once("classes/class.ilSaxParser.php");
 */
 class ilUserImportParser extends ilSaxParser
 {
+	var $time_limit_set = false;
+
 	var $folder_id;
 	var $roles;
 	/**
@@ -747,14 +749,14 @@ class ilUserImportParser extends ilSaxParser
 							$this->userObj->setDescription($this->userObj->getEmail());
 
 							// default time limit settings
-
-							$this->userObj->setTimeLimitOwner($this->getFolderId());
-							$this->userObj->setTimeLimitUnlimited($ilias->account->getTimeLimitUnlimited());
-							$this->userObj->setTimeLimitFrom($ilias->account->getTimeLimitFrom());
-							$this->userObj->setTimeLimitUntil($ilias->account->getTimeLimitUntil());
-							$this->userObj->setTimeLimitMessage($ilias->account->getTimeLimitMessage());
-							$this->userObj->setApproveDate($ilias->account->getApproveDate());
-							$ilincdata = $ilias->account->getiLincData();
+							if(!$this->time_limit_set)
+							{
+								$this->userObj->setTimeLimitOwner($this->getFolderId());
+								$this->userObj->setTimeLimitUnlimited(1);
+								$this->userObj->setTimeLimitMessage(0);
+								$this->userObj->setApproveDate(date("Y-m-d H:i:s"));
+							}
+							$ilincdata = $ilUser->getiLincData();
 							$this->userObj->setiLincData($ilincdata["id"], $ilincdata["login"], $ilincdata["password"]);
 							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive), $ilUser->getId());
 
@@ -1002,6 +1004,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "TimeLimitUnlimited":
+				$this->time_limit_set = true;
 				$this->userObj->setTimeLimitUnlimited($this->cdata);
 				break;
 
