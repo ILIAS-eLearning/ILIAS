@@ -25,11 +25,12 @@
 /**
 * redirect script for studip-users
 *
-* @author Arne Schröder <schroeder@data-quest.de>
+* @author Arne Schrï¿½der <schroeder@data-quest.de>
 *
 * @package studip-interface
 */
 
+/* ILIAS Version 3.6.0stable */
 // start correct session and client
 if (isset($_POST["sess_id"]))
 	$_GET["sess_id"] = $_POST["sess_id"];
