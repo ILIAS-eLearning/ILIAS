@@ -1707,6 +1707,7 @@ common#:#hlm_write#:#Sửa học phần HACP
 common#:#hobby#:#Sở thích
 common#:#home#:#Trang chủ
 common#:#host#:#Host
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Giờ trong ngày
 common#:#htlm#:#Học phần HTML
 common#:#htlm_add#:#Thêm học phần HTML

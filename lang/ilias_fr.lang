@@ -1744,6 +1744,7 @@ common#:#hlm_write#:#Modifier document HACP###07 Apr 2005 content changed
 common#:#hobby#:#Intérêts/hobbies###07 Apr 2005 content changed
 common#:#home#:#Espace public###07 Apr 2005 content changed
 common#:#host#:#Hôte###07 Apr 2005 content changed
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Heures du jour###07 Apr 2005 content changed
 common#:#htlm#:#Document HTML importé###07 Apr 2005 content changed
 common#:#htlm_add#:#Ajouter document HTML importé###07 Apr 2005 content changed

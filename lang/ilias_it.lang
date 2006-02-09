@@ -1754,6 +1754,7 @@ common#:#hlm_write#:#Modificare un modulo HACP
 common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Ore nel giorno
 common#:#htlm#:#Modulo HTML
 common#:#htlm_add#:#Aggiungi modulo HTML

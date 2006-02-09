@@ -1591,6 +1591,7 @@ common#:#hlm_write#:#Редактиране на HACP модул за обуче
 common#:#hobby#:#Интереси/хобита
 common#:#home#:#Начална страница
 common#:#host#:#Хост
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Часовете на деня
 common#:#htlm#:#Модул за обучение HTML
 common#:#htlm_add#:#Добавяне на HTML модул за обучение

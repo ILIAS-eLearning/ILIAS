@@ -1564,6 +1564,7 @@ common#:#hlm_write#:#Editati Modulul de Invatare HACP
 common#:#hobby#:#Interese/Hobby-uri
 common#:#home#:#Acasa
 common#:#host#:#Host
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Ore din zi
 common#:#htlm#:#Modul de Invatare HTML
 common#:#htlm_add#:#Adaugati Modul de Invatare HTML
