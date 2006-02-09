@@ -324,8 +324,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("msg_deleted_rolt"),true);	
 			}	
 		}
-			
-		ilUtil::redirect("adm_object.php?ref_id=".$return_loc);
+		
+		$this->ctrl->redirect($this, "view");
+		//ilUtil::redirect("adm_object.php?ref_id=".$return_loc);
 	}
 	
 	/**
@@ -437,7 +438,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	{
 		sendinfo($this->lng->txt("saved_successfully"),true);
 		
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
+		$this->ctrl->redirect($this, "view");
+		//ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 	}
 	
 	/**
@@ -520,7 +522,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("rolf_added"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		$this->ctrl->redirect($this, "view");
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	function __showRolesTable($a_result_set,$a_role_ids)
