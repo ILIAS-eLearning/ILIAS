@@ -33,7 +33,7 @@
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+include_once "class.ilObjectGUI.php";
 
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
@@ -168,6 +168,22 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		$this->ctrl->redirect($this,'settings');
 	}
+	
+	/**
+	* Called when the a log should be shown
+	*/
+	function showLogObject()
+	{
+		$this->logsObject();
+	}
+	
+	/**
+	* Called when the a log should be exported
+	*/
+	function exportLogObject()
+	{
+		$this->logsObject();
+	}
 
 	/**
 	* display assessment folder logs form
@@ -237,21 +253,21 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", ilUtil::getJSPath("calendar.js"));
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", ilUtil::getJSPath("calendar-setup.js"));
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", ilUtil::getJSPath("calendar.css"));
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./assessment/js/calendar/calendar.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./assessment/js/calendar/calendar-setup.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./assessment/js/calendar/calendar.css");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("javascript_call_calendar");
 		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
 		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
 		$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
 		$this->tpl->parseCurrentBlock();
-		require_once ("./assessment/classes/class.ilObjTest.php");
+		include_once "./assessment/classes/class.ilObjTest.php";
 		$available_tests =& ilObjTest::_getAvailableTests(1);
 		foreach ($available_tests as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("sel_test_row");
-			$this->tpl->setVariable("TXT_OPTION", ilUtil::prepareFormOutput($value));
+			$this->tpl->setVariable("TXT_OPTION", ilUtil::prepareFormOutput($value) . " (" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . ")");
 			$this->tpl->setVariable("VALUE_OPTION", $key);
 			if (($_POST["sel_test"] > -1) && ($_POST["sel_test"] == $key))
 			{
@@ -260,12 +276,25 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if ($_POST["cmd"]["logs"])
+		if ((strcmp($this->ctrl->getCmd(), "showLog") == 0) ||
+			(strcmp($this->ctrl->getCmd(), "exportLog") == 0))
 		{
-			require_once "./assessment/classes/class.assQuestion.php";
+			include_once "./classes/class.ilUtil.php";
+			$separator = ";";
+			$csv = array();
+			if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
+			{
+				$row = array(
+						$this->lng->txt("assessment_log_datetime"),
+						$this->lng->txt("user"),
+						$this->lng->txt("assessment_log_text")
+				);
+				array_push($csv, ilUtil::processCSVRow($row, TRUE, $separator));
+			}
+			include_once "./assessment/classes/class.assQuestion.php";
 			$ts_from = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_from_date"]["y"], $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], $_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"], 0);
 			$ts_to = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_to_date"]["y"], $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], $_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"], 0);
-			$log_output =& $this->object->getLog($ts_from, $ts_to, $_POST["sel_test"], $_POST["log_user_answers"]);
+			$log_output =& $this->object->getLog($ts_from, $ts_to, $_POST["sel_test"]);
 			$users = array();
 			foreach ($log_output as $key => $log)
 			{
@@ -285,6 +314,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("output_row");
 				$this->tpl->setVariable("ROW_CLASS", $tblrow[$key % 2]);
 				$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($log["TIMESTAMP14"]), "datetime"));
+				$csvrow = array();
+				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
+				{
+					array_push($csvrow, ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($log["TIMESTAMP14"]), "datetime"));
+				}
 				if ($log["question_fi"] || $log["original_fi"])
 				{
 					$title = ASS_Question::_getQuestionTitle($log["question_fi"]);
@@ -295,21 +329,50 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 					$title = "(" . $this->lng->txt("assessment_log_question") . ": " . $title . ")";
 				}
 				$this->tpl->setVariable("TXT_USER", trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
+				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
+				{
+					array_push($csvrow, trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
+				}
 				if (array_key_exists("value1", $log))
 				{
 					$this->tpl->setVariable("TXT_LOGTEXT", ilUtil::prepareFormOutput($this->lng->txt("assessment_log_user_answer") . " " . $title));
+					if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
+					{
+						array_push($csvrow, $this->lng->txt("assessment_log_user_answer") . " " . $title);
+					}
 				}
 				else
 				{
 					$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"]) . " " . $title));
+					if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
+					{
+						array_push($csvrow, trim($log["logtext"] . " " . $title));
+					}
 				}
 				$this->tpl->parseCurrentBlock();
+				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
+				{
+					array_push($csv, ilUtil::processCSVRow($csvrow, TRUE, $separator));
+				}
 			}
 			if (count($log_output) == 0)
 			{
 				$this->tpl->setCurrentBlock("empty_row");
 				$this->tpl->setVariable("TXT_NOLOG", $this->lng->txt("assessment_log_no_log"));
 				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
+				{
+					$csvoutput = "";
+					foreach ($csv as $row)
+					{
+						$csvoutput .= join($row, $separator) . "\n";
+					}
+					ilUtil::deliverData($csvoutput, str_replace(" ", "_", "log_" . $ts_from . "_" . $ts_to . "_" . $available_tests[$_POST["sel_test"]]).".csv");
+					return;
+				}
 			}
 			$this->tpl->setCurrentBlock("log_output");
 			$this->tpl->setVariable("HEADER_DATETIME", $this->lng->txt("assessment_log_datetime"));
@@ -350,11 +413,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("INPUT_LOG_TO", $date_input." / ".$time_input);
 		$this->tpl->setVariable("TXT_LOG_TO_CALENDAR", $this->lng->txt("assessment_log_open_calendar"));
-		$this->tpl->setVariable("TXT_LOG_USER_ANSWERS", $this->lng->txt("assessment_log_user_answers"));
-		if ($_POST["log_user_answers"] == 1)
-		{
-			$this->tpl->setVariable("CHECKED_USER_ANSWERS", " checked=\"checked\"");
-		}
 		$this->tpl->setVariable("INPUT_FIELDS_LOG_TO", "log_to_date");
 		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("show"));
 		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
@@ -383,7 +441,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
 
 			$tabs_gui->addTarget("logs",
-				$this->ctrl->getLinkTarget($this, "logs"), array("logs",""), "", "");
+				$this->ctrl->getLinkTarget($this, "logs"), array("logs","showLog", "exportLog"), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

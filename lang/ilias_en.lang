@@ -960,6 +960,7 @@ common#:#ascending_order#:#Ascending order
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period
 common#:#assessment_log_datetime#:#Date/Time
 common#:#assessment_log_for_test#:#For test
+common#:#assessment_log_log_entries#:#log entries
 common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!
 common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)
 common#:#assessment_log_question#:#Question
