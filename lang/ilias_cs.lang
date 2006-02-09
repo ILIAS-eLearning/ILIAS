@@ -1756,6 +1756,7 @@ common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
 common#:#hobby#:#Zájmy/Koníčky###07 Apr 2005 content changed
 common#:#home#:#Domů###07 Apr 2005 content changed
 common#:#host#:#Stroj###07 Apr 2005 content changed
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable

@@ -1756,6 +1756,7 @@ common#:#hlm_write#:#Wijzig HACP lesmodule###07 Apr 2005 content changed
 common#:#hobby#:#Interessen/Hobbys###07 Apr 2005 content changed
 common#:#home#:#Startscherm###07 Apr 2005 content changed
 common#:#host#:#Host###05 Nov 2004 new variable
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Uren van de dag###07 Apr 2005 content changed
 common#:#htlm#:#HTML Lesmodule###07 Apr 2005 content changed
 common#:#htlm_add#:#Voeg HTML lesmodule toe###07 Apr 2005 content changed

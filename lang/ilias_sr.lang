@@ -1689,6 +1689,7 @@ common#:#hlm_write#:#Uredite HACP metod ucenja
 common#:#hobby#:#Interesovanja/Hobiji
 common#:#home#:#Pocetna lokacija###19 Jul 2005 content changed
 common#:#host#:#Domacin
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Sati u danu
 common#:#htlm#:#Metod ucenja HTML
 common#:#htlm_add#:#Dodaj HTML metod ucenja

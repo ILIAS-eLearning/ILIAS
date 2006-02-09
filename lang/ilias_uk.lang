@@ -1752,6 +1752,7 @@ common#:#hlm_write#:#Редагувати HACP Учбовий Модуль
 common#:#hobby#:#Інтереси/Хоббі
 common#:#home#:#Дім###19 Jul 2005 content changed
 common#:#host#:#Хост
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Годин на день
 common#:#htlm#:#HTML Учбовий Модуль
 common#:#htlm_add#:#Додати HTML Учбовий Модуль

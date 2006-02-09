@@ -1634,6 +1634,7 @@ common#:#hlm_write#:#Rediger HACP l&aelig;rer modul
 common#:#hobby#:#Interesser/Hobbyer
 common#:#home#:#Hjem
 common#:#host#:#Udbyder
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#timer p&aring; en dag
 common#:#htlm#:#L&aelig;rer Modul HTML
 common#:#htlm_add#:#Tilf&oslash;j HTML L&aelig;rer Modul
@@ -2196,9 +2197,9 @@ common#:#not_implemented_yet#:#Ikke implementeret endnu
 common#:#not_installed#:#Ikke installeret
 common#:#not_logged_in#:#Du er ikke logget ind
 common#:#note#:#Notat
-common#:#notes#:#Noter
 common#:#note_all_pub_notes#:#Alle noter
 common#:#note_my_pub_notes#:#Kun mine noter
+common#:#notes#:#Noter
 common#:#num_users#:#Antal brugere
 common#:#number_of_accesses#:#Antal adgang
 common#:#number_of_records#:#Antal data

@@ -1425,6 +1425,7 @@ common#:#hlm_write#:#Редактироваться HACP Обучающий мо
 common#:#hobby#:#Интересы/Хобби
 common#:#home#:#Дом
 common#:#host#:#Хост
+common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Часов в день
 common#:#htlm#:#Обучающий модуль HTML
 common#:#htlm_add#:#Добавить HTML Обучающий модуль
