@@ -321,6 +321,7 @@ class ilPageEditorGUI
 
 			// Sourcecode
 			case "ilpcsourcecodegui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCSourcecodeGUI.php");
 				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $src_gui->executeCommand();
@@ -329,6 +330,7 @@ class ilPageEditorGUI
 
 			// Paragraph
 			case "ilpcparagraphgui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $par_gui->executeCommand();
@@ -337,6 +339,7 @@ class ilPageEditorGUI
 
 			// Table
 			case "ilpctablegui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCTableGUI.php");
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $tab_gui->executeCommand();
@@ -345,6 +348,7 @@ class ilPageEditorGUI
 
 			// Table Cell
 			case "ilpctabledatagui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
 				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $td_gui->executeCommand();
@@ -404,6 +408,7 @@ class ilPageEditorGUI
 
 			// List
 			case "ilpclistgui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCListGUI.php");
 				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $list_gui->executeCommand();
@@ -412,6 +417,7 @@ class ilPageEditorGUI
 
 			// List Item
 			case "ilpclistitemgui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCListItemGUI.php");
 				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $list_item_gui->executeCommand();
@@ -420,6 +426,7 @@ class ilPageEditorGUI
 
 			// File List
 			case "ilpcfilelistgui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCFileListGUI.php");
 				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $file_list_gui->executeCommand();
@@ -428,6 +435,7 @@ class ilPageEditorGUI
 
 			// File List Item
 			case "ilpcfileitemgui":
+				$this->tabs_gui->clearTargets();
 				include_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
 				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $file_item_gui->executeCommand();
@@ -435,6 +443,10 @@ class ilPageEditorGUI
 				break;
 
 			case "ilpcquestiongui":
+			
+				// clear tabs!?
+				//$this->tabs_gui->clearTargets();
+				
 				include_once("content/classes/Pages/class.ilPCQuestionGUI.php");
 				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id);
 				$cmd = $this->ctrl->getCmd();
