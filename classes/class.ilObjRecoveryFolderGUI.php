@@ -33,9 +33,9 @@
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "class.ilContainerGUI.php";
 
-class ilObjRecoveryFolderGUI extends ilObjectGUI
+class ilObjRecoveryFolderGUI extends ilContainerGUI
 {
 	/**
 	* Constructor
