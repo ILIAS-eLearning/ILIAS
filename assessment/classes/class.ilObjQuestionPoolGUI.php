@@ -1114,31 +1114,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
-/*
-	function prepareOutput()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-
-		$this->tpl->setCurrentBlock("header_image");
-		include_once "./classes/class.ilUtil.php";
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_qpl_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$this->setAdminTabs($_POST["new_type"]);
-		}
-	}
-*/
-
 	/**
 	* paste questios from the clipboard into the question pool
 	*/
