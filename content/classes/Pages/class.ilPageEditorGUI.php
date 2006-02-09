@@ -227,7 +227,7 @@ class ilPageEditorGUI
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
 				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
 				$cmd != "copyLinkedMediaToMediaPool" &&
-				$cmd != "cancelCreate" &&
+				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
 			{
