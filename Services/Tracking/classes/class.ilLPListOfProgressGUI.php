@@ -228,6 +228,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		// Finally set template variable
 		$this->tpl->setVariable("LM_INFO",$info->getHTML());
 
+		// Show table header
+		$this->tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
+		$this->tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
+
 		// Start list of relevant items
 		
 		$counter = 0;
@@ -235,10 +239,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
 		{
 			$type = $ilObjDataCache->lookupType($item_id);
-
-			// Show table header
-			$this->tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
-			$this->tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
 
 			// Object icon
 			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));

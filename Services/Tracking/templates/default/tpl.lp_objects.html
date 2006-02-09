@@ -1,41 +1,69 @@
 <font class="smallred">{LIMIT_REACHED}</font><br /><br />
 	<form action="{FORMACTION}" method="post">
-	  <table class="fullwidth" border="1">
+	  <table class="fullwidth" border="0">
 		<tr class="tbltitle">
 		  <th class="std" width="1">
 			<img border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
 		  </th>
-		  <th class="std">{BLOCK_HEADER_CONTENT}</th>
+		  <th class="std" colspan="2">{BLOCK_HEADER_CONTENT}</th>
 		</tr>
 		<!-- BEGIN tbl_header -->
 		<tr class="tblheader">
-		  <th class="std" colspan="2">{EMPTY}</th>
-		  <th class="std">{HEAD_STATUS}</th>
-		  <th class="std">{HEAD_OPTIONS}</th>
+		  <th class="std">{EMPTY}</th>
+		  <th class="std">{EMPTY}</th>
+		  <th class="std"><div style="float:left">{HEAD_OPTIONS}&nbsp;</div></th>
 		</tr>
 		<!-- END tbl_header -->
-		<!-- BEGIN container_standard_row -->
-		<!-- BEGIN row_type_1 -->
-		<tr class="tblrow1">
-		  <!-- END row_type_1 -->
-		  <!-- BEGIN row_type_2 -->
-		  <tr class="tblrow2">
-			<!-- END row_type_2 -->
+
+		  <!-- BEGIN container_standard_row -->
+		  <tr class="{TBLROW}">
 			<td class="std" valign="top" width="1">
 			  <input type="checkbox" name="item_id[]" value="{ITEM_ID}" />
-			<td class="std">{BLOCK_ROW_CONTENT}</td>
+			<td class="std" width="60%">
+			  <b>{TXT_TITLE}</b>
+			  <!-- BEGIN item_description -->
+			  <div class="il_Description">{TXT_DESC}</div>
+			  <!-- END item_description -->
+
+			  <!-- BEGIN item_properties -->
+			  <div class="il_ItemProperties">
+				<!-- BEGIN item_property -->
+				<!-- BEGIN newline_prop --><br /><!-- END newline_prop -->
+				<span class="il_ItemAlertProperty">
+				  {TXT_PROP}: {VAL_PROP}&nbsp;&nbsp;</span>
+				<!-- END item_property -->
+			  </div>
+			  <!-- END item_properties -->
+
+			  <div class="il_ItemProperties">{OCCURRENCES}</div>
+			  <!-- BEGIN path -->
+			  <div class="il_ItemProperties">&nbsp;&nbsp;
+				<!-- BEGIN path_item -->
+				{PATH_ITEM}
+				<!-- END path_item -->
+			  </div>
+			  <!-- END path -->
+			</td>
+			<td class="std" valign="top" nowrap="nowrap" width="15%" align="center">
+			  <div style="float:left">
+			  <!-- BEGIN item_command -->
+				<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+			  <!-- END item_command -->
+			  </div>
+			</td>
 		  </tr>
 		  <!-- END container_standard_row -->
-	  </table>
-	  <br />
-	  <table class="fullwidth_invisible">
-		<tr>
-		  <td valign="center" align="left" width="1%">
-			<img src="{DOWNRIGHT}" border="0" />
-		  </td>
-		  <td valign="center" align="left">
-			&nbsp;<input class="submit" type="SUBMIT" name="cmd[hideSelected]" value="{BTN_HIDE_SELECTED}"/>
-		  </td>
-		</tr>
+
+
+
+
+		  <tr class="tblfooter">
+			<td class="std" valign="center" align="left" width="1%">
+			  <img src="{DOWNRIGHT}" border="0" />
+			</td>
+			<td class="std" colspan="3" valign="center" align="left">
+			  &nbsp;<input class="submit" type="SUBMIT" name="cmd[hideSelected]" value="{BTN_HIDE_SELECTED}"/>
+			</td>
+		  </tr>
 	  </table>
 	</form>

@@ -52,7 +52,7 @@ ALTER TABLE page_object MODIFY parent_type VARCHAR(4) NOT NULL DEFAULT 'lm';
 ALTER TABLE page_object ADD PRIMARY KEY (page_id, parent_type);
 
 <#11>
-ALTER TABLE glossary_definition DROP COLUMN page_id;
+ ALTER TABLE glossary_definition DROP COLUMN page_id;
 ALTER TABLE glossary_definition ADD COLUMN short_text VARCHAR(200) NOT NULL DEFAULT '';
 
 <#12>
@@ -8641,6 +8641,10 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#533>
 <?php
+
+global $log;
+$GLOBALS['ilLog'] =& $log;
+
 
   // add chat below ChatSettings for personal desktop chat
 

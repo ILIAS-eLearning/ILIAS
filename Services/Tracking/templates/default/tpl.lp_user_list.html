@@ -3,43 +3,90 @@
 	{INFO_TABLE}
 	<br />
 	<form action="{FORMACTION}" method="post">
-	  <table class="il_ContainerBlock">
-		<tr>
-		  <th class="il_PDBlockSubHeader" width="1">
+	  <table class="fullwidth" border="0">
+		<tr class="tbltitle">
+		  <th class="std" width="1">
 			<img border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
 		  </th>
-		  <th class="il_PDBlockSubHeader" colspan="5">{HEADER_ALT}</th>
+		  <th class="std" colspan="6">{HEADER_ALT}</th>
 		</tr>
 		<tr class="tblheader">
-		  <td class="std" colspan="2"></td>
-		  <td class="std"></td>
-		  <td class="std">{TXT_MARK}</td>
-		  <td class="std">{TXT_COMMENT}</td>
-		  <td class="std">{TXT_OPTIONS}</td>
+		  <th class="std"></th>
+		  <th class="std"></th>
+		  <th class="std" colspan="2"></th>
+		  <th class="std"><div align="center">{TXT_STATUS}</div></th>
+		  <th class="std"><div align="center">{TXT_MARK}</div></th>
+		  <th class="std">{TXT_OPTIONS}</th>
 		</tr>
 		<!-- BEGIN user_row -->
-		<tr class="{CSSROW}" padding="1">
-		  <td class="{TDCSS}" valign="center" align="center" width="1" colspan="2">
+		<tr class="{CSSROW}" nowrap="nowrap">
+		  <td class="{TDCSS}" valign="top">
+			{CHECK_USER}
+		  </td>
+		  <td class="{TDCSS}" valign="top" nowrap="nowrap" align="center" width="40">
 			<img border="0" src="{TYPE_IMG}" alt="{TYPE_ALT} title="{TYPE_ALT}" />
 		  </td>
-		  <td class="{TDCSS}">{ROW_INFO}</td>
-		  <td class="{TDCSS}">{MARK}</td>
-		  <td class="{TDCSS}">{COMMENT}</td>
-		  <td class="{TDCSS}">
+		  <td class="{TDCSS}" width="50%" colspan="2">
+			<b>{TXT_TITLE}</b>
+			<div class="il_Description">{TXT_DESC}</div>
+			<div class="il_ItemProperties">
+			  <span class="il_ItemAlertProperty">
+				{TXT_PROP}: {VAL_PROP}&nbsp;&nbsp;</span>
+			</div>
+			<!-- BEGIN comment_prop -->
+			<div class="il_ItemProperties">
+			  <span class="il_ItemProperty">
+				{TXT_PROP_COMM}: {VAL_PROP_COMM}&nbsp;&nbsp;</span>
+			</div>
+			<!-- END comment_prop -->
+		  </td>
+		  <td class="std" valign="top" align="center" width="10%">
+			<div align="center">
+			  <img border="0" src="{STATUS_IMG}" alt="{STATUS_ALT}" title="{STATUS_ALT}" />
+			</div>
+		  </td>
+		  <td class="{TDCSS}" valign="top">
+			<div align="center">
+			  {MARK}
+			</div>
+		  </td>
+		  <td class="{TDCSS}" valign="top">
+			<!-- BEGIN cmd -->
 			<a class="il_ContainerItemCommand" href="{EDIT_COMMAND}">{TXT_COMMAND}</a>
+			<!-- END cmd -->
 		  </td>
 		</tr>
 		<!-- BEGIN item_row -->
 		<tr class="{ITEM_CSSROW}">
-		  <td class="{ITEM_TDCSS}" valign="top" align="center" width="1">
-		  </td>
-		  <td class="{ITEM_TDCSS}" valign="center" width="1">
+		  <td class="{ITEM_TDCSS}"></td>
+		  <td class="{ITEM_TDCSS}" valign="top" align="center" width="1"></td>
+		  <td class="{ITEM_TDCSS}" valign="center" width="3%">
 			<img border="0" src="{ITEM_IMG}" alt="{ITEM_ALT} title="{ITEM_ALT}" />
 		  </td>
-		  <td class="{ITEM_TDCSS}">{ITEM_INFO}</td>
-		  <td class="{ITEM_TDCSS}">{ITEM_MARK}</td>
-		  <td class="{ITEM_TDCSS}">{ITEM_COMMENT}</td>
 		  <td class="{ITEM_TDCSS}">
+			<b>{ITEM_TITLE}</b>
+			<div class="il_ItemProperties">
+			  <span class="il_ItemAlertProperty">
+				{ITEM_PROP}: {ITEM_VAL}&nbsp;&nbsp;</span>
+			</div>
+			<!-- BEGIN item_comment_prop -->
+			<div class="il_ItemProperties">
+			  <span class="il_ItemProperty">
+				{ITEM_TXT_PROP_COMM}: {ITEM_VAL_PROP_COMM}&nbsp;&nbsp;</span>
+			</div>
+			<!-- END item_comment_prop -->
+		  </td>
+		  <td class="std" valign="top" valign="top" width="10%">
+			<div align="center">
+			  <img border="0" src="{ITEM_STATUS_IMG}" alt="{ITEM_STATUS_ALT}" title="{ITEM_STATUS_ALT}" />
+			</div>
+		  </td>
+		  <td class="{ITEM_TDCSS}" valign="top">
+			<div align="center">
+			  {ITEM_MARK}
+			</div>
+		  </td>
+		  <td class="{ITEM_TDCSS}" valign="top">
 			<a class="il_ContainerItemCommand" href="{ITEM_EDIT_COMMAND}">{ITEM_TXT_COMMAND}</a>
 		  </td>
 		</tr>
@@ -63,5 +110,17 @@
 		  </td>
 		</tr>
 		<!-- END no_content -->
+		<!-- BEGIN footer -->
+		<tr class="tblfooter">
+		  <td class="std" valign="center" align="left" width="1%">
+			<img src="{DOWNRIGHT}" border="0" />
+		  </td>
+		  <td class="std" colspan="6" valign="center" align="left">
+			<!-- BEGIN button_footer -->
+			&nbsp;<input class="submit" type="SUBMIT" name="cmd[{FOOTER_CMD}]" value="{FOOTER_CMD_TEXT}"/>
+			<!-- END button_footer -->
+		  </td>
+		</tr>
+		<!-- END footer -->
 	  </table>
 	</form>

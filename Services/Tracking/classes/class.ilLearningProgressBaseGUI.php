@@ -249,23 +249,23 @@ class ilLearningProgressBaseGUI
 		return $path;
 	}
 
-	function __showImageByStatus(&$tpl,$a_status)
+	function __showImageByStatus(&$tpl,$a_status,$tpl_prefix = "")
 	{
 		switch($a_status)
 		{
 			case LP_STATUS_IN_PROGRESS:
-				$tpl->setVariable("STATUS_IMG",ilUtil::getImagePath('scorm/incomplete.gif'));
-				$tpl->setVariable("STATUS_ALT",$this->lng->txt($a_status));
+				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/incomplete.gif'));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
 				break;
 
 			case LP_STATUS_COMPLETED:
-				$tpl->setVariable("STATUS_IMG",ilUtil::getImagePath('scorm/complete.gif'));
-				$tpl->setVariable("STATUS_ALT",$this->lng->txt($a_status));
+				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/complete.gif'));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
 				break;
 			
 			case LP_STATUS_NOT_ATTEMPTED:
-				$tpl->setVariable("STATUS_IMG",ilUtil::getImagePath('scorm/running.gif'));
-				$tpl->setVariable("STATUS_ALT",$this->lng->txt($a_status));
+				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/running.gif'));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
 				break;
 		}
 		return true;
