@@ -119,7 +119,10 @@ class ilTermDefinitionEditorGUI
 
 
 			case "ilpageobjectgui":
-				if ($this->ctrl->getCmdClass() == "ilpageobjectgui")
+			
+				// not so nice, to do: revise locator handling
+				if ($this->ctrl->getCmdClass() == "ilpageobjectgui"
+					|| $this->ctrl->getCmdClass() == "ileditclipboardgui")
 				{
 					$gloss_loc->display();
 				}
