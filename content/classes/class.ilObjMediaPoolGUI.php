@@ -931,27 +931,30 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	{
 		global $ilLocator;
 		
-		$tree =& $this->object->getTree();
-		$obj_id = ($_GET["obj_id"] == "")
-			? $tree->getRootId()
-			: $_GET["obj_id"];
-		$path = $tree->getPathFull($obj_id);
-		foreach($path as $node)
+		if (!$this->getCreationMode())
 		{
-			if ($node["child"] == $tree->getRootId())
+			$tree =& $this->object->getTree();
+			$obj_id = ($_GET["obj_id"] == "")
+				? $tree->getRootId()
+				: $_GET["obj_id"];
+			$path = $tree->getPathFull($obj_id);
+			foreach($path as $node)
 			{
-				$this->ctrl->setParameter($this, "obj_id", "");
-				$link = $this->ctrl->getLinkTarget($this, "listMedia");
-				$title = $this->object->getTitle();
+				if ($node["child"] == $tree->getRootId())
+				{
+					$this->ctrl->setParameter($this, "obj_id", "");
+					$link = $this->ctrl->getLinkTarget($this, "listMedia");
+					$title = $this->object->getTitle();
+				}
+				else
+				{
+					$this->ctrl->setParameter($this, "obj_id", $node["child"]);
+					$link = $this->ctrl->getLinkTarget($this, "listMedia");
+					$title = $node["title"];
+				}
+				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+				$ilLocator->addItem($title, $link);
 			}
-			else
-			{
-				$this->ctrl->setParameter($this, "obj_id", $node["child"]);
-				$link = $this->ctrl->getLinkTarget($this, "listMedia");
-				$title = $node["title"];
-			}
-			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-			$ilLocator->addItem($title, $link);
 		}
 	}
 	
