@@ -64,6 +64,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// SET ADDITIONAL TEMPLATE VARIABLES
 		$this->tpl->setVariable("TXT_INSTRUCTION",$this->lng->txt("exc_instruction"));
 		$this->tpl->setVariable("TXT_EDIT_UNTIL",$this->lng->txt("exc_edit_until"));
+		$this->tpl->setVariable("TXT_HOUR",$this->lng->txt("time_h"));
+		$this->tpl->setVariable("TXT_DAY",$this->lng->txt("time_d"));
+		$this->tpl->setVariable("SELECT_HOUR",$this->__getDateSelect("hour",(int) date("H",time())));
+		$this->tpl->setVariable("SELECT_MINUTES",$this->__getDateSelect("minutes",(int) date("i",time())));
 		$this->tpl->setVariable("SELECT_DAY",$this->__getDateSelect("day",(int) date("d",time())));
 		$this->tpl->setVariable("SELECT_MONTH",$this->__getDateSelect("month",(int) date("m",time())));
 		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",1));
@@ -93,7 +97,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("INSTRUCTION_TXT",$this->lng->txt("exc_instruction"));
 		$this->tpl->setVariable("INSTRUCTION",nl2br($this->object->getInstruction()));
 		$this->tpl->setVariable("EDIT_UNTIL_TXT",$this->lng->txt("exc_edit_until"));
-		$this->tpl->setVariable("EDIT_UNTIL",date("d.m.Y",$this->object->getTimestamp()));
+		$this->tpl->setVariable("EDIT_UNTIL",date("H:i, d.m.Y",$this->object->getTimestamp()));
 
 		$anyfiles = false;
 		foreach($this->object->getFiles() as $file)
@@ -260,7 +264,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		include_once("./classes/class.ilObjExercise.php");
 		$tmp_obj =& new ilObjExercise();
 
-		$tmp_obj->setDate($_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
+		$tmp_obj->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
 		if(!$tmp_obj->checkDate())
 		{
 			$this->ilias->raiseError($this->lng->txt("exc_date_not_valid"), $this->ilias->error_obj->MESSAGE);
@@ -275,7 +279,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		//$roles = $newObj->initDefaultRoles();
 
 		// put here your object specific stuff	
-		$newObj->setDate($_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
+		
+		$newObj->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
+	
 		$newObj->setInstruction(ilUtil::stripSlashes($_POST["Fobject"]["instruction"]));
 		$newObj->saveData();
 
@@ -305,6 +311,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$instruction  = $_SESSION["error_post_vars"]["Fobject"]["instruction"] ?
 			$_SESSION["error_post_vars"]["Fobject"]["instruction"] :
 			$this->object->getInstruction();
+
+		$hour  = $_SESSION["error_post_vars"]["Fobject"]["d_hour"] ?
+			$_SESSION["error_post_vars"]["Fobject"]["d_hour"] :
+			date("H",$this->object->getTimestamp());
+
+		$minutes  = $_SESSION["error_post_vars"]["Fobject"]["d_minutes"] ?
+			$_SESSION["error_post_vars"]["Fobject"]["d_minutes"] :
+			date("i",$this->object->getTimestamp());
 
 		$day  = $_SESSION["error_post_vars"]["Fobject"]["d_day"] ?
 			$_SESSION["error_post_vars"]["Fobject"]["d_day"] :
@@ -340,9 +354,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TITLE",$title);
 		$this->tpl->setVariable("DESC",$desc);
 		$this->tpl->setVariable("INSTRUCTION",$instruction);
+		
 
 
 		// SHOW DATE SELECTS
+		$this->tpl->setVariable("TXT_HOUR",$this->lng->txt("time_h"));
+		$this->tpl->setVariable("TXT_DAY",$this->lng->txt("time_d"));
+		$this->tpl->setVariable("SELECT_HOUR",$this->__getDateSelect("hour",$hour));	
+		$this->tpl->setVariable("SELECT_MINUTES",$this->__getDateSelect("minutes",$minutes));
 		$this->tpl->setVariable("SELECT_DAY",$this->__getDateSelect("day",$day));
 		$this->tpl->setVariable("SELECT_MONTH",$this->__getDateSelect("month",$month));
 		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",$year));
@@ -388,7 +407,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 	  
 		$this->object->setInstruction(ilUtil::stripSlashes($_POST["Fobject"]["instruction"]));
-		$this->object->setDate($_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
+		$this->object->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
 		if($_POST["delete_file"])
 		{
 			$this->object->deleteFiles($_POST["delete_file"]);
@@ -946,6 +965,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		switch($a_type)
 		{
+			case "hour":
+				for($i=0;$i<24;$i++)
+				{
+					$hours[$i] = $i < 10 ? "0".$i : $i;
+				}
+				return ilUtil::formSelect($a_selected,"d_hour",$hours,false,true);
+
+			case "minutes":
+				for($i=0;$i<60;$i++)
+				{
+					$minutes[$i] = $i < 10 ? "0".$i : $i;
+				}
+				return ilUtil::formSelect($a_selected,"d_minutes",$minutes,false,true);
+
 			case "day":
 				for($i=1;$i<32;$i++)
 				{
