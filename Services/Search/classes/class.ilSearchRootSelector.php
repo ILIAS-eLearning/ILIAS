@@ -144,11 +144,11 @@ class ilSearchRootSelector extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader(&$tpl,$a_option)
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		#$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
@@ -161,7 +161,7 @@ class ilSearchRootSelector extends ilExplorer
 		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
+		#$this->output[] = $tpl->get();
 
 		return true;
 	}

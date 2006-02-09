@@ -12,7 +12,7 @@
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
     | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
+    |                                                            G                 |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
     | as published by the Free Software Foundation; either version 2              |
@@ -5696,3 +5696,4 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
+trac#:#trac_below#:#Debajo de:

@@ -5693,3 +5693,18 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
+trac#:#trac_crs_items#:#Kurselemente
+trac#:#trac_required_visits#:#Anzahl benötigter Besuche
+trac#:#trac_no_content#:#Keine Daten zum Lernfortschritt verfügbar.
+trac#:#trac_filter_none#:#Keine
+trac#:#trac_added_no_shown_list#:#Die ausgewählten Objekte wurden ausgeblendet.
+trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
+trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
+trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
+trac#:#trac_not_completed#:#Nicht bearbeitet
+trac#:#trac_last_access#:#Letzter Zugriff
+trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, daß Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
+trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
+common#:#hours#:#Stunde(n)
+trac#:#trac_below#:#Unterhalb von:

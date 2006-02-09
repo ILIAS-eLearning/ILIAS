@@ -108,6 +108,13 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id.
 					"&amp;obj_id=".$this->last_accessed_page;
 				break;
+
+			case "page":
+				// Used for presentation of single pages chapters in search results
+				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id.
+					"&amp;obj_id=".$this->getChildId();
+				break;
+
 				
 			case "view":
 				//$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id;

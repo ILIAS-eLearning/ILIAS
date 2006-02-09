@@ -80,6 +80,16 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		? "tabactive"
 		: "tabinactive";
 	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",$lng->txt("bookmarks"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+
+
+	include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+	if (ilObjUserTracking::_enabledTracking())
+	{
+		// learning progress
+		$inc_type = "tabinactive";
+		$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",$lng->txt("learning_progress"),
+					   "bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+	}
 }
 
 

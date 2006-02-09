@@ -456,7 +456,6 @@ class ilObjectListGUI
 	function getProperties($a_item = '')
 	{
 		$props = array();
-
 		// please list alert properties first
 		// example (use $lng->txt instead of "Status"/"Offline" strings):
 		// $props[] = array("alert" => true, "property" => "Status", "value" => "Offline");
