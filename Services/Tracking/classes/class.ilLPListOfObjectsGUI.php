@@ -187,79 +187,26 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_id);
 		$completed = ilLPStatusWrapper::_getCompleted($this->details_id);
 
-		#$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted));
 		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted),'usr_data','lastname','usr_id');
-		$counter = 0;
-		// Slice array
 		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
+
+		$this->ctrl->setParameter($this,'details_id',$this->details_id);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
+		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('trac_usr_list'));
+		$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('trac_status'));
+		$this->tpl->setVariable("TXT_OPTIONS",$this->lng->txt('actions'));
+
+
+		$counter = 0;
 		foreach($sliced_users as $user_id)
 		{
 			$cssrow = ilUtil::switchColor($counter++,'tblrow1','tblrow2');
 
-			// Subitems for mode LP_MODE_COLLECTION
-			if($this->details_mode == LP_MODE_COLLECTION)
-			{
-				foreach(ilLPCollections::_getItems($this->details_id) as $obj_id)
-				{
-					$this->tpl->setCurrentBlock("item_row");
-
-					// show item_info
-					$obj_tpl = new ilTemplate('tpl.lp_object.html',true,true,'Services/Tracking');
-					$obj_tpl->setCurrentBlock("item_title");
-					$obj_tpl->setVariable("TXT_TITLE",$ilObjDataCache->lookupTitle($obj_id));
-					$obj_tpl->parseCurrentBlock();
-
-					// Status
-					if(in_array($user_id,ilLPStatusWrapper::_getInProgress($obj_id)))
-					{
-						$status = LP_STATUS_IN_PROGRESS;
-					}
-					elseif(in_array($user_id,ilLPStatusWrapper::_getCompleted($obj_id)))
-					{
-						$status = LP_STATUS_COMPLETED;
-					}
-					else
-					{
-						$status = LP_STATUS_NOT_ATTEMPTED;
-					}
-					$obj_tpl->setCurrentBlock("item_property");
-					$obj_tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
-					$obj_tpl->setVariable("VAL_PROP",$this->lng->txt($status));
-					$obj_tpl->parseCurrentBlock();
-			
-					$obj_tpl->setCurrentBlock("item_properties");
-					$obj_tpl->parseCurrentBlock();
-					$this->tpl->setVariable("ITEM_INFO",$obj_tpl->get());
-
-					$this->tpl->setVariable("ITEM_CSSROW",$cssrow);
-					#$this->tpl->setVariable("ITEM_TDCSS",'option_value');
-					$this->tpl->setVariable("ITEM_IMG",ilUtil::getImagePath('icon_'.$ilObjDataCache->lookupType($obj_id).'.gif'));
-					$this->tpl->setVariable("ITEM_ALT",$this->lng->txt('obj_'.$ilObjDataCache->lookupType($obj_id)));
-
-					$this->tpl->setVariable("ITEM_MARK",ilLPMarks::_lookupMark($user_id,$obj_id));
-					$this->tpl->setVariable("ITEM_COMMENT",ilLPMarks::_lookupComment($user_id,$obj_id));
-					
-
-					$this->ctrl->setParameter($this,'user_id',$user_id);
-					$this->ctrl->setParameter($this,"item_id",$obj_id);
-					$this->ctrl->setParameter($this,'details_id',$this->details_id);
-					$this->tpl->setVariable("ITEM_EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
-					$this->tpl->setVariable("ITEM_TXT_COMMAND",$this->lng->txt('edit'));
-					$this->tpl->parseCurrentBlock();
-				}			
-			}
-
-			$this->tpl->setCurrentBlock("user_row");
-
 			// show user_info
-			$user_tpl = new ilTemplate('tpl.lp_object.html',true,true,'Services/Tracking');
-			$user_tpl->setCurrentBlock("item_title");
-			$user_tpl->setVariable("TXT_TITLE",$ilObjDataCache->lookupTitle($user_id));
-			$user_tpl->parseCurrentBlock();
-
-			$user_tpl->setCurrentBlock("item_description");
-			$user_tpl->setVariable("TXT_DESC",'['.ilObjUser::_lookupLogin($user_id).']');
-			$user_tpl->parseCurrentBlock();
+			$this->tpl->setVariable("TXT_TITLE",$ilObjDataCache->lookupTitle($user_id));
+			$this->tpl->setVariable("TXT_DESC",'['.ilObjUser::_lookupLogin($user_id).']');
 
 			// Status
 			if(in_array($user_id,$in_progress))
@@ -274,29 +221,122 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			{
 				$status = LP_STATUS_NOT_ATTEMPTED;
 			}
-			$user_tpl->setCurrentBlock("item_property");
-			$user_tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
-			$user_tpl->setVariable("VAL_PROP",$this->lng->txt($status));
-			$user_tpl->parseCurrentBlock();
-			
-			$user_tpl->setCurrentBlock("item_properties");
-			$user_tpl->parseCurrentBlock();
-			$this->tpl->setVariable("ROW_INFO",$user_tpl->get());
+			$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
+			$this->tpl->setVariable("VAL_PROP",$this->lng->txt($status));
+
+			$this->__showImageByStatus($this->tpl,$status);
+
+			if(strlen($comment = ilLPMarks::_lookupComment($user_id,$this->details_id)))
+			{
+				$this->tpl->setCurrentBlock("comment_prop");
+				$this->tpl->setVariable("TXT_PROP_COMM",$this->lng->txt('comment'));
+				$this->tpl->setVariable("VAL_PROP_COMM",$comment);
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->tpl->setVariable("CSSROW",$cssrow);
 			$this->tpl->setVariable("TYPE_IMG",ilObjUser::_getPersonalPicturePath($user_id,'xxsmall'));
 			$this->tpl->setVariable("TYPE_ALT",$ilObjDataCache->lookupTitle($user_id));
 			$this->ctrl->setParameter($this,"user_id",$user_id);
 			$this->ctrl->setParameter($this,'item_id',$this->details_id);
-			$this->ctrl->setParameter($this,'details_id',$this->details_id);
+
+			$this->tpl->setCurrentBlock("cmd");
 			$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
 			$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("MARK",ilLPMarks::_lookupMark($user_id,$this->details_id));
-			$this->tpl->setVariable("COMMENT",ilLPMarks::_lookupComment($user_id,$this->details_id));
+			
+			// Details for course mode collection
+			if($this->details_mode == LP_MODE_COLLECTION and !$this->__detailsShown($user_id))
+			{
 
+				// user check
+				$this->tpl->setVariable("CHECK_USER",ilUtil::formCheckbox(0,'user_ids[]',$user_id));
+
+				$this->tpl->setCurrentBlock("cmd");
+				$this->ctrl->setParameter($this,'details_user',$user_id);
+				$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'showDetails'));
+				$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('show_details'));
+			}
+			elseif($this->details_mode == LP_MODE_COLLECTION)
+			{
+				// user check
+				$this->tpl->setVariable("CHECK_USER",ilUtil::formCheckbox((int) $this->__detailsShown($user_id),
+																		  'user_ids[]',
+																		  $user_id));
+				
+				$this->tpl->setCurrentBlock("cmd");
+				$this->ctrl->setParameter($this,'details_user',$user_id);
+				$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'hideDetails'));
+				$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('hide_details'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if($this->details_mode == LP_MODE_COLLECTION and $this->__detailsShown($user_id))
+			{
+				foreach(ilLPCollections::_getItems($this->details_id) as $obj_id)
+				{
+					// show item_info
+					$this->tpl->setVariable("ITEM_TITLE",$ilObjDataCache->lookupTitle($obj_id));
+
+					// Status
+					if(in_array($user_id,ilLPStatusWrapper::_getInProgress($obj_id)))
+					{
+						$status = LP_STATUS_IN_PROGRESS;
+					}
+					elseif(in_array($user_id,ilLPStatusWrapper::_getCompleted($obj_id)))
+					{
+						$status = LP_STATUS_COMPLETED;
+					}
+					else
+					{
+						$status = LP_STATUS_NOT_ATTEMPTED;
+					}
+					$this->tpl->setVariable("ITEM_PROP",$this->lng->txt('trac_status'));
+					$this->tpl->setVariable("ITEM_VAL",$this->lng->txt($status));
+					$this->__showImageByStatus($this->tpl,$status,'ITEM_');
+
+					if(strlen($comment = ilLPMarks::_lookupComment($user_id,$obj_id)))
+					{
+						$this->tpl->setCurrentBlock("comment_prop");
+						$this->tpl->setVariable("ITEM_TXT_PROP_COMM",$this->lng->txt('comment'));
+						$this->tpl->setVariable("ITEM_VAL_PROP_COMM",$comment);
+						$this->tpl->parseCurrentBlock();
+					}
+
+					$this->tpl->setVariable("ITEM_CSSROW",$cssrow);
+					$this->tpl->setVariable("ITEM_IMG",ilUtil::getImagePath('icon_'.$ilObjDataCache->lookupType($obj_id).'.gif'));
+					$this->tpl->setVariable("ITEM_ALT",$this->lng->txt('obj_'.$ilObjDataCache->lookupType($obj_id)));
+
+					$this->tpl->setVariable("ITEM_MARK",ilLPMarks::_lookupMark($user_id,$obj_id));
+
+					$this->ctrl->setParameter($this,'user_id',$user_id);
+					$this->ctrl->setParameter($this,"item_id",$obj_id);
+					$this->ctrl->setParameter($this,'details_id',$this->details_id);
+					$this->tpl->setVariable("ITEM_EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
+					$this->tpl->setVariable("ITEM_TXT_COMMAND",$this->lng->txt('edit'));
+
+					$this->tpl->setCurrentBlock("item_row");
+					$this->tpl->parseCurrentBlock();
+				}			
+			}
+
+			$this->tpl->setCurrentBlock("user_row");
 			$this->tpl->parseCurrentBlock();
 
 				
+		}
+		// show commands
+		if($this->details_mode == LP_MODE_COLLECTION)
+		{
+			$this->tpl->setCurrentBlock("button_footer");
+			$this->tpl->setVariable("FOOTER_CMD",'showDetails');
+			$this->tpl->setVariable("FOOTER_CMD_TEXT",$this->lng->txt('show_details'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("tblfooter");
+			$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+			$this->tpl->parseCurrentBlock();
 		}
 
 		// Show linkbar
@@ -321,17 +361,44 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable("NO_CONTENT",$this->lng->txt('trac_no_content'));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
-		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('trac_usr_list'));
-		$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_marks'));
-		$this->tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comments'));
-		$this->tpl->setVariable("TXT_OPTIONS",$this->lng->txt('options'));
 		
 		return true;
 	}
-			
 
+	function showDetails()
+	{
+		if(isset($_GET['details_user']))
+		{
+			$user_ids = array((int) $_GET['details_user']);
+		}
+		else
+		{
+			unset($_SESSION['lp_show'][$this->details_id]);
+			$user_ids = $_POST['user_ids'] ? $_POST['user_ids'] : array();
+		}
+		foreach($user_ids as $user_id)
+		{
+			$_SESSION['lp_show'][$this->details_id][$user_id] = true;
+		}
+		$this->details();
+
+		return true;
+	}
+
+	function hideDetails()
+	{
+		$user_ids = $_POST['user_ids'] ? $_POST['user_ids'] : array();
+		foreach($user_ids as $user_id)
+		{
+			unset($_SESSION['lp_show'][$this->details_id][$user_id]);
+		}
+		$this->details();
+	}
+
+	function __detailsShown($a_usr_id)
+	{
+		return $_SESSION['lp_show'][$this->details_id][$a_usr_id];
+	}
 
 
 	function show()
@@ -375,10 +442,17 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$tpl->setVariable("LIMIT_REACHED",$info);
 		}
 
+
+		// Show table header
+		$tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
+		$tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
+
 		$type = $this->filter->getFilterType();
 		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
 		$tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_'.$type));
 		$tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('objs_'.$type));
+
+
 
 		// Sort objects by title
 		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
@@ -387,70 +461,69 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			$obj_data =& $objs[$obj_id];
 
-			$tpl->touchBlock(ilUtil::switchColor($counter++,'row_type_1','row_type_2'));
-			$tpl->setCurrentBlock("container_standard_row");
+			$tpl->setVariable("TBLROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$tpl->setVariable("ITEM_ID",$obj_id);
 
 			$obj_tpl = new ilTemplate('tpl.lp_object.html',true,true,'Services/Tracking');
-			$obj_tpl->setCurrentBlock("item_title");
-			$obj_tpl->setVariable("TXT_TITLE",$obj_data['title']);
-			$obj_tpl->parseCurrentBlock();
+
+			// Title/description
+			$tpl->setVariable("TXT_TITLE",$obj_data['title']);
 
 			if(strlen($obj_data['description']))
 			{
-				$obj_tpl->setCurrentBlock("item_description");
-				$obj_tpl->setVariable("TXT_DESC",$obj_data['description']);
-				$obj_tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("item_description");
+				$tpl->setVariable("TXT_DESC",$obj_data['description']);
+				$tpl->parseCurrentBlock();
 			}
 
 			// detail link on if not anonymized
 			if(!$this->isAnonymized())
 			{
-				$obj_tpl->setCurrentBlock("item_command");
+				$tpl->setCurrentBlock("item_command");
 				$this->ctrl->setParameter($this,'details_id',$obj_id);
-				$obj_tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
-				$obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
-				$obj_tpl->parseCurrentBlock();
+				$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
+				$tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
+				$tpl->parseCurrentBlock();
 			}
 			// hide link
-			$obj_tpl->setCurrentBlock("item_command");
+			$tpl->setCurrentBlock("item_command");
 			$this->ctrl->setParameterByClass('illpfiltergui','hide',$obj_id);
-			$obj_tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTargetByClass('illpfiltergui','hide'));
-			$obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('trac_hide'));
-			$obj_tpl->parseCurrentBlock();
+			$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTargetByClass('illpfiltergui','hide'));
+			$tpl->setVariable("TXT_COMMAND",$this->lng->txt('trac_hide'));
+			$tpl->parseCurrentBlock();
 
-			$obj_tpl->setVariable("OCCURRENCES",$this->lng->txt('trac_occurrences'));
+			$tpl->setVariable("OCCURRENCES",$this->lng->txt('trac_occurrences'));
 			foreach($obj_data['ref_ids'] as $ref_id)
 			{
-				$this->__insertPath($obj_tpl,$ref_id);
+				$this->__insertPath($tpl,$ref_id);
 			}
 
 			// Not attempted only for course collection
 			if($not_attempted = ilLPStatusWrapper::_getCountNotAttempted($obj_id))
 			{
-				$obj_tpl->setCurrentBlock("item_property");
-				$obj_tpl->setVariable("TXT_PROP",$this->lng->txt('trac_not_attempted'));
-				$obj_tpl->setVariable("VAL_PROP",$not_attempted);
-				$obj_tpl->parseCurrentBlock();
-				$obj_tpl->touchBlock('newline_prop');
+				$tpl->setCurrentBlock("item_property");
+				$tpl->setVariable("TXT_PROP",$this->lng->txt('trac_not_attempted'));
+				$tpl->setVariable("VAL_PROP",$not_attempted);
+				$tpl->parseCurrentBlock();
+				$tpl->touchBlock('newline_prop');
 			}
 
-			$obj_tpl->setCurrentBlock("item_property");
-			$obj_tpl->setVariable("TXT_PROP",$this->lng->txt('trac_in_progress'));
-			$obj_tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountInProgress($obj_id));
-			$obj_tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("item_property");
+			$tpl->setVariable("TXT_PROP",$this->lng->txt('trac_in_progress'));
+			$tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountInProgress($obj_id));
+			$tpl->parseCurrentBlock();
 
-			$obj_tpl->touchBlock('newline_prop');
-			$obj_tpl->setCurrentBlock("item_property");
-			$obj_tpl->setVariable("TXT_PROP",$this->lng->txt('trac_completed'));
-			$obj_tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountCompleted($obj_id));
-			$obj_tpl->parseCurrentBlock();
+			$tpl->touchBlock('newline_prop');
+			$tpl->setCurrentBlock("item_property");
+			$tpl->setVariable("TXT_PROP",$this->lng->txt('trac_completed'));
+			$tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountCompleted($obj_id));
+			$tpl->parseCurrentBlock();
 
 
-			$obj_tpl->setCurrentBlock("item_properties");
-			$obj_tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("item_properties");
+			$tpl->parseCurrentBlock();
 
-			$tpl->setVariable("BLOCK_ROW_CONTENT",$obj_tpl->get());
+			$tpl->setCurrentBlock("container_standard_row");
 			$tpl->parseCurrentBlock();
 		}
 
