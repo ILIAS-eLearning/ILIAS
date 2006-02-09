@@ -126,9 +126,13 @@ class ilObjGroupGUI extends ilContainerGUI
 
 
 			default:
-				if (!in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"]) and ($this->object->requireRegistration() and !$this->object->isUserRegistered()))
+				
+				if (!$this->getCreationMode())
 				{
-					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+					if (!in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"]) and ($this->object->requireRegistration() and !$this->object->isUserRegistered()))
+					{
+						$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+					}
 				}
 
 				if (empty($cmd))
