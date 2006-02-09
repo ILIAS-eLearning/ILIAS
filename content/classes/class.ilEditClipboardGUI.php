@@ -54,6 +54,7 @@ class ilEditClipboardGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->multiple = false;
+		$this->page_back_title = $lng->txt("cont_back");
 		if ($_GET["returnCommand"] != "")
 		{
 			$this->mode = "getObject";
@@ -403,6 +404,11 @@ class ilEditClipboardGUI
 		$this->getTabs($ilTabs);
 		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
+	
+	function setPageBackTitle($a_title)
+	{
+		$this->page_back_title = $a_title;
+	}
 
 	/**
 	* adds tabs to tab gui object
@@ -414,16 +420,14 @@ class ilEditClipboardGUI
 		if ($this->mode == "getObject")
 		{
 			// back to upper context
-			$tabs_gui->addTarget("cont_back",
-				$_GET["returnCommand"], "",
-				"");
+			$tabs_gui->setBackTarget($this->page_back_title,
+				$_GET["returnCommand"]);
 		}
 		else
 		{
 			// back to upper context
-			$tabs_gui->addTarget("cont_back",
-				$this->ctrl->getParentReturn($this), "",
-				"");
+			$tabs_gui->setBackTarget($this->page_back_title,
+				$this->ctrl->getParentReturn($this));
 		}
 	}
 

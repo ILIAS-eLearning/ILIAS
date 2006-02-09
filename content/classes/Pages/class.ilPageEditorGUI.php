@@ -357,6 +357,8 @@ class ilPageEditorGUI
 				include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
 				include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
 
+				$this->tabs_gui->clearTargets();
+				
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);

@@ -69,7 +69,7 @@ class ilPageObjectGUI
 	*/
 	function ilPageObjectGUI(&$a_page_object)
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $ilias, $tpl, $lng, $ilCtrl,$ilTabs;
 
 		$this->ctrl =& $ilCtrl;
 
@@ -82,6 +82,7 @@ class ilPageObjectGUI
 		$this->setPageObject($a_page_object);
 		$this->output2template = true;
 		$this->question_xml = "";
+		$this->tabs_gui =& $ilTabs;
 
 		// USED FOR TRANSLATIONS
 		$this->template_output_var = "PAGE_CONTENT";
@@ -263,7 +264,7 @@ class ilPageObjectGUI
 
 	function setTabs($a_tabs)
 	{
-		$this->tabs = $a_tabs;
+		$this->tabs_gui = $a_tabs;
 	}
 	
 	function setPageBackTitle($a_title)
@@ -354,8 +355,10 @@ class ilPageObjectGUI
 		switch($next_class)
 		{
 			case "ileditclipboardgui":
+				$this->tabs_gui->clearTargets();
 				//$this->ctrl->setReturn($this, "view");
 				$clip_gui = new ilEditClipboardGUI();
+				$clip_gui->setPageBackTitle($this->page_back_title);
 				//$ret =& $clip_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($clip_gui);
 				break;
