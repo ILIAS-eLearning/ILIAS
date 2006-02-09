@@ -27,7 +27,6 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
-* 
 * @extends Object
 * @package ilias-core
 */
@@ -44,6 +43,8 @@ class ilObjExercise extends ilObject
 	var $files;
 
 	var $timestamp;
+	var $hour;
+	var $minutes;
 	var $day;
 	var $month;
 	var $year;
@@ -62,12 +63,14 @@ class ilObjExercise extends ilObject
 	}
 
 	// SET, GET METHODS
-	function setDate($a_day,$a_month,$a_year)
+	function setDate($a_hour,$a_minutes,$a_day,$a_month,$a_year)
 	{
+		$this->hour = (int) $a_hour;
+		$this->minutes = (int) $a_minutes;
 		$this->day = (int) $a_day;
 		$this->month = (int) $a_month;
 		$this->year = (int) $a_year;
-		$this->timestamp = mktime(0,0,0,$this->month,$this->day,$this->year);
+		$this->timestamp = mktime($this->hour,$this->minutes,0,$this->month,$this->day,$this->year);
 		return true;
 	}
 	function getTimestamp()
@@ -93,9 +96,12 @@ class ilObjExercise extends ilObject
 
 	function checkDate()
 	{
-		return $this->day == (int) date("d",$this->timestamp) and
+			$this->hour == (int) date("H",$this->timestamp) and
+			$this->minutes == (int) date("i",$this->timestamp) and
+			$this->day == (int) date("d",$this->timestamp) and
 			$this->month == (int) date("m",$this->timestamp) and
 			$this->year == (int) date("Y",$this->timestamp);
+
 	}
 
 	function deliverFile($a_http_post_files, $user_id)
