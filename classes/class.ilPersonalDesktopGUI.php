@@ -1140,10 +1140,14 @@ class ilPersonalDesktopGUI
                     $r = $this->ilias->db->query($q);
 
 
-					if(!$this->__showActiveChatsOfUser($user_id))
+					include_once './chat/classes/class.ilChatServerConfig.php';
+					if(ilChatServerConfig::_isActive())
 					{
-						// Show invite to chat
-						$this->__showChatInvitation($user_id);
+						if(!$this->__showActiveChatsOfUser($user_id))
+						{
+							// Show invite to chat
+							$this->__showChatInvitation($user_id);
+						}
 					}
 
                     if ($r->numRows())
@@ -1385,6 +1389,15 @@ class ilPersonalDesktopGUI
 	{
 		$this->ctrl->redirectByClass("ilpdnotesgui");
 	}
+
+	/**
+	* workaround for menu in calendar only
+	*/
+	function jumpToLP()
+	{
+		$this->ctrl->redirectByClass("illearningprogressgui");
+	}
+	
 	
 	function __showActiveChatsOfUser($a_usr_id)
 	{

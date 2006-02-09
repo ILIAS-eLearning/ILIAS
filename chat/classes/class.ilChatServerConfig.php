@@ -65,6 +65,15 @@ class ilChatServerConfig
 		$this->read();
 	}
 
+
+	function _isActive()
+	{
+		global $ilias;
+
+		return (bool) $ilias->getSetting("chat_active");
+	}
+
+
 	// SET/GET
     function setInternalIp($ip)
     {
