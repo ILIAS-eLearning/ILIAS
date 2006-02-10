@@ -961,6 +961,7 @@ common#:#ascending_order#:#Orden ascendente
 common#:#assessment_log#:#Crear un informe de la herramienta Test para un período específico
 common#:#assessment_log_datetime#:#Fecha/hora
 common#:#assessment_log_for_test#:#Para el test
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#¡No hay datos de informe disponibles para el test seleccionado y el período de tiempo especificado!
 common#:#assessment_log_open_calendar#:#Haga click aquí para abrir un calendario para la selección de la fecha (se requiere el uso de Javascript)
 common#:#assessment_log_question#:#Pregunta
@@ -5627,6 +5628,7 @@ trac#:#trac_anonymized#:#Anonimo
 trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
 trac#:#trac_assigned#:#Asignado
 trac#:#trac_assignments#:#Asignaciones
+trac#:#trac_below#:#Debajo de:
 trac#:#trac_collection_assign#:#Asignar
 trac#:#trac_collection_deassign#:#Desasignar
 trac#:#trac_comment#:#Comentario
@@ -5696,4 +5698,3 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
-trac#:#trac_below#:#Debajo de:

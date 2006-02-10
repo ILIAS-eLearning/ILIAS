@@ -5627,6 +5627,7 @@ trac#:#trac_anonymized#:#Anonymized
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
 trac#:#trac_assigned#:#Assigned
 trac#:#trac_assignments#:#Assignments
+trac#:#trac_below#:#Below:
 trac#:#trac_collection_assign#:#Assign
 trac#:#trac_collection_deassign#:#Deassign
 trac#:#trac_comment#:#Comment
@@ -5696,4 +5697,3 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-trac#:#trac_below#:#Below:

@@ -869,6 +869,7 @@ common#:#ascending_order#:#Stigende order
 common#:#assessment_log#:#Opret en Test & opgaver log for en specifik periode
 common#:#assessment_log_datetime#:#Dato/Tid
 common#:#assessment_log_for_test#:#For test
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#Der er ikke nogen log data for den m&aelig;rkeret test og den m&aelig;rkeret tids periode!
 common#:#assessment_log_open_calendar#:#Klik her for at &aring;bne en kalender for den dato du har m&aelig;rkeret (Kr&aelig;ver JavaScript!)
 common#:#assessment_log_question#:#Sp&oslash;rgsm&aring;l
@@ -5407,6 +5408,7 @@ trac#:#trac_anonymized#:#Anonym
 trac#:#trac_anonymized_info#:#Hvis aktiveret alle statistisk vil v&aelig;re anonym
 trac#:#trac_assigned#:#Tildelt
 trac#:#trac_assignments#:#Opgaverr
+trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_collection_assign#:#Tildel
 trac#:#trac_collection_deassign#:#Fjern tildeling
 trac#:#trac_comment#:#Kommentar

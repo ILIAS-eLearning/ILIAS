@@ -960,6 +960,7 @@ common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Twórz log  Testu i Oceniania na określony przedział czasu
 common#:#assessment_log_datetime#:#Data/czas
 common#:#assessment_log_for_test#:#Dla testu
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#Brak danych w logu o wybranym teście w wybranym okresie!
 common#:#assessment_log_open_calendar#:#Kliknij tu aby otworzyć kalendarz dla wyboru daty (wymagany JavaScript!)
 common#:#assessment_log_question#:#Pytanie
@@ -5626,6 +5627,7 @@ trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
 trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
 trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
 trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
 trac#:#trac_comment#:#Comment###23 Dec 2005 new variable

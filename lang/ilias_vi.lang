@@ -930,6 +930,7 @@ common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Tạo một nhật ký kiểm tra&đánh giá cho một khoảng thời gian định trước
 common#:#assessment_log_datetime#:#Ngày/Giờ
 common#:#assessment_log_for_test#:#Cho bài kiểm tra
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#Không có dữ liệu nhật ký nào sử dụng được cho bài kiểm tra đã chọn và khoảng thời gian đã chọn!
 common#:#assessment_log_open_calendar#:#Click vào đây để mở một lịch ra chọn cuộc hẹn (Yêu cầu có JavaScript chạy được!)
 common#:#assessment_log_question#:#Câu hỏi
@@ -5519,6 +5520,7 @@ trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
 trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
 trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
 trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
 trac#:#trac_comment#:#Comment###23 Dec 2005 new variable

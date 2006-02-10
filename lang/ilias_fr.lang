@@ -952,6 +952,7 @@ common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Créer un journal de test & évaluation pour une période spécifique###07 Apr 2005 content changed
 common#:#assessment_log_datetime#:#Date/heure###07 Apr 2005 content changed
 common#:#assessment_log_for_test#:#Pour test###07 Apr 2005 content changed
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#Il n'y a pas de données de journal pour le test et la période sélectionnés###07 Apr 2005 content changed
 common#:#assessment_log_open_calendar#:#Cliquer ici pour ouvrir un calendrier pour la sélection de la date (javascript requis)###07 Apr 2005 content changed
 common#:#assessment_log_question#:#Question###07 Apr 2005 content changed
@@ -5613,6 +5614,7 @@ trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
 trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
 trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
 trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
 trac#:#trac_comment#:#Comment###23 Dec 2005 new variable
