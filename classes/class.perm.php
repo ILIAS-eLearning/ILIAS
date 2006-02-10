@@ -469,7 +469,7 @@ function sendInfo($a_info = "",$a_keep = false)
 
 	if (!$a_keep)
 	{
-			session_unregister("info");
+		session_unregister("info");
 	}
 }
 

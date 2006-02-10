@@ -49,6 +49,9 @@ if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId())
 $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 $tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+
 // display infopanel if something happened
 $tpl->setCurrentBlock("header_image");
 $tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
@@ -56,6 +59,7 @@ $tpl->parseCurrentBlock();
 
 $tpl->setVariable("HEADER", $lng->txt("mail"));
 infoPanel();
+
 
 // IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
 if(!$_GET["mobj_id"])

@@ -16,14 +16,13 @@
 	  </table><br />
 	  <!-- END show_folder -->
 	</form>
-	  {MESSAGE}
 	<form method="post" name="cmd" action="{ACTION}">
 	  <!-- BEGIN confirm_delete -->
-	  <table class="fullwidth">
+	  <table class="fullwidth_invisible">
 		  <tr>
-			<td class="std"  align="center" valign="top" height="30">
-			  <input class="submit" type="submit" name="cmd[confirm]" value="{BUTTON_CONFIRM}"/>
-			  <input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}"/>
+			<td align="center">
+			  <input class="submit" type="submit" name="cmd[confirm]" value="{BUTTON_CONFIRM}" />
+			  <input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}" />
 			</td>
 		  </tr>
 	  </table>
