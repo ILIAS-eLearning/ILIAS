@@ -444,7 +444,12 @@ class ilInfoScreenGUI
 
 	function showLearningProgress()
 	{
-		global $ilUser;
+		global $ilUser,$rbacsystem;
+
+		if(!$rbacsystem->checkAccess('read',$this->gui_object->object->getRefId()))
+		{
+			return false;
+		}
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if (!ilObjUserTracking::_enabledTracking())

@@ -312,6 +312,62 @@ class ilLearningProgressBaseGUI
 		}
 	}
 
+	function __appendLPDetails(&$info,$item_id,$user_id)
+	{
+		global $ilObjDataCache;
+
+		$type = $ilObjDataCache->lookupType($item_id);
+		
+		// Section learning_progress
+		$info->addSection($this->lng->txt('trac_learning_progress'));
+	
+		switch($type)
+		{
+			case 'lm':
+				include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+				$progress = ilLearningProgress::_getProgress($user_id,$item_id);
+			
+				if($progress['access_time'])
+				{
+					$info->addProperty($this->lng->txt('last_access'),date('Y-m-d H:i:s',$progress['access_time']));
+				}
+				else
+				{
+					$info->addProperty($this->lng->txt('last_access'),$this->lng->txt('trac_not_accessed'));
+				}
+				$info->addProperty($this->lng->txt('trac_visits'),(int) $progress['visits']);
+				$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_time']));
+				$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($item_id,$user_id)));
+				break;
+
+			case 'tst':
+			case 'crs':
+			case 'sahs':
+				$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($item_id,$user_id)));
+				break;
+
+		}
+
+	}
+
+	function __readStatus($a_obj_id,$user_id)
+	{
+		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+
+		if(in_array($user_id,ilLPStatusWrapper::_getInProgress($a_obj_id)))
+		{
+			return $status = LP_STATUS_IN_PROGRESS;
+		}
+		elseif(in_array($user_id,ilLPStatusWrapper::_getCompleted($a_obj_id)))
+		{
+			return $status = LP_STATUS_COMPLETED;
+		}
+		else
+		{
+			return $status = LP_STATUS_NOT_ATTEMPTED;
+		}
+	}
+
 	function __showButton($a_link,$a_text,$a_target = '')
 	{
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");

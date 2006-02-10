@@ -46,6 +46,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function ilLPListOfObjectsGUI($a_mode,$a_ref_id)
 	{
+		global $ilUser;
+
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
 
 		$this->__initFilterGUI();
@@ -57,7 +59,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->offset = (int) $_GET['offset'];
 		$this->ctrl->saveParameter($this,'offset',$this->offset);
 
-		$this->max_count = 10;
+		$this->max_count = $ilUser->getPref('hits_per_page');
 	}
 
 	/**
@@ -104,6 +106,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$info = new ilInfoScreenGUI($this);
 
 		$this->__showObjectDetails($info,$this->item_id);
+		$this->__appendLPDetails($info,$this->item_id,(int) $_GET['user_id']);
 
 		// Finally set template variable
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());

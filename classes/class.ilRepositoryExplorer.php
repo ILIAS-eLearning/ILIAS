@@ -96,7 +96,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "lm":
 			case "dbk":
-				return "content/lm_presentation.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$a_node_id;
 
 			case "htlm":
 				return "content/fblm_presentation.php?ref_id=".$a_node_id;
@@ -146,7 +146,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?cmd=infoScreen&baseClass=ilObjTestGUI&ref_id=".$a_node_id;
 
 			case 'svy':
-				return "survey/survey.php?cmd=run&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=".$a_node_id;
 
 			case 'spl':
 				return "survey/questionpool.php?cmd=questions&ref_id=".$a_node_id;
