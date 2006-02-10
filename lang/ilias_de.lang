@@ -123,7 +123,7 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
-assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei###23 Dec 2005 content changed
+assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
 assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
@@ -133,7 +133,7 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
+assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Noten nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde und dieses Datum noch nicht erreicht wurde.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
@@ -226,7 +226,7 @@ assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften bet
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_search_groups#:#Gruppen
-assessment#:#eval_search_roles#:#Roles###23 Dec 2005 new variable
+assessment#:#eval_search_roles#:#Rollen
 assessment#:#eval_search_term#:#Suchbegriff
 assessment#:#eval_search_users#:#Nutzerinnen
 assessment#:#eval_search_userselection#:#Suchen Sie nach den Nutzerinnen, die Sie in die statistische Auswertung einbeziehen wollen
@@ -294,7 +294,7 @@ assessment#:#material#:#Material
 assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maxchars#:#Maximale Anzahl von Zeichen
-assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.###23 Dec 2005 content changed
+assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
 assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
 assessment#:#negative_points_not_allowed#:#Sie dürfen keine negativen Punkte vergeben!
@@ -303,9 +303,9 @@ assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BEST
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!###23 Dec 2005 content changed
-assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
-assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
+assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!
+assessment#:#online_exam_show_answer_print_sheet#:#Sie haben Ihre Online-Prüfung beendet. Um ihre Antworten auszudrucken, klicken Sie bitte auf die Schaltfläche &quot;Druckansicht der Antworten&quot;.
+assessment#:#online_exam_show_finish_test#:#Sie müssen Ihre Online-Prüfung noch endgültig abschicken. Bitte klicken Sie auf die &quot;Test beenden&quot;-Schaltfläche, um die Online-Prüfung endgültig abzuschicken.
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
@@ -390,7 +390,7 @@ assessment#:#result#:#Ergebnis
 assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
-assessment#:#save_finish#:#Test fertigstellen
+assessment#:#save_finish#:#Test beenden
 assessment#:#save_introduction#:#Zur Einführung
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
@@ -405,8 +405,8 @@ assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragen
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
-assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test###23 Dec 2005 new variable
-assessment#:#select_one_user#:#Please select at least one user###23 Dec 2005 new variable
+assessment#:#select_one_submitted_test#:#Bitte wählen Sie mindestens eine Nutzerin oder einen Nutzer aus, die den Test bereits beendet haben.
+assessment#:#select_one_user#:#Bitte wählen Sie mindestens eine Nutzerin oder einen Nutzer aus.
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#select_tst_option#:#--- Bitte wählen Sie einen Test aus ---
 assessment#:#selected_image#:#Ausgewählte Grafik
@@ -437,7 +437,7 @@ assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
-assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?###23 Dec 2005 content changed
+assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren.
@@ -463,8 +463,8 @@ assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
-assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen###23 Dec 2005 content changed
+assessment#:#tst_hide_previous_results_hide#:#Wenn Sie dieses Kontrollkästchen aktivieren, werden Ihre Ergebnisse aus dem vorigen Testdurchlauf nicht angezeigt
+assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_title_points#:#Punkte im Fragentitel
 assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
@@ -497,8 +497,8 @@ assessment#:#tst_no_questions_for_random_test#:#Sie haben noch keine Fragen zu I
 assessment#:#tst_no_solution_available#:#Kurztext-Fragen besitzen keine Musterlösung.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_no_tries#:#keine
-assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen###23 Dec 2005 content changed
-assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe###23 Dec 2005 content changed
+assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
+assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_pass_best_pass#:#Den besten Testdurchlauf bewerten
 assessment#:#tst_pass_details#:#Details anzeigen
@@ -508,7 +508,7 @@ assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit
-assessment#:#tst_properties#:#Test properties###23 Dec 2005 new variable
+assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
 assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
@@ -562,7 +562,7 @@ assessment#:#tst_sequence_postpone#:#Die Lernenden können einzelne Fragen zurü
 assessment#:#tst_sequence_properties#:#Reihenfolge-Einstellungen
 assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_show_answer_print_sheet#:#Druckansicht der Antworten
-assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen###23 Dec 2005 content changed
+assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_test#:#Test starten
@@ -952,10 +952,10 @@ common#:#approve_date#:#Freigegeben am
 common#:#approve_recipient#:#Freigegeben durch (Benutzername ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
-common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
+common#:#arrow_downright#:#Pfeil von oben nach unten rechts
 common#:#articels_unread#:#Ungelesene Beiträge
 common#:#as_of#:#Stand
-common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
+common#:#ascending_order#:#Aufsteigende Reihenfolge
 common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_for_test#:#Für den Test
@@ -967,10 +967,10 @@ common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
 common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der Nutzerinnen anzeigen
-common#:#assessment_settings#:#Test&Assessment Adminstration###23 Dec 2005 content changed
+common#:#assessment_settings#:#Test&Assessment-Adminstration
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
-common#:#assf_read#:#Zugriff auf Test&Assessment Adminstration###23 Dec 2005 content changed
+common#:#assf_read#:#Zugriff auf die Test&Assessment-Adminstration
 common#:#assf_visible#:#Test&Assessment Administration ist sichtbar
 common#:#assf_write#:#Bearbeiten der Test&Assessment Administration
 common#:#assign#:#Annehmen
@@ -1339,7 +1339,7 @@ common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
-common#:#descending_order#:#Descending order###23 Dec 2005 new variable
+common#:#descending_order#:#Absteigende Reihenfolge
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#desktop_items#:#Ausgewählte Angebote
@@ -2360,7 +2360,7 @@ common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_assf#:#Test&Assessment
-common#:#obj_assf_desc#:#Test&Assessment log settings.###23 Dec 2005 new variable
+common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
 common#:#obj_auth#:#Authentifizierung
 common#:#obj_auth_desc#:#Stellen Sie hier ein, wie Benutzer authentifiziert werden sollen (Lokal, LDAP, ...)
 common#:#obj_cat#:#Kategorie
@@ -5283,10 +5283,10 @@ survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit 
 survey#:#constraint_add#:#Vorbedingung hinzufügen
 survey#:#constraints#:#Vorbedingungen
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbediungungen besitzen, da es keine vorherigen Einträge gibt
-survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.###23 Dec 2005 content changed
-survey#:#constraints_list_of_entities#:#Available survey entities for preconditions###23 Dec 2005 new variable
-survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)###23 Dec 2005 new variable
-survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or questionblock!###23 Dec 2005 new variable
+survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.
+survey#:#constraints_list_of_entities#:#Verfügbare Umfrage-Elemente für Vorbedingungen
+survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Vorbedingungen verwendet werden können.
+survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
 survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
@@ -5371,9 +5371,9 @@ survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten
 survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#evaluation_access_all#:#Evaluation access for all users###23 Dec 2005 new variable
-survey#:#evaluation_access_participants#:#Evaluation access for survey participants###23 Dec 2005 new variable
-survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
+survey#:#evaluation_access_all#:#Evaluationszugriff für alle ILIAS-Nutzer(innen)
+survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmende der Umfrage
+survey#:#existing_constraints#:#Bestehende Vorbedingungen
 survey#:#exit#:#Beenden
 survey#:#exp_type_csv#:#Comma separated value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
@@ -5520,13 +5520,13 @@ survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei 
 survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
 survey#:#search_field_all#:#In allen Feldern suchen
 survey#:#search_for#:#Suchen nach
-survey#:#search_groups#:#Gruppen###23 Dec 2005 content changed
+survey#:#search_groups#:#Gruppen
 survey#:#search_invitation#:#Nutzerinnen oder Gruppen durchsuchen
 survey#:#search_questions#:#Fragen suchen
-survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
+survey#:#search_roles#:#Gefundene Rollen
 survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
-survey#:#search_users#:#Nutzerinnen###23 Dec 2005 content changed
+survey#:#search_users#:#Nutzer(innen)
 survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_phrase_to_add#:#Bitte wählen Sie eine Phrase aus, um sie einer Frage hinzuzufügen!
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
@@ -5571,9 +5571,9 @@ survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
-survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
-survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
-survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.###23 Dec 2005 new variable
+survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmende der Umfrage verfügbar ist, müssen Sie Ihren Zugangscode für die Umfrage angeben, um die Auswertung zu öffnen.
+survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
+survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangscode für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
 survey#:#svy_eval_cumulated#:#Kumulierte Ergebnisse
