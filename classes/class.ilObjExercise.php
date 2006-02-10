@@ -96,7 +96,7 @@ class ilObjExercise extends ilObject
 
 	function checkDate()
 	{
-			$this->hour == (int) date("H",$this->timestamp) and
+		return	$this->hour == (int) date("H",$this->timestamp) and
 			$this->minutes == (int) date("i",$this->timestamp) and
 			$this->day == (int) date("d",$this->timestamp) and
 			$this->month == (int) date("m",$this->timestamp) and
