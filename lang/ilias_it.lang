@@ -958,6 +958,7 @@ common#:#ascending_order#:#Ordinamento ascendente
 common#:#assessment_log#:#Crea il report del test indicato nel periodo
 common#:#assessment_log_datetime#:#Giorno/Ora
 common#:#assessment_log_for_test#:#Test
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#Non sono disponibili dati per il test selezionato nel il periodo di tempo indicato!
 common#:#assessment_log_open_calendar#:#Clicca qui per aprire il calendario e selezionare la data (devono essere abilitati i JavaScript!)
 common#:#assessment_log_question#:#Domanda
@@ -5621,6 +5622,7 @@ trac#:#trac_anonymized#:#Rendi anonimo
 trac#:#trac_anonymized_info#:#Se selezionato, tutte le statistiche saranno rese anonime.
 trac#:#trac_assigned#:#Assegnato
 trac#:#trac_assignments#:#Assegnamenti
+trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_collection_assign#:#Assegna
 trac#:#trac_collection_deassign#:#Rimuovi assegnamento
 trac#:#trac_comment#:#Commento

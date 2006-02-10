@@ -743,6 +743,7 @@ common#:#as_of#:#что касается
 common#:#assessment_log#:#Создать доступ к тестированию и оценке на определенный период времени
 common#:#assessment_log_datetime#:#Дата/Время
 common#:#assessment_log_for_test#:#Для теста
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#Для выбранного теста на указанный период времени нет доступных лог данных!
 common#:#assessment_log_open_calendar#:#Кликните здесь, чтобы открыть календарь для выбора даты (нужен JavaScript)
 common#:#assessment_log_question#:#Вопрос
@@ -4885,6 +4886,7 @@ survey#:#view_phrase#:#Просмотреть фразу
 survey#:#warning_question_in_use#:#Предупреждение! Вопрос, который Вы хотите редактировать, находится в использовании упомянутыми ниже опросами. Если Вы хотите продолжить и сохранить/применить вопрос, то все ответы упомянутых ниже опросов будут удалены. Если Вы хотите изменить вопрос и использовать его в другом опросе, пожалуйста, выберите дубликат в браузере вопросов.
 survey#:#warning_question_not_complete#:#Вопрос не завершен!
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
+trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable

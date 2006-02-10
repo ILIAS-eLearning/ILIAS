@@ -959,6 +959,7 @@ common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_for_test#:#Für den Test
+common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
 common#:#assessment_log_no_log#:#Es ist keine Protokollierung für den ausgewählten Test in der angegebenen Zeitspanne vorhanden!
 common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumauswahl zu erhalten (Nur mit JavaScript!)
 common#:#assessment_log_question#:#Frage
@@ -1755,6 +1756,7 @@ common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
+common#:#hours#:#Stunde(n)
 common#:#hours#:#Stunde(n)
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
@@ -5620,10 +5622,12 @@ trac#:#search_area_info#:#Bitte wählen Sie ein Objekt aus.
 trac#:#select_one#:#Bitte wählen Sie ein Objekt aus.
 trac#:#trac_activated#:#Tracking aktiviert
 trac#:#trac_added_no_shown_list#:#Die ausgewählten Objekte wurden ausgeblendet.
+trac#:#trac_added_no_shown_list#:#Die ausgewählten Objekte wurden ausgeblendet.
 trac#:#trac_anonymized#:#Anonymisierung der Daten
 trac#:#trac_anonymized_info#:#Wenn aktiviert, werden keine personenbezogenen Daten ausgegeben
 trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_assignments#:#Zuordnungen
+trac#:#trac_below#:#Unterhalb von:
 trac#:#trac_collection_assign#:#Auswählen
 trac#:#trac_collection_deassign#:#Auswahl aufheben
 trac#:#trac_comment#:#Kommentar
@@ -5632,16 +5636,21 @@ trac#:#trac_completed#:#Bearbeitet
 trac#:#trac_crs_releavant_items#:#Kursobjekte
 trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Kursobjekte aus, anhand derer der Lernfortschritt bestimmt wird.
 trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
+trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
 trac#:#trac_filter_area#:#Bereich:
 trac#:#trac_filter_hidden#:#Ausgeblendet:
 trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
+trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
 trac#:#trac_filter_no_access#:#Es wurden keine passenden Objekte gefunden.
+trac#:#trac_filter_none#:#Keine
 trac#:#trac_filter_none#:#Keine
 trac#:#trac_filter_repository#:#Im Magazin
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
 trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, daß Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
+trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, daß Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
+trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
@@ -5663,10 +5672,12 @@ trac#:#trac_modifications_saved#:#Die Änderungen wurden übernommen
 trac#:#trac_modus#:#Modus
 trac#:#trac_no_attempted#:#Noch nicht bearbeitet
 trac#:#trac_no_content#:#Keine Daten zum Lernfortschritt verfügbar.
+trac#:#trac_no_content#:#Keine Daten zum Lernfortschritt verfügbar.
 trac#:#trac_no_sahs_items_found#:#Es wurden keine Objekte gefunden mittels derer der Lernfortschritt überprüft werden kann.
 trac#:#trac_not_accessed#:#Noch nicht zugegriffen
 trac#:#trac_not_assigned#:#Nicht ausgewählt
 trac#:#trac_not_attempted#:#Noch nicht begonnen
+trac#:#trac_not_completed#:#Nicht bearbeitet
 trac#:#trac_not_completed#:#Nicht bearbeitet
 trac#:#trac_num_visits#:#Anzahl der Besuche
 trac#:#trac_objects#:#Objektübersicht
@@ -5675,7 +5686,9 @@ trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_query#:#Titel/Beschreibung:
 trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_required_visits#:#Anzahl benötigter Besuche
+trac#:#trac_required_visits#:#Anzahl benötigter Besuche
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
 trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
 trac#:#trac_settings#:#Einstellungen
 trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
@@ -5685,6 +5698,7 @@ trac#:#trac_status#:#Status###23 Dec 2005 new variable
 trac#:#trac_total_online#:#Gesamtzeit online
 trac#:#trac_update_edit_user#:#Die Änderungen wurden übernommen
 trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
+trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
 trac#:#trac_user_data#:#Benutzerdaten
 trac#:#trac_usr_list#:#Benutzer
 trac#:#trac_valid_request#:#Max. Zeit zwischen Anfragen
@@ -5693,18 +5707,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
-trac#:#trac_crs_items#:#Kurselemente
-trac#:#trac_required_visits#:#Anzahl benötigter Besuche
-trac#:#trac_no_content#:#Keine Daten zum Lernfortschritt verfügbar.
-trac#:#trac_filter_none#:#Keine
-trac#:#trac_added_no_shown_list#:#Die ausgewählten Objekte wurden ausgeblendet.
-trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
-trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
-trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
-trac#:#trac_not_completed#:#Nicht bearbeitet
-trac#:#trac_last_access#:#Letzter Zugriff
-trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, daß Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
-trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
-common#:#hours#:#Stunde(n)
-trac#:#trac_below#:#Unterhalb von:
