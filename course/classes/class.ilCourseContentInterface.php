@@ -1029,11 +1029,11 @@ class ilCourseContentInterface
 			}
 
 			// CONTINUE LINK
-			if(isset($continue_data["$lm_id"]))
+			if(isset($continue_data[$lm_id]))
 			{
 				$this->tpl->setCurrentBlock("lm_continuelink");
-				$this->tpl->setVariable("CONTINUE_LINK_LMS",'./content/lm_presentation.php?ref_id='.$lm_id.'&obj_id='.
-										$cont_data[$lm_id]['lm_page_id']);
+				$this->tpl->setVariable("CONTINUE_LINK_LMS",'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$lm_id.'&obj_id='.
+										$continue_data[$lm_id]['lm_page_id']);
 
 				//$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
 				//	'' :
