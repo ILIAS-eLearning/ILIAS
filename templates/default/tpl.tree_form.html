@@ -1,19 +1,23 @@
-<table cellpadding="1" cellspacing="0" border="0">
-<tr>
-<!-- BEGIN row -->
-<!-- BEGIN lines -->
-<td nowrap valign="top" align="left"><img class="spacer" src="{IMGPATH_LINES}" border="0" /></td>
-<!-- END lines -->
-<!-- BEGIN expander -->
-<td nowrap="nowrap" valign="top" align="left"><a href="{LINK_TARGET_EXPANDER}"><img class="spacer" src="{IMGPATH}" border="0" /></a></td>
-<!-- END expander -->
-<!-- BEGIN checkbox -->
-<td nowrap="nowrap" valign="top" align="left"><input type="checkbox" id="page_{PAGE_ID}" name="pages[]" value="{PAGE_ID}" {CHECKED}/></td>
-<!-- END checkbox -->
-<td nowrap="nowrap" valign="top" align="left"><!-- BEGIN icon --><img class="spacer" id="icon_{PAGE_ID}" name="icon_{PAGE_ID}" src="{ICON_IMAGE}" alt="{TXT_ALT_ICON_IMG}" title="{TXT_ALT_IMG}" border="0" /><!-- END icon --></td>
-<td align="left">
+<!-- BEGIN element -->
+<!-- BEGIN start_list -->
+<ul class="il_Explorer">
+<!-- END start_list -->
+<!-- BEGIN start_list_no_indent -->
+<ul class="il_ExplorerNoIndent">
+<!-- END start_list_no_indent -->
+<!-- BEGIN start_list_item -->
+<li class="il_Explorer">
+<!-- END start_list_item -->
+<!-- BEGIN list_item -->
+<!-- BEGIN expander --><a href="{LINK_TARGET_EXPANDER}"><img style="vertical-align:middle" <!-- BEGIN exp_desc -->alt="{EXP_DESC}" title="{EXP_DESC}"<!-- END exp_desc --> src="{IMGPATH}" border="0" /></a><!-- END expander --><!-- BEGIN blank --><img style="vertical-align:middle" src="{BLANK_PATH}" border="0" /><!-- END blank --><!-- BEGIN icon --><img style="vertical-align:middle" id="{TARGET_ID}" name="{TARGET_ID}" src="{ICON_IMAGE}" alt="{TXT_ALT_IMG}" title="{TXT_ALT_IMG}" border="0" /><!-- END icon -->
+<!-- BEGIN checkbox --><input type="checkbox" id="page_{PAGE_ID}" name="pages[]" value="{PAGE_ID}" {CHECKED}/><!-- END checkbox -->
+<!-- BEGIN link --><a {A_CLASS} name="{LINK_NAME}" href="{LINK_TARGET}" {TARGET} {ONCLICK}>{TITLE}</a> {DESC}<!-- END link -->
 <!-- BEGIN text --><label for="page_{PAGE_ID}"{ONCLICK}>{OBJ_TITLE}</label><!-- END text -->
-</td>
-<!-- END row -->
-</tr>
-</table>
+<!-- END list_item -->
+<!-- BEGIN end_list_item -->
+</li>
+<!-- END end_list_item -->
+<!-- BEGIN end_list -->
+</ul>
+<!-- END end_list -->
+<!-- END element -->

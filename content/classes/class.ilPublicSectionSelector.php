@@ -73,22 +73,83 @@ class ilPublicSectionSelector extends ilLMExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($tpl,$a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree_form.html", true, true);
-
+		//$tpl = new ilTemplate("tpl.tree_form.html", true, true);
+		return;
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", ilUtil::shortenText($this->lm_obj->getTitle(), $this->textwidth, true));
 		$tpl->setVariable("LINK_TARGET", $this->target);
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 		$tpl->parseCurrentBlock();
 		
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("element");
 		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
+		//$this->output[] = $tpl->get();
+	}
+
+	/**
+	* Creates output
+	* recursive method
+	* @access	public
+	* @return	string
+	*/
+	function getOutput()
+	{
+		global $ilBench, $tpl;
+
+		$ilBench->start("Explorer", "getOutput");
+
+		$this->format_options[0]["tab"] = array();
+
+		$depth = $this->tree->getMaximumDepth();
+
+		for ($i=0;$i<$depth;++$i)
+		{
+			$this->createLines($i);
+		}
+		
+		// set global body class
+		$tpl->setVariable("BODY_CLASS", "il_Explorer");
+		
+		$tpl_tree = new ilTemplate("tpl.tree_form.html", true, true);
+		
+		$cur_depth = -1;
+		foreach ($this->format_options as $key => $options)
+		{
+//echo "-".$options["depth"]."-";
+			if (!$options["visible"])
+			{
+				continue;
+			}
+			
+			// end tags
+			$this->handleListEndTags($tpl_tree, $cur_depth, $options["depth"]);
+			
+			// start tags
+			$this->handleListStartTags($tpl_tree, $cur_depth, $options["depth"]);
+			
+			$cur_depth = $options["depth"];
+			
+			if ($options["visible"] and $key != 0)
+			{
+				$this->formatObject($tpl_tree, $options["child"],$options,$options['obj_id']);
+			}
+			if ($key == 0)
+			{
+				$this->formatHeader($tpl_tree, $options["child"],$options);
+			}
+						
+		}
+		
+		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
+		
+		$ilBench->stop("Explorer", "getOutput");
+		
+		return $tpl_tree->get();
 	}
 
 	/**
@@ -99,7 +160,7 @@ class ilPublicSectionSelector extends ilLMExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option,$a_obj_id = 0)
+	function formatObject(&$tpl, $a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
 		
@@ -109,16 +170,17 @@ class ilPublicSectionSelector extends ilLMExplorer
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new ilTemplate("tpl.tree_form.html", true, true);
+		//$tpl = new ilTemplate("tpl.tree_form.html", true, true);
 
 		// build structurs without any icons or lines
+		/*
 		foreach ($a_option["tab"] as $picture)
 		{
 			$picture = "blank";
 			$tpl->setCurrentBlock("lines");
 			$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
 			$tpl->parseCurrentBlock();
-		}
+		}*/
 
 		if ($this->output_icons)
 		{
@@ -131,12 +193,11 @@ class ilPublicSectionSelector extends ilLMExplorer
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		if (!$a_option["container"])
 		{
 			$tpl->setCurrentBlock("checkbox");
 			$tpl->setVariable("PAGE_ID", $a_node_id);
-			
 			if (ilLMObject::_isPagePublic($a_node_id))
 			{
 				$tpl->setVariable("CHECKED","checked=\"checked\"");
@@ -164,8 +225,11 @@ class ilPublicSectionSelector extends ilLMExplorer
 		$tpl->setVariable("PAGE_ID", $a_node_id);
 		$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("element");
+		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
+		//$this->output[] = $tpl->get();
 	}
 } // END class ilPublicSectionSelector
 ?>
