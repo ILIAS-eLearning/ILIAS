@@ -717,7 +717,7 @@ class ilTemplate extends ilTemplateX
 		global $ilLocator;
 		
 		$this->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		
+
 		$items = $ilLocator->getItems();
 		$first = true;
 		foreach($items as $item)

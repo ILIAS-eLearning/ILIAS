@@ -247,7 +247,7 @@ class ilObjectGUI
 	function prepareOutput()
 	{
 		global $ilLocator, $tpl;
-//echo "ilObjectGUI::prepareOutput";
+
 		$this->tpl->getStandardTemplate();
 		// administration prepare output
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
@@ -779,13 +779,12 @@ class ilObjectGUI
 	function addAdminLocatorItems()
 	{
 		global $ilLocator;
-
+		
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{		
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
-
 			if ($this->object->getRefId() != SYSTEM_FOLDER_ID)
 			{
 				$ilLocator->addItem($this->object->getTitle(),

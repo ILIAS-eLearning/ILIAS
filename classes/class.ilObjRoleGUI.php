@@ -93,7 +93,16 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->prepareOutput();
+			if ($_GET["ref_id"] != SYSTEM_FOLDER_ID)
+			{
+				$this->prepareOutput();
+			}
+			else
+			{
+				$this->setAdminTabs();
+				//$this->addAdminLocatorItems();
+				//$tpl->setLocator();
+			}
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -1275,7 +1284,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$link_contact = "mail_new.php?type=new&rcp_to=".$user["login"];
 			
-			if ($_GET["admin_mode"] == "settings")
+			if ($_GET["admin_mode"] == "settings"
+				&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)
 			{
 				$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]); 
 				$link_change = $this->ctrl->getLinkTargetByClass("ilobjusergui", "edit");
@@ -2016,7 +2026,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	function __setLocator()
 	{
 		global $tree, $ilias_locator;
-
+		
+		return;
+		
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		$counter = 0;
@@ -2060,13 +2072,16 @@ class ilObjRoleGUI extends ilObjectGUI
 	function addAdminLocatorItems()
 	{
 		global $ilLocator;
+//echo "-".$_GET["ref_id"]."-".SYSTEM_FOLDER_ID."-";
+//echo "A";
 
-		if ($_GET["admin_mode"] == "settings")	// system settings
+		if ($_GET["admin_mode"] == "settings"
+			&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)	// system settings
 		{		
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
-				
+//echo "B";
 			$ilLocator->addItem(ilObject::_lookupTitle(
 				ilObject::_lookupObjId($_GET["ref_id"])),
 				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
@@ -2090,7 +2105,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
-			if ($_GET["admin_mode"] == "settings")
+			if ($_GET["admin_mode"] == "settings"
+				&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)
 			{
 				$tpl->setUpperIcon(
 					$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
