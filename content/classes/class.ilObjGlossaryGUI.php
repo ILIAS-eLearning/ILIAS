@@ -496,6 +496,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.glossary_short_list.html", "content");
 		
+		
+		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CMD_REFR", "quickList");
+		$this->tpl->setVariable("TXT_REFR", $this->lng->txt("refresh"));
+		
 		include_once "./classes/class.ilTableGUI.php";
 
 		// glossary term list template
