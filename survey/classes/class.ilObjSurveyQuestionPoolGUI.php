@@ -1099,8 +1099,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
 		// delete button
 		include_once "./classes/class.ilUtil.php";
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
@@ -1124,6 +1122,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$tbl->render();
 		if(count($export_files) > 0)
 		{
+			$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
 			$i=0;
 			foreach($export_files as $exp_file)
 			{
