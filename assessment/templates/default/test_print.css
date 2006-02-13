@@ -160,3 +160,6 @@ td.freefield_line {
 	border-bottom: 1px solid black;
 }
 
+table.freefield_bottom {
+	padding-top: 5em;
+}

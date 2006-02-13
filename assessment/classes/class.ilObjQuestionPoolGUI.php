@@ -1217,8 +1217,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
@@ -1230,6 +1228,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		include_once "./classes/class.ilUtil.php";
 		if(count($export_files) > 0)
 		{
+			$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
 			$i=0;
 			foreach($export_files as $exp_file)
 			{

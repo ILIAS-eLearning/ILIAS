@@ -294,8 +294,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);		// ???
 
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
@@ -306,6 +304,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$tbl->render();
 		if(count($export_files) > 0)
 		{
+			$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
 			$i=0;
 			foreach($export_files as $exp_file)
 			{

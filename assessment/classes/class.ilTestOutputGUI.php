@@ -1517,7 +1517,7 @@ class ilTestOutputGUI
 		global $ilUser;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);			
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css?boris=css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("navigation_buttons");
@@ -1525,6 +1525,12 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
 		$this->tpl->parseCurrentBlock();
+		$invited_user =& $this->object->getInvitedUsers($ilUser->getId());
+		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") . 
+			": " . $invited_user[$ilUser->getId()]->clientip . " - " . 
+			$this->lng->txt("matriculation") . ": " . 
+			$invited_user[$ilUser->getId()]->matriculation;
+		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 		$this->outShowAnswersDetails($ilUser->getId());
 	}
 
