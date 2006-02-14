@@ -463,7 +463,7 @@ assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_previous_results_hide#:#Wenn Sie dieses Kontrollkästchen aktivieren, werden Ihre Ergebnisse aus dem vorigen Testdurchlauf nicht angezeigt
+assessment#:#tst_hide_previous_results_hide#:#Wenn Sie dieses Kontrollkästchen aktivieren, werden Ihre Ergebnisse aus dem vorigen Testdurchlauf nicht angezeigt###14 Feb 2006 content changed
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_title_points#:#Punkte im Fragentitel
 assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
