@@ -465,7 +465,7 @@ assessment#:#tst_generate_xls#:#Generar Excel
 assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
-assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán
+assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán###14 Feb 2006 content changed
 assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto
 assessment#:#tst_hide_title_points#:#Puntuación en título de la pregunta
 assessment#:#tst_hide_title_points_description#:#Ocultar la puntuación máxima en el título de la pregunta

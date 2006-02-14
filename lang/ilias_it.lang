@@ -464,7 +464,7 @@ assessment#:#tst_generate_xls#:#Crea un Foglio elettronico
 assessment#:#tst_heading_scoring#:#Punteggio
 assessment#:#tst_hide_previous_results#:#Nascondi i risultati precedenti
 assessment#:#tst_hide_previous_results_description#:#Se selezionato, i risultati precedenti dello studente non saranno usati come valori di riferimento per i test futuri
-assessment#:#tst_hide_previous_results_hide#:#Se selezionato i risultati del test precedentemente superato non saranno visibili
+assessment#:#tst_hide_previous_results_hide#:#Se selezionato i risultati del test precedentemente superato non saranno visibili###14 Feb 2006 content changed
 assessment#:#tst_hide_previous_results_introduction#:#Se esegui pi&#249; di una volta questo test, i risultati delle volte precedenti non saranno usati come valori di riferimento
 assessment#:#tst_hide_title_points#:#Punteggio nel titolo della domanda
 assessment#:#tst_hide_title_points_description#:#Non mostrare il punteggio massimo nel titolo della domanda
