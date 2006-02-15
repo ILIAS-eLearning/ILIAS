@@ -138,6 +138,11 @@ class ilSurveyExecutionGUI
 					unset($_POST["cmd"]["resume"]);
 					sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
 				}
+				if (strlen($_SESSION["anonymous_id"]) == 0)
+				{
+					sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), ""), true);
+					$this->ctrl->redirect($this, "run");
+				}
 			}
 		}
 		
@@ -152,6 +157,11 @@ class ilSurveyExecutionGUI
 			else
 			{
 				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
+				$this->ctrl->redirect($this, "run");
+			}
+			if (strlen($_SESSION["anonymous_id"]) == 0)
+			{
+				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), ""), true);
 				$this->ctrl->redirect($this, "run");
 			}
 		}
