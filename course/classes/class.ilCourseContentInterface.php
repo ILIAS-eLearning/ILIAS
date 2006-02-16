@@ -192,12 +192,17 @@ class ilCourseContentInterface
 			$this->tabs_gui->setTabActive('edit_content');
 			$items = $this->cci_course_obj->items_obj->getAllItems();
 		}
+		elseif($write_perm)
+		{
+			$this->tabs_gui->setTabActive('content');
+			$items = $this->cci_course_obj->items_obj->getAllItems();
+		}
 		else
 		{
 			$this->tabs_gui->setTabActive('content');
 			$items = $this->cci_course_obj->items_obj->getItems();
 		}
-		
+	
 		// NO ITEMS FOUND
 		if(!count($items))
 		{	

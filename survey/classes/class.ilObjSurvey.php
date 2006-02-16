@@ -3146,10 +3146,7 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
-				if (strlen($row["anonymous_id"]) > 0)
-				{
-					$evaluation[$row["anonymous_id"]] = $this->getEvaluationByUser($questions, $row["user_fi"], $row["anonymous_id"]);
-				}
+				$evaluation[$row["anonymous_id"]] = $this->getEvaluationByUser($questions, $row["user_fi"], $row["anonymous_id"]);
 			}
 		}
 		return $evaluation;
