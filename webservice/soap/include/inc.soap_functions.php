@@ -353,6 +353,33 @@ function getGroup($sid,$ref_id)
 	return $soa->getGroup($sid,$ref_id);
 }
 
+function assignGroupMember($sid,$group_id,$user_id,$type)
+{
+	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+	$sca =& new ilSoapGroupAdministration();
+
+	return $sca->assignGroupMember($sid,$group_id,$user_id,$type);
+}
+function isAssignedToGroup($sid,$group_id,$user_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+	$sca =& new ilSoapGroupAdministration();
+
+	return $sca->isAssignedToGroup($sid,$group_id,$user_id);
+}
+	
+function excludeGroupMember($sid,$group_id,$user_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+	$sca =& new ilSoapGroupAdministration();
+
+	return $sca->excludeGroupMember($sid,$group_id,$user_id,$type);
+}
+
+
 function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 {
 	include_once './webservice/soap/classes/class.ilSoapUtils.php';
