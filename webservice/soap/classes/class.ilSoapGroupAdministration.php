@@ -116,8 +116,171 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		
 		return strlen($xml) ? $xml : '';
 	}
+
+
+	function assignGroupMember($sid,$group_id,$user_id,$type)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		if(!is_numeric($group_id))
+		{
+			return $this->__raiseError('No valid group id given. Please choose an existing reference id of an ILIAS group',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
+		{
+			$group_id = end($ref_ids = ilObject::_getAllReferences($group_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp')
+			{
+				return $this->__raiseError('Invalid group id. Object with id "'. $group_id.'" is not of type "group"','Client');
+			}
+		}
+
+		if(!$rbacsystem->checkAccess('write',$group_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to write to group','Server');
+		}
+
 		
-		
+		if(ilObject::_lookupType($user_id) != 'usr')
+		{
+			return $this->__raiseError('Invalid user id. User with id "'. $user_id.' does not exist','Client');
+		}
+		if($type != 'Admin' and
+		   $type != 'Member')
+		{
+			return $this->__raiseError('Invalid type '.$type.' given. Parameter "type" must be "Admin","Member"','Client');
+		}
+
+		if(!$tmp_group = ilObjectFactory::getInstanceByRefId($group_id,false))
+		{
+			return $this->__raiseError('Cannot create group instance!','Server');
+		}
+
+		if(!$tmp_user = ilObjectFactory::getInstanceByObjId($user_id,false))
+		{
+			return $this->__raiseError('Cannot create user instance!','Server');
+		}
+
+
+		switch($type)
+		{
+			case 'Admin':
+				return $tmp_group->addMember($user_id,$tmp_group->getDefaultAdminRole());
+
+			case 'Member':
+				return $tmp_group->addMember($user_id,$tmp_group->getDefaultMemberRole());
+				break;
+		}
+
+		return true;
+	}
+
+	function excludeGroupMember($sid,$group_id,$user_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($group_id))
+		{
+			return $this->__raiseError('No valid group id given. Please choose an existing reference id of an ILIAS group',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		global $rbacsystem;
+
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
+		{
+			$group_id = end($ref_ids = ilObject::_getAllReferences($group_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp')
+			{
+				return $this->__raiseError('Invalid group id. Object with id "'. $group_id.'" is not of type "group"','Client');
+			}
+		}
+
+		if(ilObject::_lookupType($user_id) != 'usr')
+		{
+			return $this->__raiseError('Invalid user id. User with id "'. $user_id.' does not exist','Client');
+		}
+
+		if(!$tmp_group = ilObjectFactory::getInstanceByRefId($group_id,false))
+		{
+			return $this->__raiseError('Cannot create group instance!','Server');
+		}
+
+		if(!$rbacsystem->checkAccess('write',$group_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to write to group','Server');
+		}
+
+		$tmp_group->leave($user_id);
+		return true;
+	}
+
+	
+	function isAssignedToGroup($sid,$group_id,$user_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($group_id))
+		{
+			return $this->__raiseError('No valid group id given. Please choose an existing id of an ILIAS group',
+									   'Client');
+		}
+		// Include main header
+		include_once './include/inc.header.php';
+
+		global $rbacsystem;
+
+		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
+		{
+			$group_id = end($ref_ids = ilObject::_getAllReferences($group_id));
+			if(ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp')
+			{
+				return $this->__raiseError('Invalid group id. Object with id "'. $group_id.'" is not of type "group"','Client');
+			}
+		}
+
+		if(ilObject::_lookupType($user_id) != 'usr')
+		{
+			return $this->__raiseError('Invalid user id. User with id "'. $user_id.' does not exist','Client');
+		}
+
+		if(!$tmp_group = ilObjectFactory::getInstanceByRefId($group_id,false))
+		{
+			return $this->__raiseError('Cannot create group instance!','Server');
+		}
+
+		if(!$rbacsystem->checkAccess('read',$group_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to read group data','Server');
+		}
+
+
+		if($tmp_group->isAdmin($user_id))
+		{
+			return 1;
+		}
+		if($tmp_group->isMember($user_id))
+		{
+			return 2;
+		}
+		return "0";
+	}
+	
 	// PRIVATE
 
 }

@@ -591,6 +591,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS addGroup(): Check if group with given name exists. ');
 
 
+		// getGroup
 		$this->server->register('getGroup',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int'),
@@ -600,6 +601,45 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getGroup(): get xml description of grouip with given reference id.');
+
+		// assignGroupMember()
+		$this->server->register('assignGroupMember',
+								array('sid' => 'xsd:string',
+									  'group_id' => 'xsd:int',
+									  'user_id' => 'xsd:int',
+									  'type' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#assignGroupMember',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS assignGroupMember(). Assigns an user to an existing group. Type should be "Admin","Member"');
+
+		// excludeGroupMember()
+		$this->server->register('excludeGroupMember',
+								array('sid' => 'xsd:string',
+									  'group_id' => 'xsd:int',
+									  'user_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#excludeGroupMember',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS excludeGroupMember(). Excludes an user from an existing group.');
+
+		// isAssignedToGroup()
+		$this->server->register('isAssignedToGroup',
+								array('sid' => 'xsd:string',
+									  'group_id' => 'xsd:int',
+									  'user_id' => 'xsd:int'),
+								array('role' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#isAssignedToGroup',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS isAssignedToGroup(). Checks whether an user is assigned to a given group. '.
+								'Returns 0 => not assigned, 1 => group admin, 2 => group member');
+
 
 
 		// ILIAS util functions
