@@ -261,8 +261,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Assign user prefs
 		$new_user->setLanguage($user_data['user_language']);
-		$new_user->setPref('style',$user_data['style']);
-		$new_user->setPref('skin',$user_data['skin']);
+		$new_user->setPref('style',$user_data['user_style']);
+		$new_user->setPref('skin',$user_data['user_skin']);
 		$new_user->writePrefs();
 
 		return $new_user->getId();
@@ -463,8 +463,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 		if(isset($user_data['user_skin']) and isset($user_data['user_style']))
 		{
-			$user_obj->setPref('skin',$user_data['skin']);
-			$user_obj->setPref('style',$user_data['style']);
+			$user_obj->setPref('skin',$user_data['user_skin']);
+			$user_obj->setPref('style',$user_data['user_style']);
 		}
 		return true;
 	}
