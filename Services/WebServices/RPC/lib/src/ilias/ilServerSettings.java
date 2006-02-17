@@ -180,12 +180,3 @@ public class ilServerSettings {
             }
         }
 }
-
-
-class ilConfigurationException extends Exception
-{
-    	public ilConfigurationException(String msg)
-        {
-            super(msg);
-        }
-}	
