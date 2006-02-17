@@ -26,10 +26,13 @@
  */
 package ilias;
 
-import org.apache.log4j.Logger;
-import org.apache.xmlrpc.*;
+
 import ilias.lucene.LuceneIndexHandler;
 import ilias.lucene.LuceneQueryHandler;
+import ilias.transformation.ilTransformationHandler;
+
+import org.apache.log4j.Logger;
+import org.apache.xmlrpc.WebServer;
 
 public class ilRPCServer {
 
@@ -59,7 +62,9 @@ public class ilRPCServer {
     {
         addIndexHandler();
         addQueryHandler();
+        addTransformationHandler();
     }
+
     private void addIndexHandler()
     {
         this.server.addHandler("Indexer",new LuceneIndexHandler(settings.getIndexPath()));
@@ -73,4 +78,9 @@ public class ilRPCServer {
         return;
     }
 
+    private void addTransformationHandler() {
+
+        server.addHandler("Transformer",new ilTransformationHandler());
+        logger.info("Added RPC file transformation handler");
+    }
 }
