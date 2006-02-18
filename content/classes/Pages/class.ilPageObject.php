@@ -515,7 +515,7 @@ class ilPageObject
 			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
-			"ed_col_left", "ed_col_right", "ed_split_page_next");
+			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable");
 
 		foreach ($lang_vars as $lang_var)
 		{
@@ -1811,7 +1811,7 @@ class ilPageObject
 				$context_node->remove_child ($node_del);
 			}
 
-			$content = str_replace("<br />", "<br/>", $content );
+			$content = str_replace("<br />", "<br/>", utf8_decode($content) );
 			$content = str_replace("<br/>", "\n", $content);
 			$rownums = count(split ("\n",$content));
 
@@ -1822,34 +1822,44 @@ class ilPageObject
 
 			$content = str_replace("&amp;lt;", "&lt;", $content);
 			$content = str_replace("&amp;gt;", "&gt;", $content);
-			$content = str_replace("&", "&amp;", $content);
+			$content = str_replace("&", "&amp;", $content);					
 
-			//$rows  	 = htmlentities ("<TR valign=\"top\">");
 			$rows  	 = "<TR valign=\"top\">";
-			$rownumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\"><PRE>";
+			$rownumbers = "";
 
+			//if we have to show line numbers
 			if (strcmp($showlinenumbers,"y")==0)
 			{
+				$linenumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\" >";
+				$linenumbers .= "<PRE class=\"ilc_Code\">";
+
 				for ($j=0; $j < $rownums; $j++)
 				{
 					$indentno      = strlen($rownums) - strlen($j+1) + 2;
 					$rownumeration = ($j+1);
-					$rownumbers   .= $rownumeration;
+					$linenumbers   .= "<span class=\"ilc_LineNumber\">$rownumeration</span>";
 					if ($j < $rownums-1)
 					{
-						$rownumbers .= "<br />";
+						$linenumbers .= "\n";
 					}
 				}
-				//$rows .= $rownumbers.htmlentities ("</PRE></TD>");
-				$rows .= $rownumbers."</PRE></TD>";
+				$linenumbers .= "</PRE>";
+				$linenumbers .= "</TD>";
 			}
-			//$rows .= htmlentities ("<TD class=\"ilc_Sourcecode\"><PRE>").$content.htmlentities ("</PRE></TD></TR>");
-			$rows .= "<TD class=\"ilc_Sourcecode\"><PRE>".$content."</PRE></TD></TR>";
+			
+			$rows .= $linenumbers."<TD class=\"ilc_Sourcecode\"><PRE class=\"ilc_Code\">".$content."</PRE></TD></TR>";
+			$rows .= "</TR>";
 
 			// fix for ie explorer which is not able to produce empty line feeds with <br /><br />; 
 			// workaround: add a space after each br.
-			$newcontent = str_replace("\n", "<br/>", $rows);
-						
+			$newcontent = str_replace("\n", "<br/>",$rows);
+			// fix for IE
+			$newcontent = str_replace("<br/><br/>", "<br/> <br/>",$newcontent);	
+			// falls drei hintereinander...
+			$newcontent = str_replace("<br/><br/>", "<br/> <br/>",$newcontent);
+			
+			
+					
 			$context_node->set_content($newcontent);
 			if ($outputmode != "presentation" && is_object($this->offline_handler)
 				&& trim($downloadtitle) != "")
