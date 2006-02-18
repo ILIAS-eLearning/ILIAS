@@ -243,3 +243,9 @@ td.ilc_MediaCaption
 {
 	padding:5px;
 }
+
+div.ilc_Disabled {
+	margin-left: -10px;
+	padding-left: 10px;
+	border-left: 3px dotted red;
+}
