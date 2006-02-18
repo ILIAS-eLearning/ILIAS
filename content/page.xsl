@@ -287,12 +287,24 @@
 			<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
 		</xsl:if>
         <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
-		<xsl:apply-templates>
-			<xsl:with-param name="par_counter" select ="position()" />
-		</xsl:apply-templates>
+
+		<xsl:choose>
+			<xsl:when test="@Enabled='False'"> 
+				<div class='ilc_Disabled'>
+					<xsl:apply-templates>
+						<xsl:with-param name="par_counter" select ="position()" />
+					</xsl:apply-templates>
+				</div>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates>
+					<xsl:with-param name="par_counter" select ="position()" />
+				</xsl:apply-templates>
+			</xsl:otherwise>
+		</xsl:choose>
 		</div>
 	</xsl:if>
-	<xsl:if test="$mode != 'edit'">
+	<xsl:if test="$mode != 'edit' and (not(@Enabled) or @Enabled='True')">
 		<xsl:apply-templates>
 			<xsl:with-param name="par_counter" select ="position()" />
 		</xsl:apply-templates>
@@ -374,6 +386,16 @@
 			<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
+
+	<xsl:if test="$hier_id != 'pg'">
+		<!-- enable -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">switchEnable</xsl:with-param>
+			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
+
 	
 	<xsl:call-template name="EditMenuInsertItems"/>
 	
@@ -630,7 +652,7 @@
 								<xsl:with-param name="subchar" select="-1"/>
 							</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$mode = '' or $mode = 'presentation'" >
+					<xsl:when test="$mode = 'edit' or $mode = '' or $mode = 'presentation'" >
 						<xsl:variable name="href" select="concat($download_script,'&amp;cmd=download_paragraph&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
 						<xsl:call-template name="DownloadLink">
 							<xsl:with-param name="p_id" select="$p_id"/>
@@ -1103,6 +1125,15 @@
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
+	
+	<xsl:if test="$hier_id != 'pg'">
+		<!-- enable -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">switchEnable</xsl:with-param>
+			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 
 	<xsl:call-template name="EditMenuInsertItems"/>
 	
@@ -1616,6 +1647,15 @@
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editAlias</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
+	
+	<xsl:if test="$hier_id != 'pg'">
+		<!-- enable -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">switchEnable</xsl:with-param>
+			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 
 	<xsl:call-template name="EditMenuInsertItems"/>
 	
