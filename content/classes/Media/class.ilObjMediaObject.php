@@ -1222,5 +1222,53 @@ class ilObjMediaObject extends ilObject
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
 	}
+
+
+	/**
+	 * boolean accessor to enable/disable a paragraph
+	 */
+	 
+	 function setEnabled ($value) 
+	 {
+		if (is_object($this->node))
+		{
+			$this->node->set_attribute("Enabled", $value);
+		}
+	 }
+	 
+	 
+	 /**
+	  * boolean is PageContent enabled? 
+	  * 
+	  */
+	  
+	  function isEnabled ()
+	  {
+	  	if (is_object($this->node) && $this->node->has_attribute("Enabled"))
+	  	{
+	  		$compare = $this->node->get_attribute("Enabled");	  			  		
+	  	} 
+	  	else $compare = "True";
+	  		
+	  	return $compare == "True";
+	  }
+
+
+	  /**
+	  * enable page content
+	  */
+	  function enable() 
+	  {
+			$this->setEnabled ("True");
+	  }
+	  
+	  /**
+	  * disable page content
+	  */
+	  function disable() 
+	  {
+			$this->setEnabled ("False");
+	  } 
+
 }
 ?>
