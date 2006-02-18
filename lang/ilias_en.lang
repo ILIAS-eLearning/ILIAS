@@ -5703,3 +5703,6 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+common#:#data_privacy#:#Data Privacy Settings
+common#:#enable_fora_statistics#:#Enable Statistics in Forum
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
