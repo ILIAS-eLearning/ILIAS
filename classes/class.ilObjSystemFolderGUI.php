@@ -470,6 +470,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			// soap
 			$settings["soap_user_administration"] = $_POST["soap_user_administration"];
+			
+			// data privacy
+			$settings["enable_fora_statistics"] = $_POST["enable_fora_statistics"];
 
 			// dynamic links
 			$settings["links_dynamic"] = $_POST["links_dynamic"];
@@ -552,6 +555,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			// webservice
 			$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
+			
+			// data privacy
+			$this->ilias->setSetting("enable_fora_statistics",$_POST["enable_fora_statistics"]);
 
 			// forums
 			$this->ilias->setSetting('frm_store_new',$_POST['frm_store_new']);
@@ -690,6 +696,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_WEBSERVICES",$this->lng->txt('webservices'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION",$this->lng->txt('soap_user_administration'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION_DESC",$this->lng->txt('soap_user_administration_desc'));
+		
+		$this->tpl->setVariable("TXT_DATA_PRIVACY",$this->lng->txt('data_privacy'));
+		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS",$this->lng->txt('enable_fora_statistics'));
+		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS_DESC",$this->lng->txt('enable_fora_statistics_desc'));
+		
 
 		$this->tpl->setVariable("TXT_DYNAMIC_LINKS",$this->lng->txt('links_dynamic'));
 		$this->tpl->setVariable("INFO_DYNAMIC_LINKS",$this->lng->txt('links_dynamic_info'));
@@ -992,6 +1003,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if ($settings["soap_user_administration"])
         {
             $this->tpl->setVariable("SOAP_USER_ADMINISTRATION_CHECK","checked=\"checked\"");
+        }
+        
+        if ($settings["enable_fora_statistics"])
+        {
+            $this->tpl->setVariable("ENABLE_FORA_STATISTICS_CHECK","checked=\"checked\"");
         }
 
 		// paths to tools
