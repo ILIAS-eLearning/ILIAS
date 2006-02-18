@@ -9530,3 +9530,6 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#633>
+ALTER TABLE `frm_settings` ADD COLUMN `statistics_enabled` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 AFTER `anonymized`;
+?>
