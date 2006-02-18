@@ -69,6 +69,7 @@ class ilPageContent
 	{
 		$this->node =& $a_node;
 	}
+	
 
 	/**
 	*/
@@ -138,6 +139,55 @@ class ilPageContent
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * boolean accessor to enable/disable a paragraph
+	 */
+	 
+	 function setEnabled ($value) 
+	 {
+			if (is_object($this->node))
+			{
+				$this->node->set_attribute("Enabled", $value);
+			}
+	 }
+	 
+	 
+	 /**
+	  * boolean is PageContent enabled? 
+	  * 
+	  */
+	  
+	function isEnabled ()
+	{
+		$this->node->get_attribute("Enabled");
+	  if (is_object($this->node) && $this->node->has_attribute("Enabled"))
+	  {
+	  	$compare = $this->node->get_attribute("Enabled");	  			  		
+	  } 
+	  else $compare = "True";
+	  		
+	  return strcasecmp($compare,"true") == 0;
+	}
+
+
+	  /**
+	  * enable page content
+	  */
+	function enable() 
+	{
+//		echo "enable<br>";
+		$this->setEnabled ("True");
+	}
+	  
+	  /**
+	  * disable page content
+	  */
+	function disable() 	
+	{
+//		echo "disable<br>";
+		$this->setEnabled ("False");
 	}
 
 }

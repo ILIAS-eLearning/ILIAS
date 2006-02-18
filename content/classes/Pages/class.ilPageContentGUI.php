@@ -303,5 +303,31 @@ class ilPageContentGUI
 	}
 
 
+/**
+	 * gui function
+	 * set enabled if is not enabled and vice versa
+	 */
+	function switchEnable () 
+	{		
+		$obj = & $this->content_obj;
+		
+	 	if ($obj->isEnabled ()) 
+	 		$obj->disable ();
+	 	else
+	 		$obj->enable ();
+	 	
+	 	$updated = $this->pg_obj->update($this->hier_id);
+		if($updated !== true)
+		{
+			$_SESSION["il_pg_error"] = $updated;
+		}
+		else
+		{
+			unset($_SESSION["il_pg_error"]);
+		}
+	
+	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	
+	}
+
 }
 ?>
