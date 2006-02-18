@@ -338,6 +338,14 @@ class ilObjForumGUI extends ilObjectGUI
 
 #		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
 
+		// Statistics enabled or not
+		$this->tpl->setVariable("TXT_STATISTICS_ENABLED", $this->lng->txt("statistics_enabled"));	
+		$this->tpl->setVariable("TXT_STATISTICS_ENABLED_DESC", $this->lng->txt("statistics_enabled_desc"));
+		
+		$statisticsEnabled  = $_POST['statistics_enabled'] ? $_POST['statistics_enabled'] : 1;
+
+		$this->tpl->setVariable("CHECK_STATISTICS_ENABLED",ilUtil::formCheckbox($statisticsEnabled == 1 ? 1 : 0,'statistics_enabled',1));
+
 		return true;
 	}
 
@@ -363,6 +371,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"]));
 			$this->object->setDefaultView((int) $_POST['sort']);
 #			$this->object->setAnonymized((int) $_POST['anonymized']);
+			$this->object->setStatisticsEnabled((int) $_POST['statistics_enabled']);
 			$this->object->update();
 
 			sendInfo($this->lng->txt("msg_obj_modified"),true);
@@ -398,6 +407,12 @@ class ilObjForumGUI extends ilObjectGUI
 #			? $_POST['anonymized'] 
 #			: $this->object->isAnonymized();
 			
+		$statisticsEnabled  = $_POST['statistics_enabled'] ? 
+			$_POST['statistics_enabled'] 
+			: $this->object->isStatisticsEnabled();
+
+		
+			
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
 
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_frm.gif'));
@@ -430,6 +445,13 @@ class ilObjForumGUI extends ilObjectGUI
 #		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
 
 #		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
+
+		// Statistics enabled or not
+		$this->tpl->setVariable("TXT_STATISTICS_ENABLED", $this->lng->txt("frm_statistics_enabled"));	
+		$this->tpl->setVariable("TXT_STATISTICS_ENABLED_DESC", $this->lng->txt("frm_statistics_enabled_desc"));
+		
+		$this->tpl->setVariable("CHECK_STATISTICS_ENABLED",ilUtil::formCheckbox($statisticsEnabled == 1 ? 1 : 0,'statistics_enabled',1));
+
 
 	}
 
@@ -511,6 +533,7 @@ class ilObjForumGUI extends ilObjectGUI
 		// Create settings
 		$forumObj->setDefaultView((int) $_POST['sort']);
 #		$forumObj->setAnonymized((int) $_POST['anonymized']);
+		$forumObj->setStatisticsEnabled((int) $_POST['statistics_enabled']);
 		$forumObj->createSettings();
 
 		// setup rolefolder & default local roles (moderator)
@@ -574,15 +597,114 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
 				"", $force_active);
 		}
+
+		if ( // $ilias->forum->enabled &&
+			$this->object->isStatisticsEnabled() || $rbacsystem->checkAccess('write',$this->ref_id)) 
+		{
+			$tabs_gui->addTarget("statistic", 
+				$this->ctrl->getLinkTarget($this, "showStatistics"), "showStatistics", get_class($this),"",false);							
+			
+		}
+
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');							
 		}
-
-
+		
 		return true;
 	}
+	
+	/**
+	 * called from GUI
+	 */
+	function showStatisticsObject() 
+	{
+		global $rbacsystem, $ilUser, $ilAccess;
+		
+		/// if globally deactivated, skip!!! intrusion detected
+		if ($ilias->forum->disabled)
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// if no read access -> intrusion detected
+		if (!$rbacsystem->checkAccess("read", $_GET["ref_id"],"frm"))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// if read access and statistics disabled -> intrusion detected 		
+		if (!$rbacsystem->checkAccess("read", $_GET["ref_id"],"frm") && !$this->object->isStatisticsEnabled())
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		
+		
+		$tbl = new ilTableGUI();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forums_statistics_view.html");		
+    	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.table.html");		
+		
+		
+		
+		// if write access and statistics disabled -> ok, for forum admin 		
+		if ($rbacsystem->checkAccess("write", $_GET["ref_id"],"frm") && !$this->object->isStatisticsEnabled())
+		{
+			//todo: show message
+			$this->tpl->setVariable ("STATUSLINE",$this->lng->txt("frm_statistics_disabled_for_participants")); 
+		}
+		
+		// get sort variables from get vars
+		$sort_order = isset($_GET['sort_order']) ? $_GET['sort_order']:"DESC";
+		$sort_by  = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'ranking';
+
+		if ($sort_by == "title")
+			$sort_by = "ranking";
+
+		
+		// create query
+		$query = "SELECT COUNT(f.pos_usr_id) as ranking, u.login, u.lastname, u.firstname
+                                            FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d
+                                            WHERE f.pos_pk = t.pos_fk AND t.thr_fk = th.thr_pk AND u.usr_id = f.pos_usr_id AND d.top_pk = f.pos_top_fk AND d.top_frm_fk=".$this->object->getId()."
+                                            GROUP BY pos_usr_id ORDER BY $sort_by $sort_order"; 
+		                                           
+		// get resultset
+		$resultset = $this->ilias->db->query ($query);
+		
+		while ($row = $resultset->fetchRow(DB_FETCHMODE_ASSOC)) {
+		    $data [] = $row;
+		}
+		
+	
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("statistic"),"icon_usr_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+				
+		$header_names = array ($this->lng->txt("frm_statistics_ranking"),$this->lng->txt("login"), $this->lng->txt("lastname"),$this->lng->txt("firstname"));
+			 
+		$tbl->setHeaderNames($header_names);
+
+		$header_params = array("ref_id"		=> $this->ref_id, "cmd"			=> "statistic" );
+		$header_fields = array("ranking","login","lastname", "firstname");		
+
+		$tbl->setHeaderVars($header_fields,$header_params);
+		$tbl->setColumnWidth(array("","25%","25%","25%"));
+
+		// table properties
+    	$tbl->enable("hits");
+    	$tbl->disable("sort");
+		$tbl->setOrderColumn($sort_by);
+		$tbl->setOrderDirection($sort_order);
+		$tbl->setLimit(0);
+		$tbl->setOffset(0);
+		$tbl->setData($data);
+
+		$tbl->render();
+				
+		$this->tpl->parseCurrentBlock();			
+			
+	}
+	
 
 
 	// PRIVATE
@@ -603,6 +725,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		return true;
 	}
+	
 
 } // END class.ilObjForumGUI
 ?>

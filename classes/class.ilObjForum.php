@@ -58,6 +58,13 @@ class ilObjForum extends ilObject
 	*/
 	var $Forum;
 	
+	
+	/**
+	 * defines if a forum can show ranking statistics
+	 * @access private 
+	 */	
+	var $statisticsEnabled;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -116,6 +123,10 @@ class ilObjForum extends ilObject
 	{
 		$this->anonymized = $a_status ? true : false;
 	}
+	
+
+		
+		
 	// METHODS FOR UN-READ STATUS
 	function getCountUnread($a_usr_id,$a_thread_id = 0)
 	{
@@ -463,8 +474,9 @@ class ilObjForum extends ilObject
 			$query = "REPLACE INTO frm_settings ".
 				"SET obj_id = '".$this->getId()."', ".
 				"default_view = '".$this->getDefaultView()."', ".
-				"anonymized = '".($this->isAnonymized() ? 1 : 0)."'";
-
+				"anonymized = '".($this->isAnonymized() ? 1 : 0)."', ".
+				"statistics_enabled= '".($this->isStatisticsEnabled() ? 1 : 0)."'";
+			
 			$this->ilias->db->query($query);
 		
 			return true;
@@ -754,11 +766,12 @@ class ilObjForum extends ilObject
 	}
 
 	function createSettings()
-	{
+	{		
 		$query = "INSERT INTO frm_settings ".
 			"SET obj_id = '".$this->getId()."', ".
 			"default_view = '".$this->getDefaultView()."', ".
-			"anonymized = '".($this->isAnonymized() ? 1 : 0) ."'";
+			"anonymized = '".($this->isAnonymized() ? 1 : 0) ."', ".
+			"statistics_enabled= '".($this->isStatisticsEnabled() ? 1 : 0)."'";	
 		$this->ilias->db->query($query);
 
 		return true;
@@ -776,6 +789,7 @@ class ilObjForum extends ilObject
 		{
 			$this->default_view = $row->default_view;
 			$this->anonymized = $row->anonymized ? true : false;
+			$this->statisticsEnabled = $row->statistics_enabled ? true : false;
 		}
 		return true;
 	}
@@ -844,6 +858,23 @@ class ilObjForum extends ilObject
 		{
 			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 		}
+	}
+	
+	
+		/**
+	 * return if statistics are enabled
+	 */
+	function isStatisticsEnabled () 
+	{
+		return $this->statisticsEnabled? true: false;
+	}
+	
+	/**
+	 * @param enabled true or false
+	 */
+	function setStatisticsEnabled ($enabled) 
+	{
+		$this->statisticsEnabled = $enabled?true: false;
 	}
 } // END class.ilObjForum
 ?>
