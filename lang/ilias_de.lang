@@ -3306,6 +3306,7 @@ content#:#cont_ed_delete_col#:#Spalte löschen
 content#:#cont_ed_delete_item#:#Eintrag löschen
 content#:#cont_ed_delete_row#:#Zeile löschen
 content#:#cont_ed_edit#:#Bearbeiten
+content#:#cont_ed_enable#:#De-/Aktivieren
 content#:#cont_ed_edit_prop#:#Eigenschaften
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#Code einfügen
@@ -4235,6 +4236,10 @@ forum#:#forums_your_reply#:#Ihre Antwort
 forum#:#frm_anonymous_posting#:#Anonymes Schreiben
 forum#:#frm_anonymous_posting_desc#:#Wenn diese Option eingeschaltet ist, ist anonymes Schreiben in diesem Forum erlaubt.
 forum#:#frm_default_view#:#Standardansicht
+forum#:#frm_statistics_enabled#:#Statistiken anzeigen
+forum#:#frm_statistics_enabled_desc#:#Statistiken für alle Forenteilnehmer anzeigen
+forum#:#frm_statistics_ranking#:#Rangfolge
+forum#:#frm_statistics_disabled_for_participants#:#Die Statistiken sind für normalen Forenmitglieder nicht sichtbar.
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#is_read#:#gelesen
 forum#:#new_post#:#Neue Nachricht
