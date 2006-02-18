@@ -1,6 +1,6 @@
 p.ilc_Code {
-}
 
+}
 
 table.ilc_Sourcecode {
 	border: 1px solid black;
@@ -11,45 +11,59 @@ table.ilc_Sourcecode {
 td.ilc_LineNumbers {
 	background: #ffffff;
 	padding-left: 10px;
-	text-align: right;
+	text-align: right;	
 }
 
 td.ilc_Sourcecode {
 	background: white;
 	padding-left: 10px;
+	
 }
 
-
-span.ilc_CodeCategory_1 {
-	color: navy;
-	font-weight: bold;
+span.ilc_CodeCategory_1 {	
+	text-decoration: underline;
+	color: navy;	
 }
 
 span.ilc_CodeCategory_2 {
 	color: navy;
+
 }
 
 span.ilc_CodeCategory_3 {
 	color: #555555;
+
 }
 
 span.ilc_CodeQuote {
 	color: green;
+
 }
 
 span.ilc_CodeLinecomment {
 	color: gray;
+
 }
 
 span.ilc_CodeBlockcomment {
 	color: gray;
+
 }
 
 span.ilc_CodePrepro {
 	color: black;
+
 }
 
 span.ilc_CodeSelect {
 	color: black;
+
 }
 
+pre.ilc_Code {
+	font-size: 1em;	
+}
+
+span.ilc_LineNumber {
+	font-size: 1em;
+}
