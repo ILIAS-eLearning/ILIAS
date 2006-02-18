@@ -5700,6 +5700,6 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-common#:#data_privacy#:#Dataschutz
+common#:#data_privacy#:#Datenschutz
 common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
 common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
