@@ -1292,6 +1292,7 @@ common#:#custom_icon_size_small#:#Tamaño de icono personalizado (pequeño)
 common#:#cut#:#cortar
 common#:#cutPage#:#Cortar
 common#:#daily#:#diariamente
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Base de Datos
 common#:#database_version#:#versión actual de la base de datos
 common#:#dataset#:#Conjunto de Datos
@@ -1372,6 +1373,8 @@ common#:#enable#:#habilitar
 common#:#enable_calendar#:#Habilitar calendario
 common#:#enable_custom_icons#:#Habilitar iconos personalizados
 common#:#enable_custom_icons_info#:#Esta opción permite definir iconos personalizados para categorías, cursos y grupos. La sección de propiedades de categorías, cursos y grupos mostrarán un diálogo de carga de imágenes.
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Habilitar comentarios de usuario en la historia
 common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al log de historia de páginas.
 common#:#enable_js_edit#:#Habilitar Edición JavaScript
@@ -1566,6 +1569,7 @@ common#:#frm_edit_permission#:#Modificar configuración de permisos
 common#:#frm_edit_post#:#Anadir nueva cadena, mensaje
 common#:#frm_new#:#Nuevo Foro
 common#:#frm_read#:#Acceso de Lecutra al Foro
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Estado 'Nuevo'
 common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado 'Nuevo' en las entradas de los foros.
 common#:#frm_visible#:#El foro es visible
@@ -3308,6 +3312,7 @@ content#:#cont_ed_delete_item#:#eliminar item
 content#:#cont_ed_delete_row#:#eliminar fila
 content#:#cont_ed_edit#:#Editar
 content#:#cont_ed_edit_prop#:#Editar propiedades
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#insertar código
 content#:#cont_ed_insert_filelist#:#insertar Lista de Ficheros
@@ -4237,6 +4242,10 @@ forum#:#forums_your_reply#:#tu respuesta
 forum#:#frm_anonymous_posting#:#Envío anónimo
 forum#:#frm_anonymous_posting_desc#:#Si se habilita, el envío anónimo será permitido dentro de este foro.
 forum#:#frm_default_view#:#Vista por defecto
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Por favor inserte un título.
 forum#:#is_read#:#marcar como leída
 forum#:#new_post#:#Nuevo mensaje

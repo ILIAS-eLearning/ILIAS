@@ -1173,6 +1173,7 @@ common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variabl
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Отрязване
 common#:#cutPage#:#Отрязване
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#База данни
 common#:#database_version#:#Текуща версия на базата данни
 common#:#dataset#:#Елемент
@@ -1245,6 +1246,8 @@ common#:#email_not_valid#:#Въведеният от вас email адрес е 
 common#:#enable#:#Включване
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Включване на потребителските коментари в историята
 common#:#enable_hist_user_comments_desc#:#Дава на авторите възможността да добавят коментари в историческия архивен запис на страниците.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Включване на JavaScript редактирането
@@ -1414,6 +1417,7 @@ common#:#frm_edit_permission#:#Промяна на разрешителните 
 common#:#frm_edit_post#:#Добавяне на нов канал, публикуване на съобщения
 common#:#frm_new#:#Нов форум
 common#:#frm_read#:#Достъп за четене от форум
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_visible#:#Форумът е видим
 common#:#frm_write#:#Редактиране на форум
 common#:#from#:#От
@@ -2896,6 +2900,7 @@ content#:#cont_ed_delete_item#:#изтриване на елемента
 content#:#cont_ed_delete_row#:#изтриване на реда
 content#:#cont_ed_edit#:#редактиране
 content#:#cont_ed_edit_prop#:#редактиране а характеристиките
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Go
 content#:#cont_ed_insert_code#:#вмъкване на Код
 content#:#cont_ed_insert_filelist#:#вмъкване на списък с файлове
@@ -3638,6 +3643,10 @@ forum#:#forums_your_reply#:#Вашият отговор
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Изглед по подразбиране
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Моля, вмъкнете заглавие.
 forum#:#is_read#:#маркиране като прочетени
 forum#:#new_post#:#New post###08 Nov 2005 new variable

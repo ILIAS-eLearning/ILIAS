@@ -1017,6 +1017,7 @@ common#:#current_password#:#Текущий пароль
 common#:#cut#:#Вырезать
 common#:#cutPage#:#Вырезать
 common#:#daily#:#ежедневно
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#База данных
 common#:#database_version#:#Текущая версия базы данных
 common#:#dataset#:#Пункт
@@ -1090,6 +1091,8 @@ common#:#email#:#Email
 common#:#email_footer#:#<br />разработано ILIAS
 common#:#email_not_valid#:#Введенный вами email-адрес неправильный!
 common#:#enable#:#Включить
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Включить комментарии пользователя в Историю
 common#:#enable_hist_user_comments_desc#:#Дать авторам возможность добавлять комментарии в журнал истории страниц.
 common#:#enable_js_edit#:#Включить JavaScript Редактирование
@@ -1255,6 +1258,7 @@ common#:#frm_edit_permission#:#Может изменять параметры д
 common#:#frm_edit_post#:#Добавить новую ветвь, запись
 common#:#frm_new#:#Новый Форум
 common#:#frm_read#:#Доступ на чтение для Форума
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Статус 'Новый'
 common#:#frm_status_new_desc#:#Пожалуйста, выберите период времени как долго статус 'Новый' будет виден в заголовке.
 common#:#frm_visible#:#Форум виден
@@ -2732,6 +2736,7 @@ content#:#cont_ed_delete_item#:#удалить пункт
 content#:#cont_ed_delete_row#:#удалить строку
 content#:#cont_ed_edit#:#редактировать
 content#:#cont_ed_edit_prop#:#редактировать
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Пошел
 content#:#cont_ed_insert_code#:#вставить код
 content#:#cont_ed_insert_filelist#:#вставить список файла
@@ -3608,6 +3613,10 @@ forum#:#forums_threads_not_available#:#Обсуждения не доступн�
 forum#:#forums_topics_overview#:#Быстрый просмотр обсуждения
 forum#:#forums_your_reply#:#Ваш отзыв
 forum#:#frm_default_view#:#Другой вид
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Пожалуйста, добавьте заголовок.
 forum#:#is_read#:#прочтено
 jscalendar#:#about_calendar#:#О календаре

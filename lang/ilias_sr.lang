@@ -1240,6 +1240,7 @@ common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variabl
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Seci
 common#:#cutPage#:#Seci
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Baza podataka
 common#:#database_version#:#Važeca verzija baze podataka
 common#:#dataset#:#Detalj
@@ -1317,6 +1318,8 @@ common#:#enable#:#Omoguci
 common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Omoguci korisnikove komentare u istoriji
 common#:#enable_hist_user_comments_desc#:#Daje autorima mogucnost da dodaju komentare u istoriji pristupa stranicama.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Omoguci JavaScript prikazivanje
@@ -1504,6 +1507,7 @@ common#:#frm_edit_permission#:#Promenite okvir za dozvolu
 common#:#frm_edit_post#:#Dodaj novu nit, stub
 common#:#frm_new#:#Novi Forum
 common#:#frm_read#:#Upoznajte pristup Forumu
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_visible#:#Forum je vidljiv
 common#:#frm_write#:#Uredi Forum
 common#:#from#:#Od
@@ -3146,6 +3150,7 @@ content#:#cont_ed_delete_item#:#obriši predmet
 content#:#cont_ed_delete_row#:#obriši red
 content#:#cont_ed_edit#:#uredi
 content#:#cont_ed_edit_prop#:#uredi karakteristike
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Kreni
 content#:#cont_ed_insert_code#:#ubaci Kod
 content#:#cont_ed_insert_filelist#:#Ubaci Spisak fajlova
@@ -4042,6 +4047,10 @@ forum#:#forums_your_reply#:#Vaš odgovor
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Standardni pregled
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Molimo ubacite naslov.
 forum#:#is_read#:#markiraj procitano
 forum#:#new_post#:#New post###08 Nov 2005 new variable

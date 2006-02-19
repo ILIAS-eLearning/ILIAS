@@ -1240,6 +1240,7 @@ common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variabl
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Pres
 common#:#cutPage#:#Pres
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Databazë
 common#:#database_version#:#Versioni Aktual i Databazës
 common#:#dataset#:#Artikull
@@ -1317,6 +1318,8 @@ common#:#enable#:#Mundëso
 common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Mundëso komentet e shfrytëzuesve në histori
 common#:#enable_hist_user_comments_desc#:#Jep mundësin autorëve të shtojnë komente në log historinë e faqeve.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Mundëso Editimin e JavaScrip
@@ -1504,6 +1507,7 @@ common#:#frm_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#frm_edit_post#:#Shto një temë, postim
 common#:#frm_new#:#Forum i Ri 
 common#:#frm_read#:#Qasje për Lexim në Forum
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_visible#:#Forumi është i dukshëm
 common#:#frm_write#:#Edito forumin
 common#:#from#:#Nga
@@ -3146,6 +3150,7 @@ content#:#cont_ed_delete_item#:#fshij artikullin
 content#:#cont_ed_delete_row#:#fshij rreshtin
 content#:#cont_ed_edit#:#edito
 content#:#cont_ed_edit_prop#:#Edito karakteristikat
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Konfirmo
 content#:#cont_ed_insert_code#:#vendos Kodin
 content#:#cont_ed_insert_filelist#:#vendos Listë Skedarësh
@@ -4042,6 +4047,10 @@ forum#:#forums_your_reply#:#Përgjigja Juaj
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Pamja e Paradefinuar
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Ju lutem shënoni një titull.
 forum#:#is_read#:#shënjo të lexuar
 forum#:#new_post#:#New post###08 Nov 2005 new variable

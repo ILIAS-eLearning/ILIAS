@@ -1290,6 +1290,7 @@ common#:#custom_icon_size_small#:#Symbolgrösse anpassen (klein)
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#daily#:#täglich
+common#:#data_privacy#:#Datenschutz
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Eintrag
@@ -1370,6 +1371,8 @@ common#:#enable#:#Aktivieren
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_custom_icons#:#Standard-Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppenie hoch.
+common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
+common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
@@ -1564,6 +1567,7 @@ common#:#frm_edit_permission#:#Rechteeinstellungen ändern
 common#:#frm_edit_post#:#Forumbeiträge anlegen
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Status 'Neu'
 common#:#frm_status_new_desc#:#Bitte wählen Sie eine Zeitdauer, wie lange der Status 'Neu' für Forenbeiträge angezeigt wird.
 common#:#frm_visible#:#Forum ist sichtbar
@@ -3305,8 +3309,8 @@ content#:#cont_ed_delete_col#:#Spalte löschen
 content#:#cont_ed_delete_item#:#Eintrag löschen
 content#:#cont_ed_delete_row#:#Zeile löschen
 content#:#cont_ed_edit#:#Bearbeiten
-content#:#cont_ed_enable#:#De-/Aktivieren
 content#:#cont_ed_edit_prop#:#Eigenschaften
+content#:#cont_ed_enable#:#De-/Aktivieren
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#Code einfügen
 content#:#cont_ed_insert_filelist#:#Dateiliste einf.
@@ -4235,10 +4239,10 @@ forum#:#forums_your_reply#:#Ihre Antwort
 forum#:#frm_anonymous_posting#:#Anonymes Schreiben
 forum#:#frm_anonymous_posting_desc#:#Wenn diese Option eingeschaltet ist, ist anonymes Schreiben in diesem Forum erlaubt.
 forum#:#frm_default_view#:#Standardansicht
+forum#:#frm_statistics_disabled_for_participants#:#Die Statistiken sind für normalen Forenmitglieder nicht sichtbar.
 forum#:#frm_statistics_enabled#:#Statistiken anzeigen
 forum#:#frm_statistics_enabled_desc#:#Statistiken für alle Forenteilnehmer anzeigen
 forum#:#frm_statistics_ranking#:#Rangfolge
-forum#:#frm_statistics_disabled_for_participants#:#Die Statistiken sind für normalen Forenmitglieder nicht sichtbar.
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#is_read#:#gelesen
 forum#:#new_post#:#Neue Nachricht
@@ -5700,6 +5704,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-common#:#data_privacy#:#Datenschutz
-common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
-common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
