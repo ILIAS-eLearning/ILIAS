@@ -1283,6 +1283,7 @@ common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new var
 common#:#cut#:#Couper###07 Apr 2005 content changed
 common#:#cutPage#:#Couper###07 Apr 2005 content changed
 common#:#daily#:#quotidiennement###07 Apr 2005 content changed
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Base de données###07 Apr 2005 content changed
 common#:#database_version#:#Version courante de la base de données###07 Apr 2005 content changed
 common#:#dataset#:#Item###07 Apr 2005 content changed
@@ -1362,6 +1363,8 @@ common#:#enable#:#Activer###07 Apr 2005 content changed
 common#:#enable_calendar#:#Activer l'agenda###06 oct 2005 content changed
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Activer les commentaires d'utilisateurs dans l'historique###07 Apr 2005 content changed
 common#:#enable_hist_user_comments_desc#:#Donne la possibilité aux auteurs d'ajouter des commentaire à l'historique des pages.###07 Apr 2005 content changed
 common#:#enable_js_edit#:#Activer éditeur javascript###07 Apr 2005 content changed
@@ -1553,6 +1556,7 @@ common#:#frm_edit_permission#:#Changer paramètres de permission###07 Apr 2005 c
 common#:#frm_edit_post#:#Modifier un message###07 Apr 2005 content changed
 common#:#frm_new#:#Nouveau forum###07 Apr 2005 content changed
 common#:#frm_read#:#Accès en lecture au forum###07 Apr 2005 content changed
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Statut 'Nouveau'###06 oct 2005 content changed
 common#:#frm_status_new_desc#:#Définir le délai de maintien du statut 'Nouveau' pour les derniers messages de forum .###06 oct 2005 content changed
 common#:#frm_visible#:#Le forum est visible###07 Apr 2005 content changed
@@ -3294,6 +3298,7 @@ content#:#cont_ed_delete_item#:#détruire objet###07 Apr 2005 content changed
 content#:#cont_ed_delete_row#:#détruire ligne###07 Apr 2005 content changed
 content#:#cont_ed_edit#:#modifier###07 Apr 2005 content changed
 content#:#cont_ed_edit_prop#:#modifier propriétés###07 Apr 2005 content changed
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Envoi###07 Apr 2005 content changed
 content#:#cont_ed_insert_code#:#insérer code###07 Apr 2005 content changed
 content#:#cont_ed_insert_filelist#:#insérer  liste de fichiers###07 Apr 2005 content changed
@@ -4223,6 +4228,10 @@ forum#:#forums_your_reply#:#Votre réponse###07 Apr 2005 content changed
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Affichage par défaut###07 Apr 2005 content changed
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Veuillez saisir un titre###07 Apr 2005 content changed
 forum#:#is_read#:#marqué comme lu###07 Apr 2005 content changed
 forum#:#new_post#:#New post###08 Nov 2005 new variable

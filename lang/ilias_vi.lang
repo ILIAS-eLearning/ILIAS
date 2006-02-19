@@ -1249,6 +1249,7 @@ common#:#current_password#:#Mật khẩu hiện thời
 common#:#cut#:#Cắt
 common#:#cutPage#:#Cắt
 common#:#daily#:#hàng ngày
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Cơ sở dữ liệu
 common#:#database_version#:#Phiên bản cơ sở dữ liệu hiện thời
 common#:#dataset#:#Mục
@@ -1327,6 +1328,8 @@ common#:#email_footer#:#<br />sử dụng ILIAS
 common#:#email_not_valid#:#Địa chỉ email bạn nhập không hợp lệ!
 common#:#enable#:#Cho phép
 common#:#enable_calendar#:#Cho phép sử dụng lịch
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Cho phép đưa bình luận của người sử dụng vào lịch sử
 common#:#enable_hist_user_comments_desc#:#Cho phép tác giả thêm bình luận vào nhật ký lịch sử của các trang (khi thay đổi).###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Cho phép soạn thảo bằng JavaScript
@@ -1521,6 +1524,7 @@ common#:#frm_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#frm_edit_post#:#Thêm bài mới, gửi
 common#:#frm_new#:#Diễn đàn mới
 common#:#frm_read#:#Đọc diễn đàn
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Trạng thái 'Mới'
 common#:#frm_status_new_desc#:#Hãy chọn thời gian giữ trạng thái 'Mới' cho các mục trên diễn đàn.
 common#:#frm_visible#:#Nhìn thấy diễn đàn
@@ -3221,6 +3225,7 @@ content#:#cont_ed_delete_item#:#xóa mục
 content#:#cont_ed_delete_row#:#xóa hàng
 content#:#cont_ed_edit#:#sửa
 content#:#cont_ed_edit_prop#:#sửa thuộc tính
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Thực hiện
 content#:#cont_ed_insert_code#:#thêm mã
 content#:#cont_ed_insert_filelist#:#thêm danh sách file
@@ -4144,6 +4149,10 @@ forum#:#forums_your_reply#:#Trả lời của bạn
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Xem mặc định
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Hãy nhập tiêu đề.
 forum#:#is_read#:#đánh dấu đã đọc
 forum#:#new_post#:#New post###08 Nov 2005 new variable

@@ -1291,6 +1291,7 @@ common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new var
 common#:#cut#:#Kivágás
 common#:#cutPage#:#Kivágás
 common#:#daily#:#napi
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Adatbázis
 common#:#database_version#:#Aktuális adatbázis-verzió
 common#:#dataset#:#Tétel
@@ -1371,6 +1372,8 @@ common#:#enable#:#Engedélyezés
 common#:#enable_calendar#:#Határidőnapló engedélyezése
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Felhasználói megjegyzések engedélyezése a múltban
 common#:#enable_hist_user_comments_desc#:#Lehetőséget ad a szerzőknek, hogy megjegyzéseket tegyenek a lapok történetéről.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#JavaScript szerkesztés engedélyezése
@@ -1565,6 +1568,7 @@ common#:#frm_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#frm_edit_post#:#Hozzászólás szerkesztése
 common#:#frm_new#:#Új fórum
 common#:#frm_read#:#Olvasási elérés a fórumhoz
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Új' állapot
 common#:#frm_status_new_desc#:#Válasszon egy időtartamot, hogy meddig legyenek 'Új' állapotúak a fórumbejegyzések.
 common#:#frm_visible#:#A fórum látható
@@ -3307,6 +3311,7 @@ content#:#cont_ed_delete_item#:#tétel törlése
 content#:#cont_ed_delete_row#:#sor törlése
 content#:#cont_ed_edit#:#szerkesztés
 content#:#cont_ed_edit_prop#:#tulajdonságok szerkesztése
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#OK
 content#:#cont_ed_insert_code#:#kód beszúrása
 content#:#cont_ed_insert_filelist#:#fájllista beszúrása
@@ -4236,6 +4241,10 @@ forum#:#forums_your_reply#:#Az Ön válasza
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Alapértelmezett nézet
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Adjon meg címet.
 forum#:#is_read#:#Megjelölés olvasottnak
 forum#:#new_post#:#New post###08 Nov 2005 new variable

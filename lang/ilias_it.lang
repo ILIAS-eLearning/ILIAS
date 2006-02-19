@@ -1289,6 +1289,7 @@ common#:#custom_icon_size_small#:#Dimensione icona personalizzata (piccola)
 common#:#cut#:#Taglia
 common#:#cutPage#:#Taglia
 common#:#daily#:#giornaliero
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Database
 common#:#database_version#:#Versione attuale del database
 common#:#dataset#:#Dataset
@@ -1369,6 +1370,8 @@ common#:#enable#:#Abilita
 common#:#enable_calendar#:#Abilita l'agenda
 common#:#enable_custom_icons#:#Abilita icone personalizzate
 common#:#enable_custom_icons_info#:#Questo consente di definire icone personalizzate per singole categorie, corsi e gruppi. Le sezioni con le propriet&#224; di categorie, corsi e gruppi consentiranno l'upload tramite una finestra di dialogo.
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Abilita i commenti nella storia delle pagine
 common#:#enable_hist_user_comments_desc#:#Con questa opzione gli autori possono aggiungere commenti nella storia delle pagine.
 common#:#enable_js_edit#:#Abilita la modifica di JavaScript
@@ -1563,6 +1566,7 @@ common#:#frm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#frm_edit_post#:#Modificare un messaggio
 common#:#frm_new#:#Nuovo forum
 common#:#frm_read#:#Accedere in lettura ad un forum
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Stato 'Nuovo'
 common#:#frm_status_new_desc#:#Scegli per quanto tempo i contributi devono essere indicati come 'Nuovo'.
 common#:#frm_visible#:#Vedere un forum
@@ -3303,6 +3307,7 @@ content#:#cont_ed_delete_item#:#elimina elemento
 content#:#cont_ed_delete_row#:#elimina riga
 content#:#cont_ed_edit#:#modifica
 content#:#cont_ed_edit_prop#:#modifica propriet&#224;
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Conferma
 content#:#cont_ed_insert_code#:#inserisci codice
 content#:#cont_ed_insert_filelist#:#inserisci lista di file
@@ -4231,6 +4236,10 @@ forum#:#forums_your_reply#:#tua risposta
 forum#:#frm_anonymous_posting#:#Messaggi anonimi
 forum#:#frm_anonymous_posting_desc#:#Se selezionato sar&#224; consentito inserire messaggi anonimi all'interno di questo forum.
 forum#:#frm_default_view#:#Vista predefinita
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Per favore, inserisci un titolo.
 forum#:#is_read#:#segna come letto
 forum#:#new_post#:#Nuovo messaggio

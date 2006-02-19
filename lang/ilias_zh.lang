@@ -1309,6 +1309,7 @@ common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new var
 common#:#cut#:#剪切###07 Apr 2005 content changed
 common#:#cutPage#:#剪切###07 Apr 2005 content changed
 common#:#daily#:#daily###11 Mar 2005 new variable
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#数据库###07 Apr 2005 content changed
 common#:#database_version#:#当前数据库版本###07 Apr 2005 content changed
 common#:#dataset#:#数据集合###07 Apr 2005 content changed
@@ -1389,6 +1390,8 @@ common#:#enable#:#激活###07 Apr 2005 content changed
 common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
@@ -1583,6 +1586,7 @@ common#:#frm_edit_permission#:#更改许可设置###07 Apr 2005 content changed
 common#:#frm_edit_post#:#编辑帖子###30 Mar 2004 content changed
 common#:#frm_new#:#新论坛###07 Apr 2005 content changed
 common#:#frm_read#:#论坛设为读访问###07 Apr 2005 content changed
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
 common#:#frm_visible#:#论坛可视Forum is visible###07 Apr 2005 content changed
@@ -3325,6 +3329,7 @@ content#:#cont_ed_delete_item#:#delete item###16 Aug 2004 new variable
 content#:#cont_ed_delete_row#:#delete row###16 Aug 2004 new variable
 content#:#cont_ed_edit#:#edit###16 Aug 2004 new variable
 content#:#cont_ed_edit_prop#:#edit properties###16 Aug 2004 new variable
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Go###16 Aug 2004 new variable
 content#:#cont_ed_insert_code#:#insert Code###16 Aug 2004 new variable
 content#:#cont_ed_insert_filelist#:#insert File List###16 Aug 2004 new variable
@@ -4254,6 +4259,10 @@ forum#:#forums_your_reply#:#您的答复###07 Apr 2005 content changed
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
 forum#:#is_read#:#mark read###02 Dec 2004 new variable
 forum#:#new_post#:#New post###08 Nov 2005 new variable

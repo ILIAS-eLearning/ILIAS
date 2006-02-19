@@ -1149,6 +1149,7 @@ common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variabl
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Decupare
 common#:#cutPage#:#Decupare
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Baza de Date
 common#:#database_version#:#Versiunea curenta a Bazei de Date
 common#:#dataset#:#Item	
@@ -1220,6 +1221,8 @@ common#:#email_not_valid#:#Adresa de e-mail pe care ati introdus-o nu este valab
 common#:#enable#:#Activati
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Activati comentariile utilizatorilor in history
 common#:#enable_hist_user_comments_desc#:#Le ofera autorilor oportunitatea de a adauga comentarii in history log al paginilor.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Activati Editarea JavaScript
@@ -1387,6 +1390,7 @@ common#:#frm_edit_permission#:#Schimbati setarile de permisiune
 common#:#frm_edit_post#:#Adaugati thread nou, posta
 common#:#frm_new#:#Forum nou
 common#:#frm_read#:#Permisiune de citire a Forumului
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Stare 'Nou'
 common#:#frm_status_new_desc#:#Va rugam selectati durata pentru care starea 'Nou' este pastrata pentru intrarile in forum
 common#:#frm_visible#:#Forumul este vizibil
@@ -2833,6 +2837,7 @@ content#:#cont_ed_delete_item#:#stergeti item
 content#:#cont_ed_delete_row#:#stergeti rand
 content#:#cont_ed_edit#:#editati
 content#:#cont_ed_edit_prop#:#editati proprietatile
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Continuati
 content#:#cont_ed_insert_code#:#inserati Cod
 content#:#cont_ed_insert_filelist#:#inserati Lista Fisiere
@@ -3578,6 +3583,10 @@ forum#:#forums_your_reply#:#Raspunsul dumneavoastra
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Vizualizare implicita
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Va rugam introduceti un titlu.
 forum#:#is_read#:#marcati drept citit
 forum#:#new_post#:#New post###08 Nov 2005 new variable

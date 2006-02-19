@@ -1180,6 +1180,7 @@ common#:#current_password#:#Nuv&aelig;rende Password
 common#:#cut#:#Klip
 common#:#cutPage#:#Klip
 common#:#daily#:#dagli
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Database
 common#:#database_version#:#Nuv&aelig;rende Database Version
 common#:#dataset#:#Side
@@ -1258,6 +1259,8 @@ common#:#email_footer#:#<br />Powered by ILIAS
 common#:#email_not_valid#:#Den indtastede email adresse er ikke gyldig!
 common#:#enable#:#Aktiver
 common#:#enable_calendar#:#Aktiver Kalender
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Aktiver bruger kommentar i historie
 common#:#enable_hist_user_comments_desc#:#Giver forfatetr mulighed for at tilf&oslash;je kommentar til historie loggen.
 common#:#enable_js_edit#:#Aktiver JavaScript redigering
@@ -1447,6 +1450,7 @@ common#:#frm_edit_permission#:#&aelig;ndrer rettigheds indstillinger
 common#:#frm_edit_post#:#Tilf&oslash;j en ny tr&aring;d, posting
 common#:#frm_new#:#Nyt Forum
 common#:#frm_read#:#L&aelig;se adgang til forum
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Status 'ny'
 common#:#frm_status_new_desc#:#V&aelig;lg hvor lang tid statusen 'ny' skal bevares for forumet.
 common#:#frm_visible#:#Forummet er synligt
@@ -3135,6 +3139,7 @@ content#:#cont_ed_delete_item#:#Slet ting
 content#:#cont_ed_delete_row#:#Slet r&aelig;kke
 content#:#cont_ed_edit#:#Ændre
 content#:#cont_ed_edit_prop#:#Ændre indstillinger
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#G&aring;
 content#:#cont_ed_insert_code#:#Inds&aelig;t kode
 content#:#cont_ed_insert_filelist#:#Inds&aelig;t fil liste
@@ -4045,6 +4050,10 @@ forum#:#forums_your_reply#:#Dit Svar
 forum#:#frm_anonymous_posting#:#Anonym Anonymous opretning
 forum#:#frm_anonymous_posting_desc#:#Hvis aktiveret, anonym opretning er tilladt p&aring; dette forum
 forum#:#frm_default_view#:#Standard fremvisning
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Inds&aelig;t venligst en titel.
 forum#:#is_read#:#marker som l&aelig;st
 jscalendar#:#about_calendar#:#Om kalenderen

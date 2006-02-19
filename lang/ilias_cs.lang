@@ -1291,6 +1291,7 @@ common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new var
 common#:#cut#:#Vyjmout###07 Apr 2005 content changed
 common#:#cutPage#:#Vyjmout###07 Apr 2005 content changed
 common#:#daily#:#daily###11 Mar 2005 new variable
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Databáze###07 Apr 2005 content changed
 common#:#database_version#:#Současná verze databáze###07 Apr 2005 content changed
 common#:#dataset#:#Položka###07 Apr 2005 content changed
@@ -1371,6 +1372,8 @@ common#:#enable#:#Povolit###07 Apr 2005 content changed
 common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
@@ -1565,6 +1568,7 @@ common#:#frm_edit_permission#:#Change permission settings###16 Mar 2004 new vari
 common#:#frm_edit_post#:#Edit a post###16 Mar 2004 new variable
 common#:#frm_new#:#Nová diskusní skupina###07 Apr 2005 content changed
 common#:#frm_read#:#Read access to Forum###16 Mar 2004 new variable
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
 common#:#frm_visible#:#Forum is visible###16 Mar 2004 new variable
@@ -3307,6 +3311,7 @@ content#:#cont_ed_delete_item#:#delete item###16 Aug 2004 new variable
 content#:#cont_ed_delete_row#:#delete row###16 Aug 2004 new variable
 content#:#cont_ed_edit#:#edit###16 Aug 2004 new variable
 content#:#cont_ed_edit_prop#:#edit properties###16 Aug 2004 new variable
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Go###16 Aug 2004 new variable
 content#:#cont_ed_insert_code#:#insert Code###16 Aug 2004 new variable
 content#:#cont_ed_insert_filelist#:#insert File List###16 Aug 2004 new variable
@@ -4236,6 +4241,10 @@ forum#:#forums_your_reply#:#Vaše reakce###07 Apr 2005 content changed
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
 forum#:#is_read#:#mark read###02 Dec 2004 new variable
 forum#:#new_post#:#New post###08 Nov 2005 new variable

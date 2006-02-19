@@ -1291,6 +1291,7 @@ common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new var
 common#:#cut#:#Wytnij
 common#:#cutPage#:#Wytnij
 common#:#daily#:#codziennie
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Baza danych
 common#:#database_version#:#Wersja biezącej bazy danych
 common#:#dataset#:#Zestaw Danych
@@ -1371,6 +1372,8 @@ common#:#enable#:#Włącz
 common#:#enable_calendar#:#Włącz kalendarz
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Włącz komentarze użytkownika w historii
 common#:#enable_hist_user_comments_desc#:#To daje okazję autorom dodawać komentarze do listy historii stron.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Włącz edycję JavaScript
@@ -1565,6 +1568,7 @@ common#:#frm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#frm_edit_post#:#Edytuj wiadomość
 common#:#frm_new#:#Nowe Forum
 common#:#frm_read#:#Prawo czytania Forum
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Status 'Nowy'
 common#:#frm_status_new_desc#:#Wybierz okres jak długo ma być utrzymywany status 'Nowy' dla wpisów w forum.
 common#:#frm_visible#:#Forum jest widoczne
@@ -3307,6 +3311,7 @@ content#:#cont_ed_delete_item#:#usuń pozycję
 content#:#cont_ed_delete_row#:#usuń wiersz
 content#:#cont_ed_edit#:#edytuj
 content#:#cont_ed_edit_prop#:#edytuj właściwości
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Wykonaj
 content#:#cont_ed_insert_code#:#wstaw Kod
 content#:#cont_ed_insert_filelist#:#wstaw listę plików
@@ -4236,6 +4241,10 @@ forum#:#forums_your_reply#:#Twoja odpowiedź
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Domyślny widok
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Wstaw tytuł.
 forum#:#is_read#:#Zaznacz jako przeczytane
 forum#:#new_post#:#New post###08 Nov 2005 new variable

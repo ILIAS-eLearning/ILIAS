@@ -1289,6 +1289,7 @@ common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new var
 common#:#cut#:#Вирізати
 common#:#cutPage#:#Вирізати
 common#:#daily#:#щоденний
+common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#База даних
 common#:#database_version#:#Поточна Версія Бази даних
 common#:#dataset#:#Пункт
@@ -1369,6 +1370,8 @@ common#:#enable#:#Дозволити
 common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_custom_icons#:#Enable custom icons###03 Nov 2005 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###03 Nov 2005 new variable
+common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Дозволити коментарії користувачів в історії
 common#:#enable_hist_user_comments_desc#:#Дати авторам можливість додавати коментарі до сторінок з історією логів.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Дозволити Редагування JavaScript
@@ -1563,6 +1566,7 @@ common#:#frm_edit_permission#:#Змінити настройки прав
 common#:#frm_edit_post#:#Додати нову гілку, запис
 common#:#frm_new#:#Новий Форум
 common#:#frm_read#:#Доступ на читання до Форума
+common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_visible#:#Форум є видимим
 common#:#frm_write#:#Редагувати форум
 common#:#from#:#Від
@@ -3295,6 +3299,7 @@ content#:#cont_ed_delete_item#:#видалити об'єкт
 content#:#cont_ed_delete_row#:#видалити рядок
 content#:#cont_ed_edit#:#редагувати
 content#:#cont_ed_edit_prop#:#редагувати властивості
+content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
 content#:#cont_ed_go#:#Перейти
 content#:#cont_ed_insert_code#:#вставити Код
 content#:#cont_ed_insert_filelist#:#вставити Список Файлів
@@ -4218,6 +4223,10 @@ forum#:#forums_your_reply#:#Ваша Відповідь
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
 forum#:#frm_default_view#:#Вид по замовчанню
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
+forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 forum#:#frm_title_required#:#Будь ласка вставте назву.
 forum#:#is_read#:#помітити як прочитане
 forum#:#new_post#:#New post###08 Nov 2005 new variable
