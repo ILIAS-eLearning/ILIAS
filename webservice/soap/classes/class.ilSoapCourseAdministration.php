@@ -107,7 +107,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
+		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
 			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
 			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
@@ -162,7 +162,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
-		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
+		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
 			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
 			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
@@ -237,7 +237,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
+		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
 			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
 			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
@@ -292,7 +292,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
+		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
 			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
 			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
@@ -352,7 +352,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
-		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
+		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
 			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
 			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
@@ -396,7 +396,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
+		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
 			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
 			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
