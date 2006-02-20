@@ -22,11 +22,7 @@
 */
 
 include_once "./assessment/classes/class.assQuestion.php";
-
-define ("OQ_PICTURES", 0);
-define ("OQ_TERMS", 1);
-
-define ("ORDERING_QUESTION_IDENTIFIER", "ORDERING QUESTION");
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class for ordering questions

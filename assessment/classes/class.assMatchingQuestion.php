@@ -22,10 +22,8 @@
 */
 
 include_once "./assessment/classes/class.assQuestion.php";
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
-define ("MT_TERMS_PICTURES", 0);
-define ("MT_TERMS_DEFINITIONS", 1);
-define ("MATCHING_QUESTION_IDENTIFIER", "MATCHING QUESTION");
 /**
 * Class for matching questions
 *

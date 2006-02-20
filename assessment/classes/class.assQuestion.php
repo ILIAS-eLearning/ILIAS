@@ -21,11 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-define("LIMIT_NO_LIMIT", 0);
-define("LIMIT_TIME_ONLY", 1);
-
-define("OUTPUT_HTML", 0);
-define("OUTPUT_JAVASCRIPT", 1);
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Basic class for all assessment question types

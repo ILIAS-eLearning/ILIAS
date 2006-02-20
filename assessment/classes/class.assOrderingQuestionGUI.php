@@ -22,6 +22,7 @@
 */
 
 include_once "./assessment/classes/class.assQuestionGUI.php";
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Ordering question GUI representation

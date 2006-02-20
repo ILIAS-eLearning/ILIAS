@@ -22,8 +22,7 @@
 */
 
 include_once "./assessment/classes/class.assQuestion.php";
-
-define ("IMAGEMAP_QUESTION_IDENTIFIER", "IMAGE MAP QUESTION");
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class for image map questions

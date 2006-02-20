@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 include_once "./assessment/classes/class.assQuestion.php";
-
-define("TEXT_QUESTION_IDENTIFIER", "TEXT QUESTION");
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class for text questions

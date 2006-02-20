@@ -21,14 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 include_once "./assessment/classes/class.assQuestion.php";
-
-define("RESPONSE_SINGLE", "0");
-define("RESPONSE_MULTIPLE", "1");
-
-define("OUTPUT_ORDER", "0");
-define("OUTPUT_RANDOM", "1");
-
-define("MULTIPLE_CHOICE_QUESTION_IDENTIFIER", "MULTIPLE CHOICE QUESTION");
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class for multiple choice tests

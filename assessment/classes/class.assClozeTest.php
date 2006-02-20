@@ -22,18 +22,7 @@
 */
 
 include_once "./assessment/classes/class.assQuestion.php";
-
-define("CLOZE_TEXT", "0");
-define("CLOZE_SELECT", "1");
-define("CLOZE_TEST_IDENTIFIER", "CLOZE QUESTION");
-
-define("TEXTGAP_RATING_CASEINSENSITIVE", "ci");
-define("TEXTGAP_RATING_CASESENSITIVE", "cs");
-define("TEXTGAP_RATING_LEVENSHTEIN1", "l1");
-define("TEXTGAP_RATING_LEVENSHTEIN2", "l2");
-define("TEXTGAP_RATING_LEVENSHTEIN3", "l3");
-define("TEXTGAP_RATING_LEVENSHTEIN4", "l4");
-define("TEXTGAP_RATING_LEVENSHTEIN5", "l5");
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class for cloze tests
