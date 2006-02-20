@@ -301,6 +301,15 @@ function getUserRoles($sid,$user_id)
 	return $soa->getUserRoles($sid,$user_id);
 }
 
+function deleteRole($sid,$role_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->deleteRole($sid,$role_id);
+}
+
 function addRole($sid,$target_id,$obj_xml)
 {
 	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';

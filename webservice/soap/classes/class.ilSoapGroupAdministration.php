@@ -69,7 +69,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		$xml_parser = new ilGroupImportParser($grp_xml,$target_id);
 		$new_ref_id = $xml_parser->startParsing();
 
-		return $new_ref_id ? $new_ref_id : 0;
+		return $new_ref_id ? $new_ref_id : "0";
 	}
 
 	function groupExists($sid,$title)

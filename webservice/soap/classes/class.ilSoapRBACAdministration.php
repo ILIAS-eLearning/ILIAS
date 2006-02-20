@@ -38,7 +38,47 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	{
 		parent::ilSoapAdministration();
 	}
-	
+
+
+	function deleteRole($sid,$role_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+
+		if(!$tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false) or $tmp_role->getType() != 'role')
+		{
+			return $this->__raiseError('No valid role id given. Please choose an existing id of an ILIAS role',
+									   'Client');
+		}
+
+		$rolf_id = end($rolf_ids = $rbacreview->getFoldersAssignedToRole($role_id,true));
+		if(!$rbacsystem->checkAccess('delete',$rolf_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to delete role','Server');
+		}
+
+		// if it's last role of an user
+		foreach($assigned_users = $rbacreview->assignedUsers($role_id) as $user_id)
+		{
+			if(count($rbacreview->assignedRoles($user_id)) == 1)
+			{
+				return $this->__raiseError('Cannot deassign last role of users',
+										   'Client');
+			}
+		}
+
+		// set parent id (role folder id) of role
+		$tmp_role->setParent($rolf_id);
+		$tmp_role->delete();
+
+		return true;
+	}
 
 	function addUserRoleEntry($sid,$user_id,$role_id)
 	{

@@ -164,7 +164,7 @@ class ilNusoapUserAdministrationAdapter
 												  'approve_date' => array('name' => 'approve_date', 'type' => 'xsd:string'),
 												  'user_skin' => array('name' => 'user_skin', 'type' => 'xsd:string'),
 												  'user_style' => array('name' => 'user_style', 'type' => 'xsd:string'),
-												  'user_language' => array('name' => 'user_languaage', 'type' => 'xsd:string')));
+												  'user_language' => array('name' => 'user_language', 'type' => 'xsd:string')));
 
 		// lookupUser()
 		$this->server->register('lookupUser',
@@ -541,6 +541,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS '.
 								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created.');
+
+		$this->server->register('deleteRole',
+								array('sid' => 'xsd:string',
+									  'role_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#deleteRole',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS deleteRole(): Deletes an role and all user assignments. Fails if it is the last role of an user');
 
 		$this->server->register('addRoleFromTemplate',
 								array('sid' => 'xsd:string',
