@@ -21,6 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
+include_once "./assessment/classes/inc.AssessmentConstants.php";
+
 /**
 * Basic GUI class for assessment questions
 *

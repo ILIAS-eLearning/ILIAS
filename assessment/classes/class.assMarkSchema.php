@@ -21,6 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
+include_once "./assessment/classes/inc.AssessmentConstants.php";
+
 /**
 * A class defining mark schemas for assessment test objects
 * 

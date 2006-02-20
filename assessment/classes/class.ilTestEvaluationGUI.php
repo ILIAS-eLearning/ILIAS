@@ -21,9 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define ("TYPE_XLS_PC", "latin1");
-define ("TYPE_XLS_MAC", "macos");
-define ("TYPE_SPSS", "csv");
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Output class for assessment test evaluation

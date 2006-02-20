@@ -38,6 +38,7 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 class ilObjTestGUI extends ilObjectGUI
 {

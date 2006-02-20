@@ -21,8 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 include_once "./assessment/classes/class.assQuestion.php";
-
-define ("JAVAAPPLET_QUESTION_IDENTIFIER", "JAVA APPLET QUESTION");
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class for Java Applet Questions

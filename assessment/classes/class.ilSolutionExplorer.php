@@ -31,6 +31,7 @@
 */
 
 include_once "./classes/class.ilExplorer.php";
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 class ilSolutionExplorer extends ilExplorer
 {

@@ -22,6 +22,7 @@
 */
 
 include_once "./assessment/classes/class.assAnswerBinaryState.php";
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class for true/false or yes/no answers

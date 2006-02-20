@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./assessment/classes/inc.AssessmentConstants.php";
+
 /**
 * Class ilObjQuestionPool
 *

@@ -22,6 +22,7 @@
 */
 
 include_once "./classes/class.ilObjectAccess.php";
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 /**
 * Class ilObjQuestionPoolAccess

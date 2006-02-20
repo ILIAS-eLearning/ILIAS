@@ -41,6 +41,7 @@
 include_once "./classes/class.ilObjectGUI.php";
 include_once "./assessment/classes/class.assQuestionGUI.php";
 include_once "./assessment/classes/class.ilObjQuestionPool.php";
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {

@@ -33,29 +33,7 @@
 */
 
 include_once "./classes/class.ilObject.php";
-
-define("TEST_FIXED_SEQUENCE", 0);
-define("TEST_POSTPONE", 1);
-
-define("REPORT_AFTER_QUESTION", 0);
-define("REPORT_AFTER_TEST", 1);
-
-define("TYPE_ASSESSMENT", "1");
-define("TYPE_SELF_ASSESSMENT", "2");
-define("TYPE_ONLINE_TEST", "4");
-define("TYPE_VARYING_RANDOMTEST", "5");
-
-define("INVITATION_OFF",0);
-define("INVITATION_ON",1);
-
-define("COUNT_PARTIAL_SOLUTIONS", 0);
-define("COUNT_CORRECT_SOLUTIONS", 1);
-
-define("SCORE_ZERO_POINTS_WHEN_UNANSWERED", 0);
-define("SCORE_STANDARD_SCORE_SYSTEM", 1);
-
-define("SCORE_LAST_PASS", 0);
-define("SCORE_BEST_PASS", 1);
+include_once "./assessment/classes/inc.AssessmentConstants.php";
 
 class ilObjTest extends ilObject
 {
