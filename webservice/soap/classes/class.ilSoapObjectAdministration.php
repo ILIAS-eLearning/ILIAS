@@ -62,6 +62,55 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		return $obj_id ? $obj_id : "0";
 	}
 
+	function getRefIdsByImportId($sid,$import_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!$import_id)
+		{
+			return $this->__raiseError('No import id given.',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
+
+		
+		$ref_ids = ilObject::_getAllReferences($obj_id);
+		foreach($ref_ids as $ref_id)
+		{
+			$new_refs[] = $ref_id;
+		}
+		return $new_refs ? $new_refs : array();
+	}
+
+	function getRefIdsByObjId($sid,$obj_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!$obj_id)
+		{
+			return $this->__raiseError('No object id given.',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		$ref_ids = ilObject::_getAllReferences($obj_id);
+		foreach($ref_ids as $ref_id)
+		{
+			$new_refs[] = $ref_id;
+		}
+		return $new_refs ? $new_refs : array();
+	}		
+
 		
 	function getObjectByReference($sid,$a_ref_id,$user_id)
 	{

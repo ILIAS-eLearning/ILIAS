@@ -68,7 +68,6 @@ function deleteObject ($a_obj_id)
 {
 }*/
 
-
 /**
 * updates an object
 * @access	public
@@ -80,6 +79,7 @@ function deleteObject ($a_obj_id)
 * @param	boolean	adding 3 dots to shortended string (optional, default: true)
 * @return	boolean	true
 */
+   /*
 function updateObject ($a_obj_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TITLE,$a_len_desc=MAXLENGTH_OBJ_DESC,$a_dots=true)
 {
 	global $ilias;
@@ -110,6 +110,8 @@ function updateObject ($a_obj_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TIT
 
 	return true;
 }
+*/
+
 
 /**
 * updates a single value in a column of object data

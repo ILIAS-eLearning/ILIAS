@@ -332,6 +332,28 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getObjIdByImportId(). Get the obj_id of an ILIAS obj by a given import id.');
 
 
+		// get ref ids by import id
+		$this->server->register('getRefIdsByImportId',
+								array('sid' => 'xsd:string',
+									  'import_id' => 'xsd:string'),
+								array('ref_ids' => 'tns:intArray'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getRefIdsByImportId',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getRefIdsByImportId(). Get all reference ids by a given import id.');
+
+		// get obj_id by import id
+		$this->server->register('getRefIdsByObjId',
+								array('sid' => 'xsd:string',
+									  'obj_id' => 'xsd:string'),
+								array('ref_ids' => 'tns:intArray'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getRefIdsByObjId',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getRefIdsByObjId(). Get all reference ids by a given object id.');
+
 		// Object administration
 		$this->server->register('getObjectByReference',
 								array('sid' => 'xsd:string',
