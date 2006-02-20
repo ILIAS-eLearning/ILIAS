@@ -28,7 +28,7 @@
    *
    * @version $Id$
    *
-   * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPFilterGUI
+   * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPFilterGUI, ilPDFPresentation
    *
    * @package ilias-tracking
    *
@@ -71,6 +71,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			case 'illpfiltergui':
 
 				$this->ctrl->forwardCommand($this->filter_gui);
+				break;
+
+			case 'ilpdfpresentation':
+				
+				include_once './Services/Tracking/classes/class.ilPDFPresentation.php';
+
+				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->getRefId(),$this->getUserId());
+				$pdf_gui->setType(LP_ACTIVE_PROGRESS);
+				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->forwardCommand($pdf_gui);
 				break;
 
 
@@ -346,6 +356,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showProgress()
 	{
+		#$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
 		$this->__initFilter();
 
 		$tpl = new ilTemplate('tpl.lp_progress.html',true,true,'Services/Tracking');
