@@ -56,7 +56,7 @@ class ilObjectDataCache
 			$obj_id = $this->__storeReference($a_ref_id);
 			$this->__storeObjectData($obj_id);
 		}
-		return (int) $this->reference_cache[$a_ref_id];
+		return (int) @$this->reference_cache[$a_ref_id];
 	}
 
 	function lookupTitle($a_obj_id)
@@ -65,7 +65,7 @@ class ilObjectDataCache
 		{
 			$this->__storeObjectData($a_obj_id);
 		}
-		return $this->object_data_cache[$a_obj_id]['title'];
+		return @$this->object_data_cache[$a_obj_id]['title'];
 	}
 
 	function lookupType($a_obj_id)
@@ -74,7 +74,7 @@ class ilObjectDataCache
 		{
 			$this->__storeObjectData($a_obj_id);
 		}
-		return $this->object_data_cache[$a_obj_id]['type'];
+		return @$this->object_data_cache[$a_obj_id]['type'];
 	}
 
 	function lookupOwner($a_obj_id)
@@ -83,7 +83,7 @@ class ilObjectDataCache
 		{
 			$this->__storeObjectData($a_obj_id);
 		}
-		return $this->object_data_cache[$a_obj_id]['owner'];
+		return @$this->object_data_cache[$a_obj_id]['owner'];
 	}
 
 	function lookupDescription($a_obj_id)
@@ -92,7 +92,7 @@ class ilObjectDataCache
 		{
 			$this->__storeObjectData($a_obj_id);
 		}
-		return $this->object_data_cache[$a_obj_id]['description'];
+		return @$this->object_data_cache[$a_obj_id]['description'];
 	}
 
 	function lookupLastUpdate($a_obj_id)
@@ -101,7 +101,7 @@ class ilObjectDataCache
 		{
 			$this->__storeObjectData($a_obj_id);
 		}
-		return $this->object_data_cache[$a_obj_id]['last_update'];
+		return @$this->object_data_cache[$a_obj_id]['last_update'];
 	}
 	// PRIVATE
 
@@ -118,7 +118,7 @@ class ilObjectDataCache
 		#static $cached = 0;
 		#static $not_cached = 0;
 
-		if($this->reference_cache[$a_ref_id])
+		if(@$this->reference_cache[$a_ref_id])
 		{
 			#echo "Reference ". ++$cached ."cached<br>";
 			return true;
@@ -141,7 +141,7 @@ class ilObjectDataCache
 		static $not_cached = 0;
 			
 
-		if($this->object_data_cache[$a_obj_id])
+		if(@$this->object_data_cache[$a_obj_id])
 		{
 			#echo "Object ". ++$cached ."cached<br>";
 			return true;
@@ -168,8 +168,7 @@ class ilObjectDataCache
 		{
 			$this->reference_cache[$a_ref_id] = $row['obj_id'];
 		}
-
-		return (int) $this->reference_cache[$a_ref_id];
+		return (int) @$this->reference_cache[$a_ref_id];
 	}
 
 	/**
