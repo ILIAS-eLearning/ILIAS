@@ -42,6 +42,7 @@ define ("IL_NO_HEADER", "none");
 * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
 * @package content

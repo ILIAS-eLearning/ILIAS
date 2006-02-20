@@ -26,7 +26,7 @@
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
-*
+* 
 * @ilCtrl_Calls ilObjiLincClassroomGUI:
 *
 * @extends ilObjectGUI
@@ -41,10 +41,12 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	/**
 	* Constructor
 	* @access public
+	* 2 last parameters actually not used
 	*/
-	function ilObjiLincClassroomGUI($a_icla_id,$a_icrs_id)
+	function ilObjiLincClassroomGUI($a_icla_id,$a_icrs_id,$a_call_by_reference = false,$a_prepare_output = false)
 	{
 		global $ilCtrl,$lng,$ilias,$objDefinition,$tpl,$tree,$ilErr;
+		
 		$this->type = "icla";
 		$this->id = $a_icla_id;
 		$this->parent = $a_icrs_id;
@@ -56,21 +58,15 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->lng =& $lng;
 		$this->tree =& $tree;
 		$this->ilErr =& $ilErr;
-		
-		$this->ctrl->saveParameter($this,'parent');
+
+		//$this->ctrl->saveParameter($this,'parent');
 		
 		$this->formaction = array();
 		$this->return_location = array();
 		$this->target_frame = array();
-		$this->tab_target_script = "adm_object.php";
+		//$this->tab_target_script = "adm_object.php";
 		$this->actions = "";
 		$this->sub_objects = "";
-
-
-		/*if ($this->id != 0)
-		{
-			$this->link_params = "ref_id=".$this->ref_id;
-		}*/
 
 		//prepare output
 		if (false)
@@ -86,9 +82,9 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->object = new ilObjiLincClassroom($this->id,$this->parent);
 	}
 	
-	function createObject()
+	function create()
 	{
-		global $rbacsystem;
+		$this->prepareOutput();
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -101,7 +97,6 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","ilinc");
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
 		
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
@@ -123,8 +118,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DOCENT", $this->lng->txt(ILINC_MEMBER_DOCENT));
 		$this->tpl->setVariable("SEL_DOCENT", $sel_docents);
 		
-		
-		$docent = 0; $student = 0;
+		/*$docent = 0; $student = 0;
 
 		if ($ilinc_status == ILINC_MEMBER_DOCENT)
 		{
@@ -133,7 +127,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		elseif ($ilinc_status == ILINC_MEMBER_STUDENT)
 		{
 			$student = 1;
-		}
+		}*/
 		
 		$radio1 = ilUtil::formRadioButton(1,"Fobject[alwaysopen]","1");
 		$radio2 = ilUtil::formRadioButton(0,"Fobject[alwaysopen]","0");
@@ -141,8 +135,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("access"));
 		$this->tpl->setVariable("SEL_ACCESS", $radio1." ".$this->lng->txt("ilinc_classroom_open").$radio2." ".$this->lng->txt("ilinc_classroom_closed"));
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																   $_GET["ref_id"]."&new_type=".$new_type));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
+
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -155,13 +149,9 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function saveObject()
+	function save()
 	{
-		global $rbacadmin;
-		
 		$ilinc_course_id = ilObjiLincClassroom::_lookupiCourseId($this->parent);
-
-//var_dump($_POST["Fobject"]);exit;
 
 		$this->object->ilincAPI->addClass($ilinc_course_id,$_POST['Fobject']);
 		$response = $this->object->ilincAPI->sendRequest('addClass');
@@ -176,31 +166,23 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($response->getResultMsg(),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		$this->ctrl->redirectByClass("ilobjilinccoursegui");
 	}
 	
-	function joinObject()
+	function joinClassroom()
 	{
-		// check if user is registered at iLinc server
-		if (!$this->object->userExists($this->ilias->account))
-		{
-				$ilinc_user_id = $this->object->addUser($this->ilias->account);
-		}
-
-		// check if user is already member of icourse
-		if (!$this->object->isMember($this->ilias->account->getiLincID(),$this->ilinc_course_id))
-		{
-			// then assign membership to icourse
-				$this->object->registerUser($this->ilias->account,$this->object->ilinc_course_id,"True");
-		}
-
-
 		// join class
-		$url = $this->object->joinClass($this->ilias->account,$this->object->ilinc_id);
+		$url = $this->object->joinClass($this->ilias->account,$_GET['class_id']);
+
+		if (!$url)
+		{
+			$this->ilias->raiseError($this->object->getErrorMsg(),$this->ilias->error_obj->FATAL);
+		}
+
 		ilUtil::redirect(trim($url));
 	}
 	
-	function editClassroomObject()
+	function editClassroom()
 	{
 		$fields = array();
 
@@ -271,9 +253,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->tpl->setVariable("SEL_ACCESS", $radio1." ".$this->lng->txt("ilinc_classroom_open").$radio2." ".$this->lng->txt("ilinc_classroom_closed"));
 
 		$obj_str = "&class_id=".$this->object->id;
-
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -301,7 +282,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	*
 	* @access	public
  	*/
-	function removeClassroomObject($a_error = false)
+	function removeClassroom($a_error = false)
 	{
 		unset($this->data);
 		$this->data["cols"] = array("type", "title", "last_change");
@@ -322,9 +303,9 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&class_id=".$_GET["class_id"]."&cmd=gateway"));
-	
+		$obj_str = "&class_id=".$this->object->id;
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",$this->ctrl->getFormAction($this).$obj_str));
+
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -391,22 +372,77 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function updateClassroomObject()
+	function updateClassroom()
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->object->setDocentId($_POST["Fobject"]["instructoruserid"]);
 		$this->object->setStatus($_POST["Fobject"]["alwaysopen"]);
 
-
 		if (!$this->object->update())
 		{
 			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
+		
+		//sendInfo($this->lng->txt("msg_icla_updated"),true);
+		sendInfo($this->getResultMsg(),true);
+		
+		$this->ctrl->redirectByClass("ilobjilinccoursegui");
+		//ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		switch($next_class)
+		{
+			default:
+				$this->$cmd();
+				break;
+		}
 
-		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+		return true;
+	}
+	
+	/**
+	* cancel deletion of classroom object
+	*
+	* @access	public
+	*/
+	function cancelDeleteClassroom()
+	{
+		session_unregister("saved_post");
+		
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		$this->ctrl->redirectByClass("ilobjilinccoursegui");
+	}
+	
+	/**
+	* @access	public
+	*/
+	function confirmedDeleteClassroom()
+	{
+		if (!$this->object->delete())
+		{
+			$msg = $this->object->getErrorMsg();
+		}
+		else
+		{
+			$msg = $this->lng->txt('icla_deleted');
+		}
+		
+		// Feedback
+		sendInfo($msg,true);
+		
+		$this->ctrl->redirectByClass("ilobjilinccoursegui");
+	}
+	
+	function getResultMsg()
+	{
+		return $this->object->result_msg;
 	}
 } // END class.ilObjiLincClassroomGUI
 ?>

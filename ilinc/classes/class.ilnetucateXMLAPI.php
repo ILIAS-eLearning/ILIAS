@@ -426,7 +426,7 @@ exit;
 		$attr['name'] = $a_data['name'];
 		$attr['instructoruserid'] = $a_data['instructoruserid'];
 		$attr['description'] = $a_data['description'];
-		$attr['alwaysopen'] = $a_data['alwaysopen'];
+		$attr['alwaysopen'] = $a_data['alwaysopen'] ? "Wahr" : "Falsch";
 		$attr['password'] = $a_data['password'];
 		$attr['message'] = $a_data['message'];
 		$attr['appsharebandwidth'] = $a_data['appsharebandwidth'];

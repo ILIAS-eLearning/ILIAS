@@ -29,6 +29,7 @@
 * the design of the desktop.
 *
 * @author Arjan Ammerlaan <a.l.ammerlaan@web.de>
+*
 * @version $Id$
 * 
 * @package locator
@@ -112,7 +113,7 @@ class ilLocatorGUI
 			// add item for each node on path
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp")))
+				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp", "icrs")))
 				{
 					continue;
 				}
@@ -149,7 +150,7 @@ class ilLocatorGUI
 			// add item for each node on path
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp")))
+				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp", "icrs")))
 				{
 					continue;
 				}

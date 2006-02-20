@@ -828,29 +828,6 @@ class ilObjiLincCourse extends ilObject
 		return true;
 	}
 	
-	function joinClass(&$a_user_obj,$a_ilinc_class_id)
-	{
-		$this->ilincAPI->joinClass($a_user_obj,$a_ilinc_class_id);
-		$response = $this->ilincAPI->sendRequest("joinClass");
-
-		if ($response->isError())
-		{
-			if (!$response->getErrorMsg())
-			{
-				$this->error_msg = "err_join_class";
-			}
-			else
-			{
-				$this->error_msg = $response->getErrorMsg();
-			}
-			
-			return false;
-		}
-		
-		// return URL to join class room
-		return $response->data['url']['cdata'];
-	}
-	
 	function userLogin(&$a_user_obj)
 	{
 		$this->ilincAPI->userLogin($a_user_obj);
