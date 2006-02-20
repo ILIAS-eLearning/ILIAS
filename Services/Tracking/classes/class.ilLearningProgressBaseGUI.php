@@ -40,6 +40,7 @@ define("LP_MODE_USER_FOLDER",4);
 define("LP_ACTIVE_SETTINGS",1);
 define("LP_ACTIVE_OBJECTS",2);
 define("LP_ACTIVE_PROGRESS",3);
+define("LP_ACTIVE_LM_STATISTICS",4);
 
 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -151,6 +152,10 @@ class ilLearningProgressBaseGUI
 														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 														 "","","",$a_active == LP_ACTIVE_OBJECTS);
 					}
+					$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
+													 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
+													 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);													 
+
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
 													 "","","",$a_active == LP_ACTIVE_SETTINGS);

@@ -28,7 +28,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI
+* @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI,  ilLMStatisticsGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -81,6 +81,16 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$this->__setCmdClass('illplistofsettingsgui');
 				$this->ctrl->forwardCommand($los_gui);
 				break;
+				
+			case 'illmstatisticsgui':
+				include_once 'Services/Tracking/classes/class.ilLMStatisticsGUI.php';
+
+				$this->__setSubTabs(LP_ACTIVE_LM_STATISTICS);
+				$los_gui = new ilLMStatisticsGUI($this->getMode(),$this->getRefId());
+				$this->__setCmdClass('illmstatisticsgui');
+				$this->ctrl->forwardCommand($los_gui);
+				break;
+				
 
 			default:
 				die("No mode given");
