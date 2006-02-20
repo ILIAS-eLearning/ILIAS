@@ -172,7 +172,25 @@ function getObjIdByImportId($sid,$import_id)
 	$soa =& new ilSoapObjectAdministration();
 
 	return $soa->getObjIdByImportId($sid,$import_id);
-}	
+}
+
+function getRefIdsByImportId($sid,$import_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getRefIdsByImportId($sid,$import_id);
+}
+function getRefIdsByObjId($sid,$object_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getRefIdsByObjId($sid,$object_id);
+}
+
 
 function getObjectByReference($sid,$a_ref_id,$user_id)
 {
