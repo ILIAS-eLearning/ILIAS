@@ -399,7 +399,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addObject. Create new object based on xml description under a given node '.
 								'("category,course,group or folder). Return created reference id of the new object.' );
-		
+
+		$this->server->register('updateObjects',
+								array('sid' => 'xsd:string',
+									  'object_xml' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#updateObjects',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS updateObjects. Update object data (title,description,owner)');
 
 		$this->server->register('addReference',
 								array('sid' => 'xsd:string',

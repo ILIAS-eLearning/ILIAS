@@ -83,7 +83,6 @@ class ilObjectXMLParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		
 		switch($a_name)
 		{
 			case 'Objects':
@@ -94,7 +93,7 @@ class ilObjectXMLParser extends ilSaxParser
 				++$this->curr_obj;
 				
 				$this->__addProperty('type',$a_attribs['type']);
-				// Ignore obj_id
+				$this->__addProperty('obj_id',$a_attribs['obj_id']);
 				break;
 
 			case 'Title':

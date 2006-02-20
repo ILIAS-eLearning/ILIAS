@@ -538,6 +538,83 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$tree->saveSubTree($reference_id);
 		$tree->deleteTree($tree->getNodeData($reference_id));
 	}
+
+	function updateObjects($sid,$a_xml)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!strlen($a_xml))
+		{
+			return $this->__raiseError('No valid xml string given.',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
+
+		$xml_parser =& new ilObjectXMLParser($a_xml);
+		$xml_parser->startParsing();
+
+		// Validate incoming data
+
+		foreach($xml_parser->getObjectData() as $object_data)
+		{
+			if(!$object_data["obj_id"])
+			{
+				return $this->__raiseError('No obj_id in xml found.',
+										   'Client');
+			}
+			
+			// get one reference
+			if(!is_array($ref_ids = ilObject::_getAllReferences($object_data['obj_id'])))
+			{
+				return $this->__raiseError('No reference found for object with id: '.$object_data['obj_id'],
+										   'Client');
+			}
+			$ref_id = end($ref_ids);
+			
+			if(!$rbacsystem->checkAccess('write',$object_data['obj_id']))
+			{
+				return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!',
+										   'Client');
+			}
+
+			// Check preconditions
+			switch($object_data['type'])
+			{
+				case 'grp':
+					if(ilUtil::groupNameExists($object_data['title']))
+					{
+						return $this->__raiseError('A group with name '.$object_data['title'].' already exists!',
+												   'Client');
+					}
+					break;
+			}
+		}
+
+		// perform update
+		foreach($xml_parser->getObjectData() as $object_data)
+		{
+			// get one reference
+			$ref_ids = ilObject::_getAllReferences($object_data['obj_id']);
+			$ref_id = end($ref_ids);
+			
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
+			$tmp_obj->setTitle($object_data['title']);
+			$tmp_obj->setDescription($object_data['description']);
+			if(strlen($object_data['owner']))
+			{
+				$tmp_obj->setOwner($object_data['owner']);
+			}
+			$tmp_obj->update();
+		}
+		return true;
+
+	}
+
 		
 }
 ?>

@@ -219,6 +219,14 @@ function deleteObject($sid,$reference_id)
 	return $soa->deleteObject($sid,$reference_id);
 }
 
+function updateObjects($sid,$obj_xml)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->updateObjects($sid,$obj_xml);
+}
 function searchObjects($sid,$types,$key,$combination,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
