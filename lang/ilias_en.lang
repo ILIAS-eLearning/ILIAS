@@ -5706,3 +5706,95 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+trac#:#trac_lm_statistics#:#Access Statistics
+trac#:#stats_sel_lng#:#english
+trac#:#stats_pages_statisics#:#Page Statistics
+trac#:#stats_chapter_statisics#:#Chapter Statistics
+trac#:#stats_sessions_statisics#:#Session Statistics
+trac#:#stats_sec#:#sec
+trac#:#stats_minute#:#m
+trac#:#stats_hour#:#h
+trac#:#stats_depth#:#depth
+trac#:#stats_page#:#page
+trac#:#stats_pages#:#pages
+trac#:#stats_chapter#:#chapter
+trac#:#stats_session#:#session
+trac#:#stats_sessions#:#sessions
+trac#:#stats_access#:#access
+trac#:#stats_accesses#:#access
+trac#:#newUT_settings#:#Learning Module Statistics
+trac#:#stats_all#:#All
+trac#:#stats_choice#:#Selection
+trac#:#stats_current#:#Currently
+trac#:#stats_tracked_user#:#Selected Users
+trac#:#stats_new_selection#:#New Selection
+trac#:#stats_user#:#User(s)
+trac#:#stats_user_selected#:#User selected
+trac#:#stats_occurrence#:#occurrence
+trac#:#stats_equivalent#:#is equivalent to
+trac#:#stats_with#:#with
+trac#:#stats_of#:#of
+trac#:#stats_until#:#until
+trac#:#stats_start#:#start
+trac#:#stats_last#:#last
+trac#:#stats_duration#:#duration
+trac#:#stats_interval#:#interval
+trac#:#stats_summation#:#summation
+trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher)
+trac#:#stats_page_listing#:#page listing
+trac#:#stats_chapter_listing#:#chapter listing
+trac#:#stats_session_listing#:#session listing
+trac#:#stats_interval_dwell_time#:#interval of dwell time
+trac#:#stats_interval_page_access#:#interval of access to pages
+trac#:#stats_page_total_statistic#:#Total-Pages-Statistic
+trac#:#stats_page_number#:#number of pages
+trac#:#stats_page_number_access#:#number of access to pages
+trac#:#stats_page_total_dwell_time#:#total-pages-dwell time
+trac#:#stats_page_average_access#:#average of access to pages
+trac#:#stats_page_median_access#:#median of access to pages
+trac#:#stats_page_mode_access#:#mode of access to pages
+trac#:#stats_page_range_access#:#range of access to pages
+trac#:#stats_page_variance_access#:#variance of access to pages
+trac#:#stats_page_deviation_access#:#deviation of access to pages
+trac#:#stats_page_varcoeff_access#:#variation coefficient of access to pages
+trac#:#stats_page_average_dwell_time#:#average of dwell time to pages
+trac#:#stats_page_median_dwell_time#:#median of dwell time to pages
+trac#:#stats_page_range_dwell_time#:#range of dwell time to pages
+trac#:#stats_page_variance_dwell_time#:#variance of dwell time to pages
+trac#:#stats_page_deviation_dwell_time#:#deviation of dwell time to pages
+trac#:#stats_page_varcoeff_dwell_time#:#variation coefficient of dwell time to pages
+trac#:#stats_page_longest_total_dwell_time#:#longest total dwell time
+trac#:#stats_page_stubbiest_total_dwell_time#:#stubbiest total dwell time
+trac#:#stats_page_longest_average_dwell_time#:#longest average dwell time
+trac#:#stats_page_stubbiest_average_dwell_time#:#stubbiest average dwell time
+trac#:#stats_page_most_access#:#most access
+trac#:#stats_page_fewest_access#:#fewest access
+trac#:#stats_page_least_deviation#:#least deviation
+trac#:#stats_page_highest_deviation#:#highest deviation
+trac#:#stats_page_lowest_varcoeff#:#lowest variation coefficient
+trac#:#stats_page_highest_varcoeff#:#highest variation coefficien
+trac#:#stats_chapter_total_statistic#:#Total-Chapter-Statistic
+trac#:#stats_chapter_number#:#number of chapter
+trac#:#stats_chapter_average_page_number#:#average number of pages per chapter
+trac#:#stats_chapter_top#:#top-chapter (variance, access, etc.)
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#longest total dwell time depth
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#stubbiest total dwell time
+trac#:#stats_chapter_most_access_depth#:#most access with depth
+trac#:#stats_chapter_fewest_access#:#fewest access
+trac#:#stats_chapter_most_pages#:#most pages
+trac#:#stats_chapter_depth_coverage#:#degree of coverage which depth
+trac#:#stats_session_total_statistic#:#Total-Session-Statistic
+trac#:#stats_session_number#:#number of sessions
+trac#:#stats_session_most#:#most sessions
+trac#:#stats_session_involved_usr#:#number of involved users
+trac#:#stats_session_evaluable#:#evaluable sessions
+trac#:#stats_session_evaluable_usr#:#evaluable user
+trac#:#stats_session_evaluable_access#:#evaluable session access
+trac#:#stats_session_average_page_access#:#average access to pages per session
+trac#:#stats_session_total_duration#:#total duration of all sessions
+trac#:#stats_session_average_length#:#average session length
+trac#:#stats_session_longest#:#longest session
+trac#:#stats_session_longest_total_duration_usr#:#longest total duration per user
+trac#:#stats_legend#:#Legend  
+trac#:#stats_measurable_hits#:#measurable hits 
+trac#:#stats_hits#:#hits 
