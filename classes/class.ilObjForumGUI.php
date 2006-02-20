@@ -338,13 +338,20 @@ class ilObjForumGUI extends ilObjectGUI
 
 #		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
 
+
 		// Statistics enabled or not
-		$this->tpl->setVariable("TXT_STATISTICS_ENABLED", $this->lng->txt("statistics_enabled"));	
-		$this->tpl->setVariable("TXT_STATISTICS_ENABLED_DESC", $this->lng->txt("statistics_enabled_desc"));
 		
 		$statisticsEnabled  = $_POST['statistics_enabled'] ? $_POST['statistics_enabled'] : 1;
-
-		$this->tpl->setVariable("CHECK_STATISTICS_ENABLED",ilUtil::formCheckbox($statisticsEnabled == 1 ? 1 : 0,'statistics_enabled',1));
+		
+		$this->tpl->setVariable("TXT_STATISTICS_ENABLED", $this->lng->txt("frm_statistics_enabled"));	
+		$this->tpl->setVariable("TXT_STATISTICS_ENABLED_DESC", $this->lng->txt("frm_statistics_enabled_desc"));
+		
+		
+		$this->tpl->setVariable("CHECK_STATISTICS_ENABLED", 
+			ilUtil::formCheckbox(
+				$statisticsEnabled == 1 && $this->ilias->getSetting("enable_fora_statistics", true)? 1 : 0,
+				'statistics_enabled', 1,
+				$this->ilias->getSetting("enable_fora_statistics", true)?false:true));
 
 		return true;
 	}
