@@ -39,7 +39,7 @@ include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 
 class ilLPFilter
 {
-	var $permission = 'write';
+	var $permission = 'edit_learning_progress';
 	var $limit = 0;
 	var $limit_reached = false;
 

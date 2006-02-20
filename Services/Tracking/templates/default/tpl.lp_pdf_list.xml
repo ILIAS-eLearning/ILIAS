@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE LearningModule SYSTEM "http://www.ilias.de/download/dtd/ilias_co_3_6.dtd">
+  <ContentObject Type="LearningModule">
+  <MetaData>
+    <General Structure="Hierarchical">
+      <Title Language="{LANG}">{PDF_TITLE}</Title>
+      <Language Language="{LANG}"/>
+      <Description Language="{LANG}">{PDF_DESCRIPTION}</Description>
+    </General>
+  </MetaData>
+  <PageObject>
+    <MetaData>
+      <General Structure="Hierarchical">
+        <Title Language="{LANG}">{PAGE_TITLE}</Title>
+        <Language Language="{LANG}"/>
+        <Description Language="{LANG}">{PAGE_DESCRIPTION}</Description>
+      </General>
+    </MetaData>
+<!-- BEGIN filter -->
+    <PageContent>
+      <Paragraph Language="de" Characteristic="Headline1">{TXT_FILTER}</Paragraph>
+    </PageContent>
+    <PageContent>
+      <Table Language="de" Width="50%" Border="0">
+        <TableRow>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">
+                <Strong>{TXT_OBJECT_TYPES}</Strong>
+              </Paragraph>
+            </PageContent>
+          </TableData>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">{OBJECT_TYPES}</Paragraph>
+            </PageContent>
+          </TableData>
+        </TableRow>
+        <TableRow>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">
+                <Strong>{TXT_AREA}</Strong>
+              </Paragraph>
+            </PageContent>
+          </TableData>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">{AREA}</Paragraph>
+            </PageContent>
+          </TableData>
+        </TableRow>
+        <TableRow>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">
+                <Strong>{TXT_TITLE_DESC}</Strong>
+              </Paragraph>
+            </PageContent>
+          </TableData>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">{TITLE_DESC}</Paragraph>
+            </PageContent>
+          </TableData>
+        </TableRow>
+      </Table>
+    </PageContent>
+<!-- END filter -->
+  </PageObject>
+</ContentObject>
