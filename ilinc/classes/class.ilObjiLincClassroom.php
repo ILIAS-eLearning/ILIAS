@@ -155,7 +155,7 @@ class ilObjiLincClassroom extends ilObject
 	*/
 	function update()
 	{
-		$this->ilincAPI->editClass($this->id,array("name" => $this->getTitle(),"description" => $this->getDescription(), "instructoruserid" => $this->getDocentId(), "alwaysopen" => (string) $this->getStatus()));
+		$this->ilincAPI->editClass($this->id,array("name" => $this->getTitle(),"description" => $this->getDescription(), "instructoruserid" => $this->getDocentId(), "alwaysopen" => $this->getStatus()));
 		$response = $this->ilincAPI->sendRequest("editClass");
 
 		if ($response->isError())
@@ -172,6 +172,8 @@ class ilObjiLincClassroom extends ilObject
 			return false;
 		}
 		
+		$this->result_msg = $response->getResultMsg();
+
 		return true;
 	}
 	

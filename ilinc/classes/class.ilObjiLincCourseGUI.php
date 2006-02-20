@@ -43,13 +43,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjiLincCourseGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function ilObjiLincCourseGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = false)
 	{
 		$this->type = "icrs";
 		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$this->ctrl->saveParameter($this,'ref_id');
-
 	}
 	
 	/**
@@ -148,11 +147,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{
 			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
 		}
-
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->object->activated = ilUtil::tf2yn($_POST["Fobject"]["activated"]);
-		
+				
 		// when creating new ilinc course we first create it on ilinc server
 		include_once ('class.ilnetucateXMLAPI.php');
 		$ilinc = new ilnetucateXMLAPI();
@@ -187,10 +182,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 //		$icrsObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
 
 		$this->ilias->account->addDesktopItem($icrsObj->getRefId(),"icrs");	
-		//var_dump($this->ctrl->getParentReturn($this));exit;
+
 		// always send a message
 		sendInfo($this->lng->txt("icrs_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		
+		$this->redirectToRefId($_GET["ref_id"]);
+	
 	}
 	
 	/**
@@ -207,7 +204,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget("ilinc_classrooms",
-				$this->ctrl->getLinkTarget($this, ""), "", get_class($this));
+				$this->ctrl->getLinkTarget($this, ""),
+				array("", "view")
+				);
 		}
 		
 		if ($this->ilias->getSetting("ilinc_active"))
@@ -869,7 +868,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		//var_dump($next_class,$cmd);
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
@@ -896,12 +895,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
 				break;
 
-			case "ililincclassroomgui":
-			//echo "hier";exit;
-				$this->ctrl->setReturn($this, "");   // ###
-				$reg_gui = new ilRegisterGUI();
-				//$reg_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($reg_gui);
+			case "ilobjilincclassroomgui":
+				include_once ('class.ilObjiLincClassroomGUI.php');
+				$icla_gui = new ilObjiLincClassroomGUI($_GET['class_id'],$this->ref_id);
+				$ret =& $this->ctrl->forwardCommand($icla_gui);
 				break;
 				
 			case 'ilpermissiongui':
@@ -909,11 +906,14 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-				
+
 			default:
-				if ($this->object->requireRegistration() and !$this->object->isUserRegistered())
+				if (!$this->getCreationMode())
 				{
-					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+					if ($this->object->requireRegistration() and !$this->object->isUserRegistered())
+					{
+						$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+					}
 				}
 
 				if (empty($cmd))
@@ -1031,97 +1031,6 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$html = $tpl->get();
 		return $html;
-	}
-	
-	function removeClassroomObject()
-	{
-		include_once ('class.ilObjiLincClassroomGUI.php');
-		$icla_gui = new ilObjiLincClassroomGUI($_GET['class_id'],$this->ref_id);
-		$ret =& $this->ctrl->forwardCommand($icla_gui);
-	}
-	
-	function editClassroomObject()
-	{
-		include_once ('class.ilObjiLincClassroomGUI.php');
-		$icla_gui = new ilObjiLincClassroomGUI($_GET['class_id'],$this->ref_id);
-		$ret =& $this->ctrl->forwardCommand($icla_gui);
-	}
-	
-	function updateClassroomObject()
-	{
-		include_once ('class.ilObjiLincClassroomGUI.php');
-		$icla_gui = new ilObjiLincClassroomGUI($_GET['class_id'],$this->ref_id);
-		$ret =& $this->ctrl->forwardCommand($icla_gui);
-	}
-	
-	/**
-	* cancel deletion of classroom object
-	*
-	* @access	public
-	*/
-	function cancelDeleteClassroomObject()
-	{
-		session_unregister("saved_post");
-		
-		$this->setReturnLocation("cancelDeleteClassroom", "repository.php?ref_id=".$this->ref_id);
-
-		sendInfo($this->lng->txt("msg_cancel"),true);
-
-		ilUtil::redirect($this->getReturnLocation("cancelDeleteClassroom","adm_object.php?ref_id=".$_GET["ref_id"]));
-
-	}
-	
-	/**
-	* @access	public
-	*/
-	function confirmedDeleteClassroomObject()
-	{
-		include_once ('class.ilObjiLincClassroom.php');
-		$icla_obj = new ilObjiLincClassroom($_GET['class_id'],$this->ref_id);
-		
-		if (!$icla_obj->delete())
-		{
-			$msg = $ilca_obj->getErrorMsg();
-		}
-		else
-		{
-			$msg = $this->lng->txt('icla_deleted');
-		}
-		
-		// Feedback
-		sendInfo($msg,true);
-		
-		$this->setReturnLocation("confirmedDeleteClassroom", "repository.php?ref_id=".$this->ref_id);
-
-		ilUtil::redirect($this->getReturnLocation("confirmedDeleteClassroom","adm_object.php?ref_id=".$_GET["ref_id"]));
-
-	}
-	
-	function joinClassroomObject()
-	{
-		// check if user is registered at iLinc server
-		/*if (!$this->object->userExists($this->ilias->account))
-		{
-				$ilinc_user_id = $this->object->addUser($this->ilias->account);
-		}
-
-		// check if user is already member of icourse
-		if (!$this->object->isMember($this->ilias->account,$this->object_ilinc_id))
-		{
-			// then assign membership to icourse
-			$ilinc_data = $this->ilias->account->getiLincData();
-			$this->object->registerUser($ilinc_data['id'],$this->object->ilinc_id,"False");
-		}*/
-
-		// join class
-		$url = $this->object->joinClass($this->ilias->account,$_GET['class_id']);
-
-		if (!$url)
-		{
-			$this->ilias->raiseError($this->object->getErrorMsg(),$this->ilias->error_obj->FATAL);
-		}
-
-		ilUtil::redirect(trim($url));
 	}
 	
 	function agendaObject()

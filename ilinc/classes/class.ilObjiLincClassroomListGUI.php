@@ -46,6 +46,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		$this->ilinc_crs_id = $_GET['ref_id'];
 		
 		$this->ilObjectListGUI();
+		//var_dump($this->gui_class_name);exit;
 	}
 
 	/**
@@ -286,8 +287,12 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		// don't use ctrl here in the moment
-		return 'repository.php?ref_id='.$this->ilinc_crs_id.'&class_id='.$this->ref_id.'&cmd='.$a_cmd;
-
+		//return 'repository.php?ref_id='.$this->ilinc_crs_id.'&class_id='.$this->ref_id.'&cmd='.$a_cmd;
+		
+		// pass current class_id as ref_id
+		$this->ctrl->setParameterByClass($this->gui_class_name,"ref_id",$this->ilinc_crs_id);
+		$this->ctrl->setParameterByClass($this->gui_class_name,"class_id",$this->ref_id);
+		
 		// separate method for this line
 		$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
 			$a_cmd);

@@ -48,7 +48,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	function ilObjGroupGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = false)
 	{
 		$this->type = "grp";
-		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output, false);
+		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 
 	function viewObject()
@@ -535,9 +535,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
-		
-		$this->ctrl->setParameter($this, "ref_id", $groupObj->getRefId());
-		ilUtil::redirect($this->getReturnLocation("save", $this->ctrl->getLinkTarget($this,"")));
+
+		$this->redirectToRefId($_GET["ref_id"]);
 	}
 
 	/**

@@ -29,6 +29,7 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
 * @package ilias-core
@@ -56,7 +57,7 @@ else
 // exit if no valid ID was given
 if (!isset($_GET["ref_id"]))
 {
-	$ilias->raiseError("No valid ID given! Action aborted",$this->ilias->error_obj->MESSAGE);
+	$ilias->raiseError("No valid ID given! Action aborted",$ilias->error_obj->MESSAGE);
 }
 
 if (!isset($_GET["type"]))

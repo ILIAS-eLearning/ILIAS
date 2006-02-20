@@ -40,6 +40,7 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * Class ilRepositoryGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
 * @ilCtrl_Calls ilRepositoryGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI, ilCourseObjectivesGUI
@@ -320,8 +321,16 @@ class ilRepositoryGUI
 						$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
 					}
 					else
-					{
-						$this->gui_obj = new $class_name("", 0, true, false);
+					{	
+						// dirty walkaround for ilinc classrooms which need passed the ref_id of the parent iLinc course
+						if ($class_name == 'ilObjiLincClassroomGUI')
+						{
+							$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+						}
+						else
+						{
+							$this->gui_obj = new $class_name("", 0, true, false);
+						}
 					}
 					//$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
 
