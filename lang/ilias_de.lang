@@ -5480,7 +5480,7 @@ survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwo
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
 survey#:#preview#:#Vorschau
-survey#:#previous_question_rows#:#<< Fraen %d - %d von %d
+survey#:#previous_question_rows#:#<< Fragen %d - %d von %d
 survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
 survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 survey#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie kopieren wollen!
@@ -5704,3 +5704,95 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+trac#:#trac_lm_statistics#:#Zugriffstatistiken
+trac#:#stats_pages_statisics#:#Seiten-Statistiken
+trac#:#stats_chapter_statisics#:#Kapitel-Statistiken
+trac#:#stats_sessions_statisics#:#Session-Statistiken
+trac#:#stats_sec#:#s
+trac#:#stats_sel_lng#:#deutsch
+trac#:#stats_minute#:#min
+trac#:#stats_hour#:#h
+trac#:#stats_depth#:#Tiefe
+trac#:#stats_page#:#Seite
+trac#:#stats_pages#:#Seiten
+trac#:#stats_chapter#:#Kapitel
+trac#:#stats_session#:#Session
+trac#:#stats_sessions#:#Sessions
+trac#:#stats_access#:#Zugriff
+trac#:#stats_accesses#:#Zugriffe
+trac#:#stats_all#:#Alle
+trac#:#stats_choice#:#Auswahl
+trac#:#stats_current#:#Aktuell
+trac#:#stats_tracked_user#:#Benutzer
+trac#:#stats_new_selection#:#neue Auswahl
+trac#:#newUT_settings#:#Lernmodul Statistik
+trac#:#stats_user#:#Benutzer
+trac#:#stats_user_selected#:#User ausgewählt
+trac#:#stats_occurrence#:#Ausprägung
+trac#:#stats_equivalent#:#entspricht
+trac#:#stats_with#:#mit
+trac#:#stats_of#:#von
+trac#:#stats_until#:#bis
+trac#:#stats_start#:#Start
+trac#:#stats_last#:#letzter
+trac#:#stats_duration#:#Dauer
+trac#:#stats_interval#:#Intervall
+trac#:#stats_summation#:#Summe
+trac#:#stats_navigation#:#Navigations-/Beobachtungsmodell (erfordert JRE 1.5 oder höher)
+trac#:#stats_page_listing#:#Seiten-Auflistung
+trac#:#stats_chapter_listing#:#Kapitel-Auflistung
+trac#:#stats_session_listing#:#Session Auflistung
+trac#:#stats_interval_dwell_time#:#VerweilDauer-Intervalle
+trac#:#stats_interval_page_access#:#Seitenzugriffe-Intervalle
+trac#:#stats_page_total_statistic#:#Gesamt-Seiten-Statistik
+trac#:#stats_page_number#:#Anzahl der Seiten
+trac#:#stats_page_number_access#:#Anzahl der Zugriffe auf Seiten
+trac#:#stats_page_total_dwell_time#:#Gesamte-Seiten-Verweilzeit
+trac#:#stats_page_average_access#:#Mittelwert der Seitenzugriffe
+trac#:#stats_page_median_access#:#Median der Seitenzugriffe
+trac#:#stats_page_mode_access#:#Modalwert der Seitenzugriffe
+trac#:#stats_page_range_access#:#Spannweite der Seitenzugriffe
+trac#:#stats_page_variance_access#:#Varianz der Seitenzugriffe
+trac#:#stats_page_deviation_access#:#Standartabweichung der Seitenzugriffe
+trac#:#stats_page_varcoeff_access#:#Variationskoeffizient der Seitenzugriffe
+trac#:#stats_page_average_dwell_time#:#Mittelwert der SeitenVerweildauer
+trac#:#stats_page_median_dwell_time#:#Median der SeitenVerweildauer
+trac#:#stats_page_range_dwell_time#:#Spannweite der SeitenVerweildauer
+trac#:#stats_page_variance_dwell_time#:#Varianz der SeitenVerweildauer
+trac#:#stats_page_deviation_dwell_time#:#Standartabweichung der SeitenVerweildauer
+trac#:#stats_page_varcoeff_dwell_time#:#Variationskoeffizient der SeitenVerweildauer
+trac#:#stats_page_longest_total_dwell_time#:#Längste GesamtVerweildauer
+trac#:#stats_page_stubbiest_total_dwell_time#:#Kürzeste GesamtVerweildauer
+trac#:#stats_page_longest_average_dwell_time#:#Längste durchschn. Verweildauer
+trac#:#stats_page_stubbiest_average_dwell_time#:#Kürzeste durchschn. Verweildauer
+trac#:#stats_page_most_access#:#Meisten Zugriffe
+trac#:#stats_page_fewest_access#:#Wenigsten Zugriffe
+trac#:#stats_page_least_deviation#:#Geringste Standartabweichung
+trac#:#stats_page_highest_deviation#:#Höchste Standartabweichung
+trac#:#stats_page_lowest_varcoeff#:#Niedrigster Variationskoeffizient
+trac#:#stats_page_highest_varcoeff#:#Höchster Variationskoeffizient
+trac#:#stats_chapter_total_statistic#:#Gesamt-Kapitel-Statistik
+trac#:#stats_chapter_number#:#Anzahl der Kapitel
+trac#:#stats_chapter_average_page_number#:#durchschn. Seitenanzahl je Kapitel
+trac#:#stats_chapter_top#:#Top-Kapitel (Varianz, Zugriffe, usw.)
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#Längste GesamtVerweildauer Tiefe
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#Kürzeste GesamtVerweildauer
+trac#:#stats_chapter_most_access_depth#:#Meisten Zugriffe der Tiefe
+trac#:#stats_chapter_fewest_access#:#Wenigsten Zugriffe
+trac#:#stats_chapter_most_pages#:#Meisten Seiten
+trac#:#stats_chapter_depth_coverage#:#Abdeckungsgrade der Tiefe
+trac#:#stats_session_total_statistic#:#Gesamt-Session-Statistik
+trac#:#stats_session_number#:#Anzahl der Sessions
+trac#:#stats_session_most#:#Meiste Sessions
+trac#:#stats_session_involved_usr#:#Anzahl beteiligter Benutzer
+trac#:#stats_session_evaluable#:#Auswertbare Sessions
+trac#:#stats_session_evaluable_usr#:#Auswertbare Benutzer
+trac#:#stats_session_evaluable_access#:#Auswertbare Sessionzugriffe
+trac#:#stats_session_average_page_access#:#durchschn. Seitenzugriffe je Session
+trac#:#stats_session_total_duration#:#Gesamtdauer aller Sessions
+trac#:#stats_session_average_length#:#durchschn. Sessionlänge
+trac#:#stats_session_longest#:#Längste Session
+trac#:#stats_session_longest_total_duration_usr#:#Längste Gesamtdauer pro Benutzer
+trac#:#stats_legend#:#Legende  
+trac#:#stats_measurable_hits#:#messbare Zugriffe 
+trac#:#stats_hits#:#Zugriffe 
