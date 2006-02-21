@@ -473,7 +473,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			}					
 
 		}
-		return $newObj->getRefId();
+		return $ref_id = $newObj->getRefId() ? $ref_id : "0";
 	}
 
 	function addReference($sid,$a_source_id,$a_target_id)
@@ -546,7 +546,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$source_obj->setPermissions($target_obj->getRefId());
 		$source_obj->initDefaultRoles();
 		
-		return $new_ref_id;
+		return $new_ref_id ? $new_ref_id : "0";
 	}
 
 	function deleteObject($sid,$reference_id)
