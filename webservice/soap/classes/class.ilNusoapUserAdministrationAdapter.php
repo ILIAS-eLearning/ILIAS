@@ -164,7 +164,9 @@ class ilNusoapUserAdministrationAdapter
 												  'approve_date' => array('name' => 'approve_date', 'type' => 'xsd:string'),
 												  'user_skin' => array('name' => 'user_skin', 'type' => 'xsd:string'),
 												  'user_style' => array('name' => 'user_style', 'type' => 'xsd:string'),
-												  'user_language' => array('name' => 'user_language', 'type' => 'xsd:string')));
+												  'user_language' => array('name' => 'user_language', 'type' => 'xsd:string'),
+												  'import_id' => array('name' => 'import_id', 'type' => 'xsd:string')
+												  ));
 
 		// lookupUser()
 		$this->server->register('lookupUser',
