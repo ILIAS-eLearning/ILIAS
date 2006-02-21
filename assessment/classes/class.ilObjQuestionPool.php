@@ -487,6 +487,11 @@ class ilObjQuestionPool extends ilObject
 				$question =& new ASS_MatchingQuestionGUI();
 				break;
 
+			case "qt_numeric":
+				include_once "./assessment/classes/class.assNumericGUI.php";
+				$question =& new ASS_NumericGUI();
+				break;
+
 			case "qt_ordering":
 				include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 				$question =& new ASS_OrderingQuestionGUI();
