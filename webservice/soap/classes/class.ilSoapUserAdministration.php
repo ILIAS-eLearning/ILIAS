@@ -244,6 +244,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// Need this for entry in object_data
 		$new_user->setTitle($new_user->getFullname());
 		$new_user->setDescription($new_user->getEmail());
+		
+		if ($user_data["import_id"] != "")
+		{
+			$new_user->setImportId($user_data["import_id"]);
+		}
 
 		$new_user->create();
 		

@@ -347,10 +347,12 @@ class ilGroupImportParser extends ilSaxParser
 		global $ilias;
 
 		// OWNER
-		if(!($usr_id = ilObjUser::_getImportedUserId($this->group_data["owner"])))
+		if ($this->group_data["owner"] == "" ||
+			!($usr_id = ilObjUser::_getImportedUserId($this->group_data["owner"])))
 		{
 			$usr_id = $ilias->account->getId();
 		}
+
 		$this->group_obj->addMember($usr_id,$this->group_obj->getDefaultAdminRole());
 
 		// ADMIN

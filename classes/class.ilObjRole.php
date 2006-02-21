@@ -301,12 +301,14 @@ class ilObjRole extends ilObject
 			// do not delete role if this role is the last role a user is assigned to
 
 			// first fetch all users assigned to role
+//echo "<br>role id:".$this->getId().":";
 			$user_ids = $rbacreview->assignedUsers($this->getId());
-			
+
 			$last_role_user_ids = array();
 
 			foreach ($user_ids as $user_id)
 			{
+//echo "<br>user id:".$user_id.":";
 				// get all roles each user has
 				$role_ids = $rbacreview->assignedRoles($user_id);
 				
@@ -322,6 +324,7 @@ class ilObjRole extends ilObject
 			{
 				foreach ($last_role_user_ids as $user_id)
 				{
+//echo "<br>last role for user id:".$user_id.":";
 					// GET OBJECT TITLE
 					$tmp_obj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
 					$user_names[] = $tmp_obj->getFullname();

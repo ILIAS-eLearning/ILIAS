@@ -973,7 +973,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $tree;
 
-		$this->setTabs();
+		//$this->setTabs();
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");

@@ -703,7 +703,7 @@ class ilExplorer
 	* @param	integer obj_id
 	* @param	integer array options
 	*/
-	function formatHeader($tpl_tree,$a_obj_id,$a_option)
+	function formatHeader(&$tpl,$a_obj_id,$a_option)
 	{
 	}
 

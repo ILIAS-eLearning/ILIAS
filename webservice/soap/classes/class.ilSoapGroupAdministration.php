@@ -25,7 +25,7 @@
   /**
    * Soap grp administration methods
    *
-   * @author Stefan Meyer <smeyer@databay.de>
+   * @author Stefan Meyer <smeyer@databay.de
    * @version $Id$
    *
    * @package ilias
@@ -43,6 +43,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	// Service methods
 	function addGroup($sid,$target_id,$grp_xml)
 	{
+		
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -65,7 +66,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		// Start import
 		include_once("classes/class.ilObjGroup.php");
 		include_once 'classes/class.ilGroupImportParser.php';
-
 		$xml_parser = new ilGroupImportParser($grp_xml,$target_id);
 		$new_ref_id = $xml_parser->startParsing();
 
