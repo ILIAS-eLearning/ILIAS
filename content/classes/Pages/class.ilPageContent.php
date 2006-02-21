@@ -161,14 +161,13 @@ class ilPageContent
 	  
 	function isEnabled ()
 	{
-		$this->node->get_attribute("Enabled");
-	  if (is_object($this->node) && $this->node->has_attribute("Enabled"))
-	  {
-	  	$compare = $this->node->get_attribute("Enabled");	  			  		
-	  } 
-	  else $compare = "True";
-	  		
-	  return strcasecmp($compare,"true") == 0;
+	  	if (is_object($this->node) && $this->node->has_attribute("Enabled"))
+	  	{
+	  		$compare = $this->node->get_attribute("Enabled");	  			  		
+	  	} 
+	  	else $compare = "True";
+	  	
+		return strcasecmp($compare,"true") == 0;
 	}
 
 
