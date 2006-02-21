@@ -233,5 +233,6 @@ class ASS_NumericRange
 			return FALSE;
 		}
   }
+}
 
 ?>

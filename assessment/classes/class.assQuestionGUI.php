@@ -262,6 +262,11 @@ class ASS_QuestionGUI
 				$question =& new ASS_MatchingQuestionGUI();
 				break;
 
+			case "qt_numeric":
+				include_once "./assessment/classes/class.assNumericGUI.php";
+				$question =& new ASS_NumericGUI();
+				break;
+
 			case "qt_ordering":
 				include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 				$question =& new ASS_OrderingQuestionGUI();
@@ -316,6 +321,10 @@ class ASS_QuestionGUI
 
 			case "qt_matching":
 				return "ASS_MatchingQuestionGUI";
+				break;
+
+			case "qt_numeric":
+				return "ASS_NumericGUI";
 				break;
 
 			case "qt_ordering":

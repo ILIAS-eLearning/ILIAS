@@ -31,6 +31,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_NumericGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
@@ -186,6 +187,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_clozetestgui":
 			case "ass_orderingquestiongui":
 			case "ass_matchingquestiongui":
+			case "ass_numericgui":
 			case "ass_imagemapquestiongui":
 			case "ass_javaappletgui":
 			case "ass_textquestiongui":
@@ -411,6 +413,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				case "MULTIPLE CHOICE QUESTION":
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
+					break;
+				case "NUMERIC QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_numeric"));
 					break;
 				case "CLOZE QUESTION":
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_cloze"));
@@ -1570,6 +1575,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$classname = "ASS_MatchingQuestionGUI";
 				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "sel_question_types", $q_type);
 				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_numeric":
+				$classname = "ASS_NumericGUI";
+				$this->ctrl->setParameterByClass("ass_numericgui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_numericgui", "q_id", $_GET["q_id"]);
 				break;
 
 			case "qt_ordering":
