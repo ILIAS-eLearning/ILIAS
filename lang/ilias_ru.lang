@@ -4894,6 +4894,97 @@ survey#:#view_constraints_introduction#:#Вы просматриваете ог�
 survey#:#view_phrase#:#Просмотреть фразу
 survey#:#warning_question_in_use#:#Предупреждение! Вопрос, который Вы хотите редактировать, находится в использовании упомянутыми ниже опросами. Если Вы хотите продолжить и сохранить/применить вопрос, то все ответы упомянутых ниже опросов будут удалены. Если Вы хотите изменить вопрос и использовать его в другом опросе, пожалуйста, выберите дубликат в браузере вопросов.
 survey#:#warning_question_not_complete#:#Вопрос не завершен!
+trac#:#newUT_settings#:#Learning Module Statistics###21 Feb 2006 new variable
+trac#:#stats_access#:#access###21 Feb 2006 new variable
+trac#:#stats_accesses#:#access###21 Feb 2006 new variable
+trac#:#stats_all#:#All###21 Feb 2006 new variable
+trac#:#stats_chapter#:#chapter###21 Feb 2006 new variable
+trac#:#stats_chapter_average_page_number#:#average number of pages per chapter###21 Feb 2006 new variable
+trac#:#stats_chapter_depth_coverage#:#degree of coverage which depth###21 Feb 2006 new variable
+trac#:#stats_chapter_fewest_access#:#fewest access###21 Feb 2006 new variable
+trac#:#stats_chapter_listing#:#chapter listing###21 Feb 2006 new variable
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#longest total dwell time depth###21 Feb 2006 new variable
+trac#:#stats_chapter_most_access_depth#:#most access with depth###21 Feb 2006 new variable
+trac#:#stats_chapter_most_pages#:#most pages###21 Feb 2006 new variable
+trac#:#stats_chapter_number#:#number of chapter###21 Feb 2006 new variable
+trac#:#stats_chapter_statisics#:#Chapter Statistics###21 Feb 2006 new variable
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#stubbiest total dwell time###21 Feb 2006 new variable
+trac#:#stats_chapter_top#:#top-chapter (variance, access, etc.)###21 Feb 2006 new variable
+trac#:#stats_chapter_total_statistic#:#Total-Chapter-Statistic###21 Feb 2006 new variable
+trac#:#stats_choice#:#Selection###21 Feb 2006 new variable
+trac#:#stats_current#:#Currently###21 Feb 2006 new variable
+trac#:#stats_depth#:#depth###21 Feb 2006 new variable
+trac#:#stats_duration#:#duration###21 Feb 2006 new variable
+trac#:#stats_equivalent#:#is equivalent to###21 Feb 2006 new variable
+trac#:#stats_hits#:#hits###21 Feb 2006 new variable
+trac#:#stats_hour#:#h###21 Feb 2006 new variable
+trac#:#stats_interval#:#interval###21 Feb 2006 new variable
+trac#:#stats_interval_dwell_time#:#interval of dwell time###21 Feb 2006 new variable
+trac#:#stats_interval_page_access#:#interval of access to pages###21 Feb 2006 new variable
+trac#:#stats_last#:#last###21 Feb 2006 new variable
+trac#:#stats_legend#:#Legend  ###21 Feb 2006 new variable
+trac#:#stats_measurable_hits#:#measurable hits ###21 Feb 2006 new variable
+trac#:#stats_minute#:#m###21 Feb 2006 new variable
+trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher)###21 Feb 2006 new variable
+trac#:#stats_new_selection#:#New Selection###21 Feb 2006 new variable
+trac#:#stats_occurrence#:#occurrence###21 Feb 2006 new variable
+trac#:#stats_of#:#of###21 Feb 2006 new variable
+trac#:#stats_page#:#page###21 Feb 2006 new variable
+trac#:#stats_page_average_access#:#average of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_average_dwell_time#:#average of dwell time to pages###21 Feb 2006 new variable
+trac#:#stats_page_deviation_access#:#deviation of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_deviation_dwell_time#:#deviation of dwell time to pages###21 Feb 2006 new variable
+trac#:#stats_page_fewest_access#:#fewest access###21 Feb 2006 new variable
+trac#:#stats_page_highest_deviation#:#highest deviation###21 Feb 2006 new variable
+trac#:#stats_page_highest_varcoeff#:#highest variation coefficien###21 Feb 2006 new variable
+trac#:#stats_page_least_deviation#:#least deviation###21 Feb 2006 new variable
+trac#:#stats_page_listing#:#page listing###21 Feb 2006 new variable
+trac#:#stats_page_longest_average_dwell_time#:#longest average dwell time###21 Feb 2006 new variable
+trac#:#stats_page_longest_total_dwell_time#:#longest total dwell time###21 Feb 2006 new variable
+trac#:#stats_page_lowest_varcoeff#:#lowest variation coefficient###21 Feb 2006 new variable
+trac#:#stats_page_median_access#:#median of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_median_dwell_time#:#median of dwell time to pages###21 Feb 2006 new variable
+trac#:#stats_page_mode_access#:#mode of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_most_access#:#most access###21 Feb 2006 new variable
+trac#:#stats_page_number#:#number of pages###21 Feb 2006 new variable
+trac#:#stats_page_number_access#:#number of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_range_access#:#range of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_range_dwell_time#:#range of dwell time to pages###21 Feb 2006 new variable
+trac#:#stats_page_stubbiest_average_dwell_time#:#stubbiest average dwell time###21 Feb 2006 new variable
+trac#:#stats_page_stubbiest_total_dwell_time#:#stubbiest total dwell time###21 Feb 2006 new variable
+trac#:#stats_page_total_dwell_time#:#total-pages-dwell time###21 Feb 2006 new variable
+trac#:#stats_page_total_statistic#:#Total-Pages-Statistic###21 Feb 2006 new variable
+trac#:#stats_page_varcoeff_access#:#variation coefficient of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_varcoeff_dwell_time#:#variation coefficient of dwell time to pages###21 Feb 2006 new variable
+trac#:#stats_page_variance_access#:#variance of access to pages###21 Feb 2006 new variable
+trac#:#stats_page_variance_dwell_time#:#variance of dwell time to pages###21 Feb 2006 new variable
+trac#:#stats_pages#:#pages###21 Feb 2006 new variable
+trac#:#stats_pages_statisics#:#Page Statistics###21 Feb 2006 new variable
+trac#:#stats_sec#:#sec###21 Feb 2006 new variable
+trac#:#stats_sel_lng#:#english###21 Feb 2006 new variable
+trac#:#stats_session#:#session###21 Feb 2006 new variable
+trac#:#stats_session_average_length#:#average session length###21 Feb 2006 new variable
+trac#:#stats_session_average_page_access#:#average access to pages per session###21 Feb 2006 new variable
+trac#:#stats_session_evaluable#:#evaluable sessions###21 Feb 2006 new variable
+trac#:#stats_session_evaluable_access#:#evaluable session access###21 Feb 2006 new variable
+trac#:#stats_session_evaluable_usr#:#evaluable user###21 Feb 2006 new variable
+trac#:#stats_session_involved_usr#:#number of involved users###21 Feb 2006 new variable
+trac#:#stats_session_listing#:#session listing###21 Feb 2006 new variable
+trac#:#stats_session_longest#:#longest session###21 Feb 2006 new variable
+trac#:#stats_session_longest_total_duration_usr#:#longest total duration per user###21 Feb 2006 new variable
+trac#:#stats_session_most#:#most sessions###21 Feb 2006 new variable
+trac#:#stats_session_number#:#number of sessions###21 Feb 2006 new variable
+trac#:#stats_session_total_duration#:#total duration of all sessions###21 Feb 2006 new variable
+trac#:#stats_session_total_statistic#:#Total-Session-Statistic###21 Feb 2006 new variable
+trac#:#stats_sessions#:#sessions###21 Feb 2006 new variable
+trac#:#stats_sessions_statisics#:#Session Statistics###21 Feb 2006 new variable
+trac#:#stats_start#:#start###21 Feb 2006 new variable
+trac#:#stats_summation#:#summation###21 Feb 2006 new variable
+trac#:#stats_tracked_user#:#Selected Users###21 Feb 2006 new variable
+trac#:#stats_until#:#until###21 Feb 2006 new variable
+trac#:#stats_user#:#User(s)###21 Feb 2006 new variable
+trac#:#stats_user_selected#:#User selected###21 Feb 2006 new variable
+trac#:#stats_with#:#with###21 Feb 2006 new variable
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
 trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
@@ -4901,6 +4992,7 @@ trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please u
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable
 trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
+trac#:#trac_lm_statistics#:#Access Statistics###21 Feb 2006 new variable
 trac#:#trac_no_content#:#No informations about the learning progress available.###20 Jan 2006 new variable
 trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
