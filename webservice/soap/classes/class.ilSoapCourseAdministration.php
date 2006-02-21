@@ -84,7 +84,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		$newObj->MDUpdateListener('General');
 
-		return $newObj->getRefId() ? $newObj->getRefId() : 0;
+		return $newObj->getRefId() ? $newObj->getRefId() : "0";
 		
 	}
 
@@ -333,7 +333,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $crs_members->ROLE_MEMBER;
 		}
 
-		return 0;
+		return "0";
 	}
 
 
