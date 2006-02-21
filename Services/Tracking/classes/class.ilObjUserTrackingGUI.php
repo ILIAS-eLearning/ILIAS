@@ -225,8 +225,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 		// tracking settings
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_manage_data.html");
-		$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
-			"&cmd=gateway");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this,'gateway'));
 		$tpl->setVariable("TXT_TRACKING_DATA", $this->lng->txt("tracking_data"));
 		$tpl->setVariable("TXT_MONTH", $lng->txt("month"));
 		$tpl->setVariable("TXT_NUMBER_OF_ACC", $lng->txt("number_of_accesses"));
@@ -262,8 +261,11 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 		$nr = $this->object->getTotalOlderThanMonth($_POST["month"]);
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_confirm_data_deletion.html");
-		$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
-			"&cmd=gateway&month=".$_POST["month"]);
+		#$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
+		#	"&cmd=gateway&month=".$_POST["month"]);
+		$this->ctrl->setParameter($this,'month',$_POST['month']);
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this,'gateway'));
+
 		$tpl->setVariable("TXT_CONFIRMATION", $this->lng->txt("tracking_data_del_confirm"));
 		$tpl->setVariable("TXT_MONTH", $lng->txt("month"));
 		$tpl->setVariable("VAL_MONTH", $_POST["month"]);
@@ -281,7 +283,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	{
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
+		#ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
+
+		$this->ctrl->redirect($this,'manageData');
 	}
 
 	/**
@@ -299,7 +303,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$this->object->deleteTrackingDataBeforeMonth($_GET["month"]);
 
 		sendInfo($this->lng->txt("tracking_data_deleted"),true);
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
+		$this->ctrl->redirect($this,'manageData');
+
+		#ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
 	}
 
 	/**
@@ -326,8 +332,10 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 
 		//$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$tpl->setVariable("SEARCH_ACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
-			"&cmd=gateway");
+		#$tpl->setVariable("SEARCH_ACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
+		#	"&cmd=gateway");
+		
+		$tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormaction($this,'gateway'));
 		$tpl->setVariable("TXT_TRACKING_DATA", $lng->txt("tracking_data"));
 		$tpl->setVariable("TXT_TIME_SEGMENT", $lng->txt("time_segment"));
 		$tpl->setVariable("TXT_STATISTIC", $lng->txt("statistic"));
@@ -607,8 +615,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			if($_POST["mode"] == "user")
 			{
 				$tpl->setCurrentBlock("user_mode");
-				$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
-				"&cmd=gateway");
+				#$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
+				#"&cmd=gateway");
+				$tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this,'gateway'));
 				if($_POST["object_type"]=="lm")
 				{
 					$tpl->setVariable("AUTHOR", "author");
@@ -686,8 +695,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			else
 			{
 				$tpl->setCurrentBlock("user_mode");
-				$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
-				"&cmd=gateway");
+				#$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
+				#"&cmd=gateway");
+				$tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this,'gateway'));
 				if($_POST["object_type"]=="lm")
 				{
 					$tpl->setVariable("AUTHOR", "author");
