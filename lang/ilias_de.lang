@@ -365,6 +365,7 @@ assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#qt_text#:#Freitext-Frage
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
@@ -378,6 +379,9 @@ assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
 assessment#:#random_another_sample#:#Neue Zusammenstellung
 assessment#:#random_selection#:#Zufällige Auswahl
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
 assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.

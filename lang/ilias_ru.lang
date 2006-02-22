@@ -320,6 +320,7 @@ assessment#:#qt_javaapplet#:#Java Applet вопроса
 assessment#:#qt_matching#:#Сопоставление вопроса
 assessment#:#qt_multiple_choice_mr#:#Множественный выбор вопроса (несколько правильных ответов)
 assessment#:#qt_multiple_choice_sr#:#Множественный выбор вопроса (один правильный ответ)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Упорядоченный вопрос
 assessment#:#qt_text#:#Короткий ответ (текст) вопроса
 assessment#:#question_saved_for_upload#:#Вопрос был сохранен автоматически по порядку нахождения в загруженном файле. Если сейчас вы пропустите эту форму, то знайте, вы должны будете удалить вопрос из набора вопросов, если вы не хотите хранить вопрос в наборе!
@@ -333,6 +334,9 @@ assessment#:#radio_unset#:#Убрать
 assessment#:#random_accept_sample#:#Взять пример
 assessment#:#random_another_sample#:#Взять другой пример
 assessment#:#random_selection#:#Случайный выбор
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Прямоугольник
 assessment#:#rectangle_click_br_corner#:#Пожалуйста, выберите правый нижний угол области.
 assessment#:#rectangle_click_tl_corner#:#Пожалуйста, выберите левый верхний угол области.

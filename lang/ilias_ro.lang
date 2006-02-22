@@ -350,6 +350,7 @@ assessment#:#qt_javaapplet#:#Intrebare despre Java Applet
 assessment#:#qt_matching#:#Intrebare potrivita
 assessment#:#qt_multiple_choice_mr#:#Intrebare cu variante multiple(raspunsuri multiple)
 assessment#:#qt_multiple_choice_sr#:#Intrebare cu variante multiple(raspuns unic)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Ordoneaza intrebarile
 assessment#:#qt_text#:#Intrebare cu raspuns scurt(Text)
 assessment#:#question_saved_for_upload#:#Intrebarea a fost salvata automat pentru a rezerva spatiu pe hard disk pentru a stoca fisierul incarcat. Daca anulati aceasta forma, trebuie sa stergeti intrebarea din baza de intrebari daca nu doriti sa o pastrati!
@@ -363,6 +364,9 @@ assessment#:#radio_unset#:#Nesetat
 assessment#:#random_accept_sample#:#Acceptati mostra
 assessment#:#random_another_sample#:#Alta mostra
 assessment#:#random_selection#:#Selectie la intamplare
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Dreptunghi
 assessment#:#rectangle_click_br_corner#:#Va rugam apasati in coltul dreapta jos al perimetrului dorit.
 assessment#:#rectangle_click_tl_corner#:#Va rugam apasati in coltul stanga sus al perimetrului dorit.

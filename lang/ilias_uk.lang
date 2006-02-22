@@ -365,6 +365,7 @@ assessment#:#qt_matching#:#Співпадаючі питання
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Порядкове Питання
 assessment#:#qt_text#:#Коротка Відповідь (Текст) Питання###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Питання було збережно автоматично для того щоб зарезервувати місце на сталому диску для збереження завантаженого файлу. Якщо ви зараз відміните цю форму, усвідомте що ви маєте видалити це питання в пулі питань, якщо ви не бажаєте зберігати його!
@@ -378,6 +379,9 @@ assessment#:#radio_unset#:#Звільнити
 assessment#:#random_accept_sample#:#Прийняти приклад
 assessment#:#random_another_sample#:#Взяти інший приклад
 assessment#:#random_selection#:#Випадковий вибір
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Прямокутник
 assessment#:#rectangle_click_br_corner#:#Будь ласка клікніть на нижній правий кут бажаної області.
 assessment#:#rectangle_click_tl_corner#:#Будь ласка клікніть на верхній лівий кут бажаної області.

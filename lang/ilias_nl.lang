@@ -366,6 +366,7 @@ assessment#:#qt_matching#:#Overeenkomende vraag###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één antwoord)###07 Apr 2005 content changed
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Bestel-vraag###07 Apr 2005 content changed
 assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
 assessment#:#question_saved_for_upload#:#De vraag werd automatisch opgeslagen om schrijfruimte te reserveren voor het te uploadenbestand. Als u de verwerking van deze vraag nu annuleert moet u de vraag in de vraagpool, als u deze niet wilt bewaren, zelf verwijderen !###07 Apr 2005 content changed
@@ -379,6 +380,9 @@ assessment#:#radio_unset#:#Ongekozen###07 Apr 2005 content changed
 assessment#:#random_accept_sample#:#Accepteer monster###07 Apr 2005 content changed
 assessment#:#random_another_sample#:#Krijg een ander monster###07 Apr 2005 content changed
 assessment#:#random_selection#:#Toevallige selectie###07 Apr 2005 content changed
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Rechthoek###07 Apr 2005 content changed
 assessment#:#rectangle_click_br_corner#:#Klik op de hoek rechtsonder van het gewenste gebied.###07 Apr 2005 content changed
 assessment#:#rectangle_click_tl_corner#:#Klik op de hoek linksboven van het gewenste gebied.###07 Apr 2005 content changed

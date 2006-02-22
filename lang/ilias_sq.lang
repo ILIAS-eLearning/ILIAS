@@ -360,6 +360,7 @@ assessment#:#qt_matching#:#Pyetje krahasore
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Pyetje me zgjedhje të shumëfishtë (me përgjigje të shumëfishtë)
 assessment#:#qt_multiple_choice_sr#:#Pyetje me zgjedhje të shumëfishtë (një përgjigje)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Radhitja e Pyetjeve
 assessment#:#qt_text#:#Pyetje me përgjigje të shkurtë (tekst)###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Pyetja është ruajtur automatikisht në mënyrë që të rezervoj hapësirë të diskut për të ruajtur skedarin e ngarkuar. Nëse anuloni këtë formë tani, keni kujdes se duhet ta fshini pyetjen në fondin e pyetjeve nëse nuk dëshironi ta mbani më!
@@ -373,6 +374,9 @@ assessment#:#radio_unset#:#Anulo të vendosurat
 assessment#:#random_accept_sample#:#Prano shembullin
 assessment#:#random_another_sample#:#Merr një shembull tjetër
 assessment#:#random_selection#:#Përzgjedhje sipas rastit
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Drejtkëndësh
 assessment#:#rectangle_click_br_corner#:#Ju lutem klikoni në këndin poshtë djathtas të zonës së dëshiruar.
 assessment#:#rectangle_click_tl_corner#:#Ju lutem klikoni në këndin lart majtas të zonës së dëshiruar.
