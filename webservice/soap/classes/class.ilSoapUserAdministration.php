@@ -91,7 +91,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed.'.USER_FOLDER_ID,'Server');
 		}
 
-		return $user_id = ilObjUser::getUserIdByLogin($user_name) ? $user_id : "0";
+		$user_id = ilObjUser::getUserIdByLogin($user_name);
+
+		return $user_id ? $user_id : "0";
 	}
 
 	function getUser($sid,$user_id)
