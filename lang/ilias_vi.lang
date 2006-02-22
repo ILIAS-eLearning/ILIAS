@@ -354,6 +354,7 @@ assessment#:#qt_matching#:#Câu hỏi tìm cặp
 assessment#:#qt_multiple_choice#:#Câu hỏi nhiều lựa chọn
 assessment#:#qt_multiple_choice_mr#:#Câu hỏi nhiều lựa chọn (nhiều câu trả lời)
 assessment#:#qt_multiple_choice_sr#:#Câu hỏi nhiều lựa chọn (một câu trả lời)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Câu hỏi sắp thứ tự
 assessment#:#qt_text#:#Câu hỏi tiểu luận
 assessment#:#question_saved_for_upload#:#Đã tự động ghi câu hỏi để dự trữ dung lượng ổ cứng cho file đã tải lên. Nếu bạn huỷ bỏ mẫu này bây giờ, cần biết rằng bạn phải xóa câu hỏi trong thư viện câu hỏi nếu bạn không muốn giữ nó!
@@ -367,6 +368,9 @@ assessment#:#radio_unset#:#Hủy thiết lập
 assessment#:#random_accept_sample#:#Chấp nhận mẫu
 assessment#:#random_another_sample#:#Lấy mẫu khác
 assessment#:#random_selection#:#Lựa chọn ngẫu nhiên
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Hình chữ nhật
 assessment#:#rectangle_click_br_corner#:#Hãy kích chuột vào góc dưới bên phải của vùng mong muốn.
 assessment#:#rectangle_click_tl_corner#:#Hãy kích chuột vào góc trên bên trái của vùng mong muốn.

@@ -346,6 +346,7 @@ assessment#:#qt_matching#:#Ens sp&oslash;rgsm&aring;l
 assessment#:#qt_multiple_choice#:#Multiple Choice sp&oslash;rgsm&aring;l
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice sp&oslash;rgsm&aring;l (flere svar)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice sp&oslash;rgsm&aring;l (enkelt svar)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Sorter sp&oslash;rgsm&aring;l
 assessment#:#qt_text#:#Kort svar (Tekst) sp&oslash;rgsm&aring;l
 assessment#:#question_saved_for_upload#:#Sp&oslash;rgsm&aring;let blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette sp&oslash;rgsm&aring;let i sp&oslash;rgsm&aring;lsgruppen hvis du ikke &oslash;nsker at beholde det!
@@ -359,6 +360,9 @@ assessment#:#radio_unset#:#Umarker
 assessment#:#random_accept_sample#:#Accepter pr&oslash;ve
 assessment#:#random_another_sample#:#F&aring; en anden pr&oslash;ve
 assessment#:#random_selection#:#Tilf&aelig;ldigt valg
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Firkant
 assessment#:#rectangle_click_br_corner#:#Klik venligst p&aring; det nederste h&oslash;jre hj&oslash;rne af det &oslash;nskede omr&aring;de.
 assessment#:#rectangle_click_tl_corner#:#Klik venligst p&aring; det &oslash;vertse venstre hj&oslash;rne af det &oslash;nskede omr&aring;de.

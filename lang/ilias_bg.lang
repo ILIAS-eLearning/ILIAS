@@ -356,6 +356,7 @@ assessment#:#qt_matching#:#Въпрос за свързване на съотв�
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Въпрос с избор на няколко от много отговори
 assessment#:#qt_multiple_choice_sr#:#Въпрос с избор на един от много отговори
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Въпрос за подреждане
 assessment#:#qt_text#:#Въпрос с кратък отговор (текст)
 assessment#:#question_saved_for_upload#:#Въпросът беше съхранен автоматично, за да се запази харддисково пространство за съхранението на заредения файл. Ако отмените този формуляр сега, обърнете внимание, че трябва да изтриете въпроса от набора с въпроси, ако не желаете да го запазите!
@@ -369,6 +370,9 @@ assessment#:#radio_unset#:#Ненастроени
 assessment#:#random_accept_sample#:#Приемане на примера
 assessment#:#random_another_sample#:#Извличане на друг пример
 assessment#:#random_selection#:#Случаен подбор
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Правоъгълник
 assessment#:#rectangle_click_br_corner#:#Моля, кликнете в долния десен ъгъл на желаната област.
 assessment#:#rectangle_click_tl_corner#:#Моля, кликнете в горния ляв ъгъл на желаната област.

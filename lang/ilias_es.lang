@@ -367,6 +367,7 @@ assessment#:#qt_matching#:#Pregunta de tipo 'unir parejas'
 assessment#:#qt_multiple_choice#:#Pregunta de opción múltiple 
 assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta múltiple)
 assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
 assessment#:#qt_text#:#Pregunta de Respuesta Corta (texto)
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el banco de preguntas si no quiere guardarla!
@@ -380,6 +381,9 @@ assessment#:#radio_unset#:#Desactivar
 assessment#:#random_accept_sample#:#Aceptar muestra
 assessment#:#random_another_sample#:#Obtener otra muestra
 assessment#:#random_selection#:#Selección aleatoria
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Rectángulo
 assessment#:#rectangle_click_br_corner#:#Por favor haga click en la esquina inferior derecha del area deseada.
 assessment#:#rectangle_click_tl_corner#:#Por favor haga click en la esquina superior izquierda del area deseada.

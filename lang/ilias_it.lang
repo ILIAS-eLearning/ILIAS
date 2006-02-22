@@ -366,6 +366,7 @@ assessment#:#qt_matching#:#con risposte da associare
 assessment#:#qt_multiple_choice#:#Domanda con risposta multipla
 assessment#:#qt_multiple_choice_mr#:#con risposta multipla (scelta multipla)
 assessment#:#qt_multiple_choice_sr#:#con risposta singola (scelta multipla)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#qt_text#:#con risposta breve (testo)
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
@@ -379,6 +380,9 @@ assessment#:#radio_unset#:#Deseleziona
 assessment#:#random_accept_sample#:#Accetta esempio
 assessment#:#random_another_sample#:#Prendi un altro esempio
 assessment#:#random_selection#:#Scegli casualmente
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Rettangolo
 assessment#:#rectangle_click_br_corner#:#Per favore clicca sull'angolo inferiore destro dell'area desiderata.
 assessment#:#rectangle_click_tl_corner#:#Per favore clicca sull'angolo superiore sinistro dell'area desiderata.

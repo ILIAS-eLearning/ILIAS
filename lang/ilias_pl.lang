@@ -366,6 +366,7 @@ assessment#:#qt_matching#:#Pytanie na dopasowanie
 assessment#:#qt_multiple_choice#:#Pytanie wielokrotnego wyboru
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#qt_text#:#Pytanie na krótką odpowiedź  (Tekst)
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
@@ -379,6 +380,9 @@ assessment#:#radio_unset#:#Nie wybrany
 assessment#:#random_accept_sample#:#Akceptuj próbkę
 assessment#:#random_another_sample#:#Pobierz inną próbkę
 assessment#:#random_selection#:#Wybór przypadkowy
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Prostokąt
 assessment#:#rectangle_click_br_corner#:#Kliknij na prawy dolny róg wybranego obszaru.
 assessment#:#rectangle_click_tl_corner#:#Kliknij na lewy górny narożnik wybranego obszaru.

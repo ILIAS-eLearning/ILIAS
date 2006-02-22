@@ -366,6 +366,7 @@ assessment#:#qt_matching#:#Párosító kérdés
 assessment#:#qt_multiple_choice#:#Többszörös választási lehetőségű kérdés
 assessment#:#qt_multiple_choice_mr#:#Többszörös választási lehetőségű kérdés (többszörös válasz)
 assessment#:#qt_multiple_choice_sr#:#Többszörös választási lehetőségű kérdés (egyszeres válasz)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Sorrendbe rakó kérdés
 assessment#:#qt_text#:#Esszékérdés (önállóan megfogalmazott szöveges válasz)
 assessment#:#question_saved_for_upload#:#A kérdés automatikusan mentésre került, hogy a lefoglalja a merevlemezhelyet a felöltött fájl számára. Ha most bezárja ezt az űrlapot, törölnie kell a kérdést a kérdésgyűjteményből, ha nem akarja megtartani.
@@ -379,6 +380,9 @@ assessment#:#radio_unset#:#Beállítás nélkül
 assessment#:#random_accept_sample#:#Minta elfogadása
 assessment#:#random_another_sample#:#Másik minta kérése
 assessment#:#random_selection#:#Véletlen kiválasztás
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Téglalap
 assessment#:#rectangle_click_br_corner#:#Kattintson a kívánt terület jobb alsó sarkán.
 assessment#:#rectangle_click_tl_corner#:#Kattintson a kívánt terület bal felső sarkán.

@@ -360,6 +360,7 @@ assessment#:#qt_matching#:#Odgovarajuce pitanje
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Pitanje višestrukog izbora (više odgovora)
 assessment#:#qt_multiple_choice_sr#:#Pitanje višestrukog izbora (jedan odgovor)
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Porucivanje pitanja
 assessment#:#qt_text#:#Pitanje sa kratkim odgovorom (tekst)###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Pitanje je automatski sacuvano u nameri da obezbedi prostor na hard disku za slanje datoteke. Ukoliko otkažete ovu formu sda, budite svesni da morate obrisati pitanje iz baze pitanja ako želite da ga sacuvate.
@@ -373,6 +374,9 @@ assessment#:#radio_unset#:#Raskloni
 assessment#:#random_accept_sample#:#Prihvati primer
 assessment#:#random_another_sample#:#Uzmi drugi primer
 assessment#:#random_selection#:#Slucajni izbor
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Pravougaonik
 assessment#:#rectangle_click_br_corner#:#Molimo kliknite u donji desni ugao željenog podrucja.
 assessment#:#rectangle_click_tl_corner#:#Molimo kliknite u gornji levi ugao željenog podrucja.

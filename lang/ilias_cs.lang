@@ -366,6 +366,7 @@ assessment#:#qt_matching#:#Matching Question###16 Mar 2004 new variable
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###16 Mar 2004 new variable
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###16 Mar 2004 new variable
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Ordering Question###16 Mar 2004 new variable
 assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###16 Mar 2004 new variable
@@ -379,6 +380,9 @@ assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
 assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable

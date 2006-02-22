@@ -364,6 +364,7 @@ assessment#:#qt_matching#:#Question d'appariement###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice#:#Question à choix multiple### 06 oct 2005 content changed
 assessment#:#qt_multiple_choice_mr#:#Question à choix multiple (réponse multiple)###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice_sr#:#Question###07 Apr 2005 content changed
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Question de remise en ordre###07 Apr 2005 content changed
 assessment#:#qt_text#:#Question à réponse courte (texte)###07 Apr 2005 content changed
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à détruire la question dans le jeu de questions si vous ne souhaitez pas la conserver.###07 Apr 2005 content changed
@@ -377,6 +378,9 @@ assessment#:#radio_unset#:#Déselectionné###07 Apr 2005 content changed
 assessment#:#random_accept_sample#:#Accepter échantillon###07 Apr 2005 content changed
 assessment#:#random_another_sample#:#Obtenir un autre échantillon###07 Apr 2005 content changed
 assessment#:#random_selection#:#Sélection aléatoire###07 Apr 2005 content changed
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Rectangle###07 Apr 2005 content changed
 assessment#:#rectangle_click_br_corner#:#Veuillez cliquer sur le coin inférieur droit de la zone désirée.###07 Apr 2005 content changed
 assessment#:#rectangle_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée.###07 Apr 2005 content changed

@@ -366,6 +366,7 @@ assessment#:#qt_matching#:#Questão correspondente###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Questão de escolha múltipla (resposta múltipla)###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice_sr#:#Questão de escolha múltipla (resposta única)###07 Apr 2005 content changed
+assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
 assessment#:#qt_ordering#:#Questão de ordenação###07 Apr 2005 content changed
 assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
 assessment#:#question_saved_for_upload#:#A questão foi guardada automáticamente para reservar espaço no disco para guardar o ficheiro enviado. Se você cancelar esta operação agora, tenha atenção que você tem de apagar a questão no banco de questões se não quiser mantê-la!###14 Sep 2004 content changed
@@ -379,6 +380,9 @@ assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
 assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
+assessment#:#range#:#Range###22 Feb 2006 new variable
+assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
+assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
 assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
