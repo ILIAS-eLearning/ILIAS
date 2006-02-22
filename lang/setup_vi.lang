@@ -4,7 +4,7 @@
 * @module		language file vietnam
 * @modulegroup	language
 * @author 		Đỗ Xuân Tiến <tiendx2002@yahoo.com>
-* @version		$Id: setup_vi.lang,v 1.0 2004/10/15
+* @version		$Id: setup_vi.lang,v 1.80 2006/2/19
 */
 
     +-----------------------------------------------------------------------------+
@@ -84,6 +84,9 @@ create#:#tạo
 create_datadir_failed#:#Không tạo được thư mục dữ liệu
 create_new_client#:#Tạo mới máy trạm
 create_webdir_failed#:#Không tạo được thư mục wweb
+ctrl_structure#:#Cấu trúc điều khiển
+ctrl_structure_desc#:#Đừng yêu cầu chức năng này trừ khi đã được giải thích rõ trong chỉ thị cập nhật hoặc vá lỗi. 
+ctrl_structure_reloaded#:#Cấu trúc điều khiển đã nạp lại.
 data_path#:#đường dẫn dữ liệu
 database#:#cơ sở dữ liệu
 database_create#:#Tạo cơ sở dữ liệu
@@ -165,8 +168,8 @@ ilias_version#:#Phiên bản ILIAS
 include_local#:#Bao gồm cả nội bộ
 info_text_contact#:#Bạn nhập các thông tin về máy trạm và thông tin về người quản trị. Các trường có dấu * là bắt buộc. Mọi thông tin sẽ được ghi vào trong cơ sở dữ liệu. Ở trang tiếp theo bạn sẽ đăng ký bản cài đặt của bạn với máy chủ ILIAS-NIC của chúng tôi, khi đó thông tin sẽ được chuyển về máy chủ này.
 info_text_db#:#Cơ sở dữ liệu không tồn tại hoặc rỗng. Click vào nút phía dưới để cài đặt cơ sở dữ liệu. Nếu một cơ sở dữ liệu đã chọn chưa tồn tại, hãy đánh dấu lựa chọn 'tạo cơ sở dữ liệu'. Cài đặt sẽ tự động tạo cơ sở dữ liệu. Nếu không tạo được, (có khi do quyền hạn người dùng) hãy hỏi người quản trị hệ thống của máy chủ cơ sở dữ liệu, tạo một cơ sở dữ liệu với tên mong muốn.
-info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
-info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.
+info_text_db_collation1#:#Nếu collation bạn mong muốn không được hỗ trợ trong danh sách các collation UTF-8, bạn phải tạo cơ sở dữ liệu của bạn bằng tay. Trong trường hợp nào, hãy chắc chắn rằng tập ký tự của CSDL được đặt thành utf8.
+info_text_db_collation2#:#Các thông tin bổ sung về các collation của MySQL có thể tìm trên website MySQL.
 info_text_delete#:#Bạn có thể xóa máy trạm này bằng cách nhấn nút xóa phía dưới. Tuy nhiên chỉ có file client.ini bị xóa, các file vẫn còn và cả trong cơ sở dữ liệu. Chúng có thể được xóa bởi người quản trị hệ thống.
 info_text_finish1#:#Chúc mừng! Bạn đã cài đặt thành công máy trạm. Nhấn nút 'Đăng nhập' để truy cập ILIAS.
 info_text_finish2#:#Một vài thiết lập vẫn thiếu hoặc sai. Hãy xem lại biểu đồ tiến trình xem những phần nào đã được thực hiện!
@@ -211,6 +214,7 @@ intro_install#:#Đây là trang chính cài đặt ILIAS 3. Từ đây bạn có
 ip_address#:#Địa chỉ IP
 java_path#:#Đường dẫn Java
 java_path_comment#:#bắt buộc đối với các học phần SCORM
+lang_bg#:#Bungari
 lang_cs#:#CH Séc
 lang_da#:#Đan Mạch
 lang_de#:#Đức
@@ -230,6 +234,7 @@ lang_not_installed_default#:#Ngôn ngữ bạn chọn làm ngôn ngữ mặc đ�
 lang_pl#:#Ba Lan
 lang_pt#:#Bồ Đào Nha
 lang_ro#:#Rumani
+lang_ru#:#Nga
 lang_se#:#Thụy Điển
 lang_sq#:#Anbani
 lang_sr#:#Xécbi
@@ -274,7 +279,7 @@ nic_reg_online#:#đăng ký qua mạng
 nic_registration#:#Đăng ký định danh
 no_changes#:#Không có thay đổi gì.
 no_client_id#:#Không có định danh máy trạm
-no_client_name#:#KHÔNG CÓ TÊN MÁY CON
+no_client_name#:#KHÔNG CÓ TÊN MÁY TRẠM
 no_clients_available#:#Không có máy trạm nào có thể sử dụng
 no_database#:#Không có cơ sở dữ liệu
 no_db_connect_consult_admin#:#Không thể kết nối tới cơ sở dữ liệu. Hãy hỏi quản trị hệ thống
@@ -333,13 +338,14 @@ pre_intro#:#Để chúng tôi xem, môi trường của bạn có thỏa mãn đ
 pre_javascript_comment#:#Bạn có thể chạy ILIAS không cần Javascript tuy nhiên bạn sẽ mất một vài chức năng giao diện.
 pre_javascript_enabled#:#Javascript đã bật
 pre_php_version#:#Phiên bản PHP
-pre_php_version_3#:#Phiên bản PHP của bạn quá cũ để dùng ILIAS 3! Hãy cập nhật PHP.
+pre_php_version_3#:#Phiên bản PHP của bạn quá cũ để sử dụng ILIAS 3! Hãy cập nhật PHP.
 pre_php_version_4.1#:#Các lớp PEAR không hoạt động đúng với phiên bản này! Hãy cập nhật PHP.
 pre_php_version_4.2#:#DOMXML và XSLT không hoạt động đúng với phiên bản này!
 pre_php_version_5#:#ILIAS 3 chưa được kiểm nghiệm với PHP 5. Sử dụng là mạo hiểm.
 pre_php_version_unknown#:#Bản cài đặt ILIAS không biết phiên bản PHP. Sử dụng là mạo hiểm!
 preliminaries#:#Sơ bộ
 prev#:#Trước
+reload#:#Reload
 required_field#:#các trường bắt buộc
 reset#:#Làm lại
 root_access#:#truy cập gốc
@@ -395,6 +401,7 @@ step#:#Bước
 street#:#Phố
 submit#:#Đăng nhập
 title#:#Danh hiệu
+tools#:#Tools
 unknown_client_id#:#Không biết là máy trạm nào
 unknown_command#:#Không biết lệnh gì
 unknown_display_mode#:#Không biết chế độ hiển thị
