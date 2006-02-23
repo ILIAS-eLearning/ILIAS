@@ -151,7 +151,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
+		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
+			$this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
 			sendInfo($this->lng->txt('role_no_users_no_desk_items'));
 			return true;
@@ -970,7 +971,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if (!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
+		if (!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
+			$this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
 			$this->ilias->raiseError($this->lng->txt("err_role_not_assignable"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -2137,10 +2139,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		// todo: activate the following (allow editing of local roles in
 		// roles administration)
-		//if (in_array($this->rolf_ref_id,$base_role_folder) ||
-		//	(strtolower($_GET["baseClass"]) == "iladministrationgui" &&
-		//	$_GET["admin_mode"] == "settings"))
-		if (in_array($this->rolf_ref_id,$base_role_folder))
+		//if (in_array($this->rolf_ref_id,$base_role_folder))
+		if (in_array($this->rolf_ref_id,$base_role_folder) ||
+			(strtolower($_GET["baseClass"]) == "iladministrationgui" &&
+			$_GET["admin_mode"] == "settings"))
 		{
 			$activate_role_edit = true;
 		}
