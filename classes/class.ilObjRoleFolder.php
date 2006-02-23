@@ -124,7 +124,7 @@ class ilObjRoleFolder extends ilObject
 	* @param	string	description
 	* @return	object	role object
 	*/
-	function createRole($a_title,$a_desc)
+	function createRole($a_title,$a_desc,$a_import_id = 0)
 	{
 		global $rbacadmin, $rbacreview;
 		
@@ -139,6 +139,12 @@ class ilObjRoleFolder extends ilObject
 		$roleObj = new ilObjRole();
 		$roleObj->setTitle($a_title);
 		$roleObj->setDescription($a_desc);
+//echo "aaa-1-";
+		if ($a_import_id != "")
+		{
+//echo "aaa-2-".$a_import_id."-";
+			$roleObj->setImportId($a_import_id);
+		}
 		$roleObj->create();
 			
 		// ...and put the role into local role folder...

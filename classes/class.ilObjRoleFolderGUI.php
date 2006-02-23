@@ -325,7 +325,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			}	
 		}
 		
-		$this->ctrl->redirect($this, "view");
+		//$this->ctrl->setParameter($this, "ref_id", $return_loc);
+		//$this->ctrl->redirect($this, "view");
+		$this->redirectToRefId($return_loc, "view");
 		//ilUtil::redirect("adm_object.php?ref_id=".$return_loc);
 	}
 	
