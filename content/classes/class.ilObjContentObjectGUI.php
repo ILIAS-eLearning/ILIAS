@@ -595,6 +595,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("ICONIDS",$IDS);
 			//$this->ctrl->setParameter($this, "lmovecopy", 1);
 			$this->tpl->setVariable("TESTPFAD",$this->ctrl->getLinkTarget($this, "explorer")."&lmmovecopy=1");
+			//$this->tpl->setVariable("POPUPLINK",$this->ctrl->getLinkTarget($this, "popup")."&ptype=movecopytreenode");
 			$this->tpl->setVariable("POPUPLINK",$this->ctrl->getLinkTarget($this, "popup")."&ptype=movecopytreenode");
 		}
 		
@@ -611,7 +612,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	}
 	
-	
+	/**
+	* popup window for wysiwyg editor
+	*/
+	function popup()
+	{
+		include_once "./content/classes/Pages/class.ilWysiwygUtil.php";
+		$popup = new ilWysiwygUtil();
+		$popup->show($_GET["ptype"]);
+		exit;
+	}
+
 	/**
 	* proceed drag and drop operations on pages/chapters
 	*/
