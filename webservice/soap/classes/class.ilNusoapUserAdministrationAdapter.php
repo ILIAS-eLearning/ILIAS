@@ -455,6 +455,19 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteObject. Stores object in trash. If multiple references exist, only the reference is deleted ');
 
+		
+		$this->server->register('removeFromSystemByImportId',
+								array('sid' => 'xsd:string',
+									  'import_id' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#removeFromSystemByImportId',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS removeFromSystemByImportId(). Removes an object identified by its import id permanently from the '.
+								'system. All data will be deleted. There will be no possibility to restore it from the trash. Do not use '.
+								'this function for deleting roles or users. Use deleteUser() or deleteRole() instead.');
+
 		$this->server->register('addUserRoleEntry',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int',

@@ -237,6 +237,15 @@ function deleteObject($sid,$reference_id)
 	return $soa->deleteObject($sid,$reference_id);
 }
 
+function removeFromSystemByImportId($sid,$import_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->removeFromSystemByImportId($sid,$import_id);
+}
+
 function updateObjects($sid,$obj_xml)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
