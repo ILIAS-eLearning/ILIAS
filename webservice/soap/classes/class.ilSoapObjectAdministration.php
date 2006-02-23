@@ -570,6 +570,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 		include_once './include/inc.header.php';
+		global $tree;
 
 		if(!$del_obj =& ilObjectFactory::getInstanceByRefId($reference_id,false))
 		{
@@ -595,8 +596,61 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$tree->saveSubTree($reference_id);
 		$tree->deleteTree($tree->getNodeData($reference_id));
 		
-		return "1";
+		return true;
 	}
+
+	function removeFromSystemByImportId($sid,$import_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!strlen($import_id))
+		{
+			return $this->__raiseError('No import id given. Aborting!',
+									   'Client');
+		}
+		include_once './include/inc.header.php';
+
+		// get obj_id
+		if(!$obj_id = ilObject::_lookupObjIdByImportId($import_id))
+		{
+			return $this->__raiseError('No object found with import id: '.$import_id,
+									   'Client');
+		}
+
+		// Check access
+		$permission_ok = false;
+		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
+		{
+			if($rbacsystem->checkAccess('delete',$ref_id))
+			{
+				$permission_ok = true;
+				break;
+			}
+		}
+		if(!$permission_ok)
+		{
+			return $this->__raiseError('No permission to delete the object with import id: '.$import_id,
+									   'Server');
+		}
+
+		// Delete all references (delete permssions and entries in object_reference)
+		foreach($ref_ids as $ref_id)
+		{
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id);
+			if(!is_object($tmp_obj))
+			{
+				return $this->__raiseError('Cannot create instance of reference id: '.$ref_id,
+										   'Server');
+			}
+			$ilLog->write('Soap: removeFromSystemByImportId(). Deleting object with reference id: '.$ref_id);
+			$tmp_obj->delete();
+		}				
+
+		return true;
+	}
+			
 
 	function updateObjects($sid,$a_xml)
 	{
