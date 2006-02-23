@@ -738,6 +738,7 @@ class ilTree
 		{
 			$this->ilErr->raiseError(get_class($this)."::getSubTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
 		}
+
 		if($a_node['lft'] < 1 or $a_node['rgt'] < 2)
 		{
 			$message = sprintf('%s::getSubTree(): Invalid node given! $a_node["lft"]: %s $a_node["rgt"]: %s',
@@ -746,6 +747,7 @@ class ilTree
 								   $a_node['rgt']);
 
 			$this->log->write($message,$this->log->FATAL);
+
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 

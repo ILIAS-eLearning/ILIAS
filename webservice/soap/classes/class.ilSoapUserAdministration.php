@@ -92,8 +92,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 
 		$user_id = ilObjUser::getUserIdByLogin($user_name);
-
 		return $user_id ? $user_id : "0";
+
 	}
 
 	function getUser($sid,$user_id)

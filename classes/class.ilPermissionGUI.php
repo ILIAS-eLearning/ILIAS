@@ -529,7 +529,8 @@ class ilPermissionGUI
 		if ($this->ctrl->getTargetScript() != "repository.php")
 		{
 			$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
-			$this->ctrl->setParameter($this,"ref_id",$rolf_id);
+			//$this->ctrl->setParameter($this,"ref_id",$rolf_id);
+			$this->ctrl->setParameter($this,"ref_id",$this->gui_obj->object->getRefId());
 			$this->ctrl->redirect($this,'perm');
 		}
 

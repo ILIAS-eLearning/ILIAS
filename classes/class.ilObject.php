@@ -432,7 +432,8 @@ class ilObject
 		global $ilDB;
 
 		$query = "SELECT * FROM object_data ".
-			"WHERE import_id = '".$a_import_id."'";
+			"WHERE import_id = '".$a_import_id."' ".
+			"ORDER BY create_date DESC";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

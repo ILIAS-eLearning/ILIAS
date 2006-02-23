@@ -64,6 +64,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function getRefIdsByImportId($sid,$import_id)
 	{
+		global $tree;
+		
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -81,9 +83,14 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		
 		$ref_ids = ilObject::_getAllReferences($obj_id);
+
 		foreach($ref_ids as $ref_id)
 		{
-			$new_refs[] = $ref_id;
+			// only get non deleted reference ids
+			if ($tree->isInTree($ref_id))
+			{
+				$new_refs[] = $ref_id;
+			}
 		}
 		return $new_refs ? $new_refs : array();
 	}
@@ -551,6 +558,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function deleteObject($sid,$reference_id)
 	{
+		global $tree;
+		
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -573,7 +582,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		
 		// Delete tree
 		$subnodes = $tree->getSubtree($tree->getNodeData($reference_id));
 			
@@ -586,6 +594,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		
 		$tree->saveSubTree($reference_id);
 		$tree->deleteTree($tree->getNodeData($reference_id));
+		
+		return "1";
 	}
 
 	function updateObjects($sid,$a_xml)

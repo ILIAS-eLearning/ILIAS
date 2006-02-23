@@ -2644,12 +2644,12 @@ class ilObjectGUI
 	*
 	* @param	int		$a_ref_id		reference id
 	*/
-	function redirectToRefId($a_ref_id)
+	function redirectToRefId($a_ref_id, $a_cmd = "")
 	{
 		$obj_type = ilObject::_lookupType($a_ref_id,true);
 		$class_name = $this->objDefinition->getClassName($obj_type);
 		$class = strtolower("ilObj".$class_name."GUI");
-		$this->ctrl->redirectByClass($class, "");
+		$this->ctrl->redirectByClass($class, $a_cmd);
 	}
 	
 } // END class.ilObjectGUI
