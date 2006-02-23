@@ -430,6 +430,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 										   'Client');
 			}
 
+			// It's not possible to add objects with non unique import ids
+			if(strlen($object_data['import_id']) and ilObject::_lookupObjIdByImportId($object_data['import_id']))
+			{
+				return $this->__raiseError('An object with import id '.$object_data['import_id'].' already exists!',
+										   'Server');
+			}
+
+				
+
 			// Check preconditions
 			switch($object_data['type'])
 			{
@@ -456,6 +465,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$newObj = new $class_constr();
 
 			$newObj->setType($object_data['type']);
+			if(strlen($object_data['import_id']))
+			{
+				$newObj->setImportId($object_data['import_id']);
+			}
 			$newObj->setTitle($object_data['title']);
 			$newObj->setDescription($object_data['description']);
 			$newObj->create(); // true for upload
@@ -480,7 +493,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			}					
 
 		}
-		return $ref_id = $newObj->getRefId() ? $ref_id : "0";
+		$ref_id = $newObj->getRefId();
+		return  $ref_id  ? $ref_id : "0";
 	}
 
 	function addReference($sid,$a_source_id,$a_target_id)
@@ -672,7 +686,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$xml_parser->startParsing();
 
 		// Validate incoming data
-
 		foreach($xml_parser->getObjectData() as $object_data)
 		{
 			if(!$object_data["obj_id"])
@@ -680,20 +693,36 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				return $this->__raiseError('No obj_id in xml found.',
 										   'Client');
 			}
-			
-			// get one reference
-			if(!is_array($ref_ids = ilObject::_getAllReferences($object_data['obj_id'])))
+
+			if($object_data['type'] == 'role')
 			{
-				return $this->__raiseError('No reference found for object with id: '.$object_data['obj_id'],
-										   'Client');
+				$rolf_ids = $rbacreview->getFoldersAssignedToRole($object_data['obj_id'],true);
+				$rolf_id = $rolf_ids[0];
+
+				if(!$rbacsystem->checkAccess('write',$rolf_id))
+				{
+					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!',
+											   'Client');
+				}
 			}
-			$ref_id = end($ref_ids);
-			
-			if(!$rbacsystem->checkAccess('write',$object_data['obj_id']))
+			else
 			{
-				return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!',
-										   'Client');
+				$permission_ok = false;
+				foreach(ilObject::_getAllReferences($object_data['obj_id']) as $ref_id)
+				{
+					if($rbacsystem->checkAccess('write',$object_data['obj_id']))
+					{
+						$permission_ok = true;
+						break;
+					}
+				}
+				if(!$permission_ok)
+				{
+					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!',
+											   'Client');
+				}
 			}
+			
 
 			// Check preconditions
 			switch($object_data['type'])
@@ -711,11 +740,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		// perform update
 		foreach($xml_parser->getObjectData() as $object_data)
 		{
-			// get one reference
-			$ref_ids = ilObject::_getAllReferences($object_data['obj_id']);
-			$ref_id = end($ref_ids);
-			
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
+			$tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'],false);
 			$tmp_obj->setTitle($object_data['title']);
 			$tmp_obj->setDescription($object_data['description']);
 			if(strlen($object_data['owner']))
