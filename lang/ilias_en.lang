@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file English
@@ -41,6 +41,8 @@ administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc
+common#:#role_protect_permissions#:#Protect permissions
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
