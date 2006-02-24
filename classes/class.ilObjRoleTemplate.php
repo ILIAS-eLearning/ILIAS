@@ -108,7 +108,9 @@ class ilObjRoleTemplate extends ilObject
 		{
 			case "il_icrs_admin":
 			case "il_icrs_member":
-				$filter = array_keys($objDefinition->getSubObjects('icrs',false));
+				$obj_data = $objDefinition->getSubObjects('icrs',false);
+				unset($obj_data["rolf"]);
+				$filter = array_keys($obj_data);
 				$filter[] = 'icrs';
 				break;
 
@@ -116,7 +118,9 @@ class ilObjRoleTemplate extends ilObject
 			case "il_grp_member":
 			case "il_grp_status_closed":
 			case "il_grp_status_open":
-				$filter = array_keys($objDefinition->getSubObjects('grp',false));
+				$obj_data = $objDefinition->getSubObjects('grp',false);
+				unset($obj_data["rolf"]);
+				$filter = array_keys($obj_data);
 				$filter[] = 'grp';
 				break;
 				
@@ -124,7 +128,9 @@ class ilObjRoleTemplate extends ilObject
 			case "il_crs_tutor":
 			case "il_crs_member":
 			case "il_crs_non_member":
-				$filter = array_keys($objDefinition->getSubObjects('crs',false));
+				$obj_data = $objDefinition->getSubObjects('crs',false);
+				unset($obj_data["rolf"]);
+				$filter = array_keys($obj_data);
 				$filter[] = 'crs';
 				break;
 		}
