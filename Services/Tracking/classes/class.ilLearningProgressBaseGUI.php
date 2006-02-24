@@ -143,6 +143,7 @@ class ilLearningProgressBaseGUI
 
 				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
 				{
+					$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
 					$this->tabs_gui->addSubTabTarget('trac_progress',
 											   $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 											   "","","",$a_active == LP_ACTIVE_PROGRESS);
@@ -440,9 +441,12 @@ class ilLearningProgressBaseGUI
 
 	function __readItemStatusInfo($a_items)
 	{
+		global $ilObjDataCache;
+
 		foreach($a_items as $item_id)
 		{
 			$this->obj_data[$item_id]['mode'] = ilLPObjSettings::_lookupMode($item_id);
+			$this->obj_data[$item_id]['type'] = $ilObjDataCache->lookupType($item_id);
 			if($this->obj_data[$item_id]['mode'] == LP_MODE_TLT)
 			{
 				include_once './Services/MetaData/classes/class.ilMDEducational.php';

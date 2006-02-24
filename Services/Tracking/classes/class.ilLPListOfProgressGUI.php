@@ -101,10 +101,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			// Show only detail of current repository item if called from repository
 			case LP_MODE_REPOSITORY:
 				$this->__initDetails($ilObjDataCache->lookupObjId($this->getRefId()));
-				if($this->show_user_info)
-				{
-					$this->__showUserInfo();
-				}
 				return $this->details();
 
 			case LP_MODE_USER_FOLDER:
@@ -116,11 +112,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		// not called from repository
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
 
-		// Show user info, if not current user
-		if($this->show_user_info)
-		{
-			$this->__showUserInfo();
-		}
 		$this->__showFilter();
 		$this->__showProgress();
 	}
@@ -192,6 +183,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
+		$this->__appendUserInfo($info);
 		$this->__showObjectDetails($info);
 		$this->__appendLPDetails($info,$this->details_id,$this->tracked_user->getId());
 	
@@ -206,6 +198,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
+		$this->__appendUserInfo($info);
 		$this->__showObjectDetails($info);
 		$this->__appendLPDetails($info,$this->details_id,$this->tracked_user->getId());
 		
@@ -291,6 +284,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
+		$this->__appendUserInfo($info);
 		$this->__showObjectDetails($info);
 		$this->__appendLPDetails($info,$this->details_id,$this->tracked_user->getId());
 
@@ -341,22 +335,20 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->parseCurrentBlock();
 	}		
 
-	function __showUserInfo()
+	function __appendUserInfo(&$info)
 	{
-		include_once("classes/class.ilInfoScreenGUI.php");
-		
-		$info = new ilInfoScreenGUI($this);
 
-		$info->addSection($this->lng->txt("trac_user_data"));
-		$info->addProperty($this->lng->txt('username'),$this->tracked_user->getLogin());
-		$info->addProperty($this->lng->txt('name'),$this->tracked_user->getFullname());
-		$info->addProperty($this->lng->txt('last_login'),ilFormat::formatDate($this->tracked_user->getLastLogin()));
-		$info->addProperty($this->lng->txt('trac_total_online'),
-						   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($this->tracked_user->getId())));
+		if($this->show_user_info)
+		{
+			
+			$info->addSection($this->lng->txt("trac_user_data"));
+			$info->addProperty($this->lng->txt('username'),$this->tracked_user->getLogin());
+			$info->addProperty($this->lng->txt('name'),$this->tracked_user->getFullname());
+			$info->addProperty($this->lng->txt('last_login'),ilFormat::formatDate($this->tracked_user->getLastLogin()));
+			$info->addProperty($this->lng->txt('trac_total_online'),
+							   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($this->tracked_user->getId())));
+		}
 
-		// Finally set template variable
-		$this->tpl->setVariable("USER_INFO",$info->getHTML());
-		
 	}
 
 	function __showFilter()
@@ -366,6 +358,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showProgress()
 	{
+		// User info
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$this->__appendUserInfo($info);
+		$this->tpl->setVariable("USER_INFO",$info->getHTML());
+
 		#$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
 		$this->__initFilter();
 
@@ -489,7 +487,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tracked_user = $ilUser;
 		}
 		$this->show_user_info = ($this->tracked_user->getId() != $ilUser->getId());
-
 		return true;
 	}
 

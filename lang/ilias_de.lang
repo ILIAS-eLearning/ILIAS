@@ -5807,4 +5807,5 @@ trac#:#trac_crs_items#:#Kurselemente
 trac#:#trac_edit_time#:#Bearbeitungszeit
 trac#:#trac_reached_visits#:#Benötigte Aufrufe
 trac#:#trac_edited_scos#:#Bearbeitete Inhalte
-trac#:#trac_reached_points#:#Benötigte Punktzahl
+trac#:#trac_reached_points#:#Erreichte Punktzahl
+trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit

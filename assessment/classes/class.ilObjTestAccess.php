@@ -523,6 +523,7 @@ class ilObjTestAccess extends ilObjectAccess
 				$test_id = $row["test_fi"];
 				$pass = ilObjTest::_getResultPass($user_id, $test_id);
 				$testres =& ilObjTestAccess::_getTestResult($user_id, $a_obj_id, $pass);
+
 				if ($testres["passed"])
 				{
 					array_push($passed_users, 
