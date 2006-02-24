@@ -219,8 +219,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		// Start list of relevant items
 		
 		$counter = 0;
+
+		$items = ilLPCollections::_getItems($this->details_id);
+		$this->__readItemStatusInfo($items);
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
+		foreach($items as $item_id)
 		{
 			$type = $ilObjDataCache->lookupType($item_id);
 
@@ -240,6 +243,15 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			// Status info
+			if($status_info = $this->__getStatusInfo($item_id,$this->tracked_user->getId()))
+			{
+				$this->tpl->setCurrentBlock("status_info");
+				$this->tpl->setVariable("STATUS_PROP",$status_info[0]);
+				$this->tpl->setVariable("STATUS_VAL",$status_info[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$status = $this->__readStatus($item_id,$this->tracked_user->getId());
 			$this->tpl->setCurrentBlock("item_property");
 			$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
@@ -250,8 +262,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->__showImageByStatus($this->tpl,$status);
-
-
 
 			// Details link
 			$this->tpl->setCurrentBlock("item_command");
@@ -386,6 +396,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		// Sort objects by title
 		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
+
+		// Read status info
+		$this->__readItemStatusInfo($sorted_objs);
+
 		$counter = 0;
 		foreach($sorted_objs as $obj_id)
 		{
@@ -406,12 +420,23 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 			// Status
 			$status = $this->__readStatus($obj_id,$this->tracked_user->getId());
+
+			// Status info
+			if($status_info = $this->__getStatusInfo($obj_id,$this->tracked_user->getId()))
+			{
+				$tpl->setCurrentBlock("status_info");
+				$tpl->setVariable("STATUS_PROP",$status_info[0]);
+				$tpl->setVariable("STATUS_VAL",$status_info[1]);
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setCurrentBlock("item_property");
 			$tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
 			$tpl->setVariable("VAL_PROP",$this->lng->txt($status));
 			$tpl->parseCurrentBlock();
 
 			$this->__showImageByStatus($tpl,$status);
+
 			
 			// Path info
 			$tpl->setVariable("OCCURRENCES",$this->lng->txt('trac_occurrences'));

@@ -303,9 +303,9 @@ class ilLearningProgressBaseGUI
 		{
 			$info->addProperty($this->lng->txt('description'),$desc);
 		}
-		$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text($this->details_mode));
+		$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($details_id)));
 
-		if($this->details_mode == LP_MODE_VISITS)
+		if(ilLPObjSettings::_lookupMode($details_id) == LP_MODE_VISITS)
 		{
 			$info->addProperty($this->lng->txt('trac_required_visits'),ilLPObjSettings::_lookupVisits($details_id));
 		}
@@ -428,7 +428,105 @@ class ilLearningProgressBaseGUI
 		return $ids ? $ids : array();
 	}
 
+	function __getPercent($max,$reached)
+	{
+		if(!$max)
+		{
+			return "0%";
+		}
+
+		return sprintf("%.2f%%",$reached / $max * 100);
+	}
+
+	function __readItemStatusInfo($a_items)
+	{
+		foreach($a_items as $item_id)
+		{
+			$this->obj_data[$item_id]['mode'] = ilLPObjSettings::_lookupMode($item_id);
+			if($this->obj_data[$item_id]['mode'] == LP_MODE_TLT)
+			{
+				include_once './Services/MetaData/classes/class.ilMDEducational.php';
+				$this->obj_data[$item_id]['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($item_id);
+			}
+			if($this->obj_data[$item_id]['mode'] == LP_MODE_VISITS)
+			{
+				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+				$this->obj_data[$item_id]['visits'] = ilLPObjSettings::_lookupVisits($item_id);
+			}
+			if($this->obj_data[$item_id]['mode'] == LP_MODE_SCORM)
+			{
+				include_once './Services/Tracking/classes/class.ilLPCollections.php';
+				$this->obj_data[$item_id]['scos'] = count(ilLPCollections::_getItems($item_id));
+			}
+		}
+	}
 
 
+	function __getStatusInfo($a_obj_id,$a_user_id)
+	{
+		switch($this->obj_data[$a_obj_id]['mode'])
+		{
+			case LP_MODE_TEST_PASSED:
+				// Get stored test results
+				include_once './Services/Tracking/classes/class.ilTestResultCache.php';
+				$test_res_cache = ilTestResultCache::_getInstance();
+				$result = $test_res_cache->get($a_obj_id);
+				
+				foreach($result as $res)
+				{
+					if($a_user_id == $res['user_id'])
+					{
+						return array($this->lng->txt('trac_reached_points'),
+									 $this->__getPercent($res['max_points'],$res['reached_points']));
+					}
+				}
+					return array($this->lng->txt('trac_reached_points'),
+								 "0.00%");
+								 
+			case LP_MODE_TLT:
+				if(!$this->obj_data[$a_obj_id]['tlt'])
+				{
+					return false;
+				}
+				include_once './Services/Tracking/classes/class.ilLearningProgress.php';
+				$user_data = ilLearningProgress::_getProgress($a_user_id,$a_obj_id);
+
+				return array($this->lng->txt('trac_edit_time'),
+							 $this->__getPercent($this->obj_data[$a_obj_id]['tlt'],$user_data['spent_time']));
+
+			case LP_MODE_VISITS:
+				if(!$this->obj_data[$a_obj_id]['visits'])
+				{
+					return false;
+				}
+				$user_data = ilLearningProgress::_getProgress($a_user_id,$a_obj_id);
+
+				return array($this->lng->txt('trac_reached_visits'),
+							 $this->__getPercent($this->obj_data[$a_obj_id]['visits'],$user_data['visits']));
+
+			case LP_MODE_SCORM:
+				if(!$this->obj_data[$a_obj_id]['scos'])
+				{
+					return false;
+				}
+				$scorm_data = $this->__readScormCompleted($a_obj_id);
+				return array($this->lng->txt('trac_edited_scos'),
+							 $this->__getPercent($this->obj_data[$a_obj_id]['scos'],$scorm_data[$a_user_id]));
+		}
+	}
+
+	function __readScormCompleted($a_obj_id)
+	{
+		if(is_array($this->scorm_data[$a_obj_id]))
+		{
+			return $this->scorm_data[$a_obj_id];
+		}
+
+		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+
+		$this->scorm_data[$a_obj_id] = ilObjSCORMTracking::_getCountCompletedPerUser(ilLPCollections::_getItems($a_obj_id));
+		return $this->scorm_data[$a_obj_id];
+	}	
 }
 ?>

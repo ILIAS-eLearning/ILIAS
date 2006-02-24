@@ -61,7 +61,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$this->max_count = $ilUser->getPref('hits_per_page');
 	}
-
 	/**
 	* execute command
 	*/
@@ -202,6 +201,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("TXT_OPTIONS",$this->lng->txt('actions'));
 
 
+		if($this->details_mode == LP_MODE_COLLECTION)
+		{
+			$this->__readItemStatusInfo(array_merge(ilLPCollections::_getItems($this->details_id)),array($this->details_id));
+		}
+		else
+		{
+			$this->__readItemStatusInfo(array($this->details_id));
+		}
+
 		$counter = 0;
 		foreach($sliced_users as $user_id)
 		{
@@ -229,10 +237,20 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 			$this->__showImageByStatus($this->tpl,$status);
 
+			// Status info
+			if($status_info = $this->__getStatusInfo($this->details_id,$user_id))
+			{
+				$this->tpl->setCurrentBlock("status_info");
+				$this->tpl->setVariable("STATUS_PROP",$status_info[0]);
+				$this->tpl->setVariable("STATUS_VAL",$status_info[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+
 			if(strlen($comment = ilLPMarks::_lookupComment($user_id,$this->details_id)))
 			{
 				$this->tpl->setCurrentBlock("comment_prop");
-				$this->tpl->setVariable("TXT_PROP_COMM",$this->lng->txt('comment'));
+				$this->tpl->setVariable("TXT_PROP_COMM",$this->lng->txt('trac_comment'));
 				$this->tpl->setVariable("VAL_PROP_COMM",$comment);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -301,9 +319,16 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 					if(strlen($comment = ilLPMarks::_lookupComment($user_id,$obj_id)))
 					{
-						$this->tpl->setCurrentBlock("comment_prop");
-						$this->tpl->setVariable("ITEM_TXT_PROP_COMM",$this->lng->txt('comment'));
+						$this->tpl->setCurrentBlock("item_comment_prop");
+						$this->tpl->setVariable("ITEM_TXT_PROP_COMM",$this->lng->txt('trac_comment'));
 						$this->tpl->setVariable("ITEM_VAL_PROP_COMM",$comment);
+						$this->tpl->parseCurrentBlock();
+					}
+					if($status_info = $this->__getStatusInfo($obj_id,$user_id))
+					{
+						$this->tpl->setCurrentBlock("item_status_info");
+						$this->tpl->setVariable("ITEM_STATUS_PROP",$status_info[0]);
+						$this->tpl->setVariable("ITEM_STATUS_VAL",$status_info[1]);
 						$this->tpl->parseCurrentBlock();
 					}
 
@@ -390,12 +415,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function hideDetails()
 	{
-		$user_ids = $_POST['user_ids'] ? $_POST['user_ids'] : array();
-		foreach($user_ids as $user_id)
+		if(isset($_GET['details_user']))
 		{
-			unset($_SESSION['lp_show'][$this->details_id][$user_id]);
+			unset($_SESSION['lp_show'][$this->details_id]["$_GET[details_user]"]);
+			$this->details();
+			return true;
 		}
-		$this->details();
 	}
 
 	function __detailsShown($a_usr_id)
@@ -423,6 +448,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	}
 
 	// Private
+
 	function __showFilter()
 	{
 		$this->tpl->setVariable("FILTER",$this->filter_gui->getHTML());

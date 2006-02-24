@@ -27,11 +27,11 @@
 			<img border="0" src="{TYPE_IMG}" alt="{TYPE_ALT} title="{TYPE_ALT}" />
 		  </td>
 		  <td class="{TDCSS}" width="50%" colspan="2">
-			<b>{TXT_TITLE}</b>
-			<div class="il_Description">{TXT_DESC}</div>
+			<b>{TXT_TITLE}</b>&nbsp;{TXT_DESC}
 			<div class="il_ItemProperties">
 			  <span class="il_ItemAlertProperty">
-				{TXT_PROP}: {VAL_PROP}&nbsp;&nbsp;</span>
+				{TXT_PROP}: {VAL_PROP}<!-- BEGIN status_info -->, {STATUS_PROP}: {STATUS_VAL}<!-- END status_info -->
+			  </span>
 			</div>
 			<!-- BEGIN comment_prop -->
 			<div class="il_ItemProperties">
@@ -60,19 +60,21 @@
 		<tr class="{ITEM_CSSROW}">
 		  <td class="{ITEM_TDCSS}"></td>
 		  <td class="{ITEM_TDCSS}" valign="top" align="center" width="1"></td>
-		  <td class="{ITEM_TDCSS}" valign="center" width="3%">
+		  <td class="{ITEM_TDCSS}" valign="top" width="3%">
 			<img border="0" src="{ITEM_IMG}" alt="{ITEM_ALT} title="{ITEM_ALT}" />
 		  </td>
 		  <td class="{ITEM_TDCSS}">
 			<b>{ITEM_TITLE}</b>
 			<div class="il_ItemProperties">
 			  <span class="il_ItemAlertProperty">
-				{ITEM_PROP}: {ITEM_VAL}&nbsp;&nbsp;</span>
+				{ITEM_PROP}: {ITEM_VAL}<!-- BEGIN item_status_info -->, {ITEM_STATUS_PROP}: {ITEM_STATUS_VAL}<!-- END item_status_info -->
+			  </span>
 			</div>
 			<!-- BEGIN item_comment_prop -->
 			<div class="il_ItemProperties">
 			  <span class="il_ItemProperty">
-				{ITEM_TXT_PROP_COMM}: {ITEM_VAL_PROP_COMM}&nbsp;&nbsp;</span>
+				{ITEM_TXT_PROP_COMM}: {ITEM_VAL_PROP_COMM}&nbsp;&nbsp;
+			  </span>
 			</div>
 			<!-- END item_comment_prop -->
 		  </td>
