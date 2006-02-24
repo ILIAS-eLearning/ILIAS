@@ -5807,6 +5807,7 @@ trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
 trac#:#trac_edit_time#:#Processing time
 trac#:#trac_reached_visits#:#Required visits
 trac#:#trac_edited_scos#:#Processed content
-trac#:#trac_reached_points#:#Required score
+trac#:#trac_reached_points#:#Achieved score
 trac#:#trac_crs_assignments#:#Assignment of course items
 trac#:#trac_crs_items#:#Assignable course items
+trac#:#trac_processing_time#:#Assumed processing time

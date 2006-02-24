@@ -1540,6 +1540,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->lng->txt("crs_mem_change_status")."\" title=\"".$this->lng->txt("crs_mem_change_status").
 				"\" border=\"0\" vspace=\"0\"/>";
 
+			$img_lp = "<img src=\"".ilUtil::getImagePath("icon_trac.gif")."\" alt=\"".
+				$this->lng->txt("learning_progress")."\" title=\"".$this->lng->txt("learning_progress").
+				"\" border=\"0\" vspace=\"0\"/>";
+
 			foreach($this->object->members_obj->getAssignedUsers() as $member_id)
 			{
 				$member_data = $this->object->members_obj->getUserData($member_id);
@@ -1608,7 +1612,17 @@ class ilObjCourseGUI extends ilContainerGUI
 						$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editMember")."\">".
 							$img_change."</a>";
 
-						$f_result[$counter][]	= $link_mail." ".$link_change;
+						include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+						if($rbacsystem->checkAccess('read',$this->ref_id) and 
+						   ilObjUserTracking::_enabledTracking() and
+						   ilObjUserTracking::_enabledUserRelatedData())
+						{
+							$this->ctrl->setParameter($this,"user_id",$tmp_obj->getId());
+							$link_lp = "<a href=\"".$this->ctrl->getLinkTargetByClass(array('illearningprogressgui',
+																							'illplistofprogressgui'),
+																					  "show")."\">".$img_lp."</a>";
+						}
+						$f_result[$counter][]	= $link_mail." ".$link_change." ".$link_lp;
 					}
 					else
 					{
@@ -4130,7 +4144,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -4226,7 +4240,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+													  $this->object->getRefId(),
+													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tabs_gui->setTabActive('learning_progress');
 				break;

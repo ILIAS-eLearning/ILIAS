@@ -203,7 +203,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		if($this->details_mode == LP_MODE_COLLECTION)
 		{
-			$this->__readItemStatusInfo(array_merge(ilLPCollections::_getItems($this->details_id)),array($this->details_id));
+			$this->__readItemStatusInfo(array_merge($this->items = ilLPCollections::_getItems($this->details_id)),
+										array($this->details_id));
 		}
 		else
 		{
@@ -220,18 +221,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable("TXT_DESC",'['.ilObjUser::_lookupLogin($user_id).']');
 
 			// Status
-			if(in_array($user_id,$in_progress))
-			{
-				$status = LP_STATUS_IN_PROGRESS;
-			}
-			elseif(in_array($user_id,$completed))
-			{
-				$status = LP_STATUS_COMPLETED;
-			}
-			else
-			{
-				$status = LP_STATUS_NOT_ATTEMPTED;
-			}
+			$status = $this->__readStatus($this->details_id,$user_id);
 			$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
 			$this->tpl->setVariable("VAL_PROP",$this->lng->txt($status));
 
@@ -246,7 +236,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-
+			// Comment
 			if(strlen($comment = ilLPMarks::_lookupComment($user_id,$this->details_id)))
 			{
 				$this->tpl->setCurrentBlock("comment_prop");
@@ -268,19 +258,18 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable("MARK",ilLPMarks::_lookupMark($user_id,$this->details_id));
 			
 			// Details for course mode collection
-			if($this->details_mode == LP_MODE_COLLECTION and !$this->__detailsShown($user_id))
+			if($this->details_mode == LP_MODE_COLLECTION)
 			{
+				// estimated processing time
+				$processing_time_info = $this->__readProcessingTime($user_id);
+				if($this->tlt_sum and $processing_time_info['total_percent'] != "0.00%")
+				{
+					$this->tpl->setCurrentBlock("tlt_prop");
+					$this->tpl->setVariable("TXT_PROP_TLT",$this->lng->txt('trac_processing_time'));
+					$this->tpl->setVariable("VAL_PROP_TLT",$processing_time_info['total_percent']);
+					$this->tpl->parseCurrentBlock();
+				}
 
-				// user check
-				$this->tpl->setVariable("CHECK_USER",ilUtil::formCheckbox(0,'user_ids[]',$user_id));
-
-				$this->tpl->setCurrentBlock("cmd");
-				$this->ctrl->setParameter($this,'details_user',$user_id);
-				$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'showDetails'));
-				$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('show_details'));
-			}
-			elseif($this->details_mode == LP_MODE_COLLECTION)
-			{
 				// user check
 				$this->tpl->setVariable("CHECK_USER",ilUtil::formCheckbox((int) $this->__detailsShown($user_id),
 																		  'user_ids[]',
@@ -288,10 +277,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				
 				$this->tpl->setCurrentBlock("cmd");
 				$this->ctrl->setParameter($this,'details_user',$user_id);
-				$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'hideDetails'));
-				$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('hide_details'));
+				$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,$this->__detailsShown($user_id) ?
+																				  'hideDetails' : 'showDetails'));
+																				  
+				$this->tpl->setVariable("TXT_COMMAND",$this->__detailsShown($user_id) ? 
+										$this->lng->txt('hide_details') : $this->lng->txt('show_details'));
 				$this->tpl->parseCurrentBlock();
-			}
+			}				
+			
 
 			if($this->details_mode == LP_MODE_COLLECTION and $this->__detailsShown($user_id))
 			{
@@ -301,21 +294,20 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 					$this->tpl->setVariable("ITEM_TITLE",$ilObjDataCache->lookupTitle($obj_id));
 
 					// Status
-					if(in_array($user_id,ilLPStatusWrapper::_getInProgress($obj_id)))
-					{
-						$status = LP_STATUS_IN_PROGRESS;
-					}
-					elseif(in_array($user_id,ilLPStatusWrapper::_getCompleted($obj_id)))
-					{
-						$status = LP_STATUS_COMPLETED;
-					}
-					else
-					{
-						$status = LP_STATUS_NOT_ATTEMPTED;
-					}
+					$status = $this->__readStatus($obj_id,$user_id);
 					$this->tpl->setVariable("ITEM_PROP",$this->lng->txt('trac_status'));
 					$this->tpl->setVariable("ITEM_VAL",$this->lng->txt($status));
 					$this->__showImageByStatus($this->tpl,$status,'ITEM_');
+
+					if($processing_time_info[$obj_id] and 
+					   $processing_time_info[$obj_id] != "0.00%")
+
+					{
+						$this->tpl->setCurrentBlock("tlt_item_prop");
+						$this->tpl->setVariable("TXT_PROP_ITEM_TLT",$this->lng->txt('trac_processing_time'));
+						$this->tpl->setVariable("VAL_PROP_ITEM_TLT",$processing_time_info[$obj_id]);
+						$this->tpl->parseCurrentBlock();
+					}
 
 					if(strlen($comment = ilLPMarks::_lookupComment($user_id,$obj_id)))
 					{
@@ -448,6 +440,63 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	}
 
 	// Private
+	function __readProcessingTime($a_usr_id)
+	{
+		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+
+		if(!is_array($this->tlt))
+		{
+			$this->__readTLT();
+		}
+
+		$pt_info = array();
+		foreach($this->tlt as $item_id => $info)
+		{
+			if(in_array($a_usr_id,ilLPStatusWrapper::_getCompleted($item_id)))
+			{
+				$pt_info['total'] += $info['tlt'];
+				$pt_info[$item_id] = "100%";
+				continue;
+			}
+
+			switch($this->obj_data[$item_id]['type'])
+			{
+				case 'lm':
+			
+					$lp_info = ilLearningProgress::_getProgress($a_usr_id,$item_id);
+					$pt_info['total'] += min($lp_info['spent_time'],$info['tlt']);
+					$pt_info[$item_id] = $this->__getPercent($info['tlt'],min($lp_info['spent_time'],$info['tlt']));
+					break;
+			}
+		}
+
+		$pt_info['total_percent'] = $this->__getPercent($this->tlt_sum,$pt_info['total']);
+
+		return $pt_info ? $pt_info : array();
+	}
+
+	function __readTLT()
+	{
+		global $ilObjDataCache;
+
+		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
+
+		$this->tlt_sum = 0;
+		$this->tlt = array();
+		foreach($this->items as $item_id)
+		{
+			if($tlt = ilMDEducational::_getTypicalLearningTimeSeconds($item_id))
+			{
+				$this->tlt[$item_id]['tlt'] = $tlt;
+			}
+			$this->tlt_sum += $this->tlt[$item_id]['tlt'];
+		}
+		return true;
+	}
+		
+
+
 
 	function __showFilter()
 	{
