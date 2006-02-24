@@ -30,64 +30,39 @@
 *
 */
 
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
-
-class ilLPStatusTestPassed extends ilLPStatus
+class ilTestResultCache 
 {
-
-	function ilLPStatusTestPassed($a_obj_id)
+	function ilTestResultCache()
 	{
-		global $ilDB;
-
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		
 	}
 
-	function _getCountInProgress($a_obj_id)
+	/* 
+	 * Create singleton instance
+	 */
+	function &_getInstance()
 	{
-		return count(ilLPStatusWrapper::_getInProgress($a_obj_id));
-	}
+		static $test_res_cache = null;
 
-	function _getInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		include_once './assessment/classes/class.ilObjTestAccess.php';
-
-		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
-			"WHERE test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if(!$test_res_cache)
 		{
-			$user_ids[] = $row->user_fi;
+			return $test_res_cache = new ilTestResultCache();
 		}
-
-		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getCompleted($a_obj_id));
-
-		return $users ? $users : array();
-	}
-
-	function _getCountCompleted($a_obj_id)
-	{
-		return count(ilLPStatusWrapper::_getCompleted($a_obj_id));
-	}
-
-	function _getCompleted($a_obj_id)
-	{
-		global $ilDB;
-
-		include_once './assessment/classes/class.ilObjTestAccess.php';
-		include_once './Services/Tracking/classes/class.ilTestResultCache.php';
-
-		$test_cache = ilTestResultCache::_getInstance();
-		$test_cache->store($a_obj_id,$result = ilObjTestAccess::_getPassedUsers($a_obj_id));
-
-		foreach($result as $user_data)
+		else
 		{
-			$user_ids[] = $user_data['user_id'];
+			return $test_res_cache;
 		}
-		return $user_ids ? $user_ids : array();
 	}
-}	
+
+	function store($a_obj_id,$result_set)
+	{
+		$this->stored[$a_obj_id] = $result_set;
+	}
+
+	function get($a_obj_id)
+	{
+		return is_array($this->stored[$a_obj_id]) ? $this->stored[$a_obj_id] : array();
+	}
+}
+
 ?>

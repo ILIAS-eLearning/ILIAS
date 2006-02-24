@@ -213,7 +213,30 @@ class ilObjSCORMTracking
 		}
 		return $user_ids ? $user_ids : array();
 	}
-	
+
+	function _getCountCompletedPerUser($a_scorm_item_ids)
+	{
+		global $ilDB;
+
+		$where = "WHERE sco_id IN('";
+		$where .= implode("','",$a_scorm_item_ids);
+		$where .= "') ";
+		
+
+		$query = "SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking ".
+			$where.
+			"AND lvalue = 'cmi.core.lesson_status' ".
+			"AND rvalue = 'completed' ".
+			"GROUP BY user_id";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$users[$row->user_id] = $row->completed;
+		}
+
+		return $users ? $users : array();
+	}
 
 
 } // END class.ilObjSCORMTracking

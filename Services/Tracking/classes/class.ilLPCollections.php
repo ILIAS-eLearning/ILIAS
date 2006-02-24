@@ -171,12 +171,30 @@ class ilLPCollections
 
 	function _getItems($a_obj_id)
 	{
+		global $ilObjDataCache;
 		global $ilDB;
+
+		if($ilObjDataCache->lookupType($a_obj_id) == 'crs')
+		{
+			$course_ref_ids = ilObject::_getAllReferences($a_obj_id);
+			$course_ref_id = end($course_ref_ids);
+		}
 
 		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".(int) $a_obj_id."'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($ilObjDataCache->lookupType($a_obj_id) == 'crs')
+			{
+				if(!in_array($row->item_id,ilLPCollections::_getPossibleItems($course_ref_id)))
+				{
+					$query = "DELETE FROM ut_lp_collections ".
+						"WHERE obj_id = '".$a_obj_id."' ".
+						"AND item_id = '".$row->item_id."'";
+					$ilDB->query($query);
+					continue;
+				}
+			}
 			$items[] = $row->item_id;
 		}
 		return $items ? $items : array();
@@ -185,14 +203,32 @@ class ilLPCollections
 	// Private
 	function __read()
 	{
+		global $ilObjDataCache;
+
+		if($ilObjDataCache->lookupType($this->getObjId()) == 'crs')
+		{
+			$course_ref_ids = ilObject::_getAllReferences($this->getObjId());
+			$course_ref_id = end($course_ref_ids);
+		}
+
 		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->db->quote($this->obj_id)."'";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($ilObjDataCache->lookupType($this->getObjId()) == 'crs')
+			{
+				if(!in_array($row->item_id,ilLPCollections::_getPossibleItems($course_ref_id)))
+				{
+					$query = "DELETE FROM ut_lp_collections ".
+						"WHERE obj_id = '".$this->getObjId()."' ".
+						"AND item_id = '".$row->item_id."'";
+					$this->db->query($query);
+					continue;
+				}
+			}
 			$this->items[] = $row->item_id;
 		}
-
-		return true;
+		
 	}
 }
 ?>
