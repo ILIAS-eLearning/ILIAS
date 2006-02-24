@@ -27,6 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
+*
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjRoleFolderGUI: ilPermissionGUI
@@ -664,15 +665,28 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		// METHOD NOT USED????
+		
+		
+		global $rbacsystem, $tree;
 
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		// for role administration check visible,write of global role folder
+		if ($this->object->getRefId() == ROLE_FOLDER_ID)
+		{
+			$access = $rbacsystem->checkAccess('visible,write',$this->object->getRefId());
+		}
+		else	// for local roles check 'edit permission' of parent object of the local role folder
+		{
+			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->object->getRefId()));
+		}
+			
+		if ($access)
 		{
 			$tabs_gui->addTarget("obj_rolf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete",""), "", "");
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($this->object->getRefId() == ROLE_FOLDER_ID and $rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');

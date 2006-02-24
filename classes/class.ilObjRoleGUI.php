@@ -27,6 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
+*
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjRoleGUI:
@@ -479,9 +480,19 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition;
+		global $rbacadmin, $rbacreview, $rbacsystem, $objDefinition, $tree;
 
-		if (!$rbacsystem->checkAccess('visible,write',$this->rolf_ref_id))
+		// for role administration check visible,write of global role folder
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
+		{
+			$access = $rbacsystem->checkAccess('visible,write',$this->rolf_ref_id);
+		}
+		else	// for local roles check 'edit permission' of parent object of the local role folder
+		{
+			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
+		}
+			
+		if (!$access)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -498,16 +509,24 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		// for local roles display only the permissions settings for allowed subobjects
-		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
+		if (!in_array($this->object->getId(),$rbacreview->getGlobalRoles()))
 		{
+			// get original role folder
+			$rolf_arr = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 			// first get object in question (parent of role folder object)
-			$parent_data = $this->tree->getParentNodeData($this->rolf_ref_id);
+			$parent_data = $this->tree->getParentNodeData($rolf_arr[0]);
 			// get allowed subobjects of object recursively
 			$subobj_data = $this->objDefinition->getSubObjectsRecursively($parent_data["type"]);
-			
+
 			// remove not allowed object types from array but keep the type definition of object itself
 			foreach ($rbac_objects as $key => $obj_data)
 			{
+				if ($obj_data["type"] == "rolf")
+				{
+					unset($rbac_objects[$key]);
+					continue;
+				}
+				
 				if (!$subobj_data[$obj_data["type"]] and $parent_data["type"] != $obj_data["type"])
 				{
 					unset($rbac_objects[$key]);
@@ -766,20 +785,19 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $objDefinition, $tree;
 
-		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
+		// for role administration check write of global role folder
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
 		{
-			if (!$rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id)))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-			}
+			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
 		}
-		else
+		else	// for local roles check 'edit permission' of parent object of the local role folder
 		{
-			// TODO: should check 'edit_permission' of parent object of rolefolder??
-			if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-			}
+			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
+		}
+			
+		if (!$access)
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// delete all template entries
@@ -909,13 +927,24 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function adoptPermSaveObject()
 	{
-		global $rbacadmin, $rbacsystem, $rbacreview;
+		global $rbacadmin, $rbacsystem, $rbacreview, $tree;
 
-		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
+		// for role administration check write of global role folder
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
+		{
+			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
+		}
+		else	// for local roles check 'edit permission' of parent object of the local role folder
+		{
+			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
+		}
+			
+		if (!$access)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
-		elseif ($this->object->getId() == $_POST["adopt"])
+
+		if ($this->object->getId() == $_POST["adopt"])
 		{
 			sendInfo($this->lng->txt("msg_perm_adopted_from_itself"),true);
 		}
@@ -1103,10 +1132,19 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem, $rbacreview, $rbacadmin;
+		global $rbacsystem, $rbacreview, $rbacadmin, $tree;
 
-		// check write access
-		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
+		// for role administration check write of global role folder
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
+		{
+			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
+		}
+		else	// for local roles check 'edit permission' of parent object of the local role folder
+		{
+			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
+		}
+			
+		if (!$access)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_role"),$this->ilias->error_obj->MESSAGE);
 		}

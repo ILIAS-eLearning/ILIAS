@@ -27,7 +27,7 @@
 * RBAC related output
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
-
+*
 * @version $Id$
 *
 * @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI
@@ -69,6 +69,7 @@ class ilPermissionGUI
 		$this->gui_obj =& $a_gui_obj;
 		
 		$this->roles = array();
+		$this->num_roles = 0;
 	}
 	
 
@@ -130,10 +131,10 @@ class ilPermissionGUI
 	    $this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
 	    $this->tpl->parseCurrentBlock();
 
-		$num_roles = count($this->roles);
+		$this->num_roles = count($this->roles);
 
 		// don't display table if no role in list
-		if ($num_roles < 1)
+		if ($this->num_roles < 1)
 		{
 			sendinfo($this->lng->txt("msg_no_roles_of_type"),false);
 			$this->__displayAddRoleForm();
@@ -142,7 +143,7 @@ class ilPermissionGUI
 		
 		$this->tpl->addBlockFile("PERM_PERMISSIONS", "permissions", "tpl.obj_perm_permissions.html");
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("permission_settings"));
-		$this->tpl->setVariable("COLSPAN", $num_roles);
+		$this->tpl->setVariable("COLSPAN", $this->num_roles);
 		$this->tpl->setVariable("FORMACTION",
 			$this->gui_obj->getFormAction("permSave",$this->ctrl->getLinkTarget($this,"permSave")));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -213,161 +214,21 @@ class ilPermissionGUI
 		}
 		$this->ctrl->clearParametersByClass("ilobjrolegui");
 		
-		// create pointer to first role (need only the permission list -> TODO: change array structure)
-		reset($this->roles);
-		$first_role =& current($this->roles);
-
-// permission settings
+// show permission settings
 
 		// general section
-		$this->tpl->setCurrentBlock("perm_subtitle");
-		$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_general'));
-		$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_general_desc'));
-		$this->tpl->setVariable("COLSPAN", $num_roles);
-		$this->tpl->parseCurrentBlock();
-
-		foreach ($this->roles as $role)
-		{
-			foreach ($role['permissions']['general'] as $perm)
-			{
-				// exclude delete permission for ROLE_FOLDER_ID
-				if ($perm['name'] == 'delete' and $this->gui_obj->object->getType() == 'rolf' and $this->gui_obj->object->getRefId() == ROLE_FOLDER_ID)
-				{
-					continue;
-				}
-				
-				$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
-
-				$this->tpl->setCurrentBlock("perm_item");
-				$this->tpl->setVariable("PERM_CHECKBOX",$box);
-				$this->tpl->setVariable("PERM_NAME",$this->lng->txt($perm['name']));
-				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
-				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("perm_table");
-			$this->tpl->parseCurrentBlock();	
-		}
-
-		$this->tpl->setCurrentBlock("perm_settings");
-		$this->tpl->parseCurrentBlock();		
-
+		$this->__showPermissionsGeneralSection();
+		
 		// object section
-		if (count($first_role['permissions']['object'])) // check if object type has special operations
-		{
-			$this->tpl->setCurrentBlock("perm_subtitle");
-			$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_object'));
-			$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_object_desc'));
-			$this->tpl->setVariable("COLSPAN", $num_roles);
-			$this->tpl->parseCurrentBlock();
-	
-			foreach ($this->roles as $role)
-			{
-				foreach ($role['permissions']['object'] as $perm)
-				{
-					$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
-	
-					$this->tpl->setCurrentBlock("perm_item");
-					$this->tpl->setVariable("PERM_CHECKBOX",$box);
-					$this->tpl->setVariable("PERM_NAME",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
-					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
-					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
-					$this->tpl->parseCurrentBlock();
-				}
-	
-				$this->tpl->setCurrentBlock("perm_table");
-				$this->tpl->parseCurrentBlock();	
-			}								
-	
-			$this->tpl->setCurrentBlock("perm_settings");
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->__showPermissionsObjectSection();
 
 		// rbac section
-		$this->tpl->setCurrentBlock("perm_subtitle");
-		$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_rbac'));
-		$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_rbac_desc'));
-		$this->tpl->setVariable("COLSPAN", $num_roles);
-		$this->tpl->parseCurrentBlock();
-
-		foreach ($this->roles as $role)
-		{
-			foreach ($role['permissions']['rbac'] as $perm)
-			{
-				$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
-
-				$this->tpl->setCurrentBlock("perm_item");
-				$this->tpl->setVariable("PERM_CHECKBOX",$box);
-				$this->tpl->setVariable("PERM_NAME",$this->lng->txt('perm_administrate'));
-				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
-				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// use local policy flag
-			if ($this->gui_obj->object->getType() != 'root')  // no local policy for root folder
-			{
-				if ($role['local_policy_allowed'])
-				{
-					$box = ilUtil::formCheckBox($role['local_policy_enabled'],'stop_inherit[]',$role['obj_id'],$role['protected']);
-					$lang = $this->lng->txt("perm_use_local_policy");
-					$lang_desc = $this->lng->txt("perm_use_local_policy_desc");
-				}
-				else
-				{
-					$box = '&nbsp;';
-					$lang = $this->lng->txt("perm_local_role");
-					$lang_desc = $this->lng->txt("perm_local_role_desc");
-				}
-				
-				$this->tpl->setCurrentBlock("perm_item");
-				$this->tpl->setVariable("PERM_CHECKBOX",$box);
-				$this->tpl->setVariable("PERM_NAME",$lang);
-				$this->tpl->setVariable("PERM_TOOLTIP",$lang_desc);
-				$this->tpl->setVariable("PERM_LABEL",'stop_inherit_'.$role['obj_id']);
-				$this->tpl->parseCurrentBlock();
-			}
-	
-				$this->tpl->setCurrentBlock("perm_table");
-				$this->tpl->parseCurrentBlock();	
-		}
-
-		$this->tpl->setCurrentBlock("perm_settings");
-		$this->tpl->parseCurrentBlock();
-
+		$this->__showPermissionsRBACSection();
+		
 		// create section
-		if (count($first_role['permissions']['create'])) // check if object type has create operations
-		{
-			$this->tpl->setCurrentBlock("perm_subtitle");
-			$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_create'));
-			$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_create_desc'));
-			$this->tpl->setVariable("COLSPAN", $num_roles);
-			$this->tpl->parseCurrentBlock();
-	
-			foreach ($this->roles as $role)
-			{
-				foreach ($role['permissions']['create'] as $perm)
-				{
-					$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
-	
-					$this->tpl->setCurrentBlock("perm_item");
-					$this->tpl->setVariable("PERM_CHECKBOX",$box);
-					$this->tpl->setVariable("PERM_NAME",$this->lng->txt("obj".substr($perm['name'],6)));
-					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
-					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
-					$this->tpl->parseCurrentBlock();
-				}
-	
-				$this->tpl->setCurrentBlock("perm_table");
-				$this->tpl->parseCurrentBlock();	
-			}
-	
-			$this->tpl->setCurrentBlock("perm_settings");
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->__showPermissionsCreateSection();
 
-		$this->tpl->setVariable("COLSPAN", $num_roles);
+		$this->tpl->setVariable("COLSPAN", $this->num_roles);
 
 		// ADD LOCAL ROLE		
 		$this->__displayAddRoleForm();
@@ -529,8 +390,7 @@ class ilPermissionGUI
 		if ($this->ctrl->getTargetScript() != "repository.php")
 		{
 			$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
-			//$this->ctrl->setParameter($this,"ref_id",$rolf_id);
-			$this->ctrl->setParameter($this,"ref_id",$this->gui_obj->object->getRefId());
+			$this->ctrl->setParameter($this,"ref_id",$rolf_id);
 			$this->ctrl->redirect($this,'perm');
 		}
 
@@ -757,8 +617,8 @@ class ilPermissionGUI
   		// remove filtered roles from array
       	$roles = $this->__filterRoles($roles,$_SESSION["perm_filtered_roles"]);
 
-
 		// determine status of each role (local role, changed policy, protected)
+
 		$role_folder = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
 		
 		$local_roles = array();
@@ -781,7 +641,8 @@ class ilPermissionGUI
 
 			if (!in_array($role["obj_id"],$local_roles))
 			{
-				$this->roles[$role['obj_id']]['keep_protected'] = $keep_protected = $rbacreview->isProtected($role['parent'],$role['obj_id']);
+//				$this->roles[$role['obj_id']]['keep_protected'] = $keep_protected = $rbacreview->isProtected($role['parent'],$role['obj_id']);
+				$this->roles[$role['obj_id']]['keep_protected'] = $rbacreview->isProtected($role['parent'],$role['obj_id']);
 				$this->roles[$role['obj_id']]['local_policy_enabled'] = false;
 				$this->roles[$role['obj_id']]['local_policy_allowed'] = true;
 			}
@@ -807,10 +668,6 @@ class ilPermissionGUI
 				foreach ($ops_data as $key => $operation)
 				{
 					$grouped_ops[$ops_group][$key]['checked'] = $rbacsystem->checkPermission($this->gui_obj->object->getRefId(), $role['obj_id'], $operation['name']);
-	
-						// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
-						//$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$ops_id,$role["protected"]);
-						//$opdata["values"][] = $box;
 				}
 			}
 			
@@ -844,6 +701,178 @@ class ilPermissionGUI
 			$this->tpl->setVariable("TXT_LR_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
+	}
+	
+	function __showPermissionsGeneralSection()
+	{
+		$this->tpl->setCurrentBlock("perm_subtitle");
+		$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_general'));
+		$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_general_desc'));
+		$this->tpl->setVariable("COLSPAN", $this->num_roles);
+		$this->tpl->parseCurrentBlock();
+
+		foreach ($this->roles as $role)
+		{
+			foreach ($role['permissions']['general'] as $perm)
+			{
+				// exclude delete permission for all role_folders expect main ROLE_FOLDER_ID
+				if ($perm['name'] == 'delete' and $this->gui_obj->object->getType() == 'rolf' and $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
+				{
+					continue;
+				}
+				
+				$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
+
+				$this->tpl->setCurrentBlock("perm_item");
+				$this->tpl->setVariable("PERM_CHECKBOX",$box);
+				$this->tpl->setVariable("PERM_NAME",$this->lng->txt($perm['name']));
+				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("perm_table");
+			$this->tpl->parseCurrentBlock();	
+		}
+
+		$this->tpl->setCurrentBlock("perm_settings");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function __showPermissionsObjectSection()
+	{
+		// create pointer to first role (only the permission list is needed)
+		reset($this->roles);
+		$first_role =& current($this->roles);
+
+		if (count($first_role['permissions']['object'])) // check if object type has special operations
+		{
+			$this->tpl->setCurrentBlock("perm_subtitle");
+			$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_object'));
+			$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_object_desc'));
+			$this->tpl->setVariable("COLSPAN", $this->num_roles);
+			$this->tpl->parseCurrentBlock();
+	
+			foreach ($this->roles as $role)
+			{
+				foreach ($role['permissions']['object'] as $perm)
+				{
+					$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
+	
+					$this->tpl->setCurrentBlock("perm_item");
+					$this->tpl->setVariable("PERM_CHECKBOX",$box);
+					$this->tpl->setVariable("PERM_NAME",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				$this->tpl->setCurrentBlock("perm_table");
+				$this->tpl->parseCurrentBlock();	
+			}								
+	
+			$this->tpl->setCurrentBlock("perm_settings");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	function __showPermissionsRBACSection()
+	{
+		$this->tpl->setCurrentBlock("perm_subtitle");
+		$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_rbac'));
+		$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_rbac_desc'));
+		$this->tpl->setVariable("COLSPAN", $this->num_roles);
+		$this->tpl->parseCurrentBlock();
+
+		foreach ($this->roles as $role)
+		{
+			foreach ($role['permissions']['rbac'] as $perm)
+			{
+				$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
+
+				$this->tpl->setCurrentBlock("perm_item");
+				$this->tpl->setVariable("PERM_CHECKBOX",$box);
+				$this->tpl->setVariable("PERM_NAME",$this->lng->txt('perm_administrate'));
+				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// use local policy flag
+			// offer option 'use local policy' only to those objects where this option is permitted
+			if ($this->objDefinition->stopInheritance($this->gui_obj->object->getType()))
+			{
+				if ($role['local_policy_allowed'])
+				{
+					$box = ilUtil::formCheckBox($role['local_policy_enabled'],'stop_inherit[]',$role['obj_id'],$role['keep_protected']);
+					$lang = $this->lng->txt("perm_use_local_policy");
+					$lang_desc = $this->lng->txt("perm_use_local_policy_desc");
+				}
+				else
+				{
+					$box = '&nbsp;';
+					$lang = $this->lng->txt("perm_local_role");
+					$lang_desc = $this->lng->txt("perm_local_role_desc");
+				}
+				
+				$this->tpl->setCurrentBlock("perm_item");
+				$this->tpl->setVariable("PERM_CHECKBOX",$box);
+				$this->tpl->setVariable("PERM_NAME",$lang);
+				$this->tpl->setVariable("PERM_TOOLTIP",$lang_desc);
+				$this->tpl->setVariable("PERM_LABEL",'stop_inherit_'.$role['obj_id']);
+				$this->tpl->parseCurrentBlock();
+			}
+	
+				$this->tpl->setCurrentBlock("perm_table");
+				$this->tpl->parseCurrentBlock();	
+		}
+
+		$this->tpl->setCurrentBlock("perm_settings");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function __showPermissionsCreateSection()
+	{
+		// no create operation for roles/role templates in local role folders
+		// access is controlled by 'administrate' (change permission settings) only
+		if ($this->gui_obj->object->getType() == 'rolf' and $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
+		{
+			return;
+		}
+		
+		// create pointer to first role (only the permission list is needed)
+		reset($this->roles);
+		$first_role =& current($this->roles);
+
+		if (count($first_role['permissions']['create'])) // check if object type has create operations
+		{
+			$this->tpl->setCurrentBlock("perm_subtitle");
+			$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_create'));
+			$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_create_desc'));
+			$this->tpl->setVariable("COLSPAN", $this->num_roles);
+			$this->tpl->parseCurrentBlock();
+	
+			foreach ($this->roles as $role)
+			{
+				foreach ($role['permissions']['create'] as $perm)
+				{
+					$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
+	
+					$this->tpl->setCurrentBlock("perm_item");
+					$this->tpl->setVariable("PERM_CHECKBOX",$box);
+					$this->tpl->setVariable("PERM_NAME",$this->lng->txt("obj".substr($perm['name'],6)));
+					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				$this->tpl->setCurrentBlock("perm_table");
+				$this->tpl->parseCurrentBlock();	
+			}
+	
+			$this->tpl->setCurrentBlock("perm_settings");
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 } // END class.ilPermissionGUI

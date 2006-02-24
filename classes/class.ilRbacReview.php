@@ -1056,12 +1056,15 @@ $log->write("ilRBACreview::__setProtectedStatus(), 0");
 				
 				foreach ($arr_lvl_roles_user as $lvl_role_id)
 				{
+					//echo "<br/>level_role: ".$lvl_role_id;
+					//echo "<br/>a_ref_id: ".$a_ref_id;
+					
 $log->write("ilRBACreview::__setProtectedStatus(), 1");
-					// check if role grants 'edit_permission' to rolefolder
+					// check if role grants 'edit_permission' to parent
 					if ($rbacsystem->checkPermission($a_ref_id,$lvl_role_id,'edit_permission'))
 					{
 $log->write("ilRBACreview::__setProtectedStatus(), 2");
-						// user may change permissions of that higher-ranking role
+						// user may change permissions of that higher-ranked role
 						$a_parent_roles[$role_id]['protected'] = false;
 						
 						// remember successful check
