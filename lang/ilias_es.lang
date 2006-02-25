@@ -1463,6 +1463,7 @@ common#:#export_xml#:#Exportar como fichero XML
 common#:#extt_configure#:#configurar...
 common#:#extt_edit_permission#:#Modificar configuración de permisos
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#ID Cliente
 common#:#extt_ilinc_desc#:#Aulas virtuales. Servicio comercia. Para conseguir una cuenta e información adicional contacte con netucate www.netucate.com
 common#:#extt_ilinc_enable#:#Habilitar soporte LearnLinc
@@ -2694,6 +2695,7 @@ common#:#role_no_groups_selected#:#Por favor seleccione un grupo
 common#:#role_no_results_found#:#No se encontraron resultados
 common#:#role_no_roles_selected#:#Por favor seleccione un rol
 common#:#role_no_users_no_desk_items#:#No es posible asignar items al Escritorio Personal, ya que no tiene permiso para asignar usuarios a este rol
+common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_search_enter_search_string#:#Por favor introduzca una cadena de búsqueda
 common#:#role_search_users#:#Búsqueda de usuarios
 common#:#role_select_desktop_item#:#Por favor seleccione un item que será asignado al Escritorio Personal de este rol
@@ -5738,10 +5740,14 @@ trac#:#trac_collection_deassign#:#Desasignar
 trac#:#trac_comment#:#Comentario
 trac#:#trac_comments#:#Comentarios
 trac#:#trac_completed#:#Completado
+trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Items del curso
 trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
+trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
+trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Oculto:
 trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
@@ -5781,8 +5787,11 @@ trac#:#trac_not_completed#:#No completado
 trac#:#trac_num_visits#:#Numero de visitas
 trac#:#trac_objects#:#Lista de objetos
 trac#:#trac_occurrences#:#Ruta:
+trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:
+trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Actualizar
 trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_sahs_relevant_items#:#SCO's

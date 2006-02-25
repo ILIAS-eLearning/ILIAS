@@ -1307,6 +1307,7 @@ common#:#export#:#Exporta
 common#:#export_group_members#:#Exportati membrii grupului (catre Microsoft Excel)
 common#:#export_html#:#Exportati ca fisier HTML
 common#:#export_xml#:#Exportati ca fisier XML
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_protocol_port#:#Protocol & Port###03 Nov 2005 new variable
 common#:#faq_exercise#:#Exercitiu FAQ
 common#:#fax#:#Fax
@@ -2376,6 +2377,7 @@ common#:#role_new_search#:#Cautare noua
 common#:#role_no_groups_selected#:#Va rugam selectati un grup
 common#:#role_no_results_found#:#Zero rezultate
 common#:#role_no_roles_selected#:#Va rugam selectati un rol
+common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_search_enter_search_string#:#Va rugam introduceti un sir de cautari
 common#:#role_search_users#:#Cautare utilizatori
 common#:#role_templates_only#:#Doar tabelele de roluri
@@ -5021,10 +5023,14 @@ trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
 trac#:#trac_comment#:#Comment###23 Dec 2005 new variable
 trac#:#trac_comments#:#Comments###23 Dec 2005 new variable
 trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
+trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
+trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
+trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
@@ -5064,8 +5070,11 @@ trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
 trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
 trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
 trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
+trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable

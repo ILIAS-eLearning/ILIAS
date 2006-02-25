@@ -1176,6 +1176,7 @@ common#:#export#:#Экспорт
 common#:#export_group_members#:#Экспортировать группу членов (в Microsoft Excel)
 common#:#export_html#:#экспортировать как HTML файл
 common#:#export_xml#:#экспортировать как XML файл
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#faq_exercise#:#ЧАВО Упражнения
 common#:#fax#:#Факс
 common#:#feedback#:#Обратная связь
@@ -2211,6 +2212,7 @@ common#:#role_no_groups_selected#:#Пожалуйста, выберите гру
 common#:#role_no_results_found#:#Не найдено
 common#:#role_no_roles_selected#:#Пожалуйста, выберите роль
 common#:#role_no_users_no_desk_items#:#Невозможно присвоить предметы рабочего места, пока вы не присвоете пользователей на эту роль.
+common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_search_enter_search_string#:#Пожалуйста, задайте строку поиска
 common#:#role_search_users#:#Поиск пользователя
 common#:#role_select_desktop_item#:#Пожалуйста, выберите один объект, который будет присвоен на эту роль.
@@ -4991,7 +4993,11 @@ trac#:#stats_user_selected#:#User selected###21 Feb 2006 new variable
 trac#:#stats_with#:#with###21 Feb 2006 new variable
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
 trac#:#trac_below#:#Below:###10 Feb 2006 new variable
+trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
+trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
+trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable
@@ -4999,6 +5005,9 @@ trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_lm_statistics#:#Access Statistics###21 Feb 2006 new variable
 trac#:#trac_no_content#:#No informations about the learning progress available.###20 Jan 2006 new variable
 trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
+trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
+trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_updated_status#:#Saved learning progress status.###24 Jan 2006 new variable

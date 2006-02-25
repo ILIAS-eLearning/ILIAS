@@ -1460,6 +1460,7 @@ common#:#export_xml#:#Esporta come file xml
 common#:#extt_configure#:#configura ...
 common#:#extt_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#ID utente
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
 common#:#extt_ilinc_enable#:#Abilita il supporto LearnLinc
@@ -2689,6 +2690,7 @@ common#:#role_no_groups_selected#:#Per favore scegli almeno un gruppo
 common#:#role_no_results_found#:#Nessun risultato
 common#:#role_no_roles_selected#:#Per favore scegli almeno un ruolo
 common#:#role_no_users_no_desk_items#:#Non &#232; possibile aggiungere oggetti sul desktop personale, visto che non puoi assegnare gli utenti a questo ruolo.
+common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_search_enter_search_string#:#Per favore indica cosa ricercare
 common#:#role_search_users#:#Ricerca utenti
 common#:#role_select_desktop_item#:#Scegli un oggetto che sar&#224; assegnato a questo ruolo.
@@ -5732,10 +5734,14 @@ trac#:#trac_collection_deassign#:#Rimuovi assegnamento
 trac#:#trac_comment#:#Commento
 trac#:#trac_comments#:#Commenti
 trac#:#trac_completed#:#Completato
+trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Risorse del corso
 trac#:#trac_edit_collection#:#Assegna le risorse del corso. Se lo stato di tutti gli oggetti &#232; 'Completato', l'intero corso si considera completato dall'utente.
 trac#:#trac_edit_progress#:#Modifica i progressi di apprendimento
+trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Definisci il numero di accessi necessario per completare questo oggetto.
+trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Nascosto:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#Il numero di accessi &#232; limitato a %s. Per ridurre questo numero utilizza il filtro.
@@ -5775,8 +5781,11 @@ trac#:#trac_not_completed#:#Non completato
 trac#:#trac_num_visits#:#Numero di accessi
 trac#:#trac_objects#:#Liste di oggetti
 trac#:#trac_occurrences#:#Percorso:
+trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Progressi didattici personali
 trac#:#trac_query#:#Titolo/descrizione
+trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Aggiorna
 trac#:#trac_required_visits#:#Numero di accessi richiesto
 trac#:#trac_sahs_relevant_items#:#SCO

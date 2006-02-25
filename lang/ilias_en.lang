@@ -41,8 +41,6 @@ administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
-common#:#extt_ilinc_configure#:#Configure netucate LearnLinc
-common#:#role_protect_permissions#:#Protect permissions
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
@@ -1464,6 +1462,7 @@ common#:#export_xml#:#export as XML file
 common#:#extt_configure#:#configure...
 common#:#extt_edit_permission#:#Change permission settings
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#Customer ID
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com
 common#:#extt_ilinc_enable#:#Enable LearnLinc support
@@ -2695,6 +2694,7 @@ common#:#role_no_groups_selected#:#Please select a group
 common#:#role_no_results_found#:#No results found
 common#:#role_no_roles_selected#:#Please select a role
 common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.
+common#:#role_protect_permissions#:#Protect permissions
 common#:#role_search_enter_search_string#:#Please enter a search string
 common#:#role_search_users#:#User search
 common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.
@@ -5739,10 +5739,14 @@ trac#:#trac_collection_deassign#:#Deassign
 trac#:#trac_comment#:#Comment
 trac#:#trac_comments#:#Comments
 trac#:#trac_completed#:#Completed
+trac#:#trac_crs_assignments#:#Assignment of course items
+trac#:#trac_crs_items#:#Assignable course items
 trac#:#trac_crs_releavant_items#:#Course items
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
 trac#:#trac_edit_progress#:#Edit learning progress
+trac#:#trac_edit_time#:#Processing time
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
+trac#:#trac_edited_scos#:#Processed content
 trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Hidden:
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
@@ -5782,8 +5786,11 @@ trac#:#trac_not_completed#:#Not Completed
 trac#:#trac_num_visits#:#Number of visits
 trac#:#trac_objects#:#List of objects
 trac#:#trac_occurrences#:#Path:
+trac#:#trac_processing_time#:#Assumed processing time
 trac#:#trac_progress#:#Personal learning progress
 trac#:#trac_query#:#Title/description:
+trac#:#trac_reached_points#:#Achieved score
+trac#:#trac_reached_visits#:#Required visits
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_required_visits#:#Number of required visits
 trac#:#trac_sahs_relevant_items#:#SCO's
@@ -5804,10 +5811,3 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-trac#:#trac_edit_time#:#Processing time
-trac#:#trac_reached_visits#:#Required visits
-trac#:#trac_edited_scos#:#Processed content
-trac#:#trac_reached_points#:#Achieved score
-trac#:#trac_crs_assignments#:#Assignment of course items
-trac#:#trac_crs_items#:#Assignable course items
-trac#:#trac_processing_time#:#Assumed processing time

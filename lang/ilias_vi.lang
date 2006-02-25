@@ -1398,6 +1398,7 @@ common#:#export_xml#:#xuất ra dạng XML
 common#:#extt_configure#:#cấu hình...
 common#:#extt_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#ID khách hàng
 common#:#extt_ilinc_desc#:#Cung cấp lớp học ảo. Dịch vụ thương mại. Hãy liên hệ netucate tại www.netucate.com để có tài khoản và nhiều thông tin hơn.
 common#:#extt_ilinc_enable#:#Cho phép hỗ trợ LearnLinc
@@ -2620,6 +2621,7 @@ common#:#role_no_groups_selected#:#Hãy chọn một nhóm
 common#:#role_no_results_found#:#Không tìm thấy kết quả nào
 common#:#role_no_roles_selected#:#Hãy chọn một vai trò
 common#:#role_no_users_no_desk_items#:#Không thể chỉ định các khoản mục trên bàn làm việc, do không có người sử dụng trong vai trò.
+common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_search_enter_search_string#:#Hãy nhập vào một xâu để tìm kiếm
 common#:#role_search_users#:#Tìm kiếm người sử dụng
 common#:#role_select_desktop_item#:#Hãy chọn một đối tượng sẽ được chỉ định cho vai trò này.
@@ -5535,9 +5537,13 @@ trac#:#trac_collection_deassign#:#Hủy chỉ định
 trac#:#trac_comment#:#Bình luận
 trac#:#trac_comments#:#Bình luận
 trac#:#trac_completed#:#Đã hoàn thành
+trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Các mục khóa học
 trac#:#trac_edit_collection#:#Hãy chỉ định các mục khóa học. Nếu trạng thái của mọi đối tượng được chỉ định là 'Đã hoàn thành' người sử dụng sẽ được tính là hoàn thành toàn bộ khóa học.
+trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Hãy định nghĩa số lần truy cập cần thiết để hoàn thành đối tượng này.
+trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Khu vực:
 trac#:#trac_filter_hidden#:#Ẩn:
 trac#:#trac_filter_no_access#:#Không tìm thấy đối tượng nào
@@ -5570,8 +5576,11 @@ trac#:#trac_not_attempted#:#Chưa thử thực hiện
 trac#:#trac_num_visits#:#Số lần truy cập
 trac#:#trac_objects#:#Danh sách các đối tượng
 trac#:#trac_occurrences#:#Đường dẫn:
+trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Tiến trình học tập cá nhân
 trac#:#trac_query#:#Tiêu đề/mô tả:
+trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Cập nhật
 trac#:#trac_sahs_relevant_items#:#SCO's///
 trac#:#trac_settings#:#Thiết lập

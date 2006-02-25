@@ -1462,6 +1462,7 @@ common#:#export_xml#:#Eksportuj jako plik xml
 common#:#extt_configure#:#konfiguruje...
 common#:#extt_edit_permission#:#Zmiana ustawień praw dostępu
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#ID klienta
 common#:#extt_ilinc_desc#:#Dostarcza wirtualne klasy czat. Serwis komercyjny. Dla uzyskania konta i więcej informacji skontaktuj się z netucate w www.netucate.com
 common#:#extt_ilinc_enable#:#Włącz obsługę LearnLinc
@@ -2693,6 +2694,7 @@ common#:#role_no_groups_selected#:#Wybierz grupę
 common#:#role_no_results_found#:#Brak rezultatów
 common#:#role_no_roles_selected#:#Wybierz rolę
 common#:#role_no_users_no_desk_items#:#Mie można przydzielić pozycji osobistych pulpitu, dopóki nie przydzielono użytkowników do tej roli.
+common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_search_enter_search_string#:#Podaj wyszukiwaną frazę
 common#:#role_search_users#:#Szukanie użytkownika
 common#:#role_select_desktop_item#:#Wybierz obiekt, który ma być przydzielony do tej roli.
@@ -5737,10 +5739,14 @@ trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
 trac#:#trac_comment#:#Comment###23 Dec 2005 new variable
 trac#:#trac_comments#:#Comments###23 Dec 2005 new variable
 trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
+trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
+trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
+trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
@@ -5780,8 +5786,11 @@ trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
 trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
 trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
 trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
+trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable

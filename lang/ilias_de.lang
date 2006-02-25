@@ -41,8 +41,6 @@ administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
 administration#:#clean#:#Räume auf
-common#:#extt_ilinc_configure#:#Einstellungen für netucate LearnLinc
-common#:#role_protect_permissions#:#Rechte schützen
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur###23 Dec 2005 content changed
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
@@ -1463,6 +1461,7 @@ common#:#export_xml#:#Exportieren als XML-Datei
 common#:#extt_configure#:#konfigurieren...
 common#:#extt_edit_permission#:#Rechteeinstellungen ändern
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_configure#:#Einstellungen für netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#Kunden ID
 common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
 common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
@@ -2694,6 +2693,7 @@ common#:#role_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 common#:#role_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#role_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#role_no_users_no_desk_items#:#Dieser Rolle können an dieser Stelle keine Benutzer zugeordnet werden, daher können hier auch keine Angebote verwaltet werden.
+common#:#role_protect_permissions#:#Rechte schützen
 common#:#role_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#role_search_users#:#Benutzersuche
 common#:#role_select_desktop_item#:#Bitte wählen Sie ein Objekt aus, das Benutzern die dieser Rolle zugeordnet werden automatisch auf den Persönlichen Schreibtisch gelegt wird.
@@ -5737,10 +5737,14 @@ trac#:#trac_collection_deassign#:#Auswahl aufheben
 trac#:#trac_comment#:#Kommentar
 trac#:#trac_comments#:#Kommentare
 trac#:#trac_completed#:#Bearbeitet
+trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
+trac#:#trac_crs_items#:#Kurselemente
 trac#:#trac_crs_releavant_items#:#Kursobjekte
 trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Kursobjekte aus, anhand derer der Lernfortschritt bestimmt wird.
 trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
+trac#:#trac_edit_time#:#Bearbeitungszeit
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
+trac#:#trac_edited_scos#:#Bearbeitete Inhalte
 trac#:#trac_filter_area#:#Bereich:
 trac#:#trac_filter_hidden#:#Ausgeblendet:
 trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
@@ -5780,8 +5784,11 @@ trac#:#trac_not_completed#:#Nicht bearbeitet
 trac#:#trac_num_visits#:#Anzahl der Besuche
 trac#:#trac_objects#:#Objektübersicht
 trac#:#trac_occurrences#:#Pfad:
+trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_query#:#Titel/Beschreibung:
+trac#:#trac_reached_points#:#Erreichte Punktzahl
+trac#:#trac_reached_visits#:#Benötigte Aufrufe
 trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_required_visits#:#Anzahl benötigter Besuche
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
@@ -5802,10 +5809,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
-trac#:#trac_crs_items#:#Kurselemente
-trac#:#trac_edit_time#:#Bearbeitungszeit
-trac#:#trac_reached_visits#:#Benötigte Aufrufe
-trac#:#trac_edited_scos#:#Bearbeitete Inhalte
-trac#:#trac_reached_points#:#Erreichte Punktzahl
-trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit

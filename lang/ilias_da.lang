@@ -1347,6 +1347,7 @@ common#:#export_xml#:#eksporter som en  XML fil
 common#:#extt_configure#:#Konfigure...
 common#:#extt_edit_permission#:#Skift retighedder indstillinger
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#kunde ID
 common#:#extt_ilinc_desc#:#Provides virtual klassev&aelig;relse. Commercial service. For an account and further information please contact netucate at www.netucate.com
 common#:#extt_ilinc_enable#:#Aktiver LearnLinc support
@@ -2540,6 +2541,7 @@ common#:#role_no_groups_selected#:#V&aelig;lg venligst en gruppe
 common#:#role_no_results_found#:#Ingen reultater fundet
 common#:#role_no_roles_selected#:#V&aelig;lg en rolle
 common#:#role_no_users_no_desk_items#:#Det er ikke muligt at tilf&oslash;je personlig baggrund, siden du ikk kan angive bruger til denne rolle
+common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_search_enter_search_string#:#indtast et s&oslash;geord
 common#:#role_search_users#:#Bruger s&oslash;gning
 common#:#role_select_desktop_item#:#V&aelig;lg et obejkt der vil bliver tildelt denne rolle
@@ -5518,9 +5520,13 @@ trac#:#trac_collection_deassign#:#Fjern tildeling
 trac#:#trac_comment#:#Kommentar
 trac#:#trac_comments#:#Kommentar
 trac#:#trac_completed#:#F&aelig;rdig
+trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Kursus ting
 trac#:#trac_edit_collection#:#Fasts&aelig;t kursus ting
+trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Definere antal af bes&oslash;g der er n&oslash;d til at f&aelig;rdig g&oslash;re det her obejkt
+trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Areal:
 trac#:#trac_filter_hidden#:#gemt
 trac#:#trac_filter_no_access#:#Objekt ikke fudnet
@@ -5554,8 +5560,11 @@ trac#:#trac_not_attempted#:#Ikke pr&oslash;vet
 trac#:#trac_num_visits#:#Antal af bes&oslash;g
 trac#:#trac_objects#:#Liste af objekter
 trac#:#trac_occurrences#:#Sti
+trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Personlig l&aelig;rings fremgang
 trac#:#trac_query#:#Title
+trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Opdater
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_settings#:#Indstillinger
