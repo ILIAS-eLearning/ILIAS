@@ -950,6 +950,8 @@ class ilInternalLinkGUI
 		{
 			$expanded = $_GET["expand"];
 		}
+		$exp->setMode($this->mode);
+		$exp->setSetLinkTargetScript($this->getSetLinkTargetScript());
 		$exp->setExpand($expanded);
 
 		$exp->setTargetGet("sel_id");

@@ -34,7 +34,8 @@ include_once("classes/class.ilExplorer.php");
 
 class ilIntLinkRepItemExplorer extends ilExplorer
 {
-
+	var $mode = "text";
+	
 	/**
 	* Constructor
 	* @access	public
@@ -54,6 +55,16 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 		$this->selectable_types  = $a_types;
 	}
 
+	function setMode($a_mode)
+	{
+		$this->mode  = $a_mode;
+	}
+	
+	function setSetLinkTargetScript($a_script)
+	{
+		$this->link_target_script = $a_script;
+	}
+	
 	function setRefId($a_ref_id)
 	{
 		$this->ref_id = $a_ref_id;
@@ -61,13 +72,33 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		return "#";
+		if ($this->mode != "link")
+		{
+			return "#";
+		}
+		else
+		{
+			//$tpl->setVariable("LINK_TARGET", "content");
+			$link =
+				ilUtil::appendUrlParameterString($this->link_target_script,
+				"linktype=RepositoryItem".
+				"&linktarget=il__".$a_type."_".$a_node_id);
+
+			return ($link);
+		}
 	}
 	
 
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
-		return '';
+		if ($this->mode == "link")
+		{
+			return "content";
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	/**
@@ -77,7 +108,8 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	{
 		global $ilUser;
 		
-		if ($ilUser->getPref("ilPageEditor_JavaScript") != "enable")
+		if ($ilUser->getPref("ilPageEditor_JavaScript") != "enable"
+			&& $this->mode != "link")
 		{
 			return false;
 		}
@@ -107,7 +139,10 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 		{
 			if (in_array($a_type,$this->selectable_types))
 			{
-				return "[iln ".$a_type."=\"$a_id\"] [/iln]";
+				if ($this->mode != "link")
+				{
+					return "[iln ".$a_type."=\"$a_id\"] [/iln]";
+				}
 			}
 		}
 		return "";
