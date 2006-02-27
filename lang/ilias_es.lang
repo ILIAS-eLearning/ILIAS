@@ -12,7 +12,7 @@
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
     | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                            G                 |
+    |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
     | as published by the Free Software Foundation; either version 2              |
@@ -965,7 +965,7 @@ common#:#ascending_order#:#Orden ascendente
 common#:#assessment_log#:#Crear un informe de la herramienta Test para un período específico
 common#:#assessment_log_datetime#:#Fecha/hora
 common#:#assessment_log_for_test#:#Para el test
-common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
+common#:#assessment_log_log_entries#:#entradas de registro
 common#:#assessment_log_no_log#:#¡No hay datos de informe disponibles para el test seleccionado y el período de tiempo especificado!
 common#:#assessment_log_open_calendar#:#Haga click aquí para abrir un calendario para la selección de la fecha (se requiere el uso de Javascript)
 common#:#assessment_log_question#:#Pregunta
@@ -2327,7 +2327,7 @@ common#:#no_checkbox#:#No se ha marcado ningún checkbox!
 common#:#no_condition_selected#:#Por favor seleccione una precondicion
 common#:#no_conditions_found#:#No se crearon precondiciones
 common#:#no_datasets#:#La tabla está vacía
-common#:#no_date#:#-No date-
+common#:#no_date#:#No hay fecha
 common#:#no_description#:#Sin descripción
 common#:#no_frm_in_personal_list#:#No hay foros en la lista personal.
 common#:#no_global_role_left#:#Cada usuario debe ser asignado a un rol.
@@ -5812,3 +5812,29 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
+<<<<<<< ilias_es.lang
+=======
+trac#:#trac_required_visits#:#Número de visitas requeridas
+trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
+trac#:#trac_filter_none#:#Ninguno
+trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
+trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
+trac#:#trac_select_one#:#No hizo selección
+common#:#extt_ilinc_configure#:#Configurar netucate LearnLinc
+common#:#role_protect_permissions#:#Proteger permisos
+trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
+trac#:#trac_not_completed#:#No completado
+trac#:#trac_last_access#:#Último acceso
+trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
+trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
+common#:#hours#:#hora(s)
+trac#:#trac_below#:#Debajo de:
+trac#:#trac_edit_time#:#Tiempo de proceso
+trac#:#trac_reached_visits#:#Visitas requeridas
+trac#:#trac_edited_scos#:#Contenido procesado
+trac#:#trac_reached_points#:#Puntuacion requerida
+trac#:#trac_crs_assignments#:#Asignación de items del curso
+trac#:#trac_crs_items#:#items del curso que pueden asignarse
+trac#:#trac_processing_time#:#Tiempo de proceso asumido
+trac#:#trac_crs_members#:#Miembros del curso:
+trac#:#trac_show#:#Mostrar progreso
