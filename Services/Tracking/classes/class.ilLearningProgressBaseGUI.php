@@ -473,7 +473,7 @@ class ilLearningProgressBaseGUI
 			case LP_MODE_TEST_PASSED:
 				// Get stored test results
 				include_once './Services/Tracking/classes/class.ilTestResultCache.php';
-				$test_res_cache = ilTestResultCache::_getInstance();
+				$test_res_cache =& ilTestResultCache::_getInstance();
 				$result = $test_res_cache->get($a_obj_id);
 				
 				foreach($result as $res)

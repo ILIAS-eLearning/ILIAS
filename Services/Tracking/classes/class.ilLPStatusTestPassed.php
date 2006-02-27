@@ -80,7 +80,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		include_once './assessment/classes/class.ilObjTestAccess.php';
 		include_once './Services/Tracking/classes/class.ilTestResultCache.php';
 
-		$test_cache = ilTestResultCache::_getInstance();
+		$test_cache =& ilTestResultCache::_getInstance();
 		$test_cache->store($a_obj_id,$result = ilObjTestAccess::_getPassedUsers($a_obj_id));
 
 		foreach($result as $user_data)
