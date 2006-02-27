@@ -1029,7 +1029,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// view
 		$tabs_gui->addTarget("view",
 			$this->ctrl->getLinkTarget($this, 'view'),
-			"view", "");
+			array("view",""), "");
 
 		// edit properties
 		if ($rbacsystem->checkAccess("write", $this->ref_id))

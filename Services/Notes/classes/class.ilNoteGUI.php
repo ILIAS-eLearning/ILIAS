@@ -808,7 +808,16 @@ class ilNoteGUI
 	*/ 
 	function deleteNotes()
 	{
-		$this->delete_note = true;
+		global $lng;
+		
+		if (!$_POST["note"])
+		{
+			sendinfo($lng->txt("no_checkbox"));
+		}
+		else
+		{
+			$this->delete_note = true;
+		}
 		return $this->getNotesHTML();
 	}
 
