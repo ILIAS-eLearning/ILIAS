@@ -1896,6 +1896,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$link_str = $this->lng->txt("mob").
 					": ".$mob->getTitle()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
 				break;
+				
+			case "RepositoryItem":
+				//require_once("content/classes/class.ilLMObject.php");
+				$title = ilObject::_lookupTitle(
+					ilObject::_lookupObjId($t_arr[count($t_arr) - 1]));
+				$link_str = $this->lng->txt("obj_".$t_arr[count($t_arr) - 2]).
+					": ".$title." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
+				break;
 		}
 
 		return $link_str;
