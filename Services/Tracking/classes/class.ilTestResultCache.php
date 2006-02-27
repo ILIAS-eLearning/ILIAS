@@ -57,10 +57,12 @@ class ilTestResultCache
 	function store($a_obj_id,$result_set)
 	{
 		$this->stored[$a_obj_id] = $result_set;
+		#var_dump("<pre>",$this->stored,time(),"</pre>");
 	}
 
 	function get($a_obj_id)
 	{
+		#var_dump("<pre>",$this->stored,time(),"</pre>");
 		return is_array($this->stored[$a_obj_id]) ? $this->stored[$a_obj_id] : array();
 	}
 }
