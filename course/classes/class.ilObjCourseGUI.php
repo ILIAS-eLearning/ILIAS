@@ -1613,7 +1613,7 @@ class ilObjCourseGUI extends ilContainerGUI
 							$img_change."</a>";
 
 						include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-						if($rbacsystem->checkAccess('read',$this->ref_id) and 
+						if($rbacsystem->checkAccess('edit_learning_progress',$this->ref_id) and 
 						   ilObjUserTracking::_enabledTracking() and
 						   ilObjUserTracking::_enabledUserRelatedData())
 						{

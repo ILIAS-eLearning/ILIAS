@@ -5809,3 +5809,5 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+trac#:#trac_crs_members#:#Kursteilnehmer:
+trac#:#trac_show#:#Lernfortschritt anzeigen

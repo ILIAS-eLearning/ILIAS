@@ -80,6 +80,7 @@ class ilLPFilterGUI
 		return $this->usr_id;
 	}
 
+
 	function getHTML()
 	{
 		global $ilObjDataCache;

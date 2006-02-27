@@ -137,6 +137,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		{
 			case 'crs':
 				$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_lm_details.html','Services/Tracking');
+
+
+				// show course member selection
+				$this->__showMemberSelector();
+
 				if($this->details_mode == LP_MODE_COLLECTION)
 				{
 					$this->__showCourseDetails();
@@ -478,6 +483,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	{
 		global $ilUser;
 
+		if($_POST['user_id'])
+		{
+			$a_usr_id = $_POST['user_id'];
+		}
+
 		if($a_usr_id)
 		{
 			$this->tracked_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
@@ -541,7 +551,46 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			return $status = LP_STATUS_NOT_ATTEMPTED;
 		}
 	}
+
+	function __showMemberSelector()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('edit_learning_progress',(int) $_GET['ref_id']))
+		{
+			return false;
+		}
+
+		$this->tpl->setCurrentBlock("member_selector");
+		$this->ctrl->setParameter($this,'details_id',$this->details_id);
+		$this->tpl->setVariable("MEMBER_ACTION",$this->ctrl->getFormAction($this,"details"));
+		$this->tpl->setVariable("CRS_MEMBERS",$this->lng->txt("trac_crs_members"));
 		
+		// Build selection
+		include_once "./course/classes/class.ilCourseMembers.php";
+		$members = ilCourseMembers::_getMembers($this->details_id);
+		$sorted_members = $this->__sort($members,'usr_data','lastname','usr_id');
+
+		foreach($sorted_members as $member_id)
+		{
+			$options[$member_id] = ilObjUser::_lookupTitle($member_id);
+		}
+
+		$this->tpl->setVariable("MEMBER_SELECTION",ilUtil::formSelect($this->tracked_user->getId(),
+																	  "user_id",
+																	  $options,
+																	  false,
+																	  true));
+			
+		
+
+
+
+		$this->tpl->setVariable("SHOW",$this->lng->txt("trac_show"));
+		$this->tpl->parseCurrentBlock();
+
+		return true;
+	}
 
 }
 ?>
