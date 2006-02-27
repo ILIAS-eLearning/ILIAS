@@ -27,6 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
+*
 * @extends Object
 * @package ilias-core
 */
@@ -394,19 +395,20 @@ class ilObjExercise extends ilObject
 	*/
 	function _goto($a_target)
 	{
-		global $rbacsystem, $ilErr, $lng;
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
 		include_once 'classes/class.ilSearch.php';
 			
 		// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
 		// Will be replaced in future releases by ilAccess::checkAccess()
-		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
+		//if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
+		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
 			ilUtil::redirect("exercise.php?ref_id=$a_target");
 		}
 		else
 		{
-			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 		}
 	}		
 } //END class.ilObjExercise

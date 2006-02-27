@@ -75,6 +75,7 @@ switch($target_type)
 		break;
 		
 	case "lm":
+	case "dbk":
 		require_once("./content/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_goto($target_id);
 		include("ilias.php");
@@ -116,6 +117,11 @@ switch($target_type)
 	case "webr":
 		require_once("./link/classes/class.ilObjLinkResource.php");
 		ilObjLinkResource::_goto($target_id);
+		break;
+
+	case "chat":
+		require_once("./chat/classes/class.ilObjChat.php");
+		ilObjChat::_goto($target_id);
 		break;
 
 }

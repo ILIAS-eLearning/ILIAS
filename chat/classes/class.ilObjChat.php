@@ -256,6 +256,20 @@ class ilObjChat extends ilObject
 		return false;
 	}
 
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			ilUtil::redirect("chat.php?ref_id=$a_target");
+		}
+		else
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		}
+	}
+
 			
 	// SET/GET
 } // END class.ilObjTest

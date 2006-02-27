@@ -115,7 +115,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 
 		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("create",$this->ref_id,'crs'))
+		if(!$rbacsystem->checkAccess("create",$_GET["ref_id"],'crs'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create"),$this->ilias->error_obj->MESSAGE);
 		}
