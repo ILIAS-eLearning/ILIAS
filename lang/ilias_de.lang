@@ -966,7 +966,7 @@ common#:#ascending_order#:#Aufsteigende Reihenfolge
 common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_for_test#:#Für den Test
-common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
+common#:#assessment_log_log_entries#:#Protokolleinträge
 common#:#assessment_log_no_log#:#Es ist keine Protokollierung für den ausgewählten Test in der angegebenen Zeitspanne vorhanden!
 common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumauswahl zu erhalten (Nur mit JavaScript!)
 common#:#assessment_log_question#:#Frage
@@ -5258,7 +5258,7 @@ survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#add_standard_numbers#:#Standardzahlen hinzufügen
-survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.###05 Feb 2006 content changed
+survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 32stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
@@ -5512,13 +5512,13 @@ survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
 survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
 survey#:#question_has_constraints#:#Vorbedingungen
-survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
+survey#:#question_icon#:#Fragensymbol
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_has_constraints#:#Vorbedingungen
-survey#:#questionblock_icon#:#Questionblock icon###06 Feb 2006 new variable
+survey#:#questionblock_icon#:#Fragenblock-Symbol
 survey#:#questionblocks#:#Fragenblöcke
 survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt
@@ -5573,7 +5573,7 @@ survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die URL zu kopieren)
 survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
 survey#:#survey_finish#:#Umfrage beenden >>>
-survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!###05 Feb 2006 content changed
+survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_next#:#Weiter >>>
 survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden. Die Umfrage ist nicht online!
