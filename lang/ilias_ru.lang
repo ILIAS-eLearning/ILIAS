@@ -4995,6 +4995,7 @@ trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 
 trac#:#trac_below#:#Below:###10 Feb 2006 new variable
 trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
+trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
@@ -5010,4 +5011,5 @@ trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
+trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable
 trac#:#trac_updated_status#:#Saved learning progress status.###24 Jan 2006 new variable

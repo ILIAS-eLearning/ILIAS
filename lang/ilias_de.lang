@@ -5739,6 +5739,7 @@ trac#:#trac_comments#:#Kommentare
 trac#:#trac_completed#:#Bearbeitet
 trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
 trac#:#trac_crs_items#:#Kurselemente
+trac#:#trac_crs_members#:#Kursteilnehmer:
 trac#:#trac_crs_releavant_items#:#Kursobjekte
 trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Kursobjekte aus, anhand derer der Lernfortschritt bestimmt wird.
 trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
@@ -5795,6 +5796,7 @@ trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
 trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
 trac#:#trac_settings#:#Einstellungen
 trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
+trac#:#trac_show#:#Lernfortschritt anzeigen
 trac#:#trac_show_hidden#:#Wieder anzeigen
 trac#:#trac_spent_time#:#Gesamtbearbeitungszeit
 trac#:#trac_status#:#Status###23 Dec 2005 new variable
@@ -5809,5 +5811,3 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-trac#:#trac_crs_members#:#Kursteilnehmer:
-trac#:#trac_show#:#Lernfortschritt anzeigen

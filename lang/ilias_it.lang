@@ -5736,6 +5736,7 @@ trac#:#trac_comments#:#Commenti
 trac#:#trac_completed#:#Completato
 trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
+trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Risorse del corso
 trac#:#trac_edit_collection#:#Assegna le risorse del corso. Se lo stato di tutti gli oggetti &#232; 'Completato', l'intero corso si considera completato dall'utente.
 trac#:#trac_edit_progress#:#Modifica i progressi di apprendimento
@@ -5792,6 +5793,7 @@ trac#:#trac_sahs_relevant_items#:#SCO
 trac#:#trac_select_one#:#Non hai selezionato niente
 trac#:#trac_settings#:#Impostazioni
 trac#:#trac_settings_saved#:#Impostazioni salvate
+trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable
 trac#:#trac_show_hidden#:#Mostra
 trac#:#trac_spent_time#:#Tempo trascorso
 trac#:#trac_status#:#Stato

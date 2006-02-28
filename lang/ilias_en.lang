@@ -5741,6 +5741,7 @@ trac#:#trac_comments#:#Comments
 trac#:#trac_completed#:#Completed
 trac#:#trac_crs_assignments#:#Assignment of course items
 trac#:#trac_crs_items#:#Assignable course items
+trac#:#trac_crs_members#:#Course members:
 trac#:#trac_crs_releavant_items#:#Course items
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
 trac#:#trac_edit_progress#:#Edit learning progress
@@ -5797,6 +5798,7 @@ trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_one#:#You made no selection
 trac#:#trac_settings#:#Settings
 trac#:#trac_settings_saved#:#Saved settings.
+trac#:#trac_show#:#Show learning progress
 trac#:#trac_show_hidden#:#Show
 trac#:#trac_spent_time#:#Spent time
 trac#:#trac_status#:#Status
@@ -5811,5 +5813,3 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-trac#:#trac_crs_members#:#Course members:
-trac#:#trac_show#:#Show learning progress
