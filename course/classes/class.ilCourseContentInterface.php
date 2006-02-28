@@ -194,12 +194,20 @@ class ilCourseContentInterface
 		}
 		elseif($write_perm)
 		{
-			$this->tabs_gui->setTabActive('content');
+			// (do not set tab, if we are in folder/group)
+			if (strtolower(get_class($this->container)) == "ilobjcoursegui")
+			{
+				$this->tabs_gui->setTabActive('content');
+			}
 			$items = $this->cci_course_obj->items_obj->getAllItems();
 		}
 		else
 		{
-			$this->tabs_gui->setTabActive('content');
+			// (do not set tab, if we are in folder/group)
+			if (strtolower(get_class($this->container)) == "ilobjcoursegui")
+			{
+				$this->tabs_gui->setTabActive('content');
+			}
 			$items = $this->cci_course_obj->items_obj->getItems();
 		}
 	
