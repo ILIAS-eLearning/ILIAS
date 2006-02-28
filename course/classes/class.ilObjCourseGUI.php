@@ -214,7 +214,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function viewObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 
 		// CHECK ACCESS
 		if(!$rbacsystem->checkAccess("read", $this->ref_id))
@@ -239,6 +239,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$this->archiveObject();
 			}
+			// Trac access
+			include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+
+			ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'crs');
 		}
 	}
 

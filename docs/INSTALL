@@ -606,7 +606,7 @@ components:
 
         - Auth
         - HTML_Template_IT
-		- HTTP_Request (if cron-jobs are used)
+		- HTTP_Request
 		- XML_RPC (if lucene search is enabled)
 
     They can be obtained directly from the Web using the PEAR command line

@@ -583,7 +583,7 @@ class ilCalInterface
 	{
 		global $ilObjDataCache;
 
-		return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId());
+		return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($groupId));
 
 			
 		#$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
