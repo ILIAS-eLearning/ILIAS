@@ -106,6 +106,12 @@ class ilLocatorGUI
 			$a_ref_id = $_GET["ref_id"];
 		}
 		
+		$pre = "";
+		if (defined("ILIAS_MODULE"))
+		{
+			$pre = "../";
+		}
+		
 		if ($a_ref_id > 0)
 		{
 			$path = $tree->getPathFull($a_ref_id);
@@ -122,7 +128,7 @@ class ilLocatorGUI
 					$row["title"] = $this->lng->txt("repository");
 				}
 				$this->addItem($row["title"],
-					"repository.php?cmd=frameset&amp;ref_id=".$row["child"],
+					$pre."repository.php?cmd=frameset&amp;ref_id=".$row["child"],
 					ilFrameTargetInfo::_getFrame("MainContent"));
 			}
 		}
