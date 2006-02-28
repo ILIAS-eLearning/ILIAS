@@ -5522,6 +5522,7 @@ trac#:#trac_comments#:#Kommentar
 trac#:#trac_completed#:#F&aelig;rdig
 trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
+trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Kursus ting
 trac#:#trac_edit_collection#:#Fasts&aelig;t kursus ting
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
@@ -5569,6 +5570,7 @@ trac#:#trac_refresh#:#Opdater
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_settings#:#Indstillinger
 trac#:#trac_settings_saved#:#Gem instillinger
+trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable
 trac#:#trac_show_hidden#:#Vis
 trac#:#trac_spent_time#:#Brugt tid
 trac#:#trac_status#:#Status

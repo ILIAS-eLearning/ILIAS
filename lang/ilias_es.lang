@@ -1463,6 +1463,7 @@ common#:#export_xml#:#Exportar como fichero XML
 common#:#extt_configure#:#configurar...
 common#:#extt_edit_permission#:#Modificar configuración de permisos
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_configure#:#Configurar netucate LearnLinc
 common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#ID Cliente
 common#:#extt_ilinc_desc#:#Aulas virtuales. Servicio comercia. Para conseguir una cuenta e información adicional contacte con netucate www.netucate.com
@@ -1767,6 +1768,7 @@ common#:#hlm_write#:#Editar Módulo de aprendizaje HACP
 common#:#hobby#:#Intereses/hobbies
 common#:#home#:#Inicio
 common#:#host#:#host
+common#:#hours#:#hora(s)
 common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Horas del día
 common#:#htlm#:#Módulo de aprendizaje HTML
@@ -2696,6 +2698,7 @@ common#:#role_no_results_found#:#No se encontraron resultados
 common#:#role_no_roles_selected#:#Por favor seleccione un rol
 common#:#role_no_users_no_desk_items#:#No es posible asignar items al Escritorio Personal, ya que no tiene permiso para asignar usuarios a este rol
 common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
+common#:#role_protect_permissions#:#Proteger permisos
 common#:#role_search_enter_search_string#:#Por favor introduzca una cadena de búsqueda
 common#:#role_search_users#:#Búsqueda de usuarios
 common#:#role_select_desktop_item#:#Por favor seleccione un item que será asignado al Escritorio Personal de este rol
@@ -5730,33 +5733,45 @@ trac#:#stats_user_selected#:#User selected###21 Feb 2006 new variable
 trac#:#stats_with#:#with###21 Feb 2006 new variable
 trac#:#trac_activated#:#Tracking activado
 trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
+trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
 trac#:#trac_anonymized#:#Anonimo
 trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
 trac#:#trac_assigned#:#Asignado
 trac#:#trac_assignments#:#Asignaciones
+trac#:#trac_below#:#Debajo de:
 trac#:#trac_below#:#Debajo de:
 trac#:#trac_collection_assign#:#Asignar
 trac#:#trac_collection_deassign#:#Desasignar
 trac#:#trac_comment#:#Comentario
 trac#:#trac_comments#:#Comentarios
 trac#:#trac_completed#:#Completado
+trac#:#trac_crs_assignments#:#Asignación de items del curso
 trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
+trac#:#trac_crs_items#:#items del curso que pueden asignarse
+trac#:#trac_crs_members#:#Miembros del curso:
 trac#:#trac_crs_releavant_items#:#Items del curso
 trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
+trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
+trac#:#trac_edit_time#:#Tiempo de proceso
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
+trac#:#trac_edited_scos#:#Contenido procesado
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Oculto:
 trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
+trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
 trac#:#trac_filter_no_access#:#No se encontraron objetos
+trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
 trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
+trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
+trac#:#trac_last_access#:#Último acceso
 trac#:#trac_last_access#:#Último acceso
 trac#:#trac_learning_progress#:#Progreso de aprendizaje
 trac#:#trac_learning_progress_tbl_header#:#Progreso de:
@@ -5779,30 +5794,39 @@ trac#:#trac_modifications_saved#:#Configuracion salvada
 trac#:#trac_modus#:#Modo
 trac#:#trac_no_attempted#:#No visitado
 trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
+trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
 trac#:#trac_no_sahs_items_found#:#No se encontraron objetos.
 trac#:#trac_not_accessed#:#No accedido
 trac#:#trac_not_assigned#:#No asignado
 trac#:#trac_not_attempted#:#No visitado
 trac#:#trac_not_completed#:#No completado
+trac#:#trac_not_completed#:#No completado
 trac#:#trac_num_visits#:#Numero de visitas
 trac#:#trac_objects#:#Lista de objetos
 trac#:#trac_occurrences#:#Ruta:
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
+trac#:#trac_processing_time#:#Tiempo de proceso asumido
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
+trac#:#trac_reached_points#:#Puntuacion requerida
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
+trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
+trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_one#:#No hizo selección
+trac#:#trac_select_one#:#No hizo selección
 trac#:#trac_settings#:#Configuracion
 trac#:#trac_settings_saved#:#Configuracion guardada.
+trac#:#trac_show#:#Mostrar progreso
 trac#:#trac_show_hidden#:#Mostrar
 trac#:#trac_spent_time#:#Tiempo empleado
 trac#:#trac_status#:#Estado
 trac#:#trac_total_online#:#Tiempo total online
 trac#:#trac_update_edit_user#:#Configuracion grabada
+trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
 trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
 trac#:#trac_user_data#:#Datos de usuario
 trac#:#trac_usr_list#:#Usuarios
@@ -5812,29 +5836,3 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
-<<<<<<< ilias_es.lang
-=======
-trac#:#trac_required_visits#:#Número de visitas requeridas
-trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
-trac#:#trac_filter_none#:#Ninguno
-trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
-trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
-trac#:#trac_select_one#:#No hizo selección
-common#:#extt_ilinc_configure#:#Configurar netucate LearnLinc
-common#:#role_protect_permissions#:#Proteger permisos
-trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
-trac#:#trac_not_completed#:#No completado
-trac#:#trac_last_access#:#Último acceso
-trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
-trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
-common#:#hours#:#hora(s)
-trac#:#trac_below#:#Debajo de:
-trac#:#trac_edit_time#:#Tiempo de proceso
-trac#:#trac_reached_visits#:#Visitas requeridas
-trac#:#trac_edited_scos#:#Contenido procesado
-trac#:#trac_reached_points#:#Puntuacion requerida
-trac#:#trac_crs_assignments#:#Asignación de items del curso
-trac#:#trac_crs_items#:#items del curso que pueden asignarse
-trac#:#trac_processing_time#:#Tiempo de proceso asumido
-trac#:#trac_crs_members#:#Miembros del curso:
-trac#:#trac_show#:#Mostrar progreso

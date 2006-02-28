@@ -5539,6 +5539,7 @@ trac#:#trac_comments#:#Bình luận
 trac#:#trac_completed#:#Đã hoàn thành
 trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
+trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Các mục khóa học
 trac#:#trac_edit_collection#:#Hãy chỉ định các mục khóa học. Nếu trạng thái của mọi đối tượng được chỉ định là 'Đã hoàn thành' người sử dụng sẽ được tính là hoàn thành toàn bộ khóa học.
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
@@ -5585,6 +5586,7 @@ trac#:#trac_refresh#:#Cập nhật
 trac#:#trac_sahs_relevant_items#:#SCO's///
 trac#:#trac_settings#:#Thiết lập
 trac#:#trac_settings_saved#:#Đã ghi các thiết lập.
+trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable
 trac#:#trac_show_hidden#:#Hiện
 trac#:#trac_spent_time#:#Thời gian đã sử dụng
 trac#:#trac_status#:#Trạng thái
