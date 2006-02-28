@@ -153,7 +153,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			if (strtolower($_GET["baseClass"]) != "iladministrationgui")
 			{
-				$this->tpl->show();
+				if (!$this->getCreationMode())
+				{
+					$this->tpl->show();
+				}
 			}
 		}
 		else

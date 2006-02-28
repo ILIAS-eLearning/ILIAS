@@ -79,7 +79,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// get current command
 		$cmd = $this->ctrl->getCmd();
-
+//echo "-$cmd-";
 		switch($next_class)
 		{
 			case "illearningprogressgui":
@@ -3039,6 +3039,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("LINK_REF_ID", $_GET["link_ref_id"]);
 		}
 
+
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_NEW_ENTRY", $this->lng->txt("lm_menu_new_entry"));
 		$this->tpl->setVariable("TXT_TARGET", $this->lng->txt("lm_menu_entry_target"));
@@ -3047,7 +3048,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_NAME2", "showEntrySelector");
 		$this->tpl->setVariable("BTN_TEXT2", $this->lng->txt("lm_menu_select_internal_object"));
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
+
 	}
 
 	/**
@@ -3126,7 +3128,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_NAME2", "showEntrySelector");
 		$this->tpl->setVariable("BTN_TEXT2", $this->lng->txt("lm_menu_select_internal_object"));
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
@@ -3210,7 +3212,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 	}
 } // END class.ilObjContentObjectGUI
 ?>

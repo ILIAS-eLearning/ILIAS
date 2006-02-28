@@ -362,15 +362,16 @@ class ilPageEditorGUI
 				include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
 
 				$this->tabs_gui->clearTargets();
-				
+
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
 					if (is_object ($cont_obj))
 					{
-						$this->tpl->setCurrentBlock("header_image");
-						$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
-						$this->tpl->parseCurrentBlock();
+						//$this->tpl->setCurrentBlock("header_image");
+						//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
+						//$this->tpl->parseCurrentBlock();
+						$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
 						$pcmob_gui->getTabs($this->tabs_gui);
 						$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
 							$cont_obj->getTitle());
