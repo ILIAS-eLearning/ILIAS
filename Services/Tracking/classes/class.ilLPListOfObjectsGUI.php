@@ -131,11 +131,16 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("ALT_IMG",$ilObjDataCache->lookupTitle((int) $_GET['user_id']));
 		$this->tpl->setVariable("TXT_LP",$this->lng->txt('trac_learning_progress_tbl_header'));
 
-		$this->tpl->setVariable("MARK",ilUtil::prepareFormOutput($marks->getMark(),false));
 		$this->tpl->setVariable("COMMENT",ilUtil::prepareFormOutput($marks->getComment(),false));
 
+		$type = $ilObjDataCache->lookupType($this->item_id);
+		if($type != 'lm')
+		{
+			$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+			$this->tpl->setVariable("MARK",ilUtil::prepareFormOutput($marks->getMark(),false));
+		}
 
-		$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+
 		$this->tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
 
 		if(ilLPObjSettings::_lookupMode($this->item_id) == LP_MODE_MANUAL)
@@ -196,10 +201,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('trac_usr_list'));
-		$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
 		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('trac_status'));
 		$this->tpl->setVariable("TXT_OPTIONS",$this->lng->txt('actions'));
 
+
+		if($this->details_type != 'lm')
+		{
+			$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+		}
 
 		if($this->details_mode == LP_MODE_COLLECTION)
 		{
@@ -255,7 +264,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
 			$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('edit'));
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("MARK",ilLPMarks::_lookupMark($user_id,$this->details_id));
+
+			if($this->details_type != 'lm')
+			{
+				$this->tpl->setVariable("MARK_TDCSS",$cssrow);
+				$this->tpl->setVariable("MARK",ilLPMarks::_lookupMark($user_id,$this->details_id));
+			}
 			
 			// Details for course mode collection
 			if($this->details_mode == LP_MODE_COLLECTION)
