@@ -254,7 +254,7 @@ class ASS_MatchingQuestion extends ASS_Question
 						"label" => $matchingpair->getPicture(),
 						"uri" => $this->getImagePathWeb() . $matchingpair->getPicture()
 					);
-					$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+					$a_xml_writer->xmlElement("matimage", $attrs);
 				}
 				else
 				{
@@ -270,7 +270,7 @@ class ASS_MatchingQuestion extends ASS_Question
 							"label" => $matchingpair->getPicture(),
 							"embedded" => "base64"
 						);
-						$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
 					}
 				}
 			}

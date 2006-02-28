@@ -299,7 +299,7 @@ class ASS_OrderingQuestion extends ASS_Question
 							"label" => $answer->get_answertext(),
 							"embedded" => "base64"
 						);
-						$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
 					}
 				}
 			}

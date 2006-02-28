@@ -540,7 +540,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 				$imagefile = fread($fh, filesize($imagepath));
 				fclose($fh);
 				$base64 = base64_encode($imagefile);
-				$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+				$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
 			}
 		}
 		else
