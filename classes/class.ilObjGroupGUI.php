@@ -437,7 +437,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		// IMPORT
 		$this->tpl->setCurrentBlock("create");
-		$this->tpl->setVariable("TXT_IMPORT_GRP", $this->lng->txt("import_group"));
+		$this->tpl->setVariable("TXT_IMPORT_GRP", $this->lng->txt("import_grp"));
 		$this->tpl->setVariable("TXT_GRP_FILE", $this->lng->txt("file"));
 		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 

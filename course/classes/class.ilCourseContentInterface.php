@@ -511,8 +511,14 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tmp_obj->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("start_desklink");
-					$this->tpl->setVariable("DESK_LINK_START", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
-											"&item_ref_id=".$tmp_obj->getRefId()."&type=".$tmp_obj->getType());
+					#$this->tpl->setVariable("DESK_LINK_START", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+					#						"&item_ref_id=".$tmp_obj->getRefId()."&type=".$tmp_obj->getType());
+
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tmp_obj->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tmp_obj->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$tmp_obj->getType());
+					
+					$this->tpl->setVariable("DESK_LINK_START",$this->ctrl->getLinkTarget($this->cci_client_obj,'addToDesk'));
 
 					$this->tpl->setVariable("TXT_DESK_START", $this->lng->txt("to_desktop"));
 					$this->tpl->parseCurrentBlock();
@@ -937,8 +943,14 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tmp_or->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("or_desklink");
-					$this->tpl->setVariable("DESK_LINK_OR", "repository.php?cmd=addToDesk&ref_id=".$this->cci_ref_id.
-											"&item_ref_id=".$tmp_or->getRefId()."&type=".$tmp_or->getType());
+					#$this->tpl->setVariable("DESK_LINK_OR", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+					#						"&item_ref_id=".$tmp_or->getRefId()."&type=".$tmp_or->getType());
+
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tmp_or->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tmp_or->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$tmp_or->getType());
+					
+					$this->tpl->setVariable("DESK_LINK_OR",$this->ctrl->getLinkTarget($this->cci_client_obj,'addToDesk'));
 
 					$this->tpl->setVariable("TXT_DESK_OR", $this->lng->txt("to_desktop"));
 					$this->tpl->parseCurrentBlock();
@@ -1033,8 +1045,14 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tmp_lm->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("lm_desklink");
-					$this->tpl->setVariable("DESK_LINK_LMS", "repository.php?cmd=addToDesk&ref_id=".$this->cci_ref_id.
-											"&item_ref_id=".$tmp_lm->getRefId()."&type=".$tmp_lm->getType());
+					#$this->tpl->setVariable("DESK_LINK_LMS", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+					#						"&item_ref_id=".$tmp_lm->getRefId()."&type=".$tmp_lm->getType());
+
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tmp_lm->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tmp_lm->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$tmp_lm->getType());
+					
+					$this->tpl->setVariable("DESK_LINK_LMS",$this->ctrl->getLinkTarget($this->cci_client_obj,'addToDesk'));
 
 					$this->tpl->setVariable("TXT_DESK_LMS", $this->lng->txt("to_desktop"));
 					$this->tpl->parseCurrentBlock();
@@ -1199,8 +1217,15 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tmp_tst->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("tst_desklink");
-					$this->tpl->setVariable("DESK_LINK_TST", "repository.php?cmd=addToDesk&ref_id=".$this->cci_ref_id.
-											"&item_ref_id=".$tmp_tst->getRefId()."&type=".$tmp_tst->getType());
+					#$this->tpl->setVariable("DESK_LINK_TST", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+					#						"&item_ref_id=".$tmp_tst->getRefId()."&type=".$tmp_tst->getType());
+
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tmp_tst->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tmp_tst->getRefId());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$tmp_tst->getType());
+					
+					$this->tpl->setVariable("DESK_LINK_TST",$this->ctrl->getLinkTarget($this->cci_client_obj,'addToDesk'));
+
 
 					$this->tpl->setVariable("TXT_DESK_TST", $this->lng->txt("to_desktop"));
 					$this->tpl->parseCurrentBlock();

@@ -421,7 +421,7 @@ span.il_ItemAlertProperty
 	color: #C04000;
 }
 
-span.il_ItemProperty
+span.il_ItemProperty,
 {
 }
 
@@ -1246,7 +1246,7 @@ label, input[type=checkbox], input[type=radio], select
 input[type=checkbox], input[type=radio]
 {
 	border-style:none;
-	background-color:transparent;
+	background-color:none;
 }
 
 a.ilEditSubmit {
@@ -1481,7 +1481,7 @@ td.unevenMO
 td.weeknumber
 {
 	color: #5F5F5F;
-	background-color: transparent;
+	background-color: none;
 	font-size: 90%;
 }
 

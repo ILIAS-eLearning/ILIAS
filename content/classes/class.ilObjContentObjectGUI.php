@@ -2759,10 +2759,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "exportList"),
 				array("exportList", "viewExportLog"), get_class($this));
 	
-			// link checker
-			$tabs_gui->addTarget("link_check",
-				$this->ctrl->getLinkTarget($this, "linkChecker"),
-				array("linkChecker", "refreshLinkCheck"), get_class($this));
+
+			if(@include_once('HTTP/Request.php'))
+			{
+				// link checker
+				$tabs_gui->addTarget("link_check",
+									 $this->ctrl->getLinkTarget($this, "linkChecker"),
+									 array("linkChecker", "refreshLinkCheck"), get_class($this));
+			}
 		}
 		else
 		{
@@ -2773,7 +2777,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if(ilObjUserTracking::_enabledTracking())
+		if(ilObjUserTracking::_enabledTracking() and ($this->object->getType() == 'lm'))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),

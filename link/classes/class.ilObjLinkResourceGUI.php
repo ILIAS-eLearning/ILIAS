@@ -1150,9 +1150,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("link_check",
-				$this->ctrl->getLinkTarget($this, "linkChecker"),
-				array("linkChecker", "refreshLinkCheck"), get_class($this));
+			// Check if pear library is available
+			if(@include_once('HTTP/Request.php'))
+			{
+				$tabs_gui->addTarget("link_check",
+									 $this->ctrl->getLinkTarget($this, "linkChecker"),
+									 array("linkChecker", "refreshLinkCheck"), get_class($this));
+			}
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

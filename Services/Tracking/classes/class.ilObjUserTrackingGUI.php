@@ -80,6 +80,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 				break;
 
 			case 'illearningprogressgui':
+				$this->tabs_gui->setTabActive('learning_progress');
 				include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
 				$lp_gui =& new ilLearningProgressGUI(LP_MODE_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($lp_gui);
