@@ -2309,7 +2309,7 @@
 <xsl:template match="response_grp">
 	<xsl:choose>
 		<xsl:when test="@output='javascript'">
-			<script type="text/javascript" src="./assessment/wz_dragdrop.js"></script>
+
 			<xsl:for-each select="render_choice/response_label">
 					<xsl:if test="@match_max">
 						<input type="hidden">
@@ -2320,103 +2320,146 @@
 					</xsl:if>
 			</xsl:for-each>
 			<table border="0" width="100%">
-			<tr><td colspan="2" align="right">
+			<tr><td colspan="4" align="right">
 			  <a>
-			      <xsl:attribute name="href">javascript:resetValues();</xsl:attribute>
+			      <xsl:attribute name="href">javascript:resetAnimated();</xsl:attribute>
 					<xsl:choose><xsl:when test="//render_choice/response_label/material/matimage"><xsl:value-of select="//LVs/LV[@name='reset_pictures']/@value"/></xsl:when><xsl:otherwise><xsl:value-of select="//LVs/LV[@name='reset_definitions']/@value"/></xsl:otherwise></xsl:choose>
 			  </a>
 			</td></tr>
 			<!-- matching -->
 		  <xsl:variable name="count" select="count(//response_label) div 2"></xsl:variable>
 			<xsl:for-each select="render_choice/response_label">
-		       	<tr>
 		       	    <xsl:choose>
 		       	        <xsl:when test="@match_max"></xsl:when>
 		       	        <xsl:otherwise>
-		        			<td align="left">
+		       	<tr>
+									<td width="120">
 				        		<xsl:if test="material/mattext">
-		        					<div class="textbox">
+		        					<div class="termtext">
 		        						<xsl:attribute name="id">term_<xsl:value-of select="@ident"/></xsl:attribute>
 		                                <xsl:value-of select="material/mattext"/>
 		        					</div>
 				        		</xsl:if>
+									</td>
+									<td width="50">
+										matches
+									</td>
+		        			<td align="left" width="140">
+											<!--xsl:value-of select="//LVs/LV[@name='drop_here']/@value"/>Matching picture/definition to &quot;<xsl:value-of select="material/mattext"/>&quot; Drop here-->
+											<div class="dropzone">
+												<xsl:attribute name="id">dropzone_<xsl:value-of select="@ident"/></xsl:attribute>
+											</div>
 		        			</td>
 		                    <xsl:call-template name="termtaker">
 		                       <xsl:with-param name="i" select="position() - $count"></xsl:with-param>
 		                    </xsl:call-template>
+		       	</tr>
 		       	        </xsl:otherwise>
 		       	    </xsl:choose>
-		       	</tr>
 			</xsl:for-each>
 			</table>
 			<p><xsl:value-of select="//LVs/LV[@name='matching_question_javascript_hint']/@value"/></p>
+			<script type="text/javascript" src="./assessment/js/rico/prototype.js"></script>
+			<script type="text/javascript" src="./assessment/js/rico/rico.js"></script>
 			<script type="text/javascript">
-			SET_DHTML(CURSOR_MOVE
-			<xsl:for-each select="render_choice/response_label">
-			    <xsl:choose>
-			        <xsl:when test="@match_max">
-			                ,&quot;definition_<xsl:value-of select="@ident"/>&quot;
-			        </xsl:when>
-			        <xsl:otherwise>
-			                ,&quot;term_<xsl:value-of select="@ident"/>&quot; + NO_DRAG
-			        </xsl:otherwise>
-			    </xsl:choose>
-			</xsl:for-each>
-			);
-			  
-				function resetValues()
+		 		var CustomDraggable = Class.create();
+
+				function getIdFromElementId(elementid)
 				{
-					<xsl:for-each select="render_choice/response_label">
-							<xsl:if test="@match_max">
-								dd.elements.definition_<xsl:value-of select="@ident"/>.moveTo(dd.elements.definition_<xsl:value-of select="@ident"/>.defx, dd.elements.definition_<xsl:value-of select="@ident"/>.defy);
-								<xsl:choose>
-									<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
-									<xsl:otherwise>dd.elements.definition_<xsl:value-of select="@ident"/>.write(&quot;<xsl:call-template name="replace-substring">
-										<xsl:with-param name="original"><xsl:value-of select="material/mattext"/></xsl:with-param>
-										<xsl:with-param name="substring">&quot;</xsl:with-param>
-										<xsl:with-param name="replacement">&amp;quot;</xsl:with-param>
-									</xsl:call-template>&quot;);</xsl:otherwise>
-								</xsl:choose>
-							</xsl:if>
-					</xsl:for-each>
+					var underscore = elementid.indexOf('_');
+					var id = '';
+					if (underscore >=0 )
+					{
+						id = elementid.substr(underscore+1, elementid.length);
+					}
+					return id;
 				}
 				
-		    function my_DropFunc()
-				{
+				CustomDraggable.prototype = (new Rico.Draggable()).extend( {
+					initialize: function( htmlElement, name ) 
+					{
+						this.type        = 'Custom';
+						this.htmlElement = $(htmlElement);
+						this.name        = name;
+					},
+	
+					endDrag: function() 
+					{
+						var el = this.htmlElement;
+						var parent = el.parentNode;
+						var underscore = el.id.indexOf('_');
+						var def = getIdFromElementId(el.id);
+						var term = getIdFromElementId(parent.id);
+						
+						var hiddenelement = 'sel_matching_' + def;
+						$(hiddenelement).value = term;
+					}
+				});
+			
+				var dropzones = new Array();
+				var dragelements = new Array();
+				var dragelementspos = new Array();
 			<xsl:for-each select="//render_choice/response_label">
-					<xsl:variable name="title"><xsl:value-of select="material/mattext"/></xsl:variable>
-			    <xsl:choose>
-			        <xsl:when test="@match_max">
-			            if (dd.obj.name == 'definition_<xsl:value-of select="@ident"/>')
-		                {
-												<xsl:variable name="ident"><xsl:value-of select="@ident"/></xsl:variable>
-		                    <xsl:for-each select="//render_choice/response_label">
-		                        <xsl:choose>
-		                            <xsl:when test="@match_max"></xsl:when>
-		                            <xsl:otherwise>
-		if (((dd.obj.y + (dd.obj.h / 2)) &gt; dd.elements.term_<xsl:value-of select="@ident"/>.y)	&amp;&amp; ((dd.obj.y + (dd.obj.h / 2)) &lt; dd.elements.term_<xsl:value-of select="@ident"/>.y+dd.elements.term_<xsl:value-of select="@ident"/>.h)	&amp;&amp; (dd.obj.x + dd.obj.w &lt; dd.obj.defx))
-		{
-		    dd.obj.moveTo(dd.elements.term_<xsl:value-of select="@ident"/>.x + 250, dd.elements.term_<xsl:value-of select="@ident"/>.y);
-		<xsl:choose>
-			<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
-			<xsl:otherwise>dd.obj.write(&quot;&lt;strong&gt;<xsl:call-template name="replace-substring">
-	<xsl:with-param name="original"><xsl:value-of select="$title"/></xsl:with-param>
-  <xsl:with-param name="substring">&quot;</xsl:with-param>
-  <xsl:with-param name="replacement">&amp;quot;</xsl:with-param>
-</xsl:call-template>&lt;/strong&gt;&quot;);</xsl:otherwise>
-		</xsl:choose>
-				document.test_output.sel_matching_<xsl:value-of select="$ident"/>.value = '<xsl:value-of select="@ident"/>';
-		}
-		                            </xsl:otherwise>
-		                        </xsl:choose>
-		                    </xsl:for-each>
-			            }
-			        </xsl:when>
-			    </xsl:choose>
+        <xsl:if test="@match_max">
+					<xsl:text>dragelements.push('definition_</xsl:text><xsl:value-of select="@ident"/><xsl:text>');</xsl:text>
+				</xsl:if>
 			</xsl:for-each>
-		    }
+			<xsl:for-each select="//render_choice/response_label">
+        <xsl:choose>
+					<xsl:when test="@match_max"></xsl:when>
+					<xsl:otherwise>
+						<xsl:text>dropzones.push('dropzone_</xsl:text><xsl:value-of select="@ident"/><xsl:text>');</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:for-each>
+				for (var i = 0; i &lt; dragelements.length; i++)
+				{
+					dndMgr.registerDraggable(new CustomDraggable(dragelements[i], dragelements[i]));
+				}
+				for (var i = 0; i &lt; dropzones.length; i++)
+				{
+					dndMgr.registerDropZone(new Rico.Dropzone(dropzones[i]));
+				}
+
+				function setDragelementPositions()
+				{
+					for (var i = 0; i &lt; dragelements.length; i++)
+					{
+						dragelementspos.push(RicoUtil.toDocumentPosition($(dragelements[i])));
+					}
+				}
 				
-				// solution_script
+				function resetFast()
+				{
+					for (var i = 0; i &lt; dragelements.length; i++)
+					{
+						$(dragelements[i]).style.position = &quot;absolute&quot;;
+						new Rico.Effect.Position(dragelements[i], $(dragelementspos[i]).x, $(dragelementspos[i]).y, 1, 1, true);
+					}
+				}
+				
+				function addSolution(dropzone, dragelement)
+				{
+					var dragname = 'definition_' + dragelement;
+					var dropname = 'dropzone_' + dropzone;
+					$(dropname).appendChild($(dragname));
+					var hiddenname = 'sel_matching_' + dragelement;
+					$(hiddenname).value = dropzone;
+				}
+
+				function resetAnimated()
+				{
+					for (var i = 0; i &lt; dragelements.length; i++)
+					{
+						$(dragelements[i]).style.position = &quot;absolute&quot;;
+						new Rico.Effect.Position(dragelements[i], $(dragelementspos[i]).x, $(dragelementspos[i]).y, 200, 20, true);
+					}
+					for (var i = 0; i &lt; dragelements.length; i++)
+					{
+						var id = getIdFromElementId(dragelements[i]);
+						$('sel_matching_' + id).value = 'initial_value_' + id;
+					}
+				}
 			</script>
 		</xsl:when>
 		<xsl:otherwise>
@@ -2488,11 +2531,13 @@
     						<table border="0">
     						<tr><td align="left">
 	    					<img border="0">
+									<xsl:attribute name="id">thumb_<xsl:value-of select="@ident"/></xsl:attribute>
 	    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
 	    					</img>
     						</td>
     						<td valign="top">
 									<a target="_new">
+										<xsl:attribute name="id">enlarge_<xsl:value-of select="@ident"/></xsl:attribute>
 										<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
 										<img border="0">
 											<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
