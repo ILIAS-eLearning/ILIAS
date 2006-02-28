@@ -151,7 +151,7 @@ class ilLMEditorGUI
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
 				$this->tpl->fillTabs();
-				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer);
+				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');
@@ -172,7 +172,7 @@ class ilLMEditorGUI
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
 				$this->tpl->fillTabs();
-				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer);
+				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');

@@ -2309,9 +2309,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
-			$this->tpl->setCurrentBlock("header_image");
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+			//$this->tpl->setCurrentBlock("header_image");
+			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
+			//$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock();
 			$title = $this->object->getTitle();
 			$this->tpl->setVariable("HEADER", $title);
@@ -2319,9 +2320,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		else
 		{
 			//$title = $this->object->getTitle();
-			$this->tpl->setCurrentBlock("header_image");
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+			//$this->tpl->setCurrentBlock("header_image");
+			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
+			//$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("HEADER", $this->lng->txt("cont_create_mob"));
 		}
 
