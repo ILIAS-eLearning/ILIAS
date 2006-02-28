@@ -57,31 +57,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->type = "qpl";
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test"));
-		//$this->id = $_GET["ref_id"];
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
-/*
-		if (strlen($this->ctrl->getModuleDir()) == 0)
-		{
-			$this->setTabTargetScript("adm_object.php");
-			switch ($this->ctrl->getCmd())
-			{
-				case "create":
-				case "importFile":
-				case "save":
-				case "cancel":
-					return;
-					break;
-				default:
-				$this->prepareOutput();
-				break;
-			}
-			global $ilLocator;
-			$ilLocator->addAdministrationItems();
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-			$this->tpl->setLocator();
-		}
-*/
 	}
 
 	/**
@@ -91,14 +68,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilLocator;	
 	
-/*
-		if ($prepare_output)
-		{
-			// Alle Repository Einträge der derzeitigen ref_id einfügen
-			$ilLocator->addRepositoryItems();
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
-		}
-*/
 		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -122,11 +91,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 			}
 		}
-//		if ($prepare_output) $this->prepareOutput();
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-				//$this->setAdminTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -150,7 +117,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
-				//$this->tpl->setVariable("HEADER", $question->getTitle());
 				$this->ctrl->saveParameter($this, "q_id");
 				$count = $question->isInUse();
 				if ($count)
@@ -191,8 +157,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_imagemapquestiongui":
 			case "ass_javaappletgui":
 			case "ass_textquestiongui":
-				//$this->setAdminTabs();
-				//$this->setTabs();
 				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./assessment/classes/class.assQuestionGUI.php";
@@ -202,7 +166,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
-				//$this->setAdminTabs();
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -214,15 +177,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 
-		//if ($prepare_output)
-		//{
-		//	$this->tpl->setLocator();
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
 			$this->getCreationMode() != true)
 		{
 			$this->tpl->show();
 		}
-		//}
 	}
 
 	/**
@@ -1338,8 +1297,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "export");
 		}
 
-		//$this->setTabs();
-
 		// SAVE POST VALUES
 		$_SESSION["ilExportFiles"] = $_POST["file"];
 
@@ -1615,7 +1572,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				// edit page
 				$this->tabs_gui->addSubTabTarget("edit_content",
 												 $this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
-												 array("view", "exec_pg"),
+												 array("view", "insert", "exec_pg"),
 												 "", "", $force_active);
 			}
 	
