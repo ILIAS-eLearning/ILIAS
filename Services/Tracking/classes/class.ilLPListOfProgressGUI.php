@@ -556,10 +556,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	{
 		global $rbacsystem;
 
+		if($this->getMode() != LP_MODE_REPOSITORY)
+		{
+			return false;
+		}
 		if(!$rbacsystem->checkAccess('edit_learning_progress',(int) $_GET['ref_id']))
 		{
 			return false;
 		}
+
+		if(!$this->details_mode)
 
 		$this->tpl->setCurrentBlock("member_selector");
 		$this->ctrl->setParameter($this,'details_id',$this->details_id);

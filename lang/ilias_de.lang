@@ -5783,7 +5783,7 @@ trac#:#trac_not_assigned#:#Nicht ausgewählt
 trac#:#trac_not_attempted#:#Noch nicht begonnen
 trac#:#trac_not_completed#:#Nicht bearbeitet
 trac#:#trac_num_visits#:#Anzahl der Besuche
-trac#:#trac_objects#:#Objektübersicht
+trac#:#trac_objects#:#Lernfortschritt der NutzerInnen
 trac#:#trac_occurrences#:#Pfad:
 trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
@@ -5811,3 +5811,6 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
+common#:#total_online#:#Onlinezeit(DD:HH:MM:SS)
+common#:#last_login#:#Letztes Login
+trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
