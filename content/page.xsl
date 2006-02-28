@@ -2342,7 +2342,7 @@
 				        		</xsl:if>
 									</td>
 									<td width="50">
-										matches
+										<xsl:value-of select="//LVs/LV[@name='matches']/@value"/>
 									</td>
 		        			<td align="left" width="140">
 											<!--xsl:value-of select="//LVs/LV[@name='drop_here']/@value"/>Matching picture/definition to &quot;<xsl:value-of select="material/mattext"/>&quot; Drop here-->
