@@ -4288,6 +4288,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "show_answers":
 			case "setsolved":
 			case "resetsolved":
+			case "confirmFinish":
 			case "outTestSummary":
 			case "gotoQuestion":
 			case "selectImagemapRegion":

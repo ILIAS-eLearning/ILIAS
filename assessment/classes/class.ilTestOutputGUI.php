@@ -828,21 +828,57 @@ class ilTestOutputGUI
 	}
 	
 /**
+* The final submission of a test was confirmed
+*
+* The final submission of a test was confirmed
+*
+* @access public
+*/
+	function confirmFinish()
+	{
+		$this->finishTest(false);
+	}
+	
+/**
+* Confirmation of the tests final submission
+*
+* Confirmation of the tests final submission
+*
+* @access public
+*/
+	function confirmFinishTest()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish_confirmation.html", true);
+		$this->tpl->setVariable("FINISH_QUESTION", $this->lng->txt("tst_finish_confirmation_question"));
+		$this->tpl->setVariable("BUTTON_CONFIRM", $this->lng->txt("tst_finish_confirm_button"));
+		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_cancel_button"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Finish the test
 *
 * Finish the test
 *
 * @access public
 */
-	function finishTest()
+	function finishTest($confirm = true)
 	{
 		global $ilUser;
 		
 		unset($_SESSION["tst_next"]);
+		
+		$actualpass = $this->object->_getPass($ilUser->id, $this->object->getTestId());
+		if (($confirm) && ($actualpass == $this->object->getNrOfTries() - 1))
+		{
+			// show confirmation page
+			return $this->confirmFinishTest();
+		}
+		
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			// create a new set of random questions if more passes are allowed
-			$actualpass = $this->object->_getPass($ilUser->id, $this->object->getTestId());
 			$maxpass = $this->object->getNrOfTries();
 			if (($maxpass == 0) || (($actualpass+1) < ($maxpass)))
 			{
