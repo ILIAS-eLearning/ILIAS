@@ -81,6 +81,137 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return true;
 	}
 
+	function learningProgressObject()
+	{
+		include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
+
+		global $ilUser,$rbacsystem;
+
+		$this->max_count = $ilUser->getPref('hits_per_page');
+
+		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		//prepare objectlist
+		$data["cols"] = array("login", "firstname", "lastname", "total_online","last_login");
+		
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname",'last_login'),1);
+		$num_users = count($usr_data) - 1;
+
+
+		if ($_GET["sort_by"] == "name")
+		{
+			$_GET["sort_by"] = "login";
+		}
+
+		// sort and slice array
+		$usr_data = ilUtil::sortArray($usr_data,$_GET["sort_by"],$_GET["sort_order"]);
+		$usr_data = array_slice($usr_data,$_GET["offset"],$this->max_count);
+
+		foreach ($usr_data as $val)
+		{
+			if ($val["usr_id"] == ANONYMOUS_USER_ID)
+			{
+                continue;
+            }
+			
+			$total_online = ilOnlineTracking::_getOnlineTime($val['usr_id']);
+
+			$data["data"]["$val[usr_id]"] = array(
+				"login"			=> $val["login"],
+				"firstname"		=> $val["firstname"],
+				"lastname"		=> $val["lastname"],
+				"total_online"  => ilFormat::_secondsToShortString($total_online),
+				"last_login"	=> $val['last_login']
+				);
+		}
+		
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_list.html");
+
+		// Show Table
+
+		include_once "./classes/class.ilTableGUI.php";
+		$this->tpl->addBlockfile("USR_TABLE", "user_table", "tpl.table.html");
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.usr_tbl_row.html");
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->object->getTitle(),"icon_usr.gif",
+					   $this->lng->txt("obj_".$this->object->getType()));
+
+		foreach ($data["cols"] as $val)
+		{
+			$header_names[] = $this->lng->txt($val);
+		}
+
+		$tbl->setHeaderNames($header_names);
+
+		$header_params = $this->ctrl->getParameterArray($this, "learningProgress");
+		$tbl->setHeaderVars($data["cols"],$header_params);
+		$tbl->setColumnWidth(array("20%","20$%","20%","20%"));
+		
+
+		// control
+        //$tbl->enable("hits");
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($this->max_count);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($num_users);
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		// render table
+		$tbl->render();
+		
+		//table cell
+		$counter = 0;
+		foreach($data['data'] as $usr_id => $fields)
+		{
+			// color changing
+			$css_row = ilUtil::switchColor($counter++,"tblrow1","tblrow2");
+
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+
+			foreach ($fields as $key => $val)
+			{
+				//build link
+					
+				// dirty workaround to have ids for function showActions (checkbox toggle option)
+				$this->ids[] = $ctrl["obj_id"];
+
+				if ($key == "login")
+				{
+					$this->ctrl->setParameterByClass("illearningprogressgui", "ref_id",$this->object->getRefId());
+					$this->ctrl->setParameterByClass("illearningprogressgui", "obj_id", $usr_id);
+					$link = $this->ctrl->getLinkTargetByClass(array("ilobjusergui",'illearningprogressgui'), "");
+					
+					$this->tpl->setCurrentBlock("begin_link");
+					$this->tpl->setVariable("LINK_TARGET", $link);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->touchBlock("end_link");
+				}
+
+				$this->tpl->setCurrentBlock("text");
+				$this->tpl->setVariable("TEXT_CONTENT", $val);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->parseCurrentBlock();
+			} //foreach
+			
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
+		} //for
+	}
+
 	/**
 	* list users
 	*
@@ -2416,12 +2547,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
+
+			$tabs_gui->addTarget("learning_progress",
+								 $this->ctrl->getLinkTarget($this, "learningProgress"), "learningProgress", "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
+								 array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
 

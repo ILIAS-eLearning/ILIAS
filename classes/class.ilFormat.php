@@ -471,6 +471,13 @@ class ilFormat
 		return mktime($arrT[0], $arrT[1], $arrT[2], $arrD[1], $arrD[2], $arrD[0]);
 	}
 
+	/**
+	* converts seconds to string:
+	* Long: 7 days 4 hour(s) ...
+	*
+	* @param	string	datetime
+	* @return	integer	unix timestamp  
+	*/
 	function _secondsToString($seconds)
 	{
 		global $lng;
@@ -515,6 +522,33 @@ class ilFormat
 		{
 			return $message;
 		}
+	}
+	/**
+	* converts seconds to string:
+	* Long: 7 days 4 hour(s) ...
+	*
+	* @param	string	datetime
+	* @return	integer	unix timestamp  
+	*/
+	function _secondsToShortString($seconds)
+	{
+		global $lng;
+
+		$seconds = $seconds ? $seconds : 0;
+
+		global $lng;
+
+		$days = floor($seconds / 86400);
+		$rest = $seconds % 86400;
+
+		$hours = floor($rest / 3600);
+		$rest = $rest % 3600;
+
+		$minutes = floor($rest / 60);
+		$rest = $rest % 60;
+
+		return sprintf("%02d:%02d:%02d:%02d",$days,$hours,$minutes,$rest);
+
 	}
 }
 ?>

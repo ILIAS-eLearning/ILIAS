@@ -5785,7 +5785,7 @@ trac#:#trac_not_assigned#:#Not assigned
 trac#:#trac_not_attempted#:#Not attempted
 trac#:#trac_not_completed#:#Not Completed
 trac#:#trac_num_visits#:#Number of visits
-trac#:#trac_objects#:#List of objects
+trac#:#trac_objects#:#Learning progress of users
 trac#:#trac_occurrences#:#Path:
 trac#:#trac_processing_time#:#Assumed processing time
 trac#:#trac_progress#:#Personal learning progress
@@ -5813,3 +5813,6 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+common#:#total_online#:#Time online (DD:HH:MM:SS)
+common#:#last_login#:#Last login
+trac#:#trac_crs_objects#:#Learning progress of course members

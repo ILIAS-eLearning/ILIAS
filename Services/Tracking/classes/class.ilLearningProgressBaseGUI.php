@@ -122,7 +122,7 @@ class ilLearningProgressBaseGUI
 
 	function __setSubTabs($a_active)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilObjDataCache;
 
 
 		
@@ -149,7 +149,12 @@ class ilLearningProgressBaseGUI
 											   "","","",$a_active == LP_ACTIVE_PROGRESS);
 					if(!$this->isAnonymized())
 					{
-						$this->tabs_gui->addSubTabTarget('trac_objects',
+						// Check if it is a course
+						$sub_tab = ($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($this->getRefId())) == 'crs') ?
+							'trac_crs_objects' :
+							'trac_objects';
+
+						$this->tabs_gui->addSubTabTarget($sub_tab,
 														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 														 "","","",$a_active == LP_ACTIVE_OBJECTS);
 					}
