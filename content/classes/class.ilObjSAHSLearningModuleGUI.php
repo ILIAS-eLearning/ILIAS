@@ -108,8 +108,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 			default:
 				$cmd = $this->ctrl->getCmd("frameset");
-				if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
-					$this->getCreationMode() == true)
+				if ((strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+					$this->getCreationMode() == true) &&
+					$cmd != "frameset")
 				{
 					$cmd.= "Object";
 				}

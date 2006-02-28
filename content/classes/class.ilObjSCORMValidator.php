@@ -36,7 +36,7 @@ class ilObjSCORMValidator {
 		function validateXML($file)
 		{
 //echo "<br>".ilUtil::getJavaPath()." -jar ".ILIAS_ABSOLUTE_PATH."/java/vali.jar ".$file." 2>&1";
-			exec(ilUtil::getJavaPath()." -jar ".ILIAS_ABSOLUTE_PATH."/java/vali.jar ".$file." 2>&1", $error);
+			exec(ilUtil::getJavaPath()." -jar ".ilUtil::escapeShellArg(ILIAS_ABSOLUTE_PATH."/java/vali.jar")." ".ilUtil::escapeShellArg($file)." 2>&1", $error);
 			if (count($error) != 0)
 			{
 				$this->summary[] = "";
