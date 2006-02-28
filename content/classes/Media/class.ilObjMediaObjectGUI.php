@@ -1935,7 +1935,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		if (!isset($_POST["area"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->editMapAreasObject();
+			return;
 		}
 
 		$st_item =& $this->object->getMediaItem("Standard");
@@ -2068,12 +2070,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		if (!isset($_POST["area"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->editMapAreasObject();
+			return;
 		}
 
 		if (count($_POST["area"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			//$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("cont_select_max_one_item"), true);
+			$this->editMapAreasObject();
+			return;
 		}
 
 		$st_item =& $this->object->getMediaItem("Standard");
@@ -2133,12 +2140,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		if (!isset($_POST["area"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->editMapAreasObject();
+			return;
 		}
 
 		if (count($_POST["area"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			//$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("cont_select_max_one_item"), true);
+			$this->editMapAreasObject();
+			return;			
 		}
 
 		$st_item =& $this->object->getMediaItem("Standard");

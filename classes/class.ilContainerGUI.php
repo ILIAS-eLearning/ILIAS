@@ -936,6 +936,11 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
+
 		//$this->ilias->raiseError("move operation does not work at the moment and is disabled",$this->ilias->error_obj->MESSAGE);
 
 //echo "CUT";
@@ -972,7 +977,9 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
+		$clipboard["cmd"] = ($_GET["cmd"] != "")
+			? $_GET["cmd"]
+			: key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 //echo "-".$_SESSION["clipboard"]["cmd"]."-";
 
@@ -993,6 +1000,11 @@ class ilContainerGUI extends ilObjectGUI
 	function linkObject()
 	{
 		global $clipboard, $rbacsystem, $rbacadmin;
+		
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
 
 		if (!isset($_POST["id"]))
 		{
@@ -1039,7 +1051,9 @@ class ilContainerGUI extends ilObjectGUI
 
 		// WRITE TO CLIPBOARD
 		$clipboard["parent"] = $_GET["ref_id"];
-		$clipboard["cmd"] = key($_POST["cmd"]);
+		$clipboard["cmd"] = ($_GET["cmd"] != "")
+			? $_GET["cmd"]
+			: key($_POST["cmd"]);
 
 		foreach ($_POST["id"] as $ref_id)
 		{
