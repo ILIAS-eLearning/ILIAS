@@ -1,6 +1,11 @@
 <form name="frm_matching" action="{ACTION_MATCHING_QUESTION}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="id" value="{MATCHING_ID}" />
 <table class="fullwidth">
+<thead>
+	<tr class="tblheader">
+		<th colspan="5">{TEXT_QUESTION_TYPE}</th>
+	</tr>
+</thead>
 <tr>
 	<td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
 	<td class="option_value" colspan="5"><input name="title" type="text" value="{VALUE_MATCHING_TITLE}" size="50" /></td></tr>
@@ -49,11 +54,11 @@
 	</tr>
 	<!-- BEGIN answerhead -->
 	<tr class="tblheader">
-		<th></th>
-		<th>{PICTURE_OR_DEFINITION}</th>
-		<th></th>
-		<th>{TERM}</th>
-		<th>{TEXT_POINTS}</th>
+		<th class="std"></th>
+		<th class="std">{PICTURE_OR_DEFINITION}</th>
+		<th class="std"></th>
+		<th class="std">{TERM}</th>
+		<th class="std">{TEXT_POINTS}</th>
 	</tr>
 	<!-- END answerhead -->
 	<!-- BEGIN answers -->

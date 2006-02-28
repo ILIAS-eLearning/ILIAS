@@ -180,6 +180,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$add_random_id = "";
 		if (($this->ctrl->getCmd() == "addPair") and $allow_add_pair and (!$has_error))
 		{
+			$i++;
 			// Template für neue Antwort erzeugen
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
@@ -204,7 +205,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
 			$add_random_id = $this->object->get_random_id();
 			$this->tpl->setVariable("TERM_ID", $add_random_id);
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", 0));
 			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			$this->tpl->parseCurrentBlock();
