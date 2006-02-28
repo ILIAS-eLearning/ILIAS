@@ -359,6 +359,15 @@ class ilLearningProgressBaseGUI
 
 		}
 
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+		if(strlen($mark = ilLPMarks::_lookupMark($user_id,$item_id)))
+		{
+			$info->addProperty($this->lng->txt('trac_mark'),$mark);
+		}
+		if(strlen($comment = ilLPMarks::_lookupComment($user_id,$item_id)))
+		{
+			$info->addProperty($this->lng->txt('trac_comment'),$comment);
+		}
 	}
 
 	function __readStatus($a_obj_id,$user_id)

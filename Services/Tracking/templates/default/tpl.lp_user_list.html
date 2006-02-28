@@ -5,28 +5,31 @@
 	<form action="{FORMACTION}" method="post">
 	  <table class="fullwidth" border="0">
 		<tr class="tbltitle">
-		  <th class="std" width="1">
+		  <th class="std">
 			<img border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
 		  </th>
 		  <th class="std" colspan="6">{HEADER_ALT}</th>
 		</tr>
 		<tr class="tblheader">
-		  <th class="std"></th>
-		  <th class="std"></th>
-		  <th class="std" colspan="2"></th>
-		  <th class="std"><div align="center">{TXT_STATUS}</div></th>
-		  <th class="std"><div align="center">{TXT_MARK}</div></th>
-		  <th class="std">{TXT_OPTIONS}</th>
+		  <th class="std" width="1%"></th>
+		  <th class="std" width="2%"></th>
+		  <th class="std" width="2%"></th>
+		  <th class="std" width="50%"></th>
+		  <th class="std" width="15%"><div align="center">{TXT_STATUS}</div></th>
+		  <!-- BEGIN mark_header -->
+		  <th class="std" width="10%"><div align="center">{TXT_MARK}</div></th>
+		  <!-- END mark_header -->
+		  <th class="std" width="20%">{TXT_OPTIONS}</th>
 		</tr>
 		<!-- BEGIN user_row -->
 		<tr class="{CSSROW}" nowrap="nowrap">
 		  <td class="{TDCSS}" valign="top">
 			{CHECK_USER}
 		  </td>
-		  <td class="{TDCSS}" valign="top" nowrap="nowrap" align="center" width="40">
+		  <td class="{TDCSS}" valign="top" nowrap="nowrap" align="center">
 			<img border="0" src="{TYPE_IMG}" alt="{TYPE_ALT} title="{TYPE_ALT}" />
 		  </td>
-		  <td class="{TDCSS}" width="50%" colspan="2">
+		  <td class="{TDCSS}" colspan="2">
 			<b>{TXT_TITLE}</b>&nbsp;{TXT_DESC}
 			<div class="il_ItemProperties">
 			  <span class="il_ItemAlertProperty">
@@ -46,16 +49,18 @@
 			</div>
 			<!-- END comment_prop -->
 		  </td>
-		  <td class="std" valign="top" align="center" width="10%">
+		  <td class="std" valign="top" align="center">
 			<div align="center">
 			  <img border="0" src="{STATUS_IMG}" alt="{STATUS_ALT}" title="{STATUS_ALT}" />
 			</div>
 		  </td>
-		  <td class="{TDCSS}" valign="top">
+		  <!-- BEGIN mark_row -->
+		  <td class="{MARK_TDCSS}" valign="top">
 			<div align="center">
 			  {MARK}
 			</div>
 		  </td>
+		  <!-- END mark_row -->
 		  <td class="{TDCSS}" valign="top">
 			<!-- BEGIN cmd -->
 			<a class="il_ContainerItemCommand" href="{EDIT_COMMAND}">{TXT_COMMAND}</a>
@@ -65,8 +70,8 @@
 		<!-- BEGIN item_row -->
 		<tr class="{ITEM_CSSROW}">
 		  <td class="{ITEM_TDCSS}"></td>
-		  <td class="{ITEM_TDCSS}" valign="top" align="center" width="1"></td>
-		  <td class="{ITEM_TDCSS}" valign="top" width="3%">
+		  <td class="{ITEM_TDCSS}" valign="top" align="center"></td>
+		  <td class="{ITEM_TDCSS}" valign="top">
 			<img border="0" src="{ITEM_IMG}" alt="{ITEM_ALT} title="{ITEM_ALT}" />
 		  </td>
 		  <td class="{ITEM_TDCSS}">
@@ -90,7 +95,7 @@
 			</div>
 			<!-- END item_comment_prop -->
 		  </td>
-		  <td class="std" valign="top" valign="top" width="10%">
+		  <td class="std" valign="top" valign="top">
 			<div align="center">
 			  <img border="0" src="{ITEM_STATUS_IMG}" alt="{ITEM_STATUS_ALT}" title="{ITEM_STATUS_ALT}" />
 			</div>
@@ -126,7 +131,7 @@
 		<!-- END no_content -->
 		<!-- BEGIN footer -->
 		<tr class="tblfooter">
-		  <td class="std" valign="center" align="left" width="1%">
+		  <td class="std" valign="center" align="left" >
 			<img src="{DOWNRIGHT}" border="0" />
 		  </td>
 		  <td class="std" colspan="6" valign="center" align="left">
