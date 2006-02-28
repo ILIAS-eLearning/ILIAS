@@ -213,7 +213,7 @@ assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fe
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#error_open_java_file#:#Fehler beim Öffnen eines Java-Applets!
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
-assessment#:#eval_all_users#:#Evaluation für alle Nutzerinnen
+assessment#:#eval_all_users#:#Auswertung für alle Nutzerinnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_concatenation#:#Verknüpfung
@@ -461,6 +461,9 @@ assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
 assessment#:#tst_eval_user_answer#:#Antwort
+assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
+assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
