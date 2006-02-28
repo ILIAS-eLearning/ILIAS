@@ -1705,15 +1705,29 @@ div.ilc_Question
 
 /* --- Test tool javascript styles --- */
 
-div.textbox
+div.termtext
 {
 	width: 200px;
-	position:relative;
+	height:  100px;
 	border: 1px solid #000000;
-	background: #DDDDDD;
+	background-color: #F1F1F1;
+	color:#222222;
 	padding: 10px;
 	vertical-align: middle;
 	border-style: outset;
+	text-align: center;
+}
+
+div.dropzone
+{
+	width: 220px;
+	height:  120px;
+	border: 1px solid #000000;
+	background-color:#ffe0e0;
+	color:#222222;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: dotted;
 	text-align: center;
 }
 
@@ -1721,7 +1735,6 @@ div.textboximage
 {
 	width: 200px;
 	height: 80px;
-	position:relative;
 	border: 1px solid #000000;
 	background: #DDDDDD;
 	padding: 10px;
@@ -1732,8 +1745,30 @@ div.textboximage
 
 div.imagebox
 {
-	position:relative;
-	width: 150px;
+	width: 200px;
+	height:  100px;
+	border: 1px solid #000000;
+	background-color: #F1F1F1;
+	color:#222222;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+	z-index: 200;
+}
+
+div.textbox
+{
+	width: 200px;
+	height:  100px;
+	border: 1px solid #000000;
+	background-color: #F1F1F1;
+	color:#222222;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+	z-index: 200;
 }
 
 /* --- Survey tool styles --- */

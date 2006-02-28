@@ -582,7 +582,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			}
 			if ($mixpass) $pass = NULL;
 			if ($use_post_solutions) 
-			{
+			{ 
 				$solutions = array();
 				foreach ($_POST as $key => $value)
 				{
@@ -593,7 +593,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 			}
 			else
-			{
+			{ 
 				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
 			}
 			$solution_script .= "";//"resetValues();\n";
@@ -612,28 +612,16 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					$output = str_replace("initial_value_" . $solution_value["value2"], $solution_value["value1"], $output);
 					if (($solution_value["value2"] > 1) && ($solution_value["value1"] > 1))
 					{
-						$solution_script .= "dd.elements.definition_" . $solution_value["value2"] . ".moveTo(dd.elements.term_" . $solution_value["value1"] . ".defx + 250, dd.elements.term_" . $solution_value["value1"] . ".defy);\n";
-						if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
-						{
-							foreach ($this->object->matchingpairs as $pdx => $pair)
-							{
-								if ($pair->getDefinitionId() == $solution_value["value2"])
-								{
-									$solution_script .= "dd.elements.definition_" . $solution_value["value2"] . ".write(\"<strong>" . $pair->getDefinition() . "</strong>\");\n";
-								}
-							}
-						}
+						$solution_script .= "addSolution(" . $solution_value["value1"] . "," . $solution_value["value2"] . ");\n";
 					}
 				}
 			}
 			if (!$show_question_page) 
 			{
 				// remove all selects which don't have a solution
-				//echo htmlentities ($output);
-				$output = $this->removeFormElements($output); // preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);				
+				$output = $this->removeFormElements($output);				
 			}
 			
 		}
@@ -641,7 +629,11 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		{
 			$output = str_replace("// solution_script", "", $output);
 			$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
-			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"show_solution();\"");
+			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();show_solution();\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();\"");
 		}
 
 		if ($this->object->getOutputType() == OUTPUT_HTML)
@@ -676,10 +668,10 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					if ($size[0] >= $sizeorig[0])
 					{
 						// thumbnail is larger than original -> remove enlarge image
-						$output = preg_replace("/<a[^>]*?>\s*<img[^>]*?enlarge[^>]*?>\s*<\/a>/", "", $output);
+						$output = preg_replace("/<a[^>]*?id\=\"enlarge_" . $answer->getDefinitionId() . "[^>]*?>.*?<\/a>/", "", $output);
 					}
 					// add the image size to the thumbnails
-					$output = preg_replace("/(<img[^>]*?".$answer->getPicture()."\.thumb\.jpg[^>]*?)(\/{0,1}\s*)?>/", "\\1 " . $size[3] . "\\2", $output);
+					$output = preg_replace("/(id\=\"thumb_" . $answer->getDefinitionId() . "\")/", "\\1 " . $size[3], $output);
 				}
 				else
 				{
@@ -722,7 +714,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 		{
-			//$this->tpl->setCurrentBlock("adm_content");
 			$output = str_replace("textbox", "textboximage", $output);
 			$solutionoutput = str_replace("textbox", "textboximage", $solutionoutput);
 		}
