@@ -39,10 +39,6 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-ALPHA RELEASES ARE FOR TEST PURPOSES ONLY. DO NOT USE ALPHA RELEASES WITHIN
-A PRODUCTIVE ENVIRONMENT. SOME FEATURES ARE NOT FULLY IMPLEMENTED. DATA
-CORRUPTION MAY OCCUR.
-
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
@@ -76,9 +72,8 @@ The recommended releases can also be downloaded from the ILIAS open source web
 site: http://www.ilias.uni-koeln.de/ios/source.html
 
 ILIAS should also run with PHP 5.x.x. If you are using PHP 5 libexpat and
-Sablotron are not needed. MySQL 4.1.x has been tested also. Please read the
-MySQL chapter if you plan to migrate from an existing MySQL 4.0.x to
-MySQL 4.1.x.
+Sablotron are not needed. Please read the MySQL chapter if you plan to migrate
+from an existing MySQL 4.0.x to MySQL 4.1.x.
 
 Please see chapter 2.5 for information about optional software.
 
@@ -224,7 +219,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.6.0_alpha1.tar.gz
+    ilias-3.6.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -448,7 +443,7 @@ components:
 (a) MySQL database
 
     IMPORTANT NOTE: ILIAS has been tested on several 4.0.x and 4.1.x. versions.
-	MySQL 5.x.x versions have not yet been tested.
+	MySQL 5.x.x are not yet supported.
 
     Configure & make:
 
@@ -725,7 +720,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.6.0_alpha1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.6.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -836,11 +831,6 @@ components:
 
 3. Updating ILIAS 3
 
-PLEASE DO NOT APPLY THE FOLLOWING UPDATE PROCEDURES TO THIS ALPHA VERSION. THIS
-VERSION IS FOR TEST PURPOSES ONLY.
-
----
-
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 beta version to
 ILIAS 3.6.0.
 
@@ -850,9 +840,18 @@ AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
 IF YOU UPDATE FROM ILIAS 3.4.0 or 3.4.1 AND ALREADY USED MYSQL 4.1.x PLEASE
 READ AND FOLLOW THE INSTRUCTIONS OF CHAPTER 3.1. FIRST.
 
-We recommend not to update from an any alpha version of ILIAS 3 because this
-may cause ambiguous errors in the future. Please setup any stable version of
-ILIAS 3 from scratch.
+We recommend not to update from an any alpha or beta version of ILIAS 3 because
+this may cause ambiguous errors in the future. Please setup any stable version
+of ILIAS 3 from scratch.
+
+For major updates (e.g. 3.5.x -> 3.6.x) the safest proceeding is, to upgrade
+a copy of your productive system first and test whether everything works ok.
+
+Please also note that major updates usually include changes in the style
+sheet and template files. So if you use individual styles/skins you will have
+to adopt them for the new release first. This does usually not apply for bugfix
+updates (e.g. 3.5.1 -> 3.5.2). See also
+http://www.ilias.de/docu/goto.php?target=pg_10797&client_id=docu
 
 At the time being no installation script is available for updating ILIAS 3. For
 this reason the ILIAS script files must be updated manually. In the following
@@ -889,7 +888,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.6.0_alpha1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.6.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
