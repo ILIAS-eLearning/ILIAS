@@ -390,8 +390,8 @@ a.il_ContainerItemCommand, a.il_ContainerItemCommand:hover
 
 div.il_ContainerItemCommands
 {
-	line-height: 105%;
-	padding-bottom: 1px;
+	padding-bottom: 2px;
+	padding-top: 2px;
 }
 
 
