@@ -806,7 +806,8 @@ class ilPermissionGUI
 				if ($role['local_policy_allowed'])
 				{
 					$box = ilUtil::formCheckBox($role['local_policy_enabled'],'stop_inherit[]',$role['obj_id'],$role['keep_protected']);
-					$lang = $this->lng->txt("perm_use_local_policy");
+					$lang = $this->lng->txt("perm_use_local_policy")." (".
+						$this->lng->txt("stop_inheritance").")";
 					$lang_desc = $this->lng->txt("perm_use_local_policy_desc");
 				}
 				else
