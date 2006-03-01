@@ -208,10 +208,10 @@ class ilMDClassification extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'purpose'	=> ilUtil::prepareDBString($this->getPurpose()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+					 'obj_type'	=> $this->getObjType(),
+					 'purpose'	=> $this->getPurpose(),
+					 'description' => $this->getDescription(),
+					 'description_language' => $this->getDescriptionLanguageCode());
 	}
 
 	function read()
@@ -229,8 +229,8 @@ class ilMDClassification extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setPurpose(ilUtil::stripSlashes($row->purpose));
-				$this->setDescription(ilUtil::stripSlashes($row->description));
+				$this->setPurpose($row->purpose);
+				$this->setDescription($row->description);
 				$this->description_language = new ilMDLanguageItem($row->description_language);
 			}
 		}

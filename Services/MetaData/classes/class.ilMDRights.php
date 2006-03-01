@@ -145,11 +145,11 @@ class ilMDRights extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'costs'	=> ilUtil::prepareDBString($this->getCosts()),
-					 'copyright_and_other_restrictions' => ilUtil::prepareDBString($this->getCopyrightAndOtherRestrictions()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+					 'obj_type'	=> $this->getObjType(),
+					 'costs'	=> $this->getCosts(),
+					 'copyright_and_other_restrictions' => $this->getCopyrightAndOtherRestrictions(),
+					 'description' => $this->getDescription(),
+					 'description_language' => $this->getDescriptionLanguageCode());
 	}
 
 	function read()
@@ -170,10 +170,10 @@ class ilMDRights extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setDescription(ilUtil::stripSlashes($row->description));
+				$this->setDescription($row->description);
 				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
-				$this->setCosts(ilUtil::stripSlashes($row->costs));
-				$this->setCopyrightAndOtherRestrictions(ilUtil::stripSlashes($row->copyright_and_other_restrictions));
+				$this->setCosts($row->costs);
+				$this->setCopyrightAndOtherRestrictions($row->copyright_and_other_restrictions);
 			}
 			return true;
 		}

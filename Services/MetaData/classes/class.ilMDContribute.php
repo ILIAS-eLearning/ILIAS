@@ -166,11 +166,11 @@ class ilMDContribute extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'role'	=> ilUtil::prepareDBString($this->getRole()),
-					 'date' => ilUtil::prepareDBString($this->getDate()));
+					 'role'	=> $this->getRole(),
+					 'date' => $this->getDate());
 	}
 
 	function read()
@@ -190,8 +190,8 @@ class ilMDContribute extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setRole(ilUtil::stripSlashes($row->role));
-				$this->setDate(ilUtil::stripSlashes($row->date));
+				$this->setRole($row->role);
+				$this->setDate($row->date);
 			}
 		}
 		return true;

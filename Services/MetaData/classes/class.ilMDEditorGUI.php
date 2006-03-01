@@ -196,7 +196,7 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("DESCRIPTION_LOOP_NO",$id);
 			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($md_des->getDescription()));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL",ilUtil::prepareFormOutput($md_des->getDescription()));
 			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("gen_description[".$id.'][language]', 
 																				  $md_des->getDescriptionLanguageCode()));
@@ -685,7 +685,7 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("DESCRIPTION_LOOP_NO",$id);
 			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($md_des->getDescription()));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
 			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("gen_description[".$id.'][language]', 
 																				  $md_des->getDescriptionLanguageCode()));
@@ -1677,7 +1677,7 @@ class ilMDEditorGUI
 				$this->tpl->setCurrentBlock("description_loop");
 				$this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
 				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-				$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($md_des->getDescription()));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
 				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE",
 					$this->__showLanguageSelect('educational[Description]['.$id.'][Language]',
@@ -2024,7 +2024,7 @@ class ilMDEditorGUI
 				/* Description */
 				$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 				$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-				$this->tpl->setVariable("VAL_DESCRIPTION", ilUtil::stripSlashes($this->md_section->getDescription()));
+				$this->tpl->setVariable("VAL_DESCRIPTION", ilUtil::prepareFormOutput($this->md_section->getDescription()));
 				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$this->tpl->setVariable("VAL_DESCRIPTION_LANGUAGE",
 					$this->__showLanguageSelect('annotation['.$anno_id.'][Language]',

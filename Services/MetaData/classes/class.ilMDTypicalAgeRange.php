@@ -133,13 +133,13 @@ class ilMDTypicalAgeRange extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'typical_age_range'	=> ilUtil::prepareDBString($this->getTypicalAgeRange()),
-					 'typical_age_range_language' => ilUtil::prepareDBString($this->getTypicalAgeRangeLanguageCode()),
-					 'typical_age_range_min' => ilUtil::prepareDBString($this->getTypicalAgeRangeMinimum()),
-					 'typical_age_range_max' => ilUtil::prepareDBString($this->getTypicalAgeRangeMaximum()));
+					 'typical_age_range'	=> $this->getTypicalAgeRange(),
+					 'typical_age_range_language' => $this->getTypicalAgeRangeLanguageCode(),
+					 'typical_age_range_min' => $this->getTypicalAgeRangeMinimum(),
+					 'typical_age_range_max' => $this->getTypicalAgeRangeMaximum());
 	}
 
 	function read()
@@ -159,7 +159,7 @@ class ilMDTypicalAgeRange extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setTypicalAgeRange(ilUtil::stripSlashes($row->typical_age_range));
+				$this->setTypicalAgeRange($row->typical_age_range);
 				$this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->typical_age_range_language));
 				$this->setTypicalAgeRangeMinimum($row->typical_age_range_min);
 				$this->setTypicalAgeRangeMaximum($row->typical_age_range_max);

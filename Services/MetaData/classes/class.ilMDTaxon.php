@@ -120,12 +120,12 @@ class ilMDTaxon extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'taxon'	=> ilUtil::prepareDBString($this->getTaxon()),
-					 'taxon_language' => ilUtil::prepareDBString($this->getTaxonLanguageCode()),
-					 'taxon_id'	=> ilUtil::prepareDBString($this->getTaxonId()));
+					 'taxon'	=> $this->getTaxon(),
+					 'taxon_language' => $this->getTaxonLanguageCode(),
+					 'taxon_id'	=> $this->getTaxonId());
 	}
 
 	function read()
@@ -145,9 +145,9 @@ class ilMDTaxon extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setTaxon(ilUtil::stripSlashes($row->taxon));
+				$this->setTaxon($row->taxon);
 				$this->taxon_language = new ilMDLanguageItem($row->taxon_language);
-				$this->setTaxonId(ilUtil::stripSlashes($row->taxon_id));
+				$this->setTaxonId($row->taxon_id);
 			}
 		}
 		return true;

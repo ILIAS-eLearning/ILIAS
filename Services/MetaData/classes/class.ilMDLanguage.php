@@ -107,7 +107,7 @@ class ilMDLanguage extends ilMDBase
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'language' => ilUtil::prepareDBString($this->getLanguageCode()));
+					 'language' => $this->getLanguageCode());
 	}
 
 	function read()

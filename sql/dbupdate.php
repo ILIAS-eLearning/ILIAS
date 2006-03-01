@@ -9537,3 +9537,227 @@ ALTER TABLE `frm_settings` ADD COLUMN `statistics_enabled` TINYINT(1) UNSIGNED N
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#635>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('entity','date','description');
+$table = 'il_meta_annotation';
+$key = 'meta_annotation_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#636>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('purpose','description');
+$table = 'il_meta_classification';
+$key = 'meta_classification_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#637>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('role','date');
+$table = 'il_meta_contribute';
+$key = 'meta_contribute_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#638>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('description');
+$table = 'il_meta_description';
+$key = 'meta_description_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#639>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('interactivity_type','learning_resource_type','interactivity_level','semantic_density','intended_end_user_role',
+				'context','difficulty','typical_learning_time');
+$table = 'il_meta_educational';
+$key = 'meta_educational_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#640>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('entity');
+$table = 'il_meta_entity';
+$key = 'meta_entity_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#641>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('format');
+$table = 'il_meta_format';
+$key = 'meta_format_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#642>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('general_structure','title','coverage');
+$table = 'il_meta_general';
+$key = 'meta_general_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#643>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('catalog','entry');
+$table = 'il_meta_identifier';
+$key = 'meta_identifier_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#644>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('catalog','entry');
+$table = 'il_meta_identifier_';
+$key = 'meta_identifier__id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#645>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('keyword');
+$table = 'il_meta_keyword';
+$key = 'meta_keyword_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#646>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('language');
+$table = 'il_meta_language';
+$key = 'meta_language_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#647>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('lifecycle_status','meta_version','version_language');
+$table = 'il_meta_lifecycle';
+$key = 'meta_lifecycle_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#648>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('location','location_type');
+$table = 'il_meta_location';
+$key = 'meta_location_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#649>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('meta_data_scheme','language');
+$table = 'il_meta_meta_data';
+$key = 'meta_meta_data_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#650>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('kind');
+$table = 'il_meta_relation';
+$key = 'meta_relation_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#651>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('operating_system_name','operating_system_minimum_version','operating_system_maximum_version',
+				'browser_name','browser_minimum_version','browser_maximum_version');
+$table = 'il_meta_requirement';
+$key = 'meta_requirement_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#652>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('description','costs','copyright_and_other_restrictions');
+$table = 'il_meta_rights';
+$key = 'meta_rights_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#653>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('taxon','taxon_id');
+$table = 'il_meta_taxon';
+$key = 'meta_taxon_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#654>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('source','source_language');
+$table = 'il_meta_taxon_path';
+$key = 'meta_taxon_path_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#655>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('size','installation_remarks','other_platform_requirements','duration');
+$table = 'il_meta_technical';
+$key = 'meta_technical_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+<#656>
+<?php
+include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+
+$fields = array('typical_age_range','typical_age_range_max','typical_age_range_min');
+$table = 'il_meta_typical_age_range';
+$key = 'meta_typical_age_range_id';
+
+ilMDConvert($table,$fields,$key);
+?>
+
+

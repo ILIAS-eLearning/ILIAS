@@ -325,11 +325,11 @@ class ilMDGeneral extends ilMDBase
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'general_structure'	=> ilUtil::prepareDBString($this->getStructure()),
-					 'title'		=> ilUtil::prepareDBString($this->getTitle()),
-					 'title_language' => ilUtil::prepareDBString($this->getTitleLanguageCode()),
-					 'coverage' => ilUtil::prepareDBString($this->getCoverage()),
-					 'coverage_language' => ilUtil::prepareDBString($this->getCoverageLanguageCode()));
+					 'general_structure'	=> $this->getStructure(),
+					 'title'		=> $this->getTitle(),
+					 'title_language' => $this->getTitleLanguageCode(),
+					 'coverage' => $this->getCoverage(),
+					 'coverage_language' => $this->getCoverageLanguageCode());
 	}
 
 	function read()
@@ -347,10 +347,10 @@ class ilMDGeneral extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setStructure(ilUtil::stripSlashes($row->general_structure));
-				$this->setTitle(ilUtil::stripSlashes($row->title));
+				$this->setStructure($row->general_structure);
+				$this->setTitle($row->title);
 				$this->setTitleLanguage(new ilMDLanguageItem($row->title_language));
-				$this->setCoverage(ilUtil::stripSlashes($row->coverage));
+				$this->setCoverage($row->coverage);
 				$this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language));
 			}
 		}

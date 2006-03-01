@@ -188,8 +188,8 @@ class ilMDRelation extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'kind'		=> ilUtil::prepareDBString($this->getKind()));
+					 'obj_type'	=> $this->getObjType(),
+					 'kind'		=> $this->getKind());
 	}
 
 	function read()
@@ -205,7 +205,7 @@ class ilMDRelation extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setKind(ilUtil::stripSlashes($row->kind));
+				$this->setKind($row->kind);
 			}
 		}
 		return true;

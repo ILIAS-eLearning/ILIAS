@@ -312,13 +312,13 @@ class ilMDTechnical extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'size'		=> ilUtil::prepareDBString($this->getSize()),
-					 'installation_remarks' => ilUtil::prepareDBString($this->getInstallationRemarks()),
-					 'installation_remarks_language' => ilUtil::prepareDBString($this->getInstallationRemarksLanguageCode()),
-					 'other_platform_requirements' => ilUtil::prepareDBString($this->getOtherPlatformRequirements()),
-					 'other_platform_requirements_language' => ilUtil::prepareDBString($this->getOtherPlatformRequirementsLanguageCode()),
-					 'duration' => ilUtil::prepareDBString($this->getDuration()));
+					 'obj_type'	=> $this->getObjType(),
+					 'size'		=> $this->getSize(),
+					 'installation_remarks' => $this->getInstallationRemarks(),
+					 'installation_remarks_language' => $this->getInstallationRemarksLanguageCode(),
+					 'other_platform_requirements' => $this->getOtherPlatformRequirements(),
+					 'other_platform_requirements_language' => $this->getOtherPlatformRequirementsLanguageCode(),
+					 'duration' => $this->getDuration());
 	}
 
 	function read()
@@ -338,12 +338,12 @@ class ilMDTechnical extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setSize(ilUtil::stripSlashes($row->size));
-				$this->setInstallationRemarks(ilUtil::stripSlashes($row->installation_remarks));
+				$this->setSize($row->size);
+				$this->setInstallationRemarks($row->installation_remarks);
 				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->installation_remarks_language));
-				$this->setOtherPlatformRequirements(ilUtil::stripSlashes($row->other_platform_requirements));
+				$this->setOtherPlatformRequirements($row->other_platform_requirements);
 				$this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->other_platform_requirements_language));
-				$this->setDuration(ilUtil::stripSlashes($row->duration));
+				$this->setDuration($row->duration);
 			}
 			return true;
 		}

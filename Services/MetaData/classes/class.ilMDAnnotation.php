@@ -131,11 +131,11 @@ class ilMDAnnotation extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'entity'	=> ilUtil::prepareDBString($this->getEntity()),
-					 'date'		=> ilUtil::prepareDBString($this->getDate()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+					 'obj_type'	=> $this->getObjType(),
+					 'entity'	=> $this->getEntity(),
+					 'date'		=> $this->getDate(),
+					 'description' => $this->getDescription(),
+					 'description_language' => $this->getDescriptionLanguageCode());
 	}
 
 	function read()
@@ -153,9 +153,9 @@ class ilMDAnnotation extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setEntity(ilUtil::stripSlashes($row->entity));
-				$this->setDate(ilUtil::stripSlashes($row->date));
-				$this->setDescription(ilUtil::stripSlashes($row->description));
+				$this->setEntity($row->entity);
+				$this->setDate($row->date);
+				$this->setDescription($row->description);
 				$this->description_language =& new ilMDLanguageItem($row->description_language);
 			}
 		}

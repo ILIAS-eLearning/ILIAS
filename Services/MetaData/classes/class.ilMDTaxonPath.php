@@ -149,11 +149,11 @@ class ilMDTaxonPath extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'source'	=> ilUtil::prepareDBString($this->getSource()),
-					 'source_language' => ilUtil::prepareDBString($this->getSourceLanguageCode()));
+					 'source'	=> $this->getSource(),
+					 'source_language' => $this->getSourceLanguageCode());
 	}
 
 	function read()
@@ -173,7 +173,7 @@ class ilMDTaxonPath extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setSource(ilUtil::stripSlashes($row->source));
+				$this->setSource($row->source);
 				$this->source_language = new ilMDLanguageItem($row->source_language);
 			}
 		}
