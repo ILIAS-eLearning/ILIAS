@@ -1003,11 +1003,15 @@ class ilPersonalDesktopGUI
     {
         global $ilias;
 
+		if ($ilias->account->getPref("show_notes") == "n")
+		{
+			return;
+		}
 		//$users_notes = $ilias->account->getPref("show_notes");
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$note_gui = new ilNoteGUI(0,0,"");
 		$note_gui->enableTargets();
-		$html = $note_gui->getPDOverviewNoteListHTML(); 
+		$html = $note_gui->getPDOverviewNoteListHTML();
 		$this->tpl->setVariable("NOTES", $html);
 	}
 

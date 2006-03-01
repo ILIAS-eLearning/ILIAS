@@ -643,8 +643,11 @@ class ilNoteGUI
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$notes = ilNote::_getLastNotesOfUser();
 
+		$output = false;
 		foreach($notes as $note)
 		{
+			$output = true;
+
 			$rowclass = ($rowclass != "tblrow1")
 				? "tblrow1"
 				: "tblrow2";
@@ -709,7 +712,14 @@ class ilNoteGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-		return $tpl->get();
+		if ($output)
+		{
+			return $tpl->get();
+		}
+		else
+		{
+			return "";
+		}
 	}
 	
 	/**
