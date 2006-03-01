@@ -3,7 +3,7 @@ body {
 	background-color:#D9D9D9;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	font-size:13px;
-	margin:10px;
+	margin:0px;
 }
 
 td {
@@ -731,7 +731,7 @@ div.il_Explorer
 	border-style: solid;
 }
 
-div.il_RepExplorer
+/*div.il_RepExplorer
 {
 	background-color:#FFFFFF;
 	padding:20px;
@@ -740,7 +740,7 @@ div.il_RepExplorer
 	border-color: #EEEEEE;
 	border-width: 1px;
 	margin-bottom: 0px;
-}
+}*/
 
 div.il_ExplorerHeader
 {
@@ -758,6 +758,44 @@ div.il_ExplorerHeader
 	margin:0px;
 	font-weight: bold;
 	border-bottom:0px;
+}
+ul.il_Explorer
+{
+	margin: 0px 0px 0px 22px;
+	padding: 0px 0px;
+	list-style:none;
+}
+
+ul.il_ExplorerNoIndent
+{
+	margin: 0px;
+	padding: 0px 0px;
+	list-style:none;
+}
+
+li.il_Explorer
+{
+	margin:0;
+	padding:0;
+	white-space: nowrap;
+}
+
+li.il_ExplorerInline
+{
+	margin:0;
+	padding:0;
+}
+
+a.il_HighlightedNode
+{
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-color: #909090;
+}
+
+div.il_ExplorerItemDescription
+{
+	margin-left: 44px;
 }
 
 /* Table Links */
@@ -1385,8 +1423,11 @@ td.doubleComment
 
 /* --- content styles (will move to content.css) --- */
 table.ilc_Page {
-	border-width: 0px;
+	border-width: 1px;
 	border-spacing: 0px;
+	border-style: solid;
+	border-color: #EEEEEE;
+	border-collapse:collapse;
 	margin: 0px;
 	padding: 0px;
 	width:100%;
@@ -1395,9 +1436,13 @@ table.ilc_Page {
 td.ilc_Page
 {
 	padding:20px;
-	border-style: outset;
+	border-left-style: solid;
+	border-right-style: solid;
 	border-color: #EEEEEE;
-	border-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
 	margin-bottom: 0px;
 }
 
@@ -1413,9 +1458,12 @@ table.ilc_LMNavigation {
 td.ilc_LMNavigation
 {
 	padding:1px;
-	border-style: outset;
+	border-style: solid;
 	border-color: #EEEEEE;
-	border-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
 	margin-bottom: 0px;
 }
 
