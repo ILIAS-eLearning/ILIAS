@@ -114,11 +114,11 @@ class ilMainMenuGUI
 		}
 
 		// help button
-		$this->tpl->setCurrentBlock("userhelp");
-		$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
-		$this->tpl->setVariable("SCRIPT_HELP", "ilias.php?baseClass=ilHelpGUI");
-		$this->tpl->setVariable("TARGET_HELP", "ilias_help");
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->setCurrentBlock("userhelp");
+		//$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
+		//$this->tpl->setVariable("SCRIPT_HELP", "ilias.php?baseClass=ilHelpGUI");
+		//$this->tpl->setVariable("TARGET_HELP", "ilias_help");
+		//$this->tpl->parseCurrentBlock();
 
 
 		// mail & desktop button
