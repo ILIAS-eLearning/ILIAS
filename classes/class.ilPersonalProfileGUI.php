@@ -27,7 +27,6 @@
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @version $Id$
 *
 * @ilCtrl_Calls ilPersonalProfileGUI:
 *
@@ -509,6 +508,17 @@ class ilPersonalProfileGUI
 			{
 				$ilUser->setPref("show_users_online", $_POST["show_users_online"]);
 			}
+			
+			// save notes setting
+			if ($_POST["chk_notes"] != "")
+			{
+				$ilUser->setPref("show_notes","y");
+			}
+			else
+			{
+				$ilUser->setPref("show_notes","n");
+			}
+
 	
 			// save user data & object_data
 			$ilUser->setTitle($ilUser->getFullname());
@@ -680,6 +690,12 @@ class ilPersonalProfileGUI
 			}
 		}
 		
+		// show notes
+		if ($ilUser->prefs["show_notes"] != "n")
+		{
+			$this->tpl->setVariable("CHK_NOTES", "checked");
+		}
+		$this->tpl->setVariable("TXT_SHOW_NOTES", $this->lng->txt("show_notes_on_pd"));
 		
 		if ($ilUser->getAuthMode(true) == AUTH_LOCAL and $this->userSettingVisible('password'))
 		{
