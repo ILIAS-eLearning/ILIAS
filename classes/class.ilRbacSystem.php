@@ -102,7 +102,9 @@ class ilRbacSystem
 		// DISABLED 
 		// Check For owner
 		// Owners do always have full access to their objects
-		if($a_user_id == $ilObjDataCache->lookupOwner($ilObjDataCache->lookupObjId($a_ref_id)))
+		// Excluded are the permissions create and perm
+		// This method call return all operations that are NOT granted by the owner status 
+		if(!$a_operations = $this->__filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id))
 		{
 			return true;
 		}
@@ -217,6 +219,33 @@ class ilRbacSystem
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 		}
 		return in_array($ops_id,$ops);
+	}
+
+	function __filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id)
+	{
+		global $ilObjDataCache;
+
+		if($a_user_id != $ilObjDataCache->lookupOwner($ilObjDataCache->lookupObjId($a_ref_id)))
+		{
+			return $a_operations;
+		}
+		// Is owner
+		foreach(explode(",",$a_operations) as $operation)
+		{
+			if($operation != 'edit_permission' and !preg_match('/^create/',$operation))
+			{
+				continue;
+			}
+			if(!strlen($new_ops))
+			{
+				$new_ops = $operation;
+			}
+			else
+			{
+				$new_ops .= (','.$operation);
+			}
+		}
+		return $new_ops;
 	}
 
 } // END class.RbacSystem
