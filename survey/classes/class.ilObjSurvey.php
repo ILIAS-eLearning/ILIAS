@@ -3121,6 +3121,24 @@ class ilObjSurvey extends ilObject
 		}
 		return 0;
 	}
+	
+	function _hasDatasets($survey_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
+			$ilDB->quote($survey_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	function &getEvaluationForAllUsers()
 	{
