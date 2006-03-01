@@ -5576,6 +5576,7 @@ survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
 survey#:#survey_finish#:#finish survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
+survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_next#:#next >>>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
