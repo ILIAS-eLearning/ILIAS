@@ -107,8 +107,8 @@ class ilMDLocation extends ilMDBase
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'location'	=> ilUtil::prepareDBString($this->getLocation()),
-					 'location_type' => ilUtil::prepareDBString($this->getLocationType()));
+					 'location'	=> $this->getLocation(),
+					 'location_type' => $this->getLocationType());
 	}
 
 	function read()
@@ -128,8 +128,8 @@ class ilMDLocation extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setLocation(ilUtil::stripSlashes($row->location));
-				$this->setLocationType(ilUtil::stripSlashes($row->location_type));
+				$this->setLocation($row->location);
+				$this->setLocationType($row->location_type);
 			}
 		}
 		return true;

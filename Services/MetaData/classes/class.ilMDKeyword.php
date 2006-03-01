@@ -111,11 +111,11 @@ class ilMDKeyword extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'keyword'	=> ilUtil::prepareDBString($this->getKeyword()),
-					 'keyword_language' => ilUtil::prepareDBString($this->getKeywordLanguageCode()));
+					 'keyword'	=> $this->getKeyword(),
+					 'keyword_language' => $this->getKeywordLanguageCode());
 	}
 
 	function read()
@@ -135,7 +135,7 @@ class ilMDKeyword extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setKeyword(ilUtil::stripSlashes($row->keyword));
+				$this->setKeyword($row->keyword);
 				$this->setKeywordLanguage( new ilMDLanguageItem($row->keyword_language));
 			}
 		}

@@ -175,12 +175,12 @@ class ilMDRequirement extends ilMDBase
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'operating_system_name'	=> ilUtil::prepareDBString($this->getOperatingSystemName()),
-					 'operating_system_minimum_version' => ilUtil::prepareDBString($this->getOperatingSystemMinimumVersion()),
-					 'operating_system_maximum_version' => ilUtil::prepareDBString($this->getOperatingSystemMaximumVersion()),
-					 'browser_name'	=> ilUtil::prepareDBString($this->getBrowserName()),
-					 'browser_minimum_version' => ilUtil::prepareDBString($this->getBrowserMinimumVersion()),
-					 'browser_maximum_version' => ilUtil::prepareDBString($this->getBrowserMaximumVersion()),
+					 'operating_system_name'	=> $this->getOperatingSystemName(),
+					 'operating_system_minimum_version' => $this->getOperatingSystemMinimumVersion(),
+					 'operating_system_maximum_version' => $this->getOperatingSystemMaximumVersion(),
+					 'browser_name'	=> $this->getBrowserName(),
+					 'browser_minimum_version' => $this->getBrowserMinimumVersion(),
+					 'browser_maximum_version' => $this->getBrowserMaximumVersion(),
 					 'or_composite_id' => $this->getOrCompositeId());
 	}
 
@@ -201,13 +201,13 @@ class ilMDRequirement extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setOperatingSystemName(ilUtil::stripSlashes($row->operating_system_name));
-				$this->setOperatingSystemMinimumVersion(ilUtil::stripSlashes($row->operating_system_minimum_version));
-				$this->setOperatingSystemMaximumVersion(ilUtil::stripSlashes($row->operating_system_maximum_version));
-				$this->setBrowserName(ilUtil::stripSlashes($row->browser_name));
-				$this->setBrowserMinimumVersion(ilUtil::stripSlashes($row->browser_minimum_version));
-				$this->setBrowserMaximumVersion(ilUtil::stripSlashes($row->browser_maximum_version));
-				$this->setOrCompositeId(ilUtil::stripSlashes($row->or_composite_id));
+				$this->setOperatingSystemName($row->operating_system_name);
+				$this->setOperatingSystemMinimumVersion($row->operating_system_minimum_version);
+				$this->setOperatingSystemMaximumVersion($row->operating_system_maximum_version);
+				$this->setBrowserName($row->browser_name);
+				$this->setBrowserMinimumVersion($row->browser_minimum_version);
+				$this->setBrowserMaximumVersion($row->browser_maximum_version);
+				$this->setOrCompositeId($row->or_composite_id);
 			}
 		}
 		return true;

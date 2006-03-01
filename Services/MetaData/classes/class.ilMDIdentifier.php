@@ -106,11 +106,11 @@ class ilMDIdentifier extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'catalog'	=> ilUtil::prepareDBString($this->getCatalog()),
-					 'entry'	=> ilUtil::prepareDBString($this->getEntry()));
+					 'catalog'	=> $this->getCatalog(),
+					 'entry'	=> $this->getEntry());
 
 	}
 
@@ -129,8 +129,8 @@ class ilMDIdentifier extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setCatalog(ilUtil::stripSlashes($row->catalog));
-				$this->setEntry(ilUtil::stripSlashes($row->entry));
+				$this->setCatalog($row->catalog);
+				$this->setEntry($row->entry);
 			}
 		}
 		return true;

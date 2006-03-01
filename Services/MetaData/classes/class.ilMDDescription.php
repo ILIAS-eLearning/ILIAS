@@ -111,11 +111,11 @@ class ilMDDescription extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'description'	=> ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+					 'description'	=> $this->getDescription(),
+					 'description_language' => $this->getDescriptionLanguageCode());
 	}
 
 	function read()
@@ -135,7 +135,7 @@ class ilMDDescription extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setDescription(ilUtil::stripSlashes($row->description));
+				$this->setDescription($row->description);
 				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
 			}
 		}

@@ -97,8 +97,8 @@ class ilMDFormat extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'format'	=> ilUtil::prepareDBString($this->getFormat()));
+					 'obj_type'	=> $this->getObjType(),
+					 'format'	=> $this->getFormat());
 	}
 
 	function read()
@@ -116,7 +116,7 @@ class ilMDFormat extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setFormat(ilUtil::stripSlashes($row->format));
+				$this->setFormat($row->format);
 			}
 		}
 		return true;

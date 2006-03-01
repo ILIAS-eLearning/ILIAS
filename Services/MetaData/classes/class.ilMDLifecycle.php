@@ -182,9 +182,9 @@ class ilMDLifecycle extends ilMDBase
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'lifecycle_status'	=> ilUtil::prepareDBString($this->getStatus()),
-					 'meta_version'		=> ilUtil::prepareDBString($this->getVersion()),
-					 'version_language' => ilUtil::prepareDBString($this->getVersionLanguageCode()));
+					 'lifecycle_status'	=> $this->getStatus(),
+					 'meta_version'		=> $this->getVersion(),
+					 'version_language' => $this->getVersionLanguageCode());
 	}
 
 	function read()
@@ -202,8 +202,8 @@ class ilMDLifecycle extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setStatus(ilUtil::stripSlashes($row->lifecycle_status));
-				$this->setVersion(ilUtil::stripSlashes($row->meta_version));
+				$this->setStatus($row->lifecycle_status);
+				$this->setVersion($row->meta_version);
 				$this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
 			}
 		}

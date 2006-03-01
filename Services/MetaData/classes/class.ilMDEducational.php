@@ -384,15 +384,15 @@ class ilMDEducational extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'interactivity_type' => ilUtil::prepareDBString($this->getInteractivityType()),
-					 'learning_resource_type' => ilUtil::prepareDBString($this->getLearningResourceType()),
-					 'interactivity_level' => ilUtil::prepareDBString($this->getInteractivityLevel()),
-					 'semantic_density' => ilUtil::prepareDBString($this->getSemanticDensity()),
-					 'intended_end_user_role' => ilUtil::prepareDBString($this->getIntendedEndUserRole()),
-					 'context' => ilUtil::prepareDBString($this->getContext()),
-					 'difficulty' => ilUtil::prepareDBString($this->getDifficulty()),
-					 'typical_learning_time' => ilUtil::prepareDBString($this->getTypicalLearningTime()));
+					 'obj_type'	=> $this->getObjType(),
+					 'interactivity_type' => $this->getInteractivityType(),
+					 'learning_resource_type' => $this->getLearningResourceType(),
+					 'interactivity_level' => $this->getInteractivityLevel(),
+					 'semantic_density' => $this->getSemanticDensity(),
+					 'intended_end_user_role' => $this->getIntendedEndUserRole(),
+					 'context' => $this->getContext(),
+					 'difficulty' => $this->getDifficulty(),
+					 'typical_learning_time' => $this->getTypicalLearningTime());
 	}
 
 	function read()
@@ -410,14 +410,14 @@ class ilMDEducational extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setInteractivityType(ilUtil::stripSlashes($row->interactivity_type));
-				$this->setLearningResourceType(ilUtil::stripSlashes($row->learning_resource_type));
-				$this->setInteractivityLevel(ilUtil::stripSlashes($row->interactivity_level));
-				$this->setSemanticDensity(ilUtil::stripSlashes($row->semantic_density));
-				$this->setIntendedEndUserRole(ilUtil::stripSlashes($row->intended_end_user_role));
-				$this->setContext(ilUtil::stripSlashes($row->context));
-				$this->setDifficulty(ilUtil::stripSlashes($row->difficulty));
-				$this->setTypicalLearningTime(ilUtil::stripSlashes($row->typical_learning_time));
+				$this->setInteractivityType($row->interactivity_type);
+				$this->setLearningResourceType($row->learning_resource_type);
+				$this->setInteractivityLevel($row->interactivity_level);
+				$this->setSemanticDensity($row->semantic_density);
+				$this->setIntendedEndUserRole($row->intended_end_user_role);
+				$this->setContext($row->context);
+				$this->setDifficulty($row->difficulty);
+				$this->setTypicalLearningTime($row->typical_learning_time);
 			}
 			return true;
 		}

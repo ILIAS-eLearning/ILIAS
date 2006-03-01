@@ -56,6 +56,8 @@ class ilMDEntity extends ilMDBase
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
 		{
+			echo $this->getCatalog();
+
 			$this->setMetaId($this->db->getLastInsertId());
 
 			return $this->getMetaId();
@@ -97,10 +99,10 @@ class ilMDEntity extends ilMDBase
 	{
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'obj_type'	=> $this->getObjType(),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'entity'	=> ilUtil::prepareDBString($this->getEntity()));
+					 'entity'	=> $this->getEntity());
 	}
 
 	function read()
@@ -118,7 +120,7 @@ class ilMDEntity extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setEntity(ilUtil::stripSlashes($row->entity));
+				$this->setEntity($row->entity);
 			}
 		}
 		return true;
