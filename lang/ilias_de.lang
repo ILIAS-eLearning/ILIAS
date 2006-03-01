@@ -876,6 +876,7 @@ chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Meine Chats
+common#:#show_notes_on_pd#:#Notizen auf persönlichem Schreibtisch anzeigen
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
 common#:#HH:MM#:#SS:MM
