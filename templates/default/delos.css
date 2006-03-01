@@ -111,6 +111,10 @@ input.fullwidth_marked {
 
 /* -------------------- table formatting ------------------ */
 
+table {
+	font-size: 100%;
+}
+
 table.std {
 	color:#222222;
 	background-color:#bbbbbb;
@@ -387,6 +391,7 @@ a.il_ContainerItemCommand, a.il_ContainerItemCommand:hover
 div.il_ContainerItemCommands
 {
 	line-height: 105%;
+	padding-bottom: 1px;
 }
 
 
