@@ -149,10 +149,10 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=".$a_node_id;
 
 			case 'spl':
-				return "survey/questionpool.php?cmd=questions&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&cmd=questions&ref_id=".$a_node_id;
 
 			case 'qpl':
-				return "assessment/questionpool.php?cmd=questions&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=".$a_node_id;
 
 			case 'crsg':
 				return "repository.php?ref_id=".$a_node_id;

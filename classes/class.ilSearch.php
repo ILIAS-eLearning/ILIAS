@@ -26,7 +26,7 @@
 * search
 * 
 * @author Stefan Meyer <smeyer@databay.de>
-* @version Id: $Id$
+* @version Id$
 * 
 * @package application
 */
@@ -591,10 +591,10 @@ class ilSearch
 			{
 				return false;
 			}
+			/*
 			if($node_data['type'] == 'crs')
 			{
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($node_data['child']);
-
 				$tmp_obj->initCourseMemberObject();
 
 				if(!$tmp_obj->members_obj->hasAccess($ilias->account->getId()))
@@ -602,6 +602,7 @@ class ilSearch
 					return false;
 				}
 			}
+			*/
 		}
 		return true;
 	}
