@@ -4149,11 +4149,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	function &executeCommand()
 	{
 		global $rbacsystem,$ilUser;
-		
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-
 
 		// check if object is purchased
 		include_once './payment/classes/class.ilPaymentObject.php';

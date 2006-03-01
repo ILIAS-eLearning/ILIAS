@@ -882,7 +882,7 @@ class ilCourseContentInterface
 
 	function __showOtherResources()
 	{
-		global $ilias,$rbacsystem;
+		global $ilias,$rbacsystem,$ilObjDataCache;
 
 		if(!count($ors = $this->__getOtherResources()))
 		{
@@ -913,19 +913,20 @@ class ilCourseContentInterface
 		$counter = 1;
 		foreach($ors as $or_id)
 		{
+			$obj_id = $ilObjDataCache->lookupObjId($or_id);
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
 
-			$tmp_or = ilObjectFactory::getInstanceByRefId($or_id);
-
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_or->getId());
+			
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
 				
-			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_or->getRefId(),$tmp_or->getType());
-			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_or->getType(),$tmp_or->getRefId(),$tmp_or->getId());
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($or_id,$obj_type);
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($obj_type,$or_id,$obj_id);
 			$obj_frame = $obj_frame ? $obj_frame : '';
 
-			if(ilRepositoryExplorer::isClickable($tmp_or->getType(),$tmp_or->getRefId(),$tmp_or->getId()))
+			if(ilRepositoryExplorer::isClickable($obj_type,$or_id,$obj_id))
 			{
 				$this->tpl->setCurrentBlock("or_read");
-				$this->tpl->setVariable("READ_TITLE_OR",$tmp_or->getTitle());
+				$this->tpl->setVariable("READ_TITLE_OR",$ilObjDataCache->lookupTitle($obj_id));
 				$this->tpl->setVariable("READ_TARGET_OR",$obj_frame);
 				$this->tpl->setVariable("READ_LINK_OR", $obj_link);
 				$this->tpl->parseCurrentBlock();
@@ -933,22 +934,22 @@ class ilCourseContentInterface
 			else
 			{
 				$this->tpl->setCurrentBlock("or_visible");
-				$this->tpl->setVariable("VISIBLE_LINK_OR",$tmp_or->getTitle());
+				$this->tpl->setVariable("VISIBLE_LINK_OR",$ilObjDataCache->lookupTitle($obj_id));
 				$this->tpl->parseCurrentBlock();
 			}
 				// add to desktop link
-			if(!$ilias->account->isDesktopItem($tmp_or->getRefId(),$tmp_or->getType()) and 
+			if(!$ilias->account->isDesktopItem($or_id,$obj_type) and 
 			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
 			{
-				if ($rbacsystem->checkAccess('read',$tmp_or->getRefId()))
+				if ($rbacsystem->checkAccess('read',$or_id))
 				{
 					$this->tpl->setCurrentBlock("or_desklink");
 					#$this->tpl->setVariable("DESK_LINK_OR", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
 					#						"&item_ref_id=".$tmp_or->getRefId()."&type=".$tmp_or->getType());
 
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tmp_or->getRefId());
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tmp_or->getRefId());
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$tmp_or->getType());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$or_id);
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$or_id);
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$obj_type);
 					
 					$this->tpl->setVariable("DESK_LINK_OR",$this->ctrl->getLinkTarget($this->cci_client_obj,'addToDesk'));
 
@@ -958,9 +959,9 @@ class ilCourseContentInterface
 			}
 			
 			$this->tpl->setCurrentBlock("or_row");
-			$this->tpl->setVariable("OBJ_TITLE_OR",$tmp_or->getTitle());
-			$this->tpl->setVariable("IMG_TYPE_OR",ilUtil::getImagePath('icon_'.$tmp_or->getType().'.gif'));
-			$this->tpl->setVariable("TXT_IMG_OR",$this->lng->txt('obj_'.$tmp_or->getType()));
+			$this->tpl->setVariable("OBJ_TITLE_OR",$ilObjDataCache->lookupTitle($obj_id));
+			$this->tpl->setVariable("IMG_TYPE_OR",ilUtil::getImagePath('icon_'.$obj_type.'.gif'));
+			$this->tpl->setVariable("TXT_IMG_OR",$this->lng->txt('obj_'.$obj_type));
 			$this->tpl->setVariable("OBJ_CLASS_CENTER_OR",'option_value_center');
 			$this->tpl->setVariable("OBJ_CLASS_OR",'option_value');
 			$this->tpl->parseCurrentBlock();
@@ -973,7 +974,7 @@ class ilCourseContentInterface
 
 	function __showLearningMaterials()
 	{
-		global $rbacsystem,$ilias,$ilUser;
+		global $rbacsystem,$ilias,$ilUser,$ilObjDataCache;
 
 		include_once './course/classes/class.ilCourseObjectiveLM.php';
 		include_once './classes/class.ilRepositoryExplorer.php';
@@ -1015,19 +1016,20 @@ class ilCourseContentInterface
 		$counter = 1;
 		foreach($lms as $lm_id)
 		{
-			$tmp_lm = ilObjectFactory::getInstanceByRefId($lm_id);
+			$obj_id = $ilObjDataCache->lookupObjId($lm_id);
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
 
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_lm->getId());
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
 				
-			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_lm->getRefId(),$tmp_lm->getType());
-			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_lm->getType(),$tmp_lm->getRefId(),$tmp_lm->getId());
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($lm_id,$ilObjDataCache->lookupType($obj_id));
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($ilObjDataCache->lookupType($obj_id),$lm_id,$obj_id);
 			$obj_frame = $obj_frame ? $obj_frame : '';
 			$contentObj = false;
 
-			if(ilRepositoryExplorer::isClickable($tmp_lm->getType(),$tmp_lm->getRefId(),$tmp_lm->getId()))
+			if(ilRepositoryExplorer::isClickable($obj_type,$lm_id,$obj_id))
 			{
 				$this->tpl->setCurrentBlock("lm_read");
-				$this->tpl->setVariable("READ_TITLE_LMS",$tmp_lm->getTitle());
+				$this->tpl->setVariable("READ_TITLE_LMS",$ilObjDataCache->lookupTitle($obj_id));
 				$this->tpl->setVariable("READ_TARGET_LMS",$obj_frame);
 				$this->tpl->setVariable("READ_LINK_LMS", $obj_link);
 				$this->tpl->parseCurrentBlock();
@@ -1035,22 +1037,19 @@ class ilCourseContentInterface
 			else
 			{
 				$this->tpl->setCurrentBlock("lm_visible");
-				$this->tpl->setVariable("VISIBLE_LINK_LMS",$tmp_lm->getTitle());
+				$this->tpl->setVariable("VISIBLE_LINK_LMS",$ilObjDataCache->lookupTitle($obj_id));
 				$this->tpl->parseCurrentBlock();
 			}
 			// add to desktop link
-			if(!$ilias->account->isDesktopItem($tmp_lm->getRefId(),$tmp_lm->getType()) and 
+			if(!$ilias->account->isDesktopItem($lm_id,$obj_type) and 
 			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
 			{
-				if ($rbacsystem->checkAccess('read',$tmp_lm->getRefId()))
+				if ($rbacsystem->checkAccess('read',$lm_id))
 				{
 					$this->tpl->setCurrentBlock("lm_desklink");
-					#$this->tpl->setVariable("DESK_LINK_LMS", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
-					#						"&item_ref_id=".$tmp_lm->getRefId()."&type=".$tmp_lm->getType());
-
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tmp_lm->getRefId());
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tmp_lm->getRefId());
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$tmp_lm->getType());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$lm_id);
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$lm_id);
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$obj_type);
 					
 					$this->tpl->setVariable("DESK_LINK_LMS",$this->ctrl->getLinkTarget($this->cci_client_obj,'addToDesk'));
 
@@ -1066,9 +1065,6 @@ class ilCourseContentInterface
 				$this->tpl->setVariable("CONTINUE_LINK_LMS",'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$lm_id.'&obj_id='.
 										$continue_data[$lm_id]['lm_page_id']);
 
-				//$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
-				//	'' :
-				//	'ilContObj'.$cont_data[$lm_id]['lm_page_id'];
 				$target = '';
 					
 				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
@@ -1077,10 +1073,10 @@ class ilCourseContentInterface
 			}
 
 			// Description
-			if(strlen($tmp_lm->getDescription()))
+			if(strlen($ilObjDataCache->lookupDescription($obj_id)))
 			{
 				$this->tpl->setCurrentBlock("lms_description");
-				$this->tpl->setVariable("DESCRIPTION_LMS",$tmp_lm->getDescription());
+				$this->tpl->setVariable("DESCRIPTION_LMS",$ilObjDataCache->lookupDescription($obj_id));
 				$this->tpl->parseCurrentBlock();
 			}
 			// LAST ACCESS
@@ -1094,16 +1090,13 @@ class ilCourseContentInterface
 				$this->tpl->setVariable("INFO_LMS",$this->lng->txt('not_accessed'));
 			}
 			
-
-			#if($this->details_id and !$this->accomplished[$this->details_id] and $this->suggested[$this->details_id])
 			if($this->details_id)
 			{
-				$objectives_lm_obj->setLMRefId($tmp_lm->getRefId());
-				#$objectives_lm_obj->setLMObjId($tmp_lm->getId());
+				$objectives_lm_obj->setLMRefId($lm_id);
 				if($objectives_lm_obj->checkExists())
 				{
 					$objectives_lm_obj =& new ilCourseObjectiveLM($this->details_id);
-
+					
 					if($conditions_ok)
 					{
 						foreach($objectives_lm_obj->getChapters() as $lm_obj_data)
@@ -1113,16 +1106,16 @@ class ilCourseContentInterface
 								continue;
 							}
 
-							include_once './content/classes/class.ilLMObjectFactory.php';
+							include_once './content/classes/class.ilLMObject.php';
 							
-							$st_obj = ilLMObjectFactory::getInstance($tmp_lm,$lm_obj_data['obj_id']);
-							
+						
 							$this->tpl->setCurrentBlock("chapters");
 							$this->tpl->setVariable("TXT_CHAPTER",$this->lng->txt('chapter'));
-							$this->tpl->setVariable("CHAPTER_LINK_LMS","content/lm_presentation.php?ref_id=".$lm_obj_data['ref_id'].
+							$this->tpl->setVariable("CHAPTER_LINK_LMS","ilias.php?baseClass=ilLMPresentationGUI&ref_id=".
+													$lm_obj_data['ref_id'].
 													'&obj_id='.$lm_obj_data['obj_id']);
 							$this->tpl->setVariable("CHAPTER_LINK_TARGET_LMS",$obj_frame);
-							$this->tpl->setVariable("CHAPTER_TITLE",$st_obj->getTitle());
+							$this->tpl->setVariable("CHAPTER_TITLE",ilLMObject::_lookupTitle($lm_obj_data['obj_id']));
 							$this->tpl->parseCurrentBlock();
 						}
 					}
@@ -1150,7 +1143,7 @@ class ilCourseContentInterface
 
 	function __showTests()
 	{
-		global $ilias,$rbacsystem;
+		global $ilias,$rbacsystem,$ilObjDataCache;
 
 		include_once './course/classes/class.ilCourseObjectiveLM.php';
 
@@ -1183,23 +1176,25 @@ class ilCourseContentInterface
 		$counter = 1;
 		foreach($tests as $tst_id)
 		{
+			$obj_id = $ilObjDataCache->lookupObjId($tst_id);
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
 
-			$tmp_tst = ilObjectFactory::getInstanceByRefId($tst_id);
+			#$tmp_tst = ilObjectFactory::getInstanceByRefId($tst_id);
 
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_tst->getId());
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
 				
-			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_tst->getRefId(),$tmp_tst->getType());
-			$obj_link = "ilias.php?baseClass=ilObjTestGUI&ref_id=".$tmp_tst->getRefId()."&cmd=infoScreen";
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($tst_id,$obj_type);
+			$obj_link = "ilias.php?baseClass=ilObjTestGUI&ref_id=".$tst_id."&cmd=infoScreen";
 
 			#$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId());
 			#$obj_frame = $obj_frame ? $obj_frame : 'bottom';
 			// Always open in frameset
 			$obj_frame = '';
 
-			if(ilRepositoryExplorer::isClickable($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId()))
+			if(ilRepositoryExplorer::isClickable($obj_type,$tst_id,$obj_id))
 			{
 				$this->tpl->setCurrentBlock("tst_read");
-				$this->tpl->setVariable("READ_TITLE_TST",$tmp_tst->getTitle());
+				$this->tpl->setVariable("READ_TITLE_TST",$ilObjDataCache->lookupTitle($obj_id));
 				$this->tpl->setVariable("READ_TARGET_TST",$obj_frame);
 				$this->tpl->setVariable("READ_LINK_TST", $obj_link.'&crs_show_result='.$this->cci_ref_id);
 				$this->tpl->parseCurrentBlock();
@@ -1207,22 +1202,22 @@ class ilCourseContentInterface
 			else
 			{
 				$this->tpl->setCurrentBlock("tst_visible");
-				$this->tpl->setVariable("VISIBLE_LINK_TST",$tmp_tst->getTitle());
+				$this->tpl->setVariable("VISIBLE_LINK_TST",$ilObjDataCache->lookupTitle($obj_id));
 				$this->tpl->parseCurrentBlock();
 			}
 				// add to desktop link
-			if(!$ilias->account->isDesktopItem($tmp_tst->getRefId(),$tmp_tst->getType()) and 
+			if(!$ilias->account->isDesktopItem($tst_id,$obj_type) and 
 			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
 			{
-				if ($rbacsystem->checkAccess('read',$tmp_tst->getRefId()))
+				if ($rbacsystem->checkAccess('read',$tst_id))
 				{
 					$this->tpl->setCurrentBlock("tst_desklink");
 					#$this->tpl->setVariable("DESK_LINK_TST", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
 					#						"&item_ref_id=".$tmp_tst->getRefId()."&type=".$tmp_tst->getType());
 
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tmp_tst->getRefId());
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tmp_tst->getRefId());
-					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$tmp_tst->getType());
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tst_id);
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tst_id);
+					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$obj_type);
 					
 					$this->tpl->setVariable("DESK_LINK_TST",$this->ctrl->getLinkTarget($this->cci_client_obj,'addToDesk'));
 
@@ -1231,14 +1226,9 @@ class ilCourseContentInterface
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-
-
-
-
-			$tmp_tst = ilObjectFactory::getInstanceByRefId($tst_id);
 			
 			$this->tpl->setCurrentBlock("tst_row");
-			$this->tpl->setVariable("OBJ_TITLE_TST",$tmp_tst->getTitle());
+			$this->tpl->setVariable("OBJ_TITLE_TST",$ilObjDataCache->lookupTitle($obj_id));
 			$this->tpl->setVariable("OBJ_NR_TST",$counter.'.');
 
 			$this->tpl->setVariable("OBJ_CLASS_CENTER_TST",'option_value_center');
