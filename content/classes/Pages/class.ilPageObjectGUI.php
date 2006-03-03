@@ -697,7 +697,8 @@ class ilPageObjectGUI
         //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
         //echo "-".$this->sourcecode_download_script.":";
 
-        $params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title),
+		// added UTF-8 encoding otherwise umlaute are converted too
+		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
 						 'img_add' => $add_path,
