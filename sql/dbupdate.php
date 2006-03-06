@@ -9760,4 +9760,6 @@ $key = 'meta_typical_age_range_id';
 ilMDConvert($table,$fields,$key);
 ?>
 
-
+<#657>
+ALTER TABLE `il_meta_general` CHANGE `title` `title` TEXT NULL DEFAULT NULL;
+ALTER TABLE `il_meta_location` CHANGE `parent_type` `parent_type` VARCHAR( 16 ) NULL;

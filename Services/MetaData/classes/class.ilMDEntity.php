@@ -56,8 +56,6 @@ class ilMDEntity extends ilMDBase
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
 		{
-			echo $this->getCatalog();
-
 			$this->setMetaId($this->db->getLastInsertId());
 
 			return $this->getMetaId();
