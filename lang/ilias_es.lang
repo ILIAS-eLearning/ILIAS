@@ -463,6 +463,9 @@ assessment#:#tst_eval_total_passed#:#Total de tests superados
 assessment#:#tst_eval_total_passed_average_points#:#Puntuación media de tests superados
 assessment#:#tst_eval_total_persons#:#Número total de personas que realizaron el test
 assessment#:#tst_eval_user_answer#:#Respuesta del usuario
+assessment#:#tst_finish_confirm_button#:#Si, quiero finalizar el test
+assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterior
+assessment#:#tst_finish_confirmation_question#:#Vas a finalizar este test y alcanzaras el maximo numero de intentos permitidos. No podras volver a realizar este test para cambiar tus respuestas. Quiere finalizar el test?
 assessment#:#tst_finished#:#Terminado
 assessment#:#tst_general_properties#:#Propiedades generales
 assessment#:#tst_generate_xls#:#Generar Excel
@@ -2003,6 +2006,7 @@ common#:#languages_updated#:#Todos los idiomas instalados han sido actualizados.
 common#:#last_access#:#Última acceso:
 common#:#last_change#:#última modificación
 common#:#last_edited_on#:#Editado por última vez:
+common#:#last_login#:#Ultimo acceso
 common#:#last_update#:#Última Actualización
 common#:#last_visit#:#Última visita
 common#:#lastname#:#Apellidos
@@ -2843,6 +2847,7 @@ common#:#show#:#Mostrar
 common#:#show_details#:#mostrar detalles
 common#:#show_list#:#mostrar lista
 common#:#show_members#:#Mostrar miembros
+common#:#show_notes_on_pd#:#Mostrar anotaciones en escritorio
 common#:#show_owner#:#Mostrar propietario
 common#:#show_private_notes#:#Mostrar notas privadas
 common#:#show_public_notes#:#Mostrar notas publicas
@@ -2970,6 +2975,7 @@ common#:#today#:#hoy
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#total
+common#:#total_online#:#Tiempo online (DD:HH:MM:SS)
 common#:#tpl_path#:#ruta de plantilla
 common#:#trac_delete#:#Eliminar Datos de Seguimiento
 common#:#trac_edit_permission#:#Modificar configuración de permisos
@@ -3798,6 +3804,7 @@ crs#:#crs_no_items_found#:#No hay items en este objeto
 crs#:#crs_no_language#:#Sin idioma
 crs#:#crs_no_lm_selected#:#Por favor seleccione un material de aprendizaje
 crs#:#crs_no_lms_assigned#:#No hay materiales de aprendizaje asignados
+crs#:#crs_no_lms_inside_course#:#No se encontraron materiales de aprendizaje dentro de este curso
 crs#:#crs_no_lms_inside_crs#:#No hay material de aprendizaje dentro de este curso que pueda ser asignado a este objetivo
 crs#:#crs_no_member_selected#:#Por favor seleccione un miembro
 crs#:#crs_no_members_assigned#:#No hay miembros asignados a este curso
@@ -5577,6 +5584,8 @@ survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copia
 survey#:#survey_code_used#:#Código fue usado
 survey#:#survey_finish#:#Salvar y terminar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
+survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!###28 Feb 2006 content changed
+survey#:#survey_has_datasets_warning#:#La encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine dichos datos en la seccion mantenimiento.
 survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
 survey#:#survey_next#:#salvar y pasar a siguiente página >>>
 survey#:#survey_offline_message#:#No puede invitar usuarios. ¡La encuesta está offline!
@@ -5750,6 +5759,7 @@ trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new varia
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#items del curso que pueden asignarse
 trac#:#trac_crs_members#:#Miembros del curso:
+trac#:#trac_crs_objects#:#Progreso de aprendizaje de los miembros del curso
 trac#:#trac_crs_releavant_items#:#Items del curso
 trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
@@ -5803,6 +5813,7 @@ trac#:#trac_not_completed#:#No completado
 trac#:#trac_not_completed#:#No completado
 trac#:#trac_num_visits#:#Numero de visitas
 trac#:#trac_objects#:#Lista de objetos
+trac#:#trac_objects#:#Progreso de los usuarios
 trac#:#trac_occurrences#:#Ruta:
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_processing_time#:#Tiempo de proceso asumido
