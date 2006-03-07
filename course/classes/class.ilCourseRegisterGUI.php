@@ -74,10 +74,13 @@ class ilCourseRegisterGUI
 	{
 		switch($cmd = $this->ctrl->getCmd())
 		{
+			case '':
+				$this->ctrl->returnToParent($this);
+				break;
+
 			case 'archive':
 			case 'join':
 			case 'view':
-			case '':
 				$cmd = "showRegistrationForm";
 				break;
 		}
@@ -93,6 +96,14 @@ class ilCourseRegisterGUI
 
 	function subscribe()
 	{
+		global $ilAccess,$ilErr;
+
+		if(!$ilAccess->checkAccess("join","",$this->course_obj->getRefId(),'crs'))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+		}
+
+
 		if((($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
 			and $this->course_obj->getSubscriptionMaxMembers() != 0) or
 		   $this->waiting_list->getCountUsers())

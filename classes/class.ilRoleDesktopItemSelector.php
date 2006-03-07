@@ -71,13 +71,13 @@ class ilRoleDesktopItemSelector extends ilExplorer
 
 		$this->setSessionExpandVariable("role_desk_item_link_expand");
 
-		#$this->addFilter("adm");
-		#$this->addFilter("rolf");
+		$this->addFilter("adm");
+		$this->addFilter("rolf");
 		#$this->addFilter("chat");
 		#$this->addFilter('fold');
 
-		#$this->setFilterMode(IL_FM_NEGATIVE);
-		$this->setFiltered(false);
+		$this->setFilterMode(IL_FM_NEGATIVE);
+		$this->setFiltered(true);
 
 	}
 
