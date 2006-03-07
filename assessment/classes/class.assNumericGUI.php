@@ -204,6 +204,34 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 	}
 
 	/**
+	* Checks the range limits
+	*
+	* Checks the Range limits Upper and Lower for their correctness
+	*
+	* @return boolean 
+	* @access private
+	*/
+
+	function checkRange()
+	{
+		if (is_numeric ($_POST ["rang_lower_limit"]) AND is_numeric ($_POST ["range_upper_limit"]))
+		{
+			if ($_POST ["rang_lower_limit"] < $_POST ["range_upper_limit"])
+			{
+				return true;
+			}
+			else 
+			{
+				return false;
+			}
+		}
+		else 
+		{
+			return false;
+		}
+	}
+
+	/**
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* Evaluates a posted edit form and writes the form data in the question object
@@ -221,31 +249,40 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 			$result = 1;
 		}
 
-		if (($result) and (($_POST["cmd"]["add"]) or ($_POST["cmd"]["add_tf"]) or ($_POST["cmd"]["add_yn"])))
-		{
-			// You cannot add answers before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-			$_POST["cmd"]["add"] = "";
-			$_POST["cmd"]["add_yn"] = "";
-			$_POST["cmd"]["add_tf"] = "";
-		}
+// 		if (($result) and (($_POST["cmd"]["add"]) or ($_POST["cmd"]["add_tf"]) or ($_POST["cmd"]["add_yn"])))
+// 		{
+// 			// You cannot add answers before you enter the required data
+// 			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+// 			$_POST["cmd"]["add"] = "";
+// 			$_POST["cmd"]["add_yn"] = "";
+// 			$_POST["cmd"]["add_tf"] = "";
+// 		}
 
 		// Check the creation of new answer text fields
-		if ($_POST["cmd"]["add"] or $_POST["cmd"]["add_yn"] or $_POST["cmd"]["add_tf"])
+// 		if ($_POST["cmd"]["add"] or $_POST["cmd"]["add_yn"] or $_POST["cmd"]["add_tf"])
+// 		{
+// 			foreach ($_POST as $key => $value)
+// 			{
+// 				if (preg_match("/answer_(\d+)/", $key, $matches))
+// 				{
+// 					if (!$value)
+// 					{
+// 						$_POST["cmd"]["add"] = "";
+// 						$_POST["cmd"]["add_yn"] = "";
+// 						$_POST["cmd"]["add_tf"] = "";
+// 						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
+// 					}
+// 			 	}
+// 			}
+// 		}
+
+		// Check if the range of the values are correct
+		if (!checkRange())
 		{
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/answer_(\d+)/", $key, $matches))
-				{
-					if (!$value)
-					{
-						$_POST["cmd"]["add"] = "";
-						$_POST["cmd"]["add_yn"] = "";
-						$_POST["cmd"]["add_tf"] = "";
-						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
-					}
-			 	}
-			}
+			$result = 1;
+			$_POST ["rang_lower_limit"] = "";
+			$_POST ["range_upper_limit"] = "";
+			sendInfo($this->lng->txt("fill_out_all_required_fields_correct_range_limit"));
 		}
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -256,6 +293,10 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->object->set_question($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
+		
+		// set of POST range limit values
+		$this->object->setLowerLimit(ilUtil::stripSlashes($_POST["rang_lower_limit"]));
+		$this->object->setUpperLimit(ilUtil::stripSlashes($_POST["range_upper_limit"]));
 
 		$saved = $this->writeOtherPostData($result);
 
@@ -302,9 +343,9 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		}
 
 		// Set the question id from a hidden form parameter
-		if ($_POST["multiple_choice_id"] > 0)
+		if ($_POST["numeric_id"] > 0)
 		{
-			$this->object->setId($_POST["multiple_choice_id"]);
+			$this->object->setId($_POST["numeric_id"]);
 		}
 		
 		if ($saved)
@@ -320,6 +361,8 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+
+	
 	/**
 	* Creates the question output form for the learner
 	*
