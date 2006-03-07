@@ -5,6 +5,7 @@
 			<ilPage/>
 			<ilLMNavigation/>
 			<ilLocator/>
+			<ilMainMenu/>
 			<ilLMMenu />
 			<ilLMSubMenu />
 			<ilLMNotes />
@@ -13,6 +14,7 @@
 			<ilPage/>
 			<ilLMNavigation/>
 			<ilLocator/>
+			<ilMainMenu/>
 			<ilLMMenu />
 			<ilLMSubMenu />
 			<ilLMNotes />
