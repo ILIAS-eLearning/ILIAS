@@ -43,7 +43,8 @@ class ilFrameTargetInfo
 					case "RepositoryContent":
 						if ($_SESSION["il_rep_mode"] == "flat" or !isset($_SESSION['il_rep_mode']))
 						{
-							return "bottom";
+							//return "bottom";
+							return "_top";
 						}
 						else
 						{
@@ -51,7 +52,8 @@ class ilFrameTargetInfo
 						}
 						
 					case "MainContent":
-						return "bottom";
+						//return "bottom";
+						return "_top";
 						
 					// frame for external content (e.g. web bookmarks, external links) 
 					case "ExternalContent":

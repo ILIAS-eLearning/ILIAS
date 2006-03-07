@@ -98,7 +98,8 @@ if ($_SESSION["viewmode"] == "tree")
 	{
 		$tpl->setVariable("FRAME_RIGHT_SRC","mail.php?mobj_id=$_GET[mobj_id]");
 	}
-	$tpl->show();
+	$tpl->show("DEFAULT", false);
+	exit;
 }
 else
 {

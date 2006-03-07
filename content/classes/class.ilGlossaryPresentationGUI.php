@@ -710,45 +710,6 @@ class ilGlossaryPresentationGUI
 		$gloss_loc->setGlossary($this->glossary);
 		//$gloss_loc->setDefinition($this->definition);
 		$gloss_loc->display();
-		return;
-
-
-		// ### AA 03.11.10 added new locator GUI class ###
-		$i = 1;
-
-		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-		if (!empty($_GET["term_id"]))
-		{
-			$this->tpl->touchBlock("locator_separator");
-		}
-
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->glossary->getTitle());
-		// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-		$this->tpl->setVariable("LINK_ITEM", "glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
-		$this->tpl->parseCurrentBlock();
-
-		// ### AA 03.11.10 added new locator GUI class ###
-		// navigate locator
-		$ilias_locator->navigate($i++,$this->glossary->getTitle(),"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms"."&offset=".$_GET["offset"],"bottom");
-
-		if (!empty($_GET["term_id"]))
-		{
-			$term =& new ilGlossaryTerm($_GET["term_id"]);
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $term->getTerm());
-			$this->tpl->setVariable("LINK_ITEM", "glossary_presentation.php?ref_id=".$_GET["ref_id"].
-				"&cmd=listDefinitions&term_id=".$term->getId()."&offset=".$_GET["offset"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		//$this->tpl->touchBlock("locator_separator");
-
-		$this->tpl->setCurrentBlock("locator");
-		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
-		$this->tpl->parseCurrentBlock();
-
 	}
 
 	/**

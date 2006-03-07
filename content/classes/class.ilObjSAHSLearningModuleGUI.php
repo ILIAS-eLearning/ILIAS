@@ -142,7 +142,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			// view button
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK","content/sahs_edit.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+			$this->tpl->setVariable("BTN_TARGET"," target=\"".
+				ilFrameTargetInfo::_getFrame("MainContent")."\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -398,7 +399,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		$this->tpl = new ilTemplate("tpl.sahs_edit_frameset.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->ref_id);
-		$this->tpl->show();
+		$this->tpl->show("DEFAULT", false);
+		exit;
 	}
 
 	/**
@@ -473,11 +475,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				// navigate locator
 				if ($row["child"] != $a_tree->getRootId())
 				{
-					$ilias_locator->navigate($i++,$row["title"],"../repository.php?ref_id=".$row["child"],"bottom");
+					$ilias_locator->navigate($i++,$row["title"],"../repository.php?ref_id=".$row["child"],
+						ilFrameTargetInfo::_getFrame("MainContent"));
 				}
 				else
 				{
-					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"../repository.php?ref_id=".$row["child"],"bottom");
+					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"../repository.php?ref_id=".$row["child"],
+						ilFrameTargetInfo::_getFrame("MainContent"));
 				}
 			}
 

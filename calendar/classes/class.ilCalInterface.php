@@ -249,16 +249,27 @@ class ilCalInterface
 		global $ilias,$ilTabs;
 		
 		$tpl = new ilTemplate("tpl.calendar_header.html", true, true);
+		
+		// main menu
+		require_once "./classes/class.ilMainMenuGUI.php";
+		$menu = new ilMainMenuGUI("_top");
+		$menu->setTemplate($tpl);
+		$menu->addMenuBlock("MAINMENU", "navigation");
+		$menu->setTemplateVars();
+		
+		//tabs
 		$tpl->setCurrentBlock("locator_item");
 		$tpl->setVariable("LINK_ITEM", "ilias.php?baseClass=ilPersonalDesktopGUI");
-		$tpl->setVariable("LINK_TARGET","bottom");
+		$tpl->setVariable("LINK_TARGET",
+			ilFrameTargetInfo::_getFrame("MainContent"));
 		$tpl->setVariable("ITEM",$lng->txt("personal_desktop"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->touchBlock("locator_separator_prefix");
 		$tpl->setCurrentBlock("locator_item");
 		$tpl->setVariable("LINK_ITEM","./dateplaner.php");
-		$tpl->setVariable("LINK_TARGET","bottom");
+		$tpl->setVariable("LINK_TARGET",
+			ilFrameTargetInfo::_getFrame("MainContent"));
 		$tpl->setVariable("ITEM",$lng->txt("dateplaner"));
 		$tpl->parseCurrentBlock();
 
@@ -266,7 +277,7 @@ class ilCalInterface
 		$tpl->touchBlock("locator_separator_prefix");
 		$tpl->setCurrentBlock("locator_item");
 		$tpl->setVariable("LINK_ITEM","./dateplaner.php?app=".$app);
-		$tpl->setVariable("LINK_TARGET","bottom");
+		//$tpl->setVariable("LINK_TARGET","bottom");
 		$tpl->setVariable("ITEM",$lng->txt("app_".$app));
 		$tpl->parseCurrentBlock();*/
 

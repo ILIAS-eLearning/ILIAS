@@ -114,7 +114,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				// set page view link
 				if ($showViewInFrameset)
 				{
-					$view_frame = "bottom";
+					$view_frame = ilFrameTargetInfo::_getFrame("MainContent");
 				}
 				else
 				{

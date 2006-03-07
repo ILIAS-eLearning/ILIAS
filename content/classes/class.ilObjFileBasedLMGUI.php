@@ -290,7 +290,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK","content/fblm_edit.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+			$this->tpl->setVariable("BTN_TARGET"," target=\"".ilFrameTargetInfo::_getFrame("MainContent")."\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -646,11 +646,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				// navigate locator
 				if ($row["child"] != $a_tree->getRootId())
 				{
-					$ilias_locator->navigate($i++,$row["title"],"../repository.php?ref_id=".$row["child"],"bottom");
+					$ilias_locator->navigate($i++,$row["title"],"../repository.php?ref_id=".$row["child"],
+						ilFrameTargetInfo::_getFrame("MainContent"));
 				}
 				else
 				{
-					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"../repository.php?ref_id=".$row["child"],"bottom");
+					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"../repository.php?ref_id=".$row["child"],
+						ilFrameTargetInfo::_getFrame("MainContent"));
 				}
 			}
 

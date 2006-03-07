@@ -37,22 +37,27 @@ $script_name = basename($_SERVER["SCRIPT_NAME"]);
 
 // new appointment
 $inc_type = $script_name == "cal_edit_entry.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"cal_edit_entry.php?ts=".$chosents,$lng->txt("new_appointment"),"bottom");
+$inhalt1[] = array($inc_type,"cal_edit_entry.php?ts=".$chosents,$lng->txt("new_appointment"),
+	ilFrameTargetInfo::_getFrame("MainContent"));
 
 // day
 $inc_type = $script_name == "cal_date.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"cal_date.php?ts=".$chosents,$lng->txt("day"),"bottom");
+$inhalt1[] = array($inc_type,"cal_date.php?ts=".$chosents,$lng->txt("day"),
+	ilFrameTargetInfo::_getFrame("MainContent"));
 // week
 $inc_type = $script_name == "cal_week_overview.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"cal_week_overview.php?ts=.$chosents",$lng->txt("week"),"bottom");
+$inhalt1[] = array($inc_type,"cal_week_overview.php?ts=.$chosents",$lng->txt("week"),
+	ilFrameTargetInfo::_getFrame("MainContent"));
 
 // month
 $inc_type = $script_name == "cal_month_overview.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"cal_month_overview.php?ts=.$chosents",$lng->txt("month"),"bottom");
+$inhalt1[] = array($inc_type,"cal_month_overview.php?ts=.$chosents",$lng->txt("month"),
+	ilFrameTargetInfo::_getFrame("MainContent"));
 
 // appointment list
 $inc_type = $script_name == "cal_appointment_list.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"cal_appointment_list.php?ts=.$todays",$lng->txt("appointment_list"),"bottom");
+$inhalt1[] = array($inc_type,"cal_appointment_list.php?ts=.$todays",$lng->txt("appointment_list"),
+	ilFrameTargetInfo::_getFrame("MainContent"));
 		  
 for ( $i=0; $i<sizeof($inhalt1); $i++)
 {

@@ -508,14 +508,14 @@ class ilSearchAdministrationGUI
 
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("LINK_ITEM","./search.php");
-		$this->tpl->setVariable("LINK_TARGET","bottom");
+		$this->tpl->setVariable("LINK_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
 		$this->tpl->setVariable("ITEM",$this->lng->txt("mail_search_word"));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->touchBlock("locator_separator_prefix");
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("LINK_ITEM","./search_administration.php");
-		$this->tpl->setVariable("LINK_TARGET","bottom");
+		$this->tpl->setVariable("LINK_TARGET",ilFrameTargetInfo::_getFrame("MainContent"));
 		$this->tpl->setVariable("ITEM",$this->lng->txt("search_search_results"));
 		$this->tpl->parseCurrentBlock();
 
@@ -524,7 +524,7 @@ class ilSearchAdministrationGUI
 			$this->tpl->touchBlock("locator_separator_prefix");
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("LINK_ITEM","./search_administration.php?folder_id=".$path_info[$i]["child"]);
-			$this->tpl->setVariable("LINK_TARGET","bottom");
+			$this->tpl->setVariable("LINK_TARGET",ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->tpl->setVariable("ITEM",$path_info[$i]["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -695,7 +695,7 @@ class ilSearchAdministrationGUI
 		switch($a_item["type"])
 		{
 			case "seaf":
-				$target = "bottom";
+				$target = ilFrameTargetInfo::_getFrame("MainContent");
 				$link = "./search_administration.php?folder_id=".$a_item["obj_id"];
 
 				return array($link,$target);
@@ -712,7 +712,7 @@ class ilSearchAdministrationGUI
 				
 			case "top":
 				$parent_id = $this->folder_obj->getParentId();
-				$target = "bottom";
+				$target = ilFrameTargetInfo::_getFrame("MainContent");
 				$link = "./search_administration.php?folder_id=".$parent_id;
 
 				return array($link,$target);

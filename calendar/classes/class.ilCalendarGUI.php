@@ -101,7 +101,7 @@ require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.ilCalInterface.php');
 		$tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
 		$tpl->setCurrentBlock("locator_item");
 		$tpl->setVariable("LINK_ITEM","./search.php");
-		$tpl->setVariable("LINK_TARGET","bottom");
+		//$tpl->setVariable("LINK_TARGET","bottom");
 		$tpl->setVariable("ITEM",$lng->txt("mail_search_word"));
 		$tpl->parseCurrentBlock();
 

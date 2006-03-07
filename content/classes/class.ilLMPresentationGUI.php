@@ -806,7 +806,8 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "ilMainMenu");
 		if ($showViewInFrameset) {
-			$menu = new ilMainMenuGUI("bottom", true);
+			$menu = new ilMainMenuGUI(ilFrameTargetInfo::_getFrame("MainContent"),
+				true);
 		}
 		else
 		{
@@ -836,7 +837,7 @@ class ilLMPresentationGUI
 		$exp->setTargetGet("obj_id");
 		if ($this->lm->cleanFrames())
 		{
-			$exp->setFrameTarget("bottom");
+			$exp->setFrameTarget(ilFrameTargetInfo::_getFrame("MainContent"));
 		}
 		else
 		{
@@ -922,7 +923,7 @@ class ilLMPresentationGUI
 		
 		if ($showViewInFrameset)
 		{
-			$buttonTarget = "bottom";
+			$buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
 		}
 		else
 		{
@@ -1027,7 +1028,7 @@ class ilLMPresentationGUI
 		else if (!$this->offlineMode())
 		{
 			$frame_param = "";
-			$frame_target = "bottom";
+			$frame_target = ilFrameTargetInfo::_getFrame("MainContent");
 		}
 		else
 		{
@@ -1871,7 +1872,7 @@ class ilLMPresentationGUI
 			{
 				$prev_href =
 					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]);
-				$prev_target = 'target="bottom" ';
+				$prev_target = 'target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ';
 			}
 			else
 			{
@@ -1924,7 +1925,7 @@ class ilLMPresentationGUI
 			{
 				$succ_href =
 					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]);
-				$succ_target = ' target="bottom" ';
+				$succ_target = ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ';
 			}
 			else
 			{

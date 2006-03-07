@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -108,6 +108,9 @@ if(isset($_POST["cmd"]["delete"]))
 	$tpl->setVariable("ACTION_DELETE","mail_frameset.php?mobj_id=$_GET[mobj_id]");
 	$tpl->setVariable("TXT_DELETE_CONFIRM",$lng->txt("confirm"));
 	$tpl->setVariable("TXT_DELETE_CANCEL",$lng->txt("cancel"));
+	$tpl->setVariable("FRAME_DELETE",
+		ilFrameTargetInfo::_getFrame("MainContent"));
+
 	$tpl->parseCurrentBlock();
 }
 
@@ -132,6 +135,8 @@ if(($folder_data["type"] == 'user_folder' or $folder_data["type"] == 'local')
 	$tpl->setVariable("ACTION_ADD","mail_frameset.php?mobj_id=$_GET[mobj_id]");
 	$tpl->setVariable("TXT_NAME_ADD",$lng->txt("mail_folder_name"));
 	$tpl->setVariable("TXT_FOLDER_ADD",$lng->txt("add"));
+	$tpl->setVariable("FRAME_ADD",
+		ilFrameTargetInfo::_getFrame("MainContent"));
 	$tpl->parseCurrentBlock();
 }
 

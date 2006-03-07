@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -495,7 +495,8 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 			case "seaf":
 				$this->ctrl->setParameter($this,'folder_id',$a_item['obj_id']);
 
-				return array($this->ctrl->getLinkTarget($this),'bottom');
+				return array($this->ctrl->getLinkTarget($this),
+					ilFrameTargetInfo::_getFrame("MainContent"));
 
 			case "sea":
 				include_once "Services/Search/classes/class.ilUserResult.php";
@@ -510,7 +511,8 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 			case "top":
 				$this->ctrl->setParameter($this,'folder_id',$this->folder_obj->getParentId());
 				
-				return array($this->ctrl->getLinkTarget($this),'bottom');
+				return array($this->ctrl->getLinkTarget($this),
+					ilFrameTargetInfo::_getFrame("MainContent"));
 		}
 	}
 	function __getActions()

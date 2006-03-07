@@ -247,7 +247,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if ($showViewInFrameset)
 		{
-			$buttonTarget = "bottom";
+			$buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
 		}
 		else
 		{
@@ -2465,7 +2465,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if ($showViewInFrameset && !$a_offline)
 		{
-			$buttonTarget = "bottom";
+			$buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
 		}
 		else
 		{

@@ -719,8 +719,8 @@ class ilObjectGUI
 
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
-			$ilias_locator->navigate($i++,$title,
-				ilUtil::appendUrlParameterString($scriptname, $a_child_param."=".$row["child"]),"bottom");
+			//$ilias_locator->navigate($i++,$title,
+			//	ilUtil::appendUrlParameterString($scriptname, $a_child_param."=".$row["child"]),"bottom");
 		}
 
 		if (($_GET["obj_id"] != "") && $a_output_obj)
@@ -736,8 +736,8 @@ class ilObjectGUI
 
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
-			$ilias_locator->navigate($i++,$obj_data->getTitle(),
-				ilUtil::appendUrlParameterString($scriptname, "ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]),"bottom");
+			//$ilias_locator->navigate($i++,$obj_data->getTitle(),
+			//	ilUtil::appendUrlParameterString($scriptname, "ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]),"bottom");
 		}
 
 		$this->tpl->setCurrentBlock("locator");
