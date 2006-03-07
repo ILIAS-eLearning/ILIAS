@@ -274,5 +274,5 @@ if ($_GET['cookies'] == 'nocookies')
 	$tpl->setVariable("COOKIES_HOWTO", $lng->txt("cookies_howto"));
 }
 
-$tpl->show(false);
+$tpl->show("DEFAULT", false);
 ?>

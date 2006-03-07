@@ -280,7 +280,8 @@ class ilRepositoryExplorer extends ilExplorer
 
 				if ($showViewInFrameset) 
 				{
-	  				return "bottom";
+					return ilFrameTargetInfo::_getFrame("MainContent");
+	  				//return "bottom";
 				}
 				else
 				{
@@ -306,7 +307,8 @@ class ilRepositoryExplorer extends ilExplorer
 				$showViewInFrameset = true;
 				if ($showViewInFrameset) 
 				{
-	  				return "bottom";
+					return ilFrameTargetInfo::_getFrame("MainContent");
+	  				//return "bottom";
 				}
 				else
 				{

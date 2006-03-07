@@ -52,7 +52,8 @@ function setLocator($a_obj_id,$a_path,$a_user_id,$a_txt_prefix)
 		
 		// ### AA 03.11.10 added new locator GUI class ###
 		// navigate locator
-		$ilias_locator->navigate($i++,$lng->txt("mail_mails_of"),"mail.php","bottom");
+		$ilias_locator->navigate($i++,$lng->txt("mail_mails_of"),"mail.php",
+			ilFrameTargetInfo::_getFrame("MainContent"));
 
 		if($a_path == 'mail.php')
 		{
@@ -75,7 +76,8 @@ function setLocator($a_obj_id,$a_path,$a_user_id,$a_txt_prefix)
 				
 				// ### AA 03.11.10 added new locator GUI class ###
 				// navigate locator
-				$ilias_locator->navigate($i++,$row["title"],"mail.php?mobj_id=".$row["child"],"bottom");
+				$ilias_locator->navigate($i++,$row["title"],"mail.php?mobj_id=".$row["child"],
+					ilFrameTargetInfo::_getFrame("MainContent"));
 			}
 			$tpl->setCurrentBlock("locator");
 		}

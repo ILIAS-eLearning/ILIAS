@@ -266,7 +266,7 @@ class ilAdministrationGUI
 			$tpl->setVariable("TREE_CONTENT", $this->ctrl->getLinkTarget($this, "showTree"));
 	//echo "<br>+".$this->ctrl->getLinkTarget($this, "showTree")."+";
 			$tpl->parseCurrentBlock();
-			$tpl->show();
+			$tpl->show("DEFAULT", false);
 		}
 		else
 		{
@@ -277,8 +277,9 @@ class ilAdministrationGUI
 			$tpl->setVariable("TREE_CONTENT", $this->ctrl->getLinkTarget($this, "showTree"));
 	//echo "<br>+".$this->ctrl->getLinkTarget($this, "showTree")."+";
 			$tpl->parseCurrentBlock();
-			$tpl->show();
+			$tpl->show("DEFAULT", false);
 		}
+		exit;
 	}
 
 	/**

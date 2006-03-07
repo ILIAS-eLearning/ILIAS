@@ -74,17 +74,18 @@ $tpl->parseCurrentBlock();
 // FLATVIEW <-> TREEVIEW
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 {
-	$tpl->setCurrentBlock("tree_mode");
-	$tpl->setVariable("LINK_MODE","mail_frameset.php?viewmode=tree&amp;mobj_id=".$_GET["mobj_id"]);
-	$tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_treeview.gif"));
-	$tpl->parseCurrentBlock();
+	$tpl->setTreeFlatIcon(
+		"mail_frameset.php?viewmode=tree&amp;mobj_id=".$_GET["mobj_id"],
+		"tree");
+	//$tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_treeview.gif"));
+	//$tpl->parseCurrentBlock();
 }
 else
 {
-	$tpl->setCurrentBlock("tree_mode");
-	$tpl->setVariable("LINK_MODE","mail_frameset.php?viewmode=flat&amp;mobj_id=".$_GET["mobj_id"]);
-	$tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_flatview.gif"));
-	$tpl->parseCurrentBlock();
+	$tpl->setTreeFlatIcon(
+		"mail_frameset.php?viewmode=flat&amp;mobj_id=".$_GET["mobj_id"],
+		"flat");
+	//$tpl->parseCurrentBlock();
 }
 $tpl->setCurrentBlock("tree_icons");
 $tpl->parseCurrentBlock();

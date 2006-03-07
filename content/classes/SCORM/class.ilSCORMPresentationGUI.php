@@ -81,7 +81,8 @@ class ilSCORMPresentationGUI
 	{
 		$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->slm->getRefId());
-		$this->tpl->show();
+		$this->tpl->show("DEFAULT", false);
+		exit;
 	}
 
 

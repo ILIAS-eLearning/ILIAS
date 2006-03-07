@@ -288,7 +288,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK","content/mep_edit.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+			$this->tpl->setVariable("BTN_TARGET"," target=\"".
+				ilFrameTargetInfo::_getFrame("MainContent")."\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -656,7 +657,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	{
 		$this->tpl = new ilTemplate("tpl.mep_edit_frameset.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->ref_id);
-		$this->tpl->show();
+		$this->tpl->show("DEFAULT", false);
+		exit;
 	}
 
 	/**

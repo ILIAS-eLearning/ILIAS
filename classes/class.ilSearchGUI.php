@@ -495,7 +495,7 @@ class ilSearchGUI
 
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("LINK_ITEM","./search.php");
-		$this->tpl->setVariable("LINK_TARGET","bottom");
+		$this->tpl->setVariable("LINK_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
 		$this->tpl->setVariable("ITEM",$this->lng->txt("mail_search_word"));
 		$this->tpl->parseCurrentBlock();
 

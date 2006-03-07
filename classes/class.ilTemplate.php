@@ -123,6 +123,7 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($add_standard_elements)
 		{
+			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
 		}
@@ -191,6 +192,7 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($a_fill_tabs)
 		{
+			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
 		}
@@ -214,6 +216,18 @@ class ilTemplate extends ilTemplateX
 		
 		$this->setVariable("TABS",$ilTabs->getHTML());
 		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
+	}
+	
+	function fillMainMenu()
+	{
+		global $tpl;
+
+		require_once "./classes/class.ilMainMenuGUI.php";
+
+		$menu = new ilMainMenuGUI("_top");
+		$menu->setTemplate($tpl);
+		$menu->addMenuBlock("MAINMENU", "navigation");
+		$menu->setTemplateVars();
 	}
 	
 	function fillHeaderIcon()
@@ -788,7 +802,7 @@ class ilTemplate extends ilTemplateX
 	/**
 	* set tree/flat icon
 	* @param	string		link target
-	* @param	strong		mode ("treeview" | "flatview")
+	* @param	strong		mode ("tree" | "flat")
 	*/
 	function setTreeFlatIcon($a_link, $a_mode)
 	{
@@ -798,7 +812,8 @@ class ilTemplate extends ilTemplateX
 		$this->setVariable("LINK_MODE", $a_link);
 		$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$a_mode."view.gif"));
 		$this->setVariable("ALT_TREE",$lng->txt($a_mode."view"));
-		
+		$this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
+//echo ":".ilFrameTargetInfo::_getFrame("MainContent").":";
 		$this->parseCurrentBlock();
 	}
 

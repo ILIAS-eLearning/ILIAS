@@ -460,7 +460,8 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("REF_ID",$this->cur_ref_id);
 		$this->tpl->setVariable("TXT_EXPLORER_FRAME", $lng->txt("explorer_frame"));
 		$this->tpl->setVariable("TXT_CONTENT_FRAME", $lng->txt("repository_frame"));
-		$this->tpl->show();
+		$this->tpl->show("DEFAULT", false);
+		exit;
 	}
 
 	/**
@@ -615,7 +616,7 @@ class ilRepositoryGUI
 				? "tree"
 				: "flat";
 			$this->tpl->setCurrentBlock("tree_mode");
-			$this->tpl->setVariable("LINK_MODE", "repository.php?cmd=frameset&set_mode=".$s_mode."&ref_id=".$this->cur_ref_id);
+//			$this->tpl->setVariable("LINK_MODE", "repository.php?cmd=frameset&set_mode=".$s_mode."&ref_id=".$this->cur_ref_id);
 			$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$s_mode."view.gif"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -757,11 +758,11 @@ class ilRepositoryGUI
 			// navigate locator
 			if ($row["child"] != $a_tree->getRootId())
 			{
-				$ilias_locator->navigate($i++,$row["title"],"repository.php?ref_id=".$row["child"],"bottom");
+			//	$ilias_locator->navigate($i++,$row["title"],"repository.php?ref_id=".$row["child"],"bottom");
 			}
 			else
 			{
-				$ilias_locator->navigate($i++,$this->lng->txt("repository"),"repository.php?ref_id=".$row["child"],"bottom");
+			//	$ilias_locator->navigate($i++,$this->lng->txt("repository"),"repository.php?ref_id=".$row["child"],"bottom");
 			}
 		}
 
@@ -956,7 +957,7 @@ class ilRepositoryGUI
 					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id."&new_type=".$_GET["new_type"]);
 
 				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
-//$obj->setTargetFrame("save", "bottom");
+
 				//$this->ctrl->setCmdClass(strtolower("Obj".$class_name."GUI"));
 				//$this->ctrl->setCmd($method);
 				//$this->ctrl->forwardCommand($obj);

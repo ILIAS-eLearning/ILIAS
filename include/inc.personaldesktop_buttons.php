@@ -48,7 +48,8 @@ $inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
 	$_GET["cmdClass"] == ""))
 	? "tabactive"
 	: "tabinactive";
-$inhalt1[] = array($inc_type, "ilias.php?baseClass=ilPersonalDesktopGUI", $lng->txt("overview"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+$inhalt1[] = array($inc_type, "ilias.php?baseClass=ilPersonalDesktopGUI", $lng->txt("overview"),
+	ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
 
 // workaround for calendar, normally this include file should not be used anymore
 $inc_type = $script_name == "usr_profile.php"
@@ -64,22 +65,25 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		$inc_type = ($script_name == "dateplaner.php")
 			? "tabactive"
 			: "tabinactive";
-		$inhalt1[] = array($inc_type,"dateplaner.php",$lng->txt("calendar"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+		$inhalt1[] = array($inc_type,"dateplaner.php",$lng->txt("calendar"),
+			ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
 	}
 
 /*	// user agreement
 	$inc_type = $script_name == "usr_agreement.php" ? "tabactive" : "tabinactive";
-	$inhalt1[] = array($inc_type,"usr_agreement.php",$lng->txt("usr_agreement"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+	//$inhalt1[] = array($inc_type,"usr_agreement.php",$lng->txt("usr_agreement"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 */
 	// private notes
 	$inc_type = "tabinactive";
-	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",$lng->txt("private_notes"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",$lng->txt("private_notes"),
+		ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
 
 	// user bookmarks
 	$inc_type = ($script_name == "usr_bookmarks.php")
 		? "tabactive"
 		: "tabinactive";
-	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",$lng->txt("bookmarks"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",$lng->txt("bookmarks"),
+		ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
 
 
 	include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
@@ -88,7 +92,8 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		// learning progress
 		$inc_type = "tabinactive";
 		$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",$lng->txt("learning_progress"),
-					   "bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+					   ilFrameTargetInfo::_getFrame("MainContent")
+					   ,"usr_pdesktop_menu.php?cmd=highest_level","left");
 	}
 }
 
@@ -105,13 +110,15 @@ if(ilPaymentShoppingCart::_hasEntries($ilias->account->getId()) or
 									  
 {
 	$lng->loadLanguageModule('payment');
-	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('paya_shopping_cart'),'bottom');
+	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('paya_shopping_cart'),
+		ilFrameTargetInfo::_getFrame("MainContent"));
 }	
 if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
    ilPaymentTrustees::_hasAccess($ilias->account->getId()))
 {
 	$lng->loadLanguageModule('payment');
-	$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$lng->txt('paya_header'),'bottom');
+	$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$lng->txt('paya_header'),
+		ilFrameTargetInfo::_getFrame("MainContent"));
 }
 
 

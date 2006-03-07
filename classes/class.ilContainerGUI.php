@@ -120,7 +120,7 @@ class ilContainerGUI extends ilObjectGUI
 		//$link_xml = $this->getLinkXML($int_links);
 		$page_gui =& new ilPageObjectGUI($page_object);
 
-		$view_frame = "bottom";
+		// $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
 		//$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
 		//	$view_frame);
 

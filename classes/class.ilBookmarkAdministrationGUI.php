@@ -436,7 +436,8 @@ class ilBookmarkAdministrationGUI
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-		$this->tpl->setVariable("LINK_TARGET","target=\"bottom\"");
+		$this->tpl->setVariable("LINK_TARGET","target=\"".
+			ilFrameTargetInfo::_getFrame("MainContent")."\"");
 		$this->tpl->parseCurrentBlock();
 
 		foreach ($path as $key => $row)

@@ -24,7 +24,7 @@
 <!-- BEGIN tbl_system_msg_row -->
 <tr class="{ROWCOL}">
   <td class="std" valign="middle">{MAIL_FROM}</td>
-  <td class="std" valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}" target="bottom">{MAIL_SUBJ}</a></td>
+  <td class="std" valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJ}</a></td>
   <td class="std" valign="middle">{MAIL_DATE}</td>
 </tr>
 <!-- END tbl_system_msg_row -->
@@ -46,7 +46,7 @@
   	<img src="{IMG_SENDER}" title="{ALT_SENDER}" alt="{ALT_SENDER}" border="0" />
   </td>
   <td class="std" valign="middle">{NEW_MAIL_FROM}<br />{NEW_MAIL_FROM_LOGIN}</td>
-  <td class="std" valign="middle"><a class="{NEW_MAILCLASS}" href="{NEW_MAIL_LINK_READ}" target="bottom">{NEW_MAIL_SUBJ}</a>
+  <td class="std" valign="middle"><a class="{NEW_MAILCLASS}" href="{NEW_MAIL_LINK_READ}">{NEW_MAIL_SUBJ}</a>
   <br /><div class="il_Description">{NEW_MAIL_DATE}</div></td>
 </tr>
 <!-- END tbl_mails_row -->
@@ -114,7 +114,7 @@
   <tr class="{ROWCOL}">
     <td class="std">
 <!-- BEGIN linked_test -->
-    <a href="{TST_LINK}" class="navigation" target="bottom">{TST_TITLE}</a>
+    <a href="{TST_LINK}" class="navigation">{TST_TITLE}</a>
 <!-- END linked_test -->
 <!-- BEGIN unlinked_test -->
     {TST_TITLE_UNLINKED}

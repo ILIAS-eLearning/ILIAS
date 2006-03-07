@@ -75,7 +75,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 
 		if ($showViewInFrameset)
 		{
-			$this->setFrameTarget("bottom");
+			$this->setFrameTarget(ilFrameTargetInfo::_getFrame("MainContent"));
 		}
 		else
 		{
@@ -163,7 +163,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 
 		if ($showViewInFrameset && !$this->offlineMode())
 		{
-			return "bottom";
+			return ilFrameTargetInfo::_getFrame("MainContent");
 		}
 		else
 		{
