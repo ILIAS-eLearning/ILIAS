@@ -1188,5 +1188,23 @@ class ilObjCourse extends ilContainer
 				return true;
 		}
 	}
+
+	function _deleteUser($a_usr_id)
+	{
+		// Delete all user related data
+		// delete lm_history
+		include_once './course/classes/class.ilCourseLMHistory.php';
+		ilCourseLMHistory::_deleteUser($a_usr_id);
+
+		include_once './course/classes/class.ilCourseMembers.php';
+		ilCourseMembers::_deleteUser($a_usr_id);
+
+		// Course objectives
+		include_once './course/classes/class.ilCourseObjectiveResult.php';
+		ilCourseObjectiveResult::_deleteUser($a_usr_id);
+	}
+		
+		
+
 } //END class.ilObjCourse
 ?>

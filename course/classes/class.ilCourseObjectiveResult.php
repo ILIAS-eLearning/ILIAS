@@ -337,7 +337,7 @@ class ilCourseObjectiveResult
 	}
 
 
-	function _deleteAll($user_id)
+	function _deleteUser($user_id)
 	{
 		global $ilDB;
 

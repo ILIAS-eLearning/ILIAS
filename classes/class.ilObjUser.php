@@ -950,18 +950,20 @@ class ilObjUser extends ilObject
 
 		// DELETE FORUM ENTRIES (not complete in the moment)
 		include_once './classes/class.ilObjForum.php';
-
 		ilObjForum::_deleteUser($this->getId());
 
 		// Delete link check notify entries
 		include_once './classes/class.ilLinkCheckNotify.php';
-
 		ilLinkCheckNotify::_deleteUser($this->getId());
 
-		// Delete crs objectives results
-		include_once './course/classes/class.ilCourseObjectiveResult.php';
 
-		ilCourseObjectiveResult::_deleteAll($this->getId());
+		// Delete crs entries
+		include_once './course/classes/class.ilObjCourse.php';
+		ilObjCourse::_deleteUser($this->getId());
+
+		// Delete user tracking
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		ilObjUserTracking::_deleteUser($this->getId());
 
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();

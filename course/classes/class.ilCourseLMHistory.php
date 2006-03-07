@@ -117,5 +117,16 @@ class ilCourseLMHistory
 		}
 		return $lm ? $lm : array();
 	}
+
+	function _deleteUser($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM crs_lm_history WHERE usr_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+
+		return true;
+	}
+			
 }
 ?>
