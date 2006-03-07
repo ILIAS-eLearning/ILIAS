@@ -758,6 +758,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
+	
+	/**
+	* Cancel question deletion
+	*/
+	function cancelDeleteQuestionsObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
 
 	/**
 	* duplicate a question
