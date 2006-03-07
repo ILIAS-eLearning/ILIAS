@@ -798,24 +798,19 @@ class ilLMPresentationGUI
 	{
 		global $ilBench;
 
-		// Determine whether the view of a learning resource should
-		// be shown in the frameset of ilias, or in a separate window.
-		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
-		$showViewInFrameset = true;
-
+		if ($this->offlineMode())
+		{
+			return;
+		}
 
 		$ilBench->start("ContentPresentation", "ilMainMenu");
-		if ($showViewInFrameset) {
-			$menu = new ilMainMenuGUI(ilFrameTargetInfo::_getFrame("MainContent"),
-				true);
-		}
-		else
-		{
-			$menu = new ilMainMenuGUI("_top", true);
-		}
+
+		$menu = new ilMainMenuGUI(ilFrameTargetInfo::_getFrame("MainContent"));
+			
 		$menu->setTemplate($this->tpl);
-		$menu->addMenuBlock("CONTENT", "navigation");
+		$menu->addMenuBlock("MAINMENU", "mainmenu");
 		$menu->setTemplateVars();
+		
 		$ilBench->stop("ContentPresentation", "ilMainMenu");
 	}
 
@@ -1100,7 +1095,7 @@ class ilLMPresentationGUI
 
 		$this->tpl->setLocator();
 	}
-
+	
 	function getCurrentPageId()
 	{
 		global $ilUser;
