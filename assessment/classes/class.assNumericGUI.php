@@ -30,7 +30,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * The ASS_NumericGUI class encapsulates the GUI representation
 * for numeric questions.
 *
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author		Helmut SchottmÃ¼ller <helmut.schottmueller@mac.com>
 * @author   Nina Gharib <nina@wgserve.de>
 * @version	$Id$
 * @module   class.assNumericGUI.php
