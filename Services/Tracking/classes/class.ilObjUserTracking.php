@@ -394,6 +394,29 @@ class ilObjUserTracking extends ilObject
 
 		return true;
 	}
+
+	function _deleteUser($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM ut_access WHERE user_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+
+		$query = "DELETE FROM ut_learning_progress WHERE user_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+		
+		$query = "DELETE FROM ut_lp_filter WHERE usr_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+		
+		$query = "DELETE FROM ut_lp_marks WHERE usr_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+
+		$query = "DELETE FROM ut_online WHERE usr_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+
+		return true;
+	}
+
 		
 } // END class.ilObjUserTracking
 ?>

@@ -328,7 +328,25 @@ class ilCourseMembers
 
 		return true;
 	}
-	
+
+
+	/* 
+	 * Delete user entries called from ilObjUser->delete() 
+	 */
+	function _deleteUser($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM crs_members WHERE usr_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+
+		$query = "DELETE FROM crs_subscribers WHERE usr_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+
+		include_once './course/classes/class.ilCourseWaitingList.php';
+		ilCourseWaitingList::_deleteUser($a_usr_id);
+	}
+		
 	function getAssignedUsers()
 	{
 		// ALL MEMBERS AND ADMINS
