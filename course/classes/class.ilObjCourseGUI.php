@@ -2751,7 +2751,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilAccess,$ilUser;
 
 		$this->object->initCourseMemberObject();
 
@@ -2876,16 +2876,14 @@ class ilObjCourseGUI extends ilContainerGUI
 									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 			}
 		}
-		if($rbacsystem->checkAccess('join',$this->ref_id)
-		   and !$rbacsystem->checkAccess('write',$this->ref_id)
-		   and !$this->object->members_obj->isMember($this->ilias->account->getId()))
+		if($ilAccess->checkAccess('join','',$this->ref_id)
+		   and !ilCourseMembers::_isMember($ilUser->getId(),$this->object->getId()))
 		{
 			$tabs_gui->addTarget("join",
-								 $this->ctrl->getLinkTarget($this, "view"), 
-								 array("view",'join',''),
+								 $this->ctrl->getLinkTarget($this, "join"), 
+								 'join',
 								 "");
 		}			
-
 	}
 
 	function printMembersObject()
@@ -4148,10 +4146,11 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem,$ilUser,$ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
 		$this->prepareOutput();
 
 		// check if object is purchased
@@ -4271,11 +4270,18 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 
 			default:
-				if( !$this->creation_mode
-					&& (!$rbacsystem->checkAccess("read",$this->object->getRefId()) or $cmd == 'join' or $cmd == 'subscribe')
-					&& $cmd != 'infoScreen')
+				if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
 				{
-					$this->ctrl->setReturn($this,"");
+					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+				}
+
+				if( !$this->creation_mode
+					&& $cmd != 'infoScreen'
+					&& !$rbacsystem->checkAccess("read",$this->object->getRefId())
+					|| $cmd == 'join'
+					|| $cmd == 'subscribe')
+				{
+					$this->ctrl->setReturn($this,"infoScreen");
 					$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
 					$ret =& $this->ctrl->forwardCommand($reg_gui);
 					break;
@@ -4299,9 +4305,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				if(!$cmd)
 				{
-					$cmd = "view";
+					$cmd = 'view';
 				}
-				$cmd .= "Object";
+				$cmd .= 'Object';
 				$this->$cmd();
 					
 				break;
