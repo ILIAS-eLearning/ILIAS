@@ -530,6 +530,11 @@ include_once 'classes/class.ilTabsGUI.php';
 $ilTabs = new ilTabsGUI();
 $GLOBALS['ilTabs'] =& $ilTabs;
 
+// main menu
+include_once 'classes/class.ilMainMenuGUI.php';
+$ilMainMenu = new ilMainMenuGUI("_top");
+$GLOBALS['ilMainMenu'] =& $ilMainMenu;
+
 // Store online time of user
 ilOnlineTracking::_updateAccess($ilUser->getId());
 

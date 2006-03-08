@@ -453,13 +453,12 @@ table.il_ContainerBlock
 }
 
 /* Personal Desktop Header*/
-div.il_PDTitle
+div.il_PDTitle, span.il_PDTitle
 {
-	font-family: "Times New Roman", Times, Palatino, "Palatino Linotype", serif;
-	font-size: 150%;
+	font-size: 140%;
 	line-height: 160%;
-	color: #606060;
-	letter-spacing: 0.1em;
+	color: #101010;
+	letter-spacing: 0.05em;
 	word-spacing: -0.1em;
 	white-space: nowrap;
 }
@@ -578,7 +577,7 @@ table.il_Locator
 }
 
 div.il_Locator {
-	padding: 4px 15px;
+	padding: 4px 15px 4px 23px;
 	vertical-align:top;
 	font-size: 80%;
 }
@@ -606,13 +605,70 @@ form.il_Form
 	border: 0px;
 }
 
-/* Tabs */
+/* MainMenu Tabs */
 
 div.il_MainMenu
 {
-	line-height: 22px;
-	white-space: nowrap;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+    width:100%;
+	padding-left:0px;
+    line-height:normal;
+	background: none;
 }
+
+ul.il_MainMenu
+{
+	margin: 0px;
+	padding: 0px 15px;
+	list-style:none;
+}
+
+li.MMInactive
+{
+	float:left;
+	background:url("images/MMTInactiveRight.gif")
+		no-repeat right top;
+	margin:0;
+	padding:0;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #8CC6FF;
+}
+
+a.MMInactive, a.MMInactive:hover
+{
+	float: left;
+	display:block;
+	background:url("images/MMTInactiveLeft.gif") no-repeat left top;
+    padding: 3px 8px;
+	font-size: 80%;
+}
+
+li.MMActive
+{
+	float:left;
+	background:url("images/MMTActiveRight.gif")
+		no-repeat right top;
+	margin:0;
+	padding:0;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #DCEAF9;
+}
+
+a.MMActive, a.MMActive:hover
+{
+	float: left;
+	display:block;
+	background:url("images/MMTActiveLeft.gif") no-repeat left top;
+    padding: 3px 8px;
+	font-size: 80%;
+}
+
+/* Tabs */
 
 div.il_Tab
 {
@@ -958,7 +1014,7 @@ div.ilMainHeader
 {
 	background-image: url(images/HeaderBackground3.gif);
 	background-repeat: repeat-x;
-	background-color: #F0F0F0;
+	background-color: #8CC6FF;
 }
 
 a.ilMainHeader, a.ilMainHeader:hover

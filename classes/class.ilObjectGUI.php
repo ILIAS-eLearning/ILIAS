@@ -782,9 +782,9 @@ class ilObjectGUI
 		
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{		
-			$ilLocator->addItem($this->lng->txt("administration"),
-				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-				ilFrameTargetInfo::_getFrame("MainContent"));
+			//$ilLocator->addItem($this->lng->txt("administration"),
+			//	$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+			//	ilFrameTargetInfo::_getFrame("MainContent"));
 			if ($this->object->getRefId() != SYSTEM_FOLDER_ID)
 			{
 				$ilLocator->addItem($this->object->getTitle(),
@@ -797,9 +797,9 @@ class ilObjectGUI
 				"ref_id", "");
 			$this->ctrl->setParameterByClass("iladministrationgui",
 				"admin_mode", "settings");
-			$ilLocator->addItem($this->lng->txt("administration"),
-				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-				ilFrameTargetInfo::_getFrame("MainContent"));
+			//$ilLocator->addItem($this->lng->txt("administration"),
+			//	$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+			//	ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->ctrl->clearParametersByClass("iladministrationgui");
 			$ilLocator->addAdministrationItems();
 		}

@@ -220,14 +220,11 @@ class ilTemplate extends ilTemplateX
 	
 	function fillMainMenu()
 	{
-		global $tpl;
-
-		require_once "./classes/class.ilMainMenuGUI.php";
-
-		$menu = new ilMainMenuGUI("_top");
-		$menu->setTemplate($tpl);
-		$menu->addMenuBlock("MAINMENU", "navigation");
-		$menu->setTemplateVars();
+		global $tpl, $ilMainMenu;
+		
+		$ilMainMenu->setTemplate($tpl);
+		$ilMainMenu->addMenuBlock("MAINMENU", "navigation");
+		$ilMainMenu->setTemplateVars();
 	}
 	
 	function fillHeaderIcon()
@@ -731,33 +728,44 @@ class ilTemplate extends ilTemplateX
 		global $ilLocator;
 		
 		$this->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
+		
 		$items = $ilLocator->getItems();
 		$first = true;
-		foreach($items as $item)
+		if (is_array($items))
 		{
-			if (!$first)
+			$this->touchBlock("locator_separator");
+			$this->touchBlock("locator_item");
+
+			foreach($items as $item)
 			{
-				$this->touchBlock("locator_separator_prefix");
-			}
-			
-			$this->setCurrentBlock("locator_item");
-			if ($item["link"] != "")
-			{
-				$this->setVariable("LINK_ITEM", $item["link"]);
-				if ($item["frame"] != "")
+				if (!$first)
 				{
-					$this->setVariable("LINK_TARGET", ' target="'.$item["frame"].'" ');
+					$this->touchBlock("locator_separator_prefix");
 				}
-				$this->setVariable("ITEM", $item["title"]);
+				
+				$this->setCurrentBlock("locator_item");
+				if ($item["link"] != "")
+				{
+					$this->setVariable("LINK_ITEM", $item["link"]);
+					if ($item["frame"] != "")
+					{
+						$this->setVariable("LINK_TARGET", ' target="'.$item["frame"].'" ');
+					}
+					$this->setVariable("ITEM", $item["title"]);
+				}
+				else
+				{
+					$this->setVariable("PREFIX", $item["title"]);
+				}
+				$this->parseCurrentBlock();
+				
+				$first = false;
 			}
-			else
-			{
-				$this->setVariable("PREFIX", $item["title"]);
-			}
-			$this->parseCurrentBlock();
-			
-			$first = false;
+		}
+		else
+		{
+			$this->setVariable("NOITEM", "&nbsp;");
+			$this->touchBlock("locator");
 		}
 	}
 	

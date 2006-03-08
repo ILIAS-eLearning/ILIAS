@@ -24,8 +24,9 @@
 
 function setLocator($a_obj_id,$a_path,$a_user_id,$a_txt_prefix)
 {
-		global $lng,$tpl,$ilias_locator;;
+		global $lng,$tpl,$ilias_locator, $ilMainMenu;
 
+		$ilMainMenu->setActive("mail");
 		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
 		if(!$a_obj_id)
 		{
@@ -43,20 +44,24 @@ function setLocator($a_obj_id,$a_path,$a_user_id,$a_txt_prefix)
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 		
-		// FIRST ITEM IS INBOX
 		$tpl->touchBlock("locator_separator");
-		$tpl->setCurrentBlock("locator_item");
-		$tpl->setVariable("ITEM", $lng->txt("mail_mails_of"));
-		$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$a_obj_id);
-		$tpl->parseCurrentBlock();
-		
-		// ### AA 03.11.10 added new locator GUI class ###
-		// navigate locator
-		$ilias_locator->navigate($i++,$lng->txt("mail_mails_of"),"mail.php",
-			ilFrameTargetInfo::_getFrame("MainContent"));
+		$tpl->touchBlock("locator_item");
 
 		if($a_path == 'mail.php')
 		{
+		
+			// Folder
+			$tpl->touchBlock("locator_separator");
+			$tpl->setCurrentBlock("locator_item");
+			$tpl->setVariable("ITEM", $lng->txt("folder"));
+			$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$a_obj_id);
+			$tpl->parseCurrentBlock();
+		
+			// ### AA 03.11.10 added new locator GUI class ###
+			// navigate locator
+			//$ilias_locator->navigate($i++,$lng->txt("mail_mails_of"),"mail.php",
+			//	ilFrameTargetInfo::_getFrame("MainContent"));
+
 			unset($path_full[0]);
 			foreach ($path_full as $key => $row)
 			{

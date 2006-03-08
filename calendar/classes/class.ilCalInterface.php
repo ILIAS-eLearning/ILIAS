@@ -250,20 +250,22 @@ class ilCalInterface
 		
 		$tpl = new ilTemplate("tpl.calendar_header.html", true, true);
 		
+		
 		// main menu
 		require_once "./classes/class.ilMainMenuGUI.php";
 		$menu = new ilMainMenuGUI("_top");
+		$menu->setActive("desktop");
 		$menu->setTemplate($tpl);
 		$menu->addMenuBlock("MAINMENU", "navigation");
 		$menu->setTemplateVars();
 		
 		//tabs
 		$tpl->setCurrentBlock("locator_item");
-		$tpl->setVariable("LINK_ITEM", "ilias.php?baseClass=ilPersonalDesktopGUI");
-		$tpl->setVariable("LINK_TARGET",
-			ilFrameTargetInfo::_getFrame("MainContent"));
-		$tpl->setVariable("ITEM",$lng->txt("personal_desktop"));
-		$tpl->parseCurrentBlock();
+		//$tpl->setVariable("LINK_ITEM", "ilias.php?baseClass=ilPersonalDesktopGUI");
+		//$tpl->setVariable("LINK_TARGET",
+		//	ilFrameTargetInfo::_getFrame("MainContent"));
+		//$tpl->setVariable("ITEM",$lng->txt("personal_desktop"));
+		//$tpl->parseCurrentBlock();
 
 		$tpl->touchBlock("locator_separator_prefix");
 		$tpl->setCurrentBlock("locator_item");

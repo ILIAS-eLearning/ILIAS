@@ -49,13 +49,15 @@ class ilPersonalDesktopGUI
 	*/
     function ilPersonalDesktopGUI()
     {
-        global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl;
+        global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu;
 
 
         $this->tpl =& $tpl;
         $this->lng =& $lng;
         $this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
+		
+		$ilMainMenu->setActive("desktop");
 
 		// catch hack attempts
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
@@ -175,8 +177,10 @@ class ilPersonalDesktopGUI
 
 		// set locator
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
+		$this->tpl->touchBlock("locator_separator");
+		$this->tpl->touchBlock("locator_item");
 		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("ITEM", $this->lng->txt("overview"));
 		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
 		$this->tpl->parseCurrentBlock();
 

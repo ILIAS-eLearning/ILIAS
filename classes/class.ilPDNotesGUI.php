@@ -100,11 +100,12 @@ class ilPDNotesGUI
 		// set locator
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->touchBlock("locator_separator");
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-		$this->tpl->setVariable("LINK_ITEM",
-			$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->touchBlock("locator_item");
+		//$this->tpl->setCurrentBlock("locator_item");
+		//$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
+		//$this->tpl->setVariable("LINK_ITEM",
+		//	$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
+		//$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("private_notes"));

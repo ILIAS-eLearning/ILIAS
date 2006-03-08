@@ -192,6 +192,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 	function showSearch()
 	{
+		global $ilLocator;
+		
+		$ilLocator->addItem($this->lng->txt('search'),
+			$this->ctrl->getLinkTarget($this));
+		$this->tpl->setLocator();
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
 

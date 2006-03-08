@@ -1215,8 +1215,18 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		$counter = 0;
+		
+		$this->tpl->touchBlock('locator_separator');
+		$this->tpl->touchBlock('locator_item');
+		
 		foreach ($tree->getPathFull($this->object->getRefId()) as $key => $row)
 		{
+			
+			if ($row["child"] == $tree->getRootId())
+			{
+				continue;
+			}
+			
 			if($counter++)
 			{
 				$this->tpl->touchBlock('locator_separator_prefix');

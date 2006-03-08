@@ -66,7 +66,7 @@ class ilAdministrationGUI
 	function ilAdministrationGUI()
 	{
 		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
-			$_GET, $ilCtrl, $ilLog;;
+			$_GET, $ilCtrl, $ilLog, $ilMainMenu;
 
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
@@ -76,6 +76,7 @@ class ilAdministrationGUI
 		$this->objDefinition =& $objDefinition;
 
 		$this->ctrl =& $ilCtrl;
+		$ilMainMenu->setActive("administration");
 		
 		$this->creation_mode = false;
 

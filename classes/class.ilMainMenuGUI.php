@@ -56,6 +56,14 @@ class ilMainMenuGUI
 		$this->start_template = $a_use_start_template;
 
 	}
+	
+	/**
+	* @param	string	$a_active	"desktop"|"repository"|"search"|"mail"|"administration"
+	*/
+	function setActive($a_active)
+	{
+		$this->active = $a_active;
+	}
 
 	/**
 	* set output template
@@ -99,6 +107,14 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
 			$this->tpl->setVariable("SCRIPT_ADMIN", $this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"));
 			$this->tpl->setVariable("TARGET_ADMIN", $this->target);
+			if ($this->active == "administration")
+			{
+				$this->tpl->setVariable("MM_CLASS", "MMActive");
+			}
+			else
+			{
+				$this->tpl->setVariable("MM_CLASS", "MMInactive");
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -110,6 +126,14 @@ class ilMainMenuGUI
 			#$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('search_new.php'));
 			$this->tpl->setVariable("TARGET_SEARCH",$this->target);
 			$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+			if ($this->active == "search")
+			{
+				$this->tpl->setVariable("MM_CLASS", "MMActive");
+			}
+			else
+			{
+				$this->tpl->setVariable("MM_CLASS", "MMInactive");
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -130,6 +154,14 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
 			$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI"));
 			$this->tpl->setVariable("TARGET_DESK", $this->target);
+			if ($this->active == "desktop")
+			{
+				$this->tpl->setVariable("MM_CLASS", "MMActive");
+			}
+			else
+			{
+				$this->tpl->setVariable("MM_CLASS", "MMInactive");
+			}
 			$this->tpl->parseCurrentBlock();
 
 			include_once "./classes/class.ilMail.php";
@@ -144,6 +176,14 @@ class ilMainMenuGUI
 				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget("mail_frameset.php"));
 				$this->tpl->setVariable("TARGET_MAIL", $this->target);
+				if ($this->active == "mail")
+				{
+					$this->tpl->setVariable("MM_CLASS", "MMActive");
+				}
+				else
+				{
+					$this->tpl->setVariable("MM_CLASS", "MMInactive");
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -254,6 +294,14 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_FORUMS", $lng->txt("forums"));
 		$this->tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
 		$this->tpl->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
+		if ($this->active == "repository" || $this->active == "")
+		{
+			$this->tpl->setVariable("MM_CLASS", "MMActive");
+		}
+		else
+		{
+			$this->tpl->setVariable("MM_CLASS", "MMInactive");
+		}
 		$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 
 		// temporary disable dateplaner
