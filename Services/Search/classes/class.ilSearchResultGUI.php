@@ -119,6 +119,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 	function create()
 	{
 		// SHOW SEARCH ADMINISTRATION PAGE
+		$this->setLocator();
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.search_results.html",'Services/Search');
 		$this->ctrl->setParameter($this,'folder_id',$this->folder_obj->getFolderId());
 		$this->tpl->setVariable("SEARCH_ADMINISTRATION_ACTION",$this->ctrl->getFormAction($this));
@@ -175,6 +176,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 
 	function showResults($a_confirm_delete = false)
 	{
+		$this->setLocator();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search_results.html','Services/Search');
 		$this->ctrl->setParameter($this,'folder_id',$this->folder_obj->getFolderId());
 		$this->tpl->setVariable("SEARCH_ADMINISTRATION_ACTION",$this->ctrl->getFormAction($this));
@@ -277,6 +279,15 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 		return true;
 	}
 
+	function setLocator()
+	{
+		global $ilLocator;
+		
+		$ilLocator->addItem($this->lng->txt('search_search_results'),
+			$this->ctrl->getLinkTarget($this));
+		$this->tpl->setLocator();
+	}
+
 	function rename()
 	{
 		// NO ITEM SELECTED
@@ -309,6 +320,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 		}
 
 		// SHOW SEARCH ADMINISTRATION PAGE
+		$this->setLocator();
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.search_results.html",'Services/Search');
 		$this->ctrl->setParameter($this,'folder_id',$this->folder_obj->getFolderId());
 		$this->tpl->setVariable("SEARCH_ADMINISTRATION_ACTION",$this->ctrl->getFormAction($this));

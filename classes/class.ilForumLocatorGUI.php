@@ -95,6 +95,9 @@ class ilForumLocatorGUI
 		$path = $this->tree->getPathFull($this->ref_id);
 
 		$modifier = 1;
+		
+		$this->tpl->touchBlock("locator_separator");
+		$this->tpl->touchBlock("locator_item");
 
 		foreach ($path as $key => $row)
 		{
@@ -106,12 +109,18 @@ class ilForumLocatorGUI
 				}
 			}
 
+			if ($row["child"] == $this->tree->getRootId())
+			{
+				continue;
+			}
+
 			if (($key < count($path)-$modifier) || (!empty($this->thread_id))
 				|| $this->show_user)
 			{
 				$this->tpl->touchBlock("locator_separator");
+				//$this->tpl->touchBlock("locator_item");
 			}
-
+			
 			$this->tpl->setCurrentBlock("locator_item");
 			if ($row["child"] == $this->tree->getRootId())
 			{

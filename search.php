@@ -36,6 +36,8 @@
 include_once "include/inc.header.php";
 include_once "Services/Search/classes/class.ilSearchController.php";
 
+$ilMainMenu->setActive("search");
+
 $ilCtrl->setTargetScript("search.php");
 $ilCtrl->getCallStructure("ilsearchcontroller");
 

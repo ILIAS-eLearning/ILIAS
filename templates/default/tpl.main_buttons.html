@@ -1,33 +1,6 @@
 <div class="ilMainHeader">
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td style="padding:5px 0px 5px 15px;" width="1px">
-		<img style="vertical-align:bottom;" width="60" height="60" border="0" src="{HEADER_ICON}">
-	</td>
-	<td valign="bottom" style="padding:5px 5px 5px 15px;">
-		<div class="il_PDTitle">{TXT_HEADER_TITLE}</div>
-		<div class="il_MainMenu">
-		<!-- BEGIN desktopbutton -->
-		<a class="ilMainHeader" href="{SCRIPT_DESK}" target="{TARGET_DESK}">{TXT_PERSONAL_DESKTOP}</a>
-		<!-- END desktopbutton -->
-		<a class="ilMainHeader" href="{SCRIPT_CATALOG}" target="{TARGET}">{TXT_CATALOG}</a>
-		<!-- BEGIN searchbutton -->
-		<a class="ilMainHeader" href="{SCRIPT_SEARCH}" target="{TARGET_SEARCH}">{TXT_SEARCH}</a>
-		<!-- END searchbutton -->
-		<!-- BEGIN mailbutton -->
-		<a class="ilMainHeader" href="{SCRIPT_MAIL}" target="{TARGET_MAIL}">{TXT_MAIL}</a>
-		<!-- END mailbutton -->
-		<!-- BEGIN userisadmin -->
-		<a class="ilMainHeader" href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}">{TXT_ADMINISTRATION}</a>
-		<!-- END userisadmin -->
-		<!-- BEGIN userhelp -->
-		<a class="ilMainHeader" href="{SCRIPT_HELP}" target="{TARGET_HELP}">{TXT_HELP}</a>
-		<!-- END userhelp -->
-		</div>
-	</td>
 	<!-- BEGIN userisanonymous -->
-	<td align="right" nowrap="nowrap" style="padding:5px 20px 5px 0px;" width="1px">
-		<div class="ilLogin">
+	<div class="ilLogin" style="padding:0px 20px 5px 0px; float:right;">
 		<span class="il_menu">{TXT_NOT_LOGGED_IN}!&nbsp;&nbsp;</span>
 			<a href="{LINK_LOGIN}" target="_top">{TXT_LOGIN}</a> |
 			<!-- BEGIN registration_link -->
@@ -43,16 +16,48 @@
 		</select>
 		<input class="submit" type="submit" value="{TXT_OK}" />
 		</form>	
-		</div>
-	</td>
+	</div>
 	<!-- END userisanonymous -->
 	<!-- BEGIN userisloggedin -->
-	<td align="right" nowrap="nowrap" style="padding:5px 20px 5px 0px;">
-		<div class="ilLogin">
+	<div class="ilLogin" style="padding:5px 20px 5px 0px; float:right;">
 		{TXT_LOGIN_AS} {USERNAME}<br/><a href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
-		</div>
-	</td>
+	</div>
 	<!-- END userisloggedin -->
-	</tr>
-</table>
+	<div style="padding:5px 0px 5px 15px;">
+		<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="36" height="36" border="0" src="{HEADER_ICON}">
+		<span class="il_PDTitle">{TXT_HEADER_TITLE}</span>
+	</div>
+	<div class="il_MainMenu">
+	<ul class="il_MainMenu">
+		<!-- BEGIN desktopbutton -->
+		<li class="{MM_CLASS}">
+		<a class="{MM_CLASS}" href="{SCRIPT_DESK}" target="{TARGET_DESK}">{TXT_PERSONAL_DESKTOP}</a>
+		</li>
+		<!-- END desktopbutton -->
+		<li class="{MM_CLASS}">
+		<a class="{MM_CLASS}" href="{SCRIPT_CATALOG}" target="{TARGET}">{TXT_CATALOG}</a>
+		</li>
+		<!-- BEGIN searchbutton -->
+		<li class="{MM_CLASS}">
+		<a class="{MM_CLASS}" href="{SCRIPT_SEARCH}" target="{TARGET_SEARCH}">{TXT_SEARCH}</a>
+		</li>
+		<!-- END searchbutton -->
+		<!-- BEGIN mailbutton -->
+		<li class="{MM_CLASS}">
+		<a class="{MM_CLASS}" href="{SCRIPT_MAIL}" target="{TARGET_MAIL}">{TXT_MAIL}</a>
+		</li>
+		<!-- END mailbutton -->
+		<!-- BEGIN userisadmin -->
+		<li class="{MM_CLASS}">
+		<a class="{MM_CLASS}" href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}">{TXT_ADMINISTRATION}</a>
+		</li>
+		<!-- END userisadmin -->
+		<!-- BEGIN userhelp -->
+		<li class="{MM_CLASS}">
+		<a class="{MM_CLASS}" href="{SCRIPT_HELP}" target="{TARGET_HELP}">{TXT_HELP}</a>
+		</li>
+		<!-- END userhelp -->
+	</ul>
+	</div>
+	<div style="clear:both;"></div>
 </div>
