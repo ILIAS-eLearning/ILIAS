@@ -1261,6 +1261,9 @@ class ilObject
 			// this call only applies for objects in rbac (not usr,role,rolt)
 			// TODO: Do this for role templates too
 			$rbacadmin->revokePermission($this->getRefId(),0,false);
+
+			// Remove desktop items
+			ilUtil::removeItemFromDesktops($this->getRefId());
 		}
 
 		// remove conditions
@@ -1270,6 +1273,8 @@ class ilObject
 			$ch->delete($this->getRefId());
 			unset($ch);
 		}
+
+		
 
 		return $remove;
 	}
