@@ -4074,7 +4074,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$executable = $this->object->isExecutable($ilUser->getId());
 				if ($executable["executable"])
 				{
-					$info->addFormButton("cancel", "Abbrechen", "bottom");
 					if (is_object($active))
 					{
 						// resume test

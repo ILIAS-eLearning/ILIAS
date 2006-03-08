@@ -40,7 +40,6 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * Class ilRepositoryGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
-*
 * @version $Id$
 *
 * @ilCtrl_Calls ilRepositoryGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI, ilCourseObjectivesGUI
@@ -231,7 +230,14 @@ class ilRepositoryGUI
 			{
 				$obj_type = $new_type;
 				$class_name = $this->objDefinition->getClassName($obj_type);
-				$next_class = strtolower("ilObj".$class_name."GUI");
+				if (strtolower($class_name) != "user")
+				{
+					$next_class = strtolower("ilObj".$class_name."GUI");
+				}
+				else
+				{
+					$next_class = $this->ctrl->getNextClass();
+				}
 			}
 			else if ((($next_class = $this->ctrl->getNextClass($this)) == "")
 				|| ($next_class == "ilrepositorygui" && $this->ctrl->getCmd() == "return"))
@@ -258,7 +264,6 @@ class ilRepositoryGUI
 		{
 			$next_class = "";
 		}
-		
 //echo "<br>cmd:$cmd:nextclass:$next_class:";
 		switch ($next_class)
 		{
