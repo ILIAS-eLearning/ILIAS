@@ -5818,4 +5818,4 @@ trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
 common#:#total_online#:#Onlinezeit(DD:HH:MM:SS)
 common#:#last_login#:#Letztes Login
 trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
-crs#:#crs_no_lms_inside_course#:#Diesem Kurs sind keine Lernmaterialien zugeodnet.
+crs#:#crs_password_required#:#Für diese Registrierungsart ist ein Passwort erforderlich.

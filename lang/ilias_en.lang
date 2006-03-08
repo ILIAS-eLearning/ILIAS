@@ -5822,3 +5822,4 @@ common#:#total_online#:#Time online (DD:HH:MM:SS)
 common#:#last_login#:#Last login
 trac#:#trac_crs_objects#:#Learning progress of course members
 crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.
+crs#:#crs_password_required#:#This registration procedure requires a password.

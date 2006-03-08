@@ -649,17 +649,28 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Server');
 		}
 
+		global $tree;
 		// Delete all references (delete permssions and entries in object_reference)
 		foreach($ref_ids as $ref_id)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id);
-			if(!is_object($tmp_obj))
+			// All subnodes
+			$node_data = $tree->getNodeData($ref_id);
+			$subtree_nodes = $tree->getSubtree($node_data);
+
+			foreach($subtree_nodes as $node)
 			{
-				return $this->__raiseError('Cannot create instance of reference id: '.$ref_id,
-										   'Server');
+				$ilLog->write('Soap: removeFromSystemByImportId(). Deleting object with title id: '.$node['title']);
+				$tmp_obj = ilObjectFactory::getInstanceByRefId($node['ref_id']);
+				if(!is_object($tmp_obj))
+				{
+					return $this->__raiseError('Cannot create instance of reference id: '.$node['ref_id'],
+											   'Server');
+				}
+				$tmp_obj->delete();
 			}
-			$ilLog->write('Soap: removeFromSystemByImportId(). Deleting object with reference id: '.$ref_id);
-			$tmp_obj->delete();
+			// Finally delete tree
+			$tree->deleteTree($node_data);
+			
 		}				
 
 		return true;

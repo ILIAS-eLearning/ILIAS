@@ -474,7 +474,7 @@ class ilObjCourse extends ilContainer
 		#}
 		if($this->getSubscriptionType() == $this->SUBSCRIPTION_PASSWORD and !$this->getSubscriptionPassword())
 		{
-			$this->appendMessage($this->lng->txt("password_required"));
+			$this->appendMessage($this->lng->txt("crs_password_required"));
 		}
 		if($this->getSubscriptionMaxMembers() and !is_numeric($this->getSubscriptionMaxMembers()))
 		{

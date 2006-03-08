@@ -635,7 +635,7 @@ class ilMail
 		global $rbacreview;
 
 		$tmp_names = $this->explodeRecipients($a_recipients);
-		
+		$ids = array();
 		for ($i = 0;$i < count($tmp_names); $i++)
 		{
 			if (substr($tmp_names[$i],0,1) == '#')
@@ -659,7 +659,10 @@ class ilMail
 				// is role: get role ids
 				elseif($role_id = $rbacreview->roleExists(addslashes(substr($tmp_names[$i],1))))
 				{
-					$ids = $rbacreview->assignedUsers($role_id);
+					foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+					{
+						$ids[] = $usr_id;
+					}
 				}
 				
 			}
@@ -675,8 +678,7 @@ class ilMail
 #				}
 			}
 		}
-
-		return is_array($ids) ? $ids : array();
+		return array_unique($ids);
 	}
 	/**
 	* check if mail is complete, recipients are valid
@@ -949,7 +951,6 @@ class ilMail
 		$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"substitute");
 		$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"substitute");
 		$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"substitute");
-
 		// COUNT EMAILS
 		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
 		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
