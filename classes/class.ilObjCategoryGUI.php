@@ -27,9 +27,8 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
 *
-* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -66,6 +65,35 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		switch($next_class)
 		{
+			case "ilobjusergui":
+				include_once("./classes/class.ilObjUserGUI.php");
+				
+				$this->tabs_gui->setTabActive('administrate_users');
+				if(!$_GET['obj_id'])
+				{
+					$this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
+					$this->gui_obj->setCreationMode($this->creation_mode);
+					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				}
+				else
+				{
+					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
+					$this->gui_obj->setCreationMode($this->creation_mode);
+					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				}
+				break;
+
+			case "ilobjuserfoldergui":
+				include_once("./classes/class.ilObjUserFolderGUI.php");
+
+				$this->tabs_gui->setTabActive('administrate_users');
+				$this->gui_obj = new ilObjUserFolderGUI("",(int) $_GET['ref_id'],true, false);
+				$this->gui_obj->setUserOwnerId((int) $_GET['ref_id']);
+				$this->gui_obj->setCreationMode($this->creation_mode);
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				break;
+
+
 			case 'ilpermissiongui':
 				$this->prepareOutput();
 				include_once("./classes/class.ilPermissionGUI.php");
@@ -797,7 +825,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	
 	function _importCategories($a_ref_id, $withrol_tmp)	
-{
+	{
 		global $lng;
 
 		require_once("classes/class.ilCategoryImportParser.php");
@@ -852,13 +880,41 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_admin_users"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$_SESSION['delete_users'] = $show_delete ? $_SESSION['delete_users'] : array();
+		// default to local users view
+		if(!isset($_SESSION['filtered_users']))
+		{
+			$_SESSION['filtered_users'] = $this->object->getRefId();
+		}
 
+		$_SESSION['delete_users'] = $show_delete ? $_SESSION['delete_users'] : array();
 		$_SESSION['filtered_users'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_users'];
 
+		// Exclude filter of other categories
+		if($_SESSION['filtered_users'] != 0 and
+		   $_SESSION['filtered_users'] != USER_FOLDER_ID and
+		   $_SESSION['filtered_users'] != $this->object->getRefId())
+		{
+			$_SESSION['filtered_users'] = $this->object->getRefId();
+		}
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html');
+		$parent = ilLocalUser::_getFolderIds();
+		if(count($parent) > 1)
+		{
+			$this->tpl->setCurrentBlock("filter");
+			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
+			$this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect($parent));
+			$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FILTER_NAME",'listUsers');
+			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$_SESSION['filtered_users'] = 0;
+		}
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
 		if(count($rbacreview->getGlobalAssignableRoles()) or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
 			// add user button
@@ -876,13 +932,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 		else
 		{
 			sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
-			return true;
+			#return true;
 		}
 		if(!count($users = ilLocalUser::_getAllUserIds($_SESSION['filtered_users'])))
 		{
 			sendInfo($this->lng->txt('no_local_users'));
 
-			return true;
+			#return true;
 		}
 
 
@@ -893,20 +949,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 			$this->tpl->setVariable("CONFIRM_CMD",'performDeleteUsers');
 			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('delete'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html');
-
-		$parent = ilLocalUser::_getFolderIds();
-		if(count($parent) > 1)
-		{
-			$this->tpl->setCurrentBlock("filter");
-			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
-			$this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect($parent));
-			$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("FILTER_NAME",'listUsers');
-			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -938,12 +980,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 			
 			switch($tmp_obj->getTimeLimitOwner())
 			{
-				case ilLocalUser::_getUserFolderId():
+				case 7:
 					$f_result[$counter][]	= $this->lng->txt('global');
 					break;
 
 				default:
-					$f_result[$counter][] = ilObject::_lookupTitle(ilObject::_lookupObjId($tmp_obj->getTimeLimitOwner()));
+					$f_result[$counter][] = ($title = ilObject::_lookupTitle(ilObject::_lookupObjId($tmp_obj->getTimeLimitOwner()))) ?
+						$title : '';
 			}
 			
 			// role assignment
@@ -1013,6 +1056,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// check local user
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+
+		// Local user?
 		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
 		   !in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
 		{
@@ -1024,7 +1069,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
-			$global_roles = $rbacreview->getGlobalAssignableRoles();
+			#$global_roles = $rbacreview->getGlobalAssignableRoles();
+			$global_roles = array();
 		}
 		else
 		{
@@ -1101,7 +1147,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// De-assign roles
 		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
-			$global_roles = $rbacreview->getGlobalAssignableRoles();
+			#$global_roles = $rbacreview->getGlobalAssignableRoles();
+			$global_roles = array();
 		}
 		else
 		{
@@ -1133,6 +1180,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function __checkGlobalRoles($new_assigned)
 	{
 		global $rbacreview;
+
+		// return true if it's not a local user
+		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
+		   !in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
+		{
+			return true;
+		}
 
 		// new assignment by form
 		$new_assigned = $new_assigned ? $new_assigned : array();

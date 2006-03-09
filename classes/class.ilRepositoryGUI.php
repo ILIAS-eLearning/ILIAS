@@ -47,7 +47,7 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLearningModuleGUI, ilObjDlBookGUI, ilObjGlossaryGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjRoleGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjLinkResourceGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI
 *
@@ -267,39 +267,6 @@ class ilRepositoryGUI
 //echo "<br>cmd:$cmd:nextclass:$next_class:";
 		switch ($next_class)
 		{
-			case "ilobjusergui":
-				include_once("./classes/class.ilObjUserGUI.php");
-
-				if(!$_GET['obj_id'])
-				{
-					$this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
-					$this->gui_obj->setCreationMode($this->creation_mode);
-
-					$this->prepareOutput(false);
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-				else
-				{
-					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
-					$this->gui_obj->setCreationMode($this->creation_mode);
-
-					$this->prepareOutput(false);
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-				$this->tpl->show();
-				break;
-				
-			case "ilobjuserfoldergui":
-				include_once("./classes/class.ilObjUserFolderGUI.php");
-
-				$this->gui_obj = new ilObjUserFolderGUI("", $_GET['ref_id'],true, false);
-				$this->gui_obj->setCreationMode($this->creation_mode);
-
-				$this->prepareOutput(false);
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				$this->tpl->show();
-				break;
-
 			//case "ilobjrootfoldergui":
 			//case "ilobjcategorygui":
 			//case "ilobjgroupgui":
