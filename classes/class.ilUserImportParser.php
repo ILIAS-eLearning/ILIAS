@@ -364,13 +364,15 @@ class ilUserImportParser extends ilSaxParser
 							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
 						default:
-							$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
+							$this->logFailure($this->userObj->getLogin(), 
+											  sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
 							break;
 					}
 				}
 				else
 				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
+					$this->logFailure($this->userObj->getLogin(), 
+									  sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
 				}
 				break;
 		}
@@ -747,11 +749,11 @@ class ilUserImportParser extends ilSaxParser
 
 							$this->userObj->setTitle($this->userObj->getFullname());
 							$this->userObj->setDescription($this->userObj->getEmail());
+							$this->userObj->setTimeLimitOwner($this->getFolderId());
 
 							// default time limit settings
 							if(!$this->time_limit_set)
 							{
-								$this->userObj->setTimeLimitOwner($this->getFolderId());
 								$this->userObj->setTimeLimitUnlimited(1);
 								$this->userObj->setTimeLimitMessage(0);
 								$this->userObj->setApproveDate(date("Y-m-d H:i:s"));
@@ -1061,7 +1063,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function verifyEndTag($a_xml_parser, $a_name)
 	{
-		global $lng;
+		global $lng,$ilAccess;
 
 		switch($a_name)
 		{
@@ -1183,7 +1185,8 @@ class ilUserImportParser extends ilSaxParser
 				if ($this->cdata != "m"
 				&& $this->cdata != "f")
 				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Gender",$this->cdata));
+					$this->logFailure($this->userObj->getLogin(),
+									  sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Gender",$this->cdata));
 				}
 				$this->userObj->setGender($this->cdata);
 				break;
@@ -1248,15 +1251,23 @@ class ilUserImportParser extends ilSaxParser
 				if ($this->cdata != "true"
 				&& $this->cdata != "false")
 				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"Active",$this->cdata));
+					$this->logFailure($this->userObj->getLogin(),
+									  sprintf($lng->txt("usrimport_xml_element_content_illegal"),"Active",$this->cdata));
 				}
 				$this->currActive = $this->cdata;
 				break;
 			case "TimeLimitOwner":
 				if (!preg_match("/\d+/", $this->cdata))
 				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitOwner",$this->cdata));
+					$this->logFailure($this->userObj->getLogin(), 
+									  sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitOwner",$this->cdata));
 				}
+				if(!$ilAccess->checkAccess('cat_administrate_users','',$this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(),
+									  sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitOwner",$this->cdata));
+				}
+
 				$this->userObj->setTimeLimitOwner($this->cdata);
 				break;
 			case "TimeLimitUnlimited":

@@ -54,11 +54,24 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 	}
 
+	function setUserOwnerId($a_id)
+	{
+		$this->user_owner_id = $a_id;
+	}
+	function getUserOwnerId()
+	{
+		return $this->user_owner_id ? $this->user_owner_id : USER_FOLDER_ID;
+	}
+
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		$this->prepareOutput();
+
+		if($this->ctrl->getTargetScript() != 'repository.php')
+		{
+			$this->prepareOutput();
+		}
 
 		switch($next_class)
 		{
@@ -1341,7 +1354,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				break;
 		}
 		$importParser = new ilUserImportParser($_POST["xml_file"],  IL_USER_IMPORT, $rule);
-		$importParser->setFolderId($this->object->getRefId());
+		$importParser->setFolderId($this->getUserOwnerId());
 		$import_dir = $this->getImportDir();
 
 		// Catch hack attempts

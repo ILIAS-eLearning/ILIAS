@@ -1771,7 +1771,7 @@ class ilObjUser extends ilObject
     }
     function getTimeLimitOwner()
     {
-        return $this->time_limit_owner;
+        return $this->time_limit_owner ? $this->time_limit_owner : 7;
     }
     function setTimeLimitFrom($a_from)
     {
