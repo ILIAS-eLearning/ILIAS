@@ -133,6 +133,8 @@ class ilLangVarAnalyzer
 
 }
 
+exit;
+
 $analyzer = new ilLangVarAnalyzer();
 $analyzer->setDirectories(array(".", "./classes", "./include"));
 $analyzer->setFileTypes(array(".php"));
