@@ -233,67 +233,13 @@ class ilMainMenuGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$var2image = array( "IMG_DESK" => "navbar/desk.gif",
-							"IMG_DESK_O" => "navbar/desk_o.gif",
-							"IMG_SPACE" => "spacer.gif",
-							"IMG_CATALOG" => "navbar/course.gif",
-							"IMG_CATALOG_O" => "navbar/course_o.gif",
-							"IMG_MAIL" => "navbar/mail.gif",
-							"IMG_MAIL_O" => "navbar/mail_o.gif",
-							"IMG_FORUMS" => "navbar/newsgr.gif",
-							"IMG_FORUMS_O" => "navbar/newsgr_o.gif",
-							"IMG_SEARCH" => "navbar/search.gif",
-							"IMG_SEARCH_O" => "navbar/search_o.gif",
-							"IMG_LITERAT" => "navbar/literat.gif",
-							"IMG_LITERAT_O" => "navbar/literat_o.gif",
-							"IMG_GROUPS" => "navbar/groups.gif",
-							"IMG_GROUPS_O" => "navbar/groups_o.gif",
-							"IMG_HELP" => "navbar/help.gif",
-							"IMG_HELP_O" => "navbar/help_o.gif",
-							"IMG_FEEDB" => "navbar/feedb.gif",
-							"IMG_FEEDB_O" => "navbar/feedb_o.gif",
-							"IMG_ADMIN" => "navbar/admin.gif",
-							"IMG_ADMIN_O" => "navbar/admin_o.gif",
-							"IMG_DP" => "navbar/termin.gif",
-							"IMG_DP_O" => "navbar/termin_o.gif",
-							"IMG_LOGOUT" => "navbar/logout.gif",
-							"IMG_LOGOUT_O" => "navbar/logout_o.gif",
-							"IMG_ILIAS" => "navbar/ilias.gif");
-
-		// temporary disable calendar
-		unset($var2image["IMG_DP"]);
-		unset($var2image["IMG_DP_O"]);
-
-		foreach ($var2image as $var => $im)
-		{
-			$this->tpl->setVariable($var, ilUtil::getImagePath($im, false));
-		}
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
-
-		// set target scripts
-		$scripts = array (	"SCRIPT_COURSE"	=> "lo_list.php",
-							"SCRIPT_CATALOG" => "repository.php?cmd=frameset&getlast=true",
-							//"SCRIPT_SEARCH"	=> "search.php",
-							//"SCRIPT_LITERAT"=> "literature.php",
-							"SCRIPT_FORUMS"	=> "forums.php",
-							"SCRIPT_GROUPS"	=> "grp_list.php",
-							"SCRIPT_FEEDB"	=> "feedback.php",
-							"SCRIPT_LOGOUT"	=> "logout.php" );
-
-		foreach ($scripts as $var => $script)
-		{
-			$this->tpl->setVariable($var, $this->getScriptTarget($script));
-		}
+		//$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
 
 		// set tooltip texts
+		$this->tpl->setVariable("SCRIPT_CATALOG", "repository.php?cmd=frameset&getlast=true");
 		$this->tpl->setVariable("TXT_CATALOG", $lng->txt("repository"));
-		$this->tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
-		$this->tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
-		$this->tpl->setVariable("TXT_FORUMS", $lng->txt("forums"));
-		$this->tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
-		$this->tpl->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
 		if ($this->active == "repository" || $this->active == "")
 		{
 			$this->tpl->setVariable("MM_CLASS", "MMActive");
