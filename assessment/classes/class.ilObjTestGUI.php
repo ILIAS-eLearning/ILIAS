@@ -4082,7 +4082,10 @@ class ilObjTestGUI extends ilObjectGUI
 						{
 							$resume_text = $this->lng->txt("tst_start_test");
 						}
-						$info->addFormButton("resume", $resume_text);
+						if($this->object->getFirstSequence())
+						{
+							$info->addFormButton("resume", $resume_text);
+						}
 					}
 					else
 					{
@@ -4210,6 +4213,12 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		// forward the command
+
+		if(!$this->object->getFirstSequence())
+		{
+			sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
+		}			
+
 		$this->ctrl->forwardCommand($info);
 	}
 

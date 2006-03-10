@@ -1113,7 +1113,10 @@ class ilTestOutputGUI
 				$sequence--;
 			}
 		}
-		
+		elseif($_GET['crs_show_result'])
+		{
+			$sequence = $this->object->incrementSequenceByResult($sequence);
+		}
 		return $sequence;
 	}
 	
