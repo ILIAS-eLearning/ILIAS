@@ -674,7 +674,7 @@
 	
 	<xsl:if test="$href != '-1'">
 		<tr><td colspan="2"><div>
-		<a href="{$href}"><img src="{$img_path}/download.gif" align="middle" alt="{$downloadtitle}" border="0"/></a>
+		<a href="{$href}"><img src="{$img_path}/download.gif" align="middle" alt="{$downloadtitle}" border="0" /></a>
 
 		<xsl:if test="$paragraph_plugins != '-1' and $subchar != '-1'">		
 			<xsl:call-template name="plugins">
@@ -751,7 +751,7 @@
 		<subchar><xsl:value-of select="$subchar"/></subchar> -->
 
 		 <xsl:if test="$subchar = $filetype or $filetype='-1'">
-			 <span style="margin-left: 5px"><a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0"/></a></span>
+			 <span style="margin-left: 5px"><a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0" /></a></span>
 		 </xsl:if>
 </xsl:template>
 
@@ -1286,10 +1286,11 @@
 <xsl:template match="FileList">
 	<xsl:call-template name="EditReturnAnchors"/>
 	<table class="ilc_FileList">
-		<th class="ilc_FileList">
+		<tr><th class="ilc_FileList">
 		<xsl:value-of select="./Title"/>
-		</th>
+		</th></tr>
 		<xsl:apply-templates/>
+		<!-- <xsl:apply-templates select="FileItem"/> -->
 	</table>
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
@@ -1435,7 +1436,7 @@
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<table class="ilc_Media" width="1">
+	<table class="ilc_Media">
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">

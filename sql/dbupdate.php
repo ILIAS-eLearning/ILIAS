@@ -9768,3 +9768,8 @@ ALTER TABLE `il_meta_location` CHANGE `parent_type` `parent_type` VARCHAR( 16 ) 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#659>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

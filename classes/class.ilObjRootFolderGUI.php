@@ -26,9 +26,9 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.11.2.1 2005/12/09 10:15:29 akill Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.12 2005/12/09 10:28:04 akill Exp $
 *
-* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -111,17 +111,40 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
-		$this->prepareOutput();
-
 		switch($next_class)
 		{
+			case 'ilcontainerlinklistgui':
+				include_once("./classes/class.ilContainerLinkListGUI.php");
+				$link_list_gui =& new ilContainerLinkListGUI();
+				$ret =& $this->ctrl->forwardCommand($link_list_gui);
+				break;
+
+				// container page editing
+			case "ilpageobjectgui":
+				$this->tpl->getStandardTemplate();
+				$this->setLocator();
+				sendInfo();
+				infoPanel();
+				//$this->prepareOutput(false);
+				$ret = $this->forwardToPageObject();
+				$this->setTitleAndDescription();
+				$this->setPageEditorTabs();
+				return $ret;
+				break;
+
 			case 'ilpermissiongui':
-					include_once("./classes/class.ilPermissionGUI.php");
-					$perm_gui =& new ilPermissionGUI($this);
-					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$this->prepareOutput();
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 			
 			default:
+				$this->prepareOutput();
+				include_once("classes/class.ilObjStyleSheet.php");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+
 				if(!$cmd)
 				{
 					$cmd = "render";
