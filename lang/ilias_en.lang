@@ -881,6 +881,7 @@ common#:#show_notes_on_pd#:#Show notes on personal desktop
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
+common#:#edit_page#:#Edit Page
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access

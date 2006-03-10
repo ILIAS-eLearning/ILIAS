@@ -376,7 +376,7 @@ class ilContainerGUI extends ilObjectGUI
 			
 			// administration panel
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
-				&& in_array($this->object->getType(), array("cat")))
+				&& in_array($this->object->getType(), array("cat", "root")))
 			{
 				$tpl->setCurrentBlock("edit_cmd");
 				$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));
@@ -442,7 +442,8 @@ class ilContainerGUI extends ilObjectGUI
 		$this->tpl->setVariable("HREF_EDITOR",
 			$this->ctrl->getLinkTargetByClass(
 				array("ilpageobjectgui"), "view"));
-		$this->tpl->show();
+		$this->tpl->show("DEFAULT", false);
+		exit;
 	}
 
 	/**
@@ -517,7 +518,6 @@ class ilContainerGUI extends ilObjectGUI
 					//$page_gui->setLinkXML($this->getLinkXML());
 					$page_gui->setTemplateOutput(false);
 					$output_html.= $page_gui->presentation($page_gui->getOutputMode());
-
 				}
 
 				// all item types
@@ -538,10 +538,12 @@ class ilContainerGUI extends ilObjectGUI
 					if (is_int(strpos($output_html, "++".$type."++")))
 					{
 						$tpl =& $this->newBlockTemplate();
+						$overall = false;
 					}
 					else
 					{
 						$tpl =& $overall_tpl;
+						$overall = true;
 					}
 						
 					if (is_array($this->items[$type]))
@@ -571,7 +573,7 @@ class ilContainerGUI extends ilObjectGUI
 							$html = $item_list_gui->getListItemHTML($item["ref_id"],
 								$item["obj_id"], $item["title"], $item["description"]);
 								
-							// check wheter any admin command is allowed for
+							// check whether any admin command is allowed for
 							// the items
 							$this->determineAdminCommands($item["ref_id"],
 								$item_list_gui->adminCommandsIncluded());
@@ -587,11 +589,15 @@ class ilContainerGUI extends ilObjectGUI
 						if (count($item_html) > 0)
 						{
 							// separator row
-							if (!$first)
+							if (!$first && $overall)
 							{
 								$this->addSeparatorRow($tpl);
 							}
-							$first = false;
+							
+							if ($overall)
+							{
+								$first = false;
+							}
 
 							// add a header for each resource type
 							if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
@@ -631,15 +637,28 @@ class ilContainerGUI extends ilObjectGUI
 				// line before the following foreach loop seems to be crucial
 				if ($output_html != "")
 				{
-					$output_html.= "<br /><br /><br />";
+					//$output_html.= "<br /><br />";
 				}
 				$output_html.= $overall_tpl->get();
+				$output_html = str_replace("<br>++", "++", $output_html);
+				$output_html = str_replace("<br>++", "++", $output_html);
+				$output_html = str_replace("++<br>", "++", $output_html);
+				$output_html = str_replace("++<br>", "++", $output_html);
 				foreach ($this->type_template as $type => $tpl)
 				{
-					$output_html = str_replace("++".$type."++", $tpl->get(),
+					$output_html = str_replace("++".$type."++",
+						"</p>".$tpl->get()."<p class=\"ilc_Standard\">",
 						$output_html);
 				}
-				
+
+				if (ilPageObject::_exists($this->object->getType(),
+					$this->object->getId()))
+				{				
+					$page_block = new ilTemplate("tpl.container_page_block.html", false, false);
+					$page_block->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
+					$output_html = $page_block->get();
+				}
+
 				break;
 
 			default:

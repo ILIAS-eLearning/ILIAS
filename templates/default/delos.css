@@ -371,6 +371,32 @@ td.submit {
 
 /* Container  list related styles */
 
+/* --- content styles (will move to content.css) --- */
+table.il_ContainerPageBlock {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: solid;
+	border-color: #CACACA;
+	border-collapse:collapse;
+	margin: 0px;
+	padding: 0px;
+	width:100%;
+	background-color: white;
+}
+
+td.il_ContainerPageBlock
+{
+	padding: 0px 10px 20px 10px;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-color: #CACACA;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-bottom: 0px;
+}
+
 a.il_ContainerItemCommand, a.il_ContainerItemCommand:hover
 {
 	padding-top:1px;
@@ -1680,14 +1706,15 @@ html.ilc_Fullscreen, body.ilc_Fullscreen
 
 table.ilc_FileList
 {
-	color: #222222;
-	background-color: #c0c0c0;
 	width: 100%;
-	border-spacing: 1px;
-	border-style: outset;
-	border-color: #CACACA;
-	border-width: 1px;
-	margin-bottom: 5px;
+	color:#222222;
+	background-color:#bbbbbb;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#CACACA;
+	margin-bottom: 15px;
 	margin-top: 5px;
 }
 
@@ -1695,14 +1722,11 @@ th.ilc_FileList
 {
 	text-align: left;
 	padding: 3px;
+	background-image: url(images/TableHeader.gif);
 }
 
 td.ilc_FileItem
 {
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 0px;
-	border-right-width: 0px;
 	background-color: #FFFFFF;
 	padding: 3px;
 }
