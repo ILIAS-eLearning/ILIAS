@@ -31,6 +31,9 @@
 *
 * @package ilias-layout
 */
+
+echo "deprecated"; exit;
+
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilMainMenuGUI.php";
 
