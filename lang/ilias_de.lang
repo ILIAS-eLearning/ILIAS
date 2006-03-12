@@ -1666,6 +1666,7 @@ common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
 common#:#grp_back#:#Zurück
 common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create#:#Neue Gruppe anlegen
+common#:#grp_create_grp#:#Neue Gruppe anlegen
 common#:#grp_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
 common#:#grp_create_dbk#:#Neues Digilib-Buch anlegen
