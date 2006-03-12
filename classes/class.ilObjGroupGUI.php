@@ -519,7 +519,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		// create and insert group in objecttree
 		$groupObj = parent::saveObject();
-
+		
 		// setup rolefolder & default local roles (admin & member)
 		$roles = $groupObj->initDefaultRoles();
 
@@ -529,7 +529,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$groupObj->setRegistrationFlag($_POST["enable_registration"]);//0=no registration, 1=registration enabled 2=passwordregistration
 		$groupObj->setPassword($_POST["password"]);
 		$groupObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
-		$groupObj->setGroupStatus($_POST["group_status"]);		//0=public,1=private,2=closed
 
 		$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
 		

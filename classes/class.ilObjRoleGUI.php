@@ -507,14 +507,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
 			$rbac_objects[$key]["ops"] = $rbac_operations[$key];
 		}
-
+		
 		// for local roles display only the permissions settings for allowed subobjects
-		if (!in_array($this->object->getId(),$rbacreview->getGlobalRoles()))
+		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
-			// get original role folder
-			$rolf_arr = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 			// first get object in question (parent of role folder object)
-			$parent_data = $this->tree->getParentNodeData($rolf_arr[0]);
+			$parent_data = $this->tree->getParentNodeData($this->rolf_ref_id);
 			// get allowed subobjects of object recursively
 			$subobj_data = $this->objDefinition->getSubObjectsRecursively($parent_data["type"]);
 
@@ -576,7 +574,19 @@ class ilObjRoleGUI extends ilObjectGUI
 		$output["txt_save"] = $this->lng->txt("save");
 		$output["check_bottom"] = ilUtil::formCheckBox(0,"recursive",1);
 		$output["message_table"] = $this->lng->txt("change_existing_objects");
-		$output["check_protected"] = ilUtil::formCheckBox($rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()),"protected",1);
+		
+		$protected_disabled = true;
+		
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID or $rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
+		{
+			$protected_disabled = false;
+		}
+		
+		$output["check_protected"] = ilUtil::formCheckBox($rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()),
+															"protected",
+															1,
+															$protected_disabled);
+		
 		$output["text_protected"] = $this->lng->txt("role_protect_permissions");
 
 
@@ -913,7 +923,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		}// END IF RECURSIVE
 		
 		// set protected flag
-		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID or $rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
+		{
+			$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
+		}
 
 		sendInfo($this->lng->txt("saved_successfully"),true); 
 		$this->ctrl->redirect($this, "perm");

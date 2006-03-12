@@ -26,6 +26,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
+*
 * @version $Id$
 * 
 * @extends ilObject
@@ -642,7 +643,7 @@ class ilObjGroup extends ilContainer
 	* @param	integer	group id (optional)
 	* @param	integer group status (0=public|1=private|2=closed)
 	*/
-	function setGroupStatus($a_grpStatus)
+	function __setGroupStatus($a_grpStatus)
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
@@ -906,13 +907,6 @@ class ilObjGroup extends ilContainer
 		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
 		ilObjUser::updateActiveRoles($groupObj->getOwner());
 
-		// TODO: function getGroupStatus returns integer but setGroupStatus expects a string.
-		// I disabled this function. Please investigate
-		// shofmann@databay.de	4.7.03
-		// copy group status
-		// 0=public/visible for all,1=closed/invisible for all
-		$groupObj->setGroupStatus($this->getGroupStatus());
-
 		// always destroy objects in ilClone method because clone() is recursive and creates instances for each object in subtree!
 		unset($groupObj);
 		unset($rfoldObj);
@@ -960,8 +954,6 @@ class ilObjGroup extends ilContainer
 		// create role and assign role to rolefolder...
 		$roleObj = $rfoldObj->createRole("il_grp_admin_".$this->getRefId(),"Groupadmin of group obj_no.".$this->getId());
 		$this->m_roleAdminId = $roleObj->getId();
-		// temp. workaround
-		$rbacadmin->setProtected($rfoldObj->getRefId(),$roleObj->getId(),"y");
 
 		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
@@ -973,8 +965,8 @@ class ilObjGroup extends ilContainer
 		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
 
 		// set object permissions of role folder object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
+		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
+		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
 
 		// MEMBER ROLE
 		// create role and assign role to rolefolder...
@@ -991,14 +983,20 @@ class ilObjGroup extends ilContainer
 		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
 
 		// set object permissions of role folder object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
+		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
+		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
 
 		unset($rfoldObj);
 		unset($roleObj);
 
 		$roles[] = $this->m_roleAdminId;
 		$roles[] = $this->m_roleMemberId;
+		
+		// Break inheritance and initialize permission for existing roles depending on group status
+		// TODO: eliminate POST-Parameter here. ilClone won't work with it.
+		// This will be changed anyway to non_member_template
+		$this->__setGroupStatus($_POST["group_status"]);		//0=public,1=private,2=closed
+
 		return $roles ? $roles : array();
 	}
 

@@ -25,6 +25,7 @@
 * Class ilObjiLincCourse
 * 
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
+*
 * @version $Id$
 *
 * @extends ilObject
@@ -245,8 +246,8 @@ class ilObjiLincCourse extends ilObject
 		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
 
 		// set object permissions of role folder object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
+		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
+		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
 
 		// MEMBER ROLE
 		// create role and assign role to rolefolder...
@@ -263,14 +264,19 @@ class ilObjiLincCourse extends ilObject
 		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
 
 		// set object permissions of role folder object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
+		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
+		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
 
 		unset($rfoldObj);
 		unset($roleObj);
 
 		$roles[] = $this->m_roleAdminId;
 		$roles[] = $this->m_roleMemberId;
+		
+		// Break inheritance and initialize permission settings using intersection method with a non_member_template 
+		// not implemented for ilinc. maybe never will...
+		$this->__setCourseStatus();
+		
 		return $roles ? $roles : array();
 	}
 
@@ -1091,6 +1097,11 @@ class ilObjiLincCourse extends ilObject
 		}
 		
 		return true;
+	}
+	
+	function __setCourseStatus()
+	{
+		// empty
 	}
 } // END class.ilObjiLincCourse
 ?>

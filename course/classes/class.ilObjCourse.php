@@ -26,6 +26,7 @@
 * Class ilObjCourse
 *
 * @author Stefan Meyer <smeyer@databay.de> 
+*
 * @version $Id$
 * 
 * @extends Object
@@ -844,7 +845,6 @@ class ilObjCourse extends ilContainer
 	}
 		
 		
-
 	function initCourseMemberObject()
 	{
 		include_once "./course/classes/class.ilCourseMembers.php";
@@ -903,8 +903,8 @@ class ilObjCourse extends ilContainer
 		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
 
 		// SET OBJECT PERMISSIONS OF ROLE FOLDER OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
+		//$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
+		//$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
 
 		// CREATE TUTOR ROLE
 		// CREATE ROLE AND ASSIGN ROLE TO ROLEFOLDER...
@@ -922,8 +922,8 @@ class ilObjCourse extends ilContainer
 		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
 
 		// SET OBJECT PERMISSIONS OF ROLE FOLDER OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
+		//$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
+		//$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
 
 		// CREATE MEMBER ROLE
 		// CREATE ROLE AND ASSIGN ROLE TO ROLEFOLDER...
@@ -941,8 +941,8 @@ class ilObjCourse extends ilContainer
 		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
 
 		// SET OBJECT PERMISSIONS OF ROLE FOLDER OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
+		//$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
+		//$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
 
 		unset($role_obj);
 		unset($rolf_obj);
@@ -993,6 +993,11 @@ class ilObjCourse extends ilContainer
 
 		foreach ($arr_relevantParentRoleIds as $parentRole)
 		{
+			if ($rbacreview->isProtected($arr_parentRoles[$parentRole]['parent'],$parentRole))
+			{
+				continue;
+			}
+				
 			$granted_permissions = array();
 
 			// Delete the linked role for the parent role
