@@ -486,9 +486,9 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		// copy also protection status if applicable
 		if ($a_consider_protected == true)
 		{
-			if ($rbacreview->isProtected(ROLE_FOLDER_ID,$r->obj_id))
+			if ($rbacreview->isProtected($a_source_parent,$a_source_id))
 			{
-				$rbacadmin->setProtected($rfoldObj->getRefId(),$roleObj->getId(),'y');
+				$this->setProtected($a_dest_parent,$a_dest_id,'y');
 			}
 		}
 

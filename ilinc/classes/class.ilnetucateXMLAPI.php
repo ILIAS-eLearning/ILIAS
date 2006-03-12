@@ -8,6 +8,7 @@ require_once "./classes/class.ilXmlWriter.php";
 * (c) Sascha Hofmann, 2004
 *  
 * @author	Sascha Hofmann <saschahofmann@gmx.de>
+*
 * @version	$Id$
 * 
 * @package	ilias-modules
@@ -426,7 +427,7 @@ exit;
 		$attr['name'] = $a_data['name'];
 		$attr['instructoruserid'] = $a_data['instructoruserid'];
 		$attr['description'] = $a_data['description'];
-		$attr['alwaysopen'] = $a_data['alwaysopen'] ? "Wahr" : "Falsch";
+		$attr['alwaysopen'] = $a_data['alwaysopen'] ? "1" : "0";
 		$attr['password'] = $a_data['password'];
 		$attr['message'] = $a_data['message'];
 		$attr['appsharebandwidth'] = $a_data['appsharebandwidth'];
