@@ -1668,6 +1668,7 @@ common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_back#:#Back
 common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
+common#:#grp_create_grp#:#Create Group
 common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Create Chat
 common#:#grp_create_dbk#:#Create Digilib Book
