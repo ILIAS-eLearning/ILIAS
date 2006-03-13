@@ -288,6 +288,22 @@ class ilObjStyleSheet extends ilObject
 		$this->ilias->db->query($q);
 	}
 
+	/**
+	* delete style parameter by tag/class/parameter
+	*
+	*/
+	function deleteStylePar($a_tag, $a_class, $a_par)
+	{
+		global $ilDB;
+		
+		$q = "DELETE FROM style_parameter WHERE ".
+			" style_id = ".$ilDB->quote($this->getId())." AND ".
+			" tag = ".$ilDB->quote($a_tag)." AND ".
+			" class = ".$ilDB->quote($a_class)." AND ".
+			" parameter = ".$ilDB->quote($a_par);
+
+		$this->ilias->db->query($q);
+	}
 
 	/**
 	* delete style object
@@ -520,11 +536,36 @@ class ilObjStyleSheet extends ilObject
 		$this->writeCSSFile();
 	}
 
+	/**
+	* update style parameter per id
+	*
+	* @param	int		$a_id		style parameter id
+	* @param	int		$a_id		style parameter value
+	*/
 	function updateStyleParameter($a_id, $a_value)
 	{
 		$q = "UPDATE style_parameter SET VALUE='".$a_value."' WHERE id = '".$a_id."'";
 		$style_set = $this->ilias->db->query($q);
 	}
+	
+	/**
+	* update style parameter per tag/class/parameter
+	*
+	*/
+	function replaceStylePar($a_tag, $a_class, $a_par, $a_val)
+	{
+		global $ilDB;
+		
+		$q = "REPLACE INTO style_parameter SET ".
+			" value = ".$ilDB->quote($a_val)." WHERE ".
+			" style_id = ".$ilDB->quote($this->getId())." AND ".
+			" tag = ".$ilDB->quote($a_tag)." AND ".
+			" class = ".$ilDB->quote($a_class)." AND ".
+			" parameter = ".$ilDB->quote($a_par);
+
+		$this->ilias->db->query($q);
+	}
+
 
 	/**
 	* todo: bad style! should return array of objects, not multi-dim-arrays
@@ -654,6 +695,7 @@ class ilObjStyleSheet extends ilObject
 			"font-stretch" => array("wider", "narrower", "condensed", "semi-condensed",
 					"extra-condensed", "ultra-condensed", "expanded", "semi-expanded",
 					"extra-expanded", "ultra-expanded", "normal"),
+			"font-size" => array(),
 			"word-spacing" => array(),
 			"letter-spacing" => array(),
 			"text-decoration" => array("underline", "overline", "line-through", "blink", "none"),

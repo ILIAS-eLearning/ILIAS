@@ -53,6 +53,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
+		$this->lng->loadLanguageModule("style");
 
 		$this->type = "sty";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
@@ -164,7 +165,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("StyleTag");
-			$this->tpl->setVariable("TXT_TAG", $tag[0]["tag"].".".$tag[0]["class"]);
+			$tag_str = $tag[0]["tag"].".".$tag[0]["class"];
+			$this->tpl->setVariable("TXT_TAG", $tag_str);
+			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+			$this->ctrl->setParameter($this, "tag", $tag_str);
+			$this->tpl->setVariable("LINK_EDIT_TAG_STYLE",
+				$this->ctrl->getLinkTarget($this, "editTagStyle"));
 			$this->tpl->setVariable("STY_ROWSPAN", (count($tag) + 1));
 			$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("parameter"));
 			$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
@@ -206,6 +212,197 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
+	/**
+	* edit style of single tag
+	*/
+	function editTagStyleObject()
+	{
+		global $rbacsystem, $lng;
+
+		//$this->setTabs();
+
+		// set style sheet
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			$this->object->getContentStylePath($this->object->getId()));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
+			"tpl.sty_tag_edit.html", false, false);
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));
+
+		// output style parameters
+		$avail_pars = $this->object->getAvailableParameters();
+		$style = $this->object->getStyle();
+		$this->tpl->setVariable("TXT_TEXT", $this->lng->txt("sty_text"));
+		$this->tpl->setVariable("TXT_MARGIN_AND_PADDING", $this->lng->txt("sty_margin_and_padding"));
+		$this->tpl->setVariable("TXT_ALL", $this->lng->txt("sty_all"));
+		$this->tpl->setVariable("TXT_TOP", $this->lng->txt("sty_top"));
+		$this->tpl->setVariable("TXT_BOTTOM", $this->lng->txt("sty_bottom"));
+		$this->tpl->setVariable("TXT_LEFT", $this->lng->txt("sty_left"));
+		$this->tpl->setVariable("TXT_RIGHT", $this->lng->txt("sty_right"));
+		$this->tpl->setVariable("TXT_BORDER", $this->lng->txt("sty_border"));
+		$this->tpl->setVariable("TXT_BACKGROUND", $this->lng->txt("sty_background"));
+		$this->tpl->setVariable("TXT_SPECIAL", $this->lng->txt("sty_special"));
+		
+		$cur = explode(".",$_GET["tag"]);
+		$cur_tag = $cur[0];
+		$cur_class = $cur[1];
+		$parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style);
+		
+		$this->tpl->setCurrentBlock("Example_".$cur_tag);
+		$this->tpl->setVariable("EX_CLASS", "ilc_".$cur_class);
+		$this->tpl->setVariable("EX_TEXT", "ABC abc 123");
+		$this->tpl->parseCurrentBlock();
+
+		// for all tag parameters
+		foreach ($avail_pars as $par => $vals)
+		{
+			$var = str_replace("-", "_", $par);
+			$up_par = strtoupper($var);
+			$this->tpl->setVariable("TXT_".$up_par, $this->lng->txt("sty_".$var));
+			
+			// output select lists
+			if (count($avail_pars[$par]) > 0)
+			{
+				$sel_avail_vals = array("" => "");
+				foreach($avail_pars[$par] as $key => $val)
+				{
+					$sel_avail_vals[$val] = $val;
+				}
+				$sel_str = ilUtil::formSelect($parameters[$par], $var, $sel_avail_vals, false, true);
+				$this->tpl->setVariable("SEL_".$up_par, $sel_str);
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_".$up_par, $parameters[$par]);
+			}
+		}
+		
+		/*
+		foreach($style as $tag)
+		{
+			foreach($tag as $par)
+			{
+				$this->tpl->setCurrentBlock("StyleParameter");
+				$this->tpl->setVariable("PAR_ID", $par["id"]);
+				$this->tpl->setVariable("TXT_PAR", $par["parameter"]);
+				if (count($avail_pars[$par["parameter"]]) == 0)
+				{
+					$input = "<input type=\"text\" size=\"30\" maxlength=\"100\" ".
+						"name=\"styval[".$par["id"]."]\" value=\"".$par["value"]."\"";
+				}
+				else
+				{
+					$sel_avail_vals = array();
+					foreach($avail_pars[$par["parameter"]] as $key => $val)
+					{
+						$sel_avail_vals[$val] = $val;
+					}
+					$input = ilUtil::formSelect($par["value"], "styval[".$par["id"]."]", $sel_avail_vals, false, true);
+				}
+				$this->tpl->setVariable("INPUT_VAL", $input);
+				$this->tpl->parseCurrentBlock();
+			}
+			if ((!is_int(strpos($tag[0]["class"], ":hover"))) &&
+				(!is_int(strpos($tag[0]["class"], ":visited"))) &&
+				(!is_int(strpos($tag[0]["class"], ":active")))
+				)
+			{
+				$this->tpl->setCurrentBlock("Example_".$tag[0]["tag"]);
+				$this->tpl->setVariable("EX_CLASS", "ilc_".$tag[0]["class"]);
+				$this->tpl->setVariable("EX_TEXT", "ABC abc 123");
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("StyleTag");
+			$tag_str = $tag[0]["tag"].".".$tag[0]["class"];
+			$this->tpl->setVariable("TXT_TAG", $tag_str);
+			$this->ctrl->setParameter($this, "tag", $tag_str);
+			$this->tpl->setVariable("LINK_EDIT_TAG_STYLE",
+				$this->ctrl->getLinkTarget($this, "editTagStyle"));
+			$this->tpl->setVariable("STY_ROWSPAN", (count($tag) + 1));
+			$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("parameter"));
+			$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// title and description
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable(strtoupper("TITLE"), $this->object->getTitle());
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
+		$this->tpl->setVariable(strtoupper("DESCRIPTION"), $this->object->getDescription());
+		$this->tpl->parseCurrentBlock();
+
+		// new parameter
+		$temptags = $this->object->getAvailableTags();
+		$tags = array();
+		foreach($temptags as $key => $val)
+		{
+			$tags[$val] = $val;
+		}
+		$tag_select = ilUtil::formSelect("", "tag", $tags, false, true);
+		foreach($avail_pars as $key => $val)
+		{
+			$sel_avail_pars[$key] = $key;
+		}
+		$this->tpl->setVariable("SELECT_TAG", $tag_select);
+		$par_select = ilUtil::formSelect("", "parameter", $sel_avail_pars, false, true);
+		$this->tpl->setVariable("SELECT_PAR", $par_select);
+		$this->tpl->setVariable("TXT_NEW_PAR", $this->lng->txt("add"));
+		*/
+
+		$this->ctrl->setParameter($this, "tag", $_GET["tag"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_return"));
+		$this->tpl->setVariable("BTN_SAVE", "updateTagStyle");
+		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt("save_refresh"));
+		$this->tpl->setVariable("BTN_REFRESH", "refreshTagStyle");
+	}
+	
+	/**
+	* save and refresh tag editing
+	*/
+	function refreshTagStyleObject()
+	{
+		$avail_pars = $this->object->getAvailableParameters();
+		$cur = explode(".",$_GET["tag"]);
+		$cur_tag = $cur[0];
+		$cur_class = $cur[1];
+		foreach ($avail_pars as $par => $vals)
+		{
+			$var = str_replace("-", "_", $par);
+//echo "-<br>$par-".$_POST[$var]."-".$cur_tag."-".$cur_class."-".$this->object->getId()."-";
+			if ($_POST[$var] != "")
+			{
+				$this->object->replaceStylePar($cur_tag, $cur_class, $par, $_POST[$var]);
+			}
+			else
+			{
+				$this->object->deleteStylePar($cur_tag, $cur_class, $par);
+			}
+
+			//$this->object->updateStyleParameter($id, $value);
+		}
+		$this->object->update();
+		$this->editTagStyleObject();
+	}
+
+	function extractParametersOfTag($a_tag, $a_class, $a_style)
+	{
+		$parameters = array();
+		foreach($a_style as $tag)
+		{
+			foreach($tag as $par)
+			{
+				if ($par["tag"] == $a_tag && $par["class"] == $a_class)
+				{
+					$parameters[$par["parameter"]] = $par["value"]; 
+				}
+			}
+		}
+		return $parameters;
+	}
+	
 	/**
 	* add style parameter
 	*/

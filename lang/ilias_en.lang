@@ -5257,6 +5257,44 @@ search#:#search_tst_svy#:#Tests/Surveys
 search#:#search_type#:#Search type
 search#:#search_user#:#Users
 search#:#until#:#up to
+style#:#sty_text#:#Text
+style#:#sty_font_size#:#Font Size
+style#:#sty_font_family#:#Font Family
+style#:#sty_font_variant#:#Font Variant
+style#:#sty_font_weight#:#Font Weight
+style#:#sty_font_stretch#:#Font Stretch
+style#:#sty_font_style#:#Font Style
+style#:#sty_word_spacing#:#Word Spacing
+style#:#sty_letter_spacing#:#Letter Spacing
+style#:#sty_text_decoration#:#Text Decoration
+style#:#sty_text_transform#:#Text Transform
+style#:#sty_color#:#Color
+style#:#sty_text_indent#:#Text Indentation
+style#:#sty_line_height#:#Line Height
+style#:#sty_vertical_align#:#Vertical Alignment
+style#:#sty_text_align#:#Text Alignment
+style#:#sty_white_space#:#White Space
+style#:#sty_margin#:#Margin
+style#:#sty_padding#:#Padding
+style#:#sty_all#:#All
+style#:#sty_top#:#Top
+style#:#sty_bottom#:#Bottom
+style#:#sty_left#:#Left
+style#:#sty_right#:#Right
+style#:#sty_border_width#:#Border Width
+style#:#sty_border_color#:#Border Color
+style#:#sty_border_style#:#Border Style
+style#:#sty_background_color#:#Background Color
+style#:#sty_background_image#:#Background Image
+style#:#sty_background_repeat#:#Background Repeat
+style#:#sty_background_attachment#:#Background Attachment
+style#:#sty_background_position#:#Background Position
+style#:#sty_cursor#:#Cursor
+style#:#sty_clear#:#Clear
+style#:#sty_margin_and_padding#:#Margin and Padding
+style#:#sty_border#:#Border
+style#:#sty_background#:#Background
+style#:#sty_special#:#Special
 survey#:#add_category#:#Add answer
 survey#:#add_heading#:#Add heading
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
