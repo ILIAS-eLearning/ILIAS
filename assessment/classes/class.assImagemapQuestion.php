@@ -1030,7 +1030,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		{
 			$pass = $this->getSolutionMaxPass($user_id, $test_id);
 		}
-    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = 0",
+    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
       $this->ilias->db->quote($user_id . ""),
       $this->ilias->db->quote($test_id . ""),
       $this->ilias->db->quote($this->getId() . ""),

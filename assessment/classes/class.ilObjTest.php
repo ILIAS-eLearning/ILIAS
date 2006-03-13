@@ -1299,10 +1299,12 @@ class ilObjTest extends ilObject
 */
 	function generateRandomQuestions($pass = NULL)
 	{
+		global $ilUser;
+		$this->loadQuestions($ilUser->getId(), $pass);
 		if ($this->getRandomQuestionCount() > 0)
 		{
 			$qpls =& $this->getRandomQuestionpools();
-			$rndquestions = $this->randomSelectQuestions($this->getRandomQuestionCount(), 0, 1, $qpls);
+			$rndquestions = $this->randomSelectQuestions($this->getRandomQuestionCount(), 0, 1, $qpls, $pass);
 			$allquestions = array();
 			foreach ($rndquestions as $question_id)
 			{
@@ -1323,7 +1325,7 @@ class ilObjTest extends ilObject
 			{
 				if ($value["count"] > 0)
 				{
-					$rndquestions = $this->randomSelectQuestions($value["count"], $value["qpl"], 1);
+					$rndquestions = $this->randomSelectQuestions($value["count"], $value["qpl"], 1, $pass);
 					foreach ($rndquestions as $question_id)
 					{
 						array_push($allquestions, $question_id);
@@ -3916,7 +3918,7 @@ class ilObjTest extends ilObject
 * @return array A random selection of questions
 * @access public
 */
-	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0, $qpls = "")
+	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0, $qpls = "", $pass = NULL)
 	{
 		global $rbacsystem;
 		// get the questionpool id if a questionpool ref id was entered
