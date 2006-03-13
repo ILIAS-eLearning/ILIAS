@@ -194,6 +194,11 @@ td.nobackground {
 	vertical-align: top;
 }
 
+th
+{
+	text-align: left;
+}
+
 td.std, th.std {
 	padding:2px;
 	text-align: left;
