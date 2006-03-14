@@ -4215,7 +4215,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		// forward the command
 
-		if(!$this->object->getFirstSequence())
+		if($_GET['crs_show_result'] and !$this->object->getFirstSequence())
 		{
 			sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
 		}			
