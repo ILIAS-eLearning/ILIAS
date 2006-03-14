@@ -556,10 +556,9 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					$output = str_replace("initial_value_" . $solution_value["value1"], $solution_value["value2"], $output);
 					if ((strcmp($solution_value["value2"], "") != 0) && (strcmp($solution_value["value1"], "") != 0))
 					{
-						$jssolutions[$solution_value["value2"]] = $solution_value;
+						$jssolutions[$solution_value["value2"]] = $solution_value["value1"];
 					}
 				}
 			}
@@ -567,6 +566,17 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			{
 				//echo htmlentities ($output);
 				$output = $this->removeFormElements($output);
+			}
+			if (count($jssolutions))
+			{
+				ksort($jssolutions);
+				$js = "";
+				foreach ($jssolutions as $key => $value)
+				{
+					$js .= "initialorder.push($value);";
+				}
+				$js .= "restoreInitialOrder();";
+				$output = str_replace("/*solution*/", $js, $output);
 			}
 		}
 
@@ -656,7 +666,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$solutionoutput = "";
 			$received_points = "";
 		}
-		$output = str_replace("#reorder", $_SESSION["reorder"], $output);
 		$this->tpl->setVariable("ORDERING_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
