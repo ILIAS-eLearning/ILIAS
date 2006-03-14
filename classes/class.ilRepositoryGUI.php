@@ -96,9 +96,11 @@ class ilRepositoryGUI
 		}
 		else
 		{
+//echo "1-".$_SESSION["il_rep_ref_id"]."-";
 			if (!empty($_SESSION["il_rep_ref_id"]) && !empty($_GET["getlast"]))
 			{
 				$this->cur_ref_id = $_SESSION["il_rep_ref_id"];
+//echo "2-".$this->cur_ref_id."-";
 			}
 			else
 			{
@@ -124,6 +126,7 @@ class ilRepositoryGUI
 				$this->ctrl->setCmd("frameset");
 			}
 		}
+//echo "<br>+".$_GET["ref_id"]."+";
 		if (!$tree->isInTree($this->cur_ref_id) && $this->ctrl->getCmd() != "showTree")
 		{
 			$this->cur_ref_id = $this->tree->getRootId();
@@ -189,6 +192,8 @@ class ilRepositoryGUI
 				$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 			}
 		}
+		
+		$_GET["ref_id"] = $this->cur_ref_id;
 	}
 
 	
