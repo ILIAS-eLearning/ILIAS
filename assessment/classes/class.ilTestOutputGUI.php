@@ -265,18 +265,47 @@ class ilTestOutputGUI
 */
 	function outShortResult($user_question_order) 
 	{
-		$this->tpl->setCurrentBlock("percentage");
-		$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
-		$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
-		$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-		$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("percentage_bottom");
-		$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
-		$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
-		$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-		$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-		$this->tpl->parseCurrentBlock();				
+		if(!$_GET['crs_show_result'])
+		{
+			$this->tpl->setCurrentBlock("percentage");
+			$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
+			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("percentage_bottom");
+			$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
+			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$num_wrong = count($_SESSION['crs_sequence']);
+			$pos = 1;
+			foreach($_SESSION['crs_sequence'] as $sequence)
+			{
+				if($sequence == $this->sequence)
+				{
+					break;
+				}
+				$pos++;
+			}
+
+			$this->tpl->setCurrentBlock("percentage");
+			$this->tpl->setVariable("PERCENTAGE", (int)(($pos / $num_wrong)*200));
+			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($pos / $num_wrong)*100));
+			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("percentage_bottom");
+			$this->tpl->setVariable("PERCENTAGE", (int)(($pos / $num_wrong)*200));
+			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($pos / $num_wrong)*100));
+			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
@@ -352,27 +381,27 @@ class ilTestOutputGUI
 				);
 				break;
 		}
-
-		if(!$_GET['crs_show_result'])
+		
+		// Normally the first sequence is 1
+		// In course objective mode it is the first wrongly answered question
+		$first_sequence = $_GET['crs_show_result'] ? $this->object->getFirstSequence() : 1;
+		if ($sequence == $first_sequence)
 		{
-			if ($sequence == 1)
-			{
-				$this->tpl->setCurrentBlock("prev");
-				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("prev_bottom");
-				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("prev");
-				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("prev_bottom");
-				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-				$this->tpl->parseCurrentBlock();
-			}
+			$this->tpl->setCurrentBlock("prev");
+			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("prev_bottom");
+			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("prev");
+			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("prev_bottom");
+			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+			$this->tpl->parseCurrentBlock();
 		}
 
 		if ($postpone_allowed)
@@ -496,6 +525,8 @@ class ilTestOutputGUI
 */
 	function start()
 	{
+		$this->readFullSequence();
+		
 		if ($_SESSION["tst_start"] != 1)
 		{
 			$_SESSION["tst_start"] = 1;
@@ -505,7 +536,7 @@ class ilTestOutputGUI
 				$this->object->loadQuestions();
 			}
 			$this->handleStartCommands();
-			$this->sequence = $this->getSequence();	
+			$this->sequence = $this->getSequence();
 			$this->object->setActiveTestUser($this->sequence);
 			if ($this->object->isOnlineTest())
 			{
@@ -528,11 +559,13 @@ class ilTestOutputGUI
 */
 	function resume()
 	{
+		$this->readFullSequence();
+
 		if ($_SESSION["tst_resume"] != 1)
 		{
 			$_SESSION["tst_resume"] = 1;
 			$this->handleStartCommands();
-			$this->sequence = $this->getSequence();	
+			$this->sequence = $this->getSequence();
 			$this->object->setActiveTestUser($this->sequence);
 			if ($this->object->isOnlineTest())
 			{
@@ -808,7 +841,7 @@ class ilTestOutputGUI
 		{
 			$_SESSION["tst_previous"] = 1;
 			$this->saveQuestionSolution();
-			$this->sequence = $this->getSequence();	
+			$this->sequence = $this->getSequence();
 			$this->object->setActiveTestUser($this->sequence);
 			// sequence = 0
 			if (!$this->sequence)
@@ -978,10 +1011,7 @@ class ilTestOutputGUI
 		$active = $this->object->getActiveTestUser();
 
 		$user_question_order =& $this->object->getAllQuestionsForActiveUser();
-		if(!$_GET['crs_show_result'])
-		{
-			$this->outShortResult($user_question_order);
-		}
+		$this->outShortResult($user_question_order);
 			
 		if ($this->object->getEnableProcessingTime())
 		{
@@ -1089,12 +1119,11 @@ class ilTestOutputGUI
 		$sequence = $_GET["sequence"];
 		if (!$sequence) $sequence = 1;
 		$saveResult = $this->saveResult;
-		
 		if (isset($_POST["cmd"]["next"]) && $saveResult == true)
 		{
 			if($_GET['crs_show_result'])
 			{
-				$sequence = $this->object->incrementSequenceByResult($sequence);
+				$sequence = $this->getNextSequenceByResult($sequence);
 			}
 			else
 			{
@@ -1105,7 +1134,7 @@ class ilTestOutputGUI
 		{
 			if($_GET['crs_show_result'])
 			{
-				$sequence = $this->object->decrementSequenceByResult($sequence);
+				$sequence = $this->getPreviousSequenceByResult($sequence);
 			}
 			else
 			{
@@ -1114,10 +1143,87 @@ class ilTestOutputGUI
 		}
 		elseif($_GET['crs_show_result'])
 		{
-			$sequence = $this->object->incrementSequenceByResult($sequence);
+			$sequence = max($sequence,$this->object->getFirstSequence());
 		}
 		return $sequence;
 	}
+
+	function readFullSequence()
+	{
+		global $ilUser;
+
+		$results = $this->object->getTestResult($ilUser->getId());
+
+		$_SESSION['crs_sequence'] = array();
+		for($i = $this->object->getFirstSequence();
+			$i <= $this->object->getQuestionCount();
+			$i++)
+		{
+			$qid = $this->object->getQuestionIdFromActiveUserSequence($i);
+
+			foreach($results as $result)
+			{
+				if($qid == $result['qid'])
+				{
+					if(!$result['max'] or $result['max'] != $result['reached'])
+					{
+						$_SESSION['crs_sequence'][] = $i;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	function getNextSequenceByResult($a_sequence)
+	{
+		if(!is_array($_SESSION['crs_sequence']))
+		{
+			return 1;
+		}
+		$counter = 0;
+		foreach($_SESSION['crs_sequence'] as $sequence)
+		{
+			if($sequence == $a_sequence)
+			{
+				if($_SESSION['crs_sequence'][$counter+1])
+				{
+					return $_SESSION['crs_sequence'][$counter+1];
+				}
+				else
+				{
+					return $this->object->getQuestionCount() + 1;
+				}
+			}
+			++$counter;
+		}
+		return $this->object->getQuestionCount() + 1;
+	}
+
+	function getPreviousSequenceByResult($a_sequence)
+	{
+		if(!is_array($_SESSION['crs_sequence']))
+		{
+			return 0;
+		}
+		$counter = 0;
+		foreach($_SESSION['crs_sequence'] as $sequence)
+		{
+			if($sequence == $a_sequence)
+			{
+				if($_SESSION['crs_sequence'][$counter-1])
+				{
+					return $_SESSION['crs_sequence'][$counter-1];
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			++$counter;
+		}
+		return 0;
+	}		
 	
 	/**
 	 * test accessible returns true if the user can perform the test

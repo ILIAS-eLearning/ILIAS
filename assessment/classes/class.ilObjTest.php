@@ -2893,62 +2893,7 @@ class ilObjTest extends ilObject
 		}
 		return $wrong ? $wrong : array();
 	}
-/**
-* increments sequence to the next wrong answered question
-* 
-* @param int sequence
-* @return int sequence
-* @access public
-*/
-	function incrementSequenceByResult($a_sequence)
-	{
-		global $ilUser;
 
-		for($i = $a_sequence+1; $i <= $this->getQuestionCount(); $i++)
-		{
-			$qid = $this->getQuestionIdFromActiveUserSequence($i);
-
-			foreach($this->getTestResult($ilUser->getId()) as $result)
-			{
-				if($qid == $result['qid'])
-				{
-					if($result['max'] != $result['reached'])
-					{
-						return $i;
-					}
-				}
-			}
-		}
-		return ($this->getQuestionCount()+1);
-	}
-
-
-/**
-* decrements sequence to the next wrong answered question
-* 
-* @param int sequence
-* @return int sequence
-* @access public
-*/
-	function decrementSequenceByResult($a_sequence)
-	{
-		for($i = $a_sequence; $i > 0; $i--)
-		{
-			$qid = $this->getQuestionIdFromActiveUserSequence($i);
-
-			foreach($this->getTestResult($ilUser->getId()) as $result)
-			{
-				if($qid == $result['qid'])
-				{
-					if($result['max'] != $result['reached'])
-					{
-						return $i;
-					}
-				}
-			}
-		}
-		return 1;
-	}
 
 	function getFirstSequence()
 	{
