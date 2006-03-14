@@ -338,8 +338,7 @@ class ilTestOutputGUI
 				break;
 
 			default:
-				$_SESSION["reorder"] = $this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion");
-				$question_gui->setSequenceNumber ($sequence);
+				$question_gui->setSequenceNumber($sequence);
 				$use_post_solutions = false;
 				if ($this->saveResult === false)
 				{

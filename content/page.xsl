@@ -2096,7 +2096,7 @@
 				<table border="0" width="100%">
 					<tr><td align="right">
 						<a>
-							<xsl:attribute name="href">#reorder</xsl:attribute>
+							<xsl:attribute name="href">javascript:restoreInitialOrder();</xsl:attribute>
 							<xsl:choose><xsl:when test="//render_choice/response_label/material/matimage"><xsl:value-of select="//LVs/LV[@name='reset_pictures']/@value"/></xsl:when><xsl:otherwise><xsl:value-of select="//LVs/LV[@name='reset_definitions']/@value"/></xsl:otherwise></xsl:choose>
 						</a>
 					</td></tr>
@@ -2137,6 +2137,9 @@
 					</xsl:for-each>
 				</ul>
 				<input type="hidden" name="orderresult" value="" />
+				<script type="text/javascript">
+					/*solution*/
+				</script>
 				</xsl:when>
 				<xsl:otherwise>
 					<table class="nobackground">

@@ -8,14 +8,36 @@
 
 <script language="JavaScript" type="text/javascript">
 <!--
-	var dragsort = ToolMan.dragsort()
+	var dragsort = ToolMan.dragsort();
+	var helpers = ToolMan.helpers();
+	var initialorder = new Array();
 
 	window.onload = function() {
 
 		dragsort.makeListSortable(document.getElementById("orderlist"),
-				verticalOnly)
+				verticalOnly);
+		saveInitialOrder();
 	}
 	
+	function saveInitialOrder()
+	{
+		var ul = document.getElementById("orderlist");
+		var listelements = ul.getElementsByTagName("li");
+		for (var i = 0; i < listelements.length; i++)
+		{
+			initialorder.push(listelements[i].id);
+		}
+	}
+	
+	function restoreInitialOrder()
+	{
+		for (var i = initialorder.length-1; i > 0; i--)
+		{
+			var list_a = document.getElementById(initialorder[i]);
+			var list_b = document.getElementById(initialorder[i-1]);
+			helpers.moveBefore(list_b, list_a);
+		}
+	}
 
 	function verticalOnly(item) {
 		item.toolManDragGroup.verticalOnly()
