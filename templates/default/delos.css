@@ -600,22 +600,29 @@ td.il_no_style {
 }
 
 /* locator */
+/*
 table.il_Locator
 {
 	background-color: #E2EAF4;
 	background-image: url(images/TableHeaderBlue.gif);
 	background-repeat: repeat-x;
+}*/
+table.il_Locator
+{
+	background-color: none;
 }
 
 div.il_Locator {
-	padding: 4px 15px 4px 23px;
+	padding: 4px 15px 4px 15px;
 	vertical-align:top;
 	font-size: 80%;
+	font-weight: normal;
 }
 
 a.il_LocatorLink, a.il_LocatorLink:link, a.il_LocatorLink:visited, a.il_LocatorLink:hover
 {
 	color: #224499;
+	font-weight: normal;
 }
 
 a.il_LocatorLink:hover
@@ -663,7 +670,7 @@ li.MMInactive
 	background-color : #CCDBF2;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #003F79;
+	border-color: #224499;
 	margin: 0px 3px 5px 0px;
 	padding: 0px 0px 0px 0px;
 }
@@ -683,7 +690,7 @@ li.MMActive
 	color:#000000;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #003F79;
+	border-color: #224499;
 	margin: 0px 3px 5px 0px;
 	padding: 0px 0px 0px 0px;
 }

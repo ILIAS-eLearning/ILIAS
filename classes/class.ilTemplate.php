@@ -733,8 +733,8 @@ class ilTemplate extends ilTemplateX
 		$first = true;
 		if (is_array($items))
 		{
-			$this->touchBlock("locator_separator");
-			$this->touchBlock("locator_item");
+			//$this->touchBlock("locator_separator");
+			//$this->touchBlock("locator_item");
 
 			foreach($items as $item)
 			{

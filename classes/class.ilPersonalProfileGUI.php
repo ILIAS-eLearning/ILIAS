@@ -562,6 +562,7 @@ class ilPersonalProfileGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
 		
 		// set locator
+/*
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->touchBlock("locator_separator");
 		$this->tpl->touchBlock("locator_item");
@@ -576,6 +577,7 @@ class ilPersonalProfileGUI
 		$this->tpl->setVariable("LINK_ITEM",
 			$this->ctrl->getLinkTargetByClass("ilpersonalprofilegui", "showProfile"));
 		$this->tpl->parseCurrentBlock();
+*/
 		
 		// catch feedback message
 		sendInfo();

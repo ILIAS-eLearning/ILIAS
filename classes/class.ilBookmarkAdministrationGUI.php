@@ -431,6 +431,7 @@ class ilBookmarkAdministrationGUI
 //print_r($path);
 		$modifier = 1;
 
+return;
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->touchBlock("locator_separator");
 		$this->tpl->touchBlock("locator_item");

@@ -260,6 +260,7 @@ class ilCalInterface
 		$menu->setTemplateVars();
 		
 		//tabs
+/*
 		$tpl->setCurrentBlock("locator_item");
 		//$tpl->setVariable("LINK_ITEM", "ilias.php?baseClass=ilPersonalDesktopGUI");
 		//$tpl->setVariable("LINK_TARGET",
@@ -275,21 +276,22 @@ class ilCalInterface
 		$tpl->setVariable("ITEM",$lng->txt("dateplaner"));
 		$tpl->parseCurrentBlock();
 
-		/*
-		$tpl->touchBlock("locator_separator_prefix");
-		$tpl->setCurrentBlock("locator_item");
-		$tpl->setVariable("LINK_ITEM","./dateplaner.php?app=".$app);
+		
+//		$tpl->touchBlock("locator_separator_prefix");
+//		$tpl->setCurrentBlock("locator_item");
+//		$tpl->setVariable("LINK_ITEM","./dateplaner.php?app=".$app);
 		//$tpl->setVariable("LINK_TARGET","bottom");
-		$tpl->setVariable("ITEM",$lng->txt("app_".$app));
-		$tpl->parseCurrentBlock();*/
+//		$tpl->setVariable("ITEM",$lng->txt("app_".$app));
+//		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("locator");
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 		$tpl->parseCurrentBlock();
-		
+*/
 		$tpl->setCurrentBlock("header_image");
 		$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
 		$tpl->parseCurrentBlock();
+
 		
 		$tpl->setVariable("HEADER", $lng->txt("personal_desktop"));
 		
