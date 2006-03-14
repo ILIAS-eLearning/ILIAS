@@ -4083,10 +4083,10 @@ class ilObjTestGUI extends ilObjectGUI
 							$resume_text = $this->lng->txt("tst_start_test");
 						}
 						// Commented out because this leads to problems in "normal" tests
-						//if($this->object->getFirstSequence())
-						//{
+						if(!$_GET['crs_show_result'] or $this->object->getFirstSequence())
+						{
 							$info->addFormButton("resume", $resume_text);
-						//}
+						}
 					}
 					else
 					{
