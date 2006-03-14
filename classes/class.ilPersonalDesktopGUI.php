@@ -176,6 +176,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
 
 		// set locator
+/*
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->touchBlock("locator_separator");
 		$this->tpl->touchBlock("locator_item");
@@ -183,6 +184,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->setVariable("ITEM", $this->lng->txt("overview"));
 		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
 		$this->tpl->parseCurrentBlock();
+*/
 
 		// catch feedback message
 		sendInfo();
@@ -217,11 +219,13 @@ class ilPersonalDesktopGUI
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
 
 		// set locator
+/*
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
 		$this->tpl->parseCurrentBlock();
+*/
 
 		// catch feedback message
 		sendInfo();

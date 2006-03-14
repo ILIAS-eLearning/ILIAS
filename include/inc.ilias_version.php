@@ -30,5 +30,5 @@
 *
 * @package ilias-core
 */
-define("ILIAS_VERSION", "3.7.0 Pre-Alpha a");
+define("ILIAS_VERSION", "3.7.0 Pre-Alpha b");
 ?>

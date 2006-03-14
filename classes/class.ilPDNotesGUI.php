@@ -98,6 +98,7 @@ class ilPDNotesGUI
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		
 		// set locator
+/*
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->touchBlock("locator_separator");
 		$this->tpl->touchBlock("locator_item");
@@ -112,6 +113,7 @@ class ilPDNotesGUI
 		$this->tpl->setVariable("LINK_ITEM",
 			$this->ctrl->getLinkTargetByClass("ilpdnotesgui"));
 		$this->tpl->parseCurrentBlock();
+*/
 		
 		// catch feedback message
 		sendInfo();

@@ -34,7 +34,7 @@ function setLocator($a_obj_id,$a_path,$a_user_id,$a_txt_prefix)
 			$mbox = new ilMailBox($_SESSION["AccountId"]);
 			$a_obj_id = $mbox->getInboxFolder();
 		}
-
+return;
 		$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 		$mtree = new ilTree($a_user_id);

@@ -283,6 +283,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 	{
 		global $ilLocator;
 		
+return;
 		$ilLocator->addItem($this->lng->txt('search_search_results'),
 			$this->ctrl->getLinkTarget($this));
 		$this->tpl->setLocator();
