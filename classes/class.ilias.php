@@ -129,7 +129,7 @@ class ILIAS
 	*/
 	function ILIAS($a_client_id = 0)
 	{
-		global $ilErr;
+		global $ilErr, $ilDB;
 
 		// load setup.ini
 		$this->ini_ilias = new ilIniFile("./ilias.ini.php");
@@ -233,6 +233,26 @@ class ILIAS
 
 		$this->db = new ilDBx($this->dsn);
 
+		// Error Handling
+		$this->error_obj =& $ilErr;
+
+		// moved here from inc.header.php (db_set_save_handler needs db object)
+		$ilDB = $this->db;
+		$GLOBALS['ilDB'] =& $ilDB;
+
+		// set session.save_handler to "user" & set expiry time
+		if(ini_get('session.save_handler') != 'user')
+		{
+			ini_set("session.save_handler", "user");
+		}
+		
+		// moved here from inc.header.php
+		if (!db_set_save_handler())
+		{
+			$message = "Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini";
+			$this->raiseError($message, $this->error_obj->FATAL);
+		}
+
 		// set anonymous user & role id and system role id
 		define ("ANONYMOUS_USER_ID",$this->getSetting("anonymous_user_id"));
 		define ("ANONYMOUS_ROLE_ID",$this->getSetting("anonymous_role_id"));
@@ -242,7 +262,7 @@ class ILIAS
 
 		// installation id
 		define ("IL_INST_ID", $this->getSetting("inst_id"));
-		
+
 		// define auth modes
 		define ("AUTH_LOCAL",1);
 		define ("AUTH_LDAP",2);
@@ -287,12 +307,6 @@ class ILIAS
 			define ("AUTH_CURRENT",$user_auth_mode);
 		}
 		
-		// set session.save_handler to "user" & set expiry time
-		if(ini_get('session.save_handler') != 'user')
-		{
-			ini_set("session.save_handler", "user");
-		}
-
 		switch (AUTH_CURRENT)
 		{
 			case AUTH_LOCAL:
@@ -364,9 +378,6 @@ class ILIAS
 		$this->auth->setIdle($this->ini->readVariable("session","expire"), false);
 		$this->auth->setExpire(0);
 		ini_set("session.cookie_lifetime", "0");
-
-		// Error Handling
-		$this->error_obj =& $ilErr;
 
 		// create instance of object factory
 		require_once("classes/class.ilObjectFactory.php");
