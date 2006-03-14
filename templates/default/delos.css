@@ -641,7 +641,7 @@ form.il_Form
 div.il_MainMenu
 {
 	margin-top: 0px;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
     width:100%;
@@ -652,50 +652,48 @@ div.il_MainMenu
 
 ul.il_MainMenu
 {
-	margin: 0px;
-	padding: 0px 15px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 15px 5px 15px;
 	list-style:none;
 }
 
 li.MMInactive
 {
 	float:left;
-	background:url("images/MMTInactiveRight.gif")
-		no-repeat right top;
-	margin:0;
-	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #8CC6FF;
+	background-color : #CCDBF2;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #003F79;
+	margin: 0px 3px 5px 0px;
+	padding: 0px 0px 0px 0px;
 }
 
 a.MMInactive, a.MMInactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/MMTInactiveLeft.gif") no-repeat left top;
-    padding: 3px 8px;
+    padding: 2px 4px;
 	font-size: 80%;
 }
 
 li.MMActive
 {
 	float:left;
-	background:url("images/MMTActiveRight.gif")
-		no-repeat right top;
-	margin:0;
-	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #DCEAF9;
+	background-color : #ECFAFB;
+	color:#000000;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #003F79;
+	margin: 0px 3px 5px 0px;
+	padding: 0px 0px 0px 0px;
 }
 
 a.MMActive, a.MMActive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/MMTActiveLeft.gif") no-repeat left top;
-    padding: 3px 8px;
+	color:#000000;
+    padding: 2px 4px;
 	font-size: 80%;
 }
 

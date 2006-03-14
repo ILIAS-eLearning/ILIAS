@@ -996,9 +996,10 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$clipboard["cmd"] = ($_GET["cmd"] != "")
+		$_SESSION["clipboard"]["cmd"] = ($_GET["cmd"] != "" && $_GET["cmd"] != "post")
 			? $_GET["cmd"]
 			: key($_POST["cmd"]);
+//echo "-".$clipboard["cmd"]."-";
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 //echo "-".$_SESSION["clipboard"]["cmd"]."-";
 
@@ -1070,7 +1071,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		// WRITE TO CLIPBOARD
 		$clipboard["parent"] = $_GET["ref_id"];
-		$clipboard["cmd"] = ($_GET["cmd"] != "")
+		$clipboard["cmd"] = ($_GET["cmd"] != "" && $_GET["cmd"] != "post")
 			? $_GET["cmd"]
 			: key($_POST["cmd"]);
 
@@ -1121,7 +1122,7 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log;
 
-//var_dump("adm",$_SESSION["clipboard"]);exit;
+//var_dump($_SESSION["clipboard"]);exit;
 		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
 		{
 			$message = get_class($this)."::pasteObject(): cmd was neither 'cut','link' or 'copy'; may be a hack attempt!";
