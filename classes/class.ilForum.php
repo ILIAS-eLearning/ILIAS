@@ -1480,7 +1480,7 @@ class ilForum
 		return $message;
 	}
 
-	function getUserData($a_id,$a_import_name)
+	function getUserData($a_id,$a_import_name = 0)
 	{
 		global $lng;
 

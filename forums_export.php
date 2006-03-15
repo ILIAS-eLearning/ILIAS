@@ -88,10 +88,12 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 					if ($node["update_user"] > 0)
 					{
 						$node["update"] = $frmEx->convertDate($node["update"]);
-						unset($lastuser);
-						$lastuser = $frmEx->getUser($node["update_user"]);					
+
+
+						$last_user_data = $frmEx->getUserData($node['update_user']);
+						
 						$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
-											$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
+											$node["update"]." - ".strtolower($lng->txt("from"))." ".$last_user_data['login']."]");
 					}
 					$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
 					$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author["create_date"]));
@@ -167,10 +169,9 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 				if ($node["update_user"] > 0)
 				{
 					$node["update"] = $frmEx->convertDate($node["update"]);
-					unset($lastuser);
-					$lastuser = $frmEx->getUser($node["update_user"]);					
+					$lastuserdata = $frmEx->getUserData($node["update_user"]);
 					$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
-										$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
+										$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuserdata['login']."]");
 				}
 				
 				$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
@@ -275,11 +276,10 @@ elseif ($_POST["action"] == "html")
 									if ($node["update_user"] > 0)
 									{
 										$node["update"] = $frmEx->convertDate($node["update"]);
-										unset($lastuser);
-										$lastuser = $frmEx->getUser($node["update_user"]);					
+										$lastuserdata = $frmEx->getUserData($node["update_user"]);
 										$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
 															$node["update"]." - ".strtolower($lng->txt("from"))." ".
-															$lastuser->getLogin()."]");
+															$lastuserdata['login']."]");
 									}
 
 									$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
@@ -455,11 +455,10 @@ elseif ($_POST["action"] == "html")
 									if ($node["update_user"] > 0)
 									{
 										$node["update"] = $frmEx->convertDate($node["update"]);
-										unset($lastuser);
-										$lastuser = $frmEx->getUser($node["update_user"]);					
+										$lastuserdata = $frmEx->getUserData($node["update_user"]);
 										$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
 															$node["update"]." - ".strtolower($lng->txt("from"))." ".
-															$lastuser->getLogin()."]");
+															$lastuserdata['login']."]");
 									}
 									
 									$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));

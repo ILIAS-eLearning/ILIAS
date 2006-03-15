@@ -648,7 +648,6 @@ if (is_array($topicData = $frm->getOneTopic()))
 			{
 				unset($node["author"]);
 			}
-
 			/*
 			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
 							  $node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".
@@ -659,9 +658,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$usr_data = $frm->getUserData($node["author"],$node["import_name"]);
 			if($node["author"])
 			{
-				
 				$user_obj = new ilObjUser($usr_data["usr_id"]);
-
 				// user image
 				$webspace_dir = ilUtil::getWebspaceDir();
 				$image_dir = $webspace_dir."/usr_images";
@@ -695,7 +692,6 @@ if (is_array($topicData = $frm->getOneTopic()))
 				$tpl->setVariable("AUTHOR",$usr_data["login"]);
 			}
 
-
 			// get create- and update-dates
 			if ($node["update_user"] > 0)
 			{
@@ -707,7 +703,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				if (is_array($posMod) && $posMod["top_mods"] > 0)
 				{
 					$MODS = $rbacreview->assignedUsers($posMod["top_mods"]);
-
+					
 					if (is_array($MODS))
 					{
 						if (in_array($node["update_user"], $MODS))
@@ -716,15 +712,23 @@ if (is_array($topicData = $frm->getOneTopic()))
 				}
 
 				$node["update"] = $frm->convertDate($node["update"]);
-				unset($lastuser);
-				$lastuser = $frm->getUser($node["update_user"]);
+				#unset($lastuser);
+				#$lastuser = $frm->getUser($node["update_user"]);
+
+				$last_user_data = $frm->getUserData($node['update_user']);
 				if ($span_class == "")
 					$span_class = "small";
 
 
-				$edited_author = "<a target=\"$t_frame\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
-					$lastuser->getId()."&backurl=".$backurl."\">".$lastuser->getLogin()."</a>";
-
+				if($last_user_data['usr_id'])
+				{
+					$edited_author = "<a target=\"$t_frame\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+						$last_user_data['usr_id']."&backurl=".$backurl."\">".$last_user_data['login']."</a>";
+				}
+				else
+				{
+					$edited_author = $last_user_data['login'];
+				}
 
 				$tpl->setVariable("POST_UPDATE","<span class=\"".$span_class."\"><br/>[".$lng->txt("edited_at").": ".
 								  $node["update"]." - ".strtolower($lng->txt("by"))." ".$edited_author."]</span>");
