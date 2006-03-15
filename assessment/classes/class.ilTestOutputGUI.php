@@ -103,23 +103,47 @@ class ilTestOutputGUI
 	}
 	
 	/**
-	 * updates working time
+	 * updates working time and stores state saveresult to see if question has to be stored or not
 	 */
-	function updateWorkingTime()
-	{
-		if ($_SESSION["active_time_id"]) // && $this->object->getEnableProcessingTime())
-		{
-			$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-			//echo "updating Worktime<br>";
-		}	
-	}
 	
+	function updateWorkingTime() 
+	{
+		// todo: check update within summary and back
+		// todo: back in summary does not work
+		// todo: check working time in summary
+		
+		global $ilUser;
+		
+		// command which do not require update
+		
+		//print_r($_GET);
+				//print_r($_POST);
+		$negs =  //is_numeric($_GET["set_solved"]) || is_numeric($_GET["question_id"]) ||  
+				  isset($_POST["cmd"]["start"]) || isset($_POST["cmd"]["resume"]) || 
+				  isset($_POST["cmd"]["showresults"]) || isset($_POST["cmd"]["deleteresults"])|| 
+				  isset($_POST["cmd"]["confirmdeleteresults"]) || isset($_POST["cmd"]["canceldeleteresults"]) ||
+				  isset($_POST["cmd"]["submit_answers"]) || isset($_POST["cmd"]["confirm_submit_answers"]) ||
+				  isset($_POST["cmd"]["cancel_show_answers"]) || isset($_POST["cmd"]["show_answers"]);
+		
+		// all other commands which require update
+		$pos  = count($_POST["cmd"])>0 | isset($_GET["sequence"]);
+				
+		if ($pos==true && $negs==false)		
+		{
+			// set new finish time for test
+			if ($_SESSION["active_time_id"]) // && $this->object->getEnableProcessingTime())
+			{
+				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
+				//echo "updating Worktime<br>";
+			}	
+		}		
+	}	
+
 /**
  * saves the user input of a question
  */
 	function saveQuestionSolution()
 	{
-		$this->updateWorkingTime();
 		$this->saveResult = false;
 		// save question solution
 		if ($this->canSaveResult())
@@ -164,11 +188,6 @@ class ilTestOutputGUI
 	*/
 	function outIntroductionPage()
 	{
-		if (strcmp($_GET["cancelTest"], "true") == 0)
-		{
-			// update the working time when a user clicks "suspend test"
-			$this->updateWorkingTime();
-		}
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 	}
 	
@@ -949,6 +968,9 @@ class ilTestOutputGUI
 		
 		$this->onRunObjectEnter();
 		
+		// update working time and set saveResult state
+		$this->updateWorkingTime();
+					
 		if ($this->isMaxProcessingTimeReached())
 		{
 			$this->maxProcessingTimeReached();
@@ -1121,7 +1143,14 @@ class ilTestOutputGUI
 		}
 		elseif($_GET['crs_show_result'])
 		{
-			$sequence = max($sequence,$this->object->getFirstSequence());
+			if(isset($_SESSION['crs_sequence'][0]))
+			{
+				$sequence = max($sequence,$_SESSION['crs_sequence'][0]);
+			}
+			else
+			{
+				$sequence = max($sequence,$this->object->getFirstSequence());
+			}
 		}
 		return $sequence;
 	}
