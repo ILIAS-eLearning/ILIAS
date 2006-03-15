@@ -384,7 +384,14 @@ class ilTestOutputGUI
 		
 		// Normally the first sequence is 1
 		// In course objective mode it is the first wrongly answered question
-		$first_sequence = $_GET['crs_show_result'] ? $this->object->getFirstSequence() : 1;
+		if($_GET['crs_show_result'])
+		{
+			$first_sequence = $_SESSION['crs_sequence'][0] ? $_SESSION['crs_sequence'][0] : 1;
+		}
+		else
+		{
+			$first_sequence = 1;
+		}
 		if ($sequence == $first_sequence)
 		{
 			$this->tpl->setCurrentBlock("prev");
