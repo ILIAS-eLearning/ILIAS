@@ -956,7 +956,6 @@ class ilObjUser extends ilObject
 		include_once './classes/class.ilLinkCheckNotify.php';
 		ilLinkCheckNotify::_deleteUser($this->getId());
 
-
 		// Delete crs entries
 		include_once './course/classes/class.ilObjCourse.php';
 		ilObjCourse::_deleteUser($this->getId());
@@ -964,6 +963,10 @@ class ilObjUser extends ilObject
 		// Delete user tracking
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		ilObjUserTracking::_deleteUser($this->getId());
+
+		// Delete group registrations
+		$q = "DELETE FROM grp_registration WHERE user_id='".$this->getId()."'";
+		$this->ilias->db->query($q);
 
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
