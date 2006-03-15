@@ -289,7 +289,7 @@ class ilSurveyEvaluationGUI
 							break;
 					}
 					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
-					$mainworksheet->write($counter+1, 8, ilExcelUtils::_convert_text($eval["MEDIAN"], $_POST["export_format"]));
+					$mainworksheet->write($counter+1, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval["MEDIAN"]), $_POST["export_format"]));
 					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
 					break;
 				case (TYPE_SPSS || TYPE_PRINT):
@@ -366,7 +366,7 @@ class ilSurveyEvaluationGUI
 								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
 								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_NR_OF_SELECTIONS"], $_POST["export_format"]));
 								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MEDIAN"], $_POST["export_format"]));
+								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval["MEDIAN"]), $_POST["export_format"]));
 								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories"), $_POST["export_format"]), $format_bold);
 								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_title);
 								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
@@ -564,7 +564,7 @@ class ilSurveyEvaluationGUI
 						$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
 						$this->tpl->setVariable("TEXT_VALUES", $this->lng->txt("values"));
 						$values = "";
-						if (is_array($eval["value"]))
+						if (is_array($eval["values"]))
 						{
 							foreach ($eval["values"] as $key => $value)
 							{
