@@ -69,6 +69,11 @@ class ilRegisterGUI
 	*/
 	function &executeCommand()
 	{
+		if ($this->isUserAlreadyRegistered())
+		{
+			$this->ilErr->raiseError($this->lng->txt("grp_already_applied"),$this->ilErr->MESSAGE);
+		}
+
 		$cmd = $this->ctrl->getCmd();
 
 		if (empty($cmd))
@@ -221,14 +226,6 @@ class ilRegisterGUI
 		{
 			// registration
 			case 1:
-				$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
-				$res = $this->ilias->db->query($q);
-	
-				if ($res->numRows() > 0)
-				{
-					$this->ilErr->raiseError($this->lng->txt("grp_already_applied"),$this->ilErr->MESSAGE);
-				}
-	
 				$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
 				$this->ilias->db->query($q);
 
@@ -271,6 +268,19 @@ class ilRegisterGUI
 		{
 			return $_SESSION["il_rep_ref_id"];
 		}	
+	}
+	
+	function isUserAlreadyRegistered ()
+	{
+		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
+		$res = $this->ilias->db->query($q);
+	
+		if ($res->numRows() > 0)
+		{
+			return true;	
+		}
+		
+		return false;
 	}
 } // END class.ilRegisterGUI
 ?>
