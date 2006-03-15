@@ -484,11 +484,11 @@ class ilForumExport
 		return $res;
 	}
 	
-	function getUserData($id,$a_import_name)
+	function getUserData($id,$a_import_name = 0)
 	{
 		global $lng;
 
-		if($id)
+		if($id && ilObject::_exists($id) && ilObjectFactory::getInstanceByObjId($id,false))
 		{
 			$query = "SELECT * FROM usr_data WHERE usr_id = '".$id."'";
 			$res = $this->ilias->db->query($query);
