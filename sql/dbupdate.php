@@ -9773,3 +9773,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#660>
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('15','17');
