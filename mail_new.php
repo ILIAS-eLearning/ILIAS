@@ -173,8 +173,18 @@ if(isset($_POST["cmd"]["search"]))
 	{
 		$get .= "&addressbook=1";
 	}
-	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"]).$get);
-	exit();
+	if(strlen(trim($_POST['search'])) < 3)
+	{
+		$lng->loadLanguageModule('search');
+		sendInfo($lng->txt('search_minimum_three'));
+		unset($_POST['cmd']);
+		$_POST['cmd']['rcp_to'] = true;
+	}
+	else
+	{
+		header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"]).$get);
+		exit();
+	}
 }
 if(isset($_POST["cmd"]["search_cancel"]) or isset($_POST["cmd"]["cancel"]))
 {
