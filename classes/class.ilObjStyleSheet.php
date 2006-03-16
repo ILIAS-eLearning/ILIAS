@@ -556,14 +556,36 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "REPLACE INTO style_parameter SET ".
-			" value = ".$ilDB->quote($a_val)." WHERE ".
+		$q = "SELECT * FROM style_parameter WHERE ".
 			" style_id = ".$ilDB->quote($this->getId())." AND ".
 			" tag = ".$ilDB->quote($a_tag)." AND ".
 			" class = ".$ilDB->quote($a_class)." AND ".
 			" parameter = ".$ilDB->quote($a_par);
+		
+		$set = $ilDB->query($q);
+		
+		if ($rec = $set->fetchRow())
+		{
+			$q = "UPDATE style_parameter SET ".
+				" value = ".$ilDB->quote($a_val)." WHERE ".
+				" style_id = ".$ilDB->quote($this->getId())." AND ".
+				" tag = ".$ilDB->quote($a_tag)." AND ".
+				" class = ".$ilDB->quote($a_class)." AND ".
+				" parameter = ".$ilDB->quote($a_par);
 
-		$this->ilias->db->query($q);
+			$ilDB->query($q);
+		}
+		else
+		{
+			$q = "INSERT INTO style_parameter (value, style_id, tag,  class, parameter) VALUES ".
+				" (".$ilDB->quote($a_val).",".
+				" ".$ilDB->quote($this->getId()).",".
+				" ".$ilDB->quote($a_tag).",".
+				" ".$ilDB->quote($a_class).",".
+				" ".$ilDB->quote($a_par).")";
+
+			$ilDB->query($q);
+		}
 	}
 
 

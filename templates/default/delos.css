@@ -1,6 +1,6 @@
 body {
 	color:#222222;
-	background-color:#F0F2FF;
+	background-color:#FFFFFF;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	margin:0px;
 	font-size:0.9em;
@@ -8,7 +8,7 @@ body {
 
 body.il_Explorer {
 	color:#222222;
-	background-color:#F0F2FF;
+	background-color:#FFFFFF;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	margin:0px;
 	font-size:0.9em;
@@ -173,7 +173,7 @@ table.fullwidth_nowrap {
 
 table.fullwidth_invisible {
 	color:#222222;
-	background-color:#F0F2FF;
+	background-color:#FFFFFF;
 	width:100%;
 	border-spacing:0px;
 }
@@ -205,7 +205,7 @@ td.std, th.std {
 }
 
 th.il_invisible, td.il_invisible {
-	background-color:#F0F2FF;
+	background-color:#FFFFFF;
 	background-image: none;
 }
 
@@ -377,6 +377,7 @@ td.submit {
 /* Container  list related styles */
 
 /* --- content styles (will move to content.css) --- */
+/*
 table.il_ContainerPageBlock {
 	border-width: 1px;
 	border-spacing: 0px;
@@ -400,7 +401,7 @@ td.il_ContainerPageBlock
 	border-top-width: 1px;
 	border-bottom-width: 1px;
 	margin-bottom: 0px;
-}
+}*/
 
 a.il_ContainerItemCommand, a.il_ContainerItemCommand:hover
 {
@@ -670,7 +671,7 @@ li.MMInactive
 	background-color : #CCDBF2;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #224499;
+	border-color: #4E83C0;
 	margin: 0px 3px 5px 0px;
 	padding: 0px 0px 0px 0px;
 }
@@ -690,7 +691,7 @@ li.MMActive
 	color:#000000;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #224499;
+	border-color: #4E83C0;
 	margin: 0px 3px 5px 0px;
 	padding: 0px 0px 0px 0px;
 }
@@ -716,7 +717,7 @@ div.il_Tab
     width:100%;
 	padding-left:0px;
     line-height:normal;
-	background:#F0F2FF url(images/TabBack.gif) repeat-x bottom;
+	background:#FFFFFF url(images/TabBack.gif) repeat-x bottom;
 }
 
 ul.il_Tab
@@ -756,7 +757,7 @@ li.tabactive
 	padding:0;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #F0F2FF;
+	border-bottom-color: #FFFFFF;
 }
 
 a.tabactive, a.tabactive:hover
@@ -1051,6 +1052,12 @@ div.ilMainHeader
 	background-image: url(images/HeaderBackground3.gif);
 	background-repeat: repeat-x;
 	background-color: #8CC6FF;
+	border-bottom-color: #4E83C0;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-color: #4E83C0;
+	border-top-style: solid;
+	border-top-width: 1px;
 }
 
 a.ilMainHeader, a.ilMainHeader:hover
@@ -1077,11 +1084,32 @@ div.ilLogin
 	margin-top:2px;
 	margin-bottom:2px;
 	white-space: nowrap;
+	font-size:90%;
+}
+
+a.ilLogin, input.ilLogin
+{
+	background-color : #ECFAFB;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #4E83C0;
+	padding: 1px 3px;
+	margin: 0px;
+	font-size:90%;
+	text-decoration:none;
+	font-weight:bold;
+	cursor:pointer;
+	color:#2255a0;
 }
 
 span.il_menu
 {
 	line-height:30px;
+}
+
+.ilLanguageSelection
+{
+	font-size:80%;
 }
 
 div.il_Footer
@@ -1129,7 +1157,7 @@ td.ilInvisibleBorder
 table.il_ColumnLayout
 {
 	color:#222222;
-	background-color:#F0F2FF;
+	background-color:#FFFFFF;
 	width:100%;
 	border-spacing:0px;
 }

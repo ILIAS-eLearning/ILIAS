@@ -135,7 +135,22 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("StyleParameter");
 				$this->tpl->setVariable("PAR_ID", $par["id"]);
-				$this->tpl->setVariable("TXT_PAR", $par["parameter"]);
+				$var = str_replace("-", "_", $par["parameter"]);
+				
+				// replace _bottom, _top, _left, _right
+				$add = "";
+				$location = array("bottom", "top", "left", "right");
+				foreach ($location as $loc)
+				{
+					if (is_int(strpos($var, "_".$loc)))
+					{
+						$var = str_replace("_".$loc, "", $var);
+						$add = ", ".$this->lng->txt("sty_".$loc); 
+					}
+				}
+				$this->tpl->setVariable("TXT_PAR",
+					$this->lng->txt("sty_".$var).$add);
+
 				if (count($avail_pars[$par["parameter"]]) == 0)
 				{
 					$input = "<input type=\"text\" size=\"30\" maxlength=\"100\" ".
@@ -371,7 +386,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		foreach ($avail_pars as $par => $vals)
 		{
 			$var = str_replace("-", "_", $par);
-//echo "-<br>$par-".$_POST[$var]."-".$cur_tag."-".$cur_class."-".$this->object->getId()."-";
 			if ($_POST[$var] != "")
 			{
 				$this->object->replaceStylePar($cur_tag, $cur_class, $par, $_POST[$var]);
@@ -385,6 +399,33 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		$this->object->update();
 		$this->editTagStyleObject();
+	}
+
+	/**
+	* save and refresh tag editing
+	*/
+	function updateTagStyleObject()
+	{
+		$avail_pars = $this->object->getAvailableParameters();
+		$cur = explode(".", $_GET["tag"]);
+		$cur_tag = $cur[0];
+		$cur_class = $cur[1];
+		foreach ($avail_pars as $par => $vals)
+		{
+			$var = str_replace("-", "_", $par);
+			if ($_POST[$var] != "")
+			{
+				$this->object->replaceStylePar($cur_tag, $cur_class, $par, $_POST[$var]);
+			}
+			else
+			{
+				$this->object->deleteStylePar($cur_tag, $cur_class, $par);
+			}
+
+			//$this->object->updateStyleParameter($id, $value);
+		}
+		$this->object->update();
+		$this->editObject();
 	}
 
 	function extractParametersOfTag($a_tag, $a_class, $a_style)
