@@ -670,9 +670,16 @@ class ILIAS
 			// if in module remove module name from HTTP_PATH
 			$path = dirname($_SERVER['REQUEST_URI']);
 			
-			// dirname cuts the last directory from a directory path e.g content/classes return content/
+			// dirname cuts the last directory from a directory path e.g content/classes return content
+			
+			$module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
 
-			$uri = dirname($path);
+			$dirs = explode('/',$module);
+			$uri = $path;
+			foreach($dirs as $dir)
+			{
+				$uri = dirname($uri);
+			}
 		}
 		return define('ILIAS_HTTP_PATH',$protocol.$host.$uri);
 	}
