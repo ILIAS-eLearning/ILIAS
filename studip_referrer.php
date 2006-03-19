@@ -30,7 +30,7 @@
 * @package studip-interface
 */
 
-/* ILIAS Version 3.6.0stable */
+/* ILIAS Version 3.6.1 */
 // start correct session and client
 if (isset($_POST["sess_id"]))
 	$_GET["sess_id"] = $_POST["sess_id"];
@@ -48,44 +48,39 @@ if (isset($_POST["client_id"]))
 	$_COOKIE["ilClientId"] = $_POST["client_id"];
 }
 
-//if ($first_call == true)
-{	
-	$return_to = "none";
 	
-	// redirect to specified page
-	switch($target)
-	{
-		case "login": 
-			$return_to="";
-		case "start": 
-			if ($_GET["type"] == "lm")
-			{
-				include ("include/inc.header.php");
-				ilUtil::redirect("ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $_GET["ref_id"]); 
-			}
-			if ($_GET["type"] == "tst")
-				$return_to = "assessment/test.php?ref_id=" . $_GET["ref_id"] . "&cmd=run";
-			if ($_GET["type"] == "sahs")
-				$return_to = "content/sahs_presentation.php?ref_id=" . $_GET["ref_id"];
-			if ($_GET["type"] == "htlm")
-				$return_to = "content/fblm_presentation.php?ref_id=" . $_GET["ref_id"];
-			break;
-		case "new":	
-			$return_to = "repository.php?ref_id=" . $_GET["ref_id"] . "&cmd=create&new_type=" . $_GET["type"];
-			$_POST["new_type"] = $_GET["type"];
-			break;
-		case "edit": 
-			if ($_GET["type"] == "lm")
-				$return_to = "ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $_GET["ref_id"];
-			if ($_GET["type"] == "tst")
-				$return_to = "assessment/test.php?ref_id=" . $_GET["ref_id"] . "&cmd=";
-			if ($_GET["type"] == "sahs")
-				$return_to = "content/sahs_edit.php?ref_id=" . $_GET["ref_id"];
-			if ($_GET["type"] == "htlm")
-				$return_to = "content/fblm_edit.php?ref_id=" . $_GET["ref_id"];
-			break;
-	}
+// redirect to specified page
+switch($_GET['target'])
+{
+	case "login": 
+		$return_to="";
+	break;
+	case "start": 
+		if ($_GET["type"] == "lm")
+			$return_to = "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $_GET["ref_id"]; 
+		if ($_GET["type"] == "tst")
+			$return_to = "ilias.php?baseClass=ilObjTestGUI&ref_id=" . $_GET["ref_id"] . "&cmd=infoScreen"; 
+		if ($_GET["type"] == "sahs")
+			$return_to = "content/sahs_presentation.php?ref_id=" . $_GET["ref_id"];
+		if ($_GET["type"] == "htlm")
+			$return_to = "content/fblm_presentation.php?ref_id=" . $_GET["ref_id"];
+	break;
+	case "new":	
+		$return_to = "repository.php?ref_id=" . $_GET["ref_id"] . "&cmd=create&new_type=" . $_GET["type"];
+		$_POST["new_type"] = $_GET["type"];
+	break;
+	case "edit": 
+		if ($_GET["type"] == "lm")
+			$return_to = "ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $_GET["ref_id"];
+		if ($_GET["type"] == "tst")
+			$return_to = "ilias.php?baseClass=ilObjTestGUI&ref_id=" . $_GET["ref_id"] . "&cmd=";
+		if ($_GET["type"] == "sahs")
+			$return_to = "content/sahs_edit.php?ref_id=" . $_GET["ref_id"];
+		if ($_GET["type"] == "htlm")
+			$return_to = "content/fblm_edit.php?ref_id=" . $_GET["ref_id"];
+	break;
 }
+
 if ($return_to != "none")
 {
 	$_GET["script"] = $return_to;
