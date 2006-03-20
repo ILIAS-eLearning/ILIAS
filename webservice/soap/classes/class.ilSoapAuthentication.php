@@ -65,11 +65,17 @@ class ilSoapAuthentication extends ilBaseAuthentication
 			return false;
 		}
 		// Read ilias ini
-		if(!$this->__buildAuth())
+		if(!$this->__buildDSN())
 		{
+			$this->__setMessage('Error building dsn');
 			return false;
 		}
 		if(!$this->__setSessionSaveHandler())
+		{
+			return false;
+		}
+
+		if(!$this->__buildAuth())
 		{
 			return false;
 		}
@@ -110,11 +116,16 @@ class ilSoapAuthentication extends ilBaseAuthentication
 			return false;
 		}
 		
-		if(!$this->__buildAuth())
+		if(!$this->__buildDSN())
 		{
+			$this->__setMessage('Error building dsn');
 			return false;
 		}
 		if(!$this->__setSessionSaveHandler())
+		{
+			return false;
+		}
+		if(!$this->__buildAuth())
 		{
 			return false;
 		}
