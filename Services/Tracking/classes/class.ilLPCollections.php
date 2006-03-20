@@ -100,7 +100,8 @@ class ilLPCollections
 	{
 		global $tree;
 
-		foreach($tree->getChilds($a_target_id) as $node)
+		$node_data = $tree->getNodeData($a_target_id);
+		foreach($tree->getSubTree($node_data) as $node)
 		{
 			switch($node['type'])
 			{
@@ -111,6 +112,7 @@ class ilLPCollections
 					break;
 			}
 		}
+
 		return $all_possible ? $all_possible : array();
 	}
 

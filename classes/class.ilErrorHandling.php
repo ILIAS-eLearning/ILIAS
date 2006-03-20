@@ -33,6 +33,8 @@
 * @package	application
 * @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
 */
+include_once 'PEAR.php';
+
 class ilErrorHandling extends PEAR
 {
 	/**

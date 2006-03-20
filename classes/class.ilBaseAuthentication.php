@@ -146,11 +146,15 @@ class ilBaseAuthentication
 			return false;
 		}
 		// Read ilias ini
-		if(!$this->__buildAuth())
+		if(!$this->__buildDSN())
 		{
 			return false;
 		}
 		if(!$this->__setSessionSaveHandler())
+		{
+			return false;
+		}
+		if(!$this->__buildAuth())
 		{
 			return false;
 		}
@@ -246,7 +250,7 @@ class ilBaseAuthentication
 
 	}
 
-	function __buildAuth()
+	function __buildDSN()
 	{
 		include_once './classes/class.ilIniFile.php';
 
@@ -270,6 +274,12 @@ class ilBaseAuthentication
 					 ":".$this->ini->readVariable("db", "pass").
 					 "@".$this->ini->readVariable("db", "host").
 					 "/".$this->ini->readVariable("db", "name");
+
+		return true;
+	}		
+
+	function __buildAuth()
+	{
 
 
 		$this->auth_params = array(
