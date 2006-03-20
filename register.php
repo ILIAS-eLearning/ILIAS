@@ -289,6 +289,7 @@ function saveForm()
         include_once "classes/class.ilFormatMail.php";
 
         $umail = new ilFormatMail($userObj->getId());
+		$umail->enableSoap(false);
 
         // mail subject
         $subject = $lng->txt("client_id") . " " . $ilias->client_id . ": " . $lng->txt("usr_new");
@@ -334,10 +335,10 @@ function saveForm()
 
 		// mail body
 		$body = $lng->txt("reg_mail_body_salutation")." ".$userObj->getFullname().",\n\r".
-				$lng->txt("reg_mail_body_welcome")."\n\r".
+				#$lng->txt("reg_mail_body_welcome")."\n\r".
 				$lng->txt("reg_mail_body_text1")."\n\r".
 				$lng->txt("reg_mail_body_text2")."\n\r".
-				ILIAS_HTTP_PATH."login.php?client_id=".$ilias->client_id."\n\r".
+				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n\r".
 				$lng->txt("login").": ".$userObj->getLogin()."\n\r".
 				$lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r\n\r".
 				$lng->txt("reg_mail_body_text3")."\n\r".
