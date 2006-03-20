@@ -486,6 +486,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		if($_POST['user_id'])
 		{
 			$a_usr_id = $_POST['user_id'];
+			$this->ctrl->setParameter($this,'user_id',$_POST['user_id']);
 		}
 
 		if($a_usr_id)
