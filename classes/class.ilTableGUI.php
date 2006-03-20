@@ -77,7 +77,8 @@ class ilTableGUI
 							"linkbar"		=>	true,
 							"numinfo"		=>	true,
 							"sort"			=>  true,
-							"hits"          =>  false
+							"hits"          =>  false,
+							"auto_sort"  	=>  true
 						);
 
 	// tpl styles (only one so far)
@@ -512,9 +513,11 @@ class ilTableGUI
 
 		if ($this->enabled["content"] && is_array($this->data))
 		{
-			$this->setMaxCount(count($this->data));
-
-			$this->sortData();
+			if($this->enabled['auto_sort'])
+			{
+				$this->setMaxCount(count($this->data));
+				$this->sortData();
+			}
 			$count = 0;
 			
 			foreach ($this->data as $tbl_content_row)
@@ -584,9 +587,7 @@ class ilTableGUI
 							"prev"	=> $this->footer_previous,
 							"next"	=> $this->footer_next,
 							);
-
 			$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$this->max_count,$this->limit,$this->offset,$params,$layout);
-
 			$this->tpl->setCurrentBlock("tbl_footer_linkbar");
 			$this->tpl->setVariable("LINKBAR", $linkbar);
 			$this->tpl->parseCurrentBlock();
