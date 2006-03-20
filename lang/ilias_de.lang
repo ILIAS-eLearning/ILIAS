@@ -1,5 +1,4 @@
-﻿/**
-* ILIAS language file
+﻿* ILIAS language file
 *
 * @module		language file german
 * @modulegroup	language
@@ -5816,7 +5815,8 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
 trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
-common#:#total_online#:#Onlinezeit(DD:HH:MM:SS)
+common#:#trac_total_online#:#Gesamtzeit online
 common#:#last_login#:#Letztes Login
 trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
 crs#:#crs_password_required#:#Für diese Registrierungsart ist ein Passwort erforderlich.
+common#:#deleted_users#:#Die BenutzerInnen wurden gelöscht.

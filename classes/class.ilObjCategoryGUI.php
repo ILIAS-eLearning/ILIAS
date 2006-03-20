@@ -870,6 +870,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	// METHODS for local user administration
 	function listUsersObject($show_delete = false)
 	{
+		global $ilUser;
+
 		include_once './classes/class.ilLocalUser.php';
 		include_once './classes/class.ilObjUserGUI.php';
 
@@ -881,21 +883,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 
 		// default to local users view
-		if(!isset($_SESSION['filtered_users']))
+		if(!isset($_SESSION['filtered_users'][$this->object->getRefId()]))
 		{
-			$_SESSION['filtered_users'] = $this->object->getRefId();
+			$_SESSION['filtered_users'][$this->object->getRefId()] = $this->object->getRefId();
 		}
 
 		$_SESSION['delete_users'] = $show_delete ? $_SESSION['delete_users'] : array();
-		$_SESSION['filtered_users'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_users'];
-
-		// Exclude filter of other categories
-		if($_SESSION['filtered_users'] != 0 and
-		   $_SESSION['filtered_users'] != USER_FOLDER_ID and
-		   $_SESSION['filtered_users'] != $this->object->getRefId())
-		{
-			$_SESSION['filtered_users'] = $this->object->getRefId();
-		}
+		$_SESSION['filtered_users'][$this->object->getRefId()] = isset($_POST['filter']) ? 
+			$_POST['filter'] : 
+			$_SESSION['filtered_users'][$this->object->getRefId()];
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html');
 		$parent = ilLocalUser::_getFolderIds();
@@ -908,10 +904,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->setVariable("FILTER_NAME",'listUsers');
 			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
 			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$_SESSION['filtered_users'] = 0;
 		}
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -932,13 +924,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 		else
 		{
 			sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
-			#return true;
 		}
-		if(!count($users = ilLocalUser::_getAllUserIds($_SESSION['filtered_users'])))
+		if(!count($users = ilLocalUser::_getAllUserIds($_SESSION['filtered_users'][$this->object->getRefId()])))
 		{
 			sendInfo($this->lng->txt('no_local_users'));
-
-			#return true;
 		}
 
 
@@ -954,43 +943,49 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		$counter = 0;
 		$editable = false;
-		foreach($users as $user_id)
-		{
-			$tmp_obj =& ilObjectFactory::getInstanceByObjId($user_id,false);
 
-			if($tmp_obj->getTimeLimitOwner() == $this->object->getRefId())
+		// pre sort
+		$users = ilLocalUser::_getUserData($_SESSION['filtered_users'][$this->object->getRefId()]);
+		$this->all_users_count = count($users);
+
+		$users = ilUtil::sortArray($users,$_GET["sort_by"] ? $_GET['sort_by'] : 'login',$_GET["sort_order"]);
+		$users = array_slice($users,$_GET["offset"],$ilUser->getPref('hits_per_page'));
+
+		foreach($users as $user_data)
+		{
+			if($user_data['time_limit_owner'] == $this->object->getRefId())
 			{
 				$editable = true;
-				$f_result[$counter][]	= ilUtil::formCheckbox(in_array($tmp_obj->getId(),$_SESSION['delete_users']) ? 1 : 0,
-															   "user_ids[]",$tmp_obj->getId());
+				$f_result[$counter][]	= ilUtil::formCheckbox(in_array($user_data['usr_id'],$_SESSION['delete_users']) ? 1 : 0,
+															   "user_ids[]",$user_data['usr_id']);
 
-				$this->ctrl->setParameterByClass('ilobjusergui','obj_id',$user_id);
+				$this->ctrl->setParameterByClass('ilobjusergui','obj_id',$user_data['usr_id']);
 				$f_result[$counter][]	= '<a href="'.$this->ctrl->getLinkTargetByClass('ilobjusergui','edit').'">'.
-					$tmp_obj->getLogin().'</a>';
+					$user_data['login'].'</a>';
 			}
 			else
 			{
 				$f_result[$counter][]	= '&nbsp;';
-				$f_result[$counter][]	= $tmp_obj->getLogin();
+				$f_result[$counter][]	= $user_data['login'];
 			}
 
-			$f_result[$counter][]	= $tmp_obj->getFirstname();
-			$f_result[$counter][]	= $tmp_obj->getLastname();
+			$f_result[$counter][]	= $user_data['firstname'];
+			$f_result[$counter][]	= $user_data['lastname'];
 
 			
-			switch($tmp_obj->getTimeLimitOwner())
+			switch($usr_data['time_limit_owner'])
 			{
 				case 7:
 					$f_result[$counter][]	= $this->lng->txt('global');
 					break;
 
 				default:
-					$f_result[$counter][] = ($title = ilObject::_lookupTitle(ilObject::_lookupObjId($tmp_obj->getTimeLimitOwner()))) ?
+					$f_result[$counter][] = ($title = ilObject::_lookupTitle(ilObject::_lookupObjId($user_data['time_limit_owner']))) ?
 						$title : '';
 			}
 			
 			// role assignment
-			$this->ctrl->setParameter($this,'obj_id',$user_id);
+			$this->ctrl->setParameter($this,'obj_id',$user_data['usr_id']);
 			$f_result[$counter][]	= '[<a href="'.$this->ctrl->getLinkTarget($this,'assignRoles').'">'.
 				$this->lng->txt('edit').'</a>]';
 			
@@ -1035,7 +1030,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		$_SESSION['delete_users'] = $_POST['user_ids'];
 
-		sendInfo('sure_delete_selected_users');
+		sendInfo($this->lng->txt('sure_delete_selected_users'));
 		$this->listUsersObject(true);
 		return true;
 	}
@@ -1282,6 +1277,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// SET FORMAACTION
 		$tpl->setCurrentBlock("tbl_form_header");
 
+		$this->ctrl->setParameter($this,'sort_by',$_GET['sort_by']);
+		$this->ctrl->setParameter($this,'sort_order',$_GET['sort_order']);
+		$this->ctrl->setParameter($this,'offset',$_GET['offset']);
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
@@ -1331,9 +1329,23 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function __setTableGUIBasicData(&$tbl,&$result_set,$a_from = "",$a_footer = true)
 	{
+		global $ilUser;
+
 		switch ($a_from)
 		{
 			case "listUsersObject":
+				$tbl->setOrderColumn($_GET["sort_by"]);
+				$tbl->setOrderDirection($_GET["sort_order"]);
+				$tbl->setOffset($_GET["offset"]);
+				$tbl->setMaxCount($this->all_users_count);
+				$tbl->setLimit($ilUser->getPref('hits_per_page'));
+				$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+				$tbl->setData($result_set);
+				$tbl->disable('auto_sort');
+
+				return true;
+
+
 			case "assignRolesObject":
 				$offset = $_GET["offset"];
 				// init sort_by (unfortunatly sort_by is preset with 'title'
@@ -1393,9 +1405,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function __buildFilterSelect($a_parent_ids)
 	{
 		$action[0] = $this->lng->txt('all_users');
+		$action[$this->object->getRefId()] = $this->lng->txt('users').
+			' ('.ilObject::_lookupTitle(ilObject::_lookupObjId($this->object->getRefId())).')';
 
 		foreach($a_parent_ids as $parent)
 		{
+			if($parent == $this->object->getRefId())
+			{
+				continue;
+			}
 			switch($parent)
 			{
 				case ilLocalUser::_getUserFolderId():
@@ -1409,7 +1427,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					break;
 			}
 		}
-		return ilUtil::formSelect($_SESSION['filtered_users'],"filter",$action,false,true);
+		return ilUtil::formSelect($_SESSION['filtered_users'][$this->object->getRefId()],"filter",$action,false,true);
 	}
 	
 

@@ -61,6 +61,24 @@ class ilLocalUser
 	}
 
 	// STATIC
+	function _getUserData($a_filter)
+	{
+		include_once './classes/class.ilObjUser.php';
+
+		$users_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","time_limit_owner"),-1);
+
+		foreach($users_data as $usr_data)
+		{
+			if(!$a_filter or $a_filter == $usr_data['time_limit_owner'])
+			{
+				$users[] = $usr_data;
+			}
+		}
+		return $users ? $users : array();
+	}
+
+
+
 	function _getFolderIds()
 	{
 		global $ilDB,$rbacsystem;
@@ -72,7 +90,10 @@ class ilLocalUser
 		{
 			if($rbacsystem->checkAccess('read_users',$row->parent_id))
 			{
-				$parent[] = $row->parent_id;
+				if($row->parent_id)
+				{
+					$parent[] = $row->parent_id;
+				}
 			}
 		}
 		return $parent ? $parent : array();

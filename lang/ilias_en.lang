@@ -44,7 +44,7 @@ administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
-administration#:#disabled#:#disabled
+administration#:#disabled#:#Disabled
 administration#:#done#:#Done
 administration#:#dump_tree#:#Dump tree
 administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.
@@ -5863,3 +5863,4 @@ common#:#last_login#:#Last login
 trac#:#trac_crs_objects#:#Learning progress of course members
 crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.
 crs#:#crs_password_required#:#This registration procedure requires a password.
+common#:#deleted_users#:#Deleted users
