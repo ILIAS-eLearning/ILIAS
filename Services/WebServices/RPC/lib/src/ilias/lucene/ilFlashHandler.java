@@ -22,6 +22,10 @@
 
 package ilias.lucene;
 
+import ilias.utils.ilEncodingException;
+import ilias.utils.ilEncodingTransformer;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -41,8 +45,10 @@ public class ilFlashHandler implements ilDocumentHandler {
     }
     public Document getDocument(InputStream is)
             throws ilDocumentHandlerException {
-                return null;
-
+        
+        //is = transformStream(is);
+        
+        return null;
     }
 /*
         StringWriter swriter = new StringWriter();
@@ -62,4 +68,11 @@ public class ilFlashHandler implements ilDocumentHandler {
         return null;
     }
 */
+    
+    public InputStream transformStream(InputStream is) {
+
+        return ilEncodingTransformer.transform(is);
+        
+    }
+
 }

@@ -22,14 +22,19 @@
 
 package ilias.utils;
 
+import ilias.utils.*;
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.mozilla.intl.chardet.nsDetector;
 import org.mozilla.intl.chardet.nsICharsetDetectionObserver;
+
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
 
 /**
  * @author Stefan Meyer <smeyer@databay.de>
@@ -38,7 +43,9 @@ import org.mozilla.intl.chardet.nsICharsetDetectionObserver;
 
 public class ilCharsetAnalyzer {
     
-    static String CHARSET = "UTF-8";
+    public static Logger logger = Logger.getLogger("ilCharsetAnalyzer");
+
+    static String CHARSET = "";
     static boolean FOUND = false;
 
     private nsDetector getDetector() {
@@ -56,18 +63,74 @@ public class ilCharsetAnalyzer {
         return nsDetector;
     }
     
-    public String getCharset(File file)
+    public InputStream transformICU(InputStream inputStream) 
+        throws ilCharsetAnalyzerException {
+        
+        
+        //logger.setLevel(Level.DEBUG);
+        
+        BufferedInputStream bufferedStream = new BufferedInputStream(inputStream);
+        
+        if(bufferedStream.markSupported()) {
+            bufferedStream.mark(Integer.MAX_VALUE);
+        }
+        else {
+            logger.info("Mark not supported");
+        }
+        
+        CharsetDetector detector = null;
+        CharsetMatch match = null;
+        CharsetMatch[] matches = null;
+        
+        try {
+
+            detector = new CharsetDetector();
+            detector.setText(bufferedStream);
+            match = detector.detect();
+            matches = detector.detectAll();
+            
+            for(int m = 0;m < matches.length; m++) {
+                
+                logger.debug("Confidence " + matches[m].getConfidence() + " ,charset: " + matches[m].getName());
+            }
+
+            bufferedStream.reset();
+            if(match.getConfidence() >= 30) {
+                logger.info("Assume encoding : " + match.getName() + ", confidence: " + match.getConfidence());
+                return  new ByteArrayInputStream(match.getString().getBytes());
+            }
+            else {
+                logger.info("Cannot read encoding. Assuming utf-8.");
+                return bufferedStream;
+            }
+
+        } catch (IOException e) {
+            throw new ilCharsetAnalyzerException("Error parsing inputStream: " + e);
+        }
+    }
+    
+    public InputStream readCharset(InputStream inputStream)
     	throws ilCharsetAnalyzerException {
         
+        logger.setLevel(Level.DEBUG);
+        
         nsDetector detector = getDetector();
-        BufferedInputStream inputStream = null;
         byte[] buffer = new byte[1024];
         int length = 0;
         boolean done = false;
         boolean isASCII = true;
+
+        BufferedInputStream bufferedStream = new BufferedInputStream(inputStream);
+        
+        if(bufferedStream.markSupported()) {
+            bufferedStream.mark(Integer.MAX_VALUE);
+        }
+        else {
+            logger.info("Mark not supported");
+        }
+        
         try {
-            inputStream = new BufferedInputStream(new FileInputStream(file));
-            while((length = inputStream.read(buffer,0,buffer.length)) != -1) {
+            while((length = bufferedStream.read(buffer,0,buffer.length)) != -1) {
                 if(isASCII) {
                     isASCII = detector.isAscii(buffer,length);
                 }
@@ -76,20 +139,21 @@ public class ilCharsetAnalyzer {
                 }
             }
             detector.DataEnd();
-        }
-        catch(FileNotFoundException e) {
-            throw new ilCharsetAnalyzerException("Cannot find file: " + file.getName());
+            bufferedStream.reset();
+            
+            String[] charsets = detector.getProbableCharsets();
+            for(int i = 0; i < charsets.length;i++) {
+                logger.debug("Found probable charset: " + charsets[i]);
+            }
+            if(charsets.length >= 1) {
+                ilCharsetAnalyzer.CHARSET = charsets[0];
+            }
+            logger.debug("Found charset: " + ilCharsetAnalyzer.CHARSET);
+            return bufferedStream;
         }
         catch(IOException e1) {
-            throw new ilCharsetAnalyzerException("Error parsing file: " + file.getName());
+            throw new ilCharsetAnalyzerException("Error parsing inputStream: " + e1);
         }
-        
-        return ilCharsetAnalyzer.CHARSET;
     }
 
-}
-class ilCharsetAnalyzerException extends Exception {
-    ilCharsetAnalyzerException(String message) {
-        super(message);
-    }
 }

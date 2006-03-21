@@ -33,7 +33,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
 
-import ilias.utils.ilEncodingTransformer;
+import ilias.utils.ilEncodingException;
 
 /**
  * @author Stefan Meyer <smeyer@databay.de>
@@ -113,9 +113,7 @@ public class ilFileIndexer extends ilIndexer {
             throw new ilFileHandlerException("No permission to read file: " + file.getAbsolutePath());
         }
         try {
-            // Currently disabled
-            //ilEncodingTransformer.transform(file);
-            //logger.debug("File: " + file.getAbsolutePath());
+            logger.debug("File: " + file.getAbsolutePath());
             Document doc  = fileHandler.getDocument(file);
             if(doc != null) {
                 logger.info("Added to index: FILENAME: " + file.getName() + " obj_id: " + obj_id);
