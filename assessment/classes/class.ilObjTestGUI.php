@@ -1944,11 +1944,14 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		$commands = $_POST["cmd"];
-		foreach ($commands as $key => $value)
+		if (is_array($commands))
 		{
-			if (preg_match("/deleteqpl_(\d+)/", $key, $matches))
+			foreach ($commands as $key => $value)
 			{
-				unset($found_qpls[$matches[1]]);
+				if (preg_match("/deleteqpl_(\d+)/", $key, $matches))
+				{
+					unset($found_qpls[$matches[1]]);
+				}
 			}
 		}
 		sort($found_qpls);
