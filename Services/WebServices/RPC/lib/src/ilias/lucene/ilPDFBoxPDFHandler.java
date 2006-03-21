@@ -22,6 +22,10 @@
 
 package ilias.lucene;
 
+import ilias.utils.ilEncodingException;
+import ilias.utils.ilEncodingTransformer;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -50,6 +54,7 @@ public class ilPDFBoxPDFHandler implements ilDocumentHandler {
     public Document getDocument(InputStream is)
             throws ilDocumentHandlerException {
         
+        //is = transformStream(is);
         float version = 0;
         COSDocument cosDOC = null;
         
@@ -106,4 +111,11 @@ public class ilPDFBoxPDFHandler implements ilDocumentHandler {
             }
         }
     }
+    
+    public InputStream transformStream(InputStream is) {
+
+        return ilEncodingTransformer.transform(is);
+        
+    }
+
 }

@@ -22,6 +22,8 @@
 
 package ilias.lucene;
 
+import ilias.utils.ilEncodingTransformer;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,17 +48,21 @@ public class ilPlainTextHandler implements ilDocumentHandler {
      */
     public Document getDocument(InputStream is)
             throws ilDocumentHandlerException {
+        
+        is = transformStream(is);
  
         StringBuffer bodyText = new StringBuffer();
         // Get body text
         try {
             long start = new Date().getTime();
+          
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line = null;
             
             while((line = br.readLine()) != null) {
                 bodyText.append(line);
             }
+            
             br.close();
             long end = new Date().getTime();
             logger.info("Reading file took " + (end - start) + " ms");
@@ -77,4 +83,9 @@ public class ilPlainTextHandler implements ilDocumentHandler {
         return null;
     }
 
+    public InputStream transformStream(InputStream is) {
+
+        return ilEncodingTransformer.transform(is);
+        
+    }
 }

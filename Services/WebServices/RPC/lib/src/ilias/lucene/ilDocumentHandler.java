@@ -22,6 +22,8 @@
 
 package ilias.lucene;
 
+import ilias.utils.ilEncodingException;
+
 import java.io.InputStream;
 
 import org.apache.lucene.document.Document;
@@ -34,11 +36,16 @@ import org.apache.lucene.document.Document;
  */
 
 public interface ilDocumentHandler {
+
     Document getDocument(InputStream is)
-    throws ilDocumentHandlerException;        
+    throws ilDocumentHandlerException;
+    
+    InputStream transformStream(InputStream is)
+    throws ilEncodingException;
 }
 
 class ilDocumentHandlerException extends Exception {
+    
     public ilDocumentHandlerException(String message) {
         super(message);
     }

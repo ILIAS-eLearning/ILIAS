@@ -43,7 +43,7 @@ public class ilExtensionFileHandler implements ilFileHandler {
         // Do nothing here
     }
 
-    public Document getDocument(File file) 
+    public Document getDocument(File file)
     throws ilFileHandlerException {
         Document doc = null;
 
@@ -60,17 +60,20 @@ public class ilExtensionFileHandler implements ilFileHandler {
             
             //logger.info("EXTENSION: " + extension );
             // Handled extensions are: html,pdf,txt
-            if(extension.equalsIgnoreCase("txt")) {
-                logger.info("CALLED: getTextDocument() for: " + file.getName() );
-                return getTextDocument(file);
-            }
             if(extension.equalsIgnoreCase("pdf")) {
                 logger.info("CALLED: getPDFDocument() for " + file.getName());
                 return getPDFDocument(file);
             }
-            if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("htm")) {
+            else if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("htm")) {
                 logger.info("CALLED: getHTMLDocument() for " + file.getName());
                 return getHTMLDocument(file);
+            }
+            else if(extension.equalsIgnoreCase("txt") || extension.length() == 0){
+                logger.info("CALLED: getTextDocument() for: " + file.getName() );
+                return getTextDocument(file);
+            }
+            else {
+                logger.info("Cannot parse file: " + fname);
             }
             /*
             if(extension.equalsIgnoreCase("swf")) {

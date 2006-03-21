@@ -22,6 +22,7 @@
 
 package ilias.lucene;
 
+import java.io.File;
 import java.io.InputStream;
 
 import org.apache.lucene.document.Document;
@@ -32,6 +33,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.w3c.tidy.Tidy;
 
+import ilias.utils.ilEncodingException;
+import ilias.utils.ilEncodingTransformer;
 import ilias.utils.ilNullPrintWriter;
 
 /**
@@ -49,11 +52,13 @@ public class ilJTidyHTMLHandler implements ilDocumentHandler {
     public Document getDocument(InputStream is)
             throws ilDocumentHandlerException {
 
+        is = transformStream(is);
         org.apache.lucene.document.Document doc = new Document();
         
         
         try {
             this.initTidy();
+            //is = this.transformStream(is);
             
             // Parse is as DOM
             org.w3c.dom.Document root = this.tidy.parseDOM(is,null);
@@ -132,5 +137,10 @@ public class ilJTidyHTMLHandler implements ilDocumentHandler {
             }
         }
         return sb.toString();
+    }
+    public InputStream transformStream(InputStream is) {
+
+        return ilEncodingTransformer.transform(is);
+        
     }
 }
