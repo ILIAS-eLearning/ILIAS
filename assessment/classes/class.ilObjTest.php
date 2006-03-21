@@ -2379,8 +2379,9 @@ class ilObjTest extends ilObject
 		// remove test_active entries of selected users
 		foreach ($user_ids as $user_id)
 		{
-			$query = sprintf("DELETE FROM tst_active WHERE user_fi = %s",
-				$ilDB->quote($user_id . "")
+			$query = sprintf("DELETE FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($this->getTestId() . "")
 			);
 			$result = $ilDB->query($query);
 		}
