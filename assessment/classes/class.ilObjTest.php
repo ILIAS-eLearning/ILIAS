@@ -1301,6 +1301,12 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		$this->loadQuestions($ilUser->getId(), $pass);
+		if (count($this->questions) > 0)
+		{
+			// Something went wrong. Maybe the user pressed the start button twice
+			// Questions already exist so there is no need to create new questions
+			return;
+		}
 		if ($this->getRandomQuestionCount() > 0)
 		{
 			$qpls =& $this->getRandomQuestionpools();

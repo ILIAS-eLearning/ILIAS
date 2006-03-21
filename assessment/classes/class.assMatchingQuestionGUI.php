@@ -631,10 +631,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
 			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();show_solution();\"");
 		}
-		else
-		{
-			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();\"");
-		}
 
 		if ($this->object->getOutputType() == OUTPUT_HTML)
 		{
