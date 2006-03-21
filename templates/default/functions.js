@@ -90,3 +90,40 @@ function setChecked(the_form, checkbox_name, do_check)
   return true;
 } // end of the 'setCheckboxes()' function
 
+/**
+ * Disables a submit button and adds a hidden input with the name and the value
+ * of the button. This helps to prevent multiple clicking of submit buttons to which
+ * could lead to duplicated database values.
+ * This function also disables all other buttons in the given form.
+ * Tested in IE 6, Firefox 1.5, Safari, Opera 8.5
+ *
+ * @param   string   the form name
+ * @param   object   the submit button object
+ * @param   string   a new text which replaces the text of the disabled button
+ *                   or an empty string for no changes
+ */
+function disableButton(formname, button, new_text)
+{
+	var name = button.name;
+	var value = button.value;
+	var hidden = document.createElement("input");
+	button.name = name + "_1";
+	if (new_text.length > 0)
+	{
+		button.value = new_text;
+	}
+	button.className = 'submit_disabled';
+	hidden.name = name;
+	hidden.type = "hidden";
+	hidden.value = value;
+	document.forms[formname].appendChild(hidden);
+	button.disabled = true;
+	for (var i = 0; i < document.forms[formname].elements.length; i++)
+	{
+		if (document.forms[formname].elements[i].type == 'submit')
+		{
+			document.forms[formname].elements[i].disabled = true;
+		}
+	}
+	document.forms[formname].submit();
+}

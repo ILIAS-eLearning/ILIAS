@@ -677,7 +677,6 @@ class ilCtrl
 		{
 			$cmd = $a_default_cmd;
 		}
-
 		return $cmd;
 	}
 

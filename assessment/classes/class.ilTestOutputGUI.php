@@ -352,6 +352,7 @@ class ilTestOutputGUI
 		}
 
 		$formaction = $this->ctrl->getFormAction($this) . "&sequence=$sequence";
+		$question_gui->setSequenceNumber($sequence);
 				
 		// output question
 		switch ($question_gui->getQuestionType())
@@ -367,7 +368,6 @@ class ilTestOutputGUI
 				break;
 
 			default:
-				$question_gui->setSequenceNumber($sequence);
 				$use_post_solutions = false;
 				if ($this->saveResult === false)
 				{
@@ -395,9 +395,11 @@ class ilTestOutputGUI
 		if ($sequence == $first_sequence)
 		{
 			$this->tpl->setCurrentBlock("prev");
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("prev_bottom");
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -405,9 +407,11 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("prev");
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("prev_bottom");
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -416,9 +420,11 @@ class ilTestOutputGUI
 			if (!$is_postponed)
 			{
 				$this->tpl->setCurrentBlock("postpone");
+				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("postpone_bottom");
+				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -428,9 +434,11 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("summary");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("summary_bottom");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -460,18 +468,22 @@ class ilTestOutputGUI
 			{
 				$this->tpl->setCurrentBlock("next");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("next_bottom");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();
 			} 
 			else 
 			{
 				$this->tpl->setCurrentBlock("next");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
+				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("next_bottom");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
+				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();				
 			}
 		}
@@ -479,9 +491,11 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("next");
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("next_bottom");
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -519,7 +533,6 @@ class ilTestOutputGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $formaction);
-
 		$this->tpl->parseCurrentBlock();
 	}
 	

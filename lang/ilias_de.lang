@@ -2570,6 +2570,7 @@ common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
 common#:#please_select_a_delivered_file_to_delete#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie zu löschen!
 common#:#please_select_a_delivered_file_to_download#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie herunterzuladen!
+common#:#please_wait#:#Bitte warten...
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#preconditions#:#Vorbedingungen

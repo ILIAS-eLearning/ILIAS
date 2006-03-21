@@ -1099,9 +1099,13 @@ class ilTestEvaluationGUI
 							{
 								$worksheet->write($row, $col, ilExcelUtils::_convert_text($legendquestions[$legend[$title]], $_POST["export_type"]), $format_title);
 							}
-							else
+							else if (strlen($title) == 1)
 							{
 								$worksheet->write($row, $col, ilExcelUtils::_convert_text($legend[$title], $_POST["export_type"]), $format_title);
+							}
+							else
+							{
+								$worksheet->write($row, $col, ilExcelUtils::_convert_text($title, $_POST["export_type"]), $format_title);
 							}
 							$col++;
 						}

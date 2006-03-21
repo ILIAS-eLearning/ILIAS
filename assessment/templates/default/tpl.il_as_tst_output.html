@@ -14,7 +14,7 @@
 					<tr>
 						<td align="left" width="33%">
 <!-- BEGIN prev -->
-<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="prevbutton" onclick="javascript:disableButton('test_output', document.getElementById('prevbutton'), '{PLEASE_WAIT}');" />
 <!-- END prev -->
 						</td>
 						<td align="center" >
@@ -41,16 +41,16 @@ text-align: center;">
 </td>
 <td align="left" width="1" >
 <!-- BEGIN summary -->
-<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="summarybutton" onclick="javascript:disableButton('test_output', document.getElementById('summarybutton'), '{PLEASE_WAIT}');" />
 <!-- END summary -->
 </td>
 <td align="right" width="33%">
 <!-- BEGIN postpone -->
-	<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
+	<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" id="postponebutton" onclick="javascript:disableButton('test_output', document.getElementById('postponebutton'), '{PLEASE_WAIT}');" />
 	&nbsp;&nbsp;
 	<!-- END postpone -->
 	<!-- BEGIN next -->
-	<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+	<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" id="nextbutton" onclick="javascript:disableButton('test_output', document.getElementById('nextbutton'), '{PLEASE_WAIT}');" />
 	<!-- END next -->
 					</td>
 				</tr>
@@ -88,7 +88,7 @@ text-align: center;">
 					<tr>
 						<td align="left" width="33%">
 <!-- BEGIN prev_bottom -->
-<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="bottomprevbutton" onclick="javascript:disableButton('test_output', document.getElementById('bottomprevbutton'), '{PLEASE_WAIT}');" />
 <!-- END prev_bottom -->
 						</td>
 						<td align="center" >
@@ -115,16 +115,16 @@ text-align: center;">
 </td>
 <td align="left" width="1">
 <!-- BEGIN summary_bottom  -->
-<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="bottomsummarybutton" onclick="javascript:disableButton('test_output', document.getElementById('bottomsummarybutton'), '{PLEASE_WAIT}');" />
 <!-- END summary_bottom -->
 </td>
 <td align="right" width="33%">
 <!-- BEGIN postpone_bottom -->
-<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
+<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" id="bottompostponebutton" onclick="javascript:disableButton('test_output', document.getElementById('bottompostponebutton'), '{PLEASE_WAIT}');" />
 &nbsp;&nbsp;
 <!-- END postpone_bottom -->
 <!-- BEGIN next_bottom -->
-<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" id="bottomnextbutton" onclick="javascript:disableButton('test_output', document.getElementById('bottomnextbutton'), '{PLEASE_WAIT}');" />
 <!-- END next_bottom -->
 					</td>
 				</tr>
