@@ -1099,6 +1099,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
 		$this->setSubTabs('members');
 
+<<<<<<< class.ilObjGroupGUI.php
 		// display member search button
 		$this->lng->loadLanguageModule('crs');
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
@@ -1112,6 +1113,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 
+=======
+>>>>>>> 1.130.2.12
 		$ilBench->start("GroupGUI", "membersObject");
 		
 		//if current user is admin he is able to add new members to group
@@ -1263,6 +1266,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				unset($user);
 		}
 		// load template for table content data
+		//echo $this->ctrl->getFormAction($this,"post");
+		//var_dump($this->ctrl->getParameterArray($this,"ShownewRegistrations",false));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this,"post"));
 
 		$this->data["buttons"] = array( "refuseApplicants"  => $this->lng->txt("refuse"),
@@ -1302,9 +1307,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("fullname"),$this->lng->txt("subject"),$this->lng->txt("application_date"),$this->lng->txt("grp_options")));
-		$tbl->setHeaderVars(array("","login","fullname","subject","application_date","functions"),$this->ctrl->getParameterArray($this,"",false));
+		$tbl->setHeaderVars(array("","username","fullname","subject","date","functions"),$this->ctrl->getParameterArray($this,"ShownewRegistrations",false));
 		$tbl->setColumnWidth(array("","20%","20%","35%","20%","5%"));
-
+		
+		if ($_GET["sort_by"] == "login")
+		{
+			$_GET["sort_by"] = "username";
+		}
+		
+		if (!$_GET["sort_order"])
+		{
+			$_GET["sort_order"] = "asc";
+		}
+		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
@@ -2048,14 +2063,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			//user must be administrator
 			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
-			$tbl->setHeaderVars(array("","login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
+			$tbl->setHeaderVars(array("","login","firstname","lastname","date","role","functions"),$this->ctrl->getParameterArray($this,"",false));
 			$tbl->setColumnWidth(array("","22%","22%","22%","22%","10%"));
 		}
 		else
 		{
 			//user must be member
 			$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
-			$tbl->setHeaderVars(array("login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
+			$tbl->setHeaderVars(array("login","firstname","lastname","date","role","functions"),$this->ctrl->getParameterArray($this,"",false));
 			$tbl->setColumnWidth(array("22%","22%","22%","22%","10%"));
 		}
 
