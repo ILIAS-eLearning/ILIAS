@@ -832,7 +832,14 @@ class ilLMPresentationGUI
 		$exp->setTargetGet("obj_id");
 		if ($this->lm->cleanFrames())
 		{
-			$exp->setFrameTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+			if ($this->offlineMode())
+			{
+				$exp->setFrameTarget("_top");
+			}
+			else
+			{
+				$exp->setFrameTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+			}
 		}
 		else
 		{
@@ -850,7 +857,10 @@ class ilLMPresentationGUI
 				$path = $this->lm_tree->getPathId($page_id);
 				$exp->setForceOpenPath($path);
 			}
-			$exp->highlightNode($page_id);
+			if (!$this->offlineMode())
+			{
+				$exp->highlightNode($page_id);
+			}
 		}
 		
 		$exp->setOfflineMode($this->offlineMode());
@@ -1533,13 +1543,27 @@ class ilLMPresentationGUI
 						}
 						else
 						{
-							if ($type == "PageObject")
+							if (!$this->offlineMode())
 							{
-								$href = "./goto.php?target=pg_".$target_id;
+								if ($type == "PageObject")
+								{
+									$href = "./goto.php?target=pg_".$target_id;
+								}
+								else
+								{
+									$href = "./goto.php?target=st_".$target_id;
+								}
 							}
 							else
 							{
-								$href = "./goto.php?target=st_".$target_id;
+								if ($type == "PageObject")
+								{
+									$href = ILIAS_HTTP_PATH."/goto.php?target=pg_".$target_id."&amp;client_id=".CLIENT_ID;
+								}
+								else
+								{
+									$href = ILIAS_HTTP_PATH."/goto.php?target=st_".$target_id."&amp;client_id=".CLIENT_ID;
+								}
 							}
 							//$ltarget = "ilContObj".$lm_id;
 						}
@@ -1570,7 +1594,14 @@ class ilLMPresentationGUI
 					case "RepositoryItem":
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);
-						$href = "./goto.php?target=".$obj_type."_".$target_id;
+						if (!$this->offlineMode())
+						{
+							$href = "./goto.php?target=".$obj_type."_".$target_id;
+						}
+						else
+						{
+							$href = ILIAS_HTTP_PATH."/goto.php?target=".$obj_type."_".$target_id."&amp;client_id=".CLIENT_ID;
+						}
 						$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
 						break;
 
@@ -3110,7 +3141,6 @@ class ilLMPresentationGUI
 						$pg_node = $this->lm_tree->fetchSuccessorNode($a_obj_id, "pg");
 						$a_obj_id = $pg_node["obj_id"];
 					}
-				
 					if ($a_frame != "")
 					{
 						if ($a_frame != "toc")

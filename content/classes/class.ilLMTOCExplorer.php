@@ -131,7 +131,14 @@ class ilLMTOCExplorer extends ilLMExplorer
 				$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
 				$a_node_id = $a_node["child"];
 			}
-			return "frame_".$a_node_id."_maincontent.html";
+			if (!$this->lm_obj->cleanFrames())
+			{
+				return "frame_".$a_node_id."_maincontent.html";
+			}
+			else
+			{
+				return "lm_pg_".$a_node_id.".html";
+			}
 		}
 	}
 	

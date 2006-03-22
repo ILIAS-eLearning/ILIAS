@@ -730,7 +730,7 @@ ul.il_Tab
 li.tabinactive
 {
 	float:left;
-	background:url("images/TabInactiveRight.gif")
+	background:url("images/TabInactiveRightWhite.gif")
 		no-repeat right top;
 	margin:0;
 	padding:0;
@@ -743,7 +743,7 @@ a.tabinactive, a.tabinactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/TabInactiveLeft.gif") no-repeat left top;
+	background:url("images/TabInactiveLeftWhite.gif") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
 }
@@ -751,7 +751,7 @@ a.tabinactive, a.tabinactive:hover
 li.tabactive
 {
 	float:left;
-	background:url("images/TabActiveRight.gif")
+	background:url("images/TabActiveRightWhite.gif")
 		no-repeat right top;
 	margin:0;
 	padding:0;
@@ -764,7 +764,7 @@ a.tabactive, a.tabactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/TabActiveLeft.gif") no-repeat left top;
+	background:url("images/TabActiveLeftWhite.gif") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
 }
