@@ -1040,8 +1040,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-		$this->data["buttons"] = array( "members"  => $this->lng->txt("back"),
-										"updateMemberStatus"  => $this->lng->txt("confirm"));
+		$this->data["buttons"] = array( "updateMemberStatus"  => $this->lng->txt("confirm"),
+										"members"  => $this->lng->txt("back"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("COLUMN_COUNTS",5);
