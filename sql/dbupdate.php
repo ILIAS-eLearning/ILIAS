@@ -9775,3 +9775,90 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#660>
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('15','17');
+<#661>
+<?php
+// reconstruct accidently deleted tst_active datasets when "delete selected user datasets"
+// in test maintenance was used
+
+// collect all the missing tst_active datasets in $foundactive
+$foundactive = array();
+$query = "SELECT DISTINCT concat( tst_test_result.user_fi, '_', tst_test_result.test_fi ) ".
+	", tst_test_result.user_fi, tst_test_result.test_fi, tst_active.user_fi AS active1, " .
+	"tst_active.test_fi AS active2, tst_tests.random_test FROM tst_tests, tst_test_result " .
+	"LEFT JOIN tst_active ON concat( tst_active.user_fi, '_', tst_active.test_fi ) = " .
+	"concat( tst_test_result.user_fi, '_', tst_test_result.test_fi ) ".
+	"WHERE isnull( tst_active.user_fi ) ".
+	"AND tst_test_result.test_fi = tst_tests.test_id";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		array_push($foundactive, array($row["test_fi"], $row["user_fi"], $row["random_test"]));
+	}
+}
+
+// reconstruct the missing datasets
+foreach ($foundactive as $missingarray)
+{
+	$test_id = $missingarray[0];
+	$user_id = $missingarray[1];
+	$is_random = $missingarray[2];
+	// begin reconstruction
+	$found = 0;
+	if ($is_random)
+	{
+		// get number of questions in the test
+		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s AND pass = 0",
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($user_id . "")
+		);
+		$result = $ilDB->query($query);
+		$found = $result->numRows();
+	}
+	else
+	{
+		// get number of questions in the test
+		$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		$found = $result->numRows();
+	}
+	if ($is_random)
+	{
+		// get maximum pass
+		$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_random_question WHERE user_fi = %s AND test_fi = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . "")
+		);
+	}
+	else
+	{
+		// get maximum pass
+		$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . "")
+		);
+	}
+	$result = $ilDB->query($query);
+	if ($result->numRows())
+	{
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$pass = $row["maxpass"];
+		
+		$sequencearray = array();
+		for ($i = 1; $i <= $found; $i++) array_push($sequencearray, $i);
+		// re-add tst_active
+		$query = sprintf("INSERT INTO tst_active (user_fi, test_fi, sequence, lastindex, tries) VALUES (%s, %s, %s, %s, %s)",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote(join(",",$sequencearray)),
+			$ilDB->quote("1"),
+			$ilDB->quote($pass . "")
+		);
+		$ilDB->query($query);
+	}
+}
+?>
+
