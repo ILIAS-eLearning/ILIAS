@@ -2990,8 +2990,7 @@ common#:#user_profile_other#:#Andre Information
 common#:#user_statistics#:#Statistiske Data
 common#:#userdata#:#Brugerdata
 common#:#userfolder_export_csv#:#Saerskilt komma vaerdi
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
-common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
+common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Fil
 common#:#userfolder_export_file_size#:#Fil st&oslash;rrelse
 common#:#userfolder_export_files#:#Filer

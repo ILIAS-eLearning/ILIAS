@@ -2431,7 +2431,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$export_types = array(
 			"userfolder_export_excel_x86",
-			"userfolder_export_excel_ppc",
 			"userfolder_export_csv",
 			"userfolder_export_xml"
 		);

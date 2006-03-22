@@ -3055,8 +3055,7 @@ common#:#user_profile_other#:#Autres informations### 06 oct 2005 content changed
 common#:#user_statistics#:#Données statistiques###07 Apr 2005 content changed
 common#:#userdata#:#Données utilisateur###07 Apr 2005 content changed
 common#:#userfolder_export_csv#:#Valeurs séparées par des virgules### 06 oct 2005 content changed
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)### 06 oct 2005 content changed
-common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)### 06 oct 2005 content changed
+common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Fichier### 06 oct 2005 content changed
 common#:#userfolder_export_file_size#:#Taille de fichier### 06 oct 2005 content changed
 common#:#userfolder_export_files#:#Fichiers### 06 oct 2005 content changed
