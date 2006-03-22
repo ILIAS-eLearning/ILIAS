@@ -1120,7 +1120,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_leave")."\" title=\"".$this->lng->txt("grp_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
 
 		// store access checks to improve performance
-		$access_delete = $rbacsystem->checkAccess("delete",$this->object->getRefId());
 		$access_leave = $rbacsystem->checkAccess("leave",$this->object->getRefId());
 		$access_write = $rbacsystem->checkAccess("write",$this->object->getRefId());
 
@@ -1137,26 +1136,22 @@ class ilObjGroupGUI extends ilContainerGUI
 			$link_contact = "mail_new.php?type=new&rcp_to=".$mem["login"];
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
 		
-			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
-			{
-				$link_leave = $this->ctrl->getLinkTarget($this,"RemoveMember")."&mem_id=".$mem["id"];
-			}
-
 			//build function
-			if ($access_delete && $access_write)
+			if ($access_write)
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
 
-			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
+			if (($mem["id"] == $account_id && $access_leave) || $access_write)
 			{
+				$link_leave = $this->ctrl->getLinkTarget($this,"RemoveMember")."&mem_id=".$mem["id"];
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
 
 			// this is twice as fast than the code above
 			$str_member_roles = $this->object->getMemberRolesTitle($mem["id"]);
 
-			if ($access_delete && $access_write)
+			if ($access_write)
 			{
 				$result_set[$counter][] = ilUtil::formCheckBox(0,"user_id[]",$mem["id"]);
 			}
