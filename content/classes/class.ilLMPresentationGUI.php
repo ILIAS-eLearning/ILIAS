@@ -972,6 +972,8 @@ class ilLMPresentationGUI
 	*/
 	function ilLMNotes()
 	{
+		global $ilAccess;
+
 		// no notes in offline (export) mode
 		if ($this->offlineMode())
 		{
@@ -983,6 +985,10 @@ class ilLMPresentationGUI
 
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$notes_gui->enablePublicNotesDeletion(true);
+		}
 		
 		$this->ctrl->setParameter($this, "frame", $_GET["frame"]);
 		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
