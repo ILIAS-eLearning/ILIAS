@@ -32,6 +32,8 @@ include_once ("Services/Notes/classes/class.ilNote.php");
 */
 class ilNoteGUI
 {
+	var $public_deletion_enabled = false;
+	
 	
 	/**
 	* constructor, specifies notes set
@@ -97,6 +99,14 @@ class ilNoteGUI
 	}
 
 	/**
+	* enable public notes
+	*/
+	function enablePublicNotesDeletion($a_enable = true)
+	{
+		$this->public_deletion_enabled =  $a_enable;
+	}
+
+	/**
 	* enable hiding
 	*/
 	function enableHiding($a_enable = true)
@@ -133,7 +143,7 @@ class ilNoteGUI
 			$html.= $this->getNoteListHTML(IL_NOTE_PRIVATE);
 		}
 		
-		if ($this->public_enabled && !$this->delete_note)
+		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled))
 		{
 			$html.= $this->getNoteListHTML(IL_NOTE_PUBLIC);
 		}
@@ -166,8 +176,8 @@ class ilNoteGUI
 		
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
-			$ilUser->getPref("notes_pub_all"));
-		
+			$ilUser->getPref("notes_pub_all"), $this->public_deletion_enabled);
+
 		$tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
 		
 		// show counter if notes are hidden
@@ -344,12 +354,15 @@ class ilNoteGUI
 				{
 					$cnt_col = 2;
 					
-					// edit note stuff for all private notes
-					if ($note->getAuthor() == $ilUser->getId()
+					// delete note stuff for all private notes
+					if (($note->getAuthor() == $ilUser->getId() ||
+						$this->public_deletion_enabled)
 						&& ($ilUser->getId() != ANONYMOUS_USER_ID))
 					{
-						// only private notes can be deleted
-						if ($a_type == IL_NOTE_PRIVATE && !$this->delete_note
+						// only private notes can be deleted by the user
+						// public notes can be deleted if flag set (outside permission checking)
+						if (($a_type == IL_NOTE_PRIVATE || $this->public_deletion_enabled) 
+							&& !$this->delete_note
 							&& !$this->export_html && !$this->print)
 						{
 							$tpl->setCurrentBlock("delete_note");
@@ -360,7 +373,12 @@ class ilNoteGUI
 								."#note_".$note->getId());
 							$tpl->parseCurrentBlock();
 						}
-						
+					}
+					
+					// edit note stuff for all private notes
+					if ($note->getAuthor() == $ilUser->getId()
+						&& ($ilUser->getId() != ANONYMOUS_USER_ID))
+					{
 						// checkboxes in multiselection mode
 						if ($this->multi_selection && !$this->delete_note)
 						{
@@ -522,8 +540,15 @@ class ilNoteGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-				
-		return $tpl->get();
+		
+		if ($this->delete_note && count($notes) == 0)
+		{
+			return "";
+		}
+		else
+		{
+			return $tpl->get();
+		}
 	}
 	
 	/**
