@@ -215,7 +215,7 @@ assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta
 assessment#:#error_open_image_file#:#Error abriendo el archivo de imagen!
 assessment#:#error_open_java_file#:#Error abriendo un applet java!
 assessment#:#error_save_image_file#:#Error grabando el archivo de imagen!
-assessment#:#eval_all_users#:#Evaluación para los nuevos usuarios
+assessment#:#eval_all_users#:#Evaluación de todos los usuarios
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_cloze_result#:#Hueco número %s con el valor %s es %s.Usted recibió %s puntos.
 assessment#:#eval_concatenation#:#Concatenación
@@ -232,7 +232,7 @@ assessment#:#eval_search_roles#:#Roles
 assessment#:#eval_search_term#:#Buscar término
 assessment#:#eval_search_users#:#Usuarios
 assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir a la evaluación estadística
-assessment#:#eval_selected_users#:#Evaluación para los usuarios seleccionados
+assessment#:#eval_selected_users#:#Evaluación de usuarios seleccionados
 assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
@@ -454,7 +454,7 @@ assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de
 assessment#:#tst_delete_results#:#Reiniciar test
 assessment#:#tst_ending_time#:#Tiempo de finalización
 assessment#:#tst_enter_questionpool#:#Por favor introduzca un nombre de banco de preguntas donde la nueva pregunta será almacenada
-assessment#:#tst_eval_no_anonymous_aggregation#:#Nadie ha rellenado el test todavía. No existen resultados de test agregados de forma anónima disponibles.
+assessment#:#tst_eval_no_anonymous_aggregation#:#Nadie ha rellenado el test todavía. No existen resultados de test globales anónimos disponibles.
 assessment#:#tst_eval_results_by_pass#:#Resultados de preguntas detallados
 assessment#:#tst_eval_show_answer#:#Mostrar respuesta
 assessment#:#tst_eval_total_finished#:#Total de tests finalizados
@@ -548,7 +548,7 @@ assessment#:#tst_result_congratulations#:#Felicidades! Ha superado el test.
 assessment#:#tst_result_sorry#:#Lo siento, no ha superado el test.
 assessment#:#tst_result_user_name#:#Resultados del test para %s
 assessment#:#tst_results#:#Resultados del Test
-assessment#:#tst_results_aggregated#:#Resultados del test agregados
+assessment#:#tst_results_aggregated#:#Resultados globales
 assessment#:#tst_results_back_evaluation#:#Volver al resumen de la evaluación
 assessment#:#tst_results_back_introduction#:#Volver a la introducción
 assessment#:#tst_results_back_overview#:#Volver al resumen de resultados
@@ -748,19 +748,19 @@ bibitem#:#bibitem_unpublished#:#No publicado
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Lugar de publicación
 bibitem#:#bibitem_year#:#Año
-chat#:#cancel_talk#:#Cancelar dirección
-chat#:#cancel_whisper#:#Cancel whisper
+chat#:#cancel_talk#:#abandonar charla
+chat#:#cancel_whisper#:#abandonar privado
 chat#:#chat_access_blocked#:#Usted está excluído de estas salas de chat
-chat#:#chat_active#:#Chat Activo
-chat#:#chat_active_users#:#Usuario (activo)
+chat#:#chat_active#:#Chat activo
+chat#:#chat_active_users#:#Usuarios conectados
 chat#:#chat_add_allowed_hosts#:#Por favor añada las direcciones IP de las máquinas con permiso para acceder al servidor Chat.
 chat#:#chat_add_external_ip#:#Por favor introduzca la IP externa del servidor
 chat#:#chat_add_internal_ip#:#Por favor introduzca la IP interna del servidor
 chat#:#chat_add_moderator_password#:#Por favor introduzca una contraseña para el moderador.
 chat#:#chat_add_port#:#Por favor añada el puerto del servidor.
 chat#:#chat_add_private_chatroom#:#Añadir sala privada
-chat#:#chat_address#:#Dirección Chat
-chat#:#chat_address_user#:#Dirección Usuario
+chat#:#chat_address#:#dirigirse a
+chat#:#chat_address_user#:#escribiendo al usuario
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#negro
@@ -777,13 +777,13 @@ chat#:#chat_color#:#color de fuente
 chat#:#chat_delete_sure#:#¿Está seguro de que quiere eliminar esta sala?
 chat#:#chat_drop_user#:#Usuario expulsado
 chat#:#chat_edit#:#Editar chat
-chat#:#chat_empty#:#Vacío
+chat#:#chat_empty#:#limpiar chat
 chat#:#chat_enter_valid_username#:#Por favor introduzca un nombre de usuario válido
 chat#:#chat_face#:#tipo de fuente
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#gris
 chat#:#chat_green#:#verde
-chat#:#chat_hide_details#:#Ocultar detalles
+chat#:#chat_hide_details#:#ocultar detalles
 chat#:#chat_html_export#:#exportar a HTML
 chat#:#chat_ilias#:#Modulo Chat ILIAS
 chat#:#chat_inactive#:#Chat inactivo
@@ -791,10 +791,10 @@ chat#:#chat_input#:#Entrada
 chat#:#chat_insert_message#:#Por favor inserte un mensaje
 chat#:#chat_invitation_body#:#Invitación al chat desde:
 chat#:#chat_invitation_subject#:#Invitación al Chat
-chat#:#chat_invite_user#:#Invitar usuario
-chat#:#chat_invited_by#:#Invitado por
+chat#:#chat_invite_user#:#invitar usuario
+chat#:#chat_invited_by#:#invitado por
 chat#:#chat_italic#:#Cursiva
-chat#:#chat_kick_user_session#:#Expulsar usuario
+chat#:#chat_kick_user_session#:#expulsar usuario
 chat#:#chat_kicked_from_room#:#Ha sido expulsado de esta sala de chat, no puede escribir mensajes.
 chat#:#chat_level_all#:#Todo
 chat#:#chat_level_debug#:#Debug
@@ -804,15 +804,15 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lima
 chat#:#chat_maroon#:#granate
 chat#:#chat_messages_deleted#:#Los mensajes han sido eliminados.
-chat#:#chat_moderator_password#:#contraseña del Moderador
+chat#:#chat_moderator_password#:#contraseña del moderador
 chat#:#chat_navy#:#azul marino
-chat#:#chat_no_active_users#:#No hay usuarios presentes.
+chat#:#chat_no_active_users#:#No hay otros usuarios presentes.
 chat#:#chat_no_blocked#:#No hay usuarios bloqueados disponibles
 chat#:#chat_no_connection#:#No se puede conectar al servidor chat
-chat#:#chat_no_delete_public#:#La habitación pública no pudo ser eliminada
+chat#:#chat_no_delete_public#:#La sala pública no pudo ser eliminada
 chat#:#chat_no_recordings_available#:#No hay grabaciones disponibles de momento.
-chat#:#chat_no_refresh_public#:#la habitación pública no pudo ser actualizada
-chat#:#chat_no_rename_public#:#La habitación pública no pudo ser renombrada
+chat#:#chat_no_refresh_public#:#la sala pública no pudo ser actualizada
+chat#:#chat_no_rename_public#:#La sala pública no pudo ser renombrada
 chat#:#chat_no_users_selected#:#Debe seleccionar un usuario.
 chat#:#chat_no_write_perm#:#No tiene permisos de escritura
 chat#:#chat_olive#:#oliva
@@ -874,7 +874,7 @@ chat#:#chat_user_blocked#:#Acceso bloqueado para el usuario seleccionado.
 chat#:#chat_user_dropped#:#Usuario expulsado
 chat#:#chat_user_invited#:#Usuario Invitado al chat
 chat#:#chat_user_name#:#Nombre de usuario
-chat#:#chat_whisper#:#Whisper
+chat#:#chat_whisper#:#privado
 chat#:#chat_yellow#:#amarillo
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Mis chats
@@ -1146,15 +1146,15 @@ common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número de capítulo
 common#:#chapter_title#:#Título del capítulo
 common#:#chat#:#Chat
-common#:#chat_active_in#:#Activo en el chat:
-common#:#chat_add#:#Añadir Chat
-common#:#chat_delete#:#Eliminar Chat
+common#:#chat_active_in#:#presente en la sala--> 
+common#:#chat_add#:#añadir Chat
+common#:#chat_delete#:#eliminar Chat
 common#:#chat_edit_permission#:#Modificar configuración de permisos
 common#:#chat_invite#:#Chat
 common#:#chat_moderate#:#Moderar chat
 common#:#chat_new#:#Nuevo Chat
 common#:#chat_read#:#Acceso de lectura/escritura al Chat
-common#:#chat_users_active#:#Usuarios activos
+common#:#chat_users_active#:#usuarios conectados
 common#:#chat_visible#:#El Chat está visible
 common#:#chat_write#:#Editar Chat
 common#:#check#:#comprobar
@@ -1275,6 +1275,7 @@ common#:#crs_delete#:#Eliminar Curso
 common#:#crs_edit#:#Editar Curso
 common#:#crs_edit_learning_progress#:#Editar seguimiento
 common#:#crs_edit_permission#:#Modificar configuración de permisos
+common#:#crs_graduation_photo#:#Orla del curso
 common#:#crs_info#:#Info
 common#:#crs_join#:#Subscribir al Curso
 common#:#crs_leave#:#Darse de baja en el Curso
@@ -1676,6 +1677,7 @@ common#:#grp_create_file#:#El Usuario puede cargar archivos
 common#:#grp_create_fold#:#El Usuario puede crear carpetas
 common#:#grp_create_frm#:#Crear Foro
 common#:#grp_create_glo#:#Crear Glosario
+common#:#grp_create_grp#:#Crear Grupo
 common#:#grp_create_hlm#:#Crear Módulo de aprendizaje HACP
 common#:#grp_create_htlm#:#Crear Módulo de aprendizaje HTML
 common#:#grp_create_icrs#:#Crear Seminario LearnLinc
@@ -3479,7 +3481,7 @@ content#:#cont_organization#:#Organización
 content#:#cont_organizations#:#Organizaciones
 content#:#cont_orig_size#:#Tamaño Original
 content#:#cont_page_header#:#Cabecera de Página
-content#:#cont_page_link#:#Enlace a Página Inicial
+content#:#cont_page_link#:#Ir al inicio
 content#:#cont_page_select_target_now#:#Página marcada para mover. A continuación seleccione destino.
 content#:#cont_pages#:#Páginas
 content#:#cont_parameter#:#Parámetro
@@ -3871,6 +3873,7 @@ crs#:#crs_other_groupings#:#Agrupaciones de otros cursos
 crs#:#crs_other_resources#:#Otros recursos
 crs#:#crs_passed#:#Superado
 crs#:#crs_password_not_valid#:#Su contraseña no es válida
+crs#:#crs_password_required#:#El procedimiento de registro requiere una clave de acceso.
 crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Personas en la lista de espera
 crs#:#crs_print_list#:#Imprimir lista
