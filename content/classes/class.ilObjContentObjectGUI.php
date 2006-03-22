@@ -2478,7 +2478,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// info button
-		if ($a_export_format != "scorm")
+		if ($a_export_format != "scorm" && !$a_offline)
 		{
 			if (!$a_offline)
 			{

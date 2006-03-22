@@ -1631,7 +1631,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html")
 	{
-		global $ilias, $tpl, $ilBench;
+		global $ilias, $tpl, $ilBench, $ilLocator;
 
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
@@ -1704,6 +1704,7 @@ class ilObjContentObject extends ilObject
 
 		// export table of contents
 		$ilBench->start("ExportHTML", "exportHTMLTOC");
+		$ilLocator->clearItems();
 		if ($this->isActiveTOC())
 		{
 			$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -1740,6 +1741,8 @@ class ilObjContentObject extends ilObject
 			$image_dir."/icon_st.gif");
 		copy(ilUtil::getImagePath("icon_pg.gif", false, "filesystem"),
 			$image_dir."/icon_pg.gif");
+		copy(ilUtil::getImagePath("icon_lm.gif", false, "filesystem"),
+			$image_dir."/icon_lm.gif");
 		copy(ilUtil::getImagePath("nav_arr_L.gif", false, "filesystem"),
 			$image_dir."/nav_arr_L.gif");
 		copy(ilUtil::getImagePath("nav_arr_R.gif", false, "filesystem"),
@@ -1853,8 +1856,11 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTMLGlossaryTerms(&$a_lm_gui, $a_target_dir)
 	{
+		global $ilLocator;
+		
 		foreach($this->offline_int_links as $int_link)
 		{
+			$ilLocator->clearItems();
 			if ($int_link["type"] == "git")
 			{
 				$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -1901,7 +1907,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTMLPages(&$a_lm_gui, $a_target_dir)
 	{
-		global $tpl, $ilBench;
+		global $tpl, $ilBench, $ilLocator;
 				
 		$pages = ilLMPageObject::getPageList($this->getId());
 		
@@ -1916,6 +1922,7 @@ class ilObjContentObject extends ilObject
 		
 		foreach ($pages as $page)
 		{
+			$ilLocator->clearItems();
 			$ilBench->start("ExportHTML", "exportHTMLPage");
 			$ilBench->start("ExportHTML", "exportPageHTML");
 			$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
