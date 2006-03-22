@@ -1448,8 +1448,15 @@ class ilTestOutputGUI
 */
 	function passDetails()
 	{
-		$this->ctrl->saveParameter($this, "pass");
-		$this->outTestResults(false, $_GET["pass"]);
+		if (array_key_exists("pass", $_GET))
+		{
+			$this->ctrl->saveParameter($this, "pass");
+			$this->outTestResults(false, $_GET["pass"]);
+		}
+		else
+		{
+			$this->outTestResults(false);
+		}
 	}
 	
 /**
@@ -1475,7 +1482,17 @@ class ilTestOutputGUI
 				if ($a["nr"] == $b["nr"]) return 0;
 		 	 	return ($a["nr"] < $b["nr"]) ? -1 : 1;
 			}
-			return ($a["percent"] < $b["percent"]) ? $smaller : $greater;
+			$apercent = 0.0;
+			if ($a["max"] != 0) 
+			{
+				$apercent = $a["reached"] / $a["max"];
+			}
+			$bpercent = 0.0;
+			if ($b["max"] != 0)
+			{
+				$bpercent = $b["reached"] / $b["max"];
+			}
+			return ($apercent < $bpercent) ? $smaller : $greater;
 		}
 
 		function sort_nr($a, $b) {
@@ -1513,18 +1530,24 @@ class ilTestOutputGUI
 			case "percent":
 				usort($result_array, "sort_percent");
 				$img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) {
+				if (strcmp($_GET["order"], "ASC") == 0) 
+				{
 					$sortpercent = "DESC";
-				} else {
+				} 
+				else 
+				{
 					$sortpercent = "ASC";
 				}
 				break;
 			case "nr":
 				usort($result_array, "sort_nr");
 				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) {
+				if (strcmp($_GET["order"], "ASC") == 0) 
+				{
 					$sortnr = "DESC";
-				} else {
+				} 
+				else 
+				{
 					$sortnr = "ASC";
 				}
 				break;
