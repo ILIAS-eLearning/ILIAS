@@ -7,9 +7,11 @@
 		<h1>{TITLE}</h1>
 	  </div>
 	  <table class="std" width="100%">
-		<th class="tblheader" align="left" nowrap="nowrap">{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})
+		<tr class="tblheader">
+		<th class="std" align="left" nowrap="nowrap">{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})
 		  &nbsp[<a class="navigation" href="{DETAILS_A}">{DETAILS_TXT}</a>]
 		</th>
+		  </tr>
 		<!-- BEGIN room_row -->
 		<tr class="{ROOM_ROW_CSS}">
 		  <td style="padding:3px; font-size:13px;	vertical-align:top;	text-align:left">
@@ -49,7 +51,9 @@
 	  <br />
 
 	  <table width="100%" class="std">
-		<th class="tblheader" align="left" colspan="2">{ACTIVE_USERS}&nbsp;[<a class="navigation" href="{DETAILS_B}">{DETAILS_B_TXT}</a>]</th>
+		<tr class="tblheader">
+		<th class="std" align="left" colspan="2">{ACTIVE_USERS}&nbsp;[<a class="navigation" href="{DETAILS_B}">{DETAILS_B_TXT}</a>]</th>
+		  </tr>
 		<!-- BEGIN no_active -->
 		<tr>
 		  <td colspan="2" class="option_value"><font class="smallred">{NO_ACTIVE_USERS}</font></td>

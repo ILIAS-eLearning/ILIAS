@@ -5821,3 +5821,4 @@ common#:#last_login#:#Letztes Login
 trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
 crs#:#crs_password_required#:#Für diese Registrierungsart ist ein Passwort erforderlich.
 common#:#deleted_users#:#Die BenutzerInnen wurden gelöscht.
+chat#:#chat_new_message#:#Neue Nachricht

@@ -84,7 +84,7 @@ class ilMailOptions
     function createMailOptionsEntry()
     {
         $query = "INSERT INTO $this->table_mail_options " .
-                "VALUES('" . $this->user_id . "','" . DEFAULT_LINEBREAK . "','',0)";
+                "VALUES('" . $this->user_id . "','" . DEFAULT_LINEBREAK . "','',2)";
 
         $res = $this->ilias->db->query($query);
         return true;

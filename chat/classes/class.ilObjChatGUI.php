@@ -1030,7 +1030,8 @@ class ilObjChatGUI extends ilObjectGUI
 	function showTopFrame()
 	{
 		$this->__loadStylesheet();
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.chat_top_frame.html",true);
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.chat_top_frame.html",'chat');
+		//$this->tpl->setVariable("TXT_NEW_MESSAGE",'Current discussion');
 	}
 	function showInputFrame()
 	{
@@ -1076,6 +1077,7 @@ class ilObjChatGUI extends ilObjectGUI
 									$_REQUEST["room_id"]);
 		}
 
+		$this->tpl->setVariable("TXT_NEW_MESSAGE",$this->lng->txt('chat_new_message'));
 		$this->tpl->setVariable("TXT_COLOR",$this->lng->txt("chat_color"));
 		$this->tpl->setVariable("TXT_TYPE",$this->lng->txt("chat_type"));
 		$this->tpl->setVariable("TXT_FACE",$this->lng->txt("chat_face"));
@@ -1099,6 +1101,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
 		}
+		$this->tpl->setVariable("TXT_HTML_EXPORT",$this->lng->txt('exp_html'));
 		$this->tpl->setVariable("SELECT_COLOR",$this->__getColorSelect());
 		$this->tpl->setVariable("RADIO_TYPE",$this->__getFontType());
 		$this->tpl->setVariable("CHECK_FACE",$this->__getFontFace());
@@ -1131,6 +1134,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->setVariable("MODERATOR_FORMACTION","chat.php?cmd=gateway&ref_id=".
 									$this->object->getRefId()."&room_id=".
 									$this->object->chat_room->getRoomId());
+			$this->tpl->setVariable("TXT_RECORDINGS",$this->lng->txt('chat_recordings'));
 			$this->tpl->setVariable("MODERATOR_TARGET","_top");
 			$this->tpl->parseCurrentBlock("moderator");
 		}
@@ -1540,13 +1544,15 @@ class ilObjChatGUI extends ilObjectGUI
 		$user_obj =& new ilObjUser();
 		foreach($public_rooms as $room)
 		{
+			$tblrow = ($room['child'] == $this->object->getRefId()) ? 'tblrowmarked' : 'tblrow1';
+
 			if(ilChatBlockedUsers::_isBlocked($room['obj_id'],$ilUser->getId()))
 			{
 				continue;
 			}
 
 			$this->tpl->setCurrentBlock("room_row");
-			$this->tpl->setVariable("ROOM_ROW_CSS","tblrow1");
+			$this->tpl->setVariable("ROOM_ROW_CSS",$tblrow);
 			$this->tpl->setVariable("ROOM_LINK","chat.php?ref_id=".$room["child"]);
 			$this->tpl->setVariable("ROOM_TARGET","_top");
 			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
@@ -1575,7 +1581,7 @@ class ilObjChatGUI extends ilObjectGUI
 				{
 					$this->tpl->touchBlock("room_row_indent");
 					$this->tpl->setCurrentBlock("room_row");
-					$this->tpl->setVariable("ROOM_ROW_CSS","tblrow2");
+					$this->tpl->setVariable("ROOM_ROW_CSS",$tblrow);
 					$this->tpl->setVariable("ROOM_LINK","chat.php?ref_id=".$room["child"].
 																				 "&room_id=".$priv_room["room_id"]);
 					$this->tpl->setVariable("ROOM_TARGET","_top");
@@ -1704,7 +1710,8 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		$tpl = new ilTemplate("tpl.chat_message.html",true,true,true);
 
-		$_POST['message'] = htmlentities(trim($_POST['message']),ENT_COMPAT,'utf-8');
+		$_POST['message'] = htmlentities(trim($_POST['message']),ENT_QUOTES,'utf-8');
+		$_POST['message'] = ilUtil::stripSlashes($_POST['message']);
 
 		$tpl->setVariable("MESSAGE",$_POST["message"]);
 		$tpl->setVariable("FONT_COLOR",$_POST["color"]);

@@ -544,10 +544,6 @@ class ilObjCourseGroupingGUI
 			$path .= $data['title'];
 		}
 
-		if(strlen($path) > 40)
-		{
-			return '...'.substr($path,-40);
-		}
 		return $path;
 	}
 

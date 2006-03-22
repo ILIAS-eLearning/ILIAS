@@ -260,11 +260,11 @@ class ilObjCourseGrouping
 
 		if($a_check_write)
 		{
-			$courses = ilUtil::_getObjectsByOperations('crs','write');
+			$courses = ilUtil::_getObjectsByOperations('crs','write',$ilUser->getId(),1000);
 		}
 		else
 		{
-			$courses = ilUtil::_getObjectsByOperations('crs','visible');
+			$courses = ilUtil::_getObjectsByOperations('crs','visible',$ilUser->getId(),1000);
 		}
 
 		$groupings = array();
