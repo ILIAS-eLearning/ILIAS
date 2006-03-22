@@ -234,7 +234,6 @@ assessment#:#eval_search_userselection#:#Ricerca gli utenti che vuoi inserire tr
 assessment#:#eval_selected_users#:#Valutazione per gli utenti selezionati
 assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni in formato&nbsp; 
 assessment#:#exp_type_excel#:#  Excel  
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Esporta
 assessment#:#failed_official#:#Respinto
@@ -5387,8 +5386,7 @@ survey#:#evaluation_access_participants#:#Accesso di prova per i partecipanti al
 survey#:#existing_constraints#:#Sono esistenti delle precondizioni
 survey#:#exit#:#Esci
 survey#:#exp_type_csv#:#Valori separati da punteggiatura (CSV)
-survey#:#exp_type_excel#:#Microsoft Excel (PC)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
+survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Esporta i dati come
 survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
 survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!

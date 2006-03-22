@@ -36,7 +36,8 @@ define ("CHARSET_MACOS", "macos");
 class ilExcelUtils
 {
 	function _convert_text($a_text, $a_target = CHARSET_LATIN1)
-	{
+	{ 
+		return utf8_decode($a_text);
 		switch ($a_target)
 		{
 			case CHARSET_LATIN1:

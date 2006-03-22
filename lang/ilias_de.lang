@@ -234,7 +234,6 @@ assessment#:#eval_search_userselection#:#Suchen Sie nach den Nutzerinnen, die Si
 assessment#:#eval_selected_users#:#Auswertung für ausgewählte Nutzerinnen
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
 assessment#:#failed_official#:#nicht bestanden
@@ -5397,8 +5396,7 @@ survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmende d
 survey#:#existing_constraints#:#Bestehende Vorbedingungen
 survey#:#exit#:#Beenden
 survey#:#exp_type_csv#:#Comma separated value (CSV)
-survey#:#exp_type_excel#:#Microsoft Excel (PC)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
+survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Antworten aus, bevor Sie eine neue Antwort erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen können!

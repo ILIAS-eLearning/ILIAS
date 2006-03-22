@@ -232,7 +232,6 @@ assessment#:#eval_search_userselection#:#Rechercher les utilisateurs que vous vo
 assessment#:#eval_selected_users#:#Evaluation pour les utilisateurs sélectionnés###07 Apr 2005 content changed
 assessment#:#exp_eval_data#:#Exporter les données d'évaluation###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#  Excel  ###07 Apr 2005 content changed
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)### 06 oct 2005 Content changed
 assessment#:#exp_type_spss#:#  SPSS  ###07 Apr 2005 content changed
 assessment#:#export#:#Exporter###07 Apr 2005 content changed
 assessment#:#failed_official#:#échec###07 Apr 2005 content changed
@@ -5379,8 +5378,7 @@ survey#:#evaluation_access_participants#:#Evaluation access for survey participa
 survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Sortie###07 Apr 2005 content changed
 survey#:#exp_type_csv#:#Valeurs séparées par une virgule (CSV)### 06 oct 2005 Content changed
-survey#:#exp_type_excel#:#Microsoft Excel (PC)### 06 oct 2005 Content changed
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)### 06 oct 2005 Content changed
+survey#:#exp_type_excel#:#Microsoft Excel### 06 oct 2005 Content changed
 survey#:#export_data_as#:#Exporter données sous :###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Veuillez remplir tous les champs de catégorie avant d'en ajouter un nouveau###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Veuillez remplir tous les champs obligatoires avant d'ajouter des catégories###07 Apr 2005 content changed

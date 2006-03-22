@@ -233,8 +233,7 @@ assessment#:#eval_search_users#:#brugere
 assessment#:#eval_search_userselection#:#S&oslash;g efter brugeren som du vil tilf&oslash;je til statistical evaluation
 assessment#:#eval_selected_users#:#Evaluation for m&aelig;rkeret brugere
 assessment#:#exp_eval_data#:#Eksporter evaluerings data som
-assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
+assessment#:#exp_type_excel#:#Microsoft Excel###21 Apr 2005 new variable
 assessment#:#exp_type_spss#:#komma sepereret v&aelig;rdier (CSV)
 assessment#:#export#:#Eksporter
 assessment#:#failed_official#:#Fejl
@@ -5302,9 +5301,8 @@ survey#:#evaluation_access_all#:#Evaluerings adgang for alle bruger
 survey#:#evaluation_access_participants#:#Evaluering adgang for undersoegelse medlemmer
 survey#:#existing_constraints#:#Eksisterende forhaandsbetingelser
 survey#:#exit#:#Afslut
-survey#:#exp_type_csv#:#Comma separated value (CSV)
-survey#:#exp_type_excel#:#Microsoft Excel (PC)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
+survey#:#exp_type_csv#:#Comma separated value (CSV)###20 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel###20 May 2005 new variable
 survey#:#export_data_as#:#Eksporter data som
 survey#:#fill_out_all_category_fields#:#Udfyld venligst alle kategorier inden du tilfoejer en ny!
 survey#:#fill_out_all_required_fields_add_category#:#Udfyld venligst alle noedvendige felter foer du tilfoejer en kategori!

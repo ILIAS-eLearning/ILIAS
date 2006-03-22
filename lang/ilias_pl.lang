@@ -234,7 +234,6 @@ assessment#:#eval_search_userselection#:#Wyszukaj użytkowników, dla których c
 assessment#:#eval_selected_users#:#Oszacowanie dla wybranych użytkowników
 assessment#:#exp_eval_data#:#Eksport danej szacunkowej
 assessment#:#exp_type_excel#:#  Excel
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#  SPSS
 assessment#:#export#:#Eksport
 assessment#:#failed_official#:#błędny
@@ -5392,8 +5391,7 @@ survey#:#evaluation_access_participants#:#Evaluation access for survey participa
 survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Wyjście
 survey#:#exp_type_csv#:#Wartości odzielone przecinkami (CSV)
-survey#:#exp_type_excel#:#Microsoft Excel (PC)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
+survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Eksportuj dane jako
 survey#:#fill_out_all_category_fields#:#Wypełnij wszystkie pola kategorii przed dodaniem nowej!###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Wypełnij wszystkie niezbędne pola  przed dodaniem kategorii!###03 Nov 2005 content changed

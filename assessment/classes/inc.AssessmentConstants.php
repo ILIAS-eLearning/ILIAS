@@ -115,7 +115,6 @@ define("SCORE_BEST_PASS", 1);
 * Test evaluation constants
 */
 define ("TYPE_XLS_PC", "latin1");
-define ("TYPE_XLS_MAC", "macos");
 define ("TYPE_SPSS", "csv");
 
 ?>

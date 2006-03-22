@@ -77,7 +77,6 @@ define("QUESTIONTITLES_VISIBLE", 1);
 * File export constants
 */
 define("TYPE_XLS", "latin1");
-define("TYPE_XLS_MAC", "macos");
 define("TYPE_SPSS", "csv");
 define("TYPE_PRINT", "prnt");
 

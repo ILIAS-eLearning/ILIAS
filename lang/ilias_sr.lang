@@ -231,7 +231,6 @@ assessment#:#eval_search_userselection#:#Pronadite korisnike koje želite da dod
 assessment#:#eval_selected_users#:#Ocenjivanje za selektovane korisnike
 assessment#:#exp_eval_data#:#Ispišite podatke o ocenjivanju kao
 assessment#:#exp_type_excel#:#Microsoft Excel###17 May 2005 content changed
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#Zarezom odvojene vrednosti (CSV)
 assessment#:#export#:#Prenošenje
 assessment#:#failed_official#:#neizvršeno
@@ -5198,8 +5197,7 @@ survey#:#evaluation_access_participants#:#Evaluation access for survey participa
 survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Izlaz
 survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel###17 May 2005 new variable
 survey#:#export_data_as#:#Izvezi podatke kao
 survey#:#fill_out_all_category_fields#:#Molimo popunite sve kategorijska polja pre nego dodate novo!###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Molimo popunite sve zahtevanaa polja pre nego dodate kategorije!###03 Nov 2005 content changed

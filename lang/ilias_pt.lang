@@ -234,7 +234,6 @@ assessment#:#eval_search_userselection#:#Search the users you want to add to the
 assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
 assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#Exportar###07 Apr 2005 content changed
 assessment#:#failed_official#:#failed###04 Sep 2004 new variable
@@ -5392,8 +5391,7 @@ survey#:#evaluation_access_participants#:#Evaluation access for survey participa
 survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Exit###01 Jun 2004 new variable
 survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel###17 May 2005 new variable
 survey#:#export_data_as#:#Export data as###12 Jun 2004 new variable
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!###21 May 2004 new variable
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable

@@ -231,7 +231,6 @@ assessment#:#eval_search_userselection#:#Kërko për shfrytëzuesit që doni të
 assessment#:#eval_selected_users#:#Vlerësim për shfrytëzuesit e zgjedhur
 assessment#:#exp_eval_data#:#Eksporto të dhënat e vlerësimit si
 assessment#:#exp_type_excel#:#Microsoft Excel###17 May 2005 content changed
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#Vlera të ndara me presje (CSV)
 assessment#:#export#:#Eksport
 assessment#:#failed_official#:#dështim
@@ -5198,8 +5197,7 @@ survey#:#evaluation_access_participants#:#Evaluation access for survey participa
 survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Dil
 survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel###17 May 2005 new variable
 survey#:#export_data_as#:#Eksporto të dhënat si
 survey#:#fill_out_all_category_fields#:#Ju lutem kompletoni të gjitha kategoritë para se të shtoni një të re!###03 Nov 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Ju lutem kompletoni të gjitha fushat e kërkuara para se të shtoni kategori!###03 Nov 2005 content changed
