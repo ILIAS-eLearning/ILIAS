@@ -2,12 +2,17 @@
 	body { margin:0px; }
   </style>
   <p>{MESSAGE}</p>
-  <table class="fullwidth_invisible">
+  <table class="fullwidth_invisible" border="0">
   <tr>
   	<td class="ilInvisibleBorder" valign="top">
   <!--<div class="invisible_border">-->
 		<form action="{FORMACTION}" name="txt_input" method="post">
 		<table class="std" border="0">
+		  <tr class="tblheader">
+			  <th class="std" align="left" nowrap="nowrap" colspan="2">
+				{TXT_NEW_MESSAGE}
+			  </th>
+			</tr>
 		<tr>
 			<td class="option">{TXT_COLOR}</td>
 			<td class="option_value" colspan="2">{SELECT_COLOR}</td>
@@ -22,7 +27,9 @@
 		</tr>
 		<tr>
 <!--			<td class="option">{TXT_INPUT}</td>//-->
-			<td class="option_value" colspan="3" style="text-align:center"><textarea cols=50 rows=2 wrap="virtual" name="message"></textarea></td>
+			<td class="option_value" colspan="3" style="text-align:center">
+				<input type="text" name="message" size="50" maxlength="80" />
+			  </td>
 		</tr>
 		<tr class="tblfooter">
 			<td class="std" colspan="3">
@@ -30,7 +37,7 @@
 				<!-- BEGIN cancel -->
 				<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_SUBMIT_CANCEL}" />&nbsp;
 				<!-- END cancel -->
-				<input class="submit" type="submit" name="cmd[export]" value="Html Export" />
+				<input class="submit" type="submit" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
 			</td>
 		</tr>
 		</table>
@@ -41,6 +48,12 @@
 	<td class="ilInvisibleBorder" valign="top">
 		<form action="{MODERATOR_FORMACTION}" name="mod_input" method="post" target="{MODERATOR_TARGET}">
 		<table class="std" border="0">
+		  <tr class="tblheader">
+			  <th class="std" align="left" nowrap="nowrap" colspan="2">
+				{TXT_RECORDINGS}
+			  </th>
+			</tr>
+
 <!-- BEGIN start_recording -->
 		<tr>
 			<td class="option">{TXT_TITLE_START_RECORDING}</td>
