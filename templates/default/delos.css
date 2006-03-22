@@ -1923,3 +1923,46 @@ div.textbox
 	font-weight: bold;
 }
 
+
+/*--------------------course graduation photo styles---------- */
+
+#thumbs {
+        text-align:center;
+        display:block;
+        background-color:#000;
+}
+
+.grad_body {
+        background-color:white;
+        margin: 0px auto;
+        text-align:center;
+        width:95%;
+        padding: 8px;
+        line-height: 1.33;
+}
+
+#grad_picture {
+        page-break-before:auto;
+        margin-right:10px;
+        background-color:#eee;
+        padding:3px;
+        font-size:10px;
+        width:100px;
+        display:block;
+        float:left;
+        height:175px;
+        margin-bottom:20px;
+}
+
+#grad_tutor {
+        page-break-before:auto;
+        margin-right:10px;
+        background-color:#bbb;
+        padding:3px;
+        font-size:10px;
+        width:100px;
+        display:block;
+        float:left;
+        height:175px;
+        margin-bottom:20px;
+}
