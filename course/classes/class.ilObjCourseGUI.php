@@ -1505,8 +1505,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("crs_add_member"));
 			$this->tpl->parseCurrentBlock();
 		}
-		// print
+		// print Members
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
+
+		// show Course Graduation Photo. Comment this in case you don't want to allow this 
+		$this->__showButton("GraduationPhoto",$this->lng->txt("crs_graduation_photo"),"target=\"_blank\"");
 
 		// unsubscribe
 		if($rbacsystem->checkAccess('leave',$this->object->getRefId()) and 
@@ -3009,7 +3012,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
-		$tpl->setVariable("CSS_PATH",$this->tpl->tplPath);
+		$tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
 		
 		$headline = $this->lng->txt('obj_crs').': '.$this->object->getTitle().
 			' -> '.$this->lng->txt('crs_header_members').' ('.strftime("%Y-%m-%d %R",time()).')';
@@ -3020,7 +3023,147 @@ class ilObjCourseGUI extends ilContainerGUI
 		exit;
 	}
 
-	// GROUPING METHODS
+
+	/**
+	 * Builds a class graduation photo structured as a layer of left-floating images
+	 * @author Arturo Gonzalez <arturogf@gmail.com>
+	 * @access       public
+	 */
+	function GraduationPhotoObject()
+	{
+		global $rbacsystem;
+		require_once("class.ilObjCourse.php");
+
+		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
+
+		$tpl =& new ilTemplate('tpl.crs_members_graduation.html',true,true,'course');
+
+		$this->object->initCourseMemberObject();
+
+
+		// MEMBERS
+		if(count($members = $this->object->members_obj->getAssignedUsers()))
+		{
+			foreach($members as $member_id)
+			{
+				// GET USER IMAGE
+				unset($webspace_dir);
+
+				$webspace_dir=ilUtil::getWebspaceDir();
+				$image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member_id."_"."xsmall".".jpg";
+				
+				if (!file_exists($image_file)) {
+					$thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
+				}
+				else {
+					$image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
+					$thumb_file = $image_url."/usr_".$member_id."_"."xsmall".".jpg";
+				}
+
+			    $file = $thumb_file."?t=".rand(1, 99999);
+
+				$member_data = $this->object->members_obj->getUserData($member_id);
+
+				// GET USER OBJ
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+				{
+
+				switch($member_data["role"])
+					{
+					case $this->object->members_obj->ROLE_ADMIN:
+					//tutors
+				
+						$tpl->setCurrentBlock("tutors_row");
+						$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
+						$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+						$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+						$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
+
+						$tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
+						$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+						$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+
+						$tpl->parseCurrentBlock();
+						break;
+
+					case $this->object->members_obj->ROLE_TUTOR:
+					//tutors
+				
+						$tpl->setCurrentBlock("tutors_row");
+						$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
+						$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+						$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+						$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
+
+						$tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
+						$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+						$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+
+						$tpl->parseCurrentBlock();
+						break;
+
+
+					case $this->object->members_obj->ROLE_MEMBER:
+					//students
+						$tpl->setCurrentBlock("members_row");
+						$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
+						$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+						$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+						$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
+								
+						$tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
+						$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+						$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+
+						$tpl->parseCurrentBlock();
+						break;
+					}
+
+				}
+			}
+			$tpl->setCurrentBlock("members");	
+			$tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
+			$tpl->parseCurrentBlock();
+
+		}
+		// SUBSCRIBERS
+		/*
+		if(count($members = $this->object->members_obj->getSubscribers()))
+		{
+			foreach($members as $member_id)
+			{
+				$member_data = $this->object->members_obj->getSubscriberData($member_id);
+
+				// GET USER OBJ
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+				{
+					$tpl->setCurrentBlock("members_row");
+					
+					$tpl->setVariable("SLOGIN",$tmp_obj->getLogin());
+					$tpl->setVariable("SFIRSTNAME",$tmp_obj->getFirstname());
+					$tpl->setVariable("SLASTNAME",$tmp_obj->getLastname());
+					$tpl->setVariable("STIME",$member_data["time"]);
+					$tpl->parseCurrentBlock();
+				}
+			}
+
+		}
+		*/
+		$tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
+		$tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
+		
+		$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
+
+		$tpl->setVariable("HEADLINE",$headline);
+
+		$tpl->show();
+		exit;
+	}
+
+
 	function listGroupingsObject()
 	{
 		include_once './course/classes/class.ilObjCourseGrouping.php';
