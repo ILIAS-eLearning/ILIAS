@@ -2991,8 +2991,7 @@ common#:#user_profile_other#:#További információ
 common#:#user_statistics#:#Statisztikai adatok
 common#:#userdata#:#Felhasználói adatok
 common#:#userfolder_export_csv#:#Vesszővel tagolt szöveg (CSV)
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
-common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
+common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Fájl
 common#:#userfolder_export_file_size#:#Fájlméret
 common#:#userfolder_export_files#:#Fájlok

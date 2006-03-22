@@ -105,10 +105,7 @@ class ilObjUserFolder extends ilObject
 		switch($a_mode)
 		{
 			case "userfolder_export_excel_x86":				
-				$filename = $date."__".$inst_id."__x86_usrf.xls";
-				break;
-			case "userfolder_export_excel_ppc":				
-				$filename = $date."__".$inst_id."__ppc_usrf.xls";
+				$filename = $date."__".$inst_id."__xls_usrf.xls";
 				break;
 			case "userfolder_export_csv":				
 				$filename = $date."__".$inst_id."__csv_usrf.csv";
@@ -638,9 +635,6 @@ class ilObjUserFolder extends ilObject
 		{
 			case "userfolder_export_excel_x86":
 				$this->createExcelExport($settings, $data, $fullname, "latin1");
-				break;
-			case "userfolder_export_excel_ppc":
-				$this->createExcelExport($settings, $data, $fullname, "macos");
 				break;
 			case "userfolder_export_csv":
 				$this->createCSVExport($settings, $data, $fullname);

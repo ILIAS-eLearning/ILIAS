@@ -3064,8 +3064,7 @@ common#:#user_profile_other#:#Ulteriori informazioni
 common#:#user_statistics#:#Dati statistici
 common#:#userdata#:#Dati utente
 common#:#userfolder_export_csv#:#Valori separati da punteggiatura (CSV)
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
-common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
+common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#File
 common#:#userfolder_export_file_size#:#Dimensioni file
 common#:#userfolder_export_files#:#File

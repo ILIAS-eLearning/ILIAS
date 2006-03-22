@@ -3068,8 +3068,7 @@ common#:#user_profile_other#:#Inne informacje
 common#:#user_statistics#:#Dane statystyczne
 common#:#userdata#:#Dane użytkownika
 common#:#userfolder_export_csv#:#Wartości rozdzielone przecinkami
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
-common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
+common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Plik
 common#:#userfolder_export_file_size#:#Rozmiar pliku
 common#:#userfolder_export_files#:#Pliki
