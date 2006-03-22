@@ -241,7 +241,6 @@ assessment#:#eval_search_userselection#:#Tìm kiếm những người sử dụn
 assessment#:#eval_selected_users#:#Thống kê chọn người sử dụng
 assessment#:#exp_eval_data#:#Xuất kết quả đánh giá như là
 assessment#:#exp_type_excel#:#Microsoft Excel (PC)
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#Giá trị phân tách bằng dấu phẩy (CSV)
 assessment#:#export#:#Xuất ra
 assessment#:#failed_official#:#không đạt
@@ -2981,7 +2980,6 @@ common#:#user_profile_other#:#Thông tin khác
 common#:#user_statistics#:#Dữ liệu thống kê
 common#:#userdata#:#Thông tin cá nhân
 common#:#userfolder_export_csv#:#Giá trị phân tách bởi dấu phẩy
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
 common#:#userfolder_export_file#:#File
 common#:#userfolder_export_file_size#:#Kích thước file
@@ -5287,7 +5285,6 @@ survey#:#existing_constraints#:#Những điều kiện tiên quyết đang tồn
 survey#:#exit#:#Thoát
 survey#:#exp_type_csv#:#Giá trị phân biệt bằng dấu phẩy (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#export_data_as#:#Xuất dữ liệu ra như là
 survey#:#fill_out_all_category_fields#:#Hãy điền đủ các trường của mục trước khi thêm mới!
 survey#:#fill_out_all_required_fields_add_category#:#Hãy điền đủ các trường được yêu cầu trước khi bạn thêm mục!

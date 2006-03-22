@@ -213,7 +213,6 @@ assessment#:#eval_search_userselection#:#Искать пользователей
 assessment#:#eval_selected_users#:#Оценивание выбранных пользователей
 assessment#:#exp_eval_data#:#Экспортировать данные оценивания как 
 assessment#:#exp_type_excel#:#Microsoft Excel (PC)
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Экспорт
 assessment#:#failed_official#:#неудачно
@@ -4675,7 +4674,6 @@ survey#:#evaluation_access#:#Эволюционный доступ
 survey#:#exit#:#Выход
 survey#:#exp_type_csv#:#Comma separated value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#export_data_as#:#Экспортировать данные как 
 survey#:#fill_out_all_category_fields#:#Пожалуйста, заполните все поля категорий перед добавлением еще одной!
 survey#:#fill_out_all_required_fields_add_category#:#Пожалуйста, заполните все обязательные поля перед добавлением категорий!

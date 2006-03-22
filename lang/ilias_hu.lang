@@ -236,8 +236,7 @@ assessment#:#eval_search_users#:#Felhasználók
 assessment#:#eval_search_userselection#:#A statisztikai kiértékeléshez felveendő felhasználók keresése
 assessment#:#eval_selected_users#:#Értékelendő felhasználók kiválasztása
 assessment#:#exp_eval_data#:#Kiértékelési adatok exportja, mint
-assessment#:#exp_type_excel#:#Microsoft Excel (Intel x86)
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
+assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Vesszővel tagolt szöveg (CSV)
 assessment#:#export#:#Export
 assessment#:#failed_official#:#elégtelen
@@ -5308,8 +5307,7 @@ survey#:#evaluation_access_participants#:#Kiértékelési-elérés kérdőívkit
 survey#:#existing_constraints#:#Létező előfeltételek
 survey#:#exit#:#Kilépés
 survey#:#exp_type_csv#:#Vesszővel tagolt szöveg (CSV)
-survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
+survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Adatok exportálása, mint
 survey#:#fill_out_all_category_fields#:#Töltsön ki minden válaszmezőt, mielőtt újat vesz fel!
 survey#:#fill_out_all_required_fields_add_category#:#Töltsön ki minden kötelező mezőt, mielőtt új választ vesz fel!

@@ -235,8 +235,7 @@ assessment#:#eval_search_users#:#Users
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation
 assessment#:#eval_selected_users#:#Evaluation for selected users
 assessment#:#exp_eval_data#:#Export evaluation data as
-assessment#:#exp_type_excel#:#Microsoft Excel (Intel x86)
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
+assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Export
 assessment#:#failed_official#:#failed
@@ -5439,8 +5438,7 @@ survey#:#evaluation_access_participants#:#Evaluation access for survey participa
 survey#:#existing_constraints#:#Existing preconditions
 survey#:#exit#:#Exit
 survey#:#exp_type_csv#:#Comma separated value (CSV)
-survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
+survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Export data as
 survey#:#fill_out_all_category_fields#:#Please fill out all answer fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add answers!

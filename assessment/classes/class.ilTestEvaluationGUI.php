@@ -690,16 +690,7 @@ class ilTestEvaluationGUI
 			$sortimage = " <img src=\"".ilUtil::getImagePath("desc_order.png", true)."\" alt=\"" . $this->lng->txt("descending_order") . "\" />";
 			$this->ctrl->setParameter($this, "sortname", "asc");
 		}
-		if ($all_users)
-		{
-			$name_column = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalAllUsers")."\">" . $this->lng->txt("name") . "</a>";
-			$name_column .= $sortimage;
-		}
-		else
-		{
-			$name_column = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalSelectedUsers")."\">" . $this->lng->txt("name") . "</a>";
-			$name_column .= $sortimage;
-		}
+		$name_column = $this->lng->txt("name");
 		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
 		{
 			$name_column = $this->lng->txt("counter");
@@ -1067,9 +1058,12 @@ class ilTestEvaluationGUI
 			switch ($_POST["export_type"])
 			{
 				case TYPE_XLS_PC:
-				case TYPE_XLS_MAC:
 					// Creating a workbook
-					include_once './classes/Spreadsheet/Excel/Writer.php';
+					$result = @include_once 'Spreadsheet/Excel/Writer.php';
+					if (!$result)
+					{
+						include_once './classes/Spreadsheet/Excel/Writer.php';
+					}
 					$workbook = new Spreadsheet_Excel_Writer();
 	
 					// sending HTTP headers
@@ -1234,6 +1228,19 @@ class ilTestEvaluationGUI
 		$noq = $noqcount;		
 		foreach ($titlerow as $title)
 		{
+			if (strcmp($title, $this->lng->txt("name")) == 0)
+			{
+				if ($all_users)
+				{
+					$title = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalAllUsers")."\">" . $this->lng->txt("name") . "</a>";
+					$title .= $sortimage;
+				}
+				else
+				{
+					$title = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalSelectedUsers")."\">" . $this->lng->txt("name") . "</a>";
+					$title .= $sortimage;
+				}
+			}
 			if ($noq > 0)
 			{
 				$this->tpl->setCurrentBlock("titlecol");
@@ -1308,7 +1315,6 @@ class ilTestEvaluationGUI
 		$this->tpl->setCurrentBlock("export_btn");
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$this->tpl->setVariable("TEXT_EXCEL_MAC", $this->lng->txt("exp_type_excel_mac"));
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));

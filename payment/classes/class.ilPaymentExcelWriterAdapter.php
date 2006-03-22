@@ -32,7 +32,6 @@
 * @package ilias-payment
 *
 */
-include_once './classes/Spreadsheet/Excel/Writer.php';
 
 class ilPaymentExcelWriterAdapter
 {
@@ -43,6 +42,11 @@ class ilPaymentExcelWriterAdapter
 
 	function ilPaymentExcelWriterAdapter($a_filename,$a_send = true)
 	{
+		$result = @include_once 'Spreadsheet/Excel/Writer.php';
+		if (!$result)
+		{
+			include_once './classes/Spreadsheet/Excel/Writer.php';
+		}
 		if($a_send)
 		{
 			$this->workbook =& new Spreadsheet_Excel_Writer();

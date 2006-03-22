@@ -234,7 +234,6 @@ assessment#:#eval_search_userselection#:#Search the users you want to add to the
 assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Exporteer evaluatie-gegevens als###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#Microsoft Excel###05 Nov 2004 new variable
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#Door komma's gescheiden waarde(CVS)###07 Apr 2005 content changed
 assessment#:#export#:#Exporteer###07 Apr 2005 content changed
 assessment#:#failed_official#:#mislukt###07 Apr 2005 content changed
@@ -5392,8 +5391,7 @@ survey#:#evaluation_access_participants#:#Evaluation access for survey participa
 survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Toegang tot evaluatie###07 Apr 2005 content changed
 survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel###17 May 2005 new variable
 survey#:#export_data_as#:#Microsoft Excel###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Uitgang###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Exporteer gegevens als###07 Apr 2005 content changed

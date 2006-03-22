@@ -235,7 +235,6 @@ assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir
 assessment#:#eval_selected_users#:#Evaluación de usuarios seleccionados
 assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.
 assessment#:#exp_type_excel#:#  Excel  
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
 assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Exportar
 assessment#:#failed_official#:#no superado
@@ -5406,8 +5405,7 @@ survey#:#evaluation_access_participants#:#Evaluación de acceso para todos los p
 survey#:#existing_constraints#:#Precondiciones existentes
 survey#:#exit#:#Salir
 survey#:#exp_type_csv#:#Archivo separado por comas (CSV)
-survey#:#exp_type_excel#:#Microsoft Excel (Intel x86)
-survey#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
+survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Exportar datos como
 survey#:#fill_out_all_category_fields#:#Por favor rellene todos los campos de categoría antes de añadir uno nuevo!
 survey#:#fill_out_all_required_fields_add_category#:#Por favor rellene todos los campos requeridos antes de añadir categorías!
