@@ -25,6 +25,17 @@
 <!-- END grp_status -->
 <tr>
   <td class="option" rowspan="4">{TXT_REGISTRATION}</td>
+  <td class="sub_option" rowspan="3">{TXT_REGISTRATION_MODE}</td>
+  <td class="option_value">{RB_NOREGISTRATION}{TXT_DISABLEREGISTRATION}
+</tr>
+<tr>
+    <td class="option_value">{RB_REGISTRATION}{TXT_ENABLEREGISTRATION}
+</tr>
+<tr>
+    <td class="option_value">{RB_PASSWORDREGISTRATION}{TXT_PASSWORDREGISTRATION}
+    <input name="password" value="{PASSWORD}" size="25" maxlength="40" /></td>
+</tr>
+<tr>
   <td class="sub_option">{TXT_REGISTRATION_TIME}</td>
   <td class="option_value">
     <table class="option_value">
@@ -37,17 +48,6 @@
       <td><input name="expirationtime" value="{EXPIRATIONTIME}" size="5" maxlength="5"/> [{TXT_TIME}]</td>
     </tr>
     </table>
-</tr>
-<tr>
-  <td class="sub_option" rowspan="3">{TXT_REGISTRATION_MODE}</td>
-  <td class="option_value">{RB_NOREGISTRATION}{TXT_DISABLEREGISTRATION}
-</tr>
-<tr>
-    <td class="option_value">{RB_REGISTRATION}{TXT_ENABLEREGISTRATION}
-</tr>
-<tr>
-    <td class="option_value">{RB_PASSWORDREGISTRATION}{TXT_PASSWORDREGISTRATION}
-    <input name="password" value="{PASSWORD}" size="25" maxlength="40" /></td>
 </tr>
 {CONTAINER_ICONS}
 <tr>
