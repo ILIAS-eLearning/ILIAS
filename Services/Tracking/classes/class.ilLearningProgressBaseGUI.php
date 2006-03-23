@@ -492,7 +492,7 @@ class ilLearningProgressBaseGUI
 				include_once './Services/Tracking/classes/class.ilTestResultCache.php';
 				$test_res_cache =& ilTestResultCache::_getInstance();
 				$result = $test_res_cache->get($a_obj_id);
-				
+
 				foreach($result as $res)
 				{
 					if($a_user_id == $res['user_id'])

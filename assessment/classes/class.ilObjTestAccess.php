@@ -524,18 +524,16 @@ class ilObjTestAccess extends ilObjectAccess
 				$pass = ilObjTest::_getResultPass($user_id, $test_id);
 				$testres =& ilObjTestAccess::_getTestResult($user_id, $a_obj_id, $pass);
 
-				if ($testres["passed"])
-				{
-					array_push($passed_users, 
-						array(
-							"user_id" => $user_id,
-							"max_points" => $testres["max_points"],
-							"reached_points" => $testres["reached_points"],
-							"mark_short" => $testres["mark"]["short_name"],
-							"mark_official" => $testres["mark"]["official_name"]
-						)
+				array_push($passed_users, 
+						   array(
+							   "user_id" => $user_id,
+							   "max_points" => $testres["max_points"],
+							   "reached_points" => $testres["reached_points"],
+							   "mark_short" => $testres["mark"]["short_name"],
+							   "mark_official" => $testres["mark"]["official_name"],
+							   "passed" => (bool) $testres['passed']
+							   )
 					);
-				}
 			}
 		}
 		return $passed_users;
