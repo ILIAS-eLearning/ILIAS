@@ -3477,8 +3477,8 @@ class ilObjTest extends ilObject
 		);
 		$result = $this->ilias->db->query($q);
 		$times = array();
-		$first_visit = "";
-		$last_visit = "";
+		$first_visit = 0;
+		$last_visit = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);

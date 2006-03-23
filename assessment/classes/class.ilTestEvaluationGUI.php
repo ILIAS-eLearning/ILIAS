@@ -1065,10 +1065,8 @@ class ilTestEvaluationGUI
 						include_once './classes/Spreadsheet/Excel/Writer.php';
 					}
 					$workbook = new Spreadsheet_Excel_Writer();
-	
 					// sending HTTP headers
 					$workbook->send("$testname.xls");
-	
 					// Creating a worksheet
 					$format_bold =& $workbook->addFormat();
 					$format_bold->setBold();
