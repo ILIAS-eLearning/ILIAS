@@ -286,7 +286,7 @@ class ilLPObjSettings
 				return LP_MODE_MANUAL;
 
 			case 'tst':
-				return LP_MODE_TEST_FINISHED;
+				return LP_MODE_TEST_PASSED;
 					
 			default:
 				return LP_MODE_UNDEFINED;
