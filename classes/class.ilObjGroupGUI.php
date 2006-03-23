@@ -661,7 +661,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
 		
-		$this->showCustomIconsEditing();
+		$this->showCustomIconsEditing(2);
 		$this->tpl->setCurrentBlock("adm_content");
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));//$this->getFormAction("update",$this->ctrl->getFormAction($this)));
@@ -1099,7 +1099,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
 		$this->setSubTabs('members');
 
-<<<<<<< class.ilObjGroupGUI.php
 		// display member search button
 		$this->lng->loadLanguageModule('crs');
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
@@ -1112,9 +1111,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-
-=======
->>>>>>> 1.130.2.12
 		$ilBench->start("GroupGUI", "membersObject");
 		
 		//if current user is admin he is able to add new members to group
