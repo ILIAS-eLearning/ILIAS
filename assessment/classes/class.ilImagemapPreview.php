@@ -81,7 +81,7 @@ class ilImagemapPreview
 		$visible = true,
 		$linecolor = "red",
 		$bordercolor = "white",
-		$fillcolor = "\"#FFFFFFC0\""
+		$fillcolor = "#FFFFFFC0"
 	)
 	{
 		array_push($this->areas, array(

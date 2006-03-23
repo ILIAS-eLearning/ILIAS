@@ -124,7 +124,7 @@ class ilSurveyExecutionGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($this->object->getAnonymize())
+		if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
 		{
 			if ($resume)
 			{
@@ -143,7 +143,7 @@ class ilSurveyExecutionGUI
 		
 		$direction = 0;
 
-		if ($this->object->getAnonymize())
+		if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
 		{
 			if ($this->object->checkSurveyCode($_POST["anonymous_id"]))
 			{
@@ -154,6 +154,10 @@ class ilSurveyExecutionGUI
 				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
 				$this->ctrl->redirect($this, "run");
 			}
+		}
+		if ($this->object->isAccessibleWithoutCode())
+		{
+			$_SESSION["anonymous_id"] = $this->object->getRandomSurveyCode();
 		}
 		
 		$activepage = "";
@@ -562,8 +566,7 @@ class ilSurveyExecutionGUI
 			$this->tpl->parseCurrentBlock();
 			return;
 		}
-
-		if ($this->object->getAnonymize())
+		if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
 		{
 			$this->tpl->setCurrentBlock("start");
 			$anonymize_key = $this->object->getUserSurveyCode();
@@ -587,7 +590,10 @@ class ilSurveyExecutionGUI
 			}
 			else
 			{
-				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
+				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+				{
+					$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
+				}
 			}
 			$this->tpl->parseCurrentBlock();
 		}

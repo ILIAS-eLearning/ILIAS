@@ -844,6 +844,28 @@ class ilObjSurvey extends ilObject
 	{
 		return $this->anonymize;
 	}
+	
+	/**
+	* Checks if the survey is accessable without a survey code
+	*
+	* @return	boolean status
+	*/
+	function isAccessibleWithoutCode()
+	{
+		return false;
+		/*
+		// patch for HSU-HH, activate when installed
+		// simply remove the line above and every survey which
+		// is accessible by anonymous could be done without survey code
+		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}*/
+	}
 
 /**
 * Loads a survey object from a database
@@ -4712,6 +4734,16 @@ class ilObjSurvey extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+	}
+	
+	/**
+	* Returns a random survey code
+	*
+	* @param	string		$a_target
+	*/
+	function getRandomSurveyCode()
+	{
+		return md5(time() . $this->getSurveyId());
 	}
 	
 	/**
