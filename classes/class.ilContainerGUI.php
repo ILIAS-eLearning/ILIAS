@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1505,7 +1505,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	* show edit section of custom icons for container
 	* 
 	*/
-	function showCustomIconsEditing()
+	function showCustomIconsEditing($a_input_colspan = 1)
 	{
 		if ($this->ilias->getSetting("custom_icons"))
 		{
@@ -1525,6 +1525,8 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("container_icon_settings");
+			$this->tpl->setVariable("SPAN_TITLE", $a_input_colspan + 1);
+			$this->tpl->setVariable("SPAN_INPUT", $a_input_colspan);
 			$this->tpl->setVariable("ICON_SETTINGS", $this->lng->txt("icon_settings"));
 			$this->tpl->setVariable("BIG_ICON", $this->lng->txt("big_icon"));
 			$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("small_icon"));
