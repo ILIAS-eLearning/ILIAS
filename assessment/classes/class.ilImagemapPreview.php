@@ -81,9 +81,16 @@ class ilImagemapPreview
 		$visible = true,
 		$linecolor = "red",
 		$bordercolor = "white",
-		$fillcolor = "#FFFFFFC0"
+		$fillcolor = "\"#FFFFFFC0\""
 	)
 	{
+		if (ini_get("safe_mode"))
+		{
+			if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false))
+			{
+				$fillcolor = str_replace("\"", "", $fillcolor);
+			}
+		}
 		array_push($this->areas, array(
 			"shape" => "$shape",
 			"coords" => "$coords",
