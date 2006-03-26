@@ -105,17 +105,20 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 			$this->object->addRange(0.0, 0.0, 0);
 		}
 		
+		$counter = 0;
 		foreach ($this->object->ranges as $range)
 		{
 			$this->tpl->setCurrentBlock("ranges");
+			$this->tpl->setVariable("COUNTER", $counter);
 			$this->tpl->setVariable("TEXT_RANGE", $this->lng->txt("range"));
-			$this->tpl->setVariable("VALUE_LOWER_LIMIT", $range->getLowerLimit());
-			$this->tpl->setVariable("VALUE_UPPER_LIMIT", $range->getUpperLimit());
-			$this->tpl->setVariable("VALUE_POINTS", $range->getPoints());
+			if (strlen($range->getPoints())) $this->tpl->setVariable("VALUE_POINTS", " value=\"" . $range->getPoints() . "\"");
+			if (strlen($range->getLowerLimit())) $this->tpl->setVariable("VALUE_LOWER_LIMIT", " value=\"" . $range->getLowerLimit() . "\"");
+			if (strlen($range->getUpperLimit())) $this->tpl->setVariable("VALUE_UPPER_LIMIT", " value=\"" . $range->getUpperLimit() . "\"");
 			$this->tpl->setVariable("TEXT_RANGE_LOWER_LIMIT", $this->lng->txt("range_lower_limit"));
 			$this->tpl->setVariable("TEXT_RANGE_UPPER_LIMIT", $this->lng->txt("range_upper_limit"));
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->parseCurrentBlock();
+			$counter++;
 		}
 		
 		$this->tpl->setCurrentBlock("question_data");
@@ -131,6 +134,8 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
+		$this->tpl->setVariable("VALUE_MAXCHARS", $this->object->getMaxChars());
 		if (count($this->object->suggested_solutions))
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
@@ -214,7 +219,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 
 	function checkRange()
 	{
-		if (is_numeric ($_POST ["rang_lower_limit"]) AND is_numeric ($_POST ["range_upper_limit"]))
+		if (is_numeric($_POST["rang_lower_limit"]) AND is_numeric ($_POST ["range_upper_limit"]))
 		{
 			if ($_POST ["rang_lower_limit"] < $_POST ["range_upper_limit"])
 			{
@@ -241,48 +246,11 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 	*/
 	function writePostData()
 	{
-//echo "here!"; exit;
-//echo "<br>ASS_NumericGUI->writePostData()";
+		$saved = false;
 		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["maxchars"]))
 		{
 			$result = 1;
-		}
-
-// 		if (($result) and (($_POST["cmd"]["add"]) or ($_POST["cmd"]["add_tf"]) or ($_POST["cmd"]["add_yn"])))
-// 		{
-// 			// You cannot add answers before you enter the required data
-// 			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-// 			$_POST["cmd"]["add"] = "";
-// 			$_POST["cmd"]["add_yn"] = "";
-// 			$_POST["cmd"]["add_tf"] = "";
-// 		}
-
-		// Check the creation of new answer text fields
-// 		if ($_POST["cmd"]["add"] or $_POST["cmd"]["add_yn"] or $_POST["cmd"]["add_tf"])
-// 		{
-// 			foreach ($_POST as $key => $value)
-// 			{
-// 				if (preg_match("/answer_(\d+)/", $key, $matches))
-// 				{
-// 					if (!$value)
-// 					{
-// 						$_POST["cmd"]["add"] = "";
-// 						$_POST["cmd"]["add_yn"] = "";
-// 						$_POST["cmd"]["add_tf"] = "";
-// 						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
-// 					}
-// 			 	}
-// 			}
-// 		}
-
-		// Check if the range of the values are correct
-		if (!checkRange())
-		{
-			$result = 1;
-			$_POST ["rang_lower_limit"] = "";
-			$_POST ["range_upper_limit"] = "";
-			sendInfo($this->lng->txt("fill_out_all_required_fields_correct_range_limit"));
 		}
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -293,22 +261,20 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->object->set_question($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
+		$this->object->setMaxChars($_POST["maxchars"]);
 		
-		// set of POST range limit values
-		$this->object->setLowerLimit(ilUtil::stripSlashes($_POST["rang_lower_limit"]));
-		$this->object->setUpperLimit(ilUtil::stripSlashes($_POST["range_upper_limit"]));
+		// adding estimated working time
+		$saved = $saved | $this->writeOtherPostData($result);
 
-		$saved = $this->writeOtherPostData($result);
-
-		// Delete all existing answers and create new answers from the form data
-		$this->object->flush_answers();
+		// Delete all existing ranges and create new answers from the form data
+		$this->object->flushRanges();
 
 		// Add all answers from the form into the object
 
 		// ...for Numeric with single response
 		foreach ($_POST as $key => $value)
 		{
-			if (preg_match("/answer_(\d+)/", $key, $matches))
+			if (preg_match("/lowerlimit_(\d+)/", $key, $matches))
 			{
 				$points = $_POST["points_$matches[1]"];
 				if (preg_match("/\d+/", $points))
@@ -323,31 +289,29 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 				{
 					$points = 0.0;
 				}
-				$this->object->add_answer(
-					ilUtil::stripSlashes($_POST["$key"]),
-					ilUtil::stripSlashes($points),
-					ilUtil::stripSlashes(1),
-					ilUtil::stripSlashes($matches[1])
-					);
+				$lowerlimit = str_replace(",", ".", $_POST["lowerlimit_".$matches[1]]);
+				if (strlen($lowerlimit) == 0) $lowerlimit = 0.0;
+				if (!is_numeric($lowerlimit))
+				{
+					$this->setErrorMessage($this->lng->txt("value_is_not_a_numeric_value"));
+					$result = 1;
+				}
+				$upperlimit = str_replace(",", ".", $_POST["upperlimit_".$matches[1]]);
+				if (strlen($upperlimit) == 0) $upperlimit = 0.0;
+				if (!is_numeric($upperlimit))
+				{
+					$this->setErrorMessage($this->lng->txt("value_is_not_a_numeric_value"));
+					$result = 1;
+				}
+				$this->object->addRange(
+					$lowerlimit,
+					$upperlimit,
+					$points,
+					$matches[1]
+				);
 			}
 		}
 
-		// After adding all questions from the form we have to check if the learner pressed a delete button
-		foreach ($_POST as $key => $value)
-		{
-			// was one of the answers deleted
-			if (preg_match("/delete_(\d+)/", $key, $matches))
-			{
-				$this->object->delete_answer($matches[1]);
-			}
-		}
-
-		// Set the question id from a hidden form parameter
-		if ($_POST["numeric_id"] > 0)
-		{
-			$this->object->setId($_POST["numeric_id"]);
-		}
-		
 		if ($saved)
 		{
 			// If the question was saved automatically before an upload, we have to make
@@ -393,18 +357,16 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		{
 			global $ilUser;
 		}
-		$output = $this->outQuestionPage(($show_solution_only)?"":"MULTIPLE_CHOICE_QUESTION", $is_postponed, $test_id);
-		
+		$output = $this->outQuestionPage(($show_solution_only)?"":"NUMERIC_QUESTION", $is_postponed, $test_id);
+
 		if ($showsolution && !$show_solution_only)
 		{
 			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
 			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
 		}
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
-		$solutionoutput = preg_replace("/\"mc/", "\"solution_mc", $solutionoutput);
-		$solutionoutput = preg_replace("/multiple_choice_result/", "solution_multiple_choice_result", $solutionoutput);
-		
-		
+		$solutionoutput = preg_replace("/numeric_result/", "solution_numeric_result", $solutionoutput);
+
 		if (!$show_question_page)
 			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 
@@ -413,12 +375,6 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
 		}
 		
-		
-			
-//		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
-//		$solutionoutput = $matches[1];
-		// set solutions
-		//echo "<br>".htmlentities($output);
 		if ($test_id)
 		{
 			$solutions = NULL;
@@ -431,129 +387,23 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = "dummy=\"mc".$solution_value["value1"]."\"";
-				//echo "<br>".htmlentities($repl_str);
-				
-				//replace all checked answers with x or checkbox
-				if (!$show_question_page) 
-				{
-					// rku $output = $this->replaceInputElements($repl_str,"X",$output); 
-					$output = $this->replaceInputElements($repl_str,"X",$output,"(",")"); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
-				}
-				else $output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);				
-			}
-			
-			// now replace all not-checked checkboxes with an 0
-			if (!$show_question_page) 
-			{
-				// rku $output = $this->replaceInputElements("","O", $output); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
-				$output = $this->replaceInputElements("","O", $output,"(",")"); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
+				$output = str_replace("numeric_result\"", "numeric_result\" value=\"" . $solution_value["value1"] . "\"", $output); 
 			}
 		}
 
 		if ($showsolution) 
 		{			
-			$maxpoints = 0;
-			$maxindex = -1;
-			foreach ($this->object->answers as $idx => $answer)
-			{
-				if ($answer->get_points() > $maxpoints)
-				{
-					$maxpoints = $answer->get_points();
-					$maxindex = $idx;
-				}
-			}
-			foreach ($this->object->answers as $idx => $answer)
-			{
-				if ($answer->isStateChecked() && ($answer->get_points() > 0))
-				{
-					$repl_str = "dummy=\"solution_mc$idx\"";
-					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);						
-				}
-				$sol = '(<em>';
-				if ($show_solution_only)
-					$sol .= $this->lng->txt("checkbox_checked").' = ';
-				else
-					$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
-				if ($answer->isStateChecked())
-				{
-					$sol .= $answer->get_points();
-				}
-				else
-				{
-					$sol .= "0";
-				}
-				$sol .= ' ' . $this->lng->txt("points") . ', ';
-				if ($show_solution_only)
-					$sol .= $this->lng->txt("checkbox_unchecked").' = ';
-				else
-					$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
-				if (!$answer->isStateChecked())
-				{
-					$sol .= $answer->get_points();
-				}
-				else
-				{
-					$sol .= "0";
-				}
-				$sol .= ' ' . $this->lng->txt("points");
-				$sol .= '</em>)';
-				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx"."[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
-				
-				if ($show_solution_only) 
-					if ($answer->isStateChecked()) 
-					{
-						$repl_str = "dummy=\"solution_mc$idx\"";
-						$solutionoutput = $this->replaceInputElements ($repl_str, "X", $solutionoutput);						
-					} else {
-						$repl_str = "dummy=\"solution_mc$idx\"";
-						$solutionoutput = $this->replaceInputElements ($repl_str, "O", $solutionoutput);
-					}
-			}
-			$repl_str = "dummy=\"solution_mc$maxindex\"";				
-			if ($show_solution_only) 
-			{
-				// rku $solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
-				$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput,"(",")");
-			}
-			else 
-				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
-			if ($maxindex > -1) 
-			{
-				$repl_str = "dummy=\"solution_mc$maxindex\"";				
-				// rku $solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
-				$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput,"(",")");
-			}
-			// rku $solutionoutput = $this->replaceInputElements("","O",$solutionoutput);
-			$solutionoutput = $this->replaceInputElements("","O",$solutionoutput,"(",")");
-
 			if (!$show_solution_only)
 			{
-				$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+				$range = $this->object->getBestRange();
+				$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p>";
+				$solutionoutput .= "<p>" . sprintf($this->lng->txt("value_between_x_and_y"), $range->getLowerLimit(), $range->getUpperLimit()) . "</p>";
 			}
  
 			if ($test_id) 
 			{
 				$reached_points = $this->object->getReachedPoints($ilUser->id, $test_id);
 				$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $reached_points, $this->object->getMaximumPoints());
-				$mc_comment = "";
-				$count_comment = "";
-				if ($reached_points == 0)
-				{
-					$count_comment = $this->object->getSolutionCommentCountSystem($test_id);
-					if (strlen($count_comment))
-					{
-						if (strlen($mc_comment) == 0)
-						{
-							$count_comment = "<span class=\"asterisk\">*</span><br /><br /><span class=\"asterisk\">*</span>$count_comment";
-						}
-						else
-						{
-							$count_comment = "<br /><span class=\"asterisk\">*</span>$count_comment";
-						}
-					}
-				}
-				$received_points .= $mc_comment . $count_comment;
 				$received_points .= "</p>";
 			}
 		} 			 // end of show solution
@@ -563,7 +413,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 			$received_points = "";
 		}
 		
-		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput.$received_points);
+		$this->tpl->setVariable("NUMERIC_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
 	function addSuggestedSolution()
