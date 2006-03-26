@@ -2268,6 +2268,17 @@
 	</xsl:for-each>
 </xsl:template>
 
+<xsl:template match="response_num">
+	<p>
+	<input>
+		<xsl:attribute name="name">numeric_result</xsl:attribute>
+		<xsl:attribute name="type">text</xsl:attribute>
+		<xsl:attribute name="size"><xsl:value-of select="render_fib/@maxchars"/></xsl:attribute>
+		<xsl:attribute name="maxlength"><xsl:value-of select="render_fib/@maxchars"/></xsl:attribute>
+	</input>
+	</p>
+</xsl:template>
+
 <!-- t&a: response_str -->
 <xsl:template match="response_str">
 	<xsl:choose>

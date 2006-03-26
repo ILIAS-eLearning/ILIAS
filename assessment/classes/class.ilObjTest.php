@@ -4077,6 +4077,10 @@ class ilObjTest extends ilObject
 				include_once "./assessment/classes/class.assJavaAppletGUI.php";
 				$question =& new ASS_JavaAppletGUI();
 				break;
+			case "qt_numeric":
+				include_once "./assessment/classes/class.assNumericGUI.php";
+				$question =& new ASS_NumericGUI();
+				break;
 			case "qt_text":
 				include_once "./assessment/classes/class.assTextQuestionGUI.php";
 				$question =& new ASS_TextQuestionGUI();
@@ -4130,6 +4134,10 @@ class ilObjTest extends ilObject
 				case "qt_javaapplet":
 					include_once "./assessment/classes/class.assJavaApplet.php";
 					$question = new ASS_JavaApplet();
+					break;
+				case "qt_numeric":
+					include_once "./assessment/classes/class.assNumeric.php";
+					$question = new ASS_Numeric();
 					break;
 				case "qt_text":
 					include_once "./assessment/classes/class.assTextQuestion.php";

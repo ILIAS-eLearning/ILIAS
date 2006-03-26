@@ -20,6 +20,10 @@
   <td class="option_value" colspan="4"><textarea class="fullwidth" name="question" id="question" cols="40" rows="10">{VALUE_QUESTION}</textarea></td>
 </tr>
 <tr>
+	<td class="option">{TEXT_MAXCHARS}<span class="asterisk">*</span>:</td>
+	<td class="option_value" colspan="4"><input type="text" name="maxchars" size="3" value="{VALUE_MAXCHARS}" /></td>
+</tr>
+<tr>
   <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
   <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
 </tr>
@@ -45,15 +49,15 @@
 </tr>
 <tr>
 	<td class="option"><label for="lowerlimit">{TEXT_RANGE_LOWER_LIMIT}</label></td>
-	<td class="option_value" colspan="4"><input type="text" id="lowerlimit" name="lowerlimit" size="10"{VALUE_LOWER_LIMIT} /></td>
+	<td class="option_value" colspan="4"><input type="text" id="lowerlimit" name="lowerlimit_{COUNTER}" size="10"{VALUE_LOWER_LIMIT} /></td>
 </tr>	
 <tr>
 	<td class="option"><label for="upperlimit">{TEXT_RANGE_UPPER_LIMIT}</label></td>
-	<td class="option_value" colspan="4"><input type="text" id="upperlimit" name="upperlimit" size="10"{VALUE_UPPER_LIMIT} /></td>
+	<td class="option_value" colspan="4"><input type="text" id="upperlimit" name="upperlimit_{COUNTER}" size="10"{VALUE_UPPER_LIMIT} /></td>
 </tr>	
 <tr>
 	<td class="option"><label for="points">{TEXT_POINTS}</label></td>
-	<td class="option_value" colspan="4"><input type="text" id="points" name="points" size="3"{VALUE_POINTS} /></td>
+	<td class="option_value" colspan="4"><input type="text" id="points" name="points_{COUNTER}" size="3"{VALUE_POINTS} /></td>
 <!-- END ranges -->
 <tr class="tblfooter">
 	<td colspan="5">

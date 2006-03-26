@@ -48,6 +48,7 @@ class ASS_QuestionGUI
 	var $tpl;
 	var $lng;
 	var $error;
+	var $errormessage;
 	
 	/**
 	 * sequence number in test
@@ -72,6 +73,7 @@ class ASS_QuestionGUI
 		$this->ctrl->saveParameter($this, "q_id");
 
 		include_once "./assessment/classes/class.assQuestion.php";
+		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
 		$this->object = new ASS_Question();
 	}
 
@@ -579,7 +581,7 @@ class ASS_QuestionGUI
 		}
 		else
 		{
-      sendInfo($this->lng->txt("fill_out_all_required_fields"));
+      sendInfo($this->getErrorMessage());
 			$this->editQuestion();
 		}
 	}
@@ -871,5 +873,14 @@ class ASS_QuestionGUI
 		return $this->sequence_no;
 	}
 	
+	function getErrorMessage()
+	{
+		return $this->errormessage;
+	}
+	
+	function setErrorMessage($errormessage)
+	{
+		$this->errormessage = $errormessage;
+	}
 }
 ?>

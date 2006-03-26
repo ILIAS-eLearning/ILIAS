@@ -54,6 +54,15 @@ class ASS_Numeric extends ASS_Question
 	* @var array
 	*/
 	var $ranges;
+	
+	/**
+	* The maximum number of characters for the numeric input field
+	*
+	* The maximum number of characters for the numeric input field
+	*
+	* @var integer
+	*/
+	var $maxchars;
 
 	/**
 	* ASS_Numeric constructor
@@ -79,6 +88,7 @@ class ASS_Numeric extends ASS_Question
 		$this->ASS_Question($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->ranges = array();
+		$this->maxchars = 6;
 	}
 
 	/**
@@ -112,9 +122,6 @@ class ASS_Numeric extends ASS_Question
 	*/
 	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
-		return;
-		
-		// TODO: Create a QTI representation for numeric questions. Use the following mc code for help
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
@@ -140,7 +147,7 @@ class ASS_Numeric extends ASS_Question
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "QUESTIONTYPE");
-		$a_xml_writer->xmlElement("fieldentry", NULL, MULTIPLE_CHOICE_QUESTION_IDENTIFIER);
+		$a_xml_writer->xmlElement("fieldentry", NULL, NUMERIC_QUESTION_IDENTIFIER);
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
@@ -161,22 +168,12 @@ class ASS_Numeric extends ASS_Question
 		$a_xml_writer->xmlElement("mattext", NULL, $this->get_question());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
-		$attrs = array();
-		if ($this->response == RESPONSE_SINGLE)
-		{
-			$attrs = array(
-				"ident" => "MCSR",
-				"rcardinality" => "Single"
-			);
-		}
-			else
-		{
-			$attrs = array(
-				"ident" => "MCMR",
-				"rcardinality" => "Multiple"
-			);
-		}
-		$a_xml_writer->xmlStartTag("response_lid", $attrs);
+		$attrs = array(
+			"ident" => "NUM",
+			"rcardinality" => "Single",
+			"numtype" => "Decimal"
+		);
+		$a_xml_writer->xmlStartTag("response_num", $attrs);
 		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
 		{
@@ -196,40 +193,13 @@ class ASS_Numeric extends ASS_Question
 			}
 		}
 		// shuffle output
-		$attrs = array();
-		if ($this->getShuffle())
-		{
-			$attrs = array(
-				"shuffle" => "Yes"
-			);
-		}
-		else
-		{
-			$attrs = array(
-				"shuffle" => "No"
-			);
-		}
-		$a_xml_writer->xmlStartTag("render_choice", $attrs);
-		$akeys = array_keys($this->ranges);
-		if ($this->getshuffle() && $a_shuffle)
-		{
-			$akeys = $this->pcArrayShuffle($akeys);
-		}
-		// add answers
-		foreach ($akeys as $index)
-		{
-			$answer = $this->ranges[$index];
-			$attrs = array(
-				"ident" => $index
-			);
-			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $answer->get_answertext());
-			$a_xml_writer->xmlEndTag("material");
-			$a_xml_writer->xmlEndTag("response_label");
-		}
-		$a_xml_writer->xmlEndTag("render_choice");
-		$a_xml_writer->xmlEndTag("response_lid");
+		$attrs = array(
+			"fibtype" => "Decimal",
+			"maxchars" => $this->getMaxChars()
+		);
+		$a_xml_writer->xmlStartTag("render_fib", $attrs);
+		$a_xml_writer->xmlEndTag("render_fib");
+		$a_xml_writer->xmlEndTag("response_num");
 		$a_xml_writer->xmlEndTag("flow");
 		$a_xml_writer->xmlEndTag("presentation");
 		
@@ -240,61 +210,26 @@ class ASS_Numeric extends ASS_Question
 		$a_xml_writer->xmlEndTag("decvar");
 		$a_xml_writer->xmlEndTag("outcomes");
 		// add response conditions
-		foreach ($this->ranges as $index => $answer)
+		foreach ($this->ranges as $index => $range)
 		{
-			$attrs = array(
-				"continue" => "Yes"
-			);
-			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			$a_xml_writer->xmlStartTag("respcondition");
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
-			if (!$answer->isStateSet())
-			{
-				$a_xml_writer->xmlStartTag("not");
-			}
-			$attrs = array();
-			if ($this->response == RESPONSE_SINGLE)
-			{
-				$attrs = array(
-					"respident" => "MCSR"
-				);
-			}
-				else
-			{
-				$attrs = array(
-					"respident" => "MCMR"
-				);
-			}
-			$a_xml_writer->xmlElement("varequal", $attrs, $index);
-			if (!$answer->isStateSet())
-			{
-				$a_xml_writer->xmlEndTag("not");
-			}
+			$attrs = array(
+				"respident" => "NUM"
+			);
+			$a_xml_writer->xmlElement("vargte", $attrs, $range->getLowerLimit());
+			$a_xml_writer->xmlElement("varlte", $attrs, $range->getUpperLimit());
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti setvar
 			$attrs = array(
 				"action" => "Add"
 			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
+			$a_xml_writer->xmlElement("setvar", $attrs, $range->getPoints());
 			// qti displayfeedback
-			if ($answer->isStateChecked())
-			{
-				if ($this->response == RESPONSE_SINGLE)
-				{
-					$linkrefid = "True";
-				}
-					else
-				{
-					$linkrefid = "True_$index";
-				}
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
-			}
 			$attrs = array(
 				"feedbacktype" => "Response",
-				"linkrefid" => $linkrefid
+				"linkrefid" => "Correct"
 			);
 			$a_xml_writer->xmlElement("displayfeedback", $attrs);
 			$a_xml_writer->xmlEndTag("respcondition");
@@ -302,26 +237,10 @@ class ASS_Numeric extends ASS_Question
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
-		foreach ($this->ranges as $index => $answer)
+		foreach ($this->ranges as $index => $range)
 		{
-			$linkrefid = "";
-			if ($answer->isStateChecked())
-			{
-				if ($this->response == RESPONSE_SINGLE)
-				{
-					$linkrefid = "True";
-				}
-					else
-				{
-					$linkrefid = "True_$index";
-				}
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
-			}
 			$attrs = array(
-				"ident" => $linkrefid,
+				"ident" => "Correct",
 				"view" => "All"
 			);
 			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
@@ -383,7 +302,7 @@ class ASS_Numeric extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, maxNumOfChars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -393,6 +312,7 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time),
+				$db->quote($this->getMaxChars() . ""),
 				$db->quote("$complete"),
 				$db->quote($created),
 				$original_id
@@ -416,7 +336,7 @@ class ASS_Numeric extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -424,6 +344,7 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time),
+				$db->quote($this->getMaxChars() . ""),
 				$db->quote("$complete"),
 				$db->quote($this->id)
 			);
@@ -442,7 +363,7 @@ class ASS_Numeric extends ASS_Question
 			// 2. write ranges
 			foreach ($this->ranges as $key => $range)
 			{
-				$query = sprintf("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+				$query = sprintf("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, lastchange) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->id),
 				$db->quote($range->getLowerLimit()),
 				$db->quote($range->getUpperLimit() . ""),
@@ -467,7 +388,6 @@ class ASS_Numeric extends ASS_Question
 	function loadFromDb($question_id)
 	{
 		global $ilias;
-
 		$db = & $ilias->db;
 		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
 		$db->quote($question_id));
@@ -487,6 +407,7 @@ class ASS_Numeric extends ASS_Question
 				$this->owner = $data->owner;
 				$this->points = $data->points;
 				$this->question = $data->question_text;
+				$this->maxchars = $data->maxNumOfChars;
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
 
@@ -762,6 +683,29 @@ class ASS_Numeric extends ASS_Question
 	}
 
 	/**
+	* Returns the range with the maximum points, a learner can reach answering the question
+	*
+	* Returns the range with the maximum points, a learner can reach answering the question
+	*
+	* @access public
+	* @see $points
+	*/
+	function getBestRange()
+	{
+		$max = 0;
+		$bestrange = NULL;
+		foreach ($this->ranges as $key => $range) 
+		{
+			if ($range->getPoints() > $max)
+			{
+				$max = $range->getPoints();
+				$bestrange = $range;
+			}
+		}
+		return $bestrange;
+	}
+
+	/**
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
@@ -867,53 +811,6 @@ class ASS_Numeric extends ASS_Question
 	}
 
 	/**
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function getReachedInformation($user_id, $test_id, $pass = NULL)
-	{
-		$found_values = array();
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($test_id . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($pass . "")
-		);
-		$result = $this->ilias->db->query($query);
-		if ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			array_push($found_values, $data->value1);
-		}
-		$counter = 1;
-		$user_result = array();
-		foreach ($found_values as $key => $value)
-		{
-			$solution = array(
-				"order" => "$counter",
-				"points" => 0,
-				"value" => "",
-				);
-			if (strlen($value) > 0)
-			{
-				$solution["value"] = $value;
-				$solution["points"] = $this->ranges[$value]->getPoints();
-			}
-			$counter++;
-			$user_result[$value] = $solution;
-		}
-		return $user_result;
-	}
-
-	/**
 	* Saves the learners input of the question to the database
 	*
 	* Saves the learners input of the question to the database
@@ -932,7 +829,7 @@ class ASS_Numeric extends ASS_Question
 
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
-
+		$numeric_result = str_replace(",",".",$_POST["numeric_result"]);
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 			$db->quote($ilUser->id . ""),
 			$db->quote($test_id . ""),
@@ -945,7 +842,7 @@ class ASS_Numeric extends ASS_Question
 		if ($update)
 		{
 			$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
-				$db->quote($_POST["numeric_result"]),
+				$db->quote($numeric_result),
 				$db->quote($update));
 		}
 		else
@@ -954,7 +851,7 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->getId()),
-				$db->quote($_POST["numeric_result"]),
+				$db->quote($numeric_result),
 				$db->quote($pass . "")
 			);
 		}
@@ -978,7 +875,7 @@ class ASS_Numeric extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
 				$db->quote($this->comment. ""),
@@ -986,6 +883,7 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($this->question. ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time. ""),
+				$db->quote($this->getMaxChars() . ""),
 				$db->quote($complete. ""),
 				$db->quote($this->original_id. "")
 			);
@@ -1004,7 +902,7 @@ class ASS_Numeric extends ASS_Question
 				// 2. write ranges
 				foreach ($this->ranges as $key => $range)
 				{
-					$query = sprintf("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+					$query = sprintf("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, lastchange) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->original_id),
 					$db->quote($range->getLowerLimit()),
 					$db->quote($range->getUpperLimit() . ""),
@@ -1017,6 +915,46 @@ class ASS_Numeric extends ASS_Question
 			parent::syncWithOriginal();
 		}
 	}
+
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 9;
+	}
+	
+	/**
+	* Returns the maximum number of characters for the numeric input field
+	*
+	* Returns the maximum number of characters for the numeric input field
+	*
+	* @return integer The maximum number of characters
+	* @access public
+	*/
+	function getMaxChars()
+	{
+		return $this->maxchars;
+	}
+	
+	/**
+	* Sets the maximum number of characters for the numeric input field
+	*
+	* Sets the maximum number of characters for the numeric input field
+	*
+	* @param integer $maxchars The maximum number of characters
+	* @access public
+	*/
+	function setMaxChars($maxchars)
+	{
+		$this->maxchars = $maxchars;
+	}
+	
 }
 
 ?>
