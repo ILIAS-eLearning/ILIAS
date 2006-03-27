@@ -1290,6 +1290,24 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Calculates the number of user results for a specific test pass
+*
+* Calculates the number of user results for a specific test pass
+*
+* @access private
+*/
+	function getNrOfResultsForPass($user_id, $pass)
+	{
+		$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE test_fi = %s AND user_fi = %s AND pass = %s",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($pass . "")
+		);
+		$result = $this->ilias->db->query($query);
+		return $result->numRows();
+	}
+	
+/**
 * Generates new random questions for the active user
 *
 * Generates new random questions for the active user
@@ -1305,7 +1323,17 @@ class ilObjTest extends ilObject
 		{
 			// Something went wrong. Maybe the user pressed the start button twice
 			// Questions already exist so there is no need to create new questions
-			return;
+			return TRUE;
+		}
+		if ($pass > 0)
+		{
+			if ($this->getNrOfResultsForPass($ilUser->getId(), $pass - 1) == 0)
+			{
+				// This means that someone maybe reloaded the test submission page
+				// If there are no existing results for the previous test, it makes
+				// no sense to create a new set of random questions
+				return FALSE;
+			}
 		}
 		if ($this->getRandomQuestionCount() > 0)
 		{
@@ -1345,6 +1373,7 @@ class ilObjTest extends ilObject
 				$this->saveRandomQuestion($question_id, $pass);
 			}
 		}
+		return TRUE;
 	}
 
 	/**
