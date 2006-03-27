@@ -927,14 +927,14 @@ class ilTestOutputGUI
 			// show confirmation page
 			return $this->confirmFinishTest();
 		}
-		
+		$addtries = TRUE;
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			// create a new set of random questions if more passes are allowed
 			$maxpass = $this->object->getNrOfTries();
 			if (($maxpass == 0) || (($actualpass+1) < ($maxpass)))
 			{
-				$this->object->generateRandomQuestions($actualpass+1);
+				$addtries = $this->object->generateRandomQuestions($actualpass+1);
 			}
 		}
 		
@@ -944,7 +944,7 @@ class ilTestOutputGUI
 			return;
 		}
 			
-		$this->object->setActiveTestUser(1, "", true);
+		$this->object->setActiveTestUser(1, "", $addtries);
 
 		if (($this->object->getTestType() != TYPE_VARYING_RANDOMTEST) && (!$this->object->canViewResults())) 
 		{
