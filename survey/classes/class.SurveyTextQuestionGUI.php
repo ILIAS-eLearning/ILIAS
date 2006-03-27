@@ -70,7 +70,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 */
 	function getQuestionType()
 	{
-		return "qt_text";
+		return "SurveyTextQuestion";
 	}
 
 /**

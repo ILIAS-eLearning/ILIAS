@@ -109,25 +109,9 @@ class SurveyQuestionGUI
 			include_once "./survey/classes/class.SurveyQuestion.php";
 			$questiontype = SurveyQuestion::_getQuestiontype($question_id);
 		}
-		switch ($questiontype)
-		{
-			case "qt_nominal":
-				include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-				$question = new SurveyNominalQuestionGUI();
-				break;
-			case "qt_ordinal":
-				include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
-				$question = new SurveyOrdinalQuestionGUI();
-				break;
-			case "qt_metric":
-				include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
-				$question = new SurveyMetricQuestionGUI();
-				break;
-			case "qt_text":
-				include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-				$question = new SurveyTextQuestionGUI();
-				break;
-		}
+		$questiontypegui = $questiontype . "GUI";
+		include_once "./survey/classes/class.$questiontypegui.php";
+		$question = new $questiontypegui();
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
@@ -147,24 +131,7 @@ class SurveyQuestionGUI
 
 	function _getClassNameForQType($q_type)
 	{
-		switch ($q_type)
-		{
-			case "qt_nominal":
-				return "SurveyNominalQuestionGUI";
-				break;
-
-			case "qt_ordinal":
-				return "SurveyOrdinalQuestionGUI";
-				break;
-
-			case "qt_metric":
-				return "SurveyMetricQuestionGUI";
-				break;
-
-			case "qt_text":
-				return "SurveyTextQuestionGUI";
-				break;
-		}
+		return $q_type;
 	}
 	
 	function originalSyncForm()
@@ -442,9 +409,6 @@ class SurveyQuestionGUI
 	function setQuestionTabsForClass($guiclass)
 	{
 		global $rbacsystem,$ilTabs;
-		#include_once "./classes/class.ilTabsGUI.php";
-		#$tabs_gui =& new ilTabsGUI();
-		#$tabs_gui->setSubTabs();
 		
 		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
 		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
@@ -487,15 +451,12 @@ class SurveyQuestionGUI
 				break;
 		}
 		
-		#$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
-
 		if ($this->object->getId() > 0) {
 			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
 		} else {
 			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
 		}
 		$this->tpl->setVariable("HEADER", $title);
-//		echo "<br>end setQuestionTabs<br>";
 	}
 
 /**

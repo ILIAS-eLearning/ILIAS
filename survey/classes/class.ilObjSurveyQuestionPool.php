@@ -449,30 +449,9 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilUser;
 		
-		include_once "./survey/classes/class.SurveyNominalQuestion.php";
-		include_once "./survey/classes/class.SurveyTextQuestion.php";
-		include_once "./survey/classes/class.SurveyMetricQuestion.php";
-		include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 		$questiontype = $this->getQuestiontype($question_id);
-		switch ($questiontype)
-		{
-			case "qt_nominal":
-				include_once "./survey/classes/class.SurveyNominalQuestion.php";
-				$question = new SurveyNominalQuestion();
-				break;
-			case "qt_ordinal":
-				include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
-				$question = new SurveyOrdinalQuestion();
-				break;
-			case "qt_metric":
-				include_once "./survey/classes/class.SurveyMetricQuestion.php";
-				$question = new SurveyMetricQuestion();
-				break;
-			case "qt_text":
-				include_once "./survey/classes/class.SurveyTextQuestion.php";
-				$question = new SurveyTextQuestion();
-				break;
-		}
+		include_once "./survey/classes/class.$questiontype.php";
+		$question = new $questiontype();
 		$question->loadFromDb($question_id);
 		$suffix = "";
     $counter = 1;
@@ -752,10 +731,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function to_xml($questions)
 	{
-		include_once "./survey/classes/class.SurveyNominalQuestion.php";
-		include_once "./survey/classes/class.SurveyTextQuestion.php";
-		include_once "./survey/classes/class.SurveyMetricQuestion.php";
-		include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 		if (!is_array($questions))
 		{
 			$questions =& $this->getQuestions();
@@ -769,21 +744,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		foreach ($questions as $key => $value)
 		{
 			$questiontype = $this->getQuestiontype($value);
-			switch ($questiontype)
-			{
-				case "qt_nominal":
-					$question = new SurveyNominalQuestion();
-					break;
-				case "qt_ordinal":
-					$question = new SurveyOrdinalQuestion();
-					break;
-				case "qt_metric":
-					$question = new SurveyMetricQuestion();
-					break;
-				case "qt_text":
-					$question = new SurveyTextQuestion();
-					break;
-			}
+			include_once "./survey/classes/class.$questiontype.php";
+			$question = new $questiontype();
 			$question->loadFromDb($value);
 			$xml .= $question->to_xml(false);
 		}
@@ -845,10 +807,6 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function importObject($source)
 	{
-		include_once "./survey/classes/class.SurveyNominalQuestion.php";
-		include_once "./survey/classes/class.SurveyTextQuestion.php";
-		include_once "./survey/classes/class.SurveyMetricQuestion.php";
-		include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 		$metadata = "";
 		if (is_file($source))
 		{
