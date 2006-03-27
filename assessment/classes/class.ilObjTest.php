@@ -1323,7 +1323,7 @@ class ilObjTest extends ilObject
 		{
 			// Something went wrong. Maybe the user pressed the start button twice
 			// Questions already exist so there is no need to create new questions
-			return TRUE;
+			return;
 		}
 		if ($pass > 0)
 		{
@@ -1332,7 +1332,7 @@ class ilObjTest extends ilObject
 				// This means that someone maybe reloaded the test submission page
 				// If there are no existing results for the previous test, it makes
 				// no sense to create a new set of random questions
-				return FALSE;
+				return;
 			}
 		}
 		if ($this->getRandomQuestionCount() > 0)
@@ -1373,7 +1373,7 @@ class ilObjTest extends ilObject
 				$this->saveRandomQuestion($question_id, $pass);
 			}
 		}
-		return TRUE;
+		return;
 	}
 
 	/**
@@ -3129,8 +3129,10 @@ class ilObjTest extends ilObject
 				$postponed = preg_replace("/^,/", "", $postponed);
 			}
 			$tries = $old_active->tries;
-			if ($addTries) 
+			if ($addTries && ($this->getNrOfResultsForPass($ilUser->getId(), $old_active->tries) > 0)) 
 			{
+				// only add the number of tries if there are ANY results for the current
+				// test pass. Otherwise something must be wrong (doubleclick, reload etc.)
 				$tries++;
 			}
 			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s WHERE user_fi = %s AND test_fi = %s",
