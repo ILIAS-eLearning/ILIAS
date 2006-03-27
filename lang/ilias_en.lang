@@ -5306,6 +5306,9 @@ survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
+survey#:#anonymize_personalized#:#No anonymization
+survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
+survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
 survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.
@@ -5550,10 +5553,10 @@ survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
 survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
-survey#:#qt_metric#:#Metric question
-survey#:#qt_nominal#:#Nominal question
-survey#:#qt_ordinal#:#Ordinal question
-survey#:#qt_text#:#Essay
+survey#:#SurveyMetricQuestion#:#Metric question
+survey#:#SurveyNominalQuestion#:#Nominal question
+survey#:#SurveyOrdinalQuestion#:#Ordinal question
+survey#:#SurveyTextQuestion#:#Essay
 survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Preconditions
 survey#:#question_icon#:#Question icon

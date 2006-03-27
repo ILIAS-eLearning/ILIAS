@@ -69,7 +69,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 */
 	function getQuestionType()
 	{
-		return "qt_metric";
+		return "SurveyMetricQuestion";
 	}
 
 /**

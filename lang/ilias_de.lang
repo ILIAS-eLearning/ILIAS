@@ -5507,10 +5507,10 @@ survey#:#qpl_questions_pasted#:#Frage(n) eingefügt.
 survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!
 survey#:#qpl_savephrase_exists#:#Der Titel der Phrase existiert bereits! Bitte geben Sie einen anderen Titel an.
 survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
-survey#:#qt_metric#:#Metrische Frage
-survey#:#qt_nominal#:#Nominale Frage
-survey#:#qt_ordinal#:#Ordinale Frage
-survey#:#qt_text#:#Textfrage
+survey#:#SurveyMetricQuestion#:#Metrische Frage
+survey#:#SurveyNominalQuestion#:#Nominale Frage
+survey#:#SurveyOrdinalQuestion#:#Ordinale Frage
+survey#:#SurveyTextQuestion#:#Textfrage
 survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
 survey#:#question_has_constraints#:#Vorbedingungen
 survey#:#question_icon#:#Fragensymbol

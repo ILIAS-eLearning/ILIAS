@@ -320,16 +320,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION_EXPLANATION", $this->lng->txt("anonymize_survey_explanation"));
-		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("off"));
-		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("on"));
+		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("anonymize_personalized"));
+		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("anonymize_with_code"));
+		$this->tpl->setVariable("ANON_VALUE_FREEACCESS", $this->lng->txt("anonymize_without_code"));
 		
-		if ($this->object->getAnonymize())
+		switch ($this->object->getAnonymize())
 		{
-			$this->tpl->setVariable("ANON_SELECTED_ON", " selected=\"selected\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("ANON_SELECTED_OFF", " selected=\"selected\"");
+			case ANONYMIZE_OFF:
+				$this->tpl->setVariable("ANON_SELECTED_OFF", " selected=\"selected\"");
+				break;
+			case ANONYMIZE_ON:
+				$this->tpl->setVariable("ANON_SELECTED_ON", " selected=\"selected\"");
+				break;
+			case ANONYMIZE_FREEACCESS:
+				$this->tpl->setVariable("ANON_SELECTED_FREEACCESS", " selected=\"selected\"");
+				break;
 		}
 		
 		if ($this->object->getEndDateEnabled())
@@ -3144,7 +3149,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$relations = $this->object->getAllRelations();
 			switch ($survey_questions[$_POST["q"]]["type_tag"])
 			{
-				case "qt_nominal":
+				case "SurveyNominalQuestion":
 					foreach ($relations as $rel_id => $relation)
 					{
 						if ((strcmp($relation["short"], "=") == 0) or (strcmp($relation["short"], "<>") == 0))
@@ -3160,8 +3165,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 					}
 					break;
-				case "qt_ordinal":
-				case "qt_metric":
+				case "SurveyOrdinalQuestion":
+				case "SurveyMetricQuestion":
 					foreach ($relations as $rel_id => $relation)
 					{
 						$this->tpl->setCurrentBlock("option_r");
@@ -3185,8 +3190,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$variables =& $this->object->getVariables($_POST["q"]);
 			switch ($survey_questions[$_POST["q"]]["type_tag"])
 			{
-				case "qt_nominal":
-				case "qt_ordinal":
+				case "SurveyNominalQuestion":
+				case "SurveyOrdinalQuestion":
 					foreach ($variables as $sequence => $row)
 					{
 						$this->tpl->setCurrentBlock("option_v");
@@ -3195,14 +3200,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->parseCurrentBlock();
 					}
 					break;
-				case "qt_metric":
+				case "SurveyMetricQuestion":
 						$this->tpl->setCurrentBlock("textfield");
 						$this->tpl->setVariable("TEXTFIELD_VALUE", "");
 						$this->tpl->parseCurrentBlock();
 					break;
 			}
 			$this->tpl->setCurrentBlock("select_value");
-			if (strcmp($survey_questions[$_POST["q"]]["type_tag"], "qt_metric") == 0)
+			if (strcmp($survey_questions[$_POST["q"]]["type_tag"], "SurveyMetricQuestion") == 0)
 			{
 				$this->tpl->setVariable("SELECT_VALUE", $this->lng->txt("step") . " 3: " . $this->lng->txt("enter_value"));
 			}
@@ -3324,7 +3329,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				foreach ($structure[$i] as $key => $question_id)
 				{
-					if (strcmp($survey_questions[$question_id]["type_tag"], "qt_text") != 0)
+					if (strcmp($survey_questions[$question_id]["type_tag"], "SurveyTextQuestion") != 0)
 					{
 						array_push($option_questions, array("question_id" => $survey_questions[$question_id]["question_id"], "title" => $survey_questions[$question_id]["title"], "type_tag" => $survey_questions[$question_id]["type_tag"]));
 					}
@@ -3462,11 +3467,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$variables =& $this->object->getVariables($constraint["question"]);
 							switch ($survey_questions[$constraint["question"]]["type_tag"])
 							{
-								case "qt_metric":
+								case "SurveyMetricQuestion":
 									$value = $constraint["value"];
 									break;
-								case "qt_nominal":
-								case "qt_ordinal":
+								case "SurveyNominalQuestion":
+								case "SurveyOrdinalQuestion":
 									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[$constraint["value"]]->title;
 									break;
 							}

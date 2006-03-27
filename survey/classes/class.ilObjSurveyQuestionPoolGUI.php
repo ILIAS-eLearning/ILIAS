@@ -871,33 +871,19 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("QTab");
-			include_once "./survey/classes/class.SurveyQuestionGUI.php";
-			$class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($data["question_id"]));
-			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
-			$sel_question_types = "";
-			switch ($class)
-			{
-				case "surveynominalquestiongui":
-					$sel_question_types = "qt_nominal";
-					break;
-				case "surveyordinalquestiongui":
-					$sel_question_types = "qt_ordinal";
-					break;
-				case "surveymetricquestiongui":
-					$sel_question_types = "qt_metric";
-					break;
-				case "surveytextquestiongui":
-					$sel_question_types = "qt_text";
-					break;
-			}
-			$this->ctrl->setParameterByClass($class, "sel_question_types", $sel_question_types);
+			include_once "./survey/classes/class.SurveyQuestion.php";
+			$classname = SurveyQuestion::_getQuestionType($data["question_id"]);
+			$classnamegui = $classname . "GUI";
+			$sel_question_types = $classname; 
+			$this->ctrl->setParameterByClass(strtolower($classnamegui), "q_id", $data["question_id"]);
+			$this->ctrl->setParameterByClass(strtolower($classnamegui), "sel_question_types", $sel_question_types);
 			if ($editable)
 			{
-				$this->tpl->setVariable("EDIT", "[<a href=\"" . $this->ctrl->getLinkTargetByClass($class, "editQuestion") . "\">" . $this->lng->txt("edit") . "</a>]");
+				$this->tpl->setVariable("EDIT", "[<a href=\"" . $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "editQuestion") . "\">" . $this->lng->txt("edit") . "</a>]");
 			}
 			$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
 			//$this->lng->txt("preview")
-			$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTargetByClass($class, "preview") . "\">" . $this->lng->txt("preview") . "</a>]");
+			$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "preview") . "\">" . $this->lng->txt("preview") . "</a>]");
 			$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
 			$this->tpl->setVariable("QUESTION_PREVIEW", $this->lng->txt("preview"));
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
@@ -909,7 +895,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$counter++;
     }
-    
+
 		if ($table["rowcount"] > count($table["rows"]))
 		{
 			$nextstep = $table["nextrow"] + $table["step"];

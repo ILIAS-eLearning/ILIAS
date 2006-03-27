@@ -70,7 +70,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 */
 	function getQuestionType()
 	{
-		return "qt_ordinal";
+		return "SurveyOrdinalQuestion";
 	}
 
 /**

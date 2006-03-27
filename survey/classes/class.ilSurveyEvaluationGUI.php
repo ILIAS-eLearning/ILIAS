@@ -280,7 +280,7 @@ class ilSurveyEvaluationGUI
 					preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
 					switch ($eval["QUESTION_TYPE"])
 					{
-						case "qt_metric":
+						case "SurveyMetricQuestion":
 							$mainworksheet->write($counter+1, 5, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
 							$mainworksheet->write($counter+1, 6, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
 							break;
@@ -353,7 +353,7 @@ class ilSurveyEvaluationGUI
 				$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
 				switch ($eval["QUESTION_TYPE"])
 				{
-					case "qt_ordinal":
+					case "SurveyOrdinalQuestion":
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
@@ -421,7 +421,7 @@ class ilSurveyEvaluationGUI
 								break;
 						}
 						break;
-					case "qt_nominal":
+					case "SurveyNominalQuestion":
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
@@ -499,7 +499,7 @@ class ilSurveyEvaluationGUI
 								break;
 						}
 						break;
-					case "qt_metric":
+					case "SurveyMetricQuestion":
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
@@ -601,7 +601,7 @@ class ilSurveyEvaluationGUI
 								break;
 						}
 						break;
-					case "qt_text":
+					case "SurveyTextQuestion":
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:

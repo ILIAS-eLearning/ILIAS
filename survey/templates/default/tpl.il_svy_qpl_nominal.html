@@ -5,30 +5,30 @@
 <!-- END move -->
 <table class="std">
 <tr>
-  <td class="option" colspan="2">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_TITLE}" size="50" /></td></tr>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+  <td class="option_value"><input name="title" type="text" value="{VALUE_TITLE}" size="50" /></td></tr>
 <tr>
-  <td class="option" colspan="2">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td></tr>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+  <td class="option_value"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td></tr>
 <tr>
-  <td class="option" colspan="2">{TEXT_DESCRIPTION}:</td>
-  <td class="option_value" colspan="4"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" /></td></tr>
+  <td class="option">{TEXT_DESCRIPTION}:</td>
+  <td class="option_value"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" /></td></tr>
 <tr>
-  <td class="option" colspan="2">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
+  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
+  <td class="option_value"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
 </tr>
 <tr>
-  <td class="option" colspan="2">{TEXT_QUESTION_TYPE}:</td>
-  <td class="option_value" colspan="4"><select name="type" size="1"><option value="1"{SELECTED_SR}>{TXT_SR}</option><option value="2"{SELECTED_MR}>{TXT_MR}</option></select></td>
+  <td class="option">{TEXT_QUESTION_TYPE}:</td>
+  <td class="option_value"><select name="type" size="1"><option value="1"{SELECTED_SR}>{TXT_SR}</option><option value="2"{SELECTED_MR}>{TXT_MR}</option></select></td>
 </tr>
 <tr>
-  <td class="option" colspan="2"></td>
-  <td class="option_value" colspan="4"><input type="checkbox" name="obligatory" value="1" id="obligatory"{CHECKED_OBLIGATORY} /> <label for="obligatory">{TEXT_OBLIGATORY}</label></td>
+  <td class="option"></td>
+  <td class="option_value"><input type="checkbox" name="obligatory" value="1" id="obligatory"{CHECKED_OBLIGATORY} /> <label for="obligatory">{TEXT_OBLIGATORY}</label></td>
 </tr>
 <!-- BEGIN orientation -->
 <tr>
-  <td class="option" colspan="2">{TEXT_ORIENTATION}:</td>
-  <td class="option_value" colspan="4">
+  <td class="option">{TEXT_ORIENTATION}:</td>
+  <td class="option_value">
 	<select name="orientation" size="1">
 		<option value="0"{SELECTED_VERTICAL}>{TXT_VERTICAL}</option>
 		<option value="1"{SELECTED_HORIZONTAL}>{TXT_HORIZONTAL}</option>
@@ -39,8 +39,8 @@
 </tr>
 <!-- END orientation -->
 <tr>
-	<td class="option" colspan="2">{TEXT_MATERIAL}:</td>
-	<td class="option_value" colspan="4">
+	<td class="option">{TEXT_MATERIAL}:</td>
+	<td class="option_value">
 		<input type="hidden" name="material" value="{VALUE_MATERIAL}" />
 		{TEXT_VALUE_MATERIAL}
 		<!-- BEGIN remove_material -->
@@ -60,7 +60,7 @@
 		
 	</td>
 </tr>
-<tr><td colspan="6" class="submit">
+<tr><td colspan="2" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
 <!-- BEGIN save_back_to_survey -->

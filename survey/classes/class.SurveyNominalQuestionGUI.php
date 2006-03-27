@@ -70,7 +70,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 */
 	function getQuestionType()
 	{
-		return "qt_nominal";
+		return "SurveyNominalQuestion";
 	}
 
 /**

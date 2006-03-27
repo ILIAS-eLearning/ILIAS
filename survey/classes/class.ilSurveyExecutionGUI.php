@@ -358,7 +358,7 @@ class ilSurveyExecutionGUI
 		$error_messages = array();
 		unset($_SESSION["svy_errors"]);
 		
-		if (strcmp($data["type_tag"], "qt_metric") == 0)
+		if (strcmp($data["type_tag"], "SurveyMetricQuestion") == 0)
 		{
 			// there is a metric question -> check input
 			$variables =& $this->object->getVariables($data["question_id"]);
@@ -394,7 +394,7 @@ class ilSurveyExecutionGUI
 				$save_answer = 1;
 			}
 		}
-		if (strcmp($data["type_tag"], "qt_nominal") == 0)
+		if (strcmp($data["type_tag"], "SurveyNominalQuestion") == 0)
 		{
 			$variables =& $this->object->getVariables($data["question_id"]);
 			include_once "./survey/classes/class.SurveyNominalQuestion.php";
@@ -413,7 +413,7 @@ class ilSurveyExecutionGUI
 				$save_answer = 1;
 			}
 		}
-		if (strcmp($data["type_tag"], "qt_ordinal") == 0)
+		if (strcmp($data["type_tag"], "SurveyOrdinalQuestion") == 0)
 		{
 			$variables =& $this->object->getVariables($data["question_id"]);
 			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && ($data["obligatory"]))
@@ -431,7 +431,7 @@ class ilSurveyExecutionGUI
 				$save_answer = 1;
 			}
 		}
-		if (strcmp($data["type_tag"], "qt_text") == 0)
+		if (strcmp($data["type_tag"], "SurveyTextQuestion") == 0)
 		{
 			$variables =& $this->object->getVariables($data["question_id"]);
 			if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && ($data["obligatory"]))
@@ -463,7 +463,7 @@ class ilSurveyExecutionGUI
 			$this->object->deleteWorkingData($data["question_id"], $ilUser->id);
 			switch ($data["type_tag"])
 			{
-				case "qt_nominal":
+				case "SurveyNominalQuestion":
 					include_once "./survey/classes/class.SurveyNominalQuestion.php";
 					if ($data["subtype"] == SUBTYPE_MCSR)
 					{
@@ -484,13 +484,13 @@ class ilSurveyExecutionGUI
 						}
 					}
 					break;
-				case "qt_ordinal":
+				case "SurveyOrdinalQuestion":
 					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
 					break;
-				case "qt_metric":
+				case "SurveyMetricQuestion":
 					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_metric_question"]);
 					break;
-				case "qt_text":
+				case "SurveyTextQuestion":
 					include_once("./classes/class.ilUtil.php");
 					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
 					break;

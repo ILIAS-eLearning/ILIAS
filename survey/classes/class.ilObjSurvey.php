@@ -764,25 +764,9 @@ class ilObjSurvey extends ilObject
 */
 	function getQuestionGUI($questiontype, $question_id)
 	{
-		switch ($questiontype)
-		{
-			case "qt_nominal":
-				include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-				$question = new SurveyNominalQuestionGUI();
-				break;
-			case "qt_ordinal":
-				include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
-				$question = new SurveyOrdinalQuestionGUI();
-				break;
-			case "qt_metric":
-				include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
-				$question = new SurveyMetricQuestionGUI();
-				break;
-			case "qt_text":
-				include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-				$question = new SurveyTextQuestionGUI();
-				break;
-		}
+		$questiontypegui = $questiontype . "GUI";
+		include_once "./survey/classes/class.$questiontypegui.php";
+		$question = new $questiontypegui();
 		$question->object->loadFromDb($question_id);
 		return $question;
 	}
@@ -852,19 +836,14 @@ class ilObjSurvey extends ilObject
 	*/
 	function isAccessibleWithoutCode()
 	{
-		return false;
-		/*
-		// patch for HSU-HH, activate when installed
-		// simply remove the line above and every survey which
-		// is accessible by anonymous could be done without survey code
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if ($this->getAnonymize() == ANONYMIZE_FREEACCESS)
 		{
 			return true;
 		}
 		else
 		{
 			return false;
-		}*/
+		}
 	}
 
 /**
@@ -910,13 +889,16 @@ class ilObjSurvey extends ilObject
 				{
 					$this->enddate_enabled = 1;
 				}
-				if (!$data->anonymize)
+				switch ($data->anonymize)
 				{
-					$this->setAnonymize(ANONYMIZE_OFF);
-				}
-				else
-				{
-					$this->setAnonymize(ANONYMIZE_ON);
+					case ANONYMIZE_OFF:
+					case ANONYMIZE_ON:
+					case ANONYMIZE_FREEACCESS:
+						$this->setAnonymize($data->anonymize);
+						break;
+					default:
+						$this->setAnonymize(ANONYMIZE_OFF);
+						break;
 				}
         $this->evaluation_access = $data->evaluation_access;
 				$this->loadQuestionsFromDb();
@@ -3326,7 +3308,7 @@ class ilObjSurvey extends ilObject
 		$variables =& $this->getVariables($question_id);
 		switch ($questions[$question_id]["type_tag"])
 		{
-			case "qt_nominal":
+			case "SurveyNominalQuestion":
 				$result_array["MEDIAN"] = "";
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$prefix = "";
@@ -3362,7 +3344,7 @@ class ilObjSurvey extends ilObject
 					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 				}
 				break;
-			case "qt_ordinal":
+			case "SurveyOrdinalQuestion":
 				$prefix = "";
 				if (strcmp(key($cumulated), "") != 0)
 				{
@@ -3413,7 +3395,7 @@ class ilObjSurvey extends ilObject
 				$result_array["MEDIAN"] = $median_value;
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
-			case "qt_metric":
+			case "SurveyMetricQuestion":
 				$result_array["MODE"] = key($cumulated);
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				ksort($cumulated, SORT_NUMERIC);
@@ -3481,7 +3463,7 @@ class ilObjSurvey extends ilObject
 				$result_array["MEDIAN"] = $median_value;
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
-			case "qt_text":
+			case "SurveyTextQuestion":
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$result_array["MEDIAN"] = "";
 				$result_array["MODE"] = "";
@@ -3974,25 +3956,8 @@ class ilObjSurvey extends ilObject
 	{
 		include_once "./survey/classes/class.SurveyQuestion.php";
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
-		switch ($question_type) 
-		{
-			case "qt_nominal":
-				include_once "./survey/classes/class.SurveyNominalQuestion.php";
-				$question = new SurveyNominalQuestion();
-				break;
-			case "qt_ordinal":
-				include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
-				$question = new SurveyOrdinalQuestion();
-				break;
-			case "qt_metric":
-				include_once "./survey/classes/class.SurveyMetricQuestion.php";
-				$question = new SurveyMetricQuestion();
-				break;
-			case "qt_text":
-				include_once "./survey/classes/class.SurveyTextQuestion.php";
-				$question = new SurveyTextQuestion();
-				break;
-		} 
+		include_once "./survey/classes/class.$question_type.php";
+		$question = new $question_type();
 		$question->loadFromDb($question_id);
 		return $question;
   }
