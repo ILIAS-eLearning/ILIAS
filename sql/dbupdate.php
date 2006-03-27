@@ -9861,4 +9861,42 @@ foreach ($foundactive as $missingarray)
 	}
 }
 ?>
+<#662>
+<?php
+	// correct accidently increased tries (when doubleclicking or reloading in test submission)
 
+	function getNrOfResultsForPass($test_id, $user_id, $pass)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE test_fi = %s AND user_fi = %s AND pass = %s",
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		return $result->numRows();
+	}
+	
+	global $log;
+	$query = "SELECT * FROM tst_active WHERE tries > 1";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$tries = $row["tries"];
+		while ((getNrOfResultsForPass($row["test_fi"], $row["user_fi"], $tries-1) == 0) && ($tries > 0))
+		{
+			$tries--;
+		}
+		if ($tries < $row["tries"])
+		{
+			$updatequery = sprintf("UPDATE tst_active SET tries = %s WHERE active_id = %s",
+				$ilDB->quote($tries . ""),
+				$ilDB->quote($row["active_id"] . "")
+			);
+			$ilDB->query($updatequery);
+			$log->write("Update step #662: set tst_active.tries from ".$row["tries"]." to $tries for tst_active.active_id = " . $row["active_id"]);
+		}
+	}
+	
+
+?>
