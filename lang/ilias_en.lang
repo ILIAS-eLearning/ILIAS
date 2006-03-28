@@ -5869,3 +5869,7 @@ crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.
 crs#:#crs_password_required#:#This registration procedure requires a password.
 common#:#deleted_users#:#Deleted users
 chat#:#chat_new_message#:#New message
+common#:#udf_update_select_field#:#Edit select box
+common#:#udf_update_text_field#:#Edit text field
+common#:#udf_update_success#:#Saved modifications.
+common#:#udf_value_deleted#:#The value has been deleted.

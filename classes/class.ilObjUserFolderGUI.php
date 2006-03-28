@@ -1773,6 +1773,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	// Functions for user defined fields
 	function listUserDefinedFieldsObject()
 	{
+		unset($_SESSION['select_num_values']);
+		unset($_SESSION['num_values']);
+
 		include_once './classes/class.ilUserDefinedFields.php';
 
 		$this->setSubTabs('settings');
@@ -1815,12 +1818,199 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($definition['searchable'],"def[$field_id][searchable]",1));
 
 			$this->ctrl->setParameter($this,'field_id',$field_id);
+
+			// Show edit link (depends on type)
+			switch($definition['field_type'])
+			{
+				case UDF_TYPE_TEXT:
+					$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'editTextField'));
+					break;
+
+				case UDF_TYPE_SELECT:
+					$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'editSelectField'));
+					break;
+			}
+			$this->tpl->setVariable("EDIT",$this->lng->txt('edit'));		
+
 			$this->tpl->setVariable("DELETE_LINK",$this->ctrl->getLinkTarget($this,'askDeleteField'));
 			$this->tpl->setVariable("DELETE",$this->lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	function editTextFieldObject()
+	{
+		include_once './classes/class.ilUserDefinedFields.php';
+		
+		$udf = new ilUserDefinedFields();
+		$definition = $udf->getDefinition((int) $_GET['field_id']);
 
+		// Save paremeter
+		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
+
+		$this->setSubTabs('settings');
+		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setSubTabActive('user_defined_fields');
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_update_text_field.html');
+		
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_SELECT_TYPE",$this->lng->txt('udf_update_text_field'));
+		$this->tpl->setVariable("TXT_FIELD_NAME",$this->lng->txt('field_name'));
+		
+		$this->tpl->setVariable("FIELD_NAME",$definition['field_name']);
+		
+		$this->tpl->setVariable("BTN_PREVIOUS",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('update'));
+
+		return true;
+	}
+
+	function updateTextFieldObject()
+	{
+		include_once './classes/class.ilUserDefinedFields.php';
+		
+
+		$udf = new ilUserDefinedFields();
+		$definition = $udf->getDefinition((int) $_GET['field_id']);
+
+		$udf->setFieldName(ilUtil::stripslashes($_POST['field_name']));
+		$udf->setFieldType($definition['field_type']);
+		$udf->setFieldValues($definition['field_values']);
+		$udf->enableVisible($definition['visible']);
+		$udf->enableChangeable($definition['changeable']);
+		$udf->enableRequired($definition['required']);
+		$udf->enableSearchable($definition['searchable']);
+
+		$udf->update($definition['field_id']);
+
+		sendInfo($this->lng->txt('udf_update_success'));
+		
+		$this->listUserDefinedFieldsObject();
+	}
+
+	function editSelectFieldObject()
+	{
+		include_once './classes/class.ilUserDefinedFields.php';
+
+		$_SESSION['select_num_values'] = $_SESSION['select_num_values'] ? $_SESSION['select_num_values'] : 0;
+
+		$udf = new ilUserDefinedFields();
+		$definition = $udf->getDefinition((int) $_GET['field_id']);
+
+		// Save paremeter
+		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
+
+		$this->setSubTabs('settings');
+		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setSubTabActive('user_defined_fields');
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_update_select_field.html');
+
+		//$this->tpl->setVariable("TXT_WARNING",$this->lng->txt('udf_warn_delete'));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_SELECT_TYPE",$this->lng->txt('udf_update_select_field'));
+		$this->tpl->setVariable("TXT_FIELD_NAME",$this->lng->txt('field_name'));
+		
+		$this->tpl->setVariable("FIELD_NAME_VALUE",$definition['field_name']);
+
+		// OLD VALUES
+		$counter = 0;
+		foreach($definition['field_values'] as $value)
+		{
+			$this->tpl->setCurrentBlock("values");
+			$this->tpl->setVariable("COUNTER",$counter++);
+			$this->tpl->setVariable("TXT_VALUES",$this->lng->txt('udf_value').' '.($counter));
+			$this->tpl->setVariable("FIELD_NAME",$value);
+
+			$this->ctrl->setParameter($this,'value_id',$counter-1);
+			$this->tpl->setVariable("DELETE_LINK",$this->ctrl->getLinkTarget($this,'deleteValue'));
+			$this->tpl->setVariable("DELETE",$this->lng->txt('delete'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// new values
+		for($i = 0; $i < $_SESSION['select_num_values'];$i++)
+		{
+			$this->tpl->setCurrentBlock("new_values");
+			$this->tpl->setVariable("NEW_COUNTER",$counter++);
+			$this->tpl->setVariable("TXT_NEW_VALUES",$this->lng->txt('udf_value').' '.($counter));
+			$this->tpl->setVariable("NEW_FIELD_NAME",$_POST['field_values'][$counter-1]);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("BTN_NEW_VALUE",$this->lng->txt('btn_new_value'));
+		$this->tpl->setVariable("BTN_PREVIOUS",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('save'));
+
+		return true;
+	}
+
+	function updateSelectFieldObject()
+	{
+		include_once './classes/class.ilUserDefinedFields.php';
+
+		
+		$_POST['field_values'] = is_array($_POST['field_values']) ? $_POST['field_values'] : array();
+
+		$udf = new ilUserDefinedFields();
+		$definition = $udf->getDefinition((int) $_GET['field_id']);
+
+
+		$udf->setFieldName(ilUtil::stripslashes($_POST['field_name']));
+		$udf->setFieldValues(array_merge($definition['field_values'],$_POST['field_values']));
+		$udf->setFieldType($definition['field_type']);
+		$udf->enableVisible($definition['visible']);
+		$udf->enableChangeable($definition['changeable']);
+		$udf->enableRequired($definition['required']);
+		$udf->enableSearchable($definition['searchable']);
+
+		if($error = $udf->validateValues())
+		{
+			switch($error)
+			{
+				case UDF_DUPLICATE_VALUES:
+					sendInfo($this->lng->txt('udf_duplicate_entries'));
+					$this->editSelectFieldObject();
+					return false;
+
+				case UDF_NO_VALUES:
+					sendInfo($this->lng->txt('udf_no_entries'));
+					$this->editSelectFieldObject();
+					return false;
+			}
+		}
+
+		$udf->update($definition['field_id']);
+		sendInfo($this->lng->txt('udf_update_success'));
+		
+		unset($_SESSION['select_num_values']);
+		$this->editSelectFieldObject();
+	}
+
+
+	function deleteValueObject()
+	{
+		include_once './classes/class.ilUserDefinedFields.php';
+		
+		$udf = new ilUserDefinedFields();
+		$udf->deleteValue((int) $_GET['field_id'],(int) $_GET['value_id']);
+
+		sendInfo($this->lng->txt('udf_value_deleted'));
+		$this->editSelectFieldObject();
+
+		return true;
+	}
+
+	function addSelectValueObject()
+	{
+		$_SESSION['select_num_values'] += 1;
+		$this->editSelectFieldObject();
+		return true;
+	}
+		
+		
+		
+		
 	function askDeleteFieldObject()
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
