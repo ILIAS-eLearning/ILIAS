@@ -267,12 +267,52 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['field_id'] = $row->field_id;
 			$this->definitions[$row->field_id]['field_name'] = $row->field_name;
 			$this->definitions[$row->field_id]['field_type'] = $row->field_type;
-			$this->definitions[$row->field_id]['field_values'] = unserialize(stripslashes($row->field_values));
+
+			$tmp = unserialize(stripslashes($row->field_values));
+			sort($tmp);
+			$this->definitions[$row->field_id]['field_values'] = $tmp;
+
 			$this->definitions[$row->field_id]['visible'] = $row->visible;
 			$this->definitions[$row->field_id]['changeable'] = $row->changeable;
 			$this->definitions[$row->field_id]['required'] = $row->required;
 			$this->definitions[$row->field_id]['searchable'] = $row->searchable;
+
 		}
+
+		return true;
+	}
+
+	function deleteValue($a_field_id,$a_value_id)
+	{
+		$definition = $this->getDefinition($a_field_id);
+
+		$counter = 0;
+		$new_values = array();
+		foreach($definition['field_values'] as $value)
+		{
+			if($counter++ != $a_value_id)
+			{
+				$new_values[] = $value;
+			}
+			else
+			{
+				$old_value = $value;
+			}
+		}
+		$query = "UPDATE user_defined_field_definition ".
+			"SET field_values = '".addslashes(serialize($new_values))."' ".
+			"WHERE field_id = '".$a_field_id."'";
+
+		$this->db->query($query);
+
+		// Update usr_data
+		$query = "UPDATE usr_defined_data ".
+			"SET `".$a_field_id."` = '' ".
+			"WHERE `".$a_field_id."` = '".$old_value."'";
+		$this->db->query($query);
+
+		// fianally read data
+		$this->__read();
 
 		return true;
 	}

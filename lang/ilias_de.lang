@@ -5821,3 +5821,7 @@ trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
 crs#:#crs_password_required#:#Für diese Registrierungsart ist ein Passwort erforderlich.
 common#:#deleted_users#:#Die BenutzerInnen wurden gelöscht.
 chat#:#chat_new_message#:#Neue Nachricht
+common#:#udf_update_select_field#:#Auswahlliste bearbeiten
+common#:#udf_update_text_field#:#Textfeld bearbeiten
+common#:#udf_update_success#:#Die Daten wurden aktualisiert.
+common#:#udf_value_deleted#:#Der Wert wurde gelöscht.
