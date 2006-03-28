@@ -53,7 +53,6 @@ class ilUserSearch extends ilAbstractSearch
 			"FROM usr_data ".
 			$where;
 
-
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

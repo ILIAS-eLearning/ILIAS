@@ -416,8 +416,8 @@ class ilRepositorySearchGUI
 					
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$usr_id);
 					$f_result[$counter][] = $tmp_obj->getLogin();
-					$f_result[$counter][] = $tmp_obj->getLastname();
 					$f_result[$counter][] = $tmp_obj->getFirstname();
+					$f_result[$counter][] = $tmp_obj->getLastname();
 
 					unset($tmp_obj);
 					++$counter;
@@ -699,8 +699,8 @@ class ilRepositorySearchGUI
 					
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
 
 			unset($tmp_obj);
 			++$counter;
@@ -749,8 +749,8 @@ class ilRepositorySearchGUI
 					
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
 
 			unset($tmp_obj);
 			++$counter;

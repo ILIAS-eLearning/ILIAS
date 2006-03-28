@@ -61,7 +61,15 @@ class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 				$and .= " OR ";
 			}
 			$and .= ('`'.$field.'` ');
-			$and .= ("LIKE ('%".$word."%')");
+
+			if(strpos($word,'^') === 0)
+			{
+				$and .= ("LIKE ('".substr($word,1)."%')");
+			}
+			else
+			{
+				$and .= ("LIKE ('%".$word."%')");
+			}
 		}
 		return $and.") ";
 	}
