@@ -31,6 +31,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * for text questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author		Nina Gharib <nina@wgserve.de>
 * @version	$Id$
 * @module   class.assTextQuestionGUI.php
 * @modulegroup   assessment
@@ -58,6 +59,16 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		}
 	}
 
+	function getCommand($cmd)
+	{
+		if (substr($cmd, 0, 6) == "delete")
+		{
+			$cmd = "delete";
+		}
+
+		return $cmd;
+	}
+
 	/**
 	* Returns the question type string
 	*
@@ -82,11 +93,26 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	{
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
-		// single response
 		$this->getQuestionTemplate("qt_text");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_text_question.html", true);
 		// call to other question data i.e. estimated working time block
 		$this->outOtherQuestionData();
+// 		optional können keyWords gesetzt werden
+		for ($i = 0; $i < $this->object->get_answer_count(); $i++)
+		{
+			$this->tpl->setCurrentBlock("deletebutton");
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("KEYWORD_ORDER", $i);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("keyWords");
+			$answer = $this->object->get_answer($i);
+			$this->tpl->setVariable("VALUE_KEYWORD_COUNTER", $answer->get_order() + 1);
+			$this->tpl->setVariable("KEYWORD_ORDER", $answer->get_order());
+			$this->tpl->setVariable("VALUE_KEYWORD", htmlspecialchars($answer->get_answertext()));
+			$this->tpl->setVariable("TEXT_KEYWORD_TEXT", $this->lng->txt("keyWord_text"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
@@ -103,8 +129,34 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		}
 		
 		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text_question.title.focus();"));
+		if ($this->object->get_answer_count() == 0)
+		{
+			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text_question.title.focus();"));
+		}
+		else
+		{
+			switch ($this->ctrl->getCmd())
+			{
+				case "add":
+					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('keyword_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+					break;
+				case "":
+					if ($this->object->get_answer_count() == 0)
+					{
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text.title.focus();"));
+					}
+					else
+					{
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('keyword_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+					}
+					break;
+				default:
+					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text.title.focus();"));
+					break;
+			}
+		}		
 		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("TEXT_QUESTION_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_TEXT_QUESTION_TITLE", htmlspecialchars($this->object->getTitle()));
@@ -124,6 +176,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
 		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+
+		$this->tpl->setVariable("TEXT_KEYWORD", $this->lng->txt("keyword"));
 		$this->tpl->setVariable("DESCRIPTION_MAXCHARS", $this->lng->txt("description_maxchars"));
 		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
 		if (count($this->object->suggested_solutions))
@@ -140,6 +194,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		{
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
 		}
+
+
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -173,6 +229,53 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	}
 
 	/**
+	* add an answer
+	*/
+	function add()
+	{
+		//$this->setObjectData();
+		$this->writePostData();
+
+		if (!$this->checkInput())
+		{
+			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+		}
+		else
+		{
+			// add an answer template
+			$this->object->add_answer(
+				$this->lng->txt(""),
+				0,
+				0,
+				count($this->object->keyWords)
+			);
+		}
+
+		$this->editQuestion();
+	}
+
+	/**
+	* delete an answer
+	*/
+	function delete()
+	{
+		//$this->setObjectData();
+		$this->writePostData();
+
+		foreach ($_POST["cmd"] as $key => $value)
+		{
+			// was one of the answers deleted
+			if (preg_match("/delete_(\d+)/", $key, $matches))
+			{
+				$this->object->delete_answer($matches[1]);
+			}
+		}
+
+		$this->editQuestion();
+	}
+
+
+	/**
 	* check input fields
 	*/
 	function checkInput()
@@ -201,7 +304,30 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		{
 			$result = 1;
 		}
+		
+		if (($result) and (($_POST["cmd"]["add"])))
+		{
+			// You cannot add answers before you enter the required data
+			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+			$_POST["cmd"]["add"] = "";
+		}
 
+		// Check the creation of new answer text fields
+		if ($_POST["cmd"]["add"])
+		{
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/keyword_(\d+)/", $key, $matches))
+				{
+					if (!$value)
+					{
+						$_POST["cmd"]["add"] = "";
+						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
+					}
+			 	}
+			}
+		}
+		
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
@@ -214,10 +340,47 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 
 		$saved = $this->writeOtherPostData($result);
 
+		// Delete all existing answers and create new answers from the form data
+		$this->object->flush_answers();
+
+		// Add all answers from the form into the object for x out of all
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/keyword_(\d+)/", $key, $matches))
+			{
+				$this->object->add_answer(
+					ilUtil::stripSlashes($_POST["$key"]),
+					0.0,
+					ilUtil::stripSlashes($_POST["status_$matches[1]"]),
+					ilUtil::stripSlashes($matches[1])
+					);
+			}
+		}
+
+		// After adding all questions from the form we have to check if the learner pressed a delete button
+		foreach ($_POST as $key => $value)
+		{
+			// was one of the answers deleted
+			if (preg_match("/delete_(\d+)/", $key, $matches))
+			{
+				$this->object->delete_answer($matches[1]);
+			}
+		}
+
 		// Set the question id from a hidden form parameter
 		if ($_POST["text_question_id"] > 0)
 		{
 			$this->object->setId($_POST["text_question_id"]);
+		}
+		
+		if ($saved)
+		{
+			// If the question was saved automatically before an upload, we have to make
+			// sure, that the state after the upload is saved. Otherwise the user could be
+			// irritated, if he presses cancel, because he only has the question state before
+			// the upload process.
+			$this->object->saveToDb();
+			$_GET["q_id"] = $this->object->getId();
 		}
 		
 		return $result;
@@ -260,6 +423,11 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 			$solutionintroduction = "<p>" . $this->lng->txt("tst_your_answer_was") . "</p>";
 			$output = preg_replace("/(<div[^<]*?ilc_PageTitle.*?<\/div>)/", "\\1" . $solutionintroduction, $output);
 		}
+// auf verdacht hinzugefügt, da die studentantwort als antwort auch aufgenommen werden sollte
+		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		$solutionoutput = preg_replace("/\"tq/", "\"solution_tq", $solutionoutput);
+		$solutionoutput = preg_replace("/text_result/", "solution_text_result", $solutionoutput);
+
 		if (!$show_question_page)
 			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		
