@@ -1,30 +1,30 @@
-<form name="frm_text_question" action="{ACTION_TEXT_QUESTION}" method="post">
-<input type="hidden" name="id" value="{TEXT_QUESTION_ID}" />
+<form name="frm_xooa" action="{ACTION_X_OUT_OF_ALL_TEST}" method="post" enctype="multipart/form-data">
+<input type="hidden" name="id" value="{_ID}" />
 <table class="fullwidth">
 <thead>
-	<tr class="tblheader">
-		<th colspan="5">{TEXT_QUESTION_TYPE}</th>
-	</tr>
+<tr class="tblheader">
+	<th colspan="5">{TEXT_QUESTION_TYPE}</th>
+</tr>
 </thead>
 <tr>
   <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_TEXT_QUESTION_TITLE}" size="50" /></td>
+  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_X_OUT_OF_ALL_TITLE}" size="50" /></td>
 </tr>
 <tr>
   <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_TEXT_QUESTION_AUTHOR}" size="50" /></td>
+  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_X_OUT_OF_ALL_AUTHOR}" size="50" /></td>
 </tr>
 <tr>
   <td class="option">{TEXT_COMMENT}:</td>
-  <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_TEXT_QUESTION_COMMENT}" id="comment" size="50" /></td>
+  <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_X_OUT_OF_ALL_COMMENT}" id="comment" size="50" /></td>
 </tr>
 <tr>
   <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="4"><textarea class="fullwidth" name="question" cols="40" rows="10" id="question">{VALUE_QUESTION}</textarea></td>
 </tr>
 <tr>
-  <td class="option"><label for="maxchars">{TEXT_MAXCHARS}</label>:</td>
-  <td class="option_value" colspan="4"><input name="maxchars" type="text" value="{VALUE_MAXCHARS}" id="maxchars" size="5" /><br />{DESCRIPTION_MAXCHARS}</td>
+  <td class="option">{TEXT_NUMBER_X}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><input name="number_X" type="text" value="{VALUE_NUMBER_X}" id="number_X" size="3" /></td>
 </tr>
 <tr>
   <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
@@ -46,18 +46,15 @@
 		</select>
 	</td>
 </tr>
-<tr>
-  <td class="option"><label for="points">{TEXT_POINTS}</label><span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="points" type="text" value="{VALUE_POINTS}" id="points" size="5" /></td>
-</tr>
 <tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 <!-- BEGIN answers -->
 <tr>
-  <td class="option">{TEXT_KEYWORD_TEXT} {VALUE_KEYWORD_COUNTER}:</td>
-  <td class="option_value" width="50%"><input class="fullwidth" name="keyword_{KEYWORD_ORDER}" type="text" id="keyword_{KEYWORD_ORDER}" size="30" value="{VALUE_KEYWORD}" /></td>
+  <td class="option">{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</td>
+  <td class="option_value" width="50%"><input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" /></td>
+  <td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_X_OUT_OF_ALL_POINTS}" /></td>
   <td class="option_value" colspan="2">
 <!-- BEGIN deletebutton -->
-<div align="right"><input type="submit" class="submit" name="cmd[delete_{KEYWORD_ORDER}]" value="{DELETE}" /></div>
+<div align="right"><input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" /></div>
 <!-- END deletebutton -->
 </td>
 </tr>
@@ -65,7 +62,7 @@
 <tr><td colspan="5" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
-<input name="cmd[save]" type="submit" class="submit" id="save_text_question" value="{SAVE}" /> <input name="cmd[saveEdit]" type="submit" class="submit" value="{SAVE_EDIT}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+<input name="cmd[save]" type="submit" class="submit" id="save_xooa" value="{SAVE}" /> <input name="cmd[saveEdit]" type="submit" class="submit" value="{SAVE_EDIT}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
 </div>
 </td></tr>
 </table>
