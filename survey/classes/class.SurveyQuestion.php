@@ -1552,5 +1552,18 @@ class SurveyQuestion
 			return false;
 		}
 	}
+
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 0;
+	}
 }
 ?>

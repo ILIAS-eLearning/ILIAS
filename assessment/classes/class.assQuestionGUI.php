@@ -484,10 +484,12 @@ class ASS_QuestionGUI
 	function saveEdit()
 	{
 		global $ilUser;
-		
+
 		$result = $this->writePostData();
 		if ($result == 0)
 		{
+			$ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
+			$ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			include_once "./assessment/classes/class.assQuestion.php";
@@ -543,6 +545,8 @@ class ASS_QuestionGUI
 		$result = $this->writePostData();
 		if ($result == 0)
 		{
+			$ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
+			$ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			include_once "./assessment/classes/class.assQuestion.php";
