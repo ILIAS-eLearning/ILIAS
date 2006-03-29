@@ -108,6 +108,7 @@ class ilLPCollections
 				case 'sahs':
 				case 'lm':
 				case 'tst':
+				case 'htlm':
 					$all_possible["$node[ref_id]"] = $node['obj_id'];
 					break;
 			}

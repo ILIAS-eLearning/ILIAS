@@ -29,7 +29,7 @@
 *
 * $Id$
 *
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 *
 * @extends ilObjectGUI
 * @package content
@@ -72,7 +72,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	* execute command
 	*/
 	function &executeCommand()
-	{		
+	{	
+		global $ilUser;
+	
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
 		{
@@ -112,6 +114,16 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
 				//$ret =& $fs_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($fs_gui);
+				break;
+
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+													  $this->object->getRefId(),
+													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 				
 			case 'ilpermissiongui':
@@ -690,6 +702,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 	function showLearningModule()
 	{
+		// Track access
+		include_once "Services/Tracking/classes/class.ilTracking.php";
+		ilTracking::_trackAccess($this->object->getId(),'htlm');
+
 		$dir = $this->object->getDataDirectory();
 		if (($this->object->getStartFile() != "") &&
 			(@is_file($dir."/".$this->object->getStartFile())))
@@ -748,6 +764,16 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "editBibItem"),
 			array("editBibItem", "saveBibItem", "deleteBibItem", "addBibItem"),
 			get_class($this));
+
+		// learning progress
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledTracking())
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('ilobjfilebasedlmgui','illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
 
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

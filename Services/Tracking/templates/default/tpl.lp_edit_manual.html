@@ -1,17 +1,13 @@
 	<form action="{FORMACTION}" method="post">
-	  <table class="std" width="50%">
-		  <tr class="tbltitle">
-			<td colspan="3">
-			  <table class="fullwidth_invisible" cellspacing="0">
-				  <tr class="tbltitle">
-					<td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
-					<td class="tbltitle" align="left">&nbsp;{TXT_EDIT_PROGRESS}</td>
-				  </tr>
-			  </table>
-			</td>
+	  <table class="fullwidth" width="50%">
+		  <tr class="tblheader">
+			<th class="il_PDBlockHeader" colspan="2">
+			  <img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
+			  &nbsp;{TXT_EDIT_PROGRESS}
+			</th>
 		  </tr>
 		  <tr>
-			<td class="option">
+			<td class="option" width="20%">
 			  {TXT_STATUS}
 			</td>
 			<td class="option_value">
@@ -19,6 +15,20 @@
 			  <div class="il_Description_no_margin">{INFO_EDITED}</div>
 			</td>
 		  </tr>
+		  <!-- BEGIN lm_infos -->
+		  <tr>
+			<td class="option">{TXT_LAST_ACCESS}</td>
+			<td class="option_value">{LAST_ACCESS}</td>
+		  </tr>
+		  <tr>
+			<td class="option">{TXT_VISITS}</td>
+			<td class="option_value">{VISITS}</td>
+		  </tr>
+		  <tr>
+			<td class="option">{TXT_DURATION}</td>
+			<td class="option_value">{DURATION}</td>
+		  </tr>
+		  <!-- END lm_infos -->
 		  <tr class="tablefooter">
 			<td class="submit" colspan="3">
 			  <div align="right">

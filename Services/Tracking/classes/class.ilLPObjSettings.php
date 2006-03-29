@@ -190,6 +190,10 @@ class ilLPObjSettings
 							 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
 							 LP_MODE_TLT => $lng->txt('trac_mode_tlt'));
 
+			case 'htlm':
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'));
+
 			case 'sahs':
 				include_once './Services/Tracking/classes/class.ilLPCollections.php';
 
@@ -277,6 +281,7 @@ class ilLPObjSettings
 
 			case 'dbk':
 			case 'lm':
+			case 'htlm':
 				return LP_MODE_MANUAL;
 
 			case 'sahs':

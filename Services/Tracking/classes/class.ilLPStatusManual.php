@@ -83,6 +83,7 @@ class ilLPStatusManual extends ilLPStatus
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'lm':
+			case 'htlm':
 				return ilLPStatusManual::__getLMInProgress($a_obj_id);
 
 			case 'crs':
