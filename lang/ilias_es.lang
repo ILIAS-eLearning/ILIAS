@@ -1285,7 +1285,7 @@ common#:#crs_new#:#Nuevo Curso
 common#:#crs_no_content#:#Sin contenido
 common#:#crs_read#:#Acceso de lectura al Curso
 common#:#crs_status_blocked#:#[Acceso denegado]
-common#:#crs_status_pending#:#[Esperando ser registrado]
+common#:#crs_status_pending#:#[Esperando confirmacion de matricula]
 common#:#crs_subscribers_assigned#:#Nuevo(s) usuario(s) asignado(s)
 common#:#crs_visible#:#El Curso es visible
 common#:#crs_write#:#Editar Curso
@@ -1383,7 +1383,7 @@ common#:#enable_custom_icons_info#:#Esta opción permite definir iconos personal
 common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
 common#:#enable_hist_user_comments#:#Habilitar comentarios de usuario en la historia
-common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al log de historia de páginas.
+common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al historial de modificaciones de páginas.
 common#:#enable_js_edit#:#Habilitar Edición JavaScript
 common#:#enable_js_edit_info#:#Esta opción habilita la Edición JavaScript para todos los objectos de contenido (módulos de aprendizaje, Glosarios, Preguntas de Evaluación, Libros Digitales)
 common#:#enable_password_assistance#:#Habilitar Asistencia de Contraseña
@@ -1636,7 +1636,7 @@ common#:#group_memstat_member#:#Miembro
 common#:#group_name#:#Nombre de Grupo
 common#:#group_new_registrations#:#Nuevos registrados
 common#:#group_no_registration#:#no se requiere registrarse
-common#:#group_no_registration_msg#:#Ha dejado de ser un miembro de este grupo. Debido a motivos de administración es necesario unirse grupo solicitado.<br> Como miembro de este grupo tiene las siguientes ventajas:<br>Será informado de noticias y actualizaciones  As a member you have the following advantages:<br>-<br>- Puede acceder a los objetos tales como foros, objetos de aprendizaje, etc...<br><br>Puede anular su pertenencia al grupo en cualquier momento
+common#:#group_no_registration_msg#:#Ha dejado de ser un miembro de este grupo. Debido a motivos de administración es necesario unirse al grupo solicitado.<br> Como miembro de este grupo tiene las siguientes ventajas:<br>Será informado de noticias y actualizaciones  As a member you have the following advantages:<br>-<br>- Puede acceder a los objetos tales como foros, objetos de aprendizaje, etc...<br><br>Puede anular su pertenencia al grupo en cualquier momento
 common#:#group_not_available#:#cualquier grupo disponible
 common#:#group_objects#:#Objetos de Grupo
 common#:#group_password_registration_msg#:#Para unirse a este grupo tiene que introducir la contraseña asignada por el administrador del mismo.<br>Estará automáticamente asignado a este grupo si su contraseña es correcta.
@@ -1962,7 +1962,7 @@ common#:#internal_system#:#Sistema Interno
 common#:#ip_address#:#dirección IP
 common#:#is_already_your#:#ya es su
 common#:#item#:#item
-common#:#join#:#unirse
+common#:#join#:#matricularse
 common#:#kb#:#KByte
 common#:#keywords#:#Palabras clave
 common#:#lang_cs#:#Checo
@@ -2326,7 +2326,7 @@ common#:#next#:#siguiente
 common#:#nickname#:#apodo
 common#:#no#:#no
 common#:#no_access_item#:#No tiene permiso para acceder a este item.
-common#:#no_access_item_public#:#Este item no puede ser accedido en la sección pública.
+common#:#no_access_item_public#:#Necesita registrarse para accceder a este item.
 common#:#no_access_link_object#:#No tiene permisos para enlazar este objeto
 common#:#no_bm_in_personal_list#:#No hay favoritos definidos
 common#:#no_chat_in_personal_list#:#No hay chats en la lista personal
@@ -2584,7 +2584,7 @@ common#:#previous#:#anterior
 common#:#print#:#imprimir
 common#:#private_notes#:#Notas privadas
 common#:#pro#:#A favor
-common#:#profile#:#perfil
+common#:#profile#:#Perfil
 common#:#profile_changed#:#Su perfil ha cambiado
 common#:#profile_of#:#Perfil de
 common#:#properties#:#Propiedades
@@ -2626,8 +2626,8 @@ common#:#reg_mail_body_text2#:#Para acceder a ILIAS use los siguientes datos:
 common#:#reg_mail_body_text3#:#Información personal detallada:
 common#:#reg_mail_subject#:#ILIAS - Sus datos de acceso
 common#:#reg_passwd_via_mail#:#Su contraseña será enviada a su dirección de e-mail mostrada abajo.
-common#:#register#:#Registro
-common#:#register_info#:#Por favor rellene el formulario para registrarse(Los campos marcados con un asterisco son información obligada).
+common#:#register#:#Registrarse
+common#:#register_info#:#Por favor rellene el formulario para registrarse en el sistema (Los campos marcados con un asterisco son información obligada).
 common#:#registered_since#:#registrado desde
 common#:#registered_user#:#Usuario online
 common#:#registered_users#:#Usuarios online
@@ -2649,7 +2649,7 @@ common#:#repository#:#Contenidos
 common#:#repository_admin#:#Contenidos, Papelera y Permisos
 common#:#repository_admin_desc#:#Configurar permisos para items de Contenidos, restaurar o eliminar objetos de la Papelera del sistema
 common#:#repository_frame#:#Sección Contenidos
-common#:#request_membership#:#Solicitar pertenencia
+common#:#request_membership#:#Solicitud de registro
 common#:#require_city#:#Solicitar ciudad
 common#:#require_country#:#Solicitar país
 common#:#require_default_role#:#Solicitar rol
@@ -3661,7 +3661,7 @@ crs#:#crs_add_html_archive#:#Añadir Archivo-HTML
 crs#:#crs_add_member#:#Añadir miembros
 crs#:#crs_add_objective#:#Añadir objetivo
 crs#:#crs_add_starter#:#Añadir objeto inicial
-crs#:#crs_add_subscribers#:#Añadir suscriptores
+crs#:#crs_add_subscribers#:#Añadir matriculados
 crs#:#crs_added#:#Añadido nuevo curso
 crs#:#crs_added_member#:#Pertenencia al Curso
 crs#:#crs_added_member_body#:#Ha sido aceptado en este curso.
@@ -3684,7 +3684,7 @@ crs#:#crs_archive_select_type#:#Acceso a Archivos
 crs#:#crs_archive_type#:#Tipo de Archivo
 crs#:#crs_archive_type_disabled#:#Sin acceso
 crs#:#crs_archives_deleted#:#El/Los archivo(s) ha(n) sido eliminado(s)
-crs#:#crs_auto_fill#:#Auto relleno
+crs#:#crs_auto_fill#:#Aceptar todos
 crs#:#crs_availability_limitless_info#:#Escoja este modo para hacer el curso disponible y accesible a usuarios (en función de la configuración de registro más abajo)
 crs#:#crs_availability_until_info#:#Escoja este modo para hacer el curso disponible y accesible a usuarios durante un período de tiempo fijo.
 crs#:#crs_availability_unvisible_info#:#Escoja este modo para preparar el curso. Sólo los administradores y tutores podrán ver y editar el curso.
@@ -3792,8 +3792,8 @@ crs#:#crs_moved_objective#:#Objetivo de aprendizaje 'movido'
 crs#:#crs_new_search#:#Nueva Búsqueda
 crs#:#crs_new_subscription#:#Nueva suscripción a curso
 crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario
-crs#:#crs_new_subscription_request#:#Peticion para unirse al curso "%s"
-crs#:#crs_new_subscription_request_body#:#Un usuario ha solicitado unirse al curso "%s"
+crs#:#crs_new_subscription_request#:#Peticion para matricularse en el curso "%s"
+crs#:#crs_new_subscription_request_body#:#Un usuario ha solicitado matricularse en el curso "%s"
 crs#:#crs_no_archive_selected#:#No hay archivos seleccionados
 crs#:#crs_no_archives_available#:#No hay archivos disponibles
 crs#:#crs_no_archives_selected#:#Por favor seleccione un archivo
@@ -3888,7 +3888,7 @@ crs#:#crs_reg_subscription_start_later#:#El período de matrícula comienza más
 crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limite de tiempo para la matrícula. Por favor escoja uno de los modos de matrícula comentados.
 crs#:#crs_reg_until#:#Fecha de matrícula
 crs#:#crs_reg_user_already_assigned#:#Usted ya está asignado a este curso
-crs#:#crs_reg_user_already_subscribed#:#Usted ya se ha suscrito a este curso
+crs#:#crs_reg_user_already_subscribed#:#Usted ya solicito registro en este curso
 crs#:#crs_reg_user_blocked#:#Se ha bloqueado su acceso a este curso
 crs#:#crs_registration#:#Matrícula de Curso
 crs#:#crs_registration_deactivated#:#Escoja esta opción para deshabilitar la matrícula. Ningún usuario puede matrícularse en este curso
@@ -3935,7 +3935,7 @@ crs#:#crs_status_changed#:#Estado del curso
 crs#:#crs_status_changed_body#:#El estado del curso ha sido modificado
 crs#:#crs_structure#:#Estructura del curso
 crs#:#crs_subscribers#:#Suscripciones
-crs#:#crs_subscribers_deleted#:#Suscriptores eliminado(s)
+crs#:#crs_subscribers_deleted#:#Usuario(s) matriculado(s) eliminado(s)
 crs#:#crs_subscription#:#Suscripción
 crs#:#crs_subscription_max_members#:#Máximo nº de miembros
 crs#:#crs_subscription_notify#:#Notificar suscripciones
@@ -3943,9 +3943,9 @@ crs#:#crs_subscription_options_confirmation#:#Suscripción con confirmación
 crs#:#crs_subscription_options_deactivated#:#Desactivado
 crs#:#crs_subscription_options_direct#:#Suscripción directa
 crs#:#crs_subscription_options_password#:#Suscripción con contraseña
-crs#:#crs_subscription_requested#:#Ha solicitado pertenecer a este curso
-crs#:#crs_subscription_successful#:#Ha sido suscrito a este curso
-crs#:#crs_subscription_type#:#Tipo de suscripción
+crs#:#crs_subscription_requested#:#Ha solicitado matricularse en este curso
+crs#:#crs_subscription_successful#:#Ha sido matriculado en este curso
+crs#:#crs_subscription_type#:#Tipo de matricula
 crs#:#crs_suggest_lm#:#Sugerir materiales de aprendizaje si:
 crs#:#crs_sure_delete_selected_archives#:#¿Está seguro de eliminar los archivos seleccionados?
 crs#:#crs_syllabus#:#Objetivos del curso
