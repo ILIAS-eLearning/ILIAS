@@ -209,7 +209,7 @@ class SurveyNominalQuestion extends SurveyQuestion
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, orientation, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("$this->subtype"),
-				$this->ilias->db->quote("1"),
+				$this->ilias->db->quote($this->getQuestionType()),
 				$this->ilias->db->quote($this->obj_id),
 				$this->ilias->db->quote($this->owner),
 				$this->ilias->db->quote($this->title),
@@ -554,5 +554,17 @@ class SurveyNominalQuestion extends SurveyQuestion
 		parent::syncWithOriginal();
 	}
 	
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 1;
+	}
 }
 ?>

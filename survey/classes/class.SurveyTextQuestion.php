@@ -174,7 +174,7 @@ class SurveyTextQuestion extends SurveyQuestion
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, maxchars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote("4"),
+				$this->ilias->db->quote($this->getQuestionType() . ""),
 				$this->ilias->db->quote($this->obj_id),
 				$this->ilias->db->quote($this->owner),
 				$this->ilias->db->quote($this->title),
@@ -472,6 +472,19 @@ class SurveyTextQuestion extends SurveyQuestion
 			return $row["maxchars"];
 		}
 		return 0;
+	}
+
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 4;
 	}
 }
 ?>

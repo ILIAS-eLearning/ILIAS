@@ -175,6 +175,8 @@ class SurveyQuestionGUI
 		$result = $this->writePostData();
 		if ($result == 0)
 		{
+			$ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
+			$ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			$_GET["q_id"] = $this->object->getId();

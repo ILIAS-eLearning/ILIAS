@@ -769,7 +769,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
   function questionsObject()
   {
     global $rbacsystem;
+		global $ilUser;
 
+		$lastquestiontype = $ilUser->getPref("svy_lastquestiontype");
 		$filter_text = "";
 		$filter_type = "";
 		if (count($_POST))
@@ -987,6 +989,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$query_result = $this->ilias->db->query($query);
 			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				if ($lastquestiontype == $data->questiontype_id)
+				{
+					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
+				}
 				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 				$this->tpl->parseCurrentBlock();
