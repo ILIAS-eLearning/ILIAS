@@ -338,6 +338,7 @@ class ilLearningProgressBaseGUI
 		switch($type)
 		{
 			case 'lm':
+			case 'htlm':
 				include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 				$progress = ilLearningProgress::_getProgress($user_id,$item_id);
 			
@@ -350,7 +351,10 @@ class ilLearningProgressBaseGUI
 					$info->addProperty($this->lng->txt('last_access'),$this->lng->txt('trac_not_accessed'));
 				}
 				$info->addProperty($this->lng->txt('trac_visits'),(int) $progress['visits']);
-				$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_time']));
+				if($type == 'lm')
+				{
+					$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_time']));
+				}
 				$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($item_id,$user_id)));
 				break;
 

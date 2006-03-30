@@ -29,7 +29,7 @@
 *
 * $Id$
 *
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 *
 * @extends ilObjectGUI
 * @package content
@@ -114,6 +114,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
 				//$ret =& $fs_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($fs_gui);
+				break;
+
+			case "ilinfoscreengui":
+				$ret =& $this->outputInfoScreen();
 				break;
 
 			case "illearningprogressgui":
@@ -216,7 +220,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		// lm properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.fblm_properties.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.fblm_properties.html",'content');
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
 
@@ -722,6 +726,60 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 	}
 
+	// InfoScreen methods
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreen()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->outputInfoScreen();
+	}
+
+	/**
+	* info screen call from inside learning module
+	*/
+	function showInfoScreen()
+	{
+		$this->outputInfoScreen(true);
+	}
+
+	/**
+	* info screen
+	*/
+	function outputInfoScreen($a_standard_locator = true)
+	{
+		global $ilBench, $ilLocator, $ilAccess;
+
+
+		$this->tabs_gui->setTabActive('info_short');
+		
+		$this->lng->loadLanguageModule("meta");
+		include_once("classes/class.ilInfoScreenGUI.php");
+
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+		$info->enableLearningProgress();
+
+		// add read / back button
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$info->addButton($this->lng->txt("view"),
+							 "content/fblm_presentation.php?ref_id=".$this->object->getRefID());
+		}
+		
+		// show standard meta data section
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+
+		// forward the command
+		$this->ctrl->forwardCommand($info);
+	}
+
+
+
 	/**
 	* output tabs
 	*/
@@ -745,29 +803,47 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		// properties
-		$tabs_gui->addTarget("cont_list_files",
-			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
-			"ilfilesystemgui");
+
+		if($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			// properties
+			$tabs_gui->addTarget("cont_list_files",
+								 $this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
+								 "ilfilesystemgui");
 			
-		// properties
-		$tabs_gui->addTarget("properties",
-			$this->ctrl->getLinkTarget($this, "properties"), "properties",
-			get_class($this));
-
-		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"", "ilmdeditorgui");
-
-		// edit bib item information
-		$tabs_gui->addTarget("bib_data",
-			$this->ctrl->getLinkTarget($this, "editBibItem"),
-			array("editBibItem", "saveBibItem", "deleteBibItem", "addBibItem"),
-			get_class($this));
+			// info screen
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
+							 || strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
+			$tabs_gui->addTarget("info_short",
+								 $this->ctrl->getLinkTargetByClass(array("ilobjfilebasedlmgui",
+																		 "ilinfoscreengui"), 
+																   "showSummary"),
+								 "infoScreen",
+								 "", 
+								 "",
+								 $force_active);
+			
+			// properties
+			$tabs_gui->addTarget("properties",
+								 $this->ctrl->getLinkTarget($this, "properties"), "properties",
+								 get_class($this));
+			
+			$tabs_gui->addTarget("meta_data",
+								 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+								 "", "ilmdeditorgui");
+			
+			// edit bib item information
+			$tabs_gui->addTarget("bib_data",
+								 $this->ctrl->getLinkTarget($this, "editBibItem"),
+								 array("editBibItem", "saveBibItem", "deleteBibItem", "addBibItem"),
+								 get_class($this));
+		}
 
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledTracking())
+		if($rbacsystem->checkAccess('write',$this->ref_id) and ilObjUserTracking::_enabledTracking())
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjfilebasedlmgui','illearningprogressgui'),''),

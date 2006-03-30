@@ -488,7 +488,8 @@ class ilInfoScreenGUI
 		$tpl->setVariable("INFO_EDITED",$this->lng->txt('trac_info_edited'));
 
 		// More infos for lm's
-		if($this->gui_object->object->getType() == 'lm')
+		if($this->gui_object->object->getType() == 'lm' ||
+		   $this->gui_object->object->getType() == 'htlm')
 		{
 			$tpl->setCurrentBlock("lm_infos");
 			$tpl->setVariable("TXT_LAST_ACCESS",$this->lng->txt('trac_last_access'));
@@ -507,8 +508,11 @@ class ilInfoScreenGUI
 			$tpl->setVariable("TXT_VISITS",$this->lng->txt('trac_visits'));
 			$tpl->setVariable("VISITS",(int) $progress['visits']);
 
-			$tpl->setVariable("TXT_DURATION",$this->lng->txt('trac_spent_time'));
-			$tpl->setVariable("DURATION",ilFormat::_secondsToString($progress['spent_time']));
+			if($this->gui_object->object->getType() == 'lm')
+			{
+				$tpl->setVariable("TXT_DURATION",$this->lng->txt('trac_spent_time'));
+				$tpl->setVariable("DURATION",ilFormat::_secondsToString($progress['spent_time']));
+			}
 
 			$tpl->parseCurrentBlock();
 		}

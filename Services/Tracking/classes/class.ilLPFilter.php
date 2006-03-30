@@ -311,7 +311,7 @@ class ilLPFilter
 		switch($this->getFilterType())
 		{
 			case 'lm':
-				return array('lm','sahs');
+				return array('lm','sahs','htlm');
 
 			default:
 				return array($this->getFilterType());
