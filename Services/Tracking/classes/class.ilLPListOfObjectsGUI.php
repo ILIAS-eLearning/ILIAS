@@ -66,6 +66,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilBench;
+
+		$ilBench->start('LearningProgress','1000_LPListOfObjects');
+
 		$this->ctrl->setReturn($this, "");
 
 		switch($this->ctrl->getNextClass())
@@ -80,6 +84,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->$cmd();
 
 		}
+
+		$ilBench->stop('LearningProgress','1000_LPListOfObjects');
 		return true;
 	}
 
@@ -164,6 +170,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	{
 		global $ilObjDataCache;
 
+		global $ilBench;
+
+		$ilBench->start('LearningProgress','1200_LPListOfObjects_details');
+
+
 		// Load template
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_user_list.html','Services/Tracking');
 
@@ -182,6 +193,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
 		$this->__showUserList();
 
+		$ilBench->stop('LearningProgress','1200_LPListOfObjects_details');
 	}
 
 	function __showUserList()
@@ -439,18 +451,26 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	{
 		global $ilObjDataCache;
 
+		global $ilBench;
+
+		$ilBench->start('LearningProgress','1100_LPListOfObjects_show');
+
+
 		// Show only detail of current repository item if called from repository
 		switch($this->getMode())
 		{
 			case LP_MODE_REPOSITORY:
 				$this->__initDetails($ilObjDataCache->lookupObjId($this->getRefId()));
 				$this->details();
+				
+				$ilBench->stop('LearningProgress','1100_LPListOfObjects_show');
 				return true;
 		}
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
 		$this->__showFilter();
 		$this->__showItems();
+		$ilBench->stop('LearningProgress','1100_LPListOfObjects_show');
 	}
 
 	// Private
@@ -514,20 +534,31 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function __showFilter()
 	{
+		global $ilBench;
+
+		$ilBench->start('LearningProgress','1110_LPListOfObjects_showFilter');
 		$this->tpl->setVariable("FILTER",$this->filter_gui->getHTML());
+		$ilBench->stop('LearningProgress','1110_LPListOfObjects_showFilter');
 	}
 
 	function __showItems()
 	{
+		global $ilBench;
+
+		$ilBench->start('LearningProgress','1120_LPListOfObjects_showItems');
+
 		$this->__initFilter();
 
 		$tpl = new ilTemplate('tpl.lp_objects.html',true,true,'Services/Tracking');
 
+		
+		$ilBench->start('LearningProgress','1121_LPListOfObjects_showItems_getObjects');
 		if(!count($objs = $this->filter->getObjects()))
 		{
 			sendInfo($this->lng->txt('trac_filter_no_access'));
 			return true;
 		}
+		$ilBench->stop('LearningProgress','1121_LPListOfObjects_showItems_getObjects');
 		if($this->filter->limitReached())
 		{
 			$info = sprintf($this->lng->txt('trac_filter_limit_reached'),$this->filter->getLimit());
@@ -625,6 +656,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass('illpfiltergui'));
 
 		$this->tpl->setVariable("LP_OBJECTS",$tpl->get());
+
+		$ilBench->stop('LearningProgress','1120_LPListOfObjects_showItems');
 	}
 
 	function __initFilterGUI()

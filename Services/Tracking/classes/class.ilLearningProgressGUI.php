@@ -49,6 +49,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilBench;
+		
+		$ilBench->start('LearningProgress','0000_Start');
+
+
 		$this->ctrl->setReturn($this, "");
 
 		// E.g personal desktop mode needs locator header icon ...
@@ -98,6 +103,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 		// E.G personal desktop mode needs $tpl->show();
 		$this->__buildFooter();
+
+
+		$ilBench->stop('LearningProgress','0000_Start');
 
 		return true;
 	}

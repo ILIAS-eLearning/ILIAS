@@ -46,18 +46,7 @@ class ilLPStatusWrapper
 	*/
 	function _getCountNotAttempted($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
-		{
-			return $cache[$a_obj_id];
-		}
-
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-
-		$cache[$a_obj_id] = call_user_func(array($class,'_getCountNotAttempted'),$a_obj_id);
-		
-		return $cache[$a_obj_id];
+		return count(ilLPStatusWrapper::_getNotAttempted($a_obj_id));
 	}
 
 	/**
@@ -84,18 +73,7 @@ class ilLPStatusWrapper
 	*/
 	function _getCountInProgress($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
-		{
-			return $cache[$a_obj_id];
-		}
-
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
-
-		$cache[$a_obj_id] = call_user_func(array($class,'_getCountInProgress'),$a_obj_id);
-		return $cache[$a_obj_id];
+		return count(ilLPStatusWrapper::_getInProgress($a_obj_id));
 	}
 
 	/**
@@ -110,10 +88,12 @@ class ilLPStatusWrapper
 			return $cache[$a_obj_id];
 		}
 
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
+		global $ilBench;
 
-		$cache[$a_obj_id] = call_user_func(array($class,'_getInProgress'),$a_obj_id);
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+
+		$cache[$a_obj_id] = call_user_func($tmp = array($class,'_getInProgress'),$a_obj_id);
+
 		return $cache[$a_obj_id];
 	}
 	
@@ -122,19 +102,7 @@ class ilLPStatusWrapper
 	*/
 	function _getCountCompleted($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
-		{
-			return $cache[$a_obj_id];
-		}
-
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
-
-		$cache[$a_obj_id] = call_user_func(array($class,'_getCountCompleted'),$a_obj_id);
-		return $cache[$a_obj_id];
-
+		return count(ilLPStatusWrapper::_getCompleted($a_obj_id));
 	}
 
 	/**
@@ -150,9 +118,9 @@ class ilLPStatusWrapper
 		}
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		#echo $class."<br>";
 
 		$cache[$a_obj_id] = call_user_func(array($class,'_getCompleted'),$a_obj_id);
+
 		return $cache[$a_obj_id];
 	}
 }	

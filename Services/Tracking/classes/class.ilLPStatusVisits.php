@@ -45,25 +45,6 @@ class ilLPStatusVisits extends ilLPStatus
 		$this->db =& $ilDB;
 	}
 
-	function _getCountInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$required_visits = ilLPObjSettings::_lookupVisits($a_obj_id);
-		#echo $required_visits;
-
-		$query = "SELECT COUNT(user_id) AS in_progress FROM ut_learning_progress ".
-			"WHERE visits < '".$required_visits."' ".
-			"AND obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->in_progress;
-		}
-		return 0;
-	}
-
 	function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
@@ -81,24 +62,6 @@ class ilLPStatusVisits extends ilLPStatus
 		}
 		return $user_ids ? $user_ids : array();
 	}		
-
-	function _getCountCompleted($a_obj_id)
-	{
-		global $ilDB;
-
-		$required_visits = ilLPObjSettings::_lookupVisits($a_obj_id);
-
-		$query = "SELECT COUNT(user_id) AS completed FROM ut_learning_progress ".
-			"WHERE visits >= '".$required_visits."' ".
-			"AND obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->completed;
-		}
-		return 0;
-	}
 
 	function _getCompleted($a_obj_id)
 	{
