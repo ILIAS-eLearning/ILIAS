@@ -9904,4 +9904,8 @@ foreach ($foundactive as $missingarray)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#664>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
