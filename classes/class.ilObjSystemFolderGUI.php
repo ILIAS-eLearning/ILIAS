@@ -1418,6 +1418,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 
 		$this->getTemplateFile("bench");
+		$this->ctrl->setParameter($this,'cur_mode',$_GET['cur_mod']);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cur_mod=".$_GET["cur_mod"]."&cmd=gateway");
 		$this->tpl->setVariable("TXT_BENCH_SETTINGS", $this->lng->txt("benchmark_settings"));
@@ -1510,6 +1511,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $ilBench;
 
+		$this->ctrl->setParameter($this,'cur_mod',$_POST['module']);
 		$this->ctrl->redirect($this, "benchmark");
 		//ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
 	}

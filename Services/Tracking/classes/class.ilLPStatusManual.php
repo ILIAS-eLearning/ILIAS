@@ -47,6 +47,9 @@ class ilLPStatusManual extends ilLPStatus
 	{
 		global $ilObjDataCache;
 
+		global $ilBench;
+		$ilBench->start('LearningProgress','9161_LPStatusManual_notAttempted');
+
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
@@ -59,37 +62,36 @@ class ilLPStatusManual extends ilLPStatus
 				$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
 				$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
 
+				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
 				return $users;
 
 			default:
+				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
 				return array();
 		}
 	}
 
-	function _getCountNotAttempted($a_obj_id)
-	{
-		return count(ilLPStatusWrapper::_getNotAttempted($a_obj_id));
-	}
-
-	
-	function _getCountInProgress($a_obj_id)
-	{
-		return count(ilLPStatusManual::_getInProgress($a_obj_id));
-	}
 	function _getInProgress($a_obj_id)
 	{
 		global $ilObjDataCache;
+
+		global $ilBench;
+		$ilBench->start('LearningProgress','9162_LPStatusManual_inProgress');
+
 
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'lm':
 			case 'htlm':
+				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
 				return ilLPStatusManual::__getLMInProgress($a_obj_id);
 
 			case 'crs':
+				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
 				return ilLPStatusManual::__getCourseInProgress($a_obj_id);
 
 			default:
+				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
 				echo "ilLPStatusManual: unknown type ".$ilObjDataCache->lookupType($a_obj_id);
 				
 		}
@@ -100,6 +102,9 @@ class ilLPStatusManual extends ilLPStatus
 	{
 		global $ilDB;
 
+		global $ilBench;
+		$ilBench->start('LearningProgress','9163_LPStatusManual_completed');
+
 		$query = "SELECT DISTINCT(usr_id) as user_id FROM ut_lp_marks ".
 			"WHERE obj_id = '".$a_obj_id."' ".
 			"AND completed = '1'";
@@ -109,22 +114,16 @@ class ilLPStatusManual extends ilLPStatus
 		{
 			$usr_ids[] = $row->user_id;
 		}
+		$ilBench->stop('LearningProgress','9163_LPStatusManual_completed');
 		return $usr_ids ? $usr_ids : array();
 	}
-
-	function _getCountCompleted($a_obj_id)
-	{
-		return count(ilLPStatusManual::_getCompleted($a_obj_id));
-	}
-
 
 	// Private
 	function __getLMInProgress($a_obj_id)
 	{
 		global $ilDB;
 
-		$completed = ilLPStatusManual::_getCompleted($a_obj_id);
-
+		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
 			"WHERE obj_id = '".$a_obj_id."'";
 
@@ -143,7 +142,7 @@ class ilLPStatusManual extends ilLPStatus
 	{
 		global $ilDB;
 
-		$completed = ilLPStatusManual::_getCompleted($a_obj_id);
+		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		
 		include_once 'course/classes/class.ilCourseMembers.php';
 		$members = ilCourseMembers::_getMembers($a_obj_id);

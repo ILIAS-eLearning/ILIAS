@@ -43,11 +43,6 @@ class ilLPStatusTestFinished extends ilLPStatus
 		$this->db =& $ilDB;
 	}
 
-	function _getCountInProgress($a_obj_id)
-	{
-		return count(ilLPStatusWrapper::_getInProgress($a_obj_id));
-	}
-
 	function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
@@ -66,10 +61,6 @@ class ilLPStatusTestFinished extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getCountCompleted($a_obj_id)
-	{
-		return count(ilLPStatusWrapper::_getCompleted($a_obj_id));
-	}
 
 	function _getCompleted($a_obj_id)
 	{

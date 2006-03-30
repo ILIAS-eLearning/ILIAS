@@ -43,14 +43,13 @@ class ilLPStatusTestPassed extends ilLPStatus
 		$this->db =& $ilDB;
 	}
 
-	function _getCountInProgress($a_obj_id)
-	{
-		return count(ilLPStatusWrapper::_getInProgress($a_obj_id));
-	}
-
 	function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
+
+		global $ilBench;
+		$ilBench->start('LearningProgress','9182_LPStatusTestPassed_inProgress');
+
 
 		include_once './assessment/classes/class.ilObjTestAccess.php';
 
@@ -65,17 +64,17 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getCompleted($a_obj_id));
 
+		$ilBench->stop('LearningProgress','9182_LPStatusTestPassed_inProgress');
 		return $users ? $users : array();
-	}
-
-	function _getCountCompleted($a_obj_id)
-	{
-		return count(ilLPStatusWrapper::_getCompleted($a_obj_id));
 	}
 
 	function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
+
+		global $ilBench;
+		$ilBench->start('LearningProgress','9183_LPStatusTestPassed_completed');
+
 
 		include_once './assessment/classes/class.ilObjTestAccess.php';
 		include_once './Services/Tracking/classes/class.ilTestResultCache.php';
@@ -90,6 +89,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 				$user_ids[] = $user_data['user_id'];
 			}
 		}
+		$ilBench->stop('LearningProgress','9183_LPStatusTestPassed_completed');
 		return $user_ids ? $user_ids : array();
 	}
 }	
