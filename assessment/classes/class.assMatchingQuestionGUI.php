@@ -419,7 +419,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$saved = false;
 
 		// Add all answers from the form into the object
-		foreach ($_POST as $key => $value)
+		$postvalues = $_POST;
+		foreach ($postvalues as $key => $value)
 		{
 			$matching_text = "";
 			if (preg_match("/term_(\d+)_(\d+)/", $key, $matches))
