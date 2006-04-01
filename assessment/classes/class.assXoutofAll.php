@@ -86,7 +86,7 @@ class ASS_XoutofAll extends ASS_Question
 		$author = "",
 		$owner = -1,
 		$question = "",
-		$number_X = "",
+		$number_X = ""
 	  )
 	{
 		$this->ASS_Question($title, $comment, $author, $owner);
@@ -857,7 +857,7 @@ class ASS_XoutofAll extends ASS_Question
 		{
 			foreach ($found_values as $key => $value)
 			{
-				if (in_array($this->answers[$key], $found_values) AND !in_array($found_values, $pass_value)
+				if (in_array($this->answers[$key], $found_values) AND !in_array($found_values, $pass_value))
 				{
 					array_push($pass_value, $found_values);
 					$points += $answer->get_points();
