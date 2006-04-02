@@ -9908,4 +9908,186 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#665>
+<?php
+	// update badly calculated text gaps in cloze questions due to missing checks for text gap rating
+
+	function getTextgapPoints($gaprating, $a_original, $a_entered, $max_points)
+	{
+		$result = 0;
+		switch ($gaprating)
+		{
+			case "ci":
+				if (strcmp(strtolower($a_original), strtolower($a_entered)) == 0) $result = $max_points;
+				break;
+			case "cs":
+				if (strcmp($a_original, $a_entered) == 0) $result = $max_points;
+				break;
+			case "l1":
+				if (levenshtein($a_original, $a_entered) <= 1) $result = $max_points;
+				break;
+			case "l2":
+				if (levenshtein($a_original, $a_entered) <= 2) $result = $max_points;
+				break;
+			case "l3":
+				if (levenshtein($a_original, $a_entered) <= 3) $result = $max_points;
+				break;
+			case "l4":
+				if (levenshtein($a_original, $a_entered) <= 4) $result = $max_points;
+				break;
+			case "l5":
+				if (levenshtein($a_original, $a_entered) <= 5) $result = $max_points;
+				break;
+		}
+		return $result;
+	}
+
+	global $log;
+	$log->write("test&assessment text grap rating: starting with conversion. updating database entries for reached points of every user for every processed question");
+	// update code
+	$idx = 1;
+	$query = "SELECT question_id, question_type_fi, textgap_rating FROM qpl_questions WHERE question_type_fi = 3 AND textgap_rating <> 'ci'";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
+			$ilDB->quote($row["question_id"] . "")
+		);
+		$resultanswers = $ilDB->query($queryanswers);
+		$answers = array();
+		while ($rowanswer = $resultanswers->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($answers, $rowanswer);
+		}
+		$querytests = sprintf("SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
+			$ilDB->quote($row["question_id"] . "")
+		);
+		$resulttests = $ilDB->query($querytests);
+		$tests = array();
+		while ($rowtest = $resulttests->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($tests, $rowtest["test_fi"]);
+		}
+		foreach ($tests as $test_id)
+		{
+			$queryusers = sprintf("SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($row["question_id"])
+			);
+			$resultusers = $ilDB->query($queryusers);
+			$users = array();
+			while ($rowuser = $resultusers->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($users, $rowuser["user_fi"]);
+			}
+			// now begin the conversion
+			foreach ($users as $user_id)
+			{
+				$querysolutions = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
+					$ilDB->quote($test_id . ""),
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote($row["question_id"] . "")
+				);
+				$resultsolutions = $ilDB->query($querysolutions);
+				switch ($row["question_type_fi"])
+				{
+					case 3:
+						// close questions
+						$found_value1 = array();
+						$found_value2 = array();
+						$user_result = array();
+						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							if (strcmp($data["value2"], "") != 0)
+							{
+								$user_result[$data["value1"]] = array(
+									"gap_id" => $data["value1"],
+									"value" => $data["value2"]
+								);
+							}
+						}
+						$points = 0;
+						$counter = 0;
+						$gaps = array();
+						foreach ($answers as $key => $value)
+						{
+							if (!array_key_exists($value["gap_id"], $gaps))
+							{
+								$gaps[$value["gap_id"]] = array();
+							}
+							array_push($gaps[$value["gap_id"]], $value);
+						}
+						foreach ($user_result as $gap_id => $value) 
+						{
+							if ($gaps[$gap_id][0]["cloze_type"] == 0) 
+							{
+								$gappoints = 0;
+								foreach ($gaps[$gap_id] as $k => $v) 
+								{
+									$gotpoints = getTextgapPoints($row["textgap_rating"], $v["answertext"], $value["value"], $v["points"]);
+									if ($gotpoints > $gappoints) $gappoints = $gotpoints;
+								}
+								$points += $gappoints;
+							} 
+							else 
+							{
+								if ($value["value"] >= 0)
+								{
+									foreach ($gaps[$gap_id] as $answerkey => $answer)
+									{
+										if ($value["value"] == $answerkey)
+										{
+											$points += $answer["points"];
+										}
+									}
+								}
+							}
+						}
+						// save $points;
+						break;
+				}
+				// check for special scoring options in test
+				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+					$ilDB->quote($test_id)
+				);
+				$resulttest = $ilDB->query($query);
+				if ($resulttest->numRows() == 1)
+				{
+					$rowtest = $resulttest->fetchRow(DB_FETCHMODE_ASSOC);
+					if ($rowtest["count_system"] == 1)
+					{
+						$maxpoints = 0;
+						$query = sprintf("SELECT points FROM qpl_questions WHERE question_id = %s",
+							$ilDB->quote($row["question_id"] . "")
+						);
+						$resultmaxpoints = $ilDB->query($query);
+						if ($resultmaxpoints->numRows() == 1)
+						{
+							$rowmaxpoints = $resultmaxpoints->fetchRow(DB_FETCHMODE_ASSOC);
+							$maxpoints = $rowmaxpoints["points"];
+						}
+						if ($points != $maxpoints)
+						{
+							$points = 0;
+						}
+					}
+				}
+				else
+				{
+					$points = 0;
+				}
+				$insertquery = sprintf("REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote($test_id . ""),
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($points . "")
+				);
+				$ilDB->query($insertquery);
+				$log->write("  $idx. creating user result: $insertquery");
+				$idx++;
+			}
+		}
+	}
+	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
+?>
 
