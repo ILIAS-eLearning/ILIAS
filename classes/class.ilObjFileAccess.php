@@ -51,7 +51,7 @@ class ilObjFileAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "download",
+			array("permission" => "read", "cmd" => "sendfile", "lang_var" => "download",
 				"default" => true),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 			array("permission" => "read", "cmd" => "versions", "lang_var" => "versions")
