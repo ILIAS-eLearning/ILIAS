@@ -28,7 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 * 
-* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -77,7 +77,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function viewObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
+
+		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'exc');
+
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -1044,6 +1048,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, 'deliver'),
 			array("deliver", "deliverFile"), "");
 
+		// learning progress
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledTracking())
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
+
+
 		// members
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
@@ -1069,6 +1084,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
+		global $ilUser;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -1080,6 +1097,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 					include_once("./classes/class.ilPermissionGUI.php");
 					$perm_gui =& new ilPermissionGUI($this);
 					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+													  $this->object->getRefId(),
+													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 
 			default:

@@ -41,6 +41,7 @@ define("LP_MODE_COLLECTION",5);
 define("LP_MODE_SCORM",6);
 define("LP_MODE_TEST_FINISHED",7);
 define("LP_MODE_TEST_PASSED",8);
+define("LP_MODE_EXERCISE_RETURNED",9);
 
 
 define("LP_DEFAULT_VISITS",30);
@@ -207,6 +208,10 @@ class ilLPObjSettings
 			case 'tst':
 				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
 							 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'));
+
+			case 'exc':
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+							 LP_MODE_EXERCISE_RETURNED => $lng->txt('trac_mode_exercise_returned'));
 				
 				
 			default:
@@ -246,6 +251,10 @@ class ilLPObjSettings
 
 			case LP_MODE_TEST_PASSED:
 				return $lng->txt('trac_mode_test_passed');
+
+			case LP_MODE_EXERCISE_RETURNED:
+				return $lng->txt('trac_mode_exercise_returned');
+
 		}
 	}
 							 
@@ -292,6 +301,9 @@ class ilLPObjSettings
 
 			case 'tst':
 				return LP_MODE_TEST_PASSED;
+
+			case 'exc':
+				return LP_MODE_EXERCISE_RETURNED;
 					
 			default:
 				return LP_MODE_UNDEFINED;

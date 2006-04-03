@@ -5873,3 +5873,4 @@ common#:#udf_update_select_field#:#Edit select box
 common#:#udf_update_text_field#:#Edit text field
 common#:#udf_update_success#:#Saved modifications.
 common#:#udf_value_deleted#:#The value has been deleted.
+trac#:#trac_mode_exercise_returned#:#Exercise returned
