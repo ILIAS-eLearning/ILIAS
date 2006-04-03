@@ -340,8 +340,6 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html");
 
-		$this->__showButtons();
-
 		sendInfo($this->lng->txt("condition_select_object"));
 
 		$exp = new ilConditionSelector($this->ctrl->getLinkTarget($this,'copySelector'));
@@ -379,8 +377,6 @@ class ilConditionHandlerInterface
 		} 
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
-
-		$this->__showButtons();
 
 		// does not work in the moment
 		#this->tpl->setCurrentBlock("btn_cell");
