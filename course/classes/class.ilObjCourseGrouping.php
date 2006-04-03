@@ -256,7 +256,7 @@ class ilObjCourseGrouping
 
 	function _getAllGroupings($a_crs_ref_id,$a_check_write = true)
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache,$ilUser;
 
 		if($a_check_write)
 		{
