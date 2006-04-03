@@ -75,6 +75,9 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				return 'ilLPStatusManual';
 
+			case LP_MODE_EXERCISE_RETURNED:
+				include_once 'Services/Tracking/classes/class.ilLPStatusExerciseReturned.php';
+				return 'ilLPStatusExerciseReturned';
 
 			default:
 				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
@@ -120,6 +123,11 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				
 				return new ilLPStatusManual($a_obj_id);
+
+			case LP_MODE_EXERCISE_RETURNED:
+				include_once 'Services/Tracking/classes/class.ilLPStatusExerciseReturned.php';
+
+				return new ilLPStatusExerciseReturned($a_obj_id);
 
 			default:
 				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
