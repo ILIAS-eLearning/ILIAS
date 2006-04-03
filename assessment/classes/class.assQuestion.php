@@ -1897,6 +1897,26 @@ class ASS_Question
 		}
 	}
 
+	/**
+	* Checks whether the question is used in a random test or not
+	*
+	* Checks whether the question is used in a random test or not
+	*
+	* @return boolean The number how often the question is used in a random test
+	* @access public
+	*/
+	function _isUsedInRandomTest($question_id = "")
+	{
+		global $ilDB;
+		
+		if ($question_id < 1) return 0;
+		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE question_fi = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		return $result->numRows();
+	}
+
 }
 
 ?>

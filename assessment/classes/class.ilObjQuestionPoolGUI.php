@@ -695,46 +695,56 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("qpl_delete_select_none"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
-
-		$checked_questions = $_POST["q_id"];
-		$_SESSION["ass_q_id"] = $_POST["q_id"];
-		sendInfo();
+		
+		$checked_questions =& $this->object->getQuestionDetails($_POST["q_id"]);
+		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($_POST["q_id"]);
+		$used_questions =& $this->object->getUsedQuestionDetails($_POST["q_id"]);
+		$_SESSION["ass_q_id"] = $deleteable_questions;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_confirm_delete_questions.html", true);
 
-		// buidling SQL statements is not allowed in GUI classes!
-		$whereclause = join($checked_questions, " OR qpl_questions.question_id = ");
-		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
-		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		include_once "./classes/class.ilUtil.php";
 		$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
-		if ($query_result->numRows() > 0)
+		if (count($deleteable_questions) > 0)
 		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			foreach ($deleteable_questions as $question)
 			{
-				if (in_array($data->question_id, $checked_questions))
+				$this->tpl->setCurrentBlock("row");
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				if ($this->object->isInUse($question["question_id"]))
 				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					if ($this->object->isInUse($data->question_id))
-					{
-						$this->tpl->setVariable("TXT_LOCKED", $img_locked);
-					}
-					$this->tpl->setVariable("TXT_TITLE", $data->title);
-					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
-					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
+					$this->tpl->setVariable("TXT_LOCKED", $img_locked);
 				}
+				$this->tpl->setVariable("TXT_TITLE", $question["title"]);
+				$this->tpl->setVariable("TXT_DESCRIPTION", $question["comment"]);
+				$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($question["type_tag"]));
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+				
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", "id_" . $question["question_id"]);
+				$this->tpl->setVariable("HIDDEN_VALUE", "1");
+				$this->tpl->parseCurrentBlock();
 			}
 		}
-		foreach ($checked_questions as $id)
+		else
 		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->setCurrentBlock("emptyrow");
+			$this->tpl->setVariable("TEXT_EMPTY_ROW", $this->lng->txt("qpl_delete_no_deleteable_questions"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if (count($used_questions))
+		{
+			foreach ($used_questions as $question)
+			{
+				$this->tpl->setCurrentBlock("undeleteable_row");
+				$this->tpl->setVariable("QUESTION_TITLE", $question["title"]); 
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("undeleteable_questions");
+			$this->tpl->setVariable("TEXT_UNDELETEABLE_QUESTIONS", $this->lng->txt("qpl_delete_describe_undeleteable_questions"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -746,6 +756,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("DELETE_QUESTION", $this->lng->txt("qpl_confirm_delete_questions"));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -756,10 +767,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function confirmDeleteQuestionsObject()
 	{
 		// delete questions after confirmation
-		sendInfo($this->lng->txt("qpl_questions_deleted"), true);
+		if (count($_SESSION["ass_q_id"])) sendInfo($this->lng->txt("qpl_questions_deleted"), true);
 		foreach ($_SESSION["ass_q_id"] as $key => $value)
 		{
-			$this->object->deleteQuestion($value);
+			$this->object->deleteQuestion($value["question_id"]);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}

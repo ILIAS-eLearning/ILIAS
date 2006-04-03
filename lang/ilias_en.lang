@@ -337,6 +337,8 @@ assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right a
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
+assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot delete these questions:
+assessment#:#qpl_delete_no_deleteable_questions#:#All questions you tried to delete are in use in a random test
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!

@@ -1569,7 +1569,8 @@ class ilObjTest extends ilObject
 		}
 		$result = $db->query($query);
 		$index = 1;
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		{
 			$this->questions[$index++] = $data->question_fi;
 		}
 	}
@@ -5404,6 +5405,50 @@ class ilObjTest extends ilObject
 			else
 		{
 			$num = count($this->questions);
+		}
+		return $num;
+	}
+
+/**
+* Returns the number of questions in the test for a given user
+* 
+* Returns the number of questions in the test for a given user
+*
+* @return integer The number of questions
+* @access	public
+*/
+	function _getQuestionCount($test_id, $user_id)
+	{
+		global $ilDB;
+		
+		$num = 0;
+		
+		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if (!$result->numRows())
+		{
+			return 0;
+		}
+		$test = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		if ($test["random_test"] == 1)
+		{
+			$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s AND pass = 0",
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($user_id . "")
+			);
+			$result = $ilDB->query($query);
+			$num = $result->numRows();
+		}
+		else
+		{
+			$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
+				$ilDB->quote($test_id . "")
+			);
+			$result = $ilDB->query($query);
+			$num = $result->numRows();
 		}
 		return $num;
 	}
