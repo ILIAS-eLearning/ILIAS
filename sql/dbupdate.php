@@ -10090,4 +10090,9 @@ $ilCtrlStructureReader->getStructure();
 	}
 	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
 ?>
+<#666>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
 
