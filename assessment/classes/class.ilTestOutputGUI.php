@@ -707,14 +707,22 @@ class ilTestOutputGUI
 */
 	function next()
 	{
+		global $ilUser;
+		
 		if ($_SESSION["tst_next"] != 1)
 		{
 			$_SESSION["tst_next"] = 1;
 			$this->saveQuestionSolution();
 
 			$this->sequence = $this->getSequence();
-			
-			if ($this->sequence > $this->object->getQuestionCount())
+			// calculate count of questions statically to prevent problems with
+			// random tests. If the numer of questions in the used questionpools
+			// has been reduced lower than the number of questions which should be
+			// chosen, the dynamic method fails because it returns the number of questions
+			// that should be chosen. This leds to an error if the test is completed
+			$questioncount = ilObjTest::_getQuestionCount($this->object->getTestId(), $ilUser->getId());
+			if ($this->sequence > $questioncount)
+//			if ($this->sequence > $this->object->getQuestionCount())
 			{
 				if ($this->object->isOnlineTest())
 				{

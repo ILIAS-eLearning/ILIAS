@@ -154,6 +154,22 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function delete()
 	{
+/*		$questions =& $this->getAllQuestions();
+		$used_questions = 0;
+		include_once "./assessment/classes/class.assQuestion.php";
+		foreach ($questions as $question_id)
+		{
+			if (ASS_Question::_isUsedInRandomTest($question_id))
+			{
+				$used_questions++;
+			}
+		}
+		
+		if ($used_questions)
+		{
+			return false;
+		}
+*/		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -171,16 +187,7 @@ class ilObjQuestionPool extends ilObject
 
 	function deleteQuestionpool()
 	{
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND original_id IS NULL",
-			$this->ilias->db->quote($this->getId()));
-
-		$result = $this->ilias->db->query($query);
-		$questions = array();
-
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			array_push($questions, $row["question_id"]);
-		}
+		$questions =& $this->getAllQuestions();
 
 		if (count($questions))
 		{
@@ -1011,6 +1018,31 @@ class ilObjQuestionPool extends ilObject
 		}
 	}
 	
+	/**
+	* Retrieve an array containing all question ids of the questionpool
+	*
+	* Retrieve an array containing all question ids of the questionpool
+	*
+	* @return array An array containing all question ids of the questionpool
+	*/
+	function &getAllQuestions()
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND original_id IS NULL",
+			$ilDB->quote($this->getId())
+		);
+
+		$result = $ilDB->query($query);
+		$questions = array();
+
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questions, $row["question_id"]);
+		}
+		return $questions;
+	}
+	
 	function &getAllQuestionIds()
 	{
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = %s AND complete = %s",
@@ -1301,6 +1333,102 @@ class ilObjQuestionPool extends ilObject
 			}
 		}
 		return false;
+	}
+	
+/**
+* Returns an array containing the qpl_question and qpl_question_type fields for an array of question ids
+* 
+* Returns an array containing the qpl_question and qpl_question_type fields for an array of question ids
+*
+* @param array $question_ids An array containing the question ids
+* @return array An array containing the details of the requested questions
+* @access public
+*/
+	function &getQuestionDetails($question_ids)
+	{
+		global $ilDB;
+		
+		$result = array();
+		$whereclause = join($question_ids, " OR qpl_questions.question_id = ");
+		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
+		$query_result = $ilDB->query($query);
+		if ($query_result->numRows())
+		{
+			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($result, $row);
+			}
+		}
+		return $result;
+	}
+
+/**
+* Returns an array containing the qpl_question and qpl_question_type fields
+* of deleteable questions for an array of question ids
+* 
+* Returns an array containing the qpl_question and qpl_question_type fields
+* of deleteable questions for an array of question ids
+*
+* @param array $question_ids An array containing the question ids
+* @return array An array containing the details of the requested questions
+* @access public
+*/
+	function &getDeleteableQuestionDetails($question_ids)
+	{
+		global $ilDB;
+		
+		$result = array();
+		$whereclause = join($question_ids, " OR qpl_questions.question_id = ");
+		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
+		$query_result = $ilDB->query($query);
+		if ($query_result->numRows())
+		{
+			include_once "./assessment/classes/class.assQuestion.php";
+			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (!ASS_Question::_isUsedInRandomTest($row["question_id"]))
+				{
+					array_push($result, $row);
+				}
+			}
+		}
+		return $result;
+	}
+
+/**
+* Returns an array containing the qpl_question and qpl_question_type fields
+* of questions which are used in a random test for an array of question ids
+* 
+* Returns an array containing the qpl_question and qpl_question_type fields
+* of questions which are used in a random test for an array of question ids
+*
+* @param array $question_ids An array containing the question ids
+* @return array An array containing the details of the requested questions
+* @access public
+*/
+	function &getUsedQuestionDetails($question_ids)
+	{
+		global $ilDB;
+		
+		$result = array();
+		$whereclause = join($question_ids, " OR qpl_questions.question_id = ");
+		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
+		$query_result = $ilDB->query($query);
+		if ($query_result->numRows())
+		{
+			include_once "./assessment/classes/class.assQuestion.php";
+			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (ASS_Question::_isUsedInRandomTest($row["question_id"]))
+				{
+					array_push($result, $row);
+				}
+			}
+		}
+		return $result;
 	}
 } // END class.ilObjQuestionPool
 ?>

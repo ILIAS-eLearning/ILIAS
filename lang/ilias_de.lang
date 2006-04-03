@@ -335,6 +335,8 @@ assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richt
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen? Wenn Sie gesperrte Fragen löschen, werden die Resultate aller Tests, die solche Fragen beinhalten, gelöscht!
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
 assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
+assessment#:#qpl_delete_describe_undeleteable_questions#:#Die folgenden Fragen werden von Zufallstests verwendet und können deshalb nicht gelöscht werden:
+assessment#:#qpl_delete_no_deleteable_questions#:#Alle Fragen, die Sie löschen wollen, werden in mindestens einem Zufallstest verwendet.
 assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu löschen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_display_fullsize_image#:#Klicken Sie hier, um die Originalgrafik anzuzeigen!
