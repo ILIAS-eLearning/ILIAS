@@ -72,6 +72,8 @@ class ilObjFolderGUI extends ilContainerGUI
 			$this->cci_obj->cci_setContainer($this);
 			$this->cci_obj->cci_view();
 		}
+
+		$this->tabs_gui->setTabActive('view_content');
 		return true;
 	}
 		
@@ -90,12 +92,11 @@ class ilObjFolderGUI extends ilContainerGUI
 
 				if($_GET['item_id'])
 				{
-					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-					$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
-												   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
-																										'listConditions')));
+					$this->__setSubTabs('activation');
+					$this->tabs_gui->setTabActive('view_content');
 
+					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				else
@@ -305,6 +306,10 @@ class ilObjFolderGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->ctrl->setParameter($this, "item_id", $_GET["item_id"]);
+		$this->__setSubTabs('activation');
+		$this->tabs_gui->setTabActive('view_content');
+
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_edit();
@@ -413,5 +418,28 @@ class ilObjFolderGUI extends ilContainerGUI
 			$this->editObject();
 		}
 	}
+
+
+	/**
+	* set sub tabs
+	*/
+	function __setSubTabs($a_tab)
+	{
+		global $rbacsystem,$ilUser;
+	
+		switch ($a_tab)
+		{
+				
+			case "activation":
+				$this->tabs_gui->addSubTabTarget("activation",
+												 $this->ctrl->getLinkTarget($this,'cciEdit'),
+												 "cciEdit", get_class($this));
+				$this->tabs_gui->addSubTabTarget("preconditions",
+												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+												 "", "ilConditionHandlerInterface");
+				break;
+		}
+	}
+
 } // END class.ilObjFolderGUI
 ?>

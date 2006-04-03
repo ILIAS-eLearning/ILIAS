@@ -71,6 +71,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->cci_obj->cci_setContainer($this);
 			$this->cci_obj->cci_view();
 		}
+
+		$this->tabs_gui->setTabActive('view_content');
 		return true;
 	}
 
@@ -88,8 +90,11 @@ class ilObjGroupGUI extends ilContainerGUI
 
 				if($_GET['item_id'])
 				{
-					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+					$this->__setSubTabs('activation');
+					$this->tabs_gui->setTabActive('view_content');
+
+					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				else
@@ -1716,6 +1721,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->ctrl->setParameter($this, "item_id", $_GET["item_id"]);
+		$this->__setSubTabs('activation');
+		$this->tabs_gui->setTabActive('view_content');
+
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_edit();
@@ -2531,6 +2540,29 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		return str_replace(array("ä","ö","ü","ß","Ä","Ö","Ü"), array("ae","oe","ue","ss","Ae","Oe","Ue"), $str);
 	}
+
+
+	/**
+	* set sub tabs
+	*/
+	function __setSubTabs($a_tab)
+	{
+		global $rbacsystem,$ilUser;
+	
+		switch ($a_tab)
+		{
+				
+			case "activation":
+				$this->tabs_gui->addSubTabTarget("activation",
+												 $this->ctrl->getLinkTarget($this,'cciEdit'),
+												 "cciEdit", get_class($this));
+				$this->tabs_gui->addSubTabTarget("preconditions",
+												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+												 "", "ilConditionHandlerInterface");
+				break;
+		}
+	}
+
 	
 } // END class.ilObjGroupGUI
 ?>
