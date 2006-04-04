@@ -1113,7 +1113,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
+	function saveWorkingData($test_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -1123,13 +1123,13 @@ class ASS_MatchingQuestion extends ASS_Question
 			$db =& $ilDB->db;
 	
 			include_once ("./assessment/classes/class.ilObjTest.php");
-			$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+			$activepass = ilObjTest::_getPass($ilUser->id, $test_id);
 			
 			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$db->quote($ilUser->id . ""),
 				$db->quote($test_id . ""),
 				$db->quote($this->getId() . ""),
-				$db->quote($pass . "")
+				$db->quote($activepass . "")
 			);
 			$result = $db->query($query);
 			foreach ($_POST as $key => $value)
@@ -1144,7 +1144,7 @@ class ASS_MatchingQuestion extends ASS_Question
 							$db->quote($this->getId()),
 							$db->quote($value),
 							$db->quote($matches[1]),
-							$db->quote($pass . "")
+							$db->quote($activepass . "")
 						);
 						$result = $db->query($query);
 					}
@@ -1160,7 +1160,7 @@ class ASS_MatchingQuestion extends ASS_Question
 							$db->quote($this->getId()),
 							$db->quote("0"),
 							$db->quote($matches[1]),
-							$db->quote($pass . "")
+							$db->quote($activepass . "")
 						);
 						$result = $db->query($query);
 					}
@@ -1168,7 +1168,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			}
 			$saveWorkingDataResult = true;
 		}
-    parent::saveWorkingData($test_id);
+    parent::saveWorkingData($test_id, $pass);
 		return $saveWorkingDataResult;
 	}
 

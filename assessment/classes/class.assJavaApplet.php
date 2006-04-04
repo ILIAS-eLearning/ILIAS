@@ -1041,9 +1041,9 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
+	function saveWorkingData($test_id, $pass = NULL)
 	{
-    parent::saveWorkingData($test_id);
+    parent::saveWorkingData($test_id, $pass);
 		return true;
   }
 
