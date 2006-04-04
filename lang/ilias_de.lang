@@ -5828,3 +5828,4 @@ common#:#udf_update_text_field#:#Textfeld bearbeiten
 common#:#udf_update_success#:#Die Daten wurden aktualisiert.
 common#:#udf_value_deleted#:#Der Wert wurde gelöscht.
 trac#:#trac_mode_exercise_returned#:#Übung abgegeben
+search#:#append_results#:#Ergebnisse anhängen

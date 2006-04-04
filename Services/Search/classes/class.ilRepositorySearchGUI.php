@@ -54,8 +54,6 @@ class ilRepositorySearchGUI
 
 		$this->__setSearchType();
 		$this->__loadQueries();
-		
-		
 
 		$this->result_obj = new ilSearchResult();
 		$this->settings =& new ilSearchSettings();
@@ -94,11 +92,23 @@ class ilRepositorySearchGUI
 				{
 					$cmd = "show";
 				}
-
+				if($cmd == 'show')
+				{
+					// Clear session
+					$this->__clearSession();
+				}
 				$this->$cmd();
 				break;
 		}
 		return true;
+	}
+
+	function __clearSession()
+	{
+		
+		unset($_SESSION['rep_search']);
+		unset($_SESSION['append_results']);
+		unset($_SESSION['rep_query']);
 	}
 
 	function cancel()
@@ -159,11 +169,28 @@ class ilRepositorySearchGUI
 
 
 		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
+		if(count($_SESSION['rep_search']['usr']))
+		{
+			$this->tpl->setVariable("BTN3_VALUE",$this->lng->txt('append_results'));
+		}
 		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
 	}
 
+	function appendSearch()
+	{
+		$_SESSION['search_append'] = true;
+		$this->performSearch();
+	}
+
+
 	function performSearch()
 	{
+		// unset search_append if called directly
+		if($_POST['cmd']['performSearch'])
+		{
+			unset($_SESSION['search_append']);
+		}
+
 		switch($this->search_type)
 		{
 			case 'usr':
@@ -369,13 +396,37 @@ class ilRepositorySearchGUI
 
 	function __updateResults()
 	{
-		$_SESSION['rep_search'] = array();
+		if(!$_SESSION['search_append'])
+		{
+			$_SESSION['rep_search'] = array();
+		}
 		foreach($this->result_obj->getResults() as $result)
 		{
 			$_SESSION['rep_search'][$this->search_type][] = $result['obj_id'];
 		}
-
+		if(!$_SESSION['rep_search'][$this->search_type])
+		{
+			$_SESSION['rep_search'][$this->search_type] = array();
+		}
+		else
+		{
+			// remove duplicate entries
+			$_SESSION['rep_search'][$this->search_type] = array_unique($_SESSION['rep_search'][$this->search_type]);
+		}
 		return true;
+	}
+
+	function __appendToStoredResults($a_usr_ids)
+	{
+		if(!$_SESSION['search_append'])
+		{
+			return $_SESSION['rep_search']['usr'] = $a_usr_ids;
+		}
+		foreach($a_usr_ids as $usr_id)
+		{
+			$_SESSION['rep_search']['usr'][] = $usr_id;
+		}
+		return $_SESSION['rep_search']['usr'] ? array_unique($_SESSION['rep_search']['usr']) : array();
 	}
 
 	function __storeEntries(&$new_res)
@@ -384,16 +435,96 @@ class ilRepositorySearchGUI
 		{
 			$this->result_obj->mergeEntries($new_res);
 			$this->stored = true;
-
 			return true;
 		}
 		else
 		{
 			$this->result_obj->intersectEntries($new_res);
-			
 			return true;
 		}
 	}
+
+	function __fillUserTable($user_ids)
+	{
+		$user_ids = $user_ids ? $user_ids : array();
+
+		$counter = 0;
+		foreach($user_ids as $usr_id)
+		{
+			if(!is_object($tmp_obj = ilObjectFactory::getInstanceByObjId($usr_id,false)))
+			{
+				continue;
+			}
+			$user_ids[$counter] = $usr_id;
+					
+			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$usr_id);
+			$f_result[$counter][] = $tmp_obj->getLogin();
+			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
+
+			unset($tmp_obj);
+			++$counter;
+		}
+		return $f_result ? $f_result : array();
+	}
+
+	function __fillGroupTable($group_ids)
+	{
+		$group_ids = $group_ids ? $group_ids : array();
+
+		$counter = 0;
+		foreach($group_ids as $group_id)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id = end(
+																   $ref_ids = ilObject::_getAllReferences($group_id)),false))
+			{
+				continue;
+			}
+			$grp_ids[$counter] = $group_id;
+					
+			$f_result[$counter][] = ilUtil::formCheckbox(0,"group[]",$ref_id);
+			$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
+			$f_result[$counter][] = $tmp_obj->getCountMembers();
+					
+			unset($tmp_obj);
+			++$counter;
+		}
+		return $f_result ? $f_result : array();
+	}
+		
+	function __fillRoleTable($role_ids)
+	{
+		$role_ids = $role_ids ? $role_ids : array();
+
+		$counter = 0;
+		foreach($role_ids as $role_id)
+		{
+			// exclude anonymous role
+			if ($role_id == ANONYMOUS_ROLE_ID)
+			{
+				continue;
+			}
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
+			{
+				continue;
+			}
+			// exclude roles with no users assigned to
+			if ($tmp_obj->getCountMembers() == 0)
+			{
+				continue;
+			}
+			$role_ids[$counter] = $role_id;
+				
+			$f_result[$counter][] = ilUtil::formCheckbox(0,"role[]",$role_id);
+			$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
+			$f_result[$counter][] = $tmp_obj->getCountMembers();
+
+			unset($tmp_obj);
+			++$counter;
+		}
+		return $f_result ? $f_result : array();
+	}
+
 
 	function __showSearchResults()
 	{
@@ -402,97 +533,35 @@ class ilRepositorySearchGUI
 		switch($this->search_type)
 		{
 			case "usr":
-				if(!is_array($_SESSION['rep_search']['usr']))
-				{
-					break;
-				}
-				foreach($_SESSION['rep_search']['usr'] as $usr_id)
-				{
-					if(!is_object($tmp_obj = ilObjectFactory::getInstanceByObjId($usr_id,false)))
-					{
-						continue;
-					}
-					$user_ids[$counter] = $usr_id;
-					
-					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$usr_id);
-					$f_result[$counter][] = $tmp_obj->getLogin();
-					$f_result[$counter][] = $tmp_obj->getFirstname();
-					$f_result[$counter][] = $tmp_obj->getLastname();
-
-					unset($tmp_obj);
-					++$counter;
-				}
-				$this->__showSearchUserTable($f_result,$_SESSION['rep_search']['usr']);
-
-				return true;
+				$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
+				$this->__showSearchUserTable($result,$_SESSION['rep_search']['usr']);
+				break;
 
 			case 'grp':
-				if(!is_array($_SESSION['rep_search']['grp']))
-				{
-					break;
-				}
-				foreach($_SESSION['rep_search']['grp'] as $group_id)
-				{
-					if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id = end(
-																		   $ref_ids = ilObject::_getAllReferences($group_id)),false))
-					{
-						continue;
-					}
-					$grp_ids[$counter] = $group_id;
-					
-					$f_result[$counter][] = ilUtil::formCheckbox(0,"group[]",$ref_id);
-					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
-					$f_result[$counter][] = $tmp_obj->getCountMembers();
-					
-					unset($tmp_obj);
-					++$counter;
-				}
-				$this->__showSearchGroupTable($f_result,$grp_ids);
-				return true;
+				$result = $this->__fillGroupTable($_SESSION['rep_search']['grp']);
+				$this->__showSearchGroupTable($result,$_SESSION['rep_search']['grp']);
+				break;
 
 			case 'role':
-				if(!is_array($_SESSION['rep_search']['role']))
-				{
-					break;
-				}
-				foreach($_SESSION['rep_search']['role'] as $role_id)
-				{
-                    // exclude anonymous role
-                    if ($role_id == ANONYMOUS_ROLE_ID)
-                    {
-                        continue;
-                    }
-                    if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
-					{
-						continue;
-					}
-				    // exclude roles with no users assigned to
-                    if ($tmp_obj->getCountMembers() == 0)
-                    {
-                        continue;
-                    }
-					$role_ids[$counter] = $role_id;
-				
-					$f_result[$counter][] = ilUtil::formCheckbox(0,"role[]",$role_id);
-					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
-					$f_result[$counter][] = $tmp_obj->getCountMembers();
+				$result = $this->__fillRoleTable($_SESSION['rep_search']['role']);
+				$this->__showSearchRoleTable($result,$_SESSION['rep_search']['role']);
+				break;
+		}
 
-					unset($tmp_obj);
-					++$counter;
-				}
-
-				$this->__showSearchRoleTable($f_result,$role_ids);
-				return true;
+		// Finally fill user table, if search type append
+		if($_SESSION['search_append'] and $this->search_type != 'usr')
+		{
+			$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
+			$this->__showSearchUserTable($result,$_SESSION['rep_search']['usr'],'search','APPEND_TABLE');
+			
 		}
 	}
-	function __showSearchUserTable($a_result_set,$a_user_ids = NULL,$a_cmd = "search")
+	function __showSearchUserTable($a_result_set,$a_user_ids = NULL,$a_cmd = "search",$tpl_var = 'RES_TABLE')
 	{
-        $return_to  = "searchUser";
-
-    	if ($a_cmd == "listUsersRole" or $a_cmd == "listUsersGroup")
-    	{
-            $return_to = "search";
-        }
+		if(!$a_result_set)
+		{
+			return false;
+		}
 
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -543,13 +612,18 @@ class ilRepositorySearchGUI
 		$this->__setTableGUIBasicData($tbl,$a_result_set);
 		$tbl->render();
 		
-		$this->tpl->setVariable("RES_TABLE",$tbl->tpl->get());
+		$this->tpl->setVariable($tpl_var,$tbl->tpl->get());
 
 		return true;
 	}
 
 	function __showSearchGroupTable($a_result_set,$a_grp_ids = NULL)
 	{
+		if(!$a_result_set)
+		{
+			return false;
+		}
+
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -602,6 +676,11 @@ class ilRepositorySearchGUI
 	}
 	function __showSearchRoleTable($a_result_set,$a_role_ids)
 	{
+		if(!$a_result_set)
+		{
+			return false;
+		}
+
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -682,30 +761,10 @@ class ilRepositorySearchGUI
 
 			unset($tmp_obj);
 		}
-		$members = array_unique($members);
-		#$members = $this->__appendToStoredResults($members);
+		$this->__appendToStoredResults($members);
 
-		// FORMAT USER DATA
-		$counter = 0;
-		$f_result = array();
-		foreach($members as $user)
-		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
-			{
-				continue;
-			}
-			
-			$user_ids[$counter] = $user;
-					
-			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
-			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getFirstname();
-			$f_result[$counter][] = $tmp_obj->getLastname();
-
-			unset($tmp_obj);
-			++$counter;
-		}
-		$this->__showSearchUserTable($f_result,$user_ids,"listUsersGroup");
+		$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
+		$this->__showSearchUserTable($result,$_SESSION['rep_search']['usr'],"listUsersGroup");
 
 		return true;
 	}
@@ -731,31 +790,10 @@ class ilRepositorySearchGUI
 		{
 			$members = array_merge($rbacreview->assignedUsers($role_id),$members);
 		}
+		$members = $this->__appendToStoredResults($members);
 
-		$members = array_unique($members);
-		#$members = $this->__appendToStoredResults($members);
-
-		// FORMAT USER DATA
-		$counter = 0;
-		$f_result = array();
-		foreach($members as $user)
-		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
-			{
-				continue;
-			}
-			
-			$user_ids[$counter] = $user;
-					
-			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
-			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getFirstname();
-			$f_result[$counter][] = $tmp_obj->getLastname();
-
-			unset($tmp_obj);
-			++$counter;
-		}
-		$this->__showSearchUserTable($f_result,$user_ids,"listUsersRole");
+		$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
+		$this->__showSearchUserTable($result,$user_ids,"listUsersRole");
 
 		return true;
 	}
