@@ -29,7 +29,7 @@
 *
 * @version	$Id$
 *
-* @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI
 *
 * @extends ilObjectGUI
@@ -53,7 +53,15 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function viewObject()
 	{
-		global $tree;
+		global $tree,$rbacsystem,$ilUser;
+
+		if(!$rbacsystem->checkAccess('read',$this->object->getRefId()))
+		{
+			$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+		}
+
+		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'grp');
 
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -79,6 +87,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
+		global $ilUser;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -129,17 +139,34 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('members');
 				break;
 
+			case "ilinfoscreengui":
+				$ret =& $this->infoScreen();
+				break;
+
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+													  $this->object->getRefId(),
+													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
+				break;
+
 
 			default:
-				
+				// Done in view Object
+				/*
 				if (!$this->getCreationMode())
 				{
-					if (!in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"]) and ($this->object->requireRegistration() and !$this->object->isUserRegistered()))
+					if (!in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"]) and 
+						($this->object->requireRegistration() and 
+						 !$this->object->isUserRegistered()))
 					{
 						$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
 					}
 				}
-
+				*/
 				if (empty($cmd))
 				{
 					#$this->ctrl->returnToParent($this);
@@ -1635,6 +1662,15 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this, ""), array("", "view","addToDesk","removeFromDesk"), get_class($this),
 				"", $force_active);
 		}
+		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		{
+			$tabs_gui->addTarget("info_short",
+								 $this->ctrl->getLinkTargetByClass(
+								 array("ilobjgroupgui", "ilinfoscreengui"), "showSummary"),
+								 "infoScreen",
+								 "", "",false);
+		}
+
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
@@ -1663,6 +1699,17 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tabs_gui->addTarget("group_new_registrations",
 				$this->ctrl->getLinkTarget($this, "ShownewRegistrations"), "ShownewRegistrations", get_class($this));
 		}
+
+		// learning progress
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledTracking())
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('ilobjgroupgui','illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
+
 		
 		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
@@ -2561,6 +2608,63 @@ class ilObjGroupGUI extends ilContainerGUI
 												 "", "ilConditionHandlerInterface");
 				break;
 		}
+	}
+
+
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $rbacsystem;
+		
+		$this->tabs_gui->setTabActive('info_short');
+
+		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+		$info->enableLearningProgress(true);
+
+		$info->addSection($this->lng->txt('group_registration'));
+		switch($this->object->getRegistrationFlag())
+		{
+			case GRP_REGISTRATION_DIRECT:
+				$info->addProperty($this->lng->txt('group_registration_mode'),
+								   $this->lng->txt('group_req_direct'));
+				break;
+												   
+			case GRP_REGISTRATION_REQUEST:
+				$info->addProperty($this->lng->txt('group_registration_mode'),
+								   $this->lng->txt('group_req_registration'));
+				break;
+
+			case GRP_REGISTRATION_PASSWORD:
+				$info->addProperty($this->lng->txt('group_registration_mode'),
+								   $this->lng->txt('group_req_password'));
+				break;
+		}
+		$date_times = $this->object->getExpirationDateTime();
+		$info->addProperty($this->lng->txt('group_registration_time'),
+						   $date_times[0].' '.$date_times[1]);
+		// forward the command
+		$this->ctrl->forwardCommand($info);
 	}
 
 	

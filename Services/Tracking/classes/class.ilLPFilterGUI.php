@@ -229,7 +229,9 @@ class ilLPFilterGUI
 		return array('lm' => $this->lng->txt('objs_lm'),
 					 'crs' => $this->lng->txt('objs_crs'),
 					 'tst' => $this->lng->txt('objs_tst'),
+					 'grp' => $this->lng->txt('objs_grp'),
 					 'exc' => $this->lng->txt('objs_exc'));
+					 
 	}
 
 	function __prepareHidden()

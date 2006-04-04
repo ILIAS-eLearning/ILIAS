@@ -212,6 +212,11 @@ class ilLPObjSettings
 			case 'exc':
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
 							 LP_MODE_EXERCISE_RETURNED => $lng->txt('trac_mode_exercise_returned'));
+
+			case 'grp':
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'));
+
 				
 				
 			default:
@@ -304,6 +309,9 @@ class ilLPObjSettings
 
 			case 'exc':
 				return LP_MODE_EXERCISE_RETURNED;
+
+			case 'grp':
+				return LP_MODE_DEACTIVATED;
 					
 			default:
 				return LP_MODE_UNDEFINED;

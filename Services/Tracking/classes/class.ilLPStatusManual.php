@@ -65,6 +65,18 @@ class ilLPStatusManual extends ilLPStatus
 				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
 				return $users;
 
+			case 'grp':
+				
+				include_once 'classes/class.ilObjGroup.php';
+
+				$members = ilObjGroup::_getMembers($a_obj_id);
+				// diff in progress and completed (use stored result in LPStatusWrapper)
+				$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
+				$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+
+				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
+				return $users;
+
 			default:
 				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
 				return array();
@@ -89,6 +101,10 @@ class ilLPStatusManual extends ilLPStatus
 			case 'crs':
 				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
 				return ilLPStatusManual::__getCourseInProgress($a_obj_id);
+
+			case 'grp':
+				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
+				return ilLPStatusManual::__getGroupInProgress($a_obj_id);
 
 			default:
 				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
@@ -148,7 +164,7 @@ class ilLPStatusManual extends ilLPStatus
 		$members = ilCourseMembers::_getMembers($a_obj_id);
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = '".$a_obj_id."' AND obj_type = 'crs'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -161,5 +177,27 @@ class ilLPStatusManual extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
+	function __getGroupInProgress($a_obj_id)
+	{
+		global $ilDB;
+
+		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
+		
+		include_once 'classes/class.ilObjGroup.php';
+		$members = ilObjGroup::_getMembers($a_obj_id);
+
+		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
+			"WHERE obj_id = '".$a_obj_id."' AND obj_type = 'grp'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if(!in_array($row->user_id,$completed) and in_array($row->user_id,$members))
+			{
+				$user_ids[] = $row->user_id;
+			}
+		}
+		return $user_ids ? $user_ids : array();
+	}
 }	
 ?>

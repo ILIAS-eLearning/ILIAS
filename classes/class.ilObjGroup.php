@@ -37,6 +37,11 @@
 
 require_once "class.ilContainer.php";
 
+define('GRP_REGISTRATION_DIRECT',0);
+define('GRP_REGISTRATION_REQUEST',1);
+define('GRP_REGISTRATION_PASSWORD',2);
+
+
 class ilObjGroup extends ilContainer
 {
 	/**
@@ -1212,6 +1217,28 @@ class ilObjGroup extends ilContainer
 		
 		return true;
 	}
+
+	function _getMembers($a_obj_id)
+	{
+		global $rbacreview;
+
+		// get reference
+		$ref_ids = ilObject::_getAllReferences($a_obj_id);
+		$ref_id = current($ref_ids);
+		
+		$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+		
+		$users = array();
+		foreach($local_roles as $role_id)
+		{
+			$users = array_merge($users,$rbacreview->assignedUsers($role_id));
+		}
+		
+		return array_unique($users);
+	}
+
+
 
 	// Private / Protected
 	function __initFileObject()
