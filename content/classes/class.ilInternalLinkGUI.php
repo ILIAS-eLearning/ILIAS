@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -977,7 +977,8 @@ class ilInternalLinkGUI
 		$exp->addFilter("webr");
 		$exp->addFilter("chat");
 
-		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr','chat');
+		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr','chat',
+			'cat','crs','grp');
 		$exp->setSelectableTypes($sel_types);
 
 		/*

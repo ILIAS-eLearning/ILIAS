@@ -124,6 +124,23 @@ switch($target_type)
 		ilObjChat::_goto($target_id);
 		break;
 
+	case "cat":
+		require_once("classes/class.ilObjCategory.php");
+		ilObjCategory::_goto($target_id);
+		include("repository.php");
+		break;
+
+	case "crs":
+		require_once("course/classes/class.ilObjCourse.php");
+		ilObjCourse::_goto($target_id);
+		include("repository.php");
+		break;
+
+	case "grp":
+		require_once("classes/class.ilObjGroup.php");
+		ilObjGroup::_goto($target_id);
+		include("repository.php");
+		break;
 }
 
 ?>

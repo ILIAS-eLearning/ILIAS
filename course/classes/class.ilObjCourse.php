@@ -1209,7 +1209,21 @@ class ilObjCourse extends ilContainer
 		ilCourseObjectiveResult::_deleteUser($a_usr_id);
 	}
 		
-		
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["ref_id"] = $a_target;
+		}
+		else
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		}
+	}
+
 
 } //END class.ilObjCourse
 ?>
