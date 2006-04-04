@@ -22,13 +22,15 @@
 	<tr>
 		<td class="option">{TXT_SKIN_STYLE_TITLE}</td>
 		<td class="option_value">
+			<!-- BEGIN activation_checkbox -->
 			<input type="checkbox" name="st_act[{VAL_SKIN_STYLE}]"  value="1" {CHK_SKIN_STYLE} />
+			<!-- END activation_checkbox -->
 		</td>
 		<td class="option_value">
 			{VAL_NUM_USERS}
 		</td>
 		<td class="option_value">
-			<select name="move_users[{VAL_SKIN_STYLE}]">
+			<select name="move_users[{VAL_MOVE_SKIN_STYLE}]">
 				<option value="">&nbsp;</option>
 				<!-- BEGIN move_to_skin -->
 				<option value="{TOSKINVALUE}">{TOSKINOPTION}</option>

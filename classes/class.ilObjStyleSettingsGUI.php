@@ -318,6 +318,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// get all templates
 		$templates = $styleDefinition->getAllTemplates();
 
+		$all_styles = array();
+		
 		foreach ($templates as $template)
 		{
 			// get styles definition for template
@@ -359,19 +361,72 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 					}
 				}
 				
-				// activation list
-				$this->tpl->setCurrentBlock("style_activation");
-				$this->tpl->setVariable("TXT_SKIN_STYLE_TITLE", 
-					$styleDef->getTemplateName()." / ".$style["name"]);
+				// activation checkbox
+				$this->tpl->setCurrentBlock("activation_checkbox");
 				$this->tpl->setVariable("VAL_SKIN_STYLE", $template["id"].":".$style["id"]);
-				$num_users = ilObjUser::_getNumberOfUsersForStyle($template["id"], $style["id"]);
-				$this->tpl->setVariable("VAL_NUM_USERS", $num_users);
 				if (ilObjStyleSettings::_lookupActivatedStyle($template["id"], $style["id"]))
 				{
 					$this->tpl->setVariable("CHK_SKIN_STYLE", " checked=\"1\" ");
 				}
 				$this->tpl->parseCurrentBlock();
+				
+				// activation row
+				$this->tpl->setCurrentBlock("style_activation");
+				$this->tpl->setVariable("VAL_MOVE_SKIN_STYLE", $template["id"].":".$style["id"]);
+				$this->tpl->setVariable("TXT_SKIN_STYLE_TITLE", 
+					$styleDef->getTemplateName()." / ".$style["name"]);
+				$num_users = ilObjUser::_getNumberOfUsersForStyle($template["id"], $style["id"]);
+				$this->tpl->setVariable("VAL_NUM_USERS", $num_users);
+				$this->tpl->parseCurrentBlock();
+				
+				$all_styles[] = $template["id"].":".$style["id"];
 			}
+		}
+		
+		// get all user assigned styles
+		$all_user_styles = ilObjUser::_getAllUserAssignedStyles();
+		
+		// output "other" row for all users, that are not assigned to
+		// any existing style
+		$users_missing_styles = 0;
+		foreach($all_user_styles as $style)
+		{
+			if (!in_array($style, $all_styles))
+			{
+				$style_arr = explode(":", $style);
+				$users_missing_styles += ilObjUser::_getNumberOfUsersForStyle($style_arr[0], $style_arr[1]);
+			}
+		}
+
+		if ($users_missing_styles > 0)
+		{			
+			// can be optimized
+			foreach ($templates as $template2)
+			{
+				// get styles definition for template
+				$styleDef2 =& new ilStyleDefinition($template2["id"]);
+				$styleDef2->startParsing();
+				$styles2 = $styleDef2->getStyles();
+	
+				foreach ($styles2 as $style2)
+				{
+					if (ilObjStyleSettings::_lookupActivatedStyle($template2["id"], $style2["id"]))
+					{
+						$this->tpl->setCurrentBlock("move_to_skin");
+						$this->tpl->setVariable("TOSKINVALUE", $template2["id"].":".$style2["id"]);
+						$this->tpl->setVariable("TOSKINOPTION", $styleDef2->getTemplateName()." / ".$style2["name"]);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+			}
+			
+			$this->tpl->setCurrentBlock("style_activation");
+			$this->tpl->setVariable("TXT_SKIN_STYLE_TITLE",
+				$this->lng->txt("other"));
+			$this->tpl->setVariable("VAL_NUM_USERS",
+				$users_missing_styles);
+			$this->tpl->setVariable("VAL_MOVE_SKIN_STYLE", "other");
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->parseCurrentBlock();
@@ -394,6 +449,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// check if a style should be deactivated, that still has
 		// a user assigned to
 		$templates = $styleDefinition->getAllTemplates();
+		$all_styles = array();
 		foreach ($templates as $template)
 		{
 			// get styles definition for template
@@ -417,6 +473,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				{
 					ilObjStyleSettings::_activateStyle($template["id"], $style["id"]);
 				}
+				$all_styles[] = $template["id"].":".$style["id"];
 			}
 		}
 		
@@ -425,9 +482,29 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			if ($value != "")
 			{
-				$from = explode(":", $key);
 				$to = explode(":", $value);
-				ilObjUser::_moveUsersToStyle($from[0],$from[1],$to[0],$to[1]);
+				
+				if ($key != "other")
+				{
+					$from = explode(":", $key);
+					ilObjUser::_moveUsersToStyle($from[0],$from[1],$to[0],$to[1]);
+				}
+				else
+				{
+					// get all user assigned styles
+					$all_user_styles = ilObjUser::_getAllUserAssignedStyles();
+					
+					// move users that are not assigned to
+					// currently existing style
+					foreach($all_user_styles as $style)
+					{
+						if (!in_array($style, $all_styles))
+						{
+							$style_arr = explode(":", $style);
+							ilObjUser::_moveUsersToStyle($style_arr[0],$style_arr[1],$to[0],$to[1]);
+						}
+					}
+				}
 			}
 		}
 		
