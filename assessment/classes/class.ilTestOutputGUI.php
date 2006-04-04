@@ -159,7 +159,13 @@ class ilTestOutputGUI
 				{
 					$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 				}
-				$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
+				$pass = NULL;
+				if ($this->object->isRandomTest())
+				{
+					global $ilUser;
+					$pass = $this->object->_getPass($ilUser->getId(), $this->object->getTestId());
+				}
+				$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId(), $pass);
 			}												
 		}			
 	}

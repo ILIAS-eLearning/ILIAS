@@ -820,7 +820,7 @@ class ASS_Numeric extends ASS_Question
 	* @access public
 	* @see $ranges
 	*/
-	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
+	function saveWorkingData($test_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -828,13 +828,13 @@ class ASS_Numeric extends ASS_Question
 		$db =& $ilDB->db;
 
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+		$actualpass = ilObjTest::_getPass($ilUser->id, $test_id);
 		$numeric_result = str_replace(",",".",$_POST["numeric_result"]);
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 			$db->quote($ilUser->id . ""),
 			$db->quote($test_id . ""),
 			$db->quote($this->getId() . ""),
-			$db->quote($pass . "")
+			$db->quote($actualpass . "")
 		);
 		$result = $db->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -852,11 +852,11 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($test_id),
 				$db->quote($this->getId()),
 				$db->quote($numeric_result),
-				$db->quote($pass . "")
+				$db->quote($actualpass . "")
 			);
 		}
 		$result = $db->query($query);
-    parent::saveWorkingData($test_id);
+    parent::saveWorkingData($test_id, $pass);
 		return true;
 	}
 

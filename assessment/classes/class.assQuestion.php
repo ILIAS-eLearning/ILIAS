@@ -850,11 +850,11 @@ class ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
+	function saveWorkingData($test_id, $pass = NULL)
 	{
     global $ilDB;
 		global $ilUser;
-		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id);
+		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id, $pass);
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
 		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s, %s)",

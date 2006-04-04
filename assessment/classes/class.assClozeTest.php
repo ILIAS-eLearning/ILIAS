@@ -1615,20 +1615,20 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $answers
 */
-  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) 
+  function saveWorkingData($test_id, $pass = NULL) 
 	{
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
 
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+		$activepass = ilObjTest::_getPass($ilUser->id, $test_id);
 		
     $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 			$db->quote($ilUser->id),
 			$db->quote($test_id),
 			$db->quote($this->getId()),
-			$db->quote($pass . "")
+			$db->quote($activepass . "")
     );
     $result = $db->query($query);
 
@@ -1640,12 +1640,12 @@ class ASS_ClozeTest extends ASS_Question
 					$db->quote($this->getId()),
 					$db->quote($matches[1]),
 					$db->quote(ilUtil::stripSlashes($value)),
-					$db->quote($pass . "")
+					$db->quote($activepass . "")
         );
         $result = $db->query($query);
       }
     }
-    parent::saveWorkingData($test_id);
+    parent::saveWorkingData($test_id, $pass);
 		return true;
   }
 
