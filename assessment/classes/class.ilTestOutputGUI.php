@@ -360,10 +360,21 @@ class ilTestOutputGUI
 			case "qt_imagemap":
 				$formaction = $this->ctrl->getLinkTargetByClass(get_class($this), "selectImagemapRegion") . "&sequence=$sequence";
 				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback, $formaction, true);
-				$info =& $question_gui->object->getReachedInformation($ilUser->id, $test_id);
-				if (strcmp($info[0]["value"], "") != 0)
+				if (ilObjTest::_getHidePreviousResults($test_id, true))
 				{
-					$formaction .= "&selImage=" . $info[0]["value"];
+					$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser, $pass);
+				}
+				else
+				{
+					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser, NULL);
+				}
+				if (count($info))
+				{
+					if (strcmp($info[0]["value1"], "") != 0)
+					{
+						$formaction .= "&selImage=" . $info[0]["value1"];
+					}
 				}
 				break;
 
@@ -1598,8 +1609,7 @@ class ilTestOutputGUI
 			}
 		}
 
-		$this->tpl->setCurrentBlock("question");
-		$this->tpl->setVariable("COLOR_CLASS", "std");
+		$this->tpl->setCurrentBlock("footer");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
 		$this->tpl->setVariable("SOLUTION_HINT", "");
