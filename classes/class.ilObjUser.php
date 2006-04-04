@@ -2267,6 +2267,30 @@ class ilObjUser extends ilObject
 	/**
 	* skins and styles
 	*/
+	function _getAllUserAssignedStyles()
+	{
+		global $ilDB;
+		
+		$q = "SELECT DISTINCT up1.value as style, up2.value as skin FROM usr_pref AS up1, usr_pref AS up2 ".
+			" WHERE up1.keyword= ".$ilDB->quote("style").
+			" AND up2.keyword= ".$ilDB->quote("skin").
+			" AND up1.usr_id = up2.usr_id ";
+		
+		
+		$sty_set = $ilDB->query($q);
+		
+		$styles = array();
+		while($sty_rec = $sty_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$styles[] = $sty_rec["skin"].":".$sty_rec["style"];
+		}
+		
+		return $styles;
+	}
+
+	/**
+	* skins and styles
+	*/
 	function _moveUsersToStyle($a_from_skin, $a_from_style, $a_to_skin, $a_to_style)
 	{
 		global $ilDB;
