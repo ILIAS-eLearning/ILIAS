@@ -284,7 +284,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			 $this->lng->txt("crs_not_available")));
 			 
 		// contact
-		$info->addSection($this->lng->txt("crs_contact"));			
+		$info->addSection($this->lng->txt("crs_contact"));
 		$info->addProperty($this->lng->txt("crs_contact_name"),
 			$this->object->getContactName() ? 
 			$this->object->getContactName() : 

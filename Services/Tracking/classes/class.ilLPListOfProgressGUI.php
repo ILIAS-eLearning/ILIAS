@@ -173,6 +173,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 			case 'tst':
 			case 'exc':
+			case 'grp':
 				$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_lm_details.html','Services/Tracking');
 				$this->__showDetails();
 				break;

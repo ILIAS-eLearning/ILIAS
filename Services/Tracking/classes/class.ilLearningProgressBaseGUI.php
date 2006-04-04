@@ -362,6 +362,7 @@ class ilLearningProgressBaseGUI
 			case 'tst':
 			case 'crs':
 			case 'sahs':
+			case 'grp':
 				$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($item_id,$user_id)));
 				break;
 
