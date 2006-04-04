@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1225,6 +1225,21 @@ class ilObjGroup extends ilContainer
 			include_once 'classes/class.ilFileDataGroup.php';
 
 			return $this->file_obj = new ilFileDataGroup($this);
+		}
+	}
+
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["ref_id"] = $a_target;
+		}
+		else
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 		}
 	}
 
