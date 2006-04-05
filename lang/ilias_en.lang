@@ -5867,3 +5867,7 @@ trac#:#trac_view_list#:#Back to list
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
+trac#:#trac_active_ut_only#:#User Tracking activated
+trac#:#trac_active_lp_only#:#Learning Progress activated
+trac#:#trac_active_both#:#User Tracking and Learning progress activated
+trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated

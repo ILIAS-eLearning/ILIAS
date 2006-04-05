@@ -5829,3 +5829,7 @@ common#:#udf_update_success#:#Die Daten wurden aktualisiert.
 common#:#udf_value_deleted#:#Der Wert wurde gelöscht.
 trac#:#trac_mode_exercise_returned#:#Übung abgegeben
 search#:#append_results#:#Ergebnisse anhängen
+trac#:#trac_active_ut_only#:#Zugriffsstatistiken aktiviert
+trac#:#trac_active_lp_only#:#Lernfortschritt aktiviert
+trac#:#trac_active_both#:#Zugriffsstatistiken und Lernfortschritt aktiviert
+trac#:#trac_inactive_both#:#Zugriffsstatistiken und Lernfortschritt deaktiviert
