@@ -1501,7 +1501,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','show'));
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("crs_add_member"));
 			$this->tpl->parseCurrentBlock();
 		}
