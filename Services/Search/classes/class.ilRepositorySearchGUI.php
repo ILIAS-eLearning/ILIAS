@@ -92,11 +92,6 @@ class ilRepositorySearchGUI
 				{
 					$cmd = "show";
 				}
-				if($cmd == 'show')
-				{
-					// Clear session
-					$this->__clearSession();
-				}
 				$this->$cmd();
 				break;
 		}
@@ -109,12 +104,23 @@ class ilRepositorySearchGUI
 		unset($_SESSION['rep_search']);
 		unset($_SESSION['append_results']);
 		unset($_SESSION['rep_query']);
+		unset($_SESSION['rep_search_type']);
 	}
 
 	function cancel()
 	{
 		$this->ctrl->returnToParent($this);
 	}
+
+	function start()
+	{
+		// delete all session info
+		$this->__clearSession();
+		$this->show();
+
+		return true;
+	}
+
 
 	function addUser()
 	{
