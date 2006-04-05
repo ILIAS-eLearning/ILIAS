@@ -87,7 +87,7 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 
 
 	include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-	if (ilObjUserTracking::_enabledTracking())
+	if (ilObjUserTracking::_enabledLearningProgress())
 	{
 		// learning progress
 		$inc_type = "tabinactive";

@@ -129,7 +129,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 								 "manageData",
 								 get_class($this));
 
-			if (ilObjUserTracking::_enabledTracking())
+			if (ilObjUserTracking::_enabledLearningProgress())
 			{
 				$tabs_gui->addTarget("learning_progress",
 									 $this->ctrl->getLinkTargetByClass("illearningprogressgui",
@@ -156,6 +156,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read_track"),$ilErr->WARNING);
 		}
+
+		$this->tabs_gui->setTabActive('settings');
 		
 		// Tracking settings
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.trac_settings.html","Services/Tracking");
@@ -176,11 +178,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		#$this->tpl->setVariable("NUMBER_RECORDS", $this->object->getRecordsTotal());
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
-		// Tracking enabled
-		if($this->object->_enabledTracking())
-		{
-			$this->tpl->setVariable("ACT_TRACK_CHECKED", " checked=\"1\" ");
-		}
+		$this->__showActivationSelect();
+		
 		// Anonymized
 		if(!$this->object->_enabledUserRelatedData())
 		{
@@ -198,7 +197,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		$this->object->enableTracking((int) $_POST["act_track"]);
+		$this->object->setActivationStatus((int) $_POST['act_track']);
 		$this->object->enableUserRelatedData((int) !$_POST['user_related']);
 		$this->object->setValidTimeSpan($_POST['valid_request']);
 
@@ -1246,6 +1245,28 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$result = $res->fetchRow();
 		return $result[0];
 	}
+
+	function __showActivationSelect()
+	{
+		$options = array(UT_ACTIVE_UT => $this->lng->txt('trac_active_ut_only'),
+						 UT_ACTIVE_LP => $this->lng->txt('trac_active_lp_only'),
+						 UT_ACTIVE_BOTH => $this->lng->txt('trac_active_both'),
+						 UT_INACTIVE_BOTH => $this->lng->txt('trac_inactive_both'));
+
+		foreach($options as $val => $txt)
+		{
+			$this->tpl->setCurrentBlock("option");
+
+			if($this->object->getActivationStatus() == $val)
+			{
+				$this->tpl->setVariable("OPT_SELECTED",'selected="selected"');
+			}
+			$this->tpl->setVariable("OPT_VAL",$val);
+			$this->tpl->setVariable("OPT_TXT",$txt);
+			$this->tpl->parseCurrentBlock();
+		}
+		return true;
+	}	
 
 	
 } 

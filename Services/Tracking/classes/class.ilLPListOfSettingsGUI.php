@@ -73,7 +73,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("TXT_TRACKING_SETTINGS", $this->lng->txt("tracking_settings"));
 
 		$this->tpl->setVariable("TXT_ACTIVATE_TRACKING", $this->lng->txt("trac_activated"));
-		$this->tpl->setVariable("ACTIVATED_IMG_OK",$activated = ilObjUserTracking::_enabledTracking()
+		$this->tpl->setVariable("ACTIVATED_IMG_OK",$activated = ilObjUserTracking::_enabledLearningProgress()
 								? ilUtil::getImagePath('icon_ok.gif') 
 								: ilUtil::getImagePath('icon_not_ok.gif'));
 		$this->tpl->setVariable("ACTIVATED_STATUS",$activated ? $this->lng->txt('yes') : $this->lng->txt('no'));

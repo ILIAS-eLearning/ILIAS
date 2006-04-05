@@ -1621,7 +1621,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 						include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 						if($rbacsystem->checkAccess('edit_learning_progress',$this->ref_id) and 
-						   ilObjUserTracking::_enabledTracking() and
+						   ilObjUserTracking::_enabledLearningProgress() and
 						   ilObjUserTracking::_enabledUserRelatedData())
 						{
 							$this->ctrl->setParameter($this,"user_id",$tmp_obj->getId());
@@ -2854,7 +2854,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledTracking())
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),

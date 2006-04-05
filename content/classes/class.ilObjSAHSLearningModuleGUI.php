@@ -548,7 +548,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if(ilObjUserTracking::_enabledTracking())
+		if(ilObjUserTracking::_enabledLearningProgress())
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),

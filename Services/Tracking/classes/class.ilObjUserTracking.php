@@ -33,6 +33,11 @@
 * @package ilias-core
 */
 
+define('UT_INACTIVE_BOTH',0);
+define('UT_ACTIVE_BOTH',1);
+define('UT_ACTIVE_UT',2);
+define('UT_ACTIVE_LP',3);
+
 include_once "classes/class.ilObject.php";
 
 class ilObjUserTracking extends ilObject
@@ -56,11 +61,24 @@ class ilObjUserTracking extends ilObject
 	}
 
 
+	
+	function setActivationStatus($a_status)
+	{
+		$this->status = $a_status;
+	}
+	
+	function getActivationStatus()
+	{
+		return $this->status;
+	}
+
 	/**
 	* enable user tracking
 	*/
 	function enableTracking($a_enable)
 	{
+		echo 'deprecated';
+
 		$this->tracking_enabled = (bool) $a_enable;
 
 		return true;
@@ -68,17 +86,36 @@ class ilObjUserTracking extends ilObject
 	
 	function enabledTracking()
 	{
-		return $this->tracking_enabled ? true : false;
+		return ($this->status == UT_ACTIVE_UT) || ($this->status == UT_ACTIVE_BOTH);
 	}
 
 	/**
-	* check wether user tracking is enabled or not
+	* check wether learing progress is enabled or not
 	*/
 	function _enabledTracking()
 	{
 		global $ilias;
 
-		return (boolean) $ilias->getSetting("enable_tracking");
+		$status = $ilias->getSetting("enable_tracking");
+
+		return ($status == UT_ACTIVE_UT) || ($status == UT_ACTIVE_BOTH);
+	}
+
+	function enabledLearningProgress()
+	{
+		return ($this->status == UT_ACTIVE_LP) || ($this->status == UT_ACTIVE_BOTH);
+	}
+
+	/**
+	* check wether learing progress is enabled or not
+	*/
+	function _enabledLearningProgress()
+	{
+		global $ilias;
+
+		$status = $ilias->getSetting("enable_tracking");
+
+		return ($status == UT_ACTIVE_LP) || ($status == UT_ACTIVE_BOTH);
 	}
 
 	/**
@@ -128,7 +165,7 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilias;
 
-		$ilias->setSetting("enable_tracking",$this->enabledTracking() ? 1 : 0);
+		$ilias->setSetting("enable_tracking",$this->getActivationStatus());
 		$ilias->setSetting("save_user_related_data",$this->enabledUserRelatedData() ? 1 : 0);
 		$ilias->setSetting("tracking_time_span",$this->getValidTimeSpan());
 
@@ -388,7 +425,8 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilias;
 
-		$this->enableTracking($ilias->getSetting("enable_tracking",0));
+		#$this->enableTracking($ilias->getSetting("enable_tracking",0));
+		$this->status = $ilias->getSetting('enable_tracking',UT_INACTIVE_BOTH);
 		$this->enableUserRelatedData($ilias->getSetting("save_user_related_data",0));
 		$this->setValidTimeSpan($ilias->getSetting("tracking_time_span",DEFAULT_TIME_SPAN));
 
