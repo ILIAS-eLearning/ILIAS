@@ -835,10 +835,11 @@ class ilRepositorySearchGUI
 		}
 
 		#$tbl->disable('sort');
+		$tbl->disable('linkbar');
 		$tbl->setOrderColumn($order);
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET["limit"]);
+		$tbl->setLimit(1000);
 		$tbl->setMaxCount(count($result_set));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($result_set);
