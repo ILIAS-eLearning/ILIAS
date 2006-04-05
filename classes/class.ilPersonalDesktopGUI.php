@@ -1334,7 +1334,7 @@ class ilPersonalDesktopGUI
 		// Tracking
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if (ilObjUserTracking::_enabledTracking())
+		if (ilObjUserTracking::_enabledLearningProgress())
 		{
 			$cmd_classes = array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui');
 			$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';

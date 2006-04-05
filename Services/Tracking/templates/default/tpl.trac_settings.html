@@ -1,5 +1,5 @@
 	<form action="{FORMACTION}" method="post">
-	  <table class="std" width="50%">
+	  <table class="std" width="100%">
 		<tr class="tbltitle">
 		  <td colspan="3">
 			<table class="fullwidth_invisible" cellspacing="0">
@@ -15,7 +15,11 @@
 			{TXT_ACTIVATE_TRACKING}
 		  </td>
 		  <td class="option_value">
-			<input type="CHECKBOX" name="act_track" value="1" {ACT_TRACK_CHECKED} />
+			<select name="act_track" size="0">
+			  <!-- BEGIN option -->
+			  <option value="{OPT_VAL}" {OPT_SELECTED}>{OPT_TXT}</option> 
+			  <!-- END option -->
+			</select>
 		  </td>
 		</tr>
 		<tr>

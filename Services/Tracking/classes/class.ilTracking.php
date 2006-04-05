@@ -89,10 +89,11 @@ class ilTracking {
 
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if (!ilObjUserTracking::_enabledTracking())
+		if(!ilObjUserTracking::_enabledTracking() and !ilObjUserTracking::_enabledLearningProgress())
 		{
 			return false;
 		}
+
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$a_obj_id,$a_obj_type);
 
