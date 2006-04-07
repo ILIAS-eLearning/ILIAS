@@ -546,6 +546,7 @@ class ilSurveyExecutionGUI
 	{
 		global $ilUser;
 		global $rbacsystem;
+		
 		if (($this->object->getAnonymize()) && (strcmp($ilUser->login, "anonymous") == 0))
 		{
 			$survey_started = false;
@@ -584,16 +585,14 @@ class ilSurveyExecutionGUI
 				$this->tpl->setVariable("TEXT_ANONYMIZE", sprintf($this->lng->txt("anonymize_key_introduction"), $anonymize_key));
 			}
 			$this->tpl->setVariable("ENTER_ANONYMOUS_ID", $this->lng->txt("enter_anonymous_id"));
-			if (strlen($_GET["accesscode"]))
+			if (strlen($_SESSION["accesscode"]))
 			{
-				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $_GET["accesscode"]);
+				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $_SESSION["accesscode"]);
+				unset($_SESSION["accesscode"]);
 			}
-			else
+			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 			{
-				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-				{
-					$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
-				}
+				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
 			}
 			$this->tpl->parseCurrentBlock();
 		}
@@ -614,11 +613,11 @@ class ilSurveyExecutionGUI
 			switch ($canStart)
 			{
 				case SURVEY_START_START_DATE_NOT_REACHED:
-					sendInfo($this->lng->txt("start_date_not_reached"));
+					sendInfo($this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getStartYear().$this->object->getStartMonth().$this->object->getStartDay()."000000"), "date") . ")");
 					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 					break;
 				case SURVEY_START_END_DATE_REACHED:
-					sendInfo($this->lng->txt("end_date_reached"));
+					sendInfo($this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getEndYear().$this->object->getEndMonth().$this->object->getEndDay()."000000"), "date") . ")");
 					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 					break;
 				case SURVEY_START_OFFLINE:
@@ -640,11 +639,11 @@ class ilSurveyExecutionGUI
 			switch ($canStart)
 			{
 				case SURVEY_START_START_DATE_NOT_REACHED:
-					sendInfo($this->lng->txt("start_date_not_reached"));
+					sendInfo($this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getStartYear().$this->object->getStartMonth().$this->object->getStartDay()."000000"), "date") . ")");
 					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 					break;
 				case SURVEY_START_END_DATE_REACHED:
-					sendInfo($this->lng->txt("end_date_reached"));
+					sendInfo($this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getEndYear().$this->object->getEndMonth().$this->object->getEndDay()."000000"), "date") . ")");
 					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 					break;
 				case SURVEY_START_OFFLINE:

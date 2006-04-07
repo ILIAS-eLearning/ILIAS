@@ -4200,7 +4200,12 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($active->tries == false)?$this->lng->txt("tst_no_tries"):$active->tries);
 		}
-		// TODO: maximum processing time if enabled
+
+		if ($this->object->getEnableProcessingTime())
+		{
+			$info->addProperty($this->lng->txt("tst_processing_time"), $this->object->getProcessingTime());
+		}
+		
 		$starting_time = $this->object->getStartingTime();
 		if ($starting_time)
 		{

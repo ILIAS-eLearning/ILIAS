@@ -479,8 +479,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 
 	function saveShape()
 	{
-		$this->writePostData();
-		$this->editQuestion();
+		$this->save();
 	}
 
 	function addArea()
