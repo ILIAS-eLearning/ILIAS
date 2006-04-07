@@ -1327,8 +1327,8 @@ class ilCourseContentInterface
 			$this->tpl->setVariable("OBJ_TITLE_1_OBJECTIVES",$tmp_objective->getTitle());
 
 			$img = !$this->suggested["$objective_ids[$i]"] ? 
-				ilUtil::getImagePath('crs_accomplished.gif') :
-				ilUtil::getImagePath('crs_not_accomplished.gif');
+				ilUtil::getImagePath('icon_ok.gif') :
+				ilUtil::getImagePath('icon_not_ok.gif');
 
 			$txt = !$this->suggested["$objective_ids[$i]"] ? 
 				$this->lng->txt('crs_objective_accomplished') :
@@ -1361,8 +1361,8 @@ class ilCourseContentInterface
 
 				$objective_id = $objective_ids[$i + $max / 2];
 				$img = !$this->suggested[$objective_id] ? 
-					ilUtil::getImagePath('crs_accomplished.gif') :
-					ilUtil::getImagePath('crs_not_accomplished.gif');
+					ilUtil::getImagePath('icon_ok.gif') :
+					ilUtil::getImagePath('icon_not_ok.gif');
 
 				$txt = !$this->suggested[$objective_id] ? 
 					$this->lng->txt('crs_objective_accomplished') :
