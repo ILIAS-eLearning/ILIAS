@@ -101,17 +101,25 @@ class ilSoapUtils extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
+		$ilDB = $GLOBALS['ilDB'];
 		for($i = 0; $i < count($solution); $i += 3)
 		{
-			$query = "INSERT INTO tst_solutions ".
-				"SET user_fi = '".(int) $user_id."', ".
-				"test_fi = '".(int) $test_id."', ".
-				"question_fi = '".(int) $question_id."', ".
-				"value1 = '".$solution[$i]."', ".
-				"value2 = '".$solution[$i+1]."', ".
-				"points = '".$solution[$i+2]."', ".
-				"pass = '".$pass."'";
+			$query = sprintf("INSERT INTO tst_solutions ".
+				"SET user_fi = %s, ".
+				"test_fi = %s, ".
+				"question_fi = %s, ".
+				"value1 = %s, ".
+				"value2 = %s, ".
+				"points = %s, ".
+				"pass = %s",
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($solution[$i]),
+				$ilDB->quote($solution[$i+1]),
+				$ilDB->quote($solution[$i+2]),
+				$ilDB->quote($pass . "")
+			);
 
 			$ilDB->query($query);
 		}
