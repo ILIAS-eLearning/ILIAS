@@ -197,14 +197,26 @@ class ilTestOutputGUI
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 	}
 	
+	/**
+	* Checks wheather the maximum processing time is reached or not
+	*
+	* Checks wheather the maximum processing time is reached or not
+	*
+	* @return TRUE if the maximum processing time is reached, FALSE otherwise
+	* @access public
+	*/
 	function isMaxProcessingTimeReached() 
 	{
 		global $ilUser;
- 
-		if (!is_bool($this->maxProcessingTimeReached))
-			$this->maxProcessingTimeReached = (($this->object->getEnableProcessingTime()) && ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()));
-		
-		return $this->maxProcessingTimeReached;
+		$starting_time = $this->object->getStartingTimeOfUser($ilUser->getId());
+		if ($starting_time === FALSE)
+		{
+			return FALSE;
+		}
+		else
+		{
+			return $this->object->isMaxProcessingTimeReached($starting_time);
+		}
 	}
 	
 	function isEndingTimeReached()
@@ -1904,19 +1916,7 @@ class ilTestOutputGUI
 */
 	function maxProcessingTimeReached()
 	{
-		sendInfo($this->lng->txt("detail_max_processing_time_reached"));
-		$this->object->setActiveTestUser(1, "", true);
-		if (!$this->object->canViewResults()) 
-		{
-			$this->outIntroductionPage();
-		}
-		else
-		{
-			if ($this->object->isOnlineTest())
-				$this->outTestSummary();
-			else					
-				$this->outResults();
-		}
+		$this->outIntroductionPage();
 	}		
 
 	/**
@@ -1947,7 +1947,28 @@ class ilTestOutputGUI
 	function outProcessingTime() 
 	{
 		global $ilUser;
+
+		$starting_time = $this->object->getStartingTimeOfUser($ilUser->getId());
+		$processing_time = $this->object->getProcessingTimeInSeconds();
+		$time_left = $starting_time + $processing_time - mktime();
+		$date = getdate($starting_time);
 		$this->tpl->setCurrentBlock("enableprocessingtime");
+		$this->tpl->setVariable("USER_WORKING_TIME", 
+			sprintf($this->lng->txt("tst_time_already_spent"),
+				ilFormat::formatDate(
+					$date["year"]."-".
+					sprintf("%02d", $date["mon"])."-".
+					sprintf("%02d", $date["mday"])." ".
+					sprintf("%02d", $date["hours"]).":".
+					sprintf("%02d", $date["minutes"]).":".
+					sprintf("%02d", $date["seconds"])
+				),
+				$processing_time,
+				$time_left
+			)
+		);
+		$this->tpl->parseCurrentBlock();
+		return;
 		$working_time = $this->object->getCompleteWorkingTime($ilUser->id);
 		$processing_time = $this->object->getProcessingTimeInSeconds();
 		$time_seconds = $working_time;

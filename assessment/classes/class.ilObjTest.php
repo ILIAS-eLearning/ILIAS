@@ -6253,6 +6253,19 @@ class ilObjTest extends ilObject
 			$result["errormessage"] = sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->getEndingTime()));
 			return $result;
 		}
+		if ($this->getEnableProcessingTime())
+		{
+			$starting_time = $this->getStartingTimeOfUser($user_id);
+			if ($starting_time !== FALSE)
+			{
+				if ($this->isMaxProcessingTimeReached($starting_time))
+				{
+					$result["executable"] = false;
+					$result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
+					return $result;
+				}
+			}
+		}
 
 		$active = $this->getActiveTestUser($user_id);
 		if ($this->hasNrOfTriesRestriction() && is_object($active) && $this->isNrOfTriesReached($active->tries))
@@ -6309,6 +6322,74 @@ class ilObjTest extends ilObject
 		else
 		{
 			return true;
+		}
+	}
+	
+/**
+* Returns the unix timestamp of the time a user started a test
+* 
+* Returns the unix timestamp of the time a user started a test
+*
+* @param integer $user_id The user id
+* @return mixed The unix timestamp if the user started the test, FALSE otherwise
+* @access public
+*/
+	function getStartingTimeOfUser($user_id)
+	{
+		global $ilDB;
+		
+		if ($user_id < 1) return FALSE;
+		$query = sprintf("SELECT tst_times.started FROM tst_times, tst_active WHERE tst_active.user_fi = %s AND tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.started",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($this->getTestId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if (preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches))
+			{
+				return mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+/**
+* Returns wheather the maximum processing time for a test is reached or not
+* 
+* Returns wheather the maximum processing time for a test is reached or not
+*
+* @param long $starting_time The unix timestamp of the starting time of the test
+* @return boolean TRUE if the maxium processing time is reached, FALSE if the
+*					maximum processing time is not reached or no maximum processing time is given
+* @access public
+*/
+	function isMaxProcessingTimeReached($starting_time)
+	{
+		if ($this->getEnableProcessingTime())
+		{
+			$processing_time = $this->getProcessingTimeInSeconds();
+			$now = mktime();
+			if ($now > ($starting_time + $processing_time))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			return FALSE;
 		}
 	}
 	

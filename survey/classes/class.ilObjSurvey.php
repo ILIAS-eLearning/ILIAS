@@ -4729,7 +4729,8 @@ class ilObjSurvey extends ilObject
 			include_once "./classes/class.ilUtil.php";
 			if (strlen($a_access_code))
 			{
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target&accesscode=$a_access_code");
+				$_SESSION["accesscode"] = $a_access_code;
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target");
 			}
 			else
 			{
