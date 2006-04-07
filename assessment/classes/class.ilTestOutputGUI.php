@@ -1950,7 +1950,31 @@ class ilTestOutputGUI
 
 		$starting_time = $this->object->getStartingTimeOfUser($ilUser->getId());
 		$processing_time = $this->object->getProcessingTimeInSeconds();
+		$processing_time_minutes = floor($processing_time / 60);
+		$processing_time_seconds = $processing_time - $processing_time_minutes * 60;
+		$str_processing_time = "";
+		if ($processing_time_minutes > 0)
+		{
+			$str_processing_time = $processing_time_minutes . " " . $this->lng->txt("minutes");
+		}
+		if ($processing_time_seconds > 0)
+		{
+			if (strlen($str_processing_time) > 0) $str_processing_time .= " " . $this->lng->txt("and") . " ";
+			$str_processing_time .= $processing_time_seconds . " " . $this->lng->txt("seconds");
+		}
 		$time_left = $starting_time + $processing_time - mktime();
+		$time_left_minutes = floor($time_left / 60);
+		$time_left_seconds = $time_left - $time_left_minutes * 60;
+		$str_time_left = "";
+		if ($time_left_minutes > 0)
+		{
+			$str_time_left = $time_left_minutes . " " . $this->lng->txt("minutes");
+		}
+		if ($time_left_seconds > 0)
+		{
+			if (strlen($str_time_left) > 0) $str_time_left .= " " . $this->lng->txt("and") . " ";
+			$str_time_left .= $time_left_seconds . " " . $this->lng->txt("seconds");
+		}
 		$date = getdate($starting_time);
 		$this->tpl->setCurrentBlock("enableprocessingtime");
 		$this->tpl->setVariable("USER_WORKING_TIME", 
@@ -1963,26 +1987,10 @@ class ilTestOutputGUI
 					sprintf("%02d", $date["minutes"]).":".
 					sprintf("%02d", $date["seconds"])
 				),
-				$processing_time,
-				$time_left
+				$str_processing_time,
+				$str_time_left
 			)
 		);
-		$this->tpl->parseCurrentBlock();
-		return;
-		$working_time = $this->object->getCompleteWorkingTime($ilUser->id);
-		$processing_time = $this->object->getProcessingTimeInSeconds();
-		$time_seconds = $working_time;
-		$time_hours    = floor($time_seconds/3600);
-		$time_seconds -= $time_hours   * 3600;
-		$time_minutes  = floor($time_seconds/60);
-		$time_seconds -= $time_minutes * 60;
-		$this->tpl->setVariable("USER_WORKING_TIME", $this->lng->txt("tst_time_already_spent") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-		$time_seconds = $processing_time;
-		$time_hours    = floor($time_seconds/3600);
-		$time_seconds -= $time_hours   * 3600;
-		$time_minutes  = floor($time_seconds/60);
-		$time_seconds -= $time_minutes * 60;
-		$this->tpl->setVariable("MAXIMUM_PROCESSING_TIME", $this->lng->txt("tst_processing_time") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 		$this->tpl->parseCurrentBlock();
 	}
 	

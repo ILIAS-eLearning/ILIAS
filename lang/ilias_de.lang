@@ -610,7 +610,7 @@ assessment#:#tst_submit_answers_txt#:#Sie können den Test jetzt durch das Absen
 assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
 assessment#:#tst_test_output#:#Testdurchführung
 assessment#:#tst_text_count_system#:#Bewertungssystem
-assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s Sekunden. Es verbleiben Ihnen noch %s Sekunden.
+assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s. Es verbleiben Ihnen noch %s.
 assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
 assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
 assessment#:#tst_tst_date#:#Datum des Tests
