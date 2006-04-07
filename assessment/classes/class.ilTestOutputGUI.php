@@ -1484,7 +1484,7 @@ class ilTestOutputGUI
 */
 	function passDetails()
 	{
-		if (array_key_exists("pass", $_GET))
+		if (array_key_exists("pass", $_GET) && (strlen($_GET["pass"]) > 0))
 		{
 			$this->ctrl->saveParameter($this, "pass");
 			$this->outTestResults(false, $_GET["pass"]);
