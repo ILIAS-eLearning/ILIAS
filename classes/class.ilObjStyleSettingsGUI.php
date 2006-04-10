@@ -43,8 +43,12 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function ilObjStyleSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
+		global $lng;
+		
 		$this->type = "stys";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		
+		$lng->loadLanguageModule("style");
 	}
 	
 	function &executeCommand()
@@ -203,12 +207,12 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		// title
 		$header_names = array("", $this->lng->txt("title"),
-			$this->lng->txt("purpose"));
+			$this->lng->txt("purpose"), $this->lng->txt("sty_standard_style"));
 		$tbl->setHeaderNames($header_names);
 
 		$header_params = array("ref_id" => $this->ref_id);
-		$tbl->setHeaderVars(array("", "title", "purpose"), $header_params);
-		$tbl->setColumnWidth(array("0%", "80%", "20%"));
+		$tbl->setHeaderVars(array("", "title", "purpose", "standard"), $header_params);
+		$tbl->setColumnWidth(array("0%", "60%", "20%", "20%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -229,7 +233,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// todo
 		$tbl->setMaxCount(count($style_entries));
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 3);
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -252,6 +256,10 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
 			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
+			if (ilObjStyleSheet::_lookupStandard($style["id"]))
+			{
+				$this->tpl->setVariable("CHECKED_STY", 'checked="checked"');
+			}
 			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
 			$this->ctrl->setParameterByClass("ilobjstylesheetgui", "obj_id", $style["id"]); 
 			$this->tpl->setVariable("LINK_STYLE",
@@ -668,7 +676,28 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
 	}
-
+	
+	
+	/**
+	* save standard styles
+	*/
+	function saveStandardStylesObject()
+	{
+		include_once("classes/class.ilObjStyleSheet.php");
+		$styles = $this->object->getStyles();
+		foreach($styles as $style)
+		{
+			if ($_POST["std_".$style["id"]] == 1)
+			{
+				ilObjStyleSheet::_writeStandard($style["id"], 1);
+			}
+			else
+			{
+				ilObjStyleSheet::_writeStandard($style["id"], 0);
+			}
+		}
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
+	}
 	
 	/**
 	* show possible action (form buttons)
@@ -695,6 +724,12 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "toggleGlobalFixed");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("toggleGlobalFixed"));
+		$this->tpl->parseCurrentBlock();
+
+		// save standard files
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "saveStandardStyles");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("sty_save_standard_styles"));
 		$this->tpl->parseCurrentBlock();
 
 		if ($with_subobjects === true)

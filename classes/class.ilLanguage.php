@@ -269,7 +269,7 @@ class ilLanguage
 		{
 			$lang_key = $this->lang_user;
 		}
-
+/*
 		$query = "SELECT identifier,value FROM lng_data " .
 				"WHERE lang_key = '" . $lang_key."' " .
 				"AND module = '$a_module'";
@@ -278,6 +278,19 @@ class ilLanguage
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->text[$row->identifier] = $row->value;
+		}
+*/
+
+		$query = "SELECT * FROM lng_modules " .
+				"WHERE lang_key = '".$lang_key."' " .
+				"AND module = '$a_module'";
+		$r = $this->ilias->db->query($query);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		$new_text = unserialize($row["lang_array"]);
+		if (is_array($new_text))
+		{
+			$this->text = array_merge($this->text, $new_text);
 		}
 	}
 	

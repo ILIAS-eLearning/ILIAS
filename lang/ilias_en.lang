@@ -880,6 +880,8 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
+style#:#sty_standard_style#:#Standard Style
+style#:#sty_save_standard_styles#:#Save Standard Styles
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
