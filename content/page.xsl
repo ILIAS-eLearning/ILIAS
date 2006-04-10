@@ -2288,6 +2288,16 @@
 				<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
 			</textarea>
 		</xsl:when>
+		<xsl:when test = "substring(@ident,1,10)='TEXTSUBSET'">
+			<p>
+				<xsl:number level="any" count="response_str" format="1. "/>
+				<input>
+					<xsl:attribute name="type"><xsl:text>text</xsl:text></xsl:attribute>
+					<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
+					<xsl:attribute name="size"><xsl:value-of select="render_fib/@columns"/></xsl:attribute>
+				</input>
+			</p>
+		</xsl:when>
 		<xsl:otherwise>
 			<xsl:choose>
 				<!-- text gap -->

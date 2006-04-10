@@ -78,7 +78,7 @@ class ilQTIParser extends ilSaxParser
 	var $section;
 	var $import_mapping;
 	var $question_counter = 1;
-	var $textgap_rating;
+	var $in_itemmetadata;
 
 	var $founditems = array();
 	var $verifyroot = false;
@@ -287,6 +287,9 @@ class ilQTIParser extends ilSaxParser
 			case "section":
 				include_once ("./assessment/classes/QTI/class.ilQTISection.php");
 				$this->section = new ilQTISection();
+				break;
+			case "itemmetadata":
+				$this->in_itemmetadata = TRUE;
 				break;
 			case "qtimetadatafield":
 				$this->metadata = array("label" => "", "entry" => "");
@@ -908,7 +911,6 @@ class ilQTIParser extends ilSaxParser
 				break;
 			case "item":
 				include_once("./assessment/classes/QTI/class.ilQTIItem.php");
-				$this->textgap_rating = "ci";
 				$this->gap_index = 0;
 				$this->item =& $this->items[array_push($this->items, new ilQTIItem())-1];
 				if (is_array($a_attribs))
@@ -979,6 +981,9 @@ class ilQTIParser extends ilSaxParser
 		{
 			case "assessment":
 				break;
+			case "itemmetadata":
+				$this->in_itemmetadata = FALSE;
+				break;
 			case "qtimetadatafield":
 				// handle only specific ILIAS metadata
 				switch ($this->metadata["label"])
@@ -996,10 +1001,8 @@ class ilQTIParser extends ilSaxParser
 						{
 							$this->item->setAuthor($this->metadata["entry"]);
 						}
-					case "TEXTGAP_RATING":
-						if ($this->item != NULL)
-						{
-						}
+					default:
+						$this->item->addMetadata($this->metadata);
 						break;
 				}
 				if ($this->in_assessment)
@@ -1543,6 +1546,8 @@ class ilQTIParser extends ilSaxParser
 						);
 						$question->setObjId($questionpool_id);
 						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$textgap_rating = $this->item->getMetadataEntry("textgaprating");
+						if (strlen($textgap_rating) == 0) $textgap_rating = "ci";
 						$question->setTextgapRating($this->textgap_rating);
 						$gaptext = array();
 						foreach ($gaps as $gapidx => $gap)

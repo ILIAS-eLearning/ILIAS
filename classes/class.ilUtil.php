@@ -784,7 +784,6 @@ class ilUtil
 	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true)
 	{
 		global $lng;
-
 		if ($a_use_default and !strlen("$hour$minute$second")) {
 			$now = localtime();
 			$hour = $now[2];
@@ -827,6 +826,7 @@ class ilUtil
 			$sel_second = preg_replace("/(value\=\"$second\")/", "$1 selected=\"selected\"", $sel_second);
 		}
 		$timeformat = $lng->text["lang_timeformat"];
+		if (strlen($timeformat) == 0) $timeformat = "H:i:s";
 		$timeformat = strtolower(preg_replace("/\W/", "", $timeformat));
 		$timeformat = preg_replace("/(\w)/", "%%$1", $timeformat);
 		$timeformat = preg_replace("/%%h/", $sel_hour, $timeformat);

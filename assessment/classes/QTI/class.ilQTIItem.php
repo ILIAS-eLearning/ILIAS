@@ -59,6 +59,7 @@ class ilQTIItem
 	var $presentation;
 	var $presentationitem;
 	var $suggested_solutions;
+	var $itemmetadata;
 	
 	function ilQTIItem()
 	{
@@ -68,6 +69,7 @@ class ilQTIItem
 		$this->presentation = NULL;
 		$this->presentationitem = array();
 		$this->suggested_solutions = array();
+		$this->itemmetadata = array();
 	}
 	
 	function setIdent($a_ident)
@@ -304,6 +306,27 @@ class ilQTIItem
 	function addSuggestedSolution($a_solution, $a_gap_index)
 	{
 		array_push($this->suggested_solutions, array("solution" => $a_solution, "gap_index" => $a_gap_index));
+	}
+	
+	function addMetadata($a_metadata)
+	{
+		array_push($this->itemmetadata, $a_metadata);
+	}
+	
+	function getMetadata()
+	{
+		return $this->itemmetadata;
+	}
+	
+	function getMetadataEntry($a_label)
+	{
+		foreach ($this->itemmetadata as $metadata)
+		{
+			if (strcmp($metadata["label"], $a_label) == 0)
+			{
+				return $metadata["entry"];
+			}
+		}
 	}
 }
 ?>

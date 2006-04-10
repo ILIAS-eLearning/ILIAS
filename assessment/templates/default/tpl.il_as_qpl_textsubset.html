@@ -1,0 +1,108 @@
+<form name="frm_textsubset" action="{ACTION_TEXTSUBSET_TEST}" method="post" enctype="multipart/form-data">
+<input type="hidden" name="id" value="{TEXTSUBSET_ID}" />
+<table class="fullwidth">
+<thead>
+	<tr class="tblheader">
+		<th colspan="5">{TEXT_QUESTION_TYPE}</th>
+	</tr>
+</thead>
+<tr>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_TEXTSUBSET_TITLE}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_TEXTSUBSET_AUTHOR}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_COMMENT}:</td>
+  <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_TEXTSUBSET_COMMENT}" id="comment" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><textarea class="fullwidth" name="question" id="question" cols="40" rows="10">{VALUE_QUESTION}</textarea></td>
+</tr>
+<tr>
+	<td class="option">{TEXT_CORRECTANSWERS}<span class="asterisk">*</span>:</td>
+	<td class="option_value" colspan="4"><input type="text" name="correctanswers" size="3" value="{VALUE_CORRECTANSWERS}" /></td>
+</tr>
+<tr>
+	<td class="option">{TEXT_POINTS}<span class="asterisk">*</span>:</td>
+	<td class="option_value" colspan="4"><input type="text" name="points" size="3" value="{VALUE_POINTS}" /></td>
+</tr>
+<tr>
+	<td class="option"><label for="text_rating">{TEXT_RATING}:</label></td>
+	<td class="option_value" colspan="4">
+		<select name="text_rating" id="text_rating">
+<!-- BEGIN text_rating -->
+	    <option value="{RATING_VALUE}"{SELECTED_RATING_VALUE}>{RATING_TEXT}</option>
+<!-- END text_rating -->
+		</select>
+	</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
+  <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
+</tr>
+<tr>
+	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option_value" colspan="4">
+		<input type="hidden" name="solution_hint" value="{VALUE_SOLUTION_HINT}" />
+		{TEXT_VALUE_SOLUTION_HINT}
+		<!-- BEGIN remove_solution -->
+		<input type="submit" class="submit" name="cmd[removeSuggestedSolution]" value="{BUTTON_REMOVE_SOLUTION}" />
+		<!-- END remove_solution -->
+		<input type="submit" class="submit" name="cmd[addSuggestedSolution]" value="{BUTTON_ADD_SOLUTION}" />
+		<select name="internalLinkType">
+<!-- BEGIN internallink -->
+		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
+<!-- END internallink -->
+		</select>
+	</td>
+</tr>
+</table>
+<table class="fullwidth">
+<thead>
+	<tr class="tblheader">
+		<th colspan="3">{TEXT_ANSWERS_HEADING}</th>
+	</tr>
+</thead>
+<tr>
+	<td colspan="3" class="option">
+		<input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" />
+			<select name="nrOfAnswers">
+<!-- BEGIN numbers -->
+				<option value="{VALUE_NUMBER}">{TEXT_NUMBER}</option>
+<!-- END numbers -->			
+			</select>
+	</td>
+</tr>
+<!-- BEGIN answers -->
+<tr class="{ROWCLASS}">
+  <td width="25"><input type="checkbox" name="chb_answers[]" id="chb_{ANSWER_ORDER}" value="{ANSWER_ORDER}" /></td>
+  <td width="200"><label for="chb_{ANSWER_ORDER}">{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</label></td>
+  <td><input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" /></td>
+</tr>
+<!-- END answers -->
+<!-- BEGIN selectall -->
+<tr class="{ROWCLASS}">
+	<td><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('frm_textsubset', 'chb_answers', document.frm_textsubset.chb_check_all.checked);" /></td>
+  <td colspan="2"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
+<!-- BEGIN existinganswers -->
+<tr>
+	<td class="submit" width="20">{ARROW}</td>
+	<td class="submit" colspan="2">
+		<input type="submit" class="submit" name="cmd[deleteAnswer]" value="{DELETE}" />
+	</td>
+</tr>
+<!-- END existinganswers -->
+<tr>
+	<td colspan="3" class="submit">
+		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+		<div align="right">
+			<input name="cmd[save]" type="submit" class="submit" id="save_textsubset" value="{SAVE}" /> <input name="cmd[saveEdit]" type="submit" class="submit" value="{SAVE_EDIT}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+		</div>
+	</td>
+</tr>
+</table>
+</form>
+<a name="bottom"></a>

@@ -269,9 +269,9 @@ class ASS_QuestionGUI
 				$question =& new ASS_NumericGUI();
 				break;
 
-			case "qt_xooa":
-				include_once "./assessment/classes/class.assXoutofAllGUI.php";
-				$question =& new ASS_XoutofAllGUI();
+			case "qt_textsubset":
+				include_once "./assessment/classes/class.assTextSubsetGUI.php";
+				$question =& new ASS_TextSubsetGUI();
 				break;
 
 			case "qt_ordering":
@@ -334,8 +334,8 @@ class ASS_QuestionGUI
 				return "ASS_NumericGUI";
 				break;
 
-			case "qt_xooa":
-				return "ASS_XoutofAllGUI";
+			case "qt_textsubset":
+				return "ASS_TextSubsetGUI";
 				break;
 
 			case "qt_ordering":
