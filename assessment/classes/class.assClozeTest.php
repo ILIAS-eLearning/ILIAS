@@ -572,6 +572,10 @@ class ASS_ClozeTest extends ASS_Question
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "textgaprating");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getTextgapRating());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 		
@@ -1377,25 +1381,25 @@ class ASS_ClozeTest extends ASS_Question
 		switch ($gaprating)
 		{
 			case TEXTGAP_RATING_CASEINSENSITIVE:
-				if (strcmp(strtolower($a_original), strtolower($a_entered)) == 0) $result = $max_points;
+				if (strcmp(strtolower(utf8_decode($a_original)), strtolower(utf8_decode($a_entered))) == 0) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_CASESENSITIVE:
-				if (strcmp($a_original, $a_entered) == 0) $result = $max_points;
+				if (strcmp(utf8_decode($a_original), utf8_decode($a_entered)) == 0) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN1:
-				if (levenshtein($a_original, $a_entered) <= 1) $result = $max_points;
+				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 1) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN2:
-				if (levenshtein($a_original, $a_entered) <= 2) $result = $max_points;
+				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 2) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN3:
-				if (levenshtein($a_original, $a_entered) <= 3) $result = $max_points;
+				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 3) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN4:
-				if (levenshtein($a_original, $a_entered) <= 4) $result = $max_points;
+				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 4) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN5:
-				if (levenshtein($a_original, $a_entered) <= 5) $result = $max_points;
+				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 5) $result = $max_points;
 				break;
 		}
 		return $result;

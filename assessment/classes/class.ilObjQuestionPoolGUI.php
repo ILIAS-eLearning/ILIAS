@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_NumericGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_XoutofAllGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextSubsetGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
@@ -155,7 +155,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_orderingquestiongui":
 			case "ass_matchingquestiongui":
 			case "ass_numericgui":
-			case "ass_xoutofallgui":
+			case "ass_textsubsetgui":
 			case "ass_imagemapquestiongui":
 			case "ass_javaappletgui":
 			case "ass_textquestiongui":
@@ -1567,10 +1567,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("ass_numericgui", "q_id", $_GET["q_id"]);
 				break;
 
-			case "qt_xooa":
-				$classname = "ASS_XoutofAllGUI";
-				$this->ctrl->setParameterByClass("ass_xoutofallgui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_xoutofallgui", "q_id", $_GET["q_id"]);
+			case "qt_textsubset":
+				$classname = "ASS_TextSubsetGUI";
+				$this->ctrl->setParameterByClass("ass_textsubsetgui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_textsubsetgui", "q_id", $_GET["q_id"]);
 				break;
 
 			case "qt_ordering":

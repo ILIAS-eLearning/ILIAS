@@ -29,7 +29,6 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * ASS_TextQuestion is a class for text questions
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Nina Gharib <nina@wgserve.de>
 * @version	$Id$
 * @module   class.assTextQuestion.php
 * @modulegroup   Assessment
@@ -55,13 +54,14 @@ class ASS_TextQuestion extends ASS_Question
 	var $maxNumOfChars;
 
 	/**
-	* Keywords for possibility of correct answertext
+	* Keywords of the question
 	*
-	* Keywords for possibility of correct answertext
+	* If every keyword in $keywords is found in the question answer,
+	* the question will be scored automatically with the maximum points
 	*
-	* @var array
+	* @var string
 	*/
-	var $keyWords;
+	var $keywords;
 
 	/**
 	* ASS_TextQuestion constructor
@@ -81,23 +81,22 @@ class ASS_TextQuestion extends ASS_Question
 		$comment = "",
 		$author = "",
 		$owner = -1,
-		$question = "",
-		$keyWords = ""
+		$question = ""
 	  )
 	{
 		$this->ASS_Question($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->maxNumOfChars = 0;
-		$this->keyWords = array();
 		$this->points = 0;
+		$this->keywords = "";
 	}
 
 	/**
-	* Returns true, if a text question is complete for use
+	* Returns true, if a multiple choice question is complete for use
 	*
-	* Returns true, if a text question is complete for use
+	* Returns true, if a multiple choice question is complete for use
 	*
-	* @return boolean True, if the text question is complete for use, otherwise false
+	* @return boolean True, if the multiple choice question is complete for use, otherwise false
 	* @access public
 	*/
 	function isComplete()
@@ -284,7 +283,7 @@ class ASS_TextQuestion extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, maxNumOfChars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, maxNumOfChars, keywords, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -295,6 +294,7 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($estw_time),
 				$db->quote($this->getMaxNumOfChars()),
+				$db->quote($this->getKeywords() . ""),
 				$db->quote("$complete"),
 				$db->quote($created),
 				$original_id
@@ -318,7 +318,7 @@ class ASS_TextQuestion extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, points = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, points = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, keywords = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -327,36 +327,12 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($estw_time),
 				$db->quote($this->getMaxNumOfChars()),
+				$db->quote($this->getKeywords() . ""),
 				$db->quote("$complete"),
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
 		}
-		
-		if ($result == DB_OK)
-		{
-			// Antworten schreiben
-			// alte Antworten löschen
-			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
-				$db->quote($this->id)
-			);
-			$result = $db->query($query);
-
-			// Anworten wegschreiben
-			foreach ($this->keyWords as $key => $value)
-			{
-				$keyWords_obj = $this->keyWords[$key];
-				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($this->id),
-				$db->quote($keyWords_obj->get_answertext()),
-				$db->quote($keyWords_obj->get_points() . ""),
-				$db->quote($keyWords_obj->get_order() . ""),
-				$db->quote($keyWords_obj->getState() . "")
-				);
-				$answer_result = $db->query($query);
-			}
-		}
-		
 		parent::saveToDb($original_id);
 	}
 
@@ -392,40 +368,14 @@ class ASS_TextQuestion extends ASS_Question
 				$this->owner = $data->owner;
 				$this->question = $data->question_text;
 				$this->maxNumOfChars = $data->maxNumOfChars;
+				$this->keywords = $data->keywords;
 				$this->points = $data->points;
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-			}
-
-			$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
-				$db->quote($question_id));
-
-			$result = $db->query($query);
-
-			include_once "./assessment/classes/class.assAnswerSimple.php";
-			if (strcmp(strtolower(get_class($result)), db_result) == 0)
-			{
-				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					array_push($this->keyWords, new ASS_AnswerSimple($data->answertext, $data->points, $data->aorder, $data->correctness));
-				}
 			}
 		}
 		parent::loadFromDb($question_id);
 	}
 
-	/**
-	* Adds keywords to the question
-	*
-	* Adds keywords to the question
-	*
-	* @access public
-	*/
-	function addAnswer($answertext, $points, $answerorder, $correctness)
-	{
-		include_once "./assessment/classes/class.assAnswerSimple.php";
-		array_push($this->keyWords, new ASS_AnswerSimple($answertext, $points, $answerorder, $correctness));
-	}
-	
 	/**
 	* Duplicates an ASS_TextQuestion
 	*
@@ -556,127 +506,6 @@ class ASS_TextQuestion extends ASS_Question
 		}
 	}
 
-
-	/**
-	* Adds possible keywords to the text question
-	*
-	* Adds possible keywords to the text question. A ASS_AnswerSimple object will 
-	* be created and assigned to the array $this->keyWords.
-	*
-	* @param string $answertext The answer text
-	* @param double $points The points for all correct answers (even negative points can be used)
-	* @param integer $order A possible display order of the answer
-	* @access public
-	* @see $keyWords
-	* @see ASS_AnswerSimple
-	*/
-	function add_answer(
-		$answertext = "",
-		$points = 0.0,
-		$order = 0
-	)
-	{
-		$found = -1;
-		foreach ($this->keyWords as $key => $value)
-		{
-			if ($value->get_order() == $order)
-			{
-				$found = $order;
-			}
-		}
-		include_once "./assessment/classes/class.assAnswerSimple.php";
-		if ($found >= 0)
-		{
-			// Antwort einfügen
-			$answer = new ASS_AnswerSimple($answertext, $points, $found);
-			array_push($this->keyWords, $answer);
-			for ($i = $found + 1; $i < count($this->keyWords); $i++)
-			{
-				$this->keyWords[$i] = $this->keyWords[$i-1];
-			}
-			$this->keyWords[$found] = $keyWords;
-		}
-		else
-		{
-			// Anwort anhängen
-			$answer = new ASS_AnswerSimple($answertext, $points, count($this->answers));
-			array_push($this->keyWords, $answer);
-		}
-	}
-
-	/**
-	* Returns the number of keywords
-	*
-	* Returns the number of keywords
-	*
-	* @return integer The number of keywords of the text question
-	* @access public
-	* @see $keyWords
-	*/
-	function get_answer_count()
-	{
-		return count($this->keyWords);
-	}
-
-	/**
-	* Returns an keyword
-	*
-	* Returns an keyword with a given index. The index of the first
-	* answer is 0, the index of the second answer is 1 and so on.
-	*
-	* @param integer $index A nonnegative index of the n-th keyword
-	* @return object ASS_AnswerSimple-Object containing the keyword
-	* @access public
-	* @see $keyWords
-	*/
-	function get_answer($index = 0)
-	{
-		if ($index < 0) return NULL;
-		if (count($this->keyWords) < 1) return NULL;
-		if ($index >= count($this->keyWords)) return NULL;
-
-		return $this->keyWords[$index];
-	}
-
-	/**
-	* Deletes an keyword
-	*
-	* Deletes an keyword with a given index. The index of the first
-	* answer is 0, the index of the second answer is 1 and so on.
-	*
-	* @param integer $index A nonnegative index of the n-th keyword
-	* @access public
-	* @see $keyWords
-	*/
-	function delete_answer($index = 0)
-	{
-		if ($index < 0) return;
-		if (count($this->keyWords) < 1) return;
-		if ($index >= count($this->keyWords)) return;
-		unset($this->keyWords[$index]);
-		$this->keyWords = array_values($this->keyWords);
-		for ($i = 0; $i < count($this->keyWords); $i++)
-		{
-			if ($this->keyWords[$i]->get_order() > $index)
-			{
-				$this->keyWords[$i]->set_order($i);
-			}
-		}
-	}
-
-	/**
-	* Deletes all keywords
-	*
-	* Deletes all keywords
-	*
-	* @access public
-	* @see $answers
-	*/
-	function flush_answers()
-	{
-		$this->keyWords = array();
-	}
-
 	/**
 	* Sets the maximum number of characters for the text solution
 	*
@@ -799,38 +628,39 @@ class ASS_TextQuestion extends ASS_Question
 		global $ilDB;
 
 		$points = 0;
-		$found_values = array(); 
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($user_id, $test_id);
 		}
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($pass . "")
 		);
-		$result = $ilDB->query($query);
-		
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1)
 		{
-			if (strcmp(data->value1, "")
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["points"])
 			{
-				array_push($found_values, $data->value1);
+				$points = $row["points"];
 			}
-		}
-		if (count($found_values) > 0)
-		{
-			foreach ($found_values as $key => $value)
+			else
 			{
-				if (in_array($this->keyWords[$key], $found_values) AND !in_array($found_values, $pass_values)
+				$keywords =& $this->getKeywordList();
+				if (count($keywords))
 				{
-					array_push($pass_values, $found_values);
-					$points += $answer;
+					$foundall = true;
+					foreach ($keywords as $keyword)
+					{
+						$pos = strpos(utf8_decode($row["value1"]), utf8_decode($keyword));
+						if ($pos === false) $foundall = false;
+					}
+					if ($foundall) $points = $this->getMaximumPoints();
 				}
 			}
 		}
-
 
 		// check for special scoring options in test
 		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
@@ -854,49 +684,6 @@ class ASS_TextQuestion extends ASS_Question
 		}
 		return $points;
 	}
-
-	/**
-	* Returns if the question was answered by a user or not
-	*
-	* Returns if the question was answered by a user or not
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @return boolean
-	* @access public
-	*/
-	function wasAnsweredByUser($user_id, $test_id, $pass = NULL)
-	{
-		global $ilDB;
-		$found_values = array();
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
-		);
-		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (strcmp($data->value1, "") != 0)
-			{
-				array_push($found_values, $data->value1);
-			}
-		}
-		if (count($found_values) == 0)
-		{
-			return FALSE;
-		}
-		else
-		{
-			return TRUE;
-		}
-	}
-
 
 	/**
 	* Returns the evaluation data, a learner has entered to answer the question
@@ -987,7 +774,7 @@ class ASS_TextQuestion extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, keywords = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
 				$db->quote($this->comment. ""),
@@ -995,6 +782,7 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($this->question. ""),
 				$db->quote($estw_time. ""),
 				$db->quote($this->maxNumOfChars. ""),
+				$db->quote($this->getKeywords() . ""),
 				$db->quote($complete. ""),
 				$db->quote($this->original_id. "")
 			);
@@ -1002,6 +790,10 @@ class ASS_TextQuestion extends ASS_Question
 
 			parent::syncWithOriginal();
 		}
+	}
+
+	function createRandomSolution($test_id, $user_id)
+	{
 	}
 
 	/**
@@ -1015,6 +807,53 @@ class ASS_TextQuestion extends ASS_Question
 	function getQuestionType()
 	{
 		return 8;
+	}
+	
+	/**
+	* Returns the keywords of the question
+	*
+	* Returns the keywords of the question
+	*
+	* @return string The keywords of the question
+	* @access public
+	*/
+	function getKeywords()
+	{
+		return $this->keywords;
+	}
+	
+	/**
+	* Sets the keywords of the question
+	*
+	* Sets the keywords of the question
+	*
+	* @param string $a_keywords The keywords of the question
+	* @access public
+	*/
+	function setKeywords($a_keywords)
+	{
+		$this->keywords = $a_keywords;
+	}
+	
+	/**
+	* Returns the keywords of the question in an array
+	*
+	* Returns the keywords of the question in an array
+	*
+	* @return array The keywords of the question
+	* @access public
+	*/
+	function &getKeywordList()
+	{
+		$keywords = array();
+		if (preg_match_all("/([^\s]+)/", $this->keywords, $matches))
+		{
+			foreach ($matches[1] as $keyword)
+			{
+				array_push($keywords, trim($keyword));
+			}
+		}
+		return $keywords;
 	}
 }
 

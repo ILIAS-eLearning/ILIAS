@@ -50,18 +50,14 @@
   <td class="option"><label for="points">{TEXT_POINTS}</label><span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="4"><input name="points" type="text" value="{VALUE_POINTS}" id="points" size="5" /></td>
 </tr>
-<tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
-<!-- BEGIN answers -->
 <tr>
-  <td class="option">{TEXT_KEYWORD_TEXT} {VALUE_KEYWORD_COUNTER}:</td>
-  <td class="option_value" width="50%"><input class="fullwidth" name="keyword_{KEYWORD_ORDER}" type="text" id="keyword_{KEYWORD_ORDER}" size="30" value="{VALUE_KEYWORD}" /></td>
-  <td class="option_value" colspan="2">
-<!-- BEGIN deletebutton -->
-<div align="right"><input type="submit" class="submit" name="cmd[delete_{KEYWORD_ORDER}]" value="{DELETE}" /></div>
-<!-- END deletebutton -->
-</td>
+	<td class="option"><label for="keywords">{TEXT_KEYWORDS}</label>:</td>
+  <td class="option_value" colspan="4">
+		<textarea class="fullwidth" name="keywords" cols="40" rows="10" id="keywords">{VALUE_KEYWORDS}</textarea>
+		<br />
+		<span class="small">{TEXT_KEYWORDS_HINT}</span>
+	</td>
 </tr>
-<!-- END answers -->
 <tr><td colspan="5" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
