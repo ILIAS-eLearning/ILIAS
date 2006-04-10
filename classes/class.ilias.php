@@ -217,12 +217,16 @@ class ILIAS
 		define ("ROLE_FOLDER_ID",$this->ini->readVariable('system','ROLE_FOLDER_ID'));
 		define ("MAIL_SETTINGS_ID",$this->ini->readVariable('system','MAIL_SETTINGS_ID'));
 
+		define ("SYSTEM_MAIL_ADDRESS",$this->ini->readVariable('system','MAIL_SENT_ADDRESS')); // Change SS
+		define ("MAIL_REPLY_WARNING",$this->ini->readVariable('system','MAIL_REPLY_WARNING')); // Change SS
+
 		define ("MAXLENGTH_OBJ_TITLE",$this->ini->readVariable('system','MAXLENGTH_OBJ_TITLE'));
 		define ("MAXLENGTH_OBJ_DESC",$this->ini->readVariable('system','MAXLENGTH_OBJ_DESC'));
 
 		define ("CLIENT_DATA_DIR",ILIAS_DATA_DIR."/".$this->client_id);
 		define ("CLIENT_WEB_DIR",ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client_id);
 		define ("CLIENT_ID",$this->client_id);
+		define ("CLIENT_NAME",$this->ini->readVariable('client','name')); // Change SS
 
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").

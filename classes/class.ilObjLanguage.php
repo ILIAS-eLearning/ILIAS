@@ -248,6 +248,8 @@ class ilObjLanguage extends ilObject
 	 */
 	function insert($scope = '')
 	{
+		global $ilDB;
+		
 		if (!empty($scope))
 		{
 			if ($scope == 'global')
@@ -289,6 +291,7 @@ class ilObjLanguage extends ilObject
 								"(module, identifier, lang_key, value) " .
 								"VALUES " .
 								"('" . $separated[0] . "','" . $separated[1] . "','" . $this->key . "','" . addslashes($separated[2]) . "')";
+						$lang_array[$separated[0]][$separated[1]] = $separated[2];
 					}
 					else if ($scope == 'local')
 					{
@@ -301,6 +304,7 @@ class ilObjLanguage extends ilObject
 								 "WHERE module = '" . $separated[0] . "' " .
 								 "AND identifier = '" . $separated[1] . "' " .
 								 "AND lang_key = '" . $this->key . "'";
+						$lang_array[$separated[0]][$separated[1]] = $separated[2];
 					}
 					$this->ilias->db->query($query);
 				}
@@ -322,6 +326,32 @@ class ilObjLanguage extends ilObject
 							"AND type = 'lng'";
 				}
 				$this->ilias->db->query($query);
+			}
+			
+			// insert module data
+			$lang_array[$separated[0]][$separated[1]] = $separated[2];
+
+			foreach($lang_array as $module => $lang_arr)
+			{
+				if ($scope == "local")
+				{
+					$q = "SELECT * FROM lng_modules WHERE ".
+						" lang_key = ".$ilDB->quote($this->key).
+						" AND module = ".$ilDB->quote($module);
+					$set = $ilDB->query($q);
+					$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+					$arr2 = unserialize($row["lang_array"]);
+					if (is_array($arr2))
+					{
+						$lang_arr = array_merge($arr2, $lang_arr);
+					}
+				}
+				$query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
+					 "(".$ilDB->quote($this->key).", " .
+					 " ".$ilDB->quote($module).", " . 
+					 " ".$ilDB->quote(serialize($lang_arr)).") ";
+				$ilDB->query($query);
+
 			}
 		}
 

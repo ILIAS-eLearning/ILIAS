@@ -10098,5 +10098,16 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#668>
+CREATE TABLE lng_modules
+(
+	module varchar(30) not null,
+	lang_key varchar(2) not null,
+	lang_array mediumtext,
+	primary key (module, lang_key)
+);
+<#669>
+ALTER TABLE style_data ADD PRIMARY KEY (id);
+ALTER TABLE style_data ADD COLUMN standard TINYINT(2) DEFAULT 0;
+ALTER TABLE style_data ADD COLUMN category INT;
 

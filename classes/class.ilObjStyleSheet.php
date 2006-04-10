@@ -95,7 +95,10 @@ class ilObjStyleSheet extends ilObject
 			" WHERE id = ".$ilDB->quote($a_id);
 		$ilDB->query($q);
 	}
-	
+
+	/**
+	* 
+	*/
 	function _lookupUpToDate($a_id)
 	{
 		global $ilDB;
@@ -108,7 +111,33 @@ class ilObjStyleSheet extends ilObject
 		return (boolean) $sty["uptodate"];
 	}
 
-	
+	/**
+	* write standard flag
+	*/
+	function _writeStandard($a_id, $a_std)
+	{
+		global $ilDB;
+
+		$q = "UPDATE style_data SET standard = ".$ilDB->quote((int) $a_std).
+			" WHERE id = ".$ilDB->quote($a_id);
+		$ilDB->query($q);
+	}
+
+	/**
+	* lookup standard flag
+	*/
+	function _lookupStandard($a_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM style_data ".
+			" WHERE id = ".$ilDB->quote($a_id);
+		$res = $ilDB->query($q);
+		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return (boolean) $sty["standard"];
+	}
+
 	/**
 	* assign meta data object
 	*/
