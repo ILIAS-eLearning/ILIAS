@@ -584,7 +584,7 @@ class ASS_TextQuestion extends ASS_Question
 	{
 		global $ilDB;
 		
-		if (($points > 0) && ($points <= $maxpoints))
+		if ($points <= $maxpoints)
 		{
 			if (is_null($pass))
 			{
