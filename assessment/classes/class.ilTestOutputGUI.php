@@ -982,7 +982,8 @@ class ilTestOutputGUI
 			
 		$this->object->setActiveTestUser(1, "", true);
 
-		if (($this->object->getTestType() != TYPE_VARYING_RANDOMTEST) && (!$this->object->canViewResults())) 
+		//if (($this->object->getTestType() != TYPE_VARYING_RANDOMTEST) && (!$this->object->canViewResults())) 
+		if (!$this->object->canViewResults()) 
 		{
 			$this->outIntroductionPage($maxprocessingtimereached);
 		}
@@ -1339,21 +1340,7 @@ class ilTestOutputGUI
 	 */
 	function showTestResults() 
 	{
-		return $_GET['crs_show_result'];// && $this->obj->canViewResults();
-	}
-	
-	/**
-	 * can show test results returns true if there exist results and the results may be viewed
-	 */
-	function canShowTestResults() 
-	{
-		$active = $this->object->getActiveTestUser();
-		$result = ($active->tries > 0) && $this->object->canViewResults();
-		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
-		{
-			return $result && $this->object->isActiveTestSubmitted();
-		}
-		return $result;
+		return $_GET['crs_show_result'];
 	}
 	
 	function outResults()

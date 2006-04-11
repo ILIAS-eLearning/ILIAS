@@ -4118,7 +4118,8 @@ class ilObjTestGUI extends ilObjectGUI
 				if (is_object($active))
 				{
 					// test results button
-					if (($this->object->getTestType() == TYPE_VARYING_RANDOMTEST) || ($this->object->canShowTestResults($ilUser->getId()))) 
+					//if (($this->object->getTestType() == TYPE_VARYING_RANDOMTEST) || ($this->object->canShowTestResults($ilUser->getId()))) 
+					if ($this->object->canShowTestResults($ilUser->getId())) 
 					{
 						$info->addFormButton("outResults", $this->lng->txt("tst_show_results"));
 					}

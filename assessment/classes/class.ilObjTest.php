@@ -6214,7 +6214,16 @@ class ilObjTest extends ilObject
 	function canShowTestResults($user_id) 
 	{
 		$active = $this->getActiveTestUser($user_id);
-		$result = ($active->tries > 0) && $this->canViewResults();
+		$starting_time = $this->getStartingTimeOfUser($user_id);
+		$notimeleft = FALSE;
+		if ($starting_time !== FALSE)
+		{
+			if ($this->isMaxProcessingTimeReached($starting_time))
+			{
+				$notimeleft = TRUE;
+			}
+		}
+		$result = (($active->tries > 0) || ($this->endingTimeReached()) || $notimeleft) && $this->canViewResults();
 		if ($this->getTestType() == TYPE_ONLINE_TEST)
 		{
 			return $result && $this->isActiveTestSubmitted();
