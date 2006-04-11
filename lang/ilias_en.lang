@@ -305,7 +305,7 @@ assessment#:#no_question_selected_for_move#:#Please check at least one question 
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
-assessment#:#nr_of_correct_answers#:#Number of correctly answered questions
+assessment#:#nr_of_correct_answers#:#Number of requested answers
 assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
 assessment#:#or#:#or
