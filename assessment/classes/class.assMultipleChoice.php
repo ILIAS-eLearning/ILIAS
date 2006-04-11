@@ -180,7 +180,7 @@ class ASS_MultipleChoice extends ASS_Question
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->get_question());
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		$attrs = array();
@@ -246,7 +246,7 @@ class ASS_MultipleChoice extends ASS_Question
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $answer->get_answertext());
+			$a_xml_writer->xmlElement("mattext", NULL, $answer->getAnswertext());
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
@@ -297,7 +297,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$attrs = array(
 				"action" => "Add"
 			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
+			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
 			// qti displayfeedback
 			if ($answer->isStateChecked())
 			{
@@ -470,9 +470,9 @@ class ASS_MultipleChoice extends ASS_Question
 				$answer_obj = $this->answers[$key];
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->id),
-				$db->quote($answer_obj->get_answertext()),
-				$db->quote($answer_obj->get_points() . ""),
-				$db->quote($answer_obj->get_order() . ""),
+				$db->quote($answer_obj->getAnswertext()),
+				$db->quote($answer_obj->getPoints() . ""),
+				$db->quote($answer_obj->getOrder() . ""),
 				$db->quote($answer_obj->getState() . "")
 				);
 				$answer_result = $db->query($query);
@@ -647,7 +647,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function get_question()
+	function getQuestion()
 	{
 		return $this->question;
 	}
@@ -661,7 +661,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function set_question($question = "")
+	function setQuestion($question = "")
 	{
 		$this->question = $question;
 	}
@@ -675,7 +675,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $response
 	*/
-	function get_response()
+	function getResponse()
 	{
 		return $this->response;
 	}
@@ -689,7 +689,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $response
 	*/
-	function set_response($response = "")
+	function setResponse($response = "")
 	{
 		$this->response = $response;
 	}
@@ -703,7 +703,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $output_type
 	*/
-	function get_output_type()
+	function getOutputType()
 	{
 		return $this->output_type;
 	}
@@ -717,7 +717,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $response
 	*/
-	function set_output_type($output_type = OUTPUT_ORDER)
+	function setOutputType($output_type = OUTPUT_ORDER)
 	{
 		$this->output_type = $output_type;
 	}
@@ -736,7 +736,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @see $answers
 	* @see ASS_AnswerBinaryState
 	*/
-	function add_answer(
+	function addAnswer(
 		$answertext = "",
 		$points = 0.0,
 		$state = 0,
@@ -746,7 +746,7 @@ class ASS_MultipleChoice extends ASS_Question
 		$found = -1;
 		foreach ($this->answers as $key => $value)
 		{
-			if ($value->get_order() == $order)
+			if ($value->getOrder() == $order)
 			{
 				$found = $order;
 			}
@@ -780,7 +780,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function get_answer_count()
+	function getAnswerCount()
 	{
 		return count($this->answers);
 	}
@@ -796,7 +796,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function get_answer($index = 0)
+	function getAnswer($index = 0)
 	{
 		if ($index < 0) return NULL;
 		if (count($this->answers) < 1) return NULL;
@@ -815,7 +815,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function delete_answer($index = 0)
+	function deleteAnswer($index = 0)
 	{
 		if ($index < 0) return;
 		if (count($this->answers) < 1) return;
@@ -824,9 +824,9 @@ class ASS_MultipleChoice extends ASS_Question
 		$this->answers = array_values($this->answers);
 		for ($i = 0; $i < count($this->answers); $i++)
 		{
-			if ($this->answers[$i]->get_order() > $index)
+			if ($this->answers[$i]->getOrder() > $index)
 			{
-				$this->answers[$i]->set_order($i);
+				$this->answers[$i]->setOrder($i);
 			}
 		}
 	}
@@ -839,7 +839,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function flush_answers()
+	function flushAnswers()
 	{
 		$this->answers = array();
 	}
@@ -855,13 +855,13 @@ class ASS_MultipleChoice extends ASS_Question
 	function getMaximumPoints()
 	{
 		$points = array("set" => 0, "unset" => 0);
-		if ($this->get_response() == RESPONSE_SINGLE)
+		if ($this->getResponse() == RESPONSE_SINGLE)
 		{
 			foreach ($this->answers as $key => $value) 
 			{
-				if ($value->get_points() > $points["set"])
+				if ($value->getPoints() > $points["set"])
 				{
-					$points["set"] = $value->get_points();
+					$points["set"] = $value->getPoints();
 				}
 			}
 			return $points["set"];
@@ -870,7 +870,7 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			$allpoints = 0;
 			foreach ($this->answers as $key => $value) {
-				$allpoints += $value->get_points();
+				$allpoints += $value->getPoints();
 			}
 			return $allpoints;
 		}
@@ -913,20 +913,20 @@ class ASS_MultipleChoice extends ASS_Question
 		$points = 0;
 		foreach ($this->answers as $key => $answer)
 		{
-			if ((count($found_values) > 0) || ($this->get_response() == RESPONSE_MULTIPLE))
+			if ((count($found_values) > 0) || ($this->getResponse() == RESPONSE_MULTIPLE))
 			{
 				if ($answer->isStateChecked())
 				{
 					if (in_array($key, $found_values))
 					{
-						$points += $answer->get_points();
+						$points += $answer->getPoints();
 					}
 				}
 				else
 				{
 					if (!in_array($key, $found_values))
 					{
-						$points += $answer->get_points();
+						$points += $answer->getPoints();
 					}
 				}
 			}
@@ -1044,7 +1044,7 @@ class ASS_MultipleChoice extends ASS_Question
 			if (strlen($value) > 0)
 			{
 				$solution["value"] = $value;
-				$solution["points"] = $this->answers[$value]->get_points();
+				$solution["points"] = $this->answers[$value]->getPoints();
 				if ($this->answers[$value]->isStateChecked())
 				{
 					$solution["true"] = 1;
@@ -1177,9 +1177,9 @@ class ASS_MultipleChoice extends ASS_Question
 					$answer_obj = $this->answers[$key];
 					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->original_id. ""),
-					$db->quote($answer_obj->get_answertext(). ""),
-					$db->quote($answer_obj->get_points() . ""),
-					$db->quote($answer_obj->get_order() . ""),
+					$db->quote($answer_obj->getAnswertext(). ""),
+					$db->quote($answer_obj->getPoints() . ""),
+					$db->quote($answer_obj->getOrder() . ""),
 					$db->quote($answer_obj->getState() . "")
 					);
 					$answer_result = $db->query($query);

@@ -165,7 +165,7 @@ class ASS_Numeric extends ASS_Question
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->get_question());
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		$attrs = array(
@@ -439,7 +439,7 @@ class ASS_Numeric extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function set_question($question = "")
+	function setQuestion($question = "")
 	{
 		$this->question = $question;
 	}
@@ -583,7 +583,7 @@ class ASS_Numeric extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function get_question()
+	function getQuestion()
 	{
 		return $this->question;
 	}

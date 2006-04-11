@@ -117,7 +117,7 @@ class ASS_AnswerSimple
 	* @access public
 	* @see $answertext
 	*/
-	function get_answertext()
+	function getAnswertext()
 	{
 	  //$tmpanswertext = "<![CDATA[".$this->answertext."]]>";
 	  $tmpanswertext = $this->answertext;
@@ -133,7 +133,7 @@ class ASS_AnswerSimple
 	* @access public
 	* @see $points
 	*/
-	function get_points()
+	function getPoints()
 	{
 		return $this->points;
 	}
@@ -147,7 +147,7 @@ class ASS_AnswerSimple
 	* @access public
 	* @see $order
 	*/
-	function get_order()
+	function getOrder()
 	{
 		return $this->order;
 	}
@@ -161,7 +161,7 @@ class ASS_AnswerSimple
 	* @access public
 	* @see $order
 	*/
-	function set_order($order = 0)
+	function setOrder($order = 0)
 	{
 		if ($order >= 0)
 		{
@@ -192,7 +192,7 @@ class ASS_AnswerSimple
 	* @access public
 	* @see $answertext
 	*/
-	function set_answertext($answertext = "")
+	function setAnswertext($answertext = "")
 	{
 		$this->answertext = $answertext;
 	}
@@ -206,7 +206,7 @@ class ASS_AnswerSimple
 	* @access public
 	* @see $points
 	*/
-	function set_points($points = 0.0)
+	function setPoints($points = 0.0)
 	{
 		$this->points = $points;
 	}

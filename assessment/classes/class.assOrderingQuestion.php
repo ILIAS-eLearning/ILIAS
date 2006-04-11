@@ -168,11 +168,11 @@ class ASS_OrderingQuestion extends ASS_Question
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->get_question());
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		$attrs = array();
-		if ($this->get_ordering_type() == OQ_PICTURES)
+		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$attrs = array(
 				"ident" => "OQP",
@@ -269,20 +269,20 @@ class ASS_OrderingQuestion extends ASS_Question
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			$a_xml_writer->xmlStartTag("material");
-			if ($this->get_ordering_type() == OQ_PICTURES)
+			if ($this->getOrderingType() == OQ_PICTURES)
 			{
 				if ($force_image_references)
 				{
 					$attrs = array(
 						"imagtype" => $imagetype,
-						"label" => $answer->get_answertext(),
-						"uri" => $this->getImagePathWeb() . $answer->get_answertext()
+						"label" => $answer->getAnswertext(),
+						"uri" => $this->getImagePathWeb() . $answer->getAnswertext()
 					);
 					$a_xml_writer->xmlElement("matimage", $attrs);
 				}
 				else
 				{
-					$imagepath = $this->getImagePath() . $answer->get_answertext();
+					$imagepath = $this->getImagePath() . $answer->getAnswertext();
 					$fh = @fopen($imagepath, "rb");
 					if ($fh != false)
 					{
@@ -290,13 +290,13 @@ class ASS_OrderingQuestion extends ASS_Question
 						fclose($fh);
 						$base64 = base64_encode($imagefile);
 						$imagetype = "image/jpeg";
-						if (preg_match("/.*\.(png|gif)$/", $answer->get_answertext(), $matches))
+						if (preg_match("/.*\.(png|gif)$/", $answer->getAnswertext(), $matches))
 						{
 							$imagetype = "image/".$matches[1];
 						}
 						$attrs = array(
 							"imagtype" => $imagetype,
-							"label" => $answer->get_answertext(),
+							"label" => $answer->getAnswertext(),
 							"embedded" => "base64"
 						);
 						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
@@ -305,7 +305,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			}
 			else
 			{
-				$a_xml_writer->xmlElement("mattext", NULL, $answer->get_answertext());
+				$a_xml_writer->xmlElement("mattext", NULL, $answer->getAnswertext());
 			}
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
@@ -331,7 +331,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
 			$attrs = array();
-			if ($this->get_ordering_type() == OQ_PICTURES)
+			if ($this->getOrderingType() == OQ_PICTURES)
 			{
 				$attrs = array(
 					"respident" => "OQP"
@@ -343,14 +343,14 @@ class ASS_OrderingQuestion extends ASS_Question
 					"respident" => "OQT"
 				);
 			}
-			$attrs["index"] = $answer->get_solution_order();
+			$attrs["index"] = $answer->getSolutionOrder();
 			$a_xml_writer->xmlElement("varequal", $attrs, $index);
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti setvar
 			$attrs = array(
 				"action" => "Add"
 			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
+			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
 			// qti displayfeedback
 			$attrs = array(
 				"feedbacktype" => "Response",
@@ -490,10 +490,10 @@ class ASS_OrderingQuestion extends ASS_Question
 				$answer_obj = $this->answers[$key];
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, solution_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->id),
-					$db->quote($answer_obj->get_answertext() . ""),
-					$db->quote($answer_obj->get_points() . ""),
-					$db->quote($answer_obj->get_order() . ""),
-					$db->quote($answer_obj->get_solution_order() . "")
+					$db->quote($answer_obj->getAnswertext() . ""),
+					$db->quote($answer_obj->getPoints() . ""),
+					$db->quote($answer_obj->getOrder() . ""),
+					$db->quote($answer_obj->getSolutionOrder() . "")
 				);
 				$answer_result = $db->query($query);
 			}
@@ -653,7 +653,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	
 	function duplicateImages($question_id)
 	{
-		if ($this->get_ordering_type() == OQ_PICTURES)
+		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
 			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
@@ -662,7 +662,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			}
 			foreach ($this->answers as $answer)
 			{
-				$filename = $answer->get_answertext();
+				$filename = $answer->getAnswertext();
 				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
 					print "image could not be duplicated!!!! ";
 				}
@@ -675,7 +675,7 @@ class ASS_OrderingQuestion extends ASS_Question
 
 	function copyImages($question_id, $source_questionpool)
 	{
-		if ($this->get_ordering_type() == OQ_PICTURES)
+		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
 			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
@@ -685,7 +685,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			}
 			foreach ($this->answers as $answer)
 			{
-				$filename = $answer->get_answertext();
+				$filename = $answer->getAnswertext();
 				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
 					print "image could not be copied!!!! ";
 				}
@@ -705,7 +705,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function set_question($question = "")
+	function setQuestion($question = "")
 	{
 		$this->question = $question;
 	}
@@ -719,7 +719,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $ordering_type
 	*/
-	function set_ordering_type($ordering_type = OQ_TERMS)
+	function setOrderingType($ordering_type = OQ_TERMS)
 	{
 		$this->ordering_type = $ordering_type;
 	}
@@ -733,7 +733,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function get_question()
+	function getQuestion()
 	{
 		return $this->question;
 	}
@@ -747,7 +747,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $ordering_type
 	*/
-	function get_ordering_type()
+	function getOrderingType()
 	{
 		return $this->ordering_type;
 	}
@@ -767,7 +767,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @see $answers
 	* @see ASS_AnswerOrdering
 	*/
-	function add_answer(
+	function addAnswer(
 		$answertext = "",
 		$points = 0.0,
 		$order = 0,
@@ -777,7 +777,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		$found = -1;
 		foreach ($this->answers as $key => $value)
 		{
-			if ($value->get_order() == $order)
+			if ($value->getOrder() == $order)
 			{
 				$found = $order;
 			}
@@ -814,7 +814,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function get_answer($index = 0)
+	function getAnswer($index = 0)
 	{
 		if ($index < 0) return NULL;
 		if (count($this->answers) < 1) return NULL;
@@ -832,7 +832,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function delete_answer($index = 0)
+	function deleteAnswer($index = 0)
 	{
 		if ($index < 0)
 		{
@@ -850,9 +850,9 @@ class ASS_OrderingQuestion extends ASS_Question
 		$this->answers = array_values($this->answers);
 		for ($i = 0; $i < count($this->answers); $i++)
 		{
-			if ($this->answers[$i]->get_order() > $index)
+			if ($this->answers[$i]->getOrder() > $index)
 			{
-				$this->answers[$i]->set_order($i);
+				$this->answers[$i]->setOrder($i);
 			}
 		}
 	}
@@ -865,7 +865,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function flush_answers()
+	function flushAnswers()
 	{
 		$this->answers = array();
 	}
@@ -879,7 +879,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function get_answer_count()
+	function getAnswerCount()
 	{
 		return count($this->answers);
 	}
@@ -892,7 +892,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @return integer The maximum solution order of all ordering answers
 	* @access public
 	*/
-	function get_max_solution_order()
+	function getMaxSolutionOrder()
 	{
 		if (count($this->answers) == 0)
 		{
@@ -900,13 +900,13 @@ class ASS_OrderingQuestion extends ASS_Question
 		}
 		else
 		{
-			$max = $this->answers[0]->get_solution_order();
+			$max = $this->answers[0]->getSolutionOrder();
 		}
 		foreach ($this->answers as $key => $value)
 		{
-			if ($value->get_solution_order() > $max)
+			if ($value->getSolutionOrder() > $max)
 			{
-				$max = $value->get_solution_order();
+				$max = $value->getSolutionOrder();
 			}
 		}
 		return $max;
@@ -953,7 +953,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		$answer_order = array();
 		foreach ($this->answers as $key => $answer)
 		{
-			$answer_order[$answer->get_solution_order()] = $key;
+			$answer_order[$answer->getSolutionOrder()] = $key;
 		}
 		ksort($answer_order);
 		$answer_order = array_values($answer_order);
@@ -964,7 +964,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			{
 				if ($answer_id == $user_order[$index])
 				{
-					$points += $this->answers[$answer_id]->get_points();
+					$points += $this->answers[$answer_id]->getPoints();
 				}
 			}
 		}
@@ -1041,7 +1041,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		$points = 0;
 		foreach ($this->answers as $key => $value)
 		{
-			$points += $value->get_points();
+			$points += $value->getPoints();
 		}
 		return $points;
 	}
@@ -1056,7 +1056,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @return integer An errorcode if the image upload fails, 0 otherwise
 	* @access public
 	*/
-	function set_image_file($image_filename, $image_tempfilename = "")
+	function setImageFile($image_filename, $image_tempfilename = "")
 	{
 		$result = 0;
 		if (!empty($image_tempfilename))
@@ -1249,10 +1249,10 @@ class ASS_OrderingQuestion extends ASS_Question
 					$answer_obj = $this->answers[$key];
 					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, solution_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 						$db->quote($this->original_id . ""),
-						$db->quote($answer_obj->get_answertext() . ""),
-						$db->quote($answer_obj->get_points() . ""),
-						$db->quote($answer_obj->get_order() . ""),
-						$db->quote($answer_obj->get_solution_order() . "")
+						$db->quote($answer_obj->getAnswertext() . ""),
+						$db->quote($answer_obj->getPoints() . ""),
+						$db->quote($answer_obj->getOrder() . ""),
+						$db->quote($answer_obj->getSolutionOrder() . "")
 					);
 					$answer_result = $db->query($query);
 				}

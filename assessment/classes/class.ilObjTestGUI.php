@@ -2578,7 +2578,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function addMarkStepObject()
 	{
 		$this->saveMarkSchemaFormData();
-		$this->object->mark_schema->add_mark_step();
+		$this->object->mark_schema->addMarkStep();
 		$this->marksObject();
 	}
 
@@ -2594,7 +2594,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->mark_schema->flush();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/mark_short_(\d+)/", $key, $matches)) {
-				$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["passed_$matches[1]"]);
+				$this->object->mark_schema->addMarkStep($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["passed_$matches[1]"]);
 			}
 		}
 		$this->object->ects_grades["A"] = $_POST["ects_grade_a"];
@@ -2622,7 +2622,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function addSimpleMarkSchemaObject()
 	{
-		$this->object->mark_schema->create_simple_schema($this->lng->txt("failed_short"), $this->lng->txt("failed_official"), 0, 0, $this->lng->txt("passed_short"), $this->lng->txt("passed_official"), 50, 1);
+		$this->object->mark_schema->createSimpleSchema($this->lng->txt("failed_short"), $this->lng->txt("failed_official"), 0, 0, $this->lng->txt("passed_short"), $this->lng->txt("passed_official"), 50, 1);
 		$this->marksObject();
 	}
 	
@@ -2643,7 +2643,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		if (count($delete_mark_steps)) {
-			$this->object->mark_schema->delete_mark_steps($delete_mark_steps);
+			$this->object->mark_schema->deleteMarkSteps($delete_mark_steps);
 		} else {
 			sendInfo($this->lng->txt("tst_delete_missing_mark"));
 		}
@@ -2745,13 +2745,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$counter = 0;
 		foreach ($marks as $key => $value) {
 			$this->tpl->setCurrentBlock("markrow");
-			$this->tpl->setVariable("MARK_SHORT", $value->get_short_name());
-			$this->tpl->setVariable("MARK_OFFICIAL", $value->get_official_name());
-			$this->tpl->setVariable("MARK_PERCENTAGE", sprintf("%.2f", $value->get_minimum_level()));
+			$this->tpl->setVariable("MARK_SHORT", $value->getShortName());
+			$this->tpl->setVariable("MARK_OFFICIAL", $value->getOfficialName());
+			$this->tpl->setVariable("MARK_PERCENTAGE", sprintf("%.2f", $value->getMinimumLevel()));
 			$this->tpl->setVariable("MARK_PASSED", strtolower($this->lng->txt("tst_mark_passed")));
 			$this->tpl->setVariable("MARK_ID", "$key");
 			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
-			if ($value->get_passed()) {
+			if ($value->getPassed()) {
 				$this->tpl->setVariable("MARK_PASSED_CHECKED", " checked=\"checked\"");
 			}
 			$this->tpl->parseCurrentBlock();
@@ -3843,10 +3843,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TOTAL_REACHED_POINTS",  $total_reached);
 		$this->tpl->setVariable("TOTAL_PERCENT_SOLVED", sprintf("%01.2f",$percentage)." %");
 
-		$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
+		$mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
 		if ($mark_obj)
 		{
-			$mark .= "<br /><strong>" . $this->lng->txt("tst_mark") . ": &quot;" . $mark_obj->get_official_name() . "&quot;</strong>";
+			$mark .= "<br /><strong>" . $this->lng->txt("tst_mark") . ": &quot;" . $mark_obj->getOfficialName() . "&quot;</strong>";
 		}
 		if ($this->object->ects_output)
 		{

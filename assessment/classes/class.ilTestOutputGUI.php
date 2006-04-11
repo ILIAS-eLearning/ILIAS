@@ -1449,10 +1449,10 @@ class ilTestOutputGUI
 
 		if ($this->object->canViewResults())
 		{
-			$mark_obj = $this->object->mark_schema->get_matching_mark($result_percentage);
+			$mark_obj = $this->object->mark_schema->getMatchingMark($result_percentage);
 			if ($mark_obj)
 			{
-				if ($mark_obj->get_passed()) 
+				if ($mark_obj->getPassed()) 
 				{
 					$mark = $this->lng->txt("tst_result_congratulations");
 				} 
@@ -1460,7 +1460,7 @@ class ilTestOutputGUI
 				{
 					$mark = $this->lng->txt("tst_result_sorry");
 				}
-				$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
+				$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->getOfficialName() . "&quot;";
 			}
 			if ($this->object->ects_output)
 			{
@@ -1646,10 +1646,10 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
 		{
-			$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
+			$mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
 			if ($mark_obj)
 			{
-				if ($mark_obj->get_passed()) 
+				if ($mark_obj->getPassed()) 
 				{
 					$mark = $this->lng->txt("tst_result_congratulations");
 				} 
@@ -1657,7 +1657,7 @@ class ilTestOutputGUI
 				{
 					$mark = $this->lng->txt("tst_result_sorry");
 				}
-				$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
+				$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->getOfficialName() . "&quot;";
 			}
 			if ($this->object->ects_output)
 			{

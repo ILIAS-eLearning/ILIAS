@@ -475,13 +475,13 @@ class ilObjQuestionPool extends ilObject
 			case "qt_multiple_choice_sr":
 				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 				$question =& new ASS_MultipleChoiceGUI();
-				$question->object->set_response(RESPONSE_SINGLE);
+				$question->object->setResponse(RESPONSE_SINGLE);
 				break;
 
 			case "qt_multiple_choice_mr":
 				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 				$question =& new ASS_MultipleChoiceGUI();
-				$question->object->set_response(RESPONSE_MULTIPLE);
+				$question->object->setResponse(RESPONSE_MULTIPLE);
 				break;
 
 			case "qt_cloze":

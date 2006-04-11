@@ -680,7 +680,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 //echo "<br>ilObjQuestionPoolGUI->questionObject()";
 		$type = $_GET["sel_question_types"];
 		$this->editQuestionForm($type);
-		//$this->set_question_form($type, $_GET["edit"]);
 	}
 
 	/**

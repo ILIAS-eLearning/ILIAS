@@ -974,11 +974,11 @@ class ilTestEvaluationGUI
 				{
 					$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
 				}
-				$mark = $this->object->mark_schema->get_matching_mark($pct);
+				$mark = $this->object->mark_schema->getMatchingMark($pct);
 				$mark_short_name = "";
 				if ($mark)
 				{
-					$mark_short_name = $mark->get_short_name();
+					$mark_short_name = $mark->getShortName();
 				}
 				array_push($evalrow, array(
 					"html" => $mark_short_name,

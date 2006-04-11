@@ -102,7 +102,7 @@ class ASS_Mark {
 * @access public
 * @see $short_name
 */
-  function get_short_name() {
+  function getShortName() {
     return $this->short_name;
   }
   
@@ -115,7 +115,7 @@ class ASS_Mark {
 * @access public
 * @see $passed
 */
-  function get_passed() {
+  function getPassed() {
     return $this->passed;
   }
   
@@ -128,7 +128,7 @@ class ASS_Mark {
 * @access public
 * @see $official_name
 */
-  function get_official_name() {
+  function getOfficialName() {
     return $this->official_name;
   }
   
@@ -141,7 +141,7 @@ class ASS_Mark {
 * @access public
 * @see $minimum_level
 */
-  function get_minimum_level() {
+  function getMinimumLevel() {
     return $this->minimum_level;
   }
   
@@ -154,7 +154,7 @@ class ASS_Mark {
 * @access public
 * @see $short_name
 */
-  function set_short_name($short_name = "") {
+  function setShortName($short_name = "") {
     $this->short_name = $short_name;
   }
 
@@ -167,7 +167,7 @@ class ASS_Mark {
 * @access public
 * @see $passed
 */
-  function set_passed($passed = 0) {
+  function setPassed($passed = 0) {
     $this->passed = $passed;
   }
 
@@ -180,7 +180,7 @@ class ASS_Mark {
 * @access public
 * @see $official_name
 */
-  function set_official_name($official_name = "") {
+  function setOfficialName($official_name = "") {
     $this->official_name = $official_name;
   }
 
@@ -193,7 +193,7 @@ class ASS_Mark {
 * @access public
 * @see $minimum_level
 */
-  function set_minimum_level($minimum_level = 0) {
+  function setMinimumLevel($minimum_level = 0) {
     if (($minmum_level >= 0) and ($minimum_level <= 100))
       $this->minimum_level = $minimum_level;
   }

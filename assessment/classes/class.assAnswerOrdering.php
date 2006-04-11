@@ -79,7 +79,7 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 * @access public
 * @see $solution_order
 */
-  function get_solution_order() {
+  function getSolutionOrder() {
     return $this->solution_order;
   }
   
@@ -92,7 +92,7 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 * @access public
 * @see $solution_order
 */
-  function set_solution_order($solution_order = 0) {
+  function setSolutionOrder($solution_order = 0) {
     $this->solution_order = $solution_order;
   }
 }

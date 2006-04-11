@@ -73,7 +73,7 @@ class ASS_MarkSchema
 * @access public
 * @see $mark_steps
 */
-  function create_simple_schema(
+  function createSimpleSchema(
     $txt_failed_short = "failed", 
     $txt_failed_official = "failed", 
     $percentage_failed = 0,
@@ -85,8 +85,8 @@ class ASS_MarkSchema
   )
   {
     $this->flush();
-    $this->add_mark_step($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
-    $this->add_mark_step($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed);
+    $this->addMarkStep($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
+    $this->addMarkStep($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed);
   }
 
 /**
@@ -102,7 +102,7 @@ class ASS_MarkSchema
 * @access public
 * @see $mark_steps
 */
-  function add_mark_step(
+  function addMarkStep(
     $txt_short = "", 
     $txt_official = "", 
     $percentage = 0,
@@ -157,10 +157,10 @@ class ASS_MarkSchema
 		{
       $query = sprintf("INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
         $db->quote($test_id),
-        $db->quote($value->get_short_name()), 
-        $db->quote($value->get_official_name()), 
-        $db->quote($value->get_minimum_level()),
-        $db->quote(sprintf("%d", $value->get_passed()))
+        $db->quote($value->getShortName()), 
+        $db->quote($value->getOfficialName()), 
+        $db->quote($value->getMinimumLevel()),
+        $db->quote(sprintf("%d", $value->getPassed()))
       );
       $result = $db->query($query);
       if ($result == DB_OK) {
@@ -249,7 +249,7 @@ class ASS_MarkSchema
     $result = $db->query($query);
     if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        $this->add_mark_step($data->short_name, $data->official_name, $data->minimum_level, $data->passed);
+        $this->addMarkStep($data->short_name, $data->official_name, $data->minimum_level, $data->passed);
       }
     }
   }
@@ -276,15 +276,15 @@ class ASS_MarkSchema
 */
   function sort() {
     function level_sort($a, $b) {
-      if ($a->get_minimum_level() == $b->get_minimum_level()) {
-        $res = strcmp($a->get_short_name(), $b->get_short_name());
+      if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
+        $res = strcmp($a->getShortName(), $b->getShortName());
         if ($res == 0) {
-          return strcmp($a->get_official_name(), $b->get_official_name());
+          return strcmp($a->getOfficialName(), $b->getOfficialName());
         } else {
           return $res;
         }
       }
-      return ($a->get_minimum_level() < $b->get_minimum_level()) ? -1 : 1;
+      return ($a->getMinimumLevel() < $b->getMinimumLevel()) ? -1 : 1;
     }
     
     usort($this->mark_steps, 'level_sort');
@@ -299,7 +299,7 @@ class ASS_MarkSchema
 * @access public
 * @see $mark_steps
 */
-  function delete_mark_step($index = 0) {
+  function deleteMarkStep($index = 0) {
     if ($index < 0) return;
     if (count($this->mark_steps) < 1) return;
     if ($index >= count($this->mark_steps)) return;
@@ -316,7 +316,7 @@ class ASS_MarkSchema
 * @access public
 * @see $mark_steps
 */
-  function delete_mark_steps($indexes) {
+  function deleteMarkSteps($indexes) {
     foreach ($indexes as $key => $index) {
       if (!(($index < 0) or (count($this->mark_steps) < 1))) {
         unset($this->mark_steps[$index]);
@@ -335,9 +335,9 @@ class ASS_MarkSchema
 * @access public
 * @see $mark_steps
 */
-  function get_matching_mark($percentage) {
+  function getMatchingMark($percentage) {
     for ($i = count($this->mark_steps) - 1; $i >= 0; $i--) {
-      if ($percentage >= $this->mark_steps[$i]->get_minimum_level()) {
+      if ($percentage >= $this->mark_steps[$i]->getMinimumLevel()) {
         return $this->mark_steps[$i];
       }
     }
@@ -358,11 +358,11 @@ class ASS_MarkSchema
 		$minimum_percentage = 100;
 		$passed = 0;
     for ($i = 0; $i < count($this->mark_steps); $i++) {
-			if ($this->mark_steps[$i]->get_minimum_level() < $minimum_percentage)
+			if ($this->mark_steps[$i]->getMinimumLevel() < $minimum_percentage)
 			{
-				$minimum_percentage = $this->mark_steps[$i]->get_minimum_level();
+				$minimum_percentage = $this->mark_steps[$i]->getMinimumLevel();
 			}
-			if ($this->mark_steps[$i]->get_passed())
+			if ($this->mark_steps[$i]->getPassed())
 			{
 				$passed++;
 			}

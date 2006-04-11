@@ -99,9 +99,9 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("ROWCLASS", $rows[$rowcounter % 2]);
 			$answer = $this->object->getAnswer($i);
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
-			$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
+			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
+			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
 			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 			$this->tpl->parseCurrentBlock();
 			$rowcounter++;
@@ -209,7 +209,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_TEXTSUBSET_AUTHOR", htmlspecialchars($this->object->getAuthor()));
 		$this->tpl->setVariable("VALUE_CORRECTANSWERS", $this->object->getCorrectAnswers());
 		$this->tpl->setVariable("VALUE_POINTS", $this->object->getPoints());
-		$questiontext = $this->object->get_question();
+		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
@@ -389,7 +389,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
-		$this->object->set_question($questiontext);
+		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setCorrectAnswers($_POST["correctanswers"]);
 		$this->object->setTextRating($_POST["text_rating"]);
@@ -535,14 +535,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		if ($this->object->get_response() == RESPONSE_SINGLE)
-		{
-			$this->getQuestionTemplate("qt_multiple_choice_sr");
-		}
-		else
-		{
-			$this->getQuestionTemplate("qt_multiple_choice_mr");
-		}
+		$this->getQuestionTemplate("qt_textsubset");
 		parent::addSuggestedSolution();
 	}
 	

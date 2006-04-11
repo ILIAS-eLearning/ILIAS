@@ -101,22 +101,22 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
 
 		// Output of existing answers
-		for ($i = 0; $i < $this->object->get_answer_count(); $i++)
+		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
 		{
 			$this->tpl->setCurrentBlock("deletebutton");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("ANSWER_ORDER", $i);
 			$this->tpl->parseCurrentBlock();
 
-			$thisanswer = $this->object->get_answer($i);
-			if ($this->object->get_ordering_type() == OQ_PICTURES)
+			$thisanswer = $this->object->getAnswer($i);
+			if ($this->object->getOrderingType() == OQ_PICTURES)
 			{
 				$this->tpl->setCurrentBlock("order_pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->getOrder() + 1);
 				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
 
-				$filename = $thisanswer->get_answertext();
+				$filename = $thisanswer->getAnswertext();
 				$extension = "jpg";
 				if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $filename, $matches))
 				{
@@ -124,52 +124,52 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				}
 				if ($filename)
 				{
-					$imagepath = $this->object->getImagePathWeb() . $thisanswer->get_answertext();
-					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", htmlspecialchars($thisanswer->get_answertext()));
+					$imagepath = $this->object->getImagePathWeb() . $thisanswer->getAnswertext();
+					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->getAnswertext() . "\" border=\"\" />");
+					$this->tpl->setVariable("IMAGE_FILENAME", htmlspecialchars($thisanswer->getAnswertext()));
 					$this->tpl->setVariable("VALUE_ANSWER", "");
-					//$thisanswer->get_answertext()
+					//$thisanswer->getAnswertext()
 				}
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			}
-			elseif ($this->object->get_ordering_type() == OQ_TERMS)
+			elseif ($this->object->getOrderingType() == OQ_TERMS)
 			{
 				$this->tpl->setCurrentBlock("order_terms");
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->getOrder() + 1);
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($thisanswer->get_answertext()));
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($thisanswer->getAnswertext()));
 			}
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("answers");
-			$anchor = "#answer_" . ($thisanswer->get_order() + 1);
+			$anchor = "#answer_" . ($thisanswer->getOrder() + 1);
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
-			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->get_order());
+			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->getOrder());
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-			$this->tpl->setVariable("VALUE_ORDER", $thisanswer->get_solution_order());
+			$this->tpl->setVariable("VALUE_ORDER", $thisanswer->getSolutionOrder());
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", $thisanswer->get_points()));
+			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", $thisanswer->getPoints()));
 			$this->tpl->parseCurrentBlock();
 		}
 
 		if (($this->ctrl->getCmd() == "addItem") and ($ok))
 		{
-			if ($this->object->get_ordering_type() == OQ_PICTURES)
+			if ($this->object->getOrderingType() == OQ_PICTURES)
 			{
 				$this->tpl->setCurrentBlock("order_pictures");
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
+				$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->getAnswerCount() + 1);
 				$this->tpl->setVariable("VALUE_ANSWER", "");
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
 			}
-			elseif ($this->object->get_ordering_type() == OQ_TERMS)
+			elseif ($this->object->getOrderingType() == OQ_TERMS)
 			{
 				$this->tpl->setCurrentBlock("order_terms");
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->getAnswerCount() + 1);
+				$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
 				$this->tpl->setVariable("VALUE_ASNWER", "");
 			}
 			$this->tpl->parseCurrentBlock();
@@ -178,10 +178,10 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setCurrentBlock("answers");
 			//$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-			$anchor = "#answer_" . ($this->object->get_answer_count() + 1);
+			$anchor = "#answer_" . ($this->object->getAnswerCount() + 1);
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
-			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
-			$this->tpl->setVariable("VALUE_ORDER", $this->object->get_max_solution_order() + 1);
+			$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
+			$this->tpl->setVariable("VALUE_ORDER", $this->object->getMaxSolutionOrder() + 1);
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
 			$this->tpl->parseCurrentBlock();
@@ -208,7 +208,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		switch ($this->ctrl->getCmd())
 		{
 			case "addItem":
-				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_ordering.answer_".($this->object->get_answer_count()).".focus(); document.frm_ordering.answer_".($this->object->get_answer_count()).".scrollIntoView(\"true\");"));
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_ordering.answer_".($this->object->getAnswerCount()).".focus(); document.frm_ordering.answer_".($this->object->getAnswerCount()).".scrollIntoView(\"true\");"));
 				break;
 			default:
 				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_ordering.title.focus();"));
@@ -235,18 +235,18 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_ORDERING_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-		$questiontext = $this->object->get_question();
+		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS", $this->lng->txt("order_terms"));
-		if ($this->object->get_ordering_type() == OQ_TERMS)
+		if ($this->object->getOrderingType() == OQ_TERMS)
 		{
 			$this->tpl->setVariable("SELECTED_TERMS", " selected=\"selected\"");
 		}
-		elseif ($this->object->get_ordering_type() == OQ_PICTURES)
+		elseif ($this->object->getOrderingType() == OQ_PICTURES)
 		{
 			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
 		}
@@ -330,7 +330,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		{
 			if (preg_match("/delete_(\d+)/", $key, $matches))
 			{
-				$this->object->delete_answer($matches[1]);
+				$this->object->deleteAnswer($matches[1]);
 			}
 		}
 		//$this->ctrl->redirect($this, "editQuestion"); works only on save
@@ -377,27 +377,27 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$saved = false;
 
 		// Delete all existing answers and create new answers from the form data
-		$this->object->flush_answers();
+		$this->object->flushAnswers();
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
-		$this->object->set_question($questiontext);
+		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
 
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
-		$this->object->set_ordering_type($_POST["ordering_type"]);
+		$this->object->setOrderingType($_POST["ordering_type"]);
 
 		// Add answers from the form
 		foreach ($_POST as $key => $value)
 		{
 			if (preg_match("/answer_(\d+)/", $key, $matches))
 			{
-				if ($this->object->get_ordering_type() == OQ_PICTURES)
+				if ($this->object->getOrderingType() == OQ_PICTURES)
 				{
 					if ($_FILES[$key]["tmp_name"])
 					{
@@ -410,7 +410,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 						}
 						$image_file = $_FILES[$key]["name"];
 						$image_file = str_replace(" ", "_", $image_file);
-						$upload_result = $this->object->set_image_file($image_file, $_FILES[$key]['tmp_name']);
+						$upload_result = $this->object->setImageFile($image_file, $_FILES[$key]['tmp_name']);
 						switch ($upload_result)
 						{
 							case 0:
@@ -438,7 +438,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				{
 					$points = 0.0;
 				}
-				$this->object->add_answer(
+				$this->object->addAnswer(
 					ilUtil::stripSlashes($_POST["$key"]),
 					ilUtil::stripSlashes($points),
 					ilUtil::stripSlashes($matches[1]),
@@ -582,24 +582,24 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
-			if ($this->object->get_ordering_type() == OQ_PICTURES)
+			if ($this->object->getOrderingType() == OQ_PICTURES)
 			{
 				foreach ($this->object->answers as $key => $answer)
 				{
 					$extension = "jpg";
-					if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $answer->get_answertext(), $matches))
+					if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $answer->getAnswertext(), $matches))
 					{
 						$extension = $matches[1];
 					}
-					$sizethumb = GetImageSize ($this->object->getImagePath() . $answer->get_answertext() . ".thumb.jpg");
-					$sizeorig = GetImageSize ($this->object->getImagePath() . $answer->get_answertext());
+					$sizethumb = GetImageSize ($this->object->getImagePath() . $answer->getAnswertext() . ".thumb.jpg");
+					$sizeorig = GetImageSize ($this->object->getImagePath() . $answer->getAnswertext());
 					if ($sizethumb[0] >= $sizeorig[0])
 					{
 						// thumbnail is larger than original -> remove enlarge image
 						$output = preg_replace("/<a[^>]*?>\s*<img[^>]*?enlarge[^>]*?>\s*<\/a>/", "", $output);
 					}
 					// add the image size to the thumbnails
-					$output = preg_replace("/(<img[^>]*?".$answer->get_answertext()."[^>]*?)(\/{0,1}\s*)?>/", "\\1 " . $sizethumb[3] . "\\2", $output);
+					$output = preg_replace("/(<img[^>]*?".$answer->getAnswertext()."[^>]*?)(\/{0,1}\s*)?>/", "\\1 " . $sizethumb[3] . "\\2", $output);
 				}
 			}
 			// $output = str_replace("// solution_script", "", $output);
@@ -628,10 +628,10 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		foreach ($this->object->answers as $idx => $answer)
 		{
 			$repl_str = "dummy=\"solution_ord$idx\"";
-			$solutionoutput = str_replace($repl_str, $repl_str." value=\"" . $answer->get_solution_order() . "\"", $solutionoutput);
-			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_ord$idx" . "[^\d].*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			$solutionoutput = str_replace($repl_str, $repl_str." value=\"" . $answer->getSolutionOrder() . "\"", $solutionoutput);
+			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_ord$idx" . "[^\d].*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
 			if ($show_solution_only)
-				$solutionoutput = $this->replaceInputElements($repl_str, $answer->get_solution_order(), $solutionoutput , "[" , "]");
+				$solutionoutput = $this->replaceInputElements($repl_str, $answer->getSolutionOrder(), $solutionoutput , "[" , "]");
 		}
 
 		if (!$show_solution_only)

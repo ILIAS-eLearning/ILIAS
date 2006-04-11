@@ -341,7 +341,7 @@ class ilObjTest extends ilObject
 		$this->pass_scoring = SCORE_LAST_PASS;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
-		$this->mark_schema->create_simple_schema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
+		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
 		$this->ects_grades = array(
 			"A" => 90,
 			"B" => 65,
@@ -885,13 +885,13 @@ class ilObjTest extends ilObject
   function duplicate() 
 	{
     $clone = $this;
-    $clone->set_id(-1);
+    $clone->setId(-1);
     $counter = 2;
     while ($this->testTitleExists($this->get_title() . " ($counter)")) {
       $counter++;
     }
-    $clone->set_title($this->get_title() . " ($counter)");
-    $clone->set_owner($this->ilias->account->id);
+    $clone->setTitle($this->get_title() . " ($counter)");
+    $clone->setOwner($this->ilias->account->id);
     $clone->setAuthor($this->ilias->account->fullname);
     $clone->saveToDb($this->ilias->db);
     // Duplicate questions
@@ -3235,11 +3235,11 @@ class ilObjTest extends ilObject
 		{
 			$percentage = ($total_reached_points / $total_max_points) * 100.0;
 		}
-		$mark_obj = $this->mark_schema->get_matching_mark($percentage);
+		$mark_obj = $this->mark_schema->getMatchingMark($percentage);
 		$passed = "";
 		if ($mark_obj)
 		{
-			if ($mark_obj->get_passed())
+			if ($mark_obj->getPassed())
 			{
 				$passed = 1;
 			}
@@ -3539,7 +3539,7 @@ class ilObjTest extends ilObject
 		} else {
 			$percentage = ($test_result["test"]["total_reached_points"] / $test_result["test"]["total_max_points"]) * 100.0;
 		}
-		$mark_obj = $this->mark_schema->get_matching_mark($percentage);
+		$mark_obj = $this->mark_schema->getMatchingMark($percentage);
 		$first_date = getdate($first_visit);
 		$last_date = getdate($last_visit);
 		$qworkedthrough = 0;
@@ -3562,8 +3562,8 @@ class ilObjTest extends ilObject
 		$passed = "";
 		if ($mark_obj)
 		{
-			$result_mark = $mark_obj->get_short_name();
-			if ($mark_obj->get_passed())
+			$result_mark = $mark_obj->getShortName();
+			if ($mark_obj->getPassed())
 			{
 				$passed = 1;
 			}
@@ -3636,10 +3636,10 @@ class ilObjTest extends ilObject
 			$reached = $test_result["test"]["total_reached_points"];
 			$total = $test_result["test"]["total_max_points"];
 			$percentage = $reached/$total;
-			$mark = $this->mark_schema->get_matching_mark($percentage*100.0);
+			$mark = $this->mark_schema->getMatchingMark($percentage*100.0);
 			if ($mark)
 			{
-				if ($mark->get_passed())
+				if ($mark->getPassed())
 				{
 					array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
 				}
@@ -3719,11 +3719,11 @@ class ilObjTest extends ilObject
 			{
 				$percentage = ($res["test"]["total_reached_points"] / $res["test"]["total_max_points"]) * 100.0;
 			}
-			$mark_obj = $this->mark_schema->get_matching_mark($percentage);
+			$mark_obj = $this->mark_schema->getMatchingMark($percentage);
 			$maximum_points = $res["test"]["total_max_points"];
 			if ($mark_obj)
 			{
-				if ($mark_obj->get_passed()) {
+				if ($mark_obj->getPassed()) {
 					$passed_tests++;
 					array_push($points, $res["test"]["total_reached_points"]);
 				} 
@@ -4082,12 +4082,12 @@ class ilObjTest extends ilObject
       case "qt_multiple_choice_sr":
 				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
         $question =& new ASS_MultipleChoiceGUI();
-        $question->object->set_response(RESPONSE_SINGLE);
+        $question->object->setResponse(RESPONSE_SINGLE);
         break;
       case "qt_multiple_choice_mr":
 				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
         $question =& new ASS_MultipleChoiceGUI();
-        $question->object->set_response(RESPONSE_MULTIPLE);
+        $question->object->setResponse(RESPONSE_MULTIPLE);
         break;
       case "qt_cloze":
 				include_once "./assessment/classes/class.assClozeTestGUI.php";
@@ -4518,238 +4518,148 @@ class ilObjTest extends ilObject
 	*/
 	function to_xml()
 	{
-		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
-		$domxml = domxml_open_mem($xml_header);
-		$root = $domxml->document_element();
-		// qti assessment
-		$qtiAssessment = $domxml->create_element("assessment");
-		$qtiAssessment->set_attribute("ident", "il_".IL_INST_ID."_tst_".$this->getTestId());
-		$qtiAssessment->set_attribute("title", $this->getTitle());
-		
+		include_once("./classes/class.ilXmlWriter.php");
+		$a_xml_writer = new ilXmlWriter;
+		// set xml header
+		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlStartTag("questestinterop");
+
+		$attrs = array(
+			"ident" => "il_".IL_INST_ID."_tst_".$this->getTestId(),
+			"title" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("assessment", $attrs);
 		// add qti comment
-		$qtiComment = $domxml->create_element("qticomment");
-		$qtiCommentText = $domxml->create_text_node($this->getDescription());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiAssessment->append_child($qtiComment);
+		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
 
 		// add qti duration
 		if ($this->enable_processing_time)
 		{
-			$qtiDuration = $domxml->create_element("duration");
 			preg_match("/(\d+):(\d+):(\d+)/", $this->processing_time, $matches);
-			$qtiDurationText = $domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $matches[1], $matches[2], $matches[3]));
-			$qtiDuration->append_child($qtiDurationText);
-			$qtiAssessment->append_child($qtiDuration);
+			$a_xml_writer->xmlElement("duration", NULL, sprintf("P0Y0M0DT%dH%dM%dS", $matches[1], $matches[2], $matches[3]));
 		}
 
 		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
-		$qtiMetadata = $domxml->create_element("qtimetadata");
-		// ILIAS version
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("ILIAS_VERSION");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->ilias->getSetting("ilias_version"));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadata");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "ILIAS_VERSION");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->ilias->getSetting("ilias_version"));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// test type
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("test_type");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getTestType()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "test_type");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getTestType());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// sequence settings
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("sequence_settings");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getSequenceSettings()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "sequence_settings");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getSequenceSettings());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// author
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("author");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getAuthor());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "author");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// count system
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("count_system");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getCountSystem());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "count_system");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getCountSystem());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// multiple choice scoring
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("mc_scoring");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getMCScoring());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "mc_scoring");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getMCScoring());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// pass scoring
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("pass_scoring");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getPassScoring());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_scoring");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getPassScoring());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// score reporting date
 		if ($this->getReportingDate())
 		{
-			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-			$qtiFieldLabel = $domxml->create_element("fieldlabel");
-			$qtiFieldLabelText = $domxml->create_text_node("reporting_date");
-			$qtiFieldLabel->append_child($qtiFieldLabelText);
-			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			$a_xml_writer->xmlStartTag("qtimetadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, "reporting_date");
 			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->reporting_date, $matches);
-			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-			$qtiFieldEntry->append_child($qtiFieldEntryText);
-			$qtiMetadatafield->append_child($qtiFieldLabel);
-			$qtiMetadatafield->append_child($qtiFieldEntry);
-			$qtiMetadata->append_child($qtiMetadatafield);
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
 		// number of tries
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("nr_of_tries");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getNrOfTries()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_of_tries");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// hide previous results
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("hide_previous_results");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getHidePreviousResults()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "hide_previous_results");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getHidePreviousResults());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// hide title points
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("hide_title_points");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getHideTitlePoints()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "hide_title_points");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getHideTitlePoints()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// random test
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("random_test");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->isRandomTest()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "random_test");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->isRandomTest()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// random question count
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("random_question_count");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getRandomQuestionCount()));
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "random_question_count");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getRandomQuestionCount()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// starting time
 		if ($this->getStartingTime())
 		{
-			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-			$qtiFieldLabel = $domxml->create_element("fieldlabel");
-			$qtiFieldLabelText = $domxml->create_text_node("starting_time");
-			$qtiFieldLabel->append_child($qtiFieldLabelText);
-			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			$a_xml_writer->xmlStartTag("qtimetadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, "starting_time");
 			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->starting_time, $matches);
-			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-			$qtiFieldEntry->append_child($qtiFieldEntryText);
-			$qtiMetadatafield->append_child($qtiFieldLabel);
-			$qtiMetadatafield->append_child($qtiFieldEntry);
-			$qtiMetadata->append_child($qtiMetadatafield);
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
 		// ending time
 		if ($this->getEndingTime())
 		{
-			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-			$qtiFieldLabel = $domxml->create_element("fieldlabel");
-			$qtiFieldLabelText = $domxml->create_text_node("ending_time");
-			$qtiFieldLabel->append_child($qtiFieldLabelText);
-			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			$a_xml_writer->xmlStartTag("qtimetadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, "ending_time");
 			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->ending_time, $matches);
-			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-			$qtiFieldEntry->append_child($qtiFieldEntryText);
-			$qtiMetadatafield->append_child($qtiFieldLabel);
-			$qtiMetadatafield->append_child($qtiFieldEntry);
-			$qtiMetadata->append_child($qtiMetadatafield);
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
 		foreach ($this->mark_schema->mark_steps as $index => $mark)
 		{
 			// mark steps
-			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-			$qtiFieldLabel = $domxml->create_element("fieldlabel");
-			$qtiFieldLabelText = $domxml->create_text_node("mark_step_$index");
-			$qtiFieldLabel->append_child($qtiFieldLabelText);
-			$qtiFieldEntry = $domxml->create_element("fieldentry");
-			$qtiFieldEntryText = $domxml->create_text_node(sprintf("<short>%s</short><official>%s</official><percentage>%.2f</percentage><passed>%d</passed>", $mark->get_short_name(), $mark->get_official_name(), $mark->get_minimum_level(), $mark->get_passed()));
-			$qtiFieldEntry->append_child($qtiFieldEntryText);
-			$qtiMetadatafield->append_child($qtiFieldLabel);
-			$qtiMetadatafield->append_child($qtiFieldEntry);
-			$qtiMetadata->append_child($qtiMetadatafield);
+			$a_xml_writer->xmlStartTag("qtimetadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, "mark_step_$index");
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("<short>%s</short><official>%s</official><percentage>%.2f</percentage><passed>%d</passed>", $mark->getShortName(), $mark->getOfficialName(), $mark->getMinimumLevel(), $mark->getPassed()));
+			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
-		$qtiAssessment->append_child($qtiMetadata);
+		$a_xml_writer->xmlEndTag("qtimetadata");
 		
 		// add qti objectives
-		$qtiObjectives = $domxml->create_element("objectives");
-		$qtiMaterial = $domxml->create_element("material");
-		$qtiMaterial->set_attribute("label", "introduction");
-		$qtiMatText = $domxml->create_element("mattext");
-		$qtiMatTextText = $domxml->create_text_node($this->getIntroduction());
-		$qtiMatText->append_child($qtiMatTextText);
-		$qtiMaterial->append_child($qtiMatText);
-		$qtiObjectives->append_child($qtiMaterial);
-		$qtiAssessment->append_child($qtiObjectives);
+		$a_xml_writer->xmlStartTag("objectives");
+		$a_xml_writer->xmlStartTag("material");
+		$attrs = array(
+			"label" => "introduction"
+		);
+		$a_xml_writer->xmlElement("mattext", $attrs, $this->getIntroduction());
+		$a_xml_writer->xmlEndTag("material");
+		$a_xml_writer->xmlEndTag("objectives");
 
 		// add qti assessmentcontrol
-		$qtiAssessmentcontrol = $domxml->create_element("assessmentcontrol");
 		$score_reporting = "No";
 		switch ($this->getScoreReporting())
 		{
@@ -4757,16 +4667,20 @@ class ilObjTest extends ilObject
 				$score_reporting = "Yes";
 				break;
 		}
-		$qtiAssessmentcontrol->set_attribute("solutionswitch", $score_reporting);
-		$qtiAssessment->append_child($qtiAssessmentcontrol);
-		
-		$qtiSection = $domxml->create_element("section");
-		$qtiSection->set_attribute("ident", "1");
-		$qtiAssessment->append_child($qtiSection);
-		
-		$root->append_child($qtiAssessment);
-		$xml = $domxml->dump_mem(true);
-		$domxml->free();
+		$attrs = array(
+			"solutionswitch" => "$score_reporting"
+		);
+		$a_xml_writer->xmlElement("assessmentcontrol", $attrs, NULL);
+
+		$attrs = array(
+			"ident" => "1"
+		);
+		$a_xml_writer->xmlElement("section", $attrs, NULL);
+		$a_xml_writer->xmlEndTag("assessment");
+		$a_xml_writer->xmlEndTag("questestinterop");
+
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
+
 		foreach ($this->questions as $question_id) 
 		{
 			$question =& ilObjTest::_instanciateQuestion($question_id);
@@ -6009,11 +5923,11 @@ class ilObjTest extends ilObject
 			{
 				$percentvalue = 0;
 			}			
-			$mark_obj = $this->mark_schema->get_matching_mark($percentvalue * 100);
+			$mark_obj = $this->mark_schema->getMatchingMark($percentvalue * 100);
 			$passed = "";	
 			if ($mark_obj)
 			{
-				$mark = $mark_obj->get_official_name();
+				$mark = $mark_obj->getOfficialName();
 				$ects_mark = $this->getECTSGrade($reached_points, $max_points);
 			}
 

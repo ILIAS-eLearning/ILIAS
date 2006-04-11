@@ -117,23 +117,23 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_cloze");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", true);
-		for ($i = 0; $i < $this->object->get_gap_count(); $i++)
+		for ($i = 0; $i < $this->object->getGapCount(); $i++)
 		{
 			$gap = $this->object->get_gap($i);
-			if ($gap[0]->get_cloze_type() == CLOZE_TEXT)
+			if ($gap[0]->getClozeType() == CLOZE_TEXT)
 			{
 				$this->tpl->setCurrentBlock("textgap_value");
 				foreach ($gap as $key => $value)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP", htmlspecialchars($value->get_answertext()));
+					$this->tpl->setVariable("VALUE_TEXT_GAP", htmlspecialchars($value->getAnswertext()));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $key);
 					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $value->get_points()));
+					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $value->getPoints()));
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
@@ -169,20 +169,20 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
 				$this->tpl->parseCurrentBlock();
 			}
-			elseif ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			elseif ($gap[0]->getClozeType() == CLOZE_SELECT)
 			{
 				$this->tpl->setCurrentBlock("selectgap_value");
 				foreach ($gap as $key => $value)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP", htmlspecialchars($value->get_answertext()));
+					$this->tpl->setVariable("VALUE_SELECT_GAP", htmlspecialchars($value->getAnswertext()));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $key);
 					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->get_points()));
+					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->getPoints()));
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
@@ -217,7 +217,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("ADD_SELECT_GAP", $this->lng->txt("add_gap"));
 				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
-				if ($gap[0]->get_shuffle())
+				if ($gap[0]->getShuffle())
 				{
 					$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
 				}
@@ -230,14 +230,14 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("answer_row");
-			$name = $gap[0]->get_name();
+			$name = $gap[0]->getName();
 			if (!$name)
 			{
 				$name = $this->lng->txt("gap") . " " . ($i+1);
 			}
 			$this->tpl->setVariable("TEXT_GAP_NAME", $name);
 			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
-			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			if ($gap[0]->getClozeType() == CLOZE_SELECT)
 			{
 				$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
 			}
@@ -297,7 +297,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_CLOZE_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-		$cloze_text = $this->object->get_cloze_text();
+		$cloze_text = $this->object->getClozeText();
 		$cloze_text = preg_replace("/<br \/>/", "\n", $cloze_text);
 		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $cloze_text);
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
@@ -357,7 +357,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$saved = false;
 
 		// Delete all existing gaps and create new gaps from the form data
-		$this->object->flush_gaps();
+		$this->object->flushGaps();
 
 		if (!$this->checkInput())
 		{
@@ -377,7 +377,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setTextgapRating($_POST["textgap_rating"]);
 		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], true, "<strong><em><code><cite><gap>");
 		$cloze_text = preg_replace("/\n/", "<br />", $cloze_text);
-		$this->object->set_cloze_text($cloze_text);
+		$this->object->setClozeText($cloze_text);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 		$this->object->suggested_solutions = array();
@@ -402,12 +402,12 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				// Set the cloze type of the gap
 				if (preg_match("/clozetype_(\d+)/", $key, $matches))
 				{
-					$this->object->set_cloze_type($matches[1], $value);
+					$this->object->setClozeType($matches[1], $value);
 				}
 			}
 		}
 
-		$this->object->update_all_gap_params();
+		$this->object->updateAllGapParams();
 		if ($saved)
 		{
 			// If the question was saved automatically before an upload, we have to make
@@ -432,7 +432,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			if (preg_match("/delete_(\d+)_(\d+)/", $key, $matches))
 			{
 				$selectgap = "selectgap_" . $matches[1] . "_" . $matches[2];
-				$this->object->delete_answertext_by_index($matches[1], $matches[2]);
+				$this->object->deleteAnswertextByIndex($matches[1], $matches[2]);
 			}
 		}
 		$this->editQuestion();
@@ -444,9 +444,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 
 		$len = strlen("addSelectGap_");
 		$i = substr($this->ctrl->getCmd(), $len);
-		$this->object->set_answertext(
+		$this->object->setAnswertext(
 			ilUtil::stripSlashes($i),
-			ilUtil::stripSlashes($this->object->get_gap_text_count($i)),
+			ilUtil::stripSlashes($this->object->getGapTextCount($i)),
 			"",
 			1
 		);
@@ -460,9 +460,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 
 		$len = strlen("addTextGap_");
 		$i = substr($this->ctrl->getCmd(), $len);
-		$this->object->set_answertext(
+		$this->object->setAnswertext(
 			ilUtil::stripSlashes($i),
-			ilUtil::stripSlashes($this->object->get_gap_text_count($i)),
+			ilUtil::stripSlashes($this->object->getGapTextCount($i)),
 			"",
 			1
 		);
@@ -486,9 +486,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 						// Only change gap values <> empty string
 						if (array_key_exists($matches[2], $answer_array))
 						{
-							if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0)
+							if (strcmp($value, $answer_array[$matches[2]]->getAnswertext()) != 0)
 							{
-								$this->object->set_answertext(
+								$this->object->setAnswertext(
 									ilUtil::stripSlashes($matches[1]),
 									ilUtil::stripSlashes($matches[2]),
 									ilUtil::stripSlashes($value)
@@ -507,8 +507,8 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 							{
 								$points = 0.0;
 							}
-							$this->object->set_single_answer_points($matches[1], $matches[2], $points);
-							$this->object->set_single_answer_state($matches[1], $matches[2], 1);
+							$this->object->setSingleAnswerPoints($matches[1], $matches[2], $points);
+							$this->object->setSingleAnswerState($matches[1], $matches[2], 1);
 						}
 					}
 					else
@@ -526,11 +526,11 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					// Only change gap values <> empty string
 					if (array_key_exists($matches[2], $answer_array))
 					{
-						if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0)
+						if (strcmp($value, $answer_array[$matches[2]]->getAnswertext()) != 0)
 						{
 							if ($a_apply_text)
 							{
-								$this->object->set_answertext(
+								$this->object->setAnswertext(
 									ilUtil::stripSlashes($matches[1]),
 									ilUtil::stripSlashes($matches[2]),
 									ilUtil::stripSlashes($value)
@@ -550,8 +550,8 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 						{
 							$points = 0.0;
 						}
-						$this->object->set_single_answer_points($matches[1], $matches[2], $points);
-						$this->object->set_single_answer_state($matches[1], $matches[2], 1);
+						$this->object->setSingleAnswerPoints($matches[1], $matches[2], $points);
+						$this->object->setSingleAnswerState($matches[1], $matches[2], 1);
 					}
 				}
 				else
@@ -569,7 +569,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			// Set select gap shuffle state
 			if (preg_match("/^shuffle_(\d+)$/", $key, $matches))
 			{
-				$this->object->set_gap_shuffle($matches[1], $value);
+				$this->object->setGapShuffle($matches[1], $value);
 			}
 		}
 	}
@@ -583,7 +583,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 
 		$this->setGapValues(false);
 		$this->setShuffleState();
-		$this->object->update_all_gap_params();
+		$this->object->updateAllGapParams();
 		$this->editQuestion();
 	}
 
@@ -704,23 +704,23 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 						}
 					}
 				}
-				if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+				if ($gap[0]->getClozeType() == CLOZE_SELECT)
 				{
 					$maxpoints = 0;
 					$maxindex = -1;
 					$sol_points = array();
 					foreach ($gap as $answeridx => $answer)
 					{
-						if ($answer->get_points() > $maxpoints)
+						if ($answer->getPoints() > $maxpoints)
 						{
-							$maxpoints = $answer->get_points();
+							$maxpoints = $answer->getPoints();
 							$maxindex = $answeridx;
 						}
-						if ($show_solution_only && $answer->get_points()>0) 
+						if ($show_solution_only && $answer->getPoints()>0) 
 						{							
 							$regexp = "/<select name=\"solution_gap_$idx\">.*?<option[^>]*dummy=\"solution_sgap_".$idx."_".$answeridx."\">(.*?)<\/option>.*?<\/select>/";
 							preg_match ($regexp, $solutionoutput, $matches);
-							$sol_points [] = $matches[1]." <em>(".$answer->get_points()." ".$this->lng->txt("points_short").")</em>";
+							$sol_points [] = $matches[1]." <em>(".$answer->getPoints()." ".$this->lng->txt("points_short").")</em>";
 						}
 					}
 															
@@ -759,11 +759,11 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$pvals = array();
 					foreach ($gap as $answeridx => $answer)
 					{
-						array_push($pvals, $answer->get_answertext());
+						array_push($pvals, $answer->getAnswertext());
 					}
 					$possible_values = join($pvals, " " . $this->lng->txt("or") . " ");
 					
-					$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx\"" . "[^>]*?>)/i", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
+					$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx\"" . "[^>]*?>)/i", "\\1" . " <em>(" . $gap[0]->getPoints() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
 					
 					if ($this->object->suggested_solutions[$idx])
 					{

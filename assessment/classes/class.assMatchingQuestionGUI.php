@@ -275,7 +275,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_MATCHING_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_MATCHING_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_MATCHING_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-		$questiontext = $this->object->get_question();
+		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_matching_pair"));
@@ -407,12 +407,12 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
-		$this->object->set_question($questiontext);
+		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
-		$this->object->set_matching_type($_POST["matching_type"]);
+		$this->object->setMatchingType($_POST["matching_type"]);
 
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flush_matchingpairs();
@@ -458,7 +458,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 									$saved = true;
 									$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
 								}
-								$upload_result = $this->object->set_image_file($value2['name'], $value2['tmp_name']);
+								$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
 								switch ($upload_result)
 								{
 									case 0:

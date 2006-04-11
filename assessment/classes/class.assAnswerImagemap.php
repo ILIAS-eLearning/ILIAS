@@ -90,7 +90,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 * @access public
 * @see $coords
 */
-  function get_coords() {
+  function getCoords() {
 		$this->coords = preg_replace("/\s/", "", $this->coords);
     return $this->coords;
   }
@@ -105,7 +105,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 * @access public
 * @see $coords
 */
-  function set_coords($coords="") {
+  function setCoords($coords="") {
 		$coords = preg_replace("/\s/", "", $coords);
     $this->coords=$coords;
   }
@@ -119,7 +119,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 * @access public
 * @see $area
 */
-  function get_area() {
+  function getArea() {
     return $this->area;
   }
 
@@ -133,7 +133,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 * @access public
 * @see $area
 */
-  function set_area($area="") {
+  function setArea($area="") {
     $this->area=$area;
   }
 }

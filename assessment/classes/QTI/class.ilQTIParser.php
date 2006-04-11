@@ -1002,7 +1002,10 @@ class ilQTIParser extends ilSaxParser
 							$this->item->setAuthor($this->metadata["entry"]);
 						}
 					default:
-						$this->item->addMetadata($this->metadata);
+						if ($this->item != NULL)
+						{
+							$this->item->addMetadata($this->metadata);
+						}
 						break;
 				}
 				if ($this->in_assessment)
@@ -1119,7 +1122,7 @@ class ilQTIParser extends ilSaxParser
 							$mark_percentage = $matches[1];
 							preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
 							$mark_passed = $matches[1];
-							$this->tst_object->mark_schema->add_mark_step($mark_short, $mark_official, $mark_percentage, $mark_passed);
+							$this->tst_object->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
 						}
 					}
 					
@@ -1396,7 +1399,7 @@ class ilQTIParser extends ilSaxParser
 							join($questiontext, ""),
 							$type
 						);
-						//$question->set_response($type);
+						//$question->setResponse($type);
 						$question->setObjId($questionpool_id);
 						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 						$question->setShuffle($shuffle);
