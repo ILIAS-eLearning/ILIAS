@@ -165,7 +165,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->get_question());
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		$attrs = array();
@@ -703,7 +703,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function set_question($question = "")
+	function setQuestion($question = "")
 	{
 		$this->question = $question;
 	}
@@ -717,7 +717,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @access public
 	* @see $matching_type
 	*/
-	function set_matching_type($matching_type = MT_TERMS_DEFINITIONS)
+	function setMatchingType($matching_type = MT_TERMS_DEFINITIONS)
 	{
 		$this->matching_type = $matching_type;
 	}
@@ -731,7 +731,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function get_question()
+	function getQuestion()
 	{
 		return $this->question;
 	}
@@ -1034,7 +1034,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @return integer An errorcode if the image upload fails, 0 otherwise
 	* @access public
 	*/
-	function set_image_file($image_filename, $image_tempfilename = "")
+	function setImageFile($image_filename, $image_tempfilename = "")
 	{
 		$result = 0;
 		if (!empty($image_tempfilename))

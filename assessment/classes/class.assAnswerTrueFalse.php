@@ -80,7 +80,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function get_correctness() {
+  function getCorrectness() {
     return $this->correctness;
   }
 
@@ -93,7 +93,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function is_correct() {
+  function isCorrect() {
     return $this->correctness;
   }
 
@@ -106,7 +106,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function is_true() {
+  function isTrue() {
     return $this->correctness;
   }
 
@@ -119,7 +119,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function is_incorrect() {
+  function isIncorrect() {
     return !$this->correctness;
   }
 
@@ -132,7 +132,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function is_false() {
+  function isFalse() {
     return !$this->correctness;
   }
 
@@ -146,7 +146,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function set_correctness($correctness = FALSE)
+  function setCorrectness($correctness = FALSE)
   {
   	// force $this->correctness to be a string
 	// ilDB->quote makes 1 from true and saving it to ENUM('1','0') makes that '0'!!!
@@ -162,7 +162,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function set_true() {
+  function setTrue() {
     $this->correctness = "1";
   }
 
@@ -174,7 +174,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @access public
 * @see $correctness
 */
-  function set_false() {
+  function setFalse() {
     $this->correctness = "0";
   }
 }

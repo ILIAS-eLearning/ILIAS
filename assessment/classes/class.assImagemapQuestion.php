@@ -231,15 +231,15 @@ class ASS_ImagemapQuestion extends ASS_Question
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
-				//print "id:".$this->id." answer tex:".$answer_obj->get_answertext()." answer_obj->get_order():".$answer_obj->get_order()." answer_obj->get_coords():".$answer_obj->get_coords()." answer_obj->get_area():".$answer_obj->get_area();
+				//print "id:".$this->id." answer tex:".$answer_obj->getAnswertext()." answer_obj->getOrder():".$answer_obj->getOrder()." answer_obj->getCoords():".$answer_obj->getCoords()." answer_obj->getArea():".$answer_obj->getArea();
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->id),
-					$db->quote($answer_obj->get_answertext() . ""),
-					$db->quote($answer_obj->get_points() . ""),
-					$db->quote($answer_obj->get_order() . ""),
+					$db->quote($answer_obj->getAnswertext() . ""),
+					$db->quote($answer_obj->getPoints() . ""),
+					$db->quote($answer_obj->getOrder() . ""),
 					$db->quote($answer_obj->getState() . ""),
-					$db->quote($answer_obj->get_coords() . ""),
-					$db->quote($answer_obj->get_area() . "")
+					$db->quote($answer_obj->getCoords() . ""),
+					$db->quote($answer_obj->getArea() . "")
 					);
 				$answer_result = $db->query($query);
 				}
@@ -482,7 +482,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->get_question());
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		$attrs = array(
@@ -553,7 +553,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		foreach ($this->answers as $index => $answer)
 		{
 			$rared = "";
-			switch ($answer->get_area())
+			switch ($answer->getArea())
 			{
 				case "rect":
 					$rarea = "Rectangle";
@@ -570,9 +570,9 @@ class ASS_ImagemapQuestion extends ASS_Question
 				"rarea" => $rarea
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlData($answer->get_coords());
+			$a_xml_writer->xmlData($answer->getCoords());
 			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $answer->get_answertext());
+			$a_xml_writer->xmlElement("mattext", NULL, $answer->getAnswertext());
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
@@ -601,7 +601,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 				$a_xml_writer->xmlStartTag("not");
 			}
 			$areatype = "";
-			switch ($answer->get_area())
+			switch ($answer->getArea())
 			{
 				case "rect":
 					$areatype = "Rectangle";
@@ -617,7 +617,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 				"respident" => "IM",
 				"areatype" => $areatype
 			);
-			$a_xml_writer->xmlElement("varinside", $attrs, $answer->get_coords());
+			$a_xml_writer->xmlElement("varinside", $attrs, $answer->getCoords());
 			if (!$answer->isStateSet())
 			{
 				$a_xml_writer->xmlEndTag("not");
@@ -627,7 +627,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 			$attrs = array(
 				"action" => "Add"
 			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
+			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
 			// qti displayfeedback
 			if ($answer->isStateChecked())
 			{
@@ -693,7 +693,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @access public
 * @see $question
 */
-  function get_question() {
+  function getQuestion() {
     return $this->question;
   }
 
@@ -706,7 +706,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @access public
 * @see $question
 */
-  function set_question($question = "") {
+  function setQuestion($question = "") {
     $this->question = $question;
   }
 
@@ -732,7 +732,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @access public
 * @see $imagemap_filename
 */
-  function set_imagemap_filename($imagemap_filename, $imagemap_tempfilename = "") {
+  function setImagemapFilename($imagemap_filename, $imagemap_tempfilename = "") {
     if (!empty($imagemap_filename)) {
       $this->imagemap_filename = $imagemap_filename;
     }
@@ -745,7 +745,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		    	preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
 		    	preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
 		    	preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
-					$this->add_answer($alt[1], 0.0, FALSE, count($this->answers), $coords[1], $shape[1]);
+					$this->addAnswer($alt[1], 0.0, FALSE, count($this->answers), $coords[1], $shape[1]);
 		  	}
 			}
     }
@@ -773,7 +773,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @access public
 * @see $image_filename
 */
-  function set_image_filename($image_filename, $image_tempfilename = "") {
+  function setImageFilename($image_filename, $image_tempfilename = "") {
 
     if (!empty($image_filename)) 
 		{
@@ -805,10 +805,10 @@ class ASS_ImagemapQuestion extends ASS_Question
   function get_imagemap_contents($href = "#") {
 		$imagemap_contents = "<map name=\"".$this->title."\"> ";
 		for ($i = 0; $i < count($this->answers); $i++) {
-	 		$imagemap_contents .= "<area alt=\"".$this->answers[$i]->get_answertext()."\" ";
-	 		$imagemap_contents .= "shape=\"".$this->answers[$i]->get_area()."\" ";
-	 		$imagemap_contents .= "coords=\"".$this->answers[$i]->get_coords()."\" ";
-	 		$imagemap_contents .= "href=\"$href&selimage=" . $this->answers[$i]->get_order() . "\" /> ";
+	 		$imagemap_contents .= "<area alt=\"".$this->answers[$i]->getAnswertext()."\" ";
+	 		$imagemap_contents .= "shape=\"".$this->answers[$i]->getArea()."\" ";
+	 		$imagemap_contents .= "coords=\"".$this->answers[$i]->getCoords()."\" ";
+	 		$imagemap_contents .= "href=\"$href&selimage=" . $this->answers[$i]->getOrder() . "\" /> ";
 		}
 		$imagemap_contents .= "</map>";
     return $imagemap_contents;
@@ -828,7 +828,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @see $answers
 * @see ASS_AnswerImagemap
 */
-  function add_answer(
+  function addAnswer(
     $answertext = "",
     $points = 0.0,
     $status = 0,
@@ -845,7 +845,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 			for ($i = count($this->answers) - 1; $i >= $order; $i--) 
 			{
 				$this->answers[$i+1] = $this->answers[$i];
-				$this->answers[$i+1]->set_order($i+1);
+				$this->answers[$i+1]->setOrder($i+1);
 			}
 			$this->answers[$order] = $answer;
     }
@@ -866,7 +866,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @access public
 * @see $answers
 */
-  function get_answer_count() {
+  function getAnswerCount() {
     return count($this->answers);
   }
 
@@ -881,7 +881,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @access public
 * @see $answers
 */
-  function get_answer($index = 0) {
+  function getAnswer($index = 0) {
     if ($index < 0) return NULL;
     if (count($this->answers) < 1) return NULL;
     if ($index >= count($this->answers)) return NULL;
@@ -905,8 +905,8 @@ class ASS_ImagemapQuestion extends ASS_Question
     unset($this->answers[$index]);
     $this->answers = array_values($this->answers);
     for ($i = 0; $i < count($this->answers); $i++) {
-      if ($this->answers[$i]->get_order() > $index) {
-        $this->answers[$i]->set_order($i);
+      if ($this->answers[$i]->getOrder() > $index) {
+        $this->answers[$i]->setOrder($i);
       }
     }
   }
@@ -919,7 +919,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @access public
 * @see $answers
 */
-  function flush_answers() {
+  function flushAnswers() {
     $this->answers = array();
   }
 
@@ -934,9 +934,9 @@ class ASS_ImagemapQuestion extends ASS_Question
   function getMaximumPoints() {
 		$points = array("set" => 0, "unset" => 0);
 		foreach ($this->answers as $key => $value) {
-			if ($value->get_points() > $points["set"])
+			if ($value->getPoints() > $points["set"])
 			{
-				$points["set"] = $value->get_points();
+				$points["set"] = $value->getPoints();
 			}
 		}
 		return $points["set"];
@@ -985,7 +985,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 				{
 					if (in_array($key, $found_values))
 					{
-						$points += $answer->get_points();
+						$points += $answer->getPoints();
 					}
 				}
 			}
@@ -1054,7 +1054,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 			if (strlen($value) > 0)
 			{
 				$solution["value"] = $value;
-				$solution["points"] = $this->answers[$value]->get_points();
+				$solution["points"] = $this->answers[$value]->getPoints();
 				if ($this->answers[$value]->isStateChecked())
 				{
 					$solution["true"] = 1;
@@ -1148,12 +1148,12 @@ class ASS_ImagemapQuestion extends ASS_Question
 					$answer_obj = $this->answers[$key];
 					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
 						$db->quote($this->original_id . ""),
-						$db->quote($answer_obj->get_answertext() . ""),
-						$db->quote($answer_obj->get_points() . ""),
-						$db->quote($answer_obj->get_order() . ""),
+						$db->quote($answer_obj->getAnswertext() . ""),
+						$db->quote($answer_obj->getPoints() . ""),
+						$db->quote($answer_obj->getOrder() . ""),
 						$db->quote($answer_obj->getState() . ""),
-						$db->quote($answer_obj->get_coords() . ""),
-						$db->quote($answer_obj->get_area() . "")
+						$db->quote($answer_obj->getCoords() . ""),
+						$db->quote($answer_obj->getArea() . "")
 						);
 					$answer_result = $db->query($query);
 				}

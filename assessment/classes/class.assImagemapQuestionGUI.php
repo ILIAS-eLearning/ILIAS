@@ -115,7 +115,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($this->object->answers as $index => $answer)
 			{
-				$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
+				$preview->addArea($answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), "", "", true);
 			}
 			$hidearea = false;
 			$disabled_save = " disabled=\"disabled\"";
@@ -228,12 +228,12 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		else
 		{
 			$tblrow = array("tblrow1top", "tblrow2top");
-			for ($i = 0; $i < $this->object->get_answer_count(); $i++)
+			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
 			{
 				$this->tpl->setCurrentBlock("answers");
-				$answer = $this->object->get_answer($i);
-				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
+				$answer = $this->object->getAnswer($i);
+				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				if ((strcmp($_GET["markarea"], "") != 0) && ($_GET["markarea"] == $i))
 				{
@@ -243,25 +243,25 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				{
 					$this->tpl->setVariable("CLASS_FULLWIDTH", "fullwidth");
 				}
-				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
+				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->getPoints());
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 				$coords = "";
-				switch ($answer->get_area())
+				switch ($answer->getArea())
 				{
 					case "poly":
 					case "rect":
-						$coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $answer->get_coords());
+						$coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $answer->getCoords());
 						break;
 					case "circle":
-						$coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $answer->get_coords());
+						$coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $answer->getCoords());
 						break;
 				}
 				$this->tpl->setVariable("COORDINATES", $coords);
-				$this->tpl->setVariable("AREA", $answer->get_area());
-				$this->tpl->setVariable("TEXT_SHAPE", strtoupper($answer->get_area()));
+				$this->tpl->setVariable("AREA", $answer->getArea());
+				$this->tpl->setVariable("TEXT_SHAPE", strtoupper($answer->getArea()));
 				$this->tpl->parseCurrentBlock();
 			}
-			if ($this->object->get_answer_count())
+			if ($this->object->getAnswerCount())
 			{
 				$this->tpl->setCurrentBlock("selectall");
 				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
@@ -334,9 +334,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				{
 					case "saveShape":
 					case "deletearea":
-						if ($this->object->get_answer_count() > 0)
+						if ($this->object->getAnswerCount() > 0)
 						{
-							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_imagemap.answer_".($this->object->getAnswerCount() - 1).".focus(); document.frm_imagemap.answer_".($this->object->getAnswerCount() - 1).".scrollIntoView(\"true\");"));
 						}
 						else
 						{
@@ -365,7 +365,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
 					foreach ($this->object->answers as $index => $answer)
 					{
-						$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
+						$preview->addArea($answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
 					}
 					$preview->createPreview();
 					$pfile = $preview->getPreviewFilename();
@@ -407,7 +407,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", htmlspecialchars($this->object->getTitle()));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", htmlspecialchars($this->object->getComment()));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-			$questiontext = $this->object->get_question();
+			$questiontext = $this->object->getQuestion();
 			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -565,7 +565,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 						$coords = join($this->object->coords, ",");
 						break;
 				}
-				$this->object->add_answer($_POST["shapetitle"], 0, false, count($this->object->answers), $coords, $_POST["newarea"]);
+				$this->object->addAnswer($_POST["shapetitle"], 0, false, count($this->object->answers), $coords, $_POST["newarea"]);
 			}
 		}
 		else
@@ -579,7 +579,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 			$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 			$questiontext = preg_replace("/\n/", "<br />", $questiontext);
-			$this->object->set_question($questiontext);
+			$this->object->setQuestion($questiontext);
 			$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 			$this->object->setShuffle($_POST["shuffle"]);
 
@@ -592,7 +592,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				//setting image file
 				if (empty($_FILES['imageName']['tmp_name']))
 				{
-					$this->object->set_image_filename(ilUtil::stripSlashes($_POST["uploaded_image"]));
+					$this->object->setImageFilename(ilUtil::stripSlashes($_POST["uploaded_image"]));
 				}
 				else
 				{
@@ -603,15 +603,15 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 						$saved = true;
 						sendInfo($this->lng->txt("question_saved_for_upload"));
 					}
-					$this->object->set_image_filename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
+					$this->object->setImageFilename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
 				}
 
 				//setting imagemap
 				if (empty($_FILES['imagemapName']['tmp_name']))
 				{
-					$this->object->set_imagemap_filename(ilUtil::stripSlashes($_POST['uploaded_imagemap']));
+					$this->object->setImagemapFilename(ilUtil::stripSlashes($_POST['uploaded_imagemap']));
 					// Add all answers from the form into the object
-					$this->object->flush_answers();
+					$this->object->flushAnswers();
 					foreach ($_POST as $key => $value)
 					{
 						if (preg_match("/answer_(\d+)/", $key, $matches))
@@ -631,7 +631,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 							}
 
 
-							$this->object->add_answer(
+							$this->object->addAnswer(
 								ilUtil::stripSlashes($_POST["$key"]),
 								ilUtil::stripSlashes($points),
 								1,
@@ -651,7 +651,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 						$saved = true;
 						sendInfo($this->lng->txt("question_saved_for_upload"));
 					}
-					$this->object->set_imagemap_filename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
+					$this->object->setImagemapFilename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
 				}
 			}
 			else
@@ -749,7 +749,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			{
 				if (strcmp($solution_value["value1"], "") != 0)
 				{
-					$preview->addArea($this->object->answers[$solution_value["value1"]]->get_area(), $this->object->answers[$solution_value["value1"]]->get_coords(), $this->object->answers[$solution_value["value1"]]->get_answertext(), "", "", true);
+					$preview->addArea($this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
 				}
 			}
 			$preview->createPreview();
@@ -773,9 +773,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$maxindex = -1;
 		foreach ($this->object->answers as $idx => $answer)
 		{
-			if ($answer->get_points() > $maxpoints)
+			if ($answer->getPoints() > $maxpoints)
 			{
-				$maxpoints = $answer->get_points();
+				$maxpoints = $answer->getPoints();
 				$maxindex = $idx;
 			}
 			if (!array_key_exists("evaluation", $_GET))
@@ -788,7 +788,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$answer = $this->object->answers[$maxindex];
 			include_once "./assessment/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
-			$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
+			$preview->addArea($answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), "", "", true);
 			$preview->createPreview();
 			if (count($preview->areas))
 			{

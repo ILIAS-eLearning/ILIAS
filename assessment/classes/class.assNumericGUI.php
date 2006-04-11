@@ -126,7 +126,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_NUMERIC_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_NUMERIC_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_NUMERIC_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-		$questiontext = $this->object->get_question();
+		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -258,7 +258,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
-		$this->object->set_question($questiontext);
+		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
 		$this->object->setMaxChars($_POST["maxchars"]);

@@ -109,7 +109,7 @@ class ASS_ClozeTest extends ASS_Question
 		$this->end_tag = "</gap>";
 		$this->ASS_Question($title, $comment, $author, $owner);
 		$this->gaps = array();
-		$this->set_cloze_text($cloze_text);
+		$this->setClozeText($cloze_text);
 	}
 
 	/**
@@ -354,12 +354,12 @@ class ASS_ClozeTest extends ASS_Question
 					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, name, shuffle, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 						$db->quote($this->id),
 						$db->quote($key),
-						$db->quote($answer_obj->get_answertext() . ""),
-						$db->quote($answer_obj->get_points() . ""),
-						$db->quote($answer_obj->get_order() . ""),
-						$db->quote($answer_obj->get_cloze_type() . ""),
-						$db->quote($answer_obj->get_name() . ""),
-						$db->quote($answer_obj->get_shuffle() . ""),
+						$db->quote($answer_obj->getAnswertext() . ""),
+						$db->quote($answer_obj->getPoints() . ""),
+						$db->quote($answer_obj->getOrder() . ""),
+						$db->quote($answer_obj->getClozeType() . ""),
+						$db->quote($answer_obj->getName() . ""),
+						$db->quote($answer_obj->getShuffle() . ""),
 						$db->quote($answer_obj->getState() . "")
 						);
 					$answer_result = $db->query($query);
@@ -586,20 +586,20 @@ class ASS_ClozeTest extends ASS_Question
 		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
-		$text_parts = preg_split("/\<gap.*?\<\/gap\>/", $this->get_cloze_text());
+		$text_parts = preg_split("/\<gap.*?\<\/gap\>/", $this->getClozeText());
 		// add material with question text to presentation
-		for ($i = 0; $i <= $this->get_gap_count(); $i++)
+		for ($i = 0; $i <= $this->getGapCount(); $i++)
 		{
 			// n-th text part
 			$a_xml_writer->xmlStartTag("material");
 			$a_xml_writer->xmlElement("mattext", NULL, $text_parts[$i]);
 			$a_xml_writer->xmlEndTag("material");
 
-			if ($i < $this->get_gap_count())
+			if ($i < $this->getGapCount())
 			{
 				// add gap
 				$gap = $this->get_gap($i);
-				if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+				if ($gap[0]->getClozeType() == CLOZE_SELECT)
 				{
 					// comboboxes
 					$attrs = array(
@@ -627,7 +627,7 @@ class ASS_ClozeTest extends ASS_Question
 					}
 					
 					$attrs = array();
-					if ($gap[0]->get_shuffle())
+					if ($gap[0]->getShuffle())
 					{
 						$attrs = array("shuffle" => "Yes");
 					}
@@ -639,7 +639,7 @@ class ASS_ClozeTest extends ASS_Question
 
 					// shuffle output
 					$gkeys = array_keys($gap);
-					if ($gap[0]->get_shuffle() && $a_shuffle)
+					if ($gap[0]->getShuffle() && $a_shuffle)
 					{
 						$gkeys = $this->pcArrayShuffle($gkeys);
 					}
@@ -653,7 +653,7 @@ class ASS_ClozeTest extends ASS_Question
 						);
 						$a_xml_writer->xmlStartTag("response_label", $attrs);
 						$a_xml_writer->xmlStartTag("material");
-						$a_xml_writer->xmlElement("mattext", NULL, $value->get_answertext());
+						$a_xml_writer->xmlElement("mattext", NULL, $value->getAnswertext());
 						$a_xml_writer->xmlEndTag("material");
 						$a_xml_writer->xmlEndTag("response_label");
 					}
@@ -711,10 +711,10 @@ class ASS_ClozeTest extends ASS_Question
 		$a_xml_writer->xmlEndTag("outcomes");
 
 		// add response conditions
-		for ($i = 0; $i < $this->get_gap_count(); $i++)
+		for ($i = 0; $i < $this->getGapCount(); $i++)
 		{
 			$gap = $this->get_gap($i);
-			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			if ($gap[0]->getClozeType() == CLOZE_SELECT)
 			{
 				foreach ($gap as $index => $answer)
 				{
@@ -733,7 +733,7 @@ class ASS_ClozeTest extends ASS_Question
 					$attrs = array(
 						"respident" => "gap_$i"
 					);
-					$a_xml_writer->xmlElement("varequal", $attrs, $answer->get_answertext());
+					$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
 					if (!$answer->isStateSet())
 					{
 						$a_xml_writer->xmlEndTag("not");
@@ -743,10 +743,10 @@ class ASS_ClozeTest extends ASS_Question
 					$attrs = array(
 						"action" => "Add"
 					);
-					$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
+					$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
 					// qti displayfeedback
 					$linkrefid = "";
-					if ($answer->get_points() > 0)
+					if ($answer->getPoints() > 0)
 					{
 						$linkrefid = "$i" . "_True";
 					}
@@ -775,13 +775,13 @@ class ASS_ClozeTest extends ASS_Question
 					$attrs = array(
 						"respident" => "gap_$i"
 					);
-					$a_xml_writer->xmlElement("varequal", $attrs, $answer->get_answertext());
+					$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
 					$a_xml_writer->xmlEndTag("conditionvar");
 					// qti setvar
 					$attrs = array(
 						"action" => "Add"
 					);
-					$a_xml_writer->xmlElement("setvar", $attrs, $answer->get_points());
+					$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
 					// qti displayfeedback
 					$attrs = array(
 						"feedbacktype" => "Response",
@@ -795,10 +795,10 @@ class ASS_ClozeTest extends ASS_Question
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
-		for ($i = 0; $i < $this->get_gap_count(); $i++)
+		for ($i = 0; $i < $this->getGapCount(); $i++)
 		{
 			$gap = $this->get_gap($i);
-			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			if ($gap[0]->getClozeType() == CLOZE_SELECT)
 			{
 				foreach ($gap as $index => $answer)
 				{
@@ -877,7 +877,7 @@ class ASS_ClozeTest extends ASS_Question
 	* @access public
 	* @see $cloze_text
 	*/
-	function set_cloze_text($cloze_text = "")
+	function setClozeText($cloze_text = "")
 	{
 		$this->gaps = array();
 		$this->cloze_text =& $cloze_text;
@@ -935,7 +935,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $cloze_text
 */
-  function get_cloze_text() {
+  function getClozeText() {
     return $this->cloze_text;
   }
 
@@ -948,7 +948,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $start_tag
 */
-  function get_start_tag() {
+  function getStartTag() {
     return $this->start_tag;
   }
 
@@ -961,7 +961,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $end_tag
 */
-  function get_end_tag() {
+  function getEndTag() {
     return $this->end_tag;
   }
 
@@ -974,7 +974,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $start_tag
 */
-  function set_start_tag($start_tag = "<gap>") {
+  function setStartTag($start_tag = "<gap>") {
     $this->start_tag = $start_tag;
   }
 
@@ -988,7 +988,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $end_tag
 */
-  function set_end_tag($end_tag = "</gap>") {
+  function setEndTag($end_tag = "</gap>") {
     $this->end_tag = $end_tag;
   }
 
@@ -1000,14 +1000,14 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $cloze_text
 */
-  function rebuild_cloze_text() 
+  function rebuildClozeText() 
 	{
 		$close =& $this->createCloseTextArray();
 		if (count($close))
 		{
 			for ($i = 0; $i < count($this->gaps); $i++)
 			{
-				$gaptext = $this->get_gap_text_list($i);
+				$gaptext = $this->getGapTextList($i);
 				$textparams = preg_split("/(?<!\\\\),/", $gaptext);
 				$close["gaps"][$i]["text"] = array();
 				$close["gaps"][$i]["text"]["text"] = $gaptext;
@@ -1047,7 +1047,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function get_gap_count() {
+  function getGapCount() {
     return count($this->gaps);
   }
 
@@ -1063,13 +1063,13 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function get_gap_text_list($index = 0, $separator = ",") {
+  function getGapTextList($index = 0, $separator = ",") {
     if ($index < 0) return "";
     if (count($this->gaps) < 1) return "";
     if ($index >= count($this->gaps)) return "";
     $result = array();
     foreach ($this->gaps[$index] as $key => $value) {
-			array_push($result, str_replace(",", "\,", $value->get_answertext()));
+			array_push($result, str_replace(",", "\,", $value->getAnswertext()));
     }
     return join($separator, $result);
   }
@@ -1082,7 +1082,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function get_gap_text_count($index = 0) {
+  function getGapTextCount($index = 0) {
     if ($index < 0) return 0;
     if (count($this->gaps) < 1) return 0;
     if ($index >= count($this->gaps)) return 0;
@@ -1098,7 +1098,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function delete_gap($index = 0) {
+  function deleteGap($index = 0) {
     if ($index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index >= count($this->gaps)) return;
@@ -1117,7 +1117,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function flush_gaps() {
+  function flushGaps() {
     $this->gaps = array();
   }
 
@@ -1132,13 +1132,13 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function delete_answertext_by_index($gap_index = 0, $answertext_index = 0) {
+  function deleteAnswertextByIndex($gap_index = 0, $answertext_index = 0) {
     if ($gap_index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($gap_index >= count($this->gaps)) return;
-    $old_text = $this->get_gap_text_list($gap_index);
+    $old_text = $this->getGapTextList($gap_index);
 		if (count($this->gaps[$gap_index]) == 1) {
-			$this->delete_gap($gap_index);
+			$this->deleteGap($gap_index);
 		} else {
 			$close = $this->createCloseTextArray();
 			unset($this->gaps[$gap_index][$answertext_index]);
@@ -1160,26 +1160,26 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function set_answertext($index = 0, $answertext_index = 0, $answertext = "", $add_gaptext=0) 
+  function setAnswertext($index = 0, $answertext_index = 0, $answertext = "", $add_gaptext=0) 
 	{
 		$answertext = str_replace("\,", ",", $answertext);
   	if ($add_gaptext == 1)
 		{
     	$arr = $this->gaps[$index][0];
-    	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->get_answertext()) != 0) 
+    	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->getAnswertext()) != 0) 
 			{
 				$default_state = 0;
 				$default_points = 0;
-				if ($arr->get_cloze_type() == CLOZE_TEXT)
+				if ($arr->getClozeType() == CLOZE_TEXT)
 				{
 					$default_state = 1;
-					if ($answertext_index > 0) $default_points = $this->gaps[$index][0]->get_points();
+					if ($answertext_index > 0) $default_points = $this->gaps[$index][0]->getPoints();
 				}
 				include_once "./assessment/classes/class.assAnswerCloze.php";
     		array_push($this->gaps[$index], new ASS_AnswerCloze($answertext, $default_points, count($this->gaps[$index]),
-    			$default_state, $arr->get_cloze_type(),
-    			$arr->get_name(), $arr->get_shuffle()));
-    		$this->rebuild_cloze_text();
+    			$default_state, $arr->getClozeType(),
+    			$arr->getName(), $arr->getShuffle()));
+    		$this->rebuildClozeText();
     	}
     	return;
     }
@@ -1194,12 +1194,12 @@ class ASS_ClozeTest extends ASS_Question
     if (strlen($answertext) == 0) 
 		{
       // delete the answertext
-      $this->delete_answertext($index, $this->gaps[$index][$answertext_index]->get_answertext());
+      $this->deleteAnswertext($index, $this->gaps[$index][$answertext_index]->getAnswertext());
     } 
 		else 
 		{
-      $this->gaps[$index][$answertext_index]->set_answertext($answertext);
-      $this->rebuild_cloze_text();
+      $this->gaps[$index][$answertext_index]->setAnswertext($answertext);
+      $this->rebuildClozeText();
     }
   }
 
@@ -1211,13 +1211,13 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $cloze_text
 */
-	function update_all_gap_params() {
+	function updateAllGapParams() {
 		global $lng;
 		$close = $this->createCloseTextArray();
-		for ($i = 0; $i < $this->get_gap_count(); $i++)
+		for ($i = 0; $i < $this->getGapCount(); $i++)
 		{
-			$gaptext = $this->get_gap_text_list($i);
-			if ($this->gaps[$i][0]->get_cloze_type() == CLOZE_TEXT)
+			$gaptext = $this->getGapTextList($i);
+			if ($this->gaps[$i][0]->getClozeType() == CLOZE_TEXT)
 			{
 				$close["gaps"][$i]["params"]["type"] = "text";
 				if (array_key_exists("shuffle", $close["gaps"][$i]["params"]))
@@ -1228,7 +1228,7 @@ class ASS_ClozeTest extends ASS_Question
 				else
 			{
 				$close["gaps"][$i]["params"]["type"] = "select";
-				if ($this->gaps[$i][0]->get_shuffle() == 0)
+				if ($this->gaps[$i][0]->getShuffle() == 0)
 				{
 					$close["gaps"][$i]["params"]["shuffle"] = "no";
 				}
@@ -1237,7 +1237,7 @@ class ASS_ClozeTest extends ASS_Question
 					$close["gaps"][$i]["params"]["shuffle"] = "yes";
 				}
 			}
-			$name = $this->gaps[$i][0]->get_name();
+			$name = $this->gaps[$i][0]->getName();
 			if (!$name)
 			{
 				$name = $this->lng->txt("gap") . " " . ($i+1);
@@ -1257,13 +1257,13 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-	function set_cloze_type($index, $cloze_type = CLOZE_TEXT) {
+	function setClozeType($index, $cloze_type = CLOZE_TEXT) {
     if ($index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index >= count($this->gaps)) return;
 		$close = $this->createCloseTextArray();
 		foreach ($this->gaps[$index] as $key => $value) {
-			$this->gaps[$index][$key]->set_cloze_type($cloze_type);
+			$this->gaps[$index][$key]->setClozeType($cloze_type);
 			$this->gaps[$index][$key]->setState(1);
 		}
 		if ($cloze_type == CLOZE_TEXT)
@@ -1289,12 +1289,12 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function set_gap_points($index = 0, $points = 0.0) {
+  function setGapPoints($index = 0, $points = 0.0) {
     if ($index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index >= count($this->gaps)) return;
     foreach ($this->gaps[$index] as $key => $value) {
-      $this->gaps[$index][$key]->set_points($points);
+      $this->gaps[$index][$key]->setPoints($points);
     }
   }
 
@@ -1309,12 +1309,12 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function set_gap_shuffle($index = 0, $shuffle = 1) {
+  function setGapShuffle($index = 0, $shuffle = 1) {
     if ($index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index >= count($this->gaps)) return;
     foreach ($this->gaps[$index] as $key => $value) {
-      $this->gaps[$index][$key]->set_shuffle($shuffle);
+      $this->gaps[$index][$key]->setShuffle($shuffle);
     }
   }
 
@@ -1331,14 +1331,14 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function set_single_answer_points($index_gaps = 0, $index_answerobject = 0, $points = 0.0) {
+  function setSingleAnswerPoints($index_gaps = 0, $index_answerobject = 0, $points = 0.0) {
     if ($index_gaps < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index_gaps >= count($this->gaps)) return;
     if ($index_answerobject < 0) return;
     if (count($this->gaps[$index_gaps]) < 1) return;
     if ($index_answerobject >= count($this->gaps[$index_gaps])) return;
-    $this->gaps[$index_gaps][$index_answerobject]->set_points($points);
+    $this->gaps[$index_gaps][$index_answerobject]->setPoints($points);
   }
 
 /**
@@ -1353,7 +1353,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function set_single_answer_state($index_gaps = 0, $index_answerobject = 0, $state = 0) {
+  function setSingleAnswerState($index_gaps = 0, $index_answerobject = 0, $state = 0) {
     if ($index_gaps < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index_gaps >= count($this->gaps)) return;
@@ -1448,12 +1448,12 @@ class ASS_ClozeTest extends ASS_Question
     $counter = 0;
 		foreach ($user_result as $gap_id => $value) 
 		{
-			if ($this->gaps[$gap_id][0]->get_cloze_type() == CLOZE_TEXT) 
+			if ($this->gaps[$gap_id][0]->getClozeType() == CLOZE_TEXT) 
 			{
 				$gappoints = 0;
 				foreach ($this->gaps[$gap_id] as $k => $v) 
 				{
-					$gotpoints = $this->getTextgapPoints($v->get_answertext(), $value["value"], $v->get_points());
+					$gotpoints = $this->getTextgapPoints($v->getAnswertext(), $value["value"], $v->getPoints());
 					if ($gotpoints > $gappoints) $gappoints = $gotpoints;
 				}
 				$points += $gappoints;
@@ -1466,7 +1466,7 @@ class ASS_ClozeTest extends ASS_Question
 					{
 						if ($value["value"] == $answerkey)
 						{
-							$points += $answer->get_points();
+							$points += $answer->getPoints();
 						}
 					}
 				}
@@ -1530,7 +1530,7 @@ class ASS_ClozeTest extends ASS_Question
 		$user_result = array();
     foreach ($found_value1 as $key => $value) 
 		{
-      if ($this->gaps[$value][0]->get_cloze_type() == CLOZE_TEXT) 
+      if ($this->gaps[$value][0]->getClozeType() == CLOZE_TEXT) 
 			{
 				$solution = array(
 					"gap" => "$counter",
@@ -1540,11 +1540,11 @@ class ASS_ClozeTest extends ASS_Question
 				);
         foreach ($this->gaps[$value] as $k => $v) 
 				{
-          if (strcmp(strtolower($v->get_answertext()), strtolower($found_value2[$key])) == 0) 
+          if (strcmp(strtolower($v->getAnswertext()), strtolower($found_value2[$key])) == 0) 
 					{
 						$solution = array(
 							"gap" => "$counter",
-							"points" => $v->get_points(),
+							"points" => $v->getPoints(),
 							"true" => 1,
 							"value" => $found_value2[$key]
 						);
@@ -1561,7 +1561,7 @@ class ASS_ClozeTest extends ASS_Question
 				);
         if ($this->gaps[$value][$found_value1[$key]]->isStateSet()) 
 				{
-					$solution["points"] = $this->gaps[$value][$found_value1[$key]]->get_points();
+					$solution["points"] = $this->gaps[$value][$found_value1[$key]]->getPoints();
 					$solution["true"] = 1;
         }
       }
@@ -1582,14 +1582,14 @@ class ASS_ClozeTest extends ASS_Question
   function getMaximumPoints() {
     $points = 0;
     foreach ($this->gaps as $key => $value) {
-      if ($value[0]->get_cloze_type() == CLOZE_TEXT) 
+      if ($value[0]->getClozeType() == CLOZE_TEXT) 
 			{
 				$gap_max_points = 0;
         foreach ($value as $key2 => $value2) 
 				{
-					if ($value2->get_points() > $gap_max_points)
+					if ($value2->getPoints() > $gap_max_points)
 					{
-						$gap_max_points = $value2->get_points();
+						$gap_max_points = $value2->getPoints();
 					}
 				}
         $points += $gap_max_points;
@@ -1598,9 +1598,9 @@ class ASS_ClozeTest extends ASS_Question
 				$points_arr = array("set" => 0, "unset" => 0);
         foreach ($value as $key2 => $value2) 
 				{
-					if ($value2->get_points() > $points_arr["set"])
+					if ($value2->getPoints() > $points_arr["set"])
 					{
-						$points_arr["set"] = $value2->get_points();
+						$points_arr["set"] = $value2->getPoints();
 					}
 				}
 				$points += $points_arr["set"];
@@ -1699,12 +1699,12 @@ class ASS_ClozeTest extends ASS_Question
 						$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, name, shuffle, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 							$db->quote($this->original_id . ""),
 							$db->quote($key . ""),
-							$db->quote($answer_obj->get_answertext() . ""),
-							$db->quote($answer_obj->get_points() . ""),
-							$db->quote($answer_obj->get_order() . ""),
-							$db->quote($answer_obj->get_cloze_type() . ""),
-							$db->quote($answer_obj->get_name() . ""),
-							$db->quote($answer_obj->get_shuffle() . ""),
+							$db->quote($answer_obj->getAnswertext() . ""),
+							$db->quote($answer_obj->getPoints() . ""),
+							$db->quote($answer_obj->getOrder() . ""),
+							$db->quote($answer_obj->getClozeType() . ""),
+							$db->quote($answer_obj->getName() . ""),
+							$db->quote($answer_obj->getShuffle() . ""),
 							$db->quote($answer_obj->getState() . "")
 							);
 						$answer_result = $db->query($query);
@@ -1741,7 +1741,7 @@ class ASS_ClozeTest extends ASS_Question
 		$size = 0;
 		foreach ($gap as $answer)
 		{
-			$answertextsize = strlen($answer->get_answertext());
+			$answertextsize = strlen($answer->getAnswertext());
 			if ($answertextsize > $size) $size = $answertextsize;
 		}
 		return $size;

@@ -97,11 +97,11 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 * @access public
 * @see $cloze_type
 */
-  function get_cloze_type() {
+  function getClozeType() {
     return $this->cloze_type;
   }
   
-	function get_shuffle() {
+	function getShuffle() {
 		return $this->shuffle;
 	}
 	
@@ -114,7 +114,7 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 * @access public
 * @see $correctness
 */
-  function set_cloze_type($cloze_type = 0) {
+  function setClozeType($cloze_type = 0) {
     $this->cloze_type = $cloze_type;
   }
 
@@ -127,7 +127,7 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 * @access public
 * @see $name
 */
-  function get_name() {
+  function getName() {
     return $this->name;
   }
   
@@ -140,11 +140,11 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 * @access public
 * @see $name
 */
-  function set_name($name = 0) {
+  function setName($name = 0) {
     $this->name = $name;
   }
 	
-	function set_shuffle($shuffle = 1) {
+	function setShuffle($shuffle = 1) {
 		$this->shuffle = $shuffle;
 	}
 }

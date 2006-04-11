@@ -79,7 +79,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		if ($this->object->get_response() == RESPONSE_SINGLE)
+		if ($this->object->getResponse() == RESPONSE_SINGLE)
 		{
 			return "qt_multiple_choice_sr";
 		}
@@ -101,25 +101,25 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
-		if ($this->object->get_response() == RESPONSE_SINGLE)
+		if ($this->object->getResponse() == RESPONSE_SINGLE)
 		{
 			$this->getQuestionTemplate("qt_multiple_choice_sr");
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
 			// output of existing single response answers
-			for ($i = 0; $i < $this->object->get_answer_count(); $i++)
+			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
 			{
 				$this->tpl->setCurrentBlock("deletebutton");
 				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("answers");
-				$answer = $this->object->get_answer($i);
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
-				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
+				$answer = $this->object->getAnswer($i);
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
+				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->get_points()));
+				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -141,7 +141,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 			
 			$this->tpl->setCurrentBlock("HeadContent");
-			if ($this->object->get_answer_count() == 0)
+			if ($this->object->getAnswerCount() == 0)
 			{
 				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 			}
@@ -152,16 +152,16 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					case "add":
 					case "addTrueFalse":
 					case "addYesNo":
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
 						break;
 					case "":
-						if ($this->object->get_answer_count() == 0)
+						if ($this->object->getAnswerCount() == 0)
 						{
 							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 						}
 						else
 						{
-							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
 						}
 						break;
 					default:
@@ -175,7 +175,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-			$questiontext = $this->object->get_question();
+			$questiontext = $this->object->getQuestion();
 			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
@@ -227,22 +227,22 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
 
 			// output of existing multiple response answers
-			for ($i = 0; $i < $this->object->get_answer_count(); $i++)
+			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
 			{
 				$this->tpl->setCurrentBlock("deletebutton");
 				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("answers");
-				$answer = $this->object->get_answer($i);
+				$answer = $this->object->getAnswer($i);
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
-				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->get_points()));
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
+				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
 				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
 				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("checkbox_unchecked"));
 				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("checkbox_checked"));
-				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
+				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				if ($answer->isStateChecked())
@@ -271,7 +271,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			
 			$this->tpl->setCurrentBlock("HeadContent");
 
-			if ($this->object->get_answer_count() == 0)
+			if ($this->object->getAnswerCount() == 0)
 			{
 				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 			}
@@ -282,16 +282,16 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					case "add":
 					case "addTrueFalse":
 					case "addYesNo":
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
 						break;
 					case "":
-						if ($this->object->get_answer_count() == 0)
+						if ($this->object->getAnswerCount() == 0)
 						{
 							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 						}
 						else
 						{
-							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
 						}
 						break;
 					default:
@@ -309,7 +309,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-			$questiontext = $this->object->get_question();
+			$questiontext = $this->object->getQuestion();
 			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
@@ -387,13 +387,13 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		else
 		{
 			// add a yes/no answer template
-			$this->object->add_answer(
+			$this->object->addAnswer(
 				$this->lng->txt("yes"),
 				0,
 				0,
 				count($this->object->answers)
 			);
-			$this->object->add_answer(
+			$this->object->addAnswer(
 				$this->lng->txt("no"),
 				0,
 				0,
@@ -419,13 +419,13 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		else
 		{
 			// add a true/false answer template
-			$this->object->add_answer(
+			$this->object->addAnswer(
 				$this->lng->txt("true"),
 				0,
 				0,
 				count($this->object->answers)
 			);
-			$this->object->add_answer(
+			$this->object->addAnswer(
 				$this->lng->txt("false"),
 				0,
 				0,
@@ -451,7 +451,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		else
 		{
 			// add an answer template
-			$this->object->add_answer(
+			$this->object->addAnswer(
 				$this->lng->txt(""),
 				0,
 				0,
@@ -475,7 +475,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			// was one of the answers deleted
 			if (preg_match("/delete_(\d+)/", $key, $matches))
 			{
-				$this->object->delete_answer($matches[1]);
+				$this->object->deleteAnswer($matches[1]);
 			}
 		}
 
@@ -559,17 +559,17 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
-		$this->object->set_question($questiontext);
+		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
 
 		$saved = $this->writeOtherPostData($result);
 
 		// Delete all existing answers and create new answers from the form data
-		$this->object->flush_answers();
+		$this->object->flushAnswers();
 
 		// Add all answers from the form into the object
-		if ($this->object->get_response() == RESPONSE_SINGLE)
+		if ($this->object->getResponse() == RESPONSE_SINGLE)
 		{
 			// ...for multiple choice with single response
 			foreach ($_POST as $key => $value)
@@ -589,7 +589,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					{
 						$points = 0.0;
 					}
-					$this->object->add_answer(
+					$this->object->addAnswer(
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
 						ilUtil::stripSlashes(1),
@@ -618,7 +618,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					{
 						$points = 0.0;
 					}
-					$this->object->add_answer(
+					$this->object->addAnswer(
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
 						ilUtil::stripSlashes($_POST["status_$matches[1]"]),
@@ -634,7 +634,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			// was one of the answers deleted
 			if (preg_match("/delete_(\d+)/", $key, $matches))
 			{
-				$this->object->delete_answer($matches[1]);
+				$this->object->deleteAnswer($matches[1]);
 			}
 		}
 
@@ -732,7 +732,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				if (!$show_question_page) 
 				{
 					// rku $output = $this->replaceInputElements($repl_str,"X",$output); 
-					if ($this->object->get_response() == RESPONSE_SINGLE)
+					if ($this->object->getResponse() == RESPONSE_SINGLE)
 					{
 						$output = $this->replaceInputElements($repl_str,"X",$output,"(",")"); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
 					} 
@@ -748,7 +748,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			if (!$show_question_page) 
 			{
 				// rku $output = $this->replaceInputElements("","O", $output); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
-				if ($this->object->get_response() == RESPONSE_SINGLE)
+				if ($this->object->getResponse() == RESPONSE_SINGLE)
 				{						
 					$output = $this->replaceInputElements("","O", $output,"(",")"); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
 				} 
@@ -765,17 +765,17 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$maxindex = -1;
 			foreach ($this->object->answers as $idx => $answer)
 			{
-				if ($answer->get_points() > $maxpoints)
+				if ($answer->getPoints() > $maxpoints)
 				{
-					$maxpoints = $answer->get_points();
+					$maxpoints = $answer->getPoints();
 					$maxindex = $idx;
 				}
 			}
 			foreach ($this->object->answers as $idx => $answer)
 			{
-				if ($this->object->get_response() == RESPONSE_MULTIPLE)
+				if ($this->object->getResponse() == RESPONSE_MULTIPLE)
 				{
-					if ($answer->isStateChecked() && ($answer->get_points() > 0))
+					if ($answer->isStateChecked() && ($answer->getPoints() > 0))
 					{
 						$repl_str = "dummy=\"solution_mc$idx\"";
 						$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);						
@@ -787,7 +787,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
 					if ($answer->isStateChecked())
 					{
-						$sol .= $answer->get_points();
+						$sol .= $answer->getPoints();
 					}
 					else
 					{
@@ -800,7 +800,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
 					if (!$answer->isStateChecked())
 					{
-						$sol .= $answer->get_points();
+						$sol .= $answer->getPoints();
 					}
 					else
 					{
@@ -829,7 +829,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" checked="checked" /> = ';
 					if ($answer->isStateChecked())
 					{
-						$sol .= $answer->get_points();
+						$sol .= $answer->getPoints();
 					}
 					else
 					{
@@ -843,7 +843,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					
 					if (!$answer->isStateChecked())
 					{
-						$sol .= $answer->get_points();
+						$sol .= $answer->getPoints();
 					}
 					else
 					{
@@ -855,7 +855,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx" . "[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);					 				
 				}
 			}
-			if (($maxindex > -1) && ($this->object->get_response() == RESPONSE_SINGLE))
+			if (($maxindex > -1) && ($this->object->getResponse() == RESPONSE_SINGLE))
 			{
 				$repl_str = "dummy=\"solution_mc$maxindex\"";				
 				if ($show_solution_only) 
@@ -866,7 +866,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				else 
 					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
 			}
-			if ($show_solution_only && ($this->object->get_response() == RESPONSE_SINGLE)) 
+			if ($show_solution_only && ($this->object->getResponse() == RESPONSE_SINGLE)) 
 			{
 				if ($maxindex > -1) 
 				{
@@ -888,7 +888,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$reached_points = $this->object->getReachedPoints($ilUser->id, $test_id);
 				$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $reached_points, $this->object->getMaximumPoints());
 				$mc_comment = "";
-				if (($this->object->get_response() == RESPONSE_MULTIPLE) && ($reached_points == 0))
+				if (($this->object->getResponse() == RESPONSE_MULTIPLE) && ($reached_points == 0))
 				{
 					$mc_comment = $this->object->getSolutionCommentMCScoring($test_id);
 					if (strlen($mc_comment))
@@ -941,7 +941,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		if ($this->object->get_response() == RESPONSE_SINGLE)
+		if ($this->object->getResponse() == RESPONSE_SINGLE)
 		{
 			$this->getQuestionTemplate("qt_multiple_choice_sr");
 		}

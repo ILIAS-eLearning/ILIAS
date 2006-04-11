@@ -186,7 +186,7 @@ class ASS_TextSubset extends ASS_Question
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->get_question());
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		for ($counter = 1; $counter <= $this->getCorrectAnswers(); $counter++)
@@ -400,9 +400,9 @@ class ASS_TextSubset extends ASS_Question
 				$answer_obj = $this->answers[$key];
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 					$db->quote($this->id),
-					$db->quote($answer_obj->get_answertext()),
-					$db->quote($answer_obj->get_points() . ""),
-					$db->quote($answer_obj->get_order() . "")
+					$db->quote($answer_obj->getAnswertext()),
+					$db->quote($answer_obj->getPoints() . ""),
+					$db->quote($answer_obj->getOrder() . "")
 				);
 				$answer_result = $db->query($query);
 			}
@@ -473,7 +473,7 @@ class ASS_TextSubset extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function set_question($question = "")
+	function setQuestion($question = "")
 	{
 		$this->question = $question;
 	}
@@ -581,7 +581,7 @@ class ASS_TextSubset extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function get_question()
+	function getQuestion()
 	{
 		return $this->question;
 	}
@@ -639,9 +639,9 @@ class ASS_TextSubset extends ASS_Question
 		$this->answers = array_values($this->answers);
 		for ($i = 0; $i < count($this->answers); $i++)
 		{
-			if ($this->answers[$i]->get_order() > $index)
+			if ($this->answers[$i]->getOrder() > $index)
 			{
-				$this->answers[$i]->set_order($i);
+				$this->answers[$i]->setOrder($i);
 			}
 		}
 	}
@@ -685,7 +685,7 @@ class ASS_TextSubset extends ASS_Question
 		$available_answers = array();
 		foreach ($this->answers as $answer)
 		{
-			array_push($available_answers, $answer->get_answertext());
+			array_push($available_answers, $answer->getAnswertext());
 		}
 		return $available_answers;
 	}
@@ -981,9 +981,9 @@ class ASS_TextSubset extends ASS_Question
 					$answer_obj = $this->answers[$key];
 					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 						$db->quote($this->original_id. ""),
-						$db->quote($answer_obj->get_answertext(). ""),
-						$db->quote($answer_obj->get_points() . ""),
-						$db->quote($answer_obj->get_order() . "")
+						$db->quote($answer_obj->getAnswertext(). ""),
+						$db->quote($answer_obj->getPoints() . ""),
+						$db->quote($answer_obj->getOrder() . "")
 					);
 					$answer_result = $db->query($query);
 				}
@@ -1018,7 +1018,7 @@ class ASS_TextSubset extends ASS_Question
 		$join = array();
 		foreach ($this->answers as $answer)
 		{
-			array_push($join, $answer->get_answertext());
+			array_push($join, $answer->getAnswertext());
 		}
 		return implode(",", $join);
 	}
@@ -1036,7 +1036,7 @@ class ASS_TextSubset extends ASS_Question
 		$maxwidth = 0;
 		foreach ($this->answers as $answer)
 		{
-			$len = strlen($answer->get_answertext());
+			$len = strlen($answer->getAnswertext());
 			if ($len > $maxwidth) $maxwidth = $len;
 		}
 		return $maxwidth + 3;
