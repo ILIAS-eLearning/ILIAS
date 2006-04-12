@@ -53,7 +53,7 @@ administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#initializing_gaps#:#Initializing gaps in tree...
 administration#:#log_scan#:#Log scan results
-administration#:#log_scan_desc#:#Write scan results to \'scanlog.log\' in client data directory.
+administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
@@ -128,6 +128,8 @@ assessment#:#ass_export_files#:#Export files
 assessment#:#ass_file#:#File
 assessment#:#ass_question#:#Question
 assessment#:#ass_questions#:#Questions
+rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
+rbac#:#info_user_view_changed#:#User view changed
 assessment#:#ass_size#:#Size
 assessment#:#available_points#:#Available points
 assessment#:#average_reached_points#:#Average reached points
@@ -149,7 +151,7 @@ assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the \'Create gaps\' button to add an editable form for every gap.
+assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.
 assessment#:#cloze_text#:#Cloze text
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive
@@ -171,7 +173,7 @@ assessment#:#definition#:#Definition
 assessment#:#delete_area#:#Delete area
 assessment#:#delete_user_data#:#Delete test data of the selected users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn\'t available since %s
+assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
 assessment#:#direct_feedback#:#Verify your solution
@@ -202,7 +204,7 @@ assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!
 assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
-assessment#:#ects_use_fx_grade#:#Use the \'FX\' grade, if failed participants reached at least
+assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#edit_content#:#Edit content
 assessment#:#edit_properties#:#Edit properties
@@ -297,10 +299,10 @@ assessment#:#material_file#:#Material file
 assessment#:#maxchars#:#Maximum number of characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#meaning#:#Meaning
-assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn\'t saved.
+assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
 assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>
-assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn\'t saved.
+assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
@@ -338,7 +340,7 @@ assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right a
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
-assessment#:#qpl_delete_describe_undeleteable_questions#:#
+assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot delete these questions:
 assessment#:#qpl_delete_no_deleteable_questions#:#All questions you tried to delete are in use in a random test
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
@@ -349,10 +351,10 @@ assessment#:#qpl_edit_select_multiple#:#Please check only one question for editi
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qpl_general_properties#:#General properties
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver\'s ImageMagick tool isn\'t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool
-assessment#:#qpl_import_no_items#:#The import file contains no questions!
-assessment#:#qpl_import_non_ilias_files#:#The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
@@ -451,7 +453,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
-assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won\'t be able to revert your answers after pressing the submit button.
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Count only complete solutions
 assessment#:#tst_count_partial_solutions#:#Count partial solutions
 assessment#:#tst_delete_all_user_data#:#Delete all user data
@@ -468,9 +470,9 @@ assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test
 assessment#:#tst_eval_user_answer#:#User answer
+assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous answer
-assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won\'t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_generate_xls#:#Generate Excel
@@ -478,17 +480,17 @@ assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_previous_results#:#Hide previous results
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_hide#:#If you check the checkbox, your results from the previous test pass will be hidden
-assessment#:#tst_hide_previous_results_introduction#:#If you\'re processing more than one pass of this test, your previous entered results will not be used as default values
+assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_title_points#:#Question title points
 assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title
-assessment#:#tst_import_no_items#:#The import file contains no questions!
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_introduction#:#Introduction
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..
+assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..  
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema
@@ -508,7 +510,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_questionpools_for_random_test#:#You have not added a question pool for this random test! Please select at least one question pool.
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added question pool.
-assessment#:#tst_no_solution_available#:#Short answer question don\'t have a solution.
+assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. number of passes
@@ -539,7 +541,7 @@ assessment#:#tst_question_type#:#Question type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
-assessment#:#tst_random_qpl_unselected#:#There is at least one unselected question pool! You don\'t need to add a new question pool.
+assessment#:#tst_random_qpl_unselected#:#There is at least one unselected question pool! You don't need to add a new question pool.
 assessment#:#tst_random_questionpools#:#Source question pools
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_random_test#:#Random test
@@ -606,7 +608,7 @@ assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
 assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
 assessment#:#tst_status_missing#:#There are required elements missing in this test!
-assessment#:#tst_status_missing_elements#:#
+assessment#:#tst_status_missing_elements#:#The following elements are missing:
 assessment#:#tst_status_not_entered#:#Not started
 assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.
 assessment#:#tst_status_progress#:#In progress
@@ -617,11 +619,11 @@ assessment#:#tst_test_output#:#Test output
 assessment#:#tst_text_count_system#:#Scoring system
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s. You have %s left.
 assessment#:#tst_total_questions#:#Total amount of questions
-assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don\'t set this value, you need to enter an amount with every selected question pool!
+assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_tst_date#:#Date of Test
 assessment#:#tst_type#:#Test type
 assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!
-assessment#:#tst_type_comment#:#Changing the test type of a running test will delete all previous processed tests!
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
 assessment#:#tst_types#:#Test types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_your_answer_was#:#Your answer was
@@ -638,7 +640,7 @@ assessment#:#unlock_question#:#This question is in use of at least one test and 
 assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this exam.
-assessment#:#user_wrong_clientip#:#You don\'t have the right ip using this test.
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#warning_question_not_complete#:#The question is not complete!
 assessment#:#warning_test_not_complete#:#The test is not complete!
@@ -703,7 +705,7 @@ bibitem#:#bibitem_bibitem#:#Bibliographical information
 bibitem#:#bibitem_book#:#Book
 bibitem#:#bibitem_booktitle#:#Book title
 bibitem#:#bibitem_catalog#:#Catalog
-bibitem#:#bibitem_choose_index#:#
+bibitem#:#bibitem_choose_index#:#Please select a bibliographical information:
 bibitem#:#bibitem_cross_reference#:#Cross reference
 bibitem#:#bibitem_delete#:#Delete
 bibitem#:#bibitem_dissertation#:#Dissertation
@@ -760,8 +762,8 @@ chat#:#chat_access_blocked#:#You are excluded from these chatrooms
 chat#:#chat_active#:#Active
 chat#:#chat_active_users#:#Further users (present)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
-chat#:#chat_add_external_ip#:#Please add the server\'s external IP.
-chat#:#chat_add_internal_ip#:#Please add the server\'s internal IP.
+chat#:#chat_add_external_ip#:#Please add the server's external IP.
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.
 chat#:#chat_add_moderator_password#:#Please add a moderator password.
 chat#:#chat_add_port#:#Please add the server port.
 chat#:#chat_add_private_chatroom#:#Add private chatroom
@@ -776,7 +778,7 @@ chat#:#chat_blocked_unlocked#:#Unlock
 chat#:#chat_blocked_users#:#Blocked users
 chat#:#chat_blue#:#blue
 chat#:#chat_bold#:#Bold
-chat#:#chat_chatroom_body#:#
+chat#:#chat_chatroom_body#:#Chat room:
 chat#:#chat_chatroom_rename#:#Edit chat room
 chat#:#chat_chatrooms#:#Chat Rooms
 chat#:#chat_color#:#Font color
@@ -795,7 +797,7 @@ chat#:#chat_ilias#:#ILIAS Chat module
 chat#:#chat_inactive#:#Inactive
 chat#:#chat_input#:#Input
 chat#:#chat_insert_message#:#Please insert a message
-chat#:#chat_invitation_body#:#
+chat#:#chat_invitation_body#:#Invitation to chat from:
 chat#:#chat_invitation_subject#:#Chat invitation
 chat#:#chat_invite_user#:#Invite user
 chat#:#chat_invited_by#:#Invited by
@@ -812,7 +814,6 @@ chat#:#chat_maroon#:#maroon
 chat#:#chat_messages_deleted#:#Messages have been deleted.
 chat#:#chat_moderator_password#:#Moderator password
 chat#:#chat_navy#:#navy
-chat#:#chat_new_message#:#New message
 chat#:#chat_no_active_users#:#No further users present.
 chat#:#chat_no_blocked#:#No blocked users available
 chat#:#chat_no_connection#:#Cannot contact chat server.
@@ -887,11 +888,15 @@ chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
 style#:#sty_standard_style#:#Standard Style
 style#:#sty_save_standard_styles#:#Save Standard Styles
+common#:#show_notes_on_pd#:#Show notes on personal desktop
 common#:#3rd_party_software#:#3rd party software
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
+common#:#edit_page#:#Edit Page
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
-common#:#account_expires_body#:#
+common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action#:#Action
 common#:#action_aborted#:#Action aborted
@@ -922,7 +927,7 @@ common#:#adm_visible#:#System settings are visible
 common#:#adm_write#:#Edit Basic system settings
 common#:#admin_panel#:#Administration Panel
 common#:#admin_panel_disable#:#Switch Administration Commands Off
-common#:#admin_panel_enable#:#Switch Administration Commands On
+common#:#admin_panel_enable#:#Switch Administration Commands On 
 common#:#administrate#:#Administrate
 common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
@@ -1028,7 +1033,7 @@ common#:#auth_radius_server_desc#:#You may add multiple servers with commas sepa
 common#:#auth_radius_settings_saved#:#RADIUS settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_read#:#Access authentication settings
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user\'s login name and password anymore.
+common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
 common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_script#:#Custom
 common#:#auth_script_desc#:#Authenticate users via external script
@@ -1153,7 +1158,7 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#chat#:#Chat
-common#:#chat_active_in#:#
+common#:#chat_active_in#:#Active in chat:
 common#:#chat_add#:#Add Chat
 common#:#chat_delete#:#Delete chat
 common#:#chat_edit_permission#:#Change permission settings
@@ -1187,8 +1192,8 @@ common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
 common#:#clear_clipboard#:#Empty Clipboard
-common#:#client#:#Client
 common#:#client ip#:#Client IP
+common#:#client#:#Client
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
@@ -1205,7 +1210,7 @@ common#:#condition_deleted#:#Condition deleted.
 common#:#condition_finished#:#Finished
 common#:#condition_not_finished#:#Not finished
 common#:#condition_passed#:#Passed
-common#:#condition_precondition#:#
+common#:#condition_precondition#:#Preconditions:
 common#:#condition_select_object#:#Please select one object.
 common#:#condition_select_one#:#-Please select one condition-
 common#:#condition_update#:#Save
@@ -1224,10 +1229,10 @@ common#:#contra#:#Contra
 common#:#cookies_howto#:#How to enable cookies
 common#:#copied_object#:#Copied object
 common#:#copy#:#Copy
-common#:#copy_of#:#Copy of
-common#:#copy_to#:#to
 common#:#copyChapter#:#Copy
 common#:#copyPage#:#Copy
+common#:#copy_of#:#Copy of
+common#:#copy_to#:#to
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.
 common#:#count#:#Count
 common#:#country#:#Country
@@ -1245,9 +1250,9 @@ common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be in
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#never
 common#:#cron_jobs#:#Cron jobs
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the \'INSTALL Documentation.
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
 common#:#cron_lucene_index#:#Update Lucene search index
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at \'Administration -> Search\'.
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.
 common#:#crs#:#Course
 common#:#crs_a#:#a Course
 common#:#crs_add#:#Add Course
@@ -1298,8 +1303,8 @@ common#:#crs_visible#:#Course is visible
 common#:#crs_write#:#Edit Course
 common#:#cumulative_time#:#Cumulative time
 common#:#cur_number_rec#:#Current number of records
-common#:#current_ip#:#
-common#:#current_ip_alert#:#if you enter a wrong ip you won\'t be able to access the system with this profile anymore.
+common#:#current_ip#:#Current IP:
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
 common#:#current_password#:#Current Password
 common#:#custom_icon_size_big#:#Custom icon size (big)
 common#:#custom_icon_size_small#:#Custom icon size (small)
@@ -1334,7 +1339,6 @@ common#:#dbk_new#:#New Digilib Book
 common#:#dbk_read#:#Read access to Digilib Book
 common#:#dbk_visible#:#Digilib Book is visible
 common#:#dbk_write#:#Edit Digilib Book
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Default repository view
 common#:#default#:#Default
 common#:#default_language#:#Default Language
@@ -1354,7 +1358,6 @@ common#:#delete_selected_items#:#Delete selected items
 common#:#delete_tr_data#:#Delete tracking data
 common#:#deleted#:#Deleted
 common#:#deleted_user#:#The user has been deleted
-common#:#deleted_users#:#Deleted users
 common#:#deliver#:#Deliver exercise
 common#:#department#:#Department
 common#:#desc#:#Description
@@ -1376,7 +1379,6 @@ common#:#edit#:#Edit
 common#:#edit_content#:#Edit content
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
-common#:#edit_page#:#Edit Page
 common#:#edit_perm_ruleset#:#Edit default permission rules
 common#:#edit_properties#:#Edit Properties
 common#:#edit_roleassignment#:#Edit role assignment
@@ -1395,7 +1397,7 @@ common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_js_edit#:#Enable JavaScript Editing
-common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books)
+common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) 
 common#:#enable_password_assistance#:#Enable password assistance
 common#:#enable_registration#:#Enable new user registration
 common#:#enabled#:#Enabled
@@ -1403,7 +1405,7 @@ common#:#enter_filename_deliver#:#Enter exercise to deliver
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
-common#:#err_count_param#:#Wrong parameter count
+common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
@@ -1419,7 +1421,7 @@ common#:#err_over_3_param#:#More than 3 parameters!
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_unknown_error#:#Unknown Error
-common#:#err_wrong_header#:#Wrong header.
+common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
 common#:#err_wrong_password#:#Wrong Password
 common#:#error#:#Error
@@ -1521,7 +1523,7 @@ common#:#filename#:#Filename
 common#:#files#:#Files
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
-common#:#filter#:#
+common#:#filter#:#Filter:
 common#:#firstname#:#First name
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
@@ -1560,7 +1562,7 @@ common#:#force_accept_usr_agreement#:#You must accept the user agreement!
 common#:#forename#:#Forename
 common#:#forgot_password#:#Forgot password?
 common#:#forgot_username#:#Forgot username?
-common#:#form_empty_fields#:#
+common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
 common#:#forum_import#:#Forum import
 common#:#forum_import_file#:#Import file
@@ -1588,8 +1590,8 @@ common#:#frm_edit_post#:#Add new thread, posting
 common#:#frm_new#:#New Forum
 common#:#frm_read#:#Read access to Forum
 common#:#frm_statistics_ranking#:#Ranking
-common#:#frm_status_new#:#Status \'New\'
-common#:#frm_status_new_desc#:#Please select a duration how long the status \'New\' is kept for forum entries.
+common#:#frm_status_new#:#Status 'New'
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
 common#:#frm_visible#:#Forum is visible
 common#:#frm_write#:#Edit forum
 common#:#from#:#From
@@ -1648,7 +1650,7 @@ common#:#group_no_registration#:#Join group
 common#:#group_no_registration_msg#:#You can join this group directly.
 common#:#group_not_available#:#No group available
 common#:#group_objects#:#Group Objects
-common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don\'t know the password.
+common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password.
 common#:#group_registration#:#Registration
 common#:#group_registration_expiration_date#:#Expiration Date
 common#:#group_registration_expiration_time#:#Expiration Time
@@ -1663,7 +1665,7 @@ common#:#group_req_registration_msg#:#You can request membership for this group.
 common#:#group_reset#:#Reset Group Permissions
 common#:#group_status#:#Group is
 common#:#group_status_closed#:#Closed
-common#:#group_status_desc#:#Group is not visible for non-members; User has to be invited by a member to join.
+common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open'<br />Public: Group is visible; User may subscribe.<br />Closed: Group is not visible for non-members; User has to be invited by a member to join.
 common#:#group_status_public#:#Public
 common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
@@ -1677,6 +1679,7 @@ common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_back#:#Back
 common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
+common#:#grp_create_grp#:#Create Group
 common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Create Chat
 common#:#grp_create_dbk#:#Create Digilib Book
@@ -1685,7 +1688,6 @@ common#:#grp_create_file#:#Upload File
 common#:#grp_create_fold#:#Create Folder
 common#:#grp_create_frm#:#Create Forum
 common#:#grp_create_glo#:#Create Glossary
-common#:#grp_create_grp#:#Create Group
 common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_create_htlm#:#Create HTML Learning Module
 common#:#grp_create_icrs#:#Create LearnLinc Seminar
@@ -1747,20 +1749,25 @@ common#:#guests#:#Guests
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#help#:#Help
-common#:#HH#:#M
 common#:#hide#:#hide
 common#:#hide_details#:#Hide Details
 common#:#hide_private_notes#:#Hide private notes
 common#:#hide_public_notes#:#Hide public notes
 common#:#hide_structure#:#Disable Structured-View
-common#:#hist_dbk#:#Page created
-common#:#hist_file_create#:#File created, file name is \"%1\".
-common#:#hist_file_replace#:#File replaced, new file name is \"%1\", new version is %2.
-common#:#hist_lm#:#Page created
+common#:#hist_dbk:pg_create#:#Page created
+common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]
+common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]
+common#:#hist_dbk:pg_update#:#Page changed
+common#:#hist_file_create#:#File created, file name is "%1".
+common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2.
+common#:#hist_lm:pg_create#:#Page created
+common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]
+common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]
+common#:#hist_lm:pg_update#:#Page changed
 common#:#hist_no_entries#:#No entries in history.
-common#:#hist_webr_add#:#\"%1\"
-common#:#hist_webr_delete#:#\"%1\"
-common#:#hist_webr_update#:#\"%1\"
+common#:#hist_webr_add#:#Added new Web Resource with title: "%1"
+common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1"
+common#:#hist_webr_update#:#Update Web Resource. Title: "%1"
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -1855,7 +1862,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cance
 common#:#ilinc_mail_subj_new_subscription#:#New subscription
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#ilinc_manage_course_documents#:#Materials
-common#:#ilinc_mem_change_status#:#Change user\'s status
+common#:#ilinc_mem_change_status#:#Change user's status
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar
 common#:#ilinc_mem_send_mail#:#Send user a message
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
@@ -1867,7 +1874,7 @@ common#:#ilinc_remark#:#Remark
 common#:#ilinc_server_not_active#:#iLinc server not activated
 common#:#ilinc_student#:#Participant
 common#:#ilinc_upload_pic_linktext#:#Upload
-common#:#ilinc_upload_pic_text#:#
+common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
 common#:#import#:#Import
@@ -1920,7 +1927,7 @@ common#:#info_not_assigned#:#not assigned
 common#:#info_owner_of_object#:#Owner of object
 common#:#info_permission_origin#:#Original position
 common#:#info_permission_source#:#effective from*
-common#:#info_remark_interrupted#:#Role is interrupted at this position. The role\'s default permission settings in effect are located in that position.
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
 common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
 common#:#info_trash#:#Deleted Objects
@@ -1935,7 +1942,7 @@ common#:#ingmedia_good_morning#:#Good morning
 common#:#ingmedia_good_night#:#Good night
 common#:#ingmedia_hello#:#Hello
 common#:#ingmedia_info_about_work1#:#On
-common#:#ingmedia_info_about_work2#:#
+common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:
 common#:#ingmedia_level_zero#:#Level up
 common#:#ingmedia_pers_dates#:#Personal data
 common#:#ingmedia_reg_fo#:#Registered forums
@@ -1994,7 +2001,7 @@ common#:#lang_sep_thousand#:#,
 common#:#lang_sq#:#Albanian
 common#:#lang_sr#:#Serbian
 common#:#lang_sv#:#Swedish
-common#:#lang_timeformat#:#
+common#:#lang_timeformat#:#H:i:s
 common#:#lang_uk#:#Ukrainian
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese
@@ -2007,10 +2014,9 @@ common#:#languages#:#Languages
 common#:#languages_already_installed#:#Selected language(s) are already installed
 common#:#languages_already_uninstalled#:#Selected language(s) are already uninstalled
 common#:#languages_updated#:#All installed languages have been updated
-common#:#last_access#:#
+common#:#last_access#:#Last access:
 common#:#last_change#:#Last Change
 common#:#last_edited_on#:#Last edited on
-common#:#last_login#:#Last login
 common#:#last_update#:#Last Update
 common#:#last_visit#:#Last Visit
 common#:#lastname#:#Last name
@@ -2040,7 +2046,7 @@ common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#link_check#:#Link check
-common#:#link_check_body_top#:#
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.
 common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
@@ -2050,11 +2056,11 @@ common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user 
 common#:#link_selected_items#:#Link selected items
 common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
-common#:#links_add_param#:#
+common#:#links_add_param#:#Add parameter:
 common#:#links_dyn_parameter#:#Dynamic parameters
 common#:#links_dynamic#:#Dynamic Web Links parameters
 common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
-common#:#links_existing_params#:#
+common#:#links_existing_params#:#Existing parameters:
 common#:#links_name#:#Parameter name
 common#:#links_no_name_given#:#Please choose a parameter name.
 common#:#links_no_value_given#:#Please choose a parameter value.
@@ -2103,7 +2109,7 @@ common#:#local#:#Local
 common#:#local_language_file#:#local language file
 common#:#local_language_files#:#local language files
 common#:#local_languages_already_installed#:#Selected local language file(s) are already installed
-common#:#locator#:#
+common#:#locator#:#Location:
 common#:#log_in#:#Login
 common#:#logic_and#:#and
 common#:#logic_or#:#or
@@ -2111,7 +2117,7 @@ common#:#login#:#Login
 common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this login name! Please choose another one.
-common#:#login_invalid#:#A-Z a-z 0-9 _.-+*@!$%~
+common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth
@@ -2176,14 +2182,14 @@ common#:#mep_delete#:#Delete Media Pool
 common#:#mep_edit#:#Edit Media Pool Properties
 common#:#mep_edit_permission#:#Change permission settings
 common#:#mep_new#:#New Media Pool
-common#:#mep_not_insert_already_exist#:#
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
 common#:#mep_read#:#Read Media Pool Content
 common#:#mep_visible#:#Media Pool is visible
 common#:#mep_write#:#Edit Media Pool Content
 common#:#message#:#Message
 common#:#message_content#:#Message Content
-common#:#message_no_delivered_files#:#You don\'t have delivered a file!
-common#:#message_to#:#
+common#:#message_no_delivered_files#:#You don't have delivered a file!
+common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
@@ -2219,17 +2225,17 @@ common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
 common#:#monthly#:#monthly
 common#:#move#:#Move
+common#:#moveChapter#:#Move
+common#:#movePage#:#Move
 common#:#move_selected_items#:#Move selected items
 common#:#move_to#:#Move to
 common#:#move_users_to_style#:#Move users to style
-common#:#moveChapter#:#Move
-common#:#movePage#:#Move
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard#:#copy)
-common#:#msg_cut_clipboard#:#cut)
+common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy)
+common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut)
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_role#:#Role deleted
 common#:#msg_deleted_roles#:#Roles deleted
@@ -2241,39 +2247,39 @@ common#:#msg_failed#:#Sorry, action failed
 common#:#msg_invalid_filetype#:#Invalid file type
 common#:#msg_is_last_role#:#You removed the last global role from the following users
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
-common#:#msg_link_clipboard#:#link)
+common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link)
 common#:#msg_linked#:#Selected object(s) linked.
-common#:#msg_may_not_contain#:#
+common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_min_one_active_role#:#Each user must have at least one active global role!
 common#:#msg_min_one_role#:#Each user must have at least one global role!
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
-common#:#msg_no_file#:#You didn\'t choose a file
+common#:#msg_no_file#:#You didn't choose a file
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user\'s role assignment
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment
-common#:#msg_no_perm_copy#:#
-common#:#msg_no_perm_create#:#
+common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
+common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
 common#:#msg_no_perm_create_object2#:#at this location!
 common#:#msg_no_perm_create_role#:#You have no permission to add roles
 common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.
 common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
 common#:#msg_no_perm_create_user#:#You have no permission to add users
-common#:#msg_no_perm_cut#:#
-common#:#msg_no_perm_delete#:#
+common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s):
+common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s):
 common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.
-common#:#msg_no_perm_link#:#
+common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s):
 common#:#msg_no_perm_modify_role#:#You have no permission to modify roles
 common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templates
 common#:#msg_no_perm_modify_user#:#You have no permission to modify user data
-common#:#msg_no_perm_paste#:#
+common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
-common#:#msg_no_perm_undelete#:#
+common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
@@ -2282,30 +2288,30 @@ common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
 common#:#msg_no_title#:#Please enter a title.
-common#:#msg_no_url#:#You didn\'t enter a URL
+common#:#msg_no_url#:#You didn't enter a URL
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
-common#:#msg_not_in_itself#:#It\'s not possible to paste the object in itself
+common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_obj_no_link#:#are not allowed to be linked
 common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.
-common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
+common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_exists1#:#A role/role template with the name
 common#:#msg_role_exists2#:#already exists! Please choose another name
-common#:#msg_role_reserved_prefix#:#The prefix \'il_\' is reserved for automatically generated roles. Please choose another name
+common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for automatically generated roles. Please choose another name
 common#:#msg_roleassignment_active_changed#:#Active role assignment changed
-common#:#msg_roleassignment_active_changed_comment#:#This setting is not saved to the user\'s profile! If the user logs in again, all active role assignments reset to their saved values.
+common#:#msg_roleassignment_active_changed_comment#:#This setting is not saved to the user's profile! If the user logs in again, all active role assignments reset to their saved values.
 common#:#msg_roleassignment_changed#:#Role assignment changed
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_undeleted#:#Object(s) undeleted.
-common#:#msg_user_last_role1#:#
+common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed
 common#:#multimedia#:#Multimedia
@@ -2358,7 +2364,7 @@ common#:#no_tst_in_personal_list#:#No tests in personal list.
 common#:#no_user_defined_fields_defined#:#No user-defined fields available.
 common#:#no_users_applied#:#Please select a user.
 common#:#no_users_selected#:#Please select one user.
-common#:#no_xml_file_found_in_zip#:#
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
 common#:#no_zip_file#:#No zip file found.
 common#:#non_internal_local_roles_only#:#Local roles (only userdefined)
 common#:#none#:#None
@@ -2437,7 +2443,7 @@ common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
-common#:#obj_stys#:#Style Settings
+common#:#obj_stys#:#Style Settings 
 common#:#obj_stys_desc#:#Manage system skin and style settings here
 common#:#obj_svy#:#Survey
 common#:#obj_tax#:#Taxonomy
@@ -2526,16 +2532,16 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passed#:#Passed
 common#:#passwd#:#Password
-common#:#passwd_invalid#:#A-Z a-z 0-9 _.-+?#*@!$%~
-common#:#passwd_not_match#:#Your entries for the new password don\'t match! Please re-enter your new password.
+common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
+common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.
-common#:#password_assistance_info#:#If password assistance is enabled, a link with the text \"Forgot Password?\" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.
+common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.
 common#:#paste#:#Paste
-common#:#paste_clipboard_items#:#Paste items from clipboard
 common#:#pasteChapter#:#Paste
 common#:#pastePage#:#Paste
+common#:#paste_clipboard_items#:#Paste items from clipboard
 common#:#path#:#Path
 common#:#path_not_set#:#Path not set
 common#:#path_to_babylon#:#Path to Babylon
@@ -2626,8 +2632,8 @@ common#:#refresh_list#:#Refresh List
 common#:#refuse#:#Refuse
 common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
-common#:#reg_mail_body_text2#:#
-common#:#reg_mail_body_text3#:#
+common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:
+common#:#reg_mail_body_text3#:#Further personal information:
 common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
 common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.
 common#:#register#:#Register
@@ -2769,7 +2775,7 @@ common#:#search_active#:#Include active users
 common#:#search_for#:#Search For
 common#:#search_in#:#Search in
 common#:#search_inactive#:#Include inactive users
-common#:#search_minimum_characters#:#
+common#:#search_minimum_characters#:#The minimum word length is:
 common#:#search_new#:#New Search
 common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.
 common#:#search_recipient#:#Search Recipient
@@ -2810,12 +2816,12 @@ common#:#server#:#Server
 common#:#server_data#:#Server data
 common#:#server_software#:#Server Software
 common#:#set#:#Set
+common#:#setSystemLanguage#:#Set System Language
+common#:#setUserLanguage#:#Set User Language
 common#:#set_offline#:#Set Offline
 common#:#set_online#:#Set Online
-common#:#setSystemLanguage#:#Set System Language
 common#:#settings#:#Settings
 common#:#settings_saved#:#Saved settings
-common#:#setUserLanguage#:#Set User Language
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Enable Shibboleth support
 common#:#shib_city#:#Attribute for city
@@ -2827,9 +2833,9 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_edit_permission#:#Change permission settings
 common#:#shib_email#:#Attribute for email address
 common#:#shib_firstname#:#Attribute for firstname
-common#:#shib_gender#:#Attribute for gender (must be \'m\' or \'f\')
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')
 common#:#shib_institution#:#Attribute for institution
-common#:#shib_instructions#:#Be sure to read the <a href=\"README.SHIBBOLETH.txt\" target=\"_blank\">README</a> for instructions on how to configure Shibboleth support for ILIAS.
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.
 common#:#shib_language#:#Attribute for language
 common#:#shib_lastname#:#Attribute for lastname
 common#:#shib_login#:#Unique Shibboleth attribute
@@ -2851,7 +2857,6 @@ common#:#show#:#Show
 common#:#show_details#:#Show Details
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
-common#:#show_notes_on_pd#:#Show notes on personal desktop
 common#:#show_owner#:#Show Owner
 common#:#show_private_notes#:#Show private notes
 common#:#show_public_notes#:#Show public notes
@@ -2979,7 +2984,6 @@ common#:#today#:#Today
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#Total
-common#:#total_online#:#S)
 common#:#tpl_path#:#Template Path
 common#:#trac_delete#:#Delete Tracking Data
 common#:#trac_edit_permission#:#Change permission settings
@@ -3006,7 +3010,7 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.
-common#:#tst_user_wrong_clientip#:#You don\'t have the right ip using this test
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
 common#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tst_write#:#Edit Test
@@ -3028,11 +3032,7 @@ common#:#udf_no_entries#:#Please enter minimum one value.
 common#:#udf_no_name_given#:#Please enter a field name.
 common#:#udf_type_select#:#Select box (fixed values)
 common#:#udf_type_text#:#Text field (optional values)
-common#:#udf_update_select_field#:#Edit select box
-common#:#udf_update_success#:#Saved modifications.
-common#:#udf_update_text_field#:#Edit text field
 common#:#udf_value#:#Value
-common#:#udf_value_deleted#:#The value has been deleted.
 common#:#uid#:#UID
 common#:#unambiguousness#:#Unambiguousness
 common#:#uncheck_all#:#Uncheck all
@@ -3051,7 +3051,7 @@ common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
 common#:#update_on_conflict#:#Update on conflict
 common#:#upload#:#Upload
-common#:#upload_error_file_not_found#:#File not found.
+common#:#upload_error_file_not_found#:#Upload error: File not found.
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#url#:#URL
 common#:#url_a#:#a URL
@@ -3097,7 +3097,7 @@ common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Active users
 common#:#users_online_show_associated#:#Show members of my courses and groups only
-common#:#users_online_show_n#:#Don\'t show active users
+common#:#users_online_show_n#:#Don't show active users
 common#:#users_online_show_y#:#Show all active users
 common#:#usertracking#:#User Tracking
 common#:#usr#:#User
@@ -3111,7 +3111,7 @@ common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
-common#:#usr_settings_explanation_profile#:#Check \'Visible\' to show fields in the registration form and personal user profile on the personal desktop. Check \'Changeable\' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings.
+common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal user profile on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings.
 common#:#usr_settings_header_profile#:#User profile settings
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!
@@ -3130,20 +3130,20 @@ common#:#usrf_write#:#Edit user accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
-common#:#usrimport_cant_delete#:#Can\'t perform \"Delete\" action. No such user in database.
-common#:#usrimport_cant_insert#:#Can\'t perform \"Insert\" action. User is already in database.
-common#:#usrimport_cant_update#:#Can\'t perform \"Update\" action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When \"Ignore on conflict\" is selected, ILIAS ignores an action, if it can not be performed (e. g. an \"Insert\" action is not done, if there is already a user with the same login in the database.)\\nWhen \"Update on conflict\" is selected, ILIAS updates the database if an action can not be performed. (e. g. an \"Insert\" action is replaced by an \"Update\" action, if a user with the same login exists in the database).
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for \"%1$s\" action.
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.
+common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.
+common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). 
+common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
-common#:#usrimport_xml_attribute_missing#:#Attribute \"%2$s\" in element \"%1$s\" is missing.
-common#:#usrimport_xml_attribute_value_illegal#:#Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is illegal.
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is inapplicable for \"%4$s\" action.
-common#:#usrimport_xml_element_content_illegal#:#Content \"%2$s\" of element \"%1$s\" is illegal.
-common#:#usrimport_xml_element_for_action_required#:#Element \"%1$s\" must be specified for \"%2$s\" action.
-common#:#usrimport_xml_element_inapplicable#:#Element \"%1$s\" is inapplicable for \"%2$s\" action.
+common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
+common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
+common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.
 common#:#valid#:#Valid
 common#:#validate#:#Validate
 common#:#value#:#Value
@@ -3171,7 +3171,7 @@ common#:#webr_add_item#:#Add Web Resource
 common#:#webr_delete#:#Delete Web Resource
 common#:#webr_delete_items#:#Delete Web Resource(s)
 common#:#webr_deleted_items#:#Deleted Web Resource(s).
-common#:#webr_disable_check#:#Disable check
+common#:#webr_disable_check#:#Disable check 
 common#:#webr_edit#:#Edit Web Resource
 common#:#webr_edit_item#:#Edit Web Resource
 common#:#webr_edit_permission#:#Change permission settings
@@ -3179,7 +3179,7 @@ common#:#webr_fillout_all#:#Please fill out all required fields.
 common#:#webr_item_updated#:#Saved modifications
 common#:#webr_join#:#Subscribe Web Resource
 common#:#webr_last_check#:#Last check
-common#:#webr_last_check_table#:#
+common#:#webr_last_check_table#:#Last check:
 common#:#webr_leave#:#Unsubscribe Web Resource
 common#:#webr_modified_items#:#Saved modifications.
 common#:#webr_never_checked#:#Never checked
@@ -3204,11 +3204,34 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
+content#:#HTML export#:#HTML Export
+content#:#PDF export#:#PDF Export
+content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add menu entry >>
 content#:#all#:#All
-content#:#all_pages#:#the entire Learning module
+content#:#all_pages#:#the entire Learning module 
 content#:#choose_public_mode#:#Unregistered users may access
 content#:#choose_public_pages#:#Choose public accessible pages
+content#:#cont_Additional#:#Additional
+content#:#cont_Alphabetic#:#Alphabetic A, B, ...
+content#:#cont_Circle#:#Circle
+content#:#cont_Citation#:#Citation
+content#:#cont_Code#:#Code
+content#:#cont_Example#:#Example
+content#:#cont_Headline1#:#Headline 1
+content#:#cont_Headline2#:#Headline 2
+content#:#cont_Headline3#:#Headline 3
+content#:#cont_List#:#List
+content#:#cont_LocalFile#:#Local File
+content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_Number#:#Number
+content#:#cont_Poly#:#Polygon
+content#:#cont_Rect#:#Rectangle
+content#:#cont_Reference#:#Reference
+content#:#cont_Remark#:#Remark
+content#:#cont_Roman#:#Roman I, II, ...
+content#:#cont_TableContent#:#Table Content
+content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
 content#:#cont_active#:#Enable Menu
 content#:#cont_add_area#:#Add Area
@@ -3217,10 +3240,9 @@ content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_fullscreen#:#Add Full Screen
 content#:#cont_added_comment#:#Comment has been added to history.
 content#:#cont_added_term#:#Term added
-content#:#cont_Additional#:#Additional
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
-content#:#cont_Alphabetic#:#Alphabetic A, B, ...
+content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
@@ -3249,10 +3271,8 @@ content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
 content#:#cont_choose_glossary#:#Choose Glossary
 content#:#cont_choose_media_source#:#Choose Media Source
-content#:#cont_Circle#:#Circle
-content#:#cont_Citation#:#Citation
 content#:#cont_citation_err_one#:#You must select exactly one edition
-content#:#cont_citation_selection_not_valid#:#You\'re selection is not valid
+content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
@@ -3261,7 +3281,6 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
-content#:#cont_Code#:#Code
 content#:#cont_confirm_delete#:#really delete ?
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
@@ -3278,12 +3297,12 @@ content#:#cont_create_export_file_xml#:#Create Export File (XML)
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object
-content#:#cont_credit_mode#:#Credit mode (for lesson mode \'normal\')
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')
 content#:#cont_credit_off#:#No Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credits
 content#:#cont_cross_reference#:#Cross reference
-content#:#cont_data_from_lms#:#atafromlms
+content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
 content#:#cont_def_lesson_mode#:#Default lesson mode
 content#:#cont_def_organization#:#default
@@ -3300,11 +3319,11 @@ content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Enable download of all public export files.
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_ed_align_center#:#center
-content#:#cont_ed_align_left#:#left
-content#:#cont_ed_align_left_float#:#left float
-content#:#cont_ed_align_right#:#right
-content#:#cont_ed_align_right_float#:#right float
+content#:#cont_ed_align_center#:#align: center
+content#:#cont_ed_align_left#:#align: left
+content#:#cont_ed_align_left_float#:#align: left float
+content#:#cont_ed_align_right#:#align: right
+content#:#cont_ed_align_right_float#:#align: right float
 content#:#cont_ed_class#:#Style
 content#:#cont_ed_col_left#:#move column left
 content#:#cont_ed_col_right#:#move column right
@@ -3352,7 +3371,7 @@ content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
 content#:#cont_enable_js#:#JavaScript active
 content#:#cont_enable_media#:#Media active
-content#:#cont_Example#:#Example
+content#:#cont_example#:#e.g.
 content#:#cont_export_files#:#Export Files
 content#:#cont_external#:#external
 content#:#cont_external_url#:#external url
@@ -3374,9 +3393,6 @@ content#:#cont_get_link#:#get link
 content#:#cont_get_orig_size#:#Set original size
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Glossary Properties
-content#:#cont_Headline1#:#Headline 1
-content#:#cont_Headline2#:#Headline 2
-content#:#cont_Headline3#:#Headline 3
 content#:#cont_height#:#Height
 content#:#cont_how_published#:#How published
 content#:#cont_href#:#href
@@ -3407,7 +3423,6 @@ content#:#cont_link_int#:#Link (internal)
 content#:#cont_link_select#:#Internal Link
 content#:#cont_link_type#:#Link Type
 content#:#cont_linked_mobs#:#Linked media objects
-content#:#cont_List#:#List
 content#:#cont_list_files#:#List Files
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lk_chapter#:#Chapter
@@ -3424,25 +3439,23 @@ content#:#cont_lk_term#:#Glossary Term
 content#:#cont_lk_term_new#:#Glossary Term (New Frame)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Learning Module Properties
-content#:#cont_LocalFile#:#Local File
 content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
-content#:#cont_mastery_score#:#asteryscore
+content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#matches
 content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
-content#:#cont_max_time_allowed#:#axtimeallowed
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter \"%s\".
-content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
 content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Month
 content#:#cont_move_object#:#move object
-content#:#cont_msg_multiple_editions#:#It\'s not possible to show details of multiple editions
+content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#New Link Area
 content#:#cont_new_assignment#:#New assignment
@@ -3455,13 +3468,12 @@ content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page#:#No Page found.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder \'%s\'.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.
 content#:#cont_no_zip_file#:#Import file is not a zip file.
 content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_rows#:#Number of Rows
-content#:#cont_Number#:#Number
 content#:#cont_obj_removed#:#Objects removed.
 content#:#cont_offline#:#Offline Versions
 content#:#cont_offline_files#:#Offline versions
@@ -3484,9 +3496,8 @@ content#:#cont_personal_clipboard#:#Personal Clipboard
 content#:#cont_pg_content#:#Page Content
 content#:#cont_pg_title#:#Page Title
 content#:#cont_please_select#:#please select
-content#:#cont_Poly#:#Polygon
-content#:#cont_prereq_type#:#rerequisites.type
-content#:#cont_prerequisites#:#rerequisites
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Preview
 content#:#cont_print_view#:#Print View
 content#:#cont_public_access#:#Public access
@@ -3494,11 +3505,9 @@ content#:#cont_public_notes#:#Public Notes
 content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module.
 content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
-content#:#cont_Rect#:#Rectangle
-content#:#cont_ref_helptext#:#/www.server.org/myimage.jpg)
+content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Referenced Images
-content#:#cont_Reference#:#Reference
-content#:#cont_Remark#:#Remark
+content#:#cont_reference#:#Reference
 content#:#cont_remove_fullscreen#:#Remove Full Screen
 content#:#cont_removeiln#:#really remove internal link ?
 content#:#cont_repository_item#:#Repository Item
@@ -3511,11 +3520,11 @@ content#:#cont_resize_image#:#Resize images
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
-content#:#cont_Roman#:#Roman I, II, ...
+content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_rvalue#:#Value
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
-content#:#cont_sc_auto_review#:#Set lesson mode \'review\' if student completed SCO
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO
 content#:#cont_sc_less_mode_browse#:#Browse
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Browsed
@@ -3528,7 +3537,7 @@ content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
 content#:#cont_score#:#Score
-content#:#cont_scorm_type#:#cormtype
+content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
@@ -3581,20 +3590,19 @@ content#:#cont_table_html_import_info#:#Import only works with XHTML conform tab
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_table_width#:#Table Width
-content#:#cont_TableContent#:#Table Content
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
-content#:#cont_text_code#:#
-content#:#cont_text_com#:#
-content#:#cont_text_emp#:#
-content#:#cont_text_fn#:#
-content#:#cont_text_iln#:#
-content#:#cont_text_quot#:#
-content#:#cont_text_str#:#
-content#:#cont_text_xln#:#
+content#:#cont_text_code#:#Code:
+content#:#cont_text_com#:#Comment:
+content#:#cont_text_emp#:#Emphatic Text:
+content#:#cont_text_fn#:#Footnote:
+content#:#cont_text_iln#:#Internal Link, e.g.:
+content#:#cont_text_quot#:#Quotation:
+content#:#cont_text_str#:#Strong Text:
+content#:#cont_text_xln#:#External Link:
 content#:#cont_time#:#Time
-content#:#cont_time_limit_action#:#imelimitaction
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#title
 content#:#cont_title_footnotes#:#Footnotes
 content#:#cont_toc#:#Table of Contents
@@ -3606,7 +3614,6 @@ content#:#cont_tracking_items#:#Tracking Items
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
 content#:#cont_tree_fixed#:#Tree structure has been fixed.
-content#:#cont_Unordered#:#Unordered
 content#:#cont_update#:#Update
 content#:#cont_update_names#:#Update Names
 content#:#cont_upload_file#:#Upload File
@@ -3619,13 +3626,12 @@ content#:#cont_view_last_export_log#:#Last Export Log
 content#:#cont_where_published#:#Where published
 content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content WYSIWYG
-content#:#cont_xml_base#:#ase
+content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file \'%s\'.
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#The following resources linking to that term
-content#:#HTML export#:#HTML Export
 content#:#lm_menu_edit_entry#:#Edit menu entry
 content#:#lm_menu_entry_target#:#Target
 content#:#lm_menu_entry_title#:#Title
@@ -3637,23 +3643,21 @@ content#:#msg_entry_removed#:#Menu entry removed
 content#:#msg_entry_updated#:#Menu entry updated
 content#:#msg_page_no_public_access#:#The page you called is not available in the public area. Only registered users may view this page. Please login first to access this page.
 content#:#msg_page_not_public#:#Page is not public
-content#:#Pages#:#Pages
 content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
-content#:#PDF export#:#PDF Export
 content#:#pg#:#Page
 content#:#public_section#:#Public Area
 content#:#read offline#:#Read Offline
 content#:#select_a_file#:#Please select a file.
-content#:#selected_pages_only#:#only that pages selected below
+content#:#selected_pages_only#:#only that pages selected below 
 content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#assigned#:#Assigned
 crs#:#contact_email_not_valid#:#the contact email is not valid.
-crs#:#crs_accept_subscriber#:#Admission to course \"%s\"
-crs#:#crs_accept_subscriber_body#:#You have been admitted to course \"%s\".
+crs#:#crs_accept_subscriber#:#Admission to course "%s"
+crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s".
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Create a HTML Archive
@@ -3666,8 +3670,8 @@ crs#:#crs_add_objective#:#Add objective
 crs#:#crs_add_starter#:#Add start object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
-crs#:#crs_added_member#:#Addmission to course \"%s\"
-crs#:#crs_added_member_body#:#You have been admitted to course \"%s\".
+crs#:#crs_added_member#:#Addmission to course "%s"
+crs#:#crs_added_member_body#:#You have been admitted to course "%s".
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
 crs#:#crs_added_starters#:#Assigned start object(s).
@@ -3692,11 +3696,11 @@ crs#:#crs_availability_limitless_info#:#Choose this mode for making the course a
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
 crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.
 crs#:#crs_blocked#:#Access refused
-crs#:#crs_blocked_member#:#Membership status in course \"%s\"
-crs#:#crs_blocked_member_body#:#Your membership for course \"%s\" has been blocked.
-crs#:#crs_cancel_subscription#:#Resigned from course \"%s\"
-crs#:#crs_cancel_subscription_body#:#A member has resigned from course \"%s\".
-crs#:#crs_change_status#:#
+crs#:#crs_blocked_member#:#Membership status in course "%s"
+crs#:#crs_blocked_member_body#:#Your membership for course "%s" has been blocked.
+crs#:#crs_cancel_subscription#:#Resigned from course "%s"
+crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s".
+crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
 crs#:#crs_contact#:#Contact
 crs#:#crs_contact_consultation#:#Consultation
@@ -3720,8 +3724,8 @@ crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected o
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
 crs#:#crs_details#:#Course Details
-crs#:#crs_dismiss_member#:#Terminated membership for course \"%s\"
-crs#:#crs_dismiss_member_body#:#You membership for course \"%s\" has been terminated
+crs#:#crs_dismiss_member#:#Terminated membership for course "%s"
+crs#:#crs_dismiss_member_body#:#You membership for course "%s" has been terminated
 crs#:#crs_edit_archive#:#Edit Archives
 crs#:#crs_edit_content#:#Edit items
 crs#:#crs_end#:#End
@@ -3740,12 +3744,12 @@ crs#:#crs_groupings_ask_delete#:#Delete course grouping
 crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_assigned_courses#:#Assigned courses.
-crs#:#crs_grp_assigned_courses_info#:#
+crs#:#crs_grp_assigned_courses_info#:#Assigned courses:
 crs#:#crs_grp_courses_already_assigned#:#The selected courses were already assigned.
 crs#:#crs_grp_crs_assignment#:#Course assignment
 crs#:#crs_grp_deassigned_courses#:#Delete assignment
 crs#:#crs_grp_enter_title#:#Please enter a title.
-crs#:#crs_grp_info_reg#:#
+crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
 crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
 crs#:#crs_grp_modified_grouping#:#Saved modifications.
 crs#:#crs_grp_no_course_selected#:#Please select one course.
@@ -3756,7 +3760,7 @@ crs#:#crs_header_delete_members#:#Delete members
 crs#:#crs_header_delete_subscribers#:#Delete subscribers
 crs#:#crs_header_edit_members#:#Edit members
 crs#:#crs_header_members#:#Course members
-crs#:#crs_header_remove_from_waiting_list#:#deassign users
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users
 crs#:#crs_hide_link_lms#:#Hide learning materials
 crs#:#crs_hide_link_objectives#:#Hide objectives
 crs#:#crs_hide_link_or#:#Hide other resources
@@ -3766,7 +3770,7 @@ crs#:#crs_info_reg#:#Admittance
 crs#:#crs_info_reg_confirmation#:#You can request membership for this course. You will get a message from a course administrator when your request has been admitted or declined.
 crs#:#crs_info_reg_deactivated#:#Course admittance is closed.
 crs#:#crs_info_reg_direct#:#You can join this course directly.
-crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course.
+crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course. 
 crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.
 crs#:#crs_learning_materials#:#Learning materials
 crs#:#crs_list_users#:#List users
@@ -3780,7 +3784,7 @@ crs#:#crs_mem_change_status#:#Change status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Member
 crs#:#crs_member_blocked#:#Member (blocked)
-crs#:#crs_member_of#:#
+crs#:#crs_member_of#:#Member of course:
 crs#:#crs_member_unblocked#:#Member (unblocked)
 crs#:#crs_member_updated#:#The member has been updated
 crs#:#crs_members_deleted#:#Deleted members
@@ -3793,10 +3797,10 @@ crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
 crs#:#crs_moved_objective#:#Moved learning objective.
 crs#:#crs_new_search#:#New search
-crs#:#crs_new_subscription#:#User joined course \"%s\"
-crs#:#crs_new_subscription_body#:#A user has joined course \"%s\".
-crs#:#crs_new_subscription_request#:#Request to join course \"%s\"
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course \"%s\".
+crs#:#crs_new_subscription#:#User joined course "%s"
+crs#:#crs_new_subscription_body#:#A user has joined course "%s".
+crs#:#crs_new_subscription_request#:#Request to join course "%s"
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
 crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
@@ -3807,7 +3811,6 @@ crs#:#crs_no_items_found#:#No items
 crs#:#crs_no_language#:#No language
 crs#:#crs_no_lm_selected#:#Please select one learning material.
 crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.
-crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.
 crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.
 crs#:#crs_no_member_selected#:#Please select one member
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course
@@ -3828,7 +3831,7 @@ crs#:#crs_not_available#:#-Not available-
 crs#:#crs_notification#:#Notification
 crs#:#crs_notify#:#Notify for new registrations
 crs#:#crs_nr#:#Nr.
-crs#:#crs_number_users_added#:#
+crs#:#crs_number_users_added#:#The following number of users has been assigned to the course:
 crs#:#crs_objective_accomplished#:#Accomplished
 crs#:#crs_objective_assign_chapter#:#Assign chapters
 crs#:#crs_objective_assign_lm#:#Assign learning material
@@ -3874,7 +3877,6 @@ crs#:#crs_other_groupings#:#Groupings of other courses
 crs#:#crs_other_resources#:#Other resources
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
-crs#:#crs_password_required#:#This registration procedure requires a password.
 crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list
 crs#:#crs_print_list#:#Print list
@@ -3882,8 +3884,8 @@ crs#:#crs_question_assignment#:#Question assignment
 crs#:#crs_reg#:#Registration
 crs#:#crs_reg_deactivated#:#Disabled
 crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.
-crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. \'0\' means unlimited.
-crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status \'Notify\' will be informed by email about new registrations.
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.
 crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
@@ -3898,8 +3900,8 @@ crs#:#crs_registration_deactivated#:#Choose this option for disabling course reg
 crs#:#crs_registration_limited#:#Limited registration period
 crs#:#crs_registration_type#:#Registration procedure
 crs#:#crs_registration_unlimited#:#Unlimited registration period
-crs#:#crs_reject_subscriber#:#Declined for course \"%s\"
-crs#:#crs_reject_subscriber_body#:#Your request to join course \"%s\" has been declined.
+crs#:#crs_reject_subscriber#:#Declined for course "%s"
+crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined.
 crs#:#crs_reset_results#:#Reset results
 crs#:#crs_role#:#Role
 crs#:#crs_role_status#:#Role / Status
@@ -3934,8 +3936,8 @@ crs#:#crs_start_objects#:#Start objects
 crs#:#crs_starter_deleted#:#Removed assignment.
 crs#:#crs_starters_already_assigned#:#This object was already assigned.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Status in course \"%s\"
-crs#:#crs_status_changed_body#:#Your status in course \"%s\" has been changed.
+crs#:#crs_status_changed#:#Status in course "%s"
+crs#:#crs_status_changed_body#:#Your status in course "%s" has been changed.
 crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribers#:#Subscribers
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
@@ -3949,7 +3951,7 @@ crs#:#crs_subscription_options_password#:#Join with course password
 crs#:#crs_subscription_requested#:#You have requested membership for the course.
 crs#:#crs_subscription_successful#:#You have joined the course
 crs#:#crs_subscription_type#:#Subscription type
-crs#:#crs_suggest_lm#:#
+crs#:#crs_suggest_lm#:#Suggest learning materials if:
 crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
 crs#:#crs_syllabus#:#Syllabus
 crs#:#crs_table_start_objects#:#Start objects
@@ -3962,8 +3964,8 @@ crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
 crs#:#crs_unblocked#:#Free entrance
-crs#:#crs_unblocked_member#:#Status in course \"%s\"
-crs#:#crs_unblocked_member_body#:#Your membership in course \"%s\" has been restored
+crs#:#crs_unblocked_member#:#Status in course "%s"
+crs#:#crs_unblocked_member_body#:#Your membership in course "%s" has been restored
 crs#:#crs_unlimited#:#Unlimited
 crs#:#crs_unsubscribe#:#Unsubscribe
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
@@ -3985,6 +3987,43 @@ crs#:#import_crs#:#Import course
 crs#:#learners_view#:#Learners view
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
 crs_#:#crs_archives#:#Archives
+dateplaner#:#DateText#:#Message
+dateplaner#:#Day_long#:#Day View
+dateplaner#:#ERROR_DATE_EXISTS#:#This event already exists.
+dateplaner#:#ERROR_DB#:#Database write error!
+dateplaner#:#ERROR_DB_CONNECT#:#The database is disconnected.
+dateplaner#:#ERROR_DEL_MSG#:#This is a recurring event. Would you like to delete one event or the series
+dateplaner#:#ERROR_ENDDATE#:#Wrong end date input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Wrong end time. Format: hh:mm
+dateplaner#:#ERROR_END_START#:#Wrong end date input. End date is before start date.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV File.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't accept JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Wrong recurring end date input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Wrong recurring end date input. Recurring end date is before start date.
+dateplaner#:#ERROR_SHORTTEXT#:#Wrong short text input. Short text is required.
+dateplaner#:#ERROR_STARTDATE#:#Wrong start date input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Wrong start time. Format: hh:mm
+dateplaner#:#ERROR_TS#:#Incorrect date format
+dateplaner#:#Fr_long#:#Friday
+dateplaner#:#Fr_short#:#Fr
+dateplaner#:#Language_file#:#English
+dateplaner#:#Listbox_long#:#List of Events
+dateplaner#:#Mo_long#:#Monday
+dateplaner#:#Mo_short#:#Mo
+dateplaner#:#Month_long#:#Month View
+dateplaner#:#Sa_long#:#Saturday
+dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Su_long#:#Sunday
+dateplaner#:#Su_short#:#Su
+dateplaner#:#Text#:#Text
+dateplaner#:#Th_long#:#Thursday
+dateplaner#:#Th_short#:#Th
+dateplaner#:#Tu_long#:#Tuesday
+dateplaner#:#Tu_short#:#Tu
+dateplaner#:#View#:#View:
+dateplaner#:#We_long#:#Wednesday
+dateplaner#:#We_short#:#We
+dateplaner#:#Week_long#:#Week View
 dateplaner#:#add_data#:#Additional Data
 dateplaner#:#app_#:#Group Events Inbox
 dateplaner#:#app_date#:#Create Event
@@ -4001,68 +4040,49 @@ dateplaner#:#back#:#Back
 dateplaner#:#begin_date#:#Begin Date
 dateplaner#:#busytime#:#Busy time in group
 dateplaner#:#c_date#:#Create Event
+dateplaner#:#changeTo#:#Change to:
 dateplaner#:#changedDates#:#Changed Events
-dateplaner#:#changeTo#:#
 dateplaner#:#checkforfreetime#:#Check for free time
 dateplaner#:#created#:#Created
 dateplaner#:#date#:#Date
-dateplaner#:#date_format#:#
+dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#DateText#:#Message
-dateplaner#:#Day_long#:#Day View
 dateplaner#:#del_all#:#Delete all events
 dateplaner#:#del_one#:#Delete one event
 dateplaner#:#delete#:#Delete
 dateplaner#:#deletedDates#:#Deleted Events
 dateplaner#:#discard#:#Discard
+dateplaner#:#dv_Grouptime#:#Free time
 dateplaner#:#dv_button_cancel#:#Cancel
 dateplaner#:#dv_button_delete#:#Delete
 dateplaner#:#dv_button_insert#:#Insert
 dateplaner#:#dv_button_update#:#Update
-dateplaner#:#dv_date_begin#:#
-dateplaner#:#dv_date_end#:#
-dateplaner#:#dv_date_hm#:#inute
-dateplaner#:#dv_enddate#:#
-dateplaner#:#dv_groupselect#:#
-dateplaner#:#dv_Grouptime#:#Free time
-dateplaner#:#dv_groupview#:#
-dateplaner#:#dv_groupview_text#:#br />
-dateplaner#:#dv_keywords#:#
-dateplaner#:#dv_keywordselect#:#
-dateplaner#:#dv_message#:#
+dateplaner#:#dv_date_begin#:#Start Date:
+dateplaner#:#dv_date_end#:#End Date:
+dateplaner#:#dv_date_hm#:#Hour:Minute
+dateplaner#:#dv_enddate#:#End date:
+dateplaner#:#dv_groupselect#:#Group select:
+dateplaner#:#dv_groupview#:#Group event:
+dateplaner#:#dv_groupview_text#:#Group:<br />
+dateplaner#:#dv_keywords#:#Keywords:
+dateplaner#:#dv_keywordselect#:#Keyword select:
+dateplaner#:#dv_message#:#Message:
 dateplaner#:#dv_noGroup#:#no Group
 dateplaner#:#dv_noKey#:#no Keyword
 dateplaner#:#dv_preview#:#<b>! Preview !</b>
-dateplaner#:#dv_rotation#:#
-dateplaner#:#dv_rotation_date#:#
-dateplaner#:#dv_rotation_end#:#
-dateplaner#:#dv_shorttext#:#
-dateplaner#:#dv_startdate#:#
-dateplaner#:#dv_text#:#
-dateplaner#:#dv_whole_day#:#
+dateplaner#:#dv_rotation#:#Recurrence:
+dateplaner#:#dv_rotation_date#:#Recurrence date:
+dateplaner#:#dv_rotation_end#:#Recurrence end:
+dateplaner#:#dv_shorttext#:#Short text:
+dateplaner#:#dv_startdate#:#Start date:
+dateplaner#:#dv_text#:#Text:
+dateplaner#:#dv_whole_day#:#Whole day:
 dateplaner#:#dv_whole_rotation#:#Would you like to delete the entire recurring series? (click the checkbox)
 dateplaner#:#end_date#:#End Date
-dateplaner#:#endtime_for_view#:#
-dateplaner#:#ERROR_DATE_EXISTS#:#This event already exists.
-dateplaner#:#ERROR_DB#:#Database write error!
-dateplaner#:#ERROR_DB_CONNECT#:#The database is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#This is a recurring event. Would you like to delete one event or the series
-dateplaner#:#ERROR_END_START#:#Wrong end date input. End date is before start date.
-dateplaner#:#ERROR_ENDDATE#:#dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#m
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV File.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn\'t accept JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B>
+dateplaner#:#endtime_for_view#:#End time for view:
 dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
-dateplaner#:#ERROR_ROT_END_START#:#Wrong recurring end date input. Recurring end date is before start date.
-dateplaner#:#ERROR_ROTATIONEND#:#dd/mm/yyyy
-dateplaner#:#ERROR_SHORTTEXT#:#Wrong short text input. Short text is required.
-dateplaner#:#ERROR_STARTDATE#:#dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#m
-dateplaner#:#ERROR_TS#:#Incorrect date format
 dateplaner#:#execute#:#Execute choices
 dateplaner#:#extra_dates#:#One Day Events
-dateplaner#:#Fr_long#:#Friday
-dateplaner#:#Fr_short#:#Fr
 dateplaner#:#free#:#Free
 dateplaner#:#freetime#:#Free Time in group
 dateplaner#:#group#:#Group
@@ -4083,21 +4103,21 @@ dateplaner#:#help_group_l#:#Contains the groups for which the logged-in user has
 dateplaner#:#help_inbox#:#Calendar Inbox
 dateplaner#:#help_inbox_l#:#Here all new, changed, and deleted group events are displayed.
 dateplaner#:#help_keyword#:#Keyword selection
-dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.
 dateplaner#:#help_keywordUse#:#Keyword selection
-dateplaner#:#help_keywordUse_l#:#use the CTRL key for selecting several entries.
+dateplaner#:#help_keywordUse_l#:#Choose one or more keywords from the dialog box.<br />TIP: use the CTRL key for selecting several entries.
+dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.
 dateplaner#:#help_list#:#Calendar event list
 dateplaner#:#help_list_l#:#In the event list, all events of a given period of time are displayed.
 dateplaner#:#help_month#:#Calendar month view
 dateplaner#:#help_month_l#:#In the month view all events of a given month are displayed.
 dateplaner#:#help_properties_alt#:#Changes the keyword
-dateplaner#:#help_properties_alt_l#:#max. 20 characters.
+dateplaner#:#help_properties_alt_l#:#Choose a keyword from the dialog box.<br />Change the keyword in the text field. Important: max. 20 characters.
 dateplaner#:#help_properties_del#:#Deletes the keyword
 dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
 dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.
 dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
-dateplaner#:#help_properties_new_l#:#max. 20 characters.
+dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.
 dateplaner#:#help_properties_time#:#Display time for day view/week view
 dateplaner#:#help_properties_time_l#:#The standard display time for the day view and week view can be changed. If dates are outside of the display time for a given days or week, the display time will be changed for that time span. Standard is 8h -18h.
 dateplaner#:#help_rotation#:#Recurrence
@@ -4115,14 +4135,12 @@ dateplaner#:#help_week_l#:#In the week view all events of a given week are displ
 dateplaner#:#hour#:#hour
 dateplaner#:#importDates#:#Import of Outlook Events
 dateplaner#:#inbox#:#Inbox
-dateplaner#:#insertImportDates#:#
+dateplaner#:#insertImportDates#:#These events were successfully registered:
 dateplaner#:#k_alldates#:#All Events
 dateplaner#:#keep#:#Keep
 dateplaner#:#keyword#:#Keyword
 dateplaner#:#keywords#:#Keywords
-dateplaner#:#Language_file#:#English
 dateplaner#:#last_change#:#Last changed
-dateplaner#:#Listbox_long#:#List of Events
 dateplaner#:#long_01#:#January
 dateplaner#:#long_02#:#February
 dateplaner#:#long_03#:#March
@@ -4138,16 +4156,13 @@ dateplaner#:#long_12#:#December
 dateplaner#:#main_dates#:#Main Events
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#Last Month
-dateplaner#:#Mo_long#:#Monday
-dateplaner#:#Mo_short#:#Mo
 dateplaner#:#month#:#Month
-dateplaner#:#Month_long#:#Month View
 dateplaner#:#more#:#More
 dateplaner#:#mweek#:#Last Week
 dateplaner#:#myeahr#:#Last Year
-dateplaner#:#new_doc#:#Create new event
 dateplaner#:#newDates#:#New Events
-dateplaner#:#newKeyword#:#
+dateplaner#:#newKeyword#:#New:
+dateplaner#:#new_doc#:#Create new event
 dateplaner#:#no_entry#:#No events available
 dateplaner#:#o_day_date#:#24-hour event
 dateplaner#:#of#:#of
@@ -4168,8 +4183,6 @@ dateplaner#:#r_year#:#Every year
 dateplaner#:#readimportfile#:#Insert
 dateplaner#:#rotation#:#Recurrence
 dateplaner#:#rotation_dates#:#Recurrence events
-dateplaner#:#Sa_long#:#Saturday
-dateplaner#:#Sa_short#:#Sa
 dateplaner#:#semester_name#:#Semester Name
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -4185,29 +4198,18 @@ dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Short Text
 dateplaner#:#singleDate#:#Single Event
-dateplaner#:#starttime_for_view#:#
-dateplaner#:#Su_long#:#Sunday
-dateplaner#:#Su_short#:#Su
-dateplaner#:#Text#:#Text
-dateplaner#:#Th_long#:#Thursday
-dateplaner#:#Th_short#:#Th
+dateplaner#:#starttime_for_view#:#Start time for view:
 dateplaner#:#timedate#:#Time / Date
-dateplaner#:#timeslice#:#
+dateplaner#:#timeslice#:#Time:
 dateplaner#:#title#:#ILIAS calendar
 dateplaner#:#to#:#to
 dateplaner#:#today#:#Today
-dateplaner#:#Tu_long#:#Tuesday
-dateplaner#:#Tu_short#:#Tu
-dateplaner#:#View#:#
 dateplaner#:#viewlist#:#View
-dateplaner#:#We_long#:#Wednesday
-dateplaner#:#We_short#:#We
 dateplaner#:#week#:#Week
-dateplaner#:#Week_long#:#Week View
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 forum#:#forum_anonymize#:#Write anonymously
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won\'t be shown anywhere).
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
 forum#:#forums_attachments#:#Attachments
@@ -4224,8 +4226,8 @@ forum#:#forums_disable_notification#:#Disable notification
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
 forum#:#forums_enable_notification#:#Enable notification
-forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
+forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark all read
 forum#:#forums_new_entries#:#New Forums Entries
@@ -4236,7 +4238,7 @@ forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s
 forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.
 forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.
-forum#:#forums_notification_show_post#:#%s
+forum#:#forums_notification_show_post#:#Show post: %s
 forum#:#forums_notification_subject#:#New post in a forum topic
 forum#:#forums_overview#:#Forums Overview
 forum#:#forums_post_deleted#:#Article has been deleted
@@ -4271,8 +4273,8 @@ forum#:#is_read#:#mark read
 forum#:#new_post#:#New post
 forum#:#thread#:#Topic
 jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#n- Use the «, » buttons to select year\\n- Use the <, > buttons to select month\\n- Hold mouse button on any of the above buttons for faster selection.
-jscalendar#:#about_time#:#n- Click on any of the time parts to increase it\\n- or Shift-click to decrease it\\n- or click and drag for faster selection.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
+jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
 jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -4344,7 +4346,7 @@ mail#:#mail_bc_search#:#BCC search
 mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#The CC recipient is not valid
 mail#:#mail_cc_search#:#CC search
-mail#:#mail_change_to_folder#:#
+mail#:#mail_change_to_folder#:#Switch to folder:
 mail#:#mail_check_your_email_addr#:#Your email address is not valid
 mail#:#mail_compose#:#Compose Message
 mail#:#mail_deleted#:#The mail is deleted
@@ -4365,7 +4367,7 @@ mail#:#mail_folder_exists#:#A folder already exists with this name
 mail#:#mail_folder_name#:#Folder name
 mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_folder_options#:#Folder Options
-mail#:#mail_following_rcp_not_valid#:#
+mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
 mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_incoming_both#:#local and forwarding
@@ -4376,13 +4378,13 @@ mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_intern#:#Internal
 mail#:#mail_mark_read#:#Mark mail read
 mail#:#mail_mark_unread#:#Mark mail unread
-mail#:#mail_maxsize_attachment_error#:#
+mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
-mail#:#mail_move_to#:#
+mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
-mail#:#mail_new_file#:#
+mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external mail
@@ -4452,7 +4454,7 @@ meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#Central African Republic
 meta#:#meta_c_CG#:#Congo
 meta#:#meta_c_CH#:#Switzerland
-meta#:#meta_c_CI#:#Cote D\' Ivoire
+meta#:#meta_c_CI#:#Cote D' Ivoire
 meta#:#meta_c_CK#:#Cook Islands
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Cameroon
@@ -4525,12 +4527,12 @@ meta#:#meta_c_KH#:#Cambodia
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#North Korea (People\'s Republic Of Korea)
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
 meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
 meta#:#meta_c_KW#:#Kuwait
 meta#:#meta_c_KY#:#Cayman Islands
 meta#:#meta_c_KZ#:#Kazakhstan
-meta#:#meta_c_LA#:#Lao People\'s Republic
+meta#:#meta_c_LA#:#Lao People's Republic
 meta#:#meta_c_LB#:#Lebanon
 meta#:#meta_c_LC#:#Saint Lucia
 meta#:#meta_c_LI#:#Liechtenstein
@@ -4968,26 +4970,26 @@ payment#:#pay_bmf_bank_code#:#Bank code
 payment#:#pay_bmf_card_holder#:#Card holder
 payment#:#pay_bmf_card_number#:#Card number
 payment#:#pay_bmf_check_number#:#Check number
-payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you\'ve read the terms and conditions and accept it.
+payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.
 payment#:#pay_bmf_credit_card#:#Credit card
 payment#:#pay_bmf_credit_card_data#:#Credit card
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you\'ve entered isn\'t valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.
 payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)
 payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you\'ve entered isn\'t valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the \"Save\"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the \"Save\"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
+payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
 payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
 payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
 payment#:#pay_bmf_house_number#:#House number
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button \"shopping cart\" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#or
-payment#:#pay_bmf_password_not_valid#:#Your password wasn\'t valid.
+payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.
 payment#:#pay_bmf_payment_type#:#Kind of paying
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you\'ve choosen isn\'t valid. Please select another option.
+payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.
 payment#:#pay_bmf_personal_data#:#Your personal data
-payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn\'t valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.
 payment#:#pay_bmf_please_select#:#Please select
 payment#:#pay_bmf_po_box#:#PO Box
 payment#:#pay_bmf_server_error_code#:#Payment server returns error code
@@ -4996,7 +4998,7 @@ payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator fo
 payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.
 payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.
 payment#:#pay_bmf_terms_conditions#:#General terms and conditions
-payment#:#pay_bmf_terms_conditions_read#:#I\'ve read the general terms and conditions and accept it.
+payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.
 payment#:#pay_bmf_terms_conditions_show#:#show
 payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.
 payment#:#pay_bmf_total_amount#:#Total amount
@@ -5035,10 +5037,10 @@ payment#:#pay_select_price#:#Please select a new price.
 payment#:#pay_send_order#:#Send order
 payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.
 payment#:#pay_starting#:#starts with
-payment#:#pay_step1#:#Enter your personal data
-payment#:#pay_step2#:#Choose kind of payment
-payment#:#pay_step3_credit_card#:#Enter your credit card data and send your order
-payment#:#pay_step3_debit_entry#:#Enter your bank data and send your order
+payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data
+payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment
+payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order
+payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order
 payment#:#pay_update_view#:#Update view
 payment#:#paya_access#:#Access
 payment#:#paya_add_price#:#Add new price
@@ -5071,7 +5073,7 @@ payment#:#paya_header#:#Payment administration
 payment#:#paya_insert_only_numbers#:#Please insert only integers.
 payment#:#paya_locator#:#Payment administration
 payment#:#paya_months#:#Month(s)
-payment#:#paya_no_booking_id_given#:#no \'booking id\' given
+payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given
 payment#:#paya_no_bookings#:#No statistic available.
 payment#:#paya_no_object_selected#:#Please select one object.
 payment#:#paya_no_objects_assigned#:#There are no sellable objects.
@@ -5080,7 +5082,7 @@ payment#:#paya_no_prices_selected#:#Please select one price
 payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method
 payment#:#paya_no_trustees#:#No trustees created.
 payment#:#paya_no_valid_login#:#This user name is not valid.
-payment#:#paya_no_vendor_selected#:#You haven\'t selected a vendor.
+payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.
 payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.
 payment#:#paya_not_buyable#:#Not buyable
 payment#:#paya_object#:#Objekts
@@ -5116,8 +5118,8 @@ payment#:#pays_add_info#:#Additional information for bill (optional)
 payment#:#pays_add_vendor#:#Add vendor
 payment#:#pays_added_vendor#:#Added new vendor
 payment#:#pays_address#:#Address for bill
-payment#:#pays_already_assigned_vendors#:#
-payment#:#pays_assigned_vendors#:#
+payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
+payment#:#pays_assigned_vendors#:#The following number of users have been assigned to the vendor list:
 payment#:#pays_bank_data#:#Bank data for bill
 payment#:#pays_bill#:#Bill
 payment#:#pays_bmf#:#BMF
@@ -5126,17 +5128,17 @@ payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.
 payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)
 payment#:#pays_currency_unit#:#Currency (e.g. EUR)
 payment#:#pays_delete_vendor#:#Deassign user
-payment#:#pays_deleted_number_vendors#:#
+payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
 payment#:#pays_edit_vendor#:#Edit user
 payment#:#pays_general_settings#:#General settings
-payment#:#pays_general_settings_not_valid#:#Your general settings aren\'t valid. Please check out whether all fields are filled out correctly.
+payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.
 payment#:#pays_header_select_vendor#:#Vendor selection
 payment#:#pays_no_username_given#:#No username given
 payment#:#pays_no_valid_username_given#:#No valid username given
 payment#:#pays_no_vendor_selected#:#No vendor selected
 payment#:#pays_number_bookings#:#Active bookings
-payment#:#pays_objects_bill_exist#:#Pay method \'bill\' is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_objects_bmf_exist#:#Pay method \'BMF\' is activated for some objects. Therefore it can not be deactivated.
+payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.
+payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Pay methods
@@ -5151,30 +5153,28 @@ payment#:#pays_vendor#:#Vendor
 payment#:#price_a#:#Price
 payment#:#prices#:#Prices
 payment#:#update#:#Update
-pwassist#:#password_assistance#:#pw assistance
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated email address in the fields shown below.\\nILIAS will send a message to that email address. The message contains an address for a web page, where you can enter a new password for the user account.\\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an email to %1$s.
+pwassist#:#password_assistance#:#Password Assistance
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated email address in the fields shown below.\nILIAS will send a message to that email address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an email to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\\nThe given email address could not be found in the database.
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\\nThe user name and email address you have entered do not match an entry in the database.
-pwassist#:#pwassist_login_not_match#:#Please enter another user name.\\nThe user name you have entered does not match the user name for which you had asked for password assistance.
-pwassist#:#pwassist_mail_body#:#The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. On the web page shown by your browser, enter a new password for your user account.\\n\\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\\nPlease check your mail box.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and email address you have entered do not match an entry in the database.
+pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\\nPassword assistance is not permitted for the user name you have entered.
-pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user \"%1$s\".
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been emailed to you more than once, or because too much time has passed since the link has been sent to you.
-pwassist#:#pwassist_update_error#:#Please contact your system administrator.\\nThe password could not be assigned to the user account due to an error whe updating the data base.
-pwassist#:#pwassist_username_mail_body#:#The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
+pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.
+pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
+pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been emailed to you more than once, or because too much time has passed since the link has been sent to you.
+pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
 rbac#:#edit_learning_progress#:#Edit learning progress
 rbac#:#filter_all_roles#:#Show all roles of current context
 rbac#:#filter_global_roles#:#Show only global roles
 rbac#:#filter_local_roles#:#Show only local roles of current context
 rbac#:#filter_local_roles_object#:#Show only local roles defined at this position
 rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position
-rbac#:#info_user_view_changed#:#User view changed
 rbac#:#leave#:#Leave
-rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
 rbac#:#perm_administrate#:#Administrate
 rbac#:#perm_class_create#:#Create new objects
 rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
@@ -5189,7 +5189,6 @@ rbac#:#perm_local_role_desc#:#This role is locally defined at the current object
 rbac#:#perm_use_local_policy#:#Use local policy
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.
 search#:#add_members_header#:#Add members
-search#:#append_results#:#Append results
 search#:#search_active#:#Include active users
 search#:#search_added_new_folder#:#Added new folder.
 search#:#search_advanced#:#Advanced search
@@ -5200,7 +5199,7 @@ search#:#search_any#:#-- Any --
 search#:#search_any_word#:#Any word
 search#:#search_area#:#Search area
 search#:#search_area_info#:#Please select an area where the search should start.
-search#:#search_below#:#
+search#:#search_below#:#Beneath:
 search#:#search_change#:#Change
 search#:#search_choose_object_type#:#Please choose one object type.
 search#:#search_concatenation#:#Concatenation
@@ -5217,7 +5216,7 @@ search#:#search_for_users#:#Search for users
 search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_group#:#Groups
 search#:#search_grp_title#:#Group name
-search#:#search_hits#:#
+search#:#search_hits#:#Found in:
 search#:#search_in_magazin#:#In the repository
 search#:#search_in_result#:#Search within results
 search#:#search_inactive#:#Include inactive users
@@ -5234,7 +5233,7 @@ search#:#search_lucene_readme#:#Setup informations
 search#:#search_meta#:#Metadata
 search#:#search_minimum_three#:#Your search must be at least three characters long
 search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
-search#:#search_move_to#:#
+search#:#search_move_to#:#Move to:
 search#:#search_my_search_results#:#My search results
 search#:#search_new_folder#:#New folder
 search#:#search_no_category#:#You have not selected any search categories
@@ -5252,7 +5251,7 @@ search#:#search_rename_title#:#Rename title
 search#:#search_results#:#Search results
 search#:#search_results_saved#:#Search results saved
 search#:#search_role_title#:#Role name
-search#:#search_save_as_select#:#
+search#:#search_save_as_select#:#Save as:
 search#:#search_search_for#:#Search for
 search#:#search_search_no_results_saved#:#There are no search results saved
 search#:#search_search_results#:#Search results
@@ -5269,59 +5268,59 @@ search#:#search_tst_svy#:#Tests/Surveys
 search#:#search_type#:#Search type
 search#:#search_user#:#Users
 search#:#until#:#up to
-style#:#sty_all#:#All
-style#:#sty_background#:#Background
-style#:#sty_background_attachment#:#Background Attachment
-style#:#sty_background_color#:#Background Color
-style#:#sty_background_image#:#Background Image
-style#:#sty_background_position#:#Background Position
-style#:#sty_background_repeat#:#Background Repeat
-style#:#sty_border#:#Border
-style#:#sty_border_color#:#Border Color
-style#:#sty_border_style#:#Border Style
-style#:#sty_border_width#:#Border Width
-style#:#sty_bottom#:#Bottom
-style#:#sty_clear#:#Clear
-style#:#sty_color#:#Color
-style#:#sty_cursor#:#Cursor
-style#:#sty_font_family#:#Font Family
+style#:#sty_text#:#Text
 style#:#sty_font_size#:#Font Size
-style#:#sty_font_stretch#:#Font Stretch
-style#:#sty_font_style#:#Font Style
+style#:#sty_font_family#:#Font Family
 style#:#sty_font_variant#:#Font Variant
 style#:#sty_font_weight#:#Font Weight
-style#:#sty_left#:#Left
-style#:#sty_letter_spacing#:#Letter Spacing
-style#:#sty_line_height#:#Line Height
-style#:#sty_margin#:#Margin
-style#:#sty_margin_and_padding#:#Margin and Padding
-style#:#sty_padding#:#Padding
-style#:#sty_right#:#Right
-style#:#sty_special#:#Special
-style#:#sty_text#:#Text
-style#:#sty_text_align#:#Text Alignment
-style#:#sty_text_decoration#:#Text Decoration
-style#:#sty_text_indent#:#Text Indentation
-style#:#sty_text_transform#:#Text Transform
-style#:#sty_top#:#Top
-style#:#sty_vertical_align#:#Vertical Alignment
-style#:#sty_white_space#:#White Space
+style#:#sty_font_stretch#:#Font Stretch
+style#:#sty_font_style#:#Font Style
 style#:#sty_word_spacing#:#Word Spacing
+style#:#sty_letter_spacing#:#Letter Spacing
+style#:#sty_text_decoration#:#Text Decoration
+style#:#sty_text_transform#:#Text Transform
+style#:#sty_color#:#Color
+style#:#sty_text_indent#:#Text Indentation
+style#:#sty_line_height#:#Line Height
+style#:#sty_vertical_align#:#Vertical Alignment
+style#:#sty_text_align#:#Text Alignment
+style#:#sty_white_space#:#White Space
+style#:#sty_margin#:#Margin
+style#:#sty_padding#:#Padding
+style#:#sty_all#:#All
+style#:#sty_top#:#Top
+style#:#sty_bottom#:#Bottom
+style#:#sty_left#:#Left
+style#:#sty_right#:#Right
+style#:#sty_border_width#:#Border Width
+style#:#sty_border_color#:#Border Color
+style#:#sty_border_style#:#Border Style
+style#:#sty_background_color#:#Background Color
+style#:#sty_background_image#:#Background Image
+style#:#sty_background_repeat#:#Background Repeat
+style#:#sty_background_attachment#:#Background Attachment
+style#:#sty_background_position#:#Background Position
+style#:#sty_cursor#:#Cursor
+style#:#sty_clear#:#Clear
+style#:#sty_margin_and_padding#:#Margin and Padding
+style#:#sty_border#:#Border
+style#:#sty_background#:#Background
+style#:#sty_special#:#Special
 survey#:#add_category#:#Add answer
 survey#:#add_heading#:#Add heading
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
 survey#:#add_phrase#:#Add phrase
-survey#:#add_phrase_introduction#:#
+survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class=\"bold\">%s</span><br />Please enter it in the text field below.
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
 survey#:#anonymize_personalized#:#No anonymization
+survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
+survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
 survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.
-survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
-survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
@@ -5406,27 +5405,27 @@ survey#:#define_questionblock#:#Define question block
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#disinvite#:#Disinvite
 survey#:#display_all_available#:#Display all available
+survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
+survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)
 survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
+survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)
 survey#:#dp_standard_behaviour_certainly5#:#Standard behavior (most certainly-more positive-undecided-more negative-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Standard behavior (yes-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behavior (yes-undecided-no)
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
 survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_numbers#:#Standard numbers
 survey#:#duplicate#:#Duplicate
 survey#:#duplicate_svy#:#Duplicate survey
@@ -5504,7 +5503,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#between
 survey#:#menuback#:#Back
 survey#:#menubacktosurvey#:#Back to the survey
-survey#:#message_mail_survey_id#:#br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
+survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
 survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!
 survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
@@ -5563,6 +5562,10 @@ survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
 survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
+survey#:#SurveyMetricQuestion#:#Metric question
+survey#:#SurveyNominalQuestion#:#Nominal question
+survey#:#SurveyOrdinalQuestion#:#Ordinal question
+survey#:#SurveyTextQuestion#:#Essay
 survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Preconditions
 survey#:#question_icon#:#Question icon
@@ -5617,7 +5620,7 @@ survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey
-survey#:#subject_mail_survey_id#:#Your survey code for \"%s\"
+survey#:#subject_mail_survey_id#:#Your survey code for "%s"
 survey#:#subtype#:#Subtype
 survey#:#survey_code#:#Survey access code
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
@@ -5630,7 +5633,7 @@ survey#:#survey_finished#:#You have finished the survey. Thank you for your part
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_next#:#next >>>
-survey#:#survey_offline_message#:#Can\'t invite users. The survey is offline!
+survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<<< previous
 survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)
@@ -5641,10 +5644,6 @@ survey#:#survey_skip_next#:#skip >>>
 survey#:#survey_skip_previous#:#<<< skip
 survey#:#survey_skip_start#:#skip and go to start page
 survey#:#survey_start#:#go to start page
-survey#:#SurveyMetricQuestion#:#Metric question
-survey#:#SurveyNominalQuestion#:#Nominal question
-survey#:#SurveyOrdinalQuestion#:#Ordinal question
-survey#:#SurveyTextQuestion#:#Essay
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
@@ -5656,7 +5655,7 @@ survey#:#svy_eval_detail#:#Cumulated results (details)
 survey#:#svy_eval_user#:#User specific results
 survey#:#svy_export_files#:#Export files
 survey#:#svy_file#:#File
-survey#:#svy_missing_author#:#You have not entered the author\'s name in the survey properties! Please add an authors name.
+survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.
 survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.
 survey#:#svy_missing_title#:#You have not entered a survey title! Please go to the metadata section and enter a title.
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!
@@ -5668,7 +5667,7 @@ survey#:#svy_show_questiontitles#:#Show question titles in survey
 survey#:#svy_size#:#Size
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#svy_status_missing#:#There are required elements missing in this survey!
-survey#:#svy_status_missing_elements#:#
+survey#:#svy_status_missing_elements#:#The following elements are missing:
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
@@ -5685,7 +5684,7 @@ survey#:#users_skipped#:#Users skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#vertical#:#vertical
-survey#:#view_constraints_introduction#:#
+survey#:#view_constraints_introduction#:#You are viewing the preconditions of the following question/question block:
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
@@ -5693,7 +5692,7 @@ trac#:#info_valid_request#:#The maximum valid time between two requests of an us
 trac#:#last_login#:#Last login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#newUT_settings#:#Learning Module Statistics
-trac#:#obj_types#:#
+trac#:#obj_types#:#Object types:
 trac#:#search_area_info#:#Please choose one object.
 trac#:#select_one#:#Please select one object
 trac#:#stats_access#:#access
@@ -5723,8 +5722,8 @@ trac#:#stats_interval#:#interval
 trac#:#stats_interval_dwell_time#:#interval of dwell time
 trac#:#stats_interval_page_access#:#interval of access to pages
 trac#:#stats_last#:#last
-trac#:#stats_legend#:#Legend
-trac#:#stats_measurable_hits#:#measurable hits
+trac#:#stats_legend#:#Legend  
+trac#:#stats_measurable_hits#:#measurable hits 
 trac#:#stats_minute#:#m
 trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher)
 trac#:#stats_new_selection#:#New Selection
@@ -5792,7 +5791,7 @@ trac#:#trac_anonymized#:#Anonymized
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
 trac#:#trac_assigned#:#Assigned
 trac#:#trac_assignments#:#Assignments
-trac#:#trac_below#:#
+trac#:#trac_below#:#Below:
 trac#:#trac_collection_assign#:#Assign
 trac#:#trac_collection_deassign#:#Deassign
 trac#:#trac_comment#:#Comment
@@ -5800,26 +5799,25 @@ trac#:#trac_comments#:#Comments
 trac#:#trac_completed#:#Completed
 trac#:#trac_crs_assignments#:#Assignment of course items
 trac#:#trac_crs_items#:#Assignable course items
-trac#:#trac_crs_members#:#
-trac#:#trac_crs_objects#:#Learning progress of course members
+trac#:#trac_crs_members#:#Course members:
 trac#:#trac_crs_releavant_items#:#Course items
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is \'Completed\' the whole course is completed by the user.
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
 trac#:#trac_edit_progress#:#Edit learning progress
 trac#:#trac_edit_time#:#Processing time
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
 trac#:#trac_edited_scos#:#Processed content
-trac#:#trac_filter_area#:#
-trac#:#trac_filter_hidden#:#
+trac#:#trac_filter_area#:#Area:
+trac#:#trac_filter_hidden#:#Hidden:
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
 trac#:#trac_filter_no_access#:#No objects found
 trac#:#trac_filter_none#:#None
 trac#:#trac_filter_repository#:#In the repository
 trac#:#trac_hide#:#Hide
 trac#:#trac_in_progress#:#In progress
-trac#:#trac_info_edited#:#Set the status to \'Completed\' if you think you have processed all content.
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.
 trac#:#trac_last_access#:#Last access
 trac#:#trac_learning_progress#:#Learning progress
-trac#:#trac_learning_progress_tbl_header#:#
+trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
 trac#:#trac_lm_statistics#:#Access Statistics
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Mark
@@ -5827,7 +5825,6 @@ trac#:#trac_marks#:#Marks
 trac#:#trac_mode#:#Mode
 trac#:#trac_mode_collection#:#Collection of objects
 trac#:#trac_mode_deactivated#:#Deactivated
-trac#:#trac_mode_exercise_returned#:#Exercise returned
 trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_objectives#:#Learning objectives
 trac#:#trac_mode_scorm#:#SCORM/AICC
@@ -5847,15 +5844,15 @@ trac#:#trac_not_attempted#:#Not attempted
 trac#:#trac_not_completed#:#Not Completed
 trac#:#trac_num_visits#:#Number of visits
 trac#:#trac_objects#:#Learning progress of users
-trac#:#trac_occurrences#:#
+trac#:#trac_occurrences#:#Path:
 trac#:#trac_processing_time#:#Assumed processing time
 trac#:#trac_progress#:#Personal learning progress
-trac#:#trac_query#:#
+trac#:#trac_query#:#Title/description:
 trac#:#trac_reached_points#:#Achieved score
 trac#:#trac_reached_visits#:#Required visits
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_required_visits#:#Number of required visits
-trac#:#trac_sahs_relevant_items#:#SCO\'s
+trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_one#:#You made no selection
 trac#:#trac_settings#:#Settings
 trac#:#trac_settings_saved#:#Saved settings.
@@ -5878,3 +5875,16 @@ trac#:#trac_active_ut_only#:#User Tracking activated
 trac#:#trac_active_lp_only#:#Learning Progress activated
 trac#:#trac_active_both#:#User Tracking and Learning progress activated
 trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated
+common#:#total_online#:#Time online (DD:HH:MM:SS)
+common#:#last_login#:#Last login
+trac#:#trac_crs_objects#:#Learning progress of course members
+crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.
+crs#:#crs_password_required#:#This registration procedure requires a password.
+common#:#deleted_users#:#Deleted users
+chat#:#chat_new_message#:#New message
+common#:#udf_update_select_field#:#Edit select box
+common#:#udf_update_text_field#:#Edit text field
+common#:#udf_update_success#:#Saved modifications.
+common#:#udf_value_deleted#:#The value has been deleted.
+trac#:#trac_mode_exercise_returned#:#Exercise returned
+search#:#append_results#:#Append results
