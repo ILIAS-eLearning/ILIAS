@@ -139,6 +139,30 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
+	* lookup standard flag
+	*/
+	function _getStandardStyles($a_exclude_default_style = false)
+	{
+		global $ilDB, $ilias;
+		
+		$default_style = $ilias->getSetting("default_content_style_id");
+		
+		$q = "SELECT * FROM style_data ".
+			" WHERE standard = 1";
+		$res = $ilDB->query($q);
+		$styles = array();
+		while($sty = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (!$a_exclude_default_style || $default_style != $sty["id"])
+			{
+				$styles[$sty["id"]] = ilObject::_lookupTitle($sty["id"]);
+			}
+		}
+		
+		return $styles;
+	}
+
+	/**
 	* assign meta data object
 	*/
 	function assignMetaData(&$a_meta_data)

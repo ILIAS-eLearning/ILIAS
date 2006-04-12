@@ -887,7 +887,13 @@ chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
 style#:#sty_standard_style#:#Standard Style
+style#:#sty_source#:#Source
+style#:#sty_individual_style#:#Individual Style
 style#:#sty_save_standard_styles#:#Save Standard Styles
+style#:#sty_create_ind_style#:#Create Individual Style
+style#:#sty_create_new_stylesheet#:#Create new Style
+style#:#sty_import_stylesheet#:#or Import Style
+style#:#sty_copy_other_stylesheet#:#or Copy from local Source
 common#:#show_notes_on_pd#:#Show notes on personal desktop
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY

@@ -240,6 +240,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function properties()
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("style");
 		$this->setTabs();
 		
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
@@ -253,7 +256,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$buttonTarget = "ilContObj".$this->object->getID();
 		}
-
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -310,6 +312,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// style
 		$this->tpl->setVariable("TXT_STYLE", $this->lng->txt("cont_style"));
 		$fixed_style = $this->ilias->getSetting("fixed_content_style_id");
+
 		if ($fixed_style > 0)
 		{
 			$this->tpl->setVariable("VAL_STYLE",
@@ -319,35 +322,52 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		else
 		{
 			$this->tpl->setCurrentBlock("style_edit");
-			if ($this->object->getStyleSheetId() > 0)
+			$style_id = $this->object->getStyleSheetId();
+			
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true);
+			$st_styles[0] = $this->lng->txt("default");
+			ksort($st_styles);
+			$style_sel = ilUtil::formSelect ($style_id, "style_id",
+				$st_styles, false, true);
+
+			if ($style_id > 0)
 			{
-				$this->tpl->setVariable("VAL_STYLE",
-					ilObject::_lookupTitle($this->object->getStyleSheetId()));
+				// standard style
+				if (ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$this->tpl->setVariable("VAL_STYLE",
+						$style_sel);
+				}
+				// individual style
+				else
+				{
+					$this->tpl->setVariable("VAL_STYLE",
+						ilObject::_lookupTitle($style_id));
+					$this->tpl->setVariable("LINK_STYLE_EDIT",
+						$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
+					$this->tpl->setVariable("TXT_STYLE_EDIT",
+						$this->lng->txt("edit"));
+					//$this->tpl->setVariable("IMG_STYLE_EDIT",
+					//	ilUtil::getImagePath("icon_pencil.gif"));
 
-				// edit icon
-				$this->tpl->setVariable("LINK_STYLE_EDIT",
-					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-				$this->tpl->setVariable("TXT_STYLE_EDIT",
-					$this->lng->txt("edit"));
-				$this->tpl->setVariable("IMG_STYLE_EDIT",
-					ilUtil::getImagePath("icon_pencil.gif"));
-
-				// delete icon
-				$this->tpl->setVariable("LINK_STYLE_DROP",
-					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-				$this->tpl->setVariable("TXT_STYLE_DROP",
-					$this->lng->txt("delete"));
-				$this->tpl->setVariable("IMG_STYLE_DROP",
-					ilUtil::getImagePath("delete.gif"));
+					// delete icon
+					$this->tpl->setVariable("LINK_STYLE_DROP",
+						$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
+					$this->tpl->setVariable("TXT_STYLE_DROP",
+						$this->lng->txt("delete"));
+					//$this->tpl->setVariable("IMG_STYLE_DROP",
+					//	ilUtil::getImagePath("delete.gif"));
+				}
 			}
-			else
+			
+			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
 			{
 				$this->tpl->setVariable("VAL_STYLE",
-					$this->lng->txt("default"));
+					$style_sel);
 				$this->tpl->setVariable("LINK_STYLE_CREATE",
 					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
 				$this->tpl->setVariable("TXT_STYLE_CREATE",
-					$this->lng->txt("create"));
+					$this->lng->txt("sty_create_ind_style"));
 			}
 			$this->tpl->parseCurrentBlock();
 		}
@@ -849,6 +869,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function saveProperties()
 	{
+		global $ilias;
+		
+		if ($ilias->getSetting("fixed_content_style_id") <= 0 &&
+			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+			|| $this->object->getStyleSheetId() == 0))
+		{
+			$this->object->setStyleSheetId($_POST["style_id"]);
+		}
 		$this->object->setLayout($_POST["lm_layout"]);
 		$this->object->setPageHeader($_POST["lm_pg_header"]);
 		$this->object->setTOCMode($_POST["toc_mode"]);

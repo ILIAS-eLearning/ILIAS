@@ -44,15 +44,11 @@ function toggleDownloadsPublic(form)
 	<td class="option_value">
 	{VAL_STYLE}
 	<!-- BEGIN style_edit -->
-		<a href="{LINK_STYLE_EDIT}" class="navigation">
-		<img border="0" src="{IMG_STYLE_EDIT}" align="middle" title="{TXT_STYLE_EDIT}" alt="{TXT_STYLE_EDIT}" />
-		</a>
-		<a href="{LINK_STYLE_DROP}" class="navigation">
-		<img border="0" src="{IMG_STYLE_DROP}" align="middle" title="{TXT_STYLE_DROP}" alt="{TXT_STYLE_DROP}" />
-		</a>
+		<a href="{LINK_STYLE_EDIT}" class="il_ContainerItemCommand">{TXT_STYLE_EDIT}</a>
+		<a href="{LINK_STYLE_DROP}" class="il_ContainerItemCommand">{TXT_STYLE_DROP}</a>
 	<!-- END style_edit -->
 	<!-- BEGIN style_create -->
-	&nbsp;[<a href="{LINK_STYLE_CREATE}">{TXT_STYLE_CREATE}</a>]
+		<a class="il_ContainerItemCommand" href="{LINK_STYLE_CREATE}">{TXT_STYLE_CREATE}</a>
 	<!-- END style_create -->
 	</td>
 </tr>

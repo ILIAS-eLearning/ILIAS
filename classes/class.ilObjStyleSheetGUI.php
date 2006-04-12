@@ -96,16 +96,24 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->lng =& $lng;
 		//$this->ctrl->setParameter($this,'new_type',$this->type);
 		$this->getTemplateFile("create", "sty");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("create_stylesheet"));
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("sty_create_new_stylesheet"));
+		$this->tpl->setVariable("TXT_STYLE_BY_IMPORT", $this->lng->txt("sty_import_stylesheet"));
+		$this->tpl->setVariable("TXT_STYLE_BY_COPY", $this->lng->txt("sty_copy_other_stylesheet"));
+		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("import_file"));
+		$this->tpl->setVariable("TXT_SOURCE", $this->lng->txt("sty_source"));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
 		$this->tpl->parseCurrentBlock();
 		$this->ctrl->setParameter($this, "new_type", "sty");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+		$this->tpl->setVariable("TXT_COPY", $this->lng->txt("copy"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		//$this->tpl->parseCurrentBlock();
+		
+		// get all learning module styles
+		$lm_styles = ilObjContentObject::_getAllAssignedStyles();
 	}
 
 	/**
