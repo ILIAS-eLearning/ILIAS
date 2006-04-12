@@ -24,8 +24,8 @@
 	<td class="option_value" colspan="4"><input type="text" name="correctanswers" size="3" value="{VALUE_CORRECTANSWERS}" /></td>
 </tr>
 <tr>
-	<td class="option">{TEXT_POINTS}<span class="asterisk">*</span>:</td>
-	<td class="option_value" colspan="4"><input type="text" name="points" size="3" value="{VALUE_POINTS}" /></td>
+	<td class="option">{TEXT_POINTS}:</td>
+	<td class="option_value" colspan="4"><input type="text" name="points" size="3" value="{VALUE_POINTS}" disabled="disabled" /></td>
 </tr>
 <tr>
 	<td class="option"><label for="text_rating">{TEXT_RATING}:</label></td>
@@ -59,11 +59,6 @@
 </tr>
 </table>
 <table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="3">{TEXT_ANSWERS_HEADING}</th>
-	</tr>
-</thead>
 <tr>
 	<td colspan="3" class="option">
 		<input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" />
@@ -74,11 +69,18 @@
 			</select>
 	</td>
 </tr>
+<!-- BEGIN answersheading -->
+<tr class="tblheader">
+  <th width="25"></th>
+  <th>{TEXT_ANSWER_TEXT}</th>
+	<th>{TEXT_POINTS}</th>
+</tr>
+<!-- END answersheading -->
 <!-- BEGIN answers -->
 <tr class="{ROWCLASS}">
   <td width="25"><input type="checkbox" name="chb_answers[]" id="chb_{ANSWER_ORDER}" value="{ANSWER_ORDER}" /></td>
-  <td width="200"><label for="chb_{ANSWER_ORDER}">{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</label></td>
   <td><input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" /></td>
+	<td><input name="points_{ANSWER_ORDER}" type="text" size="3" value="{VALUE_POINTS}" /></td>
 </tr>
 <!-- END answers -->
 <!-- BEGIN selectall -->

@@ -162,6 +162,14 @@ class ASS_TextQuestion extends ASS_Question
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "textrating");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getTextRating());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "keywords");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getKeywords());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 

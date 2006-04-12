@@ -110,7 +110,7 @@ class ASS_TextSubset extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers) >= $this->correctanswers))
+		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers) >= $this->correctanswers) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -669,7 +669,18 @@ class ASS_TextSubset extends ASS_Question
 	*/
 	function getMaximumPoints()
 	{
-		return $this->getPoints();
+		$points = array();
+		foreach ($this->answers as $answer)
+		{
+			array_push($points, $answer->getPoints());
+		}
+		rsort($points, SORT_NUMERIC);
+		$maxpoints = 0;
+		for ($counter = 0; $counter < $this->getCorrectAnswers(); $counter++)
+		{
+			$maxpoints += $points[$counter];
+		}
+		return $maxpoints;
 	}
 	
 	/**
