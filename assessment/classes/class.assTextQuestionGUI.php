@@ -101,6 +101,30 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// Add text rating options
+		$text_options = array(
+			array("ci", $this->lng->txt("cloze_textgap_case_insensitive")),
+			array("cs", $this->lng->txt("cloze_textgap_case_sensitive")),
+			array("l1", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1")),
+			array("l2", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2")),
+			array("l3", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3")),
+			array("l4", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4")),
+			array("l5", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5"))
+		);
+		$text_rating = $this->object->getTextRating();
+		foreach ($text_options as $text_option)
+		{
+			$this->tpl->setCurrentBlock("text_rating");
+			$this->tpl->setVariable("RATING_VALUE", $text_option[0]);
+			$this->tpl->setVariable("RATING_TEXT", $text_option[1]);
+			if (strcmp($text_rating, $text_option[0]) == 0)
+			{
+				$this->tpl->setVariable("SELECTED_RATING_VALUE", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("HeadContent");
 		$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text_question.title.focus();"));
 		$this->tpl->parseCurrentBlock();
@@ -123,9 +147,11 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
+		$this->tpl->setVariable("TEXT_RATING", $this->lng->txt("text_rating"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
 		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+		$this->tpl->setVariable("OPTIONAL_KEYWORDS", $this->lng->txt("optional_keywords"));
 		$this->tpl->setVariable("TEXT_KEYWORDS", $this->lng->txt("keywords"));
 		$this->tpl->setVariable("DESCRIPTION_MAXCHARS", $this->lng->txt("description_maxchars"));
 		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
@@ -216,6 +242,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setMaxNumOfChars($_POST["maxchars"]);
 		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], true, "<strong><em><code><cite>"));
+		$this->object->setTextRating($_POST["text_rating"]);
 
 		$saved = $this->writeOtherPostData($result);
 
