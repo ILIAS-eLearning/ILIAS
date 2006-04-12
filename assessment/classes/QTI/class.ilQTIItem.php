@@ -327,6 +327,7 @@ class ilQTIItem
 				return $metadata["entry"];
 			}
 		}
+		return "";
 	}
 }
 ?>

@@ -2299,6 +2299,16 @@ class ilQTIParser extends ilSaxParser
 						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 						$question->setPoints($maxpoints);
 						$question->setMaxNumOfChars($maxchars);
+						$textrating = $this->item->getMetadataEntry("textrating");
+						if (strlen($textrating))
+						{
+							$question->setTextRating($textrating);
+						}
+						$keywords = $this->item->getMetadataEntry("keywords");
+						if (strlen($keywords))
+						{
+							$question->setKeywords($keywords);
+						}
 						$question->saveToDb();
 						if (count($this->item->suggested_solutions))
 						{

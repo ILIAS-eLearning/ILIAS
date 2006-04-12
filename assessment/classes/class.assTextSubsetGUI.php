@@ -102,9 +102,16 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
 			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
-			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+			$this->tpl->setVariable("VALUE_POINTS", htmlspecialchars($answer->getPoints()));
 			$this->tpl->parseCurrentBlock();
 			$rowcounter++;
+		}
+		if ($this->object->getAnswerCount() > 0)
+		{
+			$this->tpl->setCurrentBlock("answersheading");
+			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$internallinks = array(
@@ -208,7 +215,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_TEXTSUBSET_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_TEXTSUBSET_AUTHOR", htmlspecialchars($this->object->getAuthor()));
 		$this->tpl->setVariable("VALUE_CORRECTANSWERS", $this->object->getCorrectAnswers());
-		$this->tpl->setVariable("VALUE_POINTS", $this->object->getPoints());
+		$this->tpl->setVariable("VALUE_POINTS", $this->object->getMaximumPoints());
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
@@ -219,9 +226,8 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
 		$this->tpl->setVariable("TEXT_RATING", $this->lng->txt("text_rating"));
-		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("maximum_points"));
 		$this->tpl->setVariable("TEXT_CORRECTANSWERS", $this->lng->txt("nr_of_correct_answers"));
-		$this->tpl->setVariable("TEXT_ANSWERS_HEADING", $this->lng->txt("answers"));
 		
 		// estimated working time
 		$est_working_time = $this->object->getEstimatedWorkingTime();
@@ -287,8 +293,8 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		for ($i = 0; $i < $_POST["nrOfAnswers"]; $i++)
 		{
 			$this->object->addAnswer(
-				$this->lng->txt(""),
-				0,
+				"",
+				1,
 				count($this->object->answers)
 			);
 		}
@@ -353,7 +359,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 	{
 		$cmd = $this->ctrl->getCmd();
 
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["correctanswers"]) or (!$_POST["points"]))
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["correctanswers"]))
 		{
 			return false;
 		}
@@ -393,7 +399,6 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setCorrectAnswers($_POST["correctanswers"]);
 		$this->object->setTextRating($_POST["text_rating"]);
-		$this->object->setPoints($_POST["points"]);
 
 		$saved = $this->writeOtherPostData($result);
 
@@ -407,7 +412,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 			{
 				$this->object->addAnswer(
 					ilUtil::stripSlashes($_POST["$key"]),
-					ilUtil::stripSlashes(0),
+					ilUtil::stripSlashes($_POST["points_".$matches[1]]),
 					ilUtil::stripSlashes($matches[1])
 					);
 			}
@@ -428,6 +433,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 			$this->object->saveToDb();
 			$_GET["q_id"] = $this->object->getId();
 		}
+		$this->object->setPoints($this->object->getMaximumPoints());
 
 		return $result;
 	}
