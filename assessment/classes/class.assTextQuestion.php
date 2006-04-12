@@ -64,6 +64,15 @@ class ASS_TextQuestion extends ASS_Question
 	var $keywords;
 
 	/**
+	* The method which should be chosen for text comparisons
+	*
+	* The method which should be chosen for text comparisons
+	*
+	* @var string
+	*/
+	var $text_rating;
+
+	/**
 	* ASS_TextQuestion constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the ASS_TextQuestion object.
@@ -283,7 +292,7 @@ class ASS_TextQuestion extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, maxNumOfChars, keywords, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, maxNumOfChars, keywords, textgap_rating, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -295,6 +304,7 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($estw_time),
 				$db->quote($this->getMaxNumOfChars()),
 				$db->quote($this->getKeywords() . ""),
+				$db->quote($this->getTextRating() . ""),
 				$db->quote("$complete"),
 				$db->quote($created),
 				$original_id
@@ -318,7 +328,7 @@ class ASS_TextQuestion extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, points = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, keywords = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, points = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, keywords = %s, textgap_rating = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -328,6 +338,7 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($estw_time),
 				$db->quote($this->getMaxNumOfChars()),
 				$db->quote($this->getKeywords() . ""),
+				$db->quote($this->getTextRating() . ""),
 				$db->quote("$complete"),
 				$db->quote($this->id)
 			);
@@ -369,6 +380,7 @@ class ASS_TextQuestion extends ASS_Question
 				$this->question = $data->question_text;
 				$this->maxNumOfChars = $data->maxNumOfChars;
 				$this->keywords = $data->keywords;
+				$this->text_rating = $data->textgap_rating;
 				$this->points = $data->points;
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
@@ -613,6 +625,61 @@ class ASS_TextQuestion extends ASS_Question
 	}
 	
 	/**
+	* Checks if one of the keywords matches the answertext
+	*
+	* Checks if one of the keywords matches the answertext
+	*
+	* @param string $answertext The answertext of the user
+	* @param string $a_keyword The keyword which should be checked
+	* @return boolean TRUE if the keyword matches, FALSE otherwise
+	* @access private
+	*/
+	function isKeywordMatching($answertext, $a_keyword)
+	{
+		$result = FALSE;
+		$textrating = $this->getTextRating();
+		switch ($textrating)
+		{
+			case TEXTGAP_RATING_CASEINSENSITIVE:
+				if (strpos(strtolower(utf8_decode($a_original)), strtolower(utf8_decode($a_keyword))) !== false) return TRUE;
+				break;
+			case TEXTGAP_RATING_CASESENSITIVE:
+				if (strpos(utf8_decode($a_original), utf8_decode($a_keyword)) !== false) return TRUE;
+				break;
+		}
+		$answerwords = array();
+		if (preg_match_all("/([^\s.]+)/", $answertext, $matches))
+		{
+			foreach ($matches[1] as $answerword)
+			{
+				array_push($answerwords, trim($answerword));
+			}
+		}
+		foreach ($answerwords as $a_original)
+		{
+			switch ($textrating)
+			{
+				case TEXTGAP_RATING_LEVENSHTEIN1:
+					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 1) return TRUE;
+					break;
+				case TEXTGAP_RATING_LEVENSHTEIN2:
+					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 2) return TRUE;
+					break;
+				case TEXTGAP_RATING_LEVENSHTEIN3:
+					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 3) return TRUE;
+					break;
+				case TEXTGAP_RATING_LEVENSHTEIN4:
+					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 4) return TRUE;
+					break;
+				case TEXTGAP_RATING_LEVENSHTEIN5:
+					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 5) return TRUE;
+					break;
+			}
+		}
+		return $result;
+	}
+
+	/**
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
@@ -651,13 +718,15 @@ class ASS_TextQuestion extends ASS_Question
 				$keywords =& $this->getKeywordList();
 				if (count($keywords))
 				{
-					$foundall = true;
+					$foundkeyword = false;
 					foreach ($keywords as $keyword)
 					{
-						$pos = strpos(utf8_decode($row["value1"]), utf8_decode($keyword));
-						if ($pos === false) $foundall = false;
+						if (!$foundkeyword)
+						{
+							if ($this->isKeywordMatching($row["value1"], $keyword)) $foundkeyword = true;
+						}
 					}
-					if ($foundall) $points = $this->getMaximumPoints();
+					if ($foundkeyword) $points = $this->getMaximumPoints();
 				}
 			}
 		}
@@ -774,7 +843,7 @@ class ASS_TextQuestion extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, keywords = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, keywords = %s, textgap_rating = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
 				$db->quote($this->comment. ""),
@@ -783,6 +852,7 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($estw_time. ""),
 				$db->quote($this->maxNumOfChars. ""),
 				$db->quote($this->getKeywords() . ""),
+				$db->quote($this->getTextRating() . ""),
 				$db->quote($complete. ""),
 				$db->quote($this->original_id. "")
 			);
@@ -855,6 +925,50 @@ class ASS_TextQuestion extends ASS_Question
 		}
 		return $keywords;
 	}
+
+	/**
+	* Returns the rating option for text comparisons
+	*
+	* Returns the rating option for text comparisons
+	*
+	* @return string The rating option for text comparisons
+	* @see $text_rating
+	* @access public
+	*/
+	function getTextRating()
+	{
+		return $this->text_rating;
+	}
+	
+	/**
+	* Sets the rating option for text comparisons
+	*
+	* Sets the rating option for text comparisons
+	*
+	* @param string $a_textgap_rating The rating option for text comparisons
+	* @see $textgap_rating
+	* @access public
+	*/
+	function setTextRating($a_text_rating)
+	{
+		switch ($a_text_rating)
+		{
+			case TEXTGAP_RATING_CASEINSENSITIVE:
+			case TEXTGAP_RATING_CASESENSITIVE:
+			case TEXTGAP_RATING_LEVENSHTEIN1:
+			case TEXTGAP_RATING_LEVENSHTEIN2:
+			case TEXTGAP_RATING_LEVENSHTEIN3:
+			case TEXTGAP_RATING_LEVENSHTEIN4:
+			case TEXTGAP_RATING_LEVENSHTEIN5:
+				$this->text_rating = $a_text_rating;
+				break;
+			default:
+				$this->text_rating = TEXTGAP_RATING_CASEINSENSITIVE;
+				break;
+		}
+	}
+	
+
 }
 
 ?>
