@@ -141,7 +141,8 @@ class ilDBx extends PEAR
 
 		if (DB::isError($r))
 		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
+			$err = "<br>Details: ".mysql_error();
+			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
 		}
 		else
 		{

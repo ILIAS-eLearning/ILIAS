@@ -519,6 +519,16 @@ class ilObjContentObject extends ilObject
 		return $sheet["stylesheet"];
 	}
 	
+	function _getAllAssignedStyles()
+	{
+		$q = "SELECT DISTINCT stylesheet, ob.title as title FROM content_object, object_data as ob".
+			" WHERE stylesheet = ob.obj_id";
+		$res = $ilDB->query($q);
+		$stlyes
+		while ($sheet = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+		}
+	}
 	
 	/**
 	* delete all style references to style
