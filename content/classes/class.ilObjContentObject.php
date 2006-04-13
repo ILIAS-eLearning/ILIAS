@@ -524,7 +524,7 @@ class ilObjContentObject extends ilObject
 		$q = "SELECT DISTINCT stylesheet, ob.title as title FROM content_object, object_data as ob".
 			" WHERE stylesheet = ob.obj_id";
 		$res = $ilDB->query($q);
-		$stlyes
+		$stlyes = array();
 		while ($sheet = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 		}
