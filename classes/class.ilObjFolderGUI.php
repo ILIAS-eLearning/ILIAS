@@ -250,7 +250,8 @@ class ilObjFolderGUI extends ilContainerGUI
 		{
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, ""), 
-				array("", "view", "cciMove", "enableAdministrationPanel", "disableAdministrationPanel"), 
+				array("", "view", "cciMove", "enableAdministrationPanel", 
+					"disableAdministrationPanel", "render"), 
 				get_class($this));
 		}
 		
