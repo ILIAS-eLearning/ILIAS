@@ -787,6 +787,19 @@ class ilTestOutputGUI
 	}
 	
 /**
+* The direct feedback button was hit to show an instant feedback
+*
+* The direct feedback button was hit to show an instant feedback
+*
+* @access public
+*/
+	function directfeedback()
+	{
+		$this->saveQuestionSolution();
+		$this->gotoQuestion();
+	}
+	
+/**
 * Show the question summary in online exams
 *
 * Show the question summary in online exams
@@ -1044,6 +1057,7 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("direct_feedback");
 			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
+			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 		

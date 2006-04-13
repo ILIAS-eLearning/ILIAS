@@ -4297,6 +4297,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "previous":
 			case "next":
 			case "summary":
+			case "directfeedback":
 			case "finishTest":
 			case "outEvaluationForm":
 			case "passDetails":

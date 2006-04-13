@@ -82,7 +82,7 @@ text-align: center;">
 {RESULT_DESCRIPTION}
 <!-- BEGIN question_status --><table><tr valign="top"><td><small>{TEXT_QUESTION_STATUS_LABEL}</small></td><td>{TEXT_QUESTION_STATUS}</td></tr></table><!-- END question_status -->
 <p>
-<!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" value="{TEXT_DIRECT_FEEDBACK}" /><!-- END direct_feedback -->
+<!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" id="directfeedback" value="{TEXT_DIRECT_FEEDBACK}" onclick="javascript:disableButton('test_output', document.getElementById('directfeedback'), '{PLEASE_WAIT}');" /><!-- END direct_feedback -->
 </p>
 <!-- BEGIN navigation_bottom -->
 			<div class="il_Header">
