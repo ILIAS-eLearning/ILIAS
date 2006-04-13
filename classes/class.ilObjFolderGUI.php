@@ -249,7 +249,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, ""), array("", "view"), get_class($this));
+				$this->ctrl->getLinkTarget($this, ""), array("", "view", "cciMove"), get_class($this));
 		}
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
