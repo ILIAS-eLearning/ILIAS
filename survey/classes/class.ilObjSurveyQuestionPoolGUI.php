@@ -1482,7 +1482,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			case "create":
 			case "importFile":
-			case "save":
 			case "cancel":
 				break;
 			default:
