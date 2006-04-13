@@ -420,7 +420,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// prepare output
 		foreach ($_POST as $key => $val)
 		{
-			$_POST[$key] = ilUtil::prepareFormOutput($val,true);
+			if (!is_array($val)) $_POST[$key] = ilUtil::prepareFormOutput($val,true);
 		}
 
 		if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
