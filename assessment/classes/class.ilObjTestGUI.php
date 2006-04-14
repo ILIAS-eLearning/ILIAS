@@ -2222,23 +2222,20 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_remove_questions.html", true);
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
-			$this->ilias->db->quote($this->object->getTestId())
-		);
-		$query_result = $this->ilias->db->query($query);
+		$removablequestions =& $this->object->getTestQuestions();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		if ($query_result->numRows() > 0)
+		if (count($removablequestions))
 		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			foreach ($removablequestions as $data)
 			{
-				if (in_array($data->question_id, $checked_questions))
+				if (in_array($data["question_id"], $checked_questions))
 				{
 					$this->tpl->setCurrentBlock("row");
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("TXT_TITLE", $data->title);
-					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
-					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->setVariable("TXT_TITLE", $data["title"]);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data["comment"]);
+					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
@@ -2469,43 +2466,40 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
-			$this->ilias->db->quote($this->object->getTestId())
-		);
-		$query_result = $this->ilias->db->query($query);
+		$testquestions =& $this->object->getTestQuestions();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$questionpools =& $this->object->get_qpl_titles();
 		$total = $this->object->evalTotalPersons();
-		if ($query_result->numRows() > 0)
+		if (count($testquestions) > 0)
 		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			foreach ($testquestions as $data)
 			{
 				$this->tpl->setCurrentBlock("QTab");
-				$this->tpl->setVariable("QUESTION_ID", $data->question_id);
+				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
-					$q_id = $data->question_id;
-					$qpl_ref_id = $this->object->_getRefIdFromObjId($data->obj_fi);
-					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data->title . "</a>");
+					$q_id = $data["question_id"];
+					$qpl_ref_id = $this->object->_getRefIdFromObjId($data["obj_fi"]);
+					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
 				} else {
-					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
+					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
 				}
 				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
 
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
-					if ($data->question_id != $this->object->questions[1])
+					if ($data["question_id"] != $this->object->questions[1])
 					{
-						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
 					}
-					if ($data->question_id != $this->object->questions[count($this->object->questions)])
+					if ($data["question_id"] != $this->object->questions[count($this->object->questions)])
 					{
-						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 					}
 				}
-				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
-				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data->obj_fi]);
+				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -2536,12 +2530,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 			$this->tpl->setCurrentBlock("QTypes");
-			$query = "SELECT * FROM qpl_question_type";
-			$query_result = $this->ilias->db->query($query);
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			$question_types =& $this->object->_getQuestiontypes();
+			foreach ($question_types as $data)
 			{
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $data);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->parseCurrentBlock();

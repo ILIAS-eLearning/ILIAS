@@ -428,7 +428,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, ordering_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type . ""),
 				$db->quote($this->obj_id . ""),
 				$db->quote($this->title . ""),
@@ -437,7 +437,6 @@ class ASS_OrderingQuestion extends ASS_Question
 				$db->quote($this->owner . ""),
 				$db->quote($this->question . ""),
 				$db->quote($estw_time . ""),
-				$db->quote($this->ordering_type . ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete . ""),
 				$db->quote($created . ""),
@@ -447,6 +446,11 @@ class ASS_OrderingQuestion extends ASS_Question
 			if ($result == DB_OK)
 			{
 				$this->id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO qpl_question_ordering (question_fi, ordering_type) VALUES (%s, %s)",
+					$db->quote($this->id . ""),
+					$db->quote($this->ordering_type . "")
+				);
+				$db->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -461,16 +465,20 @@ class ASS_OrderingQuestion extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, ordering_type = %s, points = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->question . ""),
 				$db->quote($estw_time . ""),
-				$db->quote($this->ordering_type . ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete . ""),
+				$db->quote($this->id . "")
+			);
+			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s WHERE question_fi = %s",
+				$db->quote($this->ordering_type . ""),
 				$db->quote($this->id . "")
 			);
 			$result = $db->query($query);
@@ -515,7 +523,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		global $ilias;
 		$db =& $ilias->db;
 
-		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+    $query = sprintf("SELECT qpl_questions.*, qpl_question_ordering.* FROM qpl_questions, qpl_question_ordering WHERE question_id = %s AND qpl_questions.question_id = qpl_question_ordering.question_fi",
 			$db->quote($question_id)
 		);
 		$result = $db->query($query);
@@ -1221,19 +1229,23 @@ class ASS_OrderingQuestion extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, ordering_type = %s, points = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->question . ""),
 				$db->quote($estw_time . ""),
-				$db->quote($this->ordering_type . ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete . ""),
 				$db->quote($this->original_id . "")
 			);
 			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s WHERE question_fi = %s",
+				$db->quote($this->ordering_type . ""),
+				$db->quote($this->original_id . "")
+			);
+			$result = $ilDB->query($query);
 
 			if ($result == DB_OK)
 			{
@@ -1325,6 +1337,19 @@ class ASS_OrderingQuestion extends ASS_Question
 	function getQuestionType()
 	{
 		return 5;
+	}
+
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
+	function getAdditionalTableName()
+	{
+		return "qpl_question_ordering";
 	}
 }
 

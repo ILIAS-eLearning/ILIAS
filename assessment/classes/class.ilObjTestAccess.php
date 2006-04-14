@@ -253,10 +253,6 @@ class ilObjTestAccess extends ilObjectAccess
 				array_push($test_result["marks"], $row);
 			}
 			// count points
-//			$query = sprintf("SELECT qpl_questions.*, tst_test_result.points AS reached_points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s",
-//				$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($test_obj_id) . ""),
-//				$ilDB->quote($user_id . "")
-//			);
 			$test_id = ilObjTestAccess::_getTestIDFromObjectID($test_obj_id);
 			if (is_null($pass))
 			{
@@ -538,6 +534,7 @@ class ilObjTestAccess extends ilObjectAccess
 		}
 		return $passed_users;
 	}
+	
 }
 
 ?>
