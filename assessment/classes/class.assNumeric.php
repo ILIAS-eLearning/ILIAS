@@ -302,7 +302,7 @@ class ASS_Numeric extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, maxNumOfChars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -312,7 +312,6 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time),
-				$db->quote($this->getMaxChars() . ""),
 				$db->quote("$complete"),
 				$db->quote($created),
 				$original_id
@@ -322,6 +321,11 @@ class ASS_Numeric extends ASS_Question
 			if ($result == DB_OK)
 			{
 				$this->id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO qpl_question_numeric (question_fi, maxNumOfChars) VALUES (%s, %s)",
+					$db->quote($this->id . ""),
+					$db->quote($this->getMaxChars() . "")
+				);
+				$db->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -336,7 +340,7 @@ class ASS_Numeric extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -344,9 +348,13 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time),
-				$db->quote($this->getMaxChars() . ""),
 				$db->quote("$complete"),
 				$db->quote($this->id)
+			);
+			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_numeric SET maxNumOfChars = %s WHERE question_fi = %s",
+				$db->quote($this->getMaxChars() . ""),
+				$db->quote($this->id . "")
 			);
 			$result = $db->query($query);
 		}
@@ -389,8 +397,9 @@ class ASS_Numeric extends ASS_Question
 	{
 		global $ilias;
 		$db = & $ilias->db;
-		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
-		$db->quote($question_id));
+    $query = sprintf("SELECT qpl_questions.*, qpl_question_numeric.* FROM qpl_questions, qpl_question_numeric WHERE question_id = %s AND qpl_questions.question_id = qpl_question_numeric.question_fi",
+			$db->quote($question_id)
+		);
 		$result = $db->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
@@ -875,7 +884,7 @@ class ASS_Numeric extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
 				$db->quote($this->comment. ""),
@@ -883,11 +892,15 @@ class ASS_Numeric extends ASS_Question
 				$db->quote($this->question. ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time. ""),
-				$db->quote($this->getMaxChars() . ""),
 				$db->quote($complete. ""),
 				$db->quote($this->original_id. "")
 			);
 			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_numeric SET maxNumOfChars = %s WHERE question_fi = %s",
+				$db->quote($this->getMaxChars() . ""),
+				$db->quote($this->original_id . "")
+			);
+			$result = $ilDB->query($query);
 
 			if ($result == DB_OK)
 			{
@@ -955,6 +968,18 @@ class ASS_Numeric extends ASS_Question
 		$this->maxchars = $maxchars;
 	}
 	
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
+	function getAdditionalTableName()
+	{
+		return "qpl_question_numeric";
+	}
 }
 
 ?>

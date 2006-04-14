@@ -1092,6 +1092,29 @@ class ASS_Question
 		return $data->type_tag;
 	}
 
+	function getAdditionalTableName()
+	{
+		return "";
+	}
+	
+	/**
+	* Deletes datasets from the additional question table in the database
+	*
+	* Deletes datasets from the additional question table in the database
+	*
+	* @param integer $question_id The question id which should be deleted in the additional question table
+	* @access public
+	*/
+	function deleteAdditionalTableData($question_id)
+	{
+		global $ilDB;
+		$additional_table_name = $this->getAdditionalTableName();
+		$query = sprintf("DELETE FROM $additional_table_name WHERE question_fi = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+	}
+
 	/**
 	* Deletes a question from the database
 	*
@@ -1125,8 +1148,11 @@ class ASS_Question
 		
 		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
 			$this->ilias->db->quote($question_id)
-			);
+		);
 		$result = $this->ilias->db->query($query);
+		
+		$this->deleteAdditionalTableData($question_id);
+		
 		$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
 			);

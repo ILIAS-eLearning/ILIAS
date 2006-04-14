@@ -1597,8 +1597,7 @@ class ilTestEvaluationGUI
 			}
 		}
 
-		$this->tpl->setCurrentBlock("question_row");
-		$this->tpl->setVariable("COLOR_CLASS", "std");
+		$this->tpl->setCurrentBlock("question_footer");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
 		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");

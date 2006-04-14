@@ -473,7 +473,7 @@ class ASS_JavaApplet extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, shuffle, complete, image_file, params, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type . ""),
 				$db->quote($this->obj_id . ""),
 				$db->quote($this->title . ""),
@@ -485,8 +485,6 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($estw_time . ""),
 				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
-				$db->quote($this->javaapplet_filename . ""),
-				$db->quote($params . ""),
 				$db->quote($created . ""),
 				$original_id
 			);
@@ -495,6 +493,12 @@ class ASS_JavaApplet extends ASS_Question
 			if ($result == DB_OK)
 			{
 				$this->id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO qpl_question_javaapplet (question_fi, image_file, params) VALUES (%s, %s, %s)",
+					$db->quote($this->id . ""),
+					$db->quote($this->javaapplet_filename . ""),
+					$db->quote($params . "")
+				);
+				$db->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -509,7 +513,7 @@ class ASS_JavaApplet extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s, image_file = %s, params = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
@@ -519,6 +523,10 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($estw_time . ""),
 				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
+				$db->quote($this->id . "")
+			);
+			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_javaapplet SET image_file = %s, params = %s WHERE question_fi = %s",
 				$db->quote($this->javaapplet_filename . ""),
 				$db->quote($params . ""),
 				$db->quote($this->id . "")
@@ -542,7 +550,7 @@ class ASS_JavaApplet extends ASS_Question
 		global $ilias;
 
 		$db = & $ilias->db;
-		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+    $query = sprintf("SELECT qpl_questions.*, qpl_question_javaapplet.* FROM qpl_questions, qpl_question_javaapplet WHERE question_id = %s AND qpl_questions.question_id = qpl_question_javaapplet.question_fi",
 			$db->quote($question_id)
 		);
 		$result = $db->query($query);
@@ -1107,7 +1115,7 @@ class ASS_JavaApplet extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s, image_file = %s, params = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
@@ -1117,11 +1125,15 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($estw_time . ""),
 				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
+				$db->quote($this->original_id . "")
+			);
+			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_javaapplet SET image_file = %s, params = %s WHERE question_fi = %s",
 				$db->quote($this->javaapplet_filename . ""),
 				$db->quote($params . ""),
 				$db->quote($this->original_id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			parent::syncWithOriginal();
 		}
@@ -1138,6 +1150,19 @@ class ASS_JavaApplet extends ASS_Question
 	function getQuestionType()
 	{
 		return 7;
+	}
+
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
+	function getAdditionalTableName()
+	{
+		return "qpl_question_javaapplet";
 	}
 }
 

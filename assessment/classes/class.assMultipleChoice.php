@@ -415,8 +415,6 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time),
-				$db->quote("$this->shuffle"),
-				$db->quote($this->response),
 				$db->quote("$complete"),
 				$db->quote($created),
 				$original_id
@@ -426,6 +424,12 @@ class ASS_MultipleChoice extends ASS_Question
 			if ($result == DB_OK)
 			{
 				$this->id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO qpl_question_multiplechoice (question_fi, shuffle, choice_response) VALUES (%s, %s, %s)",
+					$db->quote($this->id . ""),
+					$db->quote("$this->shuffle"),
+					$db->quote($this->response)
+				);
+				$db->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -440,7 +444,7 @@ class ASS_MultipleChoice extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -448,10 +452,14 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote($this->question),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time),
-				$db->quote("$this->shuffle"),
-				$db->quote($this->response),
 				$db->quote("$complete"),
 				$db->quote($this->id)
+			);
+			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_multiplechoice SET shuffle = %s, choice_response = %s WHERE question_fi = %s",
+				$db->quote("$this->shuffle"),
+				$db->quote($this->response),
+				$db->quote($this->id . "")
 			);
 			$result = $db->query($query);
 		}
@@ -495,7 +503,7 @@ class ASS_MultipleChoice extends ASS_Question
 		global $ilias;
 
 		$db = & $ilias->db;
-		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+    $query = sprintf("SELECT qpl_questions.*, qpl_question_multiplechoice.* FROM qpl_questions, qpl_question_multiplechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_multiplechoice.question_fi",
 		$db->quote($question_id));
 		$result = $db->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
@@ -1148,7 +1156,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
 				$db->quote($this->comment. ""),
@@ -1156,12 +1164,16 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote($this->question. ""),
 				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($estw_time. ""),
-				$db->quote($this->shuffle. ""),
-				$db->quote($this->response. ""),
 				$db->quote($complete. ""),
 				$db->quote($this->original_id. "")
 			);
 			$result = $db->query($query);
+			$query = sprintf("UPDATE qpl_question_multiplechoice SET shuffle = %s, choice_response = %s WHERE question_fi = %s",
+				$db->quote($this->shuffle. ""),
+				$db->quote($this->response. ""),
+				$db->quote($this->original_id . "")
+			);
+			$result = $ilDB->query($query);
 
 			if ($result == DB_OK)
 			{
@@ -1282,6 +1294,18 @@ class ASS_MultipleChoice extends ASS_Question
 		return $question_type;
 	}
 	
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
+	function getAdditionalTableName()
+	{
+		return "qpl_question_multiplechoice";
+	}
 }
 
 ?>

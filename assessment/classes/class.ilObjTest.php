@@ -2301,8 +2301,7 @@ class ilObjTest extends ilObject
 */
 	function removeQuestion($question_id) 
 	{
-		include_once "./assessment/classes/class.assQuestion.php";
-		$question = new ASS_Question();
+		$question =& ilObjTest::_instanciateQuestion($question_id);
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
@@ -6324,6 +6323,20 @@ class ilObjTest extends ilObject
 		}
 	}
 	
+	function &getTestQuestions()
+	{
+		global $ilDB;
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
+			$ilDB->quote($this->getTestId() . "")
+		);
+		$query_result = $ilDB->query($query);
+		$removableQuestions = array();
+		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($removableQuestions, $row);
+		}
+		return $removableQuestions;
+	}
 } // END class.ilObjTest
 
 ?>
