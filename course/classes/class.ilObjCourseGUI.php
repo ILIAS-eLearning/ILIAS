@@ -3034,12 +3034,17 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	function MembersGalleryObject()
 	{
+
 		global $rbacsystem;
 		require_once("class.ilObjCourse.php");
 
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 
-		$tpl =& new ilTemplate('tpl.crs_members_graduation.html',true,true,'course');
+		$this->tabs_gui->setTabActive('members');
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_graduation.html','course');
+		$this->setSubtabs('members');
+		$tpl = $this->tpl;
 
 		$this->object->initCourseMemberObject();
 

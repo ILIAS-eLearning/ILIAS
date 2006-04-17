@@ -1295,6 +1295,7 @@ common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_learning_progress#:#Edit learning progress
 common#:#crs_edit_permission#:#Change permission settings
+common#:#crs_graduation_photo#:#Course member gallery
 common#:#crs_info#:#Info
 common#:#crs_join#:#Join Course
 common#:#crs_leave#:#Leave Course
