@@ -290,7 +290,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
         $this->id = $this->ilias->db->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_ordinal (question_fi, orientation) VALUES (%s, %s)",
 					$this->ilias->db->quote($this->id . ""),
-					$this->ilias->db->quote(sprintf("%d", $this->orientation)),
+					$this->ilias->db->quote(sprintf("%d", $this->orientation))
 				);
 				$this->ilias->db->query($query);
       }
@@ -298,9 +298,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		else 
 		{
       // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote($this->title),
-				$this->ilias->db->quote("0"),
 				$this->ilias->db->quote($this->description),
 				$this->ilias->db->quote($this->author),
 				$this->ilias->db->quote($this->questiontext),

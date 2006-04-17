@@ -1585,5 +1585,24 @@ class SurveyQuestion
 	{
 		return 0;
 	}
+	
+/**
+* Creates an instance of a question with a given question id
+*
+* Creates an instance of a question with a given question id
+*
+* @param integer $question_id The question id
+* @return object The question instance
+* @access public
+*/
+  function &_instanciateQuestion($question_id) 
+	{
+		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		include_once "./survey/classes/class.$question_type.php";
+		$question = new $question_type();
+		$question->loadFromDb($question_id);
+		return $question;
+  }
+
 }
 ?>
