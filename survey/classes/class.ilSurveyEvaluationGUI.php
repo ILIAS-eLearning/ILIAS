@@ -422,6 +422,7 @@ class ilSurveyEvaluationGUI
 						}
 						break;
 					case "SurveyNominalQuestion":
+						include_once "./survey/classes/class.SurveyNominalQuestion.php";
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
@@ -500,6 +501,7 @@ class ilSurveyEvaluationGUI
 						}
 						break;
 					case "SurveyMetricQuestion":
+						include_once "./survey/classes/class.SurveyMetricQuestion.php";
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
@@ -781,6 +783,7 @@ class ilSurveyEvaluationGUI
 				switch ($question_data["questiontype_fi"])
 				{
 					case 1:
+						include_once "./survey/classes/class.SurveyNominalQuestion.php";
 						if ($question_data["subtype"] == SUBTYPE_MCMR)
 						{
 							foreach ($question_data["answers"] as $cat => $cattext)
@@ -825,6 +828,7 @@ class ilSurveyEvaluationGUI
 					{
 						case 1:
 							// nominal question
+							include_once "./survey/classes/class.SurveyNominalQuestion.php";
 							if (count($resultset["answers"][$question_id]))
 							{
 								if ($question_data["subtype"] == SUBTYPE_MCMR)

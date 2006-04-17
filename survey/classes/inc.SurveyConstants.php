@@ -30,15 +30,6 @@
 */
 
 /**
-* Survey question subtypes
-*/
-define("SUBTYPE_MCSR", 1);
-define("SUBTYPE_MCMR", 2);
-define("SUBTYPE_NON_RATIO", 3);
-define("SUBTYPE_RATIO_NON_ABSOLUTE", 4);
-define("SUBTYPE_RATIO_ABSOLUTE", 5);
-
-/**
 * Survey question import/export identifiers
 */
 define("METRIC_QUESTION_IDENTIFIER", "Metric Question");

@@ -24,6 +24,10 @@
 include_once "./survey/classes/class.SurveyQuestion.php";
 include_once "./survey/classes/inc.SurveyConstants.php";
 
+define("SUBTYPE_NON_RATIO", 3);
+define("SUBTYPE_RATIO_NON_ABSOLUTE", 4);
+define("SUBTYPE_RATIO_ABSOLUTE", 5);
+
 /**
 * Metric survey question
 *
@@ -81,7 +85,7 @@ class SurveyMetricQuestion extends SurveyQuestion
     $author = "",
 		$questiontext = "",
     $owner = -1,
-		$subtype = 0
+		$subtype = SUBTYPE_NON_RATIO
   )
 
   {
@@ -185,7 +189,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
   function loadFromDb($id) 
 	{
-    $query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
+    $query = sprintf("SELECT survey_question.*, survey_question_metric.* FROM survey_question, survey_question_metric WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_metric.question_fi",
       $this->ilias->db->quote($id)
     );
     $result = $this->ilias->db->query($query);
@@ -279,8 +283,7 @@ class SurveyMetricQuestion extends SurveyQuestion
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote("$this->subtype"),
+      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote($this->getQuestionType()),
 				$this->ilias->db->quote($this->obj_id),
 				$this->ilias->db->quote($this->owner),
@@ -297,14 +300,18 @@ class SurveyMetricQuestion extends SurveyQuestion
       if ($result == DB_OK) 
 			{
         $this->id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO survey_question_metric (question_fi, subtype) VALUES (%s, %s)",
+					$this->ilias->db->quote($this->id . ""),
+					$this->ilias->db->quote($this->getSubType() . "")
+				);
+				$this->ilias->db->query($query);
       }
     } 
 		else 
 		{
       // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote($this->title),
-				$this->ilias->db->quote("$this->subtype"),
 				$this->ilias->db->quote($this->description),
 				$this->ilias->db->quote($this->author),
 				$this->ilias->db->quote($this->questiontext),
@@ -313,6 +320,11 @@ class SurveyMetricQuestion extends SurveyQuestion
 				$this->ilias->db->quote($this->id)
       );
       $result = $this->ilias->db->query($query);
+			$query = sprintf("UPDATE survey_question_metric SET subtype = %s WHERE question_fi = %s",
+				$this->ilias->db->quote($this->getSubType() . ""),
+				$this->ilias->db->quote($this->id . "")
+			);
+			$result = $this->ilias->db->query($query);
     }
     if ($result == DB_OK) 
 		{
@@ -594,7 +606,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 			}
 			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote($this->title . ""),
-				$this->ilias->db->quote($this->subtype . ""),
 				$this->ilias->db->quote($this->description . ""),
 				$this->ilias->db->quote($this->author . ""),
 				$this->ilias->db->quote($this->questiontext . ""),
@@ -603,6 +614,11 @@ class SurveyMetricQuestion extends SurveyQuestion
 				$this->ilias->db->quote($this->original_id . "")
 			);
 			$result = $this->ilias->db->query($query);
+			$query = sprintf("UPDATE survey_question_metric SET subtype = %s WHERE question_fi = %s",
+				$this->ilias->db->quote($this->getSubType() . ""),
+				$this->ilias->db->quote($this->original_id . "")
+			);
+			$result = $ilDB->query($query);
 			if ($result == DB_OK) 
 			{
 				// save categories
@@ -662,5 +678,17 @@ class SurveyMetricQuestion extends SurveyQuestion
 		return 3;
 	}
 	
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
+	function getAdditionalTableName()
+	{
+		return "survey_question_metric";
+	}
 }
 ?>
