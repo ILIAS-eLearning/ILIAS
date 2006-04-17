@@ -1107,6 +1107,9 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->getLinkTarget($this,'mailMembers'),
 					"mailMembers", get_class($this));
 
+				$this->tabs_gui->addSubTabTarget("crs_graduation_photo",
+					$this->ctrl->getLinkTarget($this,'MembersGallery'),
+					"MembersGallery", get_class($this));
 				break;
 
 				
@@ -1509,7 +1512,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
 		// show Course Graduation Photo. Comment this in case you don't want to allow this 
-		$this->__showButton("GraduationPhoto",$this->lng->txt("crs_graduation_photo"),"target=\"_blank\"");
+		//$this->__showButton("MembersGallery",$this->lng->txt("crs_graduation_photo"),"target=\"_blank\"");
 
 		// unsubscribe
 		if($rbacsystem->checkAccess('leave',$this->object->getRefId()) and 
@@ -3025,11 +3028,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
 	/**
-	 * Builds a class graduation photo structured as a layer of left-floating images
+	 * Builds a course members gallery as a layer of left-floating images
 	 * @author Arturo Gonzalez <arturogf@gmail.com>
 	 * @access       public
 	 */
-	function GraduationPhotoObject()
+	function MembersGalleryObject()
 	{
 		global $rbacsystem;
 		require_once("class.ilObjCourse.php");
