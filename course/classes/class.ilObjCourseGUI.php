@@ -1106,10 +1106,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("mail_members",
 					$this->ctrl->getLinkTarget($this,'mailMembers'),
 					"mailMembers", get_class($this));
-
 				$this->tabs_gui->addSubTabTarget("crs_graduation_photo",
-					$this->ctrl->getLinkTarget($this,'MembersGallery'),
-					"MembersGallery", get_class($this));
+					$this->ctrl->getLinkTarget($this,'membersGallery'),
+					"membersGallery", get_class($this));
 				break;
 
 				
@@ -3029,21 +3028,20 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * @author Arturo Gonzalez <arturogf@gmail.com>
 	 * @access       public
 	 */
-	function MembersGalleryObject()
+	function membersGalleryObject()
 	{
 
 		global $rbacsystem;
-		require_once("class.ilObjCourse.php");
-
+		
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 
 		$this->tabs_gui->setTabActive('members');
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
+		
 		$this->setSubTabs('members');
 
 		$this->object->initCourseMemberObject();
-
 
 		// MEMBERS
 		if(count($members = $this->object->members_obj->getAssignedUsers()))
@@ -3075,16 +3073,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				switch($member_data["role"])
 					{
 					case $this->object->members_obj->ROLE_ADMIN:
-					//tutors
+					//admins
 				
 						$this->tpl->setCurrentBlock("tutors_row");
-						$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
-						$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-						$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
-						$this->tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
-
 						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$this->tpl->setVariable("LOGIN",$tmp_obj->getLogin());
 						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
 						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
 
@@ -3095,13 +3087,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					//tutors
 				
 						$this->tpl->setCurrentBlock("tutors_row");
-						$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
-						$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-						$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
-						$this->tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
-
 						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$this->tpl->setVariable("LOGIN",$tmp_obj->getLogin());
 						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
 						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
 
@@ -3112,13 +3098,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					case $this->object->members_obj->ROLE_MEMBER:
 					//students
 						$this->tpl->setCurrentBlock("members_row");
-						$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
-						$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-						$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
-						$this->tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
-								
 						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$this->tpl->setVariable("LOGIN",$tmp_obj->getLogin());
 						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
 						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
 
@@ -3133,29 +3113,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->parseCurrentBlock();
 
 		}
-		// SUBSCRIBERS
-		/*
-		if(count($members = $this->object->members_obj->getSubscribers()))
-		{
-			foreach($members as $member_id)
-			{
-				$member_data = $this->object->members_obj->getSubscriberData($member_id);
 
-				// GET USER OBJ
-				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
-				{
-					$tpl->setCurrentBlock("members_row");
-					
-					$tpl->setVariable("SLOGIN",$tmp_obj->getLogin());
-					$tpl->setVariable("SFIRSTNAME",$tmp_obj->getFirstname());
-					$tpl->setVariable("SLASTNAME",$tmp_obj->getLastname());
-					$tpl->setVariable("STIME",$member_data["time"]);
-					$tpl->parseCurrentBlock();
-				}
-			}
-
-		}
-		*/
 		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
 		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
 		
