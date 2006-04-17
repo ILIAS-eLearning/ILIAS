@@ -72,7 +72,7 @@ class SurveyTextQuestion extends SurveyQuestion
 */
   function loadFromDb($id) 
 	{
-    $query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
+    $query = sprintf("SELECT survey_question.*, survey_question_text.* FROM survey_question, survey_question_text WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_text.question_fi",
       $this->ilias->db->quote($id)
     );
     $result = $this->ilias->db->query($query);
@@ -173,7 +173,7 @@ class SurveyTextQuestion extends SurveyQuestion
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, maxchars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote($this->getQuestionType() . ""),
 				$this->ilias->db->quote($this->obj_id),
 				$this->ilias->db->quote($this->owner),
@@ -182,7 +182,6 @@ class SurveyTextQuestion extends SurveyQuestion
 				$this->ilias->db->quote($this->author),
 				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$maxchars,
 				$this->ilias->db->quote("$complete"),
 				$this->ilias->db->quote($created),
 				$original_id
@@ -191,22 +190,31 @@ class SurveyTextQuestion extends SurveyQuestion
       if ($result == DB_OK) 
 			{
         $this->id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO survey_question_text (question_fi, maxchars) VALUES (%s, %s)",
+					$this->ilias->db->quote($this->id . ""),
+					$maxchars
+				);
+				$this->ilias->db->query($query);
       }
     } 
 		else 
 		{
       // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, maxchars = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote($this->title),
 				$this->ilias->db->quote($this->description),
 				$this->ilias->db->quote($this->author),
 				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$maxchars,
 				$this->ilias->db->quote("$complete"),
 				$this->ilias->db->quote($this->id)
       );
       $result = $this->ilias->db->query($query);
+			$query = sprintf("UPDATE survey_question_text SET maxchars = %s WHERE question_fi = %s",
+				$maxchars,
+				$this->ilias->db->quote($this->id . "")
+			);
+			$result = $this->ilias->db->query($query);
     }
     if ($result == DB_OK) {
       // saving material uris in the database
@@ -447,6 +455,11 @@ class SurveyTextQuestion extends SurveyQuestion
 				$this->ilias->db->quote($this->original_id . "")
       );
       $result = $this->ilias->db->query($query);
+			$query = sprintf("UPDATE survey_question_text SET maxchars = %s WHERE question_fi = %s",
+				$this->ilias->db->quote($this->getMaxChars() . ""),
+				$this->ilias->db->quote($this->original_id . "")
+			);
+			$result = $ilDB->query($query);
 		}
 		parent::syncWithOriginal();
 	}
@@ -485,6 +498,19 @@ class SurveyTextQuestion extends SurveyQuestion
 	function getQuestionType()
 	{
 		return 4;
+	}
+
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
+	function getAdditionalTableName()
+	{
+		return "survey_question_text";
 	}
 }
 ?>

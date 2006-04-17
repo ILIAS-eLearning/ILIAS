@@ -24,6 +24,9 @@
 include_once "./survey/classes/class.SurveyQuestion.php";
 include_once "./survey/classes/inc.SurveyConstants.php";
 
+define("SUBTYPE_MCSR", 1);
+define("SUBTYPE_MCMR", 2);
+
 /**
 * Nominal survey question
 *
@@ -72,12 +75,14 @@ class SurveyNominalQuestion extends SurveyQuestion
     $author = "",
 		$questiontext = "",
     $owner = -1,
-		$subtype = 0
+		$subtype = SUBTYPE_MCSR,
+		$orientation = 1 
   )
 
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->subtype = $subtype;
+		$this->orientation = $orientation;
 		include_once "./survey/classes/class.SurveyCategories.php";
 		$this->categories = new SurveyCategories();
 	}
@@ -120,7 +125,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 */
   function loadFromDb($id) 
 	{
-    $query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
+    $query = sprintf("SELECT survey_question.*, survey_question_nominal.* FROM survey_question, survey_question_nominal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_nominal.question_fi",
       $this->ilias->db->quote($id)
     );
     $result = $this->ilias->db->query($query);
@@ -207,8 +212,7 @@ class SurveyNominalQuestion extends SurveyQuestion
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, orientation, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote("$this->subtype"),
+      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote($this->getQuestionType()),
 				$this->ilias->db->quote($this->obj_id),
 				$this->ilias->db->quote($this->owner),
@@ -217,7 +221,6 @@ class SurveyNominalQuestion extends SurveyQuestion
 				$this->ilias->db->quote($this->author),
 				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$this->ilias->db->quote(sprintf("%d", $this->orientation)),
 				$this->ilias->db->quote("$complete"),
 				$this->ilias->db->quote($created),
 				$original_id
@@ -226,23 +229,33 @@ class SurveyNominalQuestion extends SurveyQuestion
       if ($result == DB_OK) 
 			{
         $this->id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO survey_question_nominal (question_fi, subtype, orientation) VALUES (%s, %s, %s)",
+					$this->ilias->db->quote($this->id . ""),
+					$this->ilias->db->quote($this->getSubType() . ""),
+					$this->ilias->db->quote(sprintf("%d", $this->orientation)),
+				);
+				$this->ilias->db->query($query);
       }
     } 
 		else 
 		{
       // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, orientation = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote($this->title),
-				$this->ilias->db->quote("$this->subtype"),
 				$this->ilias->db->quote($this->description),
 				$this->ilias->db->quote($this->author),
 				$this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$this->ilias->db->quote(sprintf("%d", $this->orientation)),
 				$this->ilias->db->quote("$complete"),
 				$this->ilias->db->quote($this->id)
       );
       $result = $this->ilias->db->query($query);
+			$query = sprintf("UPDATE survey_question_nominal SET subtype = %s, orientation = %s WHERE question_fi = %s",
+				$this->ilias->db->quote($this->getSubType() . ""),
+				$this->ilias->db->quote(sprintf("%d", $this->orientation)),
+				$this->ilias->db->quote($this->id . "")
+			);
+			$result = $this->ilias->db->query($query);
     }
     if ($result == DB_OK) 
 		{
@@ -517,9 +530,8 @@ class SurveyNominalQuestion extends SurveyQuestion
 			{
 				$complete = 1;
 			}
-			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote($this->title . ""),
-				$this->ilias->db->quote($this->subtype . ""),
 				$this->ilias->db->quote($this->description . ""),
 				$this->ilias->db->quote($this->author . ""),
 				$this->ilias->db->quote($this->questiontext . ""),
@@ -528,6 +540,12 @@ class SurveyNominalQuestion extends SurveyQuestion
 				$this->ilias->db->quote($this->original_id . "")
 			);
 			$result = $this->ilias->db->query($query);
+			$query = sprintf("UPDATE survey_question_nominal SET subtype = %s, orientation = %s WHERE question_fi = %s",
+				$this->ilias->db->quote($this->getSubType() . ""),
+				$this->ilias->db->quote($this->getOrientation() . ""),
+				$this->ilias->db->quote($this->original_id . "")
+			);
+			$result = $ilDB->query($query);
 			if ($result == DB_OK) {
 				// save categories
 				
@@ -565,6 +583,19 @@ class SurveyNominalQuestion extends SurveyQuestion
 	function getQuestionType()
 	{
 		return 1;
+	}
+
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
+	function getAdditionalTableName()
+	{
+		return "survey_question_nominal";
 	}
 }
 ?>
