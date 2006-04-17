@@ -1511,9 +1511,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		// print Members
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
-		// show Course Graduation Photo. Comment this in case you don't want to allow this 
-		//$this->__showButton("MembersGallery",$this->lng->txt("crs_graduation_photo"),"target=\"_blank\"");
-
 		// unsubscribe
 		if($rbacsystem->checkAccess('leave',$this->object->getRefId()) and 
 		   $this->object->members_obj->isMember($ilUser->getId()))
@@ -3042,9 +3039,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tabs_gui->setTabActive('members');
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_graduation.html','course');
-		$this->setSubtabs('members');
-		$tpl = $this->tpl;
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
+		$this->setSubTabs('members');
 
 		$this->object->initCourseMemberObject();
 
@@ -3081,60 +3077,60 @@ class ilObjCourseGUI extends ilContainerGUI
 					case $this->object->members_obj->ROLE_ADMIN:
 					//tutors
 				
-						$tpl->setCurrentBlock("tutors_row");
-						$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
-						$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-						$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
-						$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
+						$this->tpl->setCurrentBlock("tutors_row");
+						$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
+						$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+						$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+						$this->tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
 
-						$tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
-						$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-						$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$this->tpl->setVariable("LOGIN",$tmp_obj->getLogin());
+						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
 
-						$tpl->parseCurrentBlock();
+						$this->tpl->parseCurrentBlock();
 						break;
 
 					case $this->object->members_obj->ROLE_TUTOR:
 					//tutors
 				
-						$tpl->setCurrentBlock("tutors_row");
-						$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
-						$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-						$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
-						$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
+						$this->tpl->setCurrentBlock("tutors_row");
+						$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
+						$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+						$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+						$this->tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));						
 
-						$tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
-						$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-						$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$this->tpl->setVariable("LOGIN",$tmp_obj->getLogin());
+						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
 
-						$tpl->parseCurrentBlock();
+						$this->tpl->parseCurrentBlock();
 						break;
 
 
 					case $this->object->members_obj->ROLE_MEMBER:
 					//students
-						$tpl->setCurrentBlock("members_row");
-						$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
-						$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-						$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
-						$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
+						$this->tpl->setCurrentBlock("members_row");
+						$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
+						$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+						$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+						$this->tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
 								
-						$tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
-						$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-						$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$this->tpl->setVariable("LOGIN",$tmp_obj->getLogin());
+						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
 
-						$tpl->parseCurrentBlock();
+						$this->tpl->parseCurrentBlock();
 						break;
 					}
 
 				}
 			}
-			$tpl->setCurrentBlock("members");	
-			$tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
-			$tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("members");	
+			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
+			$this->tpl->parseCurrentBlock();
 
 		}
 		// SUBSCRIBERS
@@ -3160,14 +3156,14 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		}
 		*/
-		$tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
-		$tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
+		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
 		
 		$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
 
-		$tpl->setVariable("HEADLINE",$headline);
+		$this->tpl->setVariable("HEADLINE",$headline);
 
-		$tpl->show();
+		$this->tpl->show();
 		exit;
 	}
 
