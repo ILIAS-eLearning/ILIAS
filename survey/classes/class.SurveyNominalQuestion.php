@@ -232,7 +232,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 				$query = sprintf("INSERT INTO survey_question_nominal (question_fi, subtype, orientation) VALUES (%s, %s, %s)",
 					$this->ilias->db->quote($this->id . ""),
 					$this->ilias->db->quote($this->getSubType() . ""),
-					$this->ilias->db->quote(sprintf("%d", $this->orientation)),
+					$this->ilias->db->quote(sprintf("%d", $this->orientation))
 				);
 				$this->ilias->db->query($query);
       }

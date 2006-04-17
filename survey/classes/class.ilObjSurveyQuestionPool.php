@@ -333,9 +333,9 @@ class ilObjSurveyQuestionPool extends ilObject
   {
     if ($question_id < 1)
       return;
-
+		
 		include_once "./survey/classes/class.SurveyQuestion.php";
-		$question = new SurveyQuestion();
+		$question =& SurveyQuestion::_instanciateQuestion($question_id);
 		$question->delete($question_id);
 	}
 
