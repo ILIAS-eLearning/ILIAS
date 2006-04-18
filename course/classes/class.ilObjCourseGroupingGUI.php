@@ -262,6 +262,10 @@ class ilObjCourseGroupingGUI
 			{
 				continue;
 			}
+			if($tree->checkForParentType($course_id,'adm'))
+			{
+				continue;
+			}
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($course_id);
 
 			#if(ilObjCourseGrouping::_isInGrouping($tmp_obj->getId()))

@@ -316,44 +316,71 @@ class ilObjCourseGUI extends ilContainerGUI
 		$info->addSection($this->lng->txt("access"));
 		
 		// activation
-		if($this->object->getActivationUnlimitedStatus())
+		if($this->object->getOfflineStatus())
 		{
-			$info->addProperty($this->lng->txt("crs_activation"),
+			$info->addProperty($this->lng->txt('crs_visibility'),
+							   $this->lng->txt('crs_visibility_unvisible'));
+		}
+		elseif($this->object->getActivationUnlimitedStatus())
+		{
+			$info->addProperty($this->lng->txt("crs_visibility"),
 				$this->lng->txt('crs_unlimited'));
 		}
 		else
 		{
-			$info->addProperty($this->lng->txt("crs_activation"),
-				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getActivationStart())." ".
-				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getActivationEnd()));
+			$info->addProperty($this->lng->txt("crs_visibility"),
+				$this->lng->txt("crs_from")." ".strftime("%c",$this->object->getActivationStart())."<br /> ".
+				$this->lng->txt("crs_to")." ".strftime("%c",$this->object->getActivationEnd()));
 		}
 		
-		// subscription
-		if($this->object->getSubscriptionUnlimitedStatus())
+
+		switch($this->object->getSubscriptionType())
 		{
-			$info->addProperty($this->lng->txt("crs_subscription"),
-				$this->lng->txt('crs_unlimited'));
+			case $this->object->SUBSCRIPTION_DEACTIVATED:
+				$txt = $this->lng->txt("crs_info_reg_deactivated");
+				break;
+			case $this->object->SUBSCRIPTION_CONFIRMATION:
+				$txt = $this->lng->txt("crs_info_reg_confirmation");
+				break;
+			case $this->object->SUBSCRIPTION_DIRECT:
+				$txt = $this->lng->txt("crs_info_reg_direct");
+				break;
+			case $this->object->SUBSCRIPTION_PASSWORD:
+				$txt = $this->lng->txt("crs_info_reg_password");
+				break;
 		}
-		else
+
+		// subscription
+		$info->addProperty($this->lng->txt("crs_info_reg"),$txt);
+
+
+		if($this->object->getSubscriptionType() != $this->object->SUBSCRIPTION_DEACTIVATED)
 		{
-			$info->addProperty($this->lng->txt("crs_subscription"),
-				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getSubscriptionStart())." ".
-				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getSubscriptionEnd()));
+			if($this->object->getSubscriptionUnlimitedStatus())
+			{
+				$info->addProperty($this->lng->txt("crs_reg_until"),
+								   $this->lng->txt('crs_unlimited'));
+			}
+			elseif($this->object->getSubscriptionStart() < time())
+			{
+				$info->addProperty($this->lng->txt("crs_reg_until"),
+								   $this->lng->txt('crs_to').' '.strftime("%c",$this->object->getSubscriptionEnd()));
+			}
+			elseif($this->object->getSubscriptionStart() > time())
+			{
+				$info->addProperty($this->lng->txt("crs_reg_until"),
+								   $this->lng->txt('crs_from').' '.strftime("%c",$this->object->getSubscriptionStart()));
+			}
 		}
 		
 		// archive
-		if($this->object->getArchiveType() == $this->object->ARCHIVE_DISABLED)
+		if($this->object->getArchiveType() != $this->object->ARCHIVE_DISABLED)
 		{
 			$info->addProperty($this->lng->txt("crs_archive"),
-				$this->lng->txt('crs_archive_disabled'));
+							   $this->lng->txt("crs_from")." ".strftime("%c",$this->object->getArchiveStart())."<br />".
+							   $this->lng->txt("crs_to")." ".strftime("%c",$this->object->getArchiveEnd()));
 		}
-		else
-		{
-			$info->addProperty($this->lng->txt("crs_archive"),
-				$this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveStart())." ".
-				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->object->getArchiveEnd()));
-		}
-
+		
 		$info->enableLearningProgress(true);
 
 		// forward the command

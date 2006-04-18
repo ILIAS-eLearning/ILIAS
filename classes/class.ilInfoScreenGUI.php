@@ -450,6 +450,10 @@ class ilInfoScreenGUI
 		{
 			return false;
 		}
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			return false;
+		}
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if (!ilObjUserTracking::_enabledLearningProgress())
