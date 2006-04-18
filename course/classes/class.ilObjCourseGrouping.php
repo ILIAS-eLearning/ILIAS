@@ -268,6 +268,7 @@ class ilObjCourseGrouping
 		}
 
 		$groupings = array();
+
 		foreach($courses as $crs_id)
 		{
 			if($a_crs_ref_id != $crs_id)

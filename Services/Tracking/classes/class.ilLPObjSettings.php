@@ -69,7 +69,7 @@ class ilLPObjSettings
 		if(!$this->__read())
 		{
 			$this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
-			$this->obj_mode = $this->__getDefaultMode();
+			$this->obj_mode = $this->__getDefaultMode($this->obj_id,$this->obj_mode);
 		}
 	}
 
@@ -159,6 +159,11 @@ class ilLPObjSettings
 	{
 		global $ilDB,$ilObjDataCache;
 
+		if(ilLPObjSettings::_checkObjectives($a_obj_id))
+		{
+			return LP_MODE_DEACTIVATED;
+		}
+
 		$query = "SELECT mode FROM ut_lp_settings ".
 			"WHERE obj_id = '".$a_obj_id."'";
 
@@ -169,7 +174,7 @@ class ilLPObjSettings
 		}
 		
 		// no db entry exists => return default mode by type
-		return ilLPObjSettings::__getDefaultMode($ilObjDataCache->lookupType($a_obj_id));
+		return ilLPObjSettings::__getDefaultMode($a_obj_id,$ilObjDataCache->lookupType($a_obj_id));
 	}
 
 	function getValidModes()
@@ -179,7 +184,13 @@ class ilLPObjSettings
 		switch($this->obj_type)
 		{
 			case 'crs':
-				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
+				if(ilLPObjSettings::_checkObjectives($this->getObjId()))
+				{
+					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
+				}
+
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
 #							 LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'),
 							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
 
@@ -267,6 +278,28 @@ class ilLPObjSettings
 
 
 	// Private
+	function _checkObjectives($a_obj_id)
+	{
+		global $ilDB,$ilObjDataCache;
+
+		// Return deactivate for course with objective view
+		if($ilObjDataCache->lookupType($a_obj_id) == 'crs')
+		{
+			$res = $ilDB->query("SELECT objective_view FROM crs_settings WHERE obj_id = '".$a_obj_id."'");
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if($row->objective_view)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+		
+
+
 	function __read()
 	{
 		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = '".$this->db->quote($this->obj_id)."'");
@@ -277,20 +310,31 @@ class ilLPObjSettings
 			$this->obj_mode = $row->mode;
 			$this->visits = $row->visits;
 
+			if(ilLPObjSettings::_checkObjectives($this->obj_id))
+			{
+				$this->obj_mode = LP_MODE_DEACTIVATED;
+			}
+
 			return true;
 		}
 
 		return false;
 	}
 
-	function __getDefaultMode($a_type = '')
+	function __getDefaultMode($a_obj_id,$a_type = '')
 	{
+		global $ilDB;
 
 		$type = strlen($a_type) ? $a_type : $this->obj_type;
 
 		switch($type)
 		{
 			case 'crs':
+				// If objectives are enabled return deactivated
+				if(ilLPObjSettings::_checkObjectives($a_obj_id))
+				{
+					return LP_MODE_DEACTIVATED;
+				}
 				return LP_MODE_MANUAL;
 
 			case 'dbk':
