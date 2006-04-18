@@ -1405,7 +1405,7 @@ class ilQTIParser extends ilSaxParser
 						$question->setShuffle($shuffle);
 						foreach ($answers as $answer)
 						{
-							$question->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["correctness"]);
+							$question->addAnswer($answer["answertext"], $answer["points"], $answer["correctness"], $answer["answerorder"]);
 						}
 						$question->saveToDb();
 						if (count($this->item->suggested_solutions))

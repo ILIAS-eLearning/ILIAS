@@ -485,7 +485,11 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	function addArea()
 	{
 		$_SESSION["last_area"] = $_POST["newarea"];
-		$this->writePostData();
+		if ($this->writePostData())
+		{
+      sendInfo($this->getErrorMessage());
+			$this->ctrl->setCmd("");
+		}
 		$this->editQuestion();
 	}
 
@@ -520,6 +524,23 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
+	function checkPoints()
+	{
+		$negativepoints = 0;
+		if (preg_match("/answer_(\d+)/", $key, $matches))
+		{
+			$points = $_POST["points_$matches[1]"];
+			if (preg_match("/\d+/", $points))
+			{
+				if ($points < 0)
+				{
+					$negativepoints = 1;
+				}
+			}
+		}
+		return $negativepoints;
+	}
+	
 	/**
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
@@ -621,8 +642,8 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 							{
 								if ($points < 0)
 								{
-									$points = 0.0;
-									sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+									$result = 1;
+									$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 								}
 							}
 							else
@@ -668,8 +689,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		}
 		if ($this->ctrl->getCmd() == "addArea")
 		{
-			$this->object->saveToDb();
-			$saved = true;
+			if ($this->checkPoints() == 0)
+			{
+				$this->object->saveToDb();
+				$saved = true;
+			}
+			else
+			{
+				$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
+				$result = 1;
+			}
 		}
 		if ($saved)
 		{
@@ -858,7 +887,12 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
-			$this->writePostData();
+			if ($this->writePostData())
+			{
+				sendInfo($this->getErrorMessage());
+				$this->editQuestion();
+				return;
+			}
 			if (!$this->checkInput())
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));

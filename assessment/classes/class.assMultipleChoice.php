@@ -405,7 +405,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, shuffle, choice_response, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -559,11 +559,11 @@ class ASS_MultipleChoice extends ASS_Question
 	*
 	* @access public
 	*/
-	function addAnswer($answertext, $points, $answerorder, $correctness)
+	/*function addAnswer($answertext, $points, $answerorder, $correctness)
 	{
 		include_once "./assessment/classes/class.assAnswerBinaryState.php";
 		array_push($this->answers, new ASS_AnswerBinaryState($answertext, $points, $answerorder, $correctness));
-	}
+	}*/
 	
 	/**
 	* Duplicates an ASS_MultipleChoiceQuestion
@@ -877,8 +877,12 @@ class ASS_MultipleChoice extends ASS_Question
 		else
 		{
 			$allpoints = 0;
-			foreach ($this->answers as $key => $value) {
-				$allpoints += $value->getPoints();
+			foreach ($this->answers as $key => $value) 
+			{
+				if ($value->getPoints() > 0)
+				{
+					$allpoints += $value->getPoints();
+				}
 			}
 			return $allpoints;
 		}

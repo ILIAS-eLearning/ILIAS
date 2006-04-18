@@ -394,7 +394,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		
 		if ($this->ctrl->getCmd() != "createGaps")
 		{
-			$this->setGapValues();
+			$result = $this->setGapValues();
 			$this->setShuffleState();
 
 			foreach ($_POST as $key => $value)
@@ -473,6 +473,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	function setGapValues($a_apply_text = true)
 	{
 //echo "<br>SETGapValues:$a_apply_text:";
+		$result = 0;
 		foreach ($_POST as $key => $value)
 		{
 			// Set gap values
@@ -499,8 +500,8 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 								$points = $_POST["points_$matches[1]_$matches[2]"];
 								if ($points < 0)
 								{
-									$points = 0.0;
-									sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+									$result = 1;
+									$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 								}
 							}
 							else
@@ -542,8 +543,8 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 							$points = $_POST["points_$matches[1]_$matches[2]"];
 							if ($points < 0)
 							{
-								$points = 0.0;
-								sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+								$result = 1;
+								$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 							}
 						}
 						else
@@ -560,6 +561,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				}
 			}
 		}
+		return $result;
 	}
 
 	function setShuffleState()
@@ -852,7 +854,12 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		}
 		if ($addForGap > -1)
 		{
-			$this->writePostData();
+			if ($this->writePostData())
+			{
+				sendInfo($this->getErrorMessage());
+				$this->editQuestion();
+				return;
+			}
 			if (!$this->checkInput())
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));

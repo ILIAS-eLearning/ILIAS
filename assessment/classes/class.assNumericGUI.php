@@ -281,8 +281,8 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 				{
 					if ($points < 0)
 					{
-						$points = 0.0;
-						sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+						$result = 1;
+						$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 					}
 				}
 				else
@@ -421,7 +421,12 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
-			$this->writePostData();
+			if ($this->writePostData())
+			{
+				sendInfo($this->getErrorMessage());
+				$this->editQuestion();
+				return;
+			}
 			if (!$this->checkInput())
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));

@@ -473,7 +473,7 @@ class ASS_JavaApplet extends ASS_Question
 			$now = getdate();
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type . ""),
 				$db->quote($this->obj_id . ""),
 				$db->quote($this->title . ""),
@@ -483,7 +483,6 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($this->question . ""),
 				$db->quote($this->points . ""),
 				$db->quote($estw_time . ""),
-				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
 				$db->quote($created . ""),
 				$original_id
@@ -513,7 +512,7 @@ class ASS_JavaApplet extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
@@ -521,7 +520,6 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($this->question . ""),
 				$db->quote($this->points . ""),
 				$db->quote($estw_time . ""),
-				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
 				$db->quote($this->id . "")
 			);
@@ -572,7 +570,6 @@ class ASS_JavaApplet extends ASS_Question
 				$this->question = $data->question_text;
 				$this->solution_hint = $data->solution_hint;
 				$this->splitParams($data->params);
-				$this->setShuffle($data->shuffle);
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
 		}
@@ -1115,7 +1112,7 @@ class ASS_JavaApplet extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
@@ -1123,7 +1120,6 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($this->question . ""),
 				$db->quote($this->points . ""),
 				$db->quote($estw_time . ""),
-				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
 				$db->quote($this->original_id . "")
 			);

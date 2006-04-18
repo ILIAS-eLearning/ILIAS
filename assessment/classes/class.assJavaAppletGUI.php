@@ -321,6 +321,11 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
 		$this->object->setPoints($_POST["applet_points"]);
+		if ($_POST["applet_points"] < 0)
+		{
+			$result = 1;
+			$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
+		}
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 
@@ -472,7 +477,12 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
-			$result = $this->writePostData();
+			if ($this->writePostData())
+			{
+				sendInfo($this->getErrorMessage());
+				$this->editQuestion();
+				return;
+			}
 			if ($result != 0)
 			{
 				$this->editQuestion();

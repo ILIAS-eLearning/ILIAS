@@ -310,8 +310,8 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function deleteQuestion($question_id)
 	{
-		include_once "./assessment/classes/class.assQuestion.php";
-		$question = new ASS_Question();
+		include_once "./assessment/classes/class.ilObjTest.php";
+		$question =& ilObjTest::_instanciateQuestion($question_id);
 		$question->delete($question_id);
 	}
 
