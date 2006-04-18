@@ -1845,18 +1845,18 @@ class ilUtil
 			// remove complete tag, if not allowed
 			if ($pos === false)
 			{
-				$a_str = preg_replace("/<\/?\s*$item(\/?)*\s*>/i", "", $a_str);
-				$a_str = preg_replace("/<\/?\s*$item(\/?)*\s+([^>]*)>/i", "", $a_str);
+				$a_str = preg_replace("/<\/?\s*$item(\/?)\s*>/i", "", $a_str);
+				$a_str = preg_replace("/<\/?\s*$item(\/?)\s+([^>]*)>/i", "", $a_str);
 			}
 		}
 		
 		if ($a_rm_js)
 		{
 			// remove all attributes if an "on..." attribute is given
-			$a_str = preg_replace("/<\s*\w*(\s+[^>]*)?(\s+on[^>]*)>/i", "", $a_str);
+			$a_str = preg_replace("/<\s*\w*(\/?)(\s+[^>]*)?(\s+on[^>]*)>/i", "", $a_str);
 //$a_str = preg_replace("/<\w* (on[^>]*)>/i", "", $a_str);
 			// remove all attributes if a "javascript" is within tag
-			$a_str = preg_replace("/<\s*\w*\s+[^>]*javascript[^>]*>/i", "", $a_str);
+			$a_str = preg_replace("/<\s*\w*(\/?)\s+[^>]*javascript[^>]*>/i", "", $a_str);
 		}
 
 		return $a_str;
