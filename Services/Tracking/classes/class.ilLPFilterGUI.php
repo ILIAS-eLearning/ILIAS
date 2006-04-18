@@ -226,7 +226,7 @@ class ilLPFilterGUI
 
 	function __getPossibleTypes()
 	{
-		return array('lm' => $this->lng->txt('objs_lm'),
+		return array('lm' => $this->lng->txt('learning_resources'),
 					 'crs' => $this->lng->txt('objs_crs'),
 					 'tst' => $this->lng->txt('objs_tst'),
 					 'grp' => $this->lng->txt('objs_grp'),

@@ -447,7 +447,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 						 'local' => false,
 						 'usr_id' => $id);
 		}
-		if(($fields[1] == $ilias->getSetting('inst_id',0)) and strlen(ilObjUser::_lookupName($fields[3])))
+		if(($fields[1] == $ilias->getSetting('inst_id',0)) and strlen(ilObjUser::_lookupLogin($fields[3])))
 		{
 			return array('imported' => false,
 						 'local' => true,
