@@ -139,16 +139,49 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* lookup standard flag
+	* write active flag
 	*/
-	function _getStandardStyles($a_exclude_default_style = false)
+	function _writeActive($a_id, $a_active)
+	{
+		global $ilDB;
+
+		$q = "UPDATE style_data SET active = ".$ilDB->quote((int) $a_active).
+			" WHERE id = ".$ilDB->quote($a_id);
+		$ilDB->query($q);
+	}
+
+	/**
+	* lookup active flag
+	*/
+	function _lookupActive($a_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM style_data ".
+			" WHERE id = ".$ilDB->quote($a_id);
+		$res = $ilDB->query($q);
+		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return (boolean) $sty["active"];
+	}
+
+	/**
+	* get standard styles
+	*/
+	function _getStandardStyles($a_exclude_default_style = false,
+		$a_include_deactivated = false)
 	{
 		global $ilDB, $ilias;
 		
 		$default_style = $ilias->getSetting("default_content_style_id");
 		
+		if (!$a_include_deactivated)
+		{
+			$and = " AND active = 1";
+		}
+		
 		$q = "SELECT * FROM style_data ".
-			" WHERE standard = 1";
+			" WHERE standard = 1".$and;
 		$res = $ilDB->query($q);
 		$styles = array();
 		while($sty = $res->fetchRow(DB_FETCHMODE_ASSOC))

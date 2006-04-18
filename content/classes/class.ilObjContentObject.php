@@ -530,6 +530,57 @@ class ilObjContentObject extends ilObject
 		}
 	}
 	
+	
+	/**
+	* gets the number of learning modules assigned to a content style
+	*
+	* @param	int		$a_style_id		style id
+	*/
+	function _getNrOfAssignedLMs($a_style_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT count(*) as cnt FROM content_object ".
+			" WHERE stylesheet = ".$ilDB->quote($a_style_id);
+		$cset = $ilDB->query($q);
+		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return (int) $crow["cnt"];
+	}
+	
+	
+	/**
+	* get number of learning modules with individual styles
+	*/
+	function _getNrLMsIndividualStyles()
+	{
+		global $ilDB;
+		
+		// joining with style table (not perfectly nice)
+		$q = "SELECT count(*) as cnt FROM content_object, style_data ".
+			" WHERE stylesheet = style_data.id ".
+			" AND standard = 0";
+		$cset = $ilDB->query($q);
+		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return (int) $crow["cnt"];
+	}
+
+	/**
+	* get number of learning modules assigned no style
+	*/
+	function _getNrLMsNoStyle()
+	{
+		global $ilDB;
+		
+		$q = "SELECT count(*) as cnt FROM content_object ".
+			" WHERE stylesheet = 0";
+		$cset = $ilDB->query($q);
+		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return (int) $crow["cnt"];
+	}
+
 	/**
 	* delete all style references to style
 	*
