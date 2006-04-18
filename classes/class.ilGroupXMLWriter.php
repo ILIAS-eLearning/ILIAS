@@ -145,9 +145,12 @@ class ilGroupXMLWriter extends ilXmlWriter
 	{
 		foreach($this->group_obj->getGroupMemberIds() as $id)
 		{
-			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-
-			$this->xmlElement('member',$attr);
+			if(!$this->group_obj->isAdmin($id))
+			{
+				$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
+				
+				$this->xmlElement('member',$attr);
+			}
 		}
 		return true;
 	}
