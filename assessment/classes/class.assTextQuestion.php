@@ -768,6 +768,7 @@ class ASS_TextQuestion extends ASS_Question
 		{
 			$points = 0;
 		}
+		if ($points < 0) $points = 0;
 		return $points;
 	}
 

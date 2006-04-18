@@ -842,6 +842,7 @@ class ASS_TextSubset extends ASS_Question
 			$points = $this->getMaximumPoints();
 		}
 
+		if ($points < 0) $points = 0;
 		return $points;
 	}
 	
