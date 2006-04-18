@@ -1,17 +1,29 @@
 <!-- BEGIN style_row -->
 <tr class="{ROWCOL}">
 	<td valign="top" class="std" nowrap="nowrap">
-		<input class="{ROWCOL}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" />
+		<!-- BEGIN check_box -->
+		<input type="checkbox" name="id[]" value="{CHECKBOX_ID}" />
+		<!-- END check_box -->
 	</td>
 	<td valign="top" class="std">
-	<a href="{LINK_STYLE}">{TXT_TITLE}</a>
-	<div class="il_Description">{TXT_DESC}</div>
+		<!-- BEGIN linka -->
+		<a href="{LINK_STYLE}">{TXT_TITLE}</a>
+		<!-- END linka -->
+		<!-- BEGIN texta -->
+		<b>{TXT_TEXT}</b>
+		<!-- END texta -->
+		<div class="il_Description">{TXT_DESC}</div>
+	</td>
+	<td>
+		{TXT_NR_LEARNING_MODULES}
 	</td>
 	<td valign="top" class="std">
-	{TXT_PURPOSE}
+		{TXT_PURPOSE}
 	</td>
 	<td valign="top" class="std">
-	<input type="checkbox" name="std_{CHECKBOX_ID}" value="1" {CHECKED_STY}/>
+		<!-- BEGIN active_box -->
+		<input type="checkbox" name="std_{ACTIVE_ID}" value="1" {CHECKED_STY}/>
+		<!-- END active_box -->
 	</td>
 </tr>
 <!-- END style_row -->
@@ -21,5 +33,4 @@
 	{TXT_CONTENT}
 	</td>
 </tr>
-
 <!-- END text -->

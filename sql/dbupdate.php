@@ -10110,4 +10110,5 @@ CREATE TABLE lng_modules
 ALTER TABLE style_data ADD PRIMARY KEY (id);
 ALTER TABLE style_data ADD COLUMN standard TINYINT(2) DEFAULT 0;
 ALTER TABLE style_data ADD COLUMN category INT;
-
+<#670>
+ALTER TABLE style_data ADD COLUMN active TINYINT(2) DEFAULT 1;

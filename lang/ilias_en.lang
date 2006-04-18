@@ -891,6 +891,7 @@ chat#:#my_chats#:#My Chats
 style#:#sty_standard_style#:#Standard Style
 style#:#sty_source#:#Source
 style#:#sty_individual_style#:#Individual Style
+style#:#sty_individual_styles#:#Individual Styles
 style#:#sty_save_standard_styles#:#Save Standard Styles
 style#:#sty_create_ind_style#:#Create Individual Style
 style#:#sty_create_new_stylesheet#:#Create new Style
@@ -5278,6 +5279,11 @@ search#:#search_type#:#Search type
 search#:#search_user#:#Users
 search#:#until#:#up to
 style#:#sty_text#:#Text
+style#:#sty_move_style#:#Change Style
+style#:#sty_default_style#:#Default Style
+style#:#sty_move_lm_styles#:#Change Style of Learning Modules
+style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_save_active_styles#:#Save Active Styles
 style#:#sty_font_size#:#Font Size
 style#:#sty_font_family#:#Font Family
 style#:#sty_font_variant#:#Font Variant

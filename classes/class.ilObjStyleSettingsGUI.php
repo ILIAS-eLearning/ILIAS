@@ -184,8 +184,11 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		
 		include_once "./classes/class.ilTableGUI.php";
 
+		// load template content style settings
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.styf_content_styles.html");
+
 		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		$this->tpl->addBlockfile("STYLE_TABLE", "style_table", "tpl.table.html");
 		
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.styf_row.html");
@@ -207,18 +210,20 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		// title
 		$header_names = array("", $this->lng->txt("title"),
-			$this->lng->txt("purpose"), $this->lng->txt("sty_standard_style"));
+			$this->lng->txt("sty_nr_learning_modules"),
+			$this->lng->txt("purpose"), $this->lng->txt("active"));
 		$tbl->setHeaderNames($header_names);
 
 		$header_params = array("ref_id" => $this->ref_id);
-		$tbl->setHeaderVars(array("", "title", "purpose", "standard"), $header_params);
-		$tbl->setColumnWidth(array("0%", "60%", "20%", "20%"));
+		$tbl->setHeaderVars(array("", "title", "nr_lms", "purpose", "active"), $header_params);
+		$tbl->setColumnWidth(array("0%", "40%", "30%", "15%", "15%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
+		$tbl->disable("sort");
 		
 		// get style ids
 		$style_entries = array();
@@ -233,7 +238,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// todo
 		$tbl->setMaxCount(count($style_entries));
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -244,26 +249,59 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		
 		$fixed_style = $ilias->getSetting("fixed_content_style_id");
 		$default_style = $ilias->getSetting("default_content_style_id");
-
+		
+		// this may not be cool, if styles are organised as (independent) Service
+		include_once("content/classes/class.ilObjContentObject.php");
+		
+		$from_styles = $to_styles = array();
 		foreach ($style_entries as $style)
 		{
-			$this->tpl->setCurrentBlock("style_row");
-		
 			// color changing
 			$css_row = ($css_row == "tblrow2")
 				? "tblrow1"
 				: "tblrow2";
 
+			// command checkbox
+			$this->tpl->setCurrentBlock("check_box");
 			$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
-			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
-			if (ilObjStyleSheet::_lookupStandard($style["id"]))
+			$this->tpl->parseCurrentBlock();
+			
+			// activation checkbox
+			if ($fixed_style <= 0)
 			{
-				$this->tpl->setVariable("CHECKED_STY", 'checked="checked"');
+				$this->tpl->setCurrentBlock("active_box");
+				if (ilObjStyleSheet::_lookupActive($style["id"]))
+				{
+					$this->tpl->setVariable("CHECKED_STY", 'checked="checked"');
+				}
+				$this->tpl->setVariable("ACTIVE_ID", $style["id"]);
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
-			$this->ctrl->setParameterByClass("ilobjstylesheetgui", "obj_id", $style["id"]); 
+			
+			// link to style edit screen
+			$this->tpl->setCurrentBlock("linka");
+			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
 			$this->tpl->setVariable("LINK_STYLE",
 				$this->ctrl->getLinkTargetByClass("ilobjstylesheetgui"), "view");
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("style_row");
+						
+			$nr_lm = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
+			
+			// fill from/to array
+			if ($nr_lm > 0)
+			{
+				$from_styles[$style["id"]] = $style["title"];
+			}
+			if (ilObjStyleSheet::_lookupActive($style["id"]))
+			{
+				$to_styles[$style["id"]] = $style["title"];
+			}
+			
+			$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
+			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
+			$this->ctrl->setParameterByClass("ilobjstylesheetgui", "obj_id", $style["id"]); 
 			$this->tpl->setVariable("ROWCOL", $css_row);
 			if ($style["id"] == $fixed_style)
 			{
@@ -279,7 +317,48 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 		} //if is_array
+
+		// number of individual styles
+		if ($fixed_style <= 0)
+		{
+			$this->tpl->setCurrentBlock("texta");
+			$this->tpl->setVariable("TXT_TEXT",
+				$this->lng->txt("sty_individual_styles"));
+			$this->tpl->parseCurrentBlock();
+			// color changing
+			$this->tpl->setCurrentBlock("style_row");
+			$css_row = ($css_row == "tblrow2")
+				? "tblrow1"
+				: "tblrow2";
+			$this->tpl->setVariable("ROWCOL", $css_row);
+			$nr_lm = ilObjContentObject::_getNrLMsIndividualStyles();
+			$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->parseCurrentBlock();
+			$from_styles[-1] = $this->lng->txt("sty_individual_styles");
+		}
 		
+		if ($default_style <= 0 && $fixed_style <= 0)
+		{
+			$this->tpl->setCurrentBlock("texta");
+			$this->tpl->setVariable("TXT_TEXT",
+				$this->lng->txt("sty_default_style"));
+			$this->tpl->parseCurrentBlock();
+			// color changing
+			$this->tpl->setCurrentBlock("style_row");
+			$css_row = ($css_row == "tblrow2")
+				? "tblrow1"
+				: "tblrow2";
+			$this->tpl->setVariable("ROWCOL", $css_row);
+			$nr_lm = ilObjContentObject::_getNrLMsNoStyle();
+			$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->parseCurrentBlock();
+			$from_styles[0] = $this->lng->txt("sty_default_style");
+		}
+
 		if (count($style_entries) == 0)
 		{
             $tbl->disable("header");
@@ -296,6 +375,19 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// render table
 		$tbl->render();
 		
+		
+		// move form
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_MOVE_LM_STYLE", $this->lng->txt("sty_move_lm_styles"));
+		$this->tpl->setVariable("TXT_FROM", $this->lng->txt("from"));
+		$this->tpl->setVariable("TXT_TO", $this->lng->txt("to"));
+		$this->tpl->setVariable("TXT_MOVE_LM_STYLE", $this->lng->txt("sty_move_lm_styles"));
+		$this->tpl->setVariable("TXT_MOVE_STYLE", $this->lng->txt("sty_move_style"));
+		$this->tpl->setVariable("SELECT_FROM",
+			ilUtil::formSelect("", "from_style", $from_styles, false, true));
+		$this->tpl->setVariable("SELECT_TO",
+			ilUtil::formSelect("", "to_style", $to_styles, false, true));
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
@@ -679,9 +771,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	
 	
 	/**
-	* save standard styles
+	* save active styles
 	*/
-	function saveStandardStylesObject()
+	function saveActiveStylesObject()
 	{
 		include_once("classes/class.ilObjStyleSheet.php");
 		$styles = $this->object->getStyles();
@@ -689,11 +781,11 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			if ($_POST["std_".$style["id"]] == 1)
 			{
-				ilObjStyleSheet::_writeStandard($style["id"], 1);
+				ilObjStyleSheet::_writeActive($style["id"], 1);
 			}
 			else
 			{
-				ilObjStyleSheet::_writeStandard($style["id"], 0);
+				ilObjStyleSheet::_writeActive($style["id"], 0);
 			}
 		}
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
@@ -726,10 +818,10 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("toggleGlobalFixed"));
 		$this->tpl->parseCurrentBlock();
 
-		// save standard files
+		// save active styles
 		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "saveStandardStyles");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("sty_save_standard_styles"));
+		$this->tpl->setVariable("BTN_NAME", "saveActiveStyles");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("sty_save_active_styles"));
 		$this->tpl->parseCurrentBlock();
 
 		if ($with_subobjects === true)
