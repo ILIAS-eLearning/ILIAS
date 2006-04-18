@@ -318,7 +318,13 @@ class ilPermissionGUI
 				}
 				
 				$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-				$role_obj->setParent($rolf_id);
+
+				// role templates exist only in ROLE_FOLDER_ID and therefore class.ObjRoleTemplate.php don't need and has a setParent-method
+				if ($role_obj->getType() != "rolt")
+				{
+					$role_obj->setParent($rolf_id);
+				}
+
 				$role_obj->delete();
 				unset($role_obj);
 			}
