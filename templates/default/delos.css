@@ -316,7 +316,7 @@ td.option_value_center {
 }
 
 td.option_value_details {
-	background-color:#ebbdbd;
+	background-color:#FFE0E0;
 	background-image: none;
 	color:#222222;
 	padding:3px;
@@ -324,7 +324,7 @@ td.option_value_details {
 	text-align:left;
 }
 td.option_value_center_details {
-	background-color:#ebbdbd;
+	background-color:#FFE0E0;
 	background-image: none;
 	color:#222222;
 	padding:3px;

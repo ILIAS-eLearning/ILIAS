@@ -1845,8 +1845,8 @@ class ilUtil
 			// remove complete tag, if not allowed
 			if ($pos === false)
 			{
-				$a_str = preg_replace("/<\/?\s*$item\s*>/i", "", $a_str);
-				$a_str = preg_replace("/<\/?\s*$item\s+([^>]*)>/i", "", $a_str);
+				$a_str = preg_replace("/<\/?\s*$item(\/?)*\s*>/i", "", $a_str);
+				$a_str = preg_replace("/<\/?\s*$item(\/?)*\s+([^>]*)>/i", "", $a_str);
 			}
 		}
 		

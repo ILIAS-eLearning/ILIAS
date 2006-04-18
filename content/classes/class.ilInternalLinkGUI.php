@@ -975,10 +975,11 @@ class ilInternalLinkGUI
 		$exp->addFilter("tst");
 		$exp->addFilter("svy");
 		$exp->addFilter("webr");
+		$exp->addFilter("file");
 		$exp->addFilter("chat");
 
 		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr','chat',
-			'cat','crs','grp');
+			'cat','crs','grp','file');
 		$exp->setSelectableTypes($sel_types);
 
 		/*

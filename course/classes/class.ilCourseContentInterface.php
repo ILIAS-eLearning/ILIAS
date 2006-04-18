@@ -1066,8 +1066,7 @@ class ilCourseContentInterface
 										$continue_data[$lm_id]['lm_page_id']);
 
 				$target = '';
-					
-				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
+				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$obj_frame);
 				$this->tpl->setVariable("TXT_CONTINUE_LMS",$this->lng->txt('continue_work'));
 				$this->tpl->parseCurrentBlock();
 			}

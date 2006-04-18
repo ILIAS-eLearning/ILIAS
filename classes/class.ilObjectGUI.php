@@ -1375,7 +1375,6 @@ class ilObjectGUI
 //echo "1";
 		//if ($in_rep)
 		//{
-//echo "2";
 			$this->ctrl->returnToParent($this);
 		//}
 		//else

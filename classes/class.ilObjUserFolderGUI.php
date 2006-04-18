@@ -234,8 +234,32 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$_SESSION["user_filter"] = (isset($_POST["user_filter"]))?$_POST["user_filter"]:"1";
+		if (isset($_POST["user_filter"]))
+		{
+			$_SESSION["user_filter"] = $_POST["user_filter"];
+		}
+		if (!isset($_SESSION["user_filter"]))
+		{
+			$_SESSION["user_filter"] = 1;
+		}
 		
+		// keep offset/sorting
+		if (isset($_GET["sort_by"]))
+		{
+			$_SESSION["user_folder_sort_by"] = $_GET["sort_by"];
+		}
+		if (isset($_GET["sort_order"]))
+		{
+			$_SESSION["user_folder_order"] = $_GET["sort_order"];
+		}
+		if (isset($_GET["offset"]))
+		{
+			$_SESSION["user_folder_offset"] = $_GET["offset"];
+		}
+		$_GET["offset"] = $_SESSION["user_folder_offset"]; 
+		$_GET["sort_order"] = $_SESSION["user_folder_order"];
+		$_GET["sort_by"] = $_SESSION["user_folder_sort_by"];
+
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -268,6 +292,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		$this->maxcount = count($this->data["data"]);
+
+		if ($_GET["offset"] >= $this->maxcount)
+		{
+			$_GET["offset"] = $_SESSION["user_folder_offset"] = 0;
+		}
+		
 		// TODO: correct this in objectGUI
 		if ($_GET["sort_by"] == "name")
 		{

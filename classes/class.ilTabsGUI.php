@@ -287,7 +287,7 @@ class ilTabsGUI
 				{
 					$target["cmd"] = array($target["cmd"]);
 				}
-
+//echo "<br>-$a_manual-$cmd-".$target["cmd"]."-";
 				if (!$a_manual &&
 					(in_array($cmd, $target["cmd"]) || ($target["cmd"][0] == "" && count($target["cmd"]) == 1)) &&
 					(in_array($cmdClass,$target["cmdClass"]) || !$target["cmdClass"]))

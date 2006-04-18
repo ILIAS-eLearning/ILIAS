@@ -71,6 +71,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_DAY",$this->__getDateSelect("day",(int) date("d",time())));
 		$this->tpl->setVariable("SELECT_MONTH",$this->__getDateSelect("month",(int) date("m",time())));
 		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",1));
+		$this->tpl->setVariable("CMD_CANCEL", "cancel");
 
 		return true;
 	}
