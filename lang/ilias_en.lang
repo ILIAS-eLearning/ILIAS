@@ -1296,12 +1296,12 @@ common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_learning_progress#:#Edit learning progress
 common#:#crs_edit_permission#:#Change permission settings
-common#:#crs_graduation_photo#:#Course member gallery
 common#:#crs_info#:#Info
 common#:#crs_join#:#Join Course
 common#:#crs_leave#:#Leave Course
 common#:#crs_management_system#:#Course Management System
 common#:#crs_member_not_passed#:#Not passed
+common#:#crs_members_gallery#:#Course members gallery
 common#:#crs_member_passed#:#Passed
 common#:#crs_new#:#New Course
 common#:#crs_no_content#:#Without content
@@ -1730,6 +1730,7 @@ common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
 common#:#grp_mail_subj_new_subscription#:#New subscription
 common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled
+common#:#grp_members_gallery#:#Group members gallery
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
