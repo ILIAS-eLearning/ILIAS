@@ -284,7 +284,7 @@ class ilGroupImportParser extends ilSaxParser
 			$this->group_obj->setExpirationDateTime(date('Y.m.d H:i:s',$this->group_data['expiration']));
 		}
 		$this->group_obj->setPassword($this->group_data['password']);
-		$this->group_obj->setGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
+		$this->group_obj->__setGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
 		
 		// ASSIGN ADMINS/MEMBERS
 		$this->__assignMembers();
@@ -344,32 +344,32 @@ class ilGroupImportParser extends ilSaxParser
 
 	function __assignMembers()
 	{
-		global $ilias;
+		global $ilias,$ilUser;
 
-		// OWNER
-		if ($this->group_data["owner"] == "" ||
-			!($usr_id = ilObjUser::_getImportedUserId($this->group_data["owner"])))
-		{
-			$usr_id = $ilias->account->getId();
-		}
 
-		$this->group_obj->addMember($usr_id,$this->group_obj->getDefaultAdminRole());
+		$this->group_obj->addMember($ilUser->getId(),$this->group_obj->getDefaultAdminRole());
 
 		// ADMIN
 		foreach($this->group_data["admin"] as $user)
 		{
-			if($usr_id = ilObjUser::_getImportedUserId($user))
+			if($id_data = $this->__parseId($user))
 			{
-				$this->group_obj->addMember($usr_id,$this->group_obj->getDefaultAdminRole());
+				if($id_data['local'] or $id_data['imported'])
+				{
+					$this->group_obj->addMember($id_data['usr_id'],$this->group_obj->getDefaultAdminRole());
+				}
 			}
 		}
 		
 		// MEMBER
 		foreach($this->group_data["member"] as $user)
 		{
-			if($usr_id = ilObjUser::_getImportedUserId($user))
+			if($id_data = $this->__parseId($user))
 			{
-				$this->group_obj->addMember($usr_id,$this->group_obj->getDefaultMemberRole());
+				if($id_data['local'] or $id_data['imported'])
+				{
+					$this->group_obj->addMember($id_data['usr_id'],$this->group_obj->getDefaultMemberRole());
+				}
 			}
 		}
 		return true;
@@ -415,5 +415,35 @@ class ilGroupImportParser extends ilSaxParser
 	{
 		unset($this->folder_obj);
 	}
+
+	function __parseId($a_id)
+	{
+		global $ilias;
+
+		$fields = explode('_',$a_id);
+
+		if(!is_array($fields) or
+		   $fields[0] != 'il' or
+		   !is_numeric($fields[1]) or
+		   $fields[2] != 'usr' or
+		   !is_numeric($fields[3]))
+		{
+			return false;
+		}
+		if($id = ilObjUser::_getImportedUserId($a_id))
+		{
+			return array('imported' => true,
+						 'local' => false,
+						 'usr_id' => $id);
+		}
+		if(($fields[1] == $ilias->getSetting('inst_id',0)) and strlen(ilObjUser::_lookupName($fields[3])))
+		{
+			return array('imported' => false,
+						 'local' => true,
+						 'usr_id' => $fields[3]);
+		}
+		return false;
+	}
+
 }
 ?>

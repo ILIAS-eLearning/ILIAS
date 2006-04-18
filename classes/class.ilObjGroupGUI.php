@@ -1737,7 +1737,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		include_once 'classes/class.ilObjGroup.php';
 
-		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],$this->ref_id))
+		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],(int) $_GET['ref_id']))
 		{
 			$this->ctrl->setParameter($this, "ref_id", $ref_id);
 			sendInfo($this->lng->txt("import_grp_finished"),true);

@@ -655,7 +655,7 @@ class ILIAS
 		{
 			$protocol = 'http://';
 		}
-		$host = $_SERVER['SERVER_NAME'];
+		$host = $_SERVER['HTTP_HOST'];
 
 		if(!defined('ILIAS_MODULE'))
 		{
@@ -684,7 +684,7 @@ class ILIAS
 			{
 				$uri = dirname($uri);
 			}
-		}
+		}		
 		return define('ILIAS_HTTP_PATH',$protocol.$host.$uri);
 	}
 
