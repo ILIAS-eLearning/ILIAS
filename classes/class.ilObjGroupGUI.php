@@ -1207,6 +1207,97 @@ class ilObjGroupGUI extends ilContainerGUI
 		return $this->__showMembersTable($result_set,$user_ids);
     }
 
+/**
+	 * Builds a group members gallery as a layer of left-floating images
+	 * @author Arturo Gonzalez <arturogf@gmail.com>
+	 * @access       public
+	 */
+	function membersGalleryObject()
+	{
+
+		global $rbacsystem;
+		
+		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
+
+		$this->tabs_gui->setTabActive('members');
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
+		
+		$this->setSubTabs('members');
+
+		$member_ids = $this->object->getGroupMemberIds();
+		$admin_ids = $this->object->getGroupAdminIds();
+
+                // fetch all users data in one shot to improve performance
+                $members = $this->object->getGroupMemberData($member_ids);
+
+		// MEMBERS
+		if(count($members))
+		{
+			foreach($members as $member)
+			{
+				// GET USER IMAGE
+				unset($webspace_dir);
+
+				$webspace_dir=ilUtil::getWebspaceDir();
+				$image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member["id"]."_"."xsmall".".jpg";
+				
+				if (!file_exists($image_file)) {
+					$thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
+				}
+				else {
+					$image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
+					$thumb_file = $image_url."/usr_".$member["id"]."_"."xsmall".".jpg";
+				}
+
+				$file = $thumb_file."?t=".rand(1, 99999);
+
+				// GET USER OBJ
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member["id"],false))
+				{
+
+				switch(in_array($member["id"],$admin_ids))
+					{
+					case 1:
+					//admins
+						$this->tpl->setCurrentBlock("tutors_row");
+						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
+						$this->tpl->setVariable("LASTNAME",$member["lastname"]);
+						$this->tpl->parseCurrentBlock();
+						break;
+
+					case 0:
+					//students
+						$this->tpl->setCurrentBlock("members_row");
+						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
+						$this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
+                                                $this->tpl->setVariable("LASTNAME",$member["lastname"]);
+						$this->tpl->parseCurrentBlock();
+						break;
+					}
+
+				}
+			}
+			$this->tpl->setCurrentBlock("members");	
+			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('group_members'));
+			$this->tpl->parseCurrentBlock();
+
+		}
+
+		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
+		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
+		
+		$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
+
+		$this->tpl->setVariable("HEADLINE",$headline);
+
+		$this->tpl->show();
+		exit;
+	}
+
+
+
 	function mailMembersObject()
 	{
 		global $rbacreview;
@@ -1234,11 +1325,16 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			case 'members':
 				$this->tabs_gui->addSubTabTarget("members",
-												 $this->ctrl->getLinkTarget($this,'members'),
-												 "members", get_class($this));
+				$this->ctrl->getLinkTarget($this,'members'),
+				"members", get_class($this));
+				
 				$this->tabs_gui->addSubTabTarget("mail_members",
-												 $this->ctrl->getLinkTarget($this,'mailMembers'),
-												 "mailMembers", get_class($this));
+				$this->ctrl->getLinkTarget($this,'mailMembers'),
+				"mailMembers", get_class($this));
+
+				$this->tabs_gui->addSubTabTarget("grp_members_gallery",
+				$this->ctrl->getLinkTarget($this,'membersGallery'),
+				"membersGallery", get_class($this));
 
 				break;
 
