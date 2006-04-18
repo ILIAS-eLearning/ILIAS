@@ -202,6 +202,13 @@ if ($ilias->getSetting("pub_section"))
 	$tpl->parseCurrentBlock();
 }
 
+if ($ilias->ini_ilias->readVariable("clients","list"))
+{
+	$tpl->setCurrentBlock("client_list");
+	$tpl->setVariable("TXT_CLIENT_LIST",$lng->txt("to_client_list"));
+	$tpl->parseCurrentBlock();	
+}
+
 $tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
 $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilias->getSetting("shib_login_button"));

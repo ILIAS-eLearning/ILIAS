@@ -356,13 +356,12 @@ elseif (
 			and $script != "error.php" 
 			and $script != "index.php"
 			and $script != "view_usr_agreement.php" 
-			and $script!= "register.php" 
+			and $script != "register.php" 
 			and $script != "chat.php"
 			and $script != "pwassist.php"
 		)
 {
 	// phpinfo();exit;
-
 
 	$dirname = dirname($_SERVER["PHP_SELF"]);
 	$ilurl = parse_url(ILIAS_HTTP_PATH);
@@ -386,7 +385,7 @@ elseif (
 
 	session_unset();
 	session_destroy();
-
+	
 	$return_to = urlencode(substr($_SERVER["REQUEST_URI"],strlen($ilurl["path"])+1));
 
 	if (($_GET["inactive"]) || $inactive)
@@ -395,7 +394,7 @@ elseif (
 	}
 	else
 	{
-		ilUtil::redirect($updir."index.php?client_id=".$_GET["client_id"]."&reload=true&return_to=".$return_to);
+		ilUtil::redirect($updir."index.php?client_id=".$_COOKIE["ilClientId"]."&reload=true&return_to=".$return_to);
 	}
 }
 
@@ -552,6 +551,4 @@ $q = "SET NAMES utf8";
 
 $ilBench->stop("Core", "HeaderInclude");
 $ilBench->save();
-
-//var_dump($_SESSION);
 ?>
