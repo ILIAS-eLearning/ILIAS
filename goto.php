@@ -141,6 +141,13 @@ switch($target_type)
 		ilObjGroup::_goto($target_id);
 		include("repository.php");
 		break;
+		
+	case "file":
+		require_once("classes/class.ilObjFile.php");
+		ilObjFile::_goto($target_id);
+		include("repository.php");
+		break;
+
 }
 
 ?>

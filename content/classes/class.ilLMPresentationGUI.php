@@ -1808,8 +1808,52 @@ class ilLMPresentationGUI
 			return;
 		}
 
+		// process navigation for free page
 		if(!$this->lm_tree->isInTree($page_id))
 		{
+			if ($this->offlineMode() || $_GET["back_pg"] == "")
+			{
+				return;
+			}
+			$limpos = strpos($_GET["back_pg"], ":");
+			if ($limpos > 0)
+			{
+				$back_pg = substr($_GET["back_pg"], 0, $limpos);
+			}
+			else
+			{
+				$back_pg = $_GET["back_pg"];
+			}
+			if (!$this->lm->cleanFrames())
+			{
+				$back_href =
+					$this->getLink($this->lm->getRefId(), "layout", $back_pg, $_GET["frame"],
+						"", "reduce");
+				$back_target = "";
+			}
+			else
+			{
+				$back_href =
+					$this->getLink($this->lm->getRefId(), "layout", $back_pg, "",
+						"", "reduce");
+				$back_target = 'target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ';
+			}
+			$back_img =
+				ilUtil::getImagePath("nav_arr2_L.gif", false, "output", $this->offlineMode());
+			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
+			$this->tpl->setVariable("IMG_PREV", $back_img);
+			$this->tpl->setVariable("HREF_PREV", $back_href);
+			$this->tpl->setVariable("FRAME_PREV", $back_target);
+			$this->tpl->setVariable("TXT_PREV", $this->lng->txt("back"));
+			$this->tpl->setVariable("ALT_PREV", $this->lng->txt("back"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
+			$this->tpl->setVariable("IMG_PREV2", $back_img);
+			$this->tpl->setVariable("HREF_PREV2", $back_href);
+			$this->tpl->setVariable("FRAME_PREV2", $back_target);
+			$this->tpl->setVariable("TXT_PREV2", $this->lng->txt("back"));
+			$this->tpl->setVariable("ALT_PREV2", $this->lng->txt("back"));
+			$this->tpl->parseCurrentBlock();
 			return;
 		}
 
@@ -2012,7 +2056,8 @@ class ilLMPresentationGUI
 						unset($attributes["template"]);
 						unset($attributes["template_location"]);
 						$attributes["src"] =
-							$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"]);
+							$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"],
+								"", "keep");
 						$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 						$a_content .= $this->buildTag("", "frame", $attributes);
 						$this->frames[$attributes["name"]] = $attributes["name"];
@@ -2030,7 +2075,8 @@ class ilLMPresentationGUI
 					unset($attributes["template"]);
 					unset($attributes["template_location"]);
 					$attributes["src"] =
-						$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"]);
+						$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"],
+							"", "keep");
 					$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 					if ($attributes["name"] == "toc")
 					{
@@ -3067,13 +3113,50 @@ class ilLMPresentationGUI
 	/**
 	* handles links for learning module presentation
 	*/
-	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "")
+	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "",
+		$a_back_link = "append")
 	{
 		global $ilCtrl;
 		
 		if ($a_cmd == "")
 		{
 			$a_cmd = "layout";
+		}
+		
+		// handling of free pages
+		$cur_page_id = $this->getCurrentPageId();
+		$back_pg = $_GET["back_pg"];
+		if ($a_obj_id != "" && !$this->lm_tree->isInTree($a_obj_id) && $cur_page_id != "" &&
+			$a_back_link == "append")
+		{
+			if ($back_pg != "")
+			{
+				$back_pg = $cur_page_id.":".$back_pg;
+			}
+			else
+			{
+				$back_pg = $cur_page_id;
+			}
+		}
+		else
+		{
+			if ($a_back_link == "reduce")
+			{
+				$limpos = strpos($_GET["back_pg"], ":");
+
+				if ($limpos > 0)
+				{
+					$back_pg = substr($back_pg, strpos($back_pg, ":") + 1);
+				}
+				else
+				{
+					$back_pg = "";
+				}
+			}
+			else if ($a_back_link != "keep")
+			{
+				$back_pg = "";
+			}
 		}
 		
 		// handle online links
@@ -3083,16 +3166,17 @@ class ilLMPresentationGUI
 			{
 				case "fullscreen":
 					$link = $this->ctrl->getLinkTarget($this, "fullscreen");
-					//$link.= "&cmd=fullscreen";
 					break;
 				
 				default:
 					
-					//$link.= "&amp;cmd=".$a_cmd;
+					if ($back_pg != "")
+					{
+						$this->ctrl->setParameter($this, "back_pg", $back_pg);
+					}
 					if ($a_frame != "")
 					{
 						$this->ctrl->setParameter($this, "frame", $a_frame);
-						//$link.= "&amp;frame=".$a_frame;
 					}
 					if ($a_obj_id != "")
 					{
@@ -3100,7 +3184,6 @@ class ilLMPresentationGUI
 						{
 							case "MediaObject":
 								$this->ctrl->setParameter($this, "mob_id", $a_obj_id);
-								//$link.= "&amp;mob_id=".$a_obj_id;
 								break;
 								
 							default:
@@ -3112,7 +3195,6 @@ class ilLMPresentationGUI
 					if ($a_type != "")
 					{
 						$this->ctrl->setParameter($this, "obj_type", $a_type);
-						//$link.= "&amp;obj_type=".$a_type;
 					}
 					$link = $this->ctrl->getLinkTarget($this, $a_cmd);
 					$link = str_replace("&", "&amp;", $link);

@@ -180,6 +180,8 @@ class ilInternalLink
 	*/
 	function _exists($a_type, $a_target)
 	{
+		global $tree;
+		
 		switch($a_type)
 		{
 			case "PageObject":
@@ -193,6 +195,14 @@ class ilInternalLink
 
 			case "MediaObject":
 				return ilObjMediaObject::_exists($a_target);
+				break;
+				
+			case "RepositoryItem":
+				if (is_int(strpos($a_target, "_")))
+				{
+					$ref_id = ilInternalLink::_extractObjIdOfTarget($a_target);
+					return $tree->isInTree($ref_id);
+				}
 				break;
 		}
 		return false;

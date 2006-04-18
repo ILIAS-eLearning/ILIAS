@@ -393,9 +393,8 @@ class ilObjFileGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			// this is not nice. tabs should be displayed in ilcoursegui
-			// not via ilrepositorygui, then next_class == ilinfoscreengui
-			// could be checked
+//echo "-".$this->ctrl->getNextClass()."-";
+//echo "-".$_GET["cmd"]."-";
 			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
@@ -403,7 +402,7 @@ class ilObjFileGUI extends ilObjectGUI
 			$tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
 				 array("ilobjfilegui", "ilinfoscreengui"), "showSummary"),
-				 "infoScreen",
+				 array("showSummary","", "infoScreen"),
 				 "", "", $force_active);
 		}
 

@@ -78,7 +78,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this,'obj_id');
-
+		
 		// for gender selection. don't change this
 		// maybe deprecated
 		$this->gender = array(

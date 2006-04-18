@@ -335,8 +335,17 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 	#_GET["limit"] = ($_SESSION["tbl_limit"]) ? ($_SESSION["tbl_limit"]) : intval($ilias->account->prefs["hits_per_page"]);
 	#_GET["offset"] = intval($_GET["offset"]);
 	$_GET['limit'] = $_SESSION['tbl_limit'] = (int) $ilUser->getPref('hits_per_page');
-	$_GET['offset'] = (int) $_GET['offset'];
 	
+	// the next line makes it impossible to save the offset somehow in a session for
+	// a specific table (I tried it for the user administration).
+	// its not posssible to distinguish whether it has been set to page 1 (=offset = 0)
+	// or not set at all (then we want the last offset, e.g. being used from a session var).
+	// So I added the wrapping if statement. Seems to work (hopefully).
+	// Alex April 14th 2006
+	if ($_GET['offset'] != "")							// added April 14th 2006
+	{
+		$_GET['offset'] = (int) $_GET['offset'];		// old code
+	}
 
 	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 }
