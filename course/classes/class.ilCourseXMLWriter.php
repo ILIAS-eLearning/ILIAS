@@ -133,7 +133,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$data = $this->course_obj->members_obj->getUserData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['notification'] = $data['status'] ? 'Yes' : 'No';
+			$attr['notification'] = ($data['status'] == $this->course_obj->members_obj->STATUS_NOTIFY) ? 'Yes' : 'No';
 			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Admin',$attr);
@@ -151,7 +151,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$data = $this->course_obj->members_obj->getUserData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['notification'] = $data['status'] ? 'Yes' : 'No';
+			$attr['notification'] = ($data['status'] == $this->course_obj->members_obj->STATUS_NOTIFY) ? 'Yes' : 'No';
 			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Tutor',$attr);
@@ -168,7 +168,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$data = $this->course_obj->members_obj->getUserData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['blocked'] = $data['status'] ? 'Yes' : 'No';
+			$attr['blocked'] = ($data['status'] == $this->course_obj->members_obj->STATUS_BLOCKED) ? 'Yes' : 'No';
 			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Member',$attr);

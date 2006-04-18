@@ -786,12 +786,20 @@ class ilObjUserGUI extends ilObjectGUI
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
 
-		// deactivated:
-		// or ($this->id != $_SESSION["AccountId"])
-		if (!$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id) and
-			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
+		// User folder
+		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+		// if called from local administration $this->usrf_ref_id is category id 
+		// Todo: this has to be fixed. Do not mix user folder id and category id
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			// check if user is assigned to category
+			if(!$rbacsystem->checkAccess('cat_administrate_users',$this->object->getTimeLimitOwner()))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
 
 		$data = array();
@@ -1276,6 +1284,23 @@ class ilObjUserGUI extends ilObjectGUI
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
+
+		// User folder
+		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+		// if called from local administration $this->usrf_ref_id is category id 
+		// Todo: this has to be fixed. Do not mix user folder id and category id
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			// check if user is assigned to category
+			if(!$rbacsystem->checkAccess('cat_administrate_users',$this->object->getTimeLimitOwner()))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
 
 		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
