@@ -94,25 +94,12 @@ class ilRegisterGUI
 		switch ($this->object->getRegistrationFlag())
 		{
 			case 0:
-				if ($this->object->registrationPossible() == true)
-				{
-					$stat = $this->lng->txt("group_no_registration");
-					$msg  = $this->lng->txt("group_no_registration_msg");
-					$readonly ="readonly";
-					$subject ="";
-					$cmd_submit = "subscribe";
-					$txt_submit = $this->lng->txt("grp_register");
-				}
-				else
-				{
-					$no_cancel = true;
-					$msg = $this->lng->txt("group_registration_expired_msg");
-					$cmd_submit = "cancel";
-					$txt_submit = $this->lng->txt("grp_back");
-					$readonly = "readonly";
-					$stat = $this->lng->txt("group_registration_expired");
-					sendInfo($this->lng->txt("registration_expired"));
-				}
+				$stat = $this->lng->txt("group_no_registration");
+				$msg  = $this->lng->txt("group_no_registration_msg");
+				$readonly ="readonly";
+				$subject ="";
+				$cmd_submit = "subscribe";
+				$txt_submit = $this->lng->txt("grp_register");
 				break;
 
 			case 1:

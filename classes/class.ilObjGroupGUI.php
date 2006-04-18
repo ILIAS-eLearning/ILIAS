@@ -49,16 +49,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$this->type = "grp";
 		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
+		$this->lng->loadLanguageModule('grp');
 	}
 
 	function viewObject()
 	{
 		global $tree,$rbacsystem,$ilUser;
-
-		if(!$rbacsystem->checkAccess('read',$this->object->getRefId()))
-		{
-			$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
-		}
 
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'grp');
@@ -87,7 +84,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $ilUser;
+		global $ilUser,$rbacsystem,$ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -155,32 +152,23 @@ class ilObjGroupGUI extends ilContainerGUI
 
 
 			default:
-				// Done in view Object
-				/*
-				if (!$this->getCreationMode())
+				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
 				{
-					if (!in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"]) and 
-						($this->object->requireRegistration() and 
-						 !$this->object->isUserRegistered()))
-					{
-						$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
-					}
-				}
-				*/
-				if (empty($cmd))
-				{
-					#$this->ctrl->returnToParent($this);
-					// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
-					$cmd = "view";
+					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
 				
-				if ($cmd == "join")
+				if (!$this->getCreationMode()
+					&& !$rbacsystem->checkAccess('read',$this->object->getRefId())
+					|| $cmd == 'join')
 				{
 					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
 				}
-
-				// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
-				$cmd .= "Object";
+				
+				if(!$cmd)
+				{
+					$cmd = 'view';
+				}
+				$cmd .= 'Object';
 				$this->$cmd();
 				break;
 		}
@@ -384,7 +372,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$data["fields"]["title"] = "";
 			$data["fields"]["desc"] = "";
 			$data["fields"]["password"] = "";
-			$data["fields"]["expirationdate"] = ilFormat::getDateDE();
+			$data["fields"]["expirationdate"] = "";
 			$data["fields"]["expirationtime"] = "";
 		}
 
@@ -449,6 +437,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("group_req_direct"));
+		$this->tpl->setVariable("TXT_REGISTRATION_UNLIMITED", $this->lng->txt("grp_registration_unlimited"));
 		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);
 		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("group_req_registration"));
 		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);
@@ -709,6 +698,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_REGISTRATION_TIME", $this->lng->txt("group_registration_time"));
 
 		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("group_req_direct"));
+		$this->tpl->setVariable("TXT_REGISTRATION_UNLIMITED", $this->lng->txt("grp_registration_unlimited"));
 		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);
 		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("group_req_registration"));
 		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);
@@ -1126,7 +1116,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function membersObject()
 	{
-		global $rbacsystem,$ilBench,$ilDB;
+		global $rbacsystem,$ilBench,$ilDB,$ilUser;
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
 		$this->setSubTabs('members');
@@ -1746,7 +1736,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	// get tabs
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
@@ -1813,6 +1803,15 @@ class ilObjGroupGUI extends ilContainerGUI
 								 $this->ctrl->getLinkTarget($this,'listExportFiles'),
 								 array('listExportFiles','exportXML','confirmDeleteExportFile','downloadExportFile'),
 								 get_class($this));
+		}
+		
+		if ($rbacsystem->checkAccess('join',$this->object->getRefId())
+		   and !ilObjGroup::_isMember($ilUser->getId(),$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("join",
+								 $this->ctrl->getLinkTarget($this, "join"), 
+								 'join',
+								 "");
 		}
 
 	// parent tabs (all container: edit_permission, clipboard, trash
