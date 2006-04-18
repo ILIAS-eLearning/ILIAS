@@ -1106,7 +1106,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("mail_members",
 					$this->ctrl->getLinkTarget($this,'mailMembers'),
 					"mailMembers", get_class($this));
-				$this->tabs_gui->addSubTabTarget("crs_graduation_photo",
+				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
 					$this->ctrl->getLinkTarget($this,'membersGallery'),
 					"membersGallery", get_class($this));
 				break;
