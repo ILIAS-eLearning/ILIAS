@@ -581,8 +581,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					{
 						if ($points < 0)
 						{
-							$points = 0.0;
-							sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+							$result = 1;
+							$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 						}
 					}
 					else
@@ -606,15 +606,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				if (preg_match("/answer_(\d+)/", $key, $matches))
 				{
 					$points = $_POST["points_$matches[1]"];
-					if (preg_match("/\d+/", $points))
-					{
-						if ($points < 0)
-						{
-							$points = 0.0;
-							sendInfo($this->lng->txt("negative_points_not_allowed"), true);
-						}
-					}
-					else
+					if (!preg_match("/\d+/", $points))
 					{
 						$points = 0.0;
 					}
@@ -638,6 +630,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 		}
 
+		if ($this->object->getMaximumPoints() < 0)
+		{
+			$result = 1;
+			$this->setErrorMessage($this->lng->txt("enter_enough_positive_points"));
+		}
+		
 		// Set the question id from a hidden form parameter
 		if ($_POST["multiple_choice_id"] > 0)
 		{
@@ -930,7 +928,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
-			$this->writePostData();
+			if ($this->writePostData())
+			{
+				sendInfo($this->getErrorMessage());
+				$this->editQuestion();
+				return;
+			}
 			if (!$this->checkInput())
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));

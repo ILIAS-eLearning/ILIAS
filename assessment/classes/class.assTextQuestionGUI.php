@@ -239,6 +239,11 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setPoints($_POST["points"]);
+		if ($_POST["points"] < 0)
+		{
+			$result = 1;
+			$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
+		}
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setMaxNumOfChars($_POST["maxchars"]);
 		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], true, "<strong><em><code><cite>"));
@@ -335,7 +340,12 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
-			$this->writePostData();
+			if ($this->writePostData())
+			{
+				sendInfo($this->getErrorMessage());
+				$this->editQuestion();
+				return;
+			}
 			if (!$this->checkInput())
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));

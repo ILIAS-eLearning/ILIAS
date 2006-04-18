@@ -1603,6 +1603,6 @@ class SurveyQuestion
 		$question->loadFromDb($question_id);
 		return $question;
   }
-
+	
 }
 ?>

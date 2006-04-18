@@ -569,11 +569,11 @@ class ASS_OrderingQuestion extends ASS_Question
 	*
 	* @access public
 	*/
-	function addAnswer($answertext, $points, $answerorder, $solutionorder)
+	/*function addAnswer($answertext, $points, $answerorder, $solutionorder)
 	{
 		include_once "./assessment/classes/class.assAnswerOrdering.php";
 		array_push($this->answers, new ASS_AnswerOrdering($answertext, $points, $answerorder, $solutionorder));
-	}
+	}*/
 	
 	/**
 	* Duplicates an ASS_OrderingQuestion

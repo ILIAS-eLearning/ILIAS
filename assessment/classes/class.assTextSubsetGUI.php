@@ -423,6 +423,14 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		{
 			$this->object->setId($_POST["textsubset_id"]);
 		}
+
+		$maximum_points = $this->object->getMaximumPoints();
+		if ($maximum_points <= 0)
+		{
+			$result = 1;
+			$this->setErrorMessage($this->lng->txt("enter_enough_positive_points"));
+		}
+		$this->object->setPoints($maximum_points);
 		
 		if ($saved)
 		{
@@ -433,7 +441,6 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 			$this->object->saveToDb();
 			$_GET["q_id"] = $this->object->getId();
 		}
-		$this->object->setPoints($this->object->getMaximumPoints());
 
 		return $result;
 	}
@@ -530,7 +537,12 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
-			$this->writePostData();
+			if ($this->writePostData())
+			{
+				sendInfo($this->getErrorMessage());
+				$this->editQuestion();
+				return;
+			}
 			if (!$this->checkInput())
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
