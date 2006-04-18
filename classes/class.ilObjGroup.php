@@ -615,6 +615,12 @@ class ilObjGroup extends ilContainer
 		$ts_today_time = substr($today_time, 0, 2).
 						substr($today_time, 3, 2).
 						substr($today_time, 6, 2);
+						
+		// no timelimit given -> unlimited
+		if ($ts_exp_date == 0)
+		{
+			return true;
+		}
 		
 		if ($ts_today_date < $ts_exp_date) 
 		{
