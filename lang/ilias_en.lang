@@ -102,8 +102,8 @@ administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
 assessment#:#add_answer#:#Add answer
-assessment#:#add_answer_tf#:#Add true/false answers
-assessment#:#add_answer_yn#:#Add yes/no answers
+assessment#:#add_answer_tf#:#true/false answers
+assessment#:#add_answer_yn#:#yes/no answers
 assessment#:#add_applet_parameter#:#Add applet parameter
 assessment#:#add_area#:#Add area
 assessment#:#add_gap#:#Add Gap Text
@@ -259,6 +259,9 @@ assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
 assessment#:#glossary_term#:#Glossary term
+assessment#:#graphical_answers#:#Graphical answer support
+assessment#:#graphical_answers_show#:#Show graphical answer support
+assessment#:#graphical_answers_hide#:#Hide graphical answer support
 assessment#:#height#:#Height
 assessment#:#imagemap#:#Image map
 assessment#:#imagemap_file#:#Image map file

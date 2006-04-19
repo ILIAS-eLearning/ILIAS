@@ -1657,7 +1657,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 													   "add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
 													   "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
 													   "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
-													   "addParameter", "addGIT", "addST", "addPG", "delete"),
+													   "addParameter", "addGIT", "addST", "addPG", "delete",
+														 "toggleGraphicalAnswers"),
 												 $classname, "", $force_active);
 			}
 		}
@@ -1721,7 +1722,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
 				"setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
 				"deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
-				"addParameter", "assessment", "addGIT", "addST", "addPG", "delete"),
+				"addParameter", "assessment", "addGIT", "addST", "addPG", "delete",
+				"toggleGraphicalAnswers"),
 			 "", "", $force_active);
 
 		// export

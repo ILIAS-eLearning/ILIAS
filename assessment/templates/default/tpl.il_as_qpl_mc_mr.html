@@ -43,7 +43,18 @@
 		</select>
 	</td>
 </tr>
-<tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
+<tr>
+  <td class="option">{TEXT_GRAPHICAL_ANSWERS}:</td>
+  <td class="option_value" colspan="4"><input type="submit" class="submit" name="cmd[toggleGraphicalAnswers]" value="{VALUE_GRAPHICAL_ANSWERS}" /></td>
+</tr>
+<tr><td colspan="5" class="option">
+<input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" />
+	<select name="nrOfAnswers">
+<!-- BEGIN numbers -->
+		<option value="{VALUE_NUMBER}">{TEXT_NUMBER}</option>
+<!-- END numbers -->			
+	</select>
+</td>
 <!-- BEGIN answers -->
 <tr>
   <td class="option">{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</td>
