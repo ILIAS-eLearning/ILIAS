@@ -30,7 +30,9 @@
 *  For example, from the UA relation the administrator should have the facility to view all user assigned to a given role.
 *  
 * 
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+* 
 * @version $Id$
 * 
 * @package rbac
@@ -110,29 +112,37 @@ class ilRbacReview
 			$message = get_class($this)."::getParentRoles(): No path given or wrong datatype!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-$log->write("ilRBACreview::__getParentRoles(), 0");	
+
 		$parent_roles = array();
 		$role_hierarchy = array();
-
+		
+		$child = $this->__getAllRoleFolderIds();
+		
+		// CREATE IN() STATEMENT
+		$in = " IN('";
+		$in .= implode("','",$child);
+		$in .= "') ";
+		
 		foreach ($a_path as $path)
 		{
-			$rolf_id = "";
-$log->write("ilRBACreview::__getParentRoles(), 1");	
-			if ($rolf_id = $this->getRoleFolderIdOfObject($path))
+			$q = "SELECT * FROM tree ".
+				 "WHERE child ".$in.
+				 "AND parent = '".$path."'";
+			$r = $this->ilDB->query($q);
+
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-$log->write("ilRBACreview::__getParentRoles(), 2");	
-				$roles = $this->getRoleListByObject($rolf_id,$a_templates);
+				$roles = $this->getRoleListByObject($row->child,$a_templates);
 
 				foreach ($roles as $role)
 				{
-$log->write("ilRBACreview::__getParentRoles(), 3");	
 					$id = $role["obj_id"];
-					$role["parent"] = $rolf_id;
+					$role["parent"] = $row->child;
 					$parent_roles[$id] = $role;
 					
 					if (!array_key_exists($role['obj_id'],$role_hierarchy))
 					{
-						$role_hierarchy[$id] = $rolf_id;
+						$role_hierarchy[$id] = $row->child;
 					}
 				}
 			}
@@ -140,7 +150,6 @@ $log->write("ilRBACreview::__getParentRoles(), 3");
 		
 		if (!$a_keep_protected)
 		{
-$log->write("ilRBACreview::__getParentRoles(), 4");	
 			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
 		}
 		
