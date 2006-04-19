@@ -10533,3 +10533,8 @@ CREATE TABLE `qpl_answer_textsubset` (
 <#685>
 DROP TABLE qpl_answers;
 DROP TABLE qpl_answerblock;
+<#686>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
