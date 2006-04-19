@@ -150,9 +150,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				switch ($this->ctrl->getCmd())
 				{
 					case "add":
-					case "addTrueFalse":
-					case "addYesNo":
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
+						$nrOfAnswers = $_POST["nrOfAnswers"];
+						if ((strcmp($nrOfAnswers, "yn") == 0) || (strcmp($nrOfAnswers, "tf") == 0)) $nrOfAnswers = 2;
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - $nrOfAnswers).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $nrOfAnswers)."').scrollIntoView(\"true\");"));
 						break;
 					case "":
 						if ($this->object->getAnswerCount() == 0)
@@ -170,6 +170,32 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				}
 			}
 			$this->tpl->parseCurrentBlock();
+
+			for ($i = 1; $i < 10; $i++)
+			{
+				$this->tpl->setCurrentBlock("numbers");
+				$this->tpl->setVariable("VALUE_NUMBER", $i);
+				if ($i == 1)
+				{
+					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answer"));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answers"));
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			// add yes/no answers
+			$this->tpl->setCurrentBlock("numbers");
+			$this->tpl->setVariable("VALUE_NUMBER", "yn");
+			$this->tpl->setVariable("TEXT_NUMBER", $this->lng->txt("add_answer_yn"));
+			$this->tpl->parseCurrentBlock();
+			// add true/false answers
+			$this->tpl->setCurrentBlock("numbers");
+			$this->tpl->setVariable("VALUE_NUMBER", "tf");
+			$this->tpl->setVariable("TEXT_NUMBER", $this->lng->txt("add_answer_tf"));
+			$this->tpl->parseCurrentBlock();
+
 			$this->tpl->setCurrentBlock("question_data");
 			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
@@ -178,9 +204,16 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$questiontext = $this->object->getQuestion();
 			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
-			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
-			$this->tpl->setVariable("VALUE_ADD_ANSWER_YN", $this->lng->txt("add_answer_yn"));
-			$this->tpl->setVariable("VALUE_ADD_ANSWER_TF", $this->lng->txt("add_answer_tf"));
+			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
+			$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
+			if ($this->object->getGraphicalAnswerSetting() == 1)
+			{
+				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_hide"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_show"));
+			}
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -300,6 +333,22 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				}
 			}
 			$this->tpl->parseCurrentBlock();
+			
+			for ($i = 1; $i < 10; $i++)
+			{
+				$this->tpl->setCurrentBlock("numbers");
+				$this->tpl->setVariable("VALUE_NUMBER", $i);
+				if ($i == 1)
+				{
+					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answer"));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answers"));
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("question_data");
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -309,10 +358,19 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+			$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
+			if ($this->object->getGraphicalAnswerSetting() == 1)
+			{
+				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_hide"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_show"));
+			}
 			$questiontext = $this->object->getQuestion();
 			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
-			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
+			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
@@ -451,12 +509,51 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		else
 		{
 			// add an answer template
-			$this->object->addAnswer(
-				$this->lng->txt(""),
-				0,
-				0,
-				count($this->object->answers)
-			);
+			$nrOfAnswers = $_POST["nrOfAnswers"];
+			switch ($nrOfAnswers)
+			{
+				case "tf":
+					// add a true/false answer template
+					$this->object->addAnswer(
+						$this->lng->txt("true"),
+						0,
+						0,
+						count($this->object->answers)
+					);
+					$this->object->addAnswer(
+						$this->lng->txt("false"),
+						0,
+						0,
+						count($this->object->answers)
+					);
+					break;
+				case "yn":
+					// add a yes/no answer template
+					$this->object->addAnswer(
+						$this->lng->txt("yes"),
+						0,
+						0,
+						count($this->object->answers)
+					);
+					$this->object->addAnswer(
+						$this->lng->txt("no"),
+						0,
+						0,
+						count($this->object->answers)
+					);
+					break;
+				default:
+					for ($i = 0; $i < $nrOfAnswers; $i++)
+					{
+						$this->object->addAnswer(
+							$this->lng->txt(""),
+							0,
+							0,
+							count($this->object->answers)
+						);
+					}
+					break;
+			}
 		}
 
 		$this->editQuestion();
@@ -953,6 +1050,21 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->getQuestionTemplate("qt_multiple_choice_mr");
 		}
 		parent::addSuggestedSolution();
+	}
+	
+	function toggleGraphicalAnswers()
+	{
+		$graphicalAnswerSetting = $this->object->getGraphicalAnswerSetting();
+		if ($graphicalAnswerSetting == 1)
+		{
+			$this->object->setGraphicalAnswerSetting(0);
+		}
+		else
+		{
+			$this->object->setGraphicalAnswerSetting(1);
+		}
+		$this->writePostData();
+		$this->editQuestion();
 	}
 }
 ?>

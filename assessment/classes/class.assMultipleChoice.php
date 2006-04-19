@@ -1324,6 +1324,24 @@ class ASS_MultipleChoice extends ASS_Question
 	{
 		return "qpl_answer_multiplechoice";
 	}
+	
+	function getGraphicalAnswerSetting()
+	{
+		global $ilUser;
+
+		$graphicalAnswerSetting = $ilUser->getPref("graphicalAnswerSetting");
+		if ($graphicalAnswerSetting != 1)
+		{
+			$graphicalAnswerSetting = 0;
+		}
+		return $graphicalAnswerSetting;
+	}
+	
+	function setGraphicalAnswerSetting($a_setting = 0)
+	{
+		global $ilUser;
+		$ilUser->writePref("graphicalAnswerSetting", $a_setting);
+	}
 }
 
 ?>
