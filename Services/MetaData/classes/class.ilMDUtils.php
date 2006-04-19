@@ -32,32 +32,44 @@
 class ilMDUtils
 {
 	/**
-	 * LOM datatype duration is a string like HH:MM:SS
-	 * This function tries to parse a given string in an array of hours, minutes and seconds
+	 * LOM datatype duration is a string like P2M4DT7H18M2S (2 months 4 days 7 hours 18 minutes 2 seconds)
+	 * This function tries to parse a given string in an array of months, days, hours, minutes and seconds
 	 *
 	 * @param string string to parse
-	 * @return array  e.g array(0,1,2) => 0 hours, 1 minute, 2 seconds or false if not parsable
+	 * @return array  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or false if not parsable
 	 *
 	 */
 	function _LOMDurationToArray($a_string)
 	{
 		$a_string = trim($a_string);
-		$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
+		#$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
+		$pattern = '/^P(\d{1,2}M)?(\d{1,2}D)?(T(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?)?$/i';
 
 		if(!preg_match($pattern,$a_string,$matches))
 		{
-			#var_dump("<pre>",$matches,"<pre>");
 			return false;
 		}
+		// Month
+		if(preg_match('/^P(\d+)M/i',$a_string,$matches))
+		{
+			$months = $matches[1];
+		}
+		// Days
+		if(preg_match('/(\d+)+D/i',$a_string,$matches))
+		{
+			#var_dump("<pre>",$matches,"<pre>");
+			$days = $matches[1];
+		}
+		
 		if(preg_match('/(\d+)+H/i',$a_string,$matches))
 		{
 			#var_dump("<pre>",$matches,"<pre>");
 			$hours = $matches[1];
 		}
-		if(preg_match('/(\d+)M/i',$a_string,$matches))
+		if(preg_match('/T(\d{1,2}H)?(\d+)M/i',$a_string,$matches))
 		{
 			#var_dump("<pre>",$matches,"<pre>");
-			$min = $matches[1];
+			$min = $matches[2];
 		}
 		if(preg_match('/(\d+)S/i',$a_string,$matches))
 		{
@@ -66,12 +78,12 @@ class ilMDUtils
 		}
 		
 		// Hack for zero values
-		if(!$hours and !$min and !$sec)
+		if(!$months and !$days and !$hours and !$min and !$sec)
 		{
 			return false;
 		}
 		
-		return array($hours,$min,$sec);
+		return array($months,$days,$hours,$min,$sec);
 	}
 
 
