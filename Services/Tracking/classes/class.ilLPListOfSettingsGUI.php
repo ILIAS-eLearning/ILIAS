@@ -234,7 +234,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			
 			$tpl->parseCurrentBlock();
 		}			
-			
+		$tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+		$tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 		$this->tpl->setVariable("COLLECTION_TABLE",$tpl->get());
 	}		
 
@@ -291,7 +292,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			
 			$tpl->parseCurrentBlock();
 		}			
-			
+		$tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+		$tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
+
 		$this->tpl->setVariable("COLLECTION_TABLE",$tpl->get());
 	}
 	function __addInfo()
