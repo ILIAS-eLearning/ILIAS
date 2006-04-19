@@ -84,7 +84,7 @@ define ("PATH_TO_HTMLDOC",$ini_ilias->readVariable("tools","htmldoc"));
 $tpl = new ilTemplate("tpl.main.html", true, true);
 
 $tpl->setVariable("PAGETITLE","Client List");
-$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/blueshadow.css");
+$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/delos.css");
 $tpl->setVariable("LOCATION_JAVASCRIPT","./templates/default");
 
 // load client list template
