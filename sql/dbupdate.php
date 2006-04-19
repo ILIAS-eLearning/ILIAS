@@ -10112,3 +10112,261 @@ ALTER TABLE style_data ADD COLUMN standard TINYINT(2) DEFAULT 0;
 ALTER TABLE style_data ADD COLUMN category INT;
 <#670>
 ALTER TABLE style_data ADD COLUMN active TINYINT(2) DEFAULT 1;
+<#671>
+INSERT INTO `qpl_question_type` ( `question_type_id` , `type_tag` ) VALUES ('9', 'qt_numeric');
+INSERT INTO `qpl_question_type` ( `question_type_id` , `type_tag` ) VALUES ('10', 'qt_textsubset');
+<#672>
+CREATE TABLE `qpl_numeric_range` (
+`range_id` INT NOT NULL AUTO_INCREMENT ,
+`lowerlimit` DOUBLE NOT NULL ,
+`upperlimit` DOUBLE NOT NULL ,
+`points` DOUBLE DEFAULT '0' NOT NULL ,
+`aorder` INT DEFAULT '0' NOT NULL ,
+`question_fi` INT NOT NULL ,
+`lastchange` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `range_id` )
+);
+<#673>
+UPDATE survey_questiontype SET type_tag = 'SurveyNominalQuestion' WHERE questiontype_id = 1;
+UPDATE survey_questiontype SET type_tag = 'SurveyOrdinalQuestion' WHERE questiontype_id = 2;
+UPDATE survey_questiontype SET type_tag = 'SurveyMetricQuestion' WHERE questiontype_id = 3;
+UPDATE survey_questiontype SET type_tag = 'SurveyTextQuestion' WHERE questiontype_id = 4;
+<#674>
+ALTER TABLE survey_survey CHANGE anonymize anonymize ENUM('0','1','2') NOT NULL DEFAULT '0'
+<#675>
+ALTER TABLE `qpl_questions` ADD `correctanswers` INT NULL DEFAULT '0' AFTER `textgap_rating`;
+ALTER TABLE `qpl_questions` ADD `keywords` TEXT NULL AFTER `maxNumOfChars`;
+<#676>
+CREATE TABLE `qpl_question_cloze` (
+  `question_fi` int(11) NOT NULL default '0',
+  `textgap_rating` enum('ci','cs','l1','l2','l3','l4','l5') default NULL,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_essay` (
+  `question_fi` int(11) NOT NULL default '0',
+  `maxNumOfChars` int(11) NOT NULL default '0',
+  `keywords` text,
+  `textgap_rating` enum('ci','cs','l1','l2','l3','l4','l5') default NULL,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_imagemap` (
+  `question_fi` int(11) NOT NULL default '0',
+  `image_file` varchar(100) default NULL,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_javaapplet` (
+  `question_fi` int(11) NOT NULL default '0',
+  `image_file` varchar(100) default NULL,
+  `params` text,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_matching` (
+  `question_fi` int(11) NOT NULL default '0',
+  `shuffle` enum('0','1') NOT NULL default '1',
+  `matching_type` enum('0','1') default NULL,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_multiplechoice` (
+  `question_fi` int(11) NOT NULL default '0',
+  `shuffle` enum('0','1') NOT NULL default '1',
+  `choice_response` enum('0','1') default NULL,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_numeric` (
+  `question_fi` int(11) NOT NULL default '0',
+  `maxNumOfChars` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_ordering` (
+  `question_fi` int(11) NOT NULL default '0',
+  `ordering_type` enum('0','1') default NULL,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `qpl_question_textsubset` (
+  `question_fi` int(11) NOT NULL default '0',
+  `textgap_rating` enum('ci','cs','l1','l2','l3','l4','l5') default NULL,
+  `correctanswers` int(11) default '0',
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+<#677>
+<?php
+	$query = "SELECT * FROM qpl_questions";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		switch ($row["question_type_fi"])
+		{
+			case 1:
+			case 2:
+				$insertquery = sprintf("INSERT INTO qpl_question_multiplechoice (question_fi, shuffle, choice_response) VALUES (%s, %s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["shuffle"] . ""),
+					$ilDB->quote($row["choice_response"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 3:
+				$insertquery = sprintf("INSERT INTO qpl_question_cloze (question_fi, textgap_rating) VALUES (%s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["textgap_rating"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 4:
+				$insertquery = sprintf("INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type) VALUES (%s, %s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["shuffle"] . ""),
+					$ilDB->quote($row["matching_type"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 5:
+				$insertquery = sprintf("INSERT INTO qpl_question_ordering (question_fi, ordering_type) VALUES (%s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["ordering_type"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 6:
+				$insertquery = sprintf("INSERT INTO qpl_question_imagemap (question_fi, image_file) VALUES (%s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["image_file"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 7:
+				$insertquery = sprintf("INSERT INTO qpl_question_javaapplet (question_fi, image_file, params) VALUES (%s, %s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["image_file"] . ""),
+					$ilDB->quote($row["params"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 8:
+				$insertquery = sprintf("INSERT INTO qpl_question_essay (question_fi, maxNumOfChars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["maxNumOfChars"] . ""),
+					$ilDB->quote($row["keywords"] . ""),
+					$ilDB->quote($row["textgap_rating"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 9:
+				$insertquery = sprintf("INSERT INTO qpl_question_numeric (question_fi, maxNumOfChars) VALUES (%s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["maxNumOfChars"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 10:
+				$insertquery = sprintf("INSERT INTO qpl_question_textsubset (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["textgap_rating"] . ""),
+					$ilDB->quote($row["correctanswers"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+		}
+	}
+?>
+<#678>
+ALTER TABLE `qpl_questions`
+  DROP `shuffle`,
+  DROP `start_tag`,
+  DROP `end_tag`,
+  DROP `matching_type`,
+  DROP `ordering_type`,
+  DROP `cloze_type`,
+  DROP `choice_response`,
+  DROP `image_file`,
+  DROP `params`,
+  DROP `maxNumOfChars`,
+  DROP `keywords`,
+  DROP `textgap_rating`,
+  DROP `correctanswers`;
+<#679>
+CREATE TABLE `survey_question_metric` (
+  `question_fi` int(11) NOT NULL default '0',
+  `subtype` enum('3','4','5') NOT NULL default '3',
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `survey_question_nominal` (
+  `question_fi` int(11) NOT NULL default '0',
+  `subtype` enum('1','2') NOT NULL default '1',
+  `orientation` enum('1','2') NOT NULL default '1',
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `survey_question_ordinal` (
+  `question_fi` int(11) NOT NULL default '0',
+  `orientation` enum('0','1','2') NOT NULL default '0',
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `survey_question_text` (
+  `question_fi` int(11) NOT NULL default '0',
+  `maxchars` int(11) default NULL,
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
+<#680>
+<?php
+	$query = "SELECT * FROM survey_question";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		switch ($row["questiontype_fi"])
+		{
+			case 1:
+				$subtype = $row["subtype"];
+				if ($subtype < 1) $subtype = 1;
+				$orientation = $row["orientation"];
+				if ($orientation < 1) $orientation = 1;
+				$insertquery = sprintf("INSERT INTO survey_question_nominal (question_fi, subtype, orientation) VALUES (%s, %s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["subtype"] . ""),
+					$ilDB->quote($orientation . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 2:
+				$orientation = $row["orientation"];
+				if (!strlen($orientation)) $orientation = 0;
+				$insertquery = sprintf("INSERT INTO survey_question_ordinal (question_fi, orientation) VALUES (%s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($orientation . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 3:
+				$subtype = $row["subtype"];
+				if ($subtype < 3) $subtype = 3;
+				$insertquery = sprintf("INSERT INTO survey_question_metric (question_fi, subtype) VALUES (%s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($subtype . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 4:
+				$insertquery = sprintf("INSERT INTO survey_question_text (question_fi, maxchars) VALUES (%s, %s)",
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($row["maxchars"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+		}
+	}
+?>
+<#681>
+ALTER TABLE `survey_question`
+  DROP `subtype`,
+  DROP `orientation`,
+  DROP `maxchars`;
