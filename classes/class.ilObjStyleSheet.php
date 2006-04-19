@@ -175,13 +175,14 @@ class ilObjStyleSheet extends ilObject
 		
 		$default_style = $ilias->getSetting("default_content_style_id");
 		
+		$and_str = "";
 		if (!$a_include_deactivated)
 		{
-			$and = " AND active = 1";
+			$and_str = " AND active = 1";
 		}
 		
 		$q = "SELECT * FROM style_data ".
-			" WHERE standard = 1".$and;
+			" WHERE standard = 1".$and_str;
 		$res = $ilDB->query($q);
 		$styles = array();
 		while($sty = $res->fetchRow(DB_FETCHMODE_ASSOC))

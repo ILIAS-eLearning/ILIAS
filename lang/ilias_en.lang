@@ -899,6 +899,7 @@ style#:#sty_create_new_stylesheet#:#Create new Style
 style#:#sty_import_stylesheet#:#or Import Style
 style#:#sty_copy_other_stylesheet#:#or Copy from local Source
 common#:#show_notes_on_pd#:#Show notes on personal desktop
+common#:#precondition_not_accessible#:#You do not have sufficient permission to view the precondition(s) of this item.
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
