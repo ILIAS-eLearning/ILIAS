@@ -10132,7 +10132,7 @@ UPDATE survey_questiontype SET type_tag = 'SurveyOrdinalQuestion' WHERE question
 UPDATE survey_questiontype SET type_tag = 'SurveyMetricQuestion' WHERE questiontype_id = 3;
 UPDATE survey_questiontype SET type_tag = 'SurveyTextQuestion' WHERE questiontype_id = 4;
 <#674>
-ALTER TABLE survey_survey CHANGE anonymize anonymize ENUM('0','1','2') NOT NULL DEFAULT '0'
+ALTER TABLE survey_survey CHANGE anonymize anonymize ENUM('0','1','2') NOT NULL DEFAULT '0';
 <#675>
 ALTER TABLE `qpl_questions` ADD `correctanswers` INT NULL DEFAULT '0' AFTER `textgap_rating`;
 ALTER TABLE `qpl_questions` ADD `keywords` TEXT NULL AFTER `maxNumOfChars`;
