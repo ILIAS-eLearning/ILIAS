@@ -482,7 +482,7 @@ assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_previous_results#:#Hide previous results
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
-assessment#:#tst_hide_previous_results_hide#:#If you check the checkbox, your results from the previous test pass will be hidden
+assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
 assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_title_points#:#Question title points
 assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title
