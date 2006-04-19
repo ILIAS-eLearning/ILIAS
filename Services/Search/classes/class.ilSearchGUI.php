@@ -608,6 +608,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$filter[] = 'dbk';
 					$filter[] = 'pg';
 					$filter[] = 'st';
+					$filter[] = 'sahs';
+					$filter[] = 'htlm';
 					break;
 
 				case 'frm':
@@ -631,6 +633,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 				case 'mep':
 					$filter[] = 'mep';
+					$filter[] = 'mob';
 					break;
 
 				case 'fil':

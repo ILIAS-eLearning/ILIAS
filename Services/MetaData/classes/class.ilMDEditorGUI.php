@@ -315,7 +315,7 @@ class ilMDEditorGUI
 		$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[4] ? false : true,
 																 $tlt[2],$tlt[3],$tlt[4],
 																 false));
-		$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
+		$this->tpl->setVariable("TLT_HINT",$tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
 		if(!$valid)
 		{
@@ -1629,7 +1629,7 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[4] ? false : true,
 																	 $tlt[2],$tlt[3],$tlt[4],
 																	 false));
-			$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
+			$this->tpl->setVariable("TLT_HINT",$tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
 			if(!$valid)
 			{
