@@ -1092,11 +1092,53 @@ class ASS_Question
 		return $data->type_tag;
 	}
 
+	/**
+	* Returns the name of the additional question data table in the database
+	*
+	* Returns the name of the additional question data table in the database
+	*
+	* @return string The additional table name
+	* @access public
+	*/
 	function getAdditionalTableName()
 	{
 		return "";
 	}
 	
+	/**
+	* Returns the name of the answer table in the database
+	*
+	* Returns the name of the answer table in the database
+	*
+	* @return string The answer table name
+	* @access public
+	*/
+	function getAnswerTableName()
+	{
+		return "";
+	}
+
+	/**
+	* Deletes datasets from answers tables
+	*
+	* Deletes datasets from answers tables
+	*
+	* @param integer $question_id The question id which should be deleted in the answers table
+	* @access public
+	*/
+	function deleteAnswers($question_id)
+	{
+		global $ilDB;
+		$answer_table_name = $this->getAnswerTableName();
+		if (strlen($answer_table_name))
+		{
+			$query = sprintf("DELETE FROM $answer_table_name WHERE question_fi = %s",
+				$ilDB->quote($question_id . "")
+			);
+			$result = $ilDB->query($query);
+		}
+	}
+
 	/**
 	* Deletes datasets from the additional question table in the database
 	*
@@ -1152,11 +1194,7 @@ class ASS_Question
 		$result = $this->ilias->db->query($query);
 		
 		$this->deleteAdditionalTableData($question_id);
-		
-		$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-			);
-		$result = $this->ilias->db->query($query);
+		$this->deleteAnswers($question_id);
 
 		// delete the question in the tst_test_question table (list of test questions)
 		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
