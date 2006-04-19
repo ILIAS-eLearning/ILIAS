@@ -2268,7 +2268,7 @@ class ilSetupGUI extends ilSetup
 		// reload settings
 		$settings = $this->client->getAllSettings();
 		
-		if ($settings["nic_enabled"] == "1")
+		if ($settings["nic_enabled"] == "1" && $settings["inst_id"] > 0)
 		{
 			$this->tpl->setVariable("TXT_INFO",$this->lng->txt("info_text_nic3")." ".$settings["inst_id"].".");
 		}

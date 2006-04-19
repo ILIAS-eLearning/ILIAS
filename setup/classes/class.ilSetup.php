@@ -878,6 +878,10 @@ class ilSetup extends PEAR
 		else
 		{
 			$arr["comment"] = $this->lng->txt("nic_reg_enabled");
+			if ($settings["inst_id"] <= 0)
+			{
+				$arr["status"] = false;
+			}
 		}
 
 		return $arr;
