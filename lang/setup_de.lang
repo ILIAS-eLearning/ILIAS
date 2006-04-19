@@ -33,6 +33,9 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+duplicate_ctrl#:#Fehler: Doppelte Kontrollstrukturdefinition (Klasse %s) in den Dateien:<br /><br />- %s<br />- %s<br /><br />Bitte entfernen Sie die Datei, die nicht zur offiziellen ILIAS Distribution gehört.<br />Führen Sie danach die Funktion 'Tools' -> 'Kontrollstrukur' -> 'Neu Laden' im ILIAS Setup aus.
+ctrl_missing_desc#:#Kontrollstruktur fehlt. Bitte drücken Sie 'Neu Laden'.
+db_control_structure_missing#:#Kontrollstruktur fehlt. (Siehe 'Details' -> 'Tools')
 3rd_party_software#:#Drittanbieter-Programme
 absolute_path#:#Absoluter Pfad
 access#:#Zugang
@@ -78,9 +81,9 @@ create#:#anlegen
 create_datadir_failed#:#Erzeugung des Datenverzeichnisses fehlgeschlagen
 create_new_client#:#Neuen Mandanten anlegen
 create_webdir_failed#:#Erzeugung des Webverzeichnisses fehlgeschlagen
-ctrl_structure#:#Control Structure###03 Nov 2005 new variable
-ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
-ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
+ctrl_structure#:#Kontrollstruktur
+ctrl_structure_desc#:#Bitte führen Sie diese Funktion nicht aus, wenn es nicht ausdrücklich in Update-Anweisungen gefordert wird.
+ctrl_structure_reloaded#:#Kontrollstruktur wurde neu geladen.
 data_path#:#Daten-Pfad 
 database#:#Datenbank
 database_create#:#Datenbank erzeugen
@@ -337,7 +340,7 @@ pre_php_version_5#:#ILIAS 3 wurde noch nicht getestet mit PHP 5. Benutzung also 
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
 preliminaries#:#Vorbereitende Massnahmen
 prev#:#Zurück
-reload#:#Reload###03 Nov 2005 new variable
+reload#:#Neu Laden
 required_field#:#Erforderliche Angaben
 reset#:#Zurücksetzen
 root_access#:#Administrator-Zugang
