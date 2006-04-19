@@ -10537,4 +10537,5 @@ DROP TABLE qpl_answerblock;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#687>
+ALTER TABLE survey_survey CHANGE anonymize anonymize ENUM('0','1','2') NOT NULL DEFAULT '0';
