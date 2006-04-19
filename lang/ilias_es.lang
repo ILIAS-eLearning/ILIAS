@@ -337,6 +337,8 @@ assessment#:#qpl_confirm_delete_questions#:#Está seguro de que quiere borrar la
 assessment#:#qpl_copy_insert_clipboard#:#La pregunta(s) seleccionada(s) son copiadas al portapapeles
 assessment#:#qpl_copy_select_none#:#Por favor marque al menos una pregunta para copiar al portapapeles
 assessment#:#qpl_delete_rbac_error#:#No tiene permisos para borrar esta pregunta!
+assessment#:#qpl_delete_describe_undeleteable_questions#:#Las siguientes preguntas estan en uso en tests aleatorios. No puede eliminar estas preguntas:
+assessment#:#qpl_delete_no_deleteable_questions#:#Todas las preguntas que intenta eliminar estan en uso en un test aleatorioassessment#:#qpl_delete_rbac_error#:#No tiene permisos para borrar esta pregunta!
 assessment#:#qpl_delete_select_none#:#Por favor marque al menos una pregunta para eliminarla.
 assessment#:#qpl_display_fullsize_image#:#Haga Click aqui para mostrar la imagen original!
 assessment#:#qpl_duplicate_select_none#:#Por favor marque al menos una pregunta para duplicarla
@@ -472,6 +474,7 @@ assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
 assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán###14 Feb 2006 content changed
+assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán
 assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto
 assessment#:#tst_hide_title_points#:#Puntuación en título de la pregunta
 assessment#:#tst_hide_title_points_description#:#Ocultar la puntuación máxima en el título de la pregunta
@@ -610,6 +613,7 @@ assessment#:#tst_submit_results#:#Sí, confirmo el envío.
 assessment#:#tst_test_output#:#Salida del Test
 assessment#:#tst_text_count_system#:#Sistema de puntuación
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento
+assessment#:#tst_time_already_spent#:#Comenzo el test a las %s. Su tiempo de proceso maximo es %s. Le queda %s.
 assessment#:#tst_total_questions#:#Cantidad total de preguntas
 assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los bancos serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada banco seleccionado!
 assessment#:#tst_tst_date#:#Fecha del Test
@@ -805,6 +809,7 @@ chat#:#chat_maroon#:#granate
 chat#:#chat_messages_deleted#:#Los mensajes han sido eliminados.
 chat#:#chat_moderator_password#:#contraseña del moderador
 chat#:#chat_navy#:#azul marino
+chat#:#chat_new_message#:#Nuevo mensaje
 chat#:#chat_no_active_users#:#No hay otros usuarios presentes.
 chat#:#chat_no_blocked#:#No hay usuarios bloqueados disponibles
 chat#:#chat_no_connection#:#No se puede conectar al servidor chat
@@ -1346,6 +1351,7 @@ common#:#delete_selected_items#:#Eliminar items seleccionados
 common#:#delete_tr_data#:#Eliminar datos de Seguimiento
 common#:#deleted#:#borrados
 common#:#deleted_user#:#El usuario ha sido eliminado
+common#:#deleted_users#:#Usuarios eliminados
 common#:#deliver#:#Enviar ejercicio
 common#:#department#:#Departamento
 common#:#desc#:#Descripción
@@ -1449,6 +1455,7 @@ common#:#exc_sent#:#La actividad ha sido enviada a los usuarios seleccionados
 common#:#exc_status_returned#:#entregado
 common#:#exc_status_saved#:#Actividad Actualizada
 common#:#exc_status_solved#:#corregido
+common#:#exc_time_to_send#:#Tiempo de trabajo restante
 common#:#exc_upload_error#:#Error cargando archivo
 common#:#exc_users#:#Usuarios
 common#:#exc_visible#:#Actividad es visible
@@ -1456,6 +1463,7 @@ common#:#exc_write#:#Editar actividad
 common#:#excs#:#Actividades
 common#:#execute#:#ejecutar
 common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
+common#:#exc_time_over_short#:#el tiempo de entrega finalizo
 common#:#exp_html#:#exportar a HTML
 common#:#expand#:#Expandir
 common#:#explorer_frame#:#Árbol Explorador
@@ -1467,7 +1475,6 @@ common#:#extt_configure#:#configurar...
 common#:#extt_edit_permission#:#Modificar configuración de permisos
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_configure#:#Configurar netucate LearnLinc
-common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#ID Cliente
 common#:#extt_ilinc_desc#:#Aulas virtuales. Servicio comercia. Para conseguir una cuenta e información adicional contacte con netucate www.netucate.com
 common#:#extt_ilinc_enable#:#Habilitar soporte LearnLinc
@@ -1773,7 +1780,6 @@ common#:#hobby#:#Intereses/hobbies
 common#:#home#:#Inicio
 common#:#host#:#host
 common#:#hours#:#hora(s)
-common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Horas del día
 common#:#htlm#:#Módulo de aprendizaje HTML
 common#:#htlm_add#:#Añadir Módulo de Aprendizaje HTML
@@ -2189,7 +2195,8 @@ common#:#missing#:#No disponible
 common#:#mob#:#Objeto Multimedia
 common#:#module#:#módulo
 common#:#modules#:#Módulos
-common#:#month#:#Més
+common#:#month#:#Mes
+common#:#months#:#Meses
 common#:#month_01_long#:#Enero
 common#:#month_01_short#:#Ene
 common#:#month_02_long#:#Febrero
@@ -2524,6 +2531,7 @@ common#:#parse#:#Analizar
 common#:#passed#:#Superado
 common#:#passwd#:#contraseña
 common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña###08 Feb 2006 content changed
+common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
 common#:#passwd_not_match#:#La introducción de nueva contraseña es distinta! Por favor introdúzca de nuevo las dos repeticiones
 common#:#passwd_wrong#:#La contraseña introducida es incorrecta!
 common#:#password#:#contraseña
@@ -2575,6 +2583,7 @@ common#:#please_enter_target#:#Por favor introduzca un destino.
 common#:#please_enter_title#:#Por favor introduzca un título.
 common#:#please_select_a_delivered_file_to_delete#:#¡Debe seleccionar al menos un archivo enviado para borrar!
 common#:#please_select_a_delivered_file_to_download#:#¡Debe seleccionar al menos un archivo enviado para descargar!
+common#:#please_wait#:#Por favor espere...
 common#:#port#:#puerto
 common#:#position#:#posición
 common#:#preconditions#:#Precondiciones
@@ -2702,7 +2711,6 @@ common#:#role_no_groups_selected#:#Por favor seleccione un grupo
 common#:#role_no_results_found#:#No se encontraron resultados
 common#:#role_no_roles_selected#:#Por favor seleccione un rol
 common#:#role_no_users_no_desk_items#:#No es posible asignar items al Escritorio Personal, ya que no tiene permiso para asignar usuarios a este rol
-common#:#role_protect_permissions#:#Protect permissions###25 Feb 2006 new variable
 common#:#role_protect_permissions#:#Proteger permisos
 common#:#role_search_enter_search_string#:#Por favor introduzca una cadena de búsqueda
 common#:#role_search_users#:#Búsqueda de usuarios
@@ -3192,6 +3200,8 @@ common#:#width_x_height#:#Anchura x Altura
 common#:#with#:#con
 common#:#write#:#escritura
 common#:#wrong_ip_detected#:#Su acceso ha sido denegado por una IP cliente incorrecta.<br>Por favor contacte al administrador del sistema.
+common#:#year#:#anyo
+common#:#years#:#anyos
 common#:#yes#:#si
 common#:#you_may_add_local_roles#:#Puede añadir roles locales
 common#:#your_message#:#su mensaje
@@ -4267,6 +4277,7 @@ forum#:#frm_title_required#:#Por favor inserte un título.
 forum#:#is_read#:#marcar como leída
 forum#:#new_post#:#Nuevo mensaje
 forum#:#thread#:#Asunto
+grp#:#grp_registration_unlimited#:#Periodo de registro ilimitado
 jscalendar#:#about_calendar#:#Acerca del calendario
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\n\nSelección de fecha:\n- Use los botones «, »  para seleccionar año\n- Use los botones <, > para seleccionar mes\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.
 jscalendar#:#about_time#:#\n\nSelección de hora:\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \n- o Shift-click para decrementarlo\n- o click y arrastrar para una selección más rápida
@@ -5169,7 +5180,9 @@ rbac#:#filter_global_roles#:#Mostrar solo roles globales
 rbac#:#filter_local_roles#:#Mostrar solo roles locales del contexto actual
 rbac#:#filter_local_roles_object#:#Mostrar solo roles locales definidos en esta posicion
 rbac#:#filter_roles_local_policy#:#Mostrar solo roles usando una politica local en esta posicion
+rbac#:#info_user_view_changed#:#Vista de usuario modificada
 rbac#:#leave#:#Abandonar
+rbac#:#msg_no_roles_of_type#:#No hay roles disponibles para el filtro seleccionado
 rbac#:#perm_administrate#:#Administrar
 rbac#:#perm_class_create#:#Crear nuevos objetos
 rbac#:#perm_class_create_desc#:#Determina qué tipos de objeto pueden ser creados dentro del objeto actual
@@ -5201,7 +5214,7 @@ search#:#search_concatenation#:#Concatenación
 search#:#search_content#:#Contenido de las páginas
 search#:#search_dbk_content#:#Biblioteca Digital (contenido)
 search#:#search_dbk_meta#:#Biblioteca Digital (meta datos)
-search#:#search_delete_sure#:#El objeto y su contenido serán eliminados serán eliminados permanentemente content changed
+search#:#search_delete_sure#:#El objeto y su contenido serán eliminados serán eliminados permanentemente
 search#:#search_details_info#:#Búsqueda detallada. Por favor seleccione un o más objetos abajo.
 search#:#search_direct#:#Búsqueda directa
 search#:#search_fast_info#:#Buscar en títulos, descripciones y palabras clave en todos los tipos de objeto.
@@ -5584,7 +5597,6 @@ survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copia
 survey#:#survey_code_used#:#Código fue usado
 survey#:#survey_finish#:#Salvar y terminar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
-survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!###28 Feb 2006 content changed
 survey#:#survey_has_datasets_warning#:#La encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine dichos datos en la seccion mantenimiento.
 survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
 survey#:#survey_next#:#salvar y pasar a siguiente página >>>
@@ -5741,13 +5753,14 @@ trac#:#stats_user#:#User(s)###21 Feb 2006 new variable
 trac#:#stats_user_selected#:#User selected###21 Feb 2006 new variable
 trac#:#stats_with#:#with###21 Feb 2006 new variable
 trac#:#trac_activated#:#Tracking activado
-trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
+trac#:#trac_active_both#:#Seguimiento de usuario y progreso de aprendizaje activados
+trac#:#trac_active_lp_only#:#Progreso de aprendizaje activado
+trac#:#trac_active_ut_only#:#Seguimiento de usuario activado
 trac#:#trac_added_no_shown_list#:#Los objetos seleccionados serán ocultados
 trac#:#trac_anonymized#:#Anonimo
 trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
 trac#:#trac_assigned#:#Asignado
 trac#:#trac_assignments#:#Asignaciones
-trac#:#trac_below#:#Debajo de:
 trac#:#trac_below#:#Debajo de:
 trac#:#trac_collection_assign#:#Asignar
 trac#:#trac_collection_deassign#:#Desasignar
@@ -5755,37 +5768,29 @@ trac#:#trac_comment#:#Comentario
 trac#:#trac_comments#:#Comentarios
 trac#:#trac_completed#:#Completado
 trac#:#trac_crs_assignments#:#Asignación de items del curso
-trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
-trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#items del curso que pueden asignarse
 trac#:#trac_crs_members#:#Miembros del curso:
 trac#:#trac_crs_objects#:#Progreso de aprendizaje de los miembros del curso
 trac#:#trac_crs_releavant_items#:#Items del curso
 trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
-trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
-trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_time#:#Tiempo de proceso
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
 trac#:#trac_edited_scos#:#Contenido procesado
-trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_filter_area#:#Area:
 trac#:#trac_filter_hidden#:#Oculto:
 trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
-trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
 trac#:#trac_filter_no_access#:#No se encontraron objetos
-trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
+trac#:#trac_inactive_both#:#Seguimiento de usuario y progreso de aprendizaje desactivados
 trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
-trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
-trac#:#trac_last_access#:#Último acceso
 trac#:#trac_last_access#:#Último acceso
 trac#:#trac_learning_progress#:#Progreso de aprendizaje
 trac#:#trac_learning_progress_tbl_header#:#Progreso de:
-trac#:#trac_lm_statistics#:#Access Statistics###21 Feb 2006 new variable
+trac#:#trac_lm_statistics#:#Estadisticas de acceso
 trac#:#trac_lp_filter#:#Filtro
 trac#:#trac_mark#:#Nota
 trac#:#trac_marks#:#Notas
@@ -5804,30 +5809,22 @@ trac#:#trac_modifications_saved#:#Configuracion salvada
 trac#:#trac_modus#:#Modo
 trac#:#trac_no_attempted#:#No visitado
 trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
-trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
 trac#:#trac_no_sahs_items_found#:#No se encontraron objetos.
 trac#:#trac_not_accessed#:#No accedido
 trac#:#trac_not_assigned#:#No asignado
 trac#:#trac_not_attempted#:#No visitado
 trac#:#trac_not_completed#:#No completado
-trac#:#trac_not_completed#:#No completado
 trac#:#trac_num_visits#:#Numero de visitas
-trac#:#trac_objects#:#Lista de objetos
 trac#:#trac_objects#:#Progreso de los usuarios
 trac#:#trac_occurrences#:#Ruta:
-trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_processing_time#:#Tiempo de proceso asumido
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:
-trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
-trac#:#trac_reached_points#:#Puntuacion requerida
-trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
+trac#:#trac_reached_points#:#Puntuacion conseguida
 trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
 trac#:#trac_required_visits#:#Número de visitas requeridas
-trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_sahs_relevant_items#:#SCO's
-trac#:#trac_select_one#:#No hizo selección
 trac#:#trac_select_one#:#No hizo selección
 trac#:#trac_settings#:#Configuracion
 trac#:#trac_settings_saved#:#Configuracion guardada.
@@ -5837,7 +5834,6 @@ trac#:#trac_spent_time#:#Tiempo empleado
 trac#:#trac_status#:#Estado
 trac#:#trac_total_online#:#Tiempo total online
 trac#:#trac_update_edit_user#:#Configuracion grabada
-trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
 trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
 trac#:#trac_user_data#:#Datos de usuario
 trac#:#trac_usr_list#:#Usuarios
