@@ -32,6 +32,8 @@
 include_once 'Services/MetaData/classes/class.ilMD.php';
 include_once 'Services/MetaData/classes/class.ilMDUtilSelect.php';
 
+define('IL_TLT_MAX_HOURS',99);
+
 
 class ilMDEditorGUI
 {
@@ -287,7 +289,7 @@ class ilMDEditorGUI
 		#	$this->tpl->setVariable("VAL_TYPICAL_LEARN_TIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
 		#}
 		
-		$tlt = array(0,0,0);
+		$tlt = array(0,0,0,0,0);
 		$valid = true;
 		if(is_object($this->md_section = $this->md_obj->getEducational()))
 		{
@@ -297,13 +299,22 @@ class ilMDEditorGUI
 			{
 				if(strlen($this->md_section->getTypicalLearningTime()))
 				{
-					$tlt = array(0,0,0);
+					$tlt = array(0,0,0,0,0);
 					$valid = false;
 				}
 			}
 		}
+		$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));		
+		$this->tpl->setVariable("SEL_MONTHS",$this->__buildMonthsSelect($tlt[0]));
+		$this->tpl->setVariable("SEL_DAYS",$this->__buildDaysSelect($tlt[1]));
+		
+		$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
+		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
+
 		$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
-		$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2],false));
+		$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[4] ? false : true,
+																 $tlt[2],$tlt[3],$tlt[4],
+																 false));
 		$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
 
 		if(!$valid)
@@ -442,21 +453,23 @@ class ilMDEditorGUI
 
 		//Educational...
 		// Typical Learning Time
-		if ($_POST["tlt"]['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s'])
+		if($_POST['tlt']['mo'] or $_POST['tlt']['d'] or 
+		   $_POST["tlt"]['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s'])
 		{
 			if(!is_object($this->md_section = $this->md_obj->getEducational()))
 			{
 				$this->md_section = $this->md_obj->addEducational();
 				$this->md_section->save();
 			}
-			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
+			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['mo'],$_POST['tlt']['d'],
+															  $_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
 			$this->md_section->update();
 		}
 		else
 		{
 			if(is_object($this->md_section = $this->md_obj->getEducational()))
 			{
-				$this->md_section->setPhysicalTypicalLearningTime(0,0,0);
+				$this->md_section->setPhysicalTypicalLearningTime(0,0,0,0,0);
 				$this->md_section->update();
 			}
 		}
@@ -1591,7 +1604,7 @@ class ilMDEditorGUI
 
 
 			// Typical learning time
-			$tlt = array(0,0,0);
+			$tlt = array(0,0,0,0,0);
 			$valid = true;
 
 			include_once 'Services/MetaData/classes/class.ilMDUtils.php';
@@ -1600,12 +1613,22 @@ class ilMDEditorGUI
 			{
 				if(strlen($this->md_section->getTypicalLearningTime()))
 				{
-					$tlt = array(0,0,0);
+					$tlt = array(0,0,0,0,0);
 					$valid = false;
 				}
 			}
+
+			$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));		
+			$this->tpl->setVariable("SEL_MONTHS",$this->__buildMonthsSelect($tlt[0]));
+			$this->tpl->setVariable("SEL_DAYS",$this->__buildDaysSelect($tlt[1]));
+		
+			$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
+			$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
+
 			$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
-			$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[2] ? false : true,$tlt[0],$tlt[1],$tlt[2],false));
+			$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[4] ? false : true,
+																	 $tlt[2],$tlt[3],$tlt[4],
+																	 false));
 			$this->tpl->setVariable("TLT_HINT",$tlt[2] ? '(hh:mm:ss)' : '(hh:mm)');
 
 			if(!$valid)
@@ -1753,9 +1776,11 @@ class ilMDEditorGUI
 
 		// TLT
 		
-		if($_POST['tlt']['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s'])
+		if($_POST['tlt']['mo'] or $_POST['tlt']['d'] or 
+		   $_POST['tlt']['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s'])
 		{
-			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
+			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['mo'],$_POST['tlt']['d'],
+															  $_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
 		}
 		else
 		{
@@ -2652,6 +2677,24 @@ class ilMDEditorGUI
 		return $return;
 	}
 
+	function __buildMonthsSelect($sel_month)
+	{
+		for($i = 0;$i <= 24;$i++)
+		{
+			$options[$i] = sprintf('%02d',$i);
+		}
+		return ilUtil::formSelect($sel_month,'tlt[mo]',$options,false,true);
+	}
+
+
+	function __buildDaysSelect($sel_day)
+	{
+		for($i = 0;$i <= 31;$i++)
+		{
+			$options[$i] = sprintf('%02d',$i);
+		}
+		return ilUtil::formSelect($sel_day,'tlt[d]',$options,false,true);
+	}
 				
 		
 

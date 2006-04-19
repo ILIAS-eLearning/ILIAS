@@ -5907,3 +5907,6 @@ common#:#udf_update_success#:#Saved modifications.
 common#:#udf_value_deleted#:#The value has been deleted.
 trac#:#trac_mode_exercise_returned#:#Exercise returned
 search#:#append_results#:#Append results
+meta#:#md_months#:#Month:
+meta#:#md_days#:#Days:
+meta#:#md_time#:#Time:

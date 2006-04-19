@@ -276,14 +276,26 @@ class ilMDEducational extends ilMDBase
 		return $this->difficulty;
 	}
 
-	function setPhysicalTypicalLearningTime($hours,$minutes,$seconds)
+	function setPhysicalTypicalLearningTime($months,$days,$hours,$minutes,$seconds)
 	{
-		if(!$hours and !$minutes and !$seconds)
+		if(!$months and !$days and !$hours and !$minutes and !$seconds)
 		{
 			$this->setTypicalLearningTime('PT00H00M');
 			return true;
 		}
-		$tlt = 'PT';
+		$tlt = 'P';
+		if($months)
+		{
+			$tlt .= ($months.'M');
+		}
+		if($days)
+		{
+			$tlt .= ($days.'D');
+		}
+		if($hours or $minutes or $seconds)
+		{
+			$tlt .= 'T';
+		}
 		if($hours)
 		{
 			$tlt .= ($hours.'H');
@@ -316,7 +328,7 @@ class ilMDEducational extends ilMDBase
 
 		$time_arr = ilMDUtils::_LOMDurationToArray($this->getTypicalLearningTime());
 
-		return 60 * 60 * $time_arr[0] + 60 * $time_arr[1] + $time_arr[2];
+		return 60 * 60 * 24 * 30 * $time_arr[0] + 60 * 60 * 24 * $time_arr[1] + 60 * 60 * $time_arr[2] + 60 * $time_arr[3] + $time_arr[4];
 	} 
 	
 	function save()
@@ -495,8 +507,12 @@ class ilMDEducational extends ilMDBase
 			include_once './Services/MetaData/classes/class.ilMDUtils.php';
 
 			$time_arr = ilMDUtils::_LOMDurationToArray($row->typical_learning_time);
-			
-			return 60 * 60 * $time_arr[0] + 60 * $time_arr[1] + $time_arr[2];
+
+			return 60 * 60 * 24 * 30 * $time_arr[0] + 
+				60 * 60 * 24 * $time_arr[1] + 
+				60 * 60 * $time_arr[2] + 
+				60 * $time_arr[3] + 
+				$time_arr[4];
 		}
 		return 0;
 	}
