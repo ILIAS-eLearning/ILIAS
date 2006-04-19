@@ -10370,3 +10370,5 @@ ALTER TABLE `survey_question`
   DROP `subtype`,
   DROP `orientation`,
   DROP `maxchars`;
+<#682>
+DROP TABLE `qpl_answer_enhanced`;
