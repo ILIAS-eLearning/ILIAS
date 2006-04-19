@@ -120,7 +120,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$question =& $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 				$count = $question->isInUse();
-				if ($count)
+				if (($count) && strcmp($this->ctrl->getCmd(), "view") == 0)
 				{
 					global $rbacsystem;
 					if ($rbacsystem->checkAccess("write", $this->ref_id))
@@ -164,6 +164,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
+				$count = $q_gui->object->isInUse();
+				if (($count) && strcmp($this->ctrl->getCmd(), "assessment") != 0)
+				{
+					global $rbacsystem;
+					if ($rbacsystem->checkAccess("write", $this->ref_id))
+					{
+						sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+					}
+				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 				
