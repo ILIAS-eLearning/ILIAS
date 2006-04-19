@@ -878,6 +878,7 @@ chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Meine Chats
+common#:#precondition_not_accessible#:#Diese Vorbedingung kann aufgrund fehlender Berechtigung nicht angezeigt werden.
 common#:#show_notes_on_pd#:#Notizen auf persönlichem Schreibtisch anzeigen
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
