@@ -788,6 +788,10 @@ class ilObjectListGUI
 				$condition['trigger_obj_id'], trim($cond_txt).": ".ilObject::_lookupTitle($condition["trigger_obj_id"]),
 				 "");
 			$this->tpl->setCurrentBlock("precondition");
+			if ($trigger_html == "")
+			{
+				$trigger_html = $this->lng->txt("precondition_not_accessible");
+			}
 			//$this->tpl->setVariable("TXT_CONDITION", trim($cond_txt));
 			$this->tpl->setVariable("TRIGGER_ITEM", $trigger_html);
 			$this->tpl->parseCurrentBlock();
