@@ -28,8 +28,6 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfProgressGUI:
-*
 * @package ilias-tracking
 *
 */

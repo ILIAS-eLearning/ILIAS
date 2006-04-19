@@ -108,6 +108,7 @@ $tpl->loadTemplatefile("tpl.main.html", true, true);
 
 // make instance of structure reader
 $ilCtrlStructureReader = new ilCtrlStructureReader();
+$ilCtrlStructureReader->setErrorObject($ilErr);
 
 require_once "../classes/class.ilBenchmark.php";
 $ilBench =& new ilBenchmark();

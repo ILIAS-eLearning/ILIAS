@@ -1031,8 +1031,7 @@ class ilSetupGUI extends ilSetup
 
 		foreach ($list as $key => $client)
 		{
-			// check status
-			// TODO: aufr�umen!!! 
+			// check status 
 			$status_arr = $this->getStatus($client);
 
 			if (!$status_arr["db"]["status"])
@@ -2342,8 +2341,20 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_TOOLS", $this->lng->txt("tools"));
 		$this->tpl->setVariable("TXT_CTRL_STRUCTURE", $this->lng->txt("ctrl_structure"));
 		$this->tpl->setVariable("TXT_RELOAD", $this->lng->txt("reload"));
-		$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",
-			$this->lng->txt("ctrl_structure_desc"));
+
+		$q = "SELECT count(*) as cnt FROM ctrl_calls";
+		$cset = $this->client->db->query($q);
+		$crec = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+		if ($crec["cnt"] == 0)
+		{
+			$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",
+				$this->lng->txt("ctrl_missing_desc"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",
+				$this->lng->txt("ctrl_structure_desc"));
+		}
 
 		$this->tpl->parseCurrentBlock();
 		
