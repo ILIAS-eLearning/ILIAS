@@ -44,6 +44,11 @@ class ilCtrlStructureReader
 		$this->executed = false;
 	}
 
+	function setErrorObject(&$err)
+	{
+		$this->err_object =& $err;
+	}
+	
 	/**
 	* parse code files and store call structure in db
 	*/
@@ -83,6 +88,8 @@ class ilCtrlStructureReader
 	*/
 	function read($a_cdir)
 	{
+		global $ilDB, $lng;
+		
 		// check wether $a_cdir is a directory
 		if (!@is_dir($a_cdir))
 		{
@@ -124,6 +131,27 @@ class ilCtrlStructureReader
 								{
 									$com_arr = explode(":", $com);
 									$parent = strtolower(trim($com_arr[0]));
+									
+									// check file duplicates
+									if ($parent != "" && isset($this->class_script[$parent]) &&
+										$this->class_script[$parent] != $a_cdir."/".$file)
+									{
+										// delete all class to file assignments
+										$q = "DELETE FROM ctrl_classfile";
+										$ilDB->query($q);
+								
+										// delete all call entries
+										$q = "DELETE FROM ctrl_calls";
+										$ilDB->query($q);
+										
+										$this->err_object->raiseError(
+											sprintf($lng->txt("duplicate_ctrl"),
+												$parent,
+												$this->class_script[$parent],
+												$a_cdir."/".$file)
+											, $this->err_object->MESSAGE);
+									}
+
 									$this->class_script[$parent] = $a_cdir."/".$file;
 									$childs = explode(",", $com_arr[1]);
 									foreach($childs as $child)

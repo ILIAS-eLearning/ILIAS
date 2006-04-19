@@ -26,8 +26,6 @@
 * @author Stefan Meyer
 * @version $Id$
 *
-* @ilCtrl_Calls ilPaymentGUI: ilPaymentShoppinCartGUI
-*
 * @package core
 */
 include_once "./payment/classes/class.ilPaymentBaseGUI.php";

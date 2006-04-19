@@ -772,6 +772,18 @@ class ilSetup extends PEAR
 			return $arr;
 		}
 
+		// check control information
+		$q = "SELECT count(*) as cnt FROM ctrl_calls";
+		$cset = $client->db->query($q);
+		$crec = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+		if ($crec["cnt"] == 0)
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("db_control_structure_missing");
+			$arr["update"] = true;
+			return $arr;
+		}
+
 		$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
 		return $arr;
 	}

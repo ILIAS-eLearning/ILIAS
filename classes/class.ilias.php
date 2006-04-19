@@ -206,7 +206,16 @@ class ILIAS
 
 		if (!$this->ini->readVariable("client","access"))
 		{
-			die("client disabled");
+			if (is_file("./maintenance.html"))
+			{
+				ilUtil::redirect("./maintenance.html");
+			}
+			else
+			{
+				echo '<br /><p style="text-align:center;">The server is not '.
+					'available due to maintenance. We apologise for any inconvenience.</p>';
+				exit;
+			}
 		}
 
 		// set constants

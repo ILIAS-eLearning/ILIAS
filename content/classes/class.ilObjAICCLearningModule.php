@@ -31,8 +31,6 @@ require_once "content/classes/class.ilObjSCORMLearningModule.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjAICCLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI
-*
 * @extends ilObject
 * @package ilias-core
 */
