@@ -367,7 +367,7 @@ assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
-assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
+assessment#:#qt_numeric#:#Numerische Frage
 assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#qt_text#:#Freitext-Frage
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
@@ -381,9 +381,9 @@ assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
 assessment#:#random_another_sample#:#Neue Zusammenstellung
 assessment#:#random_selection#:#Zufällige Auswahl
-assessment#:#range#:#Range###22 Feb 2006 new variable
-assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
-assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
+assessment#:#range#:#Bereich
+assessment#:#range_lower_limit#:#Untere Schranke
+assessment#:#range_upper_limit#:#Obere Schranke
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
 assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.
@@ -472,7 +472,7 @@ assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_previous_results_hide#:#Wenn Sie dieses Kontrollkästchen aktivieren, werden Ihre Ergebnisse aus dem vorigen Testdurchlauf nicht angezeigt###14 Feb 2006 content changed
+assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus einem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_title_points#:#Punkte im Fragentitel
 assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
@@ -5398,7 +5398,7 @@ survey#:#evaluation_access_all#:#Evaluationszugriff für alle ILIAS-Nutzer(innen
 survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmende der Umfrage
 survey#:#existing_constraints#:#Bestehende Vorbedingungen
 survey#:#exit#:#Beenden
-survey#:#exp_type_csv#:#Comma separated value (CSV)
+survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Antworten aus, bevor Sie eine neue Antwort erzeugen!
@@ -5489,7 +5489,7 @@ survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
-survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
+survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
 survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwort ausgewählt haben
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
