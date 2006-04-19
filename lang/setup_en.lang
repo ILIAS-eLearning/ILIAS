@@ -34,6 +34,9 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')
 3rd_party_software#:#3rd Party Software
 absolute_path#:#Absolute path
 access#:#Access
