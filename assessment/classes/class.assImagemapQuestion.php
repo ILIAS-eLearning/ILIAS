@@ -231,7 +231,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 
 		if ($result == DB_OK)
 		{
-			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+			$query = sprintf("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
@@ -240,7 +240,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 			{
 				$answer_obj = $this->answers[$key];
 				//print "id:".$this->id." answer tex:".$answer_obj->getAnswertext()." answer_obj->getOrder():".$answer_obj->getOrder()." answer_obj->getCoords():".$answer_obj->getCoords()." answer_obj->getArea():".$answer_obj->getArea();
-				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$query = sprintf("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, correctness, coords, area) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
 					$db->quote($this->id),
 					$db->quote($answer_obj->getAnswertext() . ""),
 					$db->quote($answer_obj->getPoints() . ""),
@@ -401,7 +401,7 @@ class ASS_ImagemapQuestion extends ASS_Question
         $this->points = $data->points;
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
-      $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
+      $query = sprintf("SELECT * FROM qpl_answer_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
         $db->quote($question_id)
       );
       $result = $db->query($query);
@@ -1139,7 +1139,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 			{
 				// write answers
 				// delete old answers
-				$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+				$query = sprintf("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
 					$db->quote($this->original_id)
 				);
 				$result = $db->query($query);
@@ -1147,7 +1147,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
-					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
+					$query = sprintf("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, correctness, coords, area) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
 						$db->quote($this->original_id . ""),
 						$db->quote($answer_obj->getAnswertext() . ""),
 						$db->quote($answer_obj->getPoints() . ""),
@@ -1189,6 +1189,18 @@ class ASS_ImagemapQuestion extends ASS_Question
 		return "qpl_question_imagemap";
 	}
 
+	/**
+	* Returns the name of the answer table in the database
+	*
+	* Returns the name of the answer table in the database
+	*
+	* @return string The answer table name
+	* @access public
+	*/
+	function getAnswerTableName()
+	{
+		return "qpl_answer_imagemap";
+	}
 }
 
 ?>

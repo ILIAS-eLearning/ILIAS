@@ -10372,3 +10372,164 @@ ALTER TABLE `survey_question`
   DROP `maxchars`;
 <#682>
 DROP TABLE `qpl_answer_enhanced`;
+<#683>
+CREATE TABLE `qpl_answer_cloze` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `name` varchar(50) NOT NULL default '',
+  `shuffle` enum('0','1') NOT NULL default '1',
+  `answertext` text NOT NULL,
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `correctness` enum('0','1') NOT NULL default '0',
+  `gap_id` int(10) unsigned NOT NULL default '0',
+  `cloze_type` enum('0','1') default NULL,
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+CREATE TABLE `qpl_answer_imagemap` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` text NOT NULL,
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `correctness` enum('0','1') NOT NULL default '0',
+  `coords` text,
+  `area` varchar(20) default NULL,
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+CREATE TABLE `qpl_answer_matching` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` text NOT NULL,
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `matchingtext` text,
+  `matching_order` int(10) unsigned default NULL,
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+CREATE TABLE `qpl_answer_multiplechoice` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` text NOT NULL,
+  `imagefile` text,
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `correctness` enum('0','1') NOT NULL default '0',
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+CREATE TABLE `qpl_answer_ordering` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` text NOT NULL,
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `solution_order` int(10) unsigned NOT NULL default '0',
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+CREATE TABLE `qpl_answer_textsubset` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` text NOT NULL,
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+<#684>
+<?php
+	$query = "SELECT qpl_answers.*, qpl_questions.question_type_fi FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		switch ($row["question_type_fi"])
+		{
+			case 1:
+			case 2:
+				$insertquery = sprintf("INSERT INTO qpl_answer_multiplechoice (question_fi, answertext, points, aorder, correctness) VALUES (%s, %s, %s, %s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["points"] . ""),
+					$ilDB->quote($row["aorder"] . ""),
+					$ilDB->quote($row["correctness"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 3:
+				$insertquery = sprintf("INSERT INTO qpl_answer_cloze (question_fi, name, shuffle, answertext, points, aorder, correctness, gap_id, cloze_type) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["name"] . ""),
+					$ilDB->quote($row["shuffle"] . ""),
+					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["points"] . ""),
+					$ilDB->quote($row["aorder"] . ""),
+					$ilDB->quote($row["correctness"] . ""),
+					$ilDB->quote($row["gap_id"] . ""),
+					$ilDB->quote($row["cloze_type"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 4:
+				$insertquery = sprintf("INSERT INTO qpl_answer_matching (question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (%s, %s, %s, %s, %s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["points"] . ""),
+					$ilDB->quote($row["aorder"] . ""),
+					$ilDB->quote($row["matchingtext"] . ""),
+					$ilDB->quote($row["matching_order"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 5:
+				$insertquery = sprintf("INSERT INTO qpl_answer_ordering (question_fi, answertext, points, aorder, solution_order) VALUES (%s, %s, %s, %s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["points"] . ""),
+					$ilDB->quote($row["aorder"] . ""),
+					$ilDB->quote($row["solution_order"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 6:
+				$insertquery = sprintf("INSERT INTO qpl_answer_imagemap (question_fi, answertext, points, aorder, correctness, coords, area) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["points"] . ""),
+					$ilDB->quote($row["aorder"] . ""),
+					$ilDB->quote($row["correctness"] . ""),
+					$ilDB->quote($row["coords"] . ""),
+					$ilDB->quote($row["area"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+			case 9:
+				break;
+			case 10:
+				$insertquery = sprintf("INSERT INTO qpl_answer_textsubset (question_fi, answertext, points, aorder) VALUES (%s, %s, %s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["points"] . ""),
+					$ilDB->quote($row["aorder"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				break;
+		}
+	}
+?>
+<#685>
+DROP TABLE qpl_answers;
+DROP TABLE qpl_answerblock;

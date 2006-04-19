@@ -477,7 +477,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			// Antworten schreiben
 			// alte Antworten löschen
-			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+			$query = sprintf("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
@@ -486,7 +486,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			foreach ($this->matchingpairs as $key => $value)
 			{
 				$matching_obj = $this->matchingpairs[$key];
-				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+				$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 					$db->quote($this->id),
 					$db->quote($matching_obj->getTerm() . ""),
 					$db->quote($matching_obj->getPoints() . ""),
@@ -538,7 +538,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
 
-			$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY answer_id ASC",
+			$query = sprintf("SELECT * FROM qpl_answer_matching WHERE question_fi = %s ORDER BY answer_id ASC",
 				$db->quote($question_id)
 			);
 			$result = $db->query($query);
@@ -1239,7 +1239,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			{
 				// write answers
 				// delete old answers
-				$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+				$query = sprintf("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
 					$db->quote($this->original_id)
 				);
 				$result = $db->query($query);
@@ -1247,7 +1247,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				foreach ($this->matchingpairs as $key => $value)
 				{
 					$matching_obj = $this->matchingpairs[$key];
-					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+					$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 						$db->quote($this->original_id . ""),
 						$db->quote($matching_obj->getTerm() . ""),
 						$db->quote($matching_obj->getPoints() . ""),
@@ -1344,6 +1344,19 @@ class ASS_MatchingQuestion extends ASS_Question
 	function getAdditionalTableName()
 	{
 		return "qpl_question_matching";
+	}
+
+	/**
+	* Returns the name of the answer table in the database
+	*
+	* Returns the name of the answer table in the database
+	*
+	* @return string The answer table name
+	* @access public
+	*/
+	function getAnswerTableName()
+	{
+		return "qpl_answer_matching";
 	}
 }
 
