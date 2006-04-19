@@ -516,7 +516,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	/**
 	* popup window for wysiwyg editor
 	*/
-/*
 	function popup()
 	{
 		include_once "./content/classes/Pages/class.ilWysiwygUtil.php";
@@ -524,8 +523,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$popup->show($_GET["ptype"]);
 		exit;
 	}
-*/
-
 
 	/**
 	* output tabs
