@@ -28,7 +28,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI
+* @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI, ilFeedbackGUI
 *
 * @package application
 */

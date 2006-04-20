@@ -29,7 +29,7 @@
 * @version	$Id$
 *
 *
-* @ilCtrl_Calls ilPDNotesGUI: ilFeedbackGUI
+* @ilCtrl_Calls ilFeedbackGUI:
 */
 class ilFeedbackGUI{
 	function ilFeedbackGUI(){
