@@ -600,7 +600,7 @@ class ilInfoScreenGUI
 				"", "ilfeedbackgui");
 */
 			// this should work with feedback class available
-			// maybe a line... "@ilCtrl_Calls ilFeedbackGUI:"
+			// maybe a line... "@ ilCtrl_Calls ilFeedbackGUI:"
 			// in the header of feedbackgui is necessary
 			
 			$tabs_gui->addSubTabTarget("feedback",
