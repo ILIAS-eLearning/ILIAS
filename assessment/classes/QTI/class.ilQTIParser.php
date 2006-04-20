@@ -1334,15 +1334,21 @@ class ilQTIParser extends ilSaxParser
 											{
 												$ident = $response_label->getIdent();
 												$answertext = "";
+												$answerimage = "";
 												foreach ($response_label->material as $mat)
 												{
 													foreach ($mat->mattext as $matt)
 													{
 														$answertext .= $matt->getContent();
 													}
+													foreach ($mat->matimage as $mati)
+													{
+														$answerimage .= $mati->getContent();
+													}
 												}
 												$answers[$ident] = array(
 													"answertext" => $answertext,
+													"imagefile" => $answerimage,
 													"points" => 0,
 													"answerorder" => $answerorder++,
 													"correctness" => "",
@@ -1405,7 +1411,7 @@ class ilQTIParser extends ilSaxParser
 						$question->setShuffle($shuffle);
 						foreach ($answers as $answer)
 						{
-							$question->addAnswer($answer["answertext"], $answer["points"], $answer["correctness"], $answer["answerorder"]);
+							$question->addAnswer($answer["answertext"], $answer["points"], $answer["correctness"], $answer["answerorder"], $answer["imagefile"]);
 						}
 						$question->saveToDb();
 						if (count($this->item->suggested_solutions))

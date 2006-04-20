@@ -1633,6 +1633,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					if (preg_match("/^delete_.*/", $key, $matches) || 
 						preg_match("/^addSelectGap_.*/", $key, $matches) ||
 						preg_match("/^addTextGap_.*/", $key, $matches) ||
+						preg_match("/^deleteImage_.*/", $key, $matches) ||
+						preg_match("/^upload_.*/", $key, $matches) ||
 						preg_match("/^addSuggestedSolution_.*/", $key, $matches)
 						)
 					{
@@ -1658,7 +1660,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 													   "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
 													   "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
 													   "addParameter", "addGIT", "addST", "addPG", "delete",
-														 "toggleGraphicalAnswers"),
+														 "toggleGraphicalAnswers", "deleteAnswer", "deleteImage"),
 												 $classname, "", $force_active);
 			}
 		}
@@ -1694,6 +1696,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				if (preg_match("/^delete_.*/", $key, $matches) || 
 					preg_match("/^addSelectGap_.*/", $key, $matches) ||
 					preg_match("/^addTextGap_.*/", $key, $matches) ||
+					preg_match("/^deleteImage_.*/", $key, $matches) ||
+					preg_match("/^upload_.*/", $key, $matches) ||
 					preg_match("/^addSuggestedSolution_.*/", $key, $matches)
 					)
 				{
@@ -1723,7 +1727,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
 				"deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
 				"addParameter", "assessment", "addGIT", "addST", "addPG", "delete",
-				"toggleGraphicalAnswers"),
+				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage"),
 			 "", "", $force_active);
 
 		// export

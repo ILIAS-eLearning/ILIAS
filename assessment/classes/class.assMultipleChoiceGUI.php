@@ -60,11 +60,14 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 
 	function getCommand($cmd)
 	{
-		if (substr($cmd, 0, 6) == "delete")
+		if (substr($cmd, 0, 6) == "upload")
 		{
-			$cmd = "delete";
+			$cmd = "upload";
 		}
-
+		if (substr($cmd, 0, 11) == "deleteImage")
+		{
+			$cmd = "deleteImage";
+		}
 		return $cmd;
 	}
 
@@ -100,25 +103,59 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	{
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
+		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
 		// single response
 		if ($this->object->getResponse() == RESPONSE_SINGLE)
 		{
 			$this->getQuestionTemplate("qt_multiple_choice_sr");
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
 			// output of existing single response answers
-			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
+			if ($this->object->getAnswerCount() > 0)
 			{
-				$this->tpl->setCurrentBlock("deletebutton");
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("answers");
-				$answer = $this->object->getAnswer($i);
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
-				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
+				$this->tpl->setCurrentBlock("answersheading");
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("existinganswers");
+				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
+				$this->tpl->parseCurrentBlock();
+			}
+			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
+			{
+				$answer = $this->object->getAnswer($i);
+				if ($graphical_answer_setting == 1)
+				{
+					if (strlen($answer->getImage()))
+					{
+						$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
+						$this->tpl->setCurrentBlock("graphical_answer_image");
+						$this->tpl->setVariable("IMAGE_FILE", $imagepath);
+						if (strlen($answer->getAnswertext()))
+						{
+							$this->tpl->setVariable("IMAGE_ALT", htmlspecialchars($answer->getAnswertext()));
+						}
+						else
+						{
+							$this->tpl->setVariable("IMAGE_ALT", $this->lng->txt("image"));
+						}
+						$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+						$this->tpl->setVariable("DELETE_IMAGE", $this->lng->txt("delete_image"));
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("graphical_answer");
+					$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+					$this->tpl->setVariable("UPLOAD_IMAGE", $this->lng->txt("upload_image"));
+					$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("answers");
+				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
 				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				$this->tpl->parseCurrentBlock();
@@ -154,7 +191,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						if ((strcmp($nrOfAnswers, "yn") == 0) || (strcmp($nrOfAnswers, "tf") == 0)) $nrOfAnswers = 2;
 						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - $nrOfAnswers).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $nrOfAnswers)."').scrollIntoView(\"true\");"));
 						break;
-					case "":
+					case "deleteAnswer":
 						if ($this->object->getAnswerCount() == 0)
 						{
 							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
@@ -260,23 +297,56 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
 
 			// output of existing multiple response answers
+			if ($this->object->getAnswerCount() > 0)
+			{
+				$this->tpl->setCurrentBlock("answersheading");
+				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("existinganswers");
+				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
+				$this->tpl->parseCurrentBlock();
+			}
 			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
 			{
-				$this->tpl->setCurrentBlock("deletebutton");
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("answers");
 				$answer = $this->object->getAnswer($i);
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
+				if ($graphical_answer_setting == 1)
+				{
+					if (strlen($answer->getImage()))
+					{
+						$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
+						$this->tpl->setCurrentBlock("graphical_answer_image");
+						$this->tpl->setVariable("IMAGE_FILE", $imagepath);
+						if (strlen($answer->getAnswertext()))
+						{
+							$this->tpl->setVariable("IMAGE_ALT", htmlspecialchars($answer->getAnswertext()));
+						}
+						else
+						{
+							$this->tpl->setVariable("IMAGE_ALT", $this->lng->txt("image"));
+						}
+						$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+						$this->tpl->setVariable("DELETE_IMAGE", $this->lng->txt("delete_image"));
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("graphical_answer");
+					$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+					$this->tpl->setVariable("UPLOAD_IMAGE", $this->lng->txt("upload_image"));
+					$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("answers");
 				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
 				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
 				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("checkbox_unchecked"));
 				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("checkbox_checked"));
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
 				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				if ($answer->isStateChecked())
 				{
@@ -313,11 +383,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				switch ($this->ctrl->getCmd())
 				{
 					case "add":
-					case "addTrueFalse":
-					case "addYesNo":
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
+						$nrOfAnswers = $_POST["nrOfAnswers"];
+						if ((strcmp($nrOfAnswers, "yn") == 0) || (strcmp($nrOfAnswers, "tf") == 0)) $nrOfAnswers = 2;
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - $nrOfAnswers).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $nrOfAnswers)."').scrollIntoView(\"true\");"));
 						break;
-					case "":
+					case "deleteAnswer":
 						if ($this->object->getAnswerCount() == 0)
 						{
 							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
@@ -431,70 +501,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* add yes no answer
-	*/
-	function addYesNo()
-	{
-		$this->writePostData();
-		//$this->setObjectData();
-
-		if (!$this->checkInput())
-		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-		}
-		else
-		{
-			// add a yes/no answer template
-			$this->object->addAnswer(
-				$this->lng->txt("yes"),
-				0,
-				0,
-				count($this->object->answers)
-			);
-			$this->object->addAnswer(
-				$this->lng->txt("no"),
-				0,
-				0,
-				count($this->object->answers)
-			);
-		}
-
-		$this->editQuestion();
-	}
-
-	/**
-	* add true/false answer
-	*/
-	function addTrueFalse()
-	{
-		//$this->setObjectData();
-		$this->writePostData();
-
-		if (!$this->checkInput())
-		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-		}
-		else
-		{
-			// add a true/false answer template
-			$this->object->addAnswer(
-				$this->lng->txt("true"),
-				0,
-				0,
-				count($this->object->answers)
-			);
-			$this->object->addAnswer(
-				$this->lng->txt("false"),
-				0,
-				0,
-				count($this->object->answers)
-			);
-		}
-
-		$this->editQuestion();
-	}
-
-	/**
 	* add an answer
 	*/
 	function add()
@@ -518,13 +524,15 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						$this->lng->txt("true"),
 						0,
 						0,
-						count($this->object->answers)
+						count($this->object->answers),
+						""
 					);
 					$this->object->addAnswer(
 						$this->lng->txt("false"),
 						0,
 						0,
-						count($this->object->answers)
+						count($this->object->answers),
+						""
 					);
 					break;
 				case "yn":
@@ -533,13 +541,15 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						$this->lng->txt("yes"),
 						0,
 						0,
-						count($this->object->answers)
+						count($this->object->answers),
+						""
 					);
 					$this->object->addAnswer(
 						$this->lng->txt("no"),
 						0,
 						0,
-						count($this->object->answers)
+						count($this->object->answers),
+						""
 					);
 					break;
 				default:
@@ -549,7 +559,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 							$this->lng->txt(""),
 							0,
 							0,
-							count($this->object->answers)
+							count($this->object->answers),
+							""
 						);
 					}
 					break;
@@ -560,22 +571,20 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* delete an answer
+	* delete checked answers
 	*/
-	function delete()
+	function deleteAnswer()
 	{
-		//$this->setObjectData();
 		$this->writePostData();
-
-		foreach ($_POST["cmd"] as $key => $value)
+		$answers = $_POST["chb_answers"];
+		if (is_array($answers))
 		{
-			// was one of the answers deleted
-			if (preg_match("/delete_(\d+)/", $key, $matches))
+			arsort($answers);
+			foreach ($answers as $answer)
 			{
-				$this->object->deleteAnswer($matches[1]);
+				$this->object->deleteAnswer($answer);
 			}
 		}
-
 		$this->editQuestion();
 	}
 
@@ -664,7 +673,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flushAnswers();
-
+		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
 		// Add all answers from the form into the object
 		if ($this->object->getResponse() == RESPONSE_SINGLE)
 		{
@@ -673,6 +682,43 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				if (preg_match("/answer_(\d+)/", $key, $matches))
 				{
+					$answer_image = $_POST["uploaded_image_".$matches[1]];
+					if ($graphical_answer_setting == 1)
+					{
+						foreach ($_FILES as $key2 => $value2)
+						{
+							if (preg_match("/image_(\d+)/", $key2, $matches2))
+							{
+								if ($matches[1] == $matches2[1])
+								{
+									if ($value2["tmp_name"])
+									{
+										// upload the image
+										if ($this->object->getId() <= 0)
+										{
+											$this->object->saveToDb();
+											$saved = true;
+											$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
+										}
+										$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
+										switch ($upload_result)
+										{
+											case 0:
+												$_POST["image_".$matches2[1]] = $value2['name'];
+												$answer_image = $value2['name'];
+												break;
+											case 1:
+												$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
+												break;
+											case 2:
+												$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
+												break;
+										}
+									}
+								}
+							}
+						}
+					}
 					$points = $_POST["points_$matches[1]"];
 					if (preg_match("/\d+/", $points))
 					{
@@ -690,7 +736,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
 						ilUtil::stripSlashes(1),
-						ilUtil::stripSlashes($matches[1])
+						ilUtil::stripSlashes($matches[1]),
+						$answer_image
 						);
 				}
 			}
@@ -702,6 +749,43 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				if (preg_match("/answer_(\d+)/", $key, $matches))
 				{
+					$answer_image = $_POST["uploaded_image_".$matches[1]];
+					if ($graphical_answer_setting == 1)
+					{
+						foreach ($_FILES as $key2 => $value2)
+						{
+							if (preg_match("/image_(\d+)/", $key2, $matches2))
+							{
+								if ($matches[1] == $matches2[1])
+								{
+									if ($value2["tmp_name"])
+									{
+										// upload the image
+										if ($this->object->getId() <= 0)
+										{
+											$this->object->saveToDb();
+											$saved = true;
+											$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
+										}
+										$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
+										switch ($upload_result)
+										{
+											case 0:
+												$_POST["image_".$matches2[1]] = $value2['name'];
+												$answer_image = $value2['name'];
+												break;
+											case 1:
+												$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
+												break;
+											case 2:
+												$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
+												break;
+										}
+									}
+								}
+							}
+						}
+					}
 					$points = $_POST["points_$matches[1]"];
 					if (!preg_match("/\d+/", $points))
 					{
@@ -711,19 +795,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
 						ilUtil::stripSlashes($_POST["status_$matches[1]"]),
-						ilUtil::stripSlashes($matches[1])
-						);
+						ilUtil::stripSlashes($matches[1]),
+						$answer_image
+					);
 				}
-			}
-		}
-
-		// After adding all questions from the form we have to check if the learner pressed a delete button
-		foreach ($_POST as $key => $value)
-		{
-			// was one of the answers deleted
-			if (preg_match("/delete_(\d+)/", $key, $matches))
-			{
-				$this->object->deleteAnswer($matches[1]);
 			}
 		}
 
@@ -1064,6 +1139,39 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->object->setGraphicalAnswerSetting(1);
 		}
 		$this->writePostData();
+		$this->editQuestion();
+	}
+
+	/**
+	* upload an image
+	*/
+	function upload()
+	{
+		$this->writePostData();
+		$this->editQuestion();
+	}
+	
+	function deleteImage()
+	{
+		$this->writePostData();
+		$imageorder = "";
+		foreach ($_POST["cmd"] as $key => $value)
+		{
+			if (preg_match("/deleteImage_(\d+)/", $key, $matches))
+			{
+				$imageorder = $matches[1];
+			}
+		}
+		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
+		{
+			$answer = $this->object->getAnswer($i);
+			if ($answer->getOrder() == $imageorder)
+			{
+				$this->object->deleteImage($answer->getImage());
+				$this->object->answers[$i]->setImage("");
+			}
+		}
+		$this->object->saveToDb();
 		$this->editQuestion();
 	}
 }

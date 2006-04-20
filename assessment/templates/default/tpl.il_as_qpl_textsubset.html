@@ -72,19 +72,19 @@
 <!-- BEGIN answersheading -->
 <tr class="tblheader">
   <th width="25"></th>
-  <th>{TEXT_ANSWER_TEXT}</th>
-	<th>{TEXT_POINTS}</th>
+  <th class="std">{TEXT_ANSWER_TEXT}</th>
+	<th class="std">{TEXT_POINTS}</th>
 </tr>
 <!-- END answersheading -->
 <!-- BEGIN answers -->
-<tr class="{ROWCLASS}">
+<tr class="tblrow1">
   <td width="25"><input type="checkbox" name="chb_answers[]" id="chb_{ANSWER_ORDER}" value="{ANSWER_ORDER}" /></td>
   <td><input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" /></td>
 	<td><input name="points_{ANSWER_ORDER}" type="text" size="3" value="{VALUE_POINTS}" /></td>
 </tr>
 <!-- END answers -->
 <!-- BEGIN selectall -->
-<tr class="{ROWCLASS}">
+<tr class="tblrow1">
 	<td><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('frm_textsubset', 'chb_answers', document.frm_textsubset.chb_check_all.checked);" /></td>
   <td colspan="2"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>

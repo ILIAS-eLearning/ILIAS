@@ -92,19 +92,15 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->getQuestionTemplate("qt_textsubset");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_textsubset.html", true);
 		// output of existing single response answers
-		$rows = array("tblrow1", "tblrow2");
-		$rowcounter = 0;
 		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
 		{
 			$this->tpl->setCurrentBlock("answers");
-			$this->tpl->setVariable("ROWCLASS", $rows[$rowcounter % 2]);
 			$answer = $this->object->getAnswer($i);
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
 			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
 			$this->tpl->setVariable("VALUE_POINTS", htmlspecialchars($answer->getPoints()));
 			$this->tpl->parseCurrentBlock();
-			$rowcounter++;
 		}
 		if ($this->object->getAnswerCount() > 0)
 		{
@@ -183,8 +179,6 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		if ($this->object->getAnswerCount() > 0)
 		{
 			$this->tpl->setCurrentBlock("selectall");
-			$rowcounter++;
-			$this->tpl->setVariable("ROWCLASS", $rows[$rowcounter % 2]);
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("existinganswers");
