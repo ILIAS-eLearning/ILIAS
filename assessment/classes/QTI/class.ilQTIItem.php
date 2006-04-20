@@ -31,6 +31,8 @@ define ("QT_ORDERING", 5);
 define ("QT_IMAGEMAP", 6);
 define ("QT_JAVAAPPLET", 7);
 define ("QT_TEXT", 8);
+define ("QT_NUMERIC", 9);
+define ("QT_TEXTSUBSET", 10);
 
 /**
 * QTI item class
@@ -239,6 +241,10 @@ class ilQTIItem
 				return QT_JAVAAPPLET;
 			case "TEXT QUESTION":
 				return QT_TEXT;
+			case "NUMERIC QUESTION":
+				return QT_NUMERIC;
+			case "TEXTSUBSET QUESTION":
+				return QT_TEXTSUBSET;
 		}
 		if (!$this->presentation) return QT_UNKNOWN;
 		foreach ($this->presentation->order as $entry)

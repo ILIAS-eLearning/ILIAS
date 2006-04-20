@@ -713,17 +713,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		include_once "./classes/class.ilUtil.php";
-		$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
 		if (count($deleteable_questions) > 0)
 		{
 			foreach ($deleteable_questions as $question)
 			{
 				$this->tpl->setCurrentBlock("row");
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				if ($this->object->isInUse($question["question_id"]))
-				{
-					$this->tpl->setVariable("TXT_LOCKED", $img_locked);
-				}
 				$this->tpl->setVariable("TXT_TITLE", $question["title"]);
 				$this->tpl->setVariable("TXT_DESCRIPTION", $question["comment"]);
 				$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($question["type_tag"]));
@@ -939,7 +934,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
 		$colors = array("tblrow1", "tblrow2");
 		include_once "./classes/class.ilUtil.php";
-		$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
 		$counter = 0;
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
 		foreach ($table["rows"] as $data)

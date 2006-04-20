@@ -770,13 +770,29 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
 		$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
+		$data["shuffle_questions"] = 0;
 		if (!$this->object->isRandomTest())
 		{
-			$data["shuffle_questions"] = $_POST["chb_shuffle_questions"];
+			if ($_POST["chb_shuffle_questions"])
+			{
+				$data["shuffle_questions"] = $_POST["chb_shuffle_questions"];
+			}
 		}
 		else
 		{
 			$data["shuffle_questions"] = 1;
+		}
+		$data["show_solution_details"] = 1;
+		if (!$this->object->isOnlineTest())
+		{
+			if ($_POST["chb_show_solution_details"] != 1)
+			{
+				$data["show_solution_details"] = 0;
+			}
+		}
+		else
+		{
+			$data["show_solution_details"] = 0;
 		}
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST)
 		{
@@ -914,6 +930,14 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$this->object->setShuffleQuestions(FALSE);
+		}
+		if ($data["show_solution_details"])
+		{
+			$this->object->setShowSolutionDetails(TRUE);
+		}
+		else
+		{
+			$this->object->setShowSolutionDetails(FALSE);
 		}
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
 		{
@@ -1260,6 +1284,21 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
 			}
 		}
+
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS", $this->lng->txt("tst_show_solution_details"));
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION", $this->lng->txt("tst_show_solution_details_description"));
+		if ($this->object->isOnlineTest())
+		{
+			$this->tpl->setVariable("DISABLE_SHOW_SOLUTION_DETAILS", " disabled=\"disabled\"");
+		}
+		else
+		{
+			if ($this->object->getShowSolutionDetails())
+			{
+				$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
+			}
+		}
+
 		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS", $this->lng->txt("tst_hide_previous_results"));
 		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS_DESCRIPTION", $this->lng->txt("tst_hide_previous_results_description"));
 		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS", $this->lng->txt("tst_hide_title_points"));
