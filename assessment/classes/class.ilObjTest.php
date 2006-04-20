@@ -303,6 +303,14 @@ class ilObjTest extends ilObject
 */
 	var $pass_scoring;
 
+/**
+* Indicates if the questions in a test are shuffled before
+* a user accesses the test
+*
+* @var boolean
+*/
+	var $shuffle_questions;
+
 	/**
 	* Constructor
 	* @access	public
@@ -335,6 +343,7 @@ class ilObjTest extends ilObject
 		$this->ects_output = 0;
 		$this->ects_fx = "";
 		$this->random_test = 0;
+		$this->shuffle_questions = FALSE;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
 		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
@@ -1048,13 +1057,18 @@ class ilObjTest extends ilObject
 		{
 			$random_question_count = $this->ilias->db->quote($this->random_question_count . "");
 		}
+		$shuffle_questions = 0;
+		if ($this->getShuffleQuestions())
+		{
+			$shuffle_questions = 1;
+		}
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
     if ($this->test_id == -1) 
 		{
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, pass_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, pass_scoring, shuffle_questions, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->test_type . ""),
@@ -1082,6 +1096,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->count_system . ""),
 				$db->quote($this->mc_scoring . ""),
 				$db->quote($this->getPassScoring() . ""),
+				$db->quote($shuffle_questions . ""),
 				$db->quote($created)
       );
       
@@ -1109,7 +1124,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, pass_scoring = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, pass_scoring = %s, shuffle_questions = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
@@ -1135,6 +1150,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->count_system . ""),
 				$db->quote($this->mc_scoring . ""),
 				$db->quote($this->getPassScoring() . ""),
+				$db->quote($shuffle_questions . ""),
         $db->quote($this->test_id)
       );
       $result = $db->query($query);
@@ -1500,6 +1516,7 @@ class ilObjTest extends ilObject
 				$this->processing_time = $data->processing_time;
 				$this->enable_processing_time = $data->enable_processing_time;
 				$this->reporting_date = $data->reporting_date;
+				$this->setShuffleQuestions($data->shuffle_questions);
 				$this->starting_time = $data->starting_time;
 				$this->ending_time = $data->ending_time;
 				$this->ects_output = $data->ects_output;
@@ -1699,6 +1716,14 @@ class ilObjTest extends ilObject
   function setTestType($type = TYPE_ASSESSMENT) 
   {
     $this->test_type = $type;
+		if ($type == TYPE_VARYING_RANDOMTEST)
+		{
+			$this->setShuffleQuestions(TRUE);
+		}
+		else
+		{
+			$this->setShuffleQuestions(FALSE);
+		}
   }
 
 /**
@@ -1727,6 +1752,14 @@ class ilObjTest extends ilObject
   function setRandomTest($a_random_test = 0) 
 	{
     $this->random_test = $a_random_test;
+		if ($a_random_test) 
+		{
+			$this->setShuffleQuestions(TRUE);
+		}
+		else
+		{
+			$this->setShuffleQuestions(FALSE);
+		}
   }
 
 /**
@@ -6337,6 +6370,40 @@ class ilObjTest extends ilObject
 		}
 		return $removableQuestions;
 	}
+	
+/**
+* Returns the status of the shuffle_questions variable
+* 
+* Returns the status of the shuffle_questions variable
+*
+* @return boolean FALSE if the test questions are not shuffled, TRUE if the test questions are shuffled
+* @access public
+*/
+	function getShuffleQuestions()
+	{
+		return $this->shuffle_questions;
+	}
+	
+/**
+* Sets the status of the shuffle_questions variable
+* 
+* Sets the status of the shuffle_questions variable
+*
+* @param boolean $a_shuffle FALSE if the test questions are not shuffled, TRUE if the test questions are shuffled
+* @access public
+*/
+	function setShuffleQuestions($a_shuffle)
+	{
+		if ($a_shuffle)
+		{
+			$this->shuffle_questions = TRUE;
+		}
+		else
+		{
+			$this->shuffle_questions = FALSE;
+		}
+	}
+	
 } // END class.ilObjTest
 
 ?>
