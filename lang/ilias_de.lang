@@ -332,7 +332,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte F
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
-assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen? Wenn Sie gesperrte Fragen löschen, werden die Resultate aller Tests, die solche Fragen beinhalten, gelöscht!
+assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
 assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
 assessment#:#qpl_delete_describe_undeleteable_questions#:#Die folgenden Fragen werden von Zufallstests verwendet und können deshalb nicht gelöscht werden:

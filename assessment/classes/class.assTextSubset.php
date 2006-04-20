@@ -156,7 +156,7 @@ class ASS_TextSubset extends ASS_Question
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "QUESTIONTYPE");
-		$a_xml_writer->xmlElement("fieldentry", NULL, TextSubset_QUESTION_IDENTIFIER);
+		$a_xml_writer->xmlElement("fieldentry", NULL, TEXTSUBSET_QUESTION_IDENTIFIER);
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");

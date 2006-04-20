@@ -1601,7 +1601,7 @@ class ilTestOutputGUI
 				$this->tpl->setCurrentBlock("question");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				if ($this->object->isOnlineTest())
+				if ($this->object->isOnlineTest() || ($this->object->getShowSolutionDetails() == 0))
 					$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
 				else
 					$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "outEvaluationForm") . "&evaluation=" . $value["qid"] . "\">" . $value["title"] . "</a>");

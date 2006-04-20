@@ -344,7 +344,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment 
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)
-assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot delete these questions:
@@ -366,7 +366,7 @@ assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following quest
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
 assessment#:#qpl_online_property#:#Online
-assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
+assessment#:#qpl_online_property_description#:#Only online question pools could be used in tests.
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
@@ -587,6 +587,8 @@ assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_show_answer_print_sheet#:#Answers Printview
 assessment#:#tst_show_answer_sheet#:#Show answers
 assessment#:#tst_show_results#:#Show test results
+assessment#:#tst_show_solution_details#:#Score details
+assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions
 assessment#:#tst_shuffle_questions#:#Shuffle questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
 assessment#:#tst_signature#:#Signature
