@@ -508,7 +508,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		$imagetype = "image/jpeg";
 		if (preg_match("/.*\.(png|gif)$/", $this->get_image_filename(), $matches))
 		{
-			$imagetype = "images/" . $matches[1];
+			$imagetype = "image/" . $matches[1];
 		}
 		$attrs = array(
 			"imagtype" => $imagetype,

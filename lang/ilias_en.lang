@@ -171,6 +171,7 @@ assessment#:#create_imagemap#:#Create an Image map
 assessment#:#create_new#:#Create new
 assessment#:#definition#:#Definition
 assessment#:#delete_area#:#Delete area
+assessment#:#delete_image#:#Delete image
 assessment#:#delete_user_data#:#Delete test data of the selected users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
@@ -643,6 +644,7 @@ assessment#:#tt_varying_randomtest#:#Varying random test
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you do not want to delete the users test results, you can duplicate the question in the question pool and change that version.
+assessment#:#upload_image#:#Upload image
 assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this exam.

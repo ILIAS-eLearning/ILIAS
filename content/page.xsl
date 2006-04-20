@@ -2055,17 +2055,43 @@
 							</input>
 						</td>
 						<td class="nobackground" width="left">
-							<label>
-							<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
-							<xsl:value-of select="material/mattext"/>
-							</label>
+							<xsl:choose>
+								<xsl:when test="material/matimage">
+									<label>
+										<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
+										<img>
+											<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+											<xsl:choose>
+												<xsl:when test="string-length(material/mattext)">
+													<xsl:attribute name="alt"><xsl:value-of select="material/mattext"/></xsl:attribute>
+													<xsl:attribute name="title"><xsl:value-of select="material/mattext"/></xsl:attribute>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:attribute name="alt"><xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+													<xsl:attribute name="title"><xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+												</xsl:otherwise>
+											</xsl:choose>
+										</img>
+										<xsl:if test="string-length(material/mattext)">
+											<br />
+											<xsl:value-of select="material/mattext"/>
+										</xsl:if>
+									</label>
+								</xsl:when>
+								<xsl:otherwise>
+									<label>
+									<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
+									<xsl:value-of select="material/mattext"/>
+									</label>
+								</xsl:otherwise>
+							</xsl:choose>
 						</td>
 					</tr>
 				</xsl:for-each>
 			</table>
 		</xsl:when>
 
-		<!-- multiple choice single response -->
+		<!-- multiple choice multiple response -->
 		<xsl:when test = "@ident = 'MCMR'">
 			<table class="nobackground">
 				<xsl:for-each select="render_choice/response_label">
@@ -2079,10 +2105,36 @@
 							</input>
 						</td>
 						<td class="nobackground" width="left">
-							<label>
-							<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
-							<xsl:value-of select="material/mattext"/>
-							</label>
+							<xsl:choose>
+								<xsl:when test="material/matimage">
+									<label>
+										<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
+										<img>
+											<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+											<xsl:choose>
+												<xsl:when test="string-length(material/mattext)">
+													<xsl:attribute name="alt"><xsl:value-of select="material/mattext"/></xsl:attribute>
+													<xsl:attribute name="title"><xsl:value-of select="material/mattext"/></xsl:attribute>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:attribute name="alt"><xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+													<xsl:attribute name="title"><xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+												</xsl:otherwise>
+											</xsl:choose>
+										</img>
+										<xsl:if test="string-length(material/mattext)">
+											<br />
+											<xsl:value-of select="material/mattext"/>
+										</xsl:if>
+									</label>
+								</xsl:when>
+								<xsl:otherwise>
+									<label>
+									<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
+									<xsl:value-of select="material/mattext"/>
+									</label>
+								</xsl:otherwise>
+							</xsl:choose>
 						</td>
 					</tr>
 				</xsl:for-each>

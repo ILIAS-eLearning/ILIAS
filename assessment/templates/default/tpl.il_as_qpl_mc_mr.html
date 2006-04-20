@@ -55,19 +55,53 @@
 <!-- END numbers -->			
 	</select>
 </td>
+</tr>
+</table>
+<table class="fullwidth">
+<!-- BEGIN answersheading -->
+<tr class="tblheader">
+  <th width="25"></th>
+  <th class="std">{TEXT_ANSWER_TEXT}</th>
+	<th class="std">{TEXT_POINTS}</th>
+</tr>
+<!-- END answersheading -->
 <!-- BEGIN answers -->
-<tr>
-  <td class="option">{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</td>
-  <td class="option_value" width="50%"><input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" /></td>
-  <td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MULTIPLE_CHOICE_POINTS}" /> {TEXT_WHEN} <select name="status_{ANSWER_ORDER}" size="1"><option value="0"{UNCHECKED_SELECTED}>{TEXT_UNCHECKED}</option><option value="1"{CHECKED_SELECTED}>{TEXT_CHECKED}</option></select></td>
-  <td class="option_value" colspan="2">
-<!-- BEGIN deletebutton -->
-<div align="right"><input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" /></div>
-<!-- END deletebutton -->
-</td>
+<tr class="tblrow1top">
+  <td width="25">
+		<input type="checkbox" name="chb_answers[]" id="chb_{ANSWER_ORDER}" value="{ANSWER_ORDER}" />
+	</td>
+  <td width="70%">
+		<input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" />
+<!-- BEGIN graphical_answer -->
+		<br />
+		<input name="image_{ANSWER_ORDER}" type="file" size="30" /> <input type="submit" class="submit" name="cmd[upload_{ANSWER_ORDER}]" value="{UPLOAD_IMAGE}" />
+		<input type="hidden" name="uploaded_image_{ANSWER_ORDER}" value="{VALUE_IMAGE}" />
+<!-- BEGIN graphical_answer_image -->
+		<img src="{IMAGE_FILE}" alt="{IMAGE_ALT}" align="right" />
+		<input type="submit" class="submit" name="cmd[deleteImage_{ANSWER_ORDER}]" value="{DELETE_IMAGE}" />
+<!-- END graphical_answer_image -->
+<!-- END graphical_answer -->		
+	</td>
+  <td>
+		<input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MULTIPLE_CHOICE_POINTS}" /> {TEXT_WHEN} <select name="status_{ANSWER_ORDER}" size="1"><option value="0"{UNCHECKED_SELECTED}>{TEXT_UNCHECKED}</option><option value="1"{CHECKED_SELECTED}>{TEXT_CHECKED}</option></select>
+	</td>
 </tr>
 <!-- END answers -->
-<tr><td colspan="5" class="submit">
+<!-- BEGIN selectall -->
+<tr class="tblrow1">
+	<td><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('frm_multiple_choice', 'chb_answers', document.frm_multiple_choice.chb_check_all.checked);" /></td>
+  <td colspan="2"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
+<!-- BEGIN existinganswers -->
+<tr>
+	<td class="submit" width="20">{ARROW}</td>
+	<td class="submit" colspan="2">
+		<input type="submit" class="submit" name="cmd[deleteAnswer]" value="{DELETE}" />
+	</td>
+</tr>
+<!-- END existinganswers -->
+<tr><td colspan="3" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
 <input name="cmd[save]" type="submit" class="submit" id="save_multiple_choice" value="{SAVE}" /> <input name="cmd[saveEdit]" type="submit" class="submit" value="{SAVE_EDIT}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />

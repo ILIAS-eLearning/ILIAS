@@ -247,6 +247,41 @@ class ASS_MultipleChoice extends ASS_Question
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			$a_xml_writer->xmlStartTag("material");
 			$a_xml_writer->xmlElement("mattext", NULL, $answer->getAnswertext());
+			
+			if (strlen($answer->getImage()))
+			{
+				$imagetype = "image/jpeg";
+				if (preg_match("/.*\.(png|gif)$/", $answer->getImage(), $matches))
+				{
+					$imagetype = "image/" . $matches[1];
+				}
+				if ($force_image_references)
+				{
+					$attrs = array(
+						"imagtype" => $imagetype,
+						"label" => $answer->getImage(),
+						"uri" => $this->getImagePathWeb() . $answer->getImage()
+					);
+					$a_xml_writer->xmlElement("matimage", $attrs);
+				}
+				else
+				{
+					$imagepath = $this->getImagePath() . $answer->getImage();
+					$fh = @fopen($imagepath, "rb");
+					if ($fh != false)
+					{
+						$imagefile = fread($fh, filesize($imagepath));
+						fclose($fh);
+						$base64 = base64_encode($imagefile);
+						$attrs = array(
+							"imagtype" => $imagetype,
+							"label" => $answer->getImage(),
+							"embedded" => "base64"
+						);
+						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
+					}
+				}
+			}
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
@@ -476,12 +511,13 @@ class ASS_MultipleChoice extends ASS_Question
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
-				$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, correctness) VALUES (NULL, %s, %s, %s, %s, %s)",
-				$db->quote($this->id),
-				$db->quote($answer_obj->getAnswertext()),
-				$db->quote($answer_obj->getPoints() . ""),
-				$db->quote($answer_obj->getOrder() . ""),
-				$db->quote($answer_obj->getState() . "")
+				$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, correctness, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+					$db->quote($this->id),
+					$db->quote($answer_obj->getAnswertext()),
+					$db->quote($answer_obj->getPoints() . ""),
+					$db->quote($answer_obj->getOrder() . ""),
+					$db->quote($answer_obj->getState() . ""),
+					$db->quote($answer_obj->getImage() . "")
 				);
 				$answer_result = $db->query($query);
 			}
@@ -531,7 +567,7 @@ class ASS_MultipleChoice extends ASS_Question
 
 			$result = $db->query($query);
 
-			include_once "./assessment/classes/class.assAnswerBinaryState.php";
+			include_once "./assessment/classes/class.assAnswerBinaryStateImage.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -545,7 +581,7 @@ class ASS_MultipleChoice extends ASS_Question
 							$data->points = 0;
 						}
 					}
-					array_push($this->answers, new ASS_AnswerBinaryState($data->answertext, $data->points, $data->aorder, $data->correctness));
+					array_push($this->answers, new ASS_AnswerBinaryStateImage($data->answertext, $data->points, $data->aorder, $data->correctness, $data->imagefile));
 				}
 			}
 		}
@@ -733,7 +769,7 @@ class ASS_MultipleChoice extends ASS_Question
 	/**
 	* Adds a possible answer for a multiple choice question
 	*
-	* Adds a possible answer for a multiple choice question. A ASS_AnswerBinaryState object will be
+	* Adds a possible answer for a multiple choice question. A ASS_AnswerBinaryStateImage object will be
 	* created and assigned to the array $this->answers.
 	*
 	* @param string $answertext The answer text
@@ -742,13 +778,14 @@ class ASS_MultipleChoice extends ASS_Question
 	* @param integer $order A possible display order of the answer
 	* @access public
 	* @see $answers
-	* @see ASS_AnswerBinaryState
+	* @see ASS_AnswerBinaryStateImage
 	*/
 	function addAnswer(
 		$answertext = "",
 		$points = 0.0,
 		$state = 0,
-		$order = 0
+		$order = 0,
+		$answerimage = ""
 	)
 	{
 		$found = -1;
@@ -759,11 +796,11 @@ class ASS_MultipleChoice extends ASS_Question
 				$found = $order;
 			}
 		}
-		include_once "./assessment/classes/class.assAnswerBinaryState.php";
+		include_once "./assessment/classes/class.assAnswerBinaryStateImage.php";
 		if ($found >= 0)
 		{
 			// Antwort einfügen
-			$answer = new ASS_AnswerBinaryState($answertext, $points, $found, $state);
+			$answer = new ASS_AnswerBinaryStateImage($answertext, $points, $found, $state, $answerimage);
 			array_push($this->answers, $answer);
 			for ($i = $found + 1; $i < count($this->answers); $i++)
 			{
@@ -774,7 +811,7 @@ class ASS_MultipleChoice extends ASS_Question
 		else
 		{
 			// Anwort anhängen
-			$answer = new ASS_AnswerBinaryState($answertext, $points, count($this->answers), $state);
+			$answer = new ASS_AnswerBinaryStateImage($answertext, $points, count($this->answers), $state, $answerimage);
 			array_push($this->answers, $answer);
 		}
 	}
@@ -800,7 +837,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* answer is 0, the index of the second answer is 1 and so on.
 	*
 	* @param integer $index A nonnegative index of the n-th answer
-	* @return object ASS_AnswerBinaryState-Object containing the answer
+	* @return object ASS_AnswerBinaryStateImage-Object containing the answer
 	* @access public
 	* @see $answers
 	*/
@@ -1342,6 +1379,69 @@ class ASS_MultipleChoice extends ASS_Question
 		global $ilUser;
 		$ilUser->writePref("graphicalAnswerSetting", $a_setting);
 	}
+
+	/**
+	* Sets the image file
+	*
+	* Sets the image file and uploads the image to the object's image directory.
+	*
+	* @param string $image_filename Name of the original image file
+	* @param string $image_tempfilename Name of the temporary uploaded image file
+	* @return integer An errorcode if the image upload fails, 0 otherwise
+	* @access public
+	*/
+	function setImageFile($image_filename, $image_tempfilename = "")
+	{
+		$result = 0;
+		if (!empty($image_tempfilename))
+		{
+			$image_filename = str_replace(" ", "_", $image_filename);
+			$imagepath = $this->getImagePath();
+			if (!file_exists($imagepath))
+			{
+				ilUtil::makeDirParents($imagepath);
+			}
+			//if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
+			if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath.$image_filename))
+			{
+				$result = 2;
+			}
+			else
+			{
+				include_once "./content/classes/Media/class.ilObjMediaObject.php";
+				$mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
+				if (!preg_match("/^image/", $mimetype))
+				{
+					unlink($imagepath . $image_filename);
+					$result = 1;
+				}
+				else
+				{
+					// create thumbnail file
+					$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
+					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, "JPEG", 100);
+				}
+			}
+		}
+		return $result;
+	}
+	
+	/**
+	* Deletes an image file
+	*
+	* Deletes an image file
+	*
+	* @param string $image_filename Name of the image file to delete
+	* @access private
+	*/
+	function deleteImage($image_filename)
+	{
+		$imagepath = $this->getImagePath();
+		unlink($imagepath . $image_filename);
+		$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
+		unlink($thumbpath);
+	}
+
 }
 
 ?>
