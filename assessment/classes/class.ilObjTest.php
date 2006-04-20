@@ -3180,6 +3180,11 @@ class ilObjTest extends ilObject
 		else 
 		{
 			$sequence_arr = array_flip($this->questions);
+			if ($this->getShuffleQuestions())
+			{
+				$sequence_arr = array_values($sequence_arr);
+				$sequence_arr = $this->pcArrayShuffle($sequence_arr);
+			}
 			$sequence = join($sequence_arr, ",");
 			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, sequence, postponed, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($ilUser->id),
@@ -3191,6 +3196,35 @@ class ilObjTest extends ilObject
 			);
 		}
 		$db->query($query);
+	}
+	
+	/**
+	* Shuffles the values of a given array
+	*
+	* Shuffles the values of a given array
+	*
+	* @param array $array An array which should be shuffled
+	* @access public
+	*/
+	function pcArrayShuffle($array)
+	{
+		mt_srand((double)microtime()*1000000);
+		$i = count($array);
+		if ($i > 0)
+		{
+			while(--$i)
+			{
+				$j = mt_rand(0, $i);
+				if ($i != $j)
+				{
+					// swap elements
+					$tmp = $array[$j];
+					$array[$j] = $array[$i];
+					$array[$i] = $tmp;
+				}
+			}
+		}
+		return $array;
 	}
 	
 	/**
