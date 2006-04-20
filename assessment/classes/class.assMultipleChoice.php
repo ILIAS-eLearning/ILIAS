@@ -581,6 +581,11 @@ class ASS_MultipleChoice extends ASS_Question
 							$data->points = 0;
 						}
 					}
+					$imagefilename = $this->getImagePath() . $data->imagefile;
+					if (!@file_exists($imagefilename))
+					{
+						$data->imagefile = "";
+					}
 					array_push($this->answers, new ASS_AnswerBinaryStateImage($data->answertext, $data->points, $data->aorder, $data->correctness, $data->imagefile));
 				}
 			}
@@ -865,6 +870,8 @@ class ASS_MultipleChoice extends ASS_Question
 		if ($index < 0) return;
 		if (count($this->answers) < 1) return;
 		if ($index >= count($this->answers)) return;
+		$answer = $this->answers[$index];
+		if (strlen($answer->getImage())) $this->deleteImage($answer->getImage());
 		unset($this->answers[$index]);
 		$this->answers = array_values($this->answers);
 		for ($i = 0; $i < count($this->answers); $i++)

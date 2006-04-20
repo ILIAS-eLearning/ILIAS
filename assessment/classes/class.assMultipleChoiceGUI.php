@@ -130,6 +130,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$answer = $this->object->getAnswer($i);
 				if ($graphical_answer_setting == 1)
 				{
+					$imagefilename = $this->object->getImagePath() . $answer->getImage();
+					if (!@file_exists($imagefilename))
+					{
+						$answer->setImage("");
+					}
 					if (strlen($answer->getImage()))
 					{
 						$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
@@ -317,6 +322,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$answer = $this->object->getAnswer($i);
 				if ($graphical_answer_setting == 1)
 				{
+					$imagefilename = $this->object->getImagePath() . $answer->getImage();
+					if (!@file_exists($imagefilename))
+					{
+						$answer->setImage("");
+					}
 					if (strlen($answer->getImage()))
 					{
 						$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
@@ -604,10 +614,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		{
 			if (preg_match("/answer_(\d+)/", $key, $matches))
 			{
-				if (!$value)
+				if (strlen($value) == 0)
 				{
-//echo "<br>checkInput2:FALSE";
-					return false;
+					if (strlen($_POST["uploaded_image_".$matches[1]]) == 0)
+					{
+						return false;
+					}
 				}
 			}
 		}
@@ -1153,7 +1165,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	
 	function deleteImage()
 	{
-		$this->writePostData();
+		if ($this->writePostData())
+		{
+			sendInfo($this->getErrorMessage());
+			$this->editQuestion();
+			return;
+		}
 		$imageorder = "";
 		foreach ($_POST["cmd"] as $key => $value)
 		{
@@ -1171,7 +1188,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->object->answers[$i]->setImage("");
 			}
 		}
-		$this->object->saveToDb();
 		$this->editQuestion();
 	}
 }
