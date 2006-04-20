@@ -770,6 +770,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
 		$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
+		if (!$this->object->isRandomTest())
+		{
+			$data["shuffle_questions"] = $_POST["chb_shuffle_questions"];
+		}
+		else
+		{
+			$data["shuffle_questions"] = 1;
+		}
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST)
 		{
 			$data["score_reporting"] = REPORT_AFTER_TEST;
@@ -899,7 +907,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$this->object->setHidePreviousResults($data["hide_previous_results"]);
 		$this->object->setHideTitlePoints($data["hide_title_points"]);
-		
+		if ($data["shuffle_questions"])
+		{
+			$this->object->setShuffleQuestions(TRUE);
+		}
+		else
+		{
+			$this->object->setShuffleQuestions(FALSE);
+		}
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
 		{
 			$this->object->setScoreReporting(1);
@@ -1203,6 +1218,20 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("SELECTED_FIXED", " selected=\"selected\"");
 		} elseif ($data["sequence_settings"] == 1) {
 			$this->tpl->setVariable("SELECTED_POSTPONE", " selected=\"selected\"");
+		}
+		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS", $this->lng->txt("tst_shuffle_questions"));
+		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS_DESCRIPTION", $this->lng->txt("tst_shuffle_questions_description"));
+		if ($this->object->isRandomTest())
+		{
+			$this->tpl->setVariable("CHECKED_SHUFFLE_QUESTIONS", " checked=\"checked\"");
+			$this->tpl->setVariable("DISABLE_SHUFFLE_QUESTIONS", " disabled=\"disabled\"");
+		}
+		else
+		{
+			if ($this->object->getShuffleQuestions())
+			{
+				$this->tpl->setVariable("CHECKED_SHUFFLE_QUESTIONS", " checked=\"checked\"");
+			}
 		}
 		$this->tpl->setVariable("HEADING_SCORE", $this->lng->txt("tst_score_reporting"));
 		$this->tpl->setVariable("TEXT_SCORE_TYPE", $this->lng->txt("tst_score_type"));
