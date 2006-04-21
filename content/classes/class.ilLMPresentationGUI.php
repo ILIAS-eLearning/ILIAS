@@ -1426,7 +1426,7 @@ class ilLMPresentationGUI
 		include_once("classes/class.ilRepositoryExplorer.php");
 		foreach($conds as $cond)
 		{
-			$obj_link = "../".ilRepositoryExplorer::buildLinkTarget($cond["trigger_ref_id"],$cond["trigger_type"]);
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($cond["trigger_ref_id"],$cond["trigger_type"]);
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($cond["trigger_type"],$cond["trigger_ref_id"],$cond["trigger_obj_id"]);
 			$this->tpl->setCurrentBlock("condition");
 			$this->tpl->setVariable("ROWCOL", $rc = ($rc != "tblrow2") ? "tblrow2" : "tblrow1");
