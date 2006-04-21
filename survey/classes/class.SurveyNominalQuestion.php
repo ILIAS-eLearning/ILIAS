@@ -76,7 +76,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		$questiontext = "",
     $owner = -1,
 		$subtype = SUBTYPE_MCSR,
-		$orientation = 1 
+		$orientation = 0 
   )
 
   {
