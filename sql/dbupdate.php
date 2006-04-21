@@ -10302,7 +10302,7 @@ CREATE TABLE `survey_question_metric` (
 CREATE TABLE `survey_question_nominal` (
   `question_fi` int(11) NOT NULL default '0',
   `subtype` enum('1','2') NOT NULL default '1',
-  `orientation` enum('1','2') NOT NULL default '1',
+  `orientation` enum('0','1','2') NOT NULL default '0',
   PRIMARY KEY  (`question_fi`)
 ) TYPE=MyISAM;
 
@@ -10543,3 +10543,5 @@ ALTER TABLE survey_survey CHANGE anonymize anonymize ENUM('0','1','2') NOT NULL 
 ALTER TABLE `tst_tests` ADD `shuffle_questions` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `ending_time` ;
 <#689>
 ALTER TABLE `tst_tests` ADD `show_solution_details` ENUM( '0', '1' ) NOT NULL DEFAULT '1';
+<#690>
+ALTER TABLE `survey_question_nominal` CHANGE `orientation` `orientation` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0';
