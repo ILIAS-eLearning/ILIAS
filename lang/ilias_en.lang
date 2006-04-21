@@ -2062,9 +2062,10 @@ common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
 common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
-common#:#learning_progress#:#Learning progress
+common#:#learning_progress#:#Learning Progress
 common#:#learning_resource#:#Learning Resource
 common#:#learning_resources#:#Learning Resources
+common#:#learning_resourc#:#Learning Resourc
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#link_check#:#Link check
