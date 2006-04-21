@@ -595,9 +595,6 @@ class ilConditionHandler
 
 	function checkCircle($a_obj_id)
 	{
-		// Temporally disabled
-		return false;
-
 		foreach(ilConditionHandler::_getConditionsOfTarget($a_obj_id) as $condition)
 		{
 			if($condition['trigger_obj_id'] == $this->target_obj_id and $condition['operator'] == $this->getOperator())

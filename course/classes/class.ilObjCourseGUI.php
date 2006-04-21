@@ -4355,7 +4355,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				if($_GET['item_id'])
 				{
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-					$this->tabs_gui->setTabActive('edit_content');
+					
+					$this->object->enabledObjectiveView() ? 
+						$this->tabs_gui->setTabActive('edit_content') :
+						$this->tabs_gui->setTabActive('content');
 					$this->setSubTabs("item_activation");
 
 					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
