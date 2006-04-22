@@ -46,6 +46,7 @@ class SurveyQuestionGUI
   var $object;
 	var $tpl;
 	var $lng;
+	var $errormessage;
 /**
 * SurveyQuestion constructor
 *
@@ -172,6 +173,7 @@ class SurveyQuestionGUI
 		global $ilUser;
 		
 		$old_id = $_GET["q_id"];
+		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
 		$result = $this->writePostData();
 		if ($result == 0)
 		{
@@ -210,7 +212,7 @@ class SurveyQuestionGUI
 		}
 		else
 		{
-      sendInfo($this->lng->txt("fill_out_all_required_fields"));
+      sendInfo($this->errormessage);
 		}
 		$this->editQuestion();
 	}

@@ -91,8 +91,8 @@ class SurveyMetricQuestion extends SurveyQuestion
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->subtype = $subtype;
-		$this->minimum = 0;
-		$this->maximum = "&infin;";
+		$this->minimum = "";
+		$this->maximum = "";
 	}
 	
 /**
@@ -132,7 +132,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 * @access public
 * @see $maximum
 */
-  function setMaximum($maximum = "&infin;") 
+  function setMaximum($maximum = "") 
 	{
     $this->maximum = $maximum;
   }
@@ -162,6 +162,10 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
 	function getMinimum() 
 	{
+		if ((strlen($this->minimum) == 0) && ($this->getSubtype() > 3))
+		{
+			$this->minimum = 0;
+		}
 		return $this->minimum;
 	}
 	
@@ -224,7 +228,7 @@ class SurveyMetricQuestion extends SurveyQuestion
           $this->minimum = $data->value1;
 					if (($data->value2 < 0) or (strcmp($data->value2, "") == 0))
 					{
-						$this->maximum = "&infin;";
+						$this->maximum = "";
 					}
 					else
 					{
