@@ -200,7 +200,16 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$this->object->setObligatory(0);
 		}
 		$this->object->setSubtype($_POST["type"]);
-		$this->object->setMinimum($_POST["minimum"]);
+		$minimum = $_POST["minimum"];
+		if ($this->object->getSubtype() > 3)
+		{
+			if ($minimum < 0)
+			{
+				$this->errormessage = $this->lng->txt("ratio_scale_ge_zero");
+				$result = 1;
+			}
+		}
+		$this->object->setMinimum($minimum);
 		$this->object->setMaximum($_POST["maximum"]);
 
 		if ($saved) {
@@ -230,6 +239,22 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$this->tpl->parseCurrentBlock();
 		}
+
+		if (strlen($this->object->getMinimum()))
+		{
+			$this->tpl->setCurrentBlock("minimum");
+			$this->tpl->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
+			$this->tpl->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
+			$this->tpl->parseCurrentBlock();
+		}
+		if (strlen($this->object->getMaximum()))
+		{
+			$this->tpl->setCurrentBlock("maximum");
+			$this->tpl->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
+			$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("question_data_metric");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
 		if (! $this->object->getObligatory())
@@ -241,10 +266,6 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		}
 		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-		$this->tpl->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
-		$this->tpl->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
-		$this->tpl->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
-		$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 		if (is_array($working_data))
 		{

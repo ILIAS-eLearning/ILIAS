@@ -366,32 +366,48 @@ class ilSurveyExecutionGUI
 			// replace german notation with international notation
 			$entered_value = str_replace(",", ".", $entered_value);
 			$_POST[$data["question_id"] . "_metric_question"] = $entered_value;
-			if (((($entered_value < $variables[0]->value1) or (($entered_value > $variables[0]->value2) and ($variables[0]->value2 > 0)))) && $data["obligatory"])
+			if (!((strlen($entered_value) == 0) && (!$data["obligatory"])))
 			{
-				// there is an error: value is not in bounds
-				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
-				$error = 1;
-			}
-			if (!is_numeric($entered_value) && ($data["obligatory"]))
-			{
-				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_not_a_value");
-				$error = 1;
-			}
-			if ((strcmp($entered_value, "") == 0) && ($data["obligatory"]))
-			{
-				// there is an error: value is not in bounds
-				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
-				$error = 1;
-			}
-			include_once "./survey/classes/class.SurveyMetricQuestion.php";
-			if (($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)) && ($data["obligatory"]))
-			{
-				$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_floating_point");
-				$error = 1;
-			}
-			if (($error == 0) && (strcmp($entered_value, "") != 0))
-			{
-				$save_answer = 1;
+				if ($data["subtype"] > 3) $variables[0]->value1 = 0;
+				if (strlen($variables[0]->value1))
+				{
+					if ($entered_value < $variables[0]->value1)
+					{
+						$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
+						$error = 1;
+					}
+				}
+				if (strlen($variables[0]->value2))
+				{
+					if ($entered_value > $variables[0]->value2)
+					{
+						$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
+						$error = 1;
+					}
+				}
+
+				if (!is_numeric($entered_value))
+				{
+					$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_not_a_value");
+					$error = 1;
+				}
+				if (strcmp($entered_value, "") == 0)
+				{
+					// there is an error: value is not in bounds
+					$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
+					$error = 1;
+				}
+
+				include_once "./survey/classes/class.SurveyMetricQuestion.php";
+				if (($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)))
+				{
+					$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_floating_point");
+					$error = 1;
+				}
+				if (($error == 0) && (strcmp($entered_value, "") != 0))
+				{
+					$save_answer = 1;
+				}
 			}
 		}
 		if (strcmp($data["type_tag"], "SurveyNominalQuestion") == 0)
