@@ -4375,6 +4375,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmSubmitAnswers":
 			case "finalSubmission":
 			case "postpone":
+			case "redirectQuestion":
 			case "outResultsOverview":
 				return;
 				break;

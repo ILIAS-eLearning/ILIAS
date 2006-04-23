@@ -14,7 +14,7 @@
 					<tr>
 						<td align="left" width="33%">
 <!-- BEGIN prev -->
-<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="prevbutton" onclick="javascript:disableButton('test_output', document.getElementById('prevbutton'), '{PLEASE_WAIT}');" />
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="prevbutton" />
 <!-- END prev -->
 						</td>
 						<td align="center" >
@@ -41,16 +41,16 @@ text-align: center;">
 </td>
 <td align="left" width="1" >
 <!-- BEGIN summary -->
-<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="summarybutton" onclick="javascript:disableButton('test_output', document.getElementById('summarybutton'), '{PLEASE_WAIT}');" />
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="summarybutton" />
 <!-- END summary -->
 </td>
 <td align="right" width="33%">
 <!-- BEGIN postpone -->
-	<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" id="postponebutton" onclick="javascript:disableButton('test_output', document.getElementById('postponebutton'), '{PLEASE_WAIT}');" />
+	<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" id="postponebutton" />
 	&nbsp;&nbsp;
 	<!-- END postpone -->
 	<!-- BEGIN next -->
-	<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" id="nextbutton" onclick="javascript:disableButton('test_output', document.getElementById('nextbutton'), '{PLEASE_WAIT}');" />
+	<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" id="nextbutton" />
 	<!-- END next -->
 					</td>
 				</tr>
@@ -82,7 +82,7 @@ text-align: center;">
 {RESULT_DESCRIPTION}
 <!-- BEGIN question_status --><table><tr valign="top"><td><small>{TEXT_QUESTION_STATUS_LABEL}</small></td><td>{TEXT_QUESTION_STATUS}</td></tr></table><!-- END question_status -->
 <p>
-<!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" id="directfeedback" value="{TEXT_DIRECT_FEEDBACK}" onclick="javascript:disableButton('test_output', document.getElementById('directfeedback'), '{PLEASE_WAIT}');" /><!-- END direct_feedback -->
+<!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" id="directfeedback" value="{TEXT_DIRECT_FEEDBACK}" /><!-- END direct_feedback -->
 </p>
 <!-- BEGIN navigation_bottom -->
 			<div class="il_Header">
@@ -90,7 +90,7 @@ text-align: center;">
 					<tr>
 						<td align="left" width="33%">
 <!-- BEGIN prev_bottom -->
-<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="bottomprevbutton" onclick="javascript:disableButton('test_output', document.getElementById('bottomprevbutton'), '{PLEASE_WAIT}');" />
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="bottomprevbutton" />
 <!-- END prev_bottom -->
 						</td>
 						<td align="center" >
@@ -117,16 +117,16 @@ text-align: center;">
 </td>
 <td align="left" width="1">
 <!-- BEGIN summary_bottom  -->
-<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="bottomsummarybutton" onclick="javascript:disableButton('test_output', document.getElementById('bottomsummarybutton'), '{PLEASE_WAIT}');" />
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="bottomsummarybutton" />
 <!-- END summary_bottom -->
 </td>
 <td align="right" width="33%">
 <!-- BEGIN postpone_bottom -->
-<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" id="bottompostponebutton" onclick="javascript:disableButton('test_output', document.getElementById('bottompostponebutton'), '{PLEASE_WAIT}');" />
+<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" id="bottompostponebutton" />
 &nbsp;&nbsp;
 <!-- END postpone_bottom -->
 <!-- BEGIN next_bottom -->
-<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" id="bottomnextbutton" onclick="javascript:disableButton('test_output', document.getElementById('bottomnextbutton'), '{PLEASE_WAIT}');" />
+<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" id="bottomnextbutton" />
 <!-- END next_bottom -->
 					</td>
 				</tr>
@@ -144,6 +144,7 @@ text-align: center;">
 </td>
 	</tr>
 </table>
+<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 </form>
 <!-- BEGIN js_initialize -->
 {JS_INITIALIZE}

@@ -78,7 +78,7 @@ class ilTestOutputGUI
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
-		$this->ctrl->saveParameter($this, "sequence", $_GET["sequence"]);
+		$this->ctrl->saveParameter($this, "sequence");
 
 		$cmd = $this->getCommand($cmd);
 		switch($next_class)
@@ -145,6 +145,16 @@ class ilTestOutputGUI
 	function saveQuestionSolution()
 	{
 		$this->saveResult = false;
+		$formtimestamp = $_POST["formtimestamp"];
+		if (strlen($formtimestamp) == 0) $formtimestamp = $_GET["formtimestamp"]; 
+		if ($formtimestamp != $_SESSION["formtimestamp"])
+		{
+			$_SESSION["formtimestamp"] = $formtimestamp;
+		}
+		else
+		{
+			return;
+		}
 		// save question solution
 		if ($this->canSaveResult())
 		{
@@ -336,7 +346,7 @@ class ilTestOutputGUI
 	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
 	{
 		global $ilUser;
-		
+
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -369,14 +379,16 @@ class ilTestOutputGUI
 			}
 		}
 
-		$formaction = $this->ctrl->getFormAction($this) . "&sequence=$sequence";
+		$this->ctrl->setParameter($this, "sequence", "$sequence");
+		$formaction = $this->ctrl->getFormAction($this);
 		$question_gui->setSequenceNumber($sequence);
 				
 		// output question
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
-				$formaction = $this->ctrl->getLinkTargetByClass(get_class($this), "selectImagemapRegion") . "&sequence=$sequence";
+				$this->ctrl->setParameter($this, "formtimestamp", time());
+				$formaction = $this->ctrl->getLinkTargetByClass(get_class($this), "selectImagemapRegion");
 				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback, $formaction, true);
 				if (ilObjTest::_getHidePreviousResults($test_id, true))
 				{
@@ -424,11 +436,9 @@ class ilTestOutputGUI
 		if ($sequence == $first_sequence)
 		{
 			$this->tpl->setCurrentBlock("prev");
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("prev_bottom");
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -436,11 +446,9 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("prev");
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("prev_bottom");
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -449,11 +457,9 @@ class ilTestOutputGUI
 			if (!$is_postponed)
 			{
 				$this->tpl->setCurrentBlock("postpone");
-				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("postpone_bottom");
-				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -463,11 +469,9 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("summary");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("summary_bottom");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -497,22 +501,18 @@ class ilTestOutputGUI
 			{
 				$this->tpl->setCurrentBlock("next");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("next_bottom");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();
 			} 
 			else 
 			{
 				$this->tpl->setCurrentBlock("next");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
-				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("next_bottom");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
-				$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 				$this->tpl->parseCurrentBlock();				
 			}
 		}
@@ -520,11 +520,9 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("next");
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("next_bottom");
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -679,52 +677,134 @@ class ilTestOutputGUI
 		}
 	}
 	
-/**
-* Set a question solved
-*
-* Set a question solved
-*
-* @access public
-*/
-	function setsolved()
+	function redirectQuestion()
 	{
-		if ($_SESSION["tst_setsolved"] != 1)
+		global $ilUser;
+		include_once "./assessment/classes/class.ilObjTest.php";
+		switch ($_GET["activecommand"])
 		{
-			$_SESSION["tst_setsolved"] = 1;
-			global $ilUser;
-			$this->saveQuestionSolution();
-			$this->sequence = $this->getSequence();	
-			$this->object->setActiveTestUser($this->sequence);
-			$value = ($_POST["cmd"]["resetsolved"])?0:1;			
-			$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
-			$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
-			$this->outTestPage();
-			unset($_SESSION["tst_setsolved"]);
+			case "next":
+				$this->sequence = $this->calculateSequence();
+				// calculate count of questions statically to prevent problems with
+				// random tests. If the numer of questions in the used questionpools
+				// has been reduced lower than the number of questions which should be
+				// chosen, the dynamic method fails because it returns the number of questions
+				// that should be chosen. This leds to an error if the test is completed
+				$questioncount = ilObjTest::_getQuestionCount($this->object->getTestId(), $ilUser->getId());
+				if ($this->sequence > $questioncount)
+		//			if ($this->sequence > $this->object->getQuestionCount())
+				{
+					if ($this->object->isOnlineTest())
+					{
+						$this->outTestSummary();
+					}
+					else
+					{
+						$this->ctrl->redirect($this, "finishTest");
+					}
+				}
+				else
+				{
+					$this->object->setActiveTestUser($this->sequence);
+					$this->outTestPage();
+				}
+				break;
+			case "previous":
+				$this->sequence = $this->calculateSequence();
+				$this->object->setActiveTestUser($this->sequence);
+				if (!$this->sequence)
+				{
+					$this->ctrl->redirect($this, "outIntroductionPage");
+				}
+				else
+				{
+					$this->outTestPage();
+				}
+				break;
+			case "postpone":
+				$this->sequence = $this->calculateSequence();	
+				$postpone = $this->sequence;
+				$this->object->setActiveTestUser($this->sequence, $postpone);
+				$this->outTestPage();
+			case "setsolved":
+				$this->sequence = $this->calculateSequence();	
+				$this->object->setActiveTestUser($this->sequence);
+				$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
+				$this->object->setQuestionSetSolved(1, $q_id, $ilUser->getId());
+				$this->outTestPage();
+				break;
+			case "resetsolved":
+				$this->sequence = $this->calculateSequence();	
+				$this->object->setActiveTestUser($this->sequence);
+				$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
+				$this->object->setQuestionSetSolved(0, $q_id, $ilUser->getId());
+				$this->outTestPage();
+				break;
+			case "directfeedback":
+				$this->sequence = $this->calculateSequence();	
+				$this->object->setActiveTestUser($this->sequence);
+				$this->outTestPage();
+				break;
+			case "selectImagemapRegion":
+				$this->sequence = $this->calculateSequence();	
+				$this->object->setActiveTestUser($this->sequence);
+				$this->outTestPage();
+				break;
+			case "summary":
+				$this->ctrl->redirect($this, "outTestSummary");
+				break;
+			default:
+				$this->sequence = $this->getSequence();	
+				$this->object->setActiveTestUser($this->sequence);
+				$this->outTestPage();
+				break;
 		}
 	}
-
-/**
-* Set a question unsolved
-*
-* Set a question unsolved
-*
-* @access public
-*/
-	function resetsolved()
+	
+	function calculateSequence() 
 	{
-		if ($_SESSION["tst_resetsolved"] != 1)
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
 		{
-			$_SESSION["tst_resetsolved"] = 1;
-			global $ilUser;
-			$this->saveQuestionSolution();
-			$this->sequence = $this->getSequence();	
-			$this->object->setActiveTestUser($this->sequence);
-			$value = ($_POST["cmd"]["resetsolved"])?0:1;			
-			$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
-			$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
-			$this->outTestPage();
-			unset($_SESSION["tst_resetsolved"]);
+			if ($this->object->isActiveTestSubmitted()) return "";
 		}
+		$sequence = $_GET["sequence"];
+		if (!$sequence) $sequence = 1;
+		switch ($_GET["activecommand"])
+		{
+			case "next":
+				if($_GET['crs_show_result'])
+				{
+					$sequence = $this->getNextSequenceByResult($sequence);
+				}
+				else
+				{
+					$sequence++;
+				}
+				break;
+			case "previous":
+				if($_GET['crs_show_result'])
+				{
+					$sequence = $this->getPreviousSequenceByResult($sequence);
+				}
+				else
+				{
+					$sequence--;
+				}
+				break;
+		}
+		
+		if ($_GET['crs_show_result'])
+		{
+			if(isset($_SESSION['crs_sequence'][0]))
+			{
+				$sequence = max($sequence,$_SESSION['crs_sequence'][0]);
+			}
+			else
+			{
+				$sequence = max($sequence,$this->object->getFirstSequence());
+			}
+		}
+		return $sequence;
 	}
 	
 /**
@@ -737,39 +817,115 @@ class ilTestOutputGUI
 	function next()
 	{
 		global $ilUser;
-		
-		if ($_SESSION["tst_next"] != 1)
-		{
-			$_SESSION["tst_next"] = 1;
-			$this->saveQuestionSolution();
+		$this->saveQuestionSolution();
+		$this->ctrl->setParameter($this, "activecommand", "next");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+	
+/**
+* Go to the previous question
+*
+* Go to the previous question
+*
+* @access public
+*/
+	function previous()
+	{
+		$this->saveQuestionSolution();
+		$this->ctrl->setParameter($this, "activecommand", "previous");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+	
+/**
+* Postpone a question to the end of the test
+*
+* Postpone a question to the end of the test
+*
+* @access public
+*/
+	function postpone()
+	{
+		$this->saveQuestionSolution();
+		$this->ctrl->setParameter($this, "activecommand", "postpone");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
 
-			$this->sequence = $this->getSequence();
-			// calculate count of questions statically to prevent problems with
-			// random tests. If the numer of questions in the used questionpools
-			// has been reduced lower than the number of questions which should be
-			// chosen, the dynamic method fails because it returns the number of questions
-			// that should be chosen. This leds to an error if the test is completed
-			$questioncount = ilObjTest::_getQuestionCount($this->object->getTestId(), $ilUser->getId());
-			if ($this->sequence > $questioncount)
-//			if ($this->sequence > $this->object->getQuestionCount())
-			{
-				if ($this->object->isOnlineTest())
-				{
-					$this->outTestSummary();
-					unset($_SESSION["tst_next"]);
-				}
-				else
-				{
-					$this->ctrl->redirect($this, "finishTest");
-				}
-			}
-			else
-			{
-				$this->object->setActiveTestUser($this->sequence);
-				$this->outTestPage();
-				unset($_SESSION["tst_next"]);
-			}
+/**
+* Show the question summary in online exams
+*
+* Show the question summary in online exams
+*
+* @access public
+*/
+	function summary()
+	{
+		$this->saveQuestionSolution();
+		$this->ctrl->setParameter($this, "activecommand", "summary");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+
+/**
+* Set a question solved
+*
+* Set a question solved
+*
+* @access public
+*/
+	function setsolved()
+	{
+		$this->saveQuestionSolution();
+		$this->ctrl->setParameter($this, "activecommand", "setsolved");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+
+/**
+* Set a question unsolved
+*
+* Set a question unsolved
+*
+* @access public
+*/
+	function resetsolved()
+	{
+		$this->saveQuestionSolution();
+		$this->ctrl->setParameter($this, "activecommand", "resetsolved");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+	
+/**
+* The direct feedback button was hit to show an instant feedback
+*
+* The direct feedback button was hit to show an instant feedback
+*
+* @access public
+*/
+	function directfeedback()
+	{
+		$this->saveQuestionSolution();
+		$this->ctrl->setParameter($this, "activecommand", "directfeedback");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+	
+/**
+* Select an image map region in an image map question
+*
+* Select an image map region in an image map question
+*
+* @access public
+*/
+	function selectImagemapRegion()
+	{
+		if (!(is_array($_POST) && (count($_POST))))
+		{
+			$this->saveQuestionSolution();
 		}
+		$activecommand = "selectImagemapRegion";
+		if (array_key_exists("cmd", $_POST))
+		{
+			$activecommand = key($_POST["cmd"]);
+		}
+		$this->ctrl->setParameter($this, "activecommand", $activecommand);
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	
 /**
@@ -787,37 +943,6 @@ class ilTestOutputGUI
 	}
 	
 /**
-* The direct feedback button was hit to show an instant feedback
-*
-* The direct feedback button was hit to show an instant feedback
-*
-* @access public
-*/
-	function directfeedback()
-	{
-		$this->saveQuestionSolution();
-		$this->gotoQuestion();
-	}
-	
-/**
-* Show the question summary in online exams
-*
-* Show the question summary in online exams
-*
-* @access public
-*/
-	function summary()
-	{
-		if ($_SESSION["tst_summary"] != 1)
-		{
-			$_SESSION["tst_summary"] = 1;
-			$this->saveQuestionSolution();
-			$this->outTestSummary();
-			unset($_SESSION["tst_summary"]);
-		}
-	}
-	
-/**
 * Go back to the last active question from the summary
 *
 * Go back to the last active question from the summary
@@ -829,106 +954,6 @@ class ilTestOutputGUI
 		$this->gotoQuestion();
 	}
 
-/**
-* Postpone a question to the end of the test
-*
-* Postpone a question to the end of the test
-*
-* @access public
-*/
-	function postpone()
-	{
-		if ($_SESSION["tst_postpone"] != 1)
-		{
-			$_SESSION["tst_postpone"] = 1;
-			$this->saveQuestionSolution();
-			$this->sequence = $this->getSequence();	
-			$postpone = $this->sequence;
-			$this->object->setActiveTestUser($this->sequence, $postpone);
-			$this->outTestPage();
-			unset($_SESSION["tst_postpone"]);
-		}
-	}
-	
-/**
-* Select an image map region in an image map question
-*
-* Select an image map region in an image map question
-*
-* @access public
-*/
-	function selectImagemapRegion()
-	{
-		if (array_key_exists("cmd", $_POST))
-		{
-			if (strlen($_POST["cmd"]["summary"]))
-			{
-				$this->summary();
-				return;
-			}
-			else if (strlen($_POST["cmd"]["setsolved"]))
-			{
-				$this->setsolved();
-				return;
-			}
-			else if (strlen($_POST["cmd"]["resetsolved"]))
-			{
-				$this->resetsolved();
-				return;
-			}
-			else if (strlen($_POST["cmd"]["next"]))
-			{
-				$this->next();
-				return;
-			}
-			else if (strlen($_POST["cmd"]["previous"]))
-			{
-				$this->previous();
-				return;
-			}
-			else if (strlen($_POST["cmd"]["postpone"]))
-			{
-				$this->postpone();
-				return;
-			}
-		}
-		$this->saveQuestionSolution();
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		$this->outTestPage();
-	}
-	
-/**
-* Go to the previous question
-*
-* Go to the previous question
-*
-* @access public
-*/
-	function previous()
-	{
-		if ($_SESSION["tst_previous"] != 1)
-		{
-			$_SESSION["tst_previous"] = 1;
-			$this->saveQuestionSolution();
-			$this->sequence = $this->getSequence();
-			$this->object->setActiveTestUser($this->sequence);
-			// sequence = 0
-			if (!$this->sequence)
-			{
-				// show introduction page
-				unset($_SESSION["tst_previous"]);
-				$this->ctrl->redirect($this, "outIntroductionPage");
-				//$this->outIntroductionPage();
-			}
-			else
-			{
-				$this->outTestPage();
-				unset($_SESSION["tst_previous"]);
-			}
-		}
-	}
-	
 /**
 * The final submission of a test was confirmed
 *
@@ -1057,7 +1082,6 @@ class ilTestOutputGUI
 		{
 			$this->tpl->setCurrentBlock("direct_feedback");
 			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
-			$this->tpl->setVariable("PLEASE_WAIT", $this->lng->txt("please_wait"));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -1089,7 +1113,10 @@ class ilTestOutputGUI
 			$this->outProcessingTime();
 		}
 
-		$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $_POST["cmd"]["directfeedback"], $show_summary);
+		$this->tpl->setVariable("FORM_TIMESTAMP", time());
+		$directfeedback = 0;
+		if (strcmp($_GET["activecommand"], "directfeedback") == 0) $directfeedback = 1;
+		$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $directfeedback, $show_summary);
 	}
 
 	/**
@@ -1689,7 +1716,7 @@ class ilTestOutputGUI
 	{
 		global $ilUser;
 
-		$this->ctrl->saveParameter($this, "pass", $_GET["pass"]);
+		$this->ctrl->saveParameter($this, "pass");
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));

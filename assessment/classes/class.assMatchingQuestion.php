@@ -1156,6 +1156,7 @@ class ASS_MatchingQuestion extends ASS_Question
 							$db->quote($activepass . "")
 						);
 						$result = $db->query($query);
+						echo $query;
 					}
 					else
 					{
