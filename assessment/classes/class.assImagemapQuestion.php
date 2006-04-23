@@ -410,13 +410,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 			{
         while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 				{
-					if ($data->correctness == 0)
-					{
-						// fix for older single response answers where points could be given for unchecked answers
-						$data->correctness = 1;
-						$data->points = 0;
-					}
-          array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->correctness, $data->coords, $data->area));
+          array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->coords, $data->area));
         }
       }
     }
@@ -740,7 +734,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		    	preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
 		    	preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
 		    	preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
-					$this->addAnswer($alt[1], 0.0, FALSE, count($this->answers), $coords[1], $shape[1]);
+					$this->addAnswer($alt[1], 0.0, count($this->answers), $coords[1], $shape[1]);
 		  	}
 			}
     }
@@ -826,7 +820,6 @@ class ASS_ImagemapQuestion extends ASS_Question
   function addAnswer(
     $answertext = "",
     $points = 0.0,
-    $status = 0,
     $order = 0,
     $coords="",
     $area=""
@@ -835,8 +828,8 @@ class ASS_ImagemapQuestion extends ASS_Question
 		include_once "./assessment/classes/class.assAnswerImagemap.php";
     if (array_key_exists($order, $this->answers)) 
 		{
-      // Antwort einf�gen
-      $answer = new ASS_AnswerImagemap($answertext, $points, $found, $status, $coords, $area);
+      // Insert answer
+      $answer = new ASS_AnswerImagemap($answertext, $points, $order, $coords, $area);
 			for ($i = count($this->answers) - 1; $i >= $order; $i--) 
 			{
 				$this->answers[$i+1] = $this->answers[$i];
@@ -846,8 +839,8 @@ class ASS_ImagemapQuestion extends ASS_Question
     }
 		else 
 		{
-      // Anwort anh�ngen
-      $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $status, $coords, $area);
+      // Append answer
+      $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $coords, $area);
       array_push($this->answers, $answer);
     }
   }

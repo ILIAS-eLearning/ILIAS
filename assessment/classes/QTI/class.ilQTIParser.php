@@ -2121,7 +2121,7 @@ class ilQTIParser extends ilSaxParser
 						$question->image_filename = $questionimage["label"];
 						foreach ($answers as $answer)
 						{
-							$question->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["correctness"], $answer["coordinates"], $areas[$answer["areatype"]]);
+							$question->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["coordinates"], $areas[$answer["areatype"]]);
 						}
 						$question->saveToDb();
 						if (count($this->item->suggested_solutions))

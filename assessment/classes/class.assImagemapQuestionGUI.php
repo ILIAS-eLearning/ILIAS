@@ -586,7 +586,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 						$coords = join($this->object->coords, ",");
 						break;
 				}
-				$this->object->addAnswer($_POST["shapetitle"], 0, false, count($this->object->answers), $coords, $_POST["newarea"]);
+				$this->object->addAnswer($_POST["shapetitle"], 0, count($this->object->answers), $coords, $_POST["newarea"]);
 			}
 		}
 		else
@@ -651,11 +651,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 								$points = 0.0;
 							}
 
-
 							$this->object->addAnswer(
 								ilUtil::stripSlashes($_POST["$key"]),
 								ilUtil::stripSlashes($points),
-								1,
 								$matches[1],
 								ilUtil::stripSlashes($_POST["coords_$matches[1]"]),
 								ilUtil::stripSlashes($_POST["area_$matches[1]"])
