@@ -1620,8 +1620,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("QTab");
-
 		$startrow = 0;
 		if ($_GET["prevrow"])
 		{
@@ -1654,8 +1652,12 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($data["complete"])
 					{
 						// make only complete questions selectable
+						$this->tpl->setCurrentBlock("checkable");
 						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+						$this->tpl->parseCurrentBlock();
 					}
+					$this->tpl->setCurrentBlock("QTab");
+					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
 					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
@@ -4099,15 +4101,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		unset($_SESSION["tst_resetsolved"]);
-		unset($_SESSION["tst_setsolved"]);
-		unset($_SESSION["tst_postpone"]);
-		unset($_SESSION["tst_summary"]);
-		unset($_SESSION["tst_resume"]);
-		unset($_SESSION["tst_start"]);
-		unset($_SESSION["tst_next"]);
-		unset($_SESSION["tst_previous"]);
-		
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
