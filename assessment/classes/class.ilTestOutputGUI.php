@@ -580,16 +580,8 @@ class ilTestOutputGUI
 			$this->object->loadQuestions();
 		}
 		$this->handleStartCommands();
-		$this->sequence = $this->getSequence();
-		$this->object->setActiveTestUser($this->sequence);
-		if ($this->object->isOnlineTest())
-		{
-			$this->outTestSummary();
-		}
-		else
-		{
-			$this->outTestPage();
-		}
+		$this->ctrl->setParameter($this, "activecommand", "start");
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	
 /**
@@ -602,18 +594,9 @@ class ilTestOutputGUI
 	function resume()
 	{
 		$this->readFullSequence();
-
 		$this->handleStartCommands();
-		$this->sequence = $this->getSequence();
-		$this->object->setActiveTestUser($this->sequence);
-		if ($this->object->isOnlineTest())
-		{
-			$this->outTestSummary();
-		}
-		else
-		{
-			$this->outTestPage();
-		}
+		$this->ctrl->setParameter($this, "activecommand", "resume");
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 
 /**
@@ -743,8 +726,21 @@ class ilTestOutputGUI
 			case "summary":
 				$this->ctrl->redirect($this, "outTestSummary");
 				break;
+			case "start":
+			case "resume":
+				$this->sequence = $this->calculateSequence();	
+				$this->object->setActiveTestUser($this->sequence);
+				if ($this->object->isOnlineTest())
+				{
+					$this->outTestSummary();
+				}
+				else
+				{
+					$this->outTestPage();
+				}
+				break;
 			default:
-				$this->sequence = $this->getSequence();	
+				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
 				$this->outTestPage();
 				break;
