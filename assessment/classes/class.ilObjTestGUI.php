@@ -1250,7 +1250,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKED_SHUFFLE_QUESTIONS", " checked=\"checked\"");
 			$this->tpl->setVariable("DISABLE_SHUFFLE_QUESTIONS", " disabled=\"disabled\"");
 		}
-		else
+		else if ($this->object->isOnlineTest())
+		{
+			$this->tpl->setVariable("DISABLE_SHUFFLE_QUESTIONS", " disabled=\"disabled\"");
+		}
+		else 
 		{
 			if ($this->object->getShuffleQuestions())
 			{
