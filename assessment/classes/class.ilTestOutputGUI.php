@@ -574,26 +574,21 @@ class ilTestOutputGUI
 	{
 		$this->readFullSequence();
 		
-		if ($_SESSION["tst_start"] != 1)
+		if ($this->object->isRandomTest())
 		{
-			$_SESSION["tst_start"] = 1;
-			if ($this->object->isRandomTest())
-			{
-				$this->object->generateRandomQuestions();
-				$this->object->loadQuestions();
-			}
-			$this->handleStartCommands();
-			$this->sequence = $this->getSequence();
-			$this->object->setActiveTestUser($this->sequence);
-			if ($this->object->isOnlineTest())
-			{
-				$this->outTestSummary();
-			}
-			else
-			{
-				$this->outTestPage();
-			}
-			unset($_SESSION["tst_start"]);
+			$this->object->generateRandomQuestions();
+			$this->object->loadQuestions();
+		}
+		$this->handleStartCommands();
+		$this->sequence = $this->getSequence();
+		$this->object->setActiveTestUser($this->sequence);
+		if ($this->object->isOnlineTest())
+		{
+			$this->outTestSummary();
+		}
+		else
+		{
+			$this->outTestPage();
 		}
 	}
 	
@@ -608,21 +603,16 @@ class ilTestOutputGUI
 	{
 		$this->readFullSequence();
 
-		if ($_SESSION["tst_resume"] != 1)
+		$this->handleStartCommands();
+		$this->sequence = $this->getSequence();
+		$this->object->setActiveTestUser($this->sequence);
+		if ($this->object->isOnlineTest())
 		{
-			$_SESSION["tst_resume"] = 1;
-			$this->handleStartCommands();
-			$this->sequence = $this->getSequence();
-			$this->object->setActiveTestUser($this->sequence);
-			if ($this->object->isOnlineTest())
-			{
-				$this->outTestSummary();
-			}
-			else
-			{
-				$this->outTestPage();
-			}
-			unset($_SESSION["tst_resume"]);
+			$this->outTestSummary();
+		}
+		else
+		{
+			$this->outTestPage();
 		}
 	}
 
