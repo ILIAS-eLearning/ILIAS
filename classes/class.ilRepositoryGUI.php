@@ -484,6 +484,7 @@ class ilRepositoryGUI
 
 		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 		include_once ("classes/class.ilRepositoryExplorer.php");
 		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");

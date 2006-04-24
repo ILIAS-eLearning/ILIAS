@@ -195,6 +195,56 @@ class ilObjStyleSheet extends ilObject
 		
 		return $styles;
 	}
+	
+	
+	/**
+	* get all clonable styles (active standard styles and individual learning
+	* module styles with write permission)
+	*
+	*/
+	function _getClonableContentStyles()
+	{
+		global $ilAccess, $ilDB;
+		
+		$clonable_styles = array();
+		
+		$q = "SELECT * FROM style_data, object_data ".
+			" WHERE object_data.obj_id = style_data.id ";
+		$style_set = $ilDB->query($q);
+		while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$clonable = false;
+			if ($style_rec["standard"] == 1)
+			{
+				if ($style_rec["active"] == 1)
+				{
+					$clonable = true;
+				}
+			}
+			else
+			{
+				include_once("content/classes/class.ilObjContentObject.php");
+				$obj_ids = ilObjContentObject::_lookupContObjIdByStyleId($style_rec["id"]);
+				foreach($obj_ids as $id)
+				{
+					$ref = ilObject::_getAllReferences($id);
+					foreach($ref as $ref_id)
+					{
+						if ($ilAccess->checkAccess("write", "", $ref_id))
+						{
+							$clonable = true;
+						}
+					}
+				}
+			}
+			if ($clonable)
+			{
+				$clonable_styles[$style_rec["id"]] =
+					$style_rec["title"];
+			}
+		}
+		return $clonable_styles;
+	}
 
 	/**
 	* assign meta data object
@@ -212,120 +262,133 @@ class ilObjStyleSheet extends ilObject
 		return $this->meta_data;
 	}
 
-	function create()
+	function create($a_from_style = 0)
 	{
 		global $ilDB;
 		
 		parent::create();
 
-		$def = array(
-			array("tag" => "div", "class" => "PageTitle", "parameter" => "margin-top" ,"value" => "5px"),
-			array("tag" => "div", "class" => "PageTitle", "parameter" => "margin-bottom" ,"value" => "20px"),
-			array("tag" => "div", "class" => "PageTitle", "parameter" => "font-size" ,"value" => "140%"),
-			array("tag" => "div", "class" => "PageTitle", "parameter" => "padding-bottom" ,"value" => "3px"),
-			array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-width" ,"value" => "1px"),
-			array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-style" ,"value" => "solid"),
-			array("tag" => "div", "class" => "PageTitle", "parameter" => "border-color" ,"value" => "#000000"),
-
-			array("tag" => "span", "class" => "Strong", "parameter" => "font-weight" ,"value" => "bold"),
-			array("tag" => "span", "class" => "Emph", "parameter" => "font-style" ,"value" => "italic"),
-			array("tag" => "span", "class" => "Comment", "parameter" => "color" ,"value" => "green"),
-			array("tag" => "span", "class" => "Quotation", "parameter" => "color" ,"value" => "brown"),
-			array("tag" => "span", "class" => "Quotation", "parameter" => "font-style" ,"value" => "italic"),
-
-			array("tag" => "a", "class" => "FootnoteLink", "parameter" => "color" ,"value" => "blue"),
-			array("tag" => "a", "class" => "FootnoteLink", "parameter" => "font-weight" ,"value" => "normal"),
-			array("tag" => "a", "class" => "FootnoteLink:hover", "parameter" => "color" ,"value" => "#000000"),
-			array("tag" => "div", "class" => "Footnote", "parameter" => "margin-top" ,"value" => "5px"),
-			array("tag" => "div", "class" => "Footnote", "parameter" => "margin-bottom" ,"value" => "5px"),
-			array("tag" => "div", "class" => "Footnote", "parameter" => "font-style" ,"value" => "italic"),
-
-			array("tag" => "a", "class" => "IntLink", "parameter" => "color" ,"value" => "blue"),
-			array("tag" => "a", "class" => "IntLink:visited", "parameter" => "color" ,"value" => "blue"),
-			array("tag" => "a", "class" => "IntLink", "parameter" => "font-weight" ,"value" => "normal"),
-			array("tag" => "a", "class" => "IntLink", "parameter" => "text-decoration" ,"value" => "underline"),
-			array("tag" => "a", "class" => "IntLink:hover", "parameter" => "color" ,"value" => "#000000"),
-
-			array("tag" => "a", "class" => "ExtLink", "parameter" => "color" ,"value" => "blue"),
-			array("tag" => "a", "class" => "ExtLink:visited", "parameter" => "color" ,"value" => "blue"),
-			array("tag" => "a", "class" => "ExtLink", "parameter" => "font-weight" ,"value" => "normal"),
-			array("tag" => "a", "class" => "ExtLink", "parameter" => "text-decoration" ,"value" => "underline"),
-			array("tag" => "a", "class" => "ExtLink:hover", "parameter" => "color" ,"value" => "#000000"),
-
-			array("tag" => "div", "class" => "LMNavigation", "parameter" => "background-color" ,"value" => "#EEEEEE"),
-			array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-style" ,"value" => "outset"),
-			array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-color" ,"value" => "#EEEEEE"),
-			array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-width" ,"value" => "1px"),
-			array("tag" => "div", "class" => "Page", "parameter" => "background-color" ,"value" => "#FFFFFF"),
-			array("tag" => "div", "class" => "Page", "parameter" => "padding" ,"value" => "0px"),
-			array("tag" => "div", "class" => "Page", "parameter" => "margin" ,"value" => "0px"),
-			array("tag" => "td", "class" => "Cell1", "parameter" => "background-color" ,"value" => "#FFCCCC"),
-			array("tag" => "td", "class" => "Cell2", "parameter" => "background-color" ,"value" => "#CCCCFF"),
-			array("tag" => "td", "class" => "Cell3", "parameter" => "background-color" ,"value" => "#CCFFCC"),
-			array("tag" => "td", "class" => "Cell4", "parameter" => "background-color" ,"value" => "#FFFFCC"),
-
-			array("tag" => "p", "class" => "Standard", "parameter" => "margin-top" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Standard", "parameter" => "margin-bottom" ,"value" => "10px"),
-
-			array("tag" => "p", "class" => "List", "parameter" => "margin-top" ,"value" => "3px"),
-			array("tag" => "p", "class" => "List", "parameter" => "margin-bottom" ,"value" => "3px"),
-
-			array("tag" => "p", "class" => "Headline1", "parameter" => "margin-top" ,"value" => "20px"),
-			array("tag" => "p", "class" => "Headline1", "parameter" => "margin-bottom" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Headline1", "parameter" => "font-size" ,"value" => "140%"),
-
-			array("tag" => "p", "class" => "Headline2", "parameter" => "margin-top" ,"value" => "20px"),
-			array("tag" => "p", "class" => "Headline2", "parameter" => "margin-bottom" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Headline2", "parameter" => "font-size" ,"value" => "130%"),
-
-			array("tag" => "p", "class" => "Headline3", "parameter" => "margin-top" ,"value" => "20px"),
-			array("tag" => "p", "class" => "Headline3", "parameter" => "margin-bottom" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Headline3", "parameter" => "font-size" ,"value" => "120%"),
-
-			array("tag" => "p", "class" => "Example", "parameter" => "padding-left" ,"value" => "20px"),
-			array("tag" => "p", "class" => "Example", "parameter" => "border-left" ,"value" => "3px"),
-			array("tag" => "p", "class" => "Example", "parameter" => "border-left-style" ,"value" => "solid"),
-			array("tag" => "p", "class" => "Example", "parameter" => "border-left-color" ,"value" => "blue"),
-
-			array("tag" => "p", "class" => "Citation", "parameter" => "color" ,"value" => "brown"),
-			array("tag" => "p", "class" => "Citation", "parameter" => "font-style" ,"value" => "italic"),
-
-			array("tag" => "p", "class" => "Mnemonic", "parameter" => "margin-left" ,"value" => "20px"),
-			array("tag" => "p", "class" => "Mnemonic", "parameter" => "margin-right" ,"value" => "20px"),
-			array("tag" => "p", "class" => "Mnemonic", "parameter" => "color" ,"value" => "red"),
-			array("tag" => "p", "class" => "Mnemonic", "parameter" => "padding" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Mnemonic", "parameter" => "border" ,"value" => "1px"),
-			array("tag" => "p", "class" => "Mnemonic", "parameter" => "border-style" ,"value" => "solid"),
-			array("tag" => "p", "class" => "Mnemonic", "parameter" => "border-color" ,"value" => "red"),
-
-			array("tag" => "p", "class" => "Additional", "parameter" => "padding" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Additional", "parameter" => "border" ,"value" => "1px"),
-			array("tag" => "p", "class" => "Additional", "parameter" => "border-style" ,"value" => "solid"),
-			array("tag" => "p", "class" => "Additional", "parameter" => "border-color" ,"value" => "blue"),
-
-			array("tag" => "p", "class" => "Remark", "parameter" => "padding" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Remark", "parameter" => "border" ,"value" => "1px"),
-			array("tag" => "p", "class" => "Remark", "parameter" => "border-style" ,"value" => "solid"),
-			array("tag" => "p", "class" => "Remark", "parameter" => "border-color" ,"value" => "#909090"),
-			array("tag" => "p", "class" => "Remark", "parameter" => "background-color" ,"value" => "#D0D0D0"),
-			array("tag" => "p", "class" => "Remark", "parameter" => "text-align" ,"value" => "right"),
-
-			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-left" ,"value" => "0px"),
-			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-right" ,"value" => "0px"),
-			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-top" ,"value" => "0px"),
-			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-bottom" ,"value" => "0px"),
-			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-left" ,"value" => "0px"),
-			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-right" ,"value" => "0px"),
-			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-top" ,"value" => "0px"),
-			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-bottom" ,"value" => "0px"),
-
-			array("tag" => "table", "class" => "Media", "parameter" => "background-color" ,"value" => "#F5F5F5"),
-			array("tag" => "table", "class" => "Media", "parameter" => "padding" ,"value" => "0px"),
-			array("tag" => "table", "class" => "Media", "parameter" => "margin" ,"value" => "10px"),
-
-			array("tag" => "td", "class" => "MediaCaption", "parameter" => "padding" ,"value" => "5px")
-		);
-
+		if ($a_from_style == 0)
+		{
+			$def = array(
+				array("tag" => "div", "class" => "PageTitle", "parameter" => "margin-top" ,"value" => "5px"),
+				array("tag" => "div", "class" => "PageTitle", "parameter" => "margin-bottom" ,"value" => "20px"),
+				array("tag" => "div", "class" => "PageTitle", "parameter" => "font-size" ,"value" => "140%"),
+				array("tag" => "div", "class" => "PageTitle", "parameter" => "padding-bottom" ,"value" => "3px"),
+				array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-width" ,"value" => "1px"),
+				array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-style" ,"value" => "solid"),
+				array("tag" => "div", "class" => "PageTitle", "parameter" => "border-color" ,"value" => "#000000"),
+	
+				array("tag" => "span", "class" => "Strong", "parameter" => "font-weight" ,"value" => "bold"),
+				array("tag" => "span", "class" => "Emph", "parameter" => "font-style" ,"value" => "italic"),
+				array("tag" => "span", "class" => "Comment", "parameter" => "color" ,"value" => "green"),
+				array("tag" => "span", "class" => "Quotation", "parameter" => "color" ,"value" => "brown"),
+				array("tag" => "span", "class" => "Quotation", "parameter" => "font-style" ,"value" => "italic"),
+	
+				array("tag" => "a", "class" => "FootnoteLink", "parameter" => "color" ,"value" => "blue"),
+				array("tag" => "a", "class" => "FootnoteLink", "parameter" => "font-weight" ,"value" => "normal"),
+				array("tag" => "a", "class" => "FootnoteLink:hover", "parameter" => "color" ,"value" => "#000000"),
+				array("tag" => "div", "class" => "Footnote", "parameter" => "margin-top" ,"value" => "5px"),
+				array("tag" => "div", "class" => "Footnote", "parameter" => "margin-bottom" ,"value" => "5px"),
+				array("tag" => "div", "class" => "Footnote", "parameter" => "font-style" ,"value" => "italic"),
+	
+				array("tag" => "a", "class" => "IntLink", "parameter" => "color" ,"value" => "blue"),
+				array("tag" => "a", "class" => "IntLink:visited", "parameter" => "color" ,"value" => "blue"),
+				array("tag" => "a", "class" => "IntLink", "parameter" => "font-weight" ,"value" => "normal"),
+				array("tag" => "a", "class" => "IntLink", "parameter" => "text-decoration" ,"value" => "underline"),
+				array("tag" => "a", "class" => "IntLink:hover", "parameter" => "color" ,"value" => "#000000"),
+	
+				array("tag" => "a", "class" => "ExtLink", "parameter" => "color" ,"value" => "blue"),
+				array("tag" => "a", "class" => "ExtLink:visited", "parameter" => "color" ,"value" => "blue"),
+				array("tag" => "a", "class" => "ExtLink", "parameter" => "font-weight" ,"value" => "normal"),
+				array("tag" => "a", "class" => "ExtLink", "parameter" => "text-decoration" ,"value" => "underline"),
+				array("tag" => "a", "class" => "ExtLink:hover", "parameter" => "color" ,"value" => "#000000"),
+	
+				array("tag" => "div", "class" => "LMNavigation", "parameter" => "background-color" ,"value" => "#EEEEEE"),
+				array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-style" ,"value" => "outset"),
+				array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-color" ,"value" => "#EEEEEE"),
+				array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-width" ,"value" => "1px"),
+				array("tag" => "div", "class" => "Page", "parameter" => "background-color" ,"value" => "#FFFFFF"),
+				array("tag" => "div", "class" => "Page", "parameter" => "padding" ,"value" => "0px"),
+				array("tag" => "div", "class" => "Page", "parameter" => "margin" ,"value" => "0px"),
+				array("tag" => "td", "class" => "Cell1", "parameter" => "background-color" ,"value" => "#FFCCCC"),
+				array("tag" => "td", "class" => "Cell2", "parameter" => "background-color" ,"value" => "#CCCCFF"),
+				array("tag" => "td", "class" => "Cell3", "parameter" => "background-color" ,"value" => "#CCFFCC"),
+				array("tag" => "td", "class" => "Cell4", "parameter" => "background-color" ,"value" => "#FFFFCC"),
+	
+				array("tag" => "p", "class" => "Standard", "parameter" => "margin-top" ,"value" => "10px"),
+				array("tag" => "p", "class" => "Standard", "parameter" => "margin-bottom" ,"value" => "10px"),
+	
+				array("tag" => "p", "class" => "List", "parameter" => "margin-top" ,"value" => "3px"),
+				array("tag" => "p", "class" => "List", "parameter" => "margin-bottom" ,"value" => "3px"),
+	
+				array("tag" => "p", "class" => "Headline1", "parameter" => "margin-top" ,"value" => "20px"),
+				array("tag" => "p", "class" => "Headline1", "parameter" => "margin-bottom" ,"value" => "10px"),
+				array("tag" => "p", "class" => "Headline1", "parameter" => "font-size" ,"value" => "140%"),
+	
+				array("tag" => "p", "class" => "Headline2", "parameter" => "margin-top" ,"value" => "20px"),
+				array("tag" => "p", "class" => "Headline2", "parameter" => "margin-bottom" ,"value" => "10px"),
+				array("tag" => "p", "class" => "Headline2", "parameter" => "font-size" ,"value" => "130%"),
+	
+				array("tag" => "p", "class" => "Headline3", "parameter" => "margin-top" ,"value" => "20px"),
+				array("tag" => "p", "class" => "Headline3", "parameter" => "margin-bottom" ,"value" => "10px"),
+				array("tag" => "p", "class" => "Headline3", "parameter" => "font-size" ,"value" => "120%"),
+	
+				array("tag" => "p", "class" => "Example", "parameter" => "padding-left" ,"value" => "20px"),
+				array("tag" => "p", "class" => "Example", "parameter" => "border-left" ,"value" => "3px"),
+				array("tag" => "p", "class" => "Example", "parameter" => "border-left-style" ,"value" => "solid"),
+				array("tag" => "p", "class" => "Example", "parameter" => "border-left-color" ,"value" => "blue"),
+	
+				array("tag" => "p", "class" => "Citation", "parameter" => "color" ,"value" => "brown"),
+				array("tag" => "p", "class" => "Citation", "parameter" => "font-style" ,"value" => "italic"),
+	
+				array("tag" => "p", "class" => "Mnemonic", "parameter" => "margin-left" ,"value" => "20px"),
+				array("tag" => "p", "class" => "Mnemonic", "parameter" => "margin-right" ,"value" => "20px"),
+				array("tag" => "p", "class" => "Mnemonic", "parameter" => "color" ,"value" => "red"),
+				array("tag" => "p", "class" => "Mnemonic", "parameter" => "padding" ,"value" => "10px"),
+				array("tag" => "p", "class" => "Mnemonic", "parameter" => "border" ,"value" => "1px"),
+				array("tag" => "p", "class" => "Mnemonic", "parameter" => "border-style" ,"value" => "solid"),
+				array("tag" => "p", "class" => "Mnemonic", "parameter" => "border-color" ,"value" => "red"),
+	
+				array("tag" => "p", "class" => "Additional", "parameter" => "padding" ,"value" => "10px"),
+				array("tag" => "p", "class" => "Additional", "parameter" => "border" ,"value" => "1px"),
+				array("tag" => "p", "class" => "Additional", "parameter" => "border-style" ,"value" => "solid"),
+				array("tag" => "p", "class" => "Additional", "parameter" => "border-color" ,"value" => "blue"),
+	
+				array("tag" => "p", "class" => "Remark", "parameter" => "padding" ,"value" => "10px"),
+				array("tag" => "p", "class" => "Remark", "parameter" => "border" ,"value" => "1px"),
+				array("tag" => "p", "class" => "Remark", "parameter" => "border-style" ,"value" => "solid"),
+				array("tag" => "p", "class" => "Remark", "parameter" => "border-color" ,"value" => "#909090"),
+				array("tag" => "p", "class" => "Remark", "parameter" => "background-color" ,"value" => "#D0D0D0"),
+				array("tag" => "p", "class" => "Remark", "parameter" => "text-align" ,"value" => "right"),
+	
+				array("tag" => "p", "class" => "TableContent", "parameter" => "margin-left" ,"value" => "0px"),
+				array("tag" => "p", "class" => "TableContent", "parameter" => "margin-right" ,"value" => "0px"),
+				array("tag" => "p", "class" => "TableContent", "parameter" => "margin-top" ,"value" => "0px"),
+				array("tag" => "p", "class" => "TableContent", "parameter" => "margin-bottom" ,"value" => "0px"),
+				array("tag" => "p", "class" => "TableContent", "parameter" => "padding-left" ,"value" => "0px"),
+				array("tag" => "p", "class" => "TableContent", "parameter" => "padding-right" ,"value" => "0px"),
+				array("tag" => "p", "class" => "TableContent", "parameter" => "padding-top" ,"value" => "0px"),
+				array("tag" => "p", "class" => "TableContent", "parameter" => "padding-bottom" ,"value" => "0px"),
+	
+				array("tag" => "table", "class" => "Media", "parameter" => "background-color" ,"value" => "#F5F5F5"),
+				array("tag" => "table", "class" => "Media", "parameter" => "padding" ,"value" => "0px"),
+				array("tag" => "table", "class" => "Media", "parameter" => "margin" ,"value" => "10px"),
+	
+				array("tag" => "td", "class" => "MediaCaption", "parameter" => "padding" ,"value" => "5px")
+			);
+		}
+		else
+		{
+			$def = array();
+			$q = "SELECT * FROM style_parameter WHERE style_id = ".$ilDB->quote($a_from_style);
+			$par_set = $ilDB->query($q);
+			while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$def[] = array("tag" => $par_rec["tag"], "class" => $par_rec["class"],
+					"parameter" => $par_rec["parameter"] ,"value" => $par_rec["value"]);
+			}
+		}
 
 		// default style settings
 		foreach ($def as $sty)
@@ -344,6 +407,26 @@ class ilObjStyleSheet extends ilObject
 		$this->read();
 		$this->writeCSSFile();
 	}
+	
+	/**
+	* clone style sheet (note: styles have no ref ids and return an object id)
+	* 
+	* @access	public
+	* @return	integer		new obj id
+	*/
+	function ilClone()
+	{
+		global $log;
+		
+		$new_obj = new ilObjStyleSheet();
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setType($this->getType());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->create($this->getId());
+		
+		return $new_obj->getId();
+	}
+
 
 	/**
 	* write style parameter to db

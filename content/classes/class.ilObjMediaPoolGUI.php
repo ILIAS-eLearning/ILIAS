@@ -671,6 +671,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 		require_once ("content/classes/class.ilMediaPoolExplorer.php");
 		$exp = new ilMediaPoolExplorer($this->ctrl->getLinkTarget($this, "listMedia"), $this->object);

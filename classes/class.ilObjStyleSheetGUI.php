@@ -35,6 +35,7 @@
 */
 
 require_once "class.ilObjectGUI.php";
+require_once "class.ilObjStyleSheet.php";
 
 class ilObjStyleSheetGUI extends ilObjectGUI
 {
@@ -113,7 +114,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		
 		// get all learning module styles
-		$lm_styles = ilObjContentObject::_getAllAssignedStyles();
+		$clonable_styles = ilObjStyleSheet::_getClonableContentStyles();
+		$select = ilUtil::formSelect("", "source_style", $clonable_styles, false, true);
+		$this->tpl->setVariable("SOURCE_SELECT", $select);
 	}
 
 	/**
@@ -133,6 +136,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 		$this->getTemplateFile("edit", "sty");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));
+		
+		// add button button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// export button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportStyle"));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("export"));
+		$this->tpl->parseCurrentBlock();
 
 		// output style parameters
 		$avail_pars = $this->object->getAvailableParameters();
@@ -436,6 +448,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->editObject();
 	}
 
+	/**
+	* export style
+	*/
+	function exportStyleObject()
+	{
+		ilUtil::deliverData($this->object->getXML(), "style_".$this->object->getId().".xml");
+	}
+
 	function extractParametersOfTag($a_tag, $a_class, $a_style)
 	{
 		$parameters = array();
@@ -589,7 +609,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			{
 				$fold->addStyle($newObj->getId());
 				$fold->update();
-				
+				ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
 				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
 			}
 		}
@@ -626,6 +646,79 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 
 		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* save style sheet
+	*/
+	function copyStyleObject()
+	{
+		global $ilias;
+		
+		if ($_POST["source_style"] > 0)
+		$style_obj =& $ilias->obj_factory->getInstanceByObjId($_POST["source_style"]);
+		$new_id = $style_obj->ilClone();
+
+		// assign style to style sheet folder,
+		// if parent is style sheet folder
+		if ($_GET["ref_id"] > 0)
+		{
+
+			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			if ($fold->getType() == "stys")
+			{
+				$fold->addStyle($new_id);
+				$fold->update();
+				ilObjStyleSheet::_writeStandard($new_id, "1");
+				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+			}
+		}
+
+		return $new_id;
+	}
+
+	/**
+	* import style sheet
+	*/
+	function importStyleObject()
+	{
+		// check file
+		$source = $_FILES["stylefile"]["tmp_name"];
+		if (($source == 'none') || (!$source))
+		{
+			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// check correct file type
+		$info = pathinfo($_FILES["stylefile"]["name"]);
+		if (strtolower($info["extension"]) != "xml")
+		{
+			$this->ilias->raiseError("File must be a xml file!",$this->ilias->error_obj->MESSAGE);
+		}
+
+		$class_name = "ilObjStyleSheet";
+		require_once("classes/class.ilObjStyleSheet.php");
+		$newObj = new ilObjStyleSheet();
+		//$newObj->setTitle();
+		//$newObj->setDescription($_POST["style_description"]);
+		$newObj->createFromXMLFile($_FILES["stylefile"]["tmp_name"]);
+
+		// assign style to style sheet folder,
+		// if parent is style sheet folder
+		if ($_GET["ref_id"] > 0)
+		{
+
+			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			if ($fold->getType() == "stys")
+			{
+				$fold->addStyle($newObj->getId());
+				$fold->update();
+				ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
+				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+			}
+		}
+
+		return $newObj->getId();
 	}
 
 	/**

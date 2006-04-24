@@ -115,7 +115,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($style_gui);
 				//$ret =& $style_gui->executeCommand();
 
-				if ($cmd == "save")
+				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
 				{
 					$style_id = $ret;
 					$this->object->setStyleSheetId($style_id);
@@ -569,6 +569,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 		require_once ("content/classes/class.ilLMEditorExplorer.php");
 		$exp = new ilLMEditorExplorer($this->ctrl->getLinkTarget($this, "view"),

@@ -27,6 +27,7 @@ require_once "classes/class.ilForumExplorer.php";
 
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+$tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 $exp = new ilForumExplorer("./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]",$_GET["thr_pk"],(int) $_GET['ref_id']);
 $exp->setTargetGet("pos_pk");

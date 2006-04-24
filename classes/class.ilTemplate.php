@@ -182,7 +182,7 @@ class ilTemplate extends ilTemplateX
 		header('Content-type: text/html; charset=UTF-8');
 
 		$this->addErrorMessage();
-
+		
 		// display ILIAS footer
 		if ($part !== false)
 		{
