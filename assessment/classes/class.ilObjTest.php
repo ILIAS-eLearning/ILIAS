@@ -1169,7 +1169,7 @@ class ilObjTest extends ilObject
 				$db->quote($show_solution_details . ""),
         $db->quote($this->test_id)
       );
-      $result = $db->query($query);
+	    $result = $db->query($query);
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -1733,14 +1733,6 @@ class ilObjTest extends ilObject
   function setTestType($type = TYPE_ASSESSMENT) 
   {
     $this->test_type = $type;
-		if ($type == TYPE_VARYING_RANDOMTEST)
-		{
-			$this->setShuffleQuestions(TRUE);
-		}
-		else
-		{
-			$this->setShuffleQuestions(FALSE);
-		}
   }
 
 /**
@@ -1769,14 +1761,6 @@ class ilObjTest extends ilObject
   function setRandomTest($a_random_test = 0) 
 	{
     $this->random_test = $a_random_test;
-		if ($a_random_test) 
-		{
-			$this->setShuffleQuestions(TRUE);
-		}
-		else
-		{
-			$this->setShuffleQuestions(FALSE);
-		}
   }
 
 /**
@@ -3359,8 +3343,10 @@ class ilObjTest extends ilObject
 		$solved_questions = ilObjTest::_getSolvedQuestions($this->test_id, $user_id);
 		include_once "./classes/class.ilObjUser.php";
 	 	$user = new ilObjUser($user_id);
-		foreach ($this->questions as $val) 
+		$sequence_array = split(",", $active->sequence);
+		foreach ($sequence_array as $question_index)
 		{
+			$val = $this->questions[$question_index];
 			$question =& ilObjTest::_instanciateQuestion($val);
 			if (is_object($question))
 			{			
