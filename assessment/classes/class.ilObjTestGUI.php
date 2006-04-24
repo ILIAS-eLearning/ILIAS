@@ -923,6 +923,23 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$this->object->setHidePreviousResults($data["hide_previous_results"]);
 		$this->object->setHideTitlePoints($data["hide_title_points"]);
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
+		{
+			$this->object->setScoreReporting(1);
+			$this->object->setSequenceSettings(0);
+    	$this->object->setNrOfTries(1);
+    	$this->object->setRandomTest(0);
+		}
+		
+		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		{
+			$this->object->setHidePreviousResults(1);
+			$this->object->setRandomTest(1);
+		}
+		else
+		{
+			$this->object->setPassScoring(SCORE_LAST_PASS);
+		}
 		if ($data["shuffle_questions"])
 		{
 			$this->object->setShuffleQuestions(TRUE);
@@ -939,24 +956,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->setShowSolutionDetails(FALSE);
 		}
-		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
-		{
-			$this->object->setScoreReporting(1);
-    		$this->object->setSequenceSettings(0);
-    		$this->object->setNrOfTries(1);
-    		$this->object->setRandomTest(0);
-		}
-		
-		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
-		{
-			$this->object->setHidePreviousResults(1);
-			$this->object->setRandomTest(1);
-		}
-		else
-		{
-			$this->object->setPassScoring(SCORE_LAST_PASS);
-		}
-
 		$this->update = $this->object->update();
 		$this->object->saveToDb(true);
 
@@ -1248,10 +1247,6 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->isRandomTest())
 		{
 			$this->tpl->setVariable("CHECKED_SHUFFLE_QUESTIONS", " checked=\"checked\"");
-			$this->tpl->setVariable("DISABLE_SHUFFLE_QUESTIONS", " disabled=\"disabled\"");
-		}
-		else if ($this->object->isOnlineTest())
-		{
 			$this->tpl->setVariable("DISABLE_SHUFFLE_QUESTIONS", " disabled=\"disabled\"");
 		}
 		else 
