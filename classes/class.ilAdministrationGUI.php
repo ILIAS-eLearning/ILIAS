@@ -293,6 +293,7 @@ class ilAdministrationGUI
 		require_once "classes/class.ilAdministrationExplorer.php";
 
 		$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+		$tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		
 		$explorer = new ilAdministrationExplorer("ilias.php?baseClass=ilAdministrationGUI&cmd=view");		
 		$explorer->setExpand($_GET["expand"]);

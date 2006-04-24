@@ -211,12 +211,13 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// title
 		$header_names = array("", $this->lng->txt("title"),
 			$this->lng->txt("sty_nr_learning_modules"),
-			$this->lng->txt("purpose"), $this->lng->txt("active"));
+			$this->lng->txt("purpose"), $this->lng->txt("sty_scope"),
+			$this->lng->txt("active"));
 		$tbl->setHeaderNames($header_names);
 
 		$header_params = array("ref_id" => $this->ref_id);
-		$tbl->setHeaderVars(array("", "title", "nr_lms", "purpose", "active"), $header_params);
-		$tbl->setColumnWidth(array("0%", "40%", "30%", "15%", "15%"));
+		$tbl->setHeaderVars(array("", "title", "nr_lms", "purpose", "scope", "active"), $header_params);
+		$tbl->setColumnWidth(array("1px", "", "", "", ""));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -238,7 +239,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// todo
 		$tbl->setMaxCount(count($style_entries));
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+		$this->tpl->setVariable("COLUMN_COUNTS", 6);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -357,6 +358,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("tbl_content");
 			$this->tpl->parseCurrentBlock();
 			$from_styles[0] = $this->lng->txt("sty_default_style");
+			$to_styles[0] = $this->lng->txt("sty_default_style");
 		}
 
 		if (count($style_entries) == 0)
@@ -387,8 +389,58 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			ilUtil::formSelect("", "from_style", $from_styles, false, true));
 		$this->tpl->setVariable("SELECT_TO",
 			ilUtil::formSelect("", "to_style", $to_styles, false, true));
+		$this->tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	/**
+	* move learning modules from one style to another
+	*/
+	function moveLMStylesObject()
+	{
+		if ($_POST["from_style"] == -1)
+		{
+			$this->confirmDeleteIndividualStyles();
+			return;
+		}
+		
+		include_once("./content/classes/class.ilObjContentObject.php");
+		ilObjContentObject::_moveLMStyles($_POST["from_style"], $_POST["to_style"]);
+		$this->ctrl->redirect($this, "editContentStyles");
+	}
+	
+	
+	/**
+	* move all learning modules with individual styles to new style
+	*/
+	function moveIndividualStylesObject()
+	{
+		include_once("./content/classes/class.ilObjContentObject.php");
+		ilObjContentObject::_moveLMStyles(-1, $_GET["to_style"]);
+		$this->ctrl->redirect($this, "editContentStyles");
+	}
+	
+	
+	/**
+	* confirmation screen change (delete) individual styles
+	*/
+	function confirmDeleteIndividualStyles()
+	{
+		// load template content style settings
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
+		$this->tpl->setVariable("CMD_OK", "moveIndividualStyles");
+		$this->tpl->setVariable("TXT_OK", $this->lng->txt("ok"));
+		$this->tpl->setVariable("CMD_CANCEL", "editContentStyles");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("sty_confirm_del_ind_styles"));
+		$this->tpl->setVariable("TXT_CONTENT",
+			sprintf($this->lng->txt("sty_confirm_del_ind_styles_desc"),
+			ilObject::_lookupTitle($_POST["to_style"])));
+		$this->ctrl->setParameter($this, "to_style", $_POST["to_style"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	
 	/**
 	* edit system styles
@@ -816,6 +868,12 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "toggleGlobalFixed");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("toggleGlobalFixed"));
+		$this->tpl->parseCurrentBlock();
+
+		// set global default
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "setScope");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("sty_set_scope"));
 		$this->tpl->parseCurrentBlock();
 
 		// save active styles

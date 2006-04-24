@@ -503,6 +503,42 @@ class ilObjContentObject extends ilObject
 
 		$this->style_id = $a_style_id;
 	}
+	
+	/**
+	* move learning modules from one style to another
+	*/
+	function _moveLMStyles($a_from_style, $a_to_style)
+	{
+		global $ilDB, $ilias;
+
+		if ($a_from_style < 0)	// change / delete all individual styles
+		{
+			$q = "SELECT stylesheet FROM content_object, style_data ".
+				" WHERE content_object.stylesheet = style_data.id ".
+				" AND style_data.standard = 0 ".
+				" AND content_object.stylesheet > 0";
+			$style_set = $ilDB->query($q);
+			while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				// assign learning modules to new style
+				$q = "UPDATE content_object SET ".
+					" stylesheet = ".$ilDB->quote($a_to_style).
+					" WHERE stylesheet = ".$ilDB->quote($style_rec["stylesheet"]);
+				$ilDB->query($q);
+				
+				// delete style
+				$style_obj =& $ilias->obj_factory->getInstanceByObjId($style_rec["stylesheet"]);
+				$style_obj->delete();
+			}
+		}
+		else
+		{
+			$q = "UPDATE content_object SET ".
+				" stylesheet = ".$ilDB->quote($a_to_style).
+				" WHERE stylesheet = ".$ilDB->quote($a_from_style);
+			$ilDB->query($q);
+		}
+	}
 
 	/**
 	* lookup style sheet ID
@@ -519,17 +555,23 @@ class ilObjContentObject extends ilObject
 		return $sheet["stylesheet"];
 	}
 	
-	function _getAllAssignedStyles()
+	/**
+	* lookup style sheet ID
+	*/
+	function _lookupContObjIdByStyleId($a_style_id)
 	{
-		$q = "SELECT DISTINCT stylesheet, ob.title as title FROM content_object, object_data as ob".
-			" WHERE stylesheet = ob.obj_id";
+		global $ilDB;
+
+		$q = "SELECT id FROM content_object ".
+			" WHERE stylesheet = ".$ilDB->quote($a_style_id);
 		$res = $ilDB->query($q);
-		$stlyes = array();
-		while ($sheet = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		$obj_ids = array();
+		while($cont = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
+			$obj_ids[] = $cont["id"];
 		}
+		return $obj_ids;
 	}
-	
 	
 	/**
 	* gets the number of learning modules assigned to a content style

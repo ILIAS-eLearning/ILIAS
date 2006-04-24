@@ -25,8 +25,8 @@
 require_once "include/inc.header.php";
 require_once "classes/class.ilMailExplorer.php";
 
-
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+$tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 $exp = new ilMailExplorer("mail.php",$_SESSION["AccountId"]);
 $exp->setTargetGet("mobj_id");
