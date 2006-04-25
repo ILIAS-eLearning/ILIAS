@@ -1521,6 +1521,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tabs_gui->setTabActive('members');
 		$this->setSubTabs('members');
+
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html","course");
@@ -2848,7 +2849,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget("members",
-								 $this->ctrl->getLinkTarget($this, "members"), 
+								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
 								 "members",
 								 get_class($this));
 		}
