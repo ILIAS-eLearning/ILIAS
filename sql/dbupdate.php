@@ -10549,3 +10549,7 @@ ALTER TABLE `survey_question_nominal` CHANGE `orientation` `orientation` ENUM( '
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#692>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
