@@ -2629,6 +2629,7 @@ common#:#pub_section#:#Public Area
 common#:#public#:#public
 common#:#public_notes#:#Public Notes
 common#:#public_profile#:#Public Profile
+common#:#public_profile_not_visible#:#The User Profile is not public
 common#:#publication#:#Publication
 common#:#publication_date#:#Publication Date
 common#:#published#:#Published

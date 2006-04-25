@@ -10545,3 +10545,7 @@ ALTER TABLE `tst_tests` ADD `shuffle_questions` ENUM( '0', '1' ) NOT NULL DEFAUL
 ALTER TABLE `tst_tests` ADD `show_solution_details` ENUM( '0', '1' ) NOT NULL DEFAULT '1';
 <#690>
 ALTER TABLE `survey_question_nominal` CHANGE `orientation` `orientation` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0';
+<#691>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
