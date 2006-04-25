@@ -30,7 +30,7 @@
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilObjUserGUI
 * 
 * @extends ilContainerGUI
 * @package ilias-core
@@ -3050,6 +3050,32 @@ class ilObjCourseGUI extends ilContainerGUI
 		exit;
 	}
 
+	
+	/**
+         * Show the user profile if user click on image
+         * @author Arturo Gonzalez <arturogf@gmail.com>
+         * @access       public
+         */
+	function showProfileObject()
+	{
+
+	  require_once "./classes/class.ilObjUserGUI.php";
+
+	  $this->tabs_gui->setTabActive('members');
+	  $this->setSubTabs('members');
+
+	  $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+
+	  // SHOW PUBLIC PROFILE OR WARNING IF NOT PUBLIC
+	  if (($out = $user_gui->getPublicProfile())!="") {
+	    $this->tpl->setVariable("ADM_CONTENT","<center>".$out."</center>");
+	  }
+	  else {
+	    sendInfo($this->lng->txt('public_profile_not_visible'));
+	  }
+
+	}
+
 
 	/**
 	 * Builds a course members gallery as a layer of left-floating images
@@ -3076,84 +3102,91 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			foreach($members as $member_id)
 			{
-				// GET USER IMAGE
-				unset($webspace_dir);
-
-				$webspace_dir=ilUtil::getWebspaceDir();
-				$image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member_id."_"."xsmall".".jpg";
-				
-				if (!file_exists($image_file)) {
-					$thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
-				}
-				else {
-					$image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
-					$thumb_file = $image_url."/usr_".$member_id."_"."xsmall".".jpg";
-				}
-
-			    $file = $thumb_file."?t=".rand(1, 99999);
-
-				$member_data = $this->object->members_obj->getUserData($member_id);
-
-				// GET USER OBJ
-				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+			  // SET LINK TARGET FOR USER PROFILE
+			  $profile_target = $this->ctrl->getLinkTarget($this,"showProfile")."&"."user=".$member_id;
+			  // GET USER IMAGE
+			  unset($webspace_dir);
+			  
+			  $webspace_dir=ilUtil::getWebspaceDir();
+			  $image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member_id."_"."xsmall".".jpg";
+			  
+			  if (!file_exists($image_file)) {
+			    $thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
+			  }
+			  else {
+			    $image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
+			    $thumb_file = $image_url."/usr_".$member_id."_"."xsmall".".jpg";
+			  }
+			  
+			  $file = $thumb_file."?t=".rand(1, 99999);
+			  
+			  $member_data = $this->object->members_obj->getUserData($member_id);
+			  
+			  // GET USER OBJ
+			  if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+			    {
+			      
+			      switch($member_data["role"])
 				{
+				case $this->object->members_obj->ROLE_ADMIN:
+				  //admins
+				  
+				  $this->tpl->setCurrentBlock("tutors_row");
+				  $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
+				  $this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+				  $this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+				  
+				  $this->tpl->parseCurrentBlock();
+				  break;
+				  
+				case $this->object->members_obj->ROLE_TUTOR:
+				  //tutors
+				  
+				  $this->tpl->setCurrentBlock("tutors_row");
+				  $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
 
-				switch($member_data["role"])
-					{
-					case $this->object->members_obj->ROLE_ADMIN:
-					//admins
-				
-						$this->tpl->setCurrentBlock("tutors_row");
-						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
-
-						$this->tpl->parseCurrentBlock();
-						break;
-
-					case $this->object->members_obj->ROLE_TUTOR:
-					//tutors
-				
-						$this->tpl->setCurrentBlock("tutors_row");
-						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
-
-						$this->tpl->parseCurrentBlock();
-						break;
+				  $this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+				  $this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+				  
+				  $this->tpl->parseCurrentBlock();
+				  break;
+				  
+				  
+				case $this->object->members_obj->ROLE_MEMBER:
+				  //students
+				  $this->tpl->setCurrentBlock("members_row");
+				  $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
 
 
-					case $this->object->members_obj->ROLE_MEMBER:
-					//students
-						$this->tpl->setCurrentBlock("members_row");
-						$this->tpl->setVariable("USR_IMAGE","<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\">");
-						$this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-						$this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
-
-						$this->tpl->parseCurrentBlock();
-						break;
-					}
-
+				  $this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+				  $this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+				  
+				  $this->tpl->parseCurrentBlock();
+				  break;
 				}
+			      
+			    }
 			}
 			$this->tpl->setCurrentBlock("members");	
 			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
 			$this->tpl->parseCurrentBlock();
-
+			
 		}
-
+		
 		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
 		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
 		
 		$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
-
+		
 		$this->tpl->setVariable("HEADLINE",$headline);
-
+		
 		$this->tpl->show();
 		exit;
 	}
-
-
+	
+	
+	
+	
 	function listGroupingsObject()
 	{
 		include_once './course/classes/class.ilObjCourseGrouping.php';
