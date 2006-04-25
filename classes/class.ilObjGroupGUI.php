@@ -1775,7 +1775,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget("group_members",
-								 $this->ctrl->getLinkTarget($this, "members"), array("members",'mailMembers'), get_class($this));
+								 $this->ctrl->getLinkTarget($this, "membersGallery"), array("members",'mailMembers'), get_class($this));
 		}
 		
 		$applications = $this->object->getNewRegistrations();
