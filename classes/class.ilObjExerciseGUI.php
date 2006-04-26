@@ -97,12 +97,30 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->getTemplateFile("view", "exc");
 
 		$this->tpl->setVariable("FORM_DOWNLOAD_ACTION", $this->ctrl->getFormAction($this, "downloadFile"));
+		$this->tpl->setVariable("TITLE_TXT",$this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE",$this->object->getTitle());
+		$this->tpl->setVariable("DESCRIPTION_TXT",$this->lng->txt("description"));
 		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
 		$this->tpl->setVariable("INSTRUCTION_TXT",$this->lng->txt("exc_instruction"));
 		$this->tpl->setVariable("INSTRUCTION",nl2br($this->object->getInstruction()));
 		$this->tpl->setVariable("EDIT_UNTIL_TXT",$this->lng->txt("exc_edit_until"));
 		$this->tpl->setVariable("EDIT_UNTIL",date("H:i, d.m.Y",$this->object->getTimestamp()));
+		$this->tpl->setVariable("TIME_TO_SEND_TXT",$this->lng->txt("exc_time_to_send"));
+
+		if ($this->object->getTimestamp()-time() <= 0)
+		{
+		  $this->tpl->setCurrentBlock("TIME_REACHED");
+		  $this->tpl->setVariable("TIME_TO_SEND",$this->lng->txt("exc_time_over_short"));
+		  $this->tpl->parseCurrentBlock();		  
+		}
+		else {
+		  require_once "class.ilUtil.php";
+		  $timediff=ilUtil::int2array($this->object->getTimestamp()-time(),null);
+		  $timestr=ilUtil::timearray2string($timediff);
+		  $this->tpl->setCurrentBlock("TIME_NOT_REACHED");
+		  $this->tpl->setVariable("TIME_TO_SEND",$timestr);
+		  $this->tpl->parseCurrentBlock();
+		}
 
 		$anyfiles = false;
 		foreach($this->object->getFiles() as $file)
