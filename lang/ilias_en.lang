@@ -1486,6 +1486,8 @@ common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_returned#:#Returned
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_solved#:#Solved
+common#:#exc_time_over_short#:#time is over
+common#:#exc_time_to_send#:#Remaining working time
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#Users
 common#:#exc_visible#:#Exercise is visible
@@ -1809,6 +1811,7 @@ common#:#hlm_write#:#Edit HACP Learning Module
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Public Area
 common#:#host#:#Host
+common#:#hour#:#hour
 common#:#hours#:#hour(s)
 common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#Learning Module HTML
@@ -2220,6 +2223,7 @@ common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
+common#:#minute#:#Minute
 common#:#minutes#:#Minutes
 common#:#missing#:#Missing
 common#:#mob#:#Media Object
