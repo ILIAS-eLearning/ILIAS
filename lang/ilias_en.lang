@@ -1461,6 +1461,7 @@ common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
 common#:#exc_deassign_members#:#Delete member(s)
 common#:#exc_delete#:#Delete exercise
+common#:#exc_details#:#Exercise details
 common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings

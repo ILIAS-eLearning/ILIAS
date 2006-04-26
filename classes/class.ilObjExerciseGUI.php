@@ -99,6 +99,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_DOWNLOAD_ACTION", $this->ctrl->getFormAction($this, "downloadFile"));
 		$this->tpl->setVariable("TITLE_TXT",$this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE",$this->object->getTitle());
+		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("exc_details"));
 		$this->tpl->setVariable("DESCRIPTION_TXT",$this->lng->txt("description"));
 		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
 		$this->tpl->setVariable("INSTRUCTION_TXT",$this->lng->txt("exc_instruction"));
