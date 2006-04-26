@@ -2822,6 +2822,7 @@ common#:#seas_search#:#Allow to use the search
 common#:#seas_settings#:#Search settings
 common#:#seas_visible#:#Search settings are visible
 common#:#seas_write#:#Edit search settings
+common#:#second#:#Second
 common#:#seconds#:#Seconds
 common#:#sections#:#Sections
 common#:#select#:#Select
@@ -3232,6 +3233,7 @@ common#:#with#:#with
 common#:#write#:#Write
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.
 common#:#yes#:#Yes
+common#:#year#:#Year
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
