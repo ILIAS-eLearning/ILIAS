@@ -872,6 +872,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
 			}
+			if ($editable)
+			{
+				$this->tpl->setCurrentBlock("url_edit");
+				$this->tpl->setVariable("URL_EDIT", $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "editQuestion"));
+				$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("QTab");
 			include_once "./survey/classes/class.SurveyQuestion.php";
 			$classname = SurveyQuestion::_getQuestionType($data["question_id"]);
@@ -879,15 +886,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$sel_question_types = $classname; 
 			$this->ctrl->setParameterByClass(strtolower($classnamegui), "q_id", $data["question_id"]);
 			$this->ctrl->setParameterByClass(strtolower($classnamegui), "sel_question_types", $sel_question_types);
-			if ($editable)
-			{
-				$this->tpl->setVariable("EDIT", "[<a href=\"" . $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "editQuestion") . "\">" . $this->lng->txt("edit") . "</a>]");
-			}
 			$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-			//$this->lng->txt("preview")
-			$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "preview") . "\">" . $this->lng->txt("preview") . "</a>]");
+			$this->tpl->setVariable("URL_PREVIEW", $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "preview"));
+			$this->tpl->setVariable("TEXT_PREVIEW", $this->lng->txt("preview"));
 			$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
-			$this->tpl->setVariable("QUESTION_PREVIEW", $this->lng->txt("preview"));
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 			include_once "./classes/class.ilFormat.php";
