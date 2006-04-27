@@ -179,7 +179,7 @@ td.il_BlockFooter {
 table.fullwidth_nowrap {
 	color:#222222;
 	background-color:#bbbbbb;
-	width:100%;
+	width:98%;
 	border-spacing:1px;
 	white-space: nowrap;
 }
@@ -187,7 +187,7 @@ table.fullwidth_nowrap {
 table.fullwidth_invisible {
 	color:#222222;
 	background-color:#fffffe;
-	width:100%;
+	width:98%;
 	border-spacing:0px;
 }
 
@@ -205,6 +205,11 @@ td.nobackground {
 	border: transparent;
 	padding: 3px;
 	vertical-align: top;
+}
+
+th
+{
+	text-align: left;
 }
 
 td.std, th.std {
@@ -233,7 +238,8 @@ th.il_invisible, td.il_invisible {
 tr.tblheader {
 	color:#000000;
 	font-weight:bold;
-	background-color: #E2EAF4;
+	/*background-color: #E2EAF4;*/
+	background-color: #c4d6ea;
 	background-image:url(images/TableHeaderBlue.gif);
 	background-repeat:repeat-x;
 	
@@ -408,6 +414,33 @@ td.submit {
 
 /* Container  list related styles */
 
+/* --- content styles (will move to content.css) --- */
+/*
+table.il_ContainerPageBlock {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: solid;
+	border-color: #CACACA;
+	border-collapse:collapse;
+	margin: 0px;
+	padding: 0px;
+	width:98%;
+	background-color: white;
+}
+
+td.il_ContainerPageBlock
+{
+	padding: 0px 10px 20px 10px;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-color: #CACACA;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-bottom: 0px;
+}*/
+
 a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited
 {
 	padding-top:1px;
@@ -490,7 +523,7 @@ table.il_ContainerBlock
 {
 	color:#222222;
 	background-color:#bbbbbb;
-	width:100%;
+	width:98%;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
@@ -502,10 +535,10 @@ table.il_ContainerBlock
 div.il_PDTitle
 {
 	font-family: Verdana,"Times New Roman", Times, Palatino, "Palatino Linotype", serif;
-	font-size: 150%;
+	font-size: 140%;
 	line-height: 160%;
 	color:#fff;
-	letter-spacing: 0.1em;
+	letter-spacing: 0.05em;
 	word-spacing: -0.1em;
 	white-space: nowrap;
 }
@@ -529,7 +562,7 @@ th.il_PDBlockHeader
 	background-repeat:repeat-x;
 	font-weight: bold;
 	padding: 3px;
-	background-color: #E2EAF4;
+	background-color: #c4d6ea;
 	text-align:left;
 	border-bottom-width:1px;
 	border-bottom-color:#CACACA;
@@ -623,7 +656,7 @@ table.il_Locator
 }
 
 div.il_Locator {
-	padding: 4px 15px;
+	padding: 4px 15px 4px 15px;
 	vertical-align:top;
 	font-size: 80%;
 	//border: 1px solid black;
@@ -652,6 +685,28 @@ form.il_Form
 	border: 0px;
 }
 
+/* MainMenu Tabs */
+
+div.il_MainMenu
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+    	width:100%;
+	padding-left:0px;
+    	line-height:15px;
+	background: none;
+}
+
+ul.il_MainMenu
+{
+	margin: 0px 10px;
+	padding: 0px 25px;
+	list-style:none;
+	color:black;
+}
+
 .il_MainMenu a:link 
 {
 	color:#000;
@@ -665,15 +720,6 @@ form.il_Form
 	font-size: 80%;
 	color:black;
 }
-
-ul.il_MainMenu
-{
-	margin: 0px 10px;
-	padding: 0px 25px;
-	list-style:none;
-	color:black;
-}
-
 li.MMInactive
 {
 	float:left;
@@ -801,7 +847,7 @@ li.tabinactive
 	float:left;
 	background:url("images/TabInactiveRight.gif") no-repeat right top;
 	margin:0;
-    padding:0;
+    	padding:0;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #B0B0B0;
@@ -1108,6 +1154,7 @@ div.il_Header
 {
 	;background-color:#717171;
 	background:#fffffe;
+	width: 100%;
 }
 
 div.il_HeaderInner
@@ -1347,6 +1394,7 @@ div.ilLogin
 	margin-bottom:2px;
 	white-space: nowrap;
 	text-align:right;
+	font-size:90%;
 }
 
 div.ilLogin a:link {
@@ -1368,6 +1416,11 @@ span.il_menu
 	line-height:30px;
 }
 
+.ilLanguageSelection
+{
+	font-size:80%;
+}
+
 div.il_Footer
 {
 	margin-top:30px;
@@ -1384,7 +1437,7 @@ h1 {
 
 h2 {
 	color:#222222;
-	background-color: #E2EAF4;
+	background-color: #c4d6ea;
 	border-width:1px;
 	border-color:#909090;
 	border-style:solid;
@@ -1992,6 +2045,7 @@ table.ilc_FileList
 	background-color: #c0c0c0;
 	width: 100%;
 	border-spacing: 1px;
+	border-collapse:collapse;
 	border-style: outset;
 	border-color: #CACACA;
 	border-width: 1px;
