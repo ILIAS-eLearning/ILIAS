@@ -828,10 +828,10 @@ div.il_Tab
 	margin-bottom: 10px;
 	margin-left: 0px;
 	margin-right: 0px;
-    float:left;
-    width:100%;
-	padding-left:10px;
-    line-height:normal;
+	float:left;
+    	width:100%;
+	padding-left:0px;
+    	line-height:normal;
 	background:#fffffe url(images/TabBack.gif) repeat-x bottom;
 }
 
