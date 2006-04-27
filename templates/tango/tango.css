@@ -179,7 +179,7 @@ td.il_BlockFooter {
 table.fullwidth_nowrap {
 	color:#222222;
 	background-color:#bbbbbb;
-	width:98%;
+	width:100%;
 	border-spacing:1px;
 	white-space: nowrap;
 }
@@ -187,7 +187,7 @@ table.fullwidth_nowrap {
 table.fullwidth_invisible {
 	color:#222222;
 	background-color:#fffffe;
-	width:98%;
+	width:100%;
 	border-spacing:0px;
 }
 
@@ -424,7 +424,7 @@ table.il_ContainerPageBlock {
 	border-collapse:collapse;
 	margin: 0px;
 	padding: 0px;
-	width:98%;
+	width:100%;
 	background-color: white;
 }
 
@@ -523,7 +523,7 @@ table.il_ContainerBlock
 {
 	color:#222222;
 	background-color:#bbbbbb;
-	width:98%;
+	width:100%;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
