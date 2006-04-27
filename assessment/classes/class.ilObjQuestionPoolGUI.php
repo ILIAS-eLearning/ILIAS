@@ -113,7 +113,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
-				$this->setQuestionTabs();
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -159,7 +158,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_imagemapquestiongui":
 			case "ass_javaappletgui":
 			case "ass_textquestiongui":
-				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
@@ -1527,7 +1525,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 	}
 
-	function setQuestionTabs()
+	function getEmbeddedTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
 		
@@ -1603,14 +1601,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
 				// edit page
-				$this->tabs_gui->addSubTabTarget("edit_content",
+				$tabs_gui->addTarget("edit_content",
 												 $this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
 												 array("view", "insert", "exec_pg"),
 												 "", "", $force_active);
 			}
 	
 			// edit page
-			$this->tabs_gui->addSubTabTarget("preview",
+			$tabs_gui->addTarget("preview",
 											 $this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"),
 											 array("preview"),
 											 "ilPageObjectGUI", "", $force_active);
@@ -1643,7 +1641,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
 				// edit question properties
-				$this->tabs_gui->addSubTabTarget("edit_properties",
+				$tabs_gui->addTarget("edit_properties",
 												 $this->ctrl->getLinkTargetByClass($classname, "editQuestion"),
 												 array("questions", "filter", "resetFilter", "createQuestion", 
 													   "importQuestions", "deleteQuestions", "duplicate", 
@@ -1660,10 +1658,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 
 		// Assessment of questions sub menu entry
-		$this->tabs_gui->addSubTabTarget("statistics",
+		$tabs_gui->addTarget("statistics",
 										 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
 										 array("assessment"),
 										 $classname, "");
+		$tabs_gui->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTarget($this, "questions"));
 		
 	}
 
@@ -1674,7 +1673,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// properties
+		$next_class = $this->ctrl->getNextClass($this);
+		if (strlen($next_class)) return $this->getEmbeddedTabs($tabs_gui);
+	// properties
 		$tabs_gui->addTarget("properties",
 			 $this->ctrl->getLinkTarget($this,'properties'),
 			 "properties", "",

@@ -872,6 +872,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
 			}
+			include_once "./survey/classes/class.SurveyQuestion.php";
+			$classname = SurveyQuestion::_getQuestionType($data["question_id"]);
+			$classnamegui = $classname . "GUI";
+			$sel_question_types = $classname; 
+			$this->ctrl->setParameterByClass(strtolower($classnamegui), "q_id", $data["question_id"]);
+			$this->ctrl->setParameterByClass(strtolower($classnamegui), "sel_question_types", $sel_question_types);
 			if ($editable)
 			{
 				$this->tpl->setCurrentBlock("url_edit");
@@ -880,12 +886,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("QTab");
-			include_once "./survey/classes/class.SurveyQuestion.php";
-			$classname = SurveyQuestion::_getQuestionType($data["question_id"]);
-			$classnamegui = $classname . "GUI";
-			$sel_question_types = $classname; 
-			$this->ctrl->setParameterByClass(strtolower($classnamegui), "q_id", $data["question_id"]);
-			$this->ctrl->setParameterByClass(strtolower($classnamegui), "sel_question_types", $sel_question_types);
 			$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
 			$this->tpl->setVariable("URL_PREVIEW", $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "preview"));
 			$this->tpl->setVariable("TEXT_PREVIEW", $this->lng->txt("preview"));
@@ -1506,14 +1506,15 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		$next_class = $this->ctrl->getNextClass($this);
+		if (strlen($next_class)) return;
 		// properties
 		$tabs_gui->addTarget("properties",
 			 $this->ctrl->getLinkTarget($this,'properties'),
 			 "properties", 
 			 "", "");
-
 		// questions
-		$force_active = ($this->ctrl->getCmdClass() == "" &&
+		$force_active = ($this->ctrl->getCmdClass() == "" ||
 			$this->ctrl->getCmd() == "")
 			? true
 			: false;

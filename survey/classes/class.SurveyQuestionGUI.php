@@ -419,13 +419,13 @@ class SurveyQuestionGUI
 
 		if ($_GET["q_id"])
 		{
-			$ilTabs->addSubTabTarget("preview",
+			$ilTabs->addTarget("preview",
 									 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
 									 "$guiclass");
 		}
 		
 		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-			$ilTabs->addSubTabTarget("edit_properties",
+			$ilTabs->addTarget("edit_properties",
 									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
 									 array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
 										   "addPG",
@@ -440,7 +440,7 @@ class SurveyQuestionGUI
 			case "surveyordinalquestiongui":
 				if ($this->object->getId() > 0) 
 				{
-					$ilTabs->addSubTabTarget("categories",
+					$ilTabs->addTarget("categories",
 											 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
 											 array("categories", "addCategory", "insertBeforeCategory",
 													 "insertAfterCategory", "moveCategory", "deleteCategory",
@@ -460,6 +460,8 @@ class SurveyQuestionGUI
 		} else {
 			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
 		}
+		$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
+
 		$this->tpl->setVariable("HEADER", $title);
 	}
 
