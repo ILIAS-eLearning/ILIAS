@@ -10608,4 +10608,6 @@ $ilDB->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#699>
+ALTER TABLE `exc_members` ADD `solved_time` timestamp(14) DEFAULT '00000000000000' AFTER solved;
 
