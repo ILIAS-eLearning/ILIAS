@@ -10555,3 +10555,5 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#693>
 ALTER TABLE `survey_anonymous` ADD `user_key` VARCHAR( 40 ) NULL AFTER `survey_fi` ;
+<#694>
+ALTER TABLE `exc_returned` CHANGE `TIMESTAMP` `timestamp` timestamp(14) DEFAULT NULL ;
