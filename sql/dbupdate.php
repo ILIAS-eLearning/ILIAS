@@ -10553,3 +10553,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#693>
+ALTER TABLE `survey_anonymous` ADD `user_key` VARCHAR( 40 ) NULL AFTER `survey_fi` ;

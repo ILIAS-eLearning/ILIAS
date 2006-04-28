@@ -694,5 +694,71 @@ class SurveyMetricQuestion extends SurveyQuestion
 	{
 		return "survey_question_metric";
 	}
+	
+	function checkUserInput($post_data)
+	{
+		$entered_value = $post_data[$this->getId() . "_metric_question"];
+		// replace german notation with international notation
+		$entered_value = str_replace(",", ".", $entered_value);
+		
+		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+		
+		if (strlen($entered_value) == 0) return $this->lng->txt("survey_question_obligatory");
+		
+		if (strlen($this->getMinimum()))
+		{
+			if ($entered_value < $this->getMinimum())
+			{
+				return $this->lng->txt("metric_question_out_of_bounds");
+			}
+		}
+
+		if (strlen($this->getMaximum()))
+		{
+			if ($entered_value > $this->getMaximum())
+			{
+				return $this->lng->txt("metric_question_out_of_bounds");
+			}
+		}
+
+		if (!is_numeric($entered_value))
+		{
+			return $this->lng->txt("metric_question_not_a_value");
+		}
+
+		if (($this->getSubType() == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)))
+		{
+			return $this->lng->txt("metric_question_floating_point");
+		}
+		return "";
+	}
+	
+	function saveUserInput($post_data, $survey_id, $user_id, $anonymous_id)
+	{
+		global $ilDB;
+		
+		$entered_value = $post_data[$this->getId() . "_metric_question"];
+		if (strlen($entered_value) == 0) return;
+		// replace german notation with international notation
+		$entered_value = str_replace(",", ".", $entered_value);
+		
+		if (strlen($entered_value) == 0)
+		{
+			$entered_value = "NULL";
+		}
+		else
+		{
+			$entered_value = $ilDB->quote($entered_value . "");
+		}
+		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+			$ilDB->quote($survey_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($anonymous_id . ""),
+			$entered_value,
+			"NULL"
+		);
+		$result = $ilDB->query($query);
+	}
 }
 ?>

@@ -512,5 +512,40 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		return "survey_question_text";
 	}
+	
+	function checkUserInput($post_data)
+	{
+		$entered_value = $post_data[$this->getId() . "_text_question"];
+		
+		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+		
+		if (strlen($entered_value) == 0) return $this->lng->txt("text_question_not_filled_out");
+
+		return "";
+	}
+	
+	function saveUserInput($post_data, $survey_id, $user_id, $anonymous_id)
+	{
+		global $ilDB;
+
+		include_once "./classes/class.ilUtil.php";
+		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
+		$maxchars = $this->getMaxChars();
+		if ($maxchars > 0)
+		{
+			$entered_value = substr($entered_value, 0, $maxchars);
+		}
+		if (strlen($entered_value) == 0) return;
+		$entered_value = $ilDB->quote($entered_value . "");
+		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+			$ilDB->quote($survey_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($anonymous_id . ""),
+			"NULL",
+			$entered_value
+		);
+		$result = $ilDB->query($query);
+	}
 }
 ?>

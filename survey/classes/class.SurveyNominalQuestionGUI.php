@@ -207,11 +207,14 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
-							if (strcmp($working_data[0]["value"], "") != 0)
+							foreach ($working_data as $value)
 							{
-								if ($working_data[0]["value"] == $i)
+								if (strlen($value["value"]))
 								{
-									$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									if ($value["value"] == $i)
+									{
+										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									}
 								}
 							}
 						}
@@ -225,11 +228,11 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
-							foreach ($working_data as $row)
+							foreach ($working_data as $value)
 							{
-								if (strcmp($row["value"], "") != 0)
+								if (strlen($value["value"]))
 								{
-									if ($row["value"] == $i)
+									if ($value["value"] == $i)
 									{
 										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
 									}
@@ -252,11 +255,14 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
-							if (strcmp($working_data[0]["value"], "") != 0)
+							foreach ($working_data as $value)
 							{
-								if ($working_data[0]["value"] == $i)
+								if (strlen($value["value"]))
 								{
-									$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									if ($value["value"] == $i)
+									{
+										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									}
 								}
 							}
 						}
@@ -282,11 +288,14 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
-							if (strcmp($working_data[0]["value"], "") != 0)
+							foreach ($working_data as $value)
 							{
-								if ($working_data[0]["value"] == $i)
+								if (strlen($value["value"]))
 								{
-									$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									if ($value["value"] == $i)
+									{
+										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									}
 								}
 							}
 						}
@@ -313,11 +322,14 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					$this->tpl->setVariable("VALUE_NOMINAL", $i);
 					if (is_array($working_data))
 					{
-						if (strcmp($working_data[0]["value"], "") != 0)
+						foreach ($working_data as $value)
 						{
-							if ($working_data[0]["value"] == $i)
+							if (strlen($value["value"]))
 							{
-								$this->tpl->setVariable("SELECTED_NOMINAL", " selected=\"selected\"");
+								if ($value["value"] == $i)
+								{
+									$this->tpl->setVariable("SELECTED_NOMINAL", " selected=\"selected\"");
+								}
 							}
 						}
 					}

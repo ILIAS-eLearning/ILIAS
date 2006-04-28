@@ -118,6 +118,7 @@ class ilSurveyExecutionGUI
 		global $ilUser;
 		global $rbacsystem;
 
+		unset($_SESSION["svy_errors"]);
 		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
 		{
 			// only with read access it is possible to run the test
@@ -157,7 +158,7 @@ class ilSurveyExecutionGUI
 		}
 		if ($this->object->isAccessibleWithoutCode())
 		{
-			$_SESSION["anonymous_id"] = $this->object->getRandomSurveyCode();
+			$_SESSION["anonymous_id"] = $this->object->createNewAccessCode();
 		}
 		
 		$activepage = "";
@@ -300,13 +301,13 @@ class ilSurveyExecutionGUI
 		}
 
 		// check users input when it is a metric question
+		unset($_SESSION["svy_errors"]);
 		$page_error = 0;
 		$page = $this->object->getNextPage($_GET["qid"], 0);
 		foreach ($page as $data)
 		{
 			$page_error += $this->saveActiveQuestionData($data);
 		}
-
 		if ($page_error)
 		{
 			if ($page_error == 1)
@@ -352,171 +353,31 @@ class ilSurveyExecutionGUI
 	{
 		global $ilUser;
 		
-		$page_error = 0;
-		$save_answer = 0;
-		$error = 0;
-		$error_messages = array();
-		unset($_SESSION["svy_errors"]);
-		
-		if (strcmp($data["type_tag"], "SurveyMetricQuestion") == 0)
+		include_once "./survey/classes/class.SurveyQuestion.php";
+		$question =& SurveyQuestion::_instanciateQuestion($data["question_id"]);
+		$error = $question->checkUserInput($_POST);
+		if (strlen($error) == 0)
 		{
-			// there is a metric question -> check input
-			$variables =& $this->object->getVariables($data["question_id"]);
-			$entered_value = $_POST[$data["question_id"] . "_metric_question"];
-			// replace german notation with international notation
-			$entered_value = str_replace(",", ".", $entered_value);
-			$_POST[$data["question_id"] . "_metric_question"] = $entered_value;
-			if (!((strlen($entered_value) == 0) && (!$data["obligatory"])))
-			{
-				if ($data["subtype"] > 3) $variables[0]->value1 = 0;
-				if (strlen($variables[0]->value1))
-				{
-					if ($entered_value < $variables[0]->value1)
-					{
-						$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
-						$error = 1;
-					}
-				}
-				if (strlen($variables[0]->value2))
-				{
-					if ($entered_value > $variables[0]->value2)
-					{
-						$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
-						$error = 1;
-					}
-				}
+			$user_id = $ilUser->getId();
+			// delete old answers
+			$this->object->deleteWorkingData($data["question_id"], $user_id);
 
-				if (!is_numeric($entered_value))
-				{
-					$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_not_a_value");
-					$error = 1;
-				}
-				if (strcmp($entered_value, "") == 0)
-				{
-					// there is an error: value is not in bounds
-					$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
-					$error = 1;
-				}
-
-				include_once "./survey/classes/class.SurveyMetricQuestion.php";
-				if (($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)))
-				{
-					$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_floating_point");
-					$error = 1;
-				}
-				if (($error == 0) && (strcmp($entered_value, "") != 0))
-				{
-					$save_answer = 1;
-				}
-			}
-		}
-		if (strcmp($data["type_tag"], "SurveyNominalQuestion") == 0)
-		{
-			$variables =& $this->object->getVariables($data["question_id"]);
-			include_once "./survey/classes/class.SurveyNominalQuestion.php";
-			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and ($data["obligatory"]))
+			if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"]) === false)
 			{
-				// none of the radio buttons was checked
-				$error_messages[$data["question_id"]] = $this->lng->txt("nominal_question_not_checked");
-				$error = 1;
+				$this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
 			}
-			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and (!$data["obligatory"])) 
+			if ($this->object->getAnonymize())
 			{
-				$save_answer = 0;
+				$user_id = 0;
 			}
-			else
-			{
-				$save_answer = 1;
-			}
-		}
-		if (strcmp($data["type_tag"], "SurveyOrdinalQuestion") == 0)
-		{
-			$variables =& $this->object->getVariables($data["question_id"]);
-			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && ($data["obligatory"]))
-			{
-				// none of the radio buttons was checked
-				$error_messages[$data["question_id"]] = $this->lng->txt("ordinal_question_not_checked");
-				$error = 1;
-			}
-			if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && !$error)
-			{
-				$save_answer = 0;
-			}
-			else
-			{
-				$save_answer = 1;
-			}
-		}
-		if (strcmp($data["type_tag"], "SurveyTextQuestion") == 0)
-		{
-			$variables =& $this->object->getVariables($data["question_id"]);
-			if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && ($data["obligatory"]))
-			{
-				// none of the radio buttons was checked
-				$error_messages[$data["question_id"]] = $this->lng->txt("text_question_not_filled_out");
-				$error = 1;
-			}
-			if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && (!$data["obligatory"]))
-			{
-				$save_answer = 0;
-			}
-			else
-			{
-				$save_answer = 1;
-				include_once "./survey/classes/class.SurveyTextQuestion.php";
-				$maxchars = SurveyTextQuestion::_getMaxChars($data["question_id"]);
-				if ($maxchars)
-				{
-					$_POST[$data["question_id"] . "_text_question"] = substr($_POST[$data["question_id"] . "_text_question"], 0, $maxchars);
-				}
-			}
-		}
-
-		$page_error += $error;
-		if ((!$error) && ($save_answer))
-		{
-			// save user input
-			$this->object->deleteWorkingData($data["question_id"], $ilUser->id);
-			switch ($data["type_tag"])
-			{
-				case "SurveyNominalQuestion":
-					include_once "./survey/classes/class.SurveyNominalQuestion.php";
-					if ($data["subtype"] == SUBTYPE_MCSR)
-					{
-						$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
-					}
-					else
-					{
-						if (is_array($_POST[$data["question_id"] . "_value"]))
-						{
-							foreach ($_POST[$data["question_id"] . "_value"] as $value)
-							{
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $value);
-							}
-						}
-						else
-						{
-							$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"]);
-						}
-					}
-					break;
-				case "SurveyOrdinalQuestion":
-					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
-					break;
-				case "SurveyMetricQuestion":
-					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_metric_question"]);
-					break;
-				case "SurveyTextQuestion":
-					include_once("./classes/class.ilUtil.php");
-					$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
-					break;
-			}
+			$question->saveUserInput($_POST, $this->object->getSurveyId(), $user_id, $_SESSION["anonymous_id"]);
+			return 0;
 		}
 		else
 		{
-			$_SESSION["svy_errors"] = $error_messages;
+			$_SESSION["svy_errors"][$question->getId()] = $error;
+			return 1;
 		}
-		return $page_error;
 	}
 	
 /**
@@ -563,14 +424,7 @@ class ilSurveyExecutionGUI
 		global $ilUser;
 		global $rbacsystem;
 		
-		if (($this->object->getAnonymize()) && (strcmp($ilUser->login, "anonymous") == 0))
-		{
-			$survey_started = false;
-		}
-		else
-		{
-			$survey_started = $this->object->isSurveyStarted($ilUser->id, $this->object->getUserSurveyCode());
-		}
+		$survey_started = false;
 		// show introduction page
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
 		if ((strcmp($ilUser->login, "anonymous") == 0) && (!$this->object->getAnonymize()))
@@ -586,7 +440,13 @@ class ilSurveyExecutionGUI
 		if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
 		{
 			$this->tpl->setCurrentBlock("start");
-			$anonymize_key = $this->object->getUserSurveyCode();
+			$anonymize_key = $this->object->getUserAccessCode($ilUser->getId());
+			if (!strlen($anonymize_key))
+			{
+				$anonymize_key = $this->object->createNewAccessCode();
+				$this->object->saveUserAccessCode($ilUser->getId(), $anonymize_key);
+			}
+			$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymize_key);
 			if (strcmp($ilUser->login, "anonymous") == 0)
 			{
 				$this->tpl->setVariable("TEXT_ANONYMIZE", $this->lng->txt("anonymize_anonymous_introduction"));
@@ -606,10 +466,10 @@ class ilSurveyExecutionGUI
 				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $_SESSION["accesscode"]);
 				unset($_SESSION["accesscode"]);
 			}
-			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-			{
-				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
-			}
+			//if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			//{
+			//	$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
+			//}
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("start");

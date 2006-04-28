@@ -597,5 +597,61 @@ class SurveyNominalQuestion extends SurveyQuestion
 	{
 		return "survey_question_nominal";
 	}
+
+	function checkUserInput($post_data)
+	{
+		// multiple response questions are always non-obligatory
+		if ($this->getSubType() == SUBTYPE_MCMR) return "";
+		
+		$entered_value = $post_data[$this->getId() . "_value"];
+		
+		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+
+		if (strlen($entered_value) == 0) return $this->lng->txt("nominal_question_not_checked");
+		
+		return "";
+	}
+	
+	function saveUserInput($post_data, $survey_id, $user_id, $anonymous_id)
+	{
+		global $ilDB;
+
+		if (is_array($post_data[$this->getId() . "_value"]))
+		{
+			foreach ($post_data[$this->getId() . "_value"] as $value)
+			{
+				$entered_value = $value;
+				if (strlen($entered_value) > 0)
+				{
+					$entered_value = $ilDB->quote($entered_value . "");
+					$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+						$ilDB->quote($survey_id . ""),
+						$ilDB->quote($this->getId() . ""),
+						$ilDB->quote($user_id . ""),
+						$ilDB->quote($anonymous_id . ""),
+						$entered_value,
+						"NULL"
+					);
+					$result = $ilDB->query($query);
+				}
+			}
+		}
+		else
+		{
+			$entered_value = $post_data[$this->getId() . "_value"];
+			if (strlen($entered_value) == 0) return;
+			$entered_value = $ilDB->quote($entered_value . "");
+			$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+				$ilDB->quote($survey_id . ""),
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($anonymous_id . ""),
+				$entered_value,
+				"NULL"
+			);
+			$result = $ilDB->query($query);
+		}
+	}
+	
 }
 ?>

@@ -34,7 +34,7 @@ include_once "./survey/classes/inc.SurveyConstants.php";
 * @module   class.SurveyQuestion.php
 * @modulegroup   Survey
 */
-class SurveyQuestion 
+class SurveyQuestion
 {
 /**
 * Question id

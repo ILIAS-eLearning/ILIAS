@@ -334,20 +334,9 @@ class ASS_MultipleChoice extends ASS_Question
 			);
 			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
 			// qti displayfeedback
-			if ($answer->isStateChecked())
+			if ($this->response == RESPONSE_SINGLE)
 			{
-				if ($this->response == RESPONSE_SINGLE)
-				{
-					$linkrefid = "True";
-				}
-					else
-				{
-					$linkrefid = "True_$index";
-				}
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
+				$linkrefid = "response_$index";
 			}
 			$attrs = array(
 				"feedbacktype" => "Response",
@@ -361,22 +350,7 @@ class ASS_MultipleChoice extends ASS_Question
 		// PART III: qti itemfeedback
 		foreach ($this->answers as $index => $answer)
 		{
-			$linkrefid = "";
-			if ($answer->isStateChecked())
-			{
-				if ($this->response == RESPONSE_SINGLE)
-				{
-					$linkrefid = "True";
-				}
-					else
-				{
-					$linkrefid = "True_$index";
-				}
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
-			}
+			$linkrefid = "response_$index";
 			$attrs = array(
 				"ident" => $linkrefid,
 				"view" => "All"
