@@ -1471,6 +1471,7 @@ common#:#exc_files_returned#:#Returned files
 common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work instructions
+common#:#exc_last_submission#:#Last Submission
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_new#:#New exercise
@@ -2391,6 +2392,7 @@ common#:#no_parent_access#:#No access to a superordinated object!
 common#:#no_permission#:#You do not have the necessary permission.
 common#:#no_permission_to_join#:#You are not allowed to join this group!
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.
+common#:#no_submission_made#:#---
 common#:#no_title#:#No Title
 common#:#no_tst_in_personal_list#:#No tests in personal list.
 common#:#no_user_defined_fields_defined#:#No user-defined fields available.
