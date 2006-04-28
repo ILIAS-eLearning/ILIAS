@@ -3561,6 +3561,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch ($this->ctrl->getCmd())
 		{
 			case "run":
+			case "next":
+			case "previous":
+			case "start":
+			case "resume":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyexecutiongui", "run"));
 				break;
 			case "evaluation":
