@@ -971,7 +971,7 @@ function __showMembersTable($a_data,$a_member_ids)
 			     $this->lng->txt("exc_files_returned"),
 			     $this->lng->txt("exc_last_submission"),
 			     $this->lng->txt("exc_status_solved"),
-			     $this->lng->txt("sent")));
+			     $this->lng->txt("exc_status_sent")));
   $tbl->setHeaderVars(array("","login","firstname","lastname","","","","exc_last_submission","",""),
 		      array("ref_id" => $this->object->getRefId(),
 			    "cmd" => "members"));

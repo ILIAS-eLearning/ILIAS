@@ -1467,7 +1467,7 @@ common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit until
 common#:#exc_files#:#Files
-common#:#exc_files_returned#:#Returned files
+common#:#exc_files_returned#:#Files submitted
 common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work instructions
@@ -1485,8 +1485,9 @@ common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Send exercise
 common#:#exc_sent#:#The exercise has been sent to the selected users
-common#:#exc_status_returned#:#Returned
+common#:#exc_status_returned#:#Submitted
 common#:#exc_status_saved#:#Exercise updated
+common#:#exc_status_sent#:#Sent by mail
 common#:#exc_status_solved#:#Solved
 common#:#exc_time_over_short#:#time is over
 common#:#exc_time_to_send#:#Remaining working time
