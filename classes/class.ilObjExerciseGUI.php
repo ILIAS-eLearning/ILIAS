@@ -558,7 +558,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 		  $f_result[$counter][]	= "";
 		}
-	      $f_result[$counter][]   =  $this->__getLastSubmission($member_id,151);
+	      $f_result[$counter][]   =  $this->__getLastSubmission($member_id,$this->object->getId());
 
 	      switch ($this->object->members_obj->getStatusReturnedByMember($member_id)) 
 		{
