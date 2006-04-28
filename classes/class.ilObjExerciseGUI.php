@@ -559,16 +559,24 @@ class ilObjExerciseGUI extends ilObjectGUI
 		  $f_result[$counter][] = "<center><img src=\"".ilUtil::getImagePath("icon_ok.gif")."\"></center>";
 		  break;
 		}
-	      
 
+	      // see if files have been resubmmited
+	      if ( $this->__getUpdatedSubmission($member_id,$this->object->getId()) == 1) 
+		{
+		  $f_result[$counter][] = "<center><img src=\"".ilUtil::getImagePath("warning.gif")."\"></center>";
+		}
+	      else {
+		$f_result[$counter][] = "<center><img src=\"".ilUtil::getImagePath("spacer.gif")."\"></center>";
+	      }
+	      
 	      if ($this->object->members_obj->hasReturned($member_id))
 		{
-		  $f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\" value=\"" . 
-		    $this->lng->txt("download") . "\" />";
+		  $f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\"".
+		    "value=\"".$this->lng->txt("download") . "\" />";
 		}
 	      else
 		{
-		  $f_result[$counter][]	= "";
+		  $f_result[$counter][]	= "<span>---</span>";
 		}
 	      $f_result[$counter][]   =  $this->__getLastSubmission($member_id,$this->object->getId());
 
@@ -903,7 +911,7 @@ function __saveStatus()
       $this->object->members_obj->setNoticeForMember($member,ilUtil::stripSlashes($_POST["notice"][$member]));
       $this->object->members_obj->setStatusSolvedForMember($member,$_POST["solved"][$member] ? 1 : 0);
       $this->object->members_obj->setStatusSentForMember($member,$_POST["sent"][$member] ? 1 : 0);
-      $this->object->members_obj->setStatusReturnedForMember($member,$_POST["returned"][$member] ? 1 : 0);
+      //$this->object->members_obj->setStatusReturnedForMember($member,$_POST["returned"][$member] ? 1 : 0);
     }
   return true;
 }
@@ -967,15 +975,16 @@ function __showMembersTable($a_data,$a_member_ids)
 			     $this->lng->txt("firstname"),
 			     $this->lng->txt("lastname"),
 			     $this->lng->txt("exc_notices"),
-			     $this->lng->txt("exc_status_returned"),
+			     $this->lng->txt("exc_status_submitted"),
+			     $this->lng->txt("exc_status_resubmitted"),
 			     $this->lng->txt("exc_files_returned"),
 			     $this->lng->txt("exc_last_submission"),
 			     $this->lng->txt("exc_status_solved"),
 			     $this->lng->txt("exc_status_sent")));
-  $tbl->setHeaderVars(array("","login","firstname","lastname","","","","exc_last_submission","",""),
+  $tbl->setHeaderVars(array("","login","firstname","lastname","","","","","exc_last_submission","",""),
 		      array("ref_id" => $this->object->getRefId(),
 			    "cmd" => "members"));
-  $tbl->setColumnWidth(array("5%","10%","10%","10%","30%","15%","7%","7%","7%"));
+  $tbl->setColumnWidth(array("5%","5%","10%","10%","30%","5%","15%","7%","7%","7%"));
   $tbl->disable('content');
   
   $tbl->setOrderColumn($_GET["sort_by"]);
@@ -1170,13 +1179,37 @@ function __getLastSubmission($member_id,$exc_id) {
   $usr_set = $ilDB->query($q);
 
   $array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
-  if ($array["TIMESTAMP"]==NULL) {
+  if ($array["timestamp"]==NULL) {
     return $lng->txt("no_submission_made");
   }
   else {
-    return $array["TIMESTAMP"];
+    return $array["timestamp"];
   }
   
+}
+
+function __getUpdatedSubmission($member_id,$exc_id) {
+
+  global $ilDB, $lng;
+
+  $q="SELECT exc_members.solved_time, exc_returned.timestamp ".
+    "FROM exc_members, exc_returned ".
+    "WHERE exc_members.solved_time < exc_returned.timestamp ".
+    "AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
+
+  $usr_set = $ilDB->query($q);
+
+  $array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+  if (count($array)==0) {
+    return 0;
+  }
+  else {
+    return 1;
+  }
+
+
+
 }
 
 } // END class.ilObjExerciseGUI

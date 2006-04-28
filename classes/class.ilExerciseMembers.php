@@ -198,6 +198,17 @@ class ilExerciseMembers
 		$this->ilias->db->query($query);
 		$this->read();
 
+		//update solved timestamp if needed
+		if ($a_status == 1) {
+		  $query = "UPDATE exc_members ".
+		    "SET solved_time='".date("Y-m-d H:i:s")."' ".
+		    "WHERE obj_id = '".$this->getObjId()."' ".
+		    "AND usr_id = '".$a_member_id."'";
+		  
+		  $this->ilias->db->query($query);
+		  $this->read();
+		}
+		
 		return true;
 	}
 
