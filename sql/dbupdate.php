@@ -10539,21 +10539,74 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#687>
 ALTER TABLE survey_survey CHANGE anonymize anonymize ENUM('0','1','2') NOT NULL DEFAULT '0';
+
 <#688>
 ALTER TABLE `tst_tests` ADD `shuffle_questions` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `ending_time` ;
 <#689>
 ALTER TABLE `tst_tests` ADD `show_solution_details` ENUM( '0', '1' ) NOT NULL DEFAULT '1';
+
 <#690>
 ALTER TABLE `survey_question_nominal` CHANGE `orientation` `orientation` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0';
+
 <#691>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
 <#692>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
 <#693>
 ALTER TABLE `survey_anonymous` ADD `user_key` VARCHAR( 40 ) NULL AFTER `survey_fi` ;
+
 <#694>
 ALTER TABLE `exc_returned` CHANGE `TIMESTAMP` `timestamp` timestamp(14) DEFAULT NULL ;
+
+<#695>
+<?php
+
+  // Update registration settings
+$query = "SELECT value FROM settings WHERE keyword='auto_registration'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->value)
+	{
+		$reg_mode = 2;
+	}
+}
+
+
+$query = "SELECT value FROM settings WHERE keyword='enable_registration'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if(!$row->value)
+	{
+		$reg_mode = 1;
+	}
+}
+if(!$reg_mode)
+{
+	$reg_mode = 3;
+}
+$query = "INSERT INTO settings SET keyword = 'new_registration_type',value = '".$reg_mode."'";
+$ilDB->query($query);
+?>
+<#696>
+CREATE TABLE `reg_email_role_assignments` (
+`assignment_id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+`domain` VARCHAR( 128 ) NOT NULL ,
+`role` INT( 11 ) NOT NULL ,
+PRIMARY KEY ( `assignment_id` )
+) TYPE = MYISAM ;
+<#697>
+<?php
+$query = "INSERT INTO reg_email_role_assignments SET domain = '', role = ''";
+$ilDB->query($query);
+?>
+<#698>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

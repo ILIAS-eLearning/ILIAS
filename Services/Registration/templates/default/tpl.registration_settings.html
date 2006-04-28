@@ -1,0 +1,57 @@
+	<form class="il_Form" name="cmd" method="post" action="{FORMACTION}">
+	  <table class="fullwidth">
+		<tr class="tblheader">
+		  <th class="std" colspan="3">
+			<div style="float:left;">{TXT_REGISTRATION_SETTINGS}</div>
+		  </th>
+		</tr>
+		<tr class="std">
+		  <td class="option" align="top" rowspan="3" width="20%">{TXT_REG_TYPE}</td>
+		  <td class="option_value">{RADIO_DEACTIVATE}&nbsp;{TXT_REG_DEACTIVATED}
+			<!-- <div class="il_Description_no_margin">{REG_DEACTIVATED_DESC}</div> -->
+		  </td>
+		</tr>
+		<tr class="std">
+		  <td class="option_value">{RADIO_DIRECT}&nbsp;{TXT_DIRECT}<div class="il_Description_no_margin">{REG_DIRECT_DESC}</div></td>
+		</tr>
+		<tr class="std">
+		  <td class="option_value">{RADIO_APPROVE}&nbsp;{TXT_APPROVE}<br />
+			{TXT_APPROVE_REC}&nbsp;<input type="text" name="reg_approver" value="{APPROVER}" size="32" maxlength="50" />
+			<div class="il_Description_no_margin">{REG_APPROVE_DESC}</div></td>
+		</tr>
+		<tr class="std">
+		  <td class="option" align="top">{TXT_REG_PWD_FORWARD}</td>
+		  <td class="option_value">{CHECK_PWD}<div class="il_Description_no_margin">{REG_INFO_PWD}</div></td>
+		</tr>
+		<tr class="std">
+		  <td class="option" align="top" rowspan="2">{TXT_ROLE_ASSIGNMENT}</td>
+		  <td class="option_value">{RADIO_FIXED}&nbsp;{TXT_REG_FIXED}<br />
+			{TXT_AVAILABLE}&nbsp;{NONE}&nbsp;<a class="il_ContainerItemCommand" href="{LINK_EDIT_FIXED}">{EDIT}</a>
+			<!-- BEGIN fixed -->
+			<ul>
+			  <!-- BEGIN fixed_item -->
+			  <li>{FIXED_ITEM_TITLE}</li>
+			  <!-- END fixed_item -->
+			</ul>	
+			<!-- END fixed -->
+		  </td>
+		</tr>
+		<tr class="std">
+		  <td class="option_value">{RADIO_EMAIL}&nbsp;{TXT_REG_EMAIL}<br />
+			{TXT_AVAILABLE}&nbsp;&nbsp;<a class="il_ContainerItemCommand" href="{LINK_EDIT_EMAIL}">{EDIT}</a>
+			<!-- BEGIN auto -->
+			<ul>
+			  <!-- BEGIN auto_item -->
+			  <li>{AUTO_ITEM_TITLE} -> {AUTO_ROLE}</li>
+			  <!-- END auto_item -->
+			</ul>	
+			<!-- END auto -->
+		  </td>
+		</tr>
+		<tr>
+		  <td class="submit" colspan="3" align="right">
+			<input type="submit" class="submit" name="cmd[save]" value="{TXT_SAVE}" />
+		  </td>
+		</tr>			
+	  </table>
+	</form>

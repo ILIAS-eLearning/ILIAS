@@ -994,7 +994,7 @@ common#:#apply_filter#:#Apply filter
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
 common#:#approve_date#:#Approved on
-common#:#approve_recipient#:#Login ID of approver
+common#:#approve_recipient#:#Login ID of Approver
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#arrow_downright#:#Arrow from top to down right
@@ -2421,8 +2421,8 @@ common#:#obj_adm_desc#:#Main system settings folder containing all panels to adm
 common#:#obj_alm#:#Learning Module AICC
 common#:#obj_assf#:#Test&Assessment
 common#:#obj_assf_desc#:#Test&Assessment log settings.
-common#:#obj_auth#:#Authentication
-common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)
+common#:#obj_auth#:#Authentication/Registration
+common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...) and new account registration settings here.
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat settings
@@ -2629,7 +2629,7 @@ common#:#print#:#Print
 common#:#private_notes#:#Private Notes
 common#:#pro#:#Pro
 common#:#profile#:#Profile
-common#:#profile_changed#:#Your profile has changed
+common#:#profile_changed#:#ILIAS eLearning - Your profile has changed
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
 common#:#pub_section#:#Public Area
@@ -2667,7 +2667,7 @@ common#:#refresh_list#:#Refresh List
 common#:#refuse#:#Refuse
 common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
-common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:
+common#:#reg_mail_body_text2#:#To access ILIAS use the following data:
 common#:#reg_mail_body_text3#:#Further personal information:
 common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
 common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.
@@ -5934,3 +5934,34 @@ search#:#append_results#:#Append results
 meta#:#md_months#:#Month:
 meta#:#md_days#:#Days:
 meta#:#md_time#:#Time:
+registration#:#registration_settings#:#New Registrations
+registration#:#reg_settings_header#:#New Registration Settings
+registration#:#reg_type#:#Registration Type
+registration#:#reg_disabled#:#No Registration Possible
+registration#:#reg_direct#:#Direct Registration
+registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.
+registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.
+registration#:#reg_approve#:#Registration with Approvement
+registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.
+registration#:#reg_role_assignment#:#Role Assignment
+registration#:#reg_fixed#:#Selection From Specified List
+registration#:#reg_available_roles#:#Available Roles:
+registration#:#reg_email#:#Automatic Role Assignment
+registration#:#reg_default#:#Default
+registration#:#reg_email_role_assignment#:#Role Assignment By Domain
+registration#:#reg_add_assignment#:#New Assignment
+registration#:#reg_added_assignment#:#Added new assignment.
+registration#:#reg_missing_domain#:#Please fill out all fields.
+registration#:#reg_missing_role#:#Please fill out all fields.
+registration#:#reg_deleted_assignment#:#Deleted assignment(s).
+common#:#authentication_settings#:#Authentication
+registration#:#reg_domain#:#Domain
+registration#:#reg_selectable_roles#:#Selectable Roles
+registration#:#reg_unknown_recipients#:#The following logins are not valid:
+registration#:#reg_mail_new_user_body#:#A new user has been registered.
+registration#:#reg_mail_body_profile#:#Profile data:
+registration#:#reg_role_info#:#Assigned Roles
+registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.
+registration#:#reg_mail_body_profile_changed#:#your profile has changed !
+registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.
+registration#:#reg_select_one#:#Please select one entry.

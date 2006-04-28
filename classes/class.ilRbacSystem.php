@@ -113,7 +113,7 @@ class ilRbacSystem
 		// get roles
 		if ($a_user_id == $ilUser->getId())
 		{
-			$roles = $_SESSION["RoleId"];
+			$roles = $_SESSION["RoleId"] ? $_SESSION['RoleId'] : array();
 		}
 		else
 		{

@@ -1073,9 +1073,11 @@ class ilMail
 	*/
 	function addFullname($a_email)
 	{
-		global $ilUser;
+		include_once 'classes/class.ilMimeMail.php';
 		
-		return $ilUser->getFullname().'<'.$a_email.'>';
+		global $ilUser;
+
+		return ilMimeMail::_mimeEncode($ilUser->getFullname()).'<'.$a_email.'>';
 	}
 
 	/**
@@ -1096,7 +1098,6 @@ class ilMail
 		
 		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
 		$a_m_subject = "[".$inst_name."] ".$a_m_subject;
-
 
 		if($this->isSOAPEnabled())
 		{
@@ -1139,8 +1140,7 @@ class ilMail
 			$mmail->From($sender);
 			$mmail->To($a_rcp_to);
 			// Add installation name to subject
-			$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
-			$a_m_subject = "[".$inst_name."] ".$a_m_subject;
+
 			$mmail->Subject($a_m_subject);
 			$mmail->Body($a_m_message);
 

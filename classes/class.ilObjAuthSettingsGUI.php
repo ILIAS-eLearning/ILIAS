@@ -27,7 +27,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -46,16 +46,35 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->type = "auth";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
+		$this->lng->loadLanguageModule('registration');
+
 		define('LDAP_DEFAULT_PORT',389);
 		define('RADIUS_DEFAULT_PORT',1812);
 	}
-	
+
+	function viewObject()
+	{
+		// load ilRegistrationSettingsGUI
+
+		include_once './Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
+		
+		// Enable tabs
+		$this->__initSubTabs('');
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('registration_settings');
+		
+		$registration_gui =& new ilRegistrationSettingsGUI();
+		$this->ctrl->setCmdClass('ilregistrationsettingsgui');
+		$this->ctrl->forwardCommand($registration_gui);
+	}
+
+
 	/**
 	* display settings menu
 	* 
 	* @access	public
 	*/
-	function viewObject()
+	function authSettingsObject()
 	{
 		global $rbacsystem;
 		
@@ -64,7 +83,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->__initSubTabs("view");
+		$this->__initSubTabs("authSettings");
 		
 		$this->getTemplateFile("general");
 		
@@ -219,7 +238,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	function cancelObject()
 	{
 		sendInfo($this->lng->txt("msg_cancel"),true);
-		$this->ctrl->redirect($this, "view");
+		$this->ctrl->redirect($this, "authSettings");
 	}
 
 	function getAdminTabs(&$tabs_gui)
@@ -241,7 +260,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("view","editRADIUS","editLDAP","editSHIB",""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"), array("authSettings","editRADIUS","editLDAP","editSHIB",""), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -268,7 +287,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		if ($_POST["auth_mode"] == AUTH_DEFAULT)
 		{
 			sendInfo($this->lng->txt("auth_mode").": ".$this->getAuthModeTitle()." ".$this->lng->txt("auth_mode_not_changed"),true);
-			$this->ctrl->redirect($this,'view');
+			$this->ctrl->redirect($this,'authSettings');
 		}
 
 		switch ($_POST["auth_mode"])
@@ -277,7 +296,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				if ($this->object->checkAuthLDAP() !== true)
 				{
 					sendInfo($this->lng->txt("auth_ldap_not_configured"),true);
-					ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"editLDAP")));
+					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editLDAP")));
 				}
 				break;
 				
@@ -285,7 +304,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				if ($this->object->checkAuthSHIB() !== true)
 				{
 					sendInfo($this->lng->txt("auth_shib_not_configured"),true);
-					ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"editSHIB")));
+					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editSHIB")));
 				}
 				break;
 
@@ -301,7 +320,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				if ($this->object->checkAuthScript() !== true)
 				{
 					sendInfo($this->lng->txt("auth_script_not_configured"),true);
-					ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"editScript")));
+					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editScript")));
 				}
 				break;
 		}
@@ -309,7 +328,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("auth_mode",$_POST["auth_mode"]);
 		
 		sendInfo($this->lng->txt("auth_default_mode_changed_to")." ".$this->getAuthModeTitle(),true);
-		$this->ctrl->redirect($this,'view');
+		$this->ctrl->redirect($this,'authSettings');
 	}
 	
 	/**
@@ -971,7 +990,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		ilObjRole::_updateAuthMode($_POST['Fobject']);
 		
 		sendInfo($this->lng->txt("auth_mode_roles_changed"),true);
-		$this->ctrl->redirect($this,'view');
+		$this->ctrl->redirect($this,'authSettings');
 	}
 
 	function &executeCommand()
@@ -980,8 +999,22 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 
+
 		switch($next_class)
 		{
+			case 'ilregistrationsettingsgui':
+
+				include_once './Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
+
+				// Enable tabs
+				$this->__initSubTabs('');
+				$this->tabs_gui->setTabActive('settings');
+				$this->tabs_gui->setSubTabActive('registration_settings');
+
+				$registration_gui =& new ilRegistrationSettingsGUI();
+				$this->ctrl->forwardCommand($registration_gui);
+				break;
+
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -991,7 +1024,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "view";
+					$cmd = "authSettings";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
@@ -1007,11 +1040,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$shib = ($a_cmd == 'editSHIB') ? true : false;
 		$ldap = ($a_cmd == 'editLDAP') ? true : false;
 		$radius = ($a_cmd == 'editRADIUS') ? true : false;
-		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
+		$overview = ($a_cmd == 'authSettings' or $a_cmd == '') ? true : false;
 
 		include_once('classes/class.ilTabsGUI.php');
 
-		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
+		$this->tabs_gui->addSubTabTarget('registration_settings',
+										 $this->ctrl->getLinkTargetByClass('ilregistrationsettingsgui','view'));
+
+		$this->tabs_gui->addSubTabTarget("authentication_settings", $this->ctrl->getLinkTarget($this, "authSettings"),
 										 "", "", "", $overview);
 		$this->tabs_gui->addSubTabTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
 								   "", "", "", $ldap);

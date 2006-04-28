@@ -1466,7 +1466,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-        global $ilias, $rbacsystem, $rbacadmin;
+        global $ilias, $rbacsystem, $rbacadmin,$ilUser;
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -1638,68 +1638,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
-		// send email
-		if ($_POST["send_mail"] == "y")
-		{
-			$this->lng->loadLanguageModule('crs');
-
-			include_once "classes/class.ilFormatMail.php";
-
-			$umail = new ilFormatMail($_SESSION["AccountId"]);
-
-			// mail body
-			$body = $this->lng->txt("login").": ".$this->object->getLogin()."\n\r".
-			$this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
-			$this->lng->txt("title").": ".$this->object->getTitle()."\n\r".
-			$this->lng->txt("gender").": ".$this->object->getGender()."\n\r".
-			$this->lng->txt("firstname").": ".$this->object->getFirstname()."\n\r".
-			$this->lng->txt("lastname").": ".$this->object->getLastname()."\n\r".
-			$this->lng->txt("institution").": ".$this->object->getInstitution()."\n\r".
-			$this->lng->txt("department").": ".$this->object->getDepartment()."\n\r".
-			$this->lng->txt("street").": ".$this->object->getStreet()."\n\r".
-			$this->lng->txt("city").": ".$this->object->getCity()."\n\r".
-			$this->lng->txt("zipcode").": ".$this->object->getZipcode()."\n\r".
-			$this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
-			$this->lng->txt("phone_office").": ".$this->object->getPhoneOffice()."\n\r".
-			$this->lng->txt("phone_home").": ".$this->object->getPhoneHome()."\n\r".
-			$this->lng->txt("phone_mobile").": ".$this->object->getPhoneMobile()."\n\r".
-			$this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
-			$this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
-			$this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
-			$this->lng->txt("matriculation").": ".$this->object->getMatriculation()."\n\r".
-			$this->lng->txt("client_ip").": ".$this->object->getClientIP()."\n\r".
-			$this->lng->txt("referral_comment").": ".$this->object->getComment()."\n\r".
-			$this->lng->txt("create_date").": ".$this->object->getCreateDate()."\n\r".
-			$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
-
-			if($this->object->getTimeLimitUnlimited())
-			{
-				$body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_unlimited')."\n\r";
-			}
-			else
-			{
-				$body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_from')." ".
-					strftime('%Y-%m-%d %R',$this->object->getTimeLimitFrom())." ".
-					$this->lng->txt('crs_to')." ".
-					strftime('%Y-%m-%d %R',$this->object->getTimeLimitUntil())."\n\r";
-			}
-			
-			$body .= $this->lng->txt('email_footer') . "\n\r";
-
-			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",
-				$this->lng->txt("profile_changed"),$body,array(),array("normal")))
-			{
-				$msg = $this->lng->txt("saved_successfully")."<br/>".$error_message;
-			}
-			else
-			{
-				$msg = $this->lng->txt("saved_successfully")."<br/>".$this->lng->txt("mail_sent");
-			}
-		}
-		else
-		{
-			$msg = $this->lng->txt("saved_successfully");
-		}
+		$mail_message = $this->__sendProfileMail();
+		$msg = $this->lng->txt('saved_successfully').$mail_message;
 
 		// feedback
 		sendInfo($msg,true);
@@ -2381,6 +2321,64 @@ class ilObjUserGUI extends ilObjectGUI
 				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
 			}
 		}
+	}
+
+	function __sendProfileMail()
+	{
+		global $ilUser,$ilias;
+
+		if($_POST['send_mail'] != 'y')
+		{
+			return '';
+		}
+
+		// Choose language of user
+		$usr_lang = new ilLanguage($this->object->getLanguage());
+		$usr_lang->loadLanguageModule('crs');
+		$usr_lang->loadLanguageModule('registration');
+
+		include_once "classes/class.ilMimeMail.php";
+
+		$mmail = new ilMimeMail();
+		$mmail->autoCheck(false);
+		$mmail->From($ilUser->getEmail());
+		$mmail->To($this->object->getEmail());
+
+		// mail subject
+		$subject = $usr_lang->txt("profile_changed");
+
+			
+		// mail body
+		$body = ($usr_lang->txt("reg_mail_body_salutation")." ".$this->object->getFullname().",\n\n");
+
+		$date = $this->object->getApproveDate();
+		// Approve
+		if((time() - strtotime($date)) < 10)
+		{
+			$body .= ($usr_lang->txt('reg_mail_body_approve')."\n\n");
+		}
+		else
+		{
+			$body .= ($usr_lang->txt('reg_mail_body_profile_changed')."\n\n");
+		}
+
+		// Append login info only if password has been chacnged
+		if($_POST['Fobject']['passwd'] != '********')
+		{
+			$body .= $usr_lang->txt("reg_mail_body_text2")."\n".
+				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".
+				$usr_lang->txt("login").": ".$this->object->getLogin()."\n".
+				$usr_lang->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\n";
+		}
+		$body .= ($usr_lang->txt("reg_mail_body_text3")."\n");
+		$body .= $this->object->getProfileAsString($usr_lang);
+
+		$mmail->Subject($subject);
+		$mmail->Body($body);
+		$mmail->Send();
+
+			
+		return "<br/>".$this->lng->txt("mail_sent");
 	}
 
 } // END class.ilObjUserGUI
