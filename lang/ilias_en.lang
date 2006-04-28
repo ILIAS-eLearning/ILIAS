@@ -5361,7 +5361,6 @@ survey#:#anonymize_with_code#:#Anonymization with personal access using a survey
 survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
-survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
@@ -5678,7 +5677,7 @@ survey#:#survey_next#:#next >>>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<<< previous
-survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)
+survey#:#survey_question_obligatory#:#This question is obligatory. You must answer the question!
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions
 survey#:#survey_skip_finish#:#skip and finish survey

@@ -319,7 +319,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_ALL", $this->lng->txt("evaluation_access_all"));
 		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
-		$this->tpl->setVariable("TEXT_ANONYMIZATION_EXPLANATION", $this->lng->txt("anonymize_survey_explanation"));
 		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("anonymize_personalized"));
 		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("anonymize_with_code"));
 		$this->tpl->setVariable("ANON_VALUE_FREEACCESS", $this->lng->txt("anonymize_without_code"));

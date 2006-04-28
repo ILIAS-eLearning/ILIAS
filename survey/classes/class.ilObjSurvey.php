@@ -733,7 +733,7 @@ class ilObjSurvey extends ilObject
 * 
 * Checks for an anomyous survey id in the database an returns the id
 *
-* @param string $id A 32 digit MD5 key
+* @param string $id A survey access code
 * @result object Anonymous survey id if found, empty string otherwise
 * @access public
 */
@@ -4619,11 +4619,22 @@ class ilObjSurvey extends ilObject
 	function checkSurveyCode($code)
 	{
 		global $ilUser;
+		global $ilDB;
 		// check for the correct survey code
-		if (strcmp($ilUser->login, "anonymous") != 0)
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
-			$anonymize_key = $this->getUserSurveyCode();
-			if (strcmp(strtolower($anonymize_key), strtolower($code)) == 0)
+			$user_key = "";
+			$query = sprintf("SELECT survey_key FROM survey_anonymous WHERE survey_fi = %s AND user_key = %s",
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote(md5($ilUser->getId()))
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$user_key = $row["survey_key"];
+			}
+			if (strcmp($user_key, $code) == 0)
 			{
 				return true;
 			}
@@ -4692,7 +4703,7 @@ class ilObjSurvey extends ilObject
 	{
 		for ($i = 0; $i < $nrOfCodes; $i++)
 		{
-			$anonymize_key = md5((time() + ($i*$nrOfCodes)) . $this->getSurveyId());
+			$anonymize_key = $this->createNewAccessCode();
 			$query = sprintf("INSERT INTO survey_anonymous (anonymous_id, survey_key, survey_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
 				$this->ilias->db->quote($anonymize_key . ""),
 				$this->ilias->db->quote($this->getSurveyId() . "")
@@ -4702,13 +4713,71 @@ class ilObjSurvey extends ilObject
 	}
 	
 	/**
-	* Returns a random survey code
+	* Returns a survey access code that was saved for a registered user
 	*
-	* @param	string		$a_target
+	* Returns a survey access code that was saved for a registered user
+	*
+	* @param int $user_id	The database id of the user
+	* @return string The survey access code of the user
 	*/
-	function getRandomSurveyCode()
+	function getUserAccessCode($user_id)
 	{
-		return md5(time() . $this->getSurveyId());
+		global $ilDB;
+		$access_code = "";
+		$query = sprintf("SELECT survey_key FROM survey_anonymous WHERE survey_fi = %s AND user_key = %s",
+			$ilDB->quote($this->getSurveyId() . ""),
+			$ilDB->quote(md5($user_id))
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$access_code = $row["survey_key"];
+		}
+		return $access_code;
+	}
+	
+	/**
+	* Saves a survey access code for a registered user to the database
+	*
+	* Saves a survey access code for a registered user to the database
+	*
+	* @param int $user_id	The database id of the user
+	* @param string $access_code The survey access code
+	*/
+	function saveUserAccessCode($user_id, $access_code)
+	{
+		global $ilDB;
+		$query = sprintf("INSERT INTO survey_anonymous (survey_key, survey_fi, user_key) VALUES (%s, %s, %s)",
+			$ilDB->quote($access_code . ""),
+			$ilDB->quote($this->getSurveyId() . ""),
+			$ilDB->quote(md5($user_id) . "")
+		);
+		$result = $ilDB->query($query);
+	}
+	
+	/**
+	* Returns a new, unused survey access code
+	*
+	* @return	string A new survey access code
+	*/
+	function createNewAccessCode()
+	{
+		// create a 5 character code
+		$codestring = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		mt_srand();
+		$code = "";
+		for ($i = 1; $i <=5; $i++)
+		{
+			$index = mt_rand(0, strlen($codestring)-1);
+			$code .= substr($codestring, $index, 1);
+		}
+		// verify it against the database
+		while ($this->isSurveyCodeUsed($code))
+		{
+			$code = $this->createNewAccessCode();
+		}
+		return $code;
 	}
 	
 	/**

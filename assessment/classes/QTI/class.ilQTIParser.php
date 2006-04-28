@@ -1350,20 +1350,26 @@ class ilQTIParser extends ilSaxParser
 										case "ilqtirenderchoice":
 											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
+											$foundimage = FALSE;
 											foreach ($rendertype->response_labels as $response_label)
 											{
 												$ident = $response_label->getIdent();
 												$answertext = "";
-												$answerimage = "";
+												$answerimage = array();
 												foreach ($response_label->material as $mat)
 												{
 													foreach ($mat->mattext as $matt)
 													{
 														$answertext .= $matt->getContent();
 													}
-													foreach ($mat->matimage as $mati)
+													foreach ($mat->matimage as $matimage)
 													{
-														$answerimage .= $mati->getContent();
+														$foundimage = TRUE;
+														$answerimage = array(
+															"imagetype" => $matimage->getImageType(),
+															"label" => $matimage->getLabel(),
+															"content" => $matimage->getContent()
+														);
 													}
 												}
 												$answers[$ident] = array(
@@ -1431,9 +1437,38 @@ class ilQTIParser extends ilSaxParser
 						$question->setShuffle($shuffle);
 						foreach ($answers as $answer)
 						{
-							$question->addAnswer($answer["answertext"], $answer["points"], $answer["correctness"], $answer["answerorder"], $answer["imagefile"]);
+							$question->addAnswer($answer["answertext"], $answer["points"], $answer["correctness"], $answer["answerorder"], $answer["imagefile"]["label"]);
 						}
 						$question->saveToDb();
+						foreach ($answers as $answer)
+						{
+							if (is_array($answer["imagefile"]))
+							{
+								$image =& base64_decode($answer["imagefile"]["content"]);
+								$imagepath = $question->getImagePath();
+								include_once "./classes/class.ilUtil.php";
+								if (!file_exists($imagepath))
+								{
+									ilUtil::makeDirParents($imagepath);
+								}
+								$imagepath .=  $answer["imagefile"]["label"];
+								$fh = fopen($imagepath, "wb");
+								if ($fh == false)
+								{
+//									global $ilErr;
+//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+//									return;
+								}
+								else
+								{
+									$imagefile = fwrite($fh, $image);
+									fclose($fh);
+								}
+								// create thumbnail file
+								$thumbpath = $imagepath . "." . "thumb.jpg";
+								ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+							}
+						}
 						if (count($this->item->suggested_solutions))
 						{
 							foreach ($this->item->suggested_solutions as $suggested_solution)

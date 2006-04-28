@@ -943,18 +943,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("QTab");
 			}
+			if ($editable)
+			{
+				$this->tpl->setCurrentBlock("checkable");
+				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("edit_link");
+				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("QTab");
 			$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 			include_once "./assessment/classes/class.assQuestionGUI.php";
 			$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
 			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
 			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
-			if ($editable)
-			{
-				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
-			}
 			$this->tpl->setVariable("QUESTION_TITLE", "<strong>" .$data["title"] . "</strong>");
 
 			$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
@@ -1658,10 +1663,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 
 		// Assessment of questions sub menu entry
-		$tabs_gui->addTarget("statistics",
-										 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
-										 array("assessment"),
-										 $classname, "");
+		if ($_GET["q_id"])
+		{
+			$tabs_gui->addTarget("statistics",
+											 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
+											 array("assessment"),
+											 $classname, "");
+		}
 		$tabs_gui->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTarget($this, "questions"));
 		
 	}
