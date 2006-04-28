@@ -363,11 +363,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		return $this->__raiseError('Cannot create object xml !','Server');
 	}
 
-		
-		
-			
-	
-
 	function addObject($sid,$a_target_id,$a_xml)
 	{
 		if(!$this->__checkSession($sid))

@@ -552,6 +552,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		$q = "SELECT rol_id FROM rbac_fa ".
 			 "WHERE parent = '".$a_ref_id."'".
 			 $and;
+
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))

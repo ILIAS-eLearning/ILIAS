@@ -460,7 +460,6 @@ function sendInfo($a_info = "",$a_keep = false)
 	{
 		$_SESSION["info"] = $a_info;
 	}
-
 	if (!empty($_SESSION["info"]))
 	{
 		$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");

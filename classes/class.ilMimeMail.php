@@ -123,7 +123,7 @@ class ilMimeMail
 	 */
 	function Subject($subject )
 	{
-		$this->xheaders['Subject'] = strtr( $subject, "\r\n" , "  " );
+		$this->xheaders['Subject'] = ilMimeMail::_mimeEncode(strtr($subject,"\r\n"," "));
 	}
 
 
@@ -139,6 +139,9 @@ class ilMimeMail
 			echo "Class Mail: error, From is not a string";
 			exit;
 		}
+		
+		//  base64_encode fullname but not email
+		
 		$this->xheaders['From'] = $from;
 	}
 
@@ -462,5 +465,15 @@ class ilMimeMail
 		}
 		$this->fullBody .= implode($sep, $ata);
 	}
+
+	function _mimeEncode($a_string)
+	{
+		$encoded = '=?utf-8?b?';
+		$encoded .= base64_encode($a_string);
+		$encoded .= '?=';
+
+		return $encoded;
+	}
+
 } // class Mail
 ?>

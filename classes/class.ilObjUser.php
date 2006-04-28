@@ -1593,7 +1593,20 @@ class ilObjUser extends ilObject
 	{
 		 return $this->prefs["language"];
 	}
-	
+
+	function _lookupLanguage($a_usr_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT value FROM usr_pref WHERE usr_id='".$a_usr_id."' AND keyword = 'language'";
+		$r = $ilDB->query($q);
+
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $row['value'];
+		}
+		return 'en';
+	}
 	/**
 	 * returns the current language (may differ from user's pref setting!)
 	 * 
@@ -2760,7 +2773,130 @@ class ilObjUser extends ilObject
 
 		return true;
 	}
-	  
 
+	/**
+	* Get formatted mail body text of user profile data.
+	*
+	* @param	object	  Language object (choose user language of recipient) or null to use language of current user
+	*/
+	function getProfileAsString(&$a_language)
+	{
+		include_once 'classes/class.ilObjRole.php';
+
+		global $lng,$rbacreview;
+
+		$language =& $a_language;
+		$language->loadLanguageModule('registration');
+		$language->loadLanguageModule('crs');
+
+		$body = '';
+        $body .= ($language->txt("login").": ".$this->getLogin()."\n");
+		
+		if(strlen($this->getUTitle()))
+		{
+			$body .= ($language->txt("title").": ".$this->getUTitle()."\n");
+		}
+		if(strlen($this->getGender()))
+		{
+			$gender = ($this->getGender() == 'm') ? 
+				$language->txt('gender_m') :
+				$language->txt('gender_f');
+			$body .= ($language->txt("gender").": ".$gender."\n");
+		}
+		if(strlen($this->getFirstname()))
+		{
+			$body .= ($language->txt("firstname").": ".$this->getFirstname()."\n");
+		}
+		if(strlen($this->getLastname()))
+		{
+			$body .= ($language->txt("lastname").": ".$this->getLastname()."\n");
+		}
+		if(strlen($this->getInstitution()))
+		{
+			$body .= ($language->txt("institution").": ".$this->getInstitution()."\n");
+		}
+		if(strlen($this->getDepartment()))
+		{
+			$body .= ($language->txt("department").": ".$this->getDepartment()."\n");
+		}
+		if(strlen($this->getStreet()))
+		{
+			$body .= ($language->txt("street").": ".$this->getStreet()."\n");
+		}
+		if(strlen($this->getCity()))
+		{
+			$body .= ($language->txt("city").": ".$this->getCity()."\n");
+		}
+		if(strlen($this->getZipcode()))
+		{
+			$body .= ($language->txt("zipcode").": ".$this->getZipcode()."\n");
+		}
+		if(strlen($this->getCountry()))
+		{
+			$body .= ($language->txt("country").": ".$this->getCountry()."\n");
+		}
+		if(strlen($this->getPhoneOffice()))
+		{
+			$body .= ($language->txt("phone_office").": ".$this->getPhoneOffice()."\n");
+		}
+		if(strlen($this->getPhoneHome()))
+		{
+			$body .= ($language->txt("phone_home").": ".$this->getPhoneHome()."\n");
+		}
+		if(strlen($this->getPhoneMobile()))
+		{
+			$body .= ($language->txt("phone_mobile").": ".$this->getPhoneMobile()."\n");
+		}
+		if(strlen($this->getFax()))
+		{
+			$body .= ($language->txt("fax").": ".$this->getFax()."\n");
+		}
+		if(strlen($this->getEmail()))
+		{
+			$body .= ($language->txt("email").": ".$this->getEmail()."\n");
+		}
+		if(strlen($this->getHobby()))
+		{
+			$body .= ($language->txt("hobby").": ".$this->getHobby()."\n");
+		}
+		if(strlen($this->getComment()))
+		{
+			$body .= ($language->txt("referral_comment").": ".$this->getComment()."\n");
+		}
+		if(strlen($this->getMatriculation()))
+		{
+			$body .= ($language->txt("matriculation").": ".$this->getMatriculation()."\n");
+		}
+		if(strlen($this->getCreateDate()))
+		{
+			$body .= ($language->txt("create_date").": ".$this->getCreateDate()."\n");
+		}
+
+		foreach($rbacreview->getGlobalRoles() as $role)
+		{
+			if($rbacreview->isAssigned($this->getId(),$role))
+			{
+				$gr[] = ilObjRole::_lookupTitle($role);
+			}
+		}
+		if(count($gr))
+		{
+			$body .= ($language->txt('reg_role_info').': '.implode(',',$gr)."\n");
+		}
+
+		// Time limit 
+		if($this->getTimeLimitUnlimited())
+		{
+			$body .= ($language->txt('time_limit').": ".$language->txt('crs_unlimited')."\n");
+		}
+		else
+		{
+			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
+					  strftime('%c',$this->getTimeLimitFrom())." ".
+					  $language->txt('crs_to')." ".
+					  strftime('%c',$this->getTimeLimitUntil())."\n");
+		}
+		return $body;
+	}
 } // END class ilObjUser
 ?>

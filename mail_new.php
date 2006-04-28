@@ -68,7 +68,7 @@ if(isset($_POST["cmd"]["send"]))
 	$f_message = $umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"]));
 	$umail->setSaveInSentbox(true);
 	if($error_message = $umail->sendMail($_POST["rcp_to"],$_POST["rcp_cc"],
-										 $_POST["rcp_bcc"],$_POST["m_subject"],$f_message,
+										 $_POST["rcp_bcc"],ilUtil::stripSlashes($_POST["m_subject"]),$f_message,
 										 $_POST["attachments"],$_POST["m_type"]))
 	{
 		sendInfo($error_message);

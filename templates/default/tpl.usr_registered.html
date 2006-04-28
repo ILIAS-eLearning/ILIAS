@@ -5,10 +5,12 @@ body { margin:15px; }
 <div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1></div>
 <div align="center">
 <p>{TXT_WELCOME}<br/>{TXT_REGISTERED}</p>
+<!-- BEGIN activation -->
 <form action="{FORMACTION}" {TARGET} method="post">
 <input type="hidden" name="password" value="{PASSWORD}"/>
 <input type="hidden" name="username" value="{USERNAME}"/>
 <input class="submit" type="submit" value="{TXT_LOGIN}"/>
 </form>
+<!-- END activation -->
 </div>
 

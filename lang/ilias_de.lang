@@ -960,7 +960,7 @@ common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
 common#:#approve_date#:#Freigegeben am
-common#:#approve_recipient#:#Freigegeben durch (Benutzername ID)
+common#:#approve_recipient#:#E-Mail Benachrichtigung für (Benutzername ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#arrow_downright#:#Pfeil von oben nach unten rechts
@@ -2377,8 +2377,8 @@ common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Install
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_assf#:#Test&Assessment
 common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
-common#:#obj_auth#:#Authentifizierung
-common#:#obj_auth_desc#:#Stellen Sie hier ein, wie Benutzer authentifiziert werden sollen (Lokal, LDAP, ...)
+common#:#obj_auth#:#Authentifizierung/Neuanmeldung
+common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, ...) sowie die Neuanmeldungen.
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac#:#Chateinstellungen
@@ -2585,7 +2585,7 @@ common#:#print#:#Drucken
 common#:#private_notes#:#Private Notizen
 common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile#:#Profil
-common#:#profile_changed#:#Ihr Profil wurde geändert
+common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
 common#:#pub_section#:#öffentlicher Bereich
@@ -5838,3 +5838,34 @@ trac#:#trac_inactive_both#:#Zugriffsstatistiken und Lernfortschritt deaktiviert
 meta#:#md_months#:#Monate:
 meta#:#md_days#:#Tage:
 meta#:#md_time#:#Zeit:
+registration#:#registration_settings#:#Neuanmeldungen
+registration#:#reg_settings_header#:#Einstellungen für die Neuanmeldung
+registration#:#reg_type#:#Registrierungsart
+registration#:#reg_disabled#:#Keine Registrierung möglich
+registration#:#reg_direct#:#Direkte Anmeldung
+registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet.
+registration#:#reg_approve_info#:#Alle neu angemeldeten Benutzer müssen vom einem Administrator freigeschaltet werden. 
+registration#:#reg_approve#:#Neuanmeldung mit Überprüfung
+registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
+registration#:#reg_role_assignment#:#Rollenzuordnung
+registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
+registration#:#reg_available_roles#:#Verfügbare Rollen:
+registration#:#reg_email#:#Automatische Rollenzuweisung
+registration#:#reg_default#:#Default
+registration#:#reg_email_role_assignment#:#Rollenzuweisung über Email-Adresse
+registration#:#reg_add_assignment#:#Neue Zuordnung
+registration#:#reg_added_assignment#:#Eine neue Zuordung wurde angelegt.
+registration#:#reg_missing_domain#:#Bitte füllen Sie alle notwendigen Felder aus.
+registration#:#reg_missing_role#:#Bitte füllen Sie alle notwendigen Felder aus.
+registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
+common#:#authentication_settings#:#Authentifizierung
+registration#:#reg_domain#:#Domäne (z.B. '@your_domain.de')
+registration#:#reg_selectable_roles#:#Auswählbare Rollen
+registration#:#reg_unknown_recipients#:#Die folgenden Benutzer sind nicht gültig:
+registration#:#reg_mail_new_user_body#:#Ein neuer Benutzer hat sich angemldet.
+registration#:#reg_mail_body_profile#:#Profildaten:
+registration#:#reg_role_info#:#Rollen
+registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch von dem/der AdministratorIn freigeschaltet werden. Wenn dies erfolgt ist, erhalten Sie noch eine Bestätigungsmail.
+registration#:#reg_mail_body_profile_changed#:#Ihre Profildaten wurden geändert.
+registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-Plattform angemeldet und eine Mail mit ihren Zugangsdaten erhalten. Jetzt ist Ihr Zugang von Ihrem/Ihrer AdministratorIn freigeschaltet worden. Bei Fragen und Problemen, wenden Sie sich am besten per Mail an ihn/sie.i
+registration#:#reg_select_one#:#Bitte treffen Sie eine Auswahl.

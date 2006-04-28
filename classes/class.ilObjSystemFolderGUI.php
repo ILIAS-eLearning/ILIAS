@@ -441,8 +441,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["default_repository_view"] = $_POST["default_rep_view"];
 			$settings["password_assistance"] = $_POST["password_assistance"];
 			$settings["js_edit"] = $_POST["js_edit"];
-			$settings["enable_registration"] = $_POST["enable_registration"];
-			$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
 			$settings["https"] = $_POST["https"];
 			
 			// contact
@@ -457,9 +455,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["admin_country"] = $_POST["admin_country"];
 			$settings["admin_phone"] = $_POST["admin_phone"];
 			$settings["admin_email"] = $_POST["admin_email"];
-
-			// registration
-			$settings["enable_registration"] = $_POST["enable_registration"];
 
 			// cron
 			$settings["cron_user_check"] = $_POST["cron_user_check"];
@@ -519,8 +514,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
 			$this->ilias->setSetting("enable_calendar",$_POST["enable_calendar"]);
 			$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
-			$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
-			$this->ilias->setSetting("passwd_auto_generate",$_POST["passwd_auto_generate"]);
 			$this->ilias->setSetting('https',$_POST['https']);
 			$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
 			$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
@@ -537,13 +530,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting("admin_country",$_POST["admin_country"]);
 			$this->ilias->setSetting("admin_phone",$_POST["admin_phone"]);
 			$this->ilias->setSetting("admin_email",$_POST["admin_email"]);
-
-			// Registration
-			$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
-
-			// required user information
-			$this->ilias->setSetting("auto_registration",$_POST["auto_registration"]);
-			$this->ilias->setSetting("approve_recipient",$_POST["approve_recipient"]);
 
 			// cron
 			$this->ilias->setSetting("cron_user_check",$_POST["cron_user_check"]);
@@ -652,16 +638,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_JS_EDIT", $this->lng->txt("enable_js_edit"));
 		$this->tpl->setVariable("TXT_JS_EDIT_INFO", $this->lng->txt("enable_js_edit_info"));
 		
-		// Registration
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("registration"));
-		$this->tpl->setVariable("TXT_ENABLE_REGISTRATION", $this->lng->txt("enable_registration"));
-		$this->tpl->setVariable("TXT_PASSWD_AUTO_GENERATE", $this->lng->txt("passwd_auto_generate"));
-		
-		/*if (AUTH_DEFAULT != AUTH_LOCAL)
-		{
-			$this->tpl->setVariable("TXT_REGISTRATION_DISABLED", "(".$this->lng->txt("registration_disabled").")");
-			$this->tpl->setVariable("DISABLE_REGISTRATION", "\"disabled=disabled\"");
-		}*/
 
 		// paths
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));
@@ -736,9 +712,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_EMAIL", $this->lng->txt("email"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
-        // required user information
-        $this->tpl->setVariable("TXT_AUTO_REGISTRATION", $this->lng->txt("auto_registration"));
-        $this->tpl->setVariable("TXT_APPROVE_RECIPIENT", $this->lng->txt("approve_recipient"));
 
 		///////////////////////////////////////////////////////////
 		// display formula data
@@ -838,26 +811,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("LINKS_DYNAMIC_CHECKED","checked=\"checked\"");
 		}
 
-        // registration
-		if ($settings["passwd_auto_generate"])
-		{
-			$this->tpl->setVariable("PASSWD_AUTO_GENERATE","checked=\"checked\"");
-		}
-		if ($settings["enable_registration"])
-		{
-			$this->tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");
-		}
-
-        // required user information
-        if ($settings["auto_registration"])
-        {
-            $this->tpl->setVariable("AUTO_REGISTRATION","checked=\"checked\"");
-        }
-        if ($settings["approve_recipient"])
-        {
-            $this->tpl->setVariable("APPROVE_RECIPIENT",$settings["approve_recipient"]);
-        }
-        if ($settings["require_login"])
+		if ($settings["require_login"])
         {
             $this->tpl->setVariable("REQUIRE_LOGIN","checked=\"checked\"");
         }

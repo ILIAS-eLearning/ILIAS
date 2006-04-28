@@ -177,7 +177,8 @@ foreach ($languages as $lang_key)
 }
 
 // allow new registrations? 
-if ($ilias->getSetting("enable_registration"))
+include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
 {
 	$tpl->setCurrentBlock("new_registration");
 	$tpl->setVariable("REGISTER", $lng->txt("registration"));
