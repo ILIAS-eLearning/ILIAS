@@ -547,8 +547,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 	      $f_result[$counter][]	= $tmp_obj->getLogin();
 	      $f_result[$counter][]	= $tmp_obj->getFirstname();
 	      $f_result[$counter][]	= $tmp_obj->getLastname();
-	      $f_result[$counter][]	= array("notice[$member_id]",
-						ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
+       	  
+		  $img_mail = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("mail_feedbackla").
+    		"\" title=\"".$this->lng->txt("mail_feedback")."\" border=\"0\" vspace=\"0\"/>";
+
+  		  $f_result[$counter][]	= "<a target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".$tmp_obj->getLogin()."\">".
+			$img_mail."</a>";
+
+
+//	      $f_result[$counter][]	= array("notice[$member_id]",ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
 
 	      switch ($this->object->members_obj->getStatusReturnedByMember($member_id)) 
 		{
@@ -578,6 +585,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 		  $f_result[$counter][]	= "<span>---</span>";
 		}
+		
 	      $f_result[$counter][]   =  $this->__getLastSubmission($member_id,$this->object->getId());
 
 	      $f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1);
@@ -736,9 +744,12 @@ function __showMembersTableContent($a_data)
 	  switch($key)
 	    {
 	    case 4:
-	      $this->tpl->setCurrentBlock("form_input");
-	      $this->tpl->setVariable("ROW_INPUT_NAME",$column[0]);
-	      $this->tpl->setVariable("ROW_INPUT_VALUE",$column[1]);
+	      //$this->tpl->setCurrentBlock("form_input");
+	      //$this->tpl->setVariable("ROW_INPUT_NAME",$column[0]);
+	      //$this->tpl->setVariable("ROW_INPUT_VALUE",$column[1]);
+	      //$this->tpl->parseCurrentBlock();
+		  $this->tpl->setCurrentBlock("text");
+	      $this->tpl->setVariable("ROW_TEXT",$column);
 	      $this->tpl->parseCurrentBlock();
 	      break;
 	      
@@ -904,11 +915,11 @@ function __saveStatus()
 {
   foreach($this->object->members_obj->getMembers() as $member)
     {
-      if(!isset($_POST['notice'][$member]))
+    /*  if(!isset($_POST['notice'][$member]))
 	{
 	  continue;
-	}
-      $this->object->members_obj->setNoticeForMember($member,ilUtil::stripSlashes($_POST["notice"][$member]));
+	}*/
+      //$this->object->members_obj->setNoticeForMember($member,ilUtil::stripSlashes($_POST["notice"][$member]));
       $this->object->members_obj->setStatusSolvedForMember($member,$_POST["solved"][$member] ? 1 : 0);
       $this->object->members_obj->setStatusSentForMember($member,$_POST["sent"][$member] ? 1 : 0);
       //$this->object->members_obj->setStatusReturnedForMember($member,$_POST["returned"][$member] ? 1 : 0);
@@ -974,7 +985,7 @@ function __showMembersTable($a_data,$a_member_ids)
   $tbl->setHeaderNames(array('',$this->lng->txt("login"),
 			     $this->lng->txt("firstname"),
 			     $this->lng->txt("lastname"),
-			     $this->lng->txt("exc_notices"),
+			     $this->lng->txt("mail"),
 			     $this->lng->txt("exc_status_submitted"),
 			     $this->lng->txt("exc_status_resubmitted"),
 			     $this->lng->txt("exc_files_returned"),
@@ -984,7 +995,7 @@ function __showMembersTable($a_data,$a_member_ids)
   $tbl->setHeaderVars(array("","login","firstname","lastname","","","","","exc_last_submission","",""),
 		      array("ref_id" => $this->object->getRefId(),
 			    "cmd" => "members"));
-  $tbl->setColumnWidth(array("5%","5%","10%","10%","30%","5%","15%","7%","7%","7%"));
+  $tbl->setColumnWidth(array("5%","5%","10%","10%","10%","5%","15%","7%","7%","7%"));
   $tbl->disable('content');
   
   $tbl->setOrderColumn($_GET["sort_by"]);
@@ -1172,9 +1183,9 @@ function __getLastSubmission($member_id,$exc_id) {
 
   global $ilDB, $lng;
 
-  $q="SELECT obj_id,user_id,TIMESTAMP FROM exc_returned ".
+  $q="SELECT obj_id,user_id,timestamp FROM exc_returned ".
     "WHERE obj_id =".$exc_id." AND user_id=".$member_id.
-    " ORDER BY TIMESTAMP DESC";
+    " ORDER BY timestamp DESC";
 
   $usr_set = $ilDB->query($q);
 
