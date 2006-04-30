@@ -963,7 +963,7 @@ function __showMembersTable($a_data,$a_member_ids)
       $this->tpl->parseCurrentBlock();
     }
   
-  $this->tpl->setVariable("COLUMN_COUNTS",6);
+  $this->tpl->setVariable("COLUMN_COUNTS",11);
   $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
   
   $this->tpl->setCurrentBlock("tbl_action_select");
@@ -973,7 +973,7 @@ function __showMembersTable($a_data,$a_member_ids)
   $this->tpl->parseCurrentBlock();
   
   $this->tpl->setCurrentBlock("tbl_action_row");
-  $this->tpl->setVariable("COLUMN_COUNTS",9);
+  $this->tpl->setVariable("COLUMN_COUNTS",11);
   $this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
   $this->tpl->parseCurrentBlock();
   
