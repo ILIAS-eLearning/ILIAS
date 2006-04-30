@@ -2832,7 +2832,7 @@ class ilUtil
 	}
 
 
-  /**
+  	  /**
       * Return an array of date segments.
       *
       * @param        int $seconds Number of seconds to be parsed
@@ -2845,7 +2845,7 @@ class ilUtil
              $periods = array (
                      'years'     => 31556926,
                      'months'    => 2629743,
-		     'days'      => 86400,
+				     'days'      => 86400,
                      'hours'     => 3600,
                      'minutes'   => 60,
                      'seconds'   => 1
@@ -2886,33 +2886,31 @@ class ilUtil
        global $lng;
 
        if (!is_array($duration)) {
-	 return false;
+		echo "lavin, no es un array el parametro!";
+		 return false;
        }
        
        foreach ($duration as $key => $value) {
-	 $segment_name = substr($key, 0, -1);
-	 $segment_name = $lng->txt($segment_name);
-	 $segment = $value . ' ' . $segment_name; 
+	 	$segment_name = substr($key, 0, -1);
+		$segment_name = $lng->txt($segment_name);
+		$segment = $value . ' ' . $segment_name; 
 	 
-	 // Plural
-	 if ($value != 1) {
-	   $segment .= 's';
-	 }
+		 // Plural
+		 if ($value != 1) {
+	   		$segment .= 's';
+		 }
 	 
-	 $array[] = $segment;
-       }
-       $len = count($array);
-       if ($len>=3) {
-	 $array=array_slice($array,0,(3-$len));
-       }
+		$array[] = $segment;
+       	}
+       	$len = count($array);
+       	if ($len>3) {
+		 $array=array_slice($array,0,(3-$len));
+    	}
        
        $str = implode(', ', $array);
        
        return $str;
-     }
-     
-     
-     
+     }     
 } // END class.ilUtil
 
 
