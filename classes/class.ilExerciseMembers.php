@@ -190,28 +190,19 @@ class ilExerciseMembers
 	}
 	function setStatusSolvedForMember($a_member_id,$a_status)
 	{
-		$query = "UPDATE exc_members ".
-			"SET solved = '".($a_status ? 1 : 0)."' ".
-			"WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$a_member_id."'";
 
-		$this->ilias->db->query($query);
-		$this->read();
-
-		//update solved timestamp if needed
-		if ($a_status == 1) {
-		  $query = "UPDATE exc_members ".
-		    "SET solved_time='".date("Y-m-d H:i:s")."' ".
-		    "WHERE obj_id = '".$this->getObjId()."' ".
-		    "AND usr_id = '".$a_member_id."'";
-		  
-		  $this->ilias->db->query($query);
-		  $this->read();
-		}
-		
-		return true;
+	  $query = "UPDATE exc_members ".
+	    "SET solved = '".($a_status ? 1 : 0)."', ".
+	    "solved_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
+	    " WHERE obj_id = '".$this->getObjId()."' ".
+	    "AND usr_id = '".$a_member_id."'";
+	  
+	  $this->ilias->db->query($query);
+	  $this->read();
+	  
+	  return true;
 	}
-
+	
 	function setStatusSent($a_status)
 	{
 		if(is_array($a_status))
