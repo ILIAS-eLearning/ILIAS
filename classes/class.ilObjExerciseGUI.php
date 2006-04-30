@@ -1206,6 +1206,7 @@ function __getUpdatedSubmission($member_id,$exc_id) {
   $q="SELECT exc_members.solved_time, exc_returned.timestamp ".
     "FROM exc_members, exc_returned ".
     "WHERE exc_members.solved_time < exc_returned.timestamp ".
+    "AND exc_members.solved_time <> '0000-00-00 00:00:00' ".
     "AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
 
   $usr_set = $ilDB->query($q);
