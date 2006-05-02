@@ -89,7 +89,27 @@ class ilObjExerciseGUI extends ilObjectGUI
 	  parent::viewObject();
 	  return;
 	}
-      
+      $this->tabs_gui->setTabActive("view");
+
+      $this->tabs_gui->addSubTabTarget("view",
+		       $this->ctrl->getLinkTarget($this, 'view'),
+		       "view", get_class($this), false);
+  
+      $this->tabs_gui->addSubTabTarget("deliver",
+		       $this->ctrl->getLinkTarget($this, 'deliver'),
+		       array("deliver","deliverFile"), get_class($this), false);
+  
+
+
+      /*      $this->tabs_gui->addSubTabTarget("view",
+				       $this->ctrl->getLinkTarget($this,'view'),
+				       "view", get_class($this));
+
+      */
+
+      $this->tabs_gui->setSubTabActive("view");
+
+
       if (!$rbacsystem->checkAccess("read", $this->ref_id))
 	{
 	  $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
@@ -155,6 +175,17 @@ class ilObjExerciseGUI extends ilObjectGUI
       global $ilUser;
       require_once "./classes/class.ilUtil.php";
       
+      $this->tabs_gui->setTabActive("view");
+
+      $this->tabs_gui->addSubTabTarget("view",
+				       $this->ctrl->getLinkTarget($this, 'view'),
+				       "view", get_class($this), false);
+
+      $this->tabs_gui->addSubTabTarget("deliver",
+				       $this->ctrl->getLinkTarget($this, 'deliver'),
+				       array("deliver","deliverFile"), get_class($this), false);
+
+
       if (mktime() > $this->object->getTimestamp())
 	{
 	  sendInfo($this->lng->txt("exercise_time_over"));
@@ -234,6 +265,10 @@ class ilObjExerciseGUI extends ilObjectGUI
     {
       global $ilUser;
       
+
+      $this->tabs_gui->setTabActive("view");
+      $this->tabs_gui->setSubTabActive("deliver");
+
       if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
 	{
 	  sendInfo($this->lng->txt("exc_upload_error"),true);
@@ -1080,7 +1115,8 @@ function getTabs(&$tabs_gui)
   $tabs_gui->addTarget("view",
 		       $this->ctrl->getLinkTarget($this, 'view'),
 		       array("view",""), "");
-  
+
+
   // edit properties
   if ($rbacsystem->checkAccess("write", $this->ref_id))
     {
@@ -1090,9 +1126,9 @@ function getTabs(&$tabs_gui)
     }
   
   // deliver exercise
-  $tabs_gui->addTarget("deliver",
-		       $this->ctrl->getLinkTarget($this, 'deliver'),
-		       array("deliver", "deliverFile"), "");
+  //  $tabs_gui->addTarget("deliver",
+  //		       $this->ctrl->getLinkTarget($this, 'deliver'),
+  //		       array("deliver", "deliverFile"), "");
   
   // learning progress
   include_once("Services/Tracking/classes/class.ilObjUserTracking.php");

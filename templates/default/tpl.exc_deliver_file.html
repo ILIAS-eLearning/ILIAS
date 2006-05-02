@@ -1,19 +1,19 @@
-<form name="form_deliver" method="post" action="{FORMACTION}" enctype="multipart/form-data">
-{TEXT_FILENAME}: <input type="file" name="deliver" size="40" /> <input type="submit" class="submit" name="cmd[deliverFile]" value="{BUTTON_DELIVER}" />
-</form>
-
+<center><form name="form_deliver" method="post" action="{FORMACTION}" enctype="multipart/form-data">
+{TEXT_FILENAME}:<br/> <input type="file" name="deliver" size="40" /> <input type="submit" class="submit" name="cmd[deliverFile]" value="{BUTTON_DELIVER}" />
+</form></center>
+<br/>
 <!-- BEGIN delivered_files -->
-<h1>{TEXT_HEADING_DELIVERED_FILES}</h1>
-<form name="form_delivered_files" method="post" action="{DELIVER_FORMACTION}">
-<table class="fullwidth">
+<center><h1>{TEXT_HEADING_DELIVERED_FILES}</h1>
+<form  name="form_delivered_files" method="post" action="{DELIVER_FORMACTION}">
+<table class="halfwidth">
 <tr class="tblheader">
-<td></td><td>{TEXT_DATE}</td><td>{TEXT_DELIVERED_FILENAME}</td>
+<td></td><td>{TEXT_DELIVERED_FILENAME}</td><td>{TEXT_DATE}</td>
 </tr>
 <!-- BEGIN delivered_row -->
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}"><input type="checkbox" name="delivered[]" value="{FILE_ID}" /></td>
-<td class="{COLOR_CLASS}">{DELIVERED_DATE}</td>
 <td class="{COLOR_CLASS}">{DELIVERED_FILE}</td>
+<td class="{COLOR_CLASS}">{DELIVERED_DATE}</td>
 </tr>
 <!-- END delivered_row -->
 <tr class="option_value">
@@ -27,6 +27,6 @@
 <td class="option_value" colspan="3">{TEXT_NO_DELIVERED_FILES}</td>
 <!-- END footer_empty -->
 </tr>
-</table>
+</table></center>
 </form>
 <!-- END delivered_files -->
