@@ -652,6 +652,88 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$result = $ilDB->query($query);
 		}
 	}
-	
+
+	function &getCumulatedResults($survey_id, $nr_of_users)
+	{
+		global $ilDB;
+		
+		$question_id = $this->getId();
+		
+		$result_array = array();
+		$cumulated = array();
+
+		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+			$ilDB->quote($question_id),
+			$ilDB->quote($survey_id)
+		);
+		$result = $ilDB->query($query);
+		$numrows = $result->numRows();
+		if ($numrows == 0) return $result_array;
+		
+		// count the answers for every answer value
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cumulated["$row->value"]++;
+		}
+		asort($cumulated, SORT_NUMERIC);
+		end($cumulated);
+		
+		if ($this->getSubType() == SUBTYPE_MCMR)
+		{
+			/* even a mcmr questions without answers could be an answered question
+			   so for this question type there is no possibility to cound skipped questions */
+			/*$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", anonymous_id, \"_\", user_fi)  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
+				$ilDB->quote($question_id),
+				$ilDB->quote($survey_id)
+			);
+			$mcmr_result = $ilDB->query($query);
+			$result_array["USERS_ANSWERED"] = $mcmr_result->numRows();
+			$result_array["USERS_SKIPPED"] = $nr_of_users - $mcmr_result->numRows();
+			$numrows = $mcmr_result->numRows();*/
+			$result_array["USERS_ANSWERED"] = $nr_of_users;
+			$result_array["USERS_SKIPPED"] = 0;
+		}
+		else
+		{
+			$result_array["USERS_ANSWERED"] = $result->numRows();
+			$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
+		}
+		$result_array["MEDIAN"] = "";
+		$result_array["ARITHMETIC_MEAN"] = "";
+		$prefix = "";
+		if (strcmp(key($cumulated), "") != 0)
+		{
+			$prefix = (key($cumulated)+1) . " - ";
+		}
+		$result_array["MODE"] =  $prefix . $this->categories->getCategory(key($cumulated));
+		$result_array["MODE_VALUE"] =  key($cumulated)+1;
+		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+		$result_array["QUESTION_TYPE"] = "SurveyNominalQuestion";
+		$maxvalues = 0;
+		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
+		{
+			$maxvalues += $cumulated[$key];
+		}
+		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
+		{
+			$percentage = 0;
+			if ($numrows > 0)
+			{
+				if ($this->getSubType() == SUBTYPE_MCMR)
+				{
+					if ($maxvalues > 0)
+					{
+						$percentage = (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]);
+					}
+				}
+				else
+				{
+					$percentage = (float)((int)$cumulated[$key]/$numrows);
+				}
+			}
+			$result_array["variables"][$key] = array("title" => $this->categories->getCategory($key), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+		}
+		return $result_array;
+	}
 }
 ?>

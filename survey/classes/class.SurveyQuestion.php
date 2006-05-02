@@ -1604,5 +1604,21 @@ class SurveyQuestion
 		return $question;
   }
 	
+	function &outEvaluationCumulatedResults(&$cumulated_results)
+	{
+		$result_array = array();
+		$result_array["QUESTION_TITLE"] = $this->getTitle();
+		$result_array["QUESTION_TEXT"] = $this->getQuestiontext();
+		$result_array["USERS_ANSWERED"] = $cumulated_results["USERS_ANSWERED"];
+		$result_array["USERS_SKIPPED"] = $cumulated_results["USERS_SKIPPED"];
+		$result_array["QUESTION_TYPE"] = $this->lng->txt($cumulated_results["QUESTION_TYPE"]);
+		$result_array["MODE"] = $cumulated_results["MODE"];
+		$result_array["MODE_VALUE"] = $cumulated_results["MODE_VALUE"];
+		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated_results["MODE_NR_OF_SELECTIONS"];
+		$result_array["MEDIAN"] = $cumulated_results["MEDIAN"];
+		$result_array["ARITHMETIC_MEAN"] = $cumulated_results["ARITHMETIC_MEAN"];
+		return $result_array;
+	}
+	
 }
 ?>

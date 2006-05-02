@@ -696,5 +696,63 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->ctrl->redirect($this, "categories");
 	}
 
+	function outCumulatedResultsDetails(&$cumulated_results, $counter)
+	{
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->getQuestiontext());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_ANSWERED"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_SKIPPED"]);
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MODE"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MODE_NR_OF_SELECTIONS"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("median"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MEDIAN"]);
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
+		$categories = "";
+		foreach ($cumulated_results["variables"] as $key => $value)
+		{
+			$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+				$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
+				$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+		}
+		$categories = "<ol>$categories</ol>";
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $categories);
+		$this->tpl->parseCurrentBlock();
+		
+		// display chart for ordinal question for array $eval["variables"]
+		$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
+		$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
+		$this->tpl->setVariable("CHART","./survey/displaychart.php?grName=" . urlencode($this->object->getTitle()) . 
+			"&type=bars" . 
+			"&x=" . urlencode($this->lng->txt("answers")) . 
+			"&y=" . urlencode($this->lng->txt("users_answered")) . 
+			"&arr=".base64_encode(serialize($cumulated_results["variables"])));
+		
+		$this->tpl->setCurrentBlock("detail");
+		$this->tpl->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
+		$this->tpl->parseCurrentBlock();
+	}
 }
 ?>

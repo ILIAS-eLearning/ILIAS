@@ -3254,224 +3254,15 @@ class ilObjSurvey extends ilObject
 * @return array An array containing the evaluation parameters for the question
 * @access public
 */
-	function getEvaluation($question_id)
+	function getCumulatedResults(&$question)
 	{
-		$questions =& $this->getSurveyQuestions();
-		$result_array = array();
 		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
 			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
 		$nr_of_users = $result->numRows();
-				
-		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getSurveyId())
-		);
-		$result = $this->ilias->db->query($query);
-		$cumulated = array();
-		$textvalues = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$cumulated["$row->value"]++;
-			array_push($textvalues, $row->textanswer);
-		}
-		asort($cumulated, SORT_NUMERIC);
-		end($cumulated);
-		$numrows = $result->numRows();
-		if ($questions[$question_id]["subtype"] == SUBTYPE_MCMR)
-		{
-			if ($this->getAnonymize())
-			{
-				$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", anonymous_id )  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
-					$this->ilias->db->quote($question_id),
-					$this->ilias->db->quote($this->getSurveyId())
-				);
-			}
-			else
-			{
-				$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", user_fi )  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
-					$this->ilias->db->quote($question_id),
-					$this->ilias->db->quote($this->getSurveyId())
-				);
-			}
-			$mcmr_result = $this->ilias->db->query($query);
-			$result_array["USERS_ANSWERED"] = $mcmr_result->numRows();
-			$result_array["USERS_SKIPPED"] = $nr_of_users - $mcmr_result->numRows();
-			$numrows = $mcmr_result->numRows();
-		}
-		else
-		{
-			$result_array["USERS_ANSWERED"] = $result->numRows();
-			$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
-		}
-		$variables =& $this->getVariables($question_id);
-		switch ($questions[$question_id]["type_tag"])
-		{
-			case "SurveyNominalQuestion":
-				$result_array["MEDIAN"] = "";
-				$result_array["ARITHMETIC_MEAN"] = "";
-				$prefix = "";
-				if (strcmp(key($cumulated), "") != 0)
-				{
-					$prefix = (key($cumulated)+1) . " - ";
-				}
-				$result_array["MODE"] =  $prefix . $variables[key($cumulated)]->title;
-				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
-				$maxvalues = 0;
-				foreach ($variables as $key => $value)
-				{
-					$maxvalues += $cumulated[$key];
-				}
-				foreach ($variables as $key => $value)
-				{
-					$percentage = 0;
-					if ($numrows > 0)
-					{
-						if ($questions[$question_id]["subtype"] == SUBTYPE_MCMR)
-						{
-							if ($maxvalues > 0)
-							{
-								$percentage = (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]);
-							}
-						}
-						else
-						{
-							$percentage = (float)((int)$cumulated[$key]/$numrows);
-						}
-					}
-					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
-				}
-				break;
-			case "SurveyOrdinalQuestion":
-				$prefix = "";
-				if (strcmp(key($cumulated), "") != 0)
-				{
-					$prefix = (key($cumulated)+1) . " - ";
-				}
-				$result_array["MODE"] =  $prefix . $variables[key($cumulated)]->title;
-				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-				foreach ($variables as $key => $value)
-				{
-					$percentage = 0;
-					if ($numrows > 0)
-					{
-						$percentage = (float)((int)$cumulated[$key]/$numrows);
-					}
-					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
-				}
-				ksort($cumulated, SORT_NUMERIC);
-				$median = array();
-				$total = 0;
-				foreach ($cumulated as $value => $key)
-				{
-					$total += $key;
-					for ($i = 0; $i < $key; $i++)
-					{
-						array_push($median, $value+1);
-					}
-				}
-				if ($total > 0)
-				{
-					if (($total % 2) == 0)
-					{
-						$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
-						if (round($median_value) != $median_value)
-						{
-							$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $variables[floor($median_value)-1]->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $variables[ceil($median_value)-1]->title . ")";
-						}
-					}
-					else
-					{
-						$median_value = $median[(($total+1)/2)-1];
-					}
-				}
-				else
-				{
-					$median_value = "";
-				}
-				$result_array["ARITHMETIC_MEAN"] = "";
-				$result_array["MEDIAN"] = $median_value;
-				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
-				break;
-			case "SurveyMetricQuestion":
-				$result_array["MODE"] = key($cumulated);
-				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-				ksort($cumulated, SORT_NUMERIC);
-				$counter = 0;
-				foreach ($cumulated as $value => $nr_of_users)
-				{
-					$percentage = 0;
-					if ($numrows > 0)
-					{
-						$percentage = (float)($nr_of_users/$numrows);
-					}
-					$result_array["values"][$counter++] = array("value" => $value, "selected" => (int)$nr_of_users, "percentage" => $percentage);
-				}
-				$median = array();
-				$total = 0;
-				$x_i = 0;
-				$p_i = 1;
-				$x_i_inv = 0;
-				$sum_part_zero = false;
-				foreach ($cumulated as $value => $key)
-				{
-					$total += $key;
-					for ($i = 0; $i < $key; $i++)
-					{
-						array_push($median, $value);
-						$x_i += $value;
-						$p_i *= $value;
-						if ($value != 0)
-						{
-							$sum_part_zero = true;
-							$x_i_inv += 1/$value;
-						}
-					}
-				}
-				if ($total > 0)
-				{
-					if (($total % 2) == 0)
-					{
-						$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
-					}
-					else
-					{
-						$median_value = $median[(($total+1)/2)-1];
-					}
-				}
-				else
-				{
-					$median_value = "";
-				}
-				if ($total > 0)
-				{
-					if (($x_i/$total) == (int)($x_i/$total))
-					{
-						$result_array["ARITHMETIC_MEAN"] = $x_i/$total;
-					}
-					else
-					{
-						$result_array["ARITHMETIC_MEAN"] = sprintf("%.2f", $x_i/$total);
-					}
-				}
-				else
-				{
-					$result_array["ARITHMETIC_MEAN"] = "";
-				}
-				$result_array["MEDIAN"] = $median_value;
-				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
-				break;
-			case "SurveyTextQuestion":
-				$result_array["ARITHMETIC_MEAN"] = "";
-				$result_array["MEDIAN"] = "";
-				$result_array["MODE"] = "";
-				$result_array["MODE_NR_OF_SELECTIONS"] = "";
-				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
-				$result_array["textvalues"] = $textvalues;
-				break;
-		}
+		
+		$result_array =& $question->getCumulatedResults($this->getSurveyId(), $nr_of_users);
 		return $result_array;
 	}
 
@@ -4664,10 +4455,15 @@ class ilObjSurvey extends ilObject
 		return false;
 	}
 
-	function &getSurveyCodes()
+	function &getSurveyCodes($generated_only = FALSE)
 	{
 		$codes = array();
-		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s ORDER BY TIMESTAMP14, survey_finished.anonymous_id",
+		$user_key = "";
+		if ($generated_only)
+		{
+			$user_key = " AND user_key IS NULL";
+		}
+		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s$user_key ORDER BY TIMESTAMP14, survey_finished.anonymous_id",
 			$this->ilias->db->quote($this->getSurveyId() . "")
 		);
 		$result = $this->ilias->db->query($query);

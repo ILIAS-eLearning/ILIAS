@@ -264,5 +264,43 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 	{
 		$this->setQuestionTabsForClass("surveytextquestiongui");
 	}
+
+	function outCumulatedResultsDetails(&$cumulated_results, $counter)
+	{
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->getQuestiontext());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_ANSWERED"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_SKIPPED"]);
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("given_answers"));
+		$textvalues = "";
+		if (is_array($cumulated_results["textvalues"]))
+		{
+			foreach ($cumulated_results["textvalues"] as $textvalue)
+			{
+				$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
+			}
+		}
+		$textvalues = "<ul>$textvalues</ul>";
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $textvalues);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("detail");
+		$this->tpl->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
+		$this->tpl->parseCurrentBlock();
+	}
 }
 ?>
