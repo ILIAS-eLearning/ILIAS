@@ -1770,7 +1770,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("questionblock.gif", true) . "\" alt=\"".$this->lng->txt("questionblock_icon")."\" />");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets) 
+					if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 					{
 						if ($data["question_id"] != $this->object->questions[0])
 						{
@@ -1805,7 +1805,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("heading");
 					$this->tpl->setVariable("TEXT_HEADING", $data["heading"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets) 
+					if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 					{
 						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 						$this->tpl->setVariable("HREF_EDIT", $this->ctrl->getLinkTarget($this, "questions") . "&editheading=" . $data["question_id"]);
@@ -1826,7 +1826,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("QTab");
 				include_once "./survey/classes/class.SurveyQuestion.php";
 				$ref_id = SurveyQuestion::_getRefIdFromObjId($data["obj_fi"]);
-				if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets) 
+				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 				{
 					$q_id = $data["question_id"];
 					$qpl_ref_id = $this->object->_getRefIdFromObjId($data["obj_fi"]);
@@ -1837,7 +1837,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. ". $data["title"]);
 				}
 				$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("question.gif", true) . "\" alt=\"".$this->lng->txt("question_icon")."\" />");
-				if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets) 
+				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 				{
 					$obligatory_checked = "";
 					if ($data["obligatory"] == 1)
@@ -1854,7 +1854,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
-				if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets) 
+				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 				{
 					if (!$data["questionblock_id"])
 					{
@@ -1898,7 +1898,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$last_questionblock_id = $data["questionblock_id"];
 			}
 
-			if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets) 
+			if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 			{
 				$this->tpl->setCurrentBlock("selectall");
 				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
@@ -1941,7 +1941,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets) 
+		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 		{
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM survey_questiontype";
@@ -1963,7 +1963,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets)
+		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
 		{
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));
 			$this->tpl->setVariable("BUTTON_SEARCH_QUESTION", $this->lng->txt("search_questions"));
@@ -1971,11 +1971,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
 			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
 		}
-		if ($this->object->isOnline())
-		{
-			sendInfo($this->lng->txt("survey_online_warning"));
-		}
-		else if ($hasDatasets)
+		if ($hasDatasets)
 		{
 			sendInfo($this->lng->txt("survey_has_datasets_warning"));
 		}
@@ -3048,7 +3044,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$color_class = array("tblrow1", "tblrow2");
-			$survey_codes =& $this->object->getSurveyCodes();
+			$survey_codes =& $this->object->getSurveyCodes(TRUE);
 			if (count($survey_codes) == 0)
 			{
 				$this->tpl->setCurrentBlock("emptyrow");
@@ -3482,7 +3478,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$rowcount++;
 							$this->tpl->parseCurrentBlock();
 						}
-						if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets)
+						if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
 						{
 							$this->tpl->setCurrentBlock("delete_button");
 							$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
@@ -3526,7 +3522,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$counter++;
 			}
 		}
-		if ($rbacsystem->checkAccess("write", $this->ref_id) and $this->object->isOffline() and !$hasDatasets)
+		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
 		{
 			$this->tpl->setCurrentBlock("selectall");
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
@@ -3545,11 +3541,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("CONSTRAINTS_HEADER", $this->lng->txt("constraints_list_of_entities"));
 		$this->tpl->parseCurrentBlock();
 		$_SESSION["constraintstructure"] = $structure;
-		if ($this->object->isOnline())
-		{
-			sendInfo($this->lng->txt("survey_online_warning"));
-		}
-		else if ($hasDatasets)
+		if ($hasDatasets)
 		{
 			sendInfo($this->lng->txt("survey_has_datasets_warning"));
 		}
@@ -3599,6 +3591,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "resume":
 			case "next":
 			case "previous":
+
+			case "evaluation":
+			case "checkEvaluationAccess":
+			case "evaluationdetails":
+			case "evaluationuser":
 				return;
 				break;
 		}

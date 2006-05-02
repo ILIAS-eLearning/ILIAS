@@ -306,5 +306,87 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	{
 		$this->setQuestionTabsForClass("surveymetricquestiongui");
 	}
+
+	function outCumulatedResultsDetails(&$cumulated_results, $counter)
+	{
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->getQuestiontext());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_ANSWERED"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_SKIPPED"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("subtype"));
+		switch ($this->object->getSubType())
+		{
+			case SUBTYPE_NON_RATIO:
+				$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("non_ratio"));
+				break;
+			case SUBTYPE_RATIO_NON_ABSOLUTE:
+				$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_non_absolute"));
+				break;
+			case SUBTYPE_RATIO_ABSOLUTE:
+				$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_absolute"));
+				break;
+		}
+		$this->tpl->parseCurrentBlock();
+		
+
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MODE"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MODE_NR_OF_SELECTIONS"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("median"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MEDIAN"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("arithmetic_mean"));
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["ARITHMETIC_MEAN"]);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("detail_row");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("values"));
+		$values = "";
+		if (is_array($cumulated_results["values"]))
+		{
+			foreach ($cumulated_results["values"] as $key => $value)
+			{
+				$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" .
+					$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
+					$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+			}
+		}
+		$values = "<ol>$values</ol>";
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $values);
+		$this->tpl->parseCurrentBlock();
+		
+		// display chart for metric question for array $eval["values"]
+		$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
+		$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
+		$this->tpl->setVariable("CHART","./survey/displaychart.php?grName=" . urlencode($this->object->getTitle()) . 
+			"&type=bars" . 
+			"&x=" . urlencode($this->lng->txt("answers")) . 
+			"&y=" . urlencode($this->lng->txt("users_answered")) . 
+			"&arr=".base64_encode(serialize($cumulated_results["values"])));
+		
+		$this->tpl->setCurrentBlock("detail");
+		$this->tpl->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
+		$this->tpl->parseCurrentBlock();
+	}
 }
 ?>

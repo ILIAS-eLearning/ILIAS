@@ -724,5 +724,84 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 	}
+	
+	function &getCumulatedResults($survey_id, $nr_of_users)
+	{
+		global $ilDB;
+		
+		$question_id = $this->getId();
+		
+		$result_array = array();
+		$cumulated = array();
+
+		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+			$ilDB->quote($question_id),
+			$ilDB->quote($survey_id)
+		);
+		$result = $ilDB->query($query);
+		
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cumulated["$row->value"]++;
+		}
+		asort($cumulated, SORT_NUMERIC);
+		end($cumulated);
+		$numrows = $result->numRows();
+		$result_array["USERS_ANSWERED"] = $result->numRows();
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
+
+		$prefix = "";
+		if (strcmp(key($cumulated), "") != 0)
+		{
+			$prefix = (key($cumulated)+1) . " - ";
+		}
+		$result_array["MODE"] =  $prefix . $this->categories->getCategory(key($cumulated));
+		$result_array["MODE_VALUE"] =  key($cumulated)+1;
+		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
+		{
+			$percentage = 0;
+			if ($numrows > 0)
+			{
+				$percentage = (float)((int)$cumulated[$key]/$numrows);
+			}
+			$result_array["variables"][$key] = array("title" => $this->categories->getCategory($key), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+		}
+		ksort($cumulated, SORT_NUMERIC);
+		$median = array();
+		$total = 0;
+		foreach ($cumulated as $value => $key)
+		{
+			$total += $key;
+			for ($i = 0; $i < $key; $i++)
+			{
+				array_push($median, $value+1);
+			}
+		}
+		if ($total > 0)
+		{
+			if (($total % 2) == 0)
+			{
+				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+				if (round($median_value) != $median_value)
+				{
+					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $this->categories->getCategory((int)floor($median_value)-1) . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $this->categories->getCategory((int)ceil($median_value)-1) . ")";
+				}
+			}
+			else
+			{
+				$median_value = $median[(($total+1)/2)-1];
+			}
+		}
+		else
+		{
+			$median_value = "";
+		}
+		$result_array["ARITHMETIC_MEAN"] = "";
+		$result_array["MEDIAN"] = $median_value;
+		$result_array["QUESTION_TYPE"] = "SurveyOrdinalQuestion";
+		return $result_array;
+	}
+	
 }
 ?>

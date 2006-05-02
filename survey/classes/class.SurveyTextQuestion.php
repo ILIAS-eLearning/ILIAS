@@ -547,5 +547,37 @@ class SurveyTextQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 	}
+	
+	function &getCumulatedResults($survey_id, $nr_of_users)
+	{
+		global $ilDB;
+		
+		$question_id = $this->getId();
+		
+		$result_array = array();
+		$cumulated = array();
+		$textvalues = array();
+
+		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+			$ilDB->quote($question_id),
+			$ilDB->quote($survey_id)
+		);
+		$result = $ilDB->query($query);
+		
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cumulated["$row->value"]++;
+			array_push($textvalues, $row->textanswer);
+		}
+		asort($cumulated, SORT_NUMERIC);
+		end($cumulated);
+		$numrows = $result->numRows();
+		$result_array["USERS_ANSWERED"] = $result->numRows();
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
+		$result_array["QUESTION_TYPE"] = "SurveyTextQuestion";
+		$result_array["textvalues"] = $textvalues;
+		return $result_array;
+	}
+	
 }
 ?>

@@ -760,5 +760,100 @@ class SurveyMetricQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 	}
+	
+	function &getCumulatedResults($survey_id, $nr_of_users)
+	{
+		global $ilDB;
+		
+		$question_id = $this->getId();
+		
+		$result_array = array();
+		$cumulated = array();
+
+		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+			$ilDB->quote($question_id),
+			$ilDB->quote($survey_id)
+		);
+		$result = $ilDB->query($query);
+		
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cumulated["$row->value"]++;
+		}
+		asort($cumulated, SORT_NUMERIC);
+		end($cumulated);
+		$numrows = $result->numRows();
+		$result_array["USERS_ANSWERED"] = $result->numRows();
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
+		$result_array["MODE"] = key($cumulated);
+		$result_array["MODE_VALUE"] = key($cumulated);
+		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+		ksort($cumulated, SORT_NUMERIC);
+		$counter = 0;
+		foreach ($cumulated as $value => $nr_of_users)
+		{
+			$percentage = 0;
+			if ($numrows > 0)
+			{
+				$percentage = (float)($nr_of_users/$numrows);
+			}
+			$result_array["values"][$counter++] = array("value" => $value, "selected" => (int)$nr_of_users, "percentage" => $percentage);
+		}
+		$median = array();
+		$total = 0;
+		$x_i = 0;
+		$p_i = 1;
+		$x_i_inv = 0;
+		$sum_part_zero = false;
+		foreach ($cumulated as $value => $key)
+		{
+			$total += $key;
+			for ($i = 0; $i < $key; $i++)
+			{
+				array_push($median, $value);
+				$x_i += $value;
+				$p_i *= $value;
+				if ($value != 0)
+				{
+					$sum_part_zero = true;
+					$x_i_inv += 1/$value;
+				}
+			}
+		}
+		if ($total > 0)
+		{
+			if (($total % 2) == 0)
+			{
+				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+			}
+			else
+			{
+				$median_value = $median[(($total+1)/2)-1];
+			}
+		}
+		else
+		{
+			$median_value = "";
+		}
+		if ($total > 0)
+		{
+			if (($x_i/$total) == (int)($x_i/$total))
+			{
+				$result_array["ARITHMETIC_MEAN"] = $x_i/$total;
+			}
+			else
+			{
+				$result_array["ARITHMETIC_MEAN"] = sprintf("%.2f", $x_i/$total);
+			}
+		}
+		else
+		{
+			$result_array["ARITHMETIC_MEAN"] = "";
+		}
+		$result_array["MEDIAN"] = $median_value;
+		$result_array["QUESTION_TYPE"] = "SurveyMetricQuestion";
+		return $result_array;
+	}
+	
 }
 ?>
