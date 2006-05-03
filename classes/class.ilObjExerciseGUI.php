@@ -1030,7 +1030,7 @@ function __showMembersTable($a_data,$a_member_ids)
   $tbl->setHeaderVars(array("","login","firstname","lastname","","","","","exc_last_submission","",""),
 		      array("ref_id" => $this->object->getRefId(),
 			    "cmd" => "members"));
-  $tbl->setColumnWidth(array("5%","5%","10%","10%","10%","5%","15%","7%","7%","7%"));
+  $tbl->setColumnWidth(array("5%","5%","10%","10%","5%","10%","10%","10%","5%","5%"));
   $tbl->disable('content');
   
   $tbl->setOrderColumn($_GET["sort_by"]);
