@@ -143,7 +143,9 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
+		$this->tpl->setVariable("TXT_SUBMIT_AND_META", $this->lng->txt("file_add_and_metadata"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("CMD_SUBMIT_AND_META", "saveAndMeta");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
@@ -196,11 +198,28 @@ class ilObjFileGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("file_added"),true);
 		
 		$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
-		ilUtil::redirect($this->getReturnLocation("save",
-			$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection")));
+		if ($this->ctrl->getCmd() == "saveAndMeta")
+		{
+			ilUtil::redirect($this->getReturnLocation("save",
+				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection")));
+		}
+		else
+		{
+			$this->ctrl->returnToParent($this);
+		}
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
-	
+
+	/**
+	* save object
+	*
+	* @access	public
+	*/
+	function saveAndMetaObject()
+	{
+		$this->saveObject();
+	}
+
 	/**
 	* updates object entry in object_data
 	*

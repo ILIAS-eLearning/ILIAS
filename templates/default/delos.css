@@ -1102,13 +1102,12 @@ a.ilMainHeader, a.ilMainHeader:hover
 
 div.ilLogin
 {
-	padding-top:0px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:0px;
+	padding:5px 20px 5px 0px;
 	margin-top:2px;
 	margin-bottom:2px;
 	white-space: nowrap;
+	float:right;
+	text-align:right;
 	font-size:90%;
 }
 

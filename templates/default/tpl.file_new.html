@@ -2,16 +2,12 @@
 <table class="std">
 <tr class="tblheader">
   <td class="std" colspan="2">
-  <table class="invisible_border" width="100%">
-    <tr>
-      <td>{TXT_HEADER}</td>
-    </tr>
-  </table>
+      {TXT_HEADER}
   </td>
 </tr>
 <tr>
   <td class="option">{TXT_TITLE}</td>
-  <td class="option_value" width="100">
+  <td class="option_value">
   	<input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/>
 	<br/>{TXT_TITLE_NOTE}
   </td>
@@ -29,6 +25,7 @@
   <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
   <div align="right">
 	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT_AND_META}]" value="{TXT_SUBMIT_AND_META}" />
 	<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
   </div>
   </td>
