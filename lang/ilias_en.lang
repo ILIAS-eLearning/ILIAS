@@ -1534,6 +1534,7 @@ common#:#field_type#:#Field type
 common#:#file#:#File
 common#:#file_a#:#a File
 common#:#file_add#:#Upload File
+common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#File uploaded
 common#:#file_delete#:#Delete File
 common#:#file_edit#:#Edit File

@@ -1493,6 +1493,7 @@ common#:#field_type#:#Feldtyp
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
+common#:#file_add_and_metadata#:#Datei hochladen und Metadaten editieren
 common#:#file_added#:#Datei hochgeladen
 common#:#file_delete#:#Datei löschen
 common#:#file_edit#:#Datei bearbeiten
