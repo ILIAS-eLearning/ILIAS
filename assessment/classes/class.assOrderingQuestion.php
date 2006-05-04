@@ -977,64 +977,8 @@ class ASS_OrderingQuestion extends ASS_Question
 			}
 		}
 
-		// check for special scoring options in test
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($row["count_system"] == 1)
-			{
-				if ($points != $this->getMaximumPoints())
-				{
-					$points = 0;
-				}
-			}
-		}
-		else
-		{
-			$points = 0;
-		}
-		if ($points < 0) $points = 0;
+		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
 		return $points;
-	}
-
-	/**
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function getReachedInformation($user_id, $test_id, $pass = NULL)
-	{
-		$found_value1 = array();
-		$found_value2 = array();
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($test_id . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($pass . "")
-		);
-		$result = $this->ilias->db->query($query);
-		$user_result = array();
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$solution = array(
-				"answer_id" => $data->value1,
-				"order" => $data->value2
-			);
-			$user_result[$data->value1] = $solution;
-		}
-		return $user_result;
 	}
 
 	/**

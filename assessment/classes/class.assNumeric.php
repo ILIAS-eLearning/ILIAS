@@ -757,27 +757,7 @@ class ASS_Numeric extends ASS_Question
 			}
 		}
 
-		// check for special scoring options in test
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($row["count_system"] == 1)
-			{
-				if ($points != $this->getMaximumPoints())
-				{
-					$points = 0;
-				}
-			}
-		}
-		else
-		{
-			$points = 0;
-		}
-		if ($points < 0) $points = 0;
+		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
 		return $points;
 	}
 	

@@ -305,7 +305,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			if ($this->object->getAnswerCount() > 0)
 			{
 				$this->tpl->setCurrentBlock("answersheading");
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+				$this->tpl->setVariable("TEXT_POINTS_CHECKED", $this->lng->txt("points_checked"));
+				$this->tpl->setVariable("TEXT_POINTS_UNCHECKED", $this->lng->txt("points_unchecked"));
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("selectall");
@@ -351,17 +352,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("answers");
-				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
-				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
-				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("checkbox_unchecked"));
-				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("checkbox_checked"));
+				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_CHECKED", sprintf("%d", $answer->getPoints()));
+				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED", sprintf("%d", $answer->getPointsUnchecked()));
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
 				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
-				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-				if ($answer->isStateChecked())
-				{
-					$this->tpl->setVariable("CHECKED_SELECTED", " selected=\"selected\"");
-				}
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -731,23 +725,16 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 							}
 						}
 					}
-					$points = $_POST["points_$matches[1]"];
-					if (preg_match("/\d+/", $points))
-					{
-						if ($points < 0)
-						{
-							$result = 1;
-							$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-						}
-					}
-					else
+					$points = $_POST["points_checked_$matches[1]"];
+					$points_unchecked = 0.0;
+					if (!preg_match("/\d+/", $points))
 					{
 						$points = 0.0;
 					}
 					$this->object->addAnswer(
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
-						ilUtil::stripSlashes(1),
+						ilUtil::stripSlashes($points_unchecked),
 						ilUtil::stripSlashes($matches[1]),
 						$answer_image
 						);
@@ -798,15 +785,20 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 							}
 						}
 					}
-					$points = $_POST["points_$matches[1]"];
+					$points = $_POST["points_checked_$matches[1]"];
+					$points_unchecked = $_POST["points_unchecked_$matches[1]"];
 					if (!preg_match("/\d+/", $points))
 					{
 						$points = 0.0;
 					}
+					if (!preg_match("/\d+/", $points_unchecked))
+					{
+						$points_unchecked = 0.0;
+					}
 					$this->object->addAnswer(
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
-						ilUtil::stripSlashes($_POST["status_$matches[1]"]),
+						ilUtil::stripSlashes($points_unchecked),
 						ilUtil::stripSlashes($matches[1]),
 						$answer_image
 					);
@@ -957,50 +949,40 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				if ($this->object->getResponse() == RESPONSE_MULTIPLE)
 				{
-					if ($answer->isStateChecked() && ($answer->getPoints() > 0))
+					if ($answer->getPoints() > $answer->getPointsUnchecked())
 					{
 						$repl_str = "dummy=\"solution_mc$idx\"";
-						$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);						
+						$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
 					}
 					$sol = '(<em>';
 					if ($show_solution_only)
 						$sol .= $this->lng->txt("checkbox_checked").' = ';
 					else
 						$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
-					if ($answer->isStateChecked())
-					{
-						$sol .= $answer->getPoints();
-					}
-					else
-					{
-						$sol .= "0";
-					}
+					$sol .= $answer->getPoints();
 					$sol .= ' ' . $this->lng->txt("points") . ', ';
 					if ($show_solution_only)
 						$sol .= $this->lng->txt("checkbox_unchecked").' = ';
 					else
 						$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
-					if (!$answer->isStateChecked())
-					{
-						$sol .= $answer->getPoints();
-					}
-					else
-					{
-						$sol .= "0";
-					}
+					$sol .= $answer->getPointsUnchecked();
 					$sol .= ' ' . $this->lng->txt("points");
 					$sol .= '</em>)';
 					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx"."[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
 					
-					if ($show_solution_only) 
-						if ($answer->isStateChecked()) 
+					if ($show_solution_only)
+					{
+						if ($answer->getPoints() > $answer->getPointsUnchecked())
 						{
 							$repl_str = "dummy=\"solution_mc$idx\"";
-							$solutionoutput = $this->replaceInputElements ($repl_str, "X", $solutionoutput);						
-						} else {
+							$solutionoutput = $this->replaceInputElements ($repl_str, "X", $solutionoutput);
+						}
+						else
+						{
 							$repl_str = "dummy=\"solution_mc$idx\"";
 							$solutionoutput = $this->replaceInputElements ($repl_str, "O", $solutionoutput);
 						}
+					}
 				}
 				else
 				{
@@ -1009,28 +991,14 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						$sol .= $this->lng->txt("checkbox_checked").' = ';
 					else
 						$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" checked="checked" /> = ';
-					if ($answer->isStateChecked())
-					{
-						$sol .= $answer->getPoints();
-					}
-					else
-					{
-						$sol .= "0";
-					}
+					$sol .= $answer->getPoints();
 					$sol .= ' ' . $this->lng->txt("points") . ', ';
 					if ($show_solution_only)
 						$sol .= $this->lng->txt("checkbox_unchecked").' = ';
 					else
 						$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" /> = ';
 					
-					if (!$answer->isStateChecked())
-					{
-						$sol .= $answer->getPoints();
-					}
-					else
-					{
-						$sol .= "0";
-					}
+					$sol .= "0";
 					$sol .= ' ' . $this->lng->txt("points");
 					$sol .= '</em>)';
 					
@@ -1078,6 +1046,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						$mc_comment = "<span class=\"asterisk\">*</span><br /><br /><span class=\"asterisk\">*</span>$mc_comment";
 					}
 				}
+				$score_cutting_comment = "";
+				$score_cutting_comment = $this->object->getSolutionCommentScoreCutting($test_id);
+				if (strlen($score_cutting_comment))
+				{
+					$score_cutting_comment = "<span class=\"asterisk\">*</span><br /><br /><span class=\"asterisk\">*</span>$score_cutting_comment";
+				}
 				$count_comment = "";
 				if ($reached_points == 0)
 				{
@@ -1094,7 +1068,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						}
 					}
 				}
-				$received_points .= $mc_comment . $count_comment;
+				$received_points .= $mc_comment . $score_cutting_comment . $count_comment;
 				$received_points .= "</p>";
 			}
 		} 			 // end of show solution

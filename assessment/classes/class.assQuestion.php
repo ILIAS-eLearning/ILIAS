@@ -1872,6 +1872,17 @@ class ASS_Question
 		return $result;
 	}
 
+	function getSolutionCommentScoreCutting($test_id)
+	{
+		$result = "";
+		include_once "./assessment/classes/class.ilObjTest.php";
+		if (ilObjTest::_getScoreCutting($test_id) == SCORE_CUT_QUESTION)
+		{
+			$result = $this->lng->txt("solution_comment_score_cutting");
+		}
+		return $result;
+	}
+
 	function getSolutionCommentCountSystem($test_id)
 	{
 		$result = "";
@@ -1981,6 +1992,38 @@ class ASS_Question
 		return $result->numRows();
 	}
 
+	/**
+	* Returns the points, a learner has reached answering the question
+	*
+	* Returns the points, a learner has reached answering the question
+	* The points are calculated from the given answers including checks
+	* for all special scoring options in the test container.
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function calculateReachedPoints($user_id, $test_id, $pass = NULL, $points = 0)
+	{
+		include_once "./assessment/classes/class.ilObjTest.php";
+		$count_system = ilObjTest::_getCountSystem($test_id);
+		if ($count_system == 1)
+		{
+			if ($points != $this->getMaximumPoints())
+			{
+				$points = 0;
+			}
+		}
+		$score_cutting = ilObjTest::_getScoreCutting($test_id);
+		if ($score_cutting == 0)
+		{
+			if ($points < 0)
+			{
+				$points = 0;
+			}
+		}
+		return $points;
+	}
 }
 
 ?>

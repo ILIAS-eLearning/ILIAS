@@ -734,6 +734,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["count_system"] = $_POST["count_system"];
 			$data["mc_scoring"] = $_POST["mc_scoring"];
+			$data["score_cutting"] = $_POST["score_cutting"];
 			$data["pass_scoring"] = $_POST["pass_scoring"];
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
 			if (!strlen($_POST["chb_random"]))
@@ -755,6 +756,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["random_test"] = $this->object->random_test;
 			$data["count_system"] = $this->object->getCountSystem();
 			$data["mc_scoring"] = $this->object->getMCScoring();
+			$data["score_cutting"] = $this->object->getScoreCutting();
 			$data["pass_scoring"] = $this->object->getPassScoring();
 		}
 		if ($data["sel_test_types"] != $this->object->getTestType())
@@ -905,6 +907,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
+		$this->object->setScoreCutting($data["score_cutting"]);
 		$this->object->setPassScoring($data["pass_scoring"]);
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
 		{
@@ -1116,6 +1119,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["random_test"] = $this->object->isRandomTest();
 		$data["count_system"] = $this->object->getCountSystem();
 		$data["mc_scoring"] = $this->object->getMCScoring();
+		$data["score_cutting"] = $this->object->getScoreCutting();
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			$data["pass_scoring"] = $this->object->getPassScoring();
@@ -1363,6 +1367,17 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("SELECTED_STANDARD", " selected=\"selected\"");
 		}
+		$this->tpl->setVariable("TEXT_SCORE_CUTTING", $this->lng->txt("tst_score_cutting"));
+		$this->tpl->setVariable("TEXT_CUT_QUESTION", $this->lng->txt("tst_score_cut_question"));
+		$this->tpl->setVariable("TEXT_CUT_TEST", $this->lng->txt("tst_score_cut_test"));
+		if ($data["score_cutting"] == SCORE_CUT_QUESTION)
+		{
+			$this->tpl->setVariable("SELECTED_CUT_QUESTION", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SELECTED_CUT_TEST", " selected=\"selected\"");
+		}
 
 		$this->tpl->setVariable("TEXT_PASS_SCORING", $this->lng->txt("tst_pass_scoring"));
 		$this->tpl->setVariable("TEXT_LASTPASS", $this->lng->txt("tst_pass_last_pass"));
@@ -1388,6 +1403,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("DISABLE_COUNT_SYSTEM", " disabled=\"disabled\"");
 			$this->tpl->setVariable("DISABLE_MC_SCORING", " disabled=\"disabled\"");
+			$this->tpl->setVariable("DISABLE_SCORE_CUTTING", " disabled=\"disabled\"");
 			$this->tpl->setVariable("DISABLE_PASS_SCORING", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_TEST_TYPES", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");

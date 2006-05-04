@@ -329,6 +329,8 @@ assessment#:#percentile#:#Percentile
 assessment#:#picture#:#Picture
 assessment#:#please_select#:#-- please select --
 assessment#:#points#:#Points
+assessment#:#points_checked#:#Points when checked
+assessment#:#points_unchecked#:#Points when unchecked
 assessment#:#points_short#:#Pt.
 assessment#:#polygon#:#Polygon
 assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
@@ -434,6 +436,7 @@ assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points
 assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points
+assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points
 assessment#:#solution_hint#:#Suggested solution
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
@@ -567,6 +570,9 @@ assessment#:#tst_results_back_evaluation#:#Back to evaluation overview
 assessment#:#tst_results_back_introduction#:#Back to introduction
 assessment#:#tst_results_back_overview#:#Back to results overview
 assessment#:#tst_resume_test#:#Resume the test
+assessment#:#tst_score_cut_question#:#Cut negative points for every question
+assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results
+assessment#:#tst_score_cutting#:#Cut negative points
 assessment#:#tst_score_mcmr_questions#:#Multiple choice questions
 assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked

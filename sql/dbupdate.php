@@ -10614,4 +10614,41 @@ ALTER TABLE `exc_members` ADD `solved_time` timestamp(14) DEFAULT '0000000000000
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#701>
+ALTER TABLE `qpl_answer_multiplechoice` ADD `points_unchecked` DOUBLE NOT NULL DEFAULT '0' AFTER `points`;
+<#702>
+<?php
+	$query = "SELECT qpl_answer_multiplechoice.*, qpl_question_multiplechoice.choice_response FROM qpl_answer_multiplechoice, qpl_question_multiplechoice WHERE qpl_answer_multiplechoice.question_fi = qpl_question_multiplechoice.question_fi";
+	$result = $ilDB->query($query);
+	if ($result->numRows())
+	{
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// only multiple response questions
+			if ($row["choice_response"] == 1)
+			{
+				if ($row["correctness"] == 0)
+				{
+					$query = sprintf("UPDATE qpl_answer_multiplechoice SET points = %s, points_unchecked = %s WHERE answer_id = %s",
+						$ilDB->quote("0"),
+						$ilDB->quote($row["points"]),
+						$ilDB->quote($row["answer_id"])
+					);
+				}
+				else
+				{
+					$query = sprintf("UPDATE qpl_answer_multiplechoice SET points = %s, points_unchecked = %s WHERE answer_id = %s",
+						$ilDB->quote($row["points"]),
+						$ilDB->quote("0"),
+						$ilDB->quote($row["answer_id"])
+					);
+				}
+				$updateres = $ilDB->query($query);
+			}
+		}
+	}
+?>
+<#703>
+ALTER TABLE `qpl_answer_multiplechoice` DROP `correctness`;
+<#704>
+ALTER TABLE `tst_tests` ADD `score_cutting` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `mc_scoring`;

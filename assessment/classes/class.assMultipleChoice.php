@@ -299,51 +299,93 @@ class ASS_MultipleChoice extends ASS_Question
 		// add response conditions
 		foreach ($this->answers as $index => $answer)
 		{
-			$attrs = array(
-				"continue" => "Yes"
-			);
-			$a_xml_writer->xmlStartTag("respcondition", $attrs);
-			// qti conditionvar
-			$a_xml_writer->xmlStartTag("conditionvar");
-			if (!$answer->isStateSet())
-			{
-				$a_xml_writer->xmlStartTag("not");
-			}
-			$attrs = array();
 			if ($this->response == RESPONSE_SINGLE)
 			{
+				$attrs = array(
+					"continue" => "Yes"
+				);
+				$a_xml_writer->xmlStartTag("respcondition", $attrs);
+				// qti conditionvar
+				$a_xml_writer->xmlStartTag("conditionvar");
+				$attrs = array();
 				$attrs = array(
 					"respident" => "MCSR"
 				);
+				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+				$a_xml_writer->xmlEndTag("conditionvar");
+				// qti setvar
+				$attrs = array(
+					"action" => "Add"
+				);
+				$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
+				// qti displayfeedback
+				$linkrefid = "response_$index";
+				$attrs = array(
+					"feedbacktype" => "Response",
+					"linkrefid" => $linkrefid
+				);
+				$a_xml_writer->xmlElement("displayfeedback", $attrs);
+				$a_xml_writer->xmlEndTag("respcondition");
 			}
-				else
+			else
 			{
+				$attrs = array(
+					"continue" => "Yes"
+				);
+				$a_xml_writer->xmlStartTag("respcondition", $attrs);
+				// qti conditionvar
+				$a_xml_writer->xmlStartTag("conditionvar");
+				$attrs = array();
 				$attrs = array(
 					"respident" => "MCMR"
 				);
-			}
-			$a_xml_writer->xmlElement("varequal", $attrs, $index);
-			if (!$answer->isStateSet())
-			{
+				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+				$a_xml_writer->xmlEndTag("conditionvar");
+				// qti setvar
+				$attrs = array(
+					"action" => "Add"
+				);
+				$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
+				// qti displayfeedback
+				if ($this->response == RESPONSE_SINGLE)
+				{
+					$linkrefid = "response_$index";
+				}
+				$attrs = array(
+					"feedbacktype" => "Response",
+					"linkrefid" => $linkrefid
+				);
+				$a_xml_writer->xmlElement("displayfeedback", $attrs);
+				$a_xml_writer->xmlEndTag("respcondition");
+				$attrs = array(
+					"continue" => "Yes"
+				);
+				$a_xml_writer->xmlStartTag("respcondition", $attrs);
+				
+				// qti conditionvar
+				$a_xml_writer->xmlStartTag("conditionvar");
+				$attrs = array();
+				$attrs = array(
+					"respident" => "MCMR"
+				);
+				$a_xml_writer->xmlStartTag("not");
+				$a_xml_writer->xmlElement("varequal", $attrs, $index);
 				$a_xml_writer->xmlEndTag("not");
-			}
-			$a_xml_writer->xmlEndTag("conditionvar");
-			// qti setvar
-			$attrs = array(
-				"action" => "Add"
-			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
-			// qti displayfeedback
-			if ($this->response == RESPONSE_SINGLE)
-			{
+				$a_xml_writer->xmlEndTag("conditionvar");
+				// qti setvar
+				$attrs = array(
+					"action" => "Add"
+				);
+				$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPointsUnchecked());
+				// qti displayfeedback
 				$linkrefid = "response_$index";
+				$attrs = array(
+					"feedbacktype" => "Response",
+					"linkrefid" => $linkrefid
+				);
+				$a_xml_writer->xmlElement("displayfeedback", $attrs);
+				$a_xml_writer->xmlEndTag("respcondition");
 			}
-			$attrs = array(
-				"feedbacktype" => "Response",
-				"linkrefid" => $linkrefid
-			);
-			$a_xml_writer->xmlElement("displayfeedback", $attrs);
-			$a_xml_writer->xmlEndTag("respcondition");
 		}
 		$a_xml_writer->xmlEndTag("resprocessing");
 
@@ -485,14 +527,28 @@ class ASS_MultipleChoice extends ASS_Question
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
-				$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, correctness, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-					$db->quote($this->id),
-					$db->quote($answer_obj->getAnswertext()),
-					$db->quote($answer_obj->getPoints() . ""),
-					$db->quote($answer_obj->getOrder() . ""),
-					$db->quote($answer_obj->getState() . ""),
-					$db->quote($answer_obj->getImage() . "")
-				);
+				if ($this->getResponse() == RESPONSE_SINGLE)
+				{
+					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+						$db->quote($this->id),
+						$db->quote($answer_obj->getAnswertext()),
+						$db->quote($answer_obj->getPoints() . ""),
+						$db->quote("0"),
+						$db->quote($answer_obj->getOrder() . ""),
+						$db->quote($answer_obj->getImage() . "")
+					);
+				}
+				else
+				{
+					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+						$db->quote($this->id),
+						$db->quote($answer_obj->getAnswertext()),
+						$db->quote($answer_obj->getPoints() . ""),
+						$db->quote($answer_obj->getPointsUnchecked() . ""),
+						$db->quote($answer_obj->getOrder() . ""),
+						$db->quote($answer_obj->getImage() . "")
+					);
+				}
 				$answer_result = $db->query($query);
 			}
 		}
@@ -542,6 +598,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$result = $db->query($query);
 
 			include_once "./assessment/classes/class.assAnswerBinaryStateImage.php";
+			include_once "./assessment/classes/class.assAnswerMultipleResponseImage.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -551,7 +608,14 @@ class ASS_MultipleChoice extends ASS_Question
 					{
 						$data->imagefile = "";
 					}
-					array_push($this->answers, new ASS_AnswerBinaryStateImage($data->answertext, $data->points, $data->aorder, $data->correctness, $data->imagefile));
+					if ($this->getResponse() == RESPONSE_SINGLE)
+					{
+						array_push($this->answers, new ASS_AnswerBinaryStateImage($data->answertext, $data->points, $data->aorder, 1, $data->imagefile));
+					}
+					else
+					{
+						array_push($this->answers, new ASS_AnswerMultipleResponseImage($data->answertext, $data->points, $data->aorder, $data->points_unchecked, $data->imagefile));
+					}
 				}
 			}
 		}
@@ -746,6 +810,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* @param double $points The points for selecting the answer (even negative points can be used)
 	* @param boolean $state Defines the answer as correct (TRUE) or incorrect (FALSE)
 	* @param integer $order A possible display order of the answer
+	* @param double $points The points for not selecting the answer (even negative points can be used)
 	* @access public
 	* @see $answers
 	* @see ASS_AnswerBinaryStateImage
@@ -753,7 +818,7 @@ class ASS_MultipleChoice extends ASS_Question
 	function addAnswer(
 		$answertext = "",
 		$points = 0.0,
-		$state = 0,
+		$points_unchecked = 0.0,
 		$order = 0,
 		$answerimage = ""
 	)
@@ -766,23 +831,47 @@ class ASS_MultipleChoice extends ASS_Question
 				$found = $order;
 			}
 		}
-		include_once "./assessment/classes/class.assAnswerBinaryStateImage.php";
-		if ($found >= 0)
+		if ($this->getResponse() == RESPONSE_SINGLE)
 		{
-			// Antwort einfügen
-			$answer = new ASS_AnswerBinaryStateImage($answertext, $points, $found, $state, $answerimage);
-			array_push($this->answers, $answer);
-			for ($i = $found + 1; $i < count($this->answers); $i++)
+			include_once "./assessment/classes/class.assAnswerBinaryStateImage.php";
+			if ($found >= 0)
 			{
-				$this->answers[$i] = $this->answers[$i-1];
+				// Antwort einfügen
+				$answer = new ASS_AnswerBinaryStateImage($answertext, $points, $found, 1, $answerimage);
+				array_push($this->answers, $answer);
+				for ($i = $found + 1; $i < count($this->answers); $i++)
+				{
+					$this->answers[$i] = $this->answers[$i-1];
+				}
+				$this->answers[$found] = $answer;
 			}
-			$this->answers[$found] = $answer;
+			else
+			{
+				// Anwort anhängen
+				$answer = new ASS_AnswerBinaryStateImage($answertext, $points, count($this->answers), 1, $answerimage);
+				array_push($this->answers, $answer);
+			}
 		}
 		else
 		{
-			// Anwort anhängen
-			$answer = new ASS_AnswerBinaryStateImage($answertext, $points, count($this->answers), $state, $answerimage);
-			array_push($this->answers, $answer);
+			include_once "./assessment/classes/class.assAnswerMultipleResponseImage.php";
+			if ($found >= 0)
+			{
+				// Antwort einfügen
+				$answer = new ASS_AnswerMultipleResponseImage($answertext, $points, $found, $points_unchecked, $answerimage);
+				array_push($this->answers, $answer);
+				for ($i = $found + 1; $i < count($this->answers); $i++)
+				{
+					$this->answers[$i] = $this->answers[$i-1];
+				}
+				$this->answers[$found] = $answer;
+			}
+			else
+			{
+				// Anwort anhängen
+				$answer = new ASS_AnswerMultipleResponseImage($answertext, $points, count($this->answers), $points_unchecked, $answerimage);
+				array_push($this->answers, $answer);
+			}
 		}
 	}
 
@@ -871,26 +960,30 @@ class ASS_MultipleChoice extends ASS_Question
 	*/
 	function getMaximumPoints()
 	{
-		$points = array("set" => 0, "unset" => 0);
+		$points = 0;
 		if ($this->getResponse() == RESPONSE_SINGLE)
 		{
 			foreach ($this->answers as $key => $value) 
 			{
-				if ($value->getPoints() > $points["set"])
+				if ($value->getPoints() > $points)
 				{
-					$points["set"] = $value->getPoints();
+					$points = $value->getPoints();
 				}
 			}
-			return $points["set"];
+			return $points;
 		}
 		else
 		{
 			$allpoints = 0;
 			foreach ($this->answers as $key => $value) 
 			{
-				if ($value->getPoints() > 0)
+				if ($value->getPoints() > $value->getPointsUnchecked())
 				{
 					$allpoints += $value->getPoints();
+				}
+				else
+				{
+					$allpoints += $value->getPointsUnchecked();
 				}
 			}
 			return $allpoints;
@@ -934,18 +1027,22 @@ class ASS_MultipleChoice extends ASS_Question
 		$points = 0;
 		foreach ($this->answers as $key => $answer)
 		{
-			if ((count($found_values) > 0) || ($this->getResponse() == RESPONSE_MULTIPLE))
+			if (count($found_values) > 0) 
 			{
-				if ($answer->isStateChecked())
+				if ($this->getResponse() == RESPONSE_MULTIPLE)
 				{
 					if (in_array($key, $found_values))
 					{
 						$points += $answer->getPoints();
 					}
+					else
+					{
+						$points += $answer->getPointsUnchecked();
+					}
 				}
 				else
 				{
-					if (!in_array($key, $found_values))
+					if (in_array($key, $found_values))
 					{
 						$points += $answer->getPoints();
 					}
@@ -953,34 +1050,16 @@ class ASS_MultipleChoice extends ASS_Question
 			}
 		}
 
-		// check for special scoring options in test
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
+		if ($this->getResponse() == RESPONSE_MULTIPLE)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($row["mc_scoring"] == 0)
+			include_once "./assessment/classes/class.ilObjTest.php";
+			$mc_scoring = ilObjTest::_getMCScoring($test_id);
+			if (($mc_scoring == 0) && (count($found_values) == 0))
 			{
-				if (count($found_values) == 0)
-				{
-					$points = 0;
-				}
-			}
-			if ($row["count_system"] == 1)
-			{
-				if ($points != $this->getMaximumPoints())
-				{
-					$points = 0;
-				}
+				$points = 0;
 			}
 		}
-		else
-		{
-			$points = 0;
-		}
-		if ($points < 0) $points = 0;
+		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
 		return $points;
 	}
 	
@@ -1024,58 +1103,6 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			return TRUE;
 		}
-	}
-
-	/**
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function getReachedInformation($user_id, $test_id, $pass = NULL)
-	{
-		$found_values = array();
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($test_id . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($pass . "")
-		);
-		$result = $this->ilias->db->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			array_push($found_values, $data->value1);
-		}
-		$counter = 1;
-		$user_result = array();
-		foreach ($found_values as $key => $value)
-		{
-			$solution = array(
-				"order" => "$counter",
-				"points" => 0,
-				"true" => 0,
-				"value" => "",
-				);
-			if (strlen($value) > 0)
-			{
-				$solution["value"] = $value;
-				$solution["points"] = $this->answers[$value]->getPoints();
-				if ($this->answers[$value]->isStateChecked())
-				{
-					$solution["true"] = 1;
-				}
-			}
-			$counter++;
-			$user_result[$value] = $solution;
-		}
-		return $user_result;
 	}
 
 	/**
@@ -1197,16 +1224,20 @@ class ASS_MultipleChoice extends ASS_Question
 					$db->quote($this->original_id)
 				);
 				$result = $db->query($query);
-	
+				$points_unchecked = 0;
+				if ($this->getReponse() == RESPONSE_MULTIPLE)
+				{
+					$points_unchecked = $answer_obj->getPointsUnchecked();
+				}
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
-					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, correctness) VALUES (NULL, %s, %s, %s, %s, %s)",
+					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, points_unchecked) VALUES (NULL, %s, %s, %s, %s, %s)",
 					$db->quote($this->original_id. ""),
 					$db->quote($answer_obj->getAnswertext(). ""),
 					$db->quote($answer_obj->getPoints() . ""),
 					$db->quote($answer_obj->getOrder() . ""),
-					$db->quote($answer_obj->getState() . "")
+					$db->quote($points_unchecked . "")
 					);
 					$answer_result = $db->query($query);
 				}

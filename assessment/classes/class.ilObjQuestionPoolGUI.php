@@ -936,6 +936,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
 		foreach ($table["rows"] as $data)
 		{
+			include_once "./assessment/classes/class.assQuestionGUI.php";
+			$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
+			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
+			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
+
 			if ($data["complete"] == 0)
 			{
 				$this->tpl->setCurrentBlock("qpl_warning");
@@ -956,10 +961,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 			$this->tpl->setCurrentBlock("QTab");
 			$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-			include_once "./assessment/classes/class.assQuestionGUI.php";
-			$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
-			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
-			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 			$this->tpl->setVariable("QUESTION_TITLE", "<strong>" .$data["title"] . "</strong>");
 
 			$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));

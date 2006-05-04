@@ -278,18 +278,15 @@ class ilObjTestAccess extends ilObjectAccess
 				include_once "./assessment/classes/class.assQuestion.php";
 				$preached = ASS_Question::_getReachedPoints($user_id, $test_id, $row["question_id"], $pass);
 				$max_points += $row["points"];
-				switch ($tst_marks[0]["count_system"])
-				{
-					case 0: // COUNT_PARTIAL_SOLUTIONS
-						$reached_points += $preached;
-						break;
-					case 1: // COUNT_CORRECT_SOLUTIONS
-						if ($preached == $row["points"])
-						{
-							$reached_points += $preached;
-						}
-						break;
-				}
+				$reached_points += $preached;
+			}
+			switch ($test_result["marks"][0]["score_cutting"])
+			{
+				case 0: // SCORE_CUT_QUESTION
+					break;
+				case 1: // SCORE_CUT_TEST
+					if ($reached_points < 0) $reached_points = 0;
+					break;
 			}
 			$test_result["max_points"] = $max_points;
 			$test_result["reached_points"] = $reached_points;
