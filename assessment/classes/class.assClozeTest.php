@@ -1472,104 +1472,9 @@ class ASS_ClozeTest extends ASS_Question
 			}
     }
 
-		// check for special scoring options in test
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($row["count_system"] == 1)
-			{
-				if ($points != $this->getMaximumPoints())
-				{
-					$points = 0;
-				}
-			}
-		}
-		else
-		{
-			$points = 0;
-		}
-		if ($points < 0) $points = 0;
+		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
 		return $points;
 	}
-
-/**
-* Returns the evaluation data, a learner has entered to answer the question
-*
-* Returns the evaluation data, a learner has entered to answer the question
-*
-* @param integer $user_id The database ID of the learner
-* @param integer $test_id The database Id of the test containing the question
-* @access public
-*/
-  function getReachedInformation($user_id, $test_id, $pass = NULL) 
-	{
-    $found_value1 = array();
-    $found_value2 = array();
-		$pass = array();
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($test_id . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($pass . "")
-		);
-    $result = $this->ilias->db->query($query);
-    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
-		{
-      array_push($found_value1, $data->value1);
-      array_push($found_value2, $data->value2);
-    }
-    $counter = 1;
-		$user_result = array();
-    foreach ($found_value1 as $key => $value) 
-		{
-      if ($this->gaps[$value][0]->getClozeType() == CLOZE_TEXT) 
-			{
-				$solution = array(
-					"gap" => "$counter",
-					"points" => 0,
-					"true" => 0,
-					"value" => $found_value2[$key]
-				);
-        foreach ($this->gaps[$value] as $k => $v) 
-				{
-          if (strcmp(strtolower($v->getAnswertext()), strtolower($found_value2[$key])) == 0) 
-					{
-						$solution = array(
-							"gap" => "$counter",
-							"points" => $v->getPoints(),
-							"true" => 1,
-							"value" => $found_value2[$key]
-						);
-          }
-        }
-      } 
-			else 
-			{
-				$solution = array(
-					"gap" => "$counter",
-					"points" => 0,
-					"true" => 0,
-					"value" => $found_value2[$key]
-				);
-        if ($this->gaps[$value][$found_value1[$key]]->isStateSet()) 
-				{
-					$solution["points"] = $this->gaps[$value][$found_value1[$key]]->getPoints();
-					$solution["true"] = 1;
-        }
-      }
-			$counter++;
-			$user_result[$value] = $solution;
-    }
-    return $user_result;
-  }
 
 /**
 * Returns the maximum points, a learner can reach answering the question
@@ -1595,15 +1500,15 @@ class ASS_ClozeTest extends ASS_Question
         $points += $gap_max_points;
       } else 
 			{
-				$points_arr = array("set" => 0, "unset" => 0);
+				$srpoints = 0;
         foreach ($value as $key2 => $value2) 
 				{
-					if ($value2->getPoints() > $points_arr["set"])
+					if ($value2->getPoints() > $srpoints)
 					{
-						$points_arr["set"] = $value2->getPoints();
+						$srpoints = $value2->getPoints();
 					}
 				}
-				$points += $points_arr["set"];
+				$points += $srpoints;
       }
     }
     return $points;

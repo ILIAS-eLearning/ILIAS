@@ -62,7 +62,8 @@
 <tr class="tblheader">
   <th width="25"></th>
   <th class="std">{TEXT_ANSWER_TEXT}</th>
-	<th class="std">{TEXT_POINTS}</th>
+	<th class="std">{TEXT_POINTS_CHECKED}</th>
+	<th class="std">{TEXT_POINTS_UNCHECKED}</th>
 </tr>
 <!-- END answersheading -->
 <!-- BEGIN answers -->
@@ -83,25 +84,28 @@
 <!-- END graphical_answer -->		
 	</td>
   <td>
-		<input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MULTIPLE_CHOICE_POINTS}" /> {TEXT_WHEN} <select name="status_{ANSWER_ORDER}" size="1"><option value="0"{UNCHECKED_SELECTED}>{TEXT_UNCHECKED}</option><option value="1"{CHECKED_SELECTED}>{TEXT_CHECKED}</option></select>
+		<input name="points_checked_{ANSWER_ORDER}" type="text" id="points_checked_{ANSWER_ORDER}" size="3" value="{VALUE_MULTIPLE_CHOICE_POINTS_CHECKED}" />
+	</td>
+  <td>
+		<input name="points_unchecked_{ANSWER_ORDER}" type="text" id="points_unchecked_{ANSWER_ORDER}" size="3" value="{VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED}" />
 	</td>
 </tr>
 <!-- END answers -->
 <!-- BEGIN selectall -->
 <tr class="tblrow1">
 	<td><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('frm_multiple_choice', 'chb_answers', document.frm_multiple_choice.chb_check_all.checked);" /></td>
-  <td colspan="2"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+  <td colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall -->
 <!-- BEGIN existinganswers -->
 <tr>
 	<td class="submit" width="20">{ARROW}</td>
-	<td class="submit" colspan="2">
+	<td class="submit" colspan="3">
 		<input type="submit" class="submit" name="cmd[deleteAnswer]" value="{DELETE}" />
 	</td>
 </tr>
 <!-- END existinganswers -->
-<tr><td colspan="3" class="submit">
+<tr><td colspan="4" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
 <input name="cmd[save]" type="submit" class="submit" id="save_multiple_choice" value="{SAVE}" /> <input name="cmd[saveEdit]" type="submit" class="submit" value="{SAVE_EDIT}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />

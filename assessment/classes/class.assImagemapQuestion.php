@@ -617,15 +617,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 				"action" => "Add"
 			);
 			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
-			// qti displayfeedback
-			if ($answer->isStateChecked())
-			{
-				$linkrefid = "True";
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
-			}
+			$linkrefid = "response_$index";
 			$attrs = array(
 				"feedbacktype" => "Response",
 				"linkrefid" => $linkrefid
@@ -639,14 +631,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		foreach ($this->answers as $index => $answer)
 		{
 			$linkrefid = "";
-			if ($answer->isStateChecked())
-			{
-				$linkrefid = "True";
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
-			}
+			$linkrefid = "response_$index";
 			$attrs = array(
 				"ident" => $linkrefid,
 				"view" => "All"
@@ -920,14 +905,14 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @see $points
 */
   function getMaximumPoints() {
-		$points = array("set" => 0, "unset" => 0);
+		$points = 0;
 		foreach ($this->answers as $key => $value) {
-			if ($value->getPoints() > $points["set"])
+			if ($value->getPoints() > $points)
 			{
-				$points["set"] = $value->getPoints();
+				$points = $value->getPoints();
 			}
 		}
-		return $points["set"];
+		return $points;
   }
 
 	/**
@@ -969,91 +954,16 @@ class ASS_ImagemapQuestion extends ASS_Question
 		{
 			foreach ($this->answers as $key => $answer)
 			{
-				if ($answer->isStateChecked())
+				if (in_array($key, $found_values))
 				{
-					if (in_array($key, $found_values))
-					{
-						$points += $answer->getPoints();
-					}
+					$points += $answer->getPoints();
 				}
 			}
 		}
 
-		// check for special scoring options in test
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($row["count_system"] == 1)
-			{
-				if ($points != $this->getMaximumPoints())
-				{
-					$points = 0;
-				}
-			}
-		}
-		else
-		{
-			$points = 0;
-		}
-		if ($points < 0) $points = 0;
+		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
 		return $points;
 	}
-
-/**
-* Returns the evaluation data, a learner has entered to answer the question
-*
-* Returns the evaluation data, a learner has entered to answer the question
-*
-* @param integer $user_id The database ID of the learner
-* @param integer $test_id The database Id of the test containing the question
-* @access public
-*/
-  function getReachedInformation($user_id, $test_id, $pass = NULL) 
-	{
-    $found_values = array();
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-      $this->ilias->db->quote($user_id . ""),
-      $this->ilias->db->quote($test_id . ""),
-      $this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($pass . "")
-    );
-    $result = $this->ilias->db->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			array_push($found_values, $data->value1);
-		}
-		$counter = 1;
-		$user_result = array();
-		foreach ($found_values as $key => $value)
-		{
-			$solution = array(
-				"order" => "$counter",
-				"points" => 0,
-				"true" => 0,
-				"value" => "",
-				);
-			if (strlen($value) > 0)
-			{
-				$solution["value"] = $value;
-				$solution["points"] = $this->answers[$value]->getPoints();
-				if ($this->answers[$value]->isStateChecked())
-				{
-					$solution["true"] = 1;
-				}
-			}
-			$counter++;
-			array_push($user_result, $solution);
-		}
-		return $user_result;
-  }
 
 /**
 * Saves the learners input of the question to the database

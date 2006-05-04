@@ -1084,6 +1084,12 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setMCScoring($this->metadata["entry"]);
 							}
 							break;
+						case "score_cutting":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setScoreCutting($this->metadata["entry"]);
+							}
+							break;
 						case "pass_scoring":
 							if (is_object($this->tst_object))
 							{
@@ -1377,7 +1383,7 @@ class ilQTIParser extends ilSaxParser
 													"imagefile" => $answerimage,
 													"points" => 0,
 													"answerorder" => $answerorder++,
-													"correctness" => "",
+													"points_unchecked" => 0,
 													"action" => ""
 												);
 											}
@@ -1410,9 +1416,16 @@ class ilQTIParser extends ilSaxParser
 								{
 									if (strcmp($ident, "") != 0)
 									{
-										$answers[$ident]["correctness"] = $correctness;
-										$answers[$ident]["action"] = $setvar->getAction();
-										$answers[$ident]["points"] = $setvar->getContent();
+										if ($correctness)
+										{
+											$answers[$ident]["action"] = $setvar->getAction();
+											$answers[$ident]["points"] = $setvar->getContent();
+										}
+										else
+										{
+											$answers[$ident]["action"] = $setvar->getAction();
+											$answers[$ident]["points_unchecked"] = $setvar->getContent();
+										}
 									}
 								}
 							}
@@ -1437,7 +1450,7 @@ class ilQTIParser extends ilSaxParser
 						$question->setShuffle($shuffle);
 						foreach ($answers as $answer)
 						{
-							$question->addAnswer($answer["answertext"], $answer["points"], $answer["correctness"], $answer["answerorder"], $answer["imagefile"]["label"]);
+							$question->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);
 						}
 						$question->saveToDb();
 						foreach ($answers as $answer)

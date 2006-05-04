@@ -319,6 +319,13 @@ class ilObjTest extends ilObject
 */
 	var $show_solution_details;
 
+/**
+* Determines if the score of every question should be cut at 0 points or the score of the complete test
+*
+* @var boolean
+*/
+	var $score_cutting;
+
 	/**
 	* Constructor
 	* @access	public
@@ -356,6 +363,7 @@ class ilObjTest extends ilObject
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
 		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
+		$this->score_cutting = SCORE_CUT_QUESTION;
 		$this->pass_scoring = SCORE_LAST_PASS;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
@@ -1082,7 +1090,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, pass_scoring, shuffle_questions, show_solution_details, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->test_type . ""),
@@ -1109,6 +1117,7 @@ class ilObjTest extends ilObject
 				$random_question_count,
 				$db->quote($this->count_system . ""),
 				$db->quote($this->mc_scoring . ""),
+				$db->quote($this->getScoreCutting() . ""),
 				$db->quote($this->getPassScoring() . ""),
 				$db->quote($shuffle_questions . ""),
 				$db->quote($show_solution_details . ""),
@@ -1139,7 +1148,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
@@ -1164,6 +1173,7 @@ class ilObjTest extends ilObject
 				$db->quote("$complete"),
 				$db->quote($this->count_system . ""),
 				$db->quote($this->mc_scoring . ""),
+				$db->quote($this->getScoreCutting() . ""),
 				$db->quote($this->getPassScoring() . ""),
 				$db->quote($shuffle_questions . ""),
 				$db->quote($show_solution_details . ""),
@@ -1551,6 +1561,7 @@ class ilObjTest extends ilObject
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->count_system = $data->count_system;
 				$this->mc_scoring = $data->mc_scoring;
+				$this->setScoreCutting($data->score_cutting);
 				$this->setPassScoring($data->pass_scoring);
 				$this->loadQuestions();
 			}
@@ -1881,6 +1892,20 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Determines if the score of a question should be cut at 0 points or the score of the whole test
+* 
+* Determines if the score of a question should be cut at 0 points or the score of the whole test
+*
+* @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
+* @access public
+* @see $score_cutting
+*/
+  function getScoreCutting() 
+	{
+    return $this->score_cutting;
+  }
+
+/**
 * Gets the pass scoring type
 * 
 * Gets the pass scoring type
@@ -1938,6 +1963,30 @@ class ilObjTest extends ilObject
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			return $row["mc_scoring"];
+		}
+    return FALSE;
+  }
+
+/**
+* Determines if the score of a question should be cut at 0 points or the score of the whole test
+* 
+* Determines if the score of a question should be cut at 0 points or the score of the whole test
+*
+* @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
+* @access public
+* @see $score_cutting
+*/
+  function _getScoreCutting($test_id) 
+	{
+		global $ilDB;
+		$query = sprintf("SELECT score_cutting FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["score_cutting"];
 		}
     return FALSE;
   }
@@ -2286,6 +2335,20 @@ class ilObjTest extends ilObject
   function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS) 
 	{
     $this->count_system = $a_count_system;
+  }
+  
+/**
+* Sets the type of score cutting
+*
+* Sets the type of score cutting
+*
+* @param integer $a_score_cutting The type of score cutting. 0 for cut questions, 1 for cut tests
+* @access public
+* @see $score_cutting
+*/
+  function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION) 
+	{
+    $this->score_cutting = $a_score_cutting;
   }
   
 /**
@@ -3291,6 +3354,13 @@ class ilObjTest extends ilObject
 			);
 			array_push($result_array, $row);
 			$key++;
+		}
+		if ($this->_getScoreCutting() == 1)
+		{
+			if ($total_reached_points < 0)
+			{
+				$total_reached_points = 0;
+			}
 		}
 		$result_array["test"]["total_max_points"] = $total_max_points;
 		$result_array["test"]["total_reached_points"] = $total_reached_points;
@@ -4643,6 +4713,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "mc_scoring");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getMCScoring());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// multiple choice scoring
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "score_cutting");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getScoreCutting());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// pass scoring
