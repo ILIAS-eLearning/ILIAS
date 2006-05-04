@@ -1,17 +1,7 @@
 	<form action="{FORMACTION}" name="ObjectItems" method="post">
 	  <table class="std" width="60%">
-		  <tr class="tbltitle">
-			<td colspan="2">
-			  <table class="fullwidth_invisible" cellspacing="0">
-				  <tr class="tbltitle">
-					<td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
-					<td class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
-				  </tr>
-			  </table>
-			</td>
-		  </tr>
 		  <tr class="tblheader">
-			<td class="std" colspan="2">&nbsp</td>
+			<th class="std" colspan="2">{EDIT_GROUPING}</th>
 		  </tr>
 		  <tr>
 			<td class="option" width="30%">
@@ -34,20 +24,15 @@
 		  </tr>
 		  <!-- BEGIN assigned -->
 		  <tr>
-			<td class="option" rowspan="{ASS_ROWSPAN}">
+			<td class="option">
 			  {ASS_COURSES}
 			</td>
 			<td class="option_value">
-			  {CRS_TITLE}
+			  <!-- BEGIN list_courses -->
+			  <div>{LIST_CRS_TITLE}</div>
+			  <!-- END list_courses -->
 			</td>
 		  </tr>
-		  <!-- BEGIN list_courses -->
-		  <tr>
-			<td class="option_value">
-			  {LIST_CRS_TITLE}&nbsp;[<a href="{DELETE_LINK}">{TXT_DELETE}</a>]
-			</td>
-		  </tr>
-		  <!-- END list_courses -->
 		  <!-- END assigned -->
 		  <!-- BEGIN no_assigned -->
 		  <tr>
@@ -62,6 +47,7 @@
 			  <div align="right">
 				<input class="submit" type="submit" name="cmd[update]" value="{BTN_UPDATE}" />
 				<input class="submit" type="submit" name="cmd[selectCourse]" value="{BTN_ADD}" />
+				<input class="submit" type="submit" name="cmd[listGroupings]" value="{BTN_CANCEL}" />
 			  </div>
 			</td>
 		  </tr>

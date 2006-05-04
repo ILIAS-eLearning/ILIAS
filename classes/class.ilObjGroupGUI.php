@@ -30,7 +30,7 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilObjUserGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilObjUserGUI, ilObjCourseGroupingGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -115,6 +115,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->setReturn($this, "");   // ###
 				$reg_gui = new ilRegisterGUI();
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
+				$this->tabs_gui->setTabActive('join');
 				break;
 
 			case 'ilpermissiongui':
@@ -132,7 +133,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('members');
 				$this->ctrl->setReturn($this,'members');
 				$ret =& $this->ctrl->forwardCommand($rep_search);
-				$this->setSubTabs('members');
+				$this->__setSubTabs('members');
 				$this->tabs_gui->setSubTabActive('members');
 				break;
 
@@ -149,6 +150,18 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tabs_gui->setTabActive('learning_progress');
 				break;
+
+			case 'ilobjcoursegroupinggui':
+				include_once './course/classes/class.ilObjCourseGroupingGUI.php';
+
+				$this->ctrl->setReturn($this,'edit');
+				$this->__setSubTabs('properties');
+				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
+				$this->ctrl->forwardCommand($crs_grp_gui);
+				$this->tabs_gui->setTabActive('edit_properties');
+				$this->tabs_gui->setSubTabActive('groupings');
+				break;
+
 
 
 			default:
@@ -653,6 +666,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$this->getTemplateFile("edit");
+		$this->__setSubTabs('properties');
 
 		foreach ($data as $key => $val)
 		{
@@ -1119,7 +1133,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $rbacsystem,$ilBench,$ilDB,$ilUser;
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
-		$this->setSubTabs('members');
+		$this->__setSubTabs('members');
 
 		// display member search button
 		$this->lng->loadLanguageModule('crs');
@@ -1209,7 +1223,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	    require_once "./classes/class.ilObjUserGUI.php";
 	    
 	    $this->tabs_gui->setTabActive('members');
-	    $this->setSubTabs('members');
+	   $this->__setSubTabs('members');
 	    
 	    $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 	    
@@ -1239,7 +1253,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	    
 	    $this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
 	    
-	    $this->setSubTabs('members');
+	   $this->__setSubTabs('members');
 	    
 	    $member_ids = $this->object->getGroupMemberIds();
 	    $admin_ids = $this->object->getGroupAdminIds();
@@ -1325,7 +1339,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html');
 
-		$this->setSubTabs('members');
+		$this->__setSubTabs('members');
 
 		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
@@ -1334,33 +1348,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("CHECK_ADMIN",ilUtil::formCheckbox(0,'roles[]','#il_grp_admin_'.$this->object->getRefId()));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
-	}
-
-
-	/**
-	* set sub tabs
-	*/
-	function setSubTabs($a_tab)
-	{
-		switch ($a_tab)
-		{
-			case 'members':
-				$this->tabs_gui->addSubTabTarget("members",
-				$this->ctrl->getLinkTarget($this,'members'),
-				"members", get_class($this));
-				
-				$this->tabs_gui->addSubTabTarget("mail_members",
-				$this->ctrl->getLinkTarget($this,'mailMembers'),
-				"mailMembers", get_class($this));
-
-				$this->tabs_gui->addSubTabTarget("grp_members_gallery",
-				$this->ctrl->getLinkTarget($this,'membersGallery'),
-				"membersGallery", get_class($this));
-
-				break;
-
-				
-		}
 	}
 
 
@@ -2714,7 +2701,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		return str_replace(array("ä","ö","ü","ß","Ä","Ö","Ü"), array("ae","oe","ue","ss","Ae","Oe","Ue"), $str);
 	}
 
-
 	/**
 	* set sub tabs
 	*/
@@ -2725,6 +2711,20 @@ class ilObjGroupGUI extends ilContainerGUI
 		switch ($a_tab)
 		{
 				
+			case 'members':
+				$this->tabs_gui->addSubTabTarget("members",
+				$this->ctrl->getLinkTarget($this,'members'),
+				"members", get_class($this));
+				
+				$this->tabs_gui->addSubTabTarget("mail_members",
+				$this->ctrl->getLinkTarget($this,'mailMembers'),
+				"mailMembers", get_class($this));
+
+				$this->tabs_gui->addSubTabTarget("grp_members_gallery",
+				$this->ctrl->getLinkTarget($this,'membersGallery'),
+				"membersGallery", get_class($this));
+				break;
+
 			case "activation":
 				$this->tabs_gui->addSubTabTarget("activation",
 												 $this->ctrl->getLinkTarget($this,'cciEdit'),
@@ -2732,6 +2732,17 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 												 "", "ilConditionHandlerInterface");
+				break;
+
+			case 'properties':
+				$this->tabs_gui->addSubTabTarget("edit_properties",
+												 $this->ctrl->getLinkTarget($this,'edit'),
+												 "edit", get_class($this));
+				
+				$this->tabs_gui->addSubTabTarget('groupings',
+												 $this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','listGroupings'),
+												 'listGroupings',
+												 get_class($this));
 				break;
 		}
 	}

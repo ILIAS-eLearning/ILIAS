@@ -1109,6 +1109,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("crs_crs_structure",
 												 $this->ctrl->getLinkTarget($this,'listStructure'),
 												 "listStructure", get_class($this));
+				$this->tabs_gui->addSubTabTarget('groupings',
+												 $this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','listGroupings'),
+												 'listGroupings',
+												 get_class($this));
+
 				if ($this->ilias->getSetting("custom_icons"))
 				{
 					$this->tabs_gui->addSubTabTarget("icon_settings",
@@ -1127,15 +1132,15 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 				
 			case 'members':
+				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
+					$this->ctrl->getLinkTarget($this,'membersGallery'),
+					"membersGallery", get_class($this));
 				$this->tabs_gui->addSubTabTarget("members",
 					$this->ctrl->getLinkTarget($this,'members'),
 					"members", get_class($this));
 				$this->tabs_gui->addSubTabTarget("mail_members",
 					$this->ctrl->getLinkTarget($this,'mailMembers'),
 					"mailMembers", get_class($this));
-				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
-					$this->ctrl->getLinkTarget($this,'membersGallery'),
-					"membersGallery", get_class($this));
 				break;
 
 				
@@ -1696,8 +1701,8 @@ class ilObjCourseGUI extends ilContainerGUI
 						if($course_data['id'] != $this->object->getId() and
 						   ilCourseMembers::_isMember($tmp_obj->getId(),$course_data['id'],$course_data['unique']))
 						{
-							$message .= ('<br />'.$this->lng->txt('crs_member_of').' ');
-							$message .= ilObject::_lookupTitle($course_data['id']);
+							$message .= ('<br /><font class="alert">'.$this->lng->txt('crs_member_of').' ');
+							$message .= (ilObject::_lookupTitle($course_data['id'])."</font>");
 						}
 					}
 					$f_result[$counter][]   = $tmp_obj->getLogin().$message;
@@ -2873,12 +2878,6 @@ class ilObjCourseGUI extends ilContainerGUI
 								 get_class($this), "", $force_active);
 		}
 		
-		// course groupings
-		if($rbacsystem->checkAccess('write',$this->ref_id))
-		{
-			$tabs_gui->addTarget("crs_groupings",
-				$this->ctrl->getLinkTarget($this, "listGroupings"), "listGroupings", get_class($this));
-		}
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
@@ -3058,20 +3057,20 @@ class ilObjCourseGUI extends ilContainerGUI
          */
 	function showProfileObject()
 	{
-
 	  require_once "./classes/class.ilObjUserGUI.php";
-
-	  $this->tabs_gui->setTabActive('members');
-	  $this->setSubTabs('members');
 
 	  $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 
 	  // SHOW PUBLIC PROFILE OR WARNING IF NOT PUBLIC
 	  if (($out = $user_gui->getPublicProfile())!="") {
-	    $this->tpl->setVariable("ADM_CONTENT","<center>".$out."</center>");
+		  $this->setSubTabs('members');
+		  $this->tabs_gui->setTabActive('members');
+		  $this->tabs_gui->setSubTabActive('crs_members_gallery');
+		  $this->tpl->setVariable("ADM_CONTENT","<center>".$out."</center>");
 	  }
 	  else {
 	    sendInfo($this->lng->txt('public_profile_not_visible'));
+		$this->membersGalleryObject();
 	  }
 
 	}
@@ -3184,171 +3183,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		exit;
 	}
 	
-	
-	
-	
-	function listGroupingsObject()
-	{
-		include_once './course/classes/class.ilObjCourseGrouping.php';
-
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_groupings_list.html","course");
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->ctrl->setParameterByClass('ilobjcoursegroupinggui','ref_id',$this->object->getRefId());
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','create'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_add_grouping'));
-		$this->tpl->parseCurrentBlock();
-
-		if(ilObjCourseGrouping::_getAllGroupings($this->object->getRefId(),false))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->ctrl->setParameterByClass('ilobjcoursegroupinggui','ref_id',$this->object->getRefId());
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','otherSelectAssign'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_other_groupings'));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if(!count($groupings = ilObjCourseGrouping::_getGroupings($this->object->getId())))
-		{
-			sendInfo($this->lng->txt('crs_no_groupings_assigned'));
-		
-			return true;
-		}
-		
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs_groupings'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_groupings'));
-		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("HEADER_UNAMBIGUOUSNESS",$this->lng->txt('unambiguousness'));
-		$this->tpl->setVariable("HEADER_OPTIONS",$this->lng->txt('crs_options'));
-		$this->tpl->setVariable("HEADER_ASSIGNED",$this->lng->txt('crs_grp_assigned_courses'));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-		
-		
-		$counter = 0;
-		foreach($groupings as $grouping_id)
-		{
-			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
-
-			if(strlen($tmp_obj->getDescription()))
-			{
-				$this->tpl->setCurrentBlock("description");
-				$this->tpl->setVariable("DESCRIPTION_GRP",$tmp_obj->getDescription());
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("grouping_row");
-			$this->tpl->setVariable("GRP_TITLE",$tmp_obj->getTitle());
-			$this->tpl->setVariable("CHECK_GRP",ilUtil::formCheckbox(0,'grouping[]',$grouping_id));
-			$this->tpl->setVariable("AMB_GRP",$this->lng->txt($tmp_obj->getUniqueField()));
-			$this->tpl->setVariable("EDIT_IMG",ilUtil::getImagePath('edit.gif'));
-			$this->tpl->setVariable("EDIT_ALT",$this->lng->txt('edit'));
-			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-
-			$this->ctrl->setParameterByClass('ilobjcoursegroupinggui','obj_id',$grouping_id);
-			$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','edit'));
-
-			if($num_courses = $tmp_obj->getCountAssignedCourses())
-			{
-				$this->tpl->setVariable("ASSIGNED_COURSES",$this->lng->txt('crs_grp_assigned_courses_info')." <b>$num_courses</b> ");
-			}
-			else
-			{
-				$this->tpl->setVariable("ASSIGNED_COURSES",$this->lng->txt('crs_grp_no_courses_assigned'));
-			}
-			$this->tpl->parseCurrentBlock();
-		}	
-
-	}
-
-	function askDeleteGroupingObject()
-	{
-		include_once './course/classes/class.ilObjCourseGrouping.php';
-
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!count($_POST['grouping']))
-		{
-			sendInfo($this->lng->txt('crs_grouping_select_one'));
-			$this->listGroupingsObject();
-			
-			return false;
-		}
-
-		sendInfo($this->lng->txt('crs_grouping_delete_sure'));
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_ask_delete_goupings.html","course");
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs_groupings'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_groupings_ask_delete'));
-		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-		
-		
-		$counter = 0;
-		foreach($_POST['grouping'] as $grouping_id)
-		{
-			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
-
-			if(strlen($tmp_obj->getDescription()))
-			{
-				$this->tpl->setCurrentBlock("description");
-				$this->tpl->setVariable("DESCRIPTION_GRP",$tmp_obj->getDescription());
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("grouping_row");
-			$this->tpl->setVariable("GRP_TITLE",$tmp_obj->getTitle());
-			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$this->tpl->parseCurrentBlock();
-		}
-		$_SESSION['crs_grouping_del'] = $_POST['grouping'];
-	}
-
-	function deleteGroupingObject()
-	{
-		include_once './course/classes/class.ilObjCourseGrouping.php';
-
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!count($_SESSION['crs_grouping_del']))
-		{
-			sendInfo('No grouping selected');
-			$this->listGroupingsObject();
-
-			return false;
-		}
-		foreach($_SESSION['crs_grouping_del'] as $grouping_id)
-		{
-			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
-			$tmp_obj->delete();
-		}
-		sendInfo($this->lng->txt('crs_grouping_deleted'));
-		$this->listGroupingsObject();
-		
-		unset($_SESSION['crs_grouping_del']);
-		return true;
-	}
-
 
 	function &__initTableGUI()
 	{
@@ -4376,10 +4210,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilobjcoursegroupinggui':
 				include_once './course/classes/class.ilObjCourseGroupingGUI.php';
 
-				$this->ctrl->setReturn($this,'listGroupings');
+				$this->ctrl->setReturn($this,'edit');
+				$this->setSubTabs('properties');
 				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
-
 				$this->ctrl->forwardCommand($crs_grp_gui);
+				$this->tabs_gui->setTabActive('settings');
+				$this->tabs_gui->setSubTabActive('groupings');
 				break;
 
 			case "ilconditionhandlerinterface":

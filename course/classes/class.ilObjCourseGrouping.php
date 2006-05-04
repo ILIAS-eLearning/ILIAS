@@ -65,22 +65,32 @@ class ilObjCourseGrouping
 	{
 		return $this->id;
 	}
-	function setCourseRefId($a_ref_id)
+
+	function setContainerRefId($a_ref_id)
 	{
 		$this->ref_id = $a_ref_id;
 	}
-	function getCourseRefId()
+	function getContainerRefId()
 	{
 		return $this->ref_id;
 	}
-	function setCourseObjId($a_obj_id)
+	function setContainerObjId($a_obj_id)
 	{
 		$this->obj_id = $a_obj_id;
 	}
-	function getCourseObjId()
+	function getContainerObjId()
 	{
 		return $this->obj_id;
 	}
+	function getContainerType()
+	{
+		return $this->container_type;
+	}
+	function setContainerType($a_type)
+	{
+		$this->container_type = $a_type;
+	}
+
 	function setType($a_type)
 	{
 		$this->type = $a_type;
@@ -115,18 +125,17 @@ class ilObjCourseGrouping
 		return $this->unique_field;
 	}
 
-	function getCountAssignedCourses()
+	function getCountAssignedItems()
 	{
-		return count($this->getAssignedCourses());
+		return count($this->getAssignedItems());
 	}
 
-	function getAssignedCourses()
+	function getAssignedItems()
 	{
 		include_once './classes/class.ilConditionHandler.php';
 
 		return ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId());
 	}
-
 
 	function delete()
 	{
@@ -218,7 +227,7 @@ class ilObjCourseGrouping
 
 	function isAssigned($a_course_id)
 	{
-		foreach($this->getAssignedCourses() as $condition_data)
+		foreach($this->getAssignedItems() as $condition_data)
 		{
 			if($a_course_id == $condition_data['target_obj_id'])
 			{
@@ -230,6 +239,8 @@ class ilObjCourseGrouping
 
 	function read()
 	{
+		global $ilObjDataCache;
+
 		$query = "SELECT * FROM object_data ".
 			"WHERE obj_id = '".$this->getId()."'";
 
@@ -247,42 +258,83 @@ class ilObjCourseGrouping
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setUniqueField($row->unique_field);
-			$this->setCourseRefId($row->crs_ref_id);
-			$this->setCourseObjId($row->crs_id);
+			$this->setContainerRefId($row->crs_ref_id);
+			$this->setContainerObjId($row->crs_id);
+			$this->setContainerType($ilObjDataCache->lookupType($this->getContainerObjId()));
 		}
 
 		return true;
 	}
 
-	function _getAllGroupings($a_crs_ref_id,$a_check_write = true)
+	function _checkAccess($grouping_id)
 	{
-		global $ilObjDataCache,$ilUser;
+		global $ilAccess;
 
-		if($a_check_write)
-		{
-			$courses = ilUtil::_getObjectsByOperations('crs','write',$ilUser->getId(),1000);
-		}
-		else
-		{
-			$courses = ilUtil::_getObjectsByOperations('crs','visible',$ilUser->getId(),1000);
-		}
+		$tmp_grouping_obj = new ilObjCourseGrouping($grouping_id);
 
-		$groupings = array();
-
-		foreach($courses as $crs_id)
+		$found_invisible = false;
+		foreach($tmp_grouping_obj->getAssignedItems() as $condition)
 		{
-			if($a_crs_ref_id != $crs_id)
+			if(!$ilAccess->checkAccess('write','',$condition['target_ref_id']))
 			{
-				$groupings = array_merge($groupings,ilObjCourseGrouping::_getGroupings($ilObjDataCache->lookupObjId($crs_id)));
+				$found_invisible = true;
+				break;
 			}
 		}
-		return $groupings ? $groupings : array();
+		return $found_invisible ? false : true;
+	}
+
+	/**
+	* 
+	* Returns a list of all groupings for which the current user hast write permission on all assigned objects. Or groupings
+	* the given object id is assigned to.
+	*/
+	function _getVisibleGroupings($a_obj_id)
+	{
+		global $ilObjDataCache,$ilAccess,$ilDB;
+
+		$container_type = $ilObjDataCache->lookupType($a_obj_id) == 'grp' ? 'grp' : 'crs';
+
+
+		// First get all groupings
+		$query = "SELECT * FROM object_data WHERE type = 'crsg' ORDER BY title";
+		$res = $ilDB->query($query);
+		$groupings = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$groupings[] = $row->obj_id;
+		}
+
+		//check access
+		foreach($groupings as $grouping_id)
+		{
+			$tmp_grouping_obj = new ilObjCourseGrouping($grouping_id);
+
+			// Check container type
+			if($tmp_grouping_obj->getContainerType() != $container_type)
+			{
+				continue;
+			}
+			// Check if container is current container
+			if($tmp_grouping_obj->getContainerObjId() == $a_obj_id)
+			{
+				$visible_groupings[] = $grouping_id;
+				continue;
+			}
+			// check if items are assigned
+			if(count($tmp_grouping_obj->getAssignedItems()))
+			{
+				$visible_groupings[] = $grouping_id;
+				continue;
+			}				
+		}
+		return $visible_groupings ? $visible_groupings : array();
 	}
 
 	function assign($a_crs_ref_id,$a_course_id)
 	{
 		// Add the parent course of grouping
-		$this->__addCondition($this->getCourseRefId(),$this->getCourseObjId());
+		$this->__addCondition($this->getContainerRefId(),$this->getContainerObjId());
 		$this->__addCondition($a_crs_ref_id,$a_course_id);
 
 		return true;
@@ -424,8 +476,116 @@ class ilObjCourseGrouping
 			}
 		}
 		return $course_ids ? $course_ids : array();
-	}	
+	}
 
+	function _checkGroupingDependencies(&$container_obj)
+	{
+		global $ilUser,$lng;
+
+		include_once './classes/class.ilConditionHandler.php';
+
+		$trigger_ids = array();
+		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getId(),$container_obj->getType()) as $condition)
+		{
+			if($condition['operator'] == 'not_member')
+			{
+				$trigger_ids[] = $condition['trigger_obj_id'];
+				break;
+			}
+		}
+		if(!count($trigger_ids))
+		{
+			return true;
+		}
+
+		foreach($trigger_ids as $trigger_id)
+		{
+			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
+			{
+				if($condition['operator'] == 'not_member')
+				{
+					switch($condition['value'])
+					{
+						case 'matriculation':
+							if(!strlen($ilUser->getMatriculation()))
+							{
+								if(!$matriculation_message)
+								{
+									$matriculation_message = $lng->txt('crs_grp_matriculation_required');
+								}
+							}
+					}
+					if($container_obj->getType() == 'crs')
+					{
+						if(ilCourseMembers::_isMember($ilUser->getId(),$condition['target_obj_id'],$condition['value']))
+						{
+							if(!$assigned_message)
+							{
+								$assigned_message = $lng->txt('crs_grp_already_assigned');
+							}
+						}
+					}
+					else
+					{
+						if(ilObjGroup::_isMember($ilUser->getId(),$condition['target_ref_id'],$condition['value']))
+						{
+							if(!$assigned_message)
+							{
+								$assigned_message = $lng->txt('crs_grp_already_assigned');
+							}
+						}
+
+					}
+				}
+			}
+		}
+		if($matriculation_message)
+		{
+			$container_obj->appendMessage($matriculation_message);
+			return false;
+		}
+		elseif($assigned_message)
+		{
+			$container_obj->appendMessage($assigned_message);
+			return false;
+		}
+		return true;
+	}
+
+	function _getGroupingItemsAsString(&$container_obj)
+	{
+		global $tree,$ilObjDataCache;
+
+		include_once './classes/class.ilConditionHandler.php';
+
+		$trigger_ids = array();
+		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getId(),$container_obj->getType()) as $condition)
+		{
+			if($condition['operator'] == 'not_member')
+			{
+				$trigger_ids[] = $condition['trigger_obj_id'];
+			}
+		}
+		if(!count($trigger_ids))
+		{
+			return false;
+		}
+		foreach($trigger_ids as $trigger_id)
+		{
+			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
+			{
+				if($condition['operator'] == 'not_member')
+				{
+					if(!$hash_table[$condition['target_ref_id']])
+					{
+						$courses .= (' <br/>'.$ilObjDataCache->lookupTitle($condition['target_obj_id']));
+					}
+					$hash_table[$condition['target_ref_id']] = true;
+				}
+			}
+		}
+		return $courses;
+	}
 
 } // END class.ilObjCourseGrouping
 ?>

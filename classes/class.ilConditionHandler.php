@@ -368,7 +368,7 @@ class ilConditionHandler
 	}
 	/**
 	* delete all trigger and target entries
-	* This method is called from ilObject::delete() if an object os removed from trash
+	* This method is called from ilObject::delete() if an object is removed from trash
 	*/
 	function deleteByObjId($a_obj_id)
 	{
