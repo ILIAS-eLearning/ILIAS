@@ -50,6 +50,8 @@ class ilRegisterGUI
 		global $lng, $ilias, $tpl, $tree, $objDefinition, $ilCtrl, $ilErr;
 
 		$this->lng =& $lng;
+		$this->lng->loadLanguageModule('crs');
+
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
@@ -87,6 +89,8 @@ class ilRegisterGUI
 	
 	function showRegistrationForm()
 	{
+		include_once 'course/classes/class.ilObjCourseGrouping.php';
+
 		global $rbacsystem, $ilias, $lng;
 		
 		$owner = new ilObjUser($this->object->getOwner());
@@ -157,10 +161,17 @@ class ilRegisterGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if (!$rbacsystem->checkAccess("join", $_GET["ref_id"]))
+		if(!$rbacsystem->checkAccess("join", $_GET["ref_id"]))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 			return;
+		}
+
+		$submit_btn = true;
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->object))
+		{
+			sendInfo($this->object->getMessage());
+			$submit_btn = false;
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
@@ -178,10 +189,23 @@ class ilRegisterGUI
 		//$this->tpl->setVariable("GRP_STATUS", $stat);
 		$this->tpl->setVariable("TXT_INFO_REG",$this->lng->txt("group_info_reg"));
 		$this->tpl->setVariable("INFO_REG", $msg);
-		$this->tpl->setVariable("TXT_SUBJECT",$txt_subject);
-		$this->tpl->setVariable("SUBJECT",$textfield);
-		$this->tpl->setVariable("TXT_SUBMIT",$txt_submit);
-		$this->tpl->setVariable("CMD_SUBMIT",$cmd_submit);
+
+		if(strlen($txt_subject))
+		{
+			$this->tpl->setVariable("TXT_SUBJECT",$txt_subject);
+			$this->tpl->setVariable("SUBJECT",$textfield);
+		}
+		if(strlen($message = ilObjCourseGrouping::_getGroupingItemsAsString($this->object)))
+		{
+			$this->tpl->setVariable("TXT_MEMBER_LIMIT",$this->lng->txt('groupings'));
+			$this->tpl->setVariable("MEMBER_LIMIT",$this->lng->txt('crs_grp_info_reg').$message);
+		}
+
+		if($submit_btn)
+		{
+			$this->tpl->setVariable("TXT_SUBMIT",$txt_submit);
+			$this->tpl->setVariable("CMD_SUBMIT",$cmd_submit);
+		}
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -213,7 +237,8 @@ class ilRegisterGUI
 		{
 			// registration
 			case 1:
-				$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
+				$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".
+					$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
 				$this->ilias->db->query($q);
 
 				sendInfo($this->lng->txt("application_completed"),true);

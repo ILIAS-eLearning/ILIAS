@@ -227,8 +227,11 @@ class ilCourseRegisterGUI
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_crs"));
 		$this->tpl->setVariable("TITLE",$this->lng->txt("crs_registration"));
 
-		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("crs_syllabus"));
-		$this->tpl->setVariable("SYLLABUS",nl2br($this->course_obj->getSyllabus()));
+		if(strlen($this->course_obj->getSyllabus()))
+		{
+			$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("crs_syllabus"));
+			$this->tpl->setVariable("SYLLABUS",nl2br($this->course_obj->getSyllabus()));
+		}
 
 		$this->tpl->setVariable("TXT_INFO_REG",$this->lng->txt("crs_info_reg"));
 
@@ -259,8 +262,7 @@ class ilCourseRegisterGUI
 			}
 
 		}
-
-		if($courses = $this->__getGroupingCourses())
+		if($courses = ilObjCourseGrouping::_getGroupingItemsAsString($this->course_obj))
 		{
 			$this->tpl->setVariable("INFO_REG_PRE",$this->lng->txt('crs_grp_info_reg').$courses.'<br>');
 		}
@@ -357,6 +359,8 @@ class ilCourseRegisterGUI
 
 	function __validateStatus()
 	{
+		include_once 'course/classes/class.ilObjCourseGrouping.php';
+
 		$allow_subscription = true;
 
 		$this->course_obj->setMessage('');
@@ -395,7 +399,7 @@ class ilCourseRegisterGUI
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_end_earlier"));
 			$allow_subscription = false;
 		}
-		if(!$this->__checkGroupingDependencies())
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->course_obj))
 		{
 			$allow_subscription = false;
 		}
@@ -426,119 +430,25 @@ class ilCourseRegisterGUI
 		}
 		return $allow_subscription;
 	}
-	function __checkGroupingDependencies()
-	{
-		global $ilUser;
 
-		include_once './classes/class.ilConditionHandler.php';
-		include_once './course/classes/class.ilCourseMembers.php';
 
-		$trigger_ids = array();
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->course_obj->getId(),'crs') as $condition)
-		{
-			if($condition['operator'] == 'not_member')
-			{
-				$trigger_ids[] = $condition['trigger_obj_id'];
-				break;
-			}
-		}
-		if(!count($trigger_ids))
-		{
-			return true;
-		}
-
-		foreach($trigger_ids as $trigger_id)
-		{
-			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
-			{
-				if($condition['operator'] == 'not_member')
-				{
-					switch($condition['value'])
-					{
-						case 'matriculation':
-							if(!strlen($ilUser->getMatriculation()))
-							{
-								if(!$matriculation_message)
-								{
-									$matriculation_message = $this->lng->txt('crs_grp_matriculation_required');
-								}
-							}
-					}
-					if(ilCourseMembers::_isMember($ilUser->getId(),$condition['target_obj_id'],$condition['value']))
-					{
-						if(!$assigned_message)
-						{
-							$assigned_message = $this->lng->txt('crs_grp_already_assigned');
-						}
-					}
-				}
-			}
-		}
-		if($matriculation_message)
-		{
-			$this->course_obj->appendMessage($matriculation_message);
-			return false;
-		}
-		elseif($assigned_message)
-		{
-			$this->course_obj->appendMessage($assigned_message);
-			return false;
-		}
-		return true;
-	}
-	function __getGroupingCourses()
-	{
-		global $tree;
-
-		include_once './classes/class.ilConditionHandler.php';
-		include_once './course/classes/class.ilCourseMembers.php';
-
-		$trigger_ids = array();
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->course_obj->getId(),'crs') as $condition)
-		{
-			if($condition['operator'] == 'not_member')
-			{
-				$trigger_ids[] = $condition['trigger_obj_id'];
-			}
-		}
-		if(!count($trigger_ids))
-		{
-			return false;
-		}
-		foreach($trigger_ids as $trigger_id)
-		{
-			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
-			{
-				if($condition['operator'] == 'not_member')
-				{
-					if(!$hash_table[$condition['target_ref_id']])
-					{
-						$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['target_ref_id']);
-						$courses .= (' <br/>'.$this->__formatPath($tree->getPathFull($tmp_obj->getRefId())));
-					}
-					$hash_table[$condition['target_ref_id']] = true;
-				}
-			}
-		}
-		return $courses;
-	}
 
 	function __formatPath($a_path_arr)
 	{
 		$counter = 0;
 		foreach($a_path_arr as $data)
 		{
-			if($counter++)
+			if(!$counter++)
+			{
+				continue;
+			}
+			if($counter++ > 2)
 			{
 				$path .= " -> ";
 			}
 			$path .= $data['title'];
 		}
 
-		if(strlen($path) > 40)
-		{
-			return '...'.substr($path,-40);
-		}
 		return $path;
 	}
 }

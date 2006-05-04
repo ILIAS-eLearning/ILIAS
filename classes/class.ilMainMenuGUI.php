@@ -194,7 +194,8 @@ class ilMainMenuGUI
 
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
-			if ($this->ilias->getSetting("enable_registration"))
+			include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
+			if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
 			{
 				$this->tpl->setCurrentBlock("registration_link");
 				$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));

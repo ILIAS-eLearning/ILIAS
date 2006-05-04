@@ -5968,3 +5968,6 @@ registration#:#reg_mail_body_pwd_generation#:#Your account request will be revie
 registration#:#reg_mail_body_profile_changed#:#your profile has changed !
 registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.
 registration#:#reg_select_one#:#Please select one entry.
+common#:#groupings_assigned_obj_crs#:#Assigned Courses
+common#:#groupings_assigned_obj_grp#:#Assigned Groups
+common#:#groupings#:#Membership Limitations

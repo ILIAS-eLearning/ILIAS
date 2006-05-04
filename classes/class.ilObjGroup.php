@@ -1208,13 +1208,51 @@ class ilObjGroup extends ilContainer
 		return true;
 	}
 	
-	function _isMember($a_user_id,$a_ref_id)
+	function _isMember($a_user_id,$a_ref_id,$a_field = '')
 	{
-		global $rbacreview;
+		global $rbacreview,$ilObjDataCache,$ilDB;
 		
 		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
 		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
 		$user_roles = $rbacreview->assignedRoles($a_user_id);
+
+		// Used for membership limitations -> check membership by given field
+		if($a_field)
+		{
+			include_once 'classes/class.ilObjUser.php';
+
+			$tmp_user =& ilObjectFactory::getInstanceByObjId($a_user_id);
+			switch($a_field)
+			{
+				case 'login':
+					$and = "AND login = '".$tmp_user->getLogin()."' ";
+					break;
+				case 'email':
+					$and = "AND email = '".$tmp_user->getEmail()."' ";
+					break;
+				case 'matriculation':
+					$and = "AND matriculation = '".$tmp_user->getMatriculation()."' ";
+					break;
+					
+				default:
+					$and = "AND usr_id = '".$a_usr_id."'";
+					break;
+			}
+			if(!$members = ilObjGroup::_getMembers($ilObjDataCache->lookupObjId($a_ref_id)))
+			{
+				return false;
+			}
+			$query = "SELECT * FROM usr_data as ud ".
+				"WHERE usr_id IN ('".implode("','",$members)."') ".
+				$and;
+			$res = $ilDB->query($query);
+			
+			return $res->numRows() ? true : false;
+		}
+
+			
+			
+	
 		
 		if (!array_intersect($local_roles,$user_roles))
 		{
@@ -1275,6 +1313,24 @@ class ilObjGroup extends ilContainer
 			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 		}
 	}
+
+	function getMessage()
+	{
+		return $this->message;
+	}
+	function setMessage($a_message)
+	{
+		$this->message = $a_message;
+	}
+	function appendMessage($a_message)
+	{
+		if($this->getMessage())
+		{
+			$this->message .= "<br /> ";
+		}
+		$this->message .= $a_message;
+	}
+
 
 } //END class.ilObjGroup
 ?>
