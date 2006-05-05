@@ -399,7 +399,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		$this->setSubTabs("properties");
-		$this->tabs_gui->setSubTabActive('crs_crs_structure');
+		$this->tabs_gui->setSubTabActive('crs_start_objects');
 
 
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
@@ -420,9 +420,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_start_objects'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_crs'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_edit_start_objects'));
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("HEADER_OPT",$this->lng->txt('options'));
 		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('crs_add_starter'));
@@ -445,7 +445,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			$this->ctrl->setParameter($this,'del_starter',$start_id);
 			$this->tpl->setVariable("DELETE_LINK",$this->ctrl->getLinkTarget($this,'deleteStarter'));
-			$this->tpl->setVariable("DELETE_IMG",ilUtil::getImagePath('delete.gif'));
 			$this->tpl->setVariable("DELETE_ALT",$this->lng->txt('delete'));
  			$this->tpl->parseCurrentBlock();
 		}
@@ -478,7 +477,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->setSubTabs("properties");
 		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('crs_crs_structure');
+		$this->tabs_gui->setSubTabActive('crs_start_objects');
 
 		global $rbacsystem;
 
@@ -492,11 +491,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_add_starter.html","course");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_crs'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_select_starter'));
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('crs_add_starter'));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
 
 		
 		$this->object->initCourseItemObject();
@@ -1106,7 +1106,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 												 "", "ilConditionHandlerInterface");
-				$this->tabs_gui->addSubTabTarget("crs_crs_structure",
+				$this->tabs_gui->addSubTabTarget("crs_start_objects",
 												 $this->ctrl->getLinkTarget($this,'listStructure'),
 												 "listStructure", get_class($this));
 				$this->tabs_gui->addSubTabTarget('groupings',
