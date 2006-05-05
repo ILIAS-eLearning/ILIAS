@@ -3713,7 +3713,7 @@ crs#:#crs_add_grp_assignment#:#Assign course(s)
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Add Member(s)
 crs#:#crs_add_objective#:#Add objective
-crs#:#crs_add_starter#:#Add start object
+crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
 crs#:#crs_added_member#:#Addmission to course "%s"
@@ -3962,7 +3962,7 @@ crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIA
 crs#:#crs_select_one_archive#:#Please select one archive
 crs#:#crs_select_one_object#:#Please select one course item.
 crs#:#crs_select_registration_type#:#Please select an admittance procedure.
-crs#:#crs_select_starter#:#Select start object
+crs#:#crs_select_starter#:#Select Start Object
 crs#:#crs_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_settings#:#Course settings
 crs#:#crs_settings_saved#:#Settings saved
@@ -3978,7 +3978,7 @@ crs#:#crs_sort_title#:#Sort by title
 crs#:#crs_sortorder#:#Sort
 crs#:#crs_sortorder_abo#:#Sortorder/Subscription
 crs#:#crs_start#:#Start
-crs#:#crs_start_objects#:#Start objects
+crs#:#crs_start_objects#:#Start Objects
 crs#:#crs_starter_deleted#:#Removed assignment.
 crs#:#crs_starters_already_assigned#:#This object was already assigned.
 crs#:#crs_status#:#Status
@@ -4000,7 +4000,7 @@ crs#:#crs_subscription_type#:#Subscription type
 crs#:#crs_suggest_lm#:#Suggest learning materials if:
 crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
 crs#:#crs_syllabus#:#Syllabus
-crs#:#crs_table_start_objects#:#Start objects
+crs#:#crs_table_start_objects#:#Start Objects
 crs#:#crs_test_status_complete#:#Complete
 crs#:#crs_test_status_not_complete#:#Not complete
 crs#:#crs_test_status_random#:#Random test
@@ -5977,3 +5977,4 @@ registration#:#reg_select_one#:#Please select one entry.
 common#:#groupings_assigned_obj_crs#:#Assigned Courses
 common#:#groupings_assigned_obj_grp#:#Assigned Groups
 common#:#groupings#:#Membership Limitations
+crs#:#crs_edit_start_objects#:#Edit Start Objects
