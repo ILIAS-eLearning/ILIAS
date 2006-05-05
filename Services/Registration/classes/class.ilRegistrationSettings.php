@@ -158,7 +158,7 @@ class ilRegistrationSettings
 
 		$ilias->setSetting('reg_role_assignment',$this->role_type);
 		$ilias->setSetting('new_registration_type',$this->registration_type);
-		$ilias->setSetting('passwd_auto_generate',$this->password_generation_enabled);
+		$ilias->setSetting('passwd_reg_auto_generate',$this->password_generation_enabled);
 		$ilias->setSetting('approve_recipient',addslashes(serialize($this->approve_recipient_ids)));
 
 		return true;
@@ -170,7 +170,7 @@ class ilRegistrationSettings
 
 		$this->registration_type = $ilias->getSetting('new_registration_type');
 		$this->role_type = $ilias->getSetting('reg_role_assignment',1);
-		$this->password_generation_enabled = $ilias->getSetting('passwd_auto_generate');
+		$this->password_generation_enabled = $ilias->getSetting('passwd_reg_auto_generate');
 
 		
 		$this->approve_recipient_ids = unserialize(stripslashes($ilias->getSetting('approve_recipient')));

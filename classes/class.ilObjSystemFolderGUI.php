@@ -440,6 +440,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["enable_calendar"] = $_POST["enable_calendar"];
 			$settings["default_repository_view"] = $_POST["default_rep_view"];
 			$settings["password_assistance"] = $_POST["password_assistance"];
+			$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
 			$settings["js_edit"] = $_POST["js_edit"];
 			$settings["https"] = $_POST["https"];
 			
@@ -516,6 +517,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
 			$this->ilias->setSetting('https',$_POST['https']);
 			$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
+			$this->ilias->setSetting('passwd_auto_generate',$_POST['passwd_auto_generate']);
+
 			$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
 
 			// contact
@@ -625,6 +628,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TREE", $this->lng->txt("treeview"));
 		
 		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_ASSISTANCE", $this->lng->txt("enable_password_assistance"));
+		$this->tpl->setVariable("TXT_PASSWORD_AUTO_GENERATE_INFO",$this->lng->txt('passwd_generation_info'));
 
 		if (AUTH_DEFAULT != AUTH_LOCAL)
 		{
@@ -633,6 +637,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_INFO", $this->lng->txt("password_assistance_info"));
+
+		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_GENERATION",$this->lng->txt('passwd_generation'));
 
 		// Javascript Editing
 		$this->tpl->setVariable("TXT_JS_EDIT", $this->lng->txt("enable_js_edit"));
@@ -799,7 +805,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("PASSWORD_ASSISTANCE","checked=\"checked\"");
 		}
-		
+		if($settings['passwd_auto_generate'])
+		{
+			$this->tpl->setVariable("PASSWORD_AUTO_GENERATE","checked=\"checked\"");
+		}
+			
 		// js editing
 		if($settings['enable_js_edit'])
 		{

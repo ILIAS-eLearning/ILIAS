@@ -99,6 +99,8 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("TXT_REG_FIXED",$this->lng->txt('reg_fixed'));
 		$this->tpl->setVariable("TXT_AVAILABLE",$this->lng->txt('reg_available_roles'));
 		$this->tpl->setVariable("TXT_APPROVE_REC",$this->lng->txt('approve_recipient'));
+		$this->tpl->setVariable("TXT_REG_NOTIFICATION",$this->lng->txt('reg_notification'));
+		$this->tpl->setVariable("REG_NOTIFICATION_DESC",$this->lng->txt('reg_notification_info'));
 
 		$this->tpl->setVariable("TXT_REG_EMAIL",$this->lng->txt('reg_email'));
 		
@@ -111,7 +113,7 @@ class ilRegistrationSettingsGUI
 		$this->__prepareAutomaticRoleList();
 
 		// pwd forwarding
-		$this->tpl->setVariable("TXT_REG_PWD_FORWARD",$this->lng->txt('passwd_auto_generate'));
+		$this->tpl->setVariable("TXT_REG_PWD_FORWARD",$this->lng->txt('passwd_generation'));
 		$this->tpl->setVariable("REG_INFO_PWD",$this->lng->txt('reg_info_pwd'));
 
 		$this->tpl->setVariable("RADIO_DEACTIVATE",ilUtil::formRadioButton(!$this->registration_settings->enabled(),
