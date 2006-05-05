@@ -4201,7 +4201,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (strlen($this->object->getIntroduction()))
 		{
 			$info->addSection($this->lng->txt("tst_introduction"));
-			$info->addProperty("", $this->object->getIntroduction());
+			$info->addProperty("", str_replace("\n", "<br />", $this->object->getIntroduction()));
 		}
 
 		$info->addSection($this->lng->txt("tst_general_properties"));
