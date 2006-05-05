@@ -92,7 +92,22 @@ class ilSurveyEvaluationGUI
 	*/
 	function checkAnonymizedEvaluationAccess()
 	{
-		$surveycode = $this->object->getUserSurveyCode();
+		global $rbacsystem;
+		global $ilUser;
+		
+		if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			// people with write access always have access to the evaluation
+			$_SESSION["anon_evaluation_access"] = 1;
+			return $this->evaluation();
+		}
+		if ($this->object->getEvaluationAccess() == EVALUATION_ACCESS_ALL)
+		{
+			// if the evaluation access is open for all users, grant it
+			$_SESSION["anon_evaluation_access"] = 1;
+			return $this->evaluation();
+		}
+		$surveycode = $this->object->getUserAccessCode($ilUser->getId());
 		if ($this->object->isAnonymizedParticipant($surveycode))
 		{
 			$_SESSION["anon_evaluation_access"] = 1;

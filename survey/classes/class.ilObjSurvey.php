@@ -4401,12 +4401,6 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	function getUserSurveyCode()
-	{
-		global $ilUser;
-		return md5($ilUser->id . $this->getSurveyId());
-	}
-	
 	function checkSurveyCode($code)
 	{
 		global $ilUser;
