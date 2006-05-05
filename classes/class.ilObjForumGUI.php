@@ -309,8 +309,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("TITLE",$_POST['title']);
 		$this->tpl->setVariable("DESC",$_POST['description']);
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".
-			$_GET["ref_id"]."&new_type=".$new_type));
+
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".
+		#$_GET["ref_id"]."&new_type=".$new_type));
 		$this->tpl->setVariable("TARGET", ' target="'.
 			ilFrameTargetInfo::_getFrame("MainContent").'" ');
 
@@ -477,7 +480,8 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$this->getTemplateFile("import","frm");
 
-		$this->tpl->setVariable("FORMACTION","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway&new_type=frm");
+		#$this->tpl->setVariable("FORMACTION","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway&new_type=frm");
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_IMPORT_FORUM",$this->lng->txt("forum_import"));
 		$this->tpl->setVariable("TXT_IMPORT_FILE",$this->lng->txt("forum_import_file"));
 		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
@@ -516,7 +520,8 @@ class ilObjForumGUI extends ilObjectGUI
 		if(!$this->message)
 		{
 			sendInfo($this->lng->txt("import_forum_finished"),true);
-			ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+			#ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+			$this->ctrl->redirect($this->ctrl->getLinkTarget($this));
 		}
 		else
 		{
@@ -579,11 +584,7 @@ class ilObjForumGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("frm_added"),true);
 		
 		$this->ctrl->setParameter($this, "ref_id", $forumObj->getRefId());
-		ilUtil::redirect($this->getReturnLocation("save",
-			$this->ctrl->getLinkTarget($this, "showThreads")));
-
-		//header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		//exit();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,'showThreads'));
 	}
 
 	function getTabs(&$tabs_gui)
