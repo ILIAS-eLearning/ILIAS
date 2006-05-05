@@ -632,7 +632,9 @@ class ilRegistrationGUI
 
 
 		$settings = $ilias->getAllSettings();
-		if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+		
+		// Always send mail to approvers
+        #if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
 			// Send mail to approvers
 			foreach($this->registration_settings->getApproveRecipients() as $recipient)

@@ -5978,3 +5978,7 @@ common#:#groupings_assigned_obj_crs#:#Assigned Courses
 common#:#groupings_assigned_obj_grp#:#Assigned Groups
 common#:#groupings#:#Membership Limitations
 crs#:#crs_edit_start_objects#:#Edit Start Objects
+common#:#passwd_generation#:#Password Generation
+common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.
+registration#:#reg_notification#:#Notifications
+registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.

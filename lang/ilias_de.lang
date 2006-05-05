@@ -5874,3 +5874,7 @@ common#:#groupings_assigned_obj_crs#:#Zugeordnete Kurse
 common#:#groupings_assigned_obj_grp#:#zugeordnete Gruppen
 common#:#groupings#:#Mitgliedsschaft-Beschränkungen
 common#:#crs_edit_start_objects#:#Startobjekte bearbeiten
+common#:#passwd_generation#:#Passwortgenerierung
+common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit eigene Paswwörter festzulegen.
+registration#:#reg_notification#:#Benachrichtigungen
+registration#:#reg_notification_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die bei Neuanmeldungen per E-Mail benachrichtigt werden sollen.
