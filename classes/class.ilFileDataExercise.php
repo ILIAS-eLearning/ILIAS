@@ -216,7 +216,7 @@ class ilFileDataExercise extends ilFileData
 			$result = array(
 				"filename" => $prefix . "_" . $filename,
 				"fullname" => $savepath . "/" . $prefix . "_" . $filename,
-				"mimetype" =>	ilObjMediaObject::getMimeType($savepath . $prefix . "_" . $filename)
+				"mimetype" =>	ilObjMediaObject::getMimeType($savepath . "/" . $prefix . "_" . $filename)
 			);
 		}
 		return $result;
