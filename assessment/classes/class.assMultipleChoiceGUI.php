@@ -82,14 +82,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		if ($this->object->getResponse() == RESPONSE_SINGLE)
-		{
-			return "qt_multiple_choice_sr";
-		}
-		else
-		{
-			return "qt_multiple_choice_mr";
-		}
+		return "qt_multiple_choice_mr";
 	}
 
 	/**
@@ -104,382 +97,186 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
-		// single response
-		if ($this->object->getResponse() == RESPONSE_SINGLE)
+		$this->getQuestionTemplate("qt_multiple_choice_mr");
+		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
+
+		if ($this->object->getAnswerCount() > 0)
 		{
-			$this->getQuestionTemplate("qt_multiple_choice_sr");
-			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
-			// output of existing single response answers
-			if ($this->object->getAnswerCount() > 0)
-			{
-				$this->tpl->setCurrentBlock("answersheading");
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("existinganswers");
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-				$this->tpl->parseCurrentBlock();
-			}
-			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
-			{
-				$answer = $this->object->getAnswer($i);
-				if ($graphical_answer_setting == 1)
-				{
-					$imagefilename = $this->object->getImagePath() . $answer->getImage();
-					if (!@file_exists($imagefilename))
-					{
-						$answer->setImage("");
-					}
-					if (strlen($answer->getImage()))
-					{
-						$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
-						$this->tpl->setCurrentBlock("graphical_answer_image");
-						$this->tpl->setVariable("IMAGE_FILE", $imagepath);
-						if (strlen($answer->getAnswertext()))
-						{
-							$this->tpl->setVariable("IMAGE_ALT", htmlspecialchars($answer->getAnswertext()));
-						}
-						else
-						{
-							$this->tpl->setVariable("IMAGE_ALT", $this->lng->txt("image"));
-						}
-						$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-						$this->tpl->setVariable("DELETE_IMAGE", $this->lng->txt("delete_image"));
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("graphical_answer");
-					$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-					$this->tpl->setVariable("UPLOAD_IMAGE", $this->lng->txt("upload_image"));
-					$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("answers");
-				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
-				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
-				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-				$this->tpl->parseCurrentBlock();
-			}
-			// call to other question data i.e. estimated working time block
-			$this->outOtherQuestionData();
-
-			$internallinks = array(
-				"lm" => $this->lng->txt("obj_lm"),
-				"st" => $this->lng->txt("obj_st"),
-				"pg" => $this->lng->txt("obj_pg"),
-				"glo" => $this->lng->txt("glossary_term")
-			);
-			foreach ($internallinks as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("internallink");
-				$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-				$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("HeadContent");
-			if ($this->object->getAnswerCount() == 0)
-			{
-				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-			}
-			else
-			{
-				switch ($this->ctrl->getCmd())
-				{
-					case "add":
-						$nrOfAnswers = $_POST["nrOfAnswers"];
-						if ((strcmp($nrOfAnswers, "yn") == 0) || (strcmp($nrOfAnswers, "tf") == 0)) $nrOfAnswers = 2;
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - $nrOfAnswers).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $nrOfAnswers)."').scrollIntoView(\"true\");"));
-						break;
-					case "deleteAnswer":
-						if ($this->object->getAnswerCount() == 0)
-						{
-							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-						}
-						else
-						{
-							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
-						}
-						break;
-					default:
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-						break;
-				}
-			}
+			$this->tpl->setCurrentBlock("answersheading");
+			$this->tpl->setVariable("TEXT_POINTS_CHECKED", $this->lng->txt("points_checked"));
+			$this->tpl->setVariable("TEXT_POINTS_UNCHECKED", $this->lng->txt("points_unchecked"));
+			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 			$this->tpl->parseCurrentBlock();
-
-			for ($i = 1; $i < 10; $i++)
-			{
-				$this->tpl->setCurrentBlock("numbers");
-				$this->tpl->setVariable("VALUE_NUMBER", $i);
-				if ($i == 1)
-				{
-					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answer"));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answers"));
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			// add yes/no answers
-			$this->tpl->setCurrentBlock("numbers");
-			$this->tpl->setVariable("VALUE_NUMBER", "yn");
-			$this->tpl->setVariable("TEXT_NUMBER", $this->lng->txt("add_answer_yn"));
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 			$this->tpl->parseCurrentBlock();
-			// add true/false answers
-			$this->tpl->setCurrentBlock("numbers");
-			$this->tpl->setVariable("VALUE_NUMBER", "tf");
-			$this->tpl->setVariable("TEXT_NUMBER", $this->lng->txt("add_answer_tf"));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("question_data");
-			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-			$questiontext = $this->object->getQuestion();
-			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
-			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
-			$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
-			if ($this->object->getGraphicalAnswerSetting() == 1)
-			{
-				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_hide"));
-			}
-			else
-			{
-				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_show"));
-			}
-			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-			$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
-			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-			if ($this->object->getShuffle())
-			{
-				$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
-			}
-			else
-			{
-				$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
-			}
-			$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-			if (count($this->object->suggested_solutions))
-			{
-				$solution_array = $this->object->getSuggestedSolution(0);
-				include_once "./assessment/classes/class.assQuestion.php";
-				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
-				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-				$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-			}
-			else
-			{
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-			}
-			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_sr");
-			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_sr"));
-
+			$this->tpl->setCurrentBlock("existinganswers");
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->parseCurrentBlock();
 		}
-		else	// multiple response
+		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
 		{
-			$this->getQuestionTemplate("qt_multiple_choice_mr");
-			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
-
-			// output of existing multiple response answers
-			if ($this->object->getAnswerCount() > 0)
+			$answer = $this->object->getAnswer($i);
+			if ($graphical_answer_setting == 1)
 			{
-				$this->tpl->setCurrentBlock("answersheading");
-				$this->tpl->setVariable("TEXT_POINTS_CHECKED", $this->lng->txt("points_checked"));
-				$this->tpl->setVariable("TEXT_POINTS_UNCHECKED", $this->lng->txt("points_unchecked"));
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("existinganswers");
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-				$this->tpl->parseCurrentBlock();
-			}
-			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
-			{
-				$answer = $this->object->getAnswer($i);
-				if ($graphical_answer_setting == 1)
+				$imagefilename = $this->object->getImagePath() . $answer->getImage();
+				if (!@file_exists($imagefilename))
 				{
-					$imagefilename = $this->object->getImagePath() . $answer->getImage();
-					if (!@file_exists($imagefilename))
+					$answer->setImage("");
+				}
+				if (strlen($answer->getImage()))
+				{
+					$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
+					$this->tpl->setCurrentBlock("graphical_answer_image");
+					$this->tpl->setVariable("IMAGE_FILE", $imagepath);
+					if (strlen($answer->getAnswertext()))
 					{
-						$answer->setImage("");
+						$this->tpl->setVariable("IMAGE_ALT", htmlspecialchars($answer->getAnswertext()));
 					}
-					if (strlen($answer->getImage()))
+					else
 					{
-						$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
-						$this->tpl->setCurrentBlock("graphical_answer_image");
-						$this->tpl->setVariable("IMAGE_FILE", $imagepath);
-						if (strlen($answer->getAnswertext()))
-						{
-							$this->tpl->setVariable("IMAGE_ALT", htmlspecialchars($answer->getAnswertext()));
-						}
-						else
-						{
-							$this->tpl->setVariable("IMAGE_ALT", $this->lng->txt("image"));
-						}
-						$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-						$this->tpl->setVariable("DELETE_IMAGE", $this->lng->txt("delete_image"));
-						$this->tpl->parseCurrentBlock();
+						$this->tpl->setVariable("IMAGE_ALT", $this->lng->txt("image"));
 					}
-					$this->tpl->setCurrentBlock("graphical_answer");
 					$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-					$this->tpl->setVariable("UPLOAD_IMAGE", $this->lng->txt("upload_image"));
-					$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
+					$this->tpl->setVariable("DELETE_IMAGE", $this->lng->txt("delete_image"));
 					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setCurrentBlock("answers");
-				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_CHECKED", sprintf("%d", $answer->getPoints()));
-				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED", sprintf("%d", $answer->getPointsUnchecked()));
+				$this->tpl->setCurrentBlock("graphical_answer");
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
+				$this->tpl->setVariable("UPLOAD_IMAGE", $this->lng->txt("upload_image"));
+				$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
 				$this->tpl->parseCurrentBlock();
 			}
-
-			// call to other question data i.e. estimated working time block
-			$this->outOtherQuestionData();
-
-			$internallinks = array(
-				"lm" => $this->lng->txt("obj_lm"),
-				"st" => $this->lng->txt("obj_st"),
-				"pg" => $this->lng->txt("obj_pg"),
-				"glo" => $this->lng->txt("glossary_term")
-			);
-			foreach ($internallinks as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("internallink");
-				$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-				$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("HeadContent");
-
-			if ($this->object->getAnswerCount() == 0)
-			{
-				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-			}
-			else
-			{
-				switch ($this->ctrl->getCmd())
-				{
-					case "add":
-						$nrOfAnswers = $_POST["nrOfAnswers"];
-						if ((strcmp($nrOfAnswers, "yn") == 0) || (strcmp($nrOfAnswers, "tf") == 0)) $nrOfAnswers = 2;
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - $nrOfAnswers).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $nrOfAnswers)."').scrollIntoView(\"true\");"));
-						break;
-					case "deleteAnswer":
-						if ($this->object->getAnswerCount() == 0)
-						{
-							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-						}
-						else
-						{
-							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
-						}
-						break;
-					default:
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-						break;
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-			
-			for ($i = 1; $i < 10; $i++)
-			{
-				$this->tpl->setCurrentBlock("numbers");
-				$this->tpl->setVariable("VALUE_NUMBER", $i);
-				if ($i == 1)
-				{
-					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answer"));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answers"));
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("question_data");
-			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-			$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-			$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
-			if ($this->object->getGraphicalAnswerSetting() == 1)
-			{
-				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_hide"));
-			}
-			else
-			{
-				$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_show"));
-			}
-			$questiontext = $this->object->getQuestion();
-			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
-			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
-			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
-			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-			if ($this->object->getShuffle())
-			{
-				$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
-			}
-			else
-			{
-				$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
-			}
-			$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-			if (count($this->object->suggested_solutions))
-			{
-				$solution_array = $this->object->getSuggestedSolution(0);
-				include_once "./assessment/classes/class.assQuestion.php";
-				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
-				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-				$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-			}
-			else
-			{
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-			}
-			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_mr");
-			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_mr"));
+			$this->tpl->setCurrentBlock("answers");
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_CHECKED", sprintf("%d", $answer->getPoints()));
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED", sprintf("%d", $answer->getPointsUnchecked()));
+			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
+			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// call to other question data i.e. estimated working time block
+		$this->outOtherQuestionData();
+
+		$internallinks = array(
+			"lm" => $this->lng->txt("obj_lm"),
+			"st" => $this->lng->txt("obj_st"),
+			"pg" => $this->lng->txt("obj_pg"),
+			"glo" => $this->lng->txt("glossary_term")
+		);
+		foreach ($internallinks as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("internallink");
+			$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
+			$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("HeadContent");
+
+		if ($this->object->getAnswerCount() == 0)
+		{
+			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+		}
+		else
+		{
+			switch ($this->ctrl->getCmd())
+			{
+				case "add":
+					$nrOfAnswers = $_POST["nrOfAnswers"];
+					if ((strcmp($nrOfAnswers, "yn") == 0) || (strcmp($nrOfAnswers, "tf") == 0)) $nrOfAnswers = 2;
+					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - $nrOfAnswers).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $nrOfAnswers)."').scrollIntoView(\"true\");"));
+					break;
+				case "deleteAnswer":
+					if ($this->object->getAnswerCount() == 0)
+					{
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+					}
+					else
+					{
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
+					}
+					break;
+				default:
+					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+					break;
+			}
+		}
+		$this->tpl->parseCurrentBlock();
+		
+		for ($i = 1; $i < 10; $i++)
+		{
+			$this->tpl->setCurrentBlock("numbers");
+			$this->tpl->setVariable("VALUE_NUMBER", $i);
+			if ($i == 1)
+			{
+				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answer"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answers"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("question_data");
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
+		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
+		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+		$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
+		if ($this->object->getGraphicalAnswerSetting() == 1)
+		{
+			$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_hide"));
+		}
+		else
+		{
+			$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_show"));
+		}
+		$questiontext = $this->object->getQuestion();
+		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
+		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
+		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
+		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
+		if ($this->object->getShuffle())
+		{
+			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+		}
+		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+		if (count($this->object->suggested_solutions))
+		{
+			$solution_array = $this->object->getSuggestedSolution(0);
+			include_once "./assessment/classes/class.assQuestion.php";
+			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
+			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
+		}
+		else
+		{
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
+		}
+		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
+		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_mr");
+		$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_mr"));
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
@@ -681,128 +478,64 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->object->flushAnswers();
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
 		// Add all answers from the form into the object
-		if ($this->object->getResponse() == RESPONSE_SINGLE)
+		foreach ($_POST as $key => $value)
 		{
-			// ...for multiple choice with single response
-			foreach ($_POST as $key => $value)
+			if (preg_match("/answer_(\d+)/", $key, $matches))
 			{
-				if (preg_match("/answer_(\d+)/", $key, $matches))
+				$answer_image = $_POST["uploaded_image_".$matches[1]];
+				if ($graphical_answer_setting == 1)
 				{
-					$answer_image = $_POST["uploaded_image_".$matches[1]];
-					if ($graphical_answer_setting == 1)
+					foreach ($_FILES as $key2 => $value2)
 					{
-						foreach ($_FILES as $key2 => $value2)
+						if (preg_match("/image_(\d+)/", $key2, $matches2))
 						{
-							if (preg_match("/image_(\d+)/", $key2, $matches2))
+							if ($matches[1] == $matches2[1])
 							{
-								if ($matches[1] == $matches2[1])
+								if ($value2["tmp_name"])
 								{
-									if ($value2["tmp_name"])
+									// upload the image
+									if ($this->object->getId() <= 0)
 									{
-										// upload the image
-										if ($this->object->getId() <= 0)
-										{
-											$this->object->saveToDb();
-											$saved = true;
-											$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
-										}
-										$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
-										switch ($upload_result)
-										{
-											case 0:
-												$_POST["image_".$matches2[1]] = $value2['name'];
-												$answer_image = $value2['name'];
-												break;
-											case 1:
-												$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
-												break;
-											case 2:
-												$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
-												break;
-										}
+										$this->object->saveToDb();
+										$saved = true;
+										$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
+									}
+									$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
+									switch ($upload_result)
+									{
+										case 0:
+											$_POST["image_".$matches2[1]] = $value2['name'];
+											$answer_image = $value2['name'];
+											break;
+										case 1:
+											$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
+											break;
+										case 2:
+											$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
+											break;
 									}
 								}
 							}
 						}
 					}
-					$points = $_POST["points_checked_$matches[1]"];
+				}
+				$points = $_POST["points_checked_$matches[1]"];
+				$points_unchecked = $_POST["points_unchecked_$matches[1]"];
+				if (!preg_match("/\d+/", $points))
+				{
+					$points = 0.0;
+				}
+				if (!preg_match("/\d+/", $points_unchecked))
+				{
 					$points_unchecked = 0.0;
-					if (!preg_match("/\d+/", $points))
-					{
-						$points = 0.0;
-					}
-					$this->object->addAnswer(
-						ilUtil::stripSlashes($_POST["$key"]),
-						ilUtil::stripSlashes($points),
-						ilUtil::stripSlashes($points_unchecked),
-						ilUtil::stripSlashes($matches[1]),
-						$answer_image
-						);
 				}
-			}
-		}
-		else
-		{
-			// ...for multiple choice with multiple response
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/answer_(\d+)/", $key, $matches))
-				{
-					$answer_image = $_POST["uploaded_image_".$matches[1]];
-					if ($graphical_answer_setting == 1)
-					{
-						foreach ($_FILES as $key2 => $value2)
-						{
-							if (preg_match("/image_(\d+)/", $key2, $matches2))
-							{
-								if ($matches[1] == $matches2[1])
-								{
-									if ($value2["tmp_name"])
-									{
-										// upload the image
-										if ($this->object->getId() <= 0)
-										{
-											$this->object->saveToDb();
-											$saved = true;
-											$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
-										}
-										$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
-										switch ($upload_result)
-										{
-											case 0:
-												$_POST["image_".$matches2[1]] = $value2['name'];
-												$answer_image = $value2['name'];
-												break;
-											case 1:
-												$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
-												break;
-											case 2:
-												$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
-												break;
-										}
-									}
-								}
-							}
-						}
-					}
-					$points = $_POST["points_checked_$matches[1]"];
-					$points_unchecked = $_POST["points_unchecked_$matches[1]"];
-					if (!preg_match("/\d+/", $points))
-					{
-						$points = 0.0;
-					}
-					if (!preg_match("/\d+/", $points_unchecked))
-					{
-						$points_unchecked = 0.0;
-					}
-					$this->object->addAnswer(
-						ilUtil::stripSlashes($_POST["$key"]),
-						ilUtil::stripSlashes($points),
-						ilUtil::stripSlashes($points_unchecked),
-						ilUtil::stripSlashes($matches[1]),
-						$answer_image
-					);
-				}
+				$this->object->addAnswer(
+					ilUtil::stripSlashes($_POST["$key"]),
+					ilUtil::stripSlashes($points),
+					ilUtil::stripSlashes($points_unchecked),
+					ilUtil::stripSlashes($matches[1]),
+					$answer_image
+				);
 			}
 		}
 
@@ -906,14 +639,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				if (!$show_question_page) 
 				{
 					// rku $output = $this->replaceInputElements($repl_str,"X",$output); 
-					if ($this->object->getResponse() == RESPONSE_SINGLE)
-					{
-						$output = $this->replaceInputElements($repl_str,"X",$output,"(",")"); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
-					} 
-					else 
-					{
-						$output = $this->replaceInputElements($repl_str,"X",$output,"[","]"); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
-					}
+					$output = $this->replaceInputElements($repl_str,"X",$output,"[","]"); /* ) preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output); */
 				}
 				else $output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);				
 			}
@@ -922,14 +648,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			if (!$show_question_page) 
 			{
 				// rku $output = $this->replaceInputElements("","O", $output); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
-				if ($this->object->getResponse() == RESPONSE_SINGLE)
-				{						
-					$output = $this->replaceInputElements("","O", $output,"(",")"); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
-				} 
-				else 
-				{
-					$output = $this->replaceInputElements("","O", $output,"[","]"); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
-				}
+				$output = $this->replaceInputElements("","O", $output,"[","]"); //)()preg_replace ("/(<input[^>]*>)/" ,"O", $output);
 			}
 		}
 
@@ -947,85 +666,40 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 			foreach ($this->object->answers as $idx => $answer)
 			{
-				if ($this->object->getResponse() == RESPONSE_MULTIPLE)
+				if ($answer->getPoints() > $answer->getPointsUnchecked())
+				{
+					$repl_str = "dummy=\"solution_mc$idx\"";
+					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+				}
+				$sol = '(<em>';
+				if ($show_solution_only)
+					$sol .= $this->lng->txt("checkbox_checked").' = ';
+				else
+					$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
+				$sol .= $answer->getPoints();
+				$sol .= ' ' . $this->lng->txt("points") . ', ';
+				if ($show_solution_only)
+					$sol .= $this->lng->txt("checkbox_unchecked").' = ';
+				else
+					$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
+				$sol .= $answer->getPointsUnchecked();
+				$sol .= ' ' . $this->lng->txt("points");
+				$sol .= '</em>)';
+				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx"."[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
+				
+				if ($show_solution_only)
 				{
 					if ($answer->getPoints() > $answer->getPointsUnchecked())
 					{
 						$repl_str = "dummy=\"solution_mc$idx\"";
-						$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+						$solutionoutput = $this->replaceInputElements ($repl_str, "X", $solutionoutput);
 					}
-					$sol = '(<em>';
-					if ($show_solution_only)
-						$sol .= $this->lng->txt("checkbox_checked").' = ';
 					else
-						$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
-					$sol .= $answer->getPoints();
-					$sol .= ' ' . $this->lng->txt("points") . ', ';
-					if ($show_solution_only)
-						$sol .= $this->lng->txt("checkbox_unchecked").' = ';
-					else
-						$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
-					$sol .= $answer->getPointsUnchecked();
-					$sol .= ' ' . $this->lng->txt("points");
-					$sol .= '</em>)';
-					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx"."[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
-					
-					if ($show_solution_only)
 					{
-						if ($answer->getPoints() > $answer->getPointsUnchecked())
-						{
-							$repl_str = "dummy=\"solution_mc$idx\"";
-							$solutionoutput = $this->replaceInputElements ($repl_str, "X", $solutionoutput);
-						}
-						else
-						{
-							$repl_str = "dummy=\"solution_mc$idx\"";
-							$solutionoutput = $this->replaceInputElements ($repl_str, "O", $solutionoutput);
-						}
+						$repl_str = "dummy=\"solution_mc$idx\"";
+						$solutionoutput = $this->replaceInputElements ($repl_str, "O", $solutionoutput);
 					}
 				}
-				else
-				{
-					$sol = '(<em>';
-					if ($show_solution_only)
-						$sol .= $this->lng->txt("checkbox_checked").' = ';
-					else
-						$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" checked="checked" /> = ';
-					$sol .= $answer->getPoints();
-					$sol .= ' ' . $this->lng->txt("points") . ', ';
-					if ($show_solution_only)
-						$sol .= $this->lng->txt("checkbox_unchecked").' = ';
-					else
-						$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" /> = ';
-					
-					$sol .= "0";
-					$sol .= ' ' . $this->lng->txt("points");
-					$sol .= '</em>)';
-					
-					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx" . "[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);					 				
-				}
-			}
-			if (($maxindex > -1) && ($this->object->getResponse() == RESPONSE_SINGLE))
-			{
-				$repl_str = "dummy=\"solution_mc$maxindex\"";				
-				if ($show_solution_only) 
-				{
-					// rku $solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
-					$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput,"(",")");
-				}
-				else 
-					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
-			}
-			if ($show_solution_only && ($this->object->getResponse() == RESPONSE_SINGLE)) 
-			{
-				if ($maxindex > -1) 
-				{
-					$repl_str = "dummy=\"solution_mc$maxindex\"";				
-					// rku $solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput);
-					$solutionoutput = $this->replaceInputElements($repl_str,"X",$solutionoutput,"(",")");
-				}
-				// rku $solutionoutput = $this->replaceInputElements("","O",$solutionoutput);
-				$solutionoutput = $this->replaceInputElements("","O",$solutionoutput,"(",")");
 			}
 
 			if (!$show_solution_only)
@@ -1038,7 +712,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$reached_points = $this->object->getReachedPoints($ilUser->id, $test_id);
 				$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $reached_points, $this->object->getMaximumPoints());
 				$mc_comment = "";
-				if (($this->object->getResponse() == RESPONSE_MULTIPLE) && ($reached_points == 0))
+				if ($reached_points == 0)
 				{
 					$mc_comment = $this->object->getSolutionCommentMCScoring($test_id);
 					if (strlen($mc_comment))
@@ -1102,14 +776,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		if ($this->object->getResponse() == RESPONSE_SINGLE)
-		{
-			$this->getQuestionTemplate("qt_multiple_choice_sr");
-		}
-		else
-		{
-			$this->getQuestionTemplate("qt_multiple_choice_mr");
-		}
+		$this->getQuestionTemplate("qt_multiple_choice_mr");
 		parent::addSuggestedSolution();
 	}
 	

@@ -250,7 +250,6 @@ class ASS_QuestionGUI
 			case "qt_multiple_choice_mr":
 				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 				$question =& new ASS_MultipleChoiceGUI();
-				$question->object->setResponse(RESPONSE_MULTIPLE);
 				break;
 
 			case "qt_cloze":

@@ -837,10 +837,6 @@ class ASS_SingleChoice extends ASS_Question
 				{
 					$points += $answer->getPoints();
 				}
-				else
-				{
-					$points += $answer->getPointsUnchecked();
-				}
 			}
 		}
 
