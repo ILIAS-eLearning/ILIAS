@@ -211,11 +211,11 @@ class ilFileDataExercise extends ilFileData
 							  $now["minutes"], $now["seconds"]);
 			//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
 			ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
-				$savepath . $prefix . "_" . $filename);
+				$savepath . "/" . $prefix . "_" . $filename);
 			require_once "./content/classes/Media/class.ilObjMediaObject.php";
 			$result = array(
 				"filename" => $prefix . "_" . $filename,
-				"fullname" => $savepath . $prefix . "_" . $filename,
+				"fullname" => $savepath . "/" . $prefix . "_" . $filename,
 				"mimetype" =>	ilObjMediaObject::getMimeType($savepath . $prefix . "_" . $filename)
 			);
 		}
