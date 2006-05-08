@@ -1430,20 +1430,28 @@ class ilQTIParser extends ilSaxParser
 								}
 							}
 						}
-						include_once ("./assessment/classes/class.assMultipleChoice.php");
-						$type = "1";
 						if ($qt == QT_MULTIPLE_CHOICE_SR)
 						{
-							$type = "0";
+							include_once ("./assessment/classes/class.assSingleChoice.php");
+							$question = new ASS_SingleChoice(
+								$this->item->getTitle(),
+								$this->item->getComment(),
+								$this->item->getAuthor(),
+								$ilUser->id,
+								join($questiontext, "")
+							);
 						}
-						$question = new ASS_MultipleChoice(
-							$this->item->getTitle(),
-							$this->item->getComment(),
-							$this->item->getAuthor(),
-							$ilUser->id,
-							join($questiontext, ""),
-							$type
-						);
+						else
+						{
+							include_once ("./assessment/classes/class.assMultipleChoice.php");
+							$question = new ASS_MultipleChoice(
+								$this->item->getTitle(),
+								$this->item->getComment(),
+								$this->item->getAuthor(),
+								$ilUser->id,
+								join($questiontext, "")
+							);
+						}
 						//$question->setResponse($type);
 						$question->setObjId($questionpool_id);
 						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);

@@ -477,15 +477,15 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		foreach ($_POST as $key => $value)
 		{
 			// Set gap values
-			if ($a_apply_text)
+			if (preg_match("/textgap_(\d+)_(\d+)/", $key, $matches))
 			{
-				if (preg_match("/textgap_(\d+)_(\d+)/", $key, $matches))
+				$answer_array = $this->object->get_gap($matches[1]);
+				if (strlen($value) > 0)
 				{
-					$answer_array = $this->object->get_gap($matches[1]);
-					if (strlen($value) > 0)
+					// Only change gap values <> empty string
+					if (array_key_exists($matches[2], $answer_array))
 					{
-						// Only change gap values <> empty string
-						if (array_key_exists($matches[2], $answer_array))
+						if ($a_apply_text)
 						{
 							if (strcmp($value, $answer_array[$matches[2]]->getAnswertext()) != 0)
 							{
@@ -511,11 +511,32 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 							$this->object->setSingleAnswerPoints($matches[1], $matches[2], $points);
 							$this->object->setSingleAnswerState($matches[1], $matches[2], 1);
 						}
+						else
+						{
+							if (strcmp($value, $answer_array[$matches[2]]->getAnswertext()) == 0)
+							{
+								if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
+								{
+									$points = $_POST["points_$matches[1]_$matches[2]"];
+									if ($points < 0)
+									{
+										$result = 1;
+										$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
+									}
+								}
+								else
+								{
+									$points = 0.0;
+								}
+								$this->object->setSingleAnswerPoints($matches[1], $matches[2], $points);
+								$this->object->setSingleAnswerState($matches[1], $matches[2], 1);
+							}
+						}
 					}
-					else
-					{
-						// Display errormessage: You've tried to set an gap value to an empty string!
-					}
+				}
+				else
+				{
+					// Display errormessage: You've tried to set an gap value to an empty string!
 				}
 			}
 
