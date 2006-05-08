@@ -3355,7 +3355,7 @@ class ilObjTest extends ilObject
 			array_push($result_array, $row);
 			$key++;
 		}
-		if ($this->_getScoreCutting() == 1)
+		if ($this->getScoreCutting() == 1)
 		{
 			if ($total_reached_points < 0)
 			{
@@ -4225,7 +4225,6 @@ class ilObjTest extends ilObject
       case "qt_multiple_choice_mr":
 				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
         $question =& new ASS_MultipleChoiceGUI();
-        $question->object->setResponse(RESPONSE_MULTIPLE);
         break;
       case "qt_cloze":
 				include_once "./assessment/classes/class.assClozeTestGUI.php";

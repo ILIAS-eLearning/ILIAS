@@ -527,8 +527,7 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 						}
 					}
 				}
-				$points = $_POST["points_checked_$matches[1]"];
-				$points_unchecked = 0.0;
+				$points = $_POST["points_$matches[1]"];
 				if (!preg_match("/\d+/", $points))
 				{
 					$points = 0.0;
@@ -536,7 +535,7 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 				$this->object->addAnswer(
 					ilUtil::stripSlashes($_POST["$key"]),
 					ilUtil::stripSlashes($points),
-					ilUtil::stripSlashes($points_unchecked),
+					0,
 					ilUtil::stripSlashes($matches[1]),
 					$answer_image
 					);
