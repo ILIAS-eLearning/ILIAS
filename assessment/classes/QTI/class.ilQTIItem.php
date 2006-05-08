@@ -229,6 +229,8 @@ class ilQTIItem
 		{
 			case "ORDERING QUESTION":
 				return QT_ORDERING;
+			case "SINGLE CHOICE QUESTION":
+				return QT_MULTIPLE_CHOICE_SR;
 			case "MULTIPLE CHOICE QUESTION":
 				break;
 			case "MATCHING QUESTION":
