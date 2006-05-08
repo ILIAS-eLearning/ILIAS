@@ -53,7 +53,7 @@ administration#:#found#:#të gjetura.
 administration#:#found_none#:#të pa gjetura.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Ruaj (log) rezultatet e ekzaminimit
-administration#:#log_scan_desc#:#Shkruaj rezultatet e ekzaminimit në 'scanlog.log' në direktoriumin e shënimeve të klientit.
+administration#:#log_scan_desc#:#Shkruaj rezultatet e ekzaminimit në \'scanlog.log\' në direktoriumin e shënimeve të klientit. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#nothing_to_purge#:#Asgjë për të pastruar…
 administration#:#nothing_to_remove#:#Asgjë për të larguar…
 administration#:#nothing_to_restore#:#Asgjë për të rikthyer…
@@ -136,7 +136,7 @@ assessment#:#cancel_test#:#Anulo testin
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
 assessment#:#cannot_edit_test#:#Nuk keni të drejta të mjaftueshme për të edituar testin!
 assessment#:#cannot_execute_test#:#Nuk keni të drejta të mjaftueshme për të aktivizuar testin!
-assessment#:#cannot_export_qpl#:#Nuk keni të drejta të mjaftueshme për t'i eksportuar grupet e pyetjeve!###09 Aug 2005 content changed
+assessment#:#cannot_export_qpl#:#Nuk keni të drejta të mjaftueshme për t\'i eksportuar grupet e pyetjeve!###09 Aug 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cannot_export_test#:#Nuk keni të drejta të mjaftueshme për të eksportuar testin!
 assessment#:#cannot_maintain_test#:#Nuk keni të drejta të mjaftueshme për të mbajtur testin!
 assessment#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për të lexuar fondet e pyetjeve!###09 Aug 2005 content changed
@@ -147,14 +147,14 @@ assessment#:#checkbox_unchecked#:#E pashënuar
 assessment#:#circle#:#Rreth
 assessment#:#circle_click_center#:#Ju lutem klikoni në qendër të zonës së dëshiruar.
 assessment#:#circle_click_circle#:#Ju lutem klikoni në kornizën e zonës së dëshiruar.
-assessment#:#close_text_hint#:#Mund të definoni zbrazëtirë duke shkruar <gap></gap> në tekst sipas zgjedhjes së juaj. Shtyp butonin 'Krijo zbrazëtirë' për të shtuar një form të që mund të editohet për çdo zbrazëtirë
+assessment#:#close_text_hint#:#Mund të definoni zbrazëtirë duke shkruar <gap></gap> në tekst sipas zgjedhjes së juaj. Shtyp butonin \'Krijo zbrazëtirë\' për të shtuar një form të që mund të editohet për çdo zbrazëtirë ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Mbyll tekstin###20 Jun 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 2005 new variable
 assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#Kod
-assessment#:#confirm_delete_all_user_data#:#A jeni të sigurt që doni t'i fshini të gjitha shënimet e shfrytëzuesit nga testi?
+assessment#:#confirm_delete_all_user_data#:#A jeni të sigurt që doni t\'i fshini të gjitha shënimet e shfrytëzuesit nga testi? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#confirm_sync_questions#:#Pyetjen që e ndërruat është kopje e krijuar për përdorim në testin aktiv. A doni ta ndërroni edhe origjinalin e pyetjes?
 assessment#:#coordinates#:#Koordinatat
@@ -199,7 +199,7 @@ assessment#:#ects_range_error_b#:#Ju lutem të shënoni një vlerë në mes 0 dh
 assessment#:#ects_range_error_c#:#Ju lutem të shënoni një vlerë në mes 0 dhe 100 për notën C të ECTS!
 assessment#:#ects_range_error_d#:#Ju lutem të shënoni një vlerë në mes 0 dhe 100 për notën D të ECTS!
 assessment#:#ects_range_error_e#:#Ju lutem të shënoni një vlerë në mes 0 dhe 100 për notën E të ECTS!
-assessment#:#ects_use_fx_grade#:#Shfrytëzo vlerësimin 'FX', nëse pjesëmarrësit e dështuar arrin së paku
+assessment#:#ects_use_fx_grade#:#Shfrytëzo vlerësimin \'FX\', nëse pjesëmarrësit e dështuar arrin së paku ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#ects_use_fx_grade_part2#:#përqind të të gjithë pikëve.
 assessment#:#edit_content#:#Edito përmbajtjen
 assessment#:#edit_properties#:#Edito karakteristikat
@@ -220,7 +220,7 @@ assessment#:#eval_found_selected_groups#:#Grupet e zgjedhura
 assessment#:#eval_found_selected_users#:#Shfrytëzuesit e zgjedhur
 assessment#:#eval_imagemap_result#:#Zgjedhje të skemës me imazhe %s. Keni marrë %s pikë.
 assessment#:#eval_java_result#:#Përgjigja për vlerën %s është %s. Keni marrë %s pikë.
-assessment#:#eval_legend_link#:#Ju lutem t'i referoheni legjendës për domethënjen e simboleve në krye të kolonave.
+assessment#:#eval_legend_link#:#Ju lutem t\'i referoheni legjendës për domethënjen e simboleve në krye të kolonave. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#eval_matching_result#:#Grupi krahasues %s - %s është %s. Keni marrë %s pikë.
 assessment#:#eval_order_result#:#Renditja për vlerën %s është %s. Keni marrë %s pikë.
 assessment#:#eval_search_groups#:#Grupe
@@ -338,7 +338,7 @@ assessment#:#qpl_edit_select_multiple#:#Ju lutem zgjedheni vetëm një pyetje p�
 assessment#:#qpl_edit_select_none#:#Ju lutem zgjedheni një pyetje për editimim
 assessment#:#qpl_export_select_none#:#Ju lutem zgjedheni së paku një pyetje për ta eksportuar
 assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver\'s ImageMagick tool isn\'t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
@@ -382,7 +382,7 @@ assessment#:#rectangle_click_tl_corner#:#Ju lutem klikoni në këndin lart majta
 assessment#:#region#:#Rajon
 assessment#:#remove_question#:#Largo
 assessment#:#remove_solution#:#Largo zgjidhjet e sugjeruara
-assessment#:#report_date_not_reached#:#Nuk keni mbërritur datën e raportit ende. Do të keni mundësi t'i shikoni rezultatet më %s
+assessment#:#report_date_not_reached#:#Nuk keni mbërritur datën e raportit ende. Do të keni mundësi t\'i shikoni rezultatet më %s ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#reset_filter#:#Rivendos filtër
 assessment#:#result#:#Rezultati
 assessment#:#save_before_upload_imagemap#:#Duhet të aplikoni ndryshimet para se të ngarkoni një skemë me imazhe!
@@ -430,7 +430,7 @@ assessment#:#tst_already_taken#:#Këto teste tashmë janë marrë
 assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
 assessment#:#tst_browse_for_questions#:#Shfleto për pyetje
 assessment#:#tst_confirm_delete_results#:#Jeni duke fshirë të gjitha rezultatet e pyetjeve të më pashme të këtij testi. Kjo do ti rikthej të gjitha pyetjet në vlerat e paradefinuara. Ju lutem vëni re, se nuk mund të riktheni numrin e tentimeve qe keni bërë për këtë test. A dëshironi në të vërtetë të i riktheni në vlera të paradefinuara të gjitha rezultatet e mëparshme?###23 Dec 2005 content changed
-assessment#:#tst_confirm_delete_results_info#:#Rezultatet e mëparshme të pyetjeve janë fshirë. Keni rikthyer  me sukses këtë test në vlera të paradefinuara 
+assessment#:#tst_confirm_delete_results_info#:#Rezultatet e mëparshme të pyetjeve janë fshirë. Keni rikthyer  me sukses këtë test në vlera të paradefinuara ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_delete_all_user_data#:#Fshij të gjitha të dhënat e shfrytëzuesit
 assessment#:#tst_delete_missing_mark#:#Ju lutem zgjedhni së paku një rresht të notimit për ta fshirë
 assessment#:#tst_delete_results#:#Rikthe testin në vlera të paradefinuara
@@ -547,7 +547,7 @@ assessment#:#tst_stat_choose_users#:#(përzgjedh një apo më shumë shfrytëzue
 assessment#:#tst_stat_result_atimeofwork#:#Koha mesatare e punës
 assessment#:#tst_stat_result_distancemean#:#Distanca nga mesatarja aritmetike
 assessment#:#tst_stat_result_distancemedian#:#Distanca nga mesatarja (median)
-assessment#:#tst_stat_result_distancequintile#:#Distanca nga "arithmetic quitile" (1/5-ta aritmetike)
+assessment#:#tst_stat_result_distancequintile#:#Distanca nga \"arithmetic quitile\" (1/5-ta aritmetike) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_stat_result_firstvisit#:#Vizita e parë
 assessment#:#tst_stat_result_lastvisit#:#Vizita e fundit
 assessment#:#tst_stat_result_mark_median#:#Nota nga mesatarja
@@ -562,7 +562,7 @@ assessment#:#tst_stat_result_specification#:#Specifikimi i të dhënave të vler
 assessment#:#tst_stat_result_timeofwork#:#Kohëzgjatja e përpunimit
 assessment#:#tst_stat_result_total_participants#:#Numri i total i pjesmarrsëve
 assessment#:#tst_stat_selected_users#:#Pjesmarrsit e zgjedhur
-assessment#:#tst_stat_users_intro#:#Shih statistikat vlerësuese për 
+assessment#:#tst_stat_users_intro#:#Shih statistikat vlerësuese për ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_status_completed#:#të përfunduar
 assessment#:#tst_status_completed_more_tries_possible#:#Të përfunduar
 assessment#:#tst_status_missing#:#Ka elemente të nevojshme që mungojnë në këtë test!
@@ -727,7 +727,7 @@ chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#kaltër
 chat#:#chat_bold#:#Shkrim i trashë
 chat#:#chat_chatroom_body#:#Chat dhoma:
-chat#:#chat_chatroom_rename#:#Edito chat-dhomën 
+chat#:#chat_chatroom_rename#:#Edito chat-dhomën ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 chat#:#chat_chatrooms#:#Chat Dhomat###23 Dec 2005 content changed
 chat#:#chat_color#:#Ngjyra e shkronjave
 chat#:#chat_delete_sure#:#A jeni të sigurt për ta fshirë këtë chat dhomë
@@ -835,8 +835,6 @@ chat#:#chat_yellow#:#e verdhë
 chat#:#chats#:#Chat-et
 chat#:#my_chats#:#Chat-et mia
 common#:#3rd_party_software#:#program i jashtëm ndihmës
-common#:#DD.MM.YYYY#:#DD.MM.VVVV
-common#:#HH:MM#:#OO:MM
 common#:#absolute_path#:#Shtegu Absolut
 common#:#accept_usr_agreement#:#Pranoni marrëveshjen si shfrytëzues?
 common#:#access#:#Qasje
@@ -1066,7 +1064,7 @@ common#:#cat_write#:#Edito Kategorinë
 common#:#categories#:#Kategoritë
 common#:#categories_imported#:#Importimi i kategorisë u kompletua.
 common#:#cc#:#CD
-common#:#cen#:#Centra Ngjarje 
+common#:#cen#:#Centra Ngjarje ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#cen_add#:#Shto Ngjarje Centra
 common#:#cen_added#:#Ngjarja Centra është shtuar
 common#:#cen_delete#:#Fshij Cetra Ngjarjen
@@ -1076,7 +1074,7 @@ common#:#cen_save#:#Ruaj Centra Ngjarjen
 common#:#censorship#:#Censurim
 common#:#centra_account#:#Llogaria Administruese Centra
 common#:#centra_rooms#:#Dhomat Centra
-common#:#centra_server#:#Centra Serveri 
+common#:#centra_server#:#Centra Serveri ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#chac_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#chac_read#:#Qasje për lexim në konfigurimet chat-it
 common#:#chac_visible#:#Konfigurimet e bisedimeve janë të dukshme
@@ -1128,8 +1126,8 @@ common#:#cleaned_file#:#Skedari është pastruar.
 common#:#cleaning_failed#:#Duke pastruar skedarin.
 common#:#clear#:#Fshij
 common#:#clear_clipboard#:#Zbraz Klipbord-in
-common#:#client ip#:#IP e Klientit
 common#:#client#:#Klient
+common#:#client ip#:#IP e Klientit
 common#:#client_id#:#ID e Klientit
 common#:#client_ip#:#IP e Klientit
 common#:#clipboard#:#Klipbord
@@ -1164,10 +1162,10 @@ common#:#continue_work#:#Vazhdo
 common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#copied_object#:#Objektet e kopjuar
 common#:#copy#:#Kopjo
-common#:#copyChapter#:#Copy###20 Jun 2005 new variable
-common#:#copyPage#:#Kopjo
 common#:#copy_of#:#Kopjo nga
 common#:#copy_to#:#në
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
+common#:#copyPage#:#Kopjo
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Numëro
 common#:#country#:#Vendi
@@ -1186,7 +1184,7 @@ common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Procedurat kron
 common#:#cron_jobs_desc#:#Procedura kron është proces i automatizuar që operon në intervale kohore të përcaktuara më parë. Do të gjeni informacione për setup në Dokumentimin për INSTALIM.
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at \'Administration -> Search\'.###26 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Kurs
 common#:#crs_a#:#një Kurs
 common#:#crs_add#:#Shto Kurs
@@ -1226,7 +1224,7 @@ common#:#crs_leave#:#Çregjistrohu nga Kursi###23 Dec 2005 content changed
 common#:#crs_management_system#:#Sistemi i Menaxhimit të Kursit
 common#:#crs_member_not_passed#:#Nuk kalon
 common#:#crs_member_passed#:#Kalon
-common#:#crs_new#:#Kurs i Ri 
+common#:#crs_new#:#Kurs i Ri ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs_no_content#:#Pa përmbajtje
 common#:#crs_read#:#Qasje për lexim në Kurs
 common#:#crs_status_blocked#:#[Qasja refuzohet]
@@ -1237,7 +1235,7 @@ common#:#crs_write#:#Edito Kursin
 common#:#cumulative_time#:#Koha e grumbulluar
 common#:#cur_number_rec#:#Numri aktual i rekordeve
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won\'t be able to access the system with this profile anymore.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#current_password#:#Parulla Aktuale
 common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
@@ -1271,6 +1269,7 @@ common#:#dbk_new#:#Krijo Libër Diglib të Ri
 common#:#dbk_read#:#Qasje për lexim në Librin Diglib
 common#:#dbk_visible#:#Libri Diglib është i dukshëm
 common#:#dbk_write#:#Edito Librin Diglib
+common#:#DD.MM.YYYY#:#DD.MM.VVVV
 common#:#def_repository_view#:#Pamja e paradefinuar e Magazinës
 common#:#default#:#Paradefinim
 common#:#default_language#:#Gjuha e Paradefinuar
@@ -1311,7 +1310,7 @@ common#:#edit_operations#:#Edito Operacionet
 common#:#edit_perm_ruleset#:#Ndërro rregullat e paradefinuara të të drejtave
 common#:#edit_properties#:#Edito Karakteristikat
 common#:#edit_roleassignment#:#Edito Caktimin e Roleve
-common#:#edit_stylesheet#:#Edito Stilin 
+common#:#edit_stylesheet#:#Edito Stilin ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#edited_at#:#Edituar më
 common#:#editor#:#Editor
 common#:#email#:#Email###03 Nov 2005 content changed
@@ -1509,7 +1508,7 @@ common#:#frm_delete_post#:#Fshij një postim, censuroj
 common#:#frm_edit#:#Edito Forumin
 common#:#frm_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#frm_edit_post#:#Shto një temë, postim
-common#:#frm_new#:#Forum i Ri 
+common#:#frm_new#:#Forum i Ri ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#frm_read#:#Qasje për Lexim në Forum
 common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_visible#:#Forumi është i dukshëm
@@ -1567,7 +1566,7 @@ common#:#group_memstat_member#:#Anëtar
 common#:#group_name#:#Emri i grupit
 common#:#group_new_registrations#:#Regjistrim i ri###23 Dec 2005 content changed
 common#:#group_no_registration#:#nuk kërkohet regjistrim###23 Dec 2005 content changed
-common#:#group_no_registration_msg#:#Nuk jeni më anëtar i këtij grupi. Për shkak të administrimit është e nevojshme t'i bashkoheni grupit që keni kërkuar. <br/> Si anëtar keni përparësitë e mëposhtme:<br/>-  Informoheni për lajme dhe aktualizime<br>-Keni qasje në objektet si forumet, modulet mësimore, etj.<br/><br/> Mund të anuloni anëtarësimin në çdo kohë.###23 Dec 2005 content changed
+common#:#group_no_registration_msg#:#Nuk jeni më anëtar i këtij grupi. Për shkak të administrimit është e nevojshme t\'i bashkoheni grupit që keni kërkuar. <br/> Si anëtar keni përparësitë e mëposhtme:<br/>-  Informoheni për lajme dhe aktualizime<br>-Keni qasje në objektet si forumet, modulet mësimore, etj.<br/><br/> Mund të anuloni anëtarësimin në çdo kohë.###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_not_available#:#Nuk ka grupe në dispozicion
 common#:#group_objects#:#Objektet e Grupeve
 common#:#group_password_registration_msg#:#Për të iu bashkuar këtij grupi duhet të shënoni parullën e siguruar nga administratori i grupit.<br/> Do të caktoheni automatikisht në grup nëse parulla është korrekte.###23 Dec 2005 content changed
@@ -1585,7 +1584,7 @@ common#:#group_req_registration_msg#:#Për të iu bashkuar këtij grupi duhet t�
 common#:#group_reset#:#Rivendos të Drejtat e Grupit
 common#:#group_status#:#Grupi është
 common#:#group_status_closed#:#Mbyllur
-common#:#group_status_desc#:#Përcakton statusin inicues të grupit duke shfrytëzuar konfigurimet për të drejtat prej formës së roleve 'il_grp_status_closed' ose 'il_grp_status_open'<br/>Publik: Grupi është i dukshëm; Shfrytëzuesi mund të abonoj.<br/>Mbyllur: Grupi nuk është i dukshëm për jo-anëtarët; Shfrytëzuesi duhet të ftohet prej ndonjë anëtari që të i bashkohet grupit.
+common#:#group_status_desc#:#Përcakton statusin inicues të grupit duke shfrytëzuar konfigurimet për të drejtat prej formës së roleve \'il_grp_status_closed\' ose \'il_grp_status_open\'<br/>Publik: Grupi është i dukshëm; Shfrytëzuesi mund të abonoj.<br/>Mbyllur: Grupi nuk është i dukshëm për jo-anëtarët; Shfrytëzuesi duhet të ftohet prej ndonjë anëtari që të i bashkohet grupit. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Publik
 common#:#groups#:#Grupet
 common#:#groups_overview#:#Përmbledhje për Grupet
@@ -1619,7 +1618,7 @@ common#:#grp_create_svy#:#Krijo Kuestioner
 common#:#grp_create_tst#:#Krijo Test
 common#:#grp_delete#:#Krijo Grup
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
-common#:#grp_dismiss_member#:#A jeni të sigurt për t'i larguar anëtarët e mëposhtëm nga grupi?
+common#:#grp_dismiss_member#:#A jeni të sigurt për t\'i larguar anëtarët e mëposhtëm nga grupi? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#grp_dismiss_myself#:#A jeni të sigurt për ta larguar vetveten nga grupi?###23 Dec 2005 content changed
 common#:#grp_edit#:#Edito Grupin
 common#:#grp_edit_permission#:#Ndërro konfigurimet e të drejtave
@@ -1631,7 +1630,7 @@ common#:#grp_err_member_could_not_be_removed#:#Anëtari nuk u largua. Ju lutem t
 common#:#grp_err_no_permission#:#Nuk posedoni të drejta për këtë veprim.
 common#:#grp_err_registration_data#:#Ju lutem të shënoni një parullë, kohën dhe datën e skadimit për periudhë valide të regjistrimit !###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Edito anëtarët
-common#:#grp_join#:#Shfrytëzuesi mund t'i bashkohet Grupit
+common#:#grp_join#:#Shfrytëzuesi mund t\'i bashkohet Grupit ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#grp_leave#:#Shfrytëzuesi mund të largohet nga Grupi
 common#:#grp_list_users#:#Listo shfrytëzuesit
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
@@ -1667,21 +1666,16 @@ common#:#guests#:#Vizitorët
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Titulli Kryesues
 common#:#help#:#Ndihmë
+common#:#HH#:#OO:MM
 common#:#hide#:#fsheh
 common#:#hide_details#:#fsheh detajet###14 Jul 2005 content changed
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
 common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#Pamundëso Dukjen Strukturore
-common#:#hist_dbk:pg_create#:#Faqja u krijua
-common#:#hist_dbk:pg_cut#:#Faqja është marrë nga kapitulli "%1"[%2]
-common#:#hist_dbk:pg_paste#:#Faqja i është bashkuar kapitullit "%1"[%2]
-common#:#hist_dbk:pg_update#:#Faqja ndryshohet
-common#:#hist_file_create#:#Skedari u krijua, me emër "%1"
-common#:#hist_file_replace#:#Skedari u zëvendësua, emri i ri është "%1", versioni i ri është %2.
-common#:#hist_lm:pg_create#:#Faqja u krijua
-common#:#hist_lm:pg_cut#:#Faqja është marrë nga kapitulli "%1"[%2]
-common#:#hist_lm:pg_paste#:#Faqja i është bashkuar kapitullit "%1"[%2]
-common#:#hist_lm:pg_update#:#Faqja ndryshohet
+common#:#hist_dbk#:#Faqja u krijua
+common#:#hist_file_create#:#Skedari u krijua, me emër \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#Skedari u zëvendësua, emri i ri është \"%1\", versioni i ri është %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_lm#:#Faqja u krijua
 common#:#hist_no_entries#:#Nuk ka të dhëna në histori
 common#:#history#:#Historia
 common#:#hits_per_page#:#Vizita/Faqe
@@ -1777,7 +1771,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cance
 common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
-common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable
+common#:#ilinc_mem_change_status#:#Change user\'s status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
 common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
@@ -1826,11 +1820,11 @@ common#:#inbox#:#Inbox
 common#:#info#:#Informacion
 common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
 common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
-common#:#info_assign_sure#:#A jeni të sigurt për t'i caktuar këta shfrytëzues?
+common#:#info_assign_sure#:#A jeni të sigurt për t\'i caktuar këta shfrytëzues? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#info_assigned#:#assigned###20 Jun 2005 new variable
 common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
 common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
-common#:#info_delete_sure#:#A jeni të sigurt për t'i fshirë këta shfrytëzues?###23 Dec 2005 content changed
+common#:#info_delete_sure#:#A jeni të sigurt për t\'i fshirë këta shfrytëzues?###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#info_deleted#:#Objektet janë Fshirë
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
 common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
@@ -1841,7 +1835,7 @@ common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
 common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
 common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
-common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role\'s default permission settings in effect are located in that position.###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#info_short#:#Info###20 Jun 2005 new variable
 common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Objektet e Fshira
@@ -1861,7 +1855,7 @@ common#:#ingmedia_level_zero#:#Një nivel më lart
 common#:#ingmedia_pers_dates#:#Shënimet Personale
 common#:#ingmedia_reg_fo#:#Forumet e regjistruar
 common#:#ingmedia_reg_le#:#LE tw Regjistruara
-common#:#ingmedia_use_info1#:#Këtu mund të ndërroni shënimet personale. Përveç për identifikimin dhe parullën për INGMEDIA, nuk keni nevojë t'i mbushni fushat tjera. Mbani mend se parulla e harruar mund të kthehet vetëm me email (!).
+common#:#ingmedia_use_info1#:#Këtu mund të ndërroni shënimet personale. Përveç për identifikimin dhe parullën për INGMEDIA, nuk keni nevojë t\'i mbushni fushat tjera. Mbani mend se parulla e harruar mund të kthehet vetëm me email (!). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#ingmedia_use_info2#:#Nuk lejohet të përdorën karakteret speciale (sikur , ; . =  - * +) për identifikim dhe parullë në INGMEDIA. Në mënyrë që të ju lejohet përdorimi platformës INGMEDIA, duhet të pranoni marrëveshjen si shfrytëzues.
 common#:#ingmedia_use_info3#:#Ju lutem zgjedhni një nga linqet në shiritin anësor.
 common#:#ingmedia_use_title#:#Ndërro shënimet e shfrytëzuesit.
@@ -2129,11 +2123,11 @@ common#:#month_11_short#:#Nën
 common#:#month_12_long#:#Dhjetor
 common#:#month_12_short#:#Dhj
 common#:#move#:#Zhvendos
-common#:#moveChapter#:#Zhvendos
-common#:#movePage#:#Zhvendos
 common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Zhvendos në
 common#:#move_users_to_style#:#Zhvendos shfrytëzuesit në stilin
+common#:#moveChapter#:#Zhvendos
+common#:#movePage#:#Zhvendos
 common#:#msg_cancel#:#Veprimi u anulua
 common#:#msg_changes_ok#:#Ndërrimet ishin OK
 common#:#msg_clear_clipboard#:#Klipbord është pastruar
@@ -2179,7 +2173,7 @@ common#:#msg_no_perm_modify_role#:#Nuk keni të drejta të modifikoni rolet
 common#:#msg_no_perm_modify_rolt#:#Nuk keni të drejta të modifikoni shabllonet e roleve
 common#:#msg_no_perm_modify_user#:#Nuk keni të drejta të modifikoni shënimet e shfrytëzuesve
 common#:#msg_no_perm_paste#:#Nuk keni të drejta të vendosur objektet vijuese:
-common#:#msg_no_perm_perm#:#Nuk keni të drejta t'i editoni konfigurimet për të drejtat
+common#:#msg_no_perm_perm#:#Nuk keni të drejta t\'i editoni konfigurimet për të drejtat ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_no_perm_read#:#Nuk keni të drejta për qasje në këtë artikull.
 common#:#msg_no_perm_read_lm#:#Nuk keni të drejta të lexoni këtë modul mësimor.
 common#:#msg_no_perm_read_track#:#Nuk keni të drejta për qasje në gjurmimet e shfrytëzuesve.
@@ -2201,13 +2195,13 @@ common#:#msg_obj_exists#:#Ky objekt ekziston në këtë direktorium
 common#:#msg_obj_modified#:#Modifikimet janë ruajtur.
 common#:#msg_obj_no_link#:#nuk lejohen të lidhen (link)
 common#:#msg_obj_not_deletable_sold#:#Pagesa është e aktivizuar për objektet vijuese. Ato nuk mund të fshihen.
+common#:#msg_perm_adopted_from_itself#:#Nuk mund të adoptoni konfigurimet për të drejta prej rolit apo shabllonit të rolit aktual në vetvete.
 common#:#msg_perm_adopted_from1#:#Konfigurimet për të drejtat janë adoptuar nga
 common#:#msg_perm_adopted_from2#:#(Konfigurimet janë ruajtur)
-common#:#msg_perm_adopted_from_itself#:#Nuk mund të adoptoni konfigurimet për të drejta prej rolit apo shabllonit të rolit aktual në vetvete.
 common#:#msg_removed#:#Objektet janë larguar nga sistemi.
 common#:#msg_role_exists1#:#Roli/shablloni i rolit me emër
 common#:#msg_role_exists2#:#tanimë ekziston! Ju lutem të zgjedhëni emër tjetër.
-common#:#msg_role_reserved_prefix#:#Prefiksi 'il_' është rezervuar për gjenerim automatik të roleve. Ju lutem të zgjedhni një emër tjetër.
+common#:#msg_role_reserved_prefix#:#Prefiksi \'il_\' është rezervuar për gjenerim automatik të roleve. Ju lutem të zgjedhni një emër tjetër. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Caktimet e roleve aktive janë ndryshuar
 common#:#msg_roleassignment_active_changed_comment#:#Kjo pjesë konfigurimit nuk është ruajtur në profilin e shfrytëzuesit! Nëse shfrytëzuesi identifikohet përsëri, të gjitha caktimet e roleve aktive do të rikthehen në vlerat e ruajtura më parë.
 common#:#msg_roleassignment_changed#:#Caktimi i Rolit është ndërruar
@@ -2257,7 +2251,7 @@ common#:#no_lo_in_personal_list#:#Nuk ka asnjë objekt mësimor në listën pers
 common#:#no_local_users#:#Nuk ka asnjë shfrytëzues lokal
 common#:#no_objects#:#Asnjë objekt
 common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
-common#:#no_permission_to_join#:#Nuk lejoheni t'i bashkoheni këtij grupi!
+common#:#no_permission_to_join#:#Nuk lejoheni t\'i bashkoheni këtij grupi! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#no_roles_user_can_be_assigned_to#:#Nuk ka role globale ku mund të caktohet shfrytëzuesi. Prandaj nuk mund të shtoni shfrytëzues.
 common#:#no_title#:#Asnjë Titull
 common#:#no_tst_in_personal_list#:#Nuk ka asnjë test në listën personale.
@@ -2408,8 +2402,8 @@ common#:#offline_version#:#Versioni Joaktiv
 common#:#ok#:#OK
 common#:#old#:#I Vjetër
 common#:#online#:#Online###20 Jun 2005 new variable
-common#:#online_chapter#:#Kapitulli Aktiv 
-common#:#online_version#:#Versioni Aktiv 
+common#:#online_chapter#:#Kapitulli Aktiv ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#online_version#:#Versioni Aktiv ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#open_views_inside_frameset#:#Hap pamjet përbrenda kornizave
 common#:#operation#:#Operacion
 common#:#optimize#:#Optimizim
@@ -2433,11 +2427,11 @@ common#:#passwd_not_match#:#Të dhënat për parullë të re nuk po përputhen! 
 common#:#passwd_wrong#:#Parulla është dhënë gabimisht!
 common#:#password#:#Parulla
 common#:#password_assistance_disabled#:#Asistenca për parullë është e mundshme vetëm kur shfrytëzuesi verifikohet përmes databazës lokale ILIAS.
-common#:#password_assistance_info#:#Nëse asistenca për parullë është e aktivizuar, atëherë një link me tekstin "Keni Harruar Parullën?" do të paraqitet në faqen për identifikim të ILIAS. Shfrytëzuesit mund ta përdorin këtë link për të vendosur parullë në llogaritë e tyre pa ndihmë të administratorit të sistemit.
+common#:#password_assistance_info#:#Nëse asistenca për parullë është e aktivizuar, atëherë një link me tekstin \"Keni Harruar Parullën?\" do të paraqitet në faqen për identifikim të ILIAS. Shfrytëzuesit mund ta përdorin këtë link për të vendosur parullë në llogaritë e tyre pa ndihmë të administratorit të sistemit. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Vendos
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#pasteChapter#:#Vendos
 common#:#pastePage#:#Vendos
-common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Shtegu
 common#:#path_not_set#:#Shtegu nuk është dhënë
 common#:#path_to_babylon#:#Shtegu për Babylon
@@ -2517,7 +2511,7 @@ common#:#question_pools#:#Fondet e Pyetjeve
 common#:#quit#:#Dil
 common#:#quote#:#Citat
 common#:#read#:#Lexo
-common#:#recf_edit#:#Edito RecoveryFolder-in 
+common#:#recf_edit#:#Edito RecoveryFolder-in ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#recipient#:#Pranuesi
 common#:#referral_comment#:#Si keni dëgjuar për ILIAS?
 common#:#refresh#:#Aktualizo
@@ -2611,7 +2605,7 @@ common#:#role_search_enter_search_string#:#Ju lutem të shënoni një fjalë pë
 common#:#role_search_users#:#Kërkim i shfrytëzuesit
 common#:#role_select_desktop_item#:#Ju lutem zgjedhni një objekt që do të caktohet për këtë rol.
 common#:#role_select_one_item#:#Ju lutem zgjedhëni një objekt.
-common#:#role_sure_delete_desk_items#:#A jeni të sigurt për t'i fshirë caktimet vijuese?
+common#:#role_sure_delete_desk_items#:#A jeni të sigurt për t\'i fshirë caktimet vijuese? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#role_templates_only#:#Vetëm Shabllonet e Roleve
 common#:#role_user_deassign#:#Largo shfrytëzuesin nga roli
 common#:#role_user_edit#:#Edito të dhënat e llogaris
@@ -2640,7 +2634,7 @@ common#:#root_edit#:#Edito Sistemin ILIAS root
 common#:#root_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#root_read#:#Qasje për lexim në Sistemin ILIAS
 common#:#root_visible#:#Sistemi ILIAS është i dukshëm
-common#:#root_write#:#Edito metadata të Sistemit ILIAS 
+common#:#root_write#:#Edito metadata të Sistemit ILIAS ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#sahs#:#Modul Mësimor SCORM/AICC
 common#:#sahs_added#:#Moduli Mësimor SCORM/AICC u shtua
 common#:#sahs_create#:#Krijo Modul Mësimor SCORM/AICC
@@ -2671,7 +2665,7 @@ common#:#search_in#:#Kërko në
 common#:#search_inactive#:#Përfshij edhe shfrytëzuesit joaktiv
 common#:#search_minimum_characters#:#The minimum word length is:###23 Dec 2005 new variable
 common#:#search_new#:#Kërkim i Ri
-common#:#search_note#:#Nëse &quot;Kërko në&quot; lihet e zbrazët, kërkimi do të bëhet për të gjithë shfrytëzuesit. Kjo ju mundëson për gjetjen e të gjithë shfrytëzuesve aktiv dhe joaktiv. 
+common#:#search_note#:#Nëse &quot;Kërko në&quot; lihet e zbrazët, kërkimi do të bëhet për të gjithë shfrytëzuesit. Kjo ju mundëson për gjetjen e të gjithë shfrytëzuesve aktiv dhe joaktiv. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#search_recipient#:#Kërko Pranues
 common#:#search_result#:#Rezultati i kërkimit
 common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
@@ -2702,11 +2696,11 @@ common#:#server#:#Server
 common#:#server_data#:#Të dhënat e Serverit
 common#:#server_software#:#Softuari i Serverit
 common#:#set#:#Vendos
-common#:#setSystemLanguage#:#Vendos Gjuhën e Sistemit
-common#:#setUserLanguage#:#Vendos Gjuhën e Shfrytëzuesit
 common#:#set_offline#:#Vendos Offline
 common#:#set_online#:#Vendos në Online
+common#:#setSystemLanguage#:#Vendos Gjuhën e Sistemit
 common#:#settings#:#Konfigurimet
+common#:#setUserLanguage#:#Vendos Gjuhën e Shfrytëzuesit
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#show#:#Shih
 common#:#show_details#:#shih detajet###14 Jul 2005 content changed
@@ -2763,7 +2757,7 @@ common#:#submit#:#Pranoj
 common#:#subobjects#:#Nënobjektet
 common#:#subscription#:#Abonimi
 common#:#summary#:#Përmbledhja
-common#:#sure_delete_selected_users#:#A jeni të sigurt për t'i fshirë shfrytëzuesit vijues?
+common#:#sure_delete_selected_users#:#A jeni të sigurt për t\'i fshirë shfrytëzuesit vijues? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#svy#:#Kuestioner
 common#:#svy_add#:#Shto Kuestioner
 common#:#svy_delete#:#Fshij Kuestionerin
@@ -2845,7 +2839,7 @@ common#:#trac_read#:#Lexim i të Dhënave për Gjurmim
 common#:#trac_visible#:#Gjurmimi i Shfrytëzuesve është i dukshëm
 common#:#tracked_objects#:#Objektet e Gjurmuar
 common#:#tracking_data#:#Të Dhënat e Gjurmimit
-common#:#tracking_data_del_confirm#:#A jeni të sigurt për t'i fshirë të gjithë të dhënat e gjurmimit për muajin e specifikuar dhe para këtij muaji?
+common#:#tracking_data_del_confirm#:#A jeni të sigurt për t\'i fshirë të gjithë të dhënat e gjurmimit për muajin e specifikuar dhe para këtij muaji? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#tracking_data_deleted#:#Të dhënat e gjurmimit janë fshirë
 common#:#tracking_settings#:#Konfigurimet për Gjurmimin
 common#:#translation#:#Përkthimi
@@ -2864,11 +2858,11 @@ common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Ngarko Skedar
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
+common#:#tst_user_wrong_clientip#:#You don\'t have the right ip using this test###06 Aug 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#tst_visible#:#Testi është i dukshëm
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Edito Testin
-common#:#txt_add_object_instruction1#:#Kërko për lokacionin ku dëshiron 
+common#:#txt_add_object_instruction1#:#Kërko për lokacionin ku dëshiron ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#txt_add_object_instruction2#:#të vendoset.
 common#:#txt_registered#:#Keni kryer me sukses procedurën e regjistrimit në ILIAS. Ju lutem tani klikoni në butonin më poshtë për tu identifikuar.
 common#:#txt_submitted#:#Keni kryer me sukses procedurën e kërkesës së llogaris në ILIAS. Kjo kërkesë do të shqyrtohet nga Administratorët e Sistemit dhe do duhet të aktivizohet brenda 48 orëve. Ju nuk do të mund të identifikoheni përderisa kjo llogari nuk aktivizohet.
@@ -2950,14 +2944,14 @@ common#:#users#:#Shfrytëzuesit
 common#:#users_not_imported#:#Shfrytëzuesit vijues nuk ekzistojnë, nuk mund të importohen porosit e tyre
 common#:#users_online#:#Shfrytëzuesit Online###20 Jun 2005 content changed
 common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
-common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable
+common#:#users_online_show_n#:#Don\'t show active users###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Gjurmimi i Shfrytëzuesit
 common#:#usr#:#Shfrytëzuesi
 common#:#usr_a#:#një Shfrytëzues
 common#:#usr_add#:#Shto Shfrytëzues
 common#:#usr_added#:#Shfrytëzuesi është shtuar
-common#:#usr_agreement#:#Marrëveshja me Shfrytëzuesin 
+common#:#usr_agreement#:#Marrëveshja me Shfrytëzuesin ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usr_agreement_empty#:#Marrëveshja nuk ka tekst
 common#:#usr_edit#:#Edito Shfrytëzuesin
 common#:#usr_hits_per_page#:#Vizita/Faqe në tabelë
@@ -2981,18 +2975,18 @@ common#:#usrf_write#:#Edito llogaritë e shfrytëzuesve
 common#:#usrimport_action_failed#:#Veprimi %1$s ka dështuar.
 common#:#usrimport_action_ignored#:#Veprimi %1$s është injoruar.
 common#:#usrimport_action_replaced#:#Veprimi %1$s zëvendësohet me %2$s.
-common#:#usrimport_cant_delete#:#Nuk mund të kryhet veprimi "Fshij". Shfrytëzuesi nuk është databazë.
-common#:#usrimport_cant_insert#:#Nuk mund të kryhet veprimi "Vendos".  Shfrytëzuesi tanimë është në databazë.
-common#:#usrimport_cant_update#:#Nuk mind të kryej veprimin "Aktualizo". Nuk ka shfrytëzues të tillë në databazë.
-common#:#usrimport_conflict_handling_info#:#Nëse zgjedhet opsioni "Injoro gjatë konfliktit", ILIAS e injoron veprimin, nëse nuk mund të kryhet (p.sh. ndonjë veprim "Vendos" nuk është kryer për arsye se ka shfrytëzues me të njëjtin emër identifikues në databazë.)\nKur zgjedhet "Aktualizo gjatë konfliktit", ILIAS e aktualizon databazën edhe kur ndonjë veprim nuk mund të kryhet. (p.sh. ndonjë veprim "Vendos" zëvendësohet me veprimin "Aktualizo" nëse ka shfrytëzues me të njëjtin emër identifikues në databazë).
-common#:#usrimport_global_role_for_action_required#:#Në mënyrë që të kryhet veprimi "%1$s", së paku një rol global duhet të specifikohet.
+common#:#usrimport_cant_delete#:#Nuk mund të kryhet veprimi \"Fshij\". Shfrytëzuesi nuk është databazë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_insert#:#Nuk mund të kryhet veprimi \"Vendos\".  Shfrytëzuesi tanimë është në databazë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_update#:#Nuk mind të kryej veprimin \"Aktualizo\". Nuk ka shfrytëzues të tillë në databazë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_conflict_handling_info#:#Nëse zgjedhet opsioni \"Injoro gjatë konfliktit\", ILIAS e injoron veprimin, nëse nuk mund të kryhet (p.sh. ndonjë veprim \"Vendos\" nuk është kryer për arsye se ka shfrytëzues me të njëjtin emër identifikues në databazë.)\\nKur zgjedhet \"Aktualizo gjatë konfliktit\", ILIAS e aktualizon databazën edhe kur ndonjë veprim nuk mund të kryhet. (p.sh. ndonjë veprim \"Vendos\" zëvendësohet me veprimin \"Aktualizo\" nëse ka shfrytëzues me të njëjtin emër identifikues në databazë). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_global_role_for_action_required#:#Në mënyrë që të kryhet veprimi \"%1$s\", së paku një rol global duhet të specifikohet. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usrimport_login_is_not_unique#:#Identifikimi nuk është unik.
-common#:#usrimport_xml_attribute_missing#:#Mungon atributi "%2$s" në elementin "%1$s"
-common#:#usrimport_xml_attribute_value_illegal#:#Vlera "%3$s" e atributit "%2$s" në elementin "%1$s" është jovalide.
-common#:#usrimport_xml_attribute_value_inapplicable#:#Vlera "%3$s" e atributit "%2$s" në elementin "%1$s" nuk aplikohet për veprimin "%4$s"
-common#:#usrimport_xml_element_content_illegal#:#Përmbajtja "%2$s" e elementit "%1$s" është jovalide.
-common#:#usrimport_xml_element_for_action_required#:#Për veprimin "%2$s" duhet të specifikohet elementi "1$s"
-common#:#usrimport_xml_element_inapplicable#:#Elementi "%1$s" nuk është i aplikueshëm për veprimin "%2$s".
+common#:#usrimport_xml_attribute_missing#:#Mungon atributi \"%2$s\" në elementin \"%1$s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_illegal#:#Vlera \"%3$s\" e atributit \"%2$s\" në elementin \"%1$s\" është jovalide. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_inapplicable#:#Vlera \"%3$s\" e atributit \"%2$s\" në elementin \"%1$s\" nuk aplikohet për veprimin \"%4$s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_content_illegal#:#Përmbajtja \"%2$s\" e elementit \"%1$s\" është jovalide. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_for_action_required#:#Për veprimin \"%2$s\" duhet të specifikohet elementi \"1$s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_inapplicable#:#Elementi \"%1$s\" nuk është i aplikueshëm për veprimin \"%2$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#validate#:#Validimi
 common#:#value#:#Vlera
 common#:#vcard#:#Kartëvizita
@@ -3024,34 +3018,11 @@ common#:#you_may_add_local_roles#:#Ju Mund Të Shtoni Role Lokale
 common#:#your_message#:#Porosia Juaj
 common#:#zip#:#Kodi Postar
 common#:#zipcode#:#Kodi Postar
-content#:#HTML export#:#Eksport në HTML
-content#:#PDF export#:#Eksport në PDF
-content#:#Pages#:#Faqet
 content#:#add_menu_entry#:#Shto artikull në meny >>
 content#:#all#:#Të Gjitha
 content#:#all_pages#:#gjithë moduli Mësimor
 content#:#choose_public_mode#:#Shfrytëzuesit e paregjistruar mund të qasen
 content#:#choose_public_pages#:#Zgjedh faqet për qasje publike
-content#:#cont_Additional#:#Shtesë
-content#:#cont_Alphabetic#:#Sipas Alfabetit A,B, …
-content#:#cont_Circle#:#Rreth
-content#:#cont_Citation#:#Citat
-content#:#cont_Code#:#Kod
-content#:#cont_Example#:#Shembull
-content#:#cont_Headline1#:#Titull 1
-content#:#cont_Headline2#:#Titull 2
-content#:#cont_Headline3#:#Titull 3
-content#:#cont_List#:#Listë
-content#:#cont_LocalFile#:#Skedari Lokale
-content#:#cont_Mnemonic#:#Fjalë Kyçe
-content#:#cont_Number#:#Numër
-content#:#cont_Poly#:#Poligon
-content#:#cont_Rect#:#Katërkëndësh
-content#:#cont_Reference#:#Referencë
-content#:#cont_Remark#:#Koment
-content#:#cont_Roman#:#Sipas numrave Romak I, II, …
-content#:#cont_TableContent#:#Përmbajtja
-content#:#cont_Unordered#:#Të paradhitura
 content#:#cont_act_number#:#Numerizimi i Kapitujve
 content#:#cont_active#:#Aktivizo Menynë
 content#:#cont_add_area#:#Shto Area
@@ -3060,9 +3031,10 @@ content#:#cont_add_definition#:#Shto Definicion
 content#:#cont_add_fullscreen#:#Shto Full-Screen
 content#:#cont_added_comment#:#Komenti është vendosur në histori.
 content#:#cont_added_term#:#Termi është shtuar
+content#:#cont_Additional#:#Shtesë
 content#:#cont_all_definitions#:#Të gjitha Definicionet
 content#:#cont_all_pages#:#Të gjitha Faqet
-content#:#cont_alphabetic#:#Sipas Alfabetit a,b, …
+content#:#cont_Alphabetic#:#Sipas Alfabetit A,B, …
 content#:#cont_annex#:#Aneksi
 content#:#cont_api_adapter#:#Emri i API Adapterit
 content#:#cont_api_func_prefix#:#Prefiksi i API Funksioneve
@@ -3091,6 +3063,8 @@ content#:#cont_characteristic#:#Karakteristika
 content#:#cont_choose_cont_obj#:#Zgjedh Objektet me Përmbajtje
 content#:#cont_choose_glossary#:#Zgjedh Fjalorthin
 content#:#cont_choose_media_source#:#Zgjedh Burim Multimedial
+content#:#cont_Circle#:#Rreth
+content#:#cont_Citation#:#Citat
 content#:#cont_citation_err_one#:#Duhet të zgjedhni saktësisht një edicion
 content#:#cont_citation_selection_not_valid#:#Përzgjedhja juaj nuk është valide
 content#:#cont_citations#:#Citatet
@@ -3101,7 +3075,8 @@ content#:#cont_click_next_or_save#:#Ju lutem klikoni në pikën e ardhshme të p
 content#:#cont_click_next_point#:#Ju lutem klikoni në pikën e ardhshme të poligonit.
 content#:#cont_click_starting_point#:#Ju lutem klikoni në pikën fillestare të poligonit.
 content#:#cont_click_tl_corner#:#Ju lutem klikoni në këndin lart majtas të hapësirës.
-content#:#cont_confirm_delete#:#vërtet t'i fshini?
+content#:#cont_Code#:#Kod
+content#:#cont_confirm_delete#:#vërtet t\'i fshini? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_content#:#Përmbajtja
 content#:#cont_content_obj#:#Objekt me Përmbajtje
 content#:#cont_contents#:#Përmbajtjet
@@ -3117,7 +3092,7 @@ content#:#cont_create_export_file_xml#:#Krijo Skedar për Eksport (XML)
 content#:#cont_create_folder#:#Krijo Direktorium
 content#:#cont_create_html_version#:#Krijo Paket HTML
 content#:#cont_create_mob#:#Krijo Objekt Multimedial
-content#:#cont_credit_mode#:#Kredit Modi (për mod mësimor 'normal')
+content#:#cont_credit_mode#:#Kredit Modi (për mod mësimor \'normal\') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_credit_off#:#Pa Kredit
 content#:#cont_credit_on#:#Kredit
 content#:#cont_credits#:#Kreditë
@@ -3141,7 +3116,7 @@ content#:#cont_downloads_desc#:#Aktivizo mundësinë e shkarkimit të të gjith�
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)###23 Dec 2005 new variable
 content#:#cont_ed_align_center#:#drejto: në qendër
 content#:#cont_ed_align_left#:#drejto: majtas
-content#:#cont_ed_align_left_float#:#drejto: majtas lart 
+content#:#cont_ed_align_left_float#:#drejto: majtas lart ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_ed_align_right#:#drejto: djathtas
 content#:#cont_ed_align_right_float#:#drejto: djathtas lart
 content#:#cont_ed_class#:#Stili
@@ -3191,7 +3166,7 @@ content#:#cont_edit_term#:#Edito Termin
 content#:#cont_edition#:#Edicion
 content#:#cont_enable_js#:#JavaScript Aktive
 content#:#cont_enable_media#:#Multimedia Aktive
-content#:#cont_example#:#p.sh.
+content#:#cont_Example#:#Shembull
 content#:#cont_export_files#:#Eksporto Skedarë
 content#:#cont_external#:#eksternal
 content#:#cont_external_url#:#url eksternale
@@ -3213,6 +3188,9 @@ content#:#cont_get_link#:#jep linkun
 content#:#cont_get_orig_size#:#Vendos madhësinë origjinale
 content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Karakteristikat e Fjalorthit
+content#:#cont_Headline1#:#Titull 1
+content#:#cont_Headline2#:#Titull 2
+content#:#cont_Headline3#:#Titull 3
 content#:#cont_height#:#Lartësia
 content#:#cont_how_published#:#Si është botuar
 content#:#cont_href#:#href
@@ -3243,6 +3221,7 @@ content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#link intern
 content#:#cont_link_type#:#Tipi i Linkut
 content#:#cont_linked_mobs#:#objektet multimediale të linkuara
+content#:#cont_List#:#Listë
 content#:#cont_list_files#:#Listo Skedarët
 content#:#cont_list_properties#:#Listo Karakteristikat
 content#:#cont_lk_chapter#:#Kapitull
@@ -3259,6 +3238,7 @@ content#:#cont_lk_term#:#Term të Fjalorthit
 content#:#cont_lk_term_new#:#Term të Fjalorthit (Kornizë e Re)
 content#:#cont_lm_menu#:#Meny
 content#:#cont_lm_properties#:#Karakteristikat e Modulit Mësimor
+content#:#cont_LocalFile#:#Skedari Lokale
 content#:#cont_lvalue#:#Data
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Area
@@ -3268,7 +3248,8 @@ content#:#cont_matching_question_javascript_hint#:#Ju lutem zhvendosni një defi
 content#:#cont_max_time_allowed#:#adlcp: koha maksimale
 content#:#cont_media_source#:#Burime Multimediale
 content#:#cont_mep_structure#:#Struktura e Fondit Multimedial
-content#:#cont_missing_preconditions#:#Duhet të përmbushni parakushtet vijuese për të pasur qasje në kapitullin "%s".
+content#:#cont_missing_preconditions#:#Duhet të përmbushni parakushtet vijuese për të pasur qasje në kapitullin \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_Mnemonic#:#Fjalë Kyçe
 content#:#cont_mob_files#:#Objekt Skedarët
 content#:#cont_mob_inst_prop#:#Karakteristikat e Instancave
 content#:#cont_mob_prop#:#Karakteristikat e Objektit
@@ -3288,12 +3269,13 @@ content#:#cont_no_assign_itself#:#Objekti nuk mund të caktohet në vetvete
 content#:#cont_no_manifest#:#Nuk është gjetur asnjë skedar i llojit imsmanifest.xml në direktorium.
 content#:#cont_no_object_found#:#Nuk mund të gjej ndonjë objekt me këtë titull
 content#:#cont_no_page#:#Nuk gjendet asnjë Faqe.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder \'%s\'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Asnjë
 content#:#cont_nr_cols#:#Numri i Kolonave
 content#:#cont_nr_items#:#Numri i Artikujve
 content#:#cont_nr_rows#:#Numri i Rreshtave
+content#:#cont_Number#:#Numër
 content#:#cont_obj_removed#:#Objektet largohen.
 content#:#cont_offline#:#Versionet Offline
 content#:#cont_offline_files#:#Offline versionet
@@ -3315,6 +3297,7 @@ content#:#cont_personal_clipboard#:#Klipbordi Personal
 content#:#cont_pg_content#:#Përmbajtje e Faqes
 content#:#cont_pg_title#:#Titull i Faqes
 content#:#cont_please_select#:#ju lutem zgjedh
+content#:#cont_Poly#:#Poligon
 content#:#cont_prereq_type#:#adlcp:parakushtet.tipi
 content#:#cont_prerequisites#:#adlcp:parakushtet
 content#:#cont_preview#:#Pamja
@@ -3324,9 +3307,11 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Botuesi
 content#:#cont_purpose#:#Qëllimi
+content#:#cont_Rect#:#Katërkëndësh
 content#:#cont_ref_helptext#:#(p.sh. http://ëëë.server.org/mypage.jpg)
 content#:#cont_ref_images#:#Imazhet e Referuara
-content#:#cont_reference#:#Referenca
+content#:#cont_Reference#:#Referencë
+content#:#cont_Remark#:#Koment
 content#:#cont_remove_fullscreen#:#Largo Full Screen
 content#:#cont_removeiln#:#vërtet të largoni linkun internal?
 content#:#cont_repository_item#:#Artikujt e Magazinës
@@ -3336,11 +3321,11 @@ content#:#cont_reset_pictures#:#Rikthe pozitat e fotografive
 content#:#cont_resource#:#Burim
 content#:#cont_resource_type#:#tipi
 content#:#cont_resources#:#Burimet
-content#:#cont_roman#:#Romak I, II, …
+content#:#cont_Roman#:#Sipas numrave Romak I, II, …
 content#:#cont_rvalue#:#Vlera
 content#:#cont_saved_map_area#:#Area e ruajtur
 content#:#cont_saved_map_data#:#Të dhënat e ruajtura
-content#:#cont_sc_auto_review#:#Vendos modin mësimor në 'rishikim' nëse studenti ka kompletuar modulin
+content#:#cont_sc_auto_review#:#Vendos modin mësimor në \'rishikim\' nëse studenti ka kompletuar modulin ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#Shfleto
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Shfletuar
@@ -3404,6 +3389,7 @@ content#:#cont_table_cellspacing#:#Cell Spacing i Tabelës
 content#:#cont_table_html_import#:#Importo Skedar HTML
 content#:#cont_table_html_import_info#:#Importimi funksionon vetëm me XHTML tabela. Tabela duhet të jetë root tag!
 content#:#cont_table_width#:#Gjerësia e Tabelës
+content#:#cont_TableContent#:#Përmbajtja
 content#:#cont_target_within_source#:#Destinimi nuk mund të jetë brenda vet objektit.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Termet
@@ -3428,11 +3414,12 @@ content#:#cont_tracking_items#:#Artikujt e Gjurmuar
 content#:#cont_translations#:#Përkthim(et)
 content#:#cont_translations_assigned#:#Përkthimi(et) janë caktuar.
 content#:#cont_tree_fixed#:#Struktura e Trungut është Rregulluar.
+content#:#cont_Unordered#:#Të paradhitura
 content#:#cont_update#:#Aktualizo
 content#:#cont_update_names#:#Aktualizo Emrat
 content#:#cont_upload_file#:#Ngarko Skedar
 content#:#cont_url#:#URL
-content#:#cont_users_have_mob_in_clip1#:#Ky objekt multimedial është në klipbord të 
+content#:#cont_users_have_mob_in_clip1#:#Ky objekt multimedial është në klipbord të ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_users_have_mob_in_clip2#:#shfrytëzuesi(ve)
 content#:#cont_validate_file#:#Valido Skedarin
 content#:#cont_version#:#versioni
@@ -3442,10 +3429,11 @@ content#:#cont_width#:#Gjerësia
 content#:#cont_wysiwyg#:#Përmbajtja WYZIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Viti
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file \'%s\'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#copied_to_clipboard#:#Objektet e kopjuara në klipbord.
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
+content#:#HTML export#:#Eksport në HTML
 content#:#lm_menu_edit_entry#:#Edito të dhënat e menysë
 content#:#lm_menu_entry_target#:#Destinacioni
 content#:#lm_menu_entry_title#:#Titulli
@@ -3455,8 +3443,10 @@ content#:#lm_menu_select_object_to_add#:#Ju lutem zgjedhni objektin që doni ta 
 content#:#msg_entry_added#:#Është futur në meny
 content#:#msg_entry_removed#:#Është larguar nga menyja
 content#:#msg_entry_updated#:#Është aktualizuar menyja
+content#:#Pages#:#Faqet
 content#:#pages from#:#Faqet Prej
 content#:#par#:#Paragraf
+content#:#PDF export#:#Eksport në PDF
 content#:#pg#:#Faqe
 content#:#public_section#:#Seksioni Publik###19 Jul 2005 content changed
 content#:#read offline#:#Lexo Offline
@@ -3527,10 +3517,10 @@ crs#:#crs_deassign_lm_sure#:#A jeni të sigurt për ti fshirë këto caktime?
 crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
 crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Largo anëtarët
-crs#:#crs_delete_members_sure#:#A dëshironi t'i fshini anëtarët vijues nga ky kurs?
+crs#:#crs_delete_members_sure#:#A dëshironi t\'i fshini anëtarët vijues nga ky kurs? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_delete_objectve_sure#:#A jeni të sigurt për ti fshirë objektivat e zgjedhura?
 crs#:#crs_delete_subscribers#:#Fshij Abonentin
-crs#:#crs_delete_subscribers_sure#:#A dëshironi t'i fshini shfrytëzuesit në vijim?
+crs#:#crs_delete_subscribers_sure#:#A dëshironi t\'i fshini shfrytëzuesit në vijim? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_details#:#Detajet e Kursit
 crs#:#crs_dismiss_member#:#Anëtarësimi në Kurs###23 Dec 2005 content changed
 crs#:#crs_dismiss_member_body#:#Anëtarësimi juaj është ndërprerë###23 Dec 2005 content changed
@@ -3605,8 +3595,8 @@ crs#:#crs_moved_objective#:#Objektiva mësimore e zhvendosur
 crs#:#crs_new_search#:#Kërkim i Ri
 crs#:#crs_new_subscription#:#Abonim i Ri në Kurs###23 Dec 2005 content changed
 crs#:#crs_new_subscription_body#:#Shfrytëzues i ri ka abonuar###23 Dec 2005 content changed
-crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable
+crs#:#crs_new_subscription_request#:#Request to join course \"%s\"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course \"%s\".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#Nuk është zgjedhur asnjë arkiv
 crs#:#crs_no_archives_available#:#Nuk ka asnjë arkiv
 crs#:#crs_no_archives_selected#:#Ju lutem zgjedhni një arkiv
@@ -3662,7 +3652,7 @@ crs#:#crs_objectives_assigned_lms#:#Materialet Mësimore të Caktuara.
 crs#:#crs_objectives_assigned_new_questions#:#Është shtuar caktim i ri.
 crs#:#crs_objectives_assigned_questions#:#Pyetjet e Caktuara
 crs#:#crs_objectives_chapter_assignment#:#Caktimi i Kapitullit
-crs#:#crs_objectives_deassign_question_sure#:#A jeni të sigurt për t'i fshirë pyetjet në vijim?
+crs#:#crs_objectives_deassign_question_sure#:#A jeni të sigurt për t\'i fshirë pyetjet në vijim? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_objectives_deleted#:#Fshij objektivet mësimore
 crs#:#crs_objectives_edit_question_assignments#:#Edito caktimin e pyetjeve
 crs#:#crs_objectives_info_final#:#Nuk i keni përmbushur të gjitha objektivat e kursit në provimin e mëparshëm.<br/> Ju lutem rishikoni materialet mësimore që u korrespondojnë objektivave të shënjuara me të kuqe.<br/> Pasi ti keni rishikuar të gjitha objektivat e shënjuara me të kuqe, mund të filloni me provimin përsëri.
@@ -3747,7 +3737,7 @@ crs#:#crs_subscription_requested#:#You have requested membership for the course.
 crs#:#crs_subscription_successful#:#Keni abonuar për këtë kurs###23 Dec 2005 content changed
 crs#:#crs_subscription_type#:#Mënyra e abonimit
 crs#:#crs_suggest_lm#:#Sugjero materiale mësimore nëse:
-crs#:#crs_sure_delete_selected_archives#:#A jeni të sigurt për t'i fshirë arkivat e zgjedhura
+crs#:#crs_sure_delete_selected_archives#:#A jeni të sigurt për t\'i fshirë arkivat e zgjedhura ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_syllabus#:#Plani mësimor
 crs#:#crs_table_start_objects#:#Objektet fillimore
 crs#:#crs_test_status_complete#:#Komplete
@@ -3777,43 +3767,6 @@ crs#:#edit_content#:#Edito përmbajtjen
 crs#:#import_crs#:#Import course###03 Nov 2005 new variable
 crs#:#learners_view#:#Pamja e studentëve
 crs_#:#crs_archives#:#Arkivat
-dateplaner#:#DateText#:#Porosi
-dateplaner#:#Day_long#:#Pamja Ditore
-dateplaner#:#ERROR_DATE_EXISTS#:#Ky termin tanimë ekziston###02 Aug 2005 content changed
-dateplaner#:#ERROR_DB#:#Gabim gjatë shkrimit në databazë!
-dateplaner#:#ERROR_DB_CONNECT#:#Databaza është e çkyqur
-dateplaner#:#ERROR_DEL_MSG#:#Ky është termin periodik. Dëshironi të fshini një termin prej tyre apo gjithë serinë.###02 Aug 2005 content changed
-dateplaner#:#ERROR_ENDDATE#:#Data përfundimtare e terminit është dhënë gabimisht. Formati është: dd/mm/vvvv
-dateplaner#:#ERROR_ENDTIME#:#Ora e përfundimtare e terminit është dhënë gabimisht. Formati është: oo:mm
-dateplaner#:#ERROR_END_START#:#Data përfundimtare e terminit është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Ju lutem të specifikoni skedar CVS valide.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>shfletuesi juaj i faqeve(brouser-i) nuk përkrah JavaScript.<br/>Ju lutem mbylleni këtë dritare pasi ta keni vendosur manualisht.<br/> Ju Faleminderit</CENTER></B>
-dateplaner#:#ERROR_ROTATIONEND#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Formati është: dd/mm/vvvv
-dateplaner#:#ERROR_ROT_END_START#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
-dateplaner#:#ERROR_SHORTTEXT#:#Gabim gjatë vendosjes së tekstit. Teksti është obligativ
-dateplaner#:#ERROR_STARTDATE#:#Gabim gjatë vendosjes së datës së fillimit. Formati është: dd/mm/vvvv
-dateplaner#:#ERROR_STARTTIME#:#Gabim gjatë vendosjes së orës së fillimit. Formati është: oo:mm
-dateplaner#:#ERROR_TS#:#Formati i datës është i gabuar
-dateplaner#:#Fr_long#:#e Premte
-dateplaner#:#Fr_short#:#P
-dateplaner#:#Language_file#:#Anglisht
-dateplaner#:#Listbox_long#:#Lista e Terminëve###02 Aug 2005 content changed
-dateplaner#:#Mo_long#:#e Hënë
-dateplaner#:#Mo_short#:#H
-dateplaner#:#Month_long#:#Pamje Mujore
-dateplaner#:#Sa_long#:#e Shtunë
-dateplaner#:#Sa_short#:#Sh
-dateplaner#:#Su_long#:#E Diel
-dateplaner#:#Su_short#:#D
-dateplaner#:#Text#:#Teksti
-dateplaner#:#Th_long#:#e Enjte
-dateplaner#:#Th_short#:#E
-dateplaner#:#Tu_long#:#e Martë
-dateplaner#:#Tu_short#:#M
-dateplaner#:#View#:#Definimi i pamjes:
-dateplaner#:#We_long#:#e Mërkurë
-dateplaner#:#We_short#:#Mk
-dateplaner#:#Week_long#:#Pamja Javore
 dateplaner#:#add_data#:#Të Dhëna shtesë###02 Aug 2005 content changed
 dateplaner#:#app_#:#Grupi i Termineve###02 Aug 2005 content changed
 dateplaner#:#app_date#:#vendos termin###02 Aug 2005 content changed
@@ -3830,19 +3783,20 @@ dateplaner#:#back#:#prapa###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Data e Fillimit
 dateplaner#:#busytime#:#koha e nxënë brenda në grup###02 Aug 2005 content changed
 dateplaner#:#c_date#:#Krijo Termin###02 Aug 2005 content changed
-dateplaner#:#changeTo#:#E ndërruar në:
 dateplaner#:#changedDates#:#Terminët e ndërruara###02 Aug 2005 content changed
+dateplaner#:#changeTo#:#E ndërruar në:
 dateplaner#:#checkforfreetime#:#Kontrollo për kohë të lirë
 dateplaner#:#created#:#Krijohet
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#m/d/V H:i
 dateplaner#:#date_format_middle#:#m/d/V
+dateplaner#:#DateText#:#Porosi
+dateplaner#:#Day_long#:#Pamja Ditore
 dateplaner#:#del_all#:#fshij të gjithë terminët###02 Aug 2005 content changed
 dateplaner#:#del_one#:#fshij një termin###02 Aug 2005 content changed
 dateplaner#:#delete#:#fshij###02 Aug 2005 content changed
 dateplaner#:#deletedDates#:#Terminet e fshira###02 Aug 2005 content changed
 dateplaner#:#discard#:#anulo###02 Aug 2005 content changed
-dateplaner#:#dv_Grouptime#:#koha e lirë###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Anulo
 dateplaner#:#dv_button_delete#:#Fshij
 dateplaner#:#dv_button_insert#:#Vendos
@@ -3852,6 +3806,7 @@ dateplaner#:#dv_date_end#:#Data e përfundimit:
 dateplaner#:#dv_date_hm#:#Orë:Minuta
 dateplaner#:#dv_enddate#:#Data e përfundimit:
 dateplaner#:#dv_groupselect#:#Zgjedh Grupin:
+dateplaner#:#dv_Grouptime#:#koha e lirë###02 Aug 2005 content changed
 dateplaner#:#dv_groupview#:#Grup Termini:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupi:<br/>
 dateplaner#:#dv_keywords#:#Fjalëkyçe:
@@ -3870,9 +3825,26 @@ dateplaner#:#dv_whole_day#:#E tërë dita:
 dateplaner#:#dv_whole_rotation#:#A dëshironi të fshini të gjitha seritë e termineve periodike? (kliko ne checkbox)
 dateplaner#:#end_date#:#Përfundimi i Terminit:
 dateplaner#:#endtime_for_view#:#Paraqit terminet deri në kohë:
-dateplaner#:#error_minical_img#:#Nuk mund të krijoj 'GD-Picture-Stream'
+dateplaner#:#ERROR_DATE_EXISTS#:#Ky termin tanimë ekziston###02 Aug 2005 content changed
+dateplaner#:#ERROR_DB#:#Gabim gjatë shkrimit në databazë!
+dateplaner#:#ERROR_DB_CONNECT#:#Databaza është e çkyqur
+dateplaner#:#ERROR_DEL_MSG#:#Ky është termin periodik. Dëshironi të fshini një termin prej tyre apo gjithë serinë.###02 Aug 2005 content changed
+dateplaner#:#ERROR_END_START#:#Data përfundimtare e terminit është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
+dateplaner#:#ERROR_ENDDATE#:#Data përfundimtare e terminit është dhënë gabimisht. Formati është: dd/mm/vvvv
+dateplaner#:#ERROR_ENDTIME#:#Ora e përfundimtare e terminit është dhënë gabimisht. Formati është: oo:mm
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Ju lutem të specifikoni skedar CVS valide.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>shfletuesi juaj i faqeve(brouser-i) nuk përkrah JavaScript.<br/>Ju lutem mbylleni këtë dritare pasi ta keni vendosur manualisht.<br/> Ju Faleminderit</CENTER></B>
+dateplaner#:#error_minical_img#:#Nuk mund të krijoj \'GD-Picture-Stream\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#ERROR_ROT_END_START#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
+dateplaner#:#ERROR_ROTATIONEND#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Formati është: dd/mm/vvvv
+dateplaner#:#ERROR_SHORTTEXT#:#Gabim gjatë vendosjes së tekstit. Teksti është obligativ
+dateplaner#:#ERROR_STARTDATE#:#Gabim gjatë vendosjes së datës së fillimit. Formati është: dd/mm/vvvv
+dateplaner#:#ERROR_STARTTIME#:#Gabim gjatë vendosjes së orës së fillimit. Formati është: oo:mm
+dateplaner#:#ERROR_TS#:#Formati i datës është i gabuar
 dateplaner#:#execute#:#ekzekuto veprimet###02 Aug 2005 content changed
 dateplaner#:#extra_dates#:#Termin Një Ditor###02 Aug 2005 content changed
+dateplaner#:#Fr_long#:#e Premte
+dateplaner#:#Fr_short#:#P
 dateplaner#:#free#:#e lirë###02 Aug 2005 content changed
 dateplaner#:#freetime#:#Koha e lirë në grup###02 Aug 2005 content changed
 dateplaner#:#group#:#grupi###02 Aug 2005 content changed
@@ -3893,9 +3865,9 @@ dateplaner#:#help_group_l#:#Përmban grupe për të cilët shfrytëzuesit e iden
 dateplaner#:#help_inbox#:#Inbox i Agjendës
 dateplaner#:#help_inbox_l#:#Këtu shihen të gjitha terminet e reja, të ndërruara, të fshira, të grupeve###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Zgjedhja e fjalës kyçe
+dateplaner#:#help_keyword_l#:#Përmban fjalëkyqe të cilën shfrytëzuesi mund të ja shoqëroj terminit.
 dateplaner#:#help_keywordUse#:#Zgjedhja e fjalës kyçe
 dateplaner#:#help_keywordUse_l#:#Zgjedh një apo më shumë fjalëkyqe nga menyja për zgjedhje. <br/>Këshillë: përdor tastin CTRL për të zgjedhur më shumë të dhëna.
-dateplaner#:#help_keyword_l#:#Përmban fjalëkyqe të cilën shfrytëzuesi mund të ja shoqëroj terminit.
 dateplaner#:#help_list#:#Lista e Termineve të Agjendës###02 Aug 2005 content changed
 dateplaner#:#help_list_l#:#Në listën e termineve do të shihen të gjitha terminet sipër periudhës së dhënë kohore.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Pamja mujore e Agjendës
@@ -3907,7 +3879,7 @@ dateplaner#:#help_properties_del_l#:#Zgjedh një fjalëkyqe nga menyja për zgje
 dateplaner#:#help_properties_import#:#Importo nga skedarët Outlook-CVS
 dateplaner#:#help_properties_import_l#:#Këtu mund të zgjedhet CSC-Skedari, që përmban Termine nga Outlook. Këto termine do të vendosen në agjendë.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Shto fjalëkyçe, maks. 20 karaktere.
-dateplaner#:#help_properties_new_l#:#Shto fjalëkyqe të re në fushën \"të re"\. Kujdes: maks. 20 karaktere.
+dateplaner#:#help_properties_new_l#:#Shto fjalëkyqe të re në fushën \\\"të re\"\\. Kujdes: maks. 20 karaktere. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Paraqit kohën për pamje ditore/javore
 dateplaner#:#help_properties_time_l#:#Paraqitja standarde për pamje ditore dhe javore e termineve mund të ndërrohet .Pra, mund të paraqiten edhe terminet që janë jashtë intervalit kohor të zgjedhur. Standard është 8h-18h.
 dateplaner#:#help_rotation#:#Përsëritja
@@ -3930,7 +3902,9 @@ dateplaner#:#k_alldates#:#të gjitha terminet###02 Aug 2005 content changed
 dateplaner#:#keep#:#mbaj###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Fjalëkyqe
 dateplaner#:#keywords#:#Fjalët kyçe
+dateplaner#:#Language_file#:#Anglisht
 dateplaner#:#last_change#:#Data e ndërrimit të fundit
+dateplaner#:#Listbox_long#:#Lista e Terminëve###02 Aug 2005 content changed
 dateplaner#:#long_01#:#Janar
 dateplaner#:#long_02#:#Shkurt
 dateplaner#:#long_03#:#Mars
@@ -3946,13 +3920,16 @@ dateplaner#:#long_12#:#Dhjetor
 dateplaner#:#main_dates#:#Terminet Kryesore###02 Aug 2005 content changed
 dateplaner#:#menue#:#Meny
 dateplaner#:#mmonth#:#muajin e kaluar###02 Aug 2005 content changed
+dateplaner#:#Mo_long#:#e Hënë
+dateplaner#:#Mo_short#:#H
 dateplaner#:#month#:#muaji###02 Aug 2005 content changed
+dateplaner#:#Month_long#:#Pamje Mujore
 dateplaner#:#more#:#më tepër###02 Aug 2005 content changed
 dateplaner#:#mweek#:#javën e kaluar###02 Aug 2005 content changed
 dateplaner#:#myeahr#:#vitin e kaluar###02 Aug 2005 content changed
+dateplaner#:#new_doc#:#krijo termin###02 Aug 2005 content changed
 dateplaner#:#newDates#:#Termine të Reja###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Të Reja:
-dateplaner#:#new_doc#:#krijo termin###02 Aug 2005 content changed
 dateplaner#:#no_entry#:#nuk ka termine###02 Aug 2005 content changed
 dateplaner#:#o_day_date#:#Termin 24 orë###02 Aug 2005 content changed
 dateplaner#:#of#:#që nga
@@ -3973,6 +3950,8 @@ dateplaner#:#r_year#:#çdo vit###02 Aug 2005 content changed
 dateplaner#:#readimportfile#:#vendos###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Përsëritje
 dateplaner#:#rotation_dates#:#Terminet Periodike###02 Aug 2005 content changed
+dateplaner#:#Sa_long#:#e Shtunë
+dateplaner#:#Sa_short#:#Sh
 dateplaner#:#semester_name#:#Emri i Semestrit
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Shk
@@ -3989,17 +3968,28 @@ dateplaner#:#short_12#:#Dhj
 dateplaner#:#shorttext#:#Tekst i Shkurt
 dateplaner#:#singleDate#:#termin i vetëm###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Paraqit terminet prej kohës:
+dateplaner#:#Su_long#:#E Diel
+dateplaner#:#Su_short#:#D
+dateplaner#:#Text#:#Teksti
+dateplaner#:#Th_long#:#e Enjte
+dateplaner#:#Th_short#:#E
 dateplaner#:#timedate#:#Ora / Data
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agjenda e ILIAS-it
 dateplaner#:#to#:#deri
 dateplaner#:#today#:#sot###02 Aug 2005 content changed
+dateplaner#:#Tu_long#:#e Martë
+dateplaner#:#Tu_short#:#M
+dateplaner#:#View#:#Definimi i pamjes:
 dateplaner#:#viewlist#:#aktualizo pamjen###02 Aug 2005 content changed
+dateplaner#:#We_long#:#e Mërkurë
+dateplaner#:#We_short#:#Mk
 dateplaner#:#week#:#java###02 Aug 2005 content changed
+dateplaner#:#Week_long#:#Pamja Javore
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#viti###02 Aug 2005 content changed
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won\'t be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 forum#:#forums#:#Forumet
 forum#:#forums_attachments#:#Shtesat (attachments)
 forum#:#forums_attachments_add#:#Bashkëngjit një shtesë
@@ -4014,8 +4004,8 @@ forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new var
 forum#:#forums_download_attachment#:#Shkarko Skedar
 forum#:#forums_edit_post#:#Edito Artikullin
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor2_post#:#A jeni të sigurt për ta tërhequr censurën?
 forum#:#forums_info_censor_post#:#A jeni të sigurt për ta fshehur këtë artikull?
+forum#:#forums_info_censor2_post#:#A jeni të sigurt për ta tërhequr censurën?
 forum#:#forums_info_delete_post#:#A jeni të sigurt për ta fshirë artikullin dukë përfshirë edhe të gjitha përgjigjet.
 forum#:#forums_mark_read#:#Shënjo të gjitha të lexuara
 forum#:#forums_new_entries#:#Forume të Reja
@@ -4060,8 +4050,8 @@ forum#:#is_read#:#shënjo të lexuar
 forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#Për Kalendarin
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\n Për versionin e fundit shih: http://dynarch.com/misoo/calendar.epl\n Distribuuar nën GNU LGPL. Shih http://gnu.org/licenses/lgpl.html për detaje.\n\n Zgjedhja e datës:\n-Përdor butonat «, » për të zgjedhur vitin\n-Butonat < , > për të zgjedhur muajin\n- Mbaj shtypur butonin e mausit në ndonjërin prej butonave të lartpërmendur për zgjedhje më të shpejt.
-jscalendar#:#about_time#:#\n\nZgjedhja e orës:\n-Klik në ndonjërën prej fushave të orës për ta rritur atë.\n- ose Shift+klik për ta zvogluar.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\n Për versionin e fundit shih: http://dynarch.com/misoo/calendar.epl\\n Distribuuar nën GNU LGPL. Shih http://gnu.org/licenses/lgpl.html për detaje.\\n\\n Zgjedhja e datës:\\n-Përdor butonat «, » për të zgjedhur vitin\\n-Butonat < , > për të zgjedhur muajin\\n- Mbaj shtypur butonin e mausit në ndonjërin prej butonave të lartpërmendur për zgjedhje më të shpejt. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\\n\\nZgjedhja e orës:\\n-Klik në ndonjërën prej fushave të orës për ta rritur atë.\\n- ose Shift+klik për ta zvogluar. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Mbyll
 jscalendar#:#day_first#:#Paraqit %s së pari
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -4241,7 +4231,7 @@ meta#:#meta_c_CC#:#Ishujt Kokos
 meta#:#meta_c_CF#:#Republika Qendrore e Afrikës
 meta#:#meta_c_CG#:#Kongo
 meta#:#meta_c_CH#:#Zvicra
-meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CI#:#Cote D\' Ivoire ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 meta#:#meta_c_CK#:#Cook Islands
 meta#:#meta_c_CL#:#Kili
 meta#:#meta_c_CM#:#Kameruni
@@ -4672,14 +4662,14 @@ meta#:#meta_narrative_text#:#Teksti Tregues
 meta#:#meta_networked#:#Rrjetëzuar
 meta#:#meta_new_element#:#Element i Ri
 meta#:#meta_no#:#Jo
-meta#:#meta_no_annotation#:#Nuk ka metadata për seksionin "Shënim"
-meta#:#meta_no_classification#:#Nuk ka metadata për seksionin "Klasifikimi"
-meta#:#meta_no_educational#:#Nuk ka metadata për seksionin "Edukative"
-meta#:#meta_no_lifecycle#:#Nuk ka metadata për seksionin "Kohëzgjatja"
-meta#:#meta_no_meta_metadata#:#Nuk ka metadata për seksionin "Meta-Metadata"
-meta#:#meta_no_relation#:#Nuk ka metadata për seksionin e "Relacione"
-meta#:#meta_no_rights#:#Nuk ka metadata për seksionin për "Të Drejtat"
-meta#:#meta_no_technical#:#Nuk ka metadata për seksionin "Teknike"
+meta#:#meta_no_annotation#:#Nuk ka metadata për seksionin \"Shënim\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_no_classification#:#Nuk ka metadata për seksionin \"Klasifikimi\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_no_educational#:#Nuk ka metadata për seksionin \"Edukative\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_no_lifecycle#:#Nuk ka metadata për seksionin \"Kohëzgjatja\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_no_meta_metadata#:#Nuk ka metadata për seksionin \"Meta-Metadata\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_no_relation#:#Nuk ka metadata për seksionin e \"Relacione\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_no_rights#:#Nuk ka metadata për seksionin për \"Të Drejtat\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_no_technical#:#Nuk ka metadata për seksionin \"Teknike\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 meta#:#meta_none#:#Asnjë
 meta#:#meta_operating_system#:#Sistemi Operativ
 meta#:#meta_or_composite#:#…ose shkruaj
@@ -4764,12 +4754,12 @@ payment#:#pay_bmf_credit_card_not_valid#:#Të dhënat e Kredit Kartës janë jov
 payment#:#pay_bmf_debit_entry#:#Debit (vetëm për llogarit bankare gjermane)
 payment#:#pay_bmf_debit_entry_data#:#Të Dhënat për Debit
 payment#:#pay_bmf_debit_entry_not_valid#:#Të dhënat për Debit janë jovalide. Ju lutem të kontrolloni nëse të gjitha informatat e dhëna janë korrekte.
-payment#:#pay_bmf_description_credit_card#:#Ju lutem kontrolloni nëse të gjithë artikujt që doni t'i bleni janë në karrocën tuaj të shopingut. Pasi të keni dhënë informatat e kredit kartës suaj dhe të keni klikuar butonin "Ruaj" keni konfirmuar se doni të bleni artikujt, kjo kryhet menjëherë. Kontrolli i të dhënave mund të marrë ca sekonda.
-payment#:#pay_bmf_description_debit_entry#:#Ju lutem kontrolloni nëse të gjithë artikujt që doni t'i bleni janë në karrocën tuaj të shopingut. Pasi të keni dhënë informatat për debit dhe të keni klikuar butonin "Ruaj" keni konfirmuar se doni të bleni artikujt, kjo kryhet menjëherë. Kontrolli i të dhënave mund të marrë ca sekonda.
+payment#:#pay_bmf_description_credit_card#:#Ju lutem kontrolloni nëse të gjithë artikujt që doni t\'i bleni janë në karrocën tuaj të shopingut. Pasi të keni dhënë informatat e kredit kartës suaj dhe të keni klikuar butonin \"Ruaj\" keni konfirmuar se doni të bleni artikujt, kjo kryhet menjëherë. Kontrolli i të dhënave mund të marrë ca sekonda. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_debit_entry#:#Ju lutem kontrolloni nëse të gjithë artikujt që doni t\'i bleni janë në karrocën tuaj të shopingut. Pasi të keni dhënë informatat për debit dhe të keni klikuar butonin \"Ruaj\" keni konfirmuar se doni të bleni artikujt, kjo kryhet menjëherë. Kontrolli i të dhënave mund të marrë ca sekonda. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Ju lutem zgjedhni metodën e pagesës.
-payment#:#pay_bmf_description_personal_data#:#Ju lutem mbusheni komplet formën vijuese 
+payment#:#pay_bmf_description_personal_data#:#Ju lutem mbusheni komplet formën vijuese ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_house_number#:#Numri i Shtëpisë
-payment#:#pay_bmf_info#:#Qasja në materialet vijuese nuk është pa pagesë. Nëse dëshironi qasje në objektin mësimor specifik ju lutem zgjedhni çmimin. Mund të bleni një ose më shumë materiale mësimore duke përdorur butonin "karroca e shopingut" në Desktopin Personal. Do të fitoni qasje të menjëhershme në materialet e zgjedhura.
+payment#:#pay_bmf_info#:#Qasja në materialet vijuese nuk është pa pagesë. Nëse dëshironi qasje në objektin mësimor specifik ju lutem zgjedhni çmimin. Mund të bleni një ose më shumë materiale mësimore duke përdorur butonin \"karroca e shopingut\" në Desktopin Personal. Do të fitoni qasje të menjëhershme në materialet e zgjedhura. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#zgjedhore
 payment#:#pay_bmf_or#:#ose
 payment#:#pay_bmf_password_not_valid#:#Parulla ishte jovalide.
@@ -4815,7 +4805,7 @@ payment#:#pay_message_thanks#:#Ju Falënderojmë për porositjen tuaj përmes IL
 payment#:#pay_no_vendors_created#:#Nuk keni krijuar ende asnjë shitës (kompani shitëse)
 payment#:#pay_not_buyed_any_object#:#Nuk keni blerë asnjë artikull.
 payment#:#pay_order_date_from#:#Porositja fillon me datën
-payment#:#pay_order_date_til#:#Porositja përfundon me datën 
+payment#:#pay_order_date_til#:#Porositja përfundon me datën ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_payed_credit_card#:#Porositja është paguar përmes kredit kartës.
 payment#:#pay_payed_debit_entry#:#Porositja është paguar përmes debit-it.
 payment#:#pay_reset_filter#:#Rikthe në zero filtrin
@@ -4860,7 +4850,7 @@ payment#:#paya_header#:#Administrimi i Pagesave
 payment#:#paya_insert_only_numbers#:#Ju lutem të shënoni vetëm shifra.
 payment#:#paya_locator#:#Administrimi i Pagesave
 payment#:#paya_months#:#Muaj(t)
-payment#:#paya_no_booking_id_given#:#Gabim: nuk është dhënë "id e rezervimit"
+payment#:#paya_no_booking_id_given#:#Gabim: nuk është dhënë \"id e rezervimit\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_no_bookings#:#Nuk ka të dhëna statistikore
 payment#:#paya_no_object_selected#:#Ju lutem zgjedhni një objekt.
 payment#:#paya_no_objects_assigned#:#Nuk ka objekte që shiten.
@@ -4888,9 +4878,9 @@ payment#:#paya_sell_object#:#Objekti për shitje
 payment#:#paya_shopping_cart#:#Karroca e shopingut
 payment#:#paya_statistic#:#Statistika
 payment#:#paya_sure_delete_object#:#A jeni të sigurt për ta ndalur pagesën për këtë objekt? Të gjitha të dhënat ë caktuara për të do të humben.
-payment#:#paya_sure_delete_selected_prices#:#A jeni të sigurt për t'i fshirë çmimet e zgjedhura?
-payment#:#paya_sure_delete_selected_trustees#:#A jeni të sigurt për t'i fshirë trustet e zgjedhura?
-payment#:#paya_sure_delete_stat#:#A jeni të sigurt për t'i fshirë këtë statistikë?
+payment#:#paya_sure_delete_selected_prices#:#A jeni të sigurt për t\'i fshirë çmimet e zgjedhura? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_sure_delete_selected_trustees#:#A jeni të sigurt për t\'i fshirë trustet e zgjedhura? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_sure_delete_stat#:#A jeni të sigurt për t\'i fshirë këtë statistikë? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_transaction#:#Transaksioni
 payment#:#paya_trustee_table#:#Tabela e Trusteve
 payment#:#paya_trustees#:#Garantuesit
@@ -4900,7 +4890,7 @@ payment#:#paya_updated_prices#:#Çmimet janë aktualizuar
 payment#:#paya_updated_trustees#:#Të drejtat janë aktualizuar
 payment#:#paya_user_already_assigned#:#Ky shfrytëzues tashmë është caktuar.
 payment#:#paya_vendor#:#Shitësi
-payment#:#pays_active_bookings#:#Ju lutem t'i fshini së pari rezervimet aktive për shitësit e zgjedhur.
+payment#:#pays_active_bookings#:#Ju lutem t\'i fshini së pari rezervimet aktive për shitësit e zgjedhur. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_add_info#:#Informata shtesë për faturë (zgjedhore)
 payment#:#pays_add_vendor#:#Shto shitës
 payment#:#pays_added_vendor#:#Shitësi i ri u shtua
@@ -4924,13 +4914,13 @@ payment#:#pays_no_username_given#:#Nuk është dhënë asnjë emër identifikues
 payment#:#pays_no_valid_username_given#:#Nuk është dhënë asnjë emër identifikues valid
 payment#:#pays_no_vendor_selected#:#Nuk është zgjedhur asnjë shitës
 payment#:#pays_number_bookings#:#Rezervimet aktive
-payment#:#pays_objects_bill_exist#:#Metoda e pagesës "bill" është aktivizuar për disa objekte. Kështu që ajo nuk mund të deaktivizohet.
-payment#:#pays_objects_bmf_exist#:#Metoda e pagesës "BMF" është aktivizuar për disa objekte. Kështu që ajo nuk mund të deaktivizohet.
+payment#:#pays_objects_bill_exist#:#Metoda e pagesës \"bill\" është aktivizuar për disa objekte. Kështu që ajo nuk mund të deaktivizohet. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bmf_exist#:#Metoda e pagesës \"BMF\" është aktivizuar për disa objekte. Kështu që ajo nuk mund të deaktivizohet. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Metodat e pagesës
 payment#:#pays_pdf_path#:#Shtegu për krijimin e llogarive si PDF skedar
-payment#:#pays_sure_delete_selected_vendors#:#A jeni të sigurt për t'i fshirë shitësit e zgjedhur
+payment#:#pays_sure_delete_selected_vendors#:#A jeni të sigurt për t\'i fshirë shitësit e zgjedhur ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_too_many_vendors_selected#:#Ju lutem zgjedhni vetëm një klient për këtë veprim.
 payment#:#pays_updated_general_settings#:#Parametrat tuaj gjeneral janë aktualizuar.
 payment#:#pays_updated_pay_method#:#Metoda e pagesës është ndërruar.
@@ -4941,20 +4931,20 @@ payment#:#price_a#:#Çmimi
 payment#:#prices#:#Çmimet
 payment#:#update#:#Aktualizo
 pwassist#:#password_assistance#:#Ndihma për parullë
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
-pwassist#:#pwassist_enter_username_and_email#:#Jepni emrin identifikues dhe e-mail adresën përkatëse në fushat e mëposhtme.\n ILIAS do të ju dërgon një porosi në atë e-mail. Porosia do të përmbaj një adresë të faqes ku mund të jepni parullën e re për llogarinë tuaj.\nNë rast se keni probleme gjatë caktimit të parullës së re, kontaktoni administratorin e kursit ose dërgoni e-mail në %1$s.
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Jepni emrin identifikues dhe e-mail adresën përkatëse në fushat e mëposhtme.\\n ILIAS do të ju dërgon një porosi në atë e-mail. Porosia do të përmbaj një adresë të faqes ku mund të jepni parullën e re për llogarinë tuaj.\\nNë rast se keni probleme gjatë caktimit të parullës së re, kontaktoni administratorin e kursit ose dërgoni e-mail në %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Jepni emrin identifikues dhe parullën e re më poshtë.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
-pwassist#:#pwassist_invalid_username_or_email#:#Ju lutem korrigjoni tekstin.\nEmri identifikues dhe e-mail adresa që keni dhënë nuk përkasin me ndonjërën në databazë.
-pwassist#:#pwassist_login_not_match#:#Ju lutem zgjedhni emër identifikues tjetër.\nEmri identifikues që keni dhënë tash nuk është i njëjtë me atë të cilin e keni dhënë kur keni kërkuar ndihmë për parullë.
-pwassist#:#pwassist_mail_body#:#Regjistroni parullë të re për llogarinë tuaj shfrytëzuese:\n\t%1$s\n\nKjo porosi është gjeneruar automatikisht nga serveri i ILIAS-it\n\t%2$s\n\nJu (ose dikush në %3$s) ka kërkuar ndihmë për parullë për llogarinë shfrytëzuese \%4$s.\n\nJu lutem shikoni me kujdes kushtet e më poshtme dhe veproni në përputhje sipas rrethanave:\n\n- Nëse keni përdorur ndihmën për parullë në serverin e ILIAS aksidentalisht:\nFshini këtë e-mail.\n\n- Nëse jeni të sigurt se kurrë nuk keni përdorur ndihmën për parullë në ILIAS server:\n Ju lutem kontaktoni %5$s.\n\n- Nëse keni kërkuar nihmën për parullë, ju lutem veproni si më vijim:\n\n1. Aktivizoni Brouserin(shfletuesin e faqeve).\n\n2.Shënoni adresën vijuese në brouser:\n\t%1$s\n\nMe rëndësi: Adresa është në një vij të vetme të pandarë. Nëse kjo adresë është e ndarë në disa pjesë, atëherë programi juaj për e-mail ka këto vendosur vija të ndarjes.\n\n3. Në web faqen e hapur me brouserin tuaj, jepni parullë të re për llogarin tuaj shfrytëzuese.\n\nJu lutem vëni re se, për shkaqe sigurie, mund të kaloni nëpër këto tre hapa saktësisht vetëm një herë dhe për afat kohe të kufizuar. Mëpas adresa shëndrrohet në jovalide, dhe ju duhet të përdorni përsëri ndihmën për parullë.
-pwassist#:#pwassist_mail_sent#:#Një porosi është dërguar tek %1$s.\n Ju lutem kontrolloni kutinë postare.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\\nThe given email address could not be found in the database.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Ju lutem korrigjoni tekstin.\\nEmri identifikues dhe e-mail adresa që keni dhënë nuk përkasin me ndonjërën në databazë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Ju lutem zgjedhni emër identifikues tjetër.\\nEmri identifikues që keni dhënë tash nuk është i njëjtë me atë të cilin e keni dhënë kur keni kërkuar ndihmë për parullë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#Regjistroni parullë të re për llogarinë tuaj shfrytëzuese:\\n\\t%1$s\\n\\nKjo porosi është gjeneruar automatikisht nga serveri i ILIAS-it\\n\\t%2$s\\n\\nJu (ose dikush në %3$s) ka kërkuar ndihmë për parullë për llogarinë shfrytëzuese \\%4$s.\\n\\nJu lutem shikoni me kujdes kushtet e më poshtme dhe veproni në përputhje sipas rrethanave:\\n\\n- Nëse keni përdorur ndihmën për parullë në serverin e ILIAS aksidentalisht:\\nFshini këtë e-mail.\\n\\n- Nëse jeni të sigurt se kurrë nuk keni përdorur ndihmën për parullë në ILIAS server:\\n Ju lutem kontaktoni %5$s.\\n\\n- Nëse keni kërkuar nihmën për parullë, ju lutem veproni si më vijim:\\n\\n1. Aktivizoni Brouserin(shfletuesin e faqeve).\\n\\n2.Shënoni adresën vijuese në brouser:\\n\\t%1$s\\n\\nMe rëndësi: Adresa është në një vij të vetme të pandarë. Nëse kjo adresë është e ndarë në disa pjesë, atëherë programi juaj për e-mail ka këto vendosur vija të ndarjes.\\n\\n3. Në web faqen e hapur me brouserin tuaj, jepni parullë të re për llogarin tuaj shfrytëzuese.\\n\\nJu lutem vëni re se, për shkaqe sigurie, mund të kaloni nëpër këto tre hapa saktësisht vetëm një herë dhe për afat kohe të kufizuar. Mëpas adresa shëndrrohet në jovalide, dhe ju duhet të përdorni përsëri ndihmën për parullë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#Një porosi është dërguar tek %1$s.\\n Ju lutem kontrolloni kutinë postare. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#Ndihma për Parullë e ILIAS
-pwassist#:#pwassist_not_permitted#:#Ju lutem zgjedhni emër identifikues tjetër.\nNdihma për parullë nuk është e mundur për emrin identifikues që keni dhënë.
-pwassist#:#pwassist_password_assigned#:#Parulla është vendosur më sukses për shfrytëzuesin "%1$s"
-pwassist#:#pwassist_session_expired#:#Ju lutem kompletoni formën përsëri.\n Sesioni juaj për ndihmë për parullë ka skaduar. Kjo ka mund të ndodhë, për arsye se keni shfrytëzuar web adresën që ju është dërguar më e-mail më shumë se një herë, ose për arsye se ka kaluar shumë kohë që nga koha kur keni pranuar adresën përmes e-mailit.
-pwassist#:#pwassist_update_error#:#Ju lutem të kontaktoni administratorin e sistemit.\n Parulla nuk mund të vendoset në llogarinë shfrytëzuese për shkak të ndonjë gabimi gjatë aktualizimit të databazës
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
+pwassist#:#pwassist_not_permitted#:#Ju lutem zgjedhni emër identifikues tjetër.\\nNdihma për parullë nuk është e mundur për emrin identifikues që keni dhënë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#Parulla është vendosur më sukses për shfrytëzuesin \"%1$s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Ju lutem kompletoni formën përsëri.\\n Sesioni juaj për ndihmë për parullë ka skaduar. Kjo ka mund të ndodhë, për arsye se keni shfrytëzuar web adresën që ju është dërguar më e-mail më shumë se një herë, ose për arsye se ka kaluar shumë kohë që nga koha kur keni pranuar adresën përmes e-mailit. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Ju lutem të kontaktoni administratorin e sistemit.\\n Parulla nuk mund të vendoset në llogarinë shfrytëzuese për shkak të ndonjë gabimi gjatë aktualizimit të databazës ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address \'%s\'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -5046,10 +5036,10 @@ search#:#search_search_term#:#Kërko për termin
 search#:#search_select_exactly_one_object#:#Duhet të zgjedhni saktësisht një objekt.
 search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.###20 Jun 2005 new variable
 search#:#search_select_one#:#Zgjedh një direktorium
-search#:#search_select_one_action#:# -- Zgjedh një veprim -- 
-search#:#search_select_one_folder_select#:# -- Zgjedh një direktorium -- 
+search#:#search_select_one_action#:# -- Zgjedh një veprim -- ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+search#:#search_select_one_folder_select#:# -- Zgjedh një direktorium -- ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 search#:#search_select_one_result#:#Zgjedh së paku një rezultat kërkimi
-search#:#search_select_one_select#:# -- Zgjedh një direktorium -- 
+search#:#search_select_one_select#:# -- Zgjedh një direktorium -- ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 search#:#search_show_result#:#Shih
 search#:#search_tst_svy#:#Tests/Surveys###20 Jun 2005 new variable
 search#:#search_type#:#Search type###20 Jun 2005 new variable
@@ -5057,13 +5047,13 @@ search#:#search_user#:#Shfrytëzues
 search#:#until#:#up to###20 Jun 2005 new variable
 survey#:#add_category#:#Shto Kategori###03 Nov 2005 content changed
 survey#:#add_heading#:#Shto titull
-survey#:#add_limits_for_standard_numbers#:#Ju lutem jepni limitin e poshtëm dhe të epërm të numrave standard që doni t'i shtoni si kategori.###03 Nov 2005 content changed
+survey#:#add_limits_for_standard_numbers#:#Ju lutem jepni limitin e poshtëm dhe të epërm të numrave standard që doni t\'i shtoni si kategori.###03 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#add_phrase#:#Shto frazë
 survey#:#add_phrase_introduction#:#Ju lutem zgjedhni një frazë:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#Tanimë keni kompletuar kuestionerin! Nuk mund të filloni këtë kuestioner përsëri.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Ky kuestioner anonimizon të gjithë të dhënat e shfrytëzuesve. Për të pasur qasje në kuestioner, duhet të përdorni kodin 32-karakteresh që merret nga krijuesi/mbajtësi i kuestionerit<br/> Ju lutem shënoni atë në fushën për tekst me poshtë.
-survey#:#anonymize_key_introduction#:#Ky kuestioner anonimizon të gjithë të dhënat e shfrytëzuesve. Për të pasur qasje në kuestioner, një kod 32-karakteresh do tu dërgohet në inbox-in tuaj të e-mailave kur të filloni kuestionerin (pas përgjigjes së pyetjes së parë). Kodi juaj për qasje në kuestioner është<br/><span class="bold">%s<span/>.<br/>Ju lutem shënoni atë në fushën për tekst më poshtë.
+survey#:#anonymize_key_introduction#:#Ky kuestioner anonimizon të gjithë të dhënat e shfrytëzuesve. Për të pasur qasje në kuestioner, një kod 32-karakteresh do tu dërgohet në inbox-in tuaj të e-mailave kur të filloni kuestionerin (pas përgjigjes së pyetjes së parë). Kodi juaj për qasje në kuestioner është<br/><span class=\"bold\">%s<span/>.<br/>Ju lutem shënoni atë në fushën për tekst më poshtë. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Ju lutem shënoni kodin për qasje në kuestioner për të vazhduar. Kodi ju është dërguar në e-mail inbox kur keni filluar kuestionerin.
 survey#:#anonymize_survey#:#Anonimizo të dhënat për kuestioner
 survey#:#anonymize_survey_explanation#:#Nëse aktivizohet, të gjithë të dhënat e shfrytëzuesve do të anonimizohen dhe nuk mund të gjurmohen.
@@ -5083,7 +5073,7 @@ survey#:#cannot_export_survey#:#Nuk keni të drejta të mjaftueshme për të eks
 survey#:#cannot_maintain_survey#:#Nuk keni të drejta të mjaftueshme për ta mirëmbajtur kuestionerin!
 survey#:#cannot_manage_phrases#:#Nuk keni të drejta të mjaftueshme për të menaxhuar frazat!
 survey#:#cannot_participate_survey#:#Nuk keni të drejta të mjaftueshme për të participuar ne kuestioner!
-survey#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për t'i lexuar fond-pyetjet!###09 Aug 2005 content changed
+survey#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për t\'i lexuar fond-pyetjet!###09 Aug 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#cannot_read_survey#:#Nuk keni të drejta të mjaftueshme për të lexuar të dhënat e kuestionerit!
 survey#:#cannot_save_metaobject#:#Nuk keni të drejta të mjaftueshme për të vendosur metadata!
 survey#:#cannot_switch_to_online_no_questions#:#Statusi nuk mund të ndërrohet në &quot;online&quot; sepse nuk ka asnjë pyetje në test!###04 Nov 2005 content changed
@@ -5097,7 +5087,7 @@ survey#:#check_category_to_save_phrase#:#Duhet të zgjedhni së paku një katego
 survey#:#codes#:#Kodet për qasje
 survey#:#combobox#:#Meny Zgjedhëse
 survey#:#concatenation#:#Kombinimi
-survey#:#confirm_delete_all_user_data#:#A jeni të sigurt për t'i fshirë të gjitha të dhënat e shfrytëzuesve ne këtë kuestioner?
+survey#:#confirm_delete_all_user_data#:#A jeni të sigurt për t\'i fshirë të gjitha të dhënat e shfrytëzuesve ne këtë kuestioner? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#confirm_remove_heading#:#A jeni të sigurt që doni ta largoni titullin?
 survey#:#confirm_sync_questions#:#Pyetjen që sapo ndërruat është kopje që është krijuar të përdoret me kuestionerin aktiv. A doni të ndërroni edhe pyetjen origjinale?
 survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
@@ -5151,32 +5141,32 @@ survey#:#define_questionblock#:#Defino grup pyetjesh
 survey#:#description_maxchars#:#Nëse nuk shënohet asgjë, numri maksimal i karaktereve për këtë tekst të përgjigjes do të jetë i pakufizuar.
 survey#:#disinvite#:#Anulo ftesën###03 Nov 2005 content changed
 survey#:#display_all_available#:#Paraqit të gjitha
-survey#:#dp_standard_attitude_agree5#:#Qëndrim Standard (plotësisht dakord-dakord-pavendosur-jodakord-plotësisht jodakord)
 survey#:#dp_standard_attitude_agree_disagree#:#Qëndrim Standard (dakord-jodakord)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Qëndrim Standard (dakord-pavendosur -jodakord)
-survey#:#dp_standard_attitude_desired5#:#Qëndrim Standard (plotësisht dëshirohet-dëshirohet-neutral-nuk dëshirohet-plotësisht nuk dëshirohet)
+survey#:#dp_standard_attitude_agree5#:#Qëndrim Standard (plotësisht dakord-dakord-pavendosur-jodakord-plotësisht jodakord)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Qëndrim Standard (dëshirohet-neutral-nuk dëshirohet)
 survey#:#dp_standard_attitude_desired_undesired#:#Qëndrim Standard (dëshirohet-nuk dëshirohet)
-survey#:#dp_standard_attitude_good5#:#Qëndrim Standard (shumë mirë-mirë-drejt-dobët-e papranueshme)
+survey#:#dp_standard_attitude_desired5#:#Qëndrim Standard (plotësisht dëshirohet-dëshirohet-neutral-nuk dëshirohet-plotësisht nuk dëshirohet)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Qëndrim Standard (mirë-drejt-e papranueshme)
 survey#:#dp_standard_attitude_good_notacceptable#:#Qëndrim Standard (mirë-pamjaftueshëm)
+survey#:#dp_standard_attitude_good5#:#Qëndrim Standard (shumë mirë-mirë-drejt-dobët-e papranueshme)
 survey#:#dp_standard_attitude_must5#:#Qëndrim Standard (duhet patjetër-i/e pavendosur-duhet-nuk duhet-patjetër nuk duhet)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Qëndrim Standard (duhet-nuk duhet)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Qëndrim Standard (duhet-i/e pavendosur-nuk duhet)
 survey#:#dp_standard_behaviour_certainly5#:#Sjellje Standarde (plotësisht sigurt-më shumë pozitiv-i/e pavendosur-më shumë negativ- plotësisht pasigurt)
 survey#:#dp_standard_behaviour_yes_no#:#Sjellje Standarde (po-jo)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Sjellje Standarde (po-i/e pavendosur-jo)
-survey#:#dp_standard_beliefs_always5#:#Mendim Standard (gjithnjë-shumë herë-ndryshon-rrallë-kurrë)
 survey#:#dp_standard_beliefs_always_never#:#Mendim Standard (gjithnjë-kurrë)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Mendim Standard (gjithnjë-disa herë-kurrë)
-survey#:#dp_standard_beliefs_true5#:#Mendim Standard (plotësisht e saktë-saktë-i/e pavendosur-pasaktë-plotësisht e pasaktë)
+survey#:#dp_standard_beliefs_always5#:#Mendim Standard (gjithnjë-shumë herë-ndryshon-rrallë-kurrë)
 survey#:#dp_standard_beliefs_true_false#:#Mendim Standard (saktë-pasaktë)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Mendim Standard (saktë-i/e pavendosur-pasaktë)
+survey#:#dp_standard_beliefs_true5#:#Mendim Standard (plotësisht e saktë-saktë-i/e pavendosur-pasaktë-plotësisht e pasaktë)
 survey#:#dp_standard_numbers#:#Numrat Standard
 survey#:#duplicate#:#Dubliko
 survey#:#duplicate_svy#:#Dubliko kuestionerin
 survey#:#edit_ask_continue#:#A doni të vazhdoni dhe të modifikoni pyetjen?
-survey#:#edit_constraints_introduction#:#Keni zgjedhur pyetjen(et)/grupin(et) e pyetjeve  t'i edituar "detyrimet".###03 Nov 2005 content changed
+survey#:#edit_constraints_introduction#:#Keni zgjedhur pyetjen(et)/grupin(et) e pyetjeve  t\'i edituar \"detyrimet\".###03 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#edit_heading#:#Edito titullin
 survey#:#end_date#:#Data e përfundimit
 survey#:#end_date_reached#:#Nuk mund të filloni kuestionerin. Data e përfundimit ka arritur!
@@ -5256,10 +5246,10 @@ survey#:#multiple_choice_multiple_response#:#Zgjedhje të shumëfishtë (përgji
 survey#:#multiple_choice_single_response#:#Zgjedhje të shumëfishtë (një përgjigje)
 survey#:#new_survey_codes#:#Kod(e) të reja për qasje në kuestioner
 survey#:#next_question_rows#:#Pyetjet %d - %d nga %d >>
-survey#:#no_available_constraints#:#Nuk është definuar asnjë "detyrim"!###03 Nov 2005 content changed
+survey#:#no_available_constraints#:#Nuk është definuar asnjë \"detyrim\"!###03 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#no_category_selected_for_deleting#:#Ju lutem zgjedhni së paku një kategori për ta fshirë!###03 Nov 2005 content changed
 survey#:#no_category_selected_for_move#:#Ju lutem zgjedhni se paku një kategori për ta zhvendosur!###03 Nov 2005 content changed
-survey#:#no_constraints_checked#:#Ju lutem zgjedhni së paku një pyetje ose një grup pyetjesh për të edituar "detyrimet"!###03 Nov 2005 content changed
+survey#:#no_constraints_checked#:#Ju lutem zgjedhni së paku një pyetje ose një grup pyetjesh për të edituar \"detyrimet\"!###03 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#no_question_selected_for_move#:#Ju lutem zgjedhni së paku një pyetje për ta zhvendosur!
 survey#:#no_question_selected_for_removal#:#Ju lutem zgjedhni së paku një pyetje ose një grup pyetjesh për të fshirë!
 survey#:#no_questionblocks_available#:#Nuk ka asnjë grup të pyetjeve
@@ -5286,8 +5276,8 @@ survey#:#phrase_saved#:#Fraza është ruajtur me sukses!
 survey#:#predefined_users#:#Shfrytëzuesit e paradefinuar
 survey#:#preview#:#Pamja
 survey#:#previous_question_rows#:#<< Pyetjet %d - %d nga %d
-survey#:#qpl_confirm_delete_phrases#:#A jeni të sigurt për t'i fshirë frazat në vijim?
-survey#:#qpl_confirm_delete_questions#:#A jeni të sigurt për t'i fshirë pyetjet në vijim?
+survey#:#qpl_confirm_delete_phrases#:#A jeni të sigurt për t\'i fshirë frazat në vijim? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#qpl_confirm_delete_questions#:#A jeni të sigurt për t\'i fshirë pyetjet në vijim? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#qpl_copy_select_none#:#Ju lutem zgjedh së paku një pyetje për ta kopjuar!
 survey#:#qpl_define_questionblock_select_missing#:#Ju lutem zgjedh së paku dy pyetje nëse dëshiron të definosh grup pyetjesh!
 survey#:#qpl_delete_phrase_select_none#:#Ju lutem zgjedh së paku një frazë për ta fshirë
@@ -5323,18 +5313,18 @@ survey#:#questiontype#:#Tipi i pyetjes
 survey#:#ratio_absolute#:#Përpjesëtim-Absolut
 survey#:#ratio_non_absolute#:#Përpjesëtim-Jo-Absolut
 survey#:#remove_question#:#Largo
-survey#:#remove_questions#:#A jeni të sigurt për t'i larguar pyetjet dhe/ose grupet e pyetjeve ne vijim?###04 Nov 2005 content changed
+survey#:#remove_questions#:#A jeni të sigurt për t\'i larguar pyetjet dhe/ose grupet e pyetjeve ne vijim?###04 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#reset_filter#:#Rikthe në zero filtrin
 survey#:#resume_survey#:#Vazhdo kuestionerin
 survey#:#save_back_to_survey#:#Save and go back to the survey###03 Nov 2005 new variable
 survey#:#save_obligatory_state#:#Ruaj gjendjen e pyetjeve obligative
 survey#:#save_phrase#:#Ruaj si frazë
-survey#:#save_phrase_categories_not_checked#:#Ju lutem zgjedhni së paku dy kategori për  t'i ruajtur këto kategori si frazë!###03 Nov 2005 content changed
-survey#:#save_phrase_introduction#:#Nëse dëshironi t'i ruani kategoritë e më poshtme si frazë, duhet të shënoni titullin e frazës. Mund të qaseni në këtë frazë të paradefinuar kurdo që ju nevojitet të shtoni atë në pyetje ordinere.###03 Nov 2005 content changed
+survey#:#save_phrase_categories_not_checked#:#Ju lutem zgjedhni së paku dy kategori për  t\'i ruajtur këto kategori si frazë!###03 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#save_phrase_introduction#:#Nëse dëshironi t\'i ruani kategoritë e më poshtme si frazë, duhet të shënoni titullin e frazës. Mund të qaseni në këtë frazë të paradefinuar kurdo që ju nevojitet të shtoni atë në pyetje ordinere.###03 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#search_field_all#:#Kërko në të gjitha fushat
 survey#:#search_for#:#Kërko për
 survey#:#search_groups#:#Grupe###23 Dec 2005 content changed
-survey#:#search_invitation#:#Kërko për shfrytëzues ose grupe për t'i ftuar
+survey#:#search_invitation#:#Kërko për shfrytëzues ose grupe për t\'i ftuar ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#search_questions#:#Kërko pyetje
 survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Kërko termin
@@ -5360,7 +5350,7 @@ survey#:#spl_select_file_for_import#:#Duhet të zgjedhni një skedar për ta imp
 survey#:#start_date#:#Data e fillimit
 survey#:#start_date_not_reached#:#Nuk mund të filloni kuestionerin përderisa nuk është arritur data e fillimit!
 survey#:#start_survey#:#Fillo Kuestionerin
-survey#:#subject_mail_survey_id#:#Kodi juaj për kuestioner për "%s"
+survey#:#subject_mail_survey_id#:#Kodi juaj për kuestioner për \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#subtype#:#NënTip
 survey#:#survey_code#:#Kodi për qasje në kuestioner
 survey#:#survey_code_message_sent#:#Kodi për qasje në kuestioner u është dërguar në INBOX!
@@ -5375,7 +5365,7 @@ survey#:#survey_next#:#vazhdo >>
 survey#:#survey_offline_message#:#Nuk mund të ftohen shfrytëzues. Kuestioneri është offline!
 survey#:#survey_online_warning#:#Kuestioneri është online. Nuk mund të modifikoni pyetjet!
 survey#:#survey_previous#:#<<prapa
-survey#:#survey_question_obligatory#:#(Kjo pyetje eshte e obligueshme. Ju duhet t'i pergjigjeni pyetjes)
+survey#:#survey_question_obligatory#:#(Kjo pyetje eshte e obligueshme. Ju duhet t\'i pergjigjeni pyetjes) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Pyetjet
 survey#:#survey_skip_finish#:#anashkalo dhe përfundo kuestionerin
@@ -5397,10 +5387,10 @@ survey#:#svy_file#:#Skedari
 survey#:#svy_missing_author#:#Nuk e keni dhënë emrin e autorit në kuestioner! Ju lutem jepni një emër të autorit.
 survey#:#svy_missing_questions#:#Nuk keni asnjë pyetje në këtë kuestioner! Ju lutem shtoni së paku një pyetje.
 survey#:#svy_missing_title#:#Nuk keni specifikuar titullin e kuestionerit! Ju lutem të shkoni në sesionin metadata dhe të shënoni titullin.
-survey#:#svy_page_error#:#Kishte një gabim gjatë përgjigjes së pyetjes. Ju lutem t'i referoheni pyetjes për të marrë më shumë informacion për gabimin!
+survey#:#svy_page_error#:#Kishte një gabim gjatë përgjigjes së pyetjes. Ju lutem t\'i referoheni pyetjes për të marrë më shumë informacion për gabimin! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#svy_page_errors#:#Kishte gabime gjatë përgjigjes së pyetjeve. Ju lutem të i referoheni pyetjeve për të marrë më shumë informacion për gabimet!
 survey#:#svy_select_file_for_import#:#Duhet të zgjedhni ndonjë skedar për ta importuar!
-survey#:#svy_select_questionpools#:#Ju lutem zgjedhni një fond pyetjesh për t'i ruajtur pyetjet e importuara
+survey#:#svy_select_questionpools#:#Ju lutem zgjedhni një fond pyetjesh për t\'i ruajtur pyetjet e importuara ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#svy_select_surveys#:#Ju lutem zgjedh një kuestioner për ta dublikuar
 survey#:#svy_show_questiontitles#:#Shih titujt e pyetjeve në kuestioner
 survey#:#svy_size#:#Madhësia
@@ -5410,7 +5400,7 @@ survey#:#svy_status_missing_elements#:#Elementet vijuese mungojnë:
 survey#:#svy_status_ok#:#Statusi i kuestionerit është OK. Nuk ka elemente që mungojnë.
 survey#:#text_maximum_chars_allowed#:#Ju lutem të mos shënoni më shumë se %s karaktere. Çdo karaktere shtesë do të fshihet.
 survey#:#text_question_not_filled_out#:#Ju lutem shkruani në fushën e përgjigjes!
-survey#:#text_resume_survey#:#Jeni duke vazhduar një kuestioner të anonimizuar. Për të vazhduar me vlerat e dhëna më parë duhet të shënoni kodin 32-karakteresh të cilin e keni pranuar kur e keni filluar kuestionerin (kodi ju është dërguar në direktoriumin e e-mailave ILIAS). 
+survey#:#text_resume_survey#:#Jeni duke vazhduar një kuestioner të anonimizuar. Për të vazhduar me vlerat e dhëna më parë duhet të shënoni kodin 32-karakteresh të cilin e keni pranuar kur e keni filluar kuestionerin (kodi ju është dërguar në direktoriumin e e-mailave ILIAS). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#title_resume_survey#:#Vazhdoni kuestionerin - Shënoni kodin
 survey#:#unfold#:#Ndaj nga blloku
 survey#:#unlimited_users#:#Pakufizim
@@ -5423,9 +5413,9 @@ survey#:#users_skipped#:#Shfrytëzuesit anashkaluan
 survey#:#value_nr_entered#:#Numri i shfrytëzuesve që kanë dhënë këtë vlerë
 survey#:#values#:#Vlerat
 survey#:#vertical#:#vertikal
-survey#:#view_constraints_introduction#:#Jeni duke parë "detyrimet" e pyetjeve/grupeve të pyetjeve në vijim:###03 Nov 2005 content changed
+survey#:#view_constraints_introduction#:#Jeni duke parë \"detyrimet\" e pyetjeve/grupeve të pyetjeve në vijim:###03 Nov 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#view_phrase#:#Shih frazën
-survey#:#warning_question_in_use#:#Kujdes! Pyetjen që po editoni është në përdorim nga kuestionerët vijues. Nëse vazhdoni dhe e ruani pyetjen, të gjitha përgjigjet e kuestionerëve të më poshtëm do të fshihen. Nëse dëshironi ta ndërroni pyetjen dhe ta përdorni atë në kuestioner tjetër, atëherë zgjedhni "Dubliko" në shfletuesin e pyetjes për të krijuar kopje tjetër të kësaj pyetje.
+survey#:#warning_question_in_use#:#Kujdes! Pyetjen që po editoni është në përdorim nga kuestionerët vijues. Nëse vazhdoni dhe e ruani pyetjen, të gjitha përgjigjet e kuestionerëve të më poshtëm do të fshihen. Nëse dëshironi ta ndërroni pyetjen dhe ta përdorni atë në kuestioner tjetër, atëherë zgjedhni \"Dubliko\" në shfletuesin e pyetjes për të krijuar kopje tjetër të kësaj pyetje. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#warning_question_not_complete#:#Pyetja nuk është kompletuar!
 trac#:#info_valid_request#:#The maximum valid time between two requests of an user.###23 Dec 2005 new variable
 trac#:#last_login#:#Last login###23 Dec 2005 new variable
@@ -5540,7 +5530,7 @@ trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new varia
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is \'Completed\' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
@@ -5553,7 +5543,7 @@ trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
-trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable
+trac#:#trac_info_edited#:#Set the status to \'Completed\' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
@@ -5591,7 +5581,7 @@ trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
-trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_sahs_relevant_items#:#SCO\'s###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
 trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable

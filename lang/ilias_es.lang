@@ -54,7 +54,7 @@ administration#:#found#:#Encontrado
 administration#:#found_none#:#Ninguno encontrado
 administration#:#initializing_gaps#:#Inicializando huecos en el árbol...
 administration#:#log_scan#:#resultados del Log de Exploración
-administration#:#log_scan_desc#:#Escribir resultados de la exploración a 'scanlog.log' en el directorio de datos cliente
+administration#:#log_scan_desc#:#Escribir resultados de la exploración a \'scanlog.log\' en el directorio de datos cliente ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#nothing_to_purge#:#Nada que eliminar...
 administration#:#nothing_to_remove#:#Nada que eliminar...
 administration#:#nothing_to_restore#:#Nada que restaurar...
@@ -79,7 +79,7 @@ administration#:#restore_trash#:#Restaurar objetos eliminados
 administration#:#restore_trash_desc#:#Restaurar todos los objetos en la papelera a la Carpeta de Recuperación
 administration#:#restoring#:#Restaurando...
 administration#:#restoring_missing_objs#:#Restaurando objetos desaparecidos...
-administration#:#restoring_trash#:#Restaurando la papelera 'trash'....
+administration#:#restoring_trash#:#Restaurando la papelera \'trash\'.... ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#restoring_unbound_objs#:#Restaurando objetos y subobjetos sobredimensionados ...
 administration#:#scan#:#Escanear
 administration#:#scan_completed#:#Exploracion completada
@@ -150,7 +150,7 @@ assessment#:#circle#:#Circulo
 assessment#:#circle_click_center#:#Por favor haga click en el centro del area deseada.
 assessment#:#circle_click_circle#:#Por favor haga click en un punto del círculo del area deseada.
 assessment#:#clientip#:#IP Cliente
-assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco.
+assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón \'Crear huecos\' para añadir un formulario editable para cada hueco. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Texto relleno
 assessment#:#cloze_textgap_case_insensitive#:#No sensible a mayúscula
 assessment#:#cloze_textgap_case_sensitive#:#Sensible a mayúscula
@@ -160,7 +160,7 @@ assessment#:#code#:#Código
 assessment#:#concatenation#:#Concatenación
 assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?
 assessment#:#confirm_delete_single_user_data#:#¿Está seguro de que desea eliminar los datos de test de los usuarios seleccionados?
-assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también? 
+assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#coordinates#:#Coordenadas
 assessment#:#correct_solution_is#:#La solución correcta es
 assessment#:#counter#:#Contador
@@ -198,12 +198,12 @@ assessment#:#ects_grade_f_short#:#SUSPENSO
 assessment#:#ects_grade_fx#:#requiere algo más de trabajo para conseguir el reconocimiento(credit)
 assessment#:#ects_grade_fx_short#:#SUSPENSO
 assessment#:#ects_output_of_ects_grades#:#Informe de notas ECTS
-assessment#:#ects_range_error_a#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'A'!
-assessment#:#ects_range_error_b#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'B'!
-assessment#:#ects_range_error_c#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'C'!
-assessment#:#ects_range_error_d#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'D'!
-assessment#:#ects_range_error_e#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'E'!
-assessment#:#ects_use_fx_grade#:#Use la nota 'FX', si los participantes alcanzaron al menos
+assessment#:#ects_range_error_a#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'A\'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_b#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'B\'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_c#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'C\'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_d#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'D\'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_e#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'E\'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Use la nota \'FX\', si los participantes alcanzaron al menos ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#ects_use_fx_grade_part2#:#por ciento de los puntos totales.
 assessment#:#edit_content#:#Editar contenido
 assessment#:#edit_properties#:#Editar propiedades
@@ -234,8 +234,8 @@ assessment#:#eval_search_users#:#Usuarios
 assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir a la evaluación estadística
 assessment#:#eval_selected_users#:#Evaluación de usuarios seleccionados
 assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.
-assessment#:#exp_type_excel#:#  Excel  
-assessment#:#exp_type_spss#:#  SPSS  
+assessment#:#exp_type_excel#:#  Excel ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#exp_type_spss#:#  SPSS ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#export#:#Exportar
 assessment#:#failed_official#:#no superado
 assessment#:#failed_short#:#no superado
@@ -300,7 +300,7 @@ assessment#:#meaning#:#Significado
 assessment#:#min_percentage_ne_0#:#¡Debe definir un porcentaje mínimo de 0 por ciento! El esquema de calificación no fue grabado.
 assessment#:#negative_points_not_allowed#:#¡No está permitido introducir puntos negativos!
 assessment#:#next_question_rows#:#Preguntas %d - %d de %d >>
-assessment#:#no_passed_mark#:#¡Debe configurar al menos una calificación a "SUPERADO"! El esquema de calificación no se grabó.
+assessment#:#no_passed_mark#:#¡Debe configurar al menos una calificación a \"SUPERADO\"! El esquema de calificación no se grabó. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#no_question_selected_for_move#:#Por favor marque al menos una pregunta para moverla!
 assessment#:#no_questions_available#:#No hay preguntas disponibles!
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
@@ -336,9 +336,9 @@ assessment#:#qpl_assessment_total_of_right_answers#:#Porcentaje total de respues
 assessment#:#qpl_confirm_delete_questions#:#Está seguro de que quiere borrar la(s) siguiente(s) pregunta(s)? Si elimina preguntas bloqueadas los resultados de todos los tests que contengan una pregunta bloqueada serán borrados también.
 assessment#:#qpl_copy_insert_clipboard#:#La pregunta(s) seleccionada(s) son copiadas al portapapeles
 assessment#:#qpl_copy_select_none#:#Por favor marque al menos una pregunta para copiar al portapapeles
-assessment#:#qpl_delete_rbac_error#:#No tiene permisos para borrar esta pregunta!
 assessment#:#qpl_delete_describe_undeleteable_questions#:#Las siguientes preguntas estan en uso en tests aleatorios. No puede eliminar estas preguntas:
 assessment#:#qpl_delete_no_deleteable_questions#:#Todas las preguntas que intenta eliminar estan en uso en un test aleatorioassessment#:#qpl_delete_rbac_error#:#No tiene permisos para borrar esta pregunta!
+assessment#:#qpl_delete_rbac_error#:#No tiene permisos para borrar esta pregunta!
 assessment#:#qpl_delete_select_none#:#Por favor marque al menos una pregunta para eliminarla.
 assessment#:#qpl_display_fullsize_image#:#Haga Click aqui para mostrar la imagen original!
 assessment#:#qpl_duplicate_select_none#:#Por favor marque al menos una pregunta para duplicarla
@@ -361,15 +361,15 @@ assessment#:#qpl_paste_success#:#La(s) pregunta(s) han sido pegadas en el banco 
 assessment#:#qpl_question_is_in_use#:#La pregunta que va a editar existe en el/los test(s) %s. Si modifica esta pregunta, NO cambiará la pregunta(s) en el/los test(s), porque el sistema crea una copia de una pregunta cuando se inserta en un test!
 assessment#:#qpl_questions_deleted#:#Pregunta(s) eliminada(s).
 assessment#:#qpl_select_file_for_import#:#Debe seleccionar un fichero a importar!
-assessment#:#qt_cloze#:#Pregunta de tipo 'rellenar huecos'
-assessment#:#qt_imagemap#:#Pregunta de tipo 'mapa de imagen'
-assessment#:#qt_javaapplet#:#Pregunta de tipo 'applet java'
-assessment#:#qt_matching#:#Pregunta de tipo 'unir parejas'
-assessment#:#qt_multiple_choice#:#Pregunta de opción múltiple 
-assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta múltiple)
-assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)
+assessment#:#qt_cloze#:#Pregunta de tipo \'rellenar huecos\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qt_imagemap#:#Pregunta de tipo \'mapa de imagen\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qt_javaapplet#:#Pregunta de tipo \'applet java\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qt_matching#:#Pregunta de tipo \'unir parejas\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qt_multiple_choice#:#Pregunta de opción múltiple ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qt_multiple_choice_mr#:#Pregunta de \'opción múltiple\' (respuesta múltiple) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qt_multiple_choice_sr#:#Pregunta de \'opción múltiple\' (respuesta única) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
-assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
+assessment#:#qt_ordering#:#Pregunta de tipo \'Ordenar\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qt_text#:#Pregunta de Respuesta Corta (texto)
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el banco de preguntas si no quiere guardarla!
 assessment#:#question_short#:#P
@@ -402,7 +402,7 @@ assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
 assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto
-assessment#:#search_found_groups#:#Grupos encontrados 
+assessment#:#search_found_groups#:#Grupos encontrados ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#search_found_users#:#Usuarios encontrados
 assessment#:#search_groups#:#Buscar Grupos
 assessment#:#search_roles#:#Buscar Roles
@@ -414,7 +414,7 @@ assessment#:#select_gap#:#Hueco de seleccion
 assessment#:#select_max_one_item#:#Por favor seleccione un único item
 assessment#:#select_one_submitted_test#:#Por favor seleccione al menos un usuario que haya finalizado el test
 assessment#:#select_one_user#:#Por favor seleccione al menos un usuario
-assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones 'insertar'!
+assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones \'insertar\'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#select_tst_option#:#--- Por favor seleccione un test ---
 assessment#:#selected_image#:#Imagen seleccionada
 assessment#:#set_filter#:#Activar filtro
@@ -474,7 +474,6 @@ assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
 assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán###14 Feb 2006 content changed
-assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán
 assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto
 assessment#:#tst_hide_title_points#:#Puntuación en título de la pregunta
 assessment#:#tst_hide_title_points_description#:#Ocultar la puntuación máxima en el título de la pregunta
@@ -503,7 +502,7 @@ assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor c
 assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
 assessment#:#tst_no_questionpools_for_random_test#:#No ha añadido un banco de preguntas para este test aleatorio! Por favor seleccione al menos un banco .
-assessment#:#tst_no_questions_available#:#No hay preguntas disponibles! Necesita 'crear nuevas preguntas' o 'explorar en busca de preguntas'.
+assessment#:#tst_no_questions_available#:#No hay preguntas disponibles! Necesita \'crear nuevas preguntas\' o \'explorar en busca de preguntas\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de los bancos para este test aleatorio! Por favor, seleccione al menos una pregunta indicando la cantidad de preguntas para un banco dado
 assessment#:#tst_no_solution_available#:#La pregunta de respuesta corta no tiene una solución
 assessment#:#tst_no_taken_tests#:#No hay tests realizados!
@@ -613,7 +612,6 @@ assessment#:#tst_submit_results#:#Sí, confirmo el envío.
 assessment#:#tst_test_output#:#Salida del Test
 assessment#:#tst_text_count_system#:#Sistema de puntuación
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento
-assessment#:#tst_time_already_spent#:#Comenzo el test a las %s. Su tiempo de proceso maximo es %s. Le queda %s.
 assessment#:#tst_total_questions#:#Cantidad total de preguntas
 assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los bancos serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada banco seleccionado!
 assessment#:#tst_tst_date#:#Fecha del Test
@@ -621,7 +619,7 @@ assessment#:#tst_type#:#Tipo de Test
 assessment#:#tst_type_changed#:#Ha modificado el tipo de test. Todos los tests procesados anteriormente han sido eliminados
 assessment#:#tst_type_comment#:#Aviso: Modificar el tipo de test de un test en ejecución eliminará todos los tests procesados anteriormente!
 assessment#:#tst_types#:#Tipos de Test
-assessment#:#tst_use_javascript#:#Usar Javascript para acciones de 'arrastrar y soltar'
+assessment#:#tst_use_javascript#:#Usar Javascript para acciones de \'arrastrar y soltar\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_your_answer_was#:#Su respuesta fue
 assessment#:#tst_your_answers#:#Estas son tus respuestas dadas a las siguientes preguntas.
 assessment#:#tst_your_ects_mark_is#:#Su calificación ECTS es
@@ -883,8 +881,6 @@ chat#:#chat_yellow#:#amarillo
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Mis chats
 common#:#3rd_party_software#:#software externo
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#ruta absoluta
 common#:#accept_usr_agreement#:#¿aceptar acuerdo de usuario?
 common#:#access#:#Acceso
@@ -1021,11 +1017,11 @@ common#:#auth_radius_enable#:#Habilitar soporte RADIUS
 common#:#auth_radius_not_configured#:#RADIUS no configurado aún
 common#:#auth_radius_port#:#Puerto
 common#:#auth_radius_server#:#Servidores
-common#:#auth_radius_server_desc#:#Puede añadir múltiples servidores separados por comas. Los servidores rotan a modo "Round-robin" cuando son consultados.
+common#:#auth_radius_server_desc#:#Puede añadir múltiples servidores separados por comas. Los servidores rotan a modo \"Round-robin\" cuando son consultados. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#auth_radius_settings_saved#:#Configuración RADIUS salvada
 common#:#auth_radius_shared_secret#:#Secreto compartido
 common#:#auth_read#:#Configuración de autenticación
-common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo por defecto (login,password) no puede ser cambiado de nuevo y la opción de 'nuevo registro' queda deshabilitada
+common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo por defecto (login,password) no puede ser cambiado de nuevo y la opción de \'nuevo registro\' queda deshabilitada ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#auth_role_auth_mode#:#Modo de Autenticación
 common#:#auth_script#:#Personalizado
 common#:#auth_script_desc#:#Autenticar usuarios mediante un script externo
@@ -1047,7 +1043,7 @@ common#:#basedn#:#BaseDN
 common#:#basic_data#:#datos básicos
 common#:#basic_settings#:#Configuración básica
 common#:#benchmark#:#Benchmark
-common#:#benchmark_settings#:#Configuración del Benchmark 
+common#:#benchmark_settings#:#Configuración del Benchmark ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Datos Bibliográficos
 common#:#big_icon#:#Icono Grande
@@ -1150,7 +1146,7 @@ common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número de capítulo
 common#:#chapter_title#:#Título del capítulo
 common#:#chat#:#Chat
-common#:#chat_active_in#:#presente en la sala--> 
+common#:#chat_active_in#:#presente en la sala--> ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#chat_add#:#añadir Chat
 common#:#chat_delete#:#eliminar Chat
 common#:#chat_edit_permission#:#Modificar configuración de permisos
@@ -1169,7 +1165,7 @@ common#:#check_link#:#Comprobar Enlaces
 common#:#check_link_desc#:#Si se habilita, se comprueba que todos los enlaces externos en los módulos de aprendizaje ILIAS no están rotos.
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
 common#:#check_user_accounts#:#Comprobar cuentas de usuario
-common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico.
+common#:#check_user_accounts_desc#:#Si se activa \'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#check_web_resources#:#Comprobar Enlaces a Recursos Web
 common#:#check_web_resources_desc#:#Si se activa todos los Recursos Web serán comprobados
 common#:#checked_files#:#Ficheros importables
@@ -1184,8 +1180,8 @@ common#:#cleaned_file#:#El archivo ha sido limpiado.
 common#:#cleaning_failed#:#La limpieza falló.
 common#:#clear#:#Borrar
 common#:#clear_clipboard#:#Vaciar portapapeles
-common#:#client ip#:#Ip Cliente
 common#:#client#:#Cliente
+common#:#client ip#:#Ip Cliente
 common#:#client_id#:#ID de Cliente
 common#:#client_ip#:#Ip Cliente
 common#:#clipboard#:#Portapapeles
@@ -1221,10 +1217,10 @@ common#:#contra#:#En contra
 common#:#cookies_howto#:#Cómo habilitar cookies
 common#:#copied_object#:#Objeto copiado
 common#:#copy#:#copiar
+common#:#copy_of#:#Copia de
+common#:#copy_to#:#a ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#copyChapter#:#Copiar
 common#:#copyPage#:#Copiar
-common#:#copy_of#:#Copia de
-common#:#copy_to#:#a 
 common#:#could_not_verify_account#:#Lo siento, no se pudo verificar su cuenta. Por favor contacte con el administrador del sistema.
 common#:#count#:#Cuenta
 common#:#country#:#País
@@ -1243,8 +1239,8 @@ common#:#cron_forum_notification_directly#:#directamente en las nuevas entradas
 common#:#cron_forum_notification_never#:#nunca
 common#:#cron_jobs#:#Trabajos Planificados
 common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el archivo INSTALL de la documentación.
-common#:#cron_lucene_index#:#Actualizar Índice de Búsqueda Lucene
-common#:#cron_lucene_index_info#:#Si se habilita, el índice de búsqueda lucene será actualizado. Por favor configure el servidor lucene en "Administración -> Búsqueda".
+common#:#cron_lucene_index#:#Actualizar �?ndice de Búsqueda Lucene
+common#:#cron_lucene_index_info#:#Si se habilita, el índice de búsqueda lucene será actualizado. Por favor configure el servidor lucene en \"Administración -> Búsqueda\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Curso
 common#:#crs_a#:#un Curso
 common#:#crs_add#:#Añadir Curso
@@ -1332,6 +1328,7 @@ common#:#dbk_new#:#Nuevo Digilib Book
 common#:#dbk_read#:#Acceso de lectura a Digibook
 common#:#dbk_visible#:#Digibook es visible
 common#:#dbk_write#:#Editar Digibook
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Vista de contenidos por defecto
 common#:#default#:#por defecto
 common#:#default_language#:#Idioma por defecto
@@ -1419,7 +1416,7 @@ common#:#err_wrong_header#:#Razón: Cabecera Errónea
 common#:#err_wrong_login#:#Login Incorrecto
 common#:#err_wrong_password#:#Contraseña Incorrecta
 common#:#error#:#Error
-common#:#error_parser#:#Error ejecutando el 'parser'
+common#:#error_parser#:#Error ejecutando el \'parser\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#error_recipient#:#destinatario de errores
 common#:#exc#:#Actividad
 common#:#exc_add#:#Añadir Actividad
@@ -1455,6 +1452,7 @@ common#:#exc_sent#:#La actividad ha sido enviada a los usuarios seleccionados
 common#:#exc_status_returned#:#entregado
 common#:#exc_status_saved#:#Actividad Actualizada
 common#:#exc_status_solved#:#corregido
+common#:#exc_time_over_short#:#el tiempo de entrega finalizo
 common#:#exc_time_to_send#:#Tiempo de trabajo restante
 common#:#exc_upload_error#:#Error cargando archivo
 common#:#exc_users#:#Usuarios
@@ -1463,10 +1461,9 @@ common#:#exc_write#:#Editar actividad
 common#:#excs#:#Actividades
 common#:#execute#:#ejecutar
 common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
-common#:#exc_time_over_short#:#el tiempo de entrega finalizo
 common#:#exp_html#:#exportar a HTML
 common#:#expand#:#Expandir
-common#:#explorer_frame#:#Árbol Explorador
+common#:#explorer_frame#:#�?rbol Explorador
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
 common#:#export_html#:#Exportar como fichero HTML
@@ -1486,7 +1483,7 @@ common#:#extt_ilinc_settings_saved#:#Configuración LearnLinc grabada
 common#:#extt_ilinc_timeout#:#Máximo tiempo de espera para respuesta del servidor
 common#:#extt_name#:#Software/Servicio
 common#:#extt_read#:#Acceso a configuración de software externo
-common#:#extt_remark#:#Todo el software y servicios listados arriba no están bajo el acuerdo de licencia 'open source' de ILIAS
+common#:#extt_remark#:#Todo el software y servicios listados arriba no están bajo el acuerdo de licencia \'open source\' de ILIAS ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#extt_title_configure#:#Configurar software externo
 common#:#extt_visible#:#Configuración de software externo visible
 common#:#extt_write#:#Configurar software externo
@@ -1509,7 +1506,7 @@ common#:#file_is_infected#:#El archivo está infectado por un virus.
 common#:#file_new#:#Nuevo archivo
 common#:#file_not_found#:#Archivo no encontrado
 common#:#file_not_valid#:#Archivo no válido
-common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de 
+common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#file_read#:#Descarga archivo
 common#:#file_valid#:#Archivo válido
 common#:#file_version#:#version facilitada en el archivo
@@ -1555,7 +1552,7 @@ common#:#fold_write#:#Editar Carpeta
 common#:#folder#:#carpeta
 common#:#folders#:#carpeta
 common#:#force_accept_usr_agreement#:#Tiene que aceptar el acuerdo de usuario!
-common#:#forename#:#nombre 
+common#:#forename#:#nombre ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#forgot_password#:#¿Olvidó su contraseña?
 common#:#forgot_username#:#¿Olvidó su nombre de usuario?
 common#:#form_empty_fields#:#por favor complete estos campos:
@@ -1586,8 +1583,8 @@ common#:#frm_edit_post#:#Anadir nueva cadena, mensaje
 common#:#frm_new#:#Nuevo Foro
 common#:#frm_read#:#Acceso de Lecutra al Foro
 common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
-common#:#frm_status_new#:#Estado 'Nuevo'
-common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado 'Nuevo' en las entradas de los foros.
+common#:#frm_status_new#:#Estado \'Nuevo\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado \'Nuevo\' en las entradas de los foros. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#frm_visible#:#El foro es visible
 common#:#frm_write#:#Editar foro
 common#:#from#:#desde
@@ -1661,7 +1658,7 @@ common#:#group_req_registration_msg#:#Para unirse a este grupo tiene que registr
 common#:#group_reset#:#Resetear Grupo
 common#:#group_status#:#Estado del Grupo
 common#:#group_status_closed#:#Cerrado
-common#:#group_status_desc#:#Determina el estado inicial del grupo usando la configuración de permisos de las plantillas de rol 'il_grp_status_closed' or 'il_grp_status_open' <br/>Público: El grupo es visible; El usuario puede subscribirse. <br/> Cerrado: El grupo no es visible para los no-miembros; El usuario tiene que ser invitado por un miembro del grupo para unirse.
+common#:#group_status_desc#:#Determina el estado inicial del grupo usando la configuración de permisos de las plantillas de rol \'il_grp_status_closed\' or \'il_grp_status_open\' <br/>Público: El grupo es visible; El usuario puede subscribirse. <br/> Cerrado: El grupo no es visible para los no-miembros; El usuario tiene que ser invitado por un miembro del grupo para unirse. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Público
 common#:#groups#:#Grupos
 common#:#groups_overview#:#Resumen de grupos
@@ -1745,25 +1742,20 @@ common#:#guests#:#Invitados
 common#:#header_searchable#:#Searchable###new variable
 common#:#header_title#:#Título de Cabecera
 common#:#help#:#Ayuda
+common#:#HH#:#HH:MM
 common#:#hide#:#ocultar
 common#:#hide_details#:#ocultar detalles
 common#:#hide_private_notes#:#Ocultar notas privadas
 common#:#hide_public_notes#:#Ocultar notas publicas
 common#:#hide_structure#:#deshabilitar vista estructural
-common#:#hist_dbk:pg_create#:#Página creada
-common#:#hist_dbk:pg_cut#:#Página cortada del capítulo "%1" [%2]
-common#:#hist_dbk:pg_paste#:#Página pegada en el capítulo"%1" [%2]
-common#:#hist_dbk:pg_update#:#Página modificada
-common#:#hist_file_create#:#Archivo creado, archivo es "%1". 
-common#:#hist_file_replace#:#Archivo reemplazado, nuevo ficher es "%1", nueva versión es %2.
-common#:#hist_lm:pg_create#:#Página creada
-common#:#hist_lm:pg_cut#:#Página cortada del capítulo "%1" [%2]
-common#:#hist_lm:pg_paste#:#Página pegada en el capítulo "%1" [%2]
-common#:#hist_lm:pg_update#:#Página modificada
+common#:#hist_dbk#:#Página creada
+common#:#hist_file_create#:#Archivo creado, archivo es \"%1\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#Archivo reemplazado, nuevo ficher es \"%1\", nueva versión es %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_lm#:#Página creada
 common#:#hist_no_entries#:#No hay entradas en la historia.
-common#:#hist_webr_add#:#Añadido nuevo Recurso Web con el título: "%1"
-common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"
-common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"
+common#:#hist_webr_add#:#Añadido nuevo Recurso Web con el título: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_update#:#Actualizar Recurso Web. Título: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#history#:#Historia
 common#:#hits_per_page#:#Hits/Página
 common#:#hlm#:#Módulo de aprendizaje HACP
@@ -1805,7 +1797,7 @@ common#:#icon_settings#:#Configuración de Iconos
 common#:#icons_in_header#:#Fila de Cabecera
 common#:#icons_in_item_rows#:#Fila de Items
 common#:#icons_in_typed_lists#:#Posición del Icono en listas de items
-common#:#icons_in_typed_lists_info#:#Determina donde mostrar iconos en las listas de items que están ordenadas por tipo dentro de la sección 'contenidos' y en el escritorio personal.
+common#:#icons_in_typed_lists_info#:#Determina donde mostrar iconos en las listas de items que están ordenadas por tipo dentro de la sección \'contenidos\' y en el escritorio personal. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#icrs#:#Seminario iLinc
 common#:#icrs_add#:#Añadir Seminario iLinc
 common#:#icrs_added#:#Seminario LearnLinc añadido
@@ -1876,7 +1868,7 @@ common#:#image_gen_unsucc#:#Falló la Generación de Imagen. Póngase en contact
 common#:#import#:#importar
 common#:#import_alm#:#Importar paquete  AICC
 common#:#import_cat_localrol#:#Crear rol local para cada nueva categoría
-common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca el 'checkbox'
+common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca el \'checkbox\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#import_categories#:#Importar Categorías
 common#:#import_dbk#:#Importar Libro Digital
 common#:#import_failure_log#:#Fichero de registro de fallos en la importación
@@ -1897,7 +1889,7 @@ common#:#import_spl#:#Importar Banco de preguntas para encuestas
 common#:#import_svy#:#Importar Encuesta
 common#:#import_tst#:#Importar Test
 common#:#import_users#:#Importar Usuarios
-common#:#import_warning_log#:#Importar log de 'warnings'
+common#:#import_warning_log#:#Importar log de \'warnings\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#important#:#Importante
 common#:#imported#:#importado
 common#:#in#:#en
@@ -1944,7 +1936,7 @@ common#:#ingmedia_pers_dates#:#Personal data
 common#:#ingmedia_reg_fo#:#Registered forums
 common#:#ingmedia_reg_le#:#Registered LE
 common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
-common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + 
+common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
 common#:#ingmedia_use_title#:#Change user data.
 common#:#ingmedia_user_agree#:#Agreement
@@ -2043,7 +2035,7 @@ common#:#learning_resources#:#Recursos de aprendizaje
 common#:#level#:#nivel
 common#:#link#:#enlazar
 common#:#link_check#:#Chequear Enlaces
-common#:#link_check_body_top#:#Recibe este correo porque quiere ser informado sobre enlaces inválidos de los siguientes módulos de aprendizaje: 
+common#:#link_check_body_top#:#Recibe este correo porque quiere ser informado sobre enlaces inválidos de los siguientes módulos de aprendizaje: ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#link_check_message_b#:#If se habilita, será inforado sobre enlaces inválidos por correo
 common#:#link_check_message_disabled#:#Mensajes deshabilitados
 common#:#link_check_message_enabled#:#Mensajes habilitados
@@ -2196,7 +2188,6 @@ common#:#mob#:#Objeto Multimedia
 common#:#module#:#módulo
 common#:#modules#:#Módulos
 common#:#month#:#Mes
-common#:#months#:#Meses
 common#:#month_01_long#:#Enero
 common#:#month_01_short#:#Ene
 common#:#month_02_long#:#Febrero
@@ -2222,12 +2213,13 @@ common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Diciembre
 common#:#month_12_short#:#Dic
 common#:#monthly#:#mensualmente
+common#:#months#:#Meses
 common#:#move#:#mover
-common#:#moveChapter#:#mover
-common#:#movePage#:#mover
 common#:#move_selected_items#:#Mover items seleccionados
 common#:#move_to#:#mover a
 common#:#move_users_to_style#:#Asignar usuarios al estilo
+common#:#moveChapter#:#mover
+common#:#movePage#:#mover
 common#:#msg_cancel#:#Acción cancelada
 common#:#msg_changes_ok#:#las modificaciones fueron correctamente realizadas
 common#:#msg_clear_clipboard#:#Portapapeles limpiado
@@ -2295,13 +2287,13 @@ common#:#msg_obj_exists#:#Este objeto ya existe en esta carpeta
 common#:#msg_obj_modified#:#Modificaciones guardadas
 common#:#msg_obj_no_link#:#no está permitido ser enlazado
 common#:#msg_obj_not_deletable_sold#:#El sistema de pago está activado para los siguientes objetos. No puede ser eliminados.
+common#:#msg_perm_adopted_from_itself#:#No puede adoptar configuraciones de permisos desde el rol/plantilla de rol actual
 common#:#msg_perm_adopted_from1#:#configuración de permisos adoptada desde
 common#:#msg_perm_adopted_from2#:#(La configuración ha sido guardada!)
-common#:#msg_perm_adopted_from_itself#:#No puede adoptar configuraciones de permisos desde el rol/plantilla de rol actual
 common#:#msg_removed#:#Objeto(s) eliminado(s) del sistema
 common#:#msg_role_exists1#:#Un(a) rol/plantilla de rol con el nombre
 common#:#msg_role_exists2#:#ya existe! Por favor escoja otro nombre
-common#:#msg_role_reserved_prefix#:#El prefijo 'il_' está reservado para roles autogenerados. Por favor escoja otro nombre
+common#:#msg_role_reserved_prefix#:#El prefijo \'il_\' está reservado para roles autogenerados. Por favor escoja otro nombre ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Rol Activo Modificado
 common#:#msg_roleassignment_active_changed_comment#:#Esta configuración no se ha guardado en el perfil de usuario! Si el usuario vuelve a identificarse todas las asignaciones de rol activas se resetearán a los valores guardados
 common#:#msg_roleassignment_changed#:#Asignación de Rol modificada
@@ -2416,7 +2408,7 @@ common#:#obj_lo#:#Objeto de Aprendizaje
 common#:#obj_mail#:#Configuración de Correo
 common#:#obj_mail_desc#:#Configure sus opciones globales de correo aquí.
 common#:#obj_mep#:#Banco Multimedia
-common#:#obj_mob#:#Objeto Multimedia 
+common#:#obj_mob#:#Objeto Multimedia ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#obj_not_found#:#objeto no encontrado
 common#:#obj_note#:#Nota
 common#:#obj_notf#:#Administración de Notas
@@ -2442,7 +2434,7 @@ common#:#obj_seas_desc#:#Gestione la configuración de búsqueda aquí
 common#:#obj_spl#:#Banco de preguntas (Encuesta)
 common#:#obj_st#:#Capítulo
 common#:#obj_stys#:#Configuración de Estilos
-common#:#obj_stys_desc#:#Gestionar 'skin' del sistema y configuración de estilos
+common#:#obj_stys_desc#:#Gestionar \'skin\' del sistema y configuración de estilos ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#obj_svy#:#Encuesta
 common#:#obj_tax#:#Taxonomía
 common#:#obj_taxf#:#Taxonomías
@@ -2512,7 +2504,7 @@ common#:#old#:#old
 common#:#online#:#Online
 common#:#online_chapter#:#capítulo online
 common#:#online_version#:#versión online
-common#:#open_views_inside_frameset#:#Abrir vistas dentro del 'frameset'
+common#:#open_views_inside_frameset#:#Abrir vistas dentro del \'frameset\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#operation#:#Operación
 common#:#optimize#:#optimizar
 common#:#options#:#Opciones
@@ -2531,16 +2523,15 @@ common#:#parse#:#Analizar
 common#:#passed#:#Superado
 common#:#passwd#:#contraseña
 common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña###08 Feb 2006 content changed
-common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
 common#:#passwd_not_match#:#La introducción de nueva contraseña es distinta! Por favor introdúzca de nuevo las dos repeticiones
 common#:#passwd_wrong#:#La contraseña introducida es incorrecta!
 common#:#password#:#contraseña
 common#:#password_assistance_disabled#:#La asistencia de contraseña estará únicamente disponible cuando la autentificación se realice mediante la base de datos ILIAS.
-common#:#password_assistance_info#:#Si la asistencia de contraseña está habilitada, un enlace con el texto "¿Olvidó su contraseña" es mostrado en la página de entrada de ILIAS. Los usuarios pueden usar este enlace para asignar una nueva contraseña a su cuenta de usuario, sin necesitar asistencia de un administrador de sistema.
+common#:#password_assistance_info#:#Si la asistencia de contraseña está habilitada, un enlace con el texto \"¿Olvidó su contraseña\" es mostrado en la página de entrada de ILIAS. Los usuarios pueden usar este enlace para asignar una nueva contraseña a su cuenta de usuario, sin necesitar asistencia de un administrador de sistema. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#pegar
+common#:#paste_clipboard_items#:#Pegar items desde el portapapeles
 common#:#pasteChapter#:#Pegar
 common#:#pastePage#:#Pegar
-common#:#paste_clipboard_items#:#Pegar items desde el portapapeles
 common#:#path#:#ruta
 common#:#path_not_set#:#ruta no especificada
 common#:#path_to_babylon#:#ruta de babylon
@@ -2794,7 +2785,7 @@ common#:#sections#:#secciones
 common#:#select#:#Seleccionar
 common#:#select_all#:#seleccionar todo
 common#:#select_file#:#Seleccionar archivo
-common#:#select_max_one_item#:#Por favor seleccione únicamente un item 
+common#:#select_max_one_item#:#Por favor seleccione únicamente un item ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#select_mode#:#Seleccionar modo
 common#:#select_object_to_copy#:#Por favor seleccione el objeto que quiere copiar
 common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar
@@ -2815,12 +2806,12 @@ common#:#server#:#servidor
 common#:#server_data#:#datos del Servidor
 common#:#server_software#:#software del servidor
 common#:#set#:#-establecer-
-common#:#setSystemLanguage#:#Establecer Idioma del Sistema
-common#:#setUserLanguage#:#Establecer Idioma del Usuario
 common#:#set_offline#:#set offline
 common#:#set_online#:#set online
+common#:#setSystemLanguage#:#Establecer Idioma del Sistema
 common#:#settings#:#Configuración
 common#:#settings_saved#:#Configuración grabada
+common#:#setUserLanguage#:#Establecer Idioma del Usuario
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Habilitar soporte de Shibboleth
 common#:#shib_city#:#Atributo para ciudad
@@ -2832,9 +2823,9 @@ common#:#shib_department#:#Atributo para departamento
 common#:#shib_edit_permission#:#Modificar configuración de permisos
 common#:#shib_email#:#Atributo para dirección e-mail
 common#:#shib_firstname#:#Atributo para nombre
-common#:#shib_gender#:#Atributo para género (debe ser 'm' o 'f')
+common#:#shib_gender#:#Atributo para género (debe ser \'m\' o \'f\') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_institution#:#Atributo para institución
-common#:#shib_instructions#:#Asegúrese de leer <a href="README.SHIBBOLETH.txt" target="_blank">README</a> para instrucciones sobre cómo configurar el soporte de Shibboleth para ILIAS.
+common#:#shib_instructions#:#Asegúrese de leer <a href=\"README.SHIBBOLETH.txt\" target=\"_blank\">README</a> para instrucciones sobre cómo configurar el soporte de Shibboleth para ILIAS. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_language#:#Atributo para lenguaje
 common#:#shib_lastname#:#Atributo para apellido
 common#:#shib_login#:#Atributo Shibboleth único
@@ -3080,7 +3071,7 @@ common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_import_failed#:#La importación de usuarios falló.
 common#:#user_imported#:#Importación de Usuario completada.
-common#:#user_imported_with_warnings#:#La importación de usuarios se completó con 'warnings'.
+common#:#user_imported_with_warnings#:#La importación de usuarios se completó con \'warnings\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#user_language#:#Idioma de Usuario
 common#:#user_not_chosen#:#No escogió un miembro de grupo!
 common#:#user_not_known#:#Por favor introduzca un identificador de usuario válido
@@ -3112,7 +3103,7 @@ common#:#usr_edit#:#Editar Usuario
 common#:#usr_hits_per_page#:#Items/página en tablas
 common#:#usr_inactive_only#:#Usuarios inactivos únicamente
 common#:#usr_new#:#Nuevo Usuario
-common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.
+common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando \'cuentas de usuario\' en el árbol de administración. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario
 common#:#usr_settings_header_profile_profile#:#Configuración de perfil personal
 common#:#usr_settings_saved#:#¡Configuración de usuario global salvada con éxito!
@@ -3131,20 +3122,20 @@ common#:#usrf_write#:#Editar cuentas de usuario
 common#:#usrimport_action_failed#:#Acción %1$s falló
 common#:#usrimport_action_ignored#:#Acción %1$s ignorada
 common#:#usrimport_action_replaced#:#Acción %1$s reemplazada por %2$s
-common#:#usrimport_cant_delete#:#No se puede realizar la acción "Delete". No existe el usuario en la base de datos.
-common#:#usrimport_cant_insert#:#No se puede realizar la acción "Insert. El usuario ya existe en la base de datos.
-common#:#usrimport_cant_update#:#No se puede realizar la acción "Update". No existe el usuario en la base de datos.
-common#:#usrimport_conflict_handling_info#:#Cuando se selecciona "Ignorar si hay conflicto", ILIAS ignora una acción, si no puede ser llevada a cabo (e. g. una acción "Insert" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)\nCuando se selecciona "Actualizar si hay conflicto", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción "Insert" es reemplazada por una acción "Update", si un usuario con el mismo login existe en la base de datos)
-common#:#usrimport_global_role_for_action_required#:#Al menos un rol global ha de ser especificado para la acción "%1$s".
+common#:#usrimport_cant_delete#:#No se puede realizar la acción \"Delete\". No existe el usuario en la base de datos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_insert#:#No se puede realizar la acción \"Insert. El usuario ya existe en la base de datos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_update#:#No se puede realizar la acción \"Update\". No existe el usuario en la base de datos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_conflict_handling_info#:#Cuando se selecciona \"Ignorar si hay conflicto\", ILIAS ignora una acción, si no puede ser llevada a cabo (e. g. una acción \"Insert\" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)\\nCuando se selecciona \"Actualizar si hay conflicto\", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción \"Insert\" es reemplazada por una acción \"Update\", si un usuario con el mismo login existe en la base de datos) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_global_role_for_action_required#:#Al menos un rol global ha de ser especificado para la acción \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usrimport_ignore_role#:#Ignorar rol
 common#:#usrimport_login_is_not_unique#:#El ID de usuario no es único.
 common#:#usrimport_with_specified_role_not_permitted#:#La Importación con el rol especificado no permitida.
-common#:#usrimport_xml_attribute_missing#:#Atributo "%2$s" en el elemento "%1$s" no existe.
-common#:#usrimport_xml_attribute_value_illegal#:#Valor "%3$s" del atributo "%2$s" en el elemento "%1$s" es ilegal
-common#:#usrimport_xml_attribute_value_inapplicable#:#Valor "%3$s" del atributo "%2$s" en el elemento "%1$s" no es aplicable para la acción "%4$s" 
-common#:#usrimport_xml_element_content_illegal#:#El Contenido "%2$s" del elemento "%1$s" es ilegal
-common#:#usrimport_xml_element_for_action_required#:#Elemento "%1$s" debe ser especificado para la acción "%2$s".
-common#:#usrimport_xml_element_inapplicable#:#Elemento "%1$s" no aplicable para la acción "%2$s".
+common#:#usrimport_xml_attribute_missing#:#Atributo \"%2$s\" en el elemento \"%1$s\" no existe. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_illegal#:#Valor \"%3$s\" del atributo \"%2$s\" en el elemento \"%1$s\" es ilegal ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_inapplicable#:#Valor \"%3$s\" del atributo \"%2$s\" en el elemento \"%1$s\" no es aplicable para la acción \"%4$s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_content_illegal#:#El Contenido \"%2$s\" del elemento \"%1$s\" es ilegal ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_for_action_required#:#Elemento \"%1$s\" debe ser especificado para la acción \"%2$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_inapplicable#:#Elemento \"%1$s\" no aplicable para la acción \"%2$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#valid#:#Válido
 common#:#validate#:#Validar
 common#:#value#:#valor
@@ -3152,9 +3143,9 @@ common#:#vcard#:#Tarjeta de visita
 common#:#vcard_download#:#Descargar tarjeta de visita
 common#:#vendors#:#Proveedores
 common#:#verification_failed#:#La verificación falló
-common#:#verification_failure_log#:#Log de fallo Verificación 
+common#:#verification_failure_log#:#Log de fallo Verificación ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#verification_log#:#Log de Verificación
-common#:#verification_warning_log#:#Log de 'warning' en Verificación
+common#:#verification_warning_log#:#Log de \'warning\' en Verificación ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#version#:#versión
 common#:#versions#:#versiones
 common#:#view#:#Ver
@@ -3195,7 +3186,7 @@ common#:#week#:#Semana
 common#:#weekly#:#semanalmente
 common#:#weeks#:#Semanas
 common#:#welcome#:#Bienvenido
-common#:#who_is_online#:#Who's online?
+common#:#who_is_online#:#Who\'s online? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#width_x_height#:#Anchura x Altura
 common#:#with#:#con
 common#:#write#:#escritura
@@ -3207,45 +3198,23 @@ common#:#you_may_add_local_roles#:#Puede añadir roles locales
 common#:#your_message#:#su mensaje
 common#:#zip#:#Código postal
 common#:#zipcode#:#Código postal
-content#:#HTML export#:#exportar a HTML
-content#:#PDF export#:#exportar a PDF
-content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir opción de menú >>
 content#:#all#:#-Todo-
 content#:#all_pages#:#El módulo de aprendizaje completo
 content#:#choose_public_mode#:#Los usuarios no registrados pueden acceder
 content#:#choose_public_pages#:#Escoger páginas de acceso público
-content#:#cont_Additional#:#Adicional
-content#:#cont_Alphabetic#:#Alfabético A, B, ...
-content#:#cont_Circle#:#Círculo
-content#:#cont_Citation#:#Cita
-content#:#cont_Code#:#Código
-content#:#cont_Example#:#Ejemplo
-content#:#cont_Headline1#:#Cabecera 1
-content#:#cont_Headline2#:#Cabecera 2
-content#:#cont_Headline3#:#Cabecera 3
-content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Fichero Local
-content#:#cont_Mnemonic#:#Nemónico
-content#:#cont_Number#:#Número
-content#:#cont_Poly#:#Polígono
-content#:#cont_Rect#:#Rectángulo
-content#:#cont_Reference#:#Referencia
-content#:#cont_Remark#:#Observación
-content#:#cont_Roman#:#Números Romános I, II, ...
-content#:#cont_TableContent#:#Tabla de Contenidos
-content#:#cont_Unordered#:#No ordenado/a
 content#:#cont_act_number#:#Numeración de capítulos
 content#:#cont_active#:#Habilitar Menú
-content#:#cont_add_area#:#Añadir Área
+content#:#cont_add_area#:#Añadir �?rea
 content#:#cont_add_change_comment#:#Añadir comentario de cambio
 content#:#cont_add_definition#:#Añadir Definición
 content#:#cont_add_fullscreen#:#Añadir Pantalla Completa
 content#:#cont_added_comment#:#Un comentario ha sido añadido a la historia
 content#:#cont_added_term#:#-Término- añadido
+content#:#cont_Additional#:#Adicional
 content#:#cont_all_definitions#:#Todas las Definiciones
 content#:#cont_all_pages#:#Todas las Páginas
-content#:#cont_alphabetic#:#Alfabético a, b, ...
+content#:#cont_Alphabetic#:#Alfabético A, B, ...
 content#:#cont_annex#:#Anexo
 content#:#cont_api_adapter#:#Nombre de adaptador API
 content#:#cont_api_func_prefix#:#Prefijo de las funciones del API
@@ -3274,6 +3243,8 @@ content#:#cont_characteristic#:#Característica
 content#:#cont_choose_cont_obj#:#Escojer Objeto Contenido
 content#:#cont_choose_glossary#:#Escoger Glosario
 content#:#cont_choose_media_source#:#Seleccionar fuente multimedia
+content#:#cont_Circle#:#Círculo
+content#:#cont_Citation#:#Cita
 content#:#cont_citation_err_one#:#Debe seleccionar exactamente una edición
 content#:#cont_citation_selection_not_valid#:#Su selección no es válida
 content#:#cont_citations#:#Citas
@@ -3284,6 +3255,7 @@ content#:#cont_click_next_or_save#:#Por favor haga click en el siguiente punto d
 content#:#cont_click_next_point#:#Por favor haga click en el siguiente punto del polígono.
 content#:#cont_click_starting_point#:#Por favor haga click en el punto de comienzo del polígono.
 content#:#cont_click_tl_corner#:#Por favor haga click en la izquierda superior izquierda del área deseada.
+content#:#cont_Code#:#Código
 content#:#cont_confirm_delete#:#¿Desea realmente eliminar?
 content#:#cont_content#:#Contenido
 content#:#cont_content_obj#:#-Contenido Objeto-
@@ -3300,7 +3272,7 @@ content#:#cont_create_export_file_xml#:#Crear Fichero de Exportación (XML)
 content#:#cont_create_folder#:#Crear Carpeta
 content#:#cont_create_html_version#:#Crear Paquete HTML
 content#:#cont_create_mob#:#Crear Objeto Media
-content#:#cont_credit_mode#:#Modo 'crédito' (para el modo de lección 'normal')
+content#:#cont_credit_mode#:#Modo \'crédito\' (para el modo de lección \'normal\') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_credit_off#:#No crédito
 content#:#cont_credit_on#:#Crédito
 content#:#cont_credits#:#Créditos
@@ -3374,14 +3346,14 @@ content#:#cont_edit_term#:#Editar Término
 content#:#cont_edition#:#Edición
 content#:#cont_enable_js#:#Habilitar Javascript
 content#:#cont_enable_media#:#Habilitar Media
-content#:#cont_example#:#ej:
+content#:#cont_Example#:#Ejemplo
 content#:#cont_export_files#:#Exportar Ficheros
 content#:#cont_external#:#externo
 content#:#cont_external_url#:#URL externa
 content#:#cont_file#:#Fichero
 content#:#cont_files#:#Ficheros
 content#:#cont_fix_tree#:#Reparar estructura
-content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la estructura en árbol de este módulo está corrupta. ej: si aparecen items en blanco en la vista -'explorer'-.
+content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la estructura en árbol de este módulo está corrupta. ej: si aparecen items en blanco en la vista -\'explorer\'-. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_format#:#Formato
 content#:#cont_format_error#:#¡Esta operación no está permitida aquí!
 content#:#cont_frame_botright#:#Detalles de Contenido (Glosario)
@@ -3396,6 +3368,9 @@ content#:#cont_get_link#:#obtener enlace
 content#:#cont_get_orig_size#:#Establecer tamaño original
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Propiedades del Glosario
+content#:#cont_Headline1#:#Cabecera 1
+content#:#cont_Headline2#:#Cabecera 2
+content#:#cont_Headline3#:#Cabecera 3
 content#:#cont_height#:#Altura
 content#:#cont_how_published#:#Modo de publicación
 content#:#cont_href#:#href
@@ -3426,6 +3401,7 @@ content#:#cont_link_int#:#Enlace (interno)
 content#:#cont_link_select#:#Enlace interno
 content#:#cont_link_type#:#Tipo de enlace
 content#:#cont_linked_mobs#:#Objetos multimedia enlazados
+content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Lista de Ficheros
 content#:#cont_list_properties#:#Propiedades de Lista
 content#:#cont_lk_chapter#:#Capítulo
@@ -3442,16 +3418,18 @@ content#:#cont_lk_term#:#Término de Glosario
 content#:#cont_lk_term_new#:#Término de Glosario (Nuevo Marco)
 content#:#cont_lm_menu#:#Menú
 content#:#cont_lm_properties#:#Propiedades del Módulo de Aprendizaje
+content#:#cont_LocalFile#:#Fichero Local
 content#:#cont_lvalue#:#-Datos-
 content#:#cont_manifest#:#Manifiesto
-content#:#cont_map_areas#:#Áreas de Enlace
+content#:#cont_map_areas#:#�?reas de Enlace
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#coincide
 content#:#cont_matching_question_javascript_hint#:#Arrastre una definición/imagen en la parte derecha sobre un término de la parte izquierda y suelte la definición/imagen para to hacerla coincidir con el término.
 content#:#cont_max_time_allowed#:#adlcp:max_tiempo_permitido
 content#:#cont_media_source#:#Fuente Multimedia
 content#:#cont_mep_structure#:#Estructura Banco Multimedia
-content#:#cont_missing_preconditions#:#Necesita cumplir las siguientes precondiciones para acceder al capítulo "%s".
+content#:#cont_missing_preconditions#:#Necesita cumplir las siguientes precondiciones para acceder al capítulo \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_Mnemonic#:#Nemónico
 content#:#cont_mob_files#:#Ficheros Multimedia
 content#:#cont_mob_inst_prop#:#Propiedades de Instancia
 content#:#cont_mob_prop#:#Propiedades de Objeto
@@ -3460,7 +3438,7 @@ content#:#cont_month#:#Mes
 content#:#cont_move_object#:#mover objeto
 content#:#cont_msg_multiple_editions#:#No es posible mostrar detalles de múltiples ediciones
 content#:#cont_name#:#Nombre
-content#:#cont_new_area#:#Nueva Área de Enlace
+content#:#cont_new_area#:#Nueva �?rea de Enlace
 content#:#cont_new_assignment#:#Nueva asignación
 content#:#cont_new_dir#:#Nuevo Directorio
 content#:#cont_new_file#:#Nuevo Fichero
@@ -3471,12 +3449,13 @@ content#:#cont_no_assign_itself#:#El objeto no puede ser asignado a sí mismo
 content#:#cont_no_manifest#:#No se encontró el archivo imsmanifest.xml en el directorio principal.
 content#:#cont_no_object_found#:#No puedo encontrar algun objeto con este título
 content#:#cont_no_page#:#No se encontraron Página(s)
-content#:#cont_no_subdir_in_zip#:#El comando 'Zip' falló o el archivo de importación es inválido.<br>No contiene una subcarpeta '%s'.
+content#:#cont_no_subdir_in_zip#:#El comando \'Zip\' falló o el archivo de importación es inválido.<br>No contiene una subcarpeta \'%s\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_no_zip_file#:#El archivo de importación no es un archivo zip.
 content#:#cont_none#:#Ninguno
 content#:#cont_nr_cols#:#Número de Columnas
 content#:#cont_nr_items#:#Número de Items
 content#:#cont_nr_rows#:#Número de Filas
+content#:#cont_Number#:#Número
 content#:#cont_obj_removed#:#Objetos eliminados.
 content#:#cont_offline#:#versiones offline
 content#:#cont_offline_files#:#-versiones offline-
@@ -3499,6 +3478,7 @@ content#:#cont_personal_clipboard#:#Portapapeles personal
 content#:#cont_pg_content#:#Contenido de Página
 content#:#cont_pg_title#:#Título de Página
 content#:#cont_please_select#:#por favor seleccione
+content#:#cont_Poly#:#Polígono
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#previsualizar
@@ -3508,9 +3488,11 @@ content#:#cont_public_notes#:#Notas Públicas
 content#:#cont_public_notes_desc#:#Permite a los usuarios compartir notas en cada página de un módulo de aprendizaje
 content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
+content#:#cont_Rect#:#Rectángulo
 content#:#cont_ref_helptext#:#(ej: http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Imágenes referenciadas
-content#:#cont_reference#:#Referencia
+content#:#cont_Reference#:#Referencia
+content#:#cont_Remark#:#Observación
 content#:#cont_remove_fullscreen#:#Eliminar Pantalla Completa
 content#:#cont_removeiln#:#¿Realmente quiere eliminar el enlace interno?
 content#:#cont_repository_item#:#Item de Contenidos
@@ -3523,11 +3505,11 @@ content#:#cont_resize_image#:#Redimensionar Imágenes
 content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
-content#:#cont_roman#:#Números Romanos i, ii, ...
+content#:#cont_Roman#:#Números Romános I, II, ...
 content#:#cont_rvalue#:#Valor
 content#:#cont_saved_map_area#:#Map Area Grabada
 content#:#cont_saved_map_data#:#Grabados Datos de Mapa
-content#:#cont_sc_auto_review#:#Configurar modo de lección 'review' si el estudiante completó -SCO-
+content#:#cont_sc_auto_review#:#Configurar modo de lección \'review\' si el estudiante completó -SCO- ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#Navegar
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Explorado
@@ -3583,7 +3565,7 @@ content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
 content#:#cont_synchronize_frames#:#Sincronizar marcos
-content#:#cont_synchronize_frames_desc#:#Esta opcion sincroniza el marco de la tabla de contenidos con el marco de contenidos y actualiza los marcos adicionales (ej. en vista '3window'). Pero tambien supone una reduccion del rendimiento.
+content#:#cont_synchronize_frames_desc#:#Esta opcion sincroniza el marco de la tabla de contenidos con el marco de contenidos y actualiza los marcos adicionales (ej. en vista \'3window\'). Pero tambien supone una reduccion del rendimiento. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
 content#:#cont_table_cellpadding#:#Relleno de Celdas (Tabla)
@@ -3593,6 +3575,7 @@ content#:#cont_table_html_import_info#:#Importar sólo funciona con tablas confo
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_table_width#:#Anchura de Tabla
+content#:#cont_TableContent#:#Tabla de Contenidos
 content#:#cont_target_within_source#:#El Destino no debe estar dentro del objeto fuente.
 content#:#cont_term#:#Término
 content#:#cont_terms#:#Términos
@@ -3617,6 +3600,7 @@ content#:#cont_tracking_items#:#Items de seguimiento
 content#:#cont_translations#:#Traducción(es)
 content#:#cont_translations_assigned#:#La(s) traducción(s) ha sido asignada
 content#:#cont_tree_fixed#:#Estructura de árbol reparada.
+content#:#cont_Unordered#:#No ordenado/a
 content#:#cont_update#:#Actualizar
 content#:#cont_update_names#:#Actualizar Nombres
 content#:#cont_upload_file#:#Cargar Fichero
@@ -3631,10 +3615,11 @@ content#:#cont_width#:#Anchura
 content#:#cont_wysiwyg#:#Contenido WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Año
-content#:#cont_zip_file_invalid#:#El archivo no es un archivo de importación válido.<br>No contiene un archivo '%s'.
+content#:#cont_zip_file_invalid#:#El archivo no es un archivo de importación válido.<br>No contiene un archivo \'%s\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
+content#:#HTML export#:#exportar a HTML
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
 content#:#lm_menu_entry_title#:#Título
@@ -3646,8 +3631,10 @@ content#:#msg_entry_removed#:#Entrada de menú eliminada
 content#:#msg_entry_updated#:#Entrada de menú actualizada
 content#:#msg_page_no_public_access#:#La página solicitada no está disponible en la sección pública. Sólo los usuarios registrados pueden ver dicha página. Por favor, identifíquese para acceder a esta página.
 content#:#msg_page_not_public#:#La página no es pública
+content#:#Pages#:#Páginas
 content#:#pages from#:#Páginas Desde
 content#:#par#:#Párrafo
+content#:#PDF export#:#exportar a PDF
 content#:#pg#:#Página
 content#:#public_section#:#Sección Pública
 content#:#read offline#:#Leer Offline
@@ -3741,9 +3728,9 @@ crs#:#crs_grouping_assign#:#Modificar asignación
 crs#:#crs_grouping_delete_sure#:#¿Realmente quiere eliminar las siguientes agrupaciones de curso?
 crs#:#crs_grouping_deleted#:#Agrupación de curso eliminada
 crs#:#crs_grouping_modified_assignment#:#Asignación modificada
-crs#:#crs_grouping_select_one#:#Por favor seleccione una agrupación 
+crs#:#crs_grouping_select_one#:#Por favor seleccione una agrupación ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_groupings#:#Asociar cursos
-crs#:#crs_groupings_ask_delete#:#Eliminar agrupación 
+crs#:#crs_groupings_ask_delete#:#Eliminar agrupación ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_grp_already_assigned#:#Ya es usted miembro de alguno de los cursos asociados
 crs#:#crs_grp_assign_crs#:#Asignar Curso
 crs#:#crs_grp_assigned_courses#:#Cursos asignados.
@@ -3798,12 +3785,12 @@ crs#:#crs_members_title#:#Miembros del Curso
 crs#:#crs_move_down#:#Mover abajo
 crs#:#crs_move_up#:#Mover arriba
 crs#:#crs_moved_item#:#item del curso movido
-crs#:#crs_moved_objective#:#Objetivo de aprendizaje 'movido'
+crs#:#crs_moved_objective#:#Objetivo de aprendizaje \'movido\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_new_search#:#Nueva Búsqueda
 crs#:#crs_new_subscription#:#Nueva suscripción a curso
 crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario
-crs#:#crs_new_subscription_request#:#Peticion para matricularse en el curso "%s"
-crs#:#crs_new_subscription_request_body#:#Un usuario ha solicitado matricularse en el curso "%s"
+crs#:#crs_new_subscription_request#:#Peticion para matricularse en el curso \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#Un usuario ha solicitado matricularse en el curso \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#No hay archivos seleccionados
 crs#:#crs_no_archives_available#:#No hay archivos disponibles
 crs#:#crs_no_archives_selected#:#Por favor seleccione un archivo
@@ -3866,7 +3853,7 @@ crs#:#crs_objectives_edit_question_assignments#:#Editar asignación de preguntas
 crs#:#crs_objectives_info_final#:#No cumplió todos los objetivos del curso en el examen previo. <br />Por favor seleccione todos los objetivos marcados en rojo, uno tras otro, y revise los materiales de aprendizaje relacionados. <br />Después de haber revisado todos los objetivos marcados en rojo, puede volver a realizar el examen
 crs#:#crs_objectives_info_finished#:#Felicidades, ¡ha cumplido todos los objetivos de este curso!
 crs#:#crs_objectives_info_none#:#La siguiente es una lista de los objetivos del curso.<br /> Por favor seleccione los objetivos uno después de otro y trabaje los materiales de aprendizaje relacionados.
-crs#:#crs_objectives_info_pretest#:#Los siguientes son los resultados de su Pre-test de evaluación. <br />Por favor seleccione los objetivos marcados en rojo, uno tras otro,y trabajo sobre el material de aprendizaje. <br />Después de haber procesado los objetivos marcados en rojo, puede realizar el examen final de este curso, el cual está localizado en la sección "Test" de esta página.
+crs#:#crs_objectives_info_pretest#:#Los siguientes son los resultados de su Pre-test de evaluación. <br />Por favor seleccione los objetivos marcados en rojo, uno tras otro,y trabajo sobre el material de aprendizaje. <br />Después de haber procesado los objetivos marcados en rojo, puede realizar el examen final de este curso, el cual está localizado en la sección \"Test\" de esta página. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_objectives_info_pretest_non_suggest#:#Los siguientes son los resultados de su Pre-test de autoevaluación. <br />De acuerdo a esto, ha completado todos los objetivos de aprendizaje. Puede realizar el examen final de este curso, que está localizado en la sección test de esta página
 crs#:#crs_objectives_lm_assignment#:#Asignación de material de aprendizaje
 crs#:#crs_objectives_max_points#:#Máxima puntuación
@@ -3889,8 +3876,8 @@ crs#:#crs_question_assignment#:#Asignación de preguntas
 crs#:#crs_reg#:#Matrícula
 crs#:#crs_reg_deactivated#:#Deshabilitado
 crs#:#crs_reg_lim_info#:#La matrícula es únicamente posible durante un período fijo de tiempo.
-crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignado a este curso. '0' significa ilimitado.
-crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado 'Notificar' serán informados vía e-mail de los nuevas matrícula en el curso.
+crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignado a este curso. \'0\' significa ilimitado. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado \'Notificar\' serán informados vía e-mail de los nuevas matrícula en el curso. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_reg_subscription_deactivated#:#Matrículacion deshabilitada
 crs#:#crs_reg_subscription_end_earlier#:#El período de matrícula ha finalizado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
@@ -3992,45 +3979,8 @@ crs#:#import_crs#:#Importar curso
 crs#:#learners_view#:#Vista de alumnos
 crs#:#subscription_times_not_valid#:#El período de matrícula no es válido.
 crs_#:#crs_archives#:#Archivar
-dateplaner#:#DateText#:#Mensaje
-dateplaner#:#Day_long#:#Vista diaria
-dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
-dateplaner#:#ERROR_DB#:#¡Error al escribir en la base de datos!
-dateplaner#:#ERROR_DB_CONNECT#:#La base de datos está desconectada
-dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?
-dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para "Fecha Fin". Formato dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para "Hora Fin". Formato: hh:mm
-dateplaner#:#ERROR_END_START#:#Datos incorrectos para "Fecha Fin". La fecha es anterior a "Fecha inicio"
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un archivo CSV válido
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>su navegador no admite JavaScript. <BR>Por favor cierre esta ventana despues de insertar manualmente. <BR> Gracias</CENTER></B>
-dateplaner#:#ERROR_ROTATIONEND#:#Fin de cita periódica incorrecta. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Fin de cita periódica incorrecta. La fecha fin es anterior a la fecha inicio
-dateplaner#:#ERROR_SHORTTEXT#:#Asunto Incorrecto. Necesita introducir un asunto
-dateplaner#:#ERROR_STARTDATE#:#Datos incorrectos para "Fecha inicio". Formato: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Datos incorrectos para "Hora inicio". Formato: hh:mm
-dateplaner#:#ERROR_TS#:#Formato de fecha incorrecto
-dateplaner#:#Fr_long#:#Viernes
-dateplaner#:#Fr_short#:#Vi
-dateplaner#:#Language_file#:#castellano
-dateplaner#:#Listbox_long#:#Lista de citas
-dateplaner#:#Mo_long#:#Lunes
-dateplaner#:#Mo_short#:#Lu
-dateplaner#:#Month_long#:#Vista mensual
-dateplaner#:#Sa_long#:#Sábado
-dateplaner#:#Sa_short#:#Sa
-dateplaner#:#Su_long#:#Domingo
-dateplaner#:#Su_short#:#Do
-dateplaner#:#Text#:#Nota
-dateplaner#:#Th_long#:#Jueves
-dateplaner#:#Th_short#:#Ju
-dateplaner#:#Tu_long#:#Martes
-dateplaner#:#Tu_short#:#Ma
-dateplaner#:#View#:#Visualización (diaria/semanal):
-dateplaner#:#We_long#:#Miércoles
-dateplaner#:#We_short#:#Mi
-dateplaner#:#Week_long#:#Vista semanal
 dateplaner#:#add_data#:#datos adicionales
-dateplaner#:#app_#:#Bandeja de entrada 
+dateplaner#:#app_#:#Bandeja de entrada ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#app_date#:#insertar cita
 dateplaner#:#app_day#:#vista diaria
 dateplaner#:#app_freetime#:#tiempo libre de otros miembros del grupo (-catch a time-)
@@ -4043,21 +3993,22 @@ dateplaner#:#application#:#Calendario
 dateplaner#:#apply#:#aplicar
 dateplaner#:#back#:#Volver
 dateplaner#:#begin_date#:#Comienzo de cita
-dateplaner#:#busytime#:#tiempo 'ocupado' en grupo
+dateplaner#:#busytime#:#tiempo \'ocupado\' en grupo ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#c_date#:#Crear cita
-dateplaner#:#changeTo#:#Modificar a:
 dateplaner#:#changedDates#:#Citas modificadas
+dateplaner#:#changeTo#:#Modificar a:
 dateplaner#:#checkforfreetime#:#Buscar tiempo libre
 dateplaner#:#created#:#Creada
 dateplaner#:#date#:#Fecha
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
+dateplaner#:#DateText#:#Mensaje
+dateplaner#:#Day_long#:#Vista diaria
 dateplaner#:#del_all#:#eliminar todas las citas
 dateplaner#:#del_one#:#eliminar una cita
 dateplaner#:#delete#:#eliminar
 dateplaner#:#deletedDates#:#Citas eliminadas
 dateplaner#:#discard#:#descartar
-dateplaner#:#dv_Grouptime#:#tiempo libre
 dateplaner#:#dv_button_cancel#:#Cancelar
 dateplaner#:#dv_button_delete#:#Eliminar
 dateplaner#:#dv_button_insert#:#Insertar
@@ -4067,6 +4018,7 @@ dateplaner#:#dv_date_end#:#Fin de cita:
 dateplaner#:#dv_date_hm#:#Hora:
 dateplaner#:#dv_enddate#:#Fecha fin:
 dateplaner#:#dv_groupselect#:#Seleccionar Grupo:
+dateplaner#:#dv_Grouptime#:#tiempo libre
 dateplaner#:#dv_groupview#:#Cita de Grupo:
 dateplaner#:#dv_groupview_text#:#Grupo:
 dateplaner#:#dv_keywords#:#Palabras clave:
@@ -4085,9 +4037,26 @@ dateplaner#:#dv_whole_day#:#Día completo
 dateplaner#:#dv_whole_rotation#:#¿Quiere eliminar la cita periódica? (haga click en el checkbox)
 dateplaner#:#end_date#:#Fin de Cita
 dateplaner#:#endtime_for_view#:#Hora final para visualización
+dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
+dateplaner#:#ERROR_DB#:#¡Error al escribir en la base de datos!
+dateplaner#:#ERROR_DB_CONNECT#:#La base de datos está desconectada
+dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?
+dateplaner#:#ERROR_END_START#:#Datos incorrectos para \"Fecha Fin\". La fecha es anterior a \"Fecha inicio\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para \"Fecha Fin\". Formato dd/mm/yyyy ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para \"Hora Fin\". Formato: hh:mm ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un archivo CSV válido
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>su navegador no admite JavaScript. <BR>Por favor cierre esta ventana despues de insertar manualmente. <BR> Gracias</CENTER></B>
 dateplaner#:#error_minical_img#:#No se pudo crear GD-image-stream
+dateplaner#:#ERROR_ROT_END_START#:#Fin de cita periódica incorrecta. La fecha fin es anterior a la fecha inicio
+dateplaner#:#ERROR_ROTATIONEND#:#Fin de cita periódica incorrecta. Formato: dd/mm/yyyy
+dateplaner#:#ERROR_SHORTTEXT#:#Asunto Incorrecto. Necesita introducir un asunto
+dateplaner#:#ERROR_STARTDATE#:#Datos incorrectos para \"Fecha inicio\". Formato: dd/mm/yyyy ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#ERROR_STARTTIME#:#Datos incorrectos para \"Hora inicio\". Formato: hh:mm ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#ERROR_TS#:#Formato de fecha incorrecto
 dateplaner#:#execute#:#ejecutar acciones
 dateplaner#:#extra_dates#:#citas de día completo
+dateplaner#:#Fr_long#:#Viernes
+dateplaner#:#Fr_short#:#Vi
 dateplaner#:#free#:#Libre
 dateplaner#:#freetime#:#tiempo libre en el grupo
 dateplaner#:#group#:#Grupo
@@ -4108,9 +4077,9 @@ dateplaner#:#help_group_l#:#Contiene los grupos para los que el usuario identifi
 dateplaner#:#help_inbox#:#Bandeja de entrada del Calendario
 dateplaner#:#help_inbox_l#:#Aqui se muestran todas las citas nuevas, modificadas y eliminadas
 dateplaner#:#help_keyword#:#Selección de palabras clave
+dateplaner#:#help_keyword_l#:#Contiene las palabras clave que un usuario puede asociar a las citas.
 dateplaner#:#help_keywordUse#:#Selección de palabras clave
 dateplaner#:#help_keywordUse_l#:#Escoja una o más palabras clave de la caja de diálogo<br>NOTA: use la tecla CTRL para seleccionar para seleccionar varias palabras.
-dateplaner#:#help_keyword_l#:#Contiene las palabras clave que un usuario puede asociar a las citas.
 dateplaner#:#help_list#:#Lista de citas en el calendario
 dateplaner#:#help_list_l#:#En la lista de citas se muestran todas las citas de un período concreto.
 dateplaner#:#help_month#:#Vista mensual del calendario
@@ -4122,7 +4091,7 @@ dateplaner#:#help_properties_del_l#:#Escoja una palabra clave de la caja de diá
 dateplaner#:#help_properties_import#:#Importar desde archivos CSV, Outlook
 dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene fechas de Outlook. Estas citas serán importadas en el calendario.
 dateplaner#:#help_properties_new#:#Añadir una palabra clave, máx. 20 caracteres
-dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo "nuevo". importante: máx. 20 caracteres
+dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo \"nuevo\". importante: máx. 20 caracteres ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Fecha mostrada para vista diaria / vista semanal
 dateplaner#:#help_properties_time_l#:#La vista estándar de hora mostrada para la vista diaria y mensual puede ser modificada. Si las fechas están fuera de la hora mostrada para un día dado o semana, la hora mostrada será modificada para ese período de tiempo. El estandar de hora mostrada es de 8h -18h.
 dateplaner#:#help_rotation#:#Cita Periódica
@@ -4145,7 +4114,9 @@ dateplaner#:#k_alldates#:#todas las citas
 dateplaner#:#keep#:#Guardar
 dateplaner#:#keyword#:#Palabra clave
 dateplaner#:#keywords#:#Palabras clave
+dateplaner#:#Language_file#:#castellano
 dateplaner#:#last_change#:#Ultima modificación
+dateplaner#:#Listbox_long#:#Lista de citas
 dateplaner#:#long_01#:#Enero
 dateplaner#:#long_02#:#Febrero
 dateplaner#:#long_03#:#Marzo
@@ -4161,13 +4132,16 @@ dateplaner#:#long_12#:#Diciembre
 dateplaner#:#main_dates#:#Citas principales
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#último mes
+dateplaner#:#Mo_long#:#Lunes
+dateplaner#:#Mo_short#:#Lu
 dateplaner#:#month#:#mes
+dateplaner#:#Month_long#:#Vista mensual
 dateplaner#:#more#:#más
 dateplaner#:#mweek#:#última semana
 dateplaner#:#myeahr#:#último año
+dateplaner#:#new_doc#:#crear nueva cita
 dateplaner#:#newDates#:#Nuevas citas
 dateplaner#:#newKeyword#:#Nueva:
-dateplaner#:#new_doc#:#crear nueva cita
 dateplaner#:#no_entry#:#No hay citas disponibles
 dateplaner#:#o_day_date#:#fecha 24h
 dateplaner#:#of#:#de
@@ -4188,6 +4162,8 @@ dateplaner#:#r_year#:#cada año
 dateplaner#:#readimportfile#:#insertar
 dateplaner#:#rotation#:#Frecuencia
 dateplaner#:#rotation_dates#:#Citas periódicas
+dateplaner#:#Sa_long#:#Sábado
+dateplaner#:#Sa_short#:#Sa
 dateplaner#:#semester_name#:#Nombre del Semestre
 dateplaner#:#short_01#:#Ene
 dateplaner#:#short_02#:#Feb
@@ -4204,13 +4180,24 @@ dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Asunto
 dateplaner#:#singleDate#:#fecha única
 dateplaner#:#starttime_for_view#:#hora inicial de visualización:
+dateplaner#:#Su_long#:#Domingo
+dateplaner#:#Su_short#:#Do
+dateplaner#:#Text#:#Nota
+dateplaner#:#Th_long#:#Jueves
+dateplaner#:#Th_short#:#Ju
 dateplaner#:#timedate#:#Hora / Fecha
 dateplaner#:#timeslice#:#Hora:
 dateplaner#:#title#:#calendario ILIAS
 dateplaner#:#to#:#a
 dateplaner#:#today#:#hoy
+dateplaner#:#Tu_long#:#Martes
+dateplaner#:#Tu_short#:#Ma
+dateplaner#:#View#:#Visualización (diaria/semanal):
 dateplaner#:#viewlist#:#vista
+dateplaner#:#We_long#:#Miércoles
+dateplaner#:#We_short#:#Mi
 dateplaner#:#week#:#semana
+dateplaner#:#Week_long#:#Vista semanal
 dateplaner#:#wk_short#:#SEM
 dateplaner#:#year#:#año
 forum#:#forum_anonymize#:#Escribir de forma anónima
@@ -4231,8 +4218,8 @@ forum#:#forums_disable_notification#:#Deshabilitar notificacion
 forum#:#forums_download_attachment#:#Descargar archivo
 forum#:#forums_edit_post#:#Editar mensaje
 forum#:#forums_enable_notification#:#Habilitar notificacion
-forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
 forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este mensaje?
+forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
 forum#:#forums_info_delete_post#:#¿Está seguro de que quiere eliminar este mensaje incluyendo sus respuestas?
 forum#:#forums_mark_read#:#marcar todas como leídas
 forum#:#forums_new_entries#:#nuevas entradas en foro
@@ -4279,8 +4266,8 @@ forum#:#new_post#:#Nuevo mensaje
 forum#:#thread#:#Asunto
 grp#:#grp_registration_unlimited#:#Periodo de registro ilimitado
 jscalendar#:#about_calendar#:#Acerca del calendario
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\n\nSelección de fecha:\n- Use los botones «, »  para seleccionar año\n- Use los botones <, > para seleccionar mes\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.
-jscalendar#:#about_time#:#\n\nSelección de hora:\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \n- o Shift-click para decrementarlo\n- o click y arrastrar para una selección más rápida
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\\n\\nSelección de fecha:\\n- Use los botones «, »  para seleccionar año\\n- Use los botones <, > para seleccionar mes\\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\\n\\nSelección de hora:\\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \\n- o Shift-click para decrementarlo\\n- o click y arrastrar para una selección más rápida ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Cerrar
 jscalendar#:#day_first#:#Mostrar primero %s
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -4387,7 +4374,7 @@ mail#:#mail_mark_unread#:#Marcar como no leídos
 mail#:#mail_maxsize_attachment_error#:#El límite de subida es:
 mail#:#mail_message_send#:#El mensaje se ha enviado
 mail#:#mail_move_error#:#Error moviendo correo(s)
-mail#:#mail_move_to#:#mover correos a 
+mail#:#mail_move_to#:#mover correos a ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 mail#:#mail_moved#:#Los correo(s) han sido movidos
 mail#:#mail_moved_to_trash#:#Los mensajes han sido movidos a la Papelera
 mail#:#mail_new_file#:#Adjuntar nuevo archivo:
@@ -4421,7 +4408,7 @@ meta#:#meta_atomic#:#Atómico
 meta#:#meta_author#:#Autor
 meta#:#meta_browser#:#Navegador
 meta#:#meta_c_AD#:#Andorra
-meta#:#meta_c_AE#:#Emiratos Árabes Unidos
+meta#:#meta_c_AE#:#Emiratos �?rabes Unidos
 meta#:#meta_c_AF#:#Afghanistan
 meta#:#meta_c_AG#:#Antigua y Barbuda
 meta#:#meta_c_AI#:#Anguilla
@@ -4460,7 +4447,7 @@ meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#República Centroafricana
 meta#:#meta_c_CG#:#Congo
 meta#:#meta_c_CH#:#Suiza
-meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CI#:#Cote D\' Ivoire ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 meta#:#meta_c_CK#:#Islas Cook
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Camerún
@@ -4533,12 +4520,12 @@ meta#:#meta_c_KH#:#Cambodia
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#Korea del Norte (People's Republic Of Korea)
+meta#:#meta_c_KP#:#Korea del Norte (People\'s Republic Of Korea) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 meta#:#meta_c_KR#:#Korea del Sur (República de Korea)
 meta#:#meta_c_KW#:#Kuwait
 meta#:#meta_c_KY#:#Islas Cayman
 meta#:#meta_c_KZ#:#Kazakhstan
-meta#:#meta_c_LA#:#Lao People's Republic
+meta#:#meta_c_LA#:#Lao People\'s Republic ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 meta#:#meta_c_LB#:#Lebanon
 meta#:#meta_c_LC#:#Santa Lucia
 meta#:#meta_c_LI#:#Liechtenstein
@@ -4710,7 +4697,7 @@ meta#:#meta_higher_education#:#Educación superior
 meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identificador
-meta#:#meta_index#:#Índice
+meta#:#meta_index#:#�?ndice
 meta#:#meta_info_tlt_not_valid#:#El valor actual no es válido. Por tanto no podrá ser usado en otras secciones, e.g. para estadísticas de progreso de aprendizaje. Por favor inserte un tiempo de aprendizaje atípico en horas y/o minutos.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Remarcas de Instalación
@@ -4982,13 +4969,13 @@ payment#:#pay_bmf_credit_card_data#:#Tarjeta de crédito
 payment#:#pay_bmf_credit_card_not_valid#:#La tarjeta de crédito que ha introducido no es válida. Por favor compruebe si todos los campos han sido rellenados correctamente.
 payment#:#pay_bmf_debit_entry#:#Debit entry (sólo para cuentas bancarias alemanas)
 payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_description_credit_card#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra. Rellenando su tarjeta de crédito y haciendo click en el botón "Guardar" usted confirmará que quiere realizar su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos.
-payment#:#pay_bmf_description_debit_entry#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra.  Rellenando sus datos para la -debit entry- y haciendo click en el botón "Guardar" usted confirmará que desea hacer su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos.
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you\'ve entered isn\'t valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_credit_card#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra. Rellenando su tarjeta de crédito y haciendo click en el botón \"Guardar\" usted confirmará que quiere realizar su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_debit_entry#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra.  Rellenando sus datos para la -debit entry- y haciendo click en el botón \"Guardar\" usted confirmará que desea hacer su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Por favor seleccione cómo realizar el pago.
 payment#:#pay_bmf_description_personal_data#:#Por favor rellene el siguiente formulario completamente.
 payment#:#pay_bmf_house_number#:#-Número (vivienda)-
-payment#:#pay_bmf_info#:#El acceso al siguiente material no es libre. Si quiere tener acceso a un determinado objeto de aprendizaje, por favor seleccione un producto. Usted puede comprar algunos objetos de aprendizaje usando el botón "carrito de la compra" en su escritorio personal. Usted ganará acceso inmediato a los productos elegidos durante un período determinado.
+payment#:#pay_bmf_info#:#El acceso al siguiente material no es libre. Si quiere tener acceso a un determinado objeto de aprendizaje, por favor seleccione un producto. Usted puede comprar algunos objetos de aprendizaje usando el botón \"carrito de la compra\" en su escritorio personal. Usted ganará acceso inmediato a los productos elegidos durante un período determinado. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#opcional
 payment#:#pay_bmf_or#:#o
 payment#:#pay_bmf_password_not_valid#:#Su contraseña no es válida
@@ -5079,7 +5066,7 @@ payment#:#paya_header#:#Administración de Pago
 payment#:#paya_insert_only_numbers#:#Por favor introduzca sólo nº enteros.
 payment#:#paya_locator#:#Administrador de pago
 payment#:#paya_months#:#Mes(es)
-payment#:#paya_no_booking_id_given#:#Error: no se ha introducido 'booking id'
+payment#:#paya_no_booking_id_given#:#Error: no se ha introducido \'booking id\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
 payment#:#paya_no_object_selected#:#Por favor seleccione un objeto
 payment#:#paya_no_objects_assigned#:#No hay productos en venta.
@@ -5143,8 +5130,8 @@ payment#:#pays_no_username_given#:#No se ha introducido un nombre de usuario
 payment#:#pays_no_valid_username_given#:#No se ha introducido un nombre de usuario válido
 payment#:#pays_no_vendor_selected#:#No se ha seleccionado proveedor
 payment#:#pays_number_bookings#:#Reservas activas
-payment#:#pays_objects_bill_exist#:#El método de pago 'factura' está activado para algunos objetos. Por tanto no puede ser desactivado.
-payment#:#pays_objects_bmf_exist#:#El método de pago 'BMF' está activado para algunos objetos. Por tanto no puede ser desactivado.
+payment#:#pays_objects_bill_exist#:#El método de pago \'factura\' está activado para algunos objetos. Por tanto no puede ser desactivado. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bmf_exist#:#El método de pago \'BMF\' está activado para algunos objetos. Por tanto no puede ser desactivado. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Métodos de Pago
@@ -5160,20 +5147,20 @@ payment#:#price_a#:#Precio
 payment#:#prices#:#Precios
 payment#:#update#:#Actualizar
 pwassist#:#password_assistance#:#Asistencia para Contraseñas
-pwassist#:#pwassist_enter_email#:#Por favor introduzca una dirección de correo electrónico y envíe el formulario.\nILIAS le enviará un correo a dicha dirección.El correo contiene todos los nombres de usuario que han registrado esta dirección de e-mail.\nEscoja un nombre de usuario apropiado y use el servicio de asistencia de contraseña para obtener una nueva. Si no recibe ningún correo por este servicio por favor contacte con su administrador del curso o %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.\nILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.\nEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.
+pwassist#:#pwassist_enter_email#:#Por favor introduzca una dirección de correo electrónico y envíe el formulario.\\nILIAS le enviará un correo a dicha dirección.El correo contiene todos los nombres de usuario que han registrado esta dirección de e-mail.\\nEscoja un nombre de usuario apropiado y use el servicio de asistencia de contraseña para obtener una nueva. Si no recibe ningún correo por este servicio por favor contacte con su administrador del curso o %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.\\nILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.\\nEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduzca el nombre de usuario y la nueva contraseña en los siguientes campos.
-pwassist#:#pwassist_invalid_email#:#Por favor corrija su dirección de correo electrónico.\nLa dirección de correo introducida no puede encontrarse en la base de datos
-pwassist#:#pwassist_invalid_username_or_email#:#Por favor corrija el texto en los formularios de entrada.\nEl nombre de usuario y dirección de correo electrónico que ha introducido no coinciden con las entradas en la base de datos.
-pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.\nEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.
-pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:\n\t%1$s\n\nEste mensaje ha sido generado automáticamente por el servidor ILIAS\n\t%2$s\n\nUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".\n\nPor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:\n\n- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:\nElimine este mensaje.\n\n- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:\nPor favor contacte %5$s.\n\n- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:\n\n1. Abra su navegador.\n\n2. Introduzca la siguiente dirección de correo en su navegador:\n\t%1$s\n\nImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.\n\n3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.\n\nPor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.
-pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.\nPor favor compruebe su bandeja de entrada.
+pwassist#:#pwassist_invalid_email#:#Por favor corrija su dirección de correo electrónico.\\nLa dirección de correo introducida no puede encontrarse en la base de datos ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Por favor corrija el texto en los formularios de entrada.\\nEl nombre de usuario y dirección de correo electrónico que ha introducido no coinciden con las entradas en la base de datos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.\\nEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:\\n\\t%1$s\\n\\nEste mensaje ha sido generado automáticamente por el servidor ILIAS\\n\\t%2$s\\n\\nUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario \"%4$s\".\\n\\nPor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:\\n\\n- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:\\nElimine este mensaje.\\n\\n- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:\\nPor favor contacte %5$s.\\n\\n- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:\\n\\n1. Abra su navegador.\\n\\n2. Introduzca la siguiente dirección de correo en su navegador:\\n\\t%1$s\\n\\nImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.\\n\\n3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.\\n\\nPor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.\\nPor favor compruebe su bandeja de entrada. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#Asistencia de Contraseña ILIAS
-pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario. \nLa asistencia de contraseñas no está permitida para el usuario introducido.
-pwassist#:#pwassist_password_assigned#:#La contraseña ha sido generada con éxito y asignada al usuario "%1$s".
-pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fué enviado.
-pwassist#:#pwassist_update_error#:#Por favor contacte con su administrador de sistema.\nLa contraseña pudo no haber sido asignada a la cuenta de usuario debido a un error cuando se actualizaba la base de datos
-pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\n%s\n\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\n\t%s\n\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.\n\nPor favor compruebe lo siguiente y actue como se sugiere::\n\n-Usted ha solicitado este mail por accidente::\nElimine este correo.\n\n-Está seguro de que nunca solicitó este correo::\nPor favor contacte con %s.\n\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\n\n1. Ejecute su navegador de internet.\n\n2. Introduzca la siguiente URL:\n\t%s\n\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\n\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña.
+pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario. \\nLa asistencia de contraseñas no está permitida para el usuario introducido. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#La contraseña ha sido generada con éxito y asignada al usuario \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fué enviado. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Por favor contacte con su administrador de sistema.\\nLa contraseña pudo no haber sido asignada a la cuenta de usuario debido a un error cuando se actualizaba la base de datos ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\\n%s\\n\\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\\n\\t%s\\n\\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo \'%s\'.\\n\\nPor favor compruebe lo siguiente y actue como se sugiere::\\n\\n-Usted ha solicitado este mail por accidente::\\nElimine este correo.\\n\\n-Está seguro de que nunca solicitó este correo::\\nPor favor contacte con %s.\\n\\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\\n\\n1. Ejecute su navegador de internet.\\n\\n2. Introduzca la siguiente URL:\\n\\t%s\\n\\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\\n\\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Editar progreso de aprendizaje
 rbac#:#filter_all_roles#:#Mostrar todos los roles del contexto actual
 rbac#:#filter_global_roles#:#Mostrar solo roles globales
@@ -5205,7 +5192,7 @@ search#:#search_all_words#:#Todas las palabras
 search#:#search_and#:#y
 search#:#search_any#:#-- Cualquiera --
 search#:#search_any_word#:#Cualquier palabra
-search#:#search_area#:#Área de búsqueda
+search#:#search_area#:#�?rea de búsqueda
 search#:#search_area_info#:#Por favor seleccione un area donde la búsqueda debe comenzar
 search#:#search_below#:#Por debajo:
 search#:#search_change#:#Modificar
@@ -5284,7 +5271,7 @@ survey#:#add_phrase_introduction#:#Por favor seleccione un conjunto:
 survey#:#add_standard_numbers#:#Añadir números estandar
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente
-survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior.
+survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class=\"bold\">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Por favor introduzca su código de acceso a la encuesta. Le fué enviado a su bandeja de entrada cuando comenzó la encuesta.
 survey#:#anonymize_survey#:#Ocultar datos de usuario en la encuesta
 survey#:#anonymize_survey_explanation#:#Cuando se activa, todos los usuarios serán anónimos y no pueden ser monitorizados
@@ -5372,28 +5359,28 @@ survey#:#define_questionblock#:#Definir bloque de preguntas
 survey#:#description_maxchars#:#Si no se introduce ningún valor, el número de caracteres para esta respuesta es ilimitado.
 survey#:#disinvite#:#Disinvite
 survey#:#display_all_available#:#Mostrar todas las disponibles
-survey#:#dp_standard_attitude_agree5#:#Niveles Actitud (bastante de acuerdo-de acuerdo-indeciso-en desacuerdo-totalmente en desacuerdo)
 survey#:#dp_standard_attitude_agree_disagree#:#Niveles Actitud (de acuerdo-en desacuerdo)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Niveles Actitud (de acuero-indeciso-en desacuerdo)
-survey#:#dp_standard_attitude_desired5#:#Niveles Actitud (totalmente deseado-deseado-neutral-no deseado-totalmente no deseado)
+survey#:#dp_standard_attitude_agree5#:#Niveles Actitud (bastante de acuerdo-de acuerdo-indeciso-en desacuerdo-totalmente en desacuerdo)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Niveles Actitud (deseado-neutral-no deseado)
 survey#:#dp_standard_attitude_desired_undesired#:#Niveles Estándar (deseado-no deseado)
-survey#:#dp_standard_attitude_good5#:#Niveles Actitud (muy bien-bien-regular-pobre-inaceptable)
+survey#:#dp_standard_attitude_desired5#:#Niveles Actitud (totalmente deseado-deseado-neutral-no deseado-totalmente no deseado)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Niveles Actitud (bien-regular-inaceptable)
 survey#:#dp_standard_attitude_good_notacceptable#:#Niveles Actitud (bien-inaceptable)
+survey#:#dp_standard_attitude_good5#:#Niveles Actitud (muy bien-bien-regular-pobre-inaceptable)
 survey#:#dp_standard_attitude_must5#:#Niveles Actitud (requerido-debería-indeciso-no debería-no requerido)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Niveles Actitud (debería-no debería)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Niveles Actitud (debería-indeciso-no debería)
 survey#:#dp_standard_behaviour_certainly5#:#Niveles Comportamiento (most certainly-más positivo-indeciso-más negativo-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Niveles Comportamiento (si-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Niveles Comportamiento (si-indeciso-no)
-survey#:#dp_standard_beliefs_always5#:#Niveles Opinion (siempre-muchas veces-variable-rara vez-nunca)
 survey#:#dp_standard_beliefs_always_never#:#Niveles Opinion (siempre-nunca)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Niveles Opinion (siempre-a veces-nunca)
-survey#:#dp_standard_beliefs_true5#:#Niveles Opinion (Absolutamente cierto-cierto-indeciso-falso-absolutamente falso)
+survey#:#dp_standard_beliefs_always5#:#Niveles Opinion (siempre-muchas veces-variable-rara vez-nunca)
 survey#:#dp_standard_beliefs_true_false#:#Niveles Opinion (verdadero-falso)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Niveles Opinion (verdadero-indeciso-falso)
-survey#:#dp_standard_numbers#:#Niveles Números 
+survey#:#dp_standard_beliefs_true5#:#Niveles Opinion (Absolutamente cierto-cierto-indeciso-falso-absolutamente falso)
+survey#:#dp_standard_numbers#:#Niveles Números ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#duplicate#:#Duplicar
 survey#:#duplicate_svy#:#Duplicar encuesta
 survey#:#edit_ask_continue#:#Quiere continuar y editar esta pregunta?
@@ -5408,7 +5395,7 @@ survey#:#enter_valid_number_of_codes#:#Por favor introduzca un número válido d
 survey#:#enter_value#:#Introduzca un valor
 survey#:#error_add_heading#:#Por favor añada una cabecera!
 survey#:#error_importing_question#:#Hubo un error importando las preguntas desde el archivo seleccionado!
-survey#:#error_retrieving_anonymous_survey#:#El sistema no pudo encontrar los datos de su encuesta para la encuesta con código %s. Por favor compruebe el código de encuesta que ha introducido! 
+survey#:#error_retrieving_anonymous_survey#:#El sistema no pudo encontrar los datos de su encuesta para la encuesta con código %s. Por favor compruebe el código de encuesta que ha introducido! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el significado de los símbolos de la cabecera de cada columna
 survey#:#evaluation#:#evaluación
 survey#:#evaluation_access#:#Acceso de Evaluación
@@ -5587,7 +5574,7 @@ survey#:#spl_select_file_for_import#:#¡Debe seleccionar un archivo a importar!
 survey#:#start_date#:#Fecha de inicio
 survey#:#start_date_not_reached#:#No puede iniciar la encuesta hasta que se alcance la fecha de inicio
 survey#:#start_survey#:#Comenzar encuesta
-survey#:#subject_mail_survey_id#:#Su código de encuesta para "%s"
+survey#:#subject_mail_survey_id#:#Su código de encuesta para \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Subtipo
 survey#:#survey_code#:#Código de acceso a encuesta
 survey#:#survey_code_message_sent#:#¡Un código de encuensta que le permite continuar la encuesta fue enviado a su bandeja de entrada!
@@ -5772,7 +5759,7 @@ trac#:#trac_crs_items#:#items del curso que pueden asignarse
 trac#:#trac_crs_members#:#Miembros del curso:
 trac#:#trac_crs_objects#:#Progreso de aprendizaje de los miembros del curso
 trac#:#trac_crs_releavant_items#:#Items del curso
-trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.
+trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es \'Completado\', el curso en su totalidad ha sido completado por el usuario. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_edit_time#:#Tiempo de proceso
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
@@ -5786,7 +5773,7 @@ trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
 trac#:#trac_inactive_both#:#Seguimiento de usuario y progreso de aprendizaje desactivados
-trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido.
+trac#:#trac_info_edited#:#Cambia el estado a \'Completado\' si piensas que has procesado todo el contenido. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Último acceso
 trac#:#trac_learning_progress#:#Progreso de aprendizaje
 trac#:#trac_learning_progress_tbl_header#:#Progreso de:
@@ -5824,7 +5811,7 @@ trac#:#trac_reached_points#:#Puntuacion conseguida
 trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
 trac#:#trac_required_visits#:#Número de visitas requeridas
-trac#:#trac_sahs_relevant_items#:#SCO's
+trac#:#trac_sahs_relevant_items#:#SCO\'s ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#No hizo selección
 trac#:#trac_settings#:#Configuracion
 trac#:#trac_settings_saved#:#Configuracion guardada.
