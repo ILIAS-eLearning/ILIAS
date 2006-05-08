@@ -10652,3 +10652,8 @@ ALTER TABLE `qpl_answer_multiplechoice` ADD `points_unchecked` DOUBLE NOT NULL D
 ALTER TABLE `qpl_answer_multiplechoice` DROP `correctness`;
 <#704>
 ALTER TABLE `tst_tests` ADD `score_cutting` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `mc_scoring`;
+<#705>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

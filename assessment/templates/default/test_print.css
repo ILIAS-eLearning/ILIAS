@@ -12,7 +12,7 @@ body {
 	font-size : 10pt; 
 }
 
-.il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header {
+.il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header, .ilMainHeader {
 	visibility: hidden;
 	display: none;
 }

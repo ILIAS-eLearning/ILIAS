@@ -3963,7 +3963,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);			
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css?boris=css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("navigation_buttons");

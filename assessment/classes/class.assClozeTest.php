@@ -1210,7 +1210,8 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $cloze_text
 */
-	function updateAllGapParams() {
+	function updateAllGapParams() 
+	{
 		global $lng;
 		$close = $this->createCloseTextArray();
 		for ($i = 0; $i < $this->getGapCount(); $i++)

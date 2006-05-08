@@ -1809,6 +1809,9 @@ class ASS_Question
 					$question = new ASS_ImagemapQuestion();
 					break;
 				case "qt_multiple_choice_sr":
+					include_once "./assessment/classes/class.assSingleChoice.php";
+					$question = new ASS_SingleChoice();
+					break;
 				case "qt_multiple_choice_mr":
 					include_once "./assessment/classes/class.assMultipleChoice.php";
 					$question = new ASS_MultipleChoice();

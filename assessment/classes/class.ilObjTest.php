@@ -4219,9 +4219,8 @@ class ilObjTest extends ilObject
     switch ($question_type) 
 		{
       case "qt_multiple_choice_sr":
-				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
-        $question =& new ASS_MultipleChoiceGUI();
-        $question->object->setResponse(RESPONSE_SINGLE);
+				include_once "./assessment/classes/class.assSingleChoiceGUI.php";
+        $question =& new ASS_SingleChoiceGUI();
         break;
       case "qt_multiple_choice_mr":
 				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
@@ -4302,6 +4301,9 @@ class ilObjTest extends ilObject
 					$question = new ASS_ImagemapQuestion();
 					break;
 				case "qt_multiple_choice_sr":
+					include_once "./assessment/classes/class.assSingleChoice.php";
+					$question = new ASS_SingleChoice();
+					break;
 				case "qt_multiple_choice_mr":
 					include_once "./assessment/classes/class.assMultipleChoice.php";
 					$question = new ASS_MultipleChoice();

@@ -33,6 +33,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_NumericGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextSubsetGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_SingleChoiceGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
@@ -149,6 +150,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setPresentationTitle($question->getTitle());
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				break;
+			case "ass_singlechoicegui":
 			case "ass_multiplechoicegui":
 			case "ass_clozetestgui":
 			case "ass_orderingquestiongui":
@@ -1542,9 +1544,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		switch ($q_type)
 		{
 			case "qt_multiple_choice_sr":
-				$classname = "ASS_MultipleChoiceGUI";
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
+				$classname = "ASS_SingleChoiceGUI";
+				$this->ctrl->setParameterByClass("ass_singlechoicegui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_singlechoicegui", "q_id", $_GET["q_id"]);
 				break;
 
 			case "qt_multiple_choice_mr":
