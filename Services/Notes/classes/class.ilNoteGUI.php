@@ -46,7 +46,7 @@ class ilNoteGUI
 	function ilNoteGUI($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_include_subobjects = false)
 	{
 		global $ilCtrl, $lng;
-		
+
 		$this->rep_obj_id = $a_rep_obj_id;
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_obj_type;
@@ -136,7 +136,7 @@ class ilNoteGUI
 	function getNotesHTML()
 	{
 		global $ilUser;
-		
+
 		$html = "";
 		if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
@@ -157,7 +157,7 @@ class ilNoteGUI
 	function getNoteListHTML($a_type = IL_NOTE_PRIVATE)
 	{
 		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $objDefinition;
-		
+
 		$suffix = ($a_type == IL_NOTE_PRIVATE)
 			? "private"
 			: "public";
@@ -554,7 +554,7 @@ class ilNoteGUI
 	/**
 	* show related objects as links
 	*/
-	function showTargets($tpl, $a_rep_obj_id, $a_note_id, $a_obj_type, $a_obj_id)
+	function showTargets(&$tpl, $a_rep_obj_id, $a_note_id, $a_obj_type, $a_obj_id)
 	{
 		global $tree, $ilAccess, $objDefinition;
 
