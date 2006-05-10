@@ -384,6 +384,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				case "MULTIPLE CHOICE QUESTION":
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
 					break;
+				case "SINGLE CHOICE QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_sr"));
+					break;
 				case "NUMERIC QUESTION":
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_numeric"));
 					break;
