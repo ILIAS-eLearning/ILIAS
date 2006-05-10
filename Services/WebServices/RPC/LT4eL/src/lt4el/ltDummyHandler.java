@@ -41,7 +41,7 @@ public class ltDummyHandler {
     public String ltExtractKeywords(String keyString) { 
         
         
-        return "abc";
+        return keyString;
 
     }
 }

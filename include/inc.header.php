@@ -73,7 +73,8 @@ require_once "classes/class.ilTemplate.php";
 
 //include classes and function libraries
 require_once "include/inc.db_session_handler.php";
-require_once "classes/class.ilIniFile.php";
+//require_once "classes/class.ilIniFile.php";
+require_once "Services/Init/classes/class.ilInitUtil.php";
 require_once "classes/class.ilDBx.php";
 require_once "classes/class.ilShibboleth.php";
 require_once "classes/class.ilias.php";
@@ -117,17 +118,85 @@ require_once "classes/class.ilErrorHandling.php";
 
 $ilBench->stop("Core", "HeaderInclude_IncludeFiles");
 
+// set error handler (to do: check preconditions for error handler to work)
 $ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 $ilErr = new ilErrorHandling();
 $GLOBALS['ilErr'] =& $ilErr;
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
 $ilBench->stop("Core", "HeaderInclude_GetErrorHandler");
 
-// load main class
+// prepare file access to work with safe mode (has been done in class ilias before)
+umask(0117);
+
+
+// $ilInitUtil initialisation
+$ilInitUtil =& new ilInitUtil();
+$GLOBALS['ilInitUtil'] =& $ilInitUtil;
+
+
+// $ilIliasIniFile initialisation
+$ilInitUtil->initIliasIniFile();
+
+
+// CLIENT_ID determination
+$ilInitUtil->determineClient();
+
+
+// $ilClientIniFile initialisation
+if (!$ilInitUtil->initClientIniFile())
+{
+	ilUtil::redirect("./setup/setup.php");	// to do: this could fail in subdirectories
+											// this is also source of a bug (see mantis)
+}
+
+
+// maintenance mode
+if (!$ilClientIniFile->readVariable("client","access"))
+{
+	if (is_file("./maintenance.html"))
+	{
+		ilUtil::redirect("./maintenance.html");
+	}
+	else
+	{
+		echo '<br /><p style="text-align:center;">The server is not '.
+			'available due to maintenance. We apologise for any inconvenience.</p>';
+		exit;
+	}
+}
+
+
+// $ilDB initialisation
+$ilInitUtil->initDatabase();
+
+
+// set session handler
+if(ini_get('session.save_handler') != 'user')
+{
+	ini_set("session.save_handler", "user");
+}
+if (!db_set_save_handler())
+{
+	$message = "Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini";
+	$ilErr->raiseError($message, $ilErr->FATAL);
+}
+
+
+// $ilSetting initialisation
+$ilInitUtil->initSettings();
+
+
+// $ilAuth initialisation
+require_once("classes/class.ilAuthUtils.php");
+ilAuthUtils::_initAuth();
+
+
+// $ilias initialisation
 $ilBench->start("Core", "HeaderInclude_GetILIASObject");
-$ilias =& new ILIAS($_COOKIE["ilClientId"]);
+$ilias =& new ILIAS();
 $GLOBALS['ilias'] =& $ilias;
 $ilBench->stop("Core", "HeaderInclude_GetILIASObject");
+
 
 // trace function calls in debug mode
 if (DEVMODE)
@@ -145,14 +214,8 @@ $https =& new ilHTTPS();
 $GLOBALS['https'] =& $https;
 $https->checkPort();
 
-/*
-if (!db_set_save_handler())
-{
-	$message = "Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini";
-	$ilias->raiseError($message, $ilias->error_obj->WARNING);
-}*/
 
-// Start object_data cache
+// $ilObjDataCache initialisation
 $ilObjDataCache = new ilObjectDataCache();
 $GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
 
@@ -163,24 +226,22 @@ if ($_SESSION["message"])
 	$_POST = $_SESSION["post_vars"];
 }
 
-// put debugging functions here
-//if (DEBUG)
-//{
-	include_once "include/inc.debug.php";
-//}
 
-// start logging
+// put debugging functions here
+require_once "include/inc.debug.php";
+
+
+// $ilLog initialisation
 $log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
 $GLOBALS['log'] =& $log;
 $ilLog =& $log;
 $GLOBALS['ilLog'] =& $ilLog;
 
-//echo "1-".$ilias->account->skin."-";
 
-//authenticate & start session
+// authenticate & start session
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 $ilBench->start("Core", "HeaderInclude_Authentication");
-$ilias->auth->start();
+$ilAuth->start();
 $ilias->setAuthError($ilErr->getLastError());
 $ilBench->stop("Core", "HeaderInclude_Authentication");
 
@@ -188,13 +249,14 @@ $ilBench->stop("Core", "HeaderInclude_Authentication");
 // force login ; workaround for hsu
 if ($_GET["cmd"] == "force_login")
 {
-	$ilias->auth->logout();
+	$ilAuth->logout();
 	$_SESSION["AccountId"] = "";
-	$ilias->auth->start();
+	$ilAuth->start();
 	$ilias->setAuthError($ilErr->getLastError());
 }
 
-// load object definitions
+
+// $objDefinition initialisation
 $ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
 $objDefinition = new ilObjectDefinition();
 $GLOBALS['objDefinition'] =& $objDefinition;
@@ -202,16 +264,18 @@ $objDefinition->startParsing();
 $ilBench->stop("Core", "HeaderInclude_getObjectDefinitions");
 
 
-// current user account
+// $ilUser initialisation
 $ilBench->start("Core", "HeaderInclude_getCurrentUser");
-$ilias->account = new ilObjUser();
+$ilUser = new ilObjUser();
+$ilias->account =& $ilUser;
+$GLOBALS['ilUser'] =& $ilUser;
 $ilBench->stop("Core", "HeaderInclude_getCurrentUser");
 
-// create references for subobjects in ilias object
-$ilUser =& $ilias->account;
-$GLOBALS['ilUser'] =& $ilias->account;
+
+// $ilCtrl initialisation
 $ilCtrl = new ilCtrl();
 $GLOBALS['ilCtrl'] =& $ilCtrl;
+
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
@@ -251,14 +315,14 @@ if (in_array($script, array("login.php", "register.php", "view_usr_agreement.php
 
 // check ilias 2 password, if authentication failed
 // only if AUTH_LOCAL
-if (AUTH_CURRENT == AUTH_LOCAL && !$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != "")
+if (AUTH_CURRENT == AUTH_LOCAL && !$ilAuth->getAuth() && $script == "login.php" && $_POST["username"] != "")
 //if (!$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != "")
 {
 	if (ilObjUser::_lookupHasIlias2Password($_POST["username"]))
 	{
 		if (ilObjUser::_switchToIlias3Password($_POST["username"], $_POST["password"]))
 		{
-			$ilias->auth->start();
+			$ilAuth->start();
 			$ilias->setAuthError($ilErr->getLastError());
 			ilUtil::redirect("start.php");
 		}
@@ -278,7 +342,7 @@ if (strpos($_SERVER["SCRIPT_FILENAME"], "save_java_question_result") !== FALSE)
 	return;
 }
 
-if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
+if ($ilAuth->getAuth() && $ilias->account->isCurrentUserActive())
 {
 	$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
 
@@ -307,7 +371,7 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 	{
 		$log ->logError(1,
 			$ilias->account->getLogin().":".$_SERVER["REMOTE_ADDR"].":".$message);
-		$ilias->auth->logout();
+		$ilAuth->logout();
 		@session_destroy();
 		ilUtil::redirect("login.php?wrong_ip=true");
 	}
@@ -378,7 +442,7 @@ elseif (
 		}
 	}
 
-    if ($ilias->auth->getAuth() && !$ilias->account->isCurrentUserActive())
+    if ($ilAuth->getAuth() && !$ilias->account->isCurrentUserActive())
     {
         $inactive = true;
     }
@@ -397,6 +461,7 @@ elseif (
 		ilUtil::redirect($updir."index.php?client_id=".$_COOKIE["ilClientId"]."&reload=true&return_to=".$return_to);
 	}
 }
+
 
 //init language
 $ilBench->start("Core", "HeaderInclude_initLanguage");
