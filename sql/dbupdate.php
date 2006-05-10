@@ -10706,9 +10706,10 @@ CREATE TABLE `qpl_answer_singlechoice` (
 		{
 			case 1:
 				// single response
-				$insertquery = sprintf("INSERT INTO qpl_answer_singlechoice (question_fi, answertext, points, aorder) VALUES (%s, %s, %s, %s)",
+				$insertquery = sprintf("INSERT INTO qpl_answer_singlechoice (question_fi, answertext, imagefile, points, aorder) VALUES (%s, %s, %s, %s, %s)",
 					$ilDB->quote($row["question_fi"] . ""),
 					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["imagefile"] . ""),
 					$ilDB->quote($row["points"] . ""),
 					$ilDB->quote($row["aorder"] . "")
 				);
