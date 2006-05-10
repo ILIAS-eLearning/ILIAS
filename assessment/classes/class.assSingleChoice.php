@@ -388,7 +388,7 @@ class ASS_SingleChoice extends ASS_Question
 			if ($result == DB_OK)
 			{
 				$this->id = $this->ilias->db->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_multiplechoice (question_fi, shuffle) VALUES (%s, %s)",
+				$query = sprintf("INSERT INTO qpl_question_singlechoice (question_fi, shuffle) VALUES (%s, %s)",
 					$db->quote($this->id . ""),
 					$db->quote("$this->shuffle")
 				);
@@ -419,7 +419,7 @@ class ASS_SingleChoice extends ASS_Question
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
-			$query = sprintf("UPDATE qpl_question_multiplechoice SET shuffle = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE qpl_question_singlechoice SET shuffle = %s WHERE question_fi = %s",
 				$db->quote("$this->shuffle"),
 				$db->quote($this->id . "")
 			);
@@ -429,7 +429,7 @@ class ASS_SingleChoice extends ASS_Question
 		{
 			// Antworten schreiben
 			// alte Antworten löschen
-			$query = sprintf("DELETE FROM qpl_answer_multiplechoice WHERE question_fi = %s",
+			$query = sprintf("DELETE FROM qpl_answer_singlechoice WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
@@ -438,11 +438,10 @@ class ASS_SingleChoice extends ASS_Question
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
-				$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+				$query = sprintf("INSERT INTO qpl_answer_singlechoice (answer_id, question_fi, answertext, points, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s)",
 					$db->quote($this->id),
 					$db->quote($answer_obj->getAnswertext()),
 					$db->quote($answer_obj->getPoints() . ""),
-					$db->quote("0"),
 					$db->quote($answer_obj->getOrder() . ""),
 					$db->quote($answer_obj->getImage() . "")
 				);
@@ -466,7 +465,7 @@ class ASS_SingleChoice extends ASS_Question
 		global $ilias;
 
 		$db = & $ilias->db;
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_multiplechoice.* FROM qpl_questions, qpl_question_multiplechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_multiplechoice.question_fi",
+    $query = sprintf("SELECT qpl_questions.*, qpl_question_singlechoice.* FROM qpl_questions, qpl_question_singlechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_singlechoice.question_fi",
 		$db->quote($question_id));
 		$result = $db->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
@@ -488,7 +487,7 @@ class ASS_SingleChoice extends ASS_Question
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
 
-			$query = sprintf("SELECT * FROM qpl_answer_multiplechoice WHERE question_fi = %s ORDER BY aorder ASC",
+			$query = sprintf("SELECT * FROM qpl_answer_singlechoice WHERE question_fi = %s ORDER BY aorder ASC",
 				$db->quote($question_id));
 
 			$result = $db->query($query);
@@ -963,7 +962,7 @@ class ASS_SingleChoice extends ASS_Question
 				$db->quote($this->original_id. "")
 			);
 			$result = $db->query($query);
-			$query = sprintf("UPDATE qpl_question_multiplechoice SET shuffle = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE qpl_question_singlechoice SET shuffle = %s WHERE question_fi = %s",
 				$db->quote($this->shuffle. ""),
 				$db->quote($this->original_id . "")
 			);
@@ -973,7 +972,7 @@ class ASS_SingleChoice extends ASS_Question
 			{
 				// write answers
 				// delete old answers
-				$query = sprintf("DELETE FROM qpl_answer_multiplechoice WHERE question_fi = %s",
+				$query = sprintf("DELETE FROM qpl_answer_singlechoice WHERE question_fi = %s",
 					$db->quote($this->original_id)
 				);
 				$result = $db->query($query);
@@ -981,12 +980,11 @@ class ASS_SingleChoice extends ASS_Question
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
-					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, points_unchecked) VALUES (NULL, %s, %s, %s, %s, %s)",
-					$db->quote($this->original_id. ""),
-					$db->quote($answer_obj->getAnswertext(). ""),
-					$db->quote($answer_obj->getPoints() . ""),
-					$db->quote($answer_obj->getOrder() . ""),
-					$db->quote($points_unchecked . "")
+					$query = sprintf("INSERT INTO qpl_answer_singlechoice (answer_id, question_fi, answertext, points, aorder) VALUES (NULL, %s, %s, %s, %s)",
+						$db->quote($this->original_id. ""),
+						$db->quote($answer_obj->getAnswertext(). ""),
+						$db->quote($answer_obj->getPoints() . ""),
+						$db->quote($answer_obj->getOrder() . "")
 					);
 					$answer_result = $db->query($query);
 				}
@@ -1019,7 +1017,7 @@ class ASS_SingleChoice extends ASS_Question
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_multiplechoice";
+		return "qpl_question_singlechoice";
 	}
 	
 	/**
@@ -1032,7 +1030,7 @@ class ASS_SingleChoice extends ASS_Question
 	*/
 	function getAnswerTableName()
 	{
-		return "qpl_answer_multiplechoice";
+		return "qpl_answer_singlechoice";
 	}
 	
 	function getGraphicalAnswerSetting()
