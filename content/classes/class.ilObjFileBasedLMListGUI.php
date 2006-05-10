@@ -118,7 +118,8 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 				if (($isBuyable && ilPaymentObject::_hasAccess($this->ref_id) == false) ||
 					$showViewInFrameset)
 				{
-					$frame = ilFrameTargetInfo::_getFrame("MainContent");
+					//$frame = ilFrameTargetInfo::_getFrame("MainContent");
+					$frame = "ilContObj".$this->obj_id;
 				}
 				else
 				{
