@@ -10656,4 +10656,70 @@ ALTER TABLE `tst_tests` ADD `score_cutting` ENUM( '0', '1' ) NOT NULL DEFAULT '0
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#706>
+CREATE TABLE `qpl_question_singlechoice` (
+  `question_fi` int(11) NOT NULL default '0',
+  `shuffle` enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (`question_fi`)
+) TYPE=MyISAM;
 
+CREATE TABLE `qpl_answer_singlechoice` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` text NOT NULL,
+  `imagefile` text,
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+<#707>
+<?php
+	// move multiple choice sr -> singlechoice
+	$query = "SELECT qpl_question_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_question_multiplechoice, qpl_questions WHERE qpl_question_multiplechoice.question_fi = qpl_questions.question_id";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		switch ($row["question_type_fi"])
+		{
+			case 1:
+				// single response
+				$insertquery = sprintf("INSERT INTO qpl_question_singlechoice (question_fi, shuffle) VALUES (%s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["shuffle"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				$deletequery = sprintf("DELETE FROM qpl_question_multiplechoice WHERE question_fi = %s",
+					$ilDB->quote($row["question_fi"] . "")
+				);
+				$deleteresult = $ilDB->query($deletequery);
+				break;
+		}
+	}
+	// move multiple choice sr answers -> singlechoice answers
+	$query = "SELECT qpl_answer_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_answer_multiplechoice, qpl_questions WHERE qpl_answer_multiplechoice.question_fi = qpl_questions.question_id";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		switch ($row["question_type_fi"])
+		{
+			case 1:
+				// single response
+				$insertquery = sprintf("INSERT INTO qpl_answer_singlechoice (question_fi, answertext, points, aorder) VALUES (%s, %s, %s, %s)",
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["answertext"] . ""),
+					$ilDB->quote($row["points"] . ""),
+					$ilDB->quote($row["aorder"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+				$deletequery = sprintf("DELETE FROM qpl_answer_multiplechoice WHERE answer_id = %s",
+					$ilDB->quote($row["answer_id"] . "")
+				);
+				$deleteresult = $ilDB->query($deletequery);
+				break;
+		}
+	}
+?>
+<#708>
+ALTER TABLE qpl_question_multiplechoice DROP choice_response;
