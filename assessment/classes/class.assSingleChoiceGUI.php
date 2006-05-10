@@ -97,6 +97,15 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
+		if ($graphical_answer_setting == 0)
+		{
+			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
+			{
+				$answer = $this->object->getAnswer($i);
+				if (strlen($answer->getImage())) $graphical_answer_setting = 1;
+			}
+		}
+		$this->object->setGraphicalAnswerSetting($graphical_answer_setting);
 		$this->getQuestionTemplate("qt_multiple_choice_sr");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
 		// output of existing single response answers

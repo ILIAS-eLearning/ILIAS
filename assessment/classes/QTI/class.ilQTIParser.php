@@ -1463,7 +1463,7 @@ class ilQTIParser extends ilSaxParser
 						$question->saveToDb();
 						foreach ($answers as $answer)
 						{
-							if (is_array($answer["imagefile"]))
+							if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0))
 							{
 								$image =& base64_decode($answer["imagefile"]["content"]);
 								$imagepath = $question->getImagePath();
