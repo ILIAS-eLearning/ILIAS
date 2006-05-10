@@ -33,10 +33,155 @@
 
 class ilAuthUtils
 {
+	
+	/**
+	* initialises $ilAuth 
+	*/
+	function _initAuth()
+	{
+		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile;
+		
+		// check whether settings object is available
+		if (!is_object($ilSetting))
+		{
+			die ("Fatal Error: ilAuthUtils::_initAuth called without ilSetting.");
+		}
+
+		// check whether database object is available
+		if (!is_object($ilDB))
+		{
+			die ("Fatal Error: ilAuthUtils::_initAuth called without ilDB.");
+		}
+
+		// check whether client ini file object is available
+		if (!is_object($ilClientIniFile))
+		{
+			die ("Fatal Error: ilAuthUtils::_initAuth called without ilClientIniFile.");
+		}
+
+		// define auth modes
+		define ("AUTH_LOCAL",1);
+		define ("AUTH_LDAP",2);
+		define ("AUTH_RADIUS",3);
+		define ("AUTH_SCRIPT",4);
+		define ("AUTH_SHIBBOLETH",5);
+
+		// get default auth mode 
+		//$default_auth_mode = $this->getSetting("auth_mode");
+		define ("AUTH_DEFAULT", $ilSetting->get("auth_mode") ? $ilSetting->get("auth_mode") : AUTH_LOCAL);
+		
+		// set local auth mode (1) in case database wasn't updated
+		/*if ($default_auth_mode === false)
+		{
+			$default_auth_mode = AUTH_LOCAL;
+		}*/
+		
+		// determine authentication method if no session is found and username & password is posted
+		// does this if statement make any sense? we enter this block nearly everytime.
+        if (empty($_SESSION) ||
+            (!isset($_SESSION['_authsession']['registered']) ||
+             $_SESSION['_authsession']['registered'] !== true))
+        {
+			// no sesssion found
+			if ($_POST['username'] != '' and $_POST['password'] != '')
+			{
+				//include_once(ILIAS_ABSOLUTE_PATH.'/classes/class.ilAuthUtils.php');
+				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
+			}
+        }
+		
+		// If Shibboleth is active and the user is authenticated
+		// we set auth_mode to Shibboleth
+		if (	
+				$ilSetting->get("shib_active")
+				&& $_SERVER[$ilSetting->get("shib_login")]
+			)
+		{
+			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
+		}
+		else
+		{
+			define ("AUTH_CURRENT", $user_auth_mode);
+		}
+
+		switch (AUTH_CURRENT)
+		{
+			case AUTH_LOCAL:
+				// build option string for PEAR::Auth
+				$auth_params = array(
+											'dsn'		  => IL_DSN,
+											'table'       => $ilClientIniFile->readVariable("auth", "table"),
+											'usernamecol' => $ilClientIniFile->readVariable("auth", "usercol"),
+											'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
+											);
+				// We use MySQL as storage container
+				$ilAuth = new Auth("DB", $auth_params,"",false);
+				break;
+			
+			case AUTH_LDAP:
+				$settings = $ilSetting->getAll();
+
+				// build option string for PEAR::Auth
+				$auth_params = array(
+											'host'		=> $settings["ldap_server"],
+											'port'		=> $settings["ldap_port"],
+											'basedn'	=> $settings["ldap_basedn"],
+											'userdn'	=> $settings["ldap_search_base"],
+											'useroc'	=> $settings["ldap_objectclass"],
+											'userattr'	=> $settings["ldap_login_key"]
+											);
+				$ilAuth = new Auth("LDAP", $auth_params,"",false);
+				break;
+				
+			case AUTH_RADIUS:
+				include_once('classes/class.ilRADIUSAuthentication.php');
+				$radius_servers = ilRADIUSAuthentication::_getServers($ilDB);
+
+				$settings = $ilSetting->getAll();
+				
+				foreach ($radius_servers as $radius_server)
+				{
+					$rad_params['servers'][] = array($radius_server,$settings["radius_port"],$settings["radius_shared_secret"]);
+				}
+				
+				// build option string for PEAR::Auth
+				//$this->auth_params = array($rad_params);
+				$auth_params = $rad_params;
+				$ilAuth = new Auth("RADIUS", $auth_params,"",false);
+				break;
+				
+			case AUTH_SHIBBOLETH:
+			
+				// build option string for SHIB::Auth
+				$auth_params = array();
+				$ilAuth = new ShibAuth($auth_params,true);
+				break;
+				
+			default:
+				// build option string for PEAR::Auth
+				$auth_params = array(
+											'dsn'		  => IL_DSN,
+											'table'       => $ilClientIniFile->readVariable("auth", "table"),
+											'usernamecol' => $ilClientIniFile->readVariable("auth", "usercol"),
+											'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
+											);
+				// We use MySQL as storage container
+				$ilAuth = new Auth("DB", $auth_params,"",false);
+				break;
+
+		}
+
+		$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
+		$ilAuth->setExpire(0);
+		ini_set("session.cookie_lifetime", "0");
+		
+		$GLOBALS['ilAuth'] =& $ilAuth;
+	}
+	
 	function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
 	{
 		global $ilDB;
-		
+
 		$db =& $ilDB;
 		
 		if ($a_db_handler != '')
@@ -47,10 +192,10 @@ class ilAuthUtils
 		$q = "SELECT auth_mode FROM usr_data WHERE ".
 			 "login='".$a_username."' AND ".
 			 "passwd='".md5($a_password)."'";
-		$r = $this->db->query($q);
+		$r = $db->query($q);
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-		
+
 		return ilAuthUtils::_getAuthMode($row->auth_mode,$db);
 	}
 	

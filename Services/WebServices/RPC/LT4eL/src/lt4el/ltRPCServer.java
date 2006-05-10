@@ -65,6 +65,10 @@ public class ltRPCServer {
     {
         this.server.addHandler("Dummy",new ltDummyHandler(settings.getIndexPath()));
         logger.info("Added dummy handler");
+		
+		this.server.addHandler("Searcher",new LuceneQueryHandler(settings.getIndexPath()));
+        logger.info("Added RPC search handler");
+
         return;
     }
 }

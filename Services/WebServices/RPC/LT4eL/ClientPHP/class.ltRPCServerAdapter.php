@@ -29,13 +29,17 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package ilias
 */
 define("RPC_TIMEOUT",10);
 
-include_once('Services/WebServices/RPC/classes/class.ilRPCServerSettings.php');
+define("RPC_SERVER_PATH","/RPC2");
+define("RPC_SERVER_HOST","127.0.0.1");
+define("RPC_SERVER_PORT","11112");
+define("RPC_SERVER_ALIVE",true);
 
-class ilRPCServerAdapter
+//include_once('Services/WebServices/RPC/classes/class.ilRPCServerSettings.php');
+
+class ltRPCServerAdapter
 {
 	var $log = null;
 	var $db = null;
@@ -46,17 +50,11 @@ class ilRPCServerAdapter
 	var $rpc_client = null;
 	var $rpc_message = null;
 
-	function ilRPCServerAdapter()
+	function ltRPCServerAdapter()
 	{
-		global $ilLog,$ilDB,$ilError;
-
-		$this->log =& $ilLog;
-		$this->db =& $ilDB;
-		$this->err =& $ilError;
-
 		$this->__checkPear();
 
-		$this->settings_obj =& new ilRPCServerSettings();
+		//$this->settings_obj =& new ilRPCServerSettings();
 	}
 
 	/**
@@ -71,12 +69,14 @@ class ilRPCServerAdapter
 		include_once 'XML/RPC.php';
 		if(!$response =& $this->rpc_client->send($this->rpc_message))
 		{
-			$this->log->write("ilRPCServerAdapter: Communication error");
+			//$this->log->write("ilRPCServerAdapter: Communication error");
+			echo "<br />ltRPCServerAdapter: Communication error";
 			return null;
 		}
 		if($response->faultCode())
 		{
-			$this->log->write("ilRPCServerAdapter: Communication error: ". $response->faultString());
+			//$this->log->write("ilRPCServerAdapter: Communication error: ". $response->faultString());
+			echo "<br />ltRPCServerAdapter: Communication error: ". $response->faultString();
 			return null;
 		}
 		return XML_RPC_decode($response->value());
@@ -86,8 +86,9 @@ class ilRPCServerAdapter
 	{
 		if(!include_once('XML/RPC.php'))
 		{
-			$this->log->write('ilLuceneRPCAdapter(): Cannot find pear library XML_RPC. Aborting');
-			$this->err->raiseError("Cannot find pear package 'XML_RPC'. Aborting ",$this->err->MESSAGE);
+			//$this->log->write('ltRPCServerAdapter(): Cannot find pear library XML_RPC. Aborting');
+			echo "<br />ltRPCServerAdapter(): Cannot find pear library XML_RPC. Aborting";
+			//$this->err->raiseError("Cannot find pear package 'XML_RPC'. Aborting ",$this->err->MESSAGE);
 		}
 		return true;
 	}
@@ -103,10 +104,14 @@ class ilRPCServerAdapter
 	{
 		include_once 'XML/RPC.php';
 
-		$this->rpc_client =& new XML_RPC_Client($this->settings_obj->getPath(),
-												$this->settings_obj->getHost(),
-												$this->settings_obj->getPort());
-		#$this->rpc_client->setDebug(1);
+		//$this->rpc_client =& new XML_RPC_Client($this->settings_obj->getPath(),
+		//										$this->settings_obj->getHost(),
+		//										$this->settings_obj->getPort());
+		
+		$this->rpc_client =& new XML_RPC_Client(RPC_SERVER_PATH,
+												RPC_SERVER_HOST,
+												RPC_SERVER_PORT);
+		$this->rpc_client->setDebug(1);
 
 		return true;
 	}
