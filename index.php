@@ -46,8 +46,8 @@ if (isset($_GET["client_id"]))
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
-require_once "include/inc.get_pear.php";
-require_once "include/inc.check_pear.php";
+//require_once "include/inc.get_pear.php";
+//require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
 // display client selection list if enabled
@@ -94,7 +94,7 @@ if (!$ilias->getSetting("setup_ok"))
 }
 
 // Specify your start page in ilias.ini.php
-$start = $ilias->ini->readVariable("server", "start");
+//$start = $ilias->ini->readVariable("server", "start");
 
 // if no start page was given, ILIAS defaults to the standard login page
 if ($start == "")
@@ -104,24 +104,63 @@ if ($start == "")
 
 if ($ilias->getSetting("pub_section"))
 {
-	$start = "nologin.php";
+	//
+	// TO DO: THE FOLLOWING BLOCK IS COPY&PASTED FROM HEADER.INC
+
+	$_POST["username"] = "anonymous";
+	$_POST["password"] = "anonymous";
+	$ilAuth->start();
+	if (ANONYMOUS_USER_ID == "")
+	{
+		die ("Public Section enabled, but no Anonymous user found.");
+	}
+	if (!$ilAuth->getAuth())
+	{
+		die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
+	}
+
+	//
+	// TO DO: THE FOLLOWING BLOCK IS COPY&PASTED FROM HEADER.INC
+
+	// get user id
+	if (empty($_SESSION["AccountId"]))
+	{
+		$_SESSION["AccountId"] = $ilias->account->checkUserId();
+
+		// assigned roles are stored in $_SESSION["RoleId"]
+		$rbacreview = new ilRbacReview();
+		$GLOBALS['rbacreview'] =& $rbacreview;
+		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
+	} // TODO: do we need 'else' here?
+	else
+	{
+		// init user
+		$ilias->account->setId($_SESSION["AccountId"]);
+	}
+
+	// load account data of current user
+	$ilias->account->read();
+	
+	include("start.php");
 }
-
-$connector = "?";
-
-// catch reload
-if ($_GET["reload"])
+else
 {
-    if ($_GET["inactive"])
-    {
-        $start .= "?reload=true&inactive=true";
-    }
-    else
-    {
-        $start .= "?reload=true";
-    }
-    $connector = "&";
+	$connector = "?";
+	
+	// catch reload
+	if ($_GET["reload"])
+	{
+		if ($_GET["inactive"])
+		{
+			$start .= "?reload=true&inactive=true";
+		}
+		else
+		{
+			$start .= "?reload=true";
+		}
+		$connector = "&";
+	}
+	
+	ilUtil::redirect($start.$connector."return_to=".rawurlencode($_GET["return_to"]));
 }
-
-ilUtil::redirect($start.$connector."return_to=".rawurlencode($_GET["return_to"]));
 ?>

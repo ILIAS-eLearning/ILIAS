@@ -33,7 +33,8 @@
 */
 
 // get pear
-include("include/inc.get_pear.php");
+require_once("include/inc.get_pear.php");
+require_once("include/inc.check_pear.php");
 
 //include class.util first to start StopWatch
 require_once "classes/class.ilUtil.php";
@@ -344,6 +345,10 @@ if (strpos($_SERVER["SCRIPT_FILENAME"], "save_java_question_result") !== FALSE)
 
 if ($ilAuth->getAuth() && $ilias->account->isCurrentUserActive())
 {
+	//
+	// SUCCESSFUL AUTHENTICATION
+	//
+	
 	$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
 
 	//get user id
@@ -425,7 +430,9 @@ elseif (
 			and $script != "pwassist.php"
 		)
 {
-	// phpinfo();exit;
+	//
+	// AUTHENTICATION FAILED
+	//
 
 	$dirname = dirname($_SERVER["PHP_SELF"]);
 	$ilurl = parse_url(ILIAS_HTTP_PATH);
@@ -442,16 +449,50 @@ elseif (
 		}
 	}
 
+	// authentication failed due to inactive user?
     if ($ilAuth->getAuth() && !$ilias->account->isCurrentUserActive())
     {
         $inactive = true;
     }
+	
+	//$return_to = urlencode(substr($_SERVER["REQUEST_URI"],strlen($ilurl["path"])+1));
+
+	//
+	// NO AUTHENTICATION
+	//
+	if ($ilSetting->get("pub_section"))
+	{
+		// auth as anonymous
+		$_POST["username"] = "anonymous";
+		$_POST["password"] = "anonymous";
+		$ilAuth->start();
+		
+		if (ANONYMOUS_USER_ID == "")
+		{
+			die ("Public Section enabled, but no Anonymous user found.");
+		}
+		if (!$ilAuth->getAuth())
+		{
+			die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
+		}
+		if (empty($_GET["ref_id"]))
+		{
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+		}
+		
+		$_GET["cmd"] = "frameset";
+		$jump_script = "repository.php";
+		$script = $updir.$jump_script."?cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
+		
+		// todo do it better, if JS disabled
+		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";
+		exit;
+	}
 
 	session_unset();
 	session_destroy();
-	
-	$return_to = urlencode(substr($_SERVER["REQUEST_URI"],strlen($ilurl["path"])+1));
 
+	// no public section
 	if (($_GET["inactive"]) || $inactive)
 	{
 		ilUtil::redirect($updir."index.php?reload=true&inactive=true&return_to=".$return_to);
