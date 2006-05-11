@@ -766,13 +766,14 @@ class ilTestEvaluationGUI
 		$titlerow_without_questions = $titlerow;
 		if (!$this->object->isRandomTest())
 		{
-			for ($i = 1; $i <= $this->object->getQuestionCount(); $i++)
+			$qtitles =& $this->object->getQuestionTitles();
+			$i = 1;
+			foreach ($qtitles as $title)
 			{
 				array_push($titlerow, $this->lng->txt("question_short") . " " . $i);
-//				$legend[$this->lng->txt("question_short") . " " . $i] = $this->object->getQuestionTitle($i);
-				$legendquestions[$i] = $this->object->getQuestionTitle($i);
-				$legend[$this->lng->txt("question_short") . " " . $i] = $i; 
-				
+				$legendquestions[$i] = $title;
+				$legend[$this->lng->txt("question_short") . " " . $i] = $i;
+				$i++;
 			}
 		}
 		else
