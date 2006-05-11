@@ -244,8 +244,8 @@ class ShibAuth
 			if (!loginExists($username))
 			{
 				
-				$newUser["firstname"] = $_SERVER[$ilias->getSetting('shib_firstname')];
-				$newUser["lastname"] = $_SERVER[$ilias->getSetting('shib_lastname')];
+				$newUser["firstname"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]);
+				$newUser["lastname"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]);
 				
 				$newUser["login"] = $username;
 				
@@ -269,12 +269,12 @@ class ShibAuth
 				$newUser["city"] = $_SERVER[$ilias->getSetting('shib_city')];
 				$newUser["zipcode"] = $_SERVER[$ilias->getSetting('shib_zipcode')];
 				$newUser["country"] = $_SERVER[$ilias->getSetting('shib_country')];
-				$newUser["phone_office"] = $_SERVER[$ilias->getSetting('shib_phone_office')];
-				$newUser["phone_home"] = $_SERVER[$ilias->getSetting('shib_phone_home')];
-				$newUser["phone_mobile"] = $_SERVER[$ilias->getSetting('shib_phone_mobile')];
-				$newUser["fax"] = $_SERVER[$ilias->getSetting('shib_fax')];
+				$newUser["phone_office"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_phone_office')]);
+				$newUser["phone_home"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_phone_home')]);
+				$newUser["phone_mobile"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_phone_mobile')]);
+				$newUser["fax"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_fax')]);
 				$newUser["matriculation"] = $_SERVER[$ilias->getSetting('shib_matriculation')];
-				$newUser["email"] = $_SERVER[$ilias->getSetting('shib_email')];
+				$newUser["email"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_email')]);
 				$newUser["hobby"] = $_SERVER[$ilias->getSetting('shib_hobby')];
 				$newUser["auth_mode"] = "shibboleth";
 				
@@ -282,7 +282,7 @@ class ShibAuth
 				$userObj->assignData($newUser);
 				$userObj->setTitle($userObj->getFullname());
 				$userObj->setDescription($userObj->getEmail());
-				$userObj->setLanguage($_SERVER[$ilias->getSetting('shib_language')]);
+				$userObj->setLanguage($this->getFirstString($_SERVER[$ilias->getSetting('shib_language')]));
 				
 				// Time limit
 				$userObj->setTimeLimitOwner(7);
@@ -343,8 +343,8 @@ class ShibAuth
 				if ($ilias->getSetting('shib_update_title'))
 					$userObj->setTitle($_SERVER[$ilias->getSetting('shib_title')]);
 				
-				$userObj->setFirstname($_SERVER[$ilias->getSetting('shib_firstname')]);
-				$userObj->setLastname($_SERVER[$ilias->getSetting('shib_lastname')]);
+				$userObj->setFirstname($this->getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]));
+				$userObj->setLastname($this->getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]));
 				$userObj->setFullname();
 				if ($ilias->getSetting('shib_update_institution'))
 					$userObj->setInstitution($_SERVER[$ilias->getSetting('shib_institution')]);
@@ -359,17 +359,17 @@ class ShibAuth
 				if ($ilias->getSetting('shib_update_country'))
 					$userObj->setCountry($_SERVER[$ilias->getSetting('shib_country')]);
 				if ($ilias->getSetting('shib_update_phone_office'))
-					$userObj->setPhoneOffice($_SERVER[$ilias->getSetting('shib_phone_office')]);
+					$userObj->setPhoneOffice($this->getFirstString($_SERVER[$ilias->getSetting('shib_phone_office')]));
 				if ($ilias->getSetting('shib_update_phone_home'))
-					$userObj->setPhoneHome($_SERVER[$ilias->getSetting('shib_phone_home')]);
+					$userObj->setPhoneHome($this->getFirstString($_SERVER[$ilias->getSetting('shib_phone_home')]));
 				if ($ilias->getSetting('shib_update_phone_mobile'))
-					$userObj->setPhoneMobile($_SERVER[$ilias->getSetting('shib_phone_mobile')]);
+					$userObj->setPhoneMobile($this->getFirstString($_SERVER[$ilias->getSetting('shib_phone_mobile')]));
 				if ($ilias->getSetting('shib_update_fax'))
 					$userObj->setFax($_SERVER[$ilias->getSetting('shib_fax')]);
 				if ($ilias->getSetting('shib_update_matriculation'))
 					$userObj->setMatriculation($_SERVER[$ilias->getSetting('shib_matriculation')]);
 				if ($ilias->getSetting('shib_update_email'))
-					$userObj->setEmail($_SERVER[$ilias->getSetting('shib_email')]);
+					$userObj->setEmail($this->getFirstString($_SERVER[$ilias->getSetting('shib_email')]));
 				if ($ilias->getSetting('shib_update_hobby'))
 					$userObj->setHobby($_SERVER[$ilias->getSetting('shib_hobby')]);
 				
@@ -541,7 +541,7 @@ class ShibAuth
 	}
 	
 	/**
-	* Automatically generates the username of a Shibboleth user or returns
+	* Automatically generates the username/screenname of a Shibboleth user or returns
 	* the user's already existing username
 	*
 	* @access private
@@ -555,8 +555,8 @@ class ShibAuth
 		global $ilias;
 		
 		$shibID = $_SERVER[$ilias->getSetting('shib_login')];
-		$lastname = $_SERVER[$ilias->getSetting('shib_lastname')];
-		$firstname = $_SERVER[$ilias->getSetting('shib_firstname')];
+		$lastname = $this->getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]);
+		$firstname = $this->getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]);
 		
 		// We use the passwd field as mapping attribute for Shibboleth users
 		// because they don't need a password
@@ -595,8 +595,8 @@ class ShibAuth
 	* Checks whether a specific username is already used  by a user
 	*
 	* @access private
-	* @param bool True if a username is already taken
-	* @return array
+	* @param string Username
+	* @return bool  True if a username is already taken
 	*/
 	function checkMapping($login)
 	{
@@ -616,6 +616,21 @@ class ShibAuth
 		}
 	}
 	
+	function getFirstString($string){
+	/**
+	* Cleans and returns first of potential many values (multi-valued attributes)
+	*
+	* @access private
+	* @param string A Shibboleth attribute or other string
+	* @return string
+	*/
+		
+		$list = split( ';', $string);
+		$clean_string = rtrim($list[0]);
+		
+		return $clean_string;
+		
+	}
 	
 } // END class.ilShibAuth
 ?>
