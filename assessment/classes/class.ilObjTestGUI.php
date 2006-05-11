@@ -1004,6 +1004,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function propertiesObject()
 	{
 		global $rbacsystem;
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", true);
 		$total = $this->object->evalTotalPersons();
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST  || $data["sel_test_types"] == TYPE_ONLINE_TEST)
 		{
@@ -1211,7 +1212,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", true);
 		$this->tpl->setCurrentBlock("test_types");
 		foreach ($this->object->test_types as $key => $value) {
 			$this->tpl->setVariable("VALUE_TEST_TYPE", $key);
