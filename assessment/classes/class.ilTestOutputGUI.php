@@ -108,35 +108,11 @@ class ilTestOutputGUI
 	
 	function updateWorkingTime() 
 	{
-		// todo: check update within summary and back
-		// todo: back in summary does not work
-		// todo: check working time in summary
-		
-		global $ilUser;
-		
-		// command which do not require update
-		
-		//print_r($_GET);
-				//print_r($_POST);
-		$negs =  //is_numeric($_GET["set_solved"]) || is_numeric($_GET["question_id"]) ||  
-				  isset($_POST["cmd"]["start"]) || isset($_POST["cmd"]["resume"]) || 
-				  isset($_POST["cmd"]["showresults"]) || isset($_POST["cmd"]["deleteresults"])|| 
-				  isset($_POST["cmd"]["confirmdeleteresults"]) || isset($_POST["cmd"]["canceldeleteresults"]) ||
-				  isset($_POST["cmd"]["submit_answers"]) || isset($_POST["cmd"]["confirm_submit_answers"]) ||
-				  isset($_POST["cmd"]["cancel_show_answers"]) || isset($_POST["cmd"]["show_answers"]);
-		
-		// all other commands which require update
-		$pos  = count($_POST["cmd"])>0 | isset($_GET["sequence"]);
-				
-		if ($pos==true && $negs==false)		
+		if ($_SESSION["active_time_id"]) // && $this->object->getEnableProcessingTime())
 		{
-			// set new finish time for test
-			if ($_SESSION["active_time_id"]) // && $this->object->getEnableProcessingTime())
-			{
-				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-				//echo "updating Worktime<br>";
-			}	
-		}		
+			$this->object->updateWorkingTime($_SESSION["active_time_id"]);
+			//echo "updating Worktime<br>";
+		}	
 	}	
 
 /**
@@ -186,13 +162,7 @@ class ilTestOutputGUI
 	 */
 	 function canSaveResult() 
 	 {
-	 	$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["postpone"]
-	 				|| ($_POST["cmd"]["summary"] && !$_GET["sort_summary"]) || ($_GET["cmd"]["selectImagemapRegion"])  
-					|| $_POST["cmd"]["directfeedback"] ||  $_POST["cmd"]["setsolved"]  || $_POST["cmd"]["resetsolved"] 
-				    ) && (isset ($_GET["sequence"]) && is_numeric ($_GET["sequence"])));
-
-	 	return $do_save == true &&				
-				!$this->isEndingTimeReached() && !$this->isMaxProcessingTimeReached() && !$this->isNrOfTriesReached();
+		 return !$this->isEndingTimeReached() && !$this->isMaxProcessingTimeReached() && !$this->isNrOfTriesReached();
 	 }
 	 
 	/**
@@ -2178,7 +2148,6 @@ class ilTestOutputGUI
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
 				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
-				$this->tpl->setVariable("VALUE_QUESTION_VISITED", ($value["visited"] > 0) ? " checked=\"checked\" ": ""); 
 				$this->tpl->setVariable("VALUE_QUESTION_SOLVED", ($value["solved"] > 0) ?$img_solved : $img_not_solved);  
 				if (!$disabled)
 				{
@@ -2197,19 +2166,6 @@ class ilTestOutputGUI
 			}
 		}
 
-		$this->tpl->setCurrentBlock("results");
-		$this->tpl->setVariable("QUESTION_ACTION","actions");
-		$this->tpl->setVariable("QUESTION_COUNTER","<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sortnr&sort_summary=nr\">".$this->lng->txt("tst_qst_order")."</a>".$img_title_nr);
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sorttitle&sort_summary=title\">".$this->lng->txt("tst_question_title")."</a>".$img_title_title);
-		$this->tpl->setVariable("QUESTION_VISITED", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sortvisited&sort_summary=visited\">".$this->lng->txt("tst_question_visited")."</a>".$img_title_visited);
-		$this->tpl->setVariable("QUESTION_SOLVED", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sortsolved&sort_summary=solved\">".$this->lng->txt("tst_question_solved_state")."</a>".$img_title_solved);
-		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
-		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
-		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));		
-		$this->tpl->parseCurrentBlock();
-		
 		if (!$disabled) 
 		{
 			$this->tpl->setCurrentBlock("back");
@@ -2220,6 +2176,16 @@ class ilTestOutputGUI
 		{
 			sendinfo($this->lng->txt("detail_max_processing_time_reached"));
 		}
+		
+		$this->tpl->setVariable("QUESTION_ACTION","actions");
+		$this->tpl->setVariable("QUESTION_COUNTER","<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sortnr&sort_summary=nr\">".$this->lng->txt("tst_qst_order")."</a>".$img_title_nr);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sorttitle&sort_summary=title\">".$this->lng->txt("tst_question_title")."</a>".$img_title_title);
+		$this->tpl->setVariable("QUESTION_SOLVED", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sortsolved&sort_summary=solved\">".$this->lng->txt("tst_question_solved_state")."</a>".$img_title_solved);
+		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
+		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
+		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));		
 		
 		if ($this->object->getEnableProcessingTime())
 			$this->outProcessingTime();
