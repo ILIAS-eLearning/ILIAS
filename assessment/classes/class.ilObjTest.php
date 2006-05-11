@@ -2779,34 +2779,30 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns the title of a question with a given sequence number
+* Returns the titles of the test questions in question sequence
 *
-* Returns the title of a question with a given sequence number
+* Returns the titles of the test questions in question sequence
 *
-* @param integer $sequence The sequence number of the question
+* @return array The question titles
 * @access public
 * @see $questions
 */
-	function getQuestionTitle($sequence) 
+	function &getQuestionTitles() 
 	{
-		global $ilUser;
-		if ($ilUser->id > 0)
+		$titles = array();
+		if (!$this->isRandomTest())
 		{
-			$active = $this->getActiveTestUser($ilUser->id);
-			$seq = split(",", $active->sequence);
-			$query = sprintf("SELECT title from qpl_questions WHERE question_id = %s",
-				$this->ilias->db->quote($this->questions[$seq[$sequence-1]])
+			global $ilDB;
+			$query = sprintf("SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
+				$ilDB->quote($this->getTestId() . "")
 			);
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($titles, $row["title"]);
+			}
 		}
-		else
-		{
-			$query = sprintf("SELECT title from qpl_questions WHERE question_id = %s",
-				$this->ilias->db->quote($this->questions[$sequence])
-			);
-		}
-    $result = $this->ilias->db->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		return $row->title;
+		return $titles;
 	}
 	
 /**
