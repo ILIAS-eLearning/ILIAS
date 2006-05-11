@@ -535,6 +535,8 @@ assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
 assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.
 assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
+assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
+assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen aller ausgewählen Fragenpools. Der Wert wurde korrigiert.
 assessment#:#tst_random_test#:#Zufallstest
 assessment#:#tst_random_test_description#:#Wenn ausgewählt, werden die Fragen des Tests mit einem Zufallsgenerator zusammengestellt
 assessment#:#tst_reached_points#:#Erreichte Punkte
