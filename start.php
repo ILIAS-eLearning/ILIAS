@@ -27,53 +27,35 @@
  * this file decides if a frameset is used or not.
  * Frames set definition is done in 'tpl.start.html'
  * 
- * Frames: 'tpl.start.html' exists in your template directory
- * No frames: Remove 'tpl.start.html' from your template directory
- * 
  * @author Peter Gabriel <pgabriel@databay.de>
  * @package ilias-core
  * @version $Id$
 */
-require_once "./include/inc.header.php";
+//require_once "./include/inc.header.php";
 
-// navigate locator
-$ilias_locator->navigate(0,$lng->txt("personal_desktop"),"./start.php","_top");
-
-// define here on what page to enter the system the first time
-if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
 {
-	$default_start_script = "repository.php";
+	if (empty($_GET["ref_id"]))
+	{
+		$_GET["ref_id"] = ROOT_FOLDER_ID;
+	}
+	$_GET["cmd"] = "frameset";
+	$start_script = "repository.php";
 }
 else
 {
-	$default_start_script = "ilias.php?baseClass=ilPersonalDesktopGUI";
+	$_GET["baseClass"] = "ilPersonalDesktopGUI";
+	$start_script = "ilias.php";
 }
 
-// look if there is a file tpl.start.html (containing a frameset definition)
-$start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.start.html";
+include($start_script);
+/*
+$tpl = new ilTemplate("tpl.start.html", true, true);
 
-// start script is used for switching from public section
-// to last repository position right after login
-$start_script = (!empty($_GET["script"])) ? $_GET["script"] : $default_start_script;
-
-//if (file_exists($start_template))
-//{
-	$tpl = new ilTemplate("tpl.start.html", true, true);
-
-	if ($_POST['change_lang_to'] != "")
-	{
-		$tpl->setVariable("RELOAD","<script language=\"javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
-	}
-
-	$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-	$tpl->setVariable("SCRIPT", $start_script);
-	$tpl->setVariable("TOP_TITLE", $lng->txt("main_menu_frame"));
-	$tpl->setVariable("BOTTOM_TITLE", $lng->txt("bottom_frame"));
-	$tpl->show();
-//}
-//else
-//{
-//	ilUtil::redirect($start_script);
-//}
+$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+$tpl->setVariable("SCRIPT", $start_script);
+$tpl->setVariable("TOP_TITLE", $lng->txt("main_menu_frame"));
+$tpl->setVariable("BOTTOM_TITLE", $lng->txt("bottom_frame"));
+$tpl->show();*/
 
 ?>

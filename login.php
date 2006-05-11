@@ -79,7 +79,7 @@ if (!$ilias->getSetting("setup_ok"))
 }
 
 // check for auth
-if ($ilias->auth->getAuth())
+if ($ilAuth->getAuth())
 {
 	if(!$ilias->account->checkTimeLimit())
 	{
@@ -103,22 +103,22 @@ if ($ilias->auth->getAuth())
 
 	// UPDATE LAST FORUM VISIT
 	include_once './classes/class.ilObjForum.php';
-
 	ilObjForum::_updateOldAccess($ilUser->getId());
-
-	$return_to = "start.php";
-
-	if ($_GET["rep_ref_id"] != "")
-	{
-		$return_to.= "?script=".rawurlencode("repository.php?cmd=frameset&ref_id=".$_GET["rep_ref_id"]);
-	}
 
 	if (!empty($_GET["return_to"]))
 	{
-		$return_to = urldecode($_GET["return_to"]);
+		ilUtil::redirect(urldecode($_GET["return_to"]));
 	}
+	else
+	{
+		if ($_GET["rep_ref_id"] != "")
+		{
+			$_GET["ref_id"] = $_GET["rep_ref_id"];
+		}
 
-	ilUtil::redirect($return_to);
+		include("start.php");
+		exit;
+	}
 }
 
 // Instantiate login template

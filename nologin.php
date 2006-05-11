@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
+die ("nologin deprecated.");
 /**
 * login script for ilias
 *
@@ -93,9 +93,10 @@ if ($_GET["reload"])
 }
 
 // check for auth
-if ($ilias->auth->getAuth())
+if ($ilAuth->getAuth())
 {
-	ilUtil::redirect("start.php");
+	include("start.php");
+	exit;
 }
 else
 {
