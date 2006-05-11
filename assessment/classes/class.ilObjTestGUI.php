@@ -1974,9 +1974,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$total = $this->object->evalTotalPersons();
 		$available_qpl =& $this->object->getAvailableQuestionpools(true, $selection_mode);
 		include_once "./assessment/classes/class.ilObjQuestionPool.php";
+		$qpl_question_count = array();
 		foreach ($available_qpl as $key => $value)
 		{
 			$count = ilObjQuestionPool::_getQuestionCount($key);
+			$qpl_question_count[$key] = $count;
 			if ($count == 1)
 			{
 				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_question") . ")";
@@ -2017,6 +2019,11 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if (preg_match("/countqpl_(\d+)/", $key, $matches))
 			{
+				if ($value > $qpl_question_count[$_POST["qpl_" . $matches[1]]])
+				{
+					$value = $qpl_question_count[$_POST["qpl_" . $matches[1]]];
+					sendInfo($this->lng->txt("tst_random_selection_question_count_too_high"));
+				}
 				$found_qpls[$matches[1]] = array(
 					"index" => $matches[1],
 					"count" => sprintf("%d", $value),
@@ -2128,6 +2135,23 @@ class ilObjTestGUI extends ilObjectGUI
 		if (array_key_exists("total_questions", $_POST))
 		{
 			$total_questions = $_POST["total_questions"];
+		}
+		if ($total_questions > 0)
+		{
+			$sum = 0;
+			foreach ($found_qpls as $key => $value)
+			{
+				$sum += $qpl_question_count[$value["qpl"]];
+			}
+			if ($total_questions > $sum)
+			{
+				$total_questions = $sum;
+				if ($_POST["cmd"]["saveRandomQuestions"])
+				{
+					$this->object->saveRandomQuestionCount($total_questions);
+				}
+				sendInfo($this->lng->txt("tst_random_selection_question_total_count_too_high"));
+			}
 		}
 		$this->tpl->setVariable("VALUE_TOTAL_QUESTIONS", $total_questions);
 		$this->tpl->setVariable("TEXT_QUESTIONPOOLS", $this->lng->txt("tst_random_questionpools"));
