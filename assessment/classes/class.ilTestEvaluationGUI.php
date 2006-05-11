@@ -898,7 +898,8 @@ class ilTestEvaluationGUI
 					"format" => "%"
 				));
 			}
-			if ($eval_statistical_settings["timeofwork"]) {
+			if ($eval_statistical_settings["timeofwork"]) 
+			{
 				$time = $stat_eval["timeofwork"];
 				$time_seconds = $time;
 				$time_hours    = floor($time_seconds/3600);
@@ -907,11 +908,12 @@ class ilTestEvaluationGUI
 				$time_seconds -= $time_minutes * 60;
 				array_push($evalrow, array(
 					"html" => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds),
-					"xls"  => $stat_eval["timeofwork"],
-					"csv"  => $stat_eval["timeofwork"]
+					"xls"  => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds),
+					"csv"  => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds)
 				));
 			}
-			if ($eval_statistical_settings["atimeofwork"]) {
+			if ($eval_statistical_settings["atimeofwork"]) 
+			{
 				$time = $stat_eval["atimeofwork"];
 				$time_seconds = $time;
 				$time_hours    = floor($time_seconds/3600);
@@ -920,11 +922,12 @@ class ilTestEvaluationGUI
 				$time_seconds -= $time_minutes * 60;
 				array_push($evalrow, array(
 					"html" => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds),
-					"xls"  => $stat_eval["atimeofwork"],
-					"csv"  => $stat_eval["atimeofwork"]
+					"xls"  => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds),
+					"csv"  => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds)
 				));
 			}
-			if ($eval_statistical_settings["firstvisit"]) {
+			if ($eval_statistical_settings["firstvisit"]) 
+			{
 				array_push($evalrow, array(
 					"html" => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])),
 					"xls"  => ilUtil::excelTime($stat_eval["firstvisit"]["year"],$stat_eval["firstvisit"]["mon"],$stat_eval["firstvisit"]["mday"],$stat_eval["firstvisit"]["hours"],$stat_eval["firstvisit"]["minutes"],$stat_eval["firstvisit"]["seconds"]),
