@@ -583,16 +583,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	      $f_result[$counter][]	= $tmp_obj->getFirstname();
 	      $f_result[$counter][]	= $tmp_obj->getLastname();
        	  
-		  $img_mail = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("mail_feedbackla").
-    		"\" title=\"".$this->lng->txt("mail_feedback")."\" border=\"0\" vspace=\"0\"/>";
-
-  		  $f_result[$counter][]	= "<a target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".$tmp_obj->getLogin()."\">".
-			$img_mail."</a>";
-
 
 //	      $f_result[$counter][]	= array("notice[$member_id]",ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
 
-	      switch ($this->object->members_obj->getStatusReturnedByMember($member_id)) 
+	      /*	      switch ($this->object->members_obj->getStatusReturnedByMember($member_id)) 
 		{
 		case 0:
 		  $f_result[$counter][] = "<center><img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\"></center>";
@@ -601,30 +595,36 @@ class ilObjExerciseGUI extends ilObjectGUI
 		  $f_result[$counter][] = "<center><img src=\"".ilUtil::getImagePath("icon_ok.gif")."\"></center>";
 		  break;
 		}
-
-	      // see if files have been resubmmited
+	      */
+	      // see if files have been resubmmited after solved
 	      if ( $this->__getUpdatedSubmission($member_id,$this->object->getId()) == 1) 
 		{
-		  $f_result[$counter][] = "<center><img src=\"".ilUtil::getImagePath("warning.gif")."\"></center>";
+		  $resubmitted = "<img style=\"vertical-align:middle;\" src=\"".ilUtil::getImagePath("warning12.gif")."\">";
 		}
+
 	      else {
-		$f_result[$counter][] = "<center><img src=\"".ilUtil::getImagePath("spacer.gif")."\"></center>";
+		$resubmitted = "<img src=\"".ilUtil::getImagePath("spacer.gif")."\">";
 	      }
 	      
 	      if ($this->object->members_obj->hasReturned($member_id))
 		{
-		  $f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\"".
-		    "value=\"".$this->lng->txt("download") . "\" />";
+		  $f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\" value=\"".$this->lng->txt("download") . "\" />";
 		}
 	      else
 		{
 		  $f_result[$counter][]	= "<span>---</span>";
 		}
 		
-	      $f_result[$counter][]   =  $this->__getLastSubmission($member_id,$this->object->getId());
+	      $f_result[$counter][]   =  $resubmitted."&nbsp;".$this->__getLastSubmission($member_id,$this->object->getId());
+
+	      $f_result[$counter][] =ilUtil::formCheckbox($this->object->members_obj->getStatusReturnedByMember($member_id),"returned[$member_id]",1);
+
 
 	      $f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1);
 	      $f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSentByMember($member_id),"sent[$member_id]",1);
+
+  		  $f_result[$counter][]	= "<a class=\"il_ContainerItemCommand\" target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".$tmp_obj->getLogin()."\">".$this->lng->txt("mail_feedback")."</a>";
+
 	      
 	      $member_ids[] = $member_id;
 	      
@@ -970,6 +970,9 @@ function __showMembersTable($a_data,$a_member_ids)
 		   "send_member" => $this->lng->txt("exc_send_exercise"),
 		   "delete_member" => $this->lng->txt("exc_deassign_members"));
   
+  $this->tpl->setVariable("RESUBMITTED_ICON", ilUtil::getImagePath("warning.gif"));
+  $this->tpl->setVariable("RESUBMITTED_ADVICE_TXT", $this->lng->txt("exc_resubmitted_advice"));
+
   $this->tpl->addBlockFile("MEMBER_TABLE","member_table","tpl.table.html");
   $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.exc_members_row.html");
   
@@ -998,7 +1001,7 @@ function __showMembersTable($a_data,$a_member_ids)
       $this->tpl->parseCurrentBlock();
     }
   
-  $this->tpl->setVariable("COLUMN_COUNTS",11);
+  $this->tpl->setVariable("COLUMN_COUNTS",9);
   $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
   
   $this->tpl->setCurrentBlock("tbl_action_select");
@@ -1008,7 +1011,7 @@ function __showMembersTable($a_data,$a_member_ids)
   $this->tpl->parseCurrentBlock();
   
   $this->tpl->setCurrentBlock("tbl_action_row");
-  $this->tpl->setVariable("COLUMN_COUNTS",11);
+  $this->tpl->setVariable("COLUMN_COUNTS",10);
   $this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
   $this->tpl->parseCurrentBlock();
   
@@ -1020,17 +1023,16 @@ function __showMembersTable($a_data,$a_member_ids)
   $tbl->setHeaderNames(array('',$this->lng->txt("login"),
 			     $this->lng->txt("firstname"),
 			     $this->lng->txt("lastname"),
-			     $this->lng->txt("mail"),
-			     $this->lng->txt("exc_status_submitted"),
-			     $this->lng->txt("exc_status_resubmitted"),
 			     $this->lng->txt("exc_files_returned"),
 			     $this->lng->txt("exc_last_submission"),
+			     $this->lng->txt("exc_status_submitted"),
 			     $this->lng->txt("exc_status_solved"),
-			     $this->lng->txt("exc_status_sent")));
-  $tbl->setHeaderVars(array("","login","firstname","lastname","","","","","exc_last_submission","",""),
+			     $this->lng->txt("exc_status_sent"),
+			     $this->lng->txt("actions")));
+  $tbl->setHeaderVars(array("","login","firstname","lastname","","exc_last_submission","","","",""),
 		      array("ref_id" => $this->object->getRefId(),
 			    "cmd" => "members"));
-  $tbl->setColumnWidth(array("5%","5%","10%","10%","5%","10%","10%","10%","5%","5%"));
+  $tbl->setColumnWidth(array("2%","10%","15%","15%","10%","20%","5%","5%","5%","10%"));
   $tbl->disable('content');
   
   $tbl->setOrderColumn($_GET["sort_by"]);
@@ -1130,17 +1132,6 @@ function getTabs(&$tabs_gui)
   //		       $this->ctrl->getLinkTarget($this, 'deliver'),
   //		       array("deliver", "deliverFile"), "");
   
-  // learning progress
-  include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-  if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
-    {
-      $tabs_gui->addTarget('learning_progress',
-			   $this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),
-			   '',
-			   array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-    }
-  
-  
   // members
   if ($rbacsystem->checkAccess("write", $this->ref_id))
     {
@@ -1155,6 +1146,19 @@ function getTabs(&$tabs_gui)
 				"newmembers", get_class($this));
       */
     }
+
+  // learning progress
+  include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+  if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
+    {
+      $tabs_gui->addTarget('learning_progress',
+			   $this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),
+			   '',
+			   array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+    }
+  
+  
+
   
   // permissions
   if ($rbacsystem->checkAccess("edit_permission", $this->ref_id))

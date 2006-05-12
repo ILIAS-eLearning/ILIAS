@@ -1,8 +1,9 @@
 <div style="float:right;">
-<table class="std">
+<table class="std" >
 
 <tr class="std"><td class="option" style="text-align:center;">{TIME_TO_SEND_TXT}</td>
 </tr>
+
 <!-- BEGIN TIME_NOT_REACHED -->
 <tr class="std"><td style="text-align:center;">{TIME_TO_SEND}</td>
 </tr>
@@ -13,10 +14,10 @@
 <!-- END TIME_REACHED -->
 </table>
 </div>
-<form action="{FORM_DOWNLOAD_ACTION}" method="post">
-	<table class="std" width="50%">
+
+<table class="std" width="50%">
 <tr class="tblheader">
-                        <td class="std" colspan="3">
+       <td class="std" colspan="3">
                           <table class="invisible_border" width="100%">
                                   <tr>
                                         <td>{TXT_HEADER}</td>
@@ -41,11 +42,21 @@
 		  <td class="option" colspan="2">{EDIT_UNTIL_TXT}</td>
 		  <td class="option_value">{EDIT_UNTIL}</td>
 		</tr>
+</table>
+<br/>
+<form action="{FORM_DOWNLOAD_ACTION}" method="post">
+<table class="std" width="50%">
 		<!-- BEGIN FILES -->
-		<tr class="std">
-		  <td class="option" colspan="2">{FILES_TXT}</td>
-		  <td class="option_value">&nbsp;</td>
-		</tr>
+		<tr class="tblheader">
+		    <td class="std" colspan="3">
+		       <table class="invisible_border" width="100%">
+                                  <tr>
+                                        <td>{FILES_TXT}</td>
+                                  </tr>
+                          </table>
+                        </td>
+                  </tr>
+
 		<!-- BEGIN FILES_ROW -->
 		<tr class="std">
 		  <td class="option_value" colspan="3">{FILE_CHECK} {FILE_DATA}</td>
