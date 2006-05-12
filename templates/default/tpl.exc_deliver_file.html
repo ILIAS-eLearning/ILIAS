@@ -1,6 +1,6 @@
-<center><form name="form_deliver" method="post" action="{FORMACTION}" enctype="multipart/form-data">
-{TEXT_FILENAME}:<br/> <input type="file" name="deliver" size="40" /> <input type="submit" class="submit" name="cmd[deliverFile]" value="{BUTTON_DELIVER}" />
-</form></center>
+<form name="form_deliver" method="post" action="{FORMACTION}" enctype="multipart/form-data">
+{TEXT_FILENAME}&nbsp;:<input type="file" name="deliver" size="40" /> <input type="submit" class="submit" name="cmd[deliverFile]" value="{BUTTON_DELIVER}" />
+</form>
 <br/>
 <!-- BEGIN delivered_files -->
 <center><h1>{TEXT_HEADING_DELIVERED_FILES}</h1>
@@ -27,6 +27,6 @@
 <td class="option_value" colspan="3">{TEXT_NO_DELIVERED_FILES}</td>
 <!-- END footer_empty -->
 </tr>
-</table></center>
-</form>
+</table>
+</form></center>
 <!-- END delivered_files -->
