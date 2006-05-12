@@ -1472,15 +1472,16 @@ common#:#exc_no_members_assigned#:#No members assigned
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
 common#:#exc_read#:#Access exercise
+common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
-common#:#exc_send_exercise#:#Send exercise
+common#:#exc_send_exercise#:#Deliver exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
-common#:#exc_status_sent#:#Sent by mail
+common#:#exc_status_sent#:#Delivered by mail
 common#:#exc_status_solved#:#Solved
 common#:#exc_status_submitted#:#Submitted
 common#:#exc_time_over_short#:#time is over
@@ -2165,6 +2166,7 @@ common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
 common#:#mail_edit_permission#:#Change permission settings
+common#:#mail_feedback#:#feedback
 common#:#mail_folders#:#Mail Folders
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Export file
