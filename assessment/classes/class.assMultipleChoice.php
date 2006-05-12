@@ -102,7 +102,7 @@ class ASS_MultipleChoice extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)))
+		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -966,6 +966,7 @@ class ASS_MultipleChoice extends ASS_Question
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$activepass = ilObjTest::_getPass($ilUser->id, $test_id);
 
+		$entered_values = 0;
 		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 			$db->quote($ilUser->id . ""),
 			$db->quote($test_id . ""),
@@ -977,14 +978,34 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			if (preg_match("/^multiple_choice_result_(\d+)/", $key, $matches))
 			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
-					$db->quote($ilUser->id),
-					$db->quote($test_id),
-					$db->quote($this->getId()),
-					$db->quote($value),
-					$db->quote($activepass . "")
-				);
-				$result = $db->query($query);
+				if (strlen($value))
+				{
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
+						$db->quote($ilUser->id),
+						$db->quote($test_id),
+						$db->quote($this->getId()),
+						$db->quote($value),
+						$db->quote($activepass . "")
+					);
+					$result = $db->query($query);
+					$entered_values++;
+				}
+			}
+		}
+		if ($entered_values)
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
 			}
 		}
     parent::saveWorkingData($test_id, $pass);

@@ -101,7 +101,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)))
+		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -1100,6 +1100,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		global $ilUser;
 
 		$saveWorkingDataResult = $this->checkSaveData();
+		$entered_values = 0;
 		if ($saveWorkingDataResult)
 		{
 			$db =& $ilDB->db;
@@ -1117,20 +1118,24 @@ class ASS_OrderingQuestion extends ASS_Question
 			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
 			{
 				$orderresult = $_POST["orderresult"];
-				$orderarray = explode(":", $orderresult);
-				$ordervalue = 1;
-				foreach ($orderarray as $index)
+				if (strlen($orderresult))
 				{
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-						$db->quote($ilUser->id . ""),
-						$db->quote($test_id . ""),
-						$db->quote($this->getId() . ""),
-						$db->quote($index . ""),
-						$db->quote($ordervalue . ""),
-						$db->quote($activepass . "")
-					);
-					$result = $db->query($query);
-					$ordervalue++;
+					$orderarray = explode(":", $orderresult);
+					$ordervalue = 1;
+					foreach ($orderarray as $index)
+					{
+						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+							$db->quote($ilUser->id . ""),
+							$db->quote($test_id . ""),
+							$db->quote($this->getId() . ""),
+							$db->quote($index . ""),
+							$db->quote($ordervalue . ""),
+							$db->quote($activepass . "")
+						);
+						$result = $db->query($query);
+						$ordervalue++;
+						$entered_values++;
+					}
 				}
 			}
 			else
@@ -1141,18 +1146,38 @@ class ASS_OrderingQuestion extends ASS_Question
 					{
 						if (!(preg_match("/initial_value_\d+/", $value)))
 						{
-							$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-								$db->quote($ilUser->id . ""),
-								$db->quote($test_id . ""),
-								$db->quote($this->getId() . ""),
-								$db->quote($matches[1] . ""),
-								$db->quote($value . ""),
-								$db->quote($activepass . "")
-							);
-							$result = $db->query($query);
+							if (strlen($value))
+							{
+								$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+									$db->quote($ilUser->id . ""),
+									$db->quote($test_id . ""),
+									$db->quote($this->getId() . ""),
+									$db->quote($matches[1] . ""),
+									$db->quote($value . ""),
+									$db->quote($activepass . "")
+								);
+								$result = $db->query($query);
+								$entered_values++;
+							}
 						}
 					}
 				}
+			}
+		}
+		if ($entered_values)
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
 			}
 		}
     parent::saveWorkingData($test_id, $pass);

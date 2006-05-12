@@ -698,6 +698,23 @@ class ilTestEvaluationGUI
 		array_push($titlerow, $name_column);
 		
 		$char = "A";
+		if ($eval_statistical_settings["resultspoints"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_resultspoints");
+			$char++;
+		}
+		if ($eval_statistical_settings["resultsmarks"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_resultsmarks");
+			$char++;
+			
+			if ($this->object->ects_output)
+			{
+				array_push($titlerow, $char);
+				$legend[$char] = $this->lng->txt("ects_grade");
+				$char++;
+			}
+		}
 		if ($eval_statistical_settings["qworkedthrough"]) {
 			array_push($titlerow, $char);
 			$legend[$char] = $this->lng->txt("tst_stat_result_qworkedthrough");
@@ -727,23 +744,6 @@ class ilTestEvaluationGUI
 			array_push($titlerow, $char);
 			$legend[$char] = $this->lng->txt("tst_stat_result_lastvisit");
 			$char++;
-		}
-		if ($eval_statistical_settings["resultspoints"]) {
-			array_push($titlerow, $char);
-			$legend[$char] = $this->lng->txt("tst_stat_result_resultspoints");
-			$char++;
-		}
-		if ($eval_statistical_settings["resultsmarks"]) {
-			array_push($titlerow, $char);
-			$legend[$char] = $this->lng->txt("tst_stat_result_resultsmarks");
-			$char++;
-			
-			if ($this->object->ects_output)
-			{
-				array_push($titlerow, $char);
-				$legend[$char] = $this->lng->txt("ects_grade");
-				$char++;
-			}
 		}
 		if ($eval_statistical_settings["distancemedian"]) {
 			array_push($titlerow, $char);
@@ -874,7 +874,7 @@ class ilTestEvaluationGUI
 			}
 
 			$evalrow = array();
-			$username = $evalcounter++; 
+			$username = $this->lng->txt("user") . " " . $evalcounter++; 
 			if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
 			{
 				$username = $selected_users[$key];
@@ -884,6 +884,30 @@ class ilTestEvaluationGUI
 				"xls"  => $username,
 				"csv"  => $username
 			));
+			if ($eval_statistical_settings["resultspoints"]) {
+				array_push($evalrow, array(
+					"html" => $stat_eval["resultspoints"]." ".strtolower($this->lng->txt("of"))." ". $stat_eval["maxpoints"],
+					"xls"  => $stat_eval["resultspoints"],
+					"csv"  => $stat_eval["resultspoints"]
+				));
+			}
+			if ($eval_statistical_settings["resultsmarks"]) {
+				array_push($evalrow, array(
+					"html" => $stat_eval["resultsmarks"],
+					"xls"  => $stat_eval["resultsmarks"],
+					"csv"  => $stat_eval["resultsmarks"]
+				));
+
+				if ($this->object->ects_output)
+				{
+					$mark_ects = $this->object->getECTSGrade($stat_eval["resultspoints"],$stat_eval["maxpoints"]);
+					array_push($evalrow, array(
+						"html" => $mark_ects,
+						"xls"  => $mark_ects,
+						"csv"  => $mark_ects
+					));
+				}
+			}
 			if ($eval_statistical_settings["qworkedthrough"]) {
 				array_push($evalrow, array(
 					"html" => $stat_eval["qworkedthrough"],
@@ -943,30 +967,6 @@ class ilTestEvaluationGUI
 					"csv"  => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])),
 					"format" => "t"
 				));
-			}
-			if ($eval_statistical_settings["resultspoints"]) {
-				array_push($evalrow, array(
-					"html" => $stat_eval["resultspoints"]." ".strtolower($this->lng->txt("of"))." ". $stat_eval["maxpoints"],
-					"xls"  => $stat_eval["resultspoints"],
-					"csv"  => $stat_eval["resultspoints"]
-				));
-			}
-			if ($eval_statistical_settings["resultsmarks"]) {
-				array_push($evalrow, array(
-					"html" => $stat_eval["resultsmarks"],
-					"xls"  => $stat_eval["resultsmarks"],
-					"csv"  => $stat_eval["resultsmarks"]
-				));
-
-				if ($this->object->ects_output)
-				{
-					$mark_ects = $this->object->getECTSGrade($stat_eval["resultspoints"],$stat_eval["maxpoints"]);
-					array_push($evalrow, array(
-						"html" => $mark_ects,
-						"xls"  => $mark_ects,
-						"csv"  => $mark_ects
-					));
-				}
 			}
 			
 			if ($eval_statistical_settings["distancemedian"]) {
@@ -1357,7 +1357,7 @@ class ilTestEvaluationGUI
 			$counter++;
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("row");
-			$average_time = $this->object->evalTotalFinishedAverageTime();
+			$average_time = $this->object->evalTotalStartedAverageTime();
 			$diff_seconds = $average_time;
 			$diff_hours    = floor($diff_seconds/3600);
 			$diff_seconds -= $diff_hours   * 3600;
@@ -1378,6 +1378,18 @@ class ilTestEvaluationGUI
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_points"));
 			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", $passed_tests["average_points"]) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $passed_tests["maximum_points"]));
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_time"));
+			$average_time = $this->object->evalTotalPassedAverageTime();
+			$diff_seconds = $average_time;
+			$diff_hours    = floor($diff_seconds/3600);
+			$diff_seconds -= $diff_hours   * 3600;
+			$diff_minutes  = floor($diff_seconds/60);
+			$diff_seconds -= $diff_minutes * 60;
+			$this->tpl->setVariable("TXT_VALUE", sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds));
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$counter++;
 			$this->tpl->parseCurrentBlock();
@@ -1613,7 +1625,15 @@ class ilTestEvaluationGUI
 		include_once "./classes/class.ilObjUser.php";
 		$uname = ilObjUser::_lookupName($user_id);
 		$struname = trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"]);
-		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $struname));
+		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+		{
+			include_once "./classes/class.ilObjUser.php";
+			$uname = ilObjUser::_lookupName($user_id);
+			$struname = trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"]);
+			$this->tpl->setCurrentBlock("test_user_name");
+			$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $struname));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->parseCurrentBlock();
 
 		if ($this->object->isRandomTest())

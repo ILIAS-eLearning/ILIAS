@@ -854,9 +854,9 @@ class ASS_Question
 	{
     global $ilDB;
 		global $ilUser;
-		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id, $pass);
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
+		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id, $pass);
 		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s, %s)",
 			$ilDB->quote($ilUser->id . ""),
 			$ilDB->quote($test_id . ""),
@@ -1922,7 +1922,7 @@ class ASS_Question
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($test_id . ""),
 			$ilDB->quote($question_id . "")
@@ -2026,6 +2026,44 @@ class ASS_Question
 			}
 		}
 		return $points;
+	}
+
+	/**
+	* Returns true if the question was worked through in the given pass
+	*
+	* Returns true if the question was worked through in the given pass
+	* Worked through means that the user entered at least one value
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @param integer $question_id The database Id of the question
+	* @access public static
+	*/
+	function _isWorkedThrough($user_id, $test_id, $question_id, $pass = NULL)
+	{
+		global $ilDB;
+
+		$points = 0;
+		if (is_null($pass))
+		{
+			include_once "./assessment/classes/class.assQuestion.php";
+			$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $test_id);
+		}
+		$query = sprintf("SELECT solution_id FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }
 

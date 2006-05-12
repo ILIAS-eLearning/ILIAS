@@ -326,6 +326,13 @@ class ilObjTest extends ilObject
 */
 	var $score_cutting;
 
+/**
+* Password access to enter the test
+*
+* @var string
+*/
+	var $password;
+
 	/**
 	* Constructor
 	* @access	public
@@ -365,6 +372,7 @@ class ilObjTest extends ilObject
 		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
 		$this->score_cutting = SCORE_CUT_QUESTION;
 		$this->pass_scoring = SCORE_LAST_PASS;
+		$this->password = "";
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -1090,7 +1098,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, password, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->test_type . ""),
@@ -1121,6 +1129,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->getPassScoring() . ""),
 				$db->quote($shuffle_questions . ""),
 				$db->quote($show_solution_details . ""),
+				$db->quote($this->getPassword() . ""),
 				$db->quote($created)
       );
       
@@ -1148,7 +1157,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, password = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
@@ -1177,6 +1186,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->getPassScoring() . ""),
 				$db->quote($shuffle_questions . ""),
 				$db->quote($show_solution_details . ""),
+				$db->quote($this->getPassword() . ""),
         $db->quote($this->test_id)
       );
 	    $result = $db->query($query);
@@ -1562,6 +1572,7 @@ class ilObjTest extends ilObject
 				$this->count_system = $data->count_system;
 				$this->mc_scoring = $data->mc_scoring;
 				$this->setScoreCutting($data->score_cutting);
+				$this->setPassword($data->password);
 				$this->setPassScoring($data->pass_scoring);
 				$this->loadQuestions();
 			}
@@ -1903,6 +1914,20 @@ class ilObjTest extends ilObject
   function getScoreCutting() 
 	{
     return $this->score_cutting;
+  }
+
+/**
+* Returns the password for test access 
+* 
+* Returns the password for test access 
+*
+* @return striong  Password for test access
+* @access public
+* @see $password
+*/
+  function getPassword() 
+	{
+    return $this->password;
   }
 
 /**
@@ -2335,6 +2360,20 @@ class ilObjTest extends ilObject
   function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS) 
 	{
     $this->count_system = $a_count_system;
+  }
+  
+/**
+* Sets the password for test access 
+*
+* Sets the password for test access 
+*
+* @param string $a_password The password for test access  
+* @access public
+* @see $password
+*/
+  function setPassword($a_password = "") 
+	{
+    $this->password = $a_password;
   }
   
 /**
@@ -3309,11 +3348,20 @@ class ilObjTest extends ilObject
 		$key = 1;
 		$result_array = array();
 		include_once "./assessment/classes/class.assQuestion.php";
+		$workedthrough = 0;
 		foreach ($this->questions as $value)
 		{
 			$max_points = ASS_Question::_getMaximumPoints($value);
 			$total_max_points += $max_points;
 			$reached_points = ASS_Question::_getReachedPoints($user_id, $this->getTestId(), $value, $pass);
+			if (ASS_Question::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
+			{
+				$workedthrough = 1;
+			}
+			else
+			{
+				$workedthrough = 0;
+			}
 			$total_reached_points += $reached_points;
 			if ($max_points > 0)
 			{
@@ -3346,7 +3394,8 @@ class ilObjTest extends ilObject
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
 				"solution" => $href,
 				"type" => $info["type_tag"],
-				"qid" => $value
+				"qid" => $value,
+				"workedthrough" => $workedthrough
 			);
 			array_push($result_array, $row);
 			$key++;
@@ -3441,23 +3490,6 @@ class ilObjTest extends ilObject
 	}
 
 	
-/**
-* Calculates the results of a test for a given user
-* 
-* Calculates the results of a test for a given user
-* and returns an array with all test results
-*
-* @return array An array containing the test results for the given user
-* @access public
-*/
-	function &_getTestResult($user_id, $test_obj_id) 
-	{
-		$test = new ilObjTest($test_obj_id, false);
-		$test->loadFromDb();
-		$result =& $test->getTestResult($user_id);
-		return $result;
-	}
-
 /**
 * Returns the number of persons who started the test
 *
@@ -3678,20 +3710,20 @@ class ilObjTest extends ilObject
 		$first_date = getdate($first_visit);
 		$last_date = getdate($last_visit);
 		$qworkedthrough = 0;
-		if (is_null($pass)) $pass = 0;
-		$query_worked_through = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
-			$this->ilias->db->quote("$user_id"),
-			$this->ilias->db->quote($this->getTestId()),
-			$this->ilias->db->quote($pass . "")
-		);
-		$worked_through_result = $this->ilias->db->query($query_worked_through);
-		if (!$worked_through_result->numRows())
+		foreach ($test_result as $key => $value)
+		{
+			if (preg_match("/\d+/", $key))
+			{
+				$qworkedthrough += $value["workedthrough"];
+			}
+		}
+		if (!qworkedthrough)
 		{
 			$atimeofwork = 0;
 		}
 		else
 		{
-			$atimeofwork = $max_time / $worked_through_result->numRows();
+			$atimeofwork = $max_time / $qworkedthrough;
 		}
 		$result_mark = "";
 		$passed = "";
@@ -3708,9 +3740,9 @@ class ilObjTest extends ilObject
 			}
 		}
 		$result_array = array(
-			"qworkedthrough" => $worked_through_result->numRows(),
+			"qworkedthrough" => $qworkedthrough,
 			"qmax" => count($this->questions),
-			"pworkedthrough" => ($worked_through_result->numRows()) / count($this->questions),
+			"pworkedthrough" => $qworkedthrough / count($this->questions),
 			"timeofwork" => $max_time,
 			"atimeofwork" => $atimeofwork,
 			"firstvisit" => $first_date,
@@ -3800,7 +3832,7 @@ class ilObjTest extends ilObject
 		$persons_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$persons_array[$row->user_fi] = trim("$row->title $row->firstname $row->lastname");
+			$persons_array[$row->user_fi] = trim("$row->lastname, $row->firstname $row->title");
 		}
 		return $persons_array;
 	}
@@ -3834,7 +3866,7 @@ class ilObjTest extends ilObject
 */
 	function evalTotalFinishedPassed()
 	{
-		$q = sprintf("SELECT * FROM tst_active WHERE test_fi = %s AND tries > 0",
+		$q = sprintf("SELECT * FROM tst_active WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
@@ -3877,7 +3909,7 @@ class ilObjTest extends ilObject
 		}
 		if ($counter) 
 		{
-			$average_points = round($reached_points / $counter);
+			$average_points = ($reached_points / $counter);
 		} 
 			else 
 		{
@@ -3913,6 +3945,93 @@ class ilObjTest extends ilObject
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
 			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 			$times[$row->active_fi] += ($epoch_2 - $epoch_1);
+		}
+		$max_time = 0;
+		$counter = 0;
+		foreach ($times as $key => $value) 
+		{
+			$max_time += $value;
+			$counter++;
+		}
+		if ($counter) 
+		{
+			$average_time = round($max_time / $counter);
+		} 
+			else 
+		{
+			$average_time = 0;
+		}
+		return $average_time;
+	}
+	
+/**
+* Returns the average processing time for all started tests
+* 
+* Returns the average processing time for all started tests
+*
+* @return integer The average processing time for all started tests
+* @access public
+*/
+	function evalTotalStartedAverageTime()
+	{
+		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($q);
+		$times = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		{
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			$times[$row->active_fi] += ($epoch_2 - $epoch_1);
+		}
+		$max_time = 0;
+		$counter = 0;
+		foreach ($times as $key => $value) 
+		{
+			$max_time += $value;
+			$counter++;
+		}
+		if ($counter) 
+		{
+			$average_time = round($max_time / $counter);
+		} 
+			else 
+		{
+			$average_time = 0;
+		}
+		return $average_time;
+	}
+	
+/**
+* Returns the average processing time for all passed tests
+* 
+* Returns the average processing time for all passed tests
+*
+* @return integer The average processing time for all passed tests
+* @access public
+*/
+	function evalTotalPassedAverageTime()
+	{
+		include_once "./assessment/classes/class.ilObjTestAccess.php";
+		$passed_users =& ilObjTest::_getPassedUsers($this->getId());
+		$q = sprintf("SELECT tst_times.*, tst_active.user_fi FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($q);
+		$times = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		{
+			if (in_array($row->user_fi, $passed_users))
+			{
+				preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
+				$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
+				$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$times[$row->active_fi] += ($epoch_2 - $epoch_1);
+			}
 		}
 		$max_time = 0;
 		$counter = 0;
@@ -4716,6 +4835,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "score_cutting");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getScoreCutting());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// multiple choice scoring
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "password");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getPassword());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// pass scoring
@@ -6249,23 +6374,20 @@ class ilObjTest extends ilObject
 */
 	function getAnsweredQuestionCount($user_id, $test_id, $pass = NULL)
 	{
-		global $ilDB;
-		if (is_null($pass)) $pass = 0;
-		$query = sprintf("SELECT COUNT(test_result_id) AS answered FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote($pass . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
+		if ($this->isRandomTest())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			return $row["answered"];
+			$this->loadQuestions($user_id, $pass);
 		}
-		else
+		include_once "./assessment/classes/class.assQuestion.php";
+		$workedthrough = 0;
+		foreach ($this->questions as $value)
 		{
-			return 0;
+			if (ASS_Question::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
+			{
+				$workedthrough += 1;
+			}
 		}
+		return $workedthrough;
 	}
 
 /**
@@ -6557,6 +6679,45 @@ class ilObjTest extends ilObject
 		}
 	}
 	
+/**
+* Returns an array containing the user ids of all users who passed the test
+*
+* Returns an array containing the user ids of all users who passed the test,
+* regardless if they fnished the test with the finish test button or not. Only
+* the reached points are counted
+*
+* @param integer $test_id Test id of the test
+* @return array An array containing the user ids of the users who passed the test
+* @access public
+*/
+	function &_getPassedUsers($a_obj_id)
+	{
+		global $ilDB;
+		
+		$passed_users = array();
+		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
+						 "WHERE tst_tests.obj_fi = %s ".
+						 "AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($a_obj_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$user_id = $row["user_fi"];
+				$test_id = $row["test_fi"];
+				$pass = ilObjTest::_getResultPass($user_id, $test_id);
+				include_once "./assessment/classes/class.ilObjTestAccess.php";
+				$testres =& ilObjTestAccess::_getTestResult($user_id, $a_obj_id, $pass);
+				if ((bool) $testres['passed'])
+				{
+					array_push($passed_users, $user_id);
+				}
+			}
+		}
+		return $passed_users;
+	}
 	
 } // END class.ilObjTest
 
