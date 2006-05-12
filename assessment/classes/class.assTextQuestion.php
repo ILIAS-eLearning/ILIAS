@@ -110,7 +110,7 @@ class ASS_TextQuestion extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -785,14 +785,35 @@ class ASS_TextQuestion extends ASS_Question
 		{
 			$text = substr($text, 0, $this->getMaxNumOfChars()); 
 		}
-		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
-			$db->quote($ilUser->id . ""),
-			$db->quote($test_id . ""),
-			$db->quote($this->getId() . ""),
-			$db->quote($text . ""),
-			$db->quote($activepass . "")
-		);
-		$result = $db->query($query);
+		$entered_values = 0;
+		if (strlen($text))
+		{
+			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
+				$db->quote($ilUser->id . ""),
+				$db->quote($test_id . ""),
+				$db->quote($this->getId() . ""),
+				$db->quote($text . ""),
+				$db->quote($activepass . "")
+			);
+			$result = $db->query($query);
+			$entered_values++;
+		}
+		if ($entered_values)
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
     parent::saveWorkingData($test_id, $pass);
 		return true;
 	}

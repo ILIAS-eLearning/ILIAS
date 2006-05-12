@@ -1090,6 +1090,12 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setScoreCutting($this->metadata["entry"]);
 							}
 							break;
+						case "password":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setPassword($this->metadata["entry"]);
+							}
+							break;
 						case "pass_scoring":
 							if (is_object($this->tst_object))
 							{

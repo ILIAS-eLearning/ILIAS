@@ -122,7 +122,7 @@ class ASS_ClozeTest extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->cloze_text) and (count($this->gaps)))
+		if (($this->title) and ($this->author) and ($this->cloze_text) and (count($this->gaps)) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -1542,19 +1542,46 @@ class ASS_ClozeTest extends ASS_Question
     );
     $result = $db->query($query);
 
+		$entered_values = 0;
     foreach ($_POST as $key => $value) {
-      if (preg_match("/^gap_(\d+)/", $key, $matches)) {
-        $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-					$db->quote($ilUser->id),
-					$db->quote($test_id),
-					$db->quote($this->getId()),
-					$db->quote($matches[1]),
-					$db->quote(ilUtil::stripSlashes($value)),
-					$db->quote($activepass . "")
-        );
-        $result = $db->query($query);
+      if (preg_match("/^gap_(\d+)/", $key, $matches)) 
+			{ 
+				$value = ilUtil::stripSlashes($value);
+				if (strlen($value))
+				{
+					$gap = $this->getGap($matches[1]);
+					if (!(($gap[0]->getClozeType() == CLOZE_SELECT) && ($value == -1)))
+					{
+						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+							$db->quote($ilUser->id),
+							$db->quote($test_id),
+							$db->quote($this->getId()),
+							$db->quote($matches[1]),
+							$db->quote($value),
+							$db->quote($activepass . "")
+						);
+						$result = $db->query($query);
+						$entered_values++;
+					}
+				}
       }
     }
+		if ($entered_values)
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
     parent::saveWorkingData($test_id, $pass);
 		return true;
   }

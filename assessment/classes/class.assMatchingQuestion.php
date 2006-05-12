@@ -101,7 +101,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and (count($this->matchingpairs)))
+		if (($this->title) and ($this->author) and ($this->question) and (count($this->matchingpairs)) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -1045,6 +1045,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		global $ilDB;
 		global $ilUser;
 		$saveWorkingDataResult = $this->checkSaveData();
+		$entered_values = 0;
 		if ($saveWorkingDataResult)
 		{
 			$db =& $ilDB->db;
@@ -1065,16 +1066,19 @@ class ASS_MatchingQuestion extends ASS_Question
 				{
 					if (!(preg_match("/initial_value_\d+/", $value)))
 					{
-						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-							$db->quote($ilUser->id),
-							$db->quote($test_id),
-							$db->quote($this->getId()),
-							$db->quote($value),
-							$db->quote($matches[1]),
-							$db->quote($activepass . "")
-						);
-						$result = $db->query($query);
-						echo $query;
+						if ($value > -1) // -1 is the unselected value in the non javascript version
+						{
+							$entered_values++;
+							$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+								$db->quote($ilUser->id),
+								$db->quote($test_id),
+								$db->quote($this->getId()),
+								$db->quote($value),
+								$db->quote($matches[1]),
+								$db->quote($activepass . "")
+							);
+							$result = $db->query($query);
+						}
 					}
 					else
 					{
@@ -1082,6 +1086,7 @@ class ASS_MatchingQuestion extends ASS_Question
 						//   with javascript enabled if you reset the positions in a later
 						//   pass the input would be deleted but the solution from the previous
 						//   pass would be used which is not the same as an unanswered question
+						$entered_values++;
 						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
 							$db->quote($ilUser->id),
 							$db->quote($test_id),
@@ -1095,6 +1100,22 @@ class ASS_MatchingQuestion extends ASS_Question
 				}
 			}
 			$saveWorkingDataResult = true;
+		}
+		if ($entered_values)
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
 		}
     parent::saveWorkingData($test_id, $pass);
 		return $saveWorkingDataResult;

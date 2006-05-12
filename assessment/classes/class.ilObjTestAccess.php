@@ -531,7 +531,7 @@ class ilObjTestAccess extends ilObjectAccess
 		}
 		return $passed_users;
 	}
-	
+
 }
 
 ?>

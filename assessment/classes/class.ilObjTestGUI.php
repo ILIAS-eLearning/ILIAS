@@ -732,6 +732,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// Check the values the user entered in the form
 		if (!$total)
 		{
+			$data["password"] = $_POST["password"];
 			$data["count_system"] = $_POST["count_system"];
 			$data["mc_scoring"] = $_POST["mc_scoring"];
 			$data["score_cutting"] = $_POST["score_cutting"];
@@ -907,6 +908,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
+		$this->object->setPassword($data["password"]);
 		$this->object->setScoreCutting($data["score_cutting"]);
 		$this->object->setPassScoring($data["pass_scoring"]);
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
@@ -1120,6 +1122,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["random_test"] = $this->object->isRandomTest();
 		$data["count_system"] = $this->object->getCountSystem();
 		$data["mc_scoring"] = $this->object->getMCScoring();
+		$data["password"] = $this->object->getPassword();
 		$data["score_cutting"] = $this->object->getScoreCutting();
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
@@ -1209,6 +1212,10 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHECKED_REPORTING_DATE", " checked=\"checked\"");
 			}
 			$this->tpl->setVariable("INPUT_REPORTING_DATE", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
+			if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) 
+			{
+				$this->tpl->setVariable("DISABLE_SCORE_REPORTING_DATE_CHECKBOX", " disabled=\"disabled\"");
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1270,7 +1277,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("DISABLE_SCORE_REPORTING", " disabled=\"disabled\"");
 			if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) 
 			{
-				$this->tpl->setVariable("DISABLE_SCORE_REPORTING_DATE_CHECKBOX", " disabled=\"disabled\"");
 				$this->tpl->setVariable("DISABLE_SEQUENCE", " disabled=\"disabled\"");
 				$this->tpl->setVariable("DISABLE_NR_OF_TRIES", " disabled=\"disabled\"");
 				$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
@@ -1393,6 +1399,12 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
 		{
 			$this->tpl->setVariable("DISABLE_PASS_SCORING", " disabled=\"disabled\"");
+		}
+		$this->tpl->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
+		$this->tpl->setVariable("TEXT_PASSWORD_DETAILS", $this->lng->txt("tst_password_details"));
+		if (strlen($data["password"]))
+		{
+			$this->tpl->setVariable("VALUE_PASSWORD", " value=\"". $data["password"]."\"");
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
@@ -4352,7 +4364,9 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmSubmitAnswers":
 			case "finalSubmission":
 			case "postpone":
+			case "redirectQuestion":
 			case "outResultsOverview":
+			case "checkPassword":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
 				break;
 			case "eval_stat":
@@ -4409,6 +4423,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "postpone":
 			case "redirectQuestion":
 			case "outResultsOverview":
+			case "checkPassword":
 				return;
 				break;
 		}

@@ -472,11 +472,12 @@ assessment#:#tst_enter_questionpool#:#Please enter a question pool name where th
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_results_by_pass#:#Detailed question results
 assessment#:#tst_eval_show_answer#:#Show answer
-assessment#:#tst_eval_total_finished#:#Total completed tests
-assessment#:#tst_eval_total_finished_average_time#:#Average processing time for completed tests
+assessment#:#tst_eval_total_finished#:#Total finished tests (users who submitted the test with the finish test button)
+assessment#:#tst_eval_total_finished_average_time#:#Average test processing time
 assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
-assessment#:#tst_eval_total_persons#:#Total number of persons entered the test
+assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
+assessment#:#tst_eval_total_persons#:#Total number of persons who started the test
 assessment#:#tst_eval_user_answer#:#User answer
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous answer
@@ -528,6 +529,10 @@ assessment#:#tst_pass_best_pass#:#Score the best pass of a user
 assessment#:#tst_pass_details#:#Show details
 assessment#:#tst_pass_last_pass#:#Score the last pass of a user
 assessment#:#tst_pass_scoring#:#Multiple pass scoring
+assessment#:#tst_password#:#Test password
+assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test
+assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
+assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test
 assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print

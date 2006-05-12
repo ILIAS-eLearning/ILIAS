@@ -126,7 +126,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 */
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->image_filename) and (count($this->answers)))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->image_filename) and (count($this->answers)) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -992,14 +992,32 @@ class ASS_ImagemapQuestion extends ASS_Question
     );
     $result = $db->query($query);
 
-		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
-			$db->quote($ilUser->id),
-			$db->quote($test_id),
-			$db->quote($this->getId()),
-			$db->quote($_GET["selImage"]),
-			$db->quote($activepass . "")
-		);
-		$result = $db->query($query);
+		if (strlen($_GET["selImage"]))
+		{
+			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
+				$db->quote($ilUser->id),
+				$db->quote($test_id),
+				$db->quote($this->getId()),
+				$db->quote($_GET["selImage"]),
+				$db->quote($activepass . "")
+			);
+			$result = $db->query($query);
+
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+			}
+		}
+
     parent::saveWorkingData($test_id, $pass);
 		return true;
   }

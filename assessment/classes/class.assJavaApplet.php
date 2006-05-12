@@ -423,7 +423,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->points != ""))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}

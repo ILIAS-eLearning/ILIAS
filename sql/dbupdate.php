@@ -10724,3 +10724,5 @@ CREATE TABLE `qpl_answer_singlechoice` (
 ?>
 <#708>
 ALTER TABLE qpl_question_multiplechoice DROP choice_response;
+<#709>
+ALTER TABLE `tst_tests` ADD `password` VARCHAR( 20 ) NULL AFTER `pass_scoring`;

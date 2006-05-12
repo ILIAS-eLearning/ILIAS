@@ -53,6 +53,7 @@ class ilTestOutputGUI
 /**
 * ilSurveyExecutionGUI constructor
 *
+
 * The constructor takes possible arguments an creates an instance of the ilSurveyExecutionGUI object.
 *
 * @param object $a_object Associated ilObjSurvey class
@@ -239,7 +240,7 @@ class ilTestOutputGUI
 		
 		$this->object->deleteResults($ilUser->id);
 		sendInfo($this->lng->txt("tst_confirm_delete_results_info"), true);
-		$this->ctrl->redirect($this, "outIntroductionPage"); 
+		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 	}
 	
 /**
@@ -534,6 +535,46 @@ class ilTestOutputGUI
 	}
 	
 /**
+* Displays a password protection page when a test password is set
+*
+* Displays a password protection page when a test password is set
+*
+* @access public
+*/
+	function showPasswordProtectionPage()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_password_protection.html", true);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PASSWORD_INTRODUCTION", $this->lng->txt("tst_password_introduction"));
+		$this->tpl->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
+		$this->tpl->setVariable("SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+* Check the password, a user entered for test access
+*
+* Check the password, a user entered for test access
+*
+* @access public
+*/
+	function checkPassword()
+	{
+		if (strcmp($this->object->getPassword(), $_POST["password"]) == 0)
+		{
+			global $ilUser;
+			$ilUser->setPref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
+			$ilUser->writePref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
+			$this->ctrl->redirect($this, "start");
+		}
+		else
+		{
+			sendInfo($this->lng->txt("tst_password_entered_wrong_password"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
+		}
+	}
+	
+/**
 * Start a test for the first time
 *
 * Start a test for the first time
@@ -542,6 +583,18 @@ class ilTestOutputGUI
 */
 	function start()
 	{
+		if (strlen($this->object->getPassword()))
+		{
+			global $ilUser;
+			global $rbacsystem;
+			
+			$pwd = $ilUser->getPref("tst_password_".$this->object->getTestId());
+
+			if ((strcmp($pwd, $this->object->getPassword()) != 0) && (!$rbacsystem->checkAccess("write", $this->object->getRefId())))
+			{
+				return $this->showPasswordProtectionPage();
+			}
+		}
 		$this->readFullSequence();
 		
 		if ($this->object->isRandomTest())
@@ -871,10 +924,7 @@ class ilTestOutputGUI
 */
 	function selectImagemapRegion()
 	{
-		if (!(is_array($_POST) && (count($_POST))))
-		{
-			$this->saveQuestionSolution();
-		}
+		$this->saveQuestionSolution();
 		$activecommand = "selectImagemapRegion";
 		if (array_key_exists("cmd", $_POST))
 		{

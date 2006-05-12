@@ -455,11 +455,12 @@ assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpool
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
-assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
-assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
+assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Nutzerinnen, die den Test durch Drücken der Test beenden Schaltfläche fertiggestellt haben)
+assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit aller Tests
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
-assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
+assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungszeit aller bestandenen Tests
+assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
 assessment#:#tst_eval_user_answer#:#Antwort
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
