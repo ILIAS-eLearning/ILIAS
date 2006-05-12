@@ -1419,7 +1419,7 @@ common#:#enable_js_edit_info#:#This option enables JavaScript editing for all co
 common#:#enable_password_assistance#:#Enable password assistance
 common#:#enable_registration#:#Enable new user registration
 common#:#enabled#:#Enabled
-common#:#enter_filename_deliver#:#Enter exercise to deliver
+common#:#enter_filename_deliver#:#Enter file to be delivered
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
@@ -1459,7 +1459,7 @@ common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit until
-common#:#exc_files#:#Files
+common#:#exc_files#:#Exercise files
 common#:#exc_files_returned#:#Submitted files
 common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
