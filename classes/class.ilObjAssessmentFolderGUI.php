@@ -287,7 +287,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$row = array(
 						$this->lng->txt("assessment_log_datetime"),
 						$this->lng->txt("user"),
-						$this->lng->txt("assessment_log_text")
+						$this->lng->txt("assessment_log_text"),
+						$this->lng->txt("question")
 				);
 				array_push($csv, ilUtil::processCSVRow($row, TRUE, $separator));
 			}
@@ -326,7 +327,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 					{
 						$title = ASS_Question::_getQuestionTitle($log["original_fi"]);
 					}
-					$title = "(" . $this->lng->txt("assessment_log_question") . ": " . $title . ")";
+					$title = $this->lng->txt("assessment_log_question") . ": " . $title;
 				}
 				$this->tpl->setVariable("TXT_USER", trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
 				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
@@ -335,18 +336,34 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				}
 				if (array_key_exists("value1", $log))
 				{
-					$this->tpl->setVariable("TXT_LOGTEXT", ilUtil::prepareFormOutput($this->lng->txt("assessment_log_user_answer") . " " . $title));
+					if (strlen($title))
+					{
+						$this->tpl->setVariable("TXT_LOGTEXT", ilUtil::prepareFormOutput($this->lng->txt("assessment_log_user_answer") . " (" . $title . ")"));
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_LOGTEXT", ilUtil::prepareFormOutput($this->lng->txt("assessment_log_user_answer")));
+					}
 					if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
 					{
-						array_push($csvrow, $this->lng->txt("assessment_log_user_answer") . " " . $title);
+						array_push($csvrow, $this->lng->txt("assessment_log_user_answer"));
+						array_push($csvrow, $title);
 					}
 				}
 				else
 				{
-					$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"]) . " " . $title));
+					if (strlen($title))
+					{
+						$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"]) . " (" . $title . ")"));
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"])));
+					}
 					if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
 					{
-						array_push($csvrow, trim($log["logtext"] . " " . $title));
+						array_push($csvrow, trim($log["logtext"]));
+						array_push($csvrow, $title);
 					}
 				}
 				$this->tpl->parseCurrentBlock();
