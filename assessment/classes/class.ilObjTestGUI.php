@@ -4257,7 +4257,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
 	
 				// hide previous results
-				if (!(($this->object->getTestType() == TYPE_VARYING_RANDOMTEST) || ($this->object->isRandomTest())))
+				if (!($this->object->getTestType() == TYPE_VARYING_RANDOMTEST))
 				{
 					if ($this->object->getNrOfTries() != 1)
 					{

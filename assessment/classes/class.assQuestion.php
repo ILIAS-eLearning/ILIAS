@@ -968,7 +968,7 @@ class ASS_Question
 		
 		if (is_null($pass))
 		{
-			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$ilDB->quote($ilUser->id . ""),
 				$ilDB->quote($test_id . ""),
 				$ilDB->quote($this->getId() . "")
