@@ -42,7 +42,7 @@ define("LP_MODE_ADMINISTRATION",2);
 define("LP_MODE_REPOSITORY",3);
 
 /* Base class for all Learning progress gui classes.
- * Defines modes 
+ * Defines modes */
 
 class ilLPGUI
 {

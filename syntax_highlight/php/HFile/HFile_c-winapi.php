@@ -2,8 +2,8 @@
 global $BEAUT_PATH;
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
-  class HFile_c-winapi extends HFile{
-   function HFile_c-winapi(){
+  class HFile_c_winapi extends HFile{
+   function HFile_c_winapi(){
      $this->HFile();	
 /*************************************/
 // Beautifier Highlighting Configuration File 
