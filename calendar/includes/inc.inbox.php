@@ -279,12 +279,12 @@ function setInboxView($Gui, $DB)
     {
     	$array	= createTable($changedDates,$DateID, $Gui, $DB, 1);
     	$DateID = $array[0];
-    	$geänderteTermine = $array[1];
+    	$geaenderteTermine = $array[1];
  		eval ("\$tblhead_changeddates = \"".$Gui->getTemplate("inbox_tblheadchangeddates")."\";");
     }
     else
     {
-   		$geänderteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
+   		$geaenderteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
     }
     //*******************************************************************************************************
     // fill table with deletet dates 
@@ -292,12 +292,12 @@ function setInboxView($Gui, $DB)
     {
     	$array	= createTable($deletedDates,$DateID, $Gui, $DB, 0);
     	$DateID = $array[0];
-    	$gelöschteTermine = $array[1];
+    	$geloeschteTermine = $array[1];
  		eval ("\$tblhead_deleteddates = \"".$Gui->getTemplate("inbox_tblheaddeleteddates")."\";");
     }
     else
     {
-   		$gelöschteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
+   		$geloeschteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
     }
     //*******************************************************************************************************
     $tableBorder = 1;

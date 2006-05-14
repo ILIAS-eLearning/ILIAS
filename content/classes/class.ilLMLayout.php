@@ -38,7 +38,7 @@ class ilLMLayout
 	var $keep_with_next;
 	var $css_url;
 	var $ver_align;
-	var $hor_align
+	var $hor_align;
 	var $target_frame;
 	var $width;
 	var $height;

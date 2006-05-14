@@ -2,8 +2,8 @@
 global $BEAUT_PATH;
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
-  class HFile_javascript-wmls extends HFile{
-   function HFile_javascript-wmls(){
+  class HFile_javascript_wmls extends HFile{
+   function HFile_javascript_wmls(){
      $this->HFile();	
 /*************************************/
 // Beautifier Highlighting Configuration File 

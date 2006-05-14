@@ -104,7 +104,7 @@ class MagicConfig
 			"gif",
 			"jpeg",
 			"png",
-			"bmp"
+			"bmp",
 			"tif"
 			// --- Compressed
 		);
@@ -277,7 +277,7 @@ class MagicConfig
 
 	function detect_tif()
 	{
-		return (substr($this->file, 0, 2) == "MM") || substr($this->file, 0, 2) == "II");
+		return ((substr($this->file, 0, 2) == "MM") || (substr($this->file, 0, 2) == "II"));
 	}
 }
 
