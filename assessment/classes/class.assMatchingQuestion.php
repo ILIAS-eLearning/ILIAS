@@ -1080,23 +1080,6 @@ class ASS_MatchingQuestion extends ASS_Question
 							$result = $db->query($query);
 						}
 					}
-					else
-					{
-						// write 0 values to prevent the following problem:
-						//   with javascript enabled if you reset the positions in a later
-						//   pass the input would be deleted but the solution from the previous
-						//   pass would be used which is not the same as an unanswered question
-						$entered_values++;
-						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-							$db->quote($ilUser->id),
-							$db->quote($test_id),
-							$db->quote($this->getId()),
-							$db->quote("0"),
-							$db->quote($matches[1]),
-							$db->quote($activepass . "")
-						);
-						$result = $db->query($query);
-					}
 				}
 			}
 			$saveWorkingDataResult = true;
