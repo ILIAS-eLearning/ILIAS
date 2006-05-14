@@ -6354,7 +6354,20 @@ class ilObjTest extends ilObject
 			}
 			else
 			{
-				$counted_pass = ilObjTest::_getPass($user_id, $test_id)-1;
+				$counted_pass = ilObjTest::_getPass($user_id, $test_id);
+				global $ilDB;
+				$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote($test_id . ""),
+					$ilDB->quote($counted_pass . "")
+				);
+				$result = $ilDB->query($query);
+				if ($result->numRows() == 0)
+				{
+					// There was no answer answered in the actual pass, so the last pass is
+					// $counted_pass - 1
+					$counted_pass -= 1;
+				}
 				if ($counted_pass < 0) $counted_pass = 0;
 			}
 		}
