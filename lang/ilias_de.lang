@@ -1,4 +1,5 @@
-﻿* ILIAS language file
+﻿/**
+* ILIAS language file
 *
 * @module		language file german
 * @modulegroup	language
@@ -1149,6 +1150,7 @@ common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
+common#:#characters#:#Zeichen
 common#:#chat#:#Chat
 common#:#chat_active_in#:#Aktiv in chat:
 common#:#chat_add#:#Chat hinzufügen

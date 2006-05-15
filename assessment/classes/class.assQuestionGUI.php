@@ -897,5 +897,9 @@ class ASS_QuestionGUI
 	{
 		$this->errormessage = $errormessage;
 	}
+
+	function outAdditionalOutput()
+	{
+	}
 }
 ?>
