@@ -364,7 +364,8 @@ class ilAccessHandler
 	 */
 	function doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
-		global $tree, $lng, $ilBench;
+		global $tree, $lng, $ilBench,$ilObjDataCache;
+
 		//echo "pathCheck<br/>";
 		$ilBench->start("AccessControl", "3100_checkAccess_check_parents_get_path");
 		$path = $tree->getPathId($a_ref_id);
@@ -378,6 +379,16 @@ class ilAccessHandler
 			if ($a_ref_id == $id)
 			{
 				continue;
+			}
+
+			// Check course activation
+			if($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($id)) == 'crs')
+			{
+				if(!$this->doActivationCheck($a_permission,$a_cmd,$a_ref_id,$a_user_id,$a_all))
+				{
+					$this->storeAccessResult($a_permission,$a_cmd,$a_ref_id,false,$a_user_id);
+					return false;
+				}
 			}
 			
 			$access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
@@ -404,7 +415,49 @@ class ilAccessHandler
 		
 		return true;
 	}
-	
+
+	/**
+	 * check for course activation 
+	 * 
+	 */
+	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
+	{
+		// nothings needs to be done if current permission is write permission
+		if($a_permission == 'write')
+		{
+			return true;
+		}
+
+		include_once 'course/classes/class.ilCourseItems.php';
+		$item_data = ilCourseItems::_getItem($a_ref_id);
+
+		// if activation isn't enabled
+		if($item_data['timing_type'] != IL_CRS_TIMINGS_ACTIVATION)
+		{
+			return true;
+		}
+		// if within activation time
+		if((time() >= $item_data['timing_start']) and
+		   (time() <= $item_data['timing_end']))
+		{
+			return true;
+		}
+
+		// if user has write permission
+		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
+		{
+			return true;
+		}
+		// if current permission is visible and visible is set in activation
+		if($a_permission == 'visible' and $item_data['visible'])
+		{
+			return true;
+		}
+
+		// no access
+		return false;
+	}
+
 	/**
 	 * condition check (currently only implemented for read permission)
 	 * 

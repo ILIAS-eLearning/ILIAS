@@ -32,6 +32,11 @@
 * @package ilias-core
 */
 
+define('IL_CRS_TIMINGS_ACTIVATION',0);
+define('IL_CRS_TIMINGS_DEACTIVATED',1);
+define('IL_CRS_TIMINGS_PRESETTING',2);
+
+
 class ilCourseItems
 {
 	var $course_obj;
@@ -43,9 +48,13 @@ class ilCourseItems
 	var $items;
 	var $parent;		// ID OF PARENT CONTAINER e.g course_id, folder_id, group_id
 
-	var $activation_unlimited;
-	var $activation_start;
-	var $activation_end;
+	var $timing_type;
+	var $timing_start;
+	var $timing_end;
+
+	var $timing_min;
+	var $timing_max;
+
 
 	function ilCourseItems(&$course_obj,$a_parent = 0)
 	{
@@ -74,30 +83,66 @@ class ilCourseItems
 	{
 		return $this->parent;
 	}
-	function setActivationUnlimitedStatus($a_value)
+
+	function setEarliestTime($a_timing)
 	{
-		$this->activation_unlimited = $a_value ? 1 : 0;
+		$this->timing_min = $a_timing;
 	}
-	function getActivationUnlimitedStatus()
+	function getEarliestTime()
 	{
-		return (bool) $this->activation_unlimited;
+		return $this->timing_min;
 	}
-	function setActivationStart($a_start)
+	function setLastTime($a_timing)
 	{
-		$this->activation_start = $a_start;
+		$this->timing_max = $a_timing;
 	}
-	function getActivationStart()
+	function getLastTime()
 	{
-		return $this->activation_start;
+		return $this->timing_max;
 	}
-	function setActivationEnd($a_end)
+
+	function setTimingType($a_type)
 	{
-		$this->activation_end = $a_end;
+		$this->timing_type = $a_type;
 	}
-	function getActivationEnd()
+	function getTimingType()
 	{
-		return $this->activation_end;
+		return $this->timing_type;
 	}
+	
+	function setTimingStart($a_start)
+	{
+		$this->timing_start = $a_start;
+	}
+	function getTimingStart()
+	{
+		return $this->timing_start;
+	}
+	function setTimingEnd($a_end)
+	{
+		$this->timing_end = $a_end;
+	}
+	function getTimingEnd()
+	{
+		return $this->timing_end;
+	}
+	function toggleVisible($a_status)
+	{
+		$this->visible = (int) $a_status;
+	}
+	function enabledVisible()
+	{
+		return (bool) $this->visible;
+	}
+	function toggleChangeable($a_status)
+	{
+		$this->changeable = (int) $a_status;
+	}
+	function enabledChangeable()
+	{
+		return (bool) $this->changeable;
+	}
+
 	function getAllItems()
 	{
 		return $this->items ? $this->items : array();
@@ -109,8 +154,8 @@ class ilCourseItems
 		foreach($this->items as $item)
 		{
 			if($item["type"] != "rolf" and
-			   ($item["activation_unlimited"] or
-				($item["activation_start"] <= time() and $item["activation_end"] >= time())))
+			   ($item["timing_type"] or
+				($item["timing_start"] <= time() and $item["timing_end"] >= time())))
 			{
 				if($rbacsystem->checkAccess('visible',$item['ref_id']))
 				{
@@ -134,17 +179,19 @@ class ilCourseItems
 
 	function validateActivation()
 	{
-		$this->course_obj->setMessage('');
+		global $ilErr;
+		
+		$ilErr->setMessage('');
 
-		if(!$this->getActivationUnlimitedStatus())
+		if($this->getTimingType())
 		{
-			if($this->getActivationStart() > $this->getActivationEnd())
+			if($this->getTimingStart() > $this->getTimingEnd())
 			{
-				$this->course_obj->appendMessage($this->lng->txt("crs_activation_start_invalid"));
+				$ilErr->appendMessage($this->lng->txt("crs_activation_start_invalid"));
 			}
 		}
 
-		if($this->course_obj->getMessage())
+		if($ilErr->getMessage())
 		{
 			return false;
 		}
@@ -154,14 +201,17 @@ class ilCourseItems
 	function update($a_item_id)
 	{
 		$query = "UPDATE crs_items SET ".
-			"activation_unlimited = '".(int) $this->getActivationUnlimitedStatus()."', ".
-			"activation_start = '".(int) $this->getActivationStart()."', ".
-			"activation_end = '".(int) $this->getActivationEnd()."' ".
+			"timing_min = '".(int) $this->getEarliestTime()."', ".
+			"timing_max = '".(int) $this->getLastTime()."', ".
+			"activation_unlimited = '".(int) $this->getTimingType()."', ".
+			"activation_start = '".(int) $this->getTimingStart()."', ".
+			"activation_end = '".(int) $this->getTimingEnd()."', ".
+			"changeable = '".(int) $this->enabledChangeable()."', ".
+			"visible = '".(int) $this->enabledVisible()."' ".
 			"WHERE parent_id = '".$this->getParentId()."' ".
 			"AND obj_id = '".$a_item_id."'";
 
 		$res = $this->ilDB->query($query);
-
 		$this->__read();
 
 		return true;
@@ -291,9 +341,13 @@ class ilCourseItems
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$a_item["activation_unlimited"] = $row->activation_unlimited;
-			$a_item["activation_start"]		= $row->activation_start;
-			$a_item["activation_end"]		= $row->activation_end;
+			$a_item["timing_type"] = $row->activation_unlimited;
+			$a_item["timing_start"]		= $row->activation_start;
+			$a_item["timing_end"]		= $row->activation_end;
+			$a_item['changeable']			= $row->changeable;
+			$a_item['visible']				= $row->visible;
+			$a_item['timing_min']			= $row->timing_min;
+			$a_item['timing_max']			= $row->timing_max;
 			$a_item["position"]				= $row->position;
 		}
 
@@ -306,17 +360,28 @@ class ilCourseItems
 
 	function createDefaultEntry($a_item)
 	{
-		$a_item["activation_unlimited"] = 1;
-		$a_item["activation_start"]		= time();
-		$a_item["activation_end"]		= time();
+		$a_item["timing_type"] = IL_CRS_TIMINGS_DEACTIVATED;
+		$a_item["timing_start"]		= time();
+		$a_item["timing_end"]		= time();
 		$a_item["position"]				= $this->__getLastPosition() + 1;
+		$a_item['visible']				= 0;
+		$a_item['changeable']			= 0;
+		$a_item['visible']				= 0;
+		$a_item['changeable']			= 0;
+		$a_item['timing_min']			= time();
+		$a_item['timing_max']			= time();
+		
 
 		$query = "INSERT INTO crs_items ".
 			"VALUES('".$this->getParentId()."','".
 			$a_item["child"]."','".
-			$a_item["activation_unlimited"]."','".
-			$a_item["activation_start"]."','".
-			$a_item["activation_end"]."','".
+			$a_item["timing_min"]."','".
+			$a_item["timing_max"]."','".
+			$a_item["timing_type"]."','".
+			$a_item["timing_start"]."','".
+			$a_item["timing_end"]."','".
+			$a_item["visible"]."','".
+			$a_item["changeable"]."','".
 			$a_item["position"]."')";
 
 		$res = $this->ilDB->query($query);
@@ -435,12 +500,38 @@ class ilCourseItems
 				break;
 
 			case $this->course_obj->SORT_ACTIVATION:
-				$this->items = ilUtil::sortArray($this->items,"activation_end","asc");
+				$this->items = ilUtil::sortArray($this->items,"timing_end","asc");
 				break;
 		}
 		return true;
 	}
 	// STATIC
+	function _getItem($a_item_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_items WHERE obj_id = '".$a_item_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data['timing_min'] = $row->timing_min;
+			$data['timing_max'] = $row->timing_max;
+			$data['parent_id'] = $row->parent_id;
+			$data['obj_id'] = $row->obj_id;
+			$data['timing_type'] = $row->activation_unlimited;
+			$data['timing_start'] = $row->activation_start;
+			$data['timing_end'] = $row->activation_end;
+			$data['changeable'] = $row->changeable;
+			$data['visible'] = $row->visible;
+			$data['position'] = $row->position;
+		}
+		return $data ? $data : array();
+	}
+			
+
+		
+
+
 	function _isActivated($a_item_id)
 	{
 		global $ilDB;

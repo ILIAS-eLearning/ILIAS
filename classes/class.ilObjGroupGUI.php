@@ -30,7 +30,7 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilObjUserGUI, ilObjCourseGroupingGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilObjUserGUI, ilObjCourseGroupingGUI, ilCourseItemAdministrationGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -161,6 +161,21 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('edit_properties');
 				$this->tabs_gui->setSubTabActive('groupings');
 				break;
+
+			case 'ilcourseitemadministrationgui':
+
+				include_once 'course/classes/class.ilCourseItemAdministrationGUI.php';
+
+				$this->ctrl->setReturn($this,'');
+				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_GET['item_id']);
+				$this->ctrl->forwardCommand($item_adm_gui);
+
+				// (Sub)tabs
+				$this->__setSubTabs('activation');
+				$this->tabs_gui->setTabActive('view_content');
+				$this->tabs_gui->setSubTabActive('activation');
+				break;
+
 
 
 
@@ -1871,60 +1886,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
 	}
 
-	function cciEditObject()
-	{
-		global $rbacsystem;
-
-		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->ctrl->setParameter($this, "item_id", $_GET["item_id"]);
-		$this->__setSubTabs('activation');
-		$this->tabs_gui->setTabActive('view_content');
-
-		$this->initCourseContentInterface();
-		$this->cci_obj->cci_setContainer($this);
-		$this->cci_obj->cci_edit();
-
-		return true;
-	}
-
-	function cciUpdateObject()
-	{
-		global $rbacsystem;
-
-		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->initCourseContentInterface();
-		$this->cci_obj->cci_setContainer($this);
-		$this->cci_obj->cci_update();
-
-		return true;
-	}
-	
-	function cciMoveObject()
-	{
-		global $rbacsystem;
-
-		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->initCourseContentInterface();
-		$this->cci_obj->cci_setContainer($this);
-		$this->cci_obj->cci_move();
-
-		return true;
-	}
 
 	function __unsetSessionVariables()
 	{
@@ -2727,8 +2688,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case "activation":
 				$this->tabs_gui->addSubTabTarget("activation",
-												 $this->ctrl->getLinkTarget($this,'cciEdit'),
-												 "cciEdit", get_class($this));
+												 $this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI','edit'),
+												 "edit", get_class($this));
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 												 "", "ilConditionHandlerInterface");

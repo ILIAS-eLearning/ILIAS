@@ -208,7 +208,7 @@ class ilCourseContentInterface
 			{
 				$this->tabs_gui->setTabActive('content');
 			}
-			$items = $this->cci_course_obj->items_obj->getItems();
+			$items = $this->cci_course_obj->items_obj->getAllItems();
 		}
 	
 		// NO ITEMS FOUND
@@ -256,7 +256,7 @@ class ilCourseContentInterface
 				$buyable = ilPaymentObject::_isBuyable($this->cci_ref_id);
 				if (($rbacsystem->checkAccess('write',$this->cci_ref_id) ||
 					 $buyable == false) &&
-					$cont_data["activation_unlimited"])
+					$cont_data["timing_type"] != IL_CRS_TIMINGS_ACTIVATION)
 				{
 					//$activation = $this->lng->txt("crs_unlimited");
 					$activation = "";
@@ -265,6 +265,8 @@ class ilCourseContentInterface
 				{
 					if (is_array($activation = ilPaymentObject::_getActivation($this->cci_ref_id)))
 					{
+						$activation = $this->lng->txt("crs_from")." ".
+
 						$activation = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$activation["activation_start"]).
 							" ".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$activation["activation_end"]);
 					}
@@ -273,10 +275,10 @@ class ilCourseContentInterface
 						$activation = "N/A";
 					}
 				}
-				else
+				elseif($cont_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION)
 				{
-					$activation = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$cont_data["activation_start"]).
-						" ".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
+					$activation = $this->lng->txt("crs_from").' '.ilFormat::formatUnixTime($cont_data['timing_start'],true).' '.
+						$this->lng->txt("crs_to").' '.ilFormat::formatUnixTime($cont_data['timing_end'],true);
 				}
 				//$tpl->setVariable("ACTIVATION_END",$activation);
 				
@@ -313,14 +315,14 @@ class ilCourseContentInterface
 				
 				if($write_perm)
 				{
-					//$tpl->setVariable("TXT_ACT_EDIT", $this->lng->txt("edit"));
-					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",$this->cci_client_obj->object->getRefId());
-					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
-					//$tpl->setVariable("LINK_ACT_EDIT",
-					//	$this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit"));
-					$item_list_gui->addCustomCommand(
-						$this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit"),
-						"activation");
+					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
+													 $this->cci_client_obj->object->getRefId());
+					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
+													 $cont_data['child']);
+
+					$item_list_gui->addCustomCommand($this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI',
+																					   'edit'),
+													 'activation');
 				}
 				
 				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
@@ -344,10 +346,12 @@ class ilCourseContentInterface
 						{
 							$tmp_array["gif"] = ilUtil::getImagePath("a_up.gif");
 							$tmp_array["lng"] = $this->lng->txt("crs_move_up");
-							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",
-																	  $this->cci_client_obj->object->getRefId());
-							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
-							$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciMove");
+
+							$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
+															 $this->cci_client_obj->object->getRefId());
+							$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
+															 $cont_data['child']);
+							$tmp_array['lnk'] = $this->ctrl->getLinkTargetByClass('ilcourseitemadministrationgui','moveUp');
 							$tmp_array["tar"] = "";
 
 							$images[] = $tmp_array;
@@ -356,12 +360,12 @@ class ilCourseContentInterface
 						{
 							$tmp_array["gif"] = ilUtil::getImagePath("a_down.gif");
 							$tmp_array["lng"] = $this->lng->txt("crs_move_down");
-							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",
-																	  $this->cci_client_obj->object->getRefId());
-							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",-$cont_data["child"]);
-							$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciMove");
-							$tmp_array["tar"] = "";
-
+							$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
+															 $this->cci_client_obj->object->getRefId());
+							$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
+															 $cont_data['child']);
+							$tmp_array['lnk'] = $this->ctrl->getLinkTargetByClass('ilcourseitemadministrationgui','moveDown');
+							
 							$images[] = $tmp_array;
 						}
 					}
@@ -645,147 +649,6 @@ class ilCourseContentInterface
 		return true;
 	}
 
-	function cci_edit()
-	{
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess("write", $this->cci_ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!isset($_GET["item_id"]))
-		{
-			sendInfo($this->lng->txt("crs_no_item_id_given"));
-			$this->cci_view();
-
-			return false;
-		}
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editItem.html","course");
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-	
-		// display button
-
-		$this->tpl->setCurrentBlock("btn_cell");
-
-		/*
-		$this->ctrl->setParameterByClass(strtolower(get_class($this->cci_client_obj)),'item_id',(int) $_GET['item_id']);
-		$this->tpl->setVariable("BTN_LINK",
-								$this->ctrl->getLinkTarget($this->cci_client_obj,'cciEdit'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->ctrl->setParameterByClass('ilConditionHandlerInterface','item_id',(int) $_GET['item_id']);
-		$this->tpl->setVariable("BTN_LINK",
-			$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
-		$this->tpl->parseCurrentBlock();
-		*/
-	
-	
-		$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$_GET["item_id"]);
-		$this->tpl->setVariable("FORMACTION",$this->cci_client_obj->ctrl->getFormAction($this->cci_client_obj));
-
-		$item_data = $this->cci_course_obj->items_obj->getItem((int) $_GET["item_id"]);
-
-		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET["item_id"]);
-		$title = $tmp_obj->getTitle();
-
-		// LOAD SAVED DATA IN CASE OF ERROR
-		$activation_unlimited = $_SESSION["error_post_vars"]["crs"]["activation_unlimited"] ? 
-			1 : 
-			(int) $item_data["activation_unlimited"];
-
-		$activation_start = $_SESSION["error_post_vars"]["crs"]["activation_start"] ? 
-			$this->cciToUnix($_SESSION["error_post_vars"]["crs"]["activation_start"]) :
-			$item_data["activation_start"];
-		
-		$activation_end = $_SESSION["error_post_vars"]["crs"]["activation_end"] ? 
-			$this->cciToUnix($_SESSION["error_post_vars"]["crs"]["activation_end"]) :
-			$item_data["activation_end"];
-		
-		// SET TEXT VARIABLES
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_".$tmp_obj->getType()));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_".$tmp_obj->getType().".gif"));
-		$this->tpl->setVariable("TITLE",$title);
-		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("activation"));
-		$this->tpl->setVariable("TXT_ACTIVATION_UNLIMITED",$this->lng->txt("crs_unlimited"));
-		$this->tpl->setVariable("TXT_ACTIVATION_START",$this->lng->txt("crs_start"));
-		$this->tpl->setVariable("TXT_ACTIVATION_END",$this->lng->txt("crs_end"));
-		$this->tpl->setVariable("CMD_SUBMIT","cciUpdate");
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("submit"));
-		
-		$this->tpl->setVariable("ACTIVATION_UNLIMITED",ilUtil::formCheckbox($activation_unlimited,"crs[activation_unlimited]",1));
-
-
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_DAY",$this->cciGetDateSelect("day","crs[activation_start][day]",
-																					 date("d",$activation_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_MONTH",$this->cciGetDateSelect("month","crs[activation_start][month]",
-																					   date("m",$activation_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_YEAR",$this->cciGetDateSelect("year","crs[activation_start][year]",
-																					  date("Y",$activation_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_HOUR",$this->cciGetDateSelect("hour","crs[activation_start][hour]",
-																					  date("G",$activation_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_MINUTE",$this->cciGetDateSelect("minute","crs[activation_start][minute]",
-																					  date("i",$activation_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_DAY",$this->cciGetDateSelect("day","crs[activation_end][day]",
-																				   date("d",$activation_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_MONTH",$this->cciGetDateSelect("month","crs[activation_end][month]",
-																					 date("m",$activation_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_YEAR",$this->cciGetDateSelect("year","crs[activation_end][year]",
-																					date("Y",$activation_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_HOUR",$this->cciGetDateSelect("hour","crs[activation_end][hour]",
-																					  date("G",$activation_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_MINUTE",$this->cciGetDateSelect("minute","crs[activation_end][minute]",
-																					  date("i",$activation_end)));
-#		$this->cci_client_obj->initConditionHandlerGUI($_GET['item_id']);
-#		$this->tpl->setVariable("PRECONDITION_TABLE",$this->cci_client_obj->chi_obj->chi_list());
-
-	}
-
-	function cci_update()
-	{
-		if(!isset($_GET["item_id"]))
-		{
-			echo "CourseContentInterface: No item_id given!";
-			exit;
-		}
-
-		$this->cci_course_obj->items_obj->setActivationUnlimitedStatus((bool) $_POST["crs"]["activation_unlimited"]);
-		$this->cci_course_obj->items_obj->setActivationStart($this->cciToUnix($_POST["crs"]["activation_start"]));
-		$this->cci_course_obj->items_obj->setActivationEnd($this->cciToUnix($_POST["crs"]["activation_end"]));
-		
-		if(!$this->cci_course_obj->items_obj->validateActivation())
-		{
-			sendInfo($this->cci_course_obj->getMessage());
-			$this->cci_edit();
-
-			return true;
-		}
-		$this->cci_course_obj->items_obj->update((int) $_GET["item_id"]);
-		$this->cci_view();
-
-		return true;
-	}
-			
-	function cci_move()
-	{
-		if($_GET["item_id"] > 0)
-		{
-			$this->cci_course_obj->items_obj->moveUp((int) $_GET["item_id"]);
-		}
-		else
-		{
-			$this->cci_course_obj->items_obj->moveDown((int) -$_GET["item_id"]);
-		}
-		sendInfo($this->lng->txt("crs_moved_item"));
-
-		$this->cci_view();
-
-		return true;
-	}
 	// PRIVATE
 	function __showHideLinks($a_part)
 	{
@@ -944,9 +807,6 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$or_id))
 				{
 					$this->tpl->setCurrentBlock("or_desklink");
-					#$this->tpl->setVariable("DESK_LINK_OR", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
-					#						"&item_ref_id=".$tmp_or->getRefId()."&type=".$tmp_or->getType());
-
 					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$or_id);
 					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$or_id);
 					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$obj_type);
@@ -1211,9 +1071,6 @@ class ilCourseContentInterface
 				if ($rbacsystem->checkAccess('read',$tst_id))
 				{
 					$this->tpl->setCurrentBlock("tst_desklink");
-					#$this->tpl->setVariable("DESK_LINK_TST", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
-					#						"&item_ref_id=".$tmp_tst->getRefId()."&type=".$tmp_tst->getType());
-
 					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_ref_id',$tst_id);
 					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'item_id',$tst_id);
 					$this->ctrl->setParameterByClass(get_class($this->cci_client_obj),'type',$obj_type);

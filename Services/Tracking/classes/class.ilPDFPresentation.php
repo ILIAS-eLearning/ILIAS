@@ -173,6 +173,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 		$co2fo = new ilContentObject2FO();
 		$co2fo->setXMLString($xml = $this->xml_tpl->get());
+
 		if(!$co2fo->transform())
 		{
 			sendInfo($this->lng->txt('trac_error_pdf',true));
@@ -184,14 +185,14 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		$fo2pdf = new ilFO2PDF();
 		$fo2pdf->setFOString($co2fo->getFOString());
 
-		#var_dump("<pre>",htmlentities($co2fo->getFOString()),"<pre>");
-		$pdf = $fo2pdf->send();
-		
-		if(is_null($pdf))
+		$pdf_base64 = $fo2pdf->send();
+
+		if(is_null($pdf_base64))
 		{
 			sendInfo($this->lng->txt('trac_error_pdf',true));
 			$this->ctrl->returnToParent($this);
 		}
+		ilUtil::deliverData($pdf_base64,'learning_progress.pdf','application/pdf');
 	}
 		
 }	
