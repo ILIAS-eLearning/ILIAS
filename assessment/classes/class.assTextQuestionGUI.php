@@ -235,7 +235,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setPoints($_POST["points"]);
@@ -246,7 +247,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		}
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setMaxNumOfChars($_POST["maxchars"]);
-		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], true, "<strong><em><code><cite>"));
+		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString()));
 		$this->object->setTextRating($_POST["text_rating"]);
 
 		$saved = $this->writeOtherPostData($result);
