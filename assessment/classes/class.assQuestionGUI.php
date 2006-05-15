@@ -132,6 +132,10 @@ class ASS_QuestionGUI
 	*/
 	function outOtherQuestionData()
 	{
+		$est_working_time = $this->object->getEstimatedWorkingTime();
+		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
+		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
+		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
 	}
 
 	/**

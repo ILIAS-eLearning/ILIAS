@@ -250,6 +250,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_textsubset");
 		$this->tpl->setVariable("ACTION_TEXTSUBSET_TEST", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_textsubset"));
+		$this->outOtherQuestionData();
 
 		$this->tpl->parseCurrentBlock();
 

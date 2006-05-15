@@ -293,24 +293,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
-	*
-	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
-	*
-	* @access private
-	*/
-	function outOtherQuestionData()
-	{
-//echo "<br>ASS_MultipleChoiceGUI->outOtherQuestionData()";
-		$this->tpl->setCurrentBlock("other_question_data");
-		$est_working_time = $this->object->getEstimatedWorkingTime();
-		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
-		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
-		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
 	* add an answer
 	*/
 	function add()
