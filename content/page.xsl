@@ -2338,7 +2338,20 @@
 			<br />
 			<textarea class="fullwidth" cols="40" rows="10">
 				<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
+				<xsl:attribute name="id"><xsl:value-of select="@ident"/></xsl:attribute>
+				<xsl:if test = "./render_fib/@maxchars">
+					<xsl:attribute name="onKeyDown"><xsl:text>charCounter('</xsl:text><xsl:value-of select="@ident"/><xsl:text>', </xsl:text><xsl:value-of select="./render_fib/@maxchars"/><xsl:text>, 'charCount');</xsl:text></xsl:attribute>
+					<xsl:attribute name="onKeyUp"><xsl:text>charCounter('</xsl:text><xsl:value-of select="@ident"/><xsl:text>', </xsl:text><xsl:value-of select="./render_fib/@maxchars"/><xsl:text>, 'charCount');</xsl:text></xsl:attribute>
+					<xsl:attribute name="onChange"><xsl:text>charCounter('</xsl:text><xsl:value-of select="@ident"/><xsl:text>', </xsl:text><xsl:value-of select="./render_fib/@maxchars"/><xsl:text>, 'charCount');</xsl:text></xsl:attribute>
+				</xsl:if>
 			</textarea>
+			<xsl:if test = "./render_fib/@maxchars">
+				<br />
+				<script language="JavaScript" type="text/javascript">
+					<xsl:text>counterOutput('</xsl:text><xsl:value-of select="@ident"/><xsl:text>', </xsl:text><xsl:value-of select="./render_fib/@maxchars"/><xsl:text>, 'charCount');</xsl:text>
+				</script>
+				<br />
+	 	</xsl:if>
 		</xsl:when>
 		<xsl:when test = "substring(@ident,1,10)='TEXTSUBSET'">
 			<p>

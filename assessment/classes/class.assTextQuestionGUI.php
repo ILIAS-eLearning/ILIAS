@@ -244,6 +244,16 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function outAdditionalOutput()
+	{
+		if ($this->object->getMaxNumOfChars() > 0)
+		{
+			$this->tpl->addBlockFile("CONTENT_BLOCK", "charcounter", "tpl.charcounter.html", true);
+			$this->tpl->setCurrentBlock("charcounter");
+			$this->tpl->setVariable("CHARACTERS", $this->lng->txt("characters"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 	/**
 	* Creates the question output form for the learner
 	*
@@ -270,6 +280,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$mixpass = false
 	)
 	{
+		$this->addAdditionalOutput();
+		
 		if (!is_object($ilUser)) 
 		{
 			global $ilUser;

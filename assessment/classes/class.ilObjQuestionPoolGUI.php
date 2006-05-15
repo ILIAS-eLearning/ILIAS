@@ -116,6 +116,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
