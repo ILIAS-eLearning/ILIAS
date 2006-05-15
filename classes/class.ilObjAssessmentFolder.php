@@ -35,6 +35,8 @@ require_once "class.ilObject.php";
 
 class ilObjAssessmentFolder extends ilObject
 {
+	var $setting;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -43,6 +45,8 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function ilObjAssessmentFolder($a_id = 0,$a_call_by_reference = true)
 	{
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$this->setting = new ilSetting("assessment");
 		$this->type = "assf";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
@@ -215,11 +219,11 @@ class ilObjAssessmentFolder extends ilObject
 
 		if ($a_enable)
 		{
-			$ilias->setSetting("assessment_logging", 1);
+			$this->setting->set("assessment_logging", 1);
 		}
 		else
 		{
-			$ilias->setSetting("assessment_logging", 0);
+			$this->setting->set("assessment_logging", 0);
 		}
 	}
 
@@ -230,7 +234,7 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		global $ilias;
 
-		$ilias->setSetting("assessment_log_language", $a_language);
+		$this->setting->set("assessment_log_language", $a_language);
 	}
 
 	/**
@@ -240,7 +244,7 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		global $ilias;
 
-		return (boolean) $ilias->getSetting("assessment_logging");
+		return (boolean) $this->setting->get("assessment_logging");
 	}
 	
 	/**
@@ -250,7 +254,7 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		global $ilias;
 
-		$lang = $ilias->getSetting("assessment_log_language");
+		$lang = $this->setting->get("assessment_log_language");
 		if (strlen($lang) == 0)
 		{
 			$lang = "en";
@@ -376,7 +380,7 @@ class ilObjAssessmentFolder extends ilObject
 		global $ilias;
 
 		$usedtags = array();
-		$tags = $ilias->getSetting("assessment_settings_used_html_tags");
+		$tags = $this->setting->get("assessment_settings_used_html_tags");
 		if (strlen($tags))
 		{
 			$usedtags = unserialize($tags);
@@ -393,15 +397,47 @@ class ilObjAssessmentFolder extends ilObject
 		return $usedtags;
 	}
 	
-	function _getUsedHTMLTagsAsString()
+	/**
+	* Returns true if a Javscript editor should be used for the HTML input
+	*
+	* Returns true if a Javscript editor should be used for the HTML input
+	*
+	* @return boolean TRUE if JavaScript should be used, FALSE otherwise
+	*/
+	function _getJavascriptEditor()
 	{
-		$tags =& ilObjAssessmentFolder::_getUsedHTMLTags();
-		$result = "";
-		foreach ($tags as $tag)
+		global $ilias;
+		
+		$js = $this->setting->get("assessment_settings_javascript_editor");
+		if ($js > 0)
 		{
-			$result .= "<" . $tag . ">";
+			return TRUE;
 		}
-		return $result;
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	/**
+	* Sets wheather a JavaScript editor should be used or not
+	*
+	* Sets wheather a JavaScript editor should be used or not
+	*
+	* @param boolean $a_js_editor A boolean indicating if the JS editor should be used or not
+	*/
+	function _setJavascriptEditor($a_js_editor)
+	{
+		global $ilias;
+
+		if ($a_js_editor == TRUE)
+		{
+			$this->setting->set("assessment_settings_javascript_editor", "1");
+		}
+		else
+		{
+			$this->setting->set("assessment_settings_javascript_editor", "0");
+		}
 	}
 	
 	/**
@@ -415,7 +451,7 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		global $ilias;
 
-		$ilias->setSetting("assessment_settings_used_html_tags", serialize($a_html_tags));
+		$this->setting->set("assessment_settings_used_html_tags", serialize($a_html_tags));
 	}
 	
 	/**

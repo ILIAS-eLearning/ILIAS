@@ -32,21 +32,23 @@
 class ilSetting
 {
 	var $setting = array();
+	var $module = "";
 	
 	/**
 	* Initialise Settings 
 	*/
-	function ilSetting()
+	function ilSetting($a_module = "common")
 	{
 		global $ilDB;
 		
+		$this->module = $a_module;
 		// check whether ini file object exists
 		if (!is_object($ilDB))
 		{
 			die ("Fatal Error: ilSettings object instantiated without DB initialisation.");
 		}
 		
-		$query = "SELECT * FROM settings";
+		$query = "SELECT * FROM settings WHERE module=" . $ilDB->quote($this->module);
 		$res = $ilDB->query($query);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -95,7 +97,7 @@ class ilSetting
 		global $ilDB;
 
 		$query = "DELETE FROM settings WHERE keyword = ".
-			$ilDB->quote($a_keyword);
+			$ilDB->quote($a_keyword) . " AND module=" . $ilDB->quote($this->module);
 		$ilDB->query($query);
 		unset($this->setting[$a_keyword]);
 
@@ -124,11 +126,12 @@ class ilSetting
 	{
 		global $ilDB;
 		
-		$sql = "DELETE FROM settings WHERE keyword=".$ilDB->quote($a_key);
+		$sql = "DELETE FROM settings WHERE keyword=".$ilDB->quote($a_key).
+			" AND module=" . $ilDB->quote($this->module);
 		$ilDB->query($sql);
 
-		$sql = "INSERT INTO settings (keyword, value) VALUES (".
-			$ilDB->quote($a_key).",".$ilDB->quote($a_val).")";
+		$sql = "INSERT INTO settings (module, keyword, value) VALUES (".
+			$ilDB->quote($this->module) . ",".$ilDB->quote($a_key).",".$ilDB->quote($a_val).")";
 		$ilDB->query($sql);
 		
 		$this->setting[$a_key] = $a_val;
