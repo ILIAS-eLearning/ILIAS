@@ -1123,6 +1123,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("activation",
 												 $this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI','edit'),
 												 "edit", get_class($this));
+				$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 												 "", "ilConditionHandlerInterface");
@@ -4222,7 +4223,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				if($_GET['item_id'])
 				{
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-					$this->tabs_gui->setTabActive('edit_content');
+					$this->tabs_gui->setTabActive('content');
 					$this->setSubTabs("item_activation");
 
 					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
@@ -4425,65 +4426,5 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-	function chi_updateObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_update();
-
-		if($_GET['item_id'])
-		{
-			$this->cciEditObject();
-		}
-		else
-		{
-			$this->editObject();
-		}
-	}
-	
-	/**
-	* delete condition(s)
-	*/
-	function chi_deleteObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_delete();
-
-		if($_GET['item_id'])
-		{
-			$this->cciEditObject();
-		}
-		else
-		{
-			$this->editObject();
-		}
-	}
-
-	function chi_selectorObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_selector();
-	}		
-
-	function chi_assignObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_assign();
-
-		if($_GET['item_id'])
-		{
-			$this->cciEditObject();
-		}
-		else
-		{
-			$this->editObject();
-		}
-	}
-	function chi_addObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_add();
-
-		return true;
-	}		
 } // END class.ilObjCourseGUI
 ?>
