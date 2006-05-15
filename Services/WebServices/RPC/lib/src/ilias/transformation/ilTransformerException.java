@@ -24,25 +24,24 @@ package ilias.transformation;
 
 public class ilTransformerException extends Exception {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
     public ilTransformerException() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
     public ilTransformerException(String message) {
         super(message);
+        // TODO Auto-generated constructor stub
     }
 
     public ilTransformerException(String message, Throwable cause) {
         super(message, cause);
+        // TODO Auto-generated constructor stub
     }
 
     public ilTransformerException(Throwable cause) {
         super(cause);
+        // TODO Auto-generated constructor stub
     }
 
 }
