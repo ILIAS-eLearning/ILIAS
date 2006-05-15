@@ -41,20 +41,18 @@ public class ilTransformationHandler {
         return true;
     }
     
-    public String ilFO2PDF(String foString) { 
+    public byte[] ilFO2PDF(String foString) { 
         
         try {
             fo2pdf.setFoString(foString);
             fo2pdf.transform();
-
-            return fo2pdf.getPdfString();
+            return fo2pdf.getPdf();
         }
         catch(ilTransformerException e) {
-            
             logger.error("Error creating pdf: " + e);
         }
         
-        return "";
+        return null;
 
     }
 }

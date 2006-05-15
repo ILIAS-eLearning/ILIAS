@@ -23,14 +23,14 @@
 package ilias.transformation;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.avalon.framework.logger.Log4JLogger;
 import org.apache.fop.apps.Driver;
 import org.apache.fop.apps.FOPException;
-import org.apache.fop.messaging.MessageHandler;
 import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
 
@@ -38,7 +38,7 @@ public class ilFO2PDF {
     
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private String foString = null;
-    private String pdfString = null;
+    private byte[] pdfByteArray = null;
 
     public ilFO2PDF() {
 
@@ -51,21 +51,22 @@ public class ilFO2PDF {
 
         
         try {
-            OutputStream out = new java.io.FileOutputStream("/home/smeyer/1.pdf");
+            Log4JLogger fopLogger = new Log4JLogger(logger);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
             
             Driver driver = new Driver();
+
             logger.info("Started driver");
-            driver.setOutputStream(out);
-            //driver.setLogger((org.apache.avalon.framework.logger.Logger) logger);
-            //driver.setLogger(logger);
-            //MessageHandler.setScreenLogger((org.apache.avalon.framework.logger.Logger) logger);
-            
-            driver.setRenderer(Driver.RENDER_PDF);
+            driver.setLogger(fopLogger);
             driver.setInputSource(new InputSource(getFoInputStream()));
+            driver.setRenderer(Driver.RENDER_PDF);
+            driver.setOutputStream(out);
             logger.info("Driver run()");
             driver.run();
             
-            setPdfString(out.toString());
+            // Set pdf byte array
+            this.setPdf(out.toByteArray());
+            //logger.info(getPdfString());
 
         } catch (UnsupportedEncodingException e) {
             throw new ilTransformerException(e);
@@ -92,28 +93,18 @@ public class ilFO2PDF {
         this.foString = foString;
     }
 
-
-    /**
-     * @return Returns the pdfString.
-     */
-    public String getPdfString() {
-        return pdfString;
-        
-    }
-
-
-    /**
-     * @param pdfString The pdfString to set.
-     */
-    public void setPdfString(String pdfString) {
-        this.pdfString = pdfString;
+    public byte[] getPdf() {
+        return this.pdfByteArray;
     }
     
+    public void setPdf(byte[] ba) {
+        
+        this.pdfByteArray = ba;
+    }
+
     
     private InputStream getFoInputStream() throws UnsupportedEncodingException { 
         
         return new ByteArrayInputStream(getFoString().getBytes("utf8"));
     }
-
-
 }
