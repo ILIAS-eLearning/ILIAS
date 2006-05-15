@@ -334,57 +334,6 @@ class ilObjFolderGUI extends ilContainerGUI
 		return true;
 	}
 
-	function chi_updateObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_update();
-
-		if($_GET['item_id'])
-		{
-			$this->cciEditObject();
-		}
-		else
-		{
-			$this->editObject();
-		}
-	}		
-	function chi_deleteObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_delete();
-
-		if($_GET['item_id'])
-		{
-			$this->cciEditObject();
-		}
-		else
-		{
-			$this->editObject();
-		}
-	}
-
-	function chi_selectorObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_selector();
-	}		
-
-	function chi_assignObject()
-	{
-		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_obj->chi_assign();
-
-		if($_GET['item_id'])
-		{
-			$this->cciEditObject();
-		}
-		else
-		{
-			$this->editObject();
-		}
-	}
-
-
 	/**
 	* set sub tabs
 	*/
@@ -396,9 +345,11 @@ class ilObjFolderGUI extends ilContainerGUI
 		{
 				
 			case "activation":
+				
 				$this->tabs_gui->addSubTabTarget("activation",
 												 $this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI','edit'),
 												 "edit", get_class($this));
+				$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 												 "", "ilConditionHandlerInterface");
