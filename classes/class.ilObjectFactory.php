@@ -86,7 +86,6 @@ class ilObjectFactory
 		$q = "SELECT * FROM object_data ".
 			 "WHERE obj_id = '".$a_obj_id."'";
 		$object_set = $ilias->db->query($q);
-
 		// check number of records
 		if ($object_set->numRows() == 0)
 		{

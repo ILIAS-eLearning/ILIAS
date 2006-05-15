@@ -10724,5 +10724,23 @@ CREATE TABLE `qpl_answer_singlechoice` (
 ?>
 <#708>
 ALTER TABLE qpl_question_multiplechoice DROP choice_response;
+
 <#709>
 ALTER TABLE `tst_tests` ADD `password` VARCHAR( 20 ) NULL AFTER `pass_scoring`;
+
+<#710>
+ALTER TABLE `crs_items` ADD `changeable` TINYINT( 1 ) DEFAULT '0' NOT NULL AFTER `activation_end` ,
+ADD `visible` TINYINT( 1 ) DEFAULT '0' NOT NULL AFTER `changeable`;
+
+<#711>
+ALTER TABLE `crs_items` ADD `timing_min` INT DEFAULT '0' NOT NULL AFTER `obj_id` ,
+ADD `timing_max` INT DEFAULT '0' NOT NULL AFTER `timing_min`;
+
+<#712>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
+
+

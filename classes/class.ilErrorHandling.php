@@ -182,5 +182,24 @@ class ilErrorHandling extends PEAR
 			ilUtil::redirect($_SESSION["referer"].$glue);
 		}
 	}
+
+	function getMessage()
+	{
+		return $this->message;
+	}
+	function setMessage($a_message)
+	{
+		$this->message = $a_message;
+	}
+	function appendMessage($a_message)
+	{
+		if($this->getMessage())
+		{
+			$this->message .= "<br /> ";
+		}
+		$this->message .= $a_message;
+	}
+
+
 } // END class.ilErrorHandling
 ?>

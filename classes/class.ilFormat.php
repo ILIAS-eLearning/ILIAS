@@ -427,6 +427,18 @@ class ilFormat
 		return ilFormat::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode);
 	}
 
+	function formatUnixTime($ut,$with_time = false)
+	{
+		global $lng;
+
+		$format = $lng->txt('lang_dateformat');
+
+		if($with_time)
+		{
+			$format .= (' '.$lng->txt('lang_timeformat'));
+		}
+		return date($format,$ut);
+	}
 	/*
 	* calculates the difference between 2 unix timestamps and
 	* returns a proper formatted output
