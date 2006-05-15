@@ -1012,7 +1012,8 @@ common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Test&Assessment Administration Settings
 common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assessment_settings_advanced_editing#:#Advanced editing
-common#:#assessment_settings_allow_html_tags#:#Allow these HTML tags in Test & Assessment
+common#:#assessment_settings_allow_html_tags#:#Allow the selected HTML tags in Test & Assessment
+common#:#assessment_settings_allow_javascript_editor#:#Enable a JavaScript editor
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment Administration
 common#:#assf_visible#:#Test&Assessment administration is visible

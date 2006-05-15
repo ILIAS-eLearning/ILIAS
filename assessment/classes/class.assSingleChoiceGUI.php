@@ -94,8 +94,6 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		global $ilLog;
-		$ilLog->write("edit question", 1);
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();

@@ -10740,7 +10740,11 @@ ADD `timing_max` INT DEFAULT '0' NOT NULL AFTER `timing_min`;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
-
+<#713>
+ALTER TABLE `settings` ADD `module` VARCHAR( 50 ) NOT NULL DEFAULT 'common' FIRST ;
+ALTER TABLE `settings` DROP PRIMARY KEY ;
+ALTER TABLE `settings` ADD PRIMARY KEY ( `module` , `keyword` ) ;
+ALTER TABLE `settings` CHANGE `value` `value` TEXT NOT NULL; 
+<#714>
+UPDATE `settings` SET `module` = 'assessment' WHERE `module` = 'common' AND `keyword` LIKE 'assessment_%';
 
