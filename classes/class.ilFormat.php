@@ -380,7 +380,18 @@ class ilFormat
 		return number_format($a_float, $a_decimals, $dec, $a_th);
 	}
 
-
+	function unixtimestamp2datetime($a_unix_timestamp = "")
+	{
+		if (strlen($a_unix_timestamp) == 0)
+		{
+			return strftime("%Y-%m-%m %H:%M:%S");
+		}
+		else
+		{
+			return strftime("%Y-%m-%m %H:%M:%S", $a_unix_timestamp);
+		}
+	}
+	
 	/*
 	* format a date according to the user language 
 	* shortcut for Format::fmtDateTime

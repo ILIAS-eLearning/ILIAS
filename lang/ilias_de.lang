@@ -176,6 +176,7 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#duplicate#:#Duplizieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
+assessment#:#duplicate_qpl#:#Fragenpool für Test duplizieren
 assessment#:#duplicate_tst#:#Test duplizieren
 assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
 assessment#:#ects_fill_out_all_values#:#Bitte geben Sie einen Wert für jede ECTS-Note an!
@@ -411,6 +412,7 @@ assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 assessment#:#select_one_submitted_test#:#Bitte wählen Sie mindestens eine Nutzerin oder einen Nutzer aus, die den Test bereits beendet haben.
 assessment#:#select_one_user#:#Bitte wählen Sie mindestens eine Nutzerin oder einen Nutzer aus.
+assessment#:#select_qpl_option#:#--- Bitte wählen Sie einen Fragenpool aus ---
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#select_tst_option#:#--- Bitte wählen Sie einen Test aus ---
 assessment#:#selected_image#:#Ausgewählte Grafik
@@ -561,9 +563,10 @@ assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
-assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren
-assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren
-assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
+assessment#:#tst_select_qpls#:#Bitte wählen Sie einen Fragenpool zum Duplizieren aus
+assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
+assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
+assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus.
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence#:#Reihenfolge

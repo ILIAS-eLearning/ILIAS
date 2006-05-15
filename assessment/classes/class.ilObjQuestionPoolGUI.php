@@ -1432,6 +1432,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
+			$qpls =& ilObjQuestionPool::_getAvailableQuestionpools(true);
+			if (count($qpls) > 0)
+			{
+				foreach ($qpls as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("option_qpl");
+					$this->tpl->setVariable("OPTION_VALUE_QPL", $key);
+					$this->tpl->setVariable("TXT_OPTION_QPL", $value);
+					if ($_POST["qpl"] == $key)
+					{
+						$this->tpl->setVariable("OPTION_SELECTED_QPL", " selected=\"selected\"");				
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
@@ -1466,10 +1482,32 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_QPL_FILE", $this->lng->txt("qpl_upload_file"));
 			$this->tpl->setVariable("NEW_TYPE", $this->type);
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+
+			$this->tpl->setVariable("TXT_DUPLICATE_QPL", $this->lng->txt("duplicate_qpl"));
+			$this->tpl->setVariable("TXT_SELECT_QPL", $this->lng->txt("obj_qpl"));
+			$this->tpl->setVariable("OPTION_SELECT_QPL", $this->lng->txt("select_qpl_option"));
+			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
+
 			$this->tpl->parseCurrentBlock();
 		}
 	}
 
+	/**
+	* form for new test object duplication
+	*/
+	function cloneAllObject()
+	{
+		if ($_POST["qpl"] < 1)
+		{
+			sendInfo($this->lng->txt("tst_select_qpls"));
+			$this->createObject();
+			return;
+		}
+		$ref_id = ilObjQuestionPool::_clone($_POST["qpl"]);
+		sendInfo($this->lng->txt("object_duplicated"),true);
+		ilUtil::redirect("ilias.php?ref_id=$ref_id&baseClass=ilObjQuestionPoolGUI");
+	}
+	
 	/**
 	* form for new questionpool object import
 	*/

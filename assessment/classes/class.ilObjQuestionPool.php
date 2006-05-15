@@ -1445,5 +1445,90 @@ class ilObjQuestionPool extends ilObject
 		}
 		return $result;
 	}
+
+/**
+* Returns the available question pools for the active user
+*
+* Returns the available question pools for the active user
+*
+* @return array The available question pools
+* @access public
+*/
+	function &_getAvailableQuestionpools($use_object_id = false)
+	{
+		global $rbacsystem;
+		global $ilDB;
+		
+		$result_array = array();
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
+		$result = $ilDB->query($query);
+		include_once "./classes/class.ilObject.php";
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
+			{
+				if ($use_object_id)
+				{
+					$result_array[$row->obj_id] = $row->title;
+				}
+				else
+				{
+					$result_array[$row->ref_id] = $row->title;
+				}
+			}
+		}
+		return $result_array;
+	}
+
+	function &getQplQuestions()
+	{
+		global $ilDB;
+		
+		$questions = array();
+		$query = sprintf("SELECT qpl_questions.question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questions, $row["question_id"]);
+		}
+		return $questions;
+	}
+/**
+* Creates a 1:1 copy of the object and places the copy in a given repository
+* 
+* Creates a 1:1 copy of the object and places the copy in a given repository
+*
+* @access public
+*/
+	function _clone($obj_id)
+	{
+		$original = new ilObjQuestionPool($obj_id, false);
+		$original->loadFromDb();
+		
+		$newObj = new ilObjQuestionPool();
+		$newObj->setType("qpl");
+		$newObj->setTitle($original->getTitle() . " (".ilFormat::formatDate(ilFormat::unixtimestamp2datetime()).")");
+		$newObj->setDescription($original->getDescription());
+		$newObj->create(true);
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->setOnline($original->getOnline());
+		$newObj->saveToDb();
+		// clone the questions in the question pool
+		$questions =& $original->getQplQuestions();
+		foreach ($questions as $question_id)
+		{
+			$newObj->copyQuestion($question_id, $newObj->getId());
+		}
+		
+		// clone meta data
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$md = new ilMD($original->getId(),0,$original->getType());
+		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
+		return $newObj->getRefId();
+	}
 } // END class.ilObjQuestionPool
 ?>
