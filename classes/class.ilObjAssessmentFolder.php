@@ -363,5 +363,102 @@ class ilObjAssessmentFolder extends ilObject
 			return 0;
 		}
 	}
+	
+	/**
+	* Returns an array of all allowed HTML tags for text editing
+	*
+	* Returns an array of all allowed HTML tags for text editing
+	*
+	* @return array HTML tags
+	*/
+	function &_getUsedHTMLTags()
+	{
+		global $ilias;
+
+		$usedtags = array();
+		$tags = $ilias->getSetting("assessment_settings_used_html_tags");
+		if (strlen($tags))
+		{
+			$usedtags = unserialize($tags);
+		}
+		else
+		{
+			$usedtags = array(
+				"cite",
+				"code",
+				"em",
+				"strong"
+			);
+		}
+		return $usedtags;
+	}
+	
+	function _getUsedHTMLTagsAsString()
+	{
+		$tags =& ilObjAssessmentFolder::_getUsedHTMLTags();
+		$result = "";
+		foreach ($tags as $tag)
+		{
+			$result .= "<" . $tag . ">";
+		}
+		return $result;
+	}
+	
+	/**
+	* Writes an array with allowed HTML tags to the ILIAS settings
+	*
+	* Writes an array with allowed HTML tags to the ILIAS settings
+	*
+	* @param array $a_html_tags An array containing the allowed HTML tags
+	*/
+	function _setUsedHTMLTags($a_html_tags)
+	{
+		global $ilias;
+
+		$ilias->setSetting("assessment_settings_used_html_tags", serialize($a_html_tags));
+	}
+	
+	/**
+	* Returns an array of all possible HTML tags for text editing
+	*
+	* Returns an array of all possible HTML tags for text editing
+	*
+	* @return array HTML tags
+	*/
+	function &getHTMLTags()
+	{
+		$tags = array(
+			"a",
+			"big",
+			"blockquote",
+			"br",
+			"center",
+			"cite",
+			"code",
+			"del",
+			"em",
+			"h1",
+			"h2",
+			"h3",
+			"h4",
+			"h5",
+			"h6",
+			"hr",
+			"img",
+			"ins",
+			"li",
+			"ol",
+			"p",
+			"pre",
+			"small",
+			"strike",
+			"strong",
+			"sub",
+			"sup",
+			"u",
+			"ul"			
+		);
+		return $tags;
+	}
 } // END class.ilObjAssessmentFolder
 ?>
