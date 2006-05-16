@@ -597,7 +597,7 @@ class ASS_ClozeTest extends ASS_Question
 			if ($i < $this->getGapCount())
 			{
 				// add gap
-				$gap = $this->get_gap($i);
+				$gap = $this->getGap($i);
 				if ($gap[0]->getClozeType() == CLOZE_SELECT)
 				{
 					// comboboxes
@@ -712,7 +712,7 @@ class ASS_ClozeTest extends ASS_Question
 		// add response conditions
 		for ($i = 0; $i < $this->getGapCount(); $i++)
 		{
-			$gap = $this->get_gap($i);
+			$gap = $this->getGap($i);
 			if ($gap[0]->getClozeType() == CLOZE_SELECT)
 			{
 				foreach ($gap as $index => $answer)
@@ -796,7 +796,7 @@ class ASS_ClozeTest extends ASS_Question
 		// PART III: qti itemfeedback
 		for ($i = 0; $i < $this->getGapCount(); $i++)
 		{
-			$gap = $this->get_gap($i);
+			$gap = $this->getGap($i);
 			if ($gap[0]->getClozeType() == CLOZE_SELECT)
 			{
 				foreach ($gap as $index => $answer)
@@ -1030,7 +1030,7 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function get_gap($index = 0) {
+  function getGap($index = 0) {
     if ($index < 0) return array();
     if (count($this->gaps) < 1) return array();
     if ($index >= count($this->gaps)) return array();
