@@ -152,6 +152,15 @@ class ilUtil
         return $htmlpath;
     }
 
+	/**
+	* Get the full JavaScript path for a JavaScript file name
+	*
+	* Get the full JavaScript path for a JavaScript file name
+	* This function first tries to find the file in templates/skin/style,
+	* then in templates/skin and then in templates/default
+	*
+	* @access	public
+	*/
 	function getJSPath($a_js)
 	{
 		global $ilias;
@@ -165,14 +174,22 @@ class ilUtil
 			$dir = "";
 		}
 		$in_style = "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."/".$a_js;
-		$default = "./templates/".$ilias->account->skin."/".$a_js;
+		$in_skin = "./templates/".$ilias->account->skin."/".$a_js;
+		$default = "./templates/default/".$a_js;
 		if(@is_file($in_style))
 		{
 			return $dir.$in_style;
 		}
 		else
 		{
-			return $dir.$default;
+			if (@is_file($in_skin))
+			{
+				return $dir.$in_skin;
+			}
+			else
+			{
+				return $dir.$default;
+			}
 		}
 	}
 
