@@ -215,15 +215,15 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function _enableAssessmentLogging($a_enable)
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 
 		if ($a_enable)
 		{
-			$this->setting->set("assessment_logging", 1);
+			$setting->set("assessment_logging", 1);
 		}
 		else
 		{
-			$this->setting->set("assessment_logging", 0);
+			$setting->set("assessment_logging", 0);
 		}
 	}
 
@@ -232,9 +232,9 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function _setLogLanguage($a_language)
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 
-		$this->setting->set("assessment_log_language", $a_language);
+		$setting->set("assessment_log_language", $a_language);
 	}
 
 	/**
@@ -242,9 +242,9 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function _enabledAssessmentLogging()
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 
-		return (boolean) $this->setting->get("assessment_logging");
+		return (boolean) $setting->get("assessment_logging");
 	}
 	
 	/**
@@ -252,9 +252,9 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function _getLogLanguage()
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 
-		$lang = $this->setting->get("assessment_log_language");
+		$lang = $setting->get("assessment_log_language");
 		if (strlen($lang) == 0)
 		{
 			$lang = "en";
@@ -377,10 +377,10 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function &_getUsedHTMLTags()
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 
 		$usedtags = array();
-		$tags = $this->setting->get("assessment_settings_used_html_tags");
+		$tags = $setting->get("assessment_settings_used_html_tags");
 		if (strlen($tags))
 		{
 			$usedtags = unserialize($tags);
@@ -396,6 +396,24 @@ class ilObjAssessmentFolder extends ilObject
 		}
 		return $usedtags;
 	}
+
+	/**
+	* Returns a string of all allowed HTML tags for text editing
+	*
+	* Returns a string of all allowed HTML tags for text editing
+	*
+	* @return string Used HTML tags
+	*/
+	function &_getUsedHTMLTagsAsString()
+	{
+		$result = "";
+		$tags =& ilObjAssessmentFolder::_getUsedHTMLTags();
+		foreach ($tags as $tag)
+		{
+			$result .= "<$tag>";
+		}
+		return $result;
+	}
 	
 	/**
 	* Returns true if a Javscript editor should be used for the HTML input
@@ -406,9 +424,9 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function _getJavascriptEditor()
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 		
-		$js = $this->setting->get("assessment_settings_javascript_editor");
+		$js = $setting->get("assessment_settings_javascript_editor");
 		if ($js > 0)
 		{
 			return TRUE;
@@ -428,15 +446,15 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function _setJavascriptEditor($a_js_editor)
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 
 		if ($a_js_editor == TRUE)
 		{
-			$this->setting->set("assessment_settings_javascript_editor", "1");
+			$setting->set("assessment_settings_javascript_editor", "1");
 		}
 		else
 		{
-			$this->setting->set("assessment_settings_javascript_editor", "0");
+			$setting->set("assessment_settings_javascript_editor", "0");
 		}
 	}
 	
@@ -449,9 +467,9 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function _setUsedHTMLTags($a_html_tags)
 	{
-		global $ilias;
+		$setting = new ilSetting("assessment");
 
-		$this->setting->set("assessment_settings_used_html_tags", serialize($a_html_tags));
+		$setting->set("assessment_settings_used_html_tags", serialize($a_html_tags));
 	}
 	
 	/**
@@ -465,13 +483,11 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		$tags = array(
 			"a",
-			"big",
 			"blockquote",
 			"br",
-			"center",
 			"cite",
 			"code",
-			"del",
+			"div",
 			"em",
 			"h1",
 			"h2",
@@ -480,13 +496,11 @@ class ilObjAssessmentFolder extends ilObject
 			"h5",
 			"h6",
 			"hr",
-			"img",
-			"ins",
 			"li",
 			"ol",
 			"p",
 			"pre",
-			"small",
+			"span",
 			"strike",
 			"strong",
 			"sub",

@@ -897,6 +897,34 @@ class ASS_QuestionGUI
 	{
 		$this->errormessage = $errormessage;
 	}
+	
+	/**
+	* Checks for an advanced Javascript editor
+	*
+	* Checks for an advanced Javascript editor and if it could be displayed
+	* uses it for all textarea fields
+	*
+	* @access public
+	*/
+	function checkAdvancedEditor()
+	{
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		if (ilObjAssessmentFolder::_getJavascriptEditor())
+		{
+			if (file_exists(ilUtil::getJSPath("tiny_mce/tiny_mce.js")))
+			{
+				$this->tpl->addBlockFile("CONTENT_BLOCK", "tinymce", "tpl.editor.js.html");
+				include_once "./classes/class.ilTinyMCE.php";
+				$tags =& ilObjAssessmentFolder::_getUsedHTMLTags();
+				$this->tpl->setVariable("JAVASCRIPT_LOCATION", ilUtil::getJSPath("tiny_mce/tiny_mce.js"));
+				$this->tpl->setVariable("BLOCKFORMATS", ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($tags));
+				$this->tpl->setVariable("BUTTONS", ilTinyMCE::_buildAdvancedButtonsFromHTMLTags($tags));
+				$this->tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getStyleSheetLocation());
+				$this->tpl->setVariable("LANG", ilTinyMCE::_getEditorLanguage());
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+	}
 
 	function outAdditionalOutput()
 	{

@@ -94,6 +94,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
+		$this->checkAdvancedEditor();
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
