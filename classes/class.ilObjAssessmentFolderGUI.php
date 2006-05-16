@@ -160,10 +160,13 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("TXT_ADVANCED_EDITING", $this->lng->txt("assessment_settings_advanced_editing"));
 		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("assessment_settings_allow_html_tags"));
-		$this->tpl->setVariable("TXT_ALLOW_JAVASCRIPT_EDITOR", $this->lng->txt("assessment_settings_allow_javascript_editor"));
-		if ($this->object->_getJavascriptEditor())
+		if (file_exists(ilUtil::getJSPath("tiny_mce/tiny_mce.js")))
 		{
-			$this->tpl->setVariable("CHECKED_JAVASCRIPT_EDITOR", " checked=\"checked\"");
+			$this->tpl->setVariable("TXT_ALLOW_JAVASCRIPT_EDITOR", $this->lng->txt("assessment_settings_allow_javascript_editor"));
+			if ($this->object->_getJavascriptEditor())
+			{
+				$this->tpl->setVariable("CHECKED_JAVASCRIPT_EDITOR", " checked=\"checked\"");
+			}
 		}
 		
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
