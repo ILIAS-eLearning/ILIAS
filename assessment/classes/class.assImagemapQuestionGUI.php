@@ -690,6 +690,42 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function getResultOutput($test_id, &$ilUser, $pass = NULL)
+	{
+		$question_html = $this->outQuestionPage("", FALSE, $test_id);
+		// remove the question title heading
+		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			include_once "./assessment/classes/class.ilImagemapPreview.php";
+			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
+			foreach ($solutions as $idx => $solution_value)
+			{
+				if (strcmp($solution_value["value1"], "") != 0)
+				{
+					$preview->addArea($this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
+				}
+			}
+			$preview->createPreview();
+			if (count($preview->areas))
+			{
+				$pfile = $preview->getPreviewFilename();
+				if (strlen($pfile) == 0)
+				{
+					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+				}
+				else
+				{
+					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
+				}
+				$question_html = preg_replace("/usemap\=\"#qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#qmap\" src=\"$imagepath\"", $question_html);
+			}
+		}
+		return $question_html;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*

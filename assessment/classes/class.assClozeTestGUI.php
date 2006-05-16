@@ -119,7 +119,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", true);
 		for ($i = 0; $i < $this->object->getGapCount(); $i++)
 		{
-			$gap = $this->object->get_gap($i);
+			$gap = $this->object->getGap($i);
 			if ($gap[0]->getClozeType() == CLOZE_TEXT)
 			{
 				$this->tpl->setCurrentBlock("textgap_value");
@@ -461,7 +461,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			// Set gap values
 			if (preg_match("/textgap_(\d+)_(\d+)/", $key, $matches))
 			{
-				$answer_array = $this->object->get_gap($matches[1]);
+				$answer_array = $this->object->getGap($matches[1]);
 				if (strlen($value) > 0)
 				{
 					// Only change gap values <> empty string
@@ -524,7 +524,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 
 			if (preg_match("/selectgap_(\d+)_(\d+)/", $key, $matches))
 			{
-				$answer_array = $this->object->get_gap($matches[1]);
+				$answer_array = $this->object->getGap($matches[1]);
 				if (strlen($value) > 0)
 				{
 					// Only change gap values <> empty string
@@ -592,6 +592,43 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
+	function getResultOutput($test_id, &$ilUser, $pass = NULL)
+	{
+		$question_html = $this->outQuestionPage("", FALSE, $test_id);
+		// remove the question title heading
+		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			if (is_array($solutions)) 
+			{
+				foreach ($solutions as $idx => $solution_value)
+				{
+					// replace text gaps
+					$repl_str = "dummy=\"tgap_".$solution_value["value1"]."\"";
+					//$repl_with = "[" . $solution_value["value2"] . "]";
+					if (strlen($solution_value["value2"]))
+					{
+						$repl_with = "<span class=\"solutionbox\">" . $solution_value["value2"] . "</span>";
+					}
+					else
+					{
+						$repl_with = "<span class=\"solutionbox\">&nbsp;</span>";
+					}
+					$question_html = preg_replace("/(<input[^>]*".$repl_str."[^>]*>)/" , $repl_with, $question_html);
+					// replace select gaps
+					$repl_str = "dummy=\"sgap_".$solution_value["value1"]."_".$solution_value["value2"]."\"";
+					$repl_with = "<span class=\"solutionbox\">&nbsp;</span>";
+					if (preg_match("/<option[^>]*" . $repl_str . "[^>]*>(.*?)<\/option>/", $question_html, $matches))
+					{
+						$repl_with = "<span class=\"solutionbox\">" . $matches[1] . "</span>";
+					}
+					$question_html = preg_replace("/(<select.*".$repl_str.".*?\/select>)/" , $repl_with, $question_html);
+				}
+			}
+		}
+		return $question_html;
+	}
 
 	/**
 	* Creates the question output form for the learner

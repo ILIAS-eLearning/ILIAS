@@ -495,6 +495,25 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function getResultOutput($test_id, &$ilUser, $pass = NULL)
+	{
+		$question_html = $this->outQuestionPage("", FALSE, $test_id);
+		// remove the question title heading
+		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$repl_str = "dummy=\"match".$solution_value["value2"]."_".$solution_value["value1"]."\"";
+				$question_html = $this->replaceSelectElements ("sel_matching_".$solution_value["value2"],$repl_str,$question_html,"<span class=\"solutionbox\">","</span>");
+			}
+			// remove all selects which don't have a solution
+			$question_html = $this->removeFormElements($question_html);				
+		}
+		return $question_html;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*

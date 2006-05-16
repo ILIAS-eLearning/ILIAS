@@ -1587,6 +1587,16 @@ div.ilc_Question
 	padding-bottom: 0.5em;
 }
 
+span.solutionbox {
+	color:black;
+	background-color:white;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-width:1px;
+	border-style:solid;
+	border-color:black;
+}
+
 /* --- Test tool javascript styles --- */
 
 div.textbox

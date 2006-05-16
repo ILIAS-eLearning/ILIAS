@@ -851,13 +851,19 @@ class ASS_QuestionGUI
 		return $output;	
 	}*/
 	
-	function replaceSelectElements ($gap_idx, $repl_str, $output)//, $before="", $after="") {
+	function replaceSelectElements($gap_idx, $repl_str, $output, $before="", $after="")
 	{
 		#echo htmlentities ($output)."<br>";
 		#echo htmlentities ($gap_idx)."<br>";
 		#echo htmlentities ($repl_str)."<br>";
-		$before="<span class=\"textanswer\">[";
-		$after="]</span>";	
+		if (strlen($before) == 0)
+		{
+			$before="<span class=\"textanswer\">[";
+		}
+		if (strlen($after) == 0)
+		{
+			$after="]</span>";
+		}
 	
 		$select_pattern = "/<select[^>]*name=\"$gap_idx\".*?[^>]*>.*?<\/select>/";
 		#echo  htmlentities ($select_pattern)."<br>";
@@ -871,7 +877,7 @@ class ASS_QuestionGUI
 /*			else 
 				$output = preg_replace ($select_pattern, $before.$after, $output);*/
 		}
-		return $output;	
+		return $output;
 	}
 	
 	function removeFormElements ($output) {
@@ -928,6 +934,10 @@ class ASS_QuestionGUI
 	}
 
 	function outAdditionalOutput()
+	{
+	}
+	
+	function getResultOutput($test_id, &$ilUser, $pass = NULL)
 	{
 	}
 }

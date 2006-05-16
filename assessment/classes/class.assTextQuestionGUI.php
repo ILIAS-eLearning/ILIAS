@@ -280,7 +280,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$mixpass = false
 	)
 	{
-		$this->addAdditionalOutput();
+		$this->outAdditionalOutput();
 		
 		if (!is_object($ilUser)) 
 		{

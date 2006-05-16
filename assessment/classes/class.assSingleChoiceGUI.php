@@ -559,6 +559,30 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function getResultOutput($test_id, &$ilUser, $pass = NULL)
+	{
+		$question_html = $this->outQuestionPage("", FALSE, $test_id);
+		// remove the question title heading
+		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				//replace all checked answers with x or checkbox
+				$repl_str = "dummy=\"mc".$solution_value["value1"]."\"";
+				$repl_with = "<span class=\"textanswer\">(X)</span>";
+				$question_html = preg_replace("/(<input[^>]*".$repl_str."[^>]*>)/" , $repl_with, $question_html);
+				//$question_html = $this->replaceInputElements($repl_str, "X", $question_html, "[","]");
+			}
+			// now replace all not-checked checkboxes with an 0
+			$repl_with = "<span class=\"textanswer\">(O)</span>";
+			$question_html = preg_replace("/(<input[^>]*>)/" , $repl_with, $question_html);
+			//$question_html = $this->replaceInputElements("","O", $question_html,"[","]");
+		}
+		return $question_html;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*
