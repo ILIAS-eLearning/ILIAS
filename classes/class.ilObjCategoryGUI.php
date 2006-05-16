@@ -27,6 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
+* @version $Id$
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * 
@@ -881,6 +882,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_admin_users"),$this->ilias->error_obj->MESSAGE);
 		}
+		$_GET['sort_by'] = ($_SESSION['lua_sort_by'] = ($_GET['sort_by'] ? $_GET['sort_by'] : $_SESSION['lua_sort_by']));
+		$_GET['sort_order'] = $_SESSION['lua_sort_order'] = ($_GET['sort_order'] ? $_GET['sort_order'] : $_SESSION['lua_sort_order']);
+		$_GET['offset'] = $_SESSION['lua_offset'] = (isset($_GET['offset']) ? $_GET['offset'] : $_SESSION['lua_offset']);
+
 
 		// default to local users view
 		if(!isset($_SESSION['filtered_users'][$this->object->getRefId()]))
