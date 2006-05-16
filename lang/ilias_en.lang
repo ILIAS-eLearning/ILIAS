@@ -5108,7 +5108,7 @@ payment#:#paya_added_new_price#:#Created new price
 payment#:#paya_added_trustee#:#Created new trustee.
 payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.
 payment#:#paya_buyable#:#Buyable
-payment#:#paya_buyed_objects#:#Buyed objects
+payment#:#paya_buyed_objects#:#Bought Objects
 payment#:#paya_count_purchaser#:#Number of purchasers
 payment#:#paya_customer#:#Customer
 payment#:#paya_delete_price#:#Delete price
