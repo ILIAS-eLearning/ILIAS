@@ -320,6 +320,14 @@ class ilObjTest extends ilObject
 	var $show_solution_details;
 
 /**
+* Determines wheather or not the solution printview of the answers
+* should be shown to the users
+*
+* @var boolean
+*/
+	var $show_solution_printview;
+
+/**
 * Determines if the score of every question should be cut at 0 points or the score of the complete test
 *
 * @var boolean
@@ -367,6 +375,7 @@ class ilObjTest extends ilObject
 		$this->random_test = 0;
 		$this->shuffle_questions = FALSE;
 		$this->show_solution_details = TRUE;
+		$this->show_solution_printview = FALSE;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
 		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
@@ -1092,13 +1101,18 @@ class ilObjTest extends ilObject
 		{
 			$show_solution_details = 1;
 		}
+		$show_solution_printview = 0;
+		if ($this->getShowSolutionPrintview())
+		{
+			$show_solution_printview = 1;
+		}
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
     if ($this->test_id == -1) 
 		{
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, password, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_solution_printview, password, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->test_type . ""),
@@ -1129,6 +1143,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->getPassScoring() . ""),
 				$db->quote($shuffle_questions . ""),
 				$db->quote($show_solution_details . ""),
+				$db->quote($show_solution_printview . ""),
 				$db->quote($this->getPassword() . ""),
 				$db->quote($created)
       );
@@ -1157,7 +1172,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, password = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_solution_printview = %s, password = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
@@ -1186,6 +1201,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->getPassScoring() . ""),
 				$db->quote($shuffle_questions . ""),
 				$db->quote($show_solution_details . ""),
+				$db->quote($show_solution_printview . ""),
 				$db->quote($this->getPassword() . ""),
         $db->quote($this->test_id)
       );
@@ -1554,6 +1570,7 @@ class ilObjTest extends ilObject
 				$this->reporting_date = $data->reporting_date;
 				$this->setShuffleQuestions($data->shuffle_questions);
 				$this->setShowSolutionDetails($data->show_solution_details);
+				$this->setShowSolutionPrintview($data->show_solution_printview);
 				$this->starting_time = $data->starting_time;
 				$this->ending_time = $data->ending_time;
 				$this->ects_output = $data->ects_output;
@@ -4894,6 +4911,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowSolutionDetails()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// solution printview
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_solution_printview");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowSolutionPrintview()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// shuffle questions
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "shuffle_questions");
@@ -6673,6 +6696,19 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Returns if the solution printview should be presented to the user or not
+* 
+* Returns if the solution printview should be presented to the user or not
+*
+* @return boolean TRUE if the solution printview should be presented, FALSE otherwise
+* @access public
+*/
+	function getShowSolutionPrintview()
+	{
+		return $this->show_solution_printview;
+	}
+	
+/**
 * Sets if the the solution details should be presented to the user or not
 * 
 * Sets if the the solution details should be presented to the user or not
@@ -6689,6 +6725,67 @@ class ilObjTest extends ilObject
 		else
 		{
 			$this->show_solution_details = FALSE;
+		}
+	}
+
+/**
+* Calculates if a user may see the solution printview of his/her test results
+* 
+* Calculates if a user may see the solution printview of his/her test results
+*
+* @return boolean TRUE if the user may see the printview, FALSE otherwise
+* @access public
+*/
+	function canShowSolutionPrintview($user_id = NULL) 
+	{
+		global $ilDB;
+		
+		if (!is_numeric($user_id))
+		{
+			global $ilUser;
+			$user_id = $ilUser->getId();
+		}
+		
+		if ($this->isOnlineTest())
+		{
+			$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
+				$ilDB->quote($this->getTestId() . ""),
+				$ilDB->quote($user_id . "")
+			);		
+			$result = $ilDB->query($query);		
+			return $result->numRows() == 1;
+		}
+		else
+		{
+			if (($this->canShowTestResults($user_id)) && ($this->getShowSolutionPrintview()))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		return FALSE;
+	}
+	
+/**
+* Sets if the the solution printview should be presented to the user or not
+* 
+* Sets if the the solution printview should be presented to the user or not
+*
+* @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
+* @access public
+*/
+	function setShowSolutionPrintview($a_printview = TRUE)
+	{
+		if ($a_printview)
+		{
+			$this->show_solution_printview = TRUE;
+		}
+		else
+		{
+			$this->show_solution_printview = FALSE;
 		}
 	}
 	

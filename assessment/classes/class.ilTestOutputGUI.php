@@ -1670,6 +1670,43 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$this->tpl->parseCurrentBlock();
 
+		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+		{
+			if ($this->object->isRandomTest())
+			{
+				$this->object->loadQuestions($ilUser->getId(), $pass);
+			}
+			$counter = 1;
+			// output of questions with solutions
+			foreach ($this->object->questions as $question) 
+			{
+				$this->tpl->setCurrentBlock("printview_question");
+				$question_gui = $this->object->createQuestionGUI("", $question);
+	
+				$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
+				$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+				
+				$idx = $this->object->getTestId();
+				
+				switch ($question_gui->getQuestionType()) 
+				{
+					case "qt_imagemap" :
+						$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
+						break;
+					case "qt_javaapplet" :
+						$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
+						break;
+					default :
+						$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
+				}
+				$this->tpl->parseCurrentBlock();
+				$counter ++;
+			}
+			$this->tpl->setCurrentBlock("printview_details");
+			$this->tpl->setVariable("RESULTS_OVERVIEW", $this->lng->txt("tst_eval_results_by_pass"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("results");
 		$this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
@@ -1766,7 +1803,7 @@ class ilTestOutputGUI
 	function show_answers()
 	{
 		global $ilUser;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);			
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
 		$this->outShowAnswersDetails($ilUser->getId(), true);
 	}
 
@@ -1869,6 +1906,12 @@ class ilTestOutputGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		$pass = NULL;
+		if ($this->object->isRandomTest())
+		{
+			$pass = $this->object->_getResultPass($ilUser->getId(), $this->object->getTestId());
+			$this->object->loadQuestions($user_id, $pass);
+		}
 		$counter = 1;
 		// output of questions with solutions
 		foreach ($this->object->questions as $question) 
