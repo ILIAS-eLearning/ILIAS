@@ -771,7 +771,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["title"] = ilUtil::stripSlashes($_POST["title"]);
 		$data["description"] = ilUtil::stripSlashes($_POST["description"]);
 		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
-		$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
+		$introduction = preg_replace("/\n/", "<br />", $introduction);
+		$data["introduction"] = $introduction;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
 		$data["shuffle_questions"] = 0;
 		if (!$this->object->isRandomTest())
@@ -1017,6 +1020,35 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Checks for an advanced Javascript editor
+	*
+	* Checks for an advanced Javascript editor and if it could be displayed
+	* uses it for all textarea fields
+	*
+	* @access public
+	*/
+	function checkAdvancedEditor()
+	{
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		if (ilObjAssessmentFolder::_getJavascriptEditor())
+		{
+			if (file_exists(ilUtil::getJSPath("tiny_mce/tiny_mce.js")))
+			{
+				$this->tpl->addBlockFile("CONTENT_BLOCK", "tinymce", "tpl.editor.js.html");
+				include_once "./classes/class.ilTinyMCE.php";
+				$tags =& ilObjAssessmentFolder::_getUsedHTMLTags();
+				$this->tpl->setCurrentBlock("tinymce");
+				$this->tpl->setVariable("JAVASCRIPT_LOCATION", ilUtil::getJSPath("tiny_mce/tiny_mce.js"));
+				$this->tpl->setVariable("BLOCKFORMATS", ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($tags));
+				$this->tpl->setVariable("BUTTONS", ilTinyMCE::_buildAdvancedButtonsFromHTMLTags($tags));
+				$this->tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getStyleSheetLocation());
+				$this->tpl->setVariable("LANG", ilTinyMCE::_getEditorLanguage());
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+	}
+
+	/**
 	* Display and fill the properties form of the test
 	*
 	* Display and fill the properties form of the test
@@ -1025,6 +1057,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
+		$this->checkAdvancedEditor();
 		global $rbacsystem;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", true);
 		$total = $this->object->evalTotalPersons();

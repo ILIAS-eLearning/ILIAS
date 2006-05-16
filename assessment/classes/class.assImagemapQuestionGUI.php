@@ -94,6 +94,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
+		$this->checkAdvancedEditor();
 		include_once "./assessment/classes/class.ilImagemapPreview.php";
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_imagemap");
