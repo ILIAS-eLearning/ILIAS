@@ -86,7 +86,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		$this->checkAdvancedEditor();
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
 		$this->getQuestionTemplate("qt_textsubset");

@@ -916,6 +916,7 @@ class ASS_QuestionGUI
 				$this->tpl->addBlockFile("CONTENT_BLOCK", "tinymce", "tpl.editor.js.html");
 				include_once "./classes/class.ilTinyMCE.php";
 				$tags =& ilObjAssessmentFolder::_getUsedHTMLTags();
+				$this->tpl->setCurrentBlock("tinymce");
 				$this->tpl->setVariable("JAVASCRIPT_LOCATION", ilUtil::getJSPath("tiny_mce/tiny_mce.js"));
 				$this->tpl->setVariable("BLOCKFORMATS", ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($tags));
 				$this->tpl->setVariable("BUTTONS", ilTinyMCE::_buildAdvancedButtonsFromHTMLTags($tags));
