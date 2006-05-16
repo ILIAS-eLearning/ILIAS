@@ -10747,4 +10747,6 @@ ALTER TABLE `settings` ADD PRIMARY KEY ( `module` , `keyword` ) ;
 ALTER TABLE `settings` CHANGE `value` `value` TEXT NOT NULL; 
 <#714>
 UPDATE `settings` SET `module` = 'assessment' WHERE `module` = 'common' AND `keyword` LIKE 'assessment_%';
+<#715>
+ALTER TABLE `tst_tests` ADD `show_solution_printview` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `show_solution_details`;
 

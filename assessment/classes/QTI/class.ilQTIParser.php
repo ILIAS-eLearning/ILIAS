@@ -1066,6 +1066,12 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setShowSolutionDetails($this->metadata["entry"]);
 							}
 							break;
+						case "show_solution_printview":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setShowSolutionPrintview($this->metadata["entry"]);
+							}
+							break;
 						case "shuffle_questions":
 							if (is_object($this->tst_object))
 							{

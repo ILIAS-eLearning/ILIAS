@@ -797,6 +797,18 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["show_solution_details"] = 0;
 		}
+		$data["show_solution_printview"] = 0;
+		if (!$this->object->isOnlineTest())
+		{
+			if ($_POST["chb_show_solution_printview"] == 1)
+			{
+				$data["show_solution_printview"] = 1;
+			}
+		}
+		else
+		{
+			$data["show_solution_printview"] = 1;
+		}
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST)
 		{
 			$data["score_reporting"] = REPORT_AFTER_TEST;
@@ -960,6 +972,14 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$this->object->setShowSolutionDetails(FALSE);
+		}
+		if ($data["show_solution_printview"])
+		{
+			$this->object->setShowSolutionPrintview(TRUE);
+		}
+		else
+		{
+			$this->object->setShowSolutionPrintview(FALSE);
 		}
 		$this->update = $this->object->update();
 		$this->object->saveToDb(true);
@@ -1305,6 +1325,21 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($this->object->getShowSolutionDetails())
 			{
 				$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
+			}
+		}
+
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW", $this->lng->txt("tst_show_solution_printview"));
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION", $this->lng->txt("tst_show_solution_printview_description"));
+		if ($this->object->isOnlineTest())
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_PRINTVIEW", " checked=\"checked\"");
+			$this->tpl->setVariable("DISABLE_SHOW_SOLUTION_PRINTVIEW", " disabled=\"disabled\"");
+		}
+		else
+		{
+			if ($this->object->getShowSolutionPrintview())
+			{
+				$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_PRINTVIEW", " checked=\"checked\"");
 			}
 		}
 
@@ -4205,10 +4240,8 @@ class ilObjTestGUI extends ilObjectGUI
 				else
 				{
 					sendInfo($executable["errormessage"]);
-					if ($this->object->isActiveTestSubmitted()) 
+					if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 					{
-						// Show results in a new print frame
-						$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
 						sendInfo($this->lng->txt("online_exam_show_answer_print_sheet"));
 					}			
 					if ($this->object->isOnlineTest() and $executable["executable"] == false) 
@@ -4230,6 +4263,14 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 			}
+			if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+			{
+				if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+				{
+					// it does not make sense to show always the last pass of a varying randomtest only in the print answers sheet
+					$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
+				}
+			}			
 		}
 		
 		$info->enablePrivateNotes();

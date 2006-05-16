@@ -31,6 +31,28 @@
 </tr>
 <!-- END footer --> 
 </table>
+<!-- BEGIN printview_details -->
+<br />
+<h2>{RESULTS_OVERVIEW}</h2>
+<!-- BEGIN printview_question -->
+<div class="ilc_Page" id="ilc_Page">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid black; margin-top:10px">
+		<tr valign="top">
+			<td width="10px" nowrap="true">
+				<div class="question_title">{COUNTER_QUESTION}</div>
+			</td>
+			<td>
+				<div class="question_title">{QUESTION_TITLE}</div>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{CLOZE_TEST}{MATCHING_QUESTION}{ORDERING_QUESTION}{MULTIPLE_CHOICE_QUESTION}{IMAGEMAP_QUESTION}{JAVA_QUESTION}{TEXT_QUESTION}{NUMERIC_QUESTION}{TEXTSUBSET_QUESTION}</td>
+		</tr>
+	</table>
+</div>
+<!-- END printview_question -->
+<!-- END printview_details -->
 <br />
 <input type="submit" class="submit" name="cmd[outResultsOverview]" value="{BACK_TO_OVERVIEW}" />
 </form>
