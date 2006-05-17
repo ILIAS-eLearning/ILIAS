@@ -149,15 +149,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("questiontype"));
-		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
-		{
-			$this->tpl->setVariable("SAVE",$this->lng->txt("save_back_to_survey"));
-		}
-		else
-		{
-			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		}
-		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();

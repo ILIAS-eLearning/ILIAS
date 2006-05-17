@@ -601,7 +601,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 					$category_id = $this->saveCategoryToDb($this->categories->getCategory($i));
 					$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 						$this->ilias->db->quote($category_id . ""),
-						$this->ilias->db->quote($this->id . ""),
+						$this->ilias->db->quote($this->original_id . ""),
 						$this->ilias->db->quote(($i + 1) . ""),
 						$this->ilias->db->quote($i . "")
 					);

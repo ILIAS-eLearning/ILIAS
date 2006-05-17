@@ -1508,6 +1508,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		if (strlen($next_class)) return;
+		if ($_GET["calling_survey"] > 0) return;
 		// properties
 		$tabs_gui->addTarget("properties",
 			 $this->ctrl->getLinkTarget($this,'properties'),
