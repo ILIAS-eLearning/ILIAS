@@ -32,255 +32,29 @@
 * @package ilias-layout
 */
 
-// get pear
-include("include/inc.get_pear.php");
 
-
-// login language selection is post type
-if ($_POST["lang"] != "")
+// jump to setup if ILIAS3 is not installed
+if (!file_exists(getcwd()."/ilias.ini.php"))
 {
-	$_GET["lang"] = $_POST["lang"];
-}
-
-// check for session cookies enabled
-if (!isset($_COOKIE['iltest']))
-{
-	if (empty($_GET['cookies']))
-	{
-		setcookie("iltest","cookie");
-		header('Location: '.$_SERVER['PHP_SELF']."?cookies=nocookies&lang=".$_GET['lang']);
-	}
-	else
-	{
-		$_COOKIE['iltest'] = "";
-	}
-}
-else
-{
-	unset($_GET['cookies']);
+    header("Location: ./setup/setup.php");
+	exit();
 }
 
 // start correct client
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))
-{	
+{
 	setcookie("ilClientId",$_GET["client_id"]);
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
-require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
-// check correct setup
-if (!$ilias->getSetting("setup_ok"))
-{
-	echo "setup is not completed. Please run setup routine again. (login.php)";
-	exit();
-}
+$ilCtrl->initBaseClass("ilStartUpGUI");
+$ilCtrl->setCmd("showLogin");
+$ilCtrl->setTargetScript("ilias.php");
+$ilCtrl->callBaseClass();
+$ilBench->save();
 
-// check for auth
-if ($ilAuth->getAuth())
-{
-	if(!$ilias->account->checkTimeLimit())
-	{
-		$ilias->auth->logout();
-		session_destroy();
-		ilUtil::redirect('login.php?time_limit=true');
-	}
-
-	include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
-
-	ilOnlineTracking::_addUser($ilUser->getId());
-
-	if ($ilias->getSetting("chat_active"))
-	{
-		include_once "./chat/classes/class.ilChatServerCommunicator.php";
-		include_once "./chat/classes/class.ilChatRoom.php";
-
-		ilChatServerCommunicator::_login();
-		ilChatRoom::_unkick($ilUser->getId());
-	}
-
-	// UPDATE LAST FORUM VISIT
-	include_once './classes/class.ilObjForum.php';
-	ilObjForum::_updateOldAccess($ilUser->getId());
-
-	if (!empty($_GET["return_to"]))
-	{
-		ilUtil::redirect(urldecode($_GET["return_to"]));
-	}
-	else
-	{
-		if ($_GET["rep_ref_id"] != "")
-		{
-			$_GET["ref_id"] = $_GET["rep_ref_id"];
-		}
-
-		include("start.php");
-		exit;
-	}
-}
-
-// Instantiate login template
-// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
-if ($ilias->getSetting("auth_mode") == AUTH_SHIBBOLETH)
-{
-	$tpl->addBlockFile("CONTENT", "content", "tpl.login.shib_only.html");
-}
-// Use dual login template if Shibboleth is configured and enabled
-elseif ($ilias->getSetting("shib_active"))
-{
-	$tpl->addBlockFile("CONTENT", "content", "tpl.login.dual.html");
-}
-else
-{
-	$tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
-}
-
-//language handling
-if ($_GET["lang"] == "")
-{
-	$_GET["lang"] = $ilias->ini->readVariable("language","default");
-}
-
-
-//instantiate language
-$lng = new ilLanguage($_GET["lang"]);
-
-// catch reload
-if ($_GET["reload"])
-{
-    if ($_GET["inactive"])
-    {
-        $tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./login.php?inactive=true\";\n</script>\n");
-    }
-    else
-    {
-        $tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n");
-    }
-}
-
-
-$tpl->setVariable("TXT_OK", $lng->txt("ok"));
-
-$languages = $lng->getInstalledLanguages();
-
-foreach ($languages as $lang_key)
-{
-	$tpl->setCurrentBlock("languages");
-	$tpl->setVariable("LANG_KEY", $lang_key);
-	$tpl->setVariable("LANG_NAME",
-		ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
-	$tpl->setVariable("BORDER", 0);
-	$tpl->setVariable("VSPACE", 0);
-	$tpl->parseCurrentBlock();
-}
-
-// allow new registrations? 
-include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
-if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
-{
-	$tpl->setCurrentBlock("new_registration");
-	$tpl->setVariable("REGISTER", $lng->txt("registration"));
-	$tpl->setVariable("LANG_ID", $_GET["lang"]);
-	$tpl->parseCurrentBlock();
-}
-// allow password assistance? Surpress option if Authmode is not local database
-if ($ilias->getSetting("password_assistance") and AUTH_DEFAULT == AUTH_LOCAL)
-{
-	$tpl->setCurrentBlock("password_assistance");
-	$tpl->setVariable("FORGOT_PASSWORD", $lng->txt("forgot_password"));
-	$tpl->setVariable("FORGOT_USERNAME", $lng->txt("forgot_username"));
-	$tpl->setVariable("LANG_ID", $_GET["lang"]);
-	$tpl->parseCurrentBlock();
-}
-
-if ($ilias->getSetting("pub_section"))
-{
-	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$_COOKIE["ilClientId"]."&lang=".$_GET["lang"]);
-	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-	$tpl->parseCurrentBlock();
-}
-
-if ($ilias->ini_ilias->readVariable("clients","list"))
-{
-	$tpl->setCurrentBlock("client_list");
-	$tpl->setVariable("TXT_CLIENT_LIST",$lng->txt("to_client_list"));
-	$tpl->parseCurrentBlock();	
-}
-
-$tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
-$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
-$tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilias->getSetting("shib_login_button"));
-$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $ilias->getSetting("shib_login_instructions"));
-$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
-$tpl->setVariable("FORMACTION", "login.php?rep_ref_id=".$_GET["rep_ref_id"]);
-$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
-$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
-$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
-$tpl->setVariable("LANG_FORM_ACTION", "login.php?rep_ref_id=".$_GET["rep_ref_id"]);
-$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-$tpl->setVariable("LANG_ID", $_GET["lang"]);
-
-if ($_GET["inactive"])
-{
-    $tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_inactive"));
-}
-elseif ($_GET["expired"])
-{
-    $tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
-}
-
-// TODO: Move this to header.inc since an expired session could not detected in login script 
-$status = $ilias->auth->getStatus();
-$auth_error = $ilias->getAuthError();
-
-if (!empty($status))
-{
-	switch ($status)
-	{
-		case AUTH_EXPIRED:
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
-			break;
-		case AUTH_IDLED:
-			// lang variable err_idled not existing
-			//$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
-			break;
-		case AUTH_WRONG_LOGIN:
-		default:
-			$add = "";
-			if (is_object($auth_error))
-			{
-				$add = "<br>".$auth_error->getMessage();
-			}
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login").$add);			
-			break;
-	}
-}
-
-
-if($_GET['time_limit'])
-{
-	$tpl->setVariable("TXT_MSG_LOGIN_FAILED",$lng->txt('time_limit_reached'));
-}
-
-// output wrong IP message
-if($_GET['wrong_ip'])
-{
-	$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt('wrong_ip_detected')." (".$_SERVER["REMOTE_ADDR"].")");
-}
-
-$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
-$tpl->setVariable("USERNAME", $_POST["username"]);
-$tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
-
-// browser does not accept cookies
-if ($_GET['cookies'] == 'nocookies')
-{
-	$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_no_cookies"));
-	$tpl->setVariable("COOKIES_HOWTO", $lng->txt("cookies_howto"));
-}
-
-$tpl->show("DEFAULT", false);
+exit;
 ?>

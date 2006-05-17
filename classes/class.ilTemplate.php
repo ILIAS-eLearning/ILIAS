@@ -222,9 +222,11 @@ class ilTemplate extends ilTemplateX
 	{
 		global $tpl, $ilMainMenu;
 		
-		$ilMainMenu->setTemplate($tpl);
-		$ilMainMenu->addMenuBlock("MAINMENU", "navigation");
-		$ilMainMenu->setTemplateVars();
+		//$ilMainMenu->setTemplate($tpl);
+		//$ilMainMenu->addMenuBlock("MAINMENU", "navigation");
+		//$ilMainMenu->setTemplateVars();
+//echo "-".htmlentities($ilMainMenu->getHTML())."-";
+		$tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 	}
 	
 	function fillHeaderIcon()

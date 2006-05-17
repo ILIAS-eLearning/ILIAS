@@ -3029,7 +3029,7 @@ common#:#time_limits#:#Access
 common#:#time_segment#:#Period of time
 common#:#title#:#Title
 common#:#to#:#To
-common#:#to_client_list#:#To Client selection
+common#:#to_client_list#:#Client Selection
 common#:#to_desktop#:#Add to desktop
 common#:#today#:#Today
 common#:#toggleGlobalDefault#:#Toggle Global Default

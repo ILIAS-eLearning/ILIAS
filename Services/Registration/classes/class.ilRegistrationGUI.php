@@ -59,8 +59,8 @@ class ilRegistrationGUI
 
 	function executeCommand()
 	{
-		global $ilErr;
-
+		global $ilErr, $tpl;
+		
 		if($this->registration_settings->getRegistrationType() == IL_REG_DISABLED)
 		{
 			$ilErr->raiseError($this->lng->txt('reg_disabled'),$ilErr->FATAL);
@@ -82,6 +82,7 @@ class ilRegistrationGUI
 				}
 				break;
 		}
+		$tpl->show();
 		return true;
 	}
 
@@ -93,6 +94,8 @@ class ilRegistrationGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.usr_registered.html");
 
+		$this->tpl->setVariable("IMG_USER",
+			ilUtil::getImagePath("icon_usr_b.gif"));
 		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
 		
@@ -101,7 +104,7 @@ class ilRegistrationGUI
 		{
 			$this->tpl->setCurrentBlock("activation");
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
-			$this->tpl->setVariable("FORMACTION","login.php");
+			$this->tpl->setVariable("FORMACTION", "login.php?cmd=force_login");
 			$this->tpl->setVariable("TARGET","target=\"_parent\"");
 			$this->tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 			$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
@@ -225,6 +228,8 @@ class ilRegistrationGUI
 		$this->tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+		$this->tpl->setVariable("REG_LANG_FORMACTION",
+			$this->ctrl->getFormAction($this));
 
 		// language selection
 		$languages = $lng->getInstalledLanguages();
@@ -282,7 +287,9 @@ class ilRegistrationGUI
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
 		}
-	
+
+		$this->tpl->setVariable("IMG_USER",
+			ilUtil::getImagePath("icon_usr_b.gif"));
 		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 		$this->tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("registration"));
 		$this->tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));

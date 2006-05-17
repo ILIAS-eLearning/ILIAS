@@ -14,6 +14,9 @@
 	<service name="Administration" dir=".">
 		<baseclass name="ilAdministrationGUI" dir="classes" />
 	</service>
+	<service name="Initialisation" dir="Services/Init">
+		<baseclass name="ilStartUpGUI" dir="classes" />
+	</service>
 	<!-- more to come ... -->
 	
 </services>
