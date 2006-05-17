@@ -94,7 +94,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->checkAdvancedEditor();
 		include_once "./assessment/classes/class.ilImagemapPreview.php";
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_imagemap");
@@ -443,6 +442,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();
+			$this->checkAdvancedEditor();
 
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 

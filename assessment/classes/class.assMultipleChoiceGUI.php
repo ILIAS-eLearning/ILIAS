@@ -94,7 +94,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->checkAdvancedEditor();
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
@@ -288,6 +287,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_mr"));
 		$this->tpl->parseCurrentBlock();
 
+		$this->checkAdvancedEditor();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();

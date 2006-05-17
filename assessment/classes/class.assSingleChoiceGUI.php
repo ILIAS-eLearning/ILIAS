@@ -94,7 +94,6 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->checkAdvancedEditor();
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
 		if ($graphical_answer_setting == 0)
@@ -294,6 +293,7 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_sr"));
 
 		$this->tpl->parseCurrentBlock();
+		$this->checkAdvancedEditor();
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 

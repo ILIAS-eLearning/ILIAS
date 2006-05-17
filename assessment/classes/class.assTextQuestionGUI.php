@@ -80,7 +80,6 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->checkAdvancedEditor();
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
 		$this->getQuestionTemplate("qt_text");
@@ -179,6 +178,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("ACTION_TEXT_QUESTION", $this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();
+		$this->checkAdvancedEditor();
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
