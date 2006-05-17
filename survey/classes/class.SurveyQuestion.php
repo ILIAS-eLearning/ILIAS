@@ -1227,15 +1227,19 @@ class SurveyQuestion
 		);
 		$result = $this->ilias->db->query($query);
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
-		$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($this->original_id . ""),
-			$this->ilias->db->quote($this->material["internal_link"] . ""),
-			$this->ilias->db->quote($this->material["import_id"] . "")
-		);
-		$this->ilias->db->query($query);
-		if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+		if (strlen($this->material["internal_link"]))
 		{
-			ilInternalLink::_saveLink("sqst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+			$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->original_id . ""),
+				$this->ilias->db->quote($this->material["internal_link"] . ""),
+				$this->ilias->db->quote($this->material["import_id"] . ""),
+				$this->ilias->db->quote($this->material["title"] . "")
+			);
+			$this->ilias->db->query($query);
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+			{
+				ilInternalLink::_saveLink("sqst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+			}
 		}
 	}
 
