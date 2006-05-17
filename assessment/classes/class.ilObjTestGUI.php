@@ -1027,7 +1027,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access public
 	*/
-	function checkAdvancedEditor()
+	function checkAdvancedEditor($extended_valid_elements = "", $additional_buttons = "")
 	{
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_getJavascriptEditor())
@@ -1040,7 +1040,23 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("tinymce");
 				$this->tpl->setVariable("JAVASCRIPT_LOCATION", ilUtil::getJSPath("tiny_mce/tiny_mce.js"));
 				$this->tpl->setVariable("BLOCKFORMATS", ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($tags));
-				$this->tpl->setVariable("BUTTONS", ilTinyMCE::_buildAdvancedButtonsFromHTMLTags($tags));
+				$this->tpl->setVariable("VALID_ELEMENTS", ilTinyMCE::_getValidElementsFromHTMLTags($tags));
+				if (is_array($extended_valid_elements))
+				{
+					if (count($extended_valid_elements) > 0)
+					{
+						$this->tpl->setVariable("EXTENDED_VALID_ELEMENTS", join(",", $extended_valid_elements));
+					}
+				}
+				$more_buttons = "";
+				if (is_array($additional_buttons))
+				{
+					if (count($additional_buttons) > 0)
+					{
+						$more_buttons = ",separator," . join(",", $additional_buttons);
+					}
+				}
+				$this->tpl->setVariable("BUTTONS", ilTinyMCE::_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
 				$this->tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getStyleSheetLocation());
 				$this->tpl->setVariable("LANG", ilTinyMCE::_getEditorLanguage());
 				$this->tpl->parseCurrentBlock();

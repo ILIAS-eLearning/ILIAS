@@ -86,7 +86,6 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->checkAdvancedEditor();
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
 		$this->getQuestionTemplate("qt_textsubset");
@@ -253,6 +252,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->outOtherQuestionData();
 
 		$this->tpl->parseCurrentBlock();
+		$this->checkAdvancedEditor();
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 

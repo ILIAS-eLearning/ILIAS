@@ -79,7 +79,6 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->checkAdvancedEditor();
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$this->getQuestionTemplate("qt_numeric");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_numeric.html", true);
@@ -157,6 +156,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_numeric");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_numeric"));
+		$this->checkAdvancedEditor();
 		
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");

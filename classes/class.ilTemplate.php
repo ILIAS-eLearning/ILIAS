@@ -34,6 +34,11 @@
 class ilTemplate extends ilTemplateX
 {
 	/**
+	* Content-type for template output
+	* @var	string
+	*/
+	var $contenttype;
+	/**
 	* variablen die immer in jedem block ersetzt werden sollen
 	* @var	array
 	*/
@@ -87,7 +92,8 @@ class ilTemplate extends ilTemplateX
 
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
-
+		// set default content-type to text/html
+		$this->contenttype = "text/html";
 		if (!file_exists($fname))
 		{
 			$ilias->raiseError("template ".$fname." was not found.", $ilias->error_obj->FATAL);
@@ -171,6 +177,32 @@ class ilTemplate extends ilTemplateX
 	}
 
 	/**
+	* Get the content type for the template output
+	*
+	* @return string Content type
+	* @access	public
+	*/
+	function getContentType()
+	{
+		return $this->contenttype;
+	}
+	
+	/**
+	* Set the content type for the template output
+	*
+	* Set the content type for the template output
+	* Usually this is text/html. For MathML output the
+	* content type should be set to text/xml
+	*
+	* @param string $a_content_type Content type
+	* @access	public
+	*/
+	function setContentType($a_content_type = "text/html")
+	{
+		$this->contenttype = $a_content_type;
+	}
+	
+	/**
 	* @access	public
 	* @param	string
 	* @param bool fill template variable {TABS} with content of ilTabs
@@ -179,7 +211,7 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias;
 
-		header('Content-type: text/html; charset=UTF-8');
+		header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
 
 		$this->addErrorMessage();
 		

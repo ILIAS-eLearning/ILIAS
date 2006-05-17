@@ -89,8 +89,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
-		$this->checkAdvancedEditor();
-		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_javaapplet");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_javaapplet_question.html", true);
 		if ($this->error)
@@ -239,6 +237,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		}
 		$this->tpl->setVariable("ACTION_JAVAAPPLET_QUESTION", $formaction);
 		$this->tpl->parseCurrentBlock();
+		$this->checkAdvancedEditor();
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 

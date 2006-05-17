@@ -361,6 +361,20 @@ class ASS_MultipleChoice extends ASS_Question
 			$pos = strpos($xml, "?>");
 			$xml = substr($xml, $pos + 2);
 		}
+/*		if (preg_match("/&lt;latex&gt;(.*)?&lt;\/latex&gt;/", $xml, $matches))
+		{
+			$latex = html_entity_decode($matches[1]);
+			$result = system("cd /tmp;export PATH=/bin:/sbin:/usr/bin:/usr/local/bin:/usr/sbin:/usr/local/bin:/usr/local/teTeX/bin/powerpc-apple-darwin-current;echo '$latex' | /usr/local/bin/blahtex --png > /tmp/blah.out");
+			$fh = fopen('/tmp/blah.out','r') or die($php_errormsg);
+			$mathml = fread($fh,filesize('/tmp/blah.out'));
+			fclose($fh) or die($php_errormsg);
+			if (preg_match("/\<markup\>(.*?)\<\/markup\>/is", $mathml, $matches))
+			{
+				$mathml = htmlentities("<math xmlns='http://www.w3.org/1998/Math/MathML'>" . $matches[1] . "</math>");
+			}
+			$xml = preg_replace("/&lt;latex&gt;(.*)?&lt;\/latex&gt;/", $mathml, $xml);
+			$this->tpl->contenttype = "text/html";
+		}*/
 		return $xml;
 	}
 
