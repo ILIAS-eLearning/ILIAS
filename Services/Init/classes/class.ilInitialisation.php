@@ -417,7 +417,7 @@ class ilInitialisation
 	{
 		$this->script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 		$dirname = dirname($_SERVER["PHP_SELF"]);
-		$ilurl = parse_url(ILIAS_HTTP_PATH);
+		$ilurl = @parse_url(ILIAS_HTTP_PATH);
 		$subdir = substr(strstr($dirname,$ilurl["path"]),strlen($ilurl["path"]));
 		$updir = "";
 

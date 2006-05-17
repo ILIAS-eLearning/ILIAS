@@ -469,7 +469,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
-		global $rbacsystem;
+		global $rbacsystem,$rbacreview,$ilAccess;
 
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
