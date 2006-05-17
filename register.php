@@ -32,6 +32,15 @@
 */
 
 include_once "include/inc.header.php";
+
+$ilCtrl->initBaseClass("ilStartUpGUI");
+$ilCtrl->setTargetScript("ilias.php");
+$ilCtrl->setCmd("jumpToRegistration");
+$ilCtrl->callBaseClass();
+$ilBench->save();
+exit;
+
+include_once "include/inc.header.php";
 include_once 'Services/Registration/classes/class.ilRegistrationGUI.php';
 
 $ilCtrl->setTargetScript("register.php");

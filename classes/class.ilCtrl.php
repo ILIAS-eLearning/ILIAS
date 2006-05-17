@@ -45,17 +45,36 @@ class ilCtrl
 		global $ilBench;
 
 		$this->bench =& $ilBench;
-		$this->transit = array();
-
-		$this->location = array();
-		$this->tab = array();
-		$this->current_node = 0;
-
+		
+		// initialisation
+		$this->init();
+		
 		// this information should go to xml files one day
 		$this->stored_trees = array
 			("ilrepositorygui", "ilpersonaldesktopgui",
 			"illmpresentationgui", "illmeditorgui",
 			"iladministrationgui");
+	}
+	
+	/**
+	* initialisation
+	*/
+	function init()
+	{
+		$this->transit = array();
+		$this->forward = array();			// forward array
+		$this->forwards = array();			// forward array
+		$this->parent = array();			// parent array (reverse forward)
+		$this->save_parameter = array();	// save parameter array
+		$this->parameter = array();			// save parameter array
+		$this->return = "";					// return commmands
+		$this->location = array();
+		$this->tab = array();
+		$this->current_node = 0;
+		$this->module_dir = "";
+		$this->service_dir = "";
+		$this->call_node = array();
+		$this->root_class = "";
 	}
 
 	/**
@@ -663,6 +682,21 @@ class ilCtrl
 	}
 
 
+	/**
+	* initialises new base class
+	*
+	* Note: this resets the whole current ilCtrl context completely.
+	* You can call setTargetScript() and callBaseClass() after that.
+	*/
+	function initBaseClass($a_base_class)
+	{
+		$_GET["baseClass"] = $a_base_class;
+		$_GET["cmd"] = "";
+		$_GET["cmdClass"] = "";
+		$_GET["cmdNode"] = "";
+		$this->init();
+	}
+	
 	/**
 	* determines current get/post command
 	*/

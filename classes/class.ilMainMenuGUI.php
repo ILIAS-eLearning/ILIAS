@@ -50,7 +50,9 @@ class ilMainMenuGUI
 	function ilMainMenuGUI($a_target = "_top", $a_use_start_template = false)
 	{
 		global $ilias;
-
+		
+		
+		$this->tpl = new ilTemplate("tpl.main_buttons.html", true, true);
 		$this->ilias =& $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
@@ -70,6 +72,8 @@ class ilMainMenuGUI
 	*/
 	function setTemplate(&$tpl)
 	{
+		echo "ilMainMenu->setTemplate is deprecated. Use getHTML instead.";
+		return;
 		$this->tpl =& $tpl;
 	}
 
@@ -78,6 +82,8 @@ class ilMainMenuGUI
 	*/
 	function getTemplate()
 	{
+		echo "ilMainMenu->getTemplate is deprecated. Use getHTML instead.";
+		return;
 		return $this->tpl;
 	}
 
@@ -86,6 +92,8 @@ class ilMainMenuGUI
 	*/
 	function addMenuBlock($a_var = "CONTENT", $a_block = "navigation")
 	{
+		echo "ilMainMenu->addMenuBlick is deprecated. Use getHTML instead.";
+		return;
 		$this->tpl->addBlockFile($a_var, $a_block, "tpl.main_buttons.html");
 	}
 
@@ -215,13 +223,14 @@ class ilMainMenuGUI
 			}
 
 			$this->tpl->setVariable("TXT_OK", $lng->txt("ok"));
-			$this->tpl->setVariable("LANG_FORM_ACTION", "start.php");
+			$this->tpl->setVariable("LANG_FORM_ACTION", "repository.php?ref_id=".$_GET["ref_id"]);
 			$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 
 			$this->tpl->setCurrentBlock("userisanonymous");
 			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
 			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
-			$this->tpl->setVariable("LINK_LOGIN", $link_dir."index.php?cmd=login&lang=".$ilias->account->getCurrentLanguage());
+			$this->tpl->setVariable("LINK_LOGIN",
+				$link_dir."login.php?cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -302,6 +311,12 @@ class ilMainMenuGUI
 		return false;
 		// Allow all local admins to use the administration
 		return count(ilUtil::_getObjectsByOperations('cat','cat_administrate_users')) ? true : false;
+	}
+	
+	function getHTML()
+	{
+		$this->setTemplateVars();
+		return $this->tpl->get();
 	}
 }
 ?>

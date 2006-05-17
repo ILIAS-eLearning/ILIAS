@@ -10750,3 +10750,8 @@ UPDATE `settings` SET `module` = 'assessment' WHERE `module` = 'common' AND `key
 <#715>
 ALTER TABLE `tst_tests` ADD `show_solution_printview` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `show_solution_details`;
 
+<#716>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

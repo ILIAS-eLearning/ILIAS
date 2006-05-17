@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+die ("inc.client_list.php is deprecated.");
 
 /**
 * display list of available clients

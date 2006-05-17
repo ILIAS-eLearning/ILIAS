@@ -30,29 +30,7 @@
 *
 * @package ilias-core
 */
-?>
 
-<p>
-Die aktuellen Versionen der gängigen Browser können in den
-<br/>Sicherheitseinstellungen zwischen normalen und sogenannten
-<br/>Sitzungscookies unterscheiden. Um ILIAS zu verwenden, müssen 
-<br/>Sie zumindest die Annahme von Sitzungscookies bei Ihrem Browser
-<br>zulassen. Und so gehts:
-<br/>
-<br/>Firefox:
-<br/>Tools->Options->Privacy->Cookies
-<br/>Dort 'Allow sites to set cookies' ankreuzen und bei der Option 'Keep
-<br/>cookies' auf 'until I close Firefox' auswählen
-<br/>
-<br/>Mozilla/Netscape:
-<br/>Edit->Preferences->Privacy&Security->Cookies
-<br/>Dort unter 'Cookie Lifetime Policy' die Option 'Accept for current
-<br/>session only' auswählen
-<br/>
-<br/>Internet Explorer:
-<br/>Extras->Internetoptionen->Datenschutz->Erweitert...
-<br/>- 'Automatische Cookiebehandlung aufheben' ankreuzen
-<br/>- 'Cookies von Erstanbietern' und 'Cookies von Drittanbietern' auf
-<br/>'Sperren' stellen
-<br/>- 'Sitzungscookies immer zulassen' ankreuzen
-</p>
+die "Deprecated. Use ilStartUpGUI->showNoCookiesScreen() instead."
+
+?>

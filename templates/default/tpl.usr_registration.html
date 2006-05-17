@@ -1,27 +1,21 @@
 <style>
-body { margin:0px; }
+body { margin: 15px; }
 </style>
 {STATUSLINE}
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-<!--<div class="invisible_border">-->
 <div class="il_Header">
-<table border="0" cellpadding="0" cellspacing="7" width="100%">
-    <tr>
-    <td><h1>{TXT_PAGEHEADLINE}</h1></td>
-    <td nowrap="1" align="right">
-		<form name="languageselection" method="get">
-		<input type="hidden" name="cmd" value="">
-		<select name="lang" onChange="this.form.submit()">
-			<option value="">{TXT_CHOOSE_LANGUAGE}</option>
-			<!-- BEGIN languages -->
-			<option value="{LANG_ICON}" {SELECTED_LANG}>{LANG_NAME}</option>
-			<!-- END languages -->
-		</select>
-		<input class="submit" type="submit" value="{TXT_OK}"/>
-		</form>
-    </td>
-    </tr>
-    </table>
+<div style="float:right;">
+	<form action="{REG_LANG_FORMACTION}" name="languageselection" method="post">
+	<input type="hidden" name="cmd" value="">
+	<select name="change_lang_to" onChange="this.form.submit()">
+		<option value="">{TXT_CHOOSE_LANGUAGE}</option>
+		<!-- BEGIN languages -->
+		<option value="{LANG_ICON}" {SELECTED_LANG}>{LANG_NAME}</option>
+		<!-- END languages -->
+	</select>
+	<input class="submit" type="submit" value="{TXT_OK}"/>
+	</form>
+</div>
+<h1><img border="0" src="{IMG_USER}" style="vertical-align:middle" />&nbsp;{TXT_PAGEHEADLINE}</h1>
 </div>
 <p>{TXT_WELCOME}</p>
 {MESSAGE}
@@ -222,5 +216,4 @@ body { margin:0px; }
   </tr>
 </form>
 </table>
-<!--</div>-->
-</td></tr></table>
+

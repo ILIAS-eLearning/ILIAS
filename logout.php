@@ -33,42 +33,11 @@
 
 require_once "include/inc.header.php";
 
-// LOGOUT CHAT USER
-if($ilias->getSetting("chat_active"))
-{
-	include_once "./chat/classes/class.ilChatServerCommunicator.php";
-	ilChatServerCommunicator::_logout();
-}
-$ilias->auth->logout();
-session_destroy();
+$ilCtrl->initBaseClass("ilStartUpGUI");
+$ilCtrl->setCmd("showLogout");
+$ilCtrl->setTargetScript("ilias.php");
+$ilCtrl->callBaseClass();
+$ilBench->save();
 
-// reset cookie
-$client_id = $_COOKIE["ilClientId"];
-setcookie("ilClientId","");
-$_COOKIE["ilClientId"] = "";
-
-//instantiate logout template
-$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
-
-if ($ilias->getSetting("pub_section"))
-{
-	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
-	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-	$tpl->parseCurrentBlock();
-}
-
-if ($ilias->ini_ilias->readVariable("clients","list"))
-{
-	$tpl->setCurrentBlock("client_list");
-	$tpl->setVariable("TXT_CLIENT_LIST",$lng->txt("to_client_list"));
-	$tpl->parseCurrentBlock();	
-}
-
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
-$tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
-$tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
-$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
-	
-$tpl->show();
+exit;
 ?>

@@ -33,18 +33,21 @@
 */
 //require_once "./include/inc.header.php";
 
+global $ilBench, $ilCtrl;
+
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
 {
 	if (empty($_GET["ref_id"]))
 	{
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 	}
-	$_GET["cmd"] = "frameset";
+	$ilCtrl->initBaseClass("");
+	$ilCtrl->setCmd("frameset");
 	$start_script = "repository.php";
 }
 else
 {
-	$_GET["baseClass"] = "ilPersonalDesktopGUI";
+	$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
 	$start_script = "ilias.php";
 }
 
