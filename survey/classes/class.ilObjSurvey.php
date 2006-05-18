@@ -558,24 +558,33 @@ class ilObjSurvey extends ilObject
 */
 	function insertQuestion($question_id) 
 	{
-    // get maximum sequence index in test
-    $query = sprintf("SELECT survey_question_id FROM survey_survey_question WHERE survey_fi = %s",
-      $this->ilias->db->quote($this->getSurveyId())
-    );
-    $result = $this->ilias->db->query($query);
-    $sequence = $result->numRows();
-		$duplicate_id = $this->duplicateQuestionForSurvey($question_id);
-    $query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-      $this->ilias->db->quote($this->getSurveyId()),
-      $this->ilias->db->quote($duplicate_id),
-      $this->ilias->db->quote($sequence)
-    );
-    $result = $this->ilias->db->query($query);
-    if ($result != DB_OK) 
+		include_once "./survey/classes/class.SurveyQuestion.php";
+		if (!SurveyQuestion::_isComplete($question_id))
 		{
-      // Error
-    }
-		$this->loadQuestionsFromDb();
+			return FALSE;
+		}
+		else
+		{
+			// get maximum sequence index in test
+			$query = sprintf("SELECT survey_question_id FROM survey_survey_question WHERE survey_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId())
+			);
+			$result = $this->ilias->db->query($query);
+			$sequence = $result->numRows();
+			$duplicate_id = $this->duplicateQuestionForSurvey($question_id);
+			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($duplicate_id),
+				$this->ilias->db->quote($sequence)
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result != DB_OK) 
+			{
+				// Error
+			}
+			$this->loadQuestionsFromDb();
+			return TRUE;
+		}
 	}
 
 

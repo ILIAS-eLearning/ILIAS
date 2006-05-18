@@ -1676,7 +1676,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_GET["new_id"] > 0)
 		{
 			// add a question to the survey previous created in a questionpool
-			$this->object->insertQuestion($_GET["new_id"]);
+			$inserted = $this->object->insertQuestion($_GET["new_id"]);
+			if (!$inserted)
+			{
+				sendInfo($this->lng->txt("survey_error_insert_incomplete_question"));
+			}
 		}
 		
 		if ($_GET["eqid"] and $_GET["eqpl"])

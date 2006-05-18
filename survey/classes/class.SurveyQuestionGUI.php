@@ -228,8 +228,10 @@ class SurveyQuestionGUI
 			}
 			elseif ($_GET["new_for_survey"] > 0)
 			{
-				include_once "./classes/class.ilUtil.php";
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=" . $_GET["new_for_survey"] . "&new_id=".$_GET["q_id"]);
+				$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
+				$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+				$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
+				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 				return;
 			}
 			else
@@ -447,16 +449,18 @@ class SurveyQuestionGUI
 		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
 		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
 
-		if ($_GET["calling_survey"] > 0)
+		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
 		{
-			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+			$ref_id = $_GET["calling_survey"];
+			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
+			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions&new_id=".$_GET["q_id"]);
+
 			if ($_GET["q_id"])
 			{
 				$ilTabs->addTarget("preview",
 										 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
 										 "$guiclass");
 			}
-			
 			if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
 				$ilTabs->addTarget("edit_properties",
 										 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
