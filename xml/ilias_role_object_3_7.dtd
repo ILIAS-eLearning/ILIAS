@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT Roles (Role*)>
+
+<!-- Role -->
+<!ELEMENT Role (Title, Description, Translation?, Owner?)>
+<!ATTLIST Role
+	obj_id CDATA #REQUIRED
+	id CDATA #REQUIRED
+	role_type (Global | Local) #REQUIRED
+>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT Translation (#PCDATA)>
+<!ELEMENT Owner (Title, Description)>
+<!ATTLIST Owner
+    obj_id CDATA #REQUIRED
+    ref_id CDATA #REQUIRED
+    type  CDATA #REQUIRED
+>
