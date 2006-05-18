@@ -523,7 +523,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			}
 			else
 			{
-				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			}
 			$solution_script .= "";//"resetValues();\n";
 			$jssolutions = array();

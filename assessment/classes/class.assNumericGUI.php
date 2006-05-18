@@ -368,7 +368,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}
 			if ($mixpass) $pass = NULL;
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$output = str_replace("numeric_result\"", "numeric_result\" value=\"" . $solution_value["value1"] . "\"", $output); 

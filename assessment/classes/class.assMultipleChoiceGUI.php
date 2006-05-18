@@ -564,7 +564,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				//replace all checked answers with x or checkbox
@@ -607,6 +607,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$mixpass = false
 	)
 	{
+		global $ilLog;
+		$ilLog->write("start output mcmr: " . strftime("%D %T") . " (" . microtime() . ")");
 		if (!is_object($ilUser)) 
 		{
 			global $ilUser;
@@ -646,7 +648,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}
 			if ($mixpass) $pass = NULL;
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$repl_str = "dummy=\"mc".$solution_value["value1"]."\"";
@@ -770,6 +772,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		}
 		
 		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput.$received_points);
+		$ilLog->write("end output mcmr: " . strftime("%D %T") . " (" . microtime() . ")");
 	}
 
 	function addSuggestedSolution()

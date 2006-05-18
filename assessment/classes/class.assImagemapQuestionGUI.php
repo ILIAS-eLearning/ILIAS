@@ -697,7 +697,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			include_once "./assessment/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)
@@ -790,7 +790,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}
 			if ($mixpass) $pass = NULL;
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			include_once "./assessment/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)

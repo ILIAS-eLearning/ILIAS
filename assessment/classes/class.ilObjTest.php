@@ -3482,7 +3482,7 @@ class ilObjTest extends ilObject
 			$question =& ilObjTest::_instanciateQuestion($val);
 			if (is_object($question))
 			{			
-				$answers = $question->getSolutionValues($this->test_id, $user);
+				$answers = $question->getSolutionValues($this->test_id, $user->getId());
 				$visited = count($answers);
 				$solved  = 0;
 				if (array_key_exists($question->getId(),$solved_questions)) {

@@ -501,7 +501,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$repl_str = "dummy=\"match".$solution_value["value2"]."_".$solution_value["value1"]."\"";
@@ -597,7 +597,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			}
 			else
 			{ 
-				$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+				$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			}
 			$solution_script .= "";//"resetValues();\n";
 			foreach ($solutions as $idx => $solution_value)
