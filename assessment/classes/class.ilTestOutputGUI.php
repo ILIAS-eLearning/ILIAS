@@ -379,6 +379,7 @@ class ilTestOutputGUI
 				}
 				break;
 			case "qt_multiple_choice_sr":
+			case "qt_multiple_choice_mr":
 				$use_post_solutions = false;
 				if ($this->saveResult === false)
 				{

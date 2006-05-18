@@ -1,0 +1,20 @@
+<div xmlns:xhtml="http://www.w3.org/1999/xhtml" class="ilc_Question">
+	{QUESTIONTEXT}
+	<table class="nobackground">
+<!-- BEGIN answer_row -->	
+		<tr>
+			<td class="nobackground" width="15">
+				<input type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="{ANSWER_ID}"{CHECKED_ANSWER} >
+			</td>
+			<td class="nobackground" width="left">
+				<label for="{ANSWER_ID}">
+<!-- BEGIN answer_image -->
+					<img src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" />
+<!-- END answer_image -->
+					{ANSWER_TEXT}
+				</label>
+			</td>
+		</tr>
+<!-- END answer_row -->	
+	</table>
+</div>
