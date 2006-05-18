@@ -75,7 +75,7 @@ class ilPermissionGUI
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilErr;
 
 		// access to all functions in this class are only allowed if edit_permission is granted
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
@@ -247,7 +247,7 @@ class ilPermissionGUI
 	*/
 	function permSave()
 	{
-		global $rbacreview, $rbacadmin;
+		global $rbacreview, $rbacadmin, $rbacsystem;
 
 		// first save the new permission settings for all roles
 		$rbacadmin->revokePermission($this->gui_obj->object->getRefId());
@@ -325,6 +325,12 @@ class ilPermissionGUI
 		}
 		
 		sendinfo($this->lng->txt("saved_successfully"),true);
+		
+		// redirect to default page if user revokes himself access to the permission panel
+		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
+		{
+			$this->ctrl->redirect($this->gui_obj);
+		}
 		
 		$this->ctrl->redirect($this,'perm');
 	}
