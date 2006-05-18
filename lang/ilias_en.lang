@@ -1496,7 +1496,6 @@ common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Deliver exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_resubmitted#:#Resubmitted
-common#:#exc_status_submitted#:#Submitted
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_sent#:#Delivered by mail
 common#:#exc_status_solved#:#Solved
