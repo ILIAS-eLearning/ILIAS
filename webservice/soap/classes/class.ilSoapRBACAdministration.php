@@ -45,7 +45,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -86,7 +86,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -114,7 +114,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -143,7 +143,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -163,8 +163,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -193,8 +193,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -226,8 +226,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -238,7 +238,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		}
 
 		$role_folder = $rbacreview->getRoleFolderOfObject($ref_id);
-		
+
 		if(count($role_folder))
 		{
 			foreach($rbacreview->getRolesOfRoleFolder($role_folder['ref_id'],false) as $role_id)
@@ -261,15 +261,15 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			}
 		}
 		return '';
-	}		
+	}
 
 	function getUserRoles($sid,$user_id)
 	{
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -305,8 +305,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -316,7 +316,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 									   'Client');
 		}
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
-		
+
 		$xml_parser =& new ilObjectXMLParser($role_xml);
 		$xml_parser->startParsing();
 
@@ -372,8 +372,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -391,7 +391,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
-		
+
 		$xml_parser =& new ilObjectXMLParser($role_xml);
 		$xml_parser->startParsing();
 
@@ -438,10 +438,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			// Copy permssions
 			$rbacadmin->copyRolePermission($template_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
-			// Set object permissions according to role template 
+			// Set object permissions according to role template
 			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),$tmp_obj->getType(),$rolf_obj->getRefId());
 			$rbacadmin->grantPermission($role_obj->getId(),$ops,$target_id);
-			
+
 			// SET permissisons of role folder according to role template
 			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
 			$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
@@ -464,8 +464,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -511,12 +511,70 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			}
 
 		}
-		
+
 		foreach($ops_data as $data)
 		{
 			$ret_data[] = $data;
 		}
 		return $ret_data ? $ret_data : array();
 	}
+
+	function getRoles($sid, $role_type, $ref_id)
+	{
+
+
+	    if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		global $rbacsystem, $rbacreview;
+
+		if(!$rbacsystem->checkAccess('read',ROLE_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
+
+		$roles = array();
+
+		if ($ref_id == "-1")
+		// get all roles
+		{
+		      $roles = $rbacreview->getAssignableRoles(false, true);
+		}
+		else
+		// get local roles
+		{
+            $role_type = "local";
+		    $role_folder = $rbacreview->getRoleFolderOfObject($ref_id);
+
+
+		    if(count($role_folder))
+		    {
+			   foreach($rbacreview->getRolesOfRoleFolder($role_folder['ref_id'],false) as $role_id)
+			   {
+			     if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
+			     {
+	   			         $roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
+		  	   	 }
+			   }
+		     }
+		}
+
+		include_once './webservice/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
+
+		$xml_writer = new ilSoapRoleObjectXMLWriter();
+		$xml_writer->setObjects($roles);
+		$xml_writer->setType ($role_type);
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+	}
+
+
 }
 ?>

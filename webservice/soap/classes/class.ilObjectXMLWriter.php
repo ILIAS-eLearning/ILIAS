@@ -75,7 +75,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	function enableOperations($a_status)
 	{
 		$this->enable_operations = $a_status;
-		
+
 		return true;
 	}
 
@@ -114,7 +114,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function getXML()
 	{
-		return $this->xmlDumpMem();
+		return $this->xmlDumpMem(FALSE);
 	}
 
 
@@ -131,7 +131,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->xmlElement('CreateDate',null,$object->getCreateDate());
 		$this->xmlElement('LastUpdate',null,$object->getLastUpdateDate());
 		$this->xmlElement('ImportId',null,$object->getImportId());
-		
+
 		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
 		{
 			$attr = array('ref_id' => $ref_id);
@@ -162,7 +162,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 		}
 		return true;
 	}
-	
+
 
 	function __buildHeader()
 	{
