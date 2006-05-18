@@ -114,6 +114,22 @@ class ilLMPresentationGUI
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->setTreeTablePK("lm_id");
 
+		// do digilib book initialisation stuff
+		if ($type == "dbk")
+		{
+			$this->abstract = true;
+			$this->setSessionVars();
+			if((count($_POST["tr_id"]) > 1) or
+			   (!$_POST["target"] and ($_POST["action"] == "show" or $_POST["action"] == "show_citation")))
+			{
+				$this->abstract = true;
+			}
+			else if($_GET["obj_id"] or ($_POST["action"] == "show") or ($_POST["action"] == "show_citation"))
+			{
+				$this->abstract = false;
+			}
+		}
+
 	}
 
 
@@ -654,12 +670,11 @@ class ilLMPresentationGUI
 
 							case "dbk":
 								$this->setSessionVars();
-								if((count($_POST["tr_id"]) > 1) or
-								   (!$_POST["target"] and ($_POST["action"] == "show" or $_POST["action"] == "show_citation")))
+								if($this->abstract)
 								{
 									$content = $this->lm_gui->showAbstract($_POST["target"]);
 								}
-								else if($_GET["obj_id"] or ($_POST["action"] == "show") or ($_POST["action"] == "show_citation"))
+								else
 								{
 									// SHOW PAGE IF PAGE WAS SELECTED
 									$content = $this->ilPage($child);
@@ -669,12 +684,6 @@ class ilLMPresentationGUI
 										$translation_content = $this->ilTranslation($child);
 									}
 								}
-								else
-								{
-									// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
-									$content = $this->lm_gui->showAbstract($_POST["target"]);
-								}
-
 								break;
 						}
 												break;
@@ -922,6 +931,12 @@ class ilLMPresentationGUI
 	function ilLMSubMenu()
 	{
 		global $rbacsystem;
+		
+		// no sub menu for abstract of digilib book
+		if ($this->lm->getType() == "dbk" && $this->abstract)
+		{
+			return;
+		}
 
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 		$showViewInFrameset = true;
@@ -973,6 +988,13 @@ class ilLMPresentationGUI
 	function ilLMNotes()
 	{
 		global $ilAccess;
+		
+		// no notes for abstract of digilib book
+		if ($this->lm->getType() == "dbk" && $this->abstract)
+		{
+			return;
+		}
+
 
 		// no notes in offline (export) mode
 		if ($this->offlineMode())
