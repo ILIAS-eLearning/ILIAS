@@ -1,12 +1,10 @@
-<form name="form_deliver" method="post" action="{FORMACTION}" enctype="multipart/form-data">
-{TEXT_FILENAME}&nbsp;:<input type="file" name="deliver" size="40" /> <input type="submit" class="submit" name="cmd[deliverFile]" value="{BUTTON_DELIVER}" />
-</form>
-<br/>
 <!-- BEGIN delivered_files -->
-<center><h1>{TEXT_HEADING_DELIVERED_FILES}</h1>
 <form  name="form_delivered_files" method="post" action="{DELIVER_FORMACTION}">
 <table class="halfwidth">
 <tr class="tblheader">
+<td colspan="3">{TEXT_HEADING_DELIVERED_FILES}</td>
+</tr>
+<tr>
 <td></td><td>{TEXT_DELIVERED_FILENAME}</td><td>{TEXT_DATE}</td>
 </tr>
 <!-- BEGIN delivered_row -->
@@ -27,6 +25,16 @@
 <td class="option_value" colspan="3">{TEXT_NO_DELIVERED_FILES}</td>
 <!-- END footer_empty -->
 </tr>
-</table>
-</form></center>
+</form>
 <!-- END delivered_files -->
+<tr class="tblheader">
+<td colspan="3">{TXT_UPLOAD_FILE}</td>
+</tr>
+<tr>
+<td class="option_value" colspan="3">
+<form name="form_deliver" method="post" action="{FORMACTION}" enctype="multipart/form-data">
+{TEXT_FILENAME}&nbsp;:<input type="file" name="deliver" size="40" />
+<input type="submit" class="submit" name="cmd[deliverFile]" value="{BUTTON_DELIVER}" /></form></td>
+</tr>
+</table>
+</form>
