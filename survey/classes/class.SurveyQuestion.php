@@ -793,6 +793,33 @@ class SurveyQuestion
 	}
 
 /**
+* Checks wheather the question is complete or not
+*
+* Checks wheather the question is complete or not
+*
+* @return boolean TRUE if the question is complete, FALSE otherwise
+* @access public
+*/
+	function _isComplete($question_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT complete FROM survey_question WHERE question_id = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["complete"] == 1)
+			{
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+	
+/**
 * Saves the complete flag to the database
 *
 * Saves the complete flag to the database
