@@ -38,7 +38,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	{
 		parent::ilSoapAdministration();
 	}
-		
+
 
 	// Service methods
 	function login($client,$username,$password)
@@ -61,22 +61,22 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		if(!$this->sauth->logout())
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
-		
+
 		return true;
 	}
-	
+
 	function lookupUser($sid,$user_name)
 	{
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		if(!strlen($user_name))
 		{
@@ -101,8 +101,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -121,14 +121,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $usr_data;
 		}
 		return $this->__raiseError('User does not exist','Client');
-	}		
+	}
 
 	function updateUser($sid,$user_data)
 	{
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -204,7 +204,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -227,7 +227,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Validate global role
 		global $rbacreview;
-		
+
 		$global_roles = $rbacreview->getGlobalRoles();
 
 		if(!in_array($global_role_id,$global_roles))
@@ -246,14 +246,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// Need this for entry in object_data
 		$new_user->setTitle($new_user->getFullname());
 		$new_user->setDescription($new_user->getEmail());
-		
+
 		if ($user_data["import_id"] != "")
 		{
 			$new_user->setImportId($user_data["import_id"]);
 		}
 
 		$new_user->create();
-		
+
 
 		$new_user->saveAsNew();
 
@@ -280,8 +280,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-		
+		}
+
 		if(!isset($user_id))
 		{
 			return $this->__raiseError('No user_id given. Aborting','Client');
@@ -318,15 +318,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	}
 
 
-		
-		
+
+
 	// PRIVATE
 	function __validateUserData(&$user_data,$check_complete = true)
 	{
 		global $lng,$styleDefinition;
 
 		$this->__setMessage('');
-		
+
 		if($check_complete)
 		{
 			if(!isset($user_data['login']))
@@ -439,7 +439,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					}
 					break;
 
-					
+
 
 				default:
 					continue;
@@ -451,7 +451,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	function __setUserData(&$user_obj,&$user_data)
 	{
 		// Default to unlimited if no access period is given
-		if(!$user_data['time_limit_from'] and 
+		if(!$user_data['time_limit_from'] and
 		   !$user_data['time_limit_until'] and
 		   !$user_data['time_limit_unlimited'])
 		{
@@ -475,7 +475,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 		return true;
 	}
-	
+
 	function __readUserData(&$usr_obj)
 	{
 		$usr_data['usr_id'] = $usr_obj->getId();
@@ -515,7 +515,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['user_language'] = $usr_obj->getLanguage();
 
 		$usr_data['accepted_agreement'] = $usr_obj->hasAcceptedUserAgreement();
-		
+
 		return $usr_data;
 	}
 
@@ -527,5 +527,542 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 		return $user_old ? $user_old : array();
 	}
+
+	/**
+	*
+	* define ("IL_FAIL_ON_CONFLICT", 1);
+	* define ("IL_UPDATE_ON_CONFLICT", 2);
+	* define ("IL_IGNORE_ON_CONFLICT", 3);
+	*/
+	function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule)
+	{
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once './classes/class.ilUserImportParser.php';
+		include_once './classes/class.ilObjRole.php';
+		include_once './classes/class.ilObjectFactory.php';
+
+
+
+		global $rbacreview, $rbacsystem, $tree, $lng;
+
+		switch ($conflict_rule)
+		{
+			case 2:
+				$conflict_rule = IL_UPDATE_ON_CONFLICT;
+				break;
+			case 3:
+				$conflict_rule = IL_IGNORE_ON_CONFLICT;
+				break;
+			default:
+				$conflict_rule = IL_FAIL_ON_CONFLICT;
+		}
+
+
+		// determine where to import
+		if ($folder_id == -1)
+			$folder_id = USER_FOLDER_ID;
+
+		// get folder
+		$import_folder = ilObjectFactory::getInstanceByRefId($folder_id, false);
+
+		// id does not exist
+		if (!$import_folder)
+				return $this->__raiseError('Wrong reference id.','Server');
+
+		// folder is not a folder
+		if ($import_folder->getType() != "usrf")
+		        return $this->__raiseError('Folder must be a usr folder.','Server');
+
+		// check access to folder
+		if(!$rbacsystem->checkAccess('create_user',$folder_id))
+		{
+			return $this->__raiseError('Missing permission for creating users within '.$import_folder->getTitle(),'Server');
+		}
+
+		// first verify
+
+		$importParser = new ilUserImportParser("", IL_VERIFY, $conflict_rule);
+		$importParser->setXMLContent($usr_xml);
+		$importParser->startParsing();
+
+		switch ($importParser->getErrorLevel())
+		{
+			case IL_IMPORT_SUCCESS :
+				break;
+			case IL_IMPORT_WARNING :
+				return $this->__getImportProtocolAsXML ($importParser->getProtocol("User Import Log - Warning"));
+				break;
+			case IL_IMPORT_FAILURE :
+				return $this->__getImportProtocolAsXML ($importParser->getProtocol("User Import Log - Failure"));
+		}
+
+		// verify is ok, so get role assignments
+
+		$importParser = new ilUserImportParser("", IL_EXTRACT_ROLES, $conflict_rule);
+		$importParser->setXMLContent($usr_xml);
+		$importParser->startParsing();
+
+		$roles = $importParser->getCollectedRoles();
+
+		//print_r($roles);
+
+
+		// get global roles
+		$all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
+
+		//print_r($all_gl_roles );
+
+		$permitted_global_roles = array();
+
+		foreach ($all_gl_roles as $obj_data)
+		{
+			// check assignment permission if called from local admin
+			if($folder_id != USER_FOLDER_ID)
+			{
+				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
+				{
+				    continue;
+				}
+			}
+			// exclude anonymous role from list
+			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
+			{
+				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+				{
+					$permitted_global_roles[$obj_data["obj_id"]] = $obj_data["title"];
+				}
+			}
+		}
+
+		//print_r($permitted_global_roles);
+
+		// get local roles
+		$loc_roles = $rbacreview->getAssignableRoles();
+
+	//	print_r($loc_roles);
+
+		$permitted_local_roles = array();
+		$l_roles_searcharray = array();
+
+		foreach ($loc_roles as $key => $loc_role)
+		{
+				// fetch context path of role
+				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
+
+				// only process role folders that are not set to status "deleted"
+				// and for which the user has write permissions.
+				// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
+				// (The ROLE_FOLDER_ID folder contains the global roles).
+				if (!$rbacreview->isDeleted($rolf[0])
+				&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
+				&& $rolf[0] != ROLE_FOLDER_ID
+				)
+				{
+					// A local role is only displayed, if it is contained in the subtree of
+					// the localy administrated category. If the import function has been
+					// invoked from the user folder object, we show all local roles, because
+					// the user folder object is considered the parent of all local roles.
+					// Thus, if we start from the user folder object, we initialize the
+					// isInSubtree variable with true. In all other cases it is initialized
+					// with false, and only set to true if we find the object id of the
+					// locally administrated category in the tree path to the local role.
+					$isInSubtree = $folder_id == USER_FOLDER_ID;
+
+					$path = "";
+					if ($tree->isInTree($rolf[0]))
+					{
+						// Create path. Paths which have more than 4 segments
+						// are truncated in the middle.
+						$tmpPath = $tree->getPathFull($rolf[0]);
+
+						for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
+						{
+							if ($i > 1)
+							{
+								$path = $path.' > ';
+							}
+							if ($i < 3 || $i > $n - 3)
+							{
+								$path = $path.$tmpPath[$i]['title'];
+							}
+							else if ($i == 3 || $i == $n - 3)
+							{
+								$path = $path.'...';
+							}
+
+							$isInSubtree |= $tmpPath[$i]['obj_id'] == $folder_id;
+						}
+					}
+					else
+					{
+						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
+					}
+
+					if ($loc_role["role_type"] != "Global" && $isInSubtree)
+					{
+						$permitted_local_roles[$loc_role['obj_id']] = $loc_role["title"];
+					}
+				}
+		} //foreach local role
+
+
+		//print_r($permitted_local_roles);
+
+		// roles to be assigned, skip if one is not allowed!
+
+		$permitted_roles = array();
+
+		foreach ($roles as $role_id => $role)
+		{
+			$role_name = $role["name"];
+			if (!is_numeric ($role_id))
+			{
+				$role  = ilSoapUserAdministration::__getRoleForRolename ($role_id);
+				$role_name = $role->title;
+				$role_id = $role->role_id;
+			}
+
+			if ($key = array_search($role_name, $permitted_local_roles))
+					$permitted_roles[$role_name] = $role_id;
+			elseif ($key = array_search($role_name, $permitted_global_roles))
+					$permitted_roles[$role_name] = $role_id;
+			else return $this->__raiseError("Could not find role ".$role_name.". Either you use an invalid/deleted role or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",'Server');
+		}
+
+		$global_roles = $rbacreview->getGlobalRoles();
+
+		//print_r ($global_roles);
+
+
+
+		foreach ($permitted_roles as $role_id)
+		{
+		    if ($role_id != "")
+				{
+					if (in_array($role_id, $global_roles))
+					{
+						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"])
+						|| ($folder_id != USER_FOLDER_ID && ! ilObjRole::_getAssignUsersStatus($role_id))
+						)
+						{
+							return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted")." $role_name ($role_id)",'Server');
+						}
+					}
+					else
+					{
+						$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
+						if ($rbacreview->isDeleted($rolf[0])
+								|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+						{
+
+							return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted")." $role_name ($role_id)","Server");
+						}
+					}
+				}
+		}
+
+		//print_r ($permitted_roles);
+
+		$importParser = new ilUserImportParser("", IL_USER_IMPORT, $conflict_rule);
+		$importParser->setFolderId($folder_id);
+		$importParser->setXMLContent($usr_xml);
+
+		$importParser->setRoleAssignment($permitted_roles);
+
+		$importParser->startParsing();
+
+		if ($importParser->isSuccess())
+		  return $this->__getUserMappingAsXML ($importParser->getUserMapping());
+
+		return $this->__getImportProtocolAsXML ($importParser->getProtocol());
+
+	}
+
+	/**
+	*	returns role record for role_name
+	*/
+	function __getRoleForRolename ($role_name)
+	{
+		global $ilDB;
+		$sql = "SELECT * FROM role_data r, object_data o WHERE o.type='role' and o.title='$role_name' and r.role_id = o.obj_id";
+
+		$r = $ilDB->query($sql);
+
+		return $r ? $r->fetchRow(DB_FETCHMODE_OBJECT) : null;
+	}
+
+	/**
+	* return list of users following dtd users_3_7
+	*/
+	function getUsers($sid, $ref_id, $attachRoles, $active)
+	{
+		global $ilDB, $rbacreview, $rbacsystem;
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if ($ref_id == -1)
+			$ref_id = USER_FOLDER_ID;
+
+//echo "ref_id:".$ref_id;
+
+		if(!$rbacsystem->checkAccess('read', $ref_id))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
+
+		if (!$object = ilObjectFactory::getInstanceByRefId($ref_id, false))
+		{
+			return $this->__raiseError("No object for reference id $ref_id", "Server");
+		}
+
+		$type = $object->getType();
+
+		if ($type =="usrf" || $type == "crs" || $type=="grp")
+		// get users of a user folder
+
+		{
+			switch ($type) {
+				case "usrf":
+					$data = ilSoapUserAdministration::__getUserFolderUsers($ref_id, $active);
+					break;
+				case "crs":
+				{
+					$object->initCourseMemberObject();
+
+					// GET ALL MEMBERS
+					$members = array();
+					$roles = $object->__getLocalRoles();
+
+					foreach($roles as $role_id)
+					{
+						$members = array_merge($rbacreview->assignedUsers($role_id, array()),$members);
+					}
+
+					$data = $members;//array_unique ($members);
+
+					break;
+				}
+				case "grp":
+					$member_ids = $object->getGroupMemberIds();
+					$data = ilSoapUserAdministration::__getGroupMemberData($member_ids, $active);
+
+					break;
+			}
+
+
+			if (count ($data))
+			{
+			  include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
+
+			  $xmlWriter = new ilSoapUserObjectXMLWriter();
+				$xmlWriter->setObjects($data);
+
+				$xmlWriter->setAttachRoles ($attachRoles);
+
+				if($xmlWriter->start())
+				{
+					return $xmlWriter->getXML();
+				}
+			}
+			return $this->__raiseError('No records available','Client');
+		}
+		return $this->__raiseError('Type $type not yet supported','Client');
+	}
+
+
+	/**
+	* return list of users of a specific role, following dtd users_3_7
+	*/
+	function getRoleUsers($sid, $role_id, $attachRoles)
+	{
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once './classes/class.ilObjRole.php';
+
+		global $ilDB, $rbacreview, $rbacsystem, $tree;
+
+
+		$global_roles = $rbacreview->getGlobalRoles();
+
+
+		if (in_array($role_id, $global_roles))
+		{
+			if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"])
+			)
+			{
+				return $this->__raiseError("Role access not permitted. ($role_id)","Server");
+			}
+		}
+		else
+		{
+				$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
+				if ($rbacreview->isDeleted($rolf[0])
+						|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+				{
+					return $this->__raiseError("Role access not permitted. ($role_id)","Server");
+				}
+		}
+
+		$object = ilObjectFactory::getInstanceByObjId($role_id, false);
+
+		$data = $rbacreview->assignedUsers($role_id, array());
+
+		include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
+
+		$xmlWriter = new ilSoapUserObjectXMLWriter();
+		$xmlWriter->setAttachRoles($attachRoles);
+		$xmlWriter->setObjects($data);
+
+		if($xmlWriter->start())
+		{
+			return $xmlWriter->getXML();
+		}
+	}
+
+
+	/**
+	*
+	*/
+	function __getUserFolderUsers ($ref_id, $active) {
+			global $ilDB;
+			$data = array();
+			$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'";
+			if ($active > -1)
+				$query .= " AND usr_data.active = '$active'";
+
+			$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
+			//echo $query;
+
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($data, $row);
+			}
+
+			return $data;
+	}
+
+	/**
+	*	return user data for group members
+	*/
+	function __getGroupMemberData ($a_mem_ids, $active = -1)
+	{
+		global $rbacadmin, $rbacreview, $ilBench, $ilDB;
+
+		$usr_arr= array();
+
+		$q = "SELECT * ".
+			 "FROM usr_data ".
+			 "WHERE usr_id IN (".implode(',',$a_mem_ids).")";
+
+  	if (is_numeric($active) && $active > -1)
+  			$q .= "AND active = '$active'";
+
+  	$r = $ilDB->query($q);
+
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$mem_arr[] = $row;
+		}
+
+		return $mem_arr ? $mem_arr : array();
+	}
+
+	/**
+	*	Create XML ResultSet
+	*
+	**/
+	function __getImportProtocolAsXML ($a_array){
+		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
+		include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
+
+		$xmlResultSet = new ilXMLResultSet ();
+    	$xmlResultSet->addColumn ("userid");
+		$xmlResultSet->addColumn ("login");
+		$xmlResultSet->addColumn ("action");
+    	$xmlResultSet->addColumn ("message");
+
+		$rows = array();
+
+		foreach ($a_array as $username => $messages)
+		{
+			foreach ($messages as $message)
+			{
+
+				$xmlRow = new ilXMLResultSetRow ();
+				$xmlRow->setValue (0, 0);
+				$xmlRow->setValue (1, $username);
+				$xmlRow->setValue (2, "");
+				$xmlRow->setValue (3, $message);
+
+				$xmlResultSet->addRow ($xmlRow);
+			}
+		}
+
+		$xml_writer = new ilXMLResultSetWriter (& $xmlResultSet);
+
+		if ($xml_writer->start ());
+			return $xml_writer->getXML();
+
+		return $this->__raiseError('No records available','Client');
+	}
+
+    /**
+     * return user  mapping as xml
+     *
+     * @param array (user_id => login) $a_array
+     * @return XML String, following resultset.dtd
+     */
+    function __getUserMappingAsXML ($a_array) {
+		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
+		include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
+
+		$xmlResultSet = new ilXMLResultSet ();
+    	$xmlResultSet->addColumn ("userid");
+		$xmlResultSet->addColumn ("login");
+		$xmlResultSet->addColumn ("action");
+    	$xmlResultSet->addColumn ("message");
+
+		if (count($a_array))
+    	foreach ($a_array as $username => $message)
+		{
+			$xmlRow = new ilXMLResultSetRow ();
+			$xmlRow->setValue (0, $username);
+			$xmlRow->setValue (1, $message["login"]);
+			$xmlRow->setValue (2, $message["action"]);
+			$xmlRow->setValue (3, $message["message"]);
+
+			$xmlResultSet->addRow ($xmlRow);
+		}
+
+		$xml_writer = new ilXMLResultSetWriter (& $xmlResultSet);
+
+		if ($xml_writer->start ());
+			return $xml_writer->getXML();
+
+		return $this->__raiseError('No records available','Client');
+
+	}
+
 }
 ?>

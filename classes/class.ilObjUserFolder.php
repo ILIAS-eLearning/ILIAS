@@ -196,8 +196,8 @@ class ilObjUserFolder extends ilObject
 		
 		$file = fopen($filename, "w");
 		fwrite($file, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		fwrite($file, "<!DOCTYPE Users SYSTEM \"ilias_user_0_2.dtd\">\n");
-		fwrite($file, "<Users>\n");
+		fwrite($file, "<!DOCTYPE Users SYSTEM \"ilias_user_3_7.dtd\">\n");
+		fwrite($file, "<Users>");
 		foreach ($data as $row) 
 		{
 			//$log->write(date("[y-m-d H:i:s] ")."User data export: processing user " . $row["login"]);
@@ -208,10 +208,10 @@ class ilObjUserFolder extends ilObject
 			$userline = "";
 			// TODO: Define combobox for "Action" ???
 			if (strlen($row["language"]) == 0) $row["language"] = "en";
-			$userline .= "<User Id=\"".$row["usr_id"]."\" Language=\"".$row["language"]."\" Action=\"Insert\">\n";
+			$userline .= "<User ObjId=\"".$row["usr_id"]."\"  Id=\"".$row["login"]."\" Language=\"".$row["language"]."\" Action=\"Insert\">";
 			if (array_search("login", $settings) !== FALSE)
 			{
-				$userline .= "<Login>".$row["login"]."</Login>\n";
+				$userline .= "<Login>".$row["login"]."</Login>";
 			}
 			// Alternative way to get the roles of a user?
 			$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.usr_id = %s AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id",
@@ -233,7 +233,7 @@ class ilObjUserFolder extends ilObject
 					}
 					if (strlen($type))
 					{
-						$userline .= "<Role Id=\"".$rbacrow["rol_id"]."\" Type=\"".$type."\">".$rbacrow["title"]."</Role>\n";
+						$userline .= "<Role ObjId=\"".$rbacrow["rol_id"]."\" Id=\"".$rbacrow["title"]."\" Type=\"".$type."\">".$rbacrow["title"]."</Role>";
 					}
 				}
 			}
@@ -259,7 +259,7 @@ class ilObjUserFolder extends ilObject
 					}
 					if (strlen($type))
 					{
-						$userline .= "<Role Id=\"".$role["obj_id"]."\" Type=\"".$type."\">".$role["title"]."</Role>\n";
+						$userline .= "<Role Id=\"".$role["obj_id"]."\" Type=\"".$type."\">".$role["title"]."</Role>";
 					}
 				}
 			}
@@ -269,23 +269,23 @@ class ilObjUserFolder extends ilObject
 			if (array_search("i2passwd", $settings) !== FALSE)
 			{
 				if (strlen($row["i2passwd"])) $i2passwd = TRUE;
-				if ($i2passwd) $userline .= "<Password Type=\"ILIAS2\">".$row["i2passwd"]."</Password>\n";
+				if ($i2passwd) $userline .= "<Password Type=\"ILIAS2\">".$row["i2passwd"]."</Password>";
 			}
 			if ((!$i2passwd) && (array_search("passwd", $settings) !== FALSE))
 			{
-				if (strlen($row["passwd"])) $userline .= "<Password Type=\"ILIAS3\">".$row["passwd"]."</Password>\n";
+				if (strlen($row["passwd"])) $userline .= "<Password Type=\"ILIAS3\">".$row["passwd"]."</Password>";
 			}
 			if (array_search("firstname", $settings) !== FALSE)
 			{
-				if (strlen($row["firstname"])) $userline .= "<Firstname>".$row["firstname"]."</Firstname>\n";
+				if (strlen($row["firstname"])) $userline .= "<Firstname>".$row["firstname"]."</Firstname>";
 			}
 			if (array_search("lastname", $settings) !== FALSE)
 			{
-				if (strlen($row["lastname"])) $userline .= "<Lastname>".$row["lastname"]."</Lastname>\n";
+				if (strlen($row["lastname"])) $userline .= "<Lastname>".$row["lastname"]."</Lastname>";
 			}
 			if (array_search("title", $settings) !== FALSE)
 			{
-				if (strlen($row["title"])) $userline .= "<Title>".$row["title"]."</Title>\n";
+				if (strlen($row["title"])) $userline .= "<Title>".$row["title"]."</Title>";
 			}
 			if (array_search("upload", $settings) !== FALSE)
 			{
@@ -311,134 +311,136 @@ class ilObjUserFolder extends ilObject
 							{
 								$imagetype = "image/".$matches[1];
 							}
-							$userline .= "<PersonalPicture imagetype=\"$imagetype\" encoding=\"Base64\">$base64</PersonalPicture>\n";
+							$userline .= "<PersonalPicture imagetype=\"$imagetype\" encoding=\"Base64\">$base64</PersonalPicture>";
 						}
 					}					
 				}
 			}
 			if (array_search("gender", $settings) !== FALSE)
 			{
-				if (strlen($row["gender"])) $userline .= "<Gender>".$row["gender"]."</Gender>\n";
+				if (strlen($row["gender"])) $userline .= "<Gender>".$row["gender"]."</Gender>";
 			}
 			if (array_search("email", $settings) !== FALSE)
 			{
-				if (strlen($row["email"])) $userline .= "<Email>".$row["email"]."</Email>\n";
+				if (strlen($row["email"])) $userline .= "<Email>".$row["email"]."</Email>";
 			}
 			if (array_search("institution", $settings) !== FALSE)
 			{
-				if (strlen($row["institution"])) $userline .= "<Institution>".$row["institution"]."</Institution>\n";
+				if (strlen($row["institution"])) $userline .= "<Institution>".$row["institution"]."</Institution>";
 			}
 			if (array_search("street", $settings) !== FALSE)
 			{
-				if (strlen($row["street"])) $userline .= "<Street>".$row["street"]."</Street>\n";
+				if (strlen($row["street"])) $userline .= "<Street>".$row["street"]."</Street>";
 			}
 			if (array_search("city", $settings) !== FALSE)
 			{
-				if (strlen($row["city"])) $userline .= "<City>".$row["city"]."</City>\n";
+				if (strlen($row["city"])) $userline .= "<City>".$row["city"]."</City>";
 			}
 			if (array_search("zipcode", $settings) !== FALSE)
 			{
-				if (strlen($row["zipcode"])) $userline .= "<PostalCode>".$row["zipcode"]."</PostalCode>\n";
+				if (strlen($row["zipcode"])) $userline .= "<PostalCode>".$row["zipcode"]."</PostalCode>";
 			}
 			if (array_search("country", $settings) !== FALSE)
 			{
-				if (strlen($row["country"])) $userline .= "<Country>".$row["country"]."</Country>\n";
+				if (strlen($row["country"])) $userline .= "<Country>".$row["country"]."</Country>";
 			}
 			if (array_search("phone_office", $settings) !== FALSE)
 			{
-				if (strlen($row["phone_office"])) $userline .= "<PhoneOffice>".$row["phone_office"]."</PhoneOffice>\n";
+				if (strlen($row["phone_office"])) $userline .= "<PhoneOffice>".$row["phone_office"]."</PhoneOffice>";
 			}
 			if (array_search("phone_home", $settings) !== FALSE)
 			{
-				if (strlen($row["phone_home"])) $userline .= "<PhoneHome>".$row["phone_home"]."</PhoneHome>\n";
+				if (strlen($row["phone_home"])) $userline .= "<PhoneHome>".$row["phone_home"]."</PhoneHome>";
 			}
 			if (array_search("phone_mobile", $settings) !== FALSE)
 			{
-				if (strlen($row["phone_mobile"])) $userline .= "<PhoneMobile>".$row["phone_mobile"]."</PhoneMobile>\n";
+				if (strlen($row["phone_mobile"])) $userline .= "<PhoneMobile>".$row["phone_mobile"]."</PhoneMobile>";
 			}
 			if (array_search("fax", $settings) !== FALSE)
 			{
-				if (strlen($row["fax"])) $userline .= "<Fax>".$row["fax"]."</Fax>\n";
+				if (strlen($row["fax"])) $userline .= "<Fax>".$row["fax"]."</Fax>";
 			}
 			if (strlen($row["hobby"])) if (array_search("hobby", $settings) !== FALSE)
 			{
-				$userline .= "<Hobby>".$row["hobby"]."</Hobby>\n";
+				$userline .= "<Hobby>".$row["hobby"]."</Hobby>";
 			}
 			if (array_search("department", $settings) !== FALSE)
 			{
-				if (strlen($row["department"])) $userline .= "<Department>".$row["department"]."</Department>\n";
+				if (strlen($row["department"])) $userline .= "<Department>".$row["department"]."</Department>";
 			}
 			if (array_search("referral_comment", $settings) !== FALSE)
 			{
-				if (strlen($row["referral_comment"])) $userline .= "<Comment>".$row["referral_comment"]."</Comment>\n";
+				if (strlen($row["referral_comment"])) $userline .= "<Comment>".$row["referral_comment"]."</Comment>";
 			}
 			if (array_search("matriculation", $settings) !== FALSE)
 			{
-				if (strlen($row["matriculation"])) $userline .= "<Matriculation>".$row["matriculation"]."</Matriculation>\n";
+				if (strlen($row["matriculation"])) $userline .= "<Matriculation>".$row["matriculation"]."</Matriculation>";
 			}
 			if (array_search("active", $settings) !== FALSE)
 			{
 				if ($row["active"])
 				{
-					$userline .= "<Active>true</Active>\n";
+					$userline .= "<Active>true</Active>";
 				}
 				else
 				{
-					$userline .= "<Active>false</Active>\n";
+					$userline .= "<Active>false</Active>";
 				}
 			}
 			if (array_search("client_ip", $settings) !== FALSE)
 			{
-				if (strlen($row["client_ip"])) $userline .= "<ClientIP>".$row["client_ip"]."</ClientIP>\n";
+				if (strlen($row["client_ip"])) $userline .= "<ClientIP>".$row["client_ip"]."</ClientIP>";
 			}
 			if (array_search("time_limit_owner", $settings) !== FALSE)
 			{
-				if (strlen($row["time_limit_owner"])) $userline .= "<TimeLimitOwner>".$row["time_limit_owner"]."</TimeLimitOwner>\n";
+				if (strlen($row["time_limit_owner"])) $userline .= "<TimeLimitOwner>".$row["time_limit_owner"]."</TimeLimitOwner>";
 			}
 			if (array_search("time_limit_unlimited", $settings) !== FALSE)
 			{
-				if (strlen($row["time_limit_unlimited"])) $userline .= "<TimeLimitUnlimited>".$row["time_limit_unlimited"]."</TimeLimitUnlimited>\n";
+				if (strlen($row["time_limit_unlimited"])) $userline .= "<TimeLimitUnlimited>".$row["time_limit_unlimited"]."</TimeLimitUnlimited>";
 			}
 			if (array_search("time_limit_from", $settings) !== FALSE)
 			{
-				if (strlen($row["time_limit_from"])) $userline .= "<TimeLimitFrom>".$row["time_limit_from"]."</TimeLimitFrom>\n";
+				if (strlen($row["time_limit_from"])) $userline .= "<TimeLimitFrom>".$row["time_limit_from"]."</TimeLimitFrom>";
 			}
 			if (array_search("time_limit_until", $settings) !== FALSE)
 			{
-				if (strlen($row["time_limit_until"])) $userline .= "<TimeLimitUntil>".$row["time_limit_until"]."</TimeLimitUntil>\n";
+				if (strlen($row["time_limit_until"])) $userline .= "<TimeLimitUntil>".$row["time_limit_until"]."</TimeLimitUntil>";
 			}
 			if (array_search("time_limit_message", $settings) !== FALSE)
 			{
-				if (strlen($row["time_limit_message"])) $userline .= "<TimeLimitMessage>".$row["time_limit_message"]."</TimeLimitMessage>\n";
+				if (strlen($row["time_limit_message"])) $userline .= "<TimeLimitMessage>".$row["time_limit_message"]."</TimeLimitMessage>";
 			}
 			if (array_search("approve_date", $settings) !== FALSE)
 			{
-				if (strlen($row["approve_date"])) $userline .= "<ApproveDate>".$row["approve_date"]."</ApproveDate>\n";
+				if (strlen($row["approve_date"])) $userline .= "<ApproveDate>".$row["approve_date"]."</ApproveDate>";
 			}
 			if (array_search("agree_date", $settings) !== FALSE)
 			{
-				if (strlen($row["agree_date"])) $userline .= "<AgreeDate>".$row["agree_date"]."</AgreeDate>\n";
+				if (strlen($row["agree_date"])) $userline .= "<AgreeDate>".$row["agree_date"]."</AgreeDate>";
 			}
-			if (array_search("ilinc_id", $settings) !== FALSE)
-			{
-				if (strlen($row["ilinc_id"])) $userline .= "<iLincID>".$row["ilinc_id"]."</iLincID>\n";
-			}
-			if (array_search("ilinc_user", $settings) !== FALSE)
-			{
-				if (strlen($row["ilinc_user"])) $userline .= "<iLincUser>".$row["ilinc_user"]."</iLincUser>\n";
-			}
-			if (array_search("ilinc_passwd", $settings) !== FALSE)
-			{
-				if (strlen($row["ilinc_passwd"])) $userline .= "<iLincPasswd>".$row["ilinc_passwd"]."</iLincPasswd>\n";
+			if ((int) $row["ilinc_id"] !=0) {
+					if (array_search("ilinc_id", $settings) !== FALSE)
+					{
+						if (strlen($row["ilinc_id"])) $userline .= "<iLincID>".$row["ilinc_id"]."</iLincID>";
+					}
+					if (array_search("ilinc_user", $settings) !== FALSE)
+					{
+						if (strlen($row["ilinc_user"])) $userline .= "<iLincUser>".$row["ilinc_user"]."</iLincUser>";
+					}
+					if (array_search("ilinc_passwd", $settings) !== FALSE)
+					{
+						if (strlen($row["ilinc_passwd"])) $userline .= "<iLincPasswd>".$row["ilinc_passwd"]."</iLincPasswd>";
+					}
 			}
 			if (array_search("auth_mode", $settings) !== FALSE)
 			{
-				if (strlen($row["auth_mode"])) $userline .= "<AuthMode type=\"".$row["auth_mode"]."\"></AuthMode>\n";
+				if (strlen($row["auth_mode"])) $userline .= "<AuthMode type=\"".$row["auth_mode"]."\"></AuthMode>";
 			}
-			$userline .= "</User>\n";
+			$userline .= "</User>";
 			fwrite($file, $userline);
 		}
-		fwrite($file, "</Users>\n");
+		fwrite($file, "</Users>");
 		fclose($file);
 	}
 	
@@ -452,7 +454,7 @@ class ilObjUserFolder extends ilObject
 		$separator = ";";
 		$file = fopen($filename, "w");
 		$formattedrow =& ilUtil::processCSVRow($headerrow, TRUE, $separator);
-		fwrite($file, join ($separator, $formattedrow) ."\n");
+		fwrite($file, join ($separator, $formattedrow) ."");
 		foreach ($data as $row) 
 		{
 			$csvrow = array();
@@ -461,7 +463,7 @@ class ilObjUserFolder extends ilObject
 				array_push($csvrow, $row[$header]);
 			}
 			$formattedrow =& ilUtil::processCSVRow($csvrow, TRUE, $separator);
-			fwrite($file, join ($separator, $formattedrow) ."\n");
+			fwrite($file, join ($separator, $formattedrow) ."");
 		}
 		fclose($file);
 	}

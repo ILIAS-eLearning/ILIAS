@@ -67,7 +67,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		// Read ilias ini
 		if(!$this->__buildDSN())
 		{
-			$this->__setMessage('Error building dsn');
+			$this->__setMessage('Error building dsn/Wrong client Id?');
 			return false;
 		}
 		if(!$this->__setSessionSaveHandler())
@@ -95,14 +95,14 @@ class ilSoapAuthentication extends ilBaseAuthentication
 			$this->__getAuthStatus();
 
 			return false;
-		}			
+		}
 
 		$this->setSid(session_id());
 
 		return true;
 	}
 
-	
+
 	function validateSession()
 	{
 		if(!$this->getClient())
@@ -115,7 +115,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 			$this->__setMessage('No session id given');
 			return false;
 		}
-		
+
 		if(!$this->__buildDSN())
 		{
 			$this->__setMessage('Error building dsn');
@@ -140,10 +140,10 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		if(!$this->auth->getAuth())
 		{
 			$this->__setMessage('Session not valid');
-			
+
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -152,7 +152,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	{
 		include_once './classes/class.ilDBx.php';
 
-		
+
 		$db =& new ilDBx($this->dsn);
 
 		$query = "SELECT * FROM settings WHERE keyword = 'soap_user_administration' AND value = 1";

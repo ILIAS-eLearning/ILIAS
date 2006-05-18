@@ -41,7 +41,7 @@ class ilNusoapUserAdministrationAdapter
 	 */
 	var $server = null;
 
-    
+
     function ilNusoapUserAdministrationAdapter($a_use_wsdl = true)
     {
 		define('SERVICE_NAME','ilUserAdministration');
@@ -102,7 +102,7 @@ class ilNusoapUserAdministrationAdapter
 											'xsd:string');
 
 		// It's not possible to register classes in nusoap
-		
+
 		// login()
 		$this->server->register('login',
 								array('client' => 'xsd:string',
@@ -178,8 +178,8 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS lookupUser(): check if username exists. Return usr_id or 0 if lookup fails.');
-		
-		
+
+
 		// getUser()
 		$this->server->register('getUser',
 								array('sid' => 'xsd:string',
@@ -212,7 +212,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS updatePassword(). Updates password of given user. Password must be MD5 hash');
-								
+
 
 		// addUser()
 		$this->server->register('addUser',
@@ -297,7 +297,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS isAssignedToCourse(). Checks whether an user is assigned to a given course. '.
 								'Returns 0 => not assigned, 1 => course admin, 2 => course member or 3 => course tutor');
-								
+
 		// getCourseXML($sid,$course_id)
 		$this->server->register('getCourseXML',
 								array('sid' => 'xsd:string',
@@ -368,7 +368,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getObjectByReference(). Get XML-description of an ILIAS object. If a user id is given, '.
 								'this methods also checks the permissions of that user on the object.');
-								
+
 		$this->server->register('getObjectsByTitle',
 								array('sid' => 'xsd:string',
 									  'title' => 'xsd:string',
@@ -455,7 +455,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteObject. Stores object in trash. If multiple references exist, only the reference is deleted ');
 
-		
+
 		$this->server->register('removeFromSystemByImportId',
 								array('sid' => 'xsd:string',
 									  'import_id' => 'xsd:string'),
@@ -478,7 +478,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS addUserRoleEntry. Assign user to role.');
-								
+
 		$this->server->register('deleteUserRoleEntry',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int',
@@ -565,7 +565,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getLocalRoles(): Get all local roles assigned to an specific object.');
-								
+
 		$this->server->register('getUserRoles',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int'),
@@ -715,7 +715,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
 								'syntax, parameters may change in future releases');
-								
+
 		$this->server->register('saveQuestionResult',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int',
@@ -731,11 +731,66 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS saveQuesionResult(): Typically called from Java Applet questions. Only for internal usage '.
 								'Sntax, parameters may change in future releases');
 
+		$this->server->register('getStructureObjects',
+								array('sid' => 'xsd:string',
+									  'ref_id' => 'xsd:int'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getStructureObjects',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getStructureObjects: delivers structure of content objects like learning modules (chapters/pages) or glossary (terms)');
 
+		// importUsers()
+		$this->server->register('importUsers',
+								array('sid' => 'xsd:string',
+										'folder_id' => 'xsd:int',
+									  'usr_xml' => 'xsd:string',
+									  'conflict_rule' => 'xsd:int'),
+								array('protocol' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#importUsers',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS import users into folder id, which should be ref_id of folder or user folder: conflict_rule: IL_FAIL_ON_CONFLICT = 1, IL_UPDATE_ON_CONFLICT = 2, IL_IGNORE_ON_CONFLICT = 3. The Return-Value is a protocol with the columns userid, login, action, message, following xmlresultset dtd');
 
+		$this->server->register('getRoles',
+								array('sid' => 'xsd:string',
+								      'role_type' => 'xsd:string',
+								      'ref_id' => 'xsd:int'),
+								array('role_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getRoles',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getRoles():if ref_id equals -1, get all roles specified by type (global|local), if type is empty all roles with all types are delivered, if ref_id > -1 delivers all roles which belong to container with specified ref_id');
+
+		$this->server->register('getUsersForContainer',
+								array('sid' => 'xsd:string',
+    								'ref_id' => 'xsd:int',
+	   			     				'attach_roles' => 'xsd:int',
+								    'active' => 'xsd:int'),
+								array('user_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getUsers',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getUsersForContainer(): get all users of a specific ref_id, which can be crs, group, category or user folder (value: -1). Choose if all roles of a user should be attached (1) or not (0). set active to -1 to get all, 0, to get inactive users only, 1 to get active users only');
+
+		$this->server->register('getUsersForRole',
+								array('sid' => 'xsd:string',
+								      'role_id' => 'xsd:int',
+								      'attach_roles' => 'xsd:int',
+								      'active' => 'xsd:int'),
+								array('user_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getUsers',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getUsersForRole(): get all users of a role with specified id, specify attach_roles to 1, to attach all role assignmnents; specify active: 1, to import active only, 0: inactive only, -1: both');
 
 		return true;
 	}
-		
+
 }
 ?>

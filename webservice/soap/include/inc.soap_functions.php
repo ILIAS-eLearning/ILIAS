@@ -445,6 +445,52 @@ function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 	return $sou->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
 }
 
+function getStructureObjects ($sid, $ref_id) {
+	include_once './webservice/soap/classes/class.ilSoapStructureObjectAdministration.php';
+
+	$sca = & new ilSOAPStructureObjectAdministration();
+
+	return $sca->getStructureObjects ($sid, $ref_id);
+}
+
+function getRoles($sid, $role_type, $ref_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+
+	$soa =& new ilSoapRBACAdministration();
+
+	return $soa->getRoles($sid, $role_type, $ref_id);
+}
+
+function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->importUsers($sid, $folder_id, $usr_xml, $conflict_rule);
+}
+
+function getUsersForContainer ($sid, $ref_id, $attach_roles, $active)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->getUsers($sid, $ref_id, $attach_roles, $active);
+}
+
+function getUsersForRole ($sid, $role_id, $attach_roles, $active)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->getRoleUsers($sid, $role_id, $attach_roles, $active);
+}
+
+
+
 
 	
 	

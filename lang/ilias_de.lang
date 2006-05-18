@@ -1419,7 +1419,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Benutzername ungültig
+common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
