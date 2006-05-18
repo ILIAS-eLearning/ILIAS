@@ -364,11 +364,11 @@ class ilTestOutputGUI
 				if (ilObjTest::_getHidePreviousResults($test_id, true))
 				{
 					$pass = ilObjTest::_getPass($ilUser->id, $test_id);
-					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser, $pass);
+					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 				}
 				else
 				{
-					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser, NULL);
+					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser->getId(), NULL);
 				}
 				if (count($info))
 				{
@@ -377,6 +377,21 @@ class ilTestOutputGUI
 						$formaction .= "&selImage=" . $info[0]["value1"];
 					}
 				}
+				break;
+			case "qt_multiple_choice_sr":
+				$use_post_solutions = false;
+				if ($this->saveResult === false)
+				{
+					$use_post_solutions = true;
+				}
+				$test_output = $question_gui->getTestOutput($test_id, $ilUser->getId(), NULL, $is_postponed, $use_post_solutions); 
+				$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $test_output);
+				/*$question_gui->outWorkingForm(
+					$test_id, 
+					$is_postponed, 
+					$showsolution = $directfeedback,
+					true, false, NULL, NULL, false, $use_post_solutions
+				);*/
 				break;
 
 			default:

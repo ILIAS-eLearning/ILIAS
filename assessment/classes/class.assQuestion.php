@@ -952,15 +952,15 @@ class ASS_Question
 	}
 
 	/**
-	* Loads solutions of the active user from the database an returns it
+	* Loads solutions of a given user from the database an returns it
 	*
-	* Loads solutions of the active user from the database an returns it
+	* Loads solutions of a given user from the database an returns it
 	*
 	* @param integer $test_id The database id of the test containing this question
 	* @access public
 	* @see $answers
 	*/
-	function &getSolutionValues($test_id, $ilUser, $pass = NULL)
+	function &getSolutionValues($test_id, $user_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -969,7 +969,7 @@ class ASS_Question
 		if (is_null($pass))
 		{
 			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-				$ilDB->quote($ilUser->id . ""),
+				$ilDB->quote($user_id . ""),
 				$ilDB->quote($test_id . ""),
 				$ilDB->quote($this->getId() . "")
 			);
@@ -986,7 +986,7 @@ class ASS_Question
 		}		
 
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($ilUser->id . ""),
+			$ilDB->quote($user_id . ""),
 			$ilDB->quote($test_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")

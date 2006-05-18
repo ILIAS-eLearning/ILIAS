@@ -599,7 +599,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 			if (is_array($solutions)) 
 			{
 				foreach ($solutions as $idx => $solution_value)
@@ -695,7 +695,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($ilUser->id, $test_id);
 			}
 			if ($mixpass) $pass = NULL;
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser, $pass);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
 	
 			if (is_array($solutions)) 
 			{

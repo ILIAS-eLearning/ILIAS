@@ -422,7 +422,7 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
-	* �berladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
+	* Überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
 	* @access	public
 	* @param	string
 	* @return	???
@@ -460,7 +460,7 @@ class ilTemplate extends ilTemplateX
 	}
 
 	/**
-	* �berladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
+	* Überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausführt
 	* @access	public
 	* @param	string
 	* @return	string
