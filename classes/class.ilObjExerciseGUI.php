@@ -257,6 +257,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	  $this->tpl->setVariable("FORMACTION", $this->getFormAction("deliverFile", "exercise.php?cmd=deliverFile&ref_id=".$this->ref_id));
 	  $this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
 	  $this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
+	  $this->tpl->setVariable("TXT_UPLOAD_FILE", $this->lng->txt("file_add"));
 	  $this->tpl->parseCurrentBlock();
 	}
     }
