@@ -1677,7 +1677,7 @@ class ilLMPresentationGUI
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 		$term_gui->setLinkXML($link_xml);
 
-		$term_gui->output($this->offlineMode());
+		$term_gui->output($this->offlineMode(), "content/");
 		//$term_gui->listDefinitions($this->offlineMode());
 
 		$ilBench->stop("ContentPresentation", "ilGlossary");
