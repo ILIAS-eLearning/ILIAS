@@ -630,6 +630,90 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		return $question_html;
 	}
 
+	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$user_solution = array();
+		if ($test_id)
+		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			$user_solution =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			if (!is_array($user_solution)) 
+			{
+				$user_solution = array();
+			}
+		}
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, TRUE);
+		$cloze =& $this->object->createCloseTextArray();
+		//print_r($cloze);
+		$cloze_text = $cloze["delimiters"];
+		//print_r($cloze);
+		$counter = 0;
+		foreach ($cloze_text as $delimiter)
+		{
+			$template->setCurrentBlock("cloze_text");
+			$template->setVariable("CLOZE_TEXT", $delimiter[0]);
+			$template->parseCurrentBlock();
+			$gap = $this->object->getGap($counter);
+			if ($gap)
+			{
+				if ($gap[0]->getClozeType() == CLOZE_SELECT)
+				{
+					foreach ($gap as $index => $answer)
+					{
+						$template->setCurrentBlock("select_gap_option");
+						$template->setVariable("SELECT_GAP_VALUE", $index);
+						$template->setVariable("SELECT_GAP_TEXT", $answer->getAnswertext());
+						foreach ($user_solution as $solution)
+						{
+							if (strcmp($solution["value1"], $counter) == 0)
+							{
+								if (strcmp($solution["value2"], $index) == 0)
+								{
+									$template->setVariable("SELECT_GAP_SELECTED", " selected=\"selected\"");
+								}
+							}
+						}
+						$template->parseCurrentBlock();
+					}
+					$template->setCurrentBlock("select_gap");
+					$template->setVariable("GAP_COUNTER", $counter);
+					$template->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("text_gap");
+					$template->setVariable("GAP_COUNTER", $counter);
+					foreach ($user_solution as $solution)
+					{
+						if (strcmp($solution["value1"], $counter) == 0)
+						{
+							$template->setVariable("VALUE_GAP", " value=\"" . ilUtil::prepareFormOutput($solution["value2"]) . "\"");
+						}
+					}
+					$template->setVariable("TEXT_GAP_SIZE", $this->object->getColumnSize($gap));
+					$template->parseCurrentBlock();
+				}
+			}
+			$template->touchBlock("cloze_part");
+			$counter++;
+		}
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		return $questionoutput;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*

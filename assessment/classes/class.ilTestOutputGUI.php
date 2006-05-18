@@ -360,7 +360,6 @@ class ilTestOutputGUI
 			case "qt_imagemap":
 				$this->ctrl->setParameter($this, "formtimestamp", time());
 				$formaction = $this->ctrl->getLinkTargetByClass(get_class($this), "selectImagemapRegion");
-				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback, $formaction, true);
 				if (ilObjTest::_getHidePreviousResults($test_id, true))
 				{
 					$pass = ilObjTest::_getPass($ilUser->id, $test_id);
@@ -377,9 +376,11 @@ class ilTestOutputGUI
 						$formaction .= "&selImage=" . $info[0]["value1"];
 					}
 				}
-				break;
 			case "qt_multiple_choice_sr":
 			case "qt_multiple_choice_mr":
+			case "qt_cloze":
+			case "qt_javaapplet":
+			case "qt_matching":
 				$use_post_solutions = false;
 				if ($this->saveResult === false)
 				{

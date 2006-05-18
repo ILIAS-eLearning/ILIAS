@@ -1,0 +1,179 @@
+<div xmlns:xhtml="http://www.w3.org/1999/xhtml" class="ilc_Question">
+	{QUESTIONTEXT}
+<!-- BEGIN hidden_values -->
+<input type="hidden" name="sel_matching_{MATCHING_ID}" id="sel_matching_{MATCHING_ID}" value="initial_value_{MATCHING_ID}" />
+<!-- END hidden_values -->
+
+<!-- BEGIN javascript_output -->
+<table border="0" width="100%">
+	<tr>
+		<td colspan="4" align="right">
+			<a href="javascript:resetAnimated();">{RESET_TEXT}</a>
+		</td>
+	</tr>
+<!-- BEGIN javascript_matching_row -->
+	<tr>
+		<td width="120">
+			<div class="termtext" id="term_{TERM_ID}">{TERM_TEXT}</div>
+		</td>
+		<td width="50">
+			{MATCHES}
+		</td>
+		<td align="left" width="140">
+			<div class="dropzone" id="dropzone_{DROPZONE_ID}" />
+		</td>
+<!-- BEGIN matching_terms -->
+		<td align="right">
+			<div class="textbox" id="definition_{DEFINITION_ID}">{DEFINITION_TEXT}</div>
+		</td>
+<!-- END matching_terms -->
+<!-- BEGIN matching_pictures -->
+		<td align="right">
+			<div class="imagebox" id="definition_{DEFINITION_ID}">
+				<table border="0">
+					<tr>
+						<td align="left">
+							<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+						</td>
+						<td valign="top">
+							<a href="{IMAGE_HREF}" target="_new" id="enlarge_{DEFINITION_ID}">
+								<img border="0" src="{ENLARGE_HREF}" alt="{ENLARGE_ALT}" title="{ENLARGE_TITLE}" />
+							</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+<!-- END matching_pictures -->
+	</tr>
+<!-- END javascript_matching_row -->
+</table>
+<p>{JAVASCRIPT_HINT}</p>
+
+<script type="text/javascript" src="./assessment/js/rico/prototype.js"></script>
+<script type="text/javascript" src="./assessment/js/rico/rico.js"></script>
+<script type="text/javascript">
+	var CustomDraggable = Class.create();
+
+	function getIdFromElementId(elementid)
+	{
+		var underscore = elementid.indexOf('_');
+		var id = '';
+		if (underscore >=0 )
+		{
+			id = elementid.substr(underscore+1, elementid.length);
+		}
+		return id;
+	}
+	
+	CustomDraggable.prototype = (new Rico.Draggable()).extend( {
+		initialize: function( htmlElement, name ) 
+		{
+			this.type        = 'Custom';
+			this.htmlElement = $(htmlElement);
+			this.name        = name;
+		},
+
+		endDrag: function() 
+		{
+			var el = this.htmlElement;
+			var parent = el.parentNode;
+			var underscore = el.id.indexOf('_');
+			var def = getIdFromElementId(el.id);
+			var term = getIdFromElementId(parent.id);
+			
+			var hiddenelement = 'sel_matching_' + def;
+			$(hiddenelement).value = term;
+		}
+	});
+
+	var dropzones = new Array();
+	var dragelements = new Array();
+	var dragelementspos = new Array();
+	
+<!-- BEGIN dragelements -->
+	dragelements.push('definition_{DRAGELEMENT}');
+<!-- END dragelements -->
+<!-- BEGIN dropzones -->
+	dropzones.push('dropzone_{DROPZONE}');
+<!-- END dropzones -->
+
+	for (var i = 0; i < dragelements.length; i++)
+	{
+		dndMgr.registerDraggable(new CustomDraggable(dragelements[i], dragelements[i]));
+	}
+	for (var i = 0; i < dropzones.length; i++)
+	{
+		dndMgr.registerDropZone(new Rico.Dropzone(dropzones[i]));
+	}
+
+	function setDragelementPositions()
+	{
+		for (var i = 0; i < dragelements.length; i++)
+		{
+			dragelementspos.push(RicoUtil.toDocumentPosition($(dragelements[i])));
+		}
+	}
+	
+	function resetFast()
+	{
+		for (var i = 0; i < dragelements.length; i++)
+		{
+			$(dragelements[i]).style.position = "absolute";
+			new Rico.Effect.Position(dragelements[i], $(dragelementspos[i]).x, $(dragelementspos[i]).y, 1, 1, true);
+		}
+	}
+	
+	function addSolution(dropzone, dragelement)
+	{
+		var dragname = 'definition_' + dragelement;
+		var dropname = 'dropzone_' + dropzone;
+		$(dropname).appendChild($(dragname));
+		var hiddenname = 'sel_matching_' + dragelement;
+		$(hiddenname).value = dropzone;
+	}
+
+	function resetAnimated()
+	{
+		for (var i = 0; i < dragelements.length; i++)
+		{
+			$(dragelements[i]).style.position = "absolute";
+			new Rico.Effect.Position(dragelements[i], $(dragelementspos[i]).x, $(dragelementspos[i]).y, 200, 20, true);
+		}
+		for (var i = 0; i < dragelements.length; i++)
+		{
+			var id = getIdFromElementId(dragelements[i]);
+			$('sel_matching_' + id).value = 'initial_value_' + id;
+		}
+	}
+</script>
+{SHOW_SOLUTIONS}
+<!-- END javascript_output -->
+<!-- BEGIN non_javascript_output -->
+<table class="nobackground">
+<!-- BEGIN standard_matching_row -->
+	<tr>
+		<td class="nobackground">
+			<select name="sel_matching_{DEFINITION_ID}">
+				<option value="-1">{PLEASE_SELECT}</option>
+<!-- BEGIN matching_selection -->
+				<option value="{VALUE_SELECTION}"{SELECTED_SELECTION}>{TEXT_SELECTION}</option>
+<!-- END matching_selection -->
+			</select>
+		</td>
+		<td class="nobackground">{MATCHES}</td>
+		<td class="nobackground">
+<!-- BEGIN standard_matching_terms -->
+			<strong>{DEFINITION}</strong>
+<!-- END standard_matching_terms -->		
+<!-- BEGIN standard_matching_pictures -->
+			<a href="{IMAGE_HREF}" target="_new" id="enlarge_{DEFINITION_ID}">
+				<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+			</a>
+<!-- END standard_matching_pictures -->		
+		</td>
+	</tr>
+<!-- END standard_matching_row -->
+</table>
+<!-- END non_javascript_output -->
+</div>
