@@ -652,7 +652,7 @@
 								<xsl:with-param name="subchar" select="-1"/>
 							</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$mode = 'edit' or $mode = '' or $mode = 'presentation'" >
+					<xsl:when test="$mode = '' or $mode = 'presentation' or $mode = 'preview' or $mode = 'edit'" >
 						<xsl:variable name="href" select="concat($download_script,'&amp;cmd=download_paragraph&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
 						<xsl:call-template name="DownloadLink">
 							<xsl:with-param name="p_id" select="$p_id"/>
