@@ -1664,47 +1664,46 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 											 "ilPageObjectGUI", "", $force_active);
 		}
 
-		if ($classname)
+		$force_active = false;
+		$commands = $_POST["cmd"];
+		if (is_array($commands))
 		{
-			$force_active = false;
-			$commands = $_POST["cmd"];
-			if (is_array($commands))
+			foreach ($commands as $key => $value)
 			{
-				foreach ($commands as $key => $value)
+				if (preg_match("/^delete_.*/", $key, $matches) || 
+					preg_match("/^addSelectGap_.*/", $key, $matches) ||
+					preg_match("/^addTextGap_.*/", $key, $matches) ||
+					preg_match("/^deleteImage_.*/", $key, $matches) ||
+					preg_match("/^upload_.*/", $key, $matches) ||
+					preg_match("/^addSuggestedSolution_.*/", $key, $matches)
+					)
 				{
-					if (preg_match("/^delete_.*/", $key, $matches) || 
-						preg_match("/^addSelectGap_.*/", $key, $matches) ||
-						preg_match("/^addTextGap_.*/", $key, $matches) ||
-						preg_match("/^deleteImage_.*/", $key, $matches) ||
-						preg_match("/^upload_.*/", $key, $matches) ||
-						preg_match("/^addSuggestedSolution_.*/", $key, $matches)
-						)
-					{
-						$force_active = true;
-					}
+					$force_active = true;
 				}
 			}
-			if (array_key_exists("imagemap_x", $_POST))
-			{
-				$force_active = true;
-			}
-			if ($rbacsystem->checkAccess('write', $this->ref_id))
-			{
-				// edit question properties
-				$tabs_gui->addTarget("edit_properties",
-												 $this->ctrl->getLinkTargetByClass($classname, "editQuestion"),
-												 array("questions", "filter", "resetFilter", "createQuestion", 
-													   "importQuestions", "deleteQuestions", "duplicate", 
-													   "view", "preview", "editQuestion", "exec_pg",
-													   "addItem", "upload", "save", "cancel", "addSuggestedSolution",
-													   "cancelExplorer", "linkChilds", "removeSuggestedSolution",
-													   "add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
-													   "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
-													   "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
-													   "addParameter", "addGIT", "addST", "addPG", "delete",
-														 "toggleGraphicalAnswers", "deleteAnswer", "deleteImage"),
-												 $classname, "", $force_active);
-			}
+		}
+		if (array_key_exists("imagemap_x", $_POST))
+		{
+			$force_active = true;
+		}
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
+			$url = "";
+			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
+			// edit question properties
+			$tabs_gui->addTarget("edit_properties",
+											 $url,
+											 array("questions", "filter", "resetFilter", "createQuestion", 
+													 "importQuestions", "deleteQuestions", "duplicate", 
+													 "view", "preview", "editQuestion", "exec_pg",
+													 "addItem", "upload", "save", "cancel", "addSuggestedSolution",
+													 "cancelExplorer", "linkChilds", "removeSuggestedSolution",
+													 "add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
+													 "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
+													 "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
+													 "addParameter", "addGIT", "addST", "addPG", "delete",
+													 "toggleGraphicalAnswers", "deleteAnswer", "deleteImage"),
+											 $classname, "", $force_active);
 		}
 
 		// Assessment of questions sub menu entry
@@ -1715,8 +1714,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 											 array("assessment"),
 											 $classname, "");
 		}
-		$tabs_gui->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTarget($this, "questions"));
-		
+		if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
+		{
+			$ref_id = $_GET["calling_test"];
+			if (strlen($ref_id) == 0) $ref_id = $_GET["test_ref_id"];
+			$tabs_gui->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+		}
+		else
+		{
+			$tabs_gui->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTarget($this, "questions"));
+		}
 	}
 
 	/**
