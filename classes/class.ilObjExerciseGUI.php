@@ -603,7 +603,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	      $f_result[$counter][]	= $tmp_obj->getLastname();
        	  
 
-//	      $f_result[$counter][]	= array("notice[$member_id]",ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
+	      //	      $f_result[$counter][]	= array("notice[$member_id]",ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
 
 	      /*	      switch ($this->object->members_obj->getStatusReturnedByMember($member_id)) 
 		{
@@ -618,11 +618,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	      // see if files have been resubmmited after solved
 	      if ( $this->__getUpdatedSubmission($member_id,$this->object->getId()) == 1) 
 		{
-		  $resubmitted = "<img style=\"vertical-align:middle;\" src=\"".ilUtil::getImagePath("warning12.gif")."\">";
+		  $resubmitted = true;
 		}
 
 	      else {
-		$resubmitted = "<img src=\"".ilUtil::getImagePath("spacer.gif")."\">";
+		$resubmitted = false;
 	      }
 	      
 	      if ($this->object->members_obj->hasReturned($member_id))
@@ -634,7 +634,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		  $f_result[$counter][]	= "<span>---</span>";
 		}
 		
-	      $f_result[$counter][]   =  $resubmitted."&nbsp;".$this->__getLastSubmission($member_id,$this->object->getId());
+	      $f_result[$counter][]   =  $resubmitted ? "<b>".$this->__getLastSubmission($member_id,$this->object->getId())."</b>" : $this->__getLastSubmission($member_id,$this->object->getId());
 
 	      $f_result[$counter][] =ilUtil::formCheckbox($this->object->members_obj->getStatusReturnedByMember($member_id),"returned[$member_id]",1);
 
