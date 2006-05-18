@@ -454,90 +454,56 @@ class SurveyQuestionGUI
 			$ref_id = $_GET["calling_survey"];
 			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
 			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions&new_id=".$_GET["q_id"]);
-
-			if ($_GET["q_id"])
-			{
-				$ilTabs->addTarget("preview",
-										 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
-										 "$guiclass");
-			}
-			if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-				$ilTabs->addTarget("edit_properties",
-										 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-										 array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
-												 "addPG",
-												 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
-											 ),
-										 "$guiclass");
-			}
-	
-			switch ($guiclass)
-			{
-				case "surveynominalquestiongui":
-				case "surveyordinalquestiongui":
-					if ($this->object->getId() > 0) 
-					{
-						$ilTabs->addTarget("categories",
-												 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
-												 array("categories", "addCategory", "insertBeforeCategory",
-														 "insertAfterCategory", "moveCategory", "deleteCategory",
-														 "saveCategories", "savePhrase", "addPhrase",
-														 "savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
-														 "cancelSavePhrase",
-														 "confirmDeleteCategory", "cancelDeleteCategory"
-													 ),
-												 $guiclass
-						);
-					}
-					break;
-			}
 		}
 		else
 		{
-			if ($_GET["q_id"])
-			{
-				$ilTabs->addSubTabTarget("preview",
-										 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
-										 "$guiclass");
-			}
-			
-			if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-				$ilTabs->addSubTabTarget("edit_properties",
-										 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-										 array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
-												 "addPG",
-												 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
-											 ),
-										 "$guiclass");
-			}
-	
-			switch ($guiclass)
-			{
-				case "surveynominalquestiongui":
-				case "surveyordinalquestiongui":
-					if ($this->object->getId() > 0) 
-					{
-						$ilTabs->addSubTabTarget("categories",
-												 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
-												 array("categories", "addCategory", "insertBeforeCategory",
-														 "insertAfterCategory", "moveCategory", "deleteCategory",
-														 "saveCategories", "savePhrase", "addPhrase",
-														 "savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
-														 "cancelSavePhrase",
-														 "confirmDeleteCategory", "cancelDeleteCategory"
-													 ),
-												 $guiclass
-						);
-					}
-					break;
-			}
+			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
 		}
-		if ($this->object->getId() > 0) {
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("preview",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
+									 "$guiclass");
+		}
+		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
+			$ilTabs->addTarget("edit_properties",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
+									 array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
+											 "addPG",
+											 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
+										 ),
+									 "$guiclass");
+		}
+
+		switch ($guiclass)
+		{
+			case "surveynominalquestiongui":
+			case "surveyordinalquestiongui":
+				if ($this->object->getId() > 0) 
+				{
+					$ilTabs->addTarget("categories",
+											 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
+											 array("categories", "addCategory", "insertBeforeCategory",
+													 "insertAfterCategory", "moveCategory", "deleteCategory",
+													 "saveCategories", "savePhrase", "addPhrase",
+													 "savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
+													 "cancelSavePhrase",
+													 "confirmDeleteCategory", "cancelDeleteCategory"
+												 ),
+											 $guiclass
+					);
+				}
+				break;
+		}
+		
+		if ($this->object->getId() > 0) 
+		{
 			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
-		} else {
+		} 
+		else 
+		{
 			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
 		}
-		$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
 
 		$this->tpl->setVariable("HEADER", $title);
 	}
