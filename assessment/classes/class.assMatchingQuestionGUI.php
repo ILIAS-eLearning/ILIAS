@@ -513,6 +513,158 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		return $question_html;
 	}
 
+	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, TRUE);
+		
+		if ($test_id)
+		{
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			if ($use_post_solutions) 
+			{ 
+				$solutions = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/sel_matching_(\d+)/", $key, $matches))
+					{
+						array_push($solutions, array("value1" => $value, "value2" => $matches[1]));
+					}
+				}
+			}
+			else
+			{ 
+				$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			}
+			$solution_script .= "";
+			foreach ($solutions as $idx => $solution_value)
+			{
+				if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+				{
+					if (($solution_value["value2"] > 1) && ($solution_value["value1"] > 1))
+					{
+						$solution_script .= "addSolution(" . $solution_value["value1"] . "," . $solution_value["value2"] . ");\n";
+					}
+				}
+			}
+		}
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			foreach ($this->object->matchingpairs as $idx => $answer)
+			{
+				$template->setCurrentBlock("dragelements");
+				$template->setVariable("DRAGELEMENT", $answer->getDefinitionId());
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("dropzones");
+				$template->setVariable("DROPZONE", $answer->getTermId());
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("hidden_values");
+				$template->setVariable("MATCHING_ID", $answer->getDefinitionId());
+				$template->parseCurrentBlock();
+			}
+
+			foreach ($this->object->matchingpairs as $idx => $answer)
+			{
+				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+				{
+					$template->setCurrentBlock("matching_pictures");
+					$template->setVariable("DEFINITION_ID", $answer->getPictureId());
+					$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $answer->getPicture());
+					$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
+					$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
+					$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
+					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.gif", false));
+					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
+					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("matching_terms");
+					$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
+					$template->setVariable("DEFINITION_TEXT", $answer->getDefinition());
+					$template->parseCurrentBlock();
+				}
+				$template->setCurrentBlock("javascript_matching_row");
+				$template->setVariable("MATCHES", $this->lng->txt("matches"));
+				$template->setVariable("DROPZONE_ID", $answer->getTermId());
+				$template->setVariable("TERM_ID", $answer->getTermId());
+				$template->setVariable("TERM_TEXT", $answer->getTerm());
+				$template->parseCurrentBlock();
+			}
+			
+			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+			{
+				$template->setVariable("RESET_TEXT", $this->lng->txt("reset_pictures"));
+			}
+			else
+			{
+				$template->setVariable("RESET_TEXT", $this->lng->txt("reset_definitions"));
+			}
+			$template->setVariable("JAVASCRIPT_HINT", $this->lng->txt("matching_question_javascript_hint"));
+			$template->setVariable("SHOW_SOLUTIONS", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
+		}
+		else
+		{
+			foreach ($this->object->matchingpairs as $idx => $answer)
+			{
+				foreach ($this->object->matchingpairs as $comboidx => $comboanswer)
+				{
+					$template->setCurrentBlock("matching_selection");
+					$template->setVariable("VALUE_SELECTION", $comboanswer->getTermId());
+					$template->setVariable("TEXT_SELECTION", $comboanswer->getTerm());
+					foreach ($solutions as $solution)
+					{
+						if (($comboanswer->getTermId() == $solution["value1"]) && ($answer->getDefinitionId() == $solution["value2"]))
+						{
+							$template->setVariable("SELECTED_SELECTION", " selected=\"selected\"");
+						}
+					}
+					$template->parseCurrentBlock();
+				}
+				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+				{
+					$template->setCurrentBlock("standard_matching_pictures");
+					$template->setVariable("DEFINITION_ID", $answer->getPictureId());
+					$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $answer->getPicture());
+					$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
+					$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
+					$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("standard_matching_terms");
+					$template->setVariable("DEFINITION", $answer->getDefinition());
+					$template->parseCurrentBlock();
+				}
+
+				$template->setCurrentBlock("standard_matching_row");
+				$template->setVariable("MATCHES", $this->lng->txt("matches"));
+				$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
+				$template->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
+				$template->parseCurrentBlock();
+			}
+		}
+		
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();show_solution();\"");
+
+		return $questionoutput;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*

@@ -356,6 +356,91 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", TRUE, TRUE, TRUE);
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "test_type");
+		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($test_id));
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "test_id");
+		$template->setVariable("PARAM_VALUE", $test_id);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "question_id");
+		$template->setVariable("PARAM_VALUE", $this->object->getId());
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "user_id");
+		$template->setVariable("PARAM_VALUE", $user_id);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "points_max");
+		$template->setVariable("PARAM_VALUE", $this->object->getPoints());
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "session_id");
+		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "client");
+		$template->setVariable("PARAM_VALUE", CLIENT_ID);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "pass");
+		$actualpass = ilObjTest::_getPass($user_id, $test_id);
+		$template->setVariable("PARAM_VALUE", $actualpass);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "post_url");
+		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
+		$template->parseCurrentBlock();
+
+		if ($test_id)
+		{
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			$info = $this->object->getReachedInformation($user_id, $test_id, $pass);
+			foreach ($info as $kk => $infodata)
+			{
+				$template->setCurrentBlock("appletparam");
+				$template->setVariable("PARAM_NAME", "value_" . $infodata["order"] . "_1");
+				$template->setVariable("PARAM_VALUE", $infodata["value1"]);
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("appletparam");
+				$template->setVariable("PARAM_NAME", "value_" . $infodata["order"] . "_2");
+				$template->setVariable("PARAM_VALUE", $infodata["value2"]);
+				$template->parseCurrentBlock();
+			}
+		}
+		
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
+		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
+		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
+		if (strpos($this->object->getJavaCode(), ".jar") !== FALSE)
+		{
+			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+		}
+		if (strpos($this->object->getJavaCode(), ".class") !== FALSE)
+		{
+			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+		}
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		return $questionoutput;
+	}
+	
 	/**
 	* Creates the question output form for the learner
 	*
