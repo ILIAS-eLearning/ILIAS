@@ -1418,6 +1418,7 @@ common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
 common#:#email#:#Mail
+common#:#email_feedback#:#Mail feedback
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
@@ -1479,6 +1480,7 @@ common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work instructions
 common#:#exc_last_submission#:#Last submission
+common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_new#:#New exercise
@@ -1494,6 +1496,7 @@ common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Deliver exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_resubmitted#:#Resubmitted
+common#:#exc_status_submitted#:#Submitted
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_sent#:#Delivered by mail
 common#:#exc_status_solved#:#Solved
@@ -2180,7 +2183,7 @@ common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
 common#:#mail_edit_permission#:#Change permission settings
-common#:#mail_feedback#:#feedback
+common#:#mail_feedback#:#Mail feedback
 common#:#mail_folders#:#Mail Folders
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Export file

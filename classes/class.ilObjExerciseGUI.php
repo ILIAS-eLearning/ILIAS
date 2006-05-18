@@ -534,6 +534,24 @@ class ilObjExerciseGUI extends ilObjectGUI
 		  sendInfo($this->lng->txt("exc_sent"),true);
 		}
 	      break;
+	    case "send_mails":
+	      include_once("./classes/class.ilObjUser.php");
+
+	      if (!count($_POST["member"]))
+		{
+		  sendInfo($this->lng->txt("select_one"),true);
+		}
+	      else {
+		$recipients = "";
+		foreach($_POST["member"] as $rcpt => $value) 
+		  {
+		    $user = new ilObjUser($rcpt,false);
+		    $recipients = $recipients.$user->getLogin().",";
+		  }
+		
+		ilUtil::redirect("mail_new.php?type=new&rcp_to=".$recipients);
+	      }
+	      break;
 	    case "delete_member":
 	      $this->__deassignMembers();
 	      break;
@@ -969,6 +987,7 @@ function __showMembersTable($a_data,$a_member_ids)
   
   $actions = array("save_status" => $this->lng->txt("exc_save_changes"),
 		   "send_member" => $this->lng->txt("exc_send_exercise"),
+		   "send_mails" => $this->lng->txt("exc_mail_users"),
 		   "delete_member" => $this->lng->txt("exc_deassign_members"));
   
   $this->tpl->setVariable("RESUBMITTED_ICON", ilUtil::getImagePath("warning.gif"));
