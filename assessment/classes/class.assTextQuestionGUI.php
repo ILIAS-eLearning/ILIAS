@@ -254,6 +254,52 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		$this->outAdditionalOutput();
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$user_solution = "";
+		if ($test_id)
+		{
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$user_solution = $solution_value["value1"];
+			}
+		}
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", TRUE, TRUE, TRUE);
+		if ($this->object->getMaxNumOfChars())
+		{
+			$template->setCurrentBlock("maximum_char_hint");
+			$template->setVariable("MAXIMUM_CHAR_HINT", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("has_maxchars");
+			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("maxchars_counter");
+			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("ESSAY", $user_solution);
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		return $questionoutput;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*
