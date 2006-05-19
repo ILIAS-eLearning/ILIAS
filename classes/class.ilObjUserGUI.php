@@ -1286,26 +1286,10 @@ class ilObjUserGUI extends ilObjectGUI
         $settings = $ilias->getAllSettings();
 
 		// User folder
-		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
-		}
-		// if called from local administration $this->usrf_ref_id is category id 
-		// Todo: this has to be fixed. Do not mix user folder id and category id
-		if($this->usrf_ref_id != USER_FOLDER_ID)
-		{
-			// check if user is assigned to category
-			if(!$rbacsystem->checkAccess('cat_administrate_users',$this->object->getTimeLimitOwner()))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
-			}
-		}
-
-
 		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
         // check dynamically required fields
@@ -1471,11 +1455,20 @@ class ilObjUserGUI extends ilObjectGUI
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
 
-		// check write access
-		if (!$rbacsystem->checkAccess('write', $this->usrf_ref_id) and
-			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
+		// User folder
+		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+		// if called from local administration $this->usrf_ref_id is category id 
+		// Todo: this has to be fixed. Do not mix user folder id and category id
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			// check if user is assigned to category
+			if(!$rbacsystem->checkAccess('cat_administrate_users',$this->object->getTimeLimitOwner()))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
 
 		foreach ($_POST["Fobject"] as $key => $val)

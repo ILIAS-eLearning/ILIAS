@@ -103,6 +103,44 @@ class ilObjChatGUI extends ilObjectGUI
 		return true;
 	}
 
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems()
+	{
+		global $ilLocator,$tree,$ilObjDataCache;
+		
+		if ($_GET["admin_mode"] == "settings")	// system settings
+		{
+			$ilLocator->addItem($this->lng->txt("administration"),
+				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+
+			// add chat settings
+			$chat_settings_ref_id = $tree->getParentId($this->object->getRefId());
+			$chat_settings_obj_id = $ilObjDataCache->lookupObjId($chat_settings_ref_id);
+
+			$this->ctrl->setParameterByClass('ilobjchatservergui','ref_id',$chat_settings_ref_id);
+			$ilLocator->addItem($ilObjDataCache->lookupTitle($chat_settings_obj_id),
+								$this->ctrl->getLinkTargetByClass(array('iladministrationgui','ilobjchatservergui'),
+																  'view'));
+
+
+			if ($this->object->getRefId() != SYSTEM_FOLDER_ID)
+			{
+				$ilLocator->addItem($this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, "view"));
+			}
+		}
+		else							// repository administration
+		{
+			return parent::addAdminLocatorItems();
+		}
+
+	}
+
+
 	function setTargetScript($a_script)
 	{
 		$this->target_script = $a_script;
@@ -1025,7 +1063,6 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->__showOnlineUsers();
 		}
-		
 	}
 	function showTopFrame()
 	{
@@ -1286,7 +1323,6 @@ class ilObjChatGUI extends ilObjectGUI
 		include_once 'chat/classes/class.ilChatBlockedUsers.php';
 
 		$all_users = $this->object->chat_room->getOnlineUsers();
-
 		// filter blocked users 
 		$users = array();
 		foreach($all_users as $user)
@@ -1591,10 +1627,11 @@ class ilObjChatGUI extends ilObjectGUI
 		
 					if ($priv_room["owner"] != $_SESSION["AccountId"])
 					{
-						$user_obj->setId($priv_room["owner"]);
-						$user_obj->read();
-						$this->tpl->setVariable("TXT_ROOM_INVITATION", $this->lng->txt("chat_invited_by"));
-						$this->tpl->setVariable("ROOM_INVITATION_USER", $user_obj->getLogin());
+						if($user_obj =& ilObjectFactory::getInstanceByObjId($priv_room['owner'],false))
+						{
+							$this->tpl->setVariable("TXT_ROOM_INVITATION", $this->lng->txt("chat_invited_by"));
+							$this->tpl->setVariable("ROOM_INVITATION_USER", $user_obj->getLogin());
+						}
 					}
 					else
 					{

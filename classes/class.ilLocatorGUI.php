@@ -29,7 +29,6 @@
 * the design of the desktop.
 *
 * @author Arjan Ammerlaan <a.l.ammerlaan@web.de>
-*
 * @version $Id$
 * 
 * @package locator
@@ -184,6 +183,7 @@ class ilLocatorGUI
 	*/
 	function addItem($a_title, $a_link, $a_frame = "")
 	{
+
 		$this->entries[] = array("title" => $a_title,
 			"link" => $a_link, "frame" => $a_frame); 
 	}
