@@ -132,7 +132,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "exercise.php?cmd=view&ref_id=".$a_node_id;
 
 			case "chat":
-				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
+				return "chat.php?cmd=view&ref_id=".$a_node_id;
 
 			case "fold":
 				$ilCtrl->setParameterByClass("ilObjFolderGUI","ref_id",$a_node_id);
@@ -217,7 +217,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "exercise.php?cmd=view&ref_id=".$a_node_id;
 
 			case "chat":
-				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
+				return "chat.php?cmd=view&ref_id=".$a_node_id;
 
 			case "fold":
 				return "repository.php?cmd=edit&ref_id=".$a_node_id;

@@ -1140,7 +1140,6 @@ class ilMail
 			$mmail->From($sender);
 			$mmail->To($a_rcp_to);
 			// Add installation name to subject
-
 			$mmail->Subject($a_m_subject);
 			$mmail->Body($a_m_message);
 
