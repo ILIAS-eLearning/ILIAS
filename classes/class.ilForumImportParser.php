@@ -27,7 +27,7 @@ require_once("classes/class.ilSaxParser.php");
 * Forum Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilForumImportParser.php,v 1.4 2004/08/09 08:35:19 smeyer Exp $
+* @version $Id$Id: class.ilForumImportParser.php,v 1.5.2.1 2006/05/19 15:12:48 akill Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -76,6 +76,11 @@ class ilForumImportParser extends ilSaxParser
 	function __getParentId()
 	{
 		return $this->parent[count($this->parent) - 1];
+	}
+	
+	function getRefId()
+	{
+		return $this->ref_id;
 	}
 
 
@@ -264,7 +269,8 @@ class ilForumImportParser extends ilSaxParser
 		$this->forum->setTitle("empty");
 		$this->forum->create();
 		$this->forum->createReference();
-		$this->forum->putInTree($this->getParent());
+		//$this->forum->putInTree($this->getParent());
+		$this->forum->putInTree($_GET["ref_id"]);
 
 		// INIT DEFAULT PERMISSIONS
 		$this->forum->setPermissions($this->forum->getRefId());
