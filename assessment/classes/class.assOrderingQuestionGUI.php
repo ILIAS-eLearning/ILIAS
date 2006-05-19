@@ -443,6 +443,169 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, TRUE);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		if ($test_id)
+		{
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			if ($use_post_solutions) 
+			{
+				$solutions = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/order_(\d+)/", $key, $matches))
+					{
+						array_push($solutions, array("value1" => $matches[1], "value2" => $value));
+					}
+				}
+			}
+			else
+			{
+				$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			}
+
+			if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+			{
+				$solution_script .= "";
+				$jssolutions = array();
+				foreach ($solutions as $idx => $solution_value)
+				{
+					if ((strcmp($solution_value["value2"], "") != 0) && (strcmp($solution_value["value1"], "") != 0))
+					{
+						$jssolutions[$solution_value["value2"]] = $solution_value["value1"];
+					}
+				}
+				if (count($jssolutions))
+				{
+					ksort($jssolutions);
+					$js = "";
+					foreach ($jssolutions as $key => $value)
+					{
+						$js .= "initialorder.push($value);";
+					}
+					$js .= "restoreInitialOrder();";
+				}
+				if (strlen($js))
+				{
+					$template->setCurrentBlock("javascript_restore_order");
+					$template->setVariable("RESTORE_ORDER", $js);
+					$template->parseCurrentBlock();
+				}
+			}
+		}
+		
+		if ($this->object->getOutputType() != OUTPUT_JAVASCRIPT)
+		{
+			foreach ($this->object->answers as $idx => $answer)
+			{
+				if ($this->object->getOrderingType() == OQ_PICTURES)
+				{
+					$template->setCurrentBlock("ordering_row_standard_pictures");
+					$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
+					$template->setVariable("THUMB_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext() . ".thumb.jpg");
+					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
+					$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
+					$template->setVariable("ANSWER_ID", $idx);
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("ordering_row_standard_text");
+					$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+					$template->setVariable("ANSWER_ID", $idx);
+					$template->parseCurrentBlock();
+				}
+				$template->setCurrentBlock("ordering_row_standard");
+				$template->setVariable("ANSWER_ID", $idx);
+				if (is_array($solutions))
+				{
+					foreach ($solutions as $solution)
+					{
+						if (($solution["value1"] == $idx) && (strlen($solution["value2"])))
+						{
+							$template->setVariable("ANSWER_ORDER", " value=\"" . $solution["value2"] . "\"");
+						}
+					}
+				}
+				$template->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			foreach ($this->object->answers as $idx => $answer)
+			{
+				if ($this->object->getOrderingType() == OQ_PICTURES)
+				{
+					$template->setCurrentBlock("ordering_row_javascript_pictures");
+					$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
+					$template->setVariable("THUMB_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext() . ".thumb.jpg");
+					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
+					$template->setVariable("THUMB_TITLE", $this->lng->txt("thumbnail"));
+					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.gif", FALSE));
+					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
+					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
+					$template->setVariable("ANSWER_ID", $idx);
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("ordering_row_javascript_text");
+					$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+					$template->setVariable("ANSWER_ID", $idx);
+					$template->parseCurrentBlock();
+				}
+			}
+			$template->setCurrentBlock("ordering_with_javascript");
+			if ($this->object->getOrderingType() == OQ_PICTURES)
+			{
+				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_pictures"));
+			}
+			else
+			{
+				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_definitions"));
+			}
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			// BEGIN: add javascript code for javascript enabled ordering questions
+			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_execute_ordering_javascript.html", true);
+			$this->tpl->setCurrentBlock("head_content");
+			$this->tpl->setVariable("JS_LOCATION", "./assessment/js/toolman/");
+			$this->tpl->parseCurrentBlock();
+			// END: add javascript code for javascript enabled ordering questions
+			
+			// BEGIN: add additional stylesheet for javascript enabled ordering questions
+			$this->tpl->setCurrentBlock("AdditionalStyle");
+			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "./assessment/templates/default/test_javascript.css");
+			$this->tpl->parseCurrentBlock();
+			// END: add additional stylesheet for javascript enabled ordering questions
+			
+			// BEGIN: onsubmit form action for javascript enabled ordering questions
+			$this->tpl->setVariable("ON_SUBMIT", "return saveOrder('orderlist');");
+			// END: onsubmit form action for javascript enabled ordering questions
+		}
+		
+		return $questionoutput;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*
