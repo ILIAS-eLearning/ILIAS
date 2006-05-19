@@ -353,60 +353,13 @@ class ilTestOutputGUI
 		$formaction = $this->ctrl->getFormAction($this);
 		$question_gui->setSequenceNumber($sequence);
 		// output question
-		switch ($question_gui->getQuestionType())
+		$use_post_solutions = false;
+		if ($this->saveResult === false)
 		{
-			case "qt_imagemap":
-				$this->ctrl->setParameter($this, "formtimestamp", time());
-				$formaction = $this->ctrl->getLinkTargetByClass(get_class($this), "selectImagemapRegion");
-				if (ilObjTest::_getHidePreviousResults($test_id, true))
-				{
-					$pass = ilObjTest::_getPass($ilUser->id, $test_id);
-					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
-				}
-				else
-				{
-					$info =& $question_gui->object->getSolutionValues($test_id, $ilUser->getId(), NULL);
-				}
-				if (count($info))
-				{
-					if (strcmp($info[0]["value1"], "") != 0)
-					{
-						$formaction .= "&selImage=" . $info[0]["value1"];
-					}
-				}
-			case "qt_multiple_choice_sr":
-			case "qt_multiple_choice_mr":
-			case "qt_cloze":
-			case "qt_javaapplet":
-			case "qt_matching":
-			case "qt_numeric":
-			case "qt_ordering":
-			case "qt_text":
-			case "qt_textsubset":
-				$use_post_solutions = false;
-				if ($this->saveResult === false)
-				{
-					$use_post_solutions = true;
-				}
-				$test_output = $question_gui->getTestOutput($test_id, $ilUser->getId(), NULL, $is_postponed, $use_post_solutions); 
-				$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $test_output);
-				break;
-
-			default:
-				$use_post_solutions = false;
-				if ($this->saveResult === false)
-				{
-					$use_post_solutions = true;
-				}
-				$question_gui->outWorkingForm(
-					$test_id, 
-					$is_postponed, 
-					$showsolution = $directfeedback,
-					true, false, NULL, NULL, false, $use_post_solutions
-				);
-				break;
+			$use_post_solutions = true;
 		}
-		
+		$question_gui->outQuestionForTest($formaction, $this->object->getTestId(), $ilUser->getId(), NULL, $is_postponed, $user_post_solutions);
+
 		// Normally the first sequence is 1
 		// In course objective mode it is the first wrongly answered question
 		if($_GET['crs_show_result'])
@@ -543,7 +496,7 @@ class ilTestOutputGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $formaction);
+		//$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->parseCurrentBlock();
 	}
 	

@@ -726,6 +726,33 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		return $question_html;
 	}
 
+	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+
+		$this->ctrl->setParameter($this, "formtimestamp", time());
+		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
+		include_once "./assessment/classes/class.ilObjTest.php";
+		if (ilObjTest::_getHidePreviousResults($test_id, true))
+		{
+			$pass = ilObjTest::_getPass($user_id, $test_id);
+			$info =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+		}
+		else
+		{
+			$info =& $this->object->getSolutionValues($test_id, $user_id, NULL);
+		}
+		if (count($info))
+		{
+			if (strcmp($info[0]["value1"], "") != 0)
+			{
+				$formaction .= "&selImage=" . $info[0]["value1"];
+			}
+		}
+		$this->tpl->setVariable("FORMACTION", $formaction);
+	}
+	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

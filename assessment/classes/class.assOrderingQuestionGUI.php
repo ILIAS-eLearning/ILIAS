@@ -443,6 +443,32 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			// BEGIN: add javascript code for javascript enabled ordering questions
+			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_execute_ordering_javascript.html", true);
+			$this->tpl->setCurrentBlock("head_content");
+			$this->tpl->setVariable("JS_LOCATION", "./assessment/js/toolman/");
+			$this->tpl->parseCurrentBlock();
+			// END: add javascript code for javascript enabled ordering questions
+			
+			// BEGIN: add additional stylesheet for javascript enabled ordering questions
+			$this->tpl->setCurrentBlock("AdditionalStyle");
+			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "./assessment/templates/default/test_javascript.css");
+			$this->tpl->parseCurrentBlock();
+			// END: add additional stylesheet for javascript enabled ordering questions
+			
+			// BEGIN: onsubmit form action for javascript enabled ordering questions
+			$this->tpl->setVariable("ON_SUBMIT", "return saveOrder('orderlist');");
+			// END: onsubmit form action for javascript enabled ordering questions
+		}
+		$this->tpl->setVariable("FORMACTION", $formaction);
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
@@ -583,26 +609,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 
-		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			// BEGIN: add javascript code for javascript enabled ordering questions
-			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_execute_ordering_javascript.html", true);
-			$this->tpl->setCurrentBlock("head_content");
-			$this->tpl->setVariable("JS_LOCATION", "./assessment/js/toolman/");
-			$this->tpl->parseCurrentBlock();
-			// END: add javascript code for javascript enabled ordering questions
-			
-			// BEGIN: add additional stylesheet for javascript enabled ordering questions
-			$this->tpl->setCurrentBlock("AdditionalStyle");
-			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "./assessment/templates/default/test_javascript.css");
-			$this->tpl->parseCurrentBlock();
-			// END: add additional stylesheet for javascript enabled ordering questions
-			
-			// BEGIN: onsubmit form action for javascript enabled ordering questions
-			$this->tpl->setVariable("ON_SUBMIT", "return saveOrder('orderlist');");
-			// END: onsubmit form action for javascript enabled ordering questions
-		}
-		
 		return $questionoutput;
 	}
 

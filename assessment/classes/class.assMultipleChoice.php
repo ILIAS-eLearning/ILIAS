@@ -613,6 +613,8 @@ class ASS_MultipleChoice extends ASS_Question
 
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
+		// duplicate the images
+		$clone->duplicateImages($original_id);
 
 		return $clone->id;
 	}
@@ -646,6 +648,8 @@ class ASS_MultipleChoice extends ASS_Question
 
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
+		// duplicate the image
+		$clone->copyImages($original_id, $source_questionpool);
 
 		return $clone->id;
 	}
@@ -1244,6 +1248,63 @@ class ASS_MultipleChoice extends ASS_Question
 		unlink($imagepath . $image_filename);
 		$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
 		unlink($thumbpath);
+	}
+
+	function duplicateImages($question_id)
+	{
+		global $ilLog;
+		$imagepath = $this->getImagePath();
+		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+		if (!file_exists($imagepath))
+		{
+			ilUtil::makeDirParents($imagepath);
+		}
+		foreach ($this->answers as $answer)
+		{
+			$filename = $answer->getImage();
+			if (strlen($filename))
+			{
+				if (!copy($imagepath_original . $filename, $imagepath . $filename))
+				{
+					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+				}
+				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
+				{
+					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+				}
+			}
+		}
+	}
+
+	function copyImages($question_id, $source_questionpool)
+	{
+		global $ilLog;
+		$imagepath = $this->getImagePath();
+		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
+		if (!file_exists($imagepath))
+		{
+			ilUtil::makeDirParents($imagepath);
+		}
+		foreach ($this->answers as $answer)
+		{
+			$filename = $answer->getImage();
+			if (strlen($filename))
+			{
+				if (!copy($imagepath_original . $filename, $imagepath . $filename))
+				{
+					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+				}
+				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
+				{
+					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+				}
+			}
+		}
 	}
 
 }
