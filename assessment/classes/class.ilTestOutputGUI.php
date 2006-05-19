@@ -317,7 +317,6 @@ class ilTestOutputGUI
 	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
 	{
 		global $ilUser;
-
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -353,7 +352,6 @@ class ilTestOutputGUI
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this);
 		$question_gui->setSequenceNumber($sequence);
-				
 		// output question
 		switch ($question_gui->getQuestionType())
 		{
@@ -381,6 +379,7 @@ class ilTestOutputGUI
 			case "qt_cloze":
 			case "qt_javaapplet":
 			case "qt_matching":
+			case "qt_numeric":
 				$use_post_solutions = false;
 				if ($this->saveResult === false)
 				{
@@ -388,12 +387,6 @@ class ilTestOutputGUI
 				}
 				$test_output = $question_gui->getTestOutput($test_id, $ilUser->getId(), NULL, $is_postponed, $use_post_solutions); 
 				$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $test_output);
-				/*$question_gui->outWorkingForm(
-					$test_id, 
-					$is_postponed, 
-					$showsolution = $directfeedback,
-					true, false, NULL, NULL, false, $use_post_solutions
-				);*/
 				break;
 
 			default:

@@ -310,6 +310,39 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 	}
 
 
+	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		if ($test_id)
+		{
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+		}
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, TRUE);
+		if (is_array($solutions))
+		{
+			foreach ($solutions as $solution)
+			{
+				$template->setVariable("NUMERIC_VALUE", " value=\"".$solution["value1"]."\"");
+			}
+		}
+		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		return $questionoutput;
+	}
 	
 	/**
 	* Creates the question output form for the learner
@@ -423,6 +456,19 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_numeric");
 		parent::addSuggestedSolution();
+	}
+
+	/**
+	* Returns the question type string
+	*
+	* Returns the question type string
+	*
+	* @result string The question type string
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return "qt_numeric";
 	}
 }
 ?>
