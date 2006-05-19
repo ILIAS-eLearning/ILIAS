@@ -380,6 +380,7 @@ class ilTestOutputGUI
 			case "qt_javaapplet":
 			case "qt_matching":
 			case "qt_numeric":
+			case "qt_ordering":
 				$use_post_solutions = false;
 				if ($this->saveResult === false)
 				{
