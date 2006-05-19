@@ -595,6 +595,13 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
 
+		// shuffle output
+		$keys = array_keys($this->object->answers);
+		if ($this->object->getShuffle())
+		{
+			$keys = $this->object->pcArrayShuffle($keys);
+		}
+
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
 		if ($test_id)
@@ -615,8 +622,9 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", TRUE, TRUE, TRUE);
-		foreach ($this->object->answers as $answer_id => $answer)
+		foreach ($keys as $answer_id)
 		{
+			$answer = $this->object->answers[$answer_id];
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");

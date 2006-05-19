@@ -590,6 +590,13 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
+		// shuffle output
+		$keys = array_keys($this->object->answers);
+		if ($this->object->getShuffle())
+		{
+			$keys = $this->object->pcArrayShuffle($keys);
+		}
+
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
 
@@ -613,8 +620,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", TRUE, TRUE, TRUE);
-		foreach ($this->object->answers as $answer_id => $answer)
+		foreach ($keys as $answer_id)
 		{
+			$answer = $this->object->answers[$answer_id];
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");

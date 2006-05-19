@@ -471,6 +471,13 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
+		// shuffle output
+		$keys = array_keys($this->object->answers);
+		if ($this->object->getShuffle())
+		{
+			$keys = $this->object->pcArrayShuffle($keys);
+		}
+
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
 
@@ -535,8 +542,9 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		
 		if ($this->object->getOutputType() != OUTPUT_JAVASCRIPT)
 		{
-			foreach ($this->object->answers as $idx => $answer)
+			foreach ($keys as $idx)
 			{
+				$answer = $this->object->answers[$idx];
 				if ($this->object->getOrderingType() == OQ_PICTURES)
 				{
 					$template->setCurrentBlock("ordering_row_standard_pictures");
@@ -571,8 +579,9 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		}
 		else
 		{
-			foreach ($this->object->answers as $idx => $answer)
+			foreach ($keys as $idx)
 			{
+				$answer = $this->object->answers[$idx];
 				if ($this->object->getOrderingType() == OQ_PICTURES)
 				{
 					$template->setCurrentBlock("ordering_row_javascript_pictures");

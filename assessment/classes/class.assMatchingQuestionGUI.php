@@ -530,6 +530,15 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, TRUE);
 		
+		// shuffle output
+		$keys = array_keys($this->object->matchingpairs);
+		$key2 = $keys;
+		if ($this->object->getShuffle())
+		{
+			$keys = $this->object->pcArrayShuffle($keys);
+			$keys2 = $this->object->pcArrayShuffle($keys);
+		}
+
 		if ($test_id)
 		{
 			$solutions = NULL;
@@ -567,8 +576,9 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
-			foreach ($this->object->matchingpairs as $idx => $answer)
+			foreach ($keys as $idx)
 			{
+				$answer = $this->object->matchingpairs[$idx];
 				$template->setCurrentBlock("dragelements");
 				$template->setVariable("DRAGELEMENT", $answer->getDefinitionId());
 				$template->parseCurrentBlock();
@@ -580,8 +590,9 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				$template->parseCurrentBlock();
 			}
 
-			foreach ($this->object->matchingpairs as $idx => $answer)
+			foreach ($keys as $arrayindex => $idx)
 			{
+				$answer = $this->object->matchingpairs[$idx];
 				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 				{
 					$template->setCurrentBlock("matching_pictures");
@@ -604,9 +615,10 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 				$template->setCurrentBlock("javascript_matching_row");
 				$template->setVariable("MATCHES", $this->lng->txt("matches"));
-				$template->setVariable("DROPZONE_ID", $answer->getTermId());
-				$template->setVariable("TERM_ID", $answer->getTermId());
-				$template->setVariable("TERM_TEXT", $answer->getTerm());
+				$shuffledTerm = $this->object->matchingpairs[$keys2[$arrayindex]];
+				$template->setVariable("DROPZONE_ID", $shuffledTerm->getTermId());
+				$template->setVariable("TERM_ID", $shuffledTerm->getTermId());
+				$template->setVariable("TERM_TEXT", $shuffledTerm->getTerm());
 				$template->parseCurrentBlock();
 			}
 			
@@ -623,10 +635,12 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		else
 		{
-			foreach ($this->object->matchingpairs as $idx => $answer)
+			foreach ($keys as $idx)
 			{
-				foreach ($this->object->matchingpairs as $comboidx => $comboanswer)
+				$answer = $this->object->matchingpairs[$idx];
+				foreach ($keys2 as $comboidx)
 				{
+					$comboanswer = $this->object->matchingpairs[$comboidx];
 					$template->setCurrentBlock("matching_selection");
 					$template->setVariable("VALUE_SELECTION", $comboanswer->getTermId());
 					$template->setVariable("TEXT_SELECTION", $comboanswer->getTerm());
