@@ -441,6 +441,49 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$user_solution = "";
+		if ($test_id)
+		{
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+		}
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", TRUE, TRUE, TRUE);
+		$width = $this->object->getMaxTextboxWidth();
+		for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++)
+		{
+			$template->setCurrentBlock("textsubset_row");
+			foreach ($solutions as $idx => $solution_value)
+			{
+				if ($idx == $i)
+				{
+					$template->setVariable("TEXTFIELD_VALUE", " value=\"" . $solution_value["value1"]."\"");
+				}
+			}
+			$template->setVariable("COUNTER", $i+1);
+			$template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i+1));
+			$template->setVariable("TEXTFIELD_SIZE", $width);
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		return $questionoutput;
+	}
+
 	/**
 	* Creates the question output form for the learner
 	*
