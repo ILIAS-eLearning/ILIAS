@@ -1593,7 +1593,7 @@ class ilLMPresentationGUI
 									$href = ILIAS_HTTP_PATH."/goto.php?target=st_".$target_id."&amp;client_id=".CLIENT_ID;
 								}
 							}
-							//$ltarget = "ilContObj".$lm_id;
+							$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
 						}
 						break;
 
