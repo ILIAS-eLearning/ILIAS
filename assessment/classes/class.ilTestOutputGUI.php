@@ -382,6 +382,7 @@ class ilTestOutputGUI
 			case "qt_numeric":
 			case "qt_ordering":
 			case "qt_text":
+			case "qt_textsubset":
 				$use_post_solutions = false;
 				if ($this->saveResult === false)
 				{
