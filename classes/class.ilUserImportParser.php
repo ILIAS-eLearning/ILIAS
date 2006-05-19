@@ -677,11 +677,13 @@ class ilUserImportParser extends ilSaxParser
 
 			case "User":
 				// Fetch the user_id from the database, if we didn't have it in xml file
-				if ($this->user_id == -1)
+				// fetch as well, if we are trying to insert -> recognize duplicates!
+				if ($this->user_id == -1 || $this->action=="Insert")
 					$user_id = ilObjUser::getUserIdByLogin($this->userObj->getLogin());
 				else
 					$user_id = $this->user_id;
 
+                //echo $user_id.":".$this->userObj->getLogin();
 
 				// Handle conflicts
 				switch ($this->conflict_rule)

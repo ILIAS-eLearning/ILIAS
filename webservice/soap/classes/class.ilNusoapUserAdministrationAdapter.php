@@ -789,6 +789,21 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getUsersForRole(): get all users of a role with specified id, specify attach_roles to 1, to attach all role assignmnents; specify active: 1, to import active only, 0: inactive only, -1: both');
 
+		$this->server->register('searchUser',
+								array('sid' => 'xsd:string',
+								      'key_fields' => 'tns:stringArray',
+								      'query_operator' => 'xsd:string',
+								      'key_values' => 'tns:stringArray',
+								      'attach_roles' => 'xsd:int',
+								      'active' => 'xsd:int'),
+
+								array('user_xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#searchUsers',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS searchUser(): get all users, which match a query, consisting of the keyfields, matched with values of the field values, concatenated with the logical query operator. Specify attach_roles to 1, to attach all role assignmnents; specify active: 1, to import active only, 0: inactive only, -1: both');
+
 		return true;
 	}
 

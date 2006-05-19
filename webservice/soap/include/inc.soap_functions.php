@@ -38,9 +38,9 @@ include_once './webservice/soap/lib/nusoap.php';
 function login($client,$username,$password)
 {
 	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-	
+
 	$sua =& new ilSoapUserAdministration();
-	
+
 	return $sua->login($client,$username,$password);
 }
 
@@ -87,7 +87,7 @@ function updatePassword($sid,$user_id,$new_password)
 
 	return $sua->updatePassword($sid,$user_id,$new_password);
 }
-	
+
 function addUser($sid,$user_data,$global_role_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
@@ -139,7 +139,7 @@ function isAssignedToCourse($sid,$course_id,$user_id)
 
 	return $sca->isAssignedToCourse($sid,$course_id,$user_id);
 }
-	
+
 function excludeCourseMember($sid,$course_id,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
@@ -200,7 +200,7 @@ function getObjectByReference($sid,$a_ref_id,$user_id)
 
 	return $soa->getObjectByReference($sid,$a_ref_id,$user_id);
 }
-	
+
 function getObjectsByTitle($sid,$a_title,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
@@ -261,7 +261,7 @@ function searchObjects($sid,$types,$key,$combination,$user_id)
 	$soa =& new ilSoapObjectAdministration();
 
 	return $soa->searchObjects($sid,$types,$key,$combination,$user_id);
-}	
+}
 
 function getTreeChilds($sid,$ref_id,$types,$user_id)
 {
@@ -270,7 +270,7 @@ function getTreeChilds($sid,$ref_id,$types,$user_id)
 	$soa =& new ilSoapObjectAdministration();
 
 	return $soa->getTreeChilds($sid,$ref_id,$types,$user_id);
-}	
+}
 // Rbac Tree functions
 function getOperations($sid)
 {
@@ -289,8 +289,8 @@ function addUserRoleEntry($sid,$user_id,$role_id)
 	$soa =& new ilSoapRBACAdministration();
 
 	return $soa->addUserRoleEntry($sid,$user_id,$role_id);
-}	
-	
+}
+
 function deleteUserRoleEntry($sid,$user_id,$role_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
@@ -413,7 +413,7 @@ function isAssignedToGroup($sid,$group_id,$user_id)
 
 	return $sca->isAssignedToGroup($sid,$group_id,$user_id);
 }
-	
+
 function excludeGroupMember($sid,$group_id,$user_id)
 {
 	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
@@ -490,9 +490,16 @@ function getUsersForRole ($sid, $role_id, $attach_roles, $active)
 }
 
 
+function searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active) {
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active);
+
+}
 
 
-	
-	
+
 
 ?>
