@@ -513,6 +513,14 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		return $question_html;
 	}
 
+	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();show_solution();\"");
+		$this->tpl->setVariable("FORMACTION", $formaction);
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
@@ -659,8 +667,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
-
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();show_solution();\"");
 
 		return $questionoutput;
 	}

@@ -356,6 +356,13 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		$this->tpl->setVariable("FORMACTION", $formaction);
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
@@ -363,7 +370,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_type");
 		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($test_id));
@@ -428,11 +435,11 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
 		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
-		if (strpos($this->object->getJavaCode(), ".jar") !== FALSE)
+		if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
 		{
 			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
 		}
-		if (strpos($this->object->getJavaCode(), ".class") !== FALSE)
+		if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
 		{
 			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
 		}

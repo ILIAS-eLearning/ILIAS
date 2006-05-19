@@ -309,6 +309,12 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		return $result;
 	}
 
+	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	{
+		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		$this->tpl->setVariable("FORMACTION", $formaction);
+	}
 
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
