@@ -676,8 +676,17 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			{
 				if ($gap[0]->getClozeType() == CLOZE_SELECT)
 				{
-					foreach ($gap as $index => $answer)
+					// shuffle output
+					$gkeys = array_keys($gap);
+					if ($gap[0]->getShuffle())
 					{
+						$gkeys = $this->object->pcArrayShuffle($gkeys);
+					}
+
+					// add answers
+					foreach ($gkeys as $index)
+					{
+						$answer = $gap[$index];
 						$template->setCurrentBlock("select_gap_option");
 						$template->setVariable("SELECT_GAP_VALUE", $index);
 						$template->setVariable("SELECT_GAP_TEXT", $answer->getAnswertext());
