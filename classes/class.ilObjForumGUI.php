@@ -298,22 +298,19 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.frm_create.html");
 
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_frm.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('edit_properties'));
-
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt('edit_properties'));
 
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 		$this->tpl->setVariable("TITLE",$_POST['title']);
 		$this->tpl->setVariable("DESC",$_POST['description']);
 
-
 		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".
-		#$_GET["ref_id"]."&new_type=".$new_type));
+
 		$this->tpl->setVariable("TARGET", ' target="'.
 			ilFrameTargetInfo::_getFrame("MainContent").'" ');
 
@@ -341,7 +338,6 @@ class ilObjForumGUI extends ilObjectGUI
 
 #		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
 
-
 		// Statistics enabled or not
 		
 		$statisticsEnabled  = $_POST['statistics_enabled'] ? $_POST['statistics_enabled'] : 1;
@@ -356,6 +352,21 @@ class ilObjForumGUI extends ilObjectGUI
 				'statistics_enabled', 1,
 				$this->ilias->getSetting("enable_fora_statistics", true)?false:true));
 
+		// show ilias 2 forum import for administrators only
+		include_once("classes/class.ilMainMenuGUI.php");
+		if(ilMainMenuGUI::_checkAdministrationPermission())
+		{
+			$this->tpl->setCurrentBlock("forum_import");
+			$this->tpl->setVariable("FORMACTION_IMPORT",
+				$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_IMPORT_FORUM", $this->lng->txt("forum_import")." (ILIAS 2)");
+			$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("forum_import_file"));
+			$this->tpl->setVariable("BTN2_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
+			$this->tpl->setVariable("TYPE_IMG2",ilUtil::getImagePath('icon_frm.gif'));
+			$this->tpl->setVariable("ALT_IMG2", $this->lng->txt("forum_import"));
+			$this->tpl->parseCurrentBlock();
+		}
 		return true;
 	}
 
@@ -435,7 +446,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("DESC", ilUtil::stripSlashes($this->object->getDescription()));
 
 
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt('edit_properties'));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -469,6 +480,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 	}
 
+	/*
 	function importObject()
 	{
 		global $rbacsystem;
@@ -488,7 +500,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_IMPORT",$this->lng->txt("import"));
 
 		return true;
-	}
+	}*/
 
 
 	function performImportObject()
@@ -520,13 +532,22 @@ class ilObjForumGUI extends ilObjectGUI
 		if(!$this->message)
 		{
 			sendInfo($this->lng->txt("import_forum_finished"),true);
-			#ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
-			$this->ctrl->redirect($this->ctrl->getLinkTarget($this));
+			$ref_id = $this->parser_obj->getRefId();
+			if ($ref_id > 0)
+			{
+				$this->ctrl->setParameter($this, "ref_id", $ref_id);
+				ilUtil::redirect($this->getReturnLocation("save",
+					$this->ctrl->getLinkTarget($this, "showThreads")));
+			}
+			else
+			{
+				ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+			}
 		}
 		else
 		{
 			sendInfo($this->message);
-			$this->importObject();
+			$this->createObject();
 		}
 	}
 
