@@ -576,9 +576,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		if (!$import_folder)
 				return $this->__raiseError('Wrong reference id.','Server');
 
-		// folder is not a folder
-		if ($import_folder->getType() != "usrf")
-		        return $this->__raiseError('Folder must be a usr folder.','Server');
+		// folder is not a folder, can also be a category
+		if ($import_folder->getType() != "usrf" && $import_folder->getType() != "cat")
+		        return $this->__raiseError('Folder must be a usr folder or a category.','Server');
 
 		// check access to folder
 		if(!$rbacsystem->checkAccess('create_user',$folder_id))
@@ -677,13 +677,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					$isInSubtree = $folder_id == USER_FOLDER_ID;
 
 					$path = "";
+
 					if ($tree->isInTree($rolf[0]))
 					{
+
 						// Create path. Paths which have more than 4 segments
 						// are truncated in the middle.
 						$tmpPath = $tree->getPathFull($rolf[0]);
 
-						for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
+                        for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
 						{
 							if ($i > 1)
 							{
@@ -698,17 +700,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 								$path = $path.'...';
 							}
 
-							$isInSubtree |= $tmpPath[$i]['obj_id'] == $folder_id;
+							$isInSubtree |= $tmpPath[$i]['ref_id'] == $folder_id;
 						}
 					}
-					else
-					{
-						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
-					}
-
 					if ($loc_role["role_type"] != "Global" && $isInSubtree)
 					{
-						$permitted_local_roles[$loc_role['obj_id']] = $loc_role["title"];
+					    $permitted_local_roles[$loc_role['obj_id']] = $loc_role["title"];
 					}
 				}
 		} //foreach local role
@@ -804,15 +801,17 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*/
 	function getUsers($sid, $ref_id, $attachRoles, $active)
 	{
-		global $ilDB, $rbacreview, $rbacsystem;
 
-		if(!$this->__checkSession($sid))
+	    if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
 
 		// Include main header
 		include_once './include/inc.header.php';
+    	global $ilDB, $rbacreview, $rbacsystem;
+
+
 
 		if ($ref_id == -1)
 			$ref_id = USER_FOLDER_ID;
@@ -831,12 +830,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$type = $object->getType();
 
-		if ($type =="usrf" || $type == "crs" || $type=="grp")
-		// get users of a user folder
-
+		if ($type =="cat" || $type == "crs" || $type=="grp" || $type=="usrf")
 		{
 			switch ($type) {
-				case "usrf":
+			    case "usrf":
+			        $data = ilSoapUserAdministration::__getUserFolderUsers(USER_FOLDER_ID, $active);
+			        break;
+				case "cat":
 					$data = ilSoapUserAdministration::__getUserFolderUsers($ref_id, $active);
 					break;
 				case "crs":
@@ -852,14 +852,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 						$members = array_merge($rbacreview->assignedUsers($role_id, array()),$members);
 					}
 
-					$data = $members;//array_unique ($members);
+					$data = $members;
 
 					break;
 				}
 				case "grp":
 					$member_ids = $object->getGroupMemberIds();
 					$data = ilSoapUserAdministration::__getGroupMemberData($member_ids, $active);
-
 					break;
 			}
 
@@ -880,7 +879,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			}
 			return $this->__raiseError('No records available','Client');
 		}
-		return $this->__raiseError('Type $type not yet supported','Client');
+		return $this->__raiseError('Type '.$type.' not yet supported','Client');
 	}
 
 
@@ -915,17 +914,34 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 		else
 		{
-				$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
-				if ($rbacreview->isDeleted($rolf[0])
-						|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
-				{
-					return $this->__raiseError("Role access not permitted. ($role_id)","Server");
-				}
+			$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
+			if ($rbacreview->isDeleted($rolf[0])
+					|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+			{
+				return $this->__raiseError("Role access not permitted. ($role_id)","Server");
+			}
 		}
 
-		$object = ilObjectFactory::getInstanceByObjId($role_id, false);
+		$data = array();
 
-		$data = $rbacreview->assignedUsers($role_id, array());
+		$query = "SELECT usr_data.*, usr_pref.value AS language
+		          FROM usr_data, usr_pref
+		          LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id
+		          WHERE
+		           usr_pref.usr_id = usr_data.usr_id AND
+		           usr_pref.keyword = 'language' AND
+		           rbac_ua.rol_id='".$role_id."'";
+
+		 $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
+
+		 //echo $query;
+
+		 $r = $ilDB->query($query);
+
+         while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+         {
+               $data[] = $row;
+         }
 
 		include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
 
@@ -944,22 +960,25 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*
 	*/
 	function __getUserFolderUsers ($ref_id, $active) {
-			global $ilDB;
-			$data = array();
-			$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'";
-			if ($active > -1)
-				$query .= " AND usr_data.active = '$active'";
+		global $ilDB;
+		$data = array();
+		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'";
 
-			$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
-			//echo $query;
+		if ($active > -1)
+			$query .= " AND usr_data.active = '$active'";
 
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				array_push($data, $row);
-			}
+		if ($ref_id != USER_FOLDER_ID)
+		    $query .= " AND usr_data.time_limit_owner = $ref_id";
 
-			return $data;
+		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
+		//echo $query;
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($data, $row);
+		}
+
+		return $data;
 	}
 
 	/**
@@ -969,16 +988,18 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	{
 		global $rbacadmin, $rbacreview, $ilBench, $ilDB;
 
-		$usr_arr= array();
+		$query = "SELECT usr_data.*, usr_pref.value AS language
+		          FROM usr_data, usr_pref
+		          WHERE usr_pref.usr_id = usr_data.usr_id
+		           AND usr_pref.keyword = 'language'
+		           AND usr_data.usr_id IN (".implode(',',$a_mem_ids).")";
 
-		$q = "SELECT * ".
-			 "FROM usr_data ".
-			 "WHERE usr_id IN (".implode(',',$a_mem_ids).")";
+  	    if (is_numeric($active) && $active > -1)
+  			$query .= "AND active = '$active'";
 
-  	if (is_numeric($active) && $active > -1)
-  			$q .= "AND active = '$active'";
+  		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
-  	$r = $ilDB->query($q);
+  	    $r = $ilDB->query($query);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -1064,5 +1085,112 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	}
 
+	/**
+	 * return user xml following dtd 3.7
+	 *
+	 * @param String $sid    session id
+	 * @param String array $a_keyfields    array of user fieldname, following dtd 3.7
+	 * @param String $queryOperator  any logical operator
+	 * @param String array $a_keyValues  values separated by space, at least 3 chars per search term
+	 */
+	function searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active) {
+
+	    if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+
+		// Include main header
+		include_once './include/inc.header.php';
+		global $ilDB, $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('read', USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
+
+
+    	if (!count($a_keyfields))
+    	   $this->__raiseError('At least one keyfield is needed','Client');
+
+    	if (!count ($a_keyvalues))
+    	   $this->__raiseError('At least one keyvalue is needed','Client');
+
+    	if (!strcasecmp($query_operator,"and")==0 || !strcasecmp($query_operator,"or") == 0)
+    	   $this->__raiseError('Query operator must be either \'and\' or \'or\'','Client');
+
+
+    	$query = $this->__buildSearchQuery ($a_keyfields, $query_operator, $a_keyvalues);
+
+		$query = "SELECT usr_data.*, usr_pref.value AS language
+		          FROM usr_data, usr_pref
+		          WHERE usr_pref.usr_id = usr_data.usr_id
+		          AND usr_pref.keyword = 'language' ".$query;
+
+  	     if (is_numeric($active) && $active > -1)
+  			$query .= " AND active = '$active'";
+
+  		 $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
+
+  		 //echo $query;
+
+  	     $r = $ilDB->query($query);
+
+  	     $data = array();
+
+		 while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		 {
+		      $data[] = $row;
+		 }
+
+		 include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
+
+		 $xmlWriter = new ilSoapUserObjectXMLWriter();
+		 $xmlWriter->setAttachRoles($attach_roles);
+		 $xmlWriter->setObjects($data);
+
+		 if($xmlWriter->start())
+		 {
+			return $xmlWriter->getXML();
+		 }
+
+	   }
+
+	/**
+	 * create search term according to parameters
+	 *
+	 * @param array of string $a_keyfields
+	 * @param string $queryOperator
+	 * @param array of string $a_keyValues
+	 */
+
+	function __buildSearchQuery ($a_keyfields, $queryOperator, $a_keyvalues) {
+	    $query = array();
+
+	    $allowed_fields = array ("firstname","lastname","email","login");
+
+	    foreach ($a_keyfields as $keyfield)
+	    {
+	        $keyfield = strtolower($keyfield);
+
+	        if (!in_array($keyfield, $allowed_fields))
+	           continue;
+
+	        $field_query = array ();
+	        foreach ($a_keyvalues as $keyvalue)
+	        {
+	            if (strlen($keyvalue) >= 3) {
+	                $field_query []= $keyfield." like '%".$keyvalue."%'";
+	            }
+
+	        }
+	        if (count($field_query))
+	           $query [] = join(" OR ", $field_query);
+
+	    }
+
+	    return count ($query) ? " AND ((". join(") ".strtoupper($queryOperator)." (", $query) ."))" : "AND 0";
+	}
 }
 ?>
