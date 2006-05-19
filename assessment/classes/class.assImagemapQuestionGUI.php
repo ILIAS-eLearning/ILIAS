@@ -752,6 +752,71 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		}
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
+
+	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$user_solution = "";
+		if ($test_id)
+		{
+			$solutions = NULL;
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$user_solution = $solution_value["value1"];
+			}
+		}
+
+		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+		if ($test_id)
+		{
+			$solutions = NULL;
+			include_once "./assessment/classes/class.ilObjTest.php";
+			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+			}
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			include_once "./assessment/classes/class.ilImagemapPreview.php";
+			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
+			foreach ($solutions as $idx => $solution_value)
+			{
+				if (strcmp($solution_value["value1"], "") != 0)
+				{
+					$preview->addArea($this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
+				}
+			}
+			$preview->createPreview();
+			if (count($preview->areas))
+			{
+				$pfile = $preview->getPreviewFilename();
+				if (strlen($pfile) == 0)
+				{
+					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+				}
+				else
+				{
+					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
+				}
+			}
+		}
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", TRUE, TRUE, TRUE);
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$template->setVariable("IMG_SRC", "$imagepath");
+		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
+		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
+		return $questionoutput;
+	}
 	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{

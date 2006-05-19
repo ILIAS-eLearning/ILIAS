@@ -316,6 +316,36 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
+	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$solutions = array();
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+		}
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_numeric_output_solution.html", TRUE, TRUE, TRUE);
+		if (is_array($solutions))
+		{
+			foreach ($solutions as $solution)
+			{
+				$template->setVariable("NUMERIC_VALUE", $solution["value1"]);
+			}
+		}
+		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
+		return $questionoutput;
+	}
+	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

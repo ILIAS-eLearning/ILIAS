@@ -469,6 +469,59 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
+	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	{
+		// shuffle output
+		$keys = array_keys($this->object->answers);
+
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, TRUE);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$solutions = array();
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+		}
+		foreach ($keys as $idx)
+		{
+			$answer = $this->object->answers[$idx];
+			if ($this->object->getOrderingType() == OQ_PICTURES)
+			{
+				$template->setCurrentBlock("ordering_row_standard_pictures");
+				$template->setVariable("THUMB_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext() . ".thumb.jpg");
+				$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
+				$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setCurrentBlock("ordering_row_standard_text");
+				$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+				$template->parseCurrentBlock();
+			}
+			$template->setCurrentBlock("ordering_row_standard");
+			foreach ($solutions as $solution)
+			{
+				if ($solution["value1"] == $idx)
+				{
+					$template->setVariable("ANSWER_ORDER", $solution["value2"]);
+				}
+			}
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
+
+		return $questionoutput;
+	}
+	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// shuffle output
