@@ -637,6 +637,61 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
+	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$user_solution = array();
+		if ($test_id)
+		{
+			$user_solution =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			if (!is_array($user_solution)) 
+			{
+				$user_solution = array();
+			}
+		}
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, TRUE);
+		$cloze =& $this->object->createCloseTextArray();
+		//print_r($cloze);
+		$cloze_text = $cloze["delimiters"];
+		//print_r($cloze);
+		$counter = 0;
+		foreach ($cloze_text as $delimiter)
+		{
+			$template->setCurrentBlock("cloze_text");
+			$template->setVariable("CLOZE_TEXT", $delimiter[0]);
+			$template->parseCurrentBlock();
+			$gap = $this->object->getGap($counter);
+			$template->setCurrentBlock("solution");
+			foreach ($user_solution as $solution)
+			{
+				if (strcmp($solution["value1"], $counter) == 0)
+				{
+					if ((strlen($solution["value2"])) && ($gap[0]->getClozeType() == CLOZE_SELECT))
+					{
+						$template->setVariable("SOLUTION", $gap[$solution["value2"]]->getAnswertext());
+					}
+					else
+					{
+						$template->setVariable("SOLUTION", $solution["value2"]);
+					}
+				}
+			}
+			$template->parseCurrentBlock();
+			$template->touchBlock("cloze_part");
+			$counter++;
+		}
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
+		return $questionoutput;
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

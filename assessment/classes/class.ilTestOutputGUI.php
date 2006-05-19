@@ -1653,22 +1653,8 @@ class ilTestOutputGUI
 				$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 				
 				$idx = $this->object->getTestId();
-				
-				switch ($question_gui->getQuestionType()) 
-				{
-					case "qt_imagemap" :
-						$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
-						//$result_output = $question_gui->getResultOutput($idx, $ilUser, $pass); 
-						//$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $result_output);
-						break;
-					case "qt_javaapplet" :
-						$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
-						break;
-					default :
-						//$result_output = $question_gui->getResultOutput($idx, $ilUser, $pass); 
-						//$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $result_output);
-						$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
-				}
+				$result_output = $question_gui->getSolutionOutput($idx, $ilUser->getId(), $pass);
+				$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
 			}

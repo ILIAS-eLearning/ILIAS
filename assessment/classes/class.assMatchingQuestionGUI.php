@@ -521,6 +521,72 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
+	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", TRUE, TRUE, TRUE);
+		
+		// shuffle output
+		$keys = array_keys($this->object->matchingpairs);
+		$key2 = $keys;
+
+		$solutions = array();
+		if ($test_id)
+		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solution_script .= "";
+		}
+		foreach ($keys as $idx)
+		{
+			$answer = $this->object->matchingpairs[$idx];
+
+			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+			{
+				$template->setCurrentBlock("standard_matching_pictures");
+				$template->setVariable("DEFINITION_ID", $answer->getPictureId());
+				$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
+				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
+				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setCurrentBlock("standard_matching_terms");
+				$template->setVariable("DEFINITION", $answer->getDefinition());
+				$template->parseCurrentBlock();
+			}
+
+			$template->setCurrentBlock("standard_matching_row");
+			$template->setVariable("MATCHES", $this->lng->txt("matches"));
+			foreach ($solutions as $solution)
+			{
+				if ($answer->getDefinitionId() == $solution["value2"])
+				{
+					foreach ($this->object->matchingpairs as $pair)
+					{
+						if ($pair->getTermId() == $solution["value1"])
+						{
+							$template->setVariable("SOLUTION", $pair->getTerm());
+						}
+					}
+				}
+			}
+			$template->parseCurrentBlock();
+		}
+		
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
+
+		return $questionoutput;
+	}
+	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

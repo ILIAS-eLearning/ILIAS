@@ -590,6 +590,60 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
+	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	{
+		// get page object output
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+
+		// shuffle output
+		$keys = array_keys($this->object->answers);
+
+		// get the solution of the user for the active pass or from the last pass if allowed
+		$user_solution = "";
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$user_solution = $solution_value["value1"];
+			}
+		}
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output_solution.html", TRUE, TRUE, TRUE);
+		foreach ($keys as $answer_id)
+		{
+			$answer = $this->object->answers[$answer_id];
+			if (strlen($answer->getImage()))
+			{
+				$template->setCurrentBlock("answer_image");
+				$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				$alt = $answer->getImage();
+				if (strlen($answer->getAnswertext()))
+				{
+					$alt = $answer->getAnswertext();
+				}
+				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
+				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
+				$template->parseCurrentBlock();
+			}
+			$template->setCurrentBlock("answer_row");
+			$template->setVariable("ANSWER_ID", $answer_id);
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			if ($user_solution == $answer_id)
+			{
+				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+			}
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
+		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
+		return $questionoutput;
+	}
+	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
