@@ -44,7 +44,7 @@ class ilNusoapUserAdministrationAdapter
 
     function ilNusoapUserAdministrationAdapter($a_use_wsdl = true)
     {
-		define('SERVICE_NAME','ilUserAdministration');
+		define('SERVICE_NAME','ILIAS Soap Webservice');
 		define('SERVICE_NAMESPACE','urn:ilUserAdministration');
 		define('SERVICE_STYLE','rpc');
 		define('SERVICE_USE','encoded');
