@@ -1058,6 +1058,8 @@ common#:#auth_radius_port#:#Port
 common#:#auth_radius_server#:#Servers
 common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.
 common#:#auth_radius_settings_saved#:#RADIUS settings saved
+common#:#auth_cas_settings_saved#:#CAS settings saved
+common#:#auth_soap_settings_saved#:#SOAP authentication settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_read#:#Access authentication settings
 common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user\'s login name and password anymore. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -1066,6 +1068,8 @@ common#:#auth_script#:#Custom
 common#:#auth_script_desc#:#Authenticate users via external script
 common#:#auth_select#:#Select authentication mode
 common#:#auth_shib#:#Shibboleth
+common#:#auth_cas#:#CAS
+common#:#auth_soap#:#SOAP
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_shibboleth#:#Shibboleth
@@ -2903,6 +2907,10 @@ common#:#shib_street#:#Attribute for street
 common#:#shib_title#:#Attribute for title
 common#:#shib_update#:#Update this field on login
 common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
+common#:#auth_cas_user_default_role#:#Default role assigned to CAS users
+common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
+common#:#auth_cas_auth#:#Configure CAS Authentication
+common#:#auth_soap_auth#:#Configure SOAP Authentication
 common#:#shib_visible#:#Shibboleth settings are visible
 common#:#shib_write#:#Edit Shibboleth settings
 common#:#shib_zipcode#:#Attribute for zipcode
