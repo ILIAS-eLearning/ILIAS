@@ -541,6 +541,13 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
 			$solution_script .= "";
 		}
+		else
+		{
+			foreach ($this->object->matchingpairs as $pair)
+			{
+				array_push($solutions, array("value1" => $pair->getTermId(), "value2" => $pair->getDefinitionId()));
+			}
+		}
 		foreach ($keys as $idx)
 		{
 			$answer = $this->object->matchingpairs[$idx];

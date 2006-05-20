@@ -459,16 +459,42 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		{
 			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
 		}
+		else
+		{
+			$rank = array();
+			foreach ($this->object->answers as $answer)
+			{
+				if ($answer->getPoints() > 0)
+				{
+					if (!is_array($rank[$answer->getPoints()]))
+					{
+						$rank[$answer->getPoints()] = array();
+					}
+					array_push($rank[$answer->getPoints()], $answer->getAnswertext());
+				}
+			}
+			krsort($rank, SORT_NUMERIC);
+			foreach ($rank as $index => $bestsolutions)
+			{
+				array_push($solutions, array("value1" => join(",", $bestsolutions) . " ($index " . $this->lng->txt("points") . ")"));
+			}
+		}
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output_solution.html", TRUE, TRUE, TRUE);
 		for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++)
 		{
-			$template->setCurrentBlock("textsubset_row");
-			$template->setVariable("SOLUTION", $solutions[$i]["value1"]);
-			$template->setVariable("COUNTER", $i+1);
-			$template->parseCurrentBlock();
+			if ((!$test_id) && (strcmp($solutions[$i]["value1"], "") == 0))
+			{
+			}
+			else
+			{
+				$template->setCurrentBlock("textsubset_row");
+				$template->setVariable("SOLUTION", $solutions[$i]["value1"]);
+				$template->setVariable("COUNTER", $i+1);
+				$template->parseCurrentBlock();
+			}
 		}
 		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
 		$questionoutput = $template->get();

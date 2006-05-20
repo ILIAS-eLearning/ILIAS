@@ -606,6 +606,22 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				array_push($user_solution, $solution_value["value1"]);
 			}
 		}
+		else
+		{
+			// take the correct solution instead of the user solution
+			foreach ($this->object->answers as $index => $answer)
+			{
+				$points_checked = $answer->getPointsChecked();
+				$points_unchecked = $answer->getPointsUnchecked();
+				if ($points_checked > $points_unchecked)
+				{
+					if ($points_checked > 0)
+					{
+						array_push($user_solution, $index);
+					}
+				}
+			}
+		}
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";

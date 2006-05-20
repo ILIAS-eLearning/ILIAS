@@ -758,28 +758,33 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
 
-		// get the solution of the user for the active pass or from the last pass if allowed
-		$user_solution = "";
-		if ($test_id)
-		{
-			$solutions = NULL;
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
-			foreach ($solutions as $idx => $solution_value)
-			{
-				$user_solution = $solution_value["value1"];
-			}
-		}
-
 		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+		$solutions = array();
 		if ($test_id)
 		{
-			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
 			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id, true))
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
 			}
 			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+		}
+		else
+		{
+			$found_index = -1;
+			$max_points = 0;
+			foreach ($this->object->answers as $index => $answer)
+			{
+				if ($answer->getPoints() > $max_points)
+				{
+					$max_points = $answer->getPoints();
+					$found_index = $index;
+				}
+			}
+			array_push($solutions, array("value1" => $found_index));
+		}
+		if (is_array($solutions))
+		{
 			include_once "./assessment/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)

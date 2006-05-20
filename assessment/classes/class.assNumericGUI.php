@@ -327,6 +327,13 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		{
 			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
 		}
+		else
+		{
+			foreach ($this->object->ranges as $key => $range)
+			{
+				array_push($solutions, array("value1" => sprintf($this->lng->txt("value_between_x_and_y"), $range->getLowerLimit(), $range->getUpperLimit())));
+			}
+		}
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";

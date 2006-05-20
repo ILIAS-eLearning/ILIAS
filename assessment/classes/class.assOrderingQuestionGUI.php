@@ -487,6 +487,13 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		{
 			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
 		}
+		else
+		{
+			foreach ($this->object->answers as $index => $answer)
+			{
+				array_push($solutions, array("value1" => $index, "value2" => $answer->getSolutionOrder()));
+			}
+		}
 		foreach ($keys as $idx)
 		{
 			$answer = $this->object->answers[$idx];
@@ -507,7 +514,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$template->setCurrentBlock("ordering_row_standard");
 			foreach ($solutions as $solution)
 			{
-				if ($solution["value1"] == $idx)
+				if (strcmp($solution["value1"], $idx) == 0)
 				{
 					$template->setVariable("ANSWER_ORDER", $solution["value2"]);
 				}

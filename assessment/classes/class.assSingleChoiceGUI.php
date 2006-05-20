@@ -608,6 +608,20 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 				$user_solution = $solution_value["value1"];
 			}
 		}
+		else
+		{
+			$found_index = -1;
+			$max_points = 0;
+			foreach ($this->object->answers as $index => $answer)
+			{
+				if ($answer->getPoints() > $max_points)
+				{
+					$max_points = $answer->getPoints();
+					$found_index = $index;
+				}
+			}
+			$user_solution = $found_index;
+		}
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output_solution.html", TRUE, TRUE, TRUE);
@@ -631,7 +645,7 @@ class ASS_SingleChoiceGUI extends ASS_QuestionGUI
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("QUESTION_ID", $this->object->getId());
 			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
-			if ($user_solution == $answer_id)
+			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
 			}
