@@ -5249,7 +5249,7 @@ rbac#:#perm_class_object#:#Special operations
 rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.
 rbac#:#perm_class_rbac#:#Permission settings
 rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.
-rbac#:#perm_local_role#:#Locale role
+rbac#:#perm_local_role#:#Local role
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
 rbac#:#perm_use_local_policy#:#Use local policy
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.
