@@ -1774,6 +1774,7 @@ common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
 common#:#grp_members_gallery#:#Group members gallery
+ilinc#:#icrs_members_gallery#:#Seminar participants gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
