@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Numeric question GUI representation
 *
-* The ASS_NumericGUI class encapsulates the GUI representation
+* The assNumericGUI class encapsulates the GUI representation
 * for numeric questions.
 *
 * @author		Helmut SchottmÃ¼ller <helmut.schottmueller@mac.com>
@@ -36,23 +36,23 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assNumericGUI.php
 * @modulegroup   Assessment
 */
-class ASS_NumericGUI extends ASS_QuestionGUI
+class assNumericGUI extends assQuestionGUI
 {
 	/**
-	* ASS_NumericGUI constructor
+	* assNumericGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_NumericGUI object.
+	* The constructor takes possible arguments an creates an instance of the assNumericGUI object.
 	*
 	* @param integer $id The database id of a Numeric question object
 	* @access public
 	*/
-	function ASS_NumericGUI(
+	function assNumericGUI(
 			$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assNumeric.php";
-		$this->object = new ASS_Numeric();
+		$this->object = new assNumeric();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -139,7 +139,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
 			include_once "./assessment/classes/class.assQuestion.php";
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -153,9 +153,9 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_numeric");
+		$this->ctrl->setParameter($this, "sel_question_types", "assNumeric");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_numeric"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assNumeric"));
 		$this->checkAdvancedEditor();
 		
 		$this->tpl->parseCurrentBlock();
@@ -422,7 +422,7 @@ class ASS_NumericGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_numeric";
+		return "assNumeric";
 	}
 }
 ?>

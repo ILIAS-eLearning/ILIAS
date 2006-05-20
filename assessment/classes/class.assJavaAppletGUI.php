@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Java applet question GUI representation
 *
-* The ASS_JavaAppletGUI class encapsulates the GUI representation
+* The assJavaAppletGUI class encapsulates the GUI representation
 * for java applet questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,23 +35,23 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assJavaAppletGUI.php
 * @modulegroup   Assessment
 */
-class ASS_JavaAppletGUI extends ASS_QuestionGUI
+class assJavaAppletGUI extends assQuestionGUI
 {
 	/**
-	* ASS_JavaAppletGUI constructor
+	* assJavaAppletGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_JavaAppletGUI object.
+	* The constructor takes possible arguments an creates an instance of the assJavaAppletGUI object.
 	*
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function ASS_JavaAppletGUI(
+	function assJavaAppletGUI(
 		$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assJavaApplet.php";
-		$this->object = new ASS_JavaApplet();
+		$this->object = new assJavaApplet();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -68,7 +68,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_javaapplet";
+		return "assJavaApplet";
 	}
 
 	function getCommand($cmd)
@@ -119,7 +119,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
 			include_once "./assessment/classes/class.assQuestion.php";
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -225,8 +225,8 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_javaapplet");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_javaapplet"));
+		$this->ctrl->setParameter($this, "sel_question_types", "assJavaApplet");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
 		$formaction = $this->ctrl->getFormaction($this);
 		if ($this->object->getId() > 0)
 		{

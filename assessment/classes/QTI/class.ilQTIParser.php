@@ -1445,7 +1445,7 @@ class ilQTIParser extends ilSaxParser
 						if ($qt == QT_MULTIPLE_CHOICE_SR)
 						{
 							include_once ("./assessment/classes/class.assSingleChoice.php");
-							$question = new ASS_SingleChoice(
+							$question = new assSingleChoice(
 								$this->item->getTitle(),
 								$this->item->getComment(),
 								$this->item->getAuthor(),
@@ -1456,7 +1456,7 @@ class ilQTIParser extends ilSaxParser
 						else
 						{
 							include_once ("./assessment/classes/class.assMultipleChoice.php");
-							$question = new ASS_MultipleChoice(
+							$question = new assMultipleChoice(
 								$this->item->getTitle(),
 								$this->item->getComment(),
 								$this->item->getAuthor(),
@@ -1635,7 +1635,7 @@ class ilQTIParser extends ilSaxParser
 							}
 						}
 						include_once ("./assessment/classes/class.assClozeTest.php");
-						$question = new ASS_ClozeTest(
+						$question = new assClozeTest(
 							$this->item->getTitle(),
 							$this->item->getComment(),
 							$this->item->getAuthor(),
@@ -1807,7 +1807,7 @@ class ilQTIParser extends ilSaxParser
 						{
 							$type = 0;
 						}
-						$question = new ASS_MatchingQuestion(
+						$question = new assMatchingQuestion(
 							$this->item->getTitle(),
 							$this->item->getComment(),
 							$this->item->getAuthor(),
@@ -2009,7 +2009,7 @@ class ilQTIParser extends ilSaxParser
 						{
 							$type = 0; // pictures
 						}
-						$question = new ASS_OrderingQuestion(
+						$question = new assOrderingQuestion(
 							$this->item->getTitle(),
 							$this->item->getComment(),
 							$this->item->getAuthor(),
@@ -2176,7 +2176,7 @@ class ilQTIParser extends ilSaxParser
 						}
 
 						include_once ("./assessment/classes/class.assImagemapQuestion.php");
-						$question = new ASS_ImagemapQuestion(
+						$question = new assImagemapQuestion(
 							$this->item->getTitle(),
 							$this->item->getComment(),
 							$this->item->getAuthor(),
@@ -2281,7 +2281,7 @@ class ilQTIParser extends ilSaxParser
 						}
 
 						include_once ("./assessment/classes/class.assJavaApplet.php");
-						$question = new ASS_JavaApplet(
+						$question = new assJavaApplet(
 							$this->item->getTitle(),
 							$this->item->getComment(),
 							$this->item->getAuthor(),
@@ -2382,7 +2382,7 @@ class ilQTIParser extends ilSaxParser
 						}
 						
 						include_once ("./assessment/classes/class.assTextQuestion.php");
-						$question = new ASS_TextQuestion(
+						$question = new assTextQuestion(
 							$this->item->getTitle(),
 							$this->item->getComment(),
 							$this->item->getAuthor(),
@@ -2483,7 +2483,7 @@ class ilQTIParser extends ilSaxParser
 						}
 						
 						include_once ("./assessment/classes/class.assNumeric.php");
-						$question = new ASS_Numeric(
+						$question = new assNumeric(
 							$this->item->getTitle(),
 							$this->item->getComment(),
 							$this->item->getAuthor(),

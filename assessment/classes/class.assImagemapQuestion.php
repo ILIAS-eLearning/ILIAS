@@ -27,14 +27,14 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for image map questions
 *
-* ASS_ImagemapQuestion is a class for imagemap question.
+* assImagemapQuestion is a class for imagemap question.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assImagemapQuestion.php
 * @modulegroup   Assessment
 */
-class ASS_ImagemapQuestion extends ASS_Question 
+class assImagemapQuestion extends assQuestion 
 {
 
 /**
@@ -84,9 +84,9 @@ class ASS_ImagemapQuestion extends ASS_Question
 	var $coords;
 
 /**
-* ASS_ImagemapQuestion constructor
+* assImagemapQuestion constructor
 *
-* The constructor takes possible arguments an creates an instance of the ASS_ImagemapQuestion object.
+* The constructor takes possible arguments an creates an instance of the assImagemapQuestion object.
 *
 * @param string $title A title string to describe the question
 * @param string $comment A comment string to describe the question
@@ -97,7 +97,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 * @param string $question The question string of the imagemap question
 * @access public
 */
-  function ASS_ImagemapQuestion(
+  function assImagemapQuestion(
     $title = "",
     $comment = "",
     $author = "",
@@ -108,7 +108,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 
   )
   {
-    $this->ASS_Question($title, $comment, $author, $owner);
+    $this->assQuestion($title, $comment, $author, $owner);
     $this->question = $question;
     $this->imagemap_filename = $imagemap_filename;
     $this->image_filename = $image_filename;
@@ -137,9 +137,9 @@ class ASS_ImagemapQuestion extends ASS_Question
 	}
 
 	/**
-	* Saves a ASS_ImagemapQuestion object to a database
+	* Saves a assImagemapQuestion object to a database
 	*
-	* Saves a ASS_ImagemapQuestion object to a database (experimental)
+	* Saves a assImagemapQuestion object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -256,9 +256,9 @@ class ASS_ImagemapQuestion extends ASS_Question
 	}
 
 /**
-* Duplicates an ASS_ImagemapQuestion
+* Duplicates an assImagemapQuestion
 *
-* Duplicates an ASS_ImagemapQuestion
+* Duplicates an assImagemapQuestion
 *
 * @access public
 */
@@ -272,7 +272,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -304,9 +304,9 @@ class ASS_ImagemapQuestion extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_ImagemapQuestion object
+	* Copies an assImagemapQuestion object
 	*
-	* Copies an ASS_ImagemapQuestion object
+	* Copies an assImagemapQuestion object
 	*
 	* @access public
 	*/
@@ -320,7 +320,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -368,9 +368,9 @@ class ASS_ImagemapQuestion extends ASS_Question
 	}
 
 /**
-* Loads a ASS_ImagemapQuestion object from a database
+* Loads a assImagemapQuestion object from a database
 *
-* Loads a ASS_ImagemapQuestion object from a database (experimental)
+* Loads a assImagemapQuestion object from a database (experimental)
 *
 * @param object $db A pear DB object
 * @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -661,9 +661,9 @@ class ASS_ImagemapQuestion extends ASS_Question
 /**
 * Gets the imagemap question
 *
-* Gets the question string of the ASS_ImagemapQuestion object
+* Gets the question string of the assImagemapQuestion object
 *
-* @return string The question string of the ASS_ImagemapQuestion object
+* @return string The question string of the assImagemapQuestion object
 * @access public
 * @see $question
 */
@@ -674,7 +674,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 /**
 * Sets the imagemap question
 *
-* Sets the question string of the ASS_ImagemapQuestion object
+* Sets the question string of the assImagemapQuestion object
 *
 * @param string $question A string containing the imagemap question
 * @access public
@@ -689,7 +689,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 *
 * Gets the imagemap file name
 *
-* @return string The imagemap file of the ASS_ImagemapQuestion object
+* @return string The imagemap file of the assImagemapQuestion object
 * @access public
 * @see $imagemap_filename
 */
@@ -730,7 +730,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 *
 * Gets the image file name
 *
-* @return string The image file name of the ASS_ImagemapQuestion object
+* @return string The image file name of the assImagemapQuestion object
 * @access public
 * @see $image_filename
 */
@@ -772,7 +772,7 @@ class ASS_ImagemapQuestion extends ASS_Question
 *
 * Gets the imagemap file contents
 *
-* @return string The imagemap file contents of the ASS_ImagemapQuestion object
+* @return string The imagemap file contents of the assImagemapQuestion object
 * @access public
 * @see $imagemap_contents
 */

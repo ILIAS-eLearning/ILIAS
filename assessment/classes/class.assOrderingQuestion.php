@@ -27,14 +27,14 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for ordering questions
 *
-* ASS_OrderingQuestion is a class for ordering questions.
+* assOrderingQuestion is a class for ordering questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assOrderingQuestion.php
 * @modulegroup   Assessment
 */
-class ASS_OrderingQuestion extends ASS_Question
+class assOrderingQuestion extends assQuestion
 {
 	/**
 	* The question text
@@ -65,9 +65,9 @@ class ASS_OrderingQuestion extends ASS_Question
 	var $ordering_type;
 
 	/**
-	* ASS_OrderingQuestion constructor
+	* assOrderingQuestion constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_OrderingQuestion object.
+	* The constructor takes possible arguments an creates an instance of the assOrderingQuestion object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -76,7 +76,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @param string $question The question string of the ordering test
 	* @access public
 	*/
-	function ASS_OrderingQuestion (
+	function assOrderingQuestion (
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -85,7 +85,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		$ordering_type = OQ_TERMS
 	)
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->answers = array();
 		$this->question = $question;
 		$this->ordering_type = $ordering_type;
@@ -392,9 +392,9 @@ class ASS_OrderingQuestion extends ASS_Question
 
 
 	/**
-	* Saves a ASS_OrderingQuestion object to a database
+	* Saves a assOrderingQuestion object to a database
 	*
-	* Saves a ASS_OrderingQuestion object to a database (experimental)
+	* Saves a assOrderingQuestion object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -510,9 +510,9 @@ class ASS_OrderingQuestion extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_OrderingQuestion object from a database
+	* Loads a assOrderingQuestion object from a database
 	*
-	* Loads a ASS_OrderingQuestion object from a database (experimental)
+	* Loads a assOrderingQuestion object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -576,9 +576,9 @@ class ASS_OrderingQuestion extends ASS_Question
 	}*/
 	
 	/**
-	* Duplicates an ASS_OrderingQuestion
+	* Duplicates an assOrderingQuestion
 	*
-	* Duplicates an ASS_OrderingQuestion
+	* Duplicates an assOrderingQuestion
 	*
 	* @access public
 	*/
@@ -592,7 +592,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -624,9 +624,9 @@ class ASS_OrderingQuestion extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_OrderingQuestion object
+	* Copies an assOrderingQuestion object
 	*
-	* Copies an ASS_OrderingQuestion object
+	* Copies an assOrderingQuestion object
 	*
 	* @access public
 	*/
@@ -640,7 +640,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);

@@ -176,7 +176,7 @@ class ilObjQuestionPool extends ilObject
 		include_once "./assessment/classes/class.assQuestion.php";
 		foreach ($questions as $question_id)
 		{
-			if (ASS_Question::_isUsedInRandomTest($question_id))
+			if (assQuestion::_isUsedInRandomTest($question_id))
 			{
 				$used_questions++;
 			}
@@ -487,58 +487,9 @@ class ilObjQuestionPool extends ilObject
 			$question_type = $this->getQuestiontype($question_id);
 		}
 
-		switch ($question_type)
-		{
-			case "qt_multiple_choice_sr":
-				include_once "./assessment/classes/class.assSingleChoiceGUI.php";
-				$question =& new ASS_SingleChoiceGUI();
-				break;
-
-			case "qt_multiple_choice_mr":
-				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
-				$question =& new ASS_MultipleChoiceGUI();
-				break;
-
-			case "qt_cloze":
-				include_once "./assessment/classes/class.assClozeTestGUI.php";
-				$question =& new ASS_ClozeTestGUI();
-				break;
-
-			case "qt_matching":
-				include_once "./assessment/classes/class.assMatchingQuestionGUI.php";
-				$question =& new ASS_MatchingQuestionGUI();
-				break;
-
-			case "qt_numeric":
-				include_once "./assessment/classes/class.assNumericGUI.php";
-				$question =& new ASS_NumericGUI();
-				break;
-
-			case "qt_textsubset":
-				include_once "./assessment/classes/class.assTextSubsetGUI.php";
-				$question =& new ASS_TextSubsetGUI();
-				break;
-
-			case "qt_ordering":
-				include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
-				$question =& new ASS_OrderingQuestionGUI();
-				break;
-
-			case "qt_imagemap":
-				include_once "./assessment/classes/class.assImagemapQuestionGUI.php";
-				$question =& new ASS_ImagemapQuestionGUI();
-				break;
-
-			case "qt_javaapplet":
-				include_once "./assessment/classes/class.assJavaAppletGUI.php";
-				$question =& new ASS_JavaAppletGUI();
-				break;
-
-			case "qt_text":
-				include_once "./assessment/classes/class.assTextQuestionGUI.php";
-				$question =& new ASS_TextQuestionGUI();
-				break;
-		}
+		include_once "./assessment/classes/class.".$question_type."GUI.php";
+		$question_type_gui = $question_type . "GUI";
+		$question =& new $question_type_gui();
 
 		if ($question_id > 0)
 		{
@@ -1403,7 +1354,7 @@ class ilObjQuestionPool extends ilObject
 			include_once "./assessment/classes/class.assQuestion.php";
 			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (!ASS_Question::_isUsedInRandomTest($row["question_id"]))
+				if (!assQuestion::_isUsedInRandomTest($row["question_id"]))
 				{
 					array_push($result, $row);
 				}
@@ -1437,7 +1388,7 @@ class ilObjQuestionPool extends ilObject
 			include_once "./assessment/classes/class.assQuestion.php";
 			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (ASS_Question::_isUsedInRandomTest($row["question_id"]))
+				if (assQuestion::_isUsedInRandomTest($row["question_id"]))
 				{
 					array_push($result, $row);
 				}

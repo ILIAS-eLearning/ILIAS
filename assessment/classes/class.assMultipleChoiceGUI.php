@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Multiple choice question GUI representation
 *
-* The ASS_MultipleChoiceGUI class encapsulates the GUI representation
+* The assMultipleChoiceGUI class encapsulates the GUI representation
 * for multiple choice questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,23 +35,23 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assMultipleChoiceGUI.php
 * @modulegroup   Assessment
 */
-class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
+class assMultipleChoiceGUI extends assQuestionGUI
 {
 	/**
-	* ASS_MultipleChoiceGUI constructor
+	* assMultipleChoiceGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_MultipleChoiceGUI object.
+	* The constructor takes possible arguments an creates an instance of the assMultipleChoiceGUI object.
 	*
 	* @param integer $id The database id of a multiple choice question object
 	* @access public
 	*/
-	function ASS_MultipleChoiceGUI(
+	function assMultipleChoiceGUI(
 			$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assMultipleChoice.php";
-		$this->object = new ASS_MultipleChoice();
+		$this->object = new assMultipleChoice();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -82,7 +82,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_multiple_choice_mr";
+		return "assMultipleChoice";
 	}
 
 	/**
@@ -268,7 +268,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
 			include_once "./assessment/classes/class.assQuestion.php";
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -282,9 +282,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_mr");
+		$this->ctrl->setParameter($this, "sel_question_types", "assMultipleChoice");
 		$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_mr"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
 		$this->tpl->parseCurrentBlock();
 
 		$this->checkAdvancedEditor();
@@ -421,7 +421,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	function writePostData()
 	{
 //echo "here!"; exit;
-//echo "<br>ASS_MultipleChoiceGUI->writePostData()";
+//echo "<br>assMultipleChoiceGUI->writePostData()";
 		$result = 0;
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
 		{

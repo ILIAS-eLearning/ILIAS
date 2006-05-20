@@ -619,22 +619,28 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
 					break;
 				case "CLOZE QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_cloze"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
 					break;
 				case "IMAGE MAP QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_imagemap"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
 					break;
 				case "JAVA APPLET QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_javaapplet"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
 					break;
 				case "MATCHING QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_matching"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
 					break;
 				case "ORDERING QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_ordering"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
 					break;
 				case "TEXT QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_text"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
+					break;
+				case "NUMERIC QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
+					break;
+				case "TEXTSUBSET QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
@@ -2077,11 +2083,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$qpl_question_count[$key] = $count;
 			if ($count == 1)
 			{
-				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_question") . ")";
+				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("assQuestion") . ")";
 			}
 			else
 			{
-				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_questions") . ")";
+				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("assQuestions") . ")";
 			}
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_questions.html", true);
@@ -4479,7 +4485,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$force_active = true;
 					}
 				}
-				$tabs_gui->addTarget("ass_questions",
+				$tabs_gui->addTarget("assQuestions",
 					 $this->ctrl->getLinkTarget($this,'questions'),
 					 array("questions", "browseForQuestions", "questionBrowser", "createQuestion", 
 					 "randomselect", "filter", "resetFilter", "insertQuestions",

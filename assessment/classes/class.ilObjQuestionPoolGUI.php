@@ -29,12 +29,12 @@
 * @version  $Id$
 *
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_NumericGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextSubsetGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_SingleChoiceGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,7 +69,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function &executeCommand()
 	{
 		global $ilLocator;	
-	
 		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -115,7 +114,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
 				include_once "./assessment/classes/class.assQuestionGUI.php";
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
@@ -151,19 +150,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setPresentationTitle($question->getTitle());
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				break;
-			case "ass_singlechoicegui":
-			case "ass_multiplechoicegui":
-			case "ass_clozetestgui":
-			case "ass_orderingquestiongui":
-			case "ass_matchingquestiongui":
-			case "ass_numericgui":
-			case "ass_textsubsetgui":
-			case "ass_imagemapquestiongui":
-			case "ass_javaappletgui":
-			case "ass_textquestiongui":
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+			case "assclozetestgui":
+			case "assimagemapquestiongui":
+			case "assjavaappletgui":
+			case "assmatchingquestiongui":
+			case "assmultiplechoicegui":
+			case "assnumericgui":
+			case "assorderingquestiongui":
+			case "asssinglechoicegui":
+			case "asstextquestiongui":
+			case "asstextsubsetgui":
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./assessment/classes/class.assQuestionGUI.php";
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$count = $q_gui->object->isInUse();
 				if (($count) && strcmp($this->ctrl->getCmd(), "assessment") != 0)
@@ -176,13 +180,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
-				
-			case 'ilpermissiongui':
-				include_once("./classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
-				break;
-
+			
 			default:
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
@@ -386,31 +384,31 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
 					break;
 				case "SINGLE CHOICE QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice_sr"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
 					break;
 				case "NUMERIC QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_numeric"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
 					break;
-				case "X OUT OF ALL QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_xooa"));
+				case "TEXTSUBSET QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
 					break;
 				case "CLOZE QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_cloze"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
 					break;
 				case "IMAGE MAP QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_imagemap"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
 					break;
 				case "JAVA APPLET QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_javaapplet"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
 					break;
 				case "MATCHING QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_matching"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
 					break;
 				case "ORDERING QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_ordering"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
 					break;
 				case "TEXT QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_text"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
@@ -591,9 +589,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function &createQuestionObject()
 	{
 		include_once "./assessment/classes/class.assQuestionGUI.php";
-		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+		$q_gui =& assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
-		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_POST["sel_question_types"]); 
+		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_POST["sel_question_types"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
@@ -603,7 +601,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function &createQuestionForTestObject()
 	{
 		include_once "./assessment/classes/class.assQuestionGUI.php";
-		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
+		$q_gui =& assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_GET["sel_question_types"]); 
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
@@ -649,14 +647,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		sendInfo();
 
 		include_once "./assessment/classes/class.assQuestion.php";
-		$question_title = ASS_Question::_getTitle($_GET["q_id"]);
+		$question_title = assQuestion::_getTitle($_GET["q_id"]);
 		$title = $this->lng->txt("statistics") . " - $question_title";
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
 		include_once("./assessment/classes/class.assQuestion.php");
-		$total_of_answers = ASS_Question::_getTotalAnswers($_GET["q_id"]);
+		$total_of_answers = assQuestion::_getTotalAnswers($_GET["q_id"]);
 		$counter = 0;
 		$color_class = array("tblrow1", "tblrow2");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_assessment_of_questions.html", true);
@@ -677,7 +675,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_right_answers"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", ASS_Question::_getTotalRightAnswers($_GET["edit"]) * 100.0) . " %");
+			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", assQuestion::_getTotalRightAnswers($_GET["edit"]) * 100.0) . " %");
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -943,7 +941,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		foreach ($table["rows"] as $data)
 		{
 			include_once "./assessment/classes/class.assQuestionGUI.php";
-			$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
+			$class = strtolower(assQuestionGUI::_getGUIClassNameForId($data["question_id"]));
 			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
 			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 
@@ -1414,7 +1412,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function &editQuestionForTestObject()
 	{
 		include_once "./assessment/classes/class.assQuestionGUI.php";
-		$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+		$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
@@ -1539,7 +1537,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($_GET["q_id"] > 0)
 		{
 			include_once "./assessment/classes/class.assQuestionGUI.php";
-			$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 			$q_gui->object->setObjId($this->object->getId());
 			if ($_GET["q_id"] > 0)
 			{
@@ -1556,7 +1554,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($_GET["q_id"] > 0)
 		{
 			include_once "./assessment/classes/class.assQuestionGUI.php";
-			$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 			$q_gui->object->setObjId($this->object->getId());
 			$title = $q_gui->object->getTitle();
 			if (strcmp($this->ctrl->getCmd(), "assessment") == 0)
@@ -1581,69 +1579,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
 		include_once "./assessment/classes/class.assQuestion.php";
-		$q_type = ASS_Question::getQuestionTypeFromDb($_GET["q_id"]);
-		
-		switch ($q_type)
+		$q_type = assQuestion::getQuestionTypeFromDb($_GET["q_id"]);
+
+		if (strlen($q_type))
 		{
-			case "qt_multiple_choice_sr":
-				$classname = "ASS_SingleChoiceGUI";
-				$this->ctrl->setParameterByClass("ass_singlechoicegui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_singlechoicegui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_multiple_choice_mr":
-				$classname = "ASS_MultipleChoiceGUI";
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_cloze":
-				$classname = "ASS_ClozeTestGUI";
-				$this->ctrl->setParameterByClass("ass_clozetestgui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_clozetestgui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_matching":
-				$classname = "ASS_MatchingQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_numeric":
-				$classname = "ASS_NumericGUI";
-				$this->ctrl->setParameterByClass("ass_numericgui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_numericgui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_textsubset":
-				$classname = "ASS_TextSubsetGUI";
-				$this->ctrl->setParameterByClass("ass_textsubsetgui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_textsubsetgui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_ordering":
-				$classname = "ASS_OrderingQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_imagemap":
-				$classname = "ASS_ImagemapQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_javaapplet":
-				$classname = "ASS_JavaAppletGUI";
-				$this->ctrl->setParameterByClass("ass_javaappletgui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_javaappletgui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_text":
-				$classname = "ASS_TextQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_textquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_textquestiongui", "q_id", $_GET["q_id"]);
-				break;
+			$classname = $q_type . "GUI";
+			$this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
+			$this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
 		}
 
 		if ($_GET["q_id"])
@@ -1771,7 +1713,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				? true
 				: false;
 		}
-		$tabs_gui->addTarget("ass_questions",
+		$tabs_gui->addTarget("assQuestions",
 			 $this->ctrl->getLinkTarget($this, "questions"),
 			 array("questions", "filter", "resetFilter", "createQuestion", 
 			 	"importQuestions", "deleteQuestions", "duplicate", 

@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Text question GUI representation
 *
-* The ASS_TextQuestionGUI class encapsulates the GUI representation
+* The assTextQuestionGUI class encapsulates the GUI representation
 * for text questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,23 +35,23 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assTextQuestionGUI.php
 * @modulegroup   assessment
 */
-class ASS_TextQuestionGUI extends ASS_QuestionGUI
+class assTextQuestionGUI extends assQuestionGUI
 {
 	/**
-	* ASS_TextQuestionGUI constructor
+	* assTextQuestionGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_TextQuestionGUI object.
+	* The constructor takes possible arguments an creates an instance of the assTextQuestionGUI object.
 	*
 	* @param integer $id The database id of a text question object
 	* @access public
 	*/
-	function ASS_TextQuestionGUI(
+	function assTextQuestionGUI(
 			$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assTextQuestion.php";
-		$this->object = new ASS_TextQuestion();
+		$this->object = new assTextQuestion();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -68,7 +68,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_text";
+		return "assTextQuestion";
 	}
 
 	/**
@@ -159,7 +159,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
 			include_once "./assessment/classes/class.assQuestion.php";
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -173,8 +173,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_text");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_text"));
+		$this->ctrl->setParameter($this, "sel_question_types", "assTextQuestion");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
 		$this->tpl->setVariable("ACTION_TEXT_QUESTION", $this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();

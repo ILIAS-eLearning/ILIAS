@@ -27,14 +27,14 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for matching questions
 *
-* ASS_MatchingQuestion is a class for matching questions.
+* assMatchingQuestion is a class for matching questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assMatchingQuestion.php
 * @modulegroup   Assessment
 */
-class ASS_MatchingQuestion extends ASS_Question
+class assMatchingQuestion extends assQuestion
 {
 	/**
 	* The question text
@@ -65,9 +65,9 @@ class ASS_MatchingQuestion extends ASS_Question
 	var $matching_type;
 
 	/**
-	* ASS_MatchingQuestion constructor
+	* assMatchingQuestion constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_MatchingQuestion object.
+	* The constructor takes possible arguments an creates an instance of the assMatchingQuestion object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -76,7 +76,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @param string $question The question string of the matching question
 	* @access public
 	*/
-	function ASS_MatchingQuestion (
+	function assMatchingQuestion (
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -85,7 +85,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		$matching_type = MT_TERMS_DEFINITIONS
 	)
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->matchingpairs = array();
 		$this->question = $question;
 		$this->matching_type = $matching_type;
@@ -379,9 +379,9 @@ class ASS_MatchingQuestion extends ASS_Question
 	}
 
 	/**
-	* Saves a ASS_MatchingQuestion object to a database
+	* Saves a assMatchingQuestion object to a database
 	*
-	* Saves a ASS_MatchingQuestion object to a database (experimental)
+	* Saves a assMatchingQuestion object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -501,9 +501,9 @@ class ASS_MatchingQuestion extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_MatchingQuestion object from a database
+	* Loads a assMatchingQuestion object from a database
 	*
-	* Loads a ASS_MatchingQuestion object from a database (experimental)
+	* Loads a assMatchingQuestion object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -569,9 +569,9 @@ class ASS_MatchingQuestion extends ASS_Question
 	
 	
 	/**
-	* Duplicates an ASS_MatchingQuestion
+	* Duplicates an assMatchingQuestion
 	*
-	* Duplicates an ASS_MatchingQuestion
+	* Duplicates an assMatchingQuestion
 	*
 	* @access public
 	*/
@@ -585,7 +585,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -617,9 +617,9 @@ class ASS_MatchingQuestion extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_MatchingQuestion
+	* Copies an assMatchingQuestion
 	*
-	* Copies an ASS_MatchingQuestion
+	* Copies an assMatchingQuestion
 	*
 	* @access public
 	*/
@@ -633,7 +633,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{

@@ -26,7 +26,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for TextSubset questions
 *
-* ASS_TextSubset is a class for TextSubset questions. To solve a TextSubset
+* assTextSubset is a class for TextSubset questions. To solve a TextSubset
 * question, a learner has to enter a TextSubsetal value in a defined range
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,7 +35,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assTextSubset.php
 * @modulegroup   Assessment
 */
-class ASS_TextSubset extends ASS_Question
+class assTextSubset extends assQuestion
 {
 	/**
 	* Question string
@@ -74,9 +74,9 @@ class ASS_TextSubset extends ASS_Question
 	var $text_rating;
 
 	/**
-	* ASS_TextSubset constructor
+	* assTextSubset constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_TextSubset object.
+	* The constructor takes possible arguments an creates an instance of the assTextSubset object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -84,9 +84,9 @@ class ASS_TextSubset extends ASS_Question
 	* @param integer $owner A TextSubsetal ID to identify the owner/creator
 	* @param string $question The question string of the TextSubset question
 	* @access public
-	* @see ASS_Question:ASS_Question()
+	* @see assQuestion:assQuestion()
 	*/
-	function ASS_TextSubset(
+	function assTextSubset(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -94,7 +94,7 @@ class ASS_TextSubset extends ASS_Question
 		$question = ""
 	  )
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->answers = array();
 		$this->correctanswers = 0;
@@ -298,9 +298,9 @@ class ASS_TextSubset extends ASS_Question
 	}
 
 	/**
-	* Saves a ASS_TextSubset object to a database
+	* Saves a assTextSubset object to a database
 	*
-	* Saves a ASS_TextSubset object to a database (experimental)
+	* Saves a assTextSubset object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -419,9 +419,9 @@ class ASS_TextSubset extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_TextSubset object from a database
+	* Loads a assTextSubset object from a database
 	*
-	* Loads a ASS_TextSubset object from a database (experimental)
+	* Loads a assTextSubset object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -476,7 +476,7 @@ class ASS_TextSubset extends ASS_Question
 	/**
 	* Sets the TextSubset question
 	*
-	* Sets the question string of the ASS_TextSubset object
+	* Sets the question string of the assTextSubset object
 	*
 	* @param string $question A string containing the TextSubset question
 	* @access public
@@ -501,9 +501,9 @@ class ASS_TextSubset extends ASS_Question
 	}
 	
 	/**
-	* Duplicates an ASS_TextSubsetQuestion
+	* Duplicates an assTextSubsetQuestion
 	*
-	* Duplicates an ASS_TextSubsetQuestion
+	* Duplicates an assTextSubsetQuestion
 	*
 	* @access public
 	*/
@@ -517,7 +517,7 @@ class ASS_TextSubset extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -549,9 +549,9 @@ class ASS_TextSubset extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_TextSubset object
+	* Copies an assTextSubset object
 	*
-	* Copies an ASS_TextSubset object
+	* Copies an assTextSubset object
 	*
 	* @access public
 	*/
@@ -565,7 +565,7 @@ class ASS_TextSubset extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -584,9 +584,9 @@ class ASS_TextSubset extends ASS_Question
 	/**
 	* Gets the TextSubset question text
 	*
-	* Gets the question string of the ASS_TextSubset object
+	* Gets the question string of the assTextSubset object
 	*
-	* @return string The question string of the ASS_TextSubset object
+	* @return string The question string of the assTextSubset object
 	* @access public
 	* @see $question
 	*/

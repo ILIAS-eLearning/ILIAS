@@ -26,7 +26,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for numeric questions
 *
-* ASS_Numeric is a class for numeric questions. To solve a numeric
+* assNumeric is a class for numeric questions. To solve a numeric
 * question, a learner has to enter a numerical value in a defined range
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,7 +35,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assNumeric.php
 * @modulegroup   Assessment
 */
-class ASS_Numeric extends ASS_Question
+class assNumeric extends assQuestion
 {
 	/**
 	* Question string
@@ -65,9 +65,9 @@ class ASS_Numeric extends ASS_Question
 	var $maxchars;
 
 	/**
-	* ASS_Numeric constructor
+	* assNumeric constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_Numeric object.
+	* The constructor takes possible arguments an creates an instance of the assNumeric object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -75,9 +75,9 @@ class ASS_Numeric extends ASS_Question
 	* @param integer $owner A numerical ID to identify the owner/creator
 	* @param string $question The question string of the numeric question
 	* @access public
-	* @see ASS_Question:ASS_Question()
+	* @see assQuestion:assQuestion()
 	*/
-	function ASS_Numeric(
+	function assNumeric(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -85,7 +85,7 @@ class ASS_Numeric extends ASS_Question
 		$question = ""
 	  )
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->ranges = array();
 		$this->maxchars = 6;
@@ -266,9 +266,9 @@ class ASS_Numeric extends ASS_Question
 	}
 
 	/**
-	* Saves a ASS_Numeric object to a database
+	* Saves a assNumeric object to a database
 	*
-	* Saves a ASS_Numeric object to a database (experimental)
+	* Saves a assNumeric object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -385,9 +385,9 @@ class ASS_Numeric extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_Numeric object from a database
+	* Loads a assNumeric object from a database
 	*
-	* Loads a ASS_Numeric object from a database (experimental)
+	* Loads a assNumeric object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -431,7 +431,7 @@ class ASS_Numeric extends ASS_Question
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					array_push($this->ranges, new ASS_NumericRange($data["lowerlimit"], $data["upperlimit"], $data["points"], $data["aorder"]));
+					array_push($this->ranges, new assNumericRange($data["lowerlimit"], $data["upperlimit"], $data["points"], $data["aorder"]));
 				}
 			}
 		}
@@ -442,7 +442,7 @@ class ASS_Numeric extends ASS_Question
 	/**
 	* Sets the numeric question
 	*
-	* Sets the question string of the ASS_Numeric object
+	* Sets the question string of the assNumeric object
 	*
 	* @param string $question A string containing the numeric question
 	* @access public
@@ -456,7 +456,7 @@ class ASS_Numeric extends ASS_Question
 	/**
 	* Adds a range to the numeric question
 	*
-	* Adds a range to the numeric question. An ASS_NumericRange object will be
+	* Adds a range to the numeric question. An assNumericRange object will be
 	* created and assigned to the array $this->ranges
 	*
 	* @param double $lowerlimit The lower limit of the range
@@ -465,7 +465,7 @@ class ASS_Numeric extends ASS_Question
 	* @param integer $order The display order of the range
 	* @access public
 	* @see $ranges
-	* @see ASS_NumericalRange
+	* @see assNumericalRange
 	*/
 	function addRange(
 		$lowerlimit = 0.0,
@@ -486,7 +486,7 @@ class ASS_Numeric extends ASS_Question
 		if ($found >= 0)
 		{
 			// insert range
-			$range = new ASS_NumericRange($lowerlimit, $upperlimit, $points, $found);
+			$range = new assNumericRange($lowerlimit, $upperlimit, $points, $found);
 			array_push($this->ranges, $range);
 			for ($i = $found + 1; $i < count($this->ranges); $i++)
 			{
@@ -497,15 +497,15 @@ class ASS_Numeric extends ASS_Question
 		else
 		{
 			// append range
-			$range = new ASS_NumericRange($lowerlimit, $upperlimit, $points, count($this->ranges));
+			$range = new assNumericRange($lowerlimit, $upperlimit, $points, count($this->ranges));
 			array_push($this->ranges, $range);
 		}
 	}
 
 	/**
-	* Duplicates an ASS_NumericQuestion
+	* Duplicates an assNumericQuestion
 	*
-	* Duplicates an ASS_NumericQuestion
+	* Duplicates an assNumericQuestion
 	*
 	* @access public
 	*/
@@ -519,7 +519,7 @@ class ASS_Numeric extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -551,9 +551,9 @@ class ASS_Numeric extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_Numeric object
+	* Copies an assNumeric object
 	*
-	* Copies an ASS_Numeric object
+	* Copies an assNumeric object
 	*
 	* @access public
 	*/
@@ -567,7 +567,7 @@ class ASS_Numeric extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -586,9 +586,9 @@ class ASS_Numeric extends ASS_Question
 	/**
 	* Gets the numeric question text
 	*
-	* Gets the question string of the ASS_Numeric object
+	* Gets the question string of the assNumeric object
 	*
-	* @return string The question string of the ASS_Numeric object
+	* @return string The question string of the assNumeric object
 	* @access public
 	* @see $question
 	*/
@@ -618,7 +618,7 @@ class ASS_Numeric extends ASS_Question
 	* range is 0, the index of the second range is 1 and so on.
 	*
 	* @param integer $index A nonnegative index of the n-th range
-	* @return object ASS_NumericelRange-Object containing the range
+	* @return object assNumericelRange-Object containing the range
 	* @access public
 	* @see $ranges
 	*/

@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Ordering question GUI representation
 *
-* The ASS_OrderingQuestionGUI class encapsulates the GUI representation
+* The assOrderingQuestionGUI class encapsulates the GUI representation
 * for ordering questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,24 +35,24 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assOrderingQuestionGUI.php
 * @modulegroup   Assessment
 */
-class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
+class assOrderingQuestionGUI extends assQuestionGUI
 {
 
 	/**
-	* ASS_OrderingQuestionGUI constructor
+	* assOrderingQuestionGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_OrderingQuestionGUI object.
+	* The constructor takes possible arguments an creates an instance of the assOrderingQuestionGUI object.
 	*
 	* @param integer $id The database id of a ordering question object
 	* @access public
 	*/
-	function ASS_OrderingQuestionGUI(
+	function assOrderingQuestionGUI(
 			$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assOrderingQuestion.php";
-		$this->object = new ASS_OrderingQuestion();
+		$this->object = new assOrderingQuestion();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -69,7 +69,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_ordering";
+		return "assOrderingQuestion";
 	}
 
 	function getCommand($cmd)
@@ -255,7 +255,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
 			include_once "./assessment/classes/class.assQuestion.php";
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -269,8 +269,8 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_ordering");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_ordering"));
+		$this->ctrl->setParameter($this, "sel_question_types", "assOrderingQuestion");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
 		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();

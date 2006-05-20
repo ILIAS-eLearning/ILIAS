@@ -268,7 +268,6 @@ class ilObjectGUI
 			
 			return false;
 		}
-
 		// set locator
 		$this->setLocator();
 

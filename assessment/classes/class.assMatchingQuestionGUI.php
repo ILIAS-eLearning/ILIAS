@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Matching question GUI representation
 *
-* The ASS_MatchingQuestionGUI class encapsulates the GUI representation
+* The assMatchingQuestionGUI class encapsulates the GUI representation
 * for matching questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,23 +35,23 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assMatchingQuestionGUI.php
 * @modulegroup   Assessment
 */
-class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
+class assMatchingQuestionGUI extends assQuestionGUI
 {
 	/**
-	* ASS_MatchingQuestionGUI constructor
+	* assMatchingQuestionGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_MatchingQuestionGUI object.
+	* The constructor takes possible arguments an creates an instance of the assMatchingQuestionGUI object.
 	*
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function ASS_MatchingQuestionGUI(
+	function assMatchingQuestionGUI(
 		$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assMatchingQuestion.php";
-		$this->object = new ASS_MatchingQuestion();
+		$this->object = new assMatchingQuestion();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -68,7 +68,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_matching";
+		return "assMatchingQuestion";
 	}
 
 	function getCommand($cmd)
@@ -294,7 +294,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
 			include_once "./assessment/classes/class.assQuestion.php";
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -308,8 +308,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_matching");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_matching"));
+		$this->ctrl->setParameter($this, "sel_question_types", "assMatchingQuestion");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
 		$this->tpl->setVariable("ACTION_MATCHING_QUESTION",	$this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();
