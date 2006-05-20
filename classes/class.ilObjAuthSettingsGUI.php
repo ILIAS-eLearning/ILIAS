@@ -92,7 +92,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_AUTH_MODE", $this->lng->txt("auth_mode"));
 		$this->tpl->setVariable("TXT_AUTH_DEFAULT", $this->lng->txt("default"));
-		$this->tpl->setVariable("TXT_AUTH_ACTIVE", $this->lng->txt("active")."?");
+		$this->tpl->setVariable("TXT_AUTH_ACTIVE", $this->lng->txt("active"));
 		$this->tpl->setVariable("TXT_AUTH_DESC", $this->lng->txt("description"));
 
 		$this->tpl->setVariable("TXT_LOCAL", $this->lng->txt("auth_local"));
@@ -260,7 +260,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("authSettings","editRADIUS","editLDAP","editSHIB",""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"), array("authSettings","editRADIUS","editLDAP","editSHIB","editCAS","editSOAP",""), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -765,6 +765,218 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	}
 
 	/**
+	* Configure cas settings
+	* 
+	* @access	public
+	*/
+	function editCASObject()
+	{
+		global $rbacsystem, $rbacreview, $ilSetting;
+		
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initSubTabs("editCAS");
+		
+		// get template
+		$this->getTemplateFile("cas");
+		
+		// get all settings
+		$settings = $ilSetting->getAll();
+		
+		// get values in error case
+		if ($_SESSION["error_post_vars"])
+		{
+			if ($_SESSION["error_post_vars"]["cas"]["active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_CAS_ACTIVE", "checked=\"checked\"");
+			}
+			
+			$this->tpl->setVariable("CAS_SERVER", $_SESSION["error_post_vars"]["cas"]["server"]);
+			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["port"]);
+			$current_default_role = $_SESSION["error_post_vars"]["cas"]["user_default_role"];
+		}
+		else
+		{
+			if ($settings["cas_active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_CAS_ACTIVE", "checked=\"checked\"");
+			}
+			
+			$this->tpl->setVariable("CAS_SERVER", $settings["cas_server"]);
+			$this->tpl->setVariable("CAS_PORT", $settings["cas_port"]);			
+			$current_default_role = $settings["cas_user_default_role"];
+		}
+		
+		// compose role list
+		$role_list = $rbacreview->getRolesByFilter(2,$this->object->getId());
+		if (!$current_default_role)
+		{
+			$current_default_role = 4;
+		}
+		$roles = array();
+		foreach ($role_list as $role)
+		{
+			$roles[$role['obj_id']] = $role['title'];
+		}
+		$selectElement = ilUtil::formSelect($current_default_role,
+			"cas[user_default_role]", $roles, false, true);
+		
+		$this->tpl->setVariable("CAS_USER_DEFAULT_ROLE", $selectElement);		
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("COLSPAN", 3);
+		$this->tpl->setVariable("TXT_CAS_TITLE", $this->lng->txt("auth_cas_auth"));
+		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+		$this->tpl->setVariable("TXT_CAS_ACTIVE", $this->lng->txt("active"));
+		$this->tpl->setVariable("TXT_CAS_SERVER", $this->lng->txt("server"));
+		$this->tpl->setVariable("TXT_CAS_SERVER_DESC", $this->lng->txt("auth_cas_server_desc"));
+		$this->tpl->setVariable("TXT_CAS_PORT", $this->lng->txt("port"));
+		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_cas_user_default_role"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "saveCAS");
+	}
+	
+	/**
+	* validates all input data, save them to database if correct and active chosen auth mode
+	* 
+	* @access	public
+	*/
+	function saveCASObject()
+	{
+         global $ilUser, $ilSetting;
+
+        // validate required data 
+		if (!$_POST["cas"]["server"] or !$_POST["cas"]["port"])
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// validate port
+		if ((preg_match("/^[0-9]{0,5}$/",$_POST["cas"]["port"])) == false)
+		{
+			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$ilSetting->set("cas_server", $_POST["cas"]["server"]);
+		$ilSetting->set("cas_port", $_POST["cas"]["port"]);
+		$ilSetting->set("cas_active", $_POST["cas"]["active"]);
+		$ilSetting->set("cas_user_default_role", $_POST["cas"]["user_default_role"]);
+		sendInfo($this->lng->txt("auth_cas_settings_saved"),true);
+		
+		$this->ctrl->redirect($this,'editCAS');
+	}
+
+	/**
+	* Configure soap settings
+	* 
+	* @access	public
+	*/
+	function editSOAPObject()
+	{
+		global $rbacsystem, $rbacreview, $ilSetting;
+		
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initSubTabs("editSOAP");
+		
+		// get template
+		$this->getTemplateFile("soap");
+		
+		// get all settings
+		$settings = $ilSetting->getAll();
+		
+		// get values in error case
+		if ($_SESSION["error_post_vars"])
+		{
+			if ($_SESSION["error_post_vars"]["soap"]["active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
+			}
+			
+			$this->tpl->setVariable("SOAP_SERVER", $_SESSION["error_post_vars"]["soap"]["server"]);
+			$this->tpl->setVariable("SOAP_PORT", $_SESSION["error_post_vars"]["soap"]["port"]);
+			$current_default_role = $_SESSION["error_post_vars"]["soap"]["user_default_role"];
+		}
+		else
+		{
+			if ($settings["soap_auth_active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
+			}
+			
+			$this->tpl->setVariable("SOAP_SERVER", $settings["soap_auth_server"]);
+			$this->tpl->setVariable("SOAP_PORT", $settings["soap_auth_port"]);			
+			$current_default_role = $settings["soap_auth_user_default_role"];
+		}
+		
+		// compose role list
+		$role_list = $rbacreview->getRolesByFilter(2,$this->object->getId());
+		if (!$current_default_role)
+		{
+			$current_default_role = 4;
+		}
+		$roles = array();
+		foreach ($role_list as $role)
+		{
+			$roles[$role['obj_id']] = $role['title'];
+		}
+		$selectElement = ilUtil::formSelect($current_default_role,
+			"soap[user_default_role]", $roles, false, true);
+		
+		$this->tpl->setVariable("SOAP_USER_DEFAULT_ROLE", $selectElement);		
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("COLSPAN", 3);
+		$this->tpl->setVariable("TXT_SOAP_TITLE", $this->lng->txt("auth_soap_auth"));
+		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+		$this->tpl->setVariable("TXT_SOAP_ACTIVE", $this->lng->txt("active"));
+		$this->tpl->setVariable("TXT_SOAP_SERVER", $this->lng->txt("server"));
+		$this->tpl->setVariable("TXT_SOAP_SERVER_DESC", $this->lng->txt("auth_soap_server_desc"));
+		$this->tpl->setVariable("TXT_SOAP_PORT", $this->lng->txt("port"));
+		$this->tpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE", $this->lng->txt("auth_soap_user_default_role"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "saveSOAP");
+	}
+	
+	/**
+	* validates all input data, save them to database if correct and active chosen auth mode
+	* 
+	* @access	public
+	*/
+	function saveSOAPObject()
+	{
+         global $ilUser, $ilSetting;
+
+        // validate required data 
+		if (!$_POST["soap"]["server"] or !$_POST["soap"]["port"])
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// validate port
+		if ((preg_match("/^[0-9]{0,5}$/",$_POST["soap"]["port"])) == false)
+		{
+			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$ilSetting->set("soap_auth_server", $_POST["soap"]["server"]);
+		$ilSetting->set("soap_auth_port", $_POST["soap"]["port"]);
+		$ilSetting->set("soap_auth_active", $_POST["soap"]["active"]);
+		$ilSetting->set("soap_auth_user_default_role", $_POST["soap"]["user_default_role"]);
+		sendInfo($this->lng->txt("auth_soap_settings_saved"),true);
+		
+		$this->ctrl->redirect($this,'editSOAP');
+	}
+
+	/**
 	* Configure Custom settings
 	* 
 	* @access	public
@@ -1040,6 +1252,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$shib = ($a_cmd == 'editSHIB') ? true : false;
 		$ldap = ($a_cmd == 'editLDAP') ? true : false;
 		$radius = ($a_cmd == 'editRADIUS') ? true : false;
+		$cas = ($a_cmd == 'editCAS') ? true : false;
+		$soap = ($a_cmd == 'editSOAP') ? true : false;
 		$overview = ($a_cmd == 'authSettings' or $a_cmd == '') ? true : false;
 
 		include_once('classes/class.ilTabsGUI.php');
@@ -1053,8 +1267,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 								   "", "", "", $ldap);
 		$this->tabs_gui->addSubTabTarget("auth_shib", $this->ctrl->getLinkTarget($this, "editSHIB"),
 								   "", "", "", $shib);
+		$this->tabs_gui->addSubTabTarget("auth_cas", $this->ctrl->getLinkTarget($this, "editCAS"),
+								   "", "", "", $cas);
 		$this->tabs_gui->addSubTabTarget("auth_radius", $this->ctrl->getLinkTarget($this, "editRADIUS"),
 								   "", "", "", $radius);
+		$this->tabs_gui->addSubTabTarget("auth_soap", $this->ctrl->getLinkTarget($this, "editSOAP"),
+								   "", "", "", $soap);
 	}
 } // END class.ilObjAuthSettingsGUI
 ?>

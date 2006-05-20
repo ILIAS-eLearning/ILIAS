@@ -1,27 +1,13 @@
 <form action="{FORMACTION}" name="SHIBOptions" method="post">
 	<table class="fullwidth">
-		<tr class="tbltitle">
-			<td colspan="{COLSPAN}">
-				<table class="fullwidth_invisible">
-					<tr class="tbltitle">
-						<td class="tbltitle" align="left">
-							&nbsp;{TXT_SHIB}
-						</td>
-						<td align="right">
-							&nbsp;
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr class="option">
-			<td class="std" colspan="3">
-				{TXT_SHIB_INSTRUCTIONS}
-			</td>
-		</tr>
 		<tr class="tblheader">
 			<td class="std" colspan="3">
-				{TXT_OPTIONS}
+				{TXT_SHIB}
+			</td>
+		</tr>
+		<tr>
+			<td class="option" colspan="3">
+				{TXT_SHIB_INSTRUCTIONS}
 			</td>
 		</tr>
 		<tr>
@@ -73,15 +59,15 @@
 			</td>
 		</tr>
 				</tr>
-				<tr>
-			<td colspan="3"><hr></td>
+		<tr>
+			<td class="option" colspan="3">&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="option">
 				{TXT_SHIB_TITLE}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[title]" value="{SHIB_TITLE}" /> <input type="checkbox" name="shib[update_title]" value="1" {CHK_SHIB_UPDATE_TITLE} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[title]" value="{SHIB_TITLE}" /><br /><input type="checkbox" name="shib[update_title]" value="1" {CHK_SHIB_UPDATE_TITLE} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -89,7 +75,7 @@
 				{TXT_SHIB_FIRSTNAME} <span class="asterisk">*</span>
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[firstname]" value="{SHIB_FIRSTNAME}" /> <input type="checkbox" name="shib[update_firstname]" value="1" {CHK_SHIB_UPDATE_FIRSTNAME} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[firstname]" value="{SHIB_FIRSTNAME}" /><br /><input type="checkbox" name="shib[update_firstname]" value="1" {CHK_SHIB_UPDATE_FIRSTNAME} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -97,7 +83,7 @@
 				{TXT_SHIB_LASTNAME} <span class="asterisk">*</span>
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[lastname]" value="{SHIB_LASTNAME}" /> <input type="checkbox" name="shib[update_lastname]" value="1" {CHK_SHIB_UPDATE_LASTNAME} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[lastname]" value="{SHIB_LASTNAME}" /><br /><input type="checkbox" name="shib[update_lastname]" value="1" {CHK_SHIB_UPDATE_LASTNAME} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -105,7 +91,7 @@
 				{TXT_SHIB_EMAIL} <span class="asterisk">*</span>
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[email]" value="{SHIB_EMAIL}" /> <input type="checkbox" name="shib[update_email]" value="1" {CHK_SHIB_UPDATE_EMAIL} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[email]" value="{SHIB_EMAIL}" /><br /><input type="checkbox" name="shib[update_email]" value="1" {CHK_SHIB_UPDATE_EMAIL} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		
@@ -114,7 +100,7 @@
 				{TXT_SHIB_GENDER}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[gender]" value="{SHIB_GENDER}" /> <input type="checkbox" name="shib[update_gender]" value="1" {CHK_SHIB_UPDATE_GENDER} {CHK_SHIB_UPDATE_} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[gender]" value="{SHIB_GENDER}" /><br /><input type="checkbox" name="shib[update_gender]" value="1" {CHK_SHIB_UPDATE_GENDER} {CHK_SHIB_UPDATE_} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		
@@ -123,7 +109,7 @@
 				{TXT_SHIB_INSTITUTION}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[institution]" value="{SHIB_INSTITUTION}" /> <input type="checkbox" name="shib[update_institution]" value="1" {CHK_SHIB_UPDATE_INSTITUTION} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[institution]" value="{SHIB_INSTITUTION}" /><br /><input type="checkbox" name="shib[update_institution]" value="1" {CHK_SHIB_UPDATE_INSTITUTION} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		
@@ -132,7 +118,7 @@
 				{TXT_SHIB_DEPARTMENT}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[department]" value="{SHIB_DEPARTMENT}" /> <input type="checkbox" name="shib[update_department]" value="1" {CHK_SHIB_UPDATE_DEPARTMENT} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[department]" value="{SHIB_DEPARTMENT}" /><br /><input type="checkbox" name="shib[update_department]" value="1" {CHK_SHIB_UPDATE_DEPARTMENT} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		
@@ -141,7 +127,7 @@
 				{TXT_SHIB_ZIPCODE}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[zipcode]" value="{SHIB_ZIPCODE}" /> <input type="checkbox" name="shib[update_zipcode]" value="1" {CHK_SHIB_UPDATE_ZIPCODE} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[zipcode]" value="{SHIB_ZIPCODE}" /><br /><input type="checkbox" name="shib[update_zipcode]" value="1" {CHK_SHIB_UPDATE_ZIPCODE} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -149,7 +135,7 @@
 				{TXT_SHIB_CITY}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[city]" value="{SHIB_CITY}" /> <input type="checkbox" name="shib[update_city]" value="1" {CHK_SHIB_UPDATE_CITY} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[city]" value="{SHIB_CITY}" /><br /><input type="checkbox" name="shib[update_city]" value="1" {CHK_SHIB_UPDATE_CITY} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -157,7 +143,7 @@
 				{TXT_SHIB_COUNTRY}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[country]" value="{SHIB_COUNTRY}" /> <input type="checkbox" name="shib[update_country]" value="1" {CHK_SHIB_UPDATE_COUNTRY} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[country]" value="{SHIB_COUNTRY}" /><br /><input type="checkbox" name="shib[update_country]" value="1" {CHK_SHIB_UPDATE_COUNTRY} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -165,7 +151,7 @@
 				{TXT_SHIB_STREET}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[street]" value="{SHIB_STREET}" /> <input type="checkbox" name="shib[update_street]" value="1" {CHK_SHIB_UPDATE_STREET} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[street]" value="{SHIB_STREET}" /><br /><input type="checkbox" name="shib[update_street]" value="1" {CHK_SHIB_UPDATE_STREET} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -173,7 +159,7 @@
 				{TXT_SHIB_PHONE_OFFICE}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[phone_office]" value="{SHIB_PHONE_OFFICE}" /> <input type="checkbox" name="shib[update_phone_office]" value="1" {CHK_SHIB_UPDATE_PHONE_OFFICE} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[phone_office]" value="{SHIB_PHONE_OFFICE}" /><br /><input type="checkbox" name="shib[update_phone_office]" value="1" {CHK_SHIB_UPDATE_PHONE_OFFICE} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -181,7 +167,7 @@
 				{TXT_SHIB_PHONE_HOME}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[phone_home]" value="{SHIB_PHONE_HOME}" /> <input type="checkbox" name="shib[update_phone_home]" value="1" {CHK_SHIB_UPDATE_PHONE_HOME} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[phone_home]" value="{SHIB_PHONE_HOME}" /><br /><input type="checkbox" name="shib[update_phone_home]" value="1" {CHK_SHIB_UPDATE_PHONE_HOME} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -189,7 +175,7 @@
 				{TXT_SHIB_PHONE_MOBILE}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[phone_mobile]" value="{SHIB_PHONE_MOBILE}" /> <input type="checkbox" name="shib[update_phone_mobile]" value="1" {CHK_SHIB_UPDATE_PHONE_MOBILE} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[phone_mobile]" value="{SHIB_PHONE_MOBILE}" /><br /><input type="checkbox" name="shib[update_phone_mobile]" value="1" {CHK_SHIB_UPDATE_PHONE_MOBILE} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 		<tr>
@@ -197,7 +183,7 @@
 				{TXT_SHIB_LANGUAGE}
 			</td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="50" name="shib[language]" value="{SHIB_LANGUAGE}" /> <input type="checkbox" name="shib[update_language]" value="1" {CHK_SHIB_UPDATE_LANGUAGE} /> {TXT_SHIB_UPDATE}
+				<input type="text" size="40" maxlength="50" name="shib[language]" value="{SHIB_LANGUAGE}" /><br /><input type="checkbox" name="shib[update_language]" value="1" {CHK_SHIB_UPDATE_LANGUAGE} /> {TXT_SHIB_UPDATE}
 			</td>
 		</tr>
 
