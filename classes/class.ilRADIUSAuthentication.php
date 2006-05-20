@@ -61,7 +61,7 @@ class ilRADIUSAuthentication extends ilBaseAuthentication
 		return true;
 	}
 	
-	function _getServers(&$a_db_handler = '')
+	function _getServers($a_db_handler = '')
 	{
 		global $ilDB;
 		
