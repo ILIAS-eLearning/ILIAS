@@ -649,7 +649,7 @@ class ilTestEvaluationGUI
 				if (preg_match("/(\d+)_(\d+)_(\d+)/", $key, $matches))
 				{
 					include_once "./assessment/classes/class.assTextQuestion.php";
-					ASS_TextQuestion::_setReachedPoints($matches[1], $this->object->getTestId(), $matches[2], $value, $matches[3]);
+					assTextQuestion::_setReachedPoints($matches[1], $this->object->getTestId(), $matches[2], $value, $matches[3]);
 				}
 			}
 			sendInfo($this->lng->txt("text_answers_saved"));
@@ -1030,7 +1030,7 @@ class ilTestEvaluationGUI
 				}
 
 				$htmloutput = "";
-				if ($stat_eval[$i-1]["type"] == "qt_text")
+				if ($stat_eval[$i-1]["type"] == "assTextQuestion")
 				{
 					// Text question
 					$name = $key."_".$stat_eval[$i-1]["qid"]."_".$stat_eval[$i-1]["max"];
@@ -1310,7 +1310,7 @@ class ilTestEvaluationGUI
 		}
 		
 		$this->tpl->setCurrentBlock("questions_output");
-		$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("ass_questions"));
+		$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("assQuestions"));
 		$this->tpl->setVariable("FORM_ACTION_RESULTS", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 

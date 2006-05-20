@@ -110,8 +110,7 @@ class ilCtrl
 			$m_set = $ilDB->query($q);
 			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->module_dir = $m_rec["dir"];
-			
-			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";;
+			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";
 		}
 		else		// check whether class belongs to a service
 		{

@@ -26,14 +26,14 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for text questions
 *
-* ASS_TextQuestion is a class for text questions
+* assTextQuestion is a class for text questions
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assTextQuestion.php
 * @modulegroup   Assessment
 */
-class ASS_TextQuestion extends ASS_Question
+class assTextQuestion extends assQuestion
 {
 	/**
 	* Question string
@@ -73,9 +73,9 @@ class ASS_TextQuestion extends ASS_Question
 	var $text_rating;
 
 	/**
-	* ASS_TextQuestion constructor
+	* assTextQuestion constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_TextQuestion object.
+	* The constructor takes possible arguments an creates an instance of the assTextQuestion object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -83,9 +83,9 @@ class ASS_TextQuestion extends ASS_Question
 	* @param integer $owner A numerical ID to identify the owner/creator
 	* @param string $question The question string of the text question
 	* @access public
-	* @see ASS_Question:ASS_Question()
+	* @see assQuestion:assQuestion()
 	*/
-	function ASS_TextQuestion(
+	function assTextQuestion(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -93,7 +93,7 @@ class ASS_TextQuestion extends ASS_Question
 		$question = ""
 	  )
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->maxNumOfChars = 0;
 		$this->points = 0;
@@ -264,9 +264,9 @@ class ASS_TextQuestion extends ASS_Question
 	}
 
 	/**
-	* Saves a ASS_TextQuestion object to a database
+	* Saves a assTextQuestion object to a database
 	*
-	* Saves a ASS_TextQuestion object to a database
+	* Saves a assTextQuestion object to a database
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -364,9 +364,9 @@ class ASS_TextQuestion extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_TextQuestion object from a database
+	* Loads a assTextQuestion object from a database
 	*
-	* Loads a ASS_TextQuestion object from a database
+	* Loads a assTextQuestion object from a database
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the text question in the database
@@ -406,9 +406,9 @@ class ASS_TextQuestion extends ASS_Question
 	}
 
 	/**
-	* Duplicates an ASS_TextQuestion
+	* Duplicates an assTextQuestion
 	*
-	* Duplicates an ASS_TextQuestion
+	* Duplicates an assTextQuestion
 	*
 	* @access public
 	*/
@@ -422,7 +422,7 @@ class ASS_TextQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -454,9 +454,9 @@ class ASS_TextQuestion extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_TextQuestion object
+	* Copies an assTextQuestion object
 	*
-	* Copies an ASS_TextQuestion object
+	* Copies an assTextQuestion object
 	*
 	* @access public
 	*/
@@ -470,7 +470,7 @@ class ASS_TextQuestion extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -489,9 +489,9 @@ class ASS_TextQuestion extends ASS_Question
 	/**
 	* Gets the text question
 	*
-	* Gets the question string of the ASS_TextQuestion object
+	* Gets the question string of the assTextQuestion object
 	*
-	* @return string The question string of the ASS_TextQuestion object
+	* @return string The question string of the assTextQuestion object
 	* @access public
 	* @see $question
 	*/
@@ -503,7 +503,7 @@ class ASS_TextQuestion extends ASS_Question
 	/**
 	* Sets the text question
 	*
-	* Sets the question string of the ASS_TextQuestion object
+	* Sets the question string of the assTextQuestion object
 	*
 	* @param string $question A string containing the text question
 	* @access public
@@ -618,7 +618,7 @@ class ASS_TextQuestion extends ASS_Question
 			if (is_null($pass))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $test_id);
+				$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $test_id);
 			}
 			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$ilDB->quote($points . ""),

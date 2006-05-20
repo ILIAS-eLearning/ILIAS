@@ -34,7 +34,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assClozeTest.php
 * @modulegroup   Assessment
 */
-class ASS_ClozeTest extends ASS_Question
+class assClozeTest extends assQuestion
 {
 	/**
 	* The cloze text containing variables defininig the clozes
@@ -86,9 +86,9 @@ class ASS_ClozeTest extends ASS_Question
 	var $textgap_rating;
 	
 	/**
-	* ASS_ClozeTest constructor
+	* assClozeTest constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_ClozeTest object.
+	* The constructor takes possible arguments an creates an instance of the assClozeTest object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -97,7 +97,7 @@ class ASS_ClozeTest extends ASS_Question
 	* @param string $cloze_text The question string of the cloze test
 	* @access public
 	*/
-	function ASS_ClozeTest(
+	function assClozeTest(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -107,7 +107,7 @@ class ASS_ClozeTest extends ASS_Question
 	{
 		$this->start_tag = "<gap>";
 		$this->end_tag = "</gap>";
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->gaps = array();
 		$this->setClozeText($cloze_text);
 	}
@@ -246,9 +246,9 @@ class ASS_ClozeTest extends ASS_Question
 	}
 	
 	/**
-	* Saves a ASS_ClozeTest object to a database
+	* Saves a assClozeTest object to a database
 	*
-	* Saves a ASS_ClozeTest object to a database (experimental)
+	* Saves a assClozeTest object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -370,9 +370,9 @@ class ASS_ClozeTest extends ASS_Question
 	}
 
 /**
-* Loads a ASS_ClozeTest object from a database
+* Loads a assClozeTest object from a database
 *
-* Loads a ASS_ClozeTest object from a database
+* Loads a assClozeTest object from a database
 *
 * @param object $db A pear DB object
 * @param integer $question_id A unique key which defines the cloze test in the database
@@ -451,9 +451,9 @@ class ASS_ClozeTest extends ASS_Question
 	}
 	
 /**
-* Duplicates an ASS_ClozeTest
+* Duplicates an assClozeTest
 *
-* Duplicates an ASS_ClozeTest
+* Duplicates an assClozeTest
 *
 * @access public
 */
@@ -467,7 +467,7 @@ class ASS_ClozeTest extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -497,9 +497,9 @@ class ASS_ClozeTest extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_ClozeTest object
+	* Copies an assClozeTest object
 	*
-	* Copies an ASS_ClozeTest object
+	* Copies an assClozeTest object
 	*
 	* @access public
 	*/
@@ -513,7 +513,7 @@ class ASS_ClozeTest extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);

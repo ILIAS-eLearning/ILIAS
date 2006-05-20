@@ -26,16 +26,16 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for numeric ranges of questions
 * 
-* ASS_NumericRange is a class for numeric ranges of questions
+* assNumericRange is a class for numeric ranges of questions
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assNumericRange.php
 * @modulegroup   Assessment
-* @see ASS_Numeric
+* @see assNumeric
 */
 
-class ASS_NumericRange 
+class assNumericRange 
 {
  /**
 	* The lower limit of the range
@@ -75,9 +75,9 @@ class ASS_NumericRange
 
 	
 /**
-* ASS_NumericRange constructor
+* assNumericRange constructor
 *
-* The constructor takes possible arguments an creates an instance of the ASS_NumericRange object.
+* The constructor takes possible arguments an creates an instance of the assNumericRange object.
 *
 * @param double $lowerlimit The lower limit of the range
 * @param double $upperlimit The upper limit of the range
@@ -85,7 +85,7 @@ class ASS_NumericRange
 * @param integer $order A nonnegative value representing a possible display or sort order
 * @access public
 */
-  function ASS_NumericRange (
+  function assNumericRange (
     $lowerlimit = 0.0,
     $upperlimit = 0.0,
     $points = 0.0,

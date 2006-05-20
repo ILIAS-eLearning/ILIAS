@@ -10757,3 +10757,26 @@ $ilCtrlStructureReader->getStructure();
 <#717>
 ALTER TABLE content_object ADD column header_page int NOT NULL DEFAULT 0;
 ALTER TABLE content_object ADD column footer_page int NOT NULL DEFAULT 0;
+<#718>
+DROP TABLE `qpl_question_type`;
+CREATE TABLE `qpl_question_type` (
+  `question_type_id` int(3) unsigned NOT NULL auto_increment,
+  `type_tag` char(35) NOT NULL default '',
+  PRIMARY KEY  (`question_type_id`)
+);
+
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES (1, 'assSingleChoice'),
+(2, 'assMultipleChoice'),
+(3, 'assClozeTest'),
+(4, 'assMatchingQuestion'),
+(5, 'assOrderingQuestion'),
+(6, 'assImagemapQuestion'),
+(7, 'assJavaApplet'),
+(8, 'assTextQuestion'),
+(9, 'assNumeric'),
+(10, 'assTextSubset');
+<#719>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

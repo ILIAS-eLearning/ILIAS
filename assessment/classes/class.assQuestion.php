@@ -26,7 +26,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Basic class for all assessment question types
 *
-* The ASS_Question class defines and encapsulates basic methods and attributes
+* The assQuestion class defines and encapsulates basic methods and attributes
 * for assessment question types to be used for all parent classes.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -34,7 +34,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assQuestion.php
 * @modulegroup   Assessment
 */
-class ASS_Question
+class assQuestion
 {
 	/**
 	* Question id
@@ -177,9 +177,9 @@ class ASS_Question
 
 	var $suggested_solutions;
 	/**
-	* ASS_Question constructor
+	* assQuestion constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_Question object.
+	* The constructor takes possible arguments an creates an instance of the assQuestion object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -187,7 +187,7 @@ class ASS_Question
 	* @param integer $owner A numerical ID to identify the owner/creator
 	* @access public
 	*/
-	function ASS_Question(
+	function assQuestion(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -220,10 +220,10 @@ class ASS_Question
 		$this->shuffle = 1;
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
-		register_shutdown_function(array(&$this, '_ASS_Question'));
+		register_shutdown_function(array(&$this, '_assQuestion'));
 	}
 
-	function _ASS_Question()
+	function _assQuestion()
 	{
 		if (!empty($this->domxml))
 		{
@@ -242,7 +242,7 @@ class ASS_Question
 	*/
 	function to_xml()
 	{
-		// to be implemented in the successor classes of ASS_Question
+		// to be implemented in the successor classes of assQuestion
 	}
 
 	/**
@@ -287,7 +287,7 @@ class ASS_Question
 	/**
 	* Sets the title string
 	*
-	* Sets the title string of the ASS_Question object
+	* Sets the title string of the assQuestion object
 	*
 	* @param string $title A title string to describe the question
 	* @access public
@@ -301,7 +301,7 @@ class ASS_Question
 	/**
 	* Sets the id
 	*
-	* Sets the id of the ASS_Question object
+	* Sets the id of the assQuestion object
 	*
 	* @param integer $id A unique integer value
 	* @access public
@@ -315,7 +315,7 @@ class ASS_Question
 	/**
 	* Sets the test id
 	*
-	* Sets the test id of the ASS_Question object
+	* Sets the test id of the assQuestion object
 	*
 	* @param integer $id A unique integer value
 	* @access public
@@ -329,7 +329,7 @@ class ASS_Question
 	/**
 	* Sets the comment
 	*
-	* Sets the comment string of the ASS_Question object
+	* Sets the comment string of the assQuestion object
 	*
 	* @param string $comment A comment string to describe the question
 	* @access public
@@ -419,7 +419,7 @@ class ASS_Question
 	/**
 	* Sets the authors name
 	*
-	* Sets the authors name of the ASS_Question object
+	* Sets the authors name of the assQuestion object
 	*
 	* @param string $author A string containing the name of the questions author
 	* @access public
@@ -437,7 +437,7 @@ class ASS_Question
 	/**
 	* Sets the creator/owner
 	*
-	* Sets the creator/owner ID of the ASS_Question object
+	* Sets the creator/owner ID of the assQuestion object
 	*
 	* @param integer $owner A numerical ID to identify the owner/creator
 	* @access public
@@ -451,7 +451,7 @@ class ASS_Question
 	/**
 	* Gets the title string
 	*
-	* Gets the title string of the ASS_Question object
+	* Gets the title string of the assQuestion object
 	*
 	* @return string The title string to describe the question
 	* @access public
@@ -465,9 +465,9 @@ class ASS_Question
 	/**
 	* Gets the id
 	*
-	* Gets the id of the ASS_Question object
+	* Gets the id of the assQuestion object
 	*
-	* @return integer The id of the ASS_Question object
+	* @return integer The id of the assQuestion object
 	* @access public
 	* @see $id
 	*/
@@ -493,9 +493,9 @@ class ASS_Question
 	/**
 	* Gets the test id
 	*
-	* Gets the test id of the ASS_Question object
+	* Gets the test id of the assQuestion object
 	*
-	* @return integer The test id of the ASS_Question object
+	* @return integer The test id of the assQuestion object
 	* @access public
 	* @see $test_id
 	*/
@@ -507,7 +507,7 @@ class ASS_Question
 	/**
 	* Gets the comment
 	*
-	* Gets the comment string of the ASS_Question object
+	* Gets the comment string of the assQuestion object
 	*
 	* @return string The comment string to describe the question
 	* @access public
@@ -553,7 +553,7 @@ class ASS_Question
 	/**
 	* Gets the authors name
 	*
-	* Gets the authors name of the ASS_Question object
+	* Gets the authors name of the assQuestion object
 	*
 	* @return string The string containing the name of the questions author
 	* @access public
@@ -567,7 +567,7 @@ class ASS_Question
 	/**
 	* Gets the creator/owner
 	*
-	* Gets the creator/owner ID of the ASS_Question object
+	* Gets the creator/owner ID of the assQuestion object
 	*
 	* @return integer The numerical ID to identify the owner/creator
 	* @access public
@@ -777,7 +777,7 @@ class ASS_Question
 		if (is_null($pass))
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $test_id);
+			$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $test_id);
 		}
 		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($user_id . ""),
@@ -889,7 +889,7 @@ class ASS_Question
 		if (strcmp($question_id, "") != 0)
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$original_id = ASS_Question::_getOriginalId($question_id);
+			$original_id = assQuestion::_getOriginalId($question_id);
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		include_once "./assessment/classes/class.ilObjTest.php";
@@ -1287,7 +1287,7 @@ class ASS_Question
 		{
 			$reached = $row->points; 
 			include_once "./assessment/classes/class.assQuestion.php";
-			$max = ASS_Question::_getMaximumPoints($row->question_fi);
+			$max = assQuestion::_getMaximumPoints($row->question_fi);
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;
@@ -1608,7 +1608,7 @@ class ASS_Question
 			{
 				$internal_link = $row["internal_link"];
 				include_once "./assessment/classes/class.assQuestion.php";
-				$resolved_link = ASS_Question::_resolveInternalLink($internal_link);
+				$resolved_link = assQuestion::_resolveInternalLink($internal_link);
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
 					// internal link was resolved successfully
@@ -1790,41 +1790,9 @@ class ASS_Question
 		if (strcmp($question_id, "") != 0)
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$question_type = ASS_Question::_getQuestionType($question_id);
-			switch ($question_type) {
-				case "qt_cloze":
-					include_once "./assessment/classes/class.assClozeTest.php";
-					$question = new ASS_ClozeTest();
-					break;
-				case "qt_matching":
-					include_once "./assessment/classes/class.assMatchingQuestion.php";
-					$question = new ASS_MatchingQuestion();
-					break;
-				case "qt_ordering":
-					include_once "./assessment/classes/class.assOrderingQuestion.php";
-					$question = new ASS_OrderingQuestion();
-					break;
-				case "qt_imagemap":
-					include_once "./assessment/classes/class.assImagemapQuestion.php";
-					$question = new ASS_ImagemapQuestion();
-					break;
-				case "qt_multiple_choice_sr":
-					include_once "./assessment/classes/class.assSingleChoice.php";
-					$question = new ASS_SingleChoice();
-					break;
-				case "qt_multiple_choice_mr":
-					include_once "./assessment/classes/class.assMultipleChoice.php";
-					$question = new ASS_MultipleChoice();
-					break;
-				case "qt_javaapplet":
-					include_once "./assessment/classes/class.assJavaApplet.php";
-					$question = new ASS_JavaApplet();
-					break;
-				case "qt_text":
-					include_once "./assessment/classes/class.assTextQuestion.php";
-					$question = new ASS_TextQuestion();
-					break;
-			}
+			$question_type = assQuestion::_getQuestionType($question_id);
+			include_once "./assessment/classes/class.".$question_type.".php";
+			$question = new $question_type();
 			$question->loadFromDb($question_id);
 			return $question;
 		}
@@ -2047,7 +2015,7 @@ class ASS_Question
 		if (is_null($pass))
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $test_id);
+			$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $test_id);
 		}
 		$query = sprintf("SELECT solution_id FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($user_id . ""),

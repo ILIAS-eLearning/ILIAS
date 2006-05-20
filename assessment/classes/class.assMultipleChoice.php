@@ -26,14 +26,14 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for multiple choice tests
 *
-* ASS_MultipleChoice is a class for multiple choice questions
+* assMultipleChoice is a class for multiple choice questions
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assMultipleChoice.php
 * @modulegroup   Assessment
 */
-class ASS_MultipleChoice extends ASS_Question
+class assMultipleChoice extends assQuestion
 {
 	/**
 	* Question string
@@ -64,9 +64,9 @@ class ASS_MultipleChoice extends ASS_Question
 	var $output_type;
 
 	/**
-	* ASS_MultipleChoice constructor
+	* assMultipleChoice constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_MultipleChoice object.
+	* The constructor takes possible arguments an creates an instance of the assMultipleChoice object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -75,9 +75,9 @@ class ASS_MultipleChoice extends ASS_Question
 	* @param string $question The question string of the multiple choice question
 	* @param integer $output_type The output order of the multiple choice answers
 	* @access public
-	* @see ASS_Question:ASS_Question()
+	* @see assQuestion:assQuestion()
 	*/
-	function ASS_MultipleChoice(
+	function assMultipleChoice(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -86,7 +86,7 @@ class ASS_MultipleChoice extends ASS_Question
 		$output_type = OUTPUT_ORDER
 	  )
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->output_type = $output_type;
 		$this->answers = array();
@@ -379,9 +379,9 @@ class ASS_MultipleChoice extends ASS_Question
 	}
 
 	/**
-	* Saves a ASS_MultipleChoice object to a database
+	* Saves a assMultipleChoice object to a database
 	*
-	* Saves a ASS_MultipleChoice object to a database (experimental)
+	* Saves a assMultipleChoice object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -499,9 +499,9 @@ class ASS_MultipleChoice extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_MultipleChoice object from a database
+	* Loads a assMultipleChoice object from a database
 	*
-	* Loads a ASS_MultipleChoice object from a database (experimental)
+	* Loads a assMultipleChoice object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -570,9 +570,9 @@ class ASS_MultipleChoice extends ASS_Question
 	}*/
 	
 	/**
-	* Duplicates an ASS_MultipleChoiceQuestion
+	* Duplicates an assMultipleChoiceQuestion
 	*
-	* Duplicates an ASS_MultipleChoiceQuestion
+	* Duplicates an assMultipleChoiceQuestion
 	*
 	* @access public
 	*/
@@ -586,7 +586,7 @@ class ASS_MultipleChoice extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -620,9 +620,9 @@ class ASS_MultipleChoice extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_MultipleChoice object
+	* Copies an assMultipleChoice object
 	*
-	* Copies an ASS_MultipleChoice object
+	* Copies an assMultipleChoice object
 	*
 	* @access public
 	*/
@@ -636,7 +636,7 @@ class ASS_MultipleChoice extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -657,9 +657,9 @@ class ASS_MultipleChoice extends ASS_Question
 	/**
 	* Gets the multiple choice question
 	*
-	* Gets the question string of the ASS_MultipleChoice object
+	* Gets the question string of the assMultipleChoice object
 	*
-	* @return string The question string of the ASS_MultipleChoice object
+	* @return string The question string of the assMultipleChoice object
 	* @access public
 	* @see $question
 	*/
@@ -671,7 +671,7 @@ class ASS_MultipleChoice extends ASS_Question
 	/**
 	* Sets the multiple choice question
 	*
-	* Sets the question string of the ASS_MultipleChoice object
+	* Sets the question string of the assMultipleChoice object
 	*
 	* @param string $question A string containing the multiple choice question
 	* @access public
@@ -687,7 +687,7 @@ class ASS_MultipleChoice extends ASS_Question
 	*
 	* Gets the multiple choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
 	*
-	* @return integer The output type of the ASS_MultipleChoice object
+	* @return integer The output type of the assMultipleChoice object
 	* @access public
 	* @see $output_type
 	*/
@@ -699,7 +699,7 @@ class ASS_MultipleChoice extends ASS_Question
 	/**
 	* Sets the multiple choice output type
 	*
-	* Sets the output type of the ASS_MultipleChoice object
+	* Sets the output type of the assMultipleChoice object
 	*
 	* @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
 	* @access public

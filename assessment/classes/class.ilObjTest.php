@@ -3368,10 +3368,10 @@ class ilObjTest extends ilObject
 		$workedthrough = 0;
 		foreach ($this->questions as $value)
 		{
-			$max_points = ASS_Question::_getMaximumPoints($value);
+			$max_points = assQuestion::_getMaximumPoints($value);
 			$total_max_points += $max_points;
-			$reached_points = ASS_Question::_getReachedPoints($user_id, $this->getTestId(), $value, $pass);
-			if (ASS_Question::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
+			$reached_points = assQuestion::_getReachedPoints($user_id, $this->getTestId(), $value, $pass);
+			if (assQuestion::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
 			{
 				$workedthrough = 1;
 			}
@@ -3388,12 +3388,12 @@ class ilObjTest extends ilObject
 			{
 				$percentvalue = 0;
 			}
-			if (ASS_Question::_getSuggestedSolutionCount($value) == 1)
+			if (assQuestion::_getSuggestedSolutionCount($value) == 1)
 			{
-				$solution_array =& ASS_Question::_getSuggestedSolution($value, 0);
-				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+				$solution_array =& assQuestion::_getSuggestedSolution($value, 0);
+				$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			}
-			elseif (ASS_Question::_getSuggestedSolutionCount($value) > 1)
+			elseif (assQuestion::_getSuggestedSolutionCount($value) > 1)
 			{
 				$href = "see_details_for_further_information";
 			}
@@ -3401,7 +3401,7 @@ class ilObjTest extends ilObject
 			{
 				$href = "";
 			}
-			$info =& ASS_Question::_getQuestionInfo($value);
+			$info =& assQuestion::_getQuestionInfo($value);
 			include_once "./classes/class.ilUtil.php";
 			$row = array(
 				"nr" => "$key",
@@ -4348,49 +4348,9 @@ class ilObjTest extends ilObject
 		{
 			$question_type = $this->getQuestionType($question_id);
     }
-    switch ($question_type) 
-		{
-      case "qt_multiple_choice_sr":
-				include_once "./assessment/classes/class.assSingleChoiceGUI.php";
-        $question =& new ASS_SingleChoiceGUI();
-        break;
-      case "qt_multiple_choice_mr":
-				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
-        $question =& new ASS_MultipleChoiceGUI();
-        break;
-      case "qt_cloze":
-				include_once "./assessment/classes/class.assClozeTestGUI.php";
-        $question =& new ASS_ClozeTestGUI();
-        break;
-      case "qt_matching":
-				include_once "./assessment/classes/class.assMatchingQuestionGUI.php";
-        $question =& new ASS_MatchingQuestionGUI();
-        break;
-      case "qt_ordering":
-				include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
-        $question =& new ASS_OrderingQuestionGUI();
-        break;
-      case "qt_imagemap":
-				include_once "./assessment/classes/class.assImagemapQuestionGUI.php";
-        $question =& new ASS_ImagemapQuestionGUI();
-        break;
-			case "qt_javaapplet":
-				include_once "./assessment/classes/class.assJavaAppletGUI.php";
-				$question =& new ASS_JavaAppletGUI();
-				break;
-			case "qt_numeric":
-				include_once "./assessment/classes/class.assNumericGUI.php";
-				$question =& new ASS_NumericGUI();
-				break;
-			case "qt_textsubset":
-				include_once "./assessment/classes/class.assTextSubsetGUI.php";
-				$question =& new ASS_TextSubsetGUI();
-				break;
-			case "qt_text":
-				include_once "./assessment/classes/class.assTextQuestionGUI.php";
-				$question =& new ASS_TextQuestionGUI();
-				break;
-    }
+		include_once "./assessment/classes/class.".$question_type."GUI.php";
+		$question_type_gui = $question_type . "GUI";
+		$question =& new $question_type_gui();
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
@@ -4412,54 +4372,10 @@ class ilObjTest extends ilObject
 		if (strcmp($question_id, "") != 0)
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$question_type = ASS_Question::_getQuestionType($question_id);
+			$question_type = assQuestion::_getQuestionType($question_id);
 
-			switch ($question_type) {
-				case "qt_cloze":
-					include_once "./assessment/classes/class.assClozeTest.php";
-					$question = new ASS_ClozeTest();
-					break;
-				case "qt_matching":
-					include_once "./assessment/classes/class.assMatchingQuestion.php";
-					$question = new ASS_MatchingQuestion();
-					break;
-				case "qt_ordering":
-					include_once "./assessment/classes/class.assOrderingQuestion.php";
-					$question = new ASS_OrderingQuestion();
-					break;
-				case "qt_imagemap":
-					include_once "./assessment/classes/class.assImagemapQuestion.php";
-					$question = new ASS_ImagemapQuestion();
-					break;
-				case "qt_multiple_choice_sr":
-					include_once "./assessment/classes/class.assSingleChoice.php";
-					$question = new ASS_SingleChoice();
-					break;
-				case "qt_multiple_choice_mr":
-					include_once "./assessment/classes/class.assMultipleChoice.php";
-					$question = new ASS_MultipleChoice();
-					break;
-				case "qt_javaapplet":
-					include_once "./assessment/classes/class.assJavaApplet.php";
-					$question = new ASS_JavaApplet();
-					break;
-				case "qt_numeric":
-					include_once "./assessment/classes/class.assNumeric.php";
-					$question = new ASS_Numeric();
-					break;
-				case "qt_textsubset":
-					include_once "./assessment/classes/class.assTextSubset.php";
-					$question = new ASS_TextSubset();
-					break;
-				case "qt_text":
-					include_once "./assessment/classes/class.assTextQuestion.php";
-					$question = new ASS_TextQuestion();
-					break;
-
-				default:
-					// Return false if question id does not exists or type is unknown
-					return false;
-			}
+			include_once "./assessment/classes/class.".$question_type.".php";
+			$question = new $question_type();
 
 			$question->loadFromDb($question_id);
 			return $question;
@@ -5413,7 +5329,7 @@ class ilObjTest extends ilObject
 				$question = ilObjTest::_instanciateQuestion($question_id);
 				$newObj->questions[$key] = $question->duplicate();
 	//			$question->id = -1;
-				$original_id = ASS_Question::_getOriginalId($question_id);
+				$original_id = assQuestion::_getOriginalId($question_id);
 				$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
 				$question->saveToDb($original_id);
 			}
@@ -5759,7 +5675,7 @@ class ilObjTest extends ilObject
 		if (strcmp($question_id, "") != 0)
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$original_id = ASS_Question::_getOriginalId($question_id);
+			$original_id = assQuestion::_getOriginalId($question_id);
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		ilObjAssessmentFolder::_addLog($ilUser->id, $this->getId(), $logtext, $question_id, $original_id);
@@ -5833,7 +5749,7 @@ class ilObjTest extends ilObject
 			if (is_null($pass))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$pass = ASS_Question::_getSolutionMaxPass($question_id, $user_id, $this->getTestId());
+				$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $this->getTestId());
 			}
 			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
 				$this->ilias->db->quote($user_id . ""),
@@ -6418,7 +6334,7 @@ class ilObjTest extends ilObject
 		$workedthrough = 0;
 		foreach ($this->questions as $value)
 		{
-			if (ASS_Question::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
+			if (assQuestion::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
 			{
 				$workedthrough += 1;
 			}

@@ -26,14 +26,14 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for single choice questions
 *
-* ASS_SingleChoice is a class for single choice questions.
+* assSingleChoice is a class for single choice questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assSingleChoice.php
 * @modulegroup   Assessment
 */
-class ASS_SingleChoice extends ASS_Question
+class assSingleChoice extends assQuestion
 {
 	/**
 	* Question string
@@ -64,9 +64,9 @@ class ASS_SingleChoice extends ASS_Question
 	var $output_type;
 
 	/**
-	* ASS_SingleChoice constructor
+	* assSingleChoice constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_SingleChoice object.
+	* The constructor takes possible arguments an creates an instance of the assSingleChoice object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -75,9 +75,9 @@ class ASS_SingleChoice extends ASS_Question
 	* @param string $question The question string of the single choice question
 	* @param integer $output_type The output order of the single choice answers
 	* @access public
-	* @see ASS_Question:ASS_Question()
+	* @see assQuestion:assQuestion()
 	*/
-	function ASS_SingleChoice(
+	function assSingleChoice(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -86,7 +86,7 @@ class ASS_SingleChoice extends ASS_Question
 		$output_type = OUTPUT_ORDER
 	  )
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->output_type = $output_type;
 		$this->answers = array();
@@ -334,9 +334,9 @@ class ASS_SingleChoice extends ASS_Question
 	}
 
 	/**
-	* Saves a ASS_SingleChoice object to a database
+	* Saves a assSingleChoice object to a database
 	*
-	* Saves a ASS_SingleChoice object to a database (experimental)
+	* Saves a assSingleChoice object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -452,9 +452,9 @@ class ASS_SingleChoice extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_SingleChoice object from a database
+	* Loads a assSingleChoice object from a database
 	*
-	* Loads a ASS_SingleChoice object from a database
+	* Loads a assSingleChoice object from a database
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -510,9 +510,9 @@ class ASS_SingleChoice extends ASS_Question
 	}
 
 	/**
-	* Duplicates an ASS_SingleChoiceQuestion
+	* Duplicates an assSingleChoiceQuestion
 	*
-	* Duplicates an ASS_SingleChoiceQuestion
+	* Duplicates an assSingleChoiceQuestion
 	*
 	* @access public
 	*/
@@ -526,7 +526,7 @@ class ASS_SingleChoice extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -560,9 +560,9 @@ class ASS_SingleChoice extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_SingleChoice object
+	* Copies an assSingleChoice object
 	*
-	* Copies an ASS_SingleChoice object
+	* Copies an assSingleChoice object
 	*
 	* @access public
 	*/
@@ -576,7 +576,7 @@ class ASS_SingleChoice extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -597,9 +597,9 @@ class ASS_SingleChoice extends ASS_Question
 	/**
 	* Gets the single choice question
 	*
-	* Gets the question string of the ASS_SingleChoice object
+	* Gets the question string of the assSingleChoice object
 	*
-	* @return string The question string of the ASS_SingleChoice object
+	* @return string The question string of the assSingleChoice object
 	* @access public
 	* @see $question
 	*/
@@ -611,7 +611,7 @@ class ASS_SingleChoice extends ASS_Question
 	/**
 	* Sets the single choice question
 	*
-	* Sets the question string of the ASS_SingleChoice object
+	* Sets the question string of the assSingleChoice object
 	*
 	* @param string $question A string containing the multiple choice question
 	* @access public
@@ -627,7 +627,7 @@ class ASS_SingleChoice extends ASS_Question
 	*
 	* Gets the single choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
 	*
-	* @return integer The output type of the ASS_SingleChoice object
+	* @return integer The output type of the assSingleChoice object
 	* @access public
 	* @see $output_type
 	*/
@@ -639,7 +639,7 @@ class ASS_SingleChoice extends ASS_Question
 	/**
 	* Sets the single choice output type
 	*
-	* Sets the output type of the ASS_SingleChoice object
+	* Sets the output type of the assSingleChoice object
 	*
 	* @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
 	* @access public

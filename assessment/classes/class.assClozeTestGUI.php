@@ -26,7 +26,7 @@ include_once "./assessment/classes/class.assQuestionGUI.php";
 /**
 * Cloze test question GUI representation
 *
-* The ASS_ClozeTestGUI class encapsulates the GUI representation
+* The assClozeTestGUI class encapsulates the GUI representation
 * for cloze test questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -34,23 +34,23 @@ include_once "./assessment/classes/class.assQuestionGUI.php";
 * @module   class.assClozeTestGUI.php
 * @modulegroup   Assessment
 */
-class ASS_ClozeTestGUI extends ASS_QuestionGUI
+class assClozeTestGUI extends assQuestionGUI
 {
 	/**
-	* ASS_ClozeTestGUI constructor
+	* assClozeTestGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_ClozeTestGUI object.
+	* The constructor takes possible arguments an creates an instance of the assClozeTestGUI object.
 	*
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function ASS_ClozeTestGUI(
+	function assClozeTestGUI(
 			$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assClozeTest.php";
-		$this->object = new ASS_ClozeTest();
+		$this->object = new assClozeTest();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -67,7 +67,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_cloze";
+		return "assClozeTest";
 	}
 
 
@@ -151,7 +151,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				if (array_key_exists($i, $this->object->suggested_solutions))
 				{
 					$solution_array = $this->object->getSuggestedSolution($i);
-					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
@@ -200,7 +200,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				if (array_key_exists($i, $this->object->suggested_solutions))
 				{
 					$solution_array = $this->object->getSuggestedSolution($i);
-					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
@@ -313,8 +313,8 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_cloze");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_cloze"));
+		$this->ctrl->setParameter($this, "sel_question_types", "assClozeTest");
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assClozeTest"));
 		$this->tpl->setVariable("ACTION_CLOZE_TEST", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();

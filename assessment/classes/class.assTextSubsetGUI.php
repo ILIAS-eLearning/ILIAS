@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Multiple choice question GUI representation
 *
-* The ASS_TextSubsetGUI class encapsulates the GUI representation
+* The assTextSubsetGUI class encapsulates the GUI representation
 * for multiple choice questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,23 +35,23 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assTextSubsetGUI.php
 * @modulegroup   Assessment
 */
-class ASS_TextSubsetGUI extends ASS_QuestionGUI
+class assTextSubsetGUI extends assQuestionGUI
 {
 	/**
-	* ASS_TextSubsetGUI constructor
+	* assTextSubsetGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_TextSubsetGUI object.
+	* The constructor takes possible arguments an creates an instance of the assTextSubsetGUI object.
 	*
 	* @param integer $id The database id of a text subset question object
 	* @access public
 	*/
-	function ASS_TextSubsetGUI(
+	function assTextSubsetGUI(
 			$id = -1
 	)
 	{
-		$this->ASS_QuestionGUI();
+		$this->assQuestionGUI();
 		include_once "./assessment/classes/class.assTextSubset.php";
-		$this->object = new ASS_TextSubset();
+		$this->object = new assTextSubset();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -74,7 +74,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_textsubset";
+		return "assTextSubset";
 	}
 
 	/**
@@ -232,7 +232,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
 			include_once "./assessment/classes/class.assQuestion.php";
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -246,9 +246,9 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "qt_textsubset");
+		$this->ctrl->setParameter($this, "sel_question_types", "assTextSubset");
 		$this->tpl->setVariable("ACTION_TEXTSUBSET_TEST", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_textsubset"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assTextSubset"));
 		$this->outOtherQuestionData();
 
 		$this->tpl->parseCurrentBlock();
@@ -372,7 +372,7 @@ class ASS_TextSubsetGUI extends ASS_QuestionGUI
 	function writePostData()
 	{
 //echo "here!"; exit;
-//echo "<br>ASS_TextSubsetGUI->writePostData()";
+//echo "<br>assTextSubsetGUI->writePostData()";
 		$result = 0;
 		if (!$this->checkInput())
 		{

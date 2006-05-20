@@ -26,7 +26,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Basic GUI class for assessment questions
 *
-* The ASS_QuestionGUI class encapsulates basic GUI functions
+* The assQuestionGUI class encapsulates basic GUI functions
 * for assessment questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -34,7 +34,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assQuestionGUI.php
 * @modulegroup   Assessment
 */
-class ASS_QuestionGUI
+class assQuestionGUI
 {
 	/**
 	* Question object
@@ -56,13 +56,13 @@ class ASS_QuestionGUI
 	
 	var $sequence_no;
 	/**
-	* ASS_QuestionGUI constructor
+	* assQuestionGUI constructor
 	*
-	* ASS_QuestionGUI constructor
+	* assQuestionGUI constructor
 	*
 	* @access public
 	*/
-	function ASS_QuestionGUI()
+	function assQuestionGUI()
 	{
 		global $lng, $tpl, $ilCtrl;
 
@@ -74,7 +74,7 @@ class ASS_QuestionGUI
 
 		include_once "./assessment/classes/class.assQuestion.php";
 		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
-		$this->object = new ASS_Question();
+		$this->object = new assQuestion();
 	}
 
 	/**
@@ -221,7 +221,7 @@ class ASS_QuestionGUI
 	* note: please do not use $this inside this method to allow static calls
 	*
 	* @param string $question_type The question type as it is used in the language database
-	* @param integer $question_id The database ID of an existing question to load it into ASS_QuestionGUI
+	* @param integer $question_id The database ID of an existing question to load it into assQuestionGUI
 	* @return object The alias to the question object
 	* @access public
 	*/
@@ -230,65 +230,17 @@ class ASS_QuestionGUI
 		include_once "./assessment/classes/class.assQuestion.php";
 		if ((!$question_type) and ($question_id > 0))
 		{
-			$question_type = ASS_Question::getQuestionTypeFromDb($question_id);
+			$question_type = assQuestion::getQuestionTypeFromDb($question_id);
 // echo ":".$question_type;
 		}
-		switch ($question_type)
-		{
-			case "qt_multiple_choice_sr":
-				include_once "./assessment/classes/class.assSingleChoiceGUI.php";
-				$question =& new ASS_SingleChoiceGUI();
-				break;
-
-			case "qt_multiple_choice_mr":
-				include_once "./assessment/classes/class.assMultipleChoiceGUI.php";
-				$question =& new ASS_MultipleChoiceGUI();
-				break;
-
-			case "qt_cloze":
-				include_once "./assessment/classes/class.assClozeTestGUI.php";
-				$question =& new ASS_ClozeTestGUI();
-				break;
-
-			case "qt_matching":
-				include_once "./assessment/classes/class.assMatchingQuestionGUI.php";
-				$question =& new ASS_MatchingQuestionGUI();
-				break;
-
-			case "qt_numeric":
-				include_once "./assessment/classes/class.assNumericGUI.php";
-				$question =& new ASS_NumericGUI();
-				break;
-
-			case "qt_textsubset":
-				include_once "./assessment/classes/class.assTextSubsetGUI.php";
-				$question =& new ASS_TextSubsetGUI();
-				break;
-
-			case "qt_ordering":
-				include_once "./assessment/classes/class.assOrderingQuestionGUI.php";
-				$question =& new ASS_OrderingQuestionGUI();
-				break;
-
-			case "qt_imagemap":
-				include_once "./assessment/classes/class.assImagemapQuestionGUI.php";
-				$question =& new ASS_ImagemapQuestionGUI();
-				break;
-
-			case "qt_javaapplet":
-				include_once "./assessment/classes/class.assJavaAppletGUI.php";
-				$question =& new ASS_JavaAppletGUI();
-				break;
-			case "qt_text":
-				include_once "./assessment/classes/class.assTextQuestionGUI.php";
-				$question =& new ASS_TextQuestionGUI();
-				break;
-		}
+		if (strlen($question_type) == 0) return NULL;
+		include_once "./assessment/classes/class.".$question_type."GUI.php";
+		$question_type_gui = $question_type . "GUI";
+		$question =& new $question_type_gui();
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
 		}
-
 		return $question;
 	}
 
@@ -296,56 +248,14 @@ class ASS_QuestionGUI
 	{
 		include_once "./assessment/classes/class.assQuestion.php";
 		include_once "./assessment/classes/class.assQuestionGUI.php";
-		$q_type =  ASS_Question::getQuestionTypeFromDb($a_q_id);
-		$class_name = ASS_QuestionGUI::_getClassNameForQType($q_type);
+		$q_type =  assQuestion::getQuestionTypeFromDb($a_q_id);
+		$class_name = assQuestionGUI::_getClassNameForQType($q_type);
 		return $class_name;
 	}
 
 	function _getClassNameForQType($q_type)
 	{
-		switch ($q_type)
-		{
-			case "qt_multiple_choice_sr":
-				return "ASS_SingleChoiceGUI";
-				break;
-
-			case "qt_multiple_choice_mr":
-				return "ASS_MultipleChoiceGUI";
-				break;
-
-			case "qt_cloze":
-				return "ASS_ClozeTestGUI";
-				break;
-
-			case "qt_matching":
-				return "ASS_MatchingQuestionGUI";
-				break;
-
-			case "qt_numeric":
-				return "ASS_NumericGUI";
-				break;
-
-			case "qt_textsubset":
-				return "ASS_TextSubsetGUI";
-				break;
-
-			case "qt_ordering":
-				return "ASS_OrderingQuestionGUI";
-				break;
-
-			case "qt_imagemap":
-				return "ASS_ImagemapQuestionGUI";
-				break;
-
-			case "qt_javaapplet":
-				return "ASS_JavaAppletGUI";
-				break;
-
-			case "qt_text":
-				return "ASS_TextQuestionGUI";
-				break;
-		}
-
+		return $q_type . "GUI";
 	}
 
 	/**
@@ -354,14 +264,14 @@ class ASS_QuestionGUI
 	* Creates a question gui representation and returns the alias to the question gui
 	*
 	* @param string $question_type The question type as it is used in the language database
-	* @param integer $question_id The database ID of an existing question to load it into ASS_QuestionGUI
+	* @param integer $question_id The database ID of an existing question to load it into assQuestionGUI
 	* @return object The alias to the question object
 	* @access public
 	*/
 	function &createQuestionGUI($question_type, $question_id = -1)
 	{
 		include_once "./assessment/classes/class.assQuestionGUI.php";
-		$this->question =& ASS_QuestionGUI::_getQuestionGUI($question_type, $question_id);
+		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
 
 	/**
@@ -485,7 +395,7 @@ class ASS_QuestionGUI
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			include_once "./assessment/classes/class.assQuestion.php";
-			if ($_GET["calling_test"] && $originalexists && ASS_Question::_isWriteable($this->object->original_id, $ilUser->getId()))
+			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();
 			}
@@ -542,7 +452,7 @@ class ASS_QuestionGUI
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			include_once "./assessment/classes/class.assQuestion.php";
-			if ($_GET["calling_test"] && $originalexists && ASS_Question::_isWriteable($this->object->original_id, $ilUser->getId()))
+			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();
 			}

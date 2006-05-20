@@ -26,14 +26,14 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Class for Java Applet Questions
 *
-* ASS_JavaApplet is a class for Java Applet Questions.
+* assJavaApplet is a class for Java Applet Questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @module   class.assJavaApplet.php
 * @modulegroup   Assessment
 */
-class ASS_JavaApplet extends ASS_Question
+class assJavaApplet extends assQuestion
 {
 	/**
 	* Question string
@@ -90,9 +90,9 @@ class ASS_JavaApplet extends ASS_Question
 	var $parameters;
 
 	/**
-	* ASS_JavaApplet constructor
+	* assJavaApplet constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_JavaApplet object.
+	* The constructor takes possible arguments an creates an instance of the assJavaApplet object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
@@ -102,9 +102,9 @@ class ASS_JavaApplet extends ASS_Question
 	* @param integer $response Indicates the response type of the multiple choice question
 	* @param integer $output_type The output order of the multiple choice answers
 	* @access public
-	* @see ASS_Question:ASS_Question()
+	* @see assQuestion:assQuestion()
 	*/
-	function ASS_JavaApplet(
+	function assJavaApplet(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -113,7 +113,7 @@ class ASS_JavaApplet extends ASS_Question
 		$javaapplet_filename = ""
 	)
 	{
-		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner);
 		$this->question = $question;
 		$this->javaapplet_filename = $javaapplet_filename;
 		$this->parameters = array();
@@ -435,9 +435,9 @@ class ASS_JavaApplet extends ASS_Question
 
 
 	/**
-	* Saves a ASS_JavaApplet object to a database
+	* Saves a assJavaApplet object to a database
 	*
-	* Saves a ASS_JavaApplet object to a database (experimental)
+	* Saves a assJavaApplet object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -535,9 +535,9 @@ class ASS_JavaApplet extends ASS_Question
 	}
 
 	/**
-	* Loads a ASS_JavaApplet object from a database
+	* Loads a assJavaApplet object from a database
 	*
-	* Loads a ASS_JavaApplet object from a database (experimental)
+	* Loads a assJavaApplet object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -577,9 +577,9 @@ class ASS_JavaApplet extends ASS_Question
 	}
 
 	/**
-	* Duplicates an ASS_JavaApplet
+	* Duplicates an assJavaApplet
 	*
-	* Duplicates an ASS_JavaApplet
+	* Duplicates an assJavaApplet
 	*
 	* @access public
 	*/
@@ -593,7 +593,7 @@ class ASS_JavaApplet extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
@@ -625,9 +625,9 @@ class ASS_JavaApplet extends ASS_Question
 	}
 
 	/**
-	* Copies an ASS_JavaApplet object
+	* Copies an assJavaApplet object
 	*
-	* Copies an ASS_JavaApplet object
+	* Copies an assJavaApplet object
 	*
 	* @access public
 	*/
@@ -641,7 +641,7 @@ class ASS_JavaApplet extends ASS_Question
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./assessment/classes/class.assQuestion.php");
-		$original_id = ASS_Question::_getOriginalId($this->id);
+		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -691,9 +691,9 @@ class ASS_JavaApplet extends ASS_Question
 	/**
 	* Gets the multiple choice question
 	*
-	* Gets the question string of the ASS_JavaApplet object
+	* Gets the question string of the assJavaApplet object
 	*
-	* @return string The question string of the ASS_JavaApplet object
+	* @return string The question string of the assJavaApplet object
 	* @access public
 	* @see $question
 	*/
@@ -705,7 +705,7 @@ class ASS_JavaApplet extends ASS_Question
 	/**
 	* Sets the question text
 	*
-	* Sets the question string of the ASS_JavaApplet object
+	* Sets the question string of the assJavaApplet object
 	*
 	* @param string $question A string containing the question text
 	* @access public
@@ -1037,7 +1037,7 @@ class ASS_JavaApplet extends ASS_Question
 	*
 	* Gets the java applet file name
 	*
-	* @return string The java applet file of the ASS_JavaApplet object
+	* @return string The java applet file of the assJavaApplet object
 	* @access public
 	* @see $javaapplet_filename
 	*/

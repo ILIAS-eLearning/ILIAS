@@ -27,7 +27,7 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 /**
 * Image map question GUI representation
 *
-* The ASS_ImagemapQuestionGUI class encapsulates the GUI representation
+* The assImagemapQuestionGUI class encapsulates the GUI representation
 * for image map questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -35,23 +35,23 @@ include_once "./assessment/classes/inc.AssessmentConstants.php";
 * @module   class.assImagemapQuestionGUI.php
 * @modulegroup   Assessment
 */
-class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
+class assImagemapQuestionGUI extends assQuestionGUI
 {
 	/**
-	* ASS_ImagemapQuestionGUI constructor
+	* assImagemapQuestionGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the ASS_ImagemapQuestionGUI object.
+	* The constructor takes possible arguments an creates an instance of the assImagemapQuestionGUI object.
 	*
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function ASS_ImagemapQuestionGUI(
+	function assImagemapQuestionGUI(
 			$id = -1
 	)
 	{
 		include_once "./assessment/classes/class.assImagemapQuestion.php";
-		$this->ASS_QuestionGUI();
-		$this->object = new ASS_ImagemapQuestion();
+		$this->assQuestionGUI();
+		$this->object = new assImagemapQuestion();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -68,7 +68,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*/
 	function getQuestionType()
 	{
-		return "qt_imagemap";
+		return "assImagemapQuestion";
 	}
 
 	function getCommand($cmd)
@@ -220,7 +220,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
-			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
+			$this->ctrl->setParameter($this, "sel_question_types", "assImagemapQuestion");
 			$this->ctrl->setParameter($this, "editmap", "1");
 			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->parseCurrentBlock();
@@ -421,7 +421,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			{
 				$solution_array = $this->object->getSuggestedSolution(0);
 				include_once "./assessment/classes/class.assQuestion.php";
-				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+				$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
@@ -435,10 +435,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("qt_imagemap"));
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
-			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
+			$this->ctrl->setParameter($this, "sel_question_types", "assImagemapQuestion");
 			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();
