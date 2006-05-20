@@ -2125,8 +2125,6 @@ class ilObjRoleGUI extends ilObjectGUI
 	function addAdminLocatorItems()
 	{
 		global $ilLocator;
-//echo "-".$_GET["ref_id"]."-".SYSTEM_FOLDER_ID."-";
-//echo "A";
 
 		if ($_GET["admin_mode"] == "settings"
 			&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)	// system settings
@@ -2134,22 +2132,21 @@ class ilObjRoleGUI extends ilObjectGUI
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
-//echo "B";
-			$ilLocator->addItem(ilObject::_lookupTitle(
-				ilObject::_lookupObjId($_GET["ref_id"])),
-				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+
+			$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
+				ilObject::_lookupObjId($_GET["ref_id"]))),
+				$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
 			
 			if ($_GET["obj_id"] > 0)
 			{
 				$ilLocator->addItem($this->object->getTitle(),
-					$this->ctrl->getLinkTarget($this, "edit"));
+					$this->ctrl->getLinkTarget($this, "view"));
 			}
 		}
 		else							// repository administration
 		{
 			// ?
 		}
-
 	}
 	
 	function showUpperIcon()

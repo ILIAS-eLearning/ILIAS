@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI
+* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserSettingsGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -106,6 +106,12 @@ class ilObjUserGUI extends ilObjectGUI
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				break;
+		
+			case "ilobjilincusersettingsgui":
+				include_once './ilinc/classes/class.ilObjiLincUserSettingsGUI.php';
+				$new_gui =& new ilObjiLincUserSettingsGUI($this->object->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				break;
 
 
 			default:
@@ -171,10 +177,15 @@ class ilObjUserGUI extends ilObjectGUI
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
-
+		
+		if ($this->ilias->getSetting("ilinc_active"))
+		{
+			$tabs_gui->addTarget("extt_ilinc",
+			$this->ctrl->getLinkTargetByClass('ilobjilincusersettingsgui',''),
+			'',
+			array('ilobjilincusersettingsgui'));
+		}
 	}
-
-
 
 	/**
 	* display user create form
@@ -2278,9 +2289,9 @@ class ilObjUserGUI extends ilObjectGUI
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
-				
-			$ilLocator->addItem(ilObject::_lookupTitle(
-				ilObject::_lookupObjId($_GET["ref_id"])),
+
+			$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
+				ilObject::_lookupObjId($_GET["ref_id"]))),
 				$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
 			
 			if ($_GET["obj_id"] > 0)
@@ -2291,9 +2302,8 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else							// repository administration
 		{
-			//?
+			// ?
 		}
-
 	}
 
 	function showUpperIcon()
