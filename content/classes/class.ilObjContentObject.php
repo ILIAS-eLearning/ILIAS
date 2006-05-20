@@ -788,6 +788,26 @@ class ilObjContentObject extends ilObject
 		return $this->user_comments;
 	}
 
+	function setHeaderPage($a_pg)
+	{
+		$this->header_page = $a_pg;
+	}
+	
+	function getHeaderPage()
+	{
+		return $this->header_page;
+	}
+	
+	function setFooterPage($a_pg)
+	{
+		$this->footer_page = $a_pg;
+	}
+	
+	function getFooterPage()
+	{
+		return $this->footer_page;
+	}
+
 	/**
 	* read content object properties
 	*/
@@ -809,6 +829,8 @@ class ilObjContentObject extends ilObject
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
 		$this->setPublicNotes(ilUtil::yn2tf($lm_rec["pub_notes"]));
+		$this->setHeaderPage($lm_rec["header_page"]);
+		$this->setFooterPage($lm_rec["footer_page"]);
 		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
 		$this->setPublicAccessMode($lm_rec["public_access_mode"]);
 		$this->setPublicExportFile("xml", $lm_rec["public_xml_file"]);
@@ -837,6 +859,8 @@ class ilObjContentObject extends ilObject
 			" public_access_mode = '".$this->getPublicAccessMode()."',".
 			" public_xml_file = '".$this->getPublicExportFile("xml")."',".
 			" public_html_file = '".$this->getPublicExportFile("html")."',".
+			" header_page = '".$this->getHeaderPage()."',".
+			" footer_page = '".$this->getFooterPage()."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);

@@ -3283,6 +3283,8 @@ content#:#choose_public_pages#:#Choose public accessible pages
 content#:#cont_act_number#:#Chapter Numeration
 content#:#cont_active#:#Enable Menu
 content#:#cont_add_area#:#Add Area
+content#:#selectHeader#:#Select As Header
+content#:#selectFooter#:#Select As Footer
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_fullscreen#:#Add Full Screen
@@ -3507,11 +3509,14 @@ content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
 content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_header#:#Header
+content#:#cont_footer#:#Footer
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
 content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Month
+content#:#cont_usage#:#Usage
 content#:#cont_move_object#:#move object
 content#:#cont_msg_multiple_editions#:#It\'s not possible to show details of multiple editions ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_name#:#Name

@@ -10754,4 +10754,6 @@ ALTER TABLE `tst_tests` ADD `show_solution_printview` ENUM( '0', '1' ) NOT NULL 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#717>
+ALTER TABLE content_object ADD column header_page int NOT NULL DEFAULT 0;
+ALTER TABLE content_object ADD column footer_page int NOT NULL DEFAULT 0;
