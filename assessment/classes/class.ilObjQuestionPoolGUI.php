@@ -155,16 +155,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-			case "assclozetestgui":
-			case "assimagemapquestiongui":
-			case "assjavaappletgui":
-			case "assmatchingquestiongui":
-			case "assmultiplechoicegui":
-			case "assnumericgui":
-			case "assorderingquestiongui":
-			case "asssinglechoicegui":
-			case "asstextquestiongui":
-			case "asstextsubsetgui":
+			case "ilobjquestionpoolgui":
+			case "":
+				$cmd.= "Object";
+				$ret =& $this->$cmd();
+				break;
+			default:
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./assessment/classes/class.assQuestionGUI.php";
 				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
@@ -179,11 +175,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					}
 				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-			
-			default:
-				$cmd.= "Object";
-				$ret =& $this->$cmd();
 				break;
 		}
 
