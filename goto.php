@@ -147,6 +147,12 @@ switch($target_type)
 		ilObjFile::_goto($target_id);
 		include("repository.php");
 		break;
+		
+	case "icrs":
+		require_once("ilinc/classes/class.ilObjiLincCourse.php");
+		ilObjiLincCourse::_goto($target_id);
+		include("repository.php");
+		break;
 
 }
 
