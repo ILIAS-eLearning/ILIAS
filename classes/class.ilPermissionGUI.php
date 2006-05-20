@@ -875,6 +875,11 @@ class ilPermissionGUI
 			{
 				foreach ($role['permissions']['create'] as $perm)
 				{
+					if ($perm["name"] == "create_icrs" and !$this->ilias->getSetting("ilinc_active"))
+					{
+						continue;
+					}
+
 					$box = ilUtil::formCheckBox($perm['checked'],"perm[".$role["obj_id"]."][]",$perm["ops_id"],$role["protected"]);
 	
 					$this->tpl->setCurrentBlock("perm_item");
