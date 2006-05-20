@@ -1395,7 +1395,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "backcmd", "pages");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
-		$this->tpl->setVariable("CONTEXT", $this->lng->txt("context"));
+		$this->tpl->setVariable("CONTEXT", $this->lng->txt("cont_usage"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
 		$cnt = 0;
@@ -1409,7 +1409,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $page["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.gif"));
 
 			// link
 			$this->ctrl->setParameter($this, "backcmd", "");
@@ -1430,7 +1430,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			{
 				$path_str = "---";
 			}
-			$this->tpl->setVariable("TEXT_CONTEXT", $path_str);
+			
+			// check whether page is header or footer
+			$add_str = "";
+			if ($page["obj_id"] == $this->object->getHeaderPage())
+			{
+				$add_str = " <b>(".$this->lng->txt("cont_header").")</b>";
+			}
+			if ($page["obj_id"] == $this->object->getFooterPage())
+			{
+				$add_str = " <b>(".$this->lng->txt("cont_footer").")</b>";
+			}
+			
+			$this->tpl->setVariable("TEXT_CONTEXT", $path_str.$add_str);
+			
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -1443,7 +1456,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			$acts = array("delete" => "delete", "movePage" => "movePage", "copyPage" => "copyPage");
+			$acts = array("delete" => "delete", "movePage" => "movePage", "copyPage" => "copyPage",
+				"selectHeader" => "selectHeader", "selectFooter" => "selectFooter");
 			if(ilEditClipboard::getContentObjectType() == "pg" &&
 				ilEditClipboard::getAction() == "copy")
 			{
@@ -3243,5 +3257,42 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
 		//$this->tpl->parseCurrentBlock();
 	}
+	
+	/**
+	* select page as header
+	*/
+	function selectHeader()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->object->setHeaderPage($_POST["id"][0]);
+		$this->object->updateProperties();
+		$this->ctrl->redirect($this, "pages");
+	}
+	
+	/**
+	* select page as footer
+	*/
+	function selectFooter()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->object->setFooterPage($_POST["id"][0]);
+		$this->object->updateProperties();
+		$this->ctrl->redirect($this, "pages");
+	}
+	
 } // END class.ilObjContentObjectGUI
 ?>

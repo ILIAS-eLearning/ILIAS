@@ -345,7 +345,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->getTabs($ilTabs);
 		
 		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pg.gif"));
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pg_b.gif"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("content");
 
