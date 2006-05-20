@@ -278,6 +278,14 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 				$user_solution = $solution_value["value1"];
 			}
 		}
+		else
+		{
+			$keywords = $this->object->getKeywordList();
+			if (count($keywords))
+			{
+				$user_solution = $this->lng->txt("solution_may_contain_keywords") . ": " . join(",", $keywords);
+			}
+		}
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";

@@ -438,6 +438,7 @@ assessment#:#solution_comment_count_system#:#Questions which are answered partia
 assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points
 assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points
 assessment#:#solution_hint#:#Suggested solution
+assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time

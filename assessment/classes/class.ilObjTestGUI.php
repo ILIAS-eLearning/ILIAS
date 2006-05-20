@@ -3650,19 +3650,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("question");			
 			$question_gui = $this->object->createQuestionGUI("", $question);
 			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".");
-			//$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			
-			switch ($question_gui->getQuestionType()) 
-			{
-				case "qt_imagemap" :
-					$question_gui->outWorkingForm($test_id="", $postponed = false, $show_solution = true, $formaction, $show_pages= true, $show_solutions_only= true);
-					break;
-				case "qt_javaapplet" :
-					$question_gui->outWorkingForm($test_id="", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
-					break;
-				default :
-					$question_gui->outWorkingForm($test_id="", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
-			}
+			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			$result_output = $question_gui->getSolutionOutput("", "");
+			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock("question");
 			$counter ++;					
 			$max_points += $question_gui->object->getMaximumPoints();			

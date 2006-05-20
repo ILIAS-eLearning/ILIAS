@@ -652,6 +652,47 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$user_solution = array();
 			}
 		}
+		else
+		{
+			for ($i = 0; $i < $this->object->getGapCount(); $i++)
+			{
+				$gap = $this->object->getGap($i);
+				if ($gap[0]->getClozeType() == CLOZE_SELECT)
+				{
+					$maxpoints = 0;
+					$foundindex = -1;
+					foreach ($gap as $index => $answer)
+					{
+						if ($answer->getPoints() > $maxpoints)
+						{
+							$maxpoints = $answer->getPoints();
+							$foundindex = $index;
+						}
+					}
+					array_push($user_solution, array("value1" => $i, "value2" => $foundindex));
+				}
+				else
+				{
+					$best_solutions = array();
+					foreach ($gap as $index => $answer)
+					{
+						if (is_array($best_solutions[$answer->getPoints()]))
+						{
+							array_push($best_solutions[$answer->getPoints()], "&quot;".$answer->getAnswertext()."&quot;");
+						}
+						else
+						{
+							$best_solutions[$answer->getPoints()] = array();
+							array_push($best_solutions[$answer->getPoints()], "&quot;".$answer->getAnswertext()."&quot;");
+						}
+					}
+					krsort($best_solutions, SORT_NUMERIC);
+					reset($best_solutions);
+					$found = current($best_solutions);
+					array_push($user_solution, array("value1" => $i, "value2" => join(" " . $this->lng->txt("or") . " ", $found)));
+				}
+			}
+		}
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
