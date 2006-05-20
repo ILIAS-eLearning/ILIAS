@@ -1455,7 +1455,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_unknown_error#:#Unknown Error
 common#:#err_wrong_header#:#Reason: Wrong header.
-common#:#err_wrong_login#:#Wrong Login
+common#:#err_wrong_login#:#Wrong Login or Password
 common#:#err_wrong_password#:#Wrong Password
 common#:#error#:#Error
 common#:#error_parser#:#Error starting the parser.
