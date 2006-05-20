@@ -3673,62 +3673,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Creates the print output for the print tab of the test
-	*
-	* Creates the print output for the print tab of the test
-	*
-	* @access	private
-	*/
-	function outPrinttest() 
-	{
-		global $ilUser;		
-		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
-		include_once "./classes/class.ilTemplate.php";
-		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_test.html", true, true);
-		
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_test.css");				
-		$this->tpl->setVariable("SYNTAX_CSS","./templates/default/print_syntax.css");
-		
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
-		$this->tpl->setVariable("PRINT_TEST", $this->lng->txt("tst_print"));
-		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("date"));
-		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%c",$print_date));
-			
-		$tpl = &$this->tpl;			
-		
-		$tpl->setVariable("TITLE", $this->object->getTitle());	
-
-		$max_points= 0;
-		$counter = 1;
-					
-		foreach ($this->object->questions as $question) {		
-			$tpl->setCurrentBlock("question");			
-			$question_gui = $this->object->createQuestionGUI("", $question);
-			
-			$tpl->setVariable("EDIT_QUESTION", $this->ctrl->getLinkTarget($this, "questions")."&sequence=".$counter);
-			$tpl->setVariable("COUNTER_QUESTION", $counter.".");
-			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			
-			switch ($question_gui->getQuestionType()) {
-				
-				case "qt_imagemap" :
-					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $formaction, $show_pages= true, $show_solutions_only= true);
-					break;
-				case "qt_javaapplet" :
-					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
-					break;
-				default :
-					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
-			}
-			$tpl->parseCurrentBlock("question");
-			$counter ++;					
-			$max_points += $question_gui->object->getMaximumPoints();			
-		}
-		$this->tpl->setVariable("TXT_MAXIMUM_POINTS", $this->lng->txt("tst_maximum_points"));
-		$this->tpl->setVariable("VALUE_MAXIMUM_POINTS", $max_points);
-	}
-
-	/**
 	* Output of the table structures for selected users and selected groups
 	*
 	* Output of the table structures for selected users and selected groups
@@ -4172,18 +4116,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
 			$idx = $this->object->getTestId();
-			
-			switch ($question_gui->getQuestionType()) 
-			{
-				case "qt_imagemap" :
-					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
-					break;
-				case "qt_javaapplet" :
-					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
-					break;
-				default :
-					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser, $pass = NULL, $mixpass = true);
-			}
+			$result_output = $question_gui->getSolutionOutput($idx, $ilUser->getId(), $pass);
+			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock();
 			$counter ++;
 		}
