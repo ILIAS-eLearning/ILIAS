@@ -151,17 +151,6 @@ class ASS_QuestionGUI
 	}
 
 	/**
-	* Creates the question output form for the learner
-	*
-	* Creates the question output form for the learner
-	*
-	* @access public
-	*/
-	function outWorkingForm($test_id = "", $is_postponed = false)
-	{
-	}
-
-	/**
 	* output assessment
 	*/
 	function assessment()

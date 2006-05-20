@@ -327,6 +327,7 @@ assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
 assessment#:#percentile#:#Percentile
 assessment#:#picture#:#Picture
 assessment#:#please_select#:#-- please select --
+assessment#:#point#:#Point
 assessment#:#points#:#Points
 assessment#:#points_checked#:#Points when checked
 assessment#:#points_short#:#Pt.
@@ -460,6 +461,7 @@ assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions#:#Answered questions
+assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!

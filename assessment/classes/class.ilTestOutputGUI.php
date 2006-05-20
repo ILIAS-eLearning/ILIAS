@@ -1730,20 +1730,23 @@ class ilTestOutputGUI
 		$test_id = $this->object->getTestId();
 		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
-		
-		switch ($question_gui->getQuestionType())
-		{
-			case "qt_imagemap":
-				$question_gui->outWorkingForm($test_id, "", 1, $formaction);
-				break;
-			case "qt_javaapplet":
-				$question_gui->outWorkingForm("", "", 0);
-				break;
-			default:
-				$question_gui->outWorkingForm($test_id, "", 1);
-		}
-
 		$this->tpl->setCurrentBlock("adm_content");
+		$result_output = $question_gui->getSolutionOutput($test_id, $ilUser->getId(), NULL);
+		$best_output = $question_gui->getSolutionOutput("", "");
+		$this->tpl->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
+		$this->tpl->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
+		$maxpoints = $question_gui->object->getMaximumPoints();
+		if ($maxpoints == 1)
+		{
+			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+		}
+		else
+		{
+			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+		}
+		$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
+		$this->tpl->setVariable("BEST_OUTPUT", $best_output);
+		$this->tpl->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($ilUser->getId(), $test_id), $maxpoints));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
