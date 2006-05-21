@@ -362,16 +362,17 @@ assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingef�
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
-assessment#:#qt_cloze#:#Lückentext-Frage
-assessment#:#qt_imagemap#:#ImageMap-Frage
-assessment#:#qt_javaapplet#:#Java-Applet-Frage
-assessment#:#qt_matching#:#Zuordnungsfrage
+assessment#:#assClozeTest#:#Lückentext-Frage
+assessment#:#assImagemapQuestion#:#ImageMap-Frage
+assessment#:#assJavaApplet#:#Java-Applet-Frage
+assessment#:#assMatchingQuestion#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice#:#Multiple Choice Frage
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
-assessment#:#qt_numeric#:#Numerische Frage
-assessment#:#qt_ordering#:#Objekte anordnen
-assessment#:#qt_text#:#Freitext-Frage
+assessment#:#assMultipleChoice#:#Multiple Choice Frage (Mehrfachauswahl)
+assessment#:#assSingleChoice#:#Multiple Choice Frage (Einfachauswahl)
+assessment#:#assNumeric#:#Numerische Frage
+assessment#:#assOrdering#:#Objekte anordnen
+assessment#:#assTextQuestion#:#Freitext-Frage
+assessment#:#assTextSubset#:#Text-Teilmenge
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_title#:#Fragentitel
@@ -5319,8 +5320,8 @@ survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#add_standard_numbers#:#Standardzahlen hinzufügen
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
-survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 32stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
-survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class=\"bold\">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
+survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class=\"bold\">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
 survey#:#anonymize_survey_explanation#:#Wenn aktiviert, werden alle Teilnehmerinnendaten anonymisiert und können nicht zurückverfolgt werden
@@ -5491,7 +5492,7 @@ survey#:#invitation_mode#:#Einladungsmodus
 survey#:#invite_participants#:#Teilnehmerinnen einladen
 survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene Nutzerinnen
-survey#:#label_resume_survey#:#Bitte geben Sie den aus 32 Zeichen bestehenden Umfragecode ein
+survey#:#label_resume_survey#:#Bitte geben Sie den aus 5 Zeichen bestehenden Umfragecode ein
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
@@ -5506,7 +5507,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br /><br /><strong>%s</strong><br /><br />Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
+survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 5 Zeichen bestehenden - Umfragecode:<br /><br /><strong>%s</strong><br /><br />Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragentyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
@@ -5674,7 +5675,7 @@ survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
 survey#:#svy_status_ok#:#Der Status der Umfrage ist in Ordnung! Es gibt keine fehlenden Elemente.
 survey#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle Zeichen, die darüber hinaus gehen, werden automatisch gelöscht.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
-survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 32 Zeichen bestehenden Umfragecode ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Umfragecode auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
+survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 5 Zeichen bestehenden Umfragecode ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Umfragecode auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
 survey#:#title_resume_survey#:#Forsetzen der Umfrage - Bitte den Umfragecode eingeben
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
