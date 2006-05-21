@@ -846,14 +846,15 @@ class ilPersonalProfileGUI
 		// ilinc upload pic
 		if ($this->userSettingVisible("upload") and $this->ilias->getSetting("ilinc_active"))
 		{
-			$ilinc_data = $ilUser->getiLincData();
+			include_once ('ilinc/classes/class.ilObjiLincUser.php');
+			$ilinc_user = new ilObjiLincUser($ilUser);
 				
-			if ($ilinc_data["id"])
+			if ($ilinc_user->id)
 			{
 				include_once ('ilinc/classes/class.ilnetucateXMLAPI.php');
 				$ilincAPI = new ilnetucateXMLAPI();
 				
-				$ilincAPI->uploadPicture($ilUser);
+				$ilincAPI->uploadPicture($ilinc_user);
 				$response = $ilincAPI->sendRequest("uploadPicture");
 			
 				// return URL to user's personal page

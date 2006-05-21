@@ -11,7 +11,7 @@ require_once "./classes/class.ilXmlWriter.php";
 *
 * @version	$Id$
 * 
-* @package	ilias-modules
+* @package	iLinc
 */
 class ilnetucateXMLAPI extends ilXmlWriter
 {
@@ -446,18 +446,16 @@ exit;
 		$this->xmlEndTag('netucate.API.Request');
 	}
 	
-	function joinClass(&$a_user_obj,$a_ilinc_class_id)
+	function joinClass(&$a_ilinc_user_obj,$a_ilinc_class_id)
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
 
 		$this->xmlStartTag('netucate.API.Request');
 
-		$data = $a_user_obj->getiLincData();
-
 		$attr = array();
-		$attr['user'] = $data['login'];
-		$attr['password'] = $data['passwd'];
+		$attr['user'] = $a_ilinc_user_obj->login;
+		$attr['password'] = $a_ilinc_user_obj->passwd;
 		$attr['customerid'] = $this->customer_id;
 		$attr['id'] = "";
 		$attr['task'] = "JoinClass";
@@ -468,21 +466,19 @@ exit;
 		$this->xmlEndTag('netucate.API.Request');
 	}
 	
-	function userLogin(&$a_user_obj)
+	function userLogin(&$a_ilinc_user_obj)
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
 
 		$this->xmlStartTag('netucate.API.Request');
 
-		$ilinc_data = $a_user_obj->getiLincData();
-
 		$attr = array();
-		$attr['user'] = $ilinc_data['login'];
-		$attr['password'] = $ilinc_data['passwd'];
+		$attr['user'] = $a_ilinc_user_obj->login;
+		$attr['password'] = $a_ilinc_user_obj->passwd;
 		$attr['customerid'] = $this->customer_id;
 		$attr['id'] = "";
-		$attr['locale'] = $a_user_obj->getLanguage();
+		$attr['locale'] = $a_ilinc_user_obj->user->getLanguage();
 		$attr['task'] = "UserLogin";
 		$this->xmlStartTag('netucate.Task',$attr);
 		$this->xmlEndTag('netucate.Task');
@@ -490,20 +486,18 @@ exit;
 		$this->xmlEndTag('netucate.API.Request');
 	}
 	
-	function uploadPicture(&$a_user_obj)
+	function uploadPicture(&$a_ilinc_user_obj)
 	{
 		$this->xmlHeader();
 
 		$this->xmlStartTag('netucate.API.Request');
 
-		$data = $a_user_obj->getiLincData();
-
 		$attr = array();
-		$attr['user'] = $data['login'];
-		$attr['password'] = $data['passwd'];
+		$attr['user'] = $a_ilinc_user_obj->login;
+		$attr['password'] = $a_ilinc_user_obj->passwd;
 		$attr['customerid'] = $this->customer_id;
 		$attr['id'] = "";
-		$attr['locale'] = $a_user_obj->getLanguage();
+		$attr['locale'] = $a_ilinc_user_obj->user->getLanguage();
 		$attr['task'] = "UploadPicture";
 		$this->xmlStartTag('netucate.Task',$attr);
 		$this->xmlEndTag('netucate.Task');

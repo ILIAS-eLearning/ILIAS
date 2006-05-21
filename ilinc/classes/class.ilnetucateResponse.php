@@ -31,7 +31,7 @@ require_once("./classes/class.ilSaxParser.php");
 * @author	Sascha Hofmann <saschahofmann@gmx.de>
 * @version	$Id$
 * 
-* @package	ilias-modules
+* @package	iLinc
 */
 class ilnetucateResponse extends ilSaxParser
 {

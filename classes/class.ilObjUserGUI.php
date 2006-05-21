@@ -29,7 +29,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserSettingsGUI
+* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -107,9 +107,9 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 		
-			case "ilobjilincusersettingsgui":
-				include_once './ilinc/classes/class.ilObjiLincUserSettingsGUI.php';
-				$new_gui =& new ilObjiLincUserSettingsGUI($this->object->getId());
+			case "ilobjilincusergui":
+				include_once './ilinc/classes/class.ilObjiLincUserGUI.php';
+				$new_gui =& new ilObjiLincUserGUI($this->object,$this->usrf_ref_id);
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 
@@ -181,9 +181,9 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($this->ilias->getSetting("ilinc_active"))
 		{
 			$tabs_gui->addTarget("extt_ilinc",
-			$this->ctrl->getLinkTargetByClass('ilobjilincusersettingsgui',''),
+			$this->ctrl->getLinkTargetByClass('ilobjilincusergui',''),
 			'',
-			array('ilobjilincusersettingsgui'));
+			array('ilobjilincusergui'));
 		}
 	}
 

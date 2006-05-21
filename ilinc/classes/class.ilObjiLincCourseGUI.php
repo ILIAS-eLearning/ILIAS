@@ -30,9 +30,9 @@
 * 
 * @extends ilObjectGUI
 * 
-* @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI
-* 
-* @package ilias-core
+* @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI, ilInfoScreenGUI, ilRepositorySearchGUI, ilObjUserGUI
+*
+* @package iLinc
 */
 
 include_once "./classes/class.ilContainerGUI.php";
@@ -220,9 +220,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			if ($rbacsystem->checkAccess('read',$this->ref_id))
 			{
 				$tabs_gui->addTarget("ilinc_involved_users",
-					$this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
+					$this->ctrl->getLinkTarget($this, "membersGallery"), array("members","mailMembers","membersGallery","showProfile"), get_class($this));
 			}
-			
+
 			if ($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->isDocent($this->ilias->account))
 			{
 				// testing: display link to ilinc server directly
@@ -503,14 +503,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{			//user is administrator
-            $tpl->setCurrentBlock("plain_button");
-		    $tpl->setVariable("PBTN_NAME","searchUserForm");
-		    $tpl->setVariable("PBTN_VALUE",$this->lng->txt("ilinc_add_user"));
-		    $tpl->parseCurrentBlock();
-		    $tpl->setCurrentBlock("plain_buttons");
-		    $tpl->parseCurrentBlock();
-		
+		{		
 			$tpl->setVariable("COLUMN_COUNTS",7);
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
@@ -560,7 +553,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");
 		$tbl->render();
-		$this->tpl->setVariable("ADM_CONTENT",$tbl->tpl->get());
+		$this->tpl->setVariable("MEMBER_TABLE",$tbl->tpl->get());
 		
 		return true;
 	}
@@ -783,13 +776,30 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($lng->txt("ilinc_server_not_active"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_members.html","ilinc");
+		$this->__setSubTabs('members');
+		
+		$this->lng->loadLanguageModule('ilinc');
+		
+		// display member search button
+		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
+		
+		if ($is_admin)
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("ilinc_add_user"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		//if current user is admin he is able to add new members to group
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_send_mail")."\" title=\"".$this->lng->txt("ilinc_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_change_status")."\" title=\"".$this->lng->txt("ilinc_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
 		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_leave")."\" title=\"".$this->lng->txt("ilinc_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
 
+
 		// store access checks to improve performance
-		$access_delete = $rbacsystem->checkAccess("delete",$this->object->getRefId());
 		$access_leave = $rbacsystem->checkAccess("leave",$this->object->getRefId());
 		$access_write = $rbacsystem->checkAccess("write",$this->object->getRefId());
 
@@ -801,7 +811,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		// fetch docent or student assignment form all coursemembers from iLinc server
 		$docent_ids = $this->object->getiLincMemberIds(true);
 		$student_ids = $this->object->getiLincMemberIds(false);
-	
+
 		$account_id = $this->ilias->account->getId();
 		$counter = 0;
 
@@ -816,20 +826,21 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			}
 
 			//build function
-			if ($access_delete && $access_write)
+			if ($access_write)
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
 
-			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
+			if (($mem["id"] == $account_id && $access_leave) || $access_write)
 			{
+				$link_leave = $this->ctrl->getLinkTarget($this,"RemoveMember")."&mem_id=".$mem["id"];
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
 			
 			// this is twice as fast than the code above
 			$str_member_roles = $this->object->getMemberRolesTitle($mem["id"]);
 
-			if ($access_delete && $access_write)
+			if ($access_write)
 			{
 				$result_set[$counter][] = ilUtil::formCheckBox(0,"user_id[]",$mem["id"]);
 			}
@@ -866,6 +877,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
     
 	function &executeCommand()
 	{
+		global $ilUser,$rbacsystem,$ilAccess,$ilErr;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -886,6 +899,19 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					$new_gui =& new ilConditionHandlerInterface($this);
 					$this->ctrl->forwardCommand($new_gui);
 				}
+				break;
+				
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search->setCallback($this,'addUserObject');
+
+				// Set tabs
+				$this->tabs_gui->setTabActive('members');
+				$this->ctrl->setReturn($this,'members');
+				$ret =& $this->ctrl->forwardCommand($rep_search);
+				$this->__setSubTabs('members');
+				$this->tabs_gui->setSubTabActive('members');
 				break;
 
 			case "ilregistergui":
@@ -908,25 +934,48 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				break;
 
 			default:
-				if (!$this->getCreationMode())
+				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'icrs'))
 				{
-					if ($this->object->requireRegistration() and !$this->object->isUserRegistered())
-					{
-						$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
-					}
+					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
-
-				if (empty($cmd))
+				
+				if (!$this->getCreationMode()
+					&& !$rbacsystem->checkAccess('read',$this->object->getRefId())
+					|| $cmd == 'join')
 				{
-					#$this->ctrl->returnToParent($this);
-					// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
-					$cmd = "view";
+					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
 				}
-
-				// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
-				$cmd .= "Object";
+				
+				if(!$cmd)
+				{
+					$cmd = 'view';
+				}
+				$cmd .= 'Object';
 				$this->$cmd();
 				break;
+				
+				
+	/*			
+				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
+				{
+					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+				}
+				
+				if (!$this->getCreationMode()
+					&& !$rbacsystem->checkAccess('read',$this->object->getRefId())
+					|| $cmd == 'join')
+				{
+					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+				}
+				
+				if(!$cmd)
+				{
+					$cmd = 'view';
+				}
+				$cmd .= 'Object';
+				$this->$cmd();
+				break;
+				*/
 		}
 	}
 	
@@ -1778,6 +1827,164 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	function isActiveAdministrationPanel()
 	{
 		return false;
+	}
+	
+	/**
+	* set sub tabs
+	*/
+	function __setSubTabs($a_tab)
+	{
+		global $rbacsystem,$ilUser;
+	
+		switch ($a_tab)
+		{
+			case 'members':
+				$this->tabs_gui->addSubTabTarget("members",
+				$this->ctrl->getLinkTarget($this,'members'),
+				"members", get_class($this));
+				
+				$this->tabs_gui->addSubTabTarget("mail_members",
+				$this->ctrl->getLinkTarget($this,'mailMembers'),
+				"mailMembers", get_class($this));
+
+				$this->tabs_gui->addSubTabTarget("icrs_members_gallery",
+				$this->ctrl->getLinkTarget($this,'membersGallery'),
+				"membersGallery", get_class($this));
+				break;
+		}
+	}
+	
+	function mailMembersObject()
+	{
+		global $rbacreview;
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html');
+
+		$this->__setSubTabs('members');
+		
+		$link_data = $this->object->_getLinkToObject($this->object->getRefId());
+		$link_to_seminar = ILIAS_HTTP_PATH."/".$link_data[0];
+
+		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
+		$this->tpl->setVariable("ADDITIONAL_MESSAGE_TEXT",$link_to_seminar);
+		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
+		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
+		$this->tpl->setVariable("CHECK_MEMBER",ilUtil::formCheckbox(1,'roles[]','#il_icrs_member_'.$this->object->getRefId()));
+		$this->tpl->setVariable("CHECK_ADMIN",ilUtil::formCheckbox(0,'roles[]','#il_icrs_admin_'.$this->object->getRefId()));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
+	}
+	
+	/**
+	 * Builds a learnlink seminar members gallery as a layer of left-floating images
+	 * @author Arturo Gonzalez <arturogf@gmail.com>
+	 * @access       public
+	 */
+	function membersGalleryObject()
+	{ 
+		global $rbacsystem;
+	    
+		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
+	    
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.icrs_members_gallery.html','ilinc');
+	    
+		$this->__setSubTabs('members');
+		
+		$this->lng->loadLanguageModule('ilinc');
+
+		$member_ids = $this->object->getMemberIds();
+		
+		// fetch all user data in one shot to improve performance (from ILIAS db)
+		$members = $this->object->getMemberData($member_ids);
+		
+		// fetch docent or student assignment form all coursemembers from iLinc server
+		$admin_ids = $this->object->getiLincMemberIds(true);
+		
+	    // MEMBERS
+	    if (count($members))
+	    {
+			foreach ($members as $member)
+			{
+			    // SET LINK TARGET FOR USER PROFILE
+			    $profile_target = $this->ctrl->getLinkTarget($this,"showProfile")."&"."user=".$member["id"];
+	
+			    // GET USER IMAGE
+			    unset($webspace_dir);
+			    
+			    $webspace_dir=ilUtil::getWebspaceDir();
+			    $image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member["id"]."_"."xsmall".".jpg";
+			    
+			    if (!file_exists($image_file))
+			    {
+					$thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
+			    }
+			    else
+			    {
+					$image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
+					$thumb_file = $image_url."/usr_".$member["id"]."_"."xsmall".".jpg";
+			    }
+			    
+			    $file = $thumb_file."?t=".rand(1, 99999);
+			    
+			    // GET USER OBJ
+			    if ($tmp_obj = ilObjectFactory::getInstanceByObjId($member["id"],false))
+				{
+					switch(in_array($member["ilinc_id"],$admin_ids))
+					{
+						case 1:
+					    //admins
+					    $this->tpl->setCurrentBlock("tutors_row");
+					    $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
+					    $this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
+					    $this->tpl->setVariable("LASTNAME",$member["lastname"]);
+					    $this->tpl->parseCurrentBlock();
+					    break;
+				    
+					  case 0:
+					    //students
+					    $this->tpl->setCurrentBlock("members_row");
+					    $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
+					    $this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
+					    $this->tpl->setVariable("LASTNAME",$member["lastname"]);
+					    $this->tpl->parseCurrentBlock();
+					    break;
+					}
+				}
+			}
+			
+			$this->tpl->setCurrentBlock("members");	
+			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('ilinc_involved_users'));
+			$this->tpl->parseCurrentBlock();
+		}
+	    
+	    $this->tpl->setVariable("TITLE",$this->lng->txt('icrs_members_print_title'));
+	    $this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
+	    
+	    $headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
+	    
+	    $this->tpl->setVariable("HEADLINE",$headline);
+	    
+	    $this->tpl->show();
+	    exit;
+	}
+
+	function showProfileObject()
+	{
+		include_once "./classes/class.ilObjUserGUI.php";
+	    
+		$this->__setSubTabs('members');
+	    
+	    $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+	    
+	    // SHOW PUBLIC PROFILE OR WARNING IF NOT PUBLIC
+	    if (($out = $user_gui->getPublicProfile())!="")
+	  	{
+	      $this->tpl->setVariable("ADM_CONTENT","<center>".$out."</center>");
+	    }
+	    else 
+	    {
+	      sendInfo($this->lng->txt('public_profile_not_visible'));
+		}
 	}
 } // END class.ilObjiLincCourseGUI
 ?>

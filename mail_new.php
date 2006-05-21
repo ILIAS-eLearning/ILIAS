@@ -251,7 +251,8 @@ switch($_GET["type"])
 		{
 			$mail_data['rcp_to'] = implode(',',$_POST['roles']);
 		}
-		$mail_data['m_message'] = $umail->appendSignature();
+		$mail_data['m_message'] = $_POST["additional_message_text"].chr(13).chr(10).$umail->appendSignature();
+		$_POST["additional_message_text"] = "";
 		break;
 
 	case 'address':
