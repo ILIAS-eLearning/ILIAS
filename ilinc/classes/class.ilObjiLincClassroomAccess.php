@@ -31,7 +31,7 @@ include_once("classes/class.ilObjectAccess.php");
 *
 * @version $Id$
 *
-* @package Survey
+* @package iLinc
 */
 class ilObjiLincClassroomAccess extends ilObjectAccess
 {

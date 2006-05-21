@@ -10780,3 +10780,8 @@ INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES (1, 'ass
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#720>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

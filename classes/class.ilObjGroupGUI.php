@@ -1258,17 +1258,14 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * @access       public
 	 */
 	function membersGalleryObject()
-	  {
-	    
+	{
 	    global $rbacsystem;
 	    
 	    $is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 	    
-	    $this->tabs_gui->setTabActive('members');
-	    
 	    $this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
 	    
-	   $this->__setSubTabs('members');
+	    $this->__setSubTabs('members');
 	    
 	    $member_ids = $this->object->getGroupMemberIds();
 	    $admin_ids = $this->object->getGroupAdminIds();
@@ -1281,8 +1278,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	      {
 		foreach($members as $member)
 		  {
-
-
 		    // SET LINK TARGET FOR USER PROFILE
 		    $profile_target = $this->ctrl->getLinkTarget($this,"showProfile")."&"."user=".$member["id"];
 
@@ -1808,7 +1803,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget("group_members",
-								 $this->ctrl->getLinkTarget($this, "membersGallery"), array("members",'mailMembers'), get_class($this));
+								 $this->ctrl->getLinkTarget($this, "membersGallery"), array("members","mailMembers","membersGallery","showProfile"), get_class($this));
 		}
 		
 		$applications = $this->object->getNewRegistrations();

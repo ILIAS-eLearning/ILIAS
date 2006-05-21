@@ -88,7 +88,7 @@ class ilObjUser extends ilObject
 	var $referral_comment;
 	var $approve_date;
 	var $active;
-	var $ilinc_id; // unique Id for netucate ilinc service
+	//var $ilinc_id; // unique Id for netucate ilinc service
 	var $client_ip; // client ip to check before login
 	var $auth_mode; // authentication mode
 
@@ -311,7 +311,7 @@ class ilObjUser extends ilObject
 		$this->setTimeLimitMessage($a_data['time_limit_message']);
 
 		//iLinc
-		$this->setiLincData($a_data['ilinc_id'],$a_data['ilinc_login'],$a_data['ilinc_passwd']);
+		//$this->setiLincData($a_data['ilinc_id'],$a_data['ilinc_login'],$a_data['ilinc_passwd']);
 		
 		//authentication
 		$this->setAuthMode($a_data['auth_mode']);
@@ -485,9 +485,9 @@ class ilObjUser extends ilObject
             "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
 			$pw_update.", ".
             "last_update=now(), ".
-            "ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."', ".
-            "ilinc_login='".ilUtil::prepareDBString($this->ilinc_login)."', ".
-            "ilinc_passwd='".ilUtil::prepareDBString($this->ilinc_passwd)."' ".
+		//	"ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."', ".
+		//	"ilinc_login='".ilUtil::prepareDBString($this->ilinc_login)."', ".
+		//	"ilinc_passwd='".ilUtil::prepareDBString($this->ilinc_passwd)."' ".
             "WHERE usr_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
@@ -2574,10 +2574,8 @@ class ilObjUser extends ilObject
 		return $id ? $id : 0;
 	}
 
-	/**
-    * set iLinc connection data
-	* @access	public
-	*/
+/*
+
 	function setiLincData($a_id,$a_login,$a_passwd)
 	{
 		$this->ilinc_id = $a_id;
@@ -2585,15 +2583,15 @@ class ilObjUser extends ilObject
 		$this->ilinc_passwd = $a_passwd;
 	}
 	
-	/**
-    * get iLinc connection data
-	* @access	public
-	*/
+*/
+	
+/*
+
 	function getiLincData()
 	{
 		return array ("id" => $this->ilinc_id, "login" => $this->ilinc_login, "passwd" => $this->ilinc_passwd);
 	}
-
+*/
 	/**
     * set auth mode
 	* @access	public

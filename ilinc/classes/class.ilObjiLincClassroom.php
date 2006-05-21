@@ -28,7 +28,7 @@
 * @version $Id$
 *
 * @extends ilObject
-* @package ilias-core
+* @package iLinc
 */
 
 require_once ('./classes/class.ilObject.php');
@@ -117,7 +117,11 @@ class ilObjiLincClassroom extends ilObject
 	
 	function joinClass(&$a_user_obj,$a_ilinc_class_id)
 	{
-		$this->ilincAPI->joinClass($a_user_obj,$a_ilinc_class_id);
+		
+		include_once ('class.ilObjiLincUser.php');
+		$ilinc_user = new ilObjiLincUser($a_user_obj);
+		
+		$this->ilincAPI->joinClass($ilinc_user,$a_ilinc_class_id);
 		$response = $this->ilincAPI->sendRequest("joinClass");
 		
 		if ($response->isError())

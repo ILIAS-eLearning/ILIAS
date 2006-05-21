@@ -30,7 +30,7 @@
 * @ilCtrl_Calls ilObjiLincClassroomGUI:
 *
 * @extends ilObjectGUI
-* @package ilias-core
+* @package iLinc
 */
 
 include_once "./classes/class.ilObjectGUI.php";

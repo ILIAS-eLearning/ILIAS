@@ -29,7 +29,7 @@
 * @version $Id$
 *
 * @extends ilObject
-* @package ilias-core
+* @package iLinc
 */
 
 require_once ('./classes/class.ilObject.php');
@@ -611,13 +611,16 @@ class ilObjiLincCourse extends ilObject
 		return $full_class_data;
 	}
 	
-	// checks if user is already registered at iLinc server
+	// checks if user account already exists at iLinc server
 	// TODO: check is only local in ILIAS not on iLinc server
 	function userExists(&$a_user_obj)
 	{
-		$data = $a_user_obj->getiLincData();
+		//$data = $a_user_obj->getiLincData();
+
+		include_once ('class.ilObjiLincUser.php');
+		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
-		if (empty($data["id"]) and empty($data["login"]))
+		if (!$ilinc_user->id and !$ilinc_user->login)
 		{
 			return false;
 		}
@@ -628,6 +631,12 @@ class ilObjiLincCourse extends ilObject
 	// create user account on iLinc server
 	function addUser(&$a_user_obj)
 	{
+		include_once ('class.ilObjiLincUser.php');
+		$ilinc_user = new ilObjiLincUser($a_user_obj);
+		
+		return $ilinc_user->add();
+		
+		/*
 		// create login and passwd for iLinc account
 		$login_data = $this->__createLoginData($a_user_obj->getId(),$a_user_obj->getLogin(),$this->ilias->getSetting($inst_id));
 		
@@ -653,27 +662,9 @@ class ilObjiLincCourse extends ilObject
 		$a_user_obj->update();
 		
 		return true;
+		*/
 	}
 
-	/**
-	 * creates login and password for ilinc
-	 * login format is: <first 3 letter of ilias login> _ <user_id> _ <inst_id> _ <timestamp>
-	 * passwd format is a random md5 hash
-	 * 
-	 */
-	function __createLoginData($a_user_id,$a_user_login,$a_inst_id)
-	{
-		if (!$a_inst_id)
-		{
-			$a_inst_id = "0";
-		}
-
-		$data["login"] = substr($a_user_login,0,3)."_".$a_user_id."_".$a_inst_id."_".time();
-		$data["passwd"] = md5(microtime().$a_user_login.rand(10000, 32000));
-		
-		return $data;
-	}
-	
 	function isMember($a_user_id = "")
 	{
 		if (strlen($a_user_id) == 0)
@@ -700,9 +691,12 @@ class ilObjiLincCourse extends ilObject
 		
 		$docents = $this->getiLincMemberIds(true);
 		
-		$ilinc_data = $a_user_obj->getiLincData();
+		//$ilinc_data = $a_user_obj->getiLincData();
 		
-		if (in_array($ilinc_data['id'],$docents))
+		include_once ('class.ilObjiLincUser.php');
+		$ilinc_user = new ilObjiLincUser($a_user_obj);
+		
+		if (in_array($ilinc_user->id,$docents))
 		{
 			return true;
 		}
@@ -720,9 +714,14 @@ class ilObjiLincCourse extends ilObject
 		{
 			$a_instructor = "False";
 		}
+		
 
-		$ilinc_data = $a_user_obj->getiLincData();
-		$user[] = array('id' => $ilinc_data['id'], 'instructor' => $a_instructor);
+		//$ilinc_data = $a_user_obj->getiLincData();
+		
+		include_once ('class.ilObjiLincUser.php');
+		$ilinc_user = new ilObjiLincUser($a_user_obj);
+		
+		$user[] = array('id' => $ilinc_user->id, 'instructor' => $a_instructor);
 		$this->ilincAPI->registerUser($this->getiLincId(),$user);
 		$response = $this->ilincAPI->sendRequest("registerUser");
 		
@@ -782,15 +781,18 @@ class ilObjiLincCourse extends ilObject
 	// unregister user from course on iLinc server
 	function unregisterUser($a_user_obj)
 	{
-		$ilinc_data = $a_user_obj->getiLincData();
+		//$ilinc_data = $a_user_obj->getiLincData();
+
+		include_once ('class.ilObjiLincUser.php');
+		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		// do not send request if user is not registered at iLinc server at all
-		if ($ilinc_data['id'] == '0')
+		if ($ilinc_user->id == '0')
 		{
 			return true;
 		}
 		
-		$this->ilincAPI->unregisterUser($this->getiLincId(),array($ilinc_data['id']));
+		$this->ilincAPI->unregisterUser($this->getiLincId(),array($ilinc_user->id));
 		$response = $this->ilincAPI->sendRequest();
 
 		if ($response->isError())
@@ -836,7 +838,11 @@ class ilObjiLincCourse extends ilObject
 	
 	function userLogin(&$a_user_obj)
 	{
-		$this->ilincAPI->userLogin($a_user_obj);
+		
+		include_once ('class.ilObjiLincUser.php');
+		$ilinc_user = new ilObjiLincUser($a_user_obj);
+		
+		$this->ilincAPI->userLogin($ilinc_user);
 		$response = $this->ilincAPI->sendRequest("userLogin");
 
 		if ($response->isError())
@@ -1018,14 +1024,14 @@ class ilObjiLincCourse extends ilObject
 	{
 		if ($a_instructorflag == true)
 		{
-			if ($this->docent_ids)
+			if (!empty($this->docent_ids))
 			{
 				return $this->docent_ids;
 			}
 		}
 		else
 		{
-			if ($this->student_ids)
+			if (!empty($this->student_ids))
 			{
 				return $this->student_ids;
 			}
@@ -1102,6 +1108,34 @@ class ilObjiLincCourse extends ilObject
 	function __setCourseStatus()
 	{
 		// empty
+	}
+
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["ref_id"] = $a_target;
+		}
+		else
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		}
+	}
+	
+	/**
+	 * STATIC METHOD
+	 * create a link to the object
+	 * @param	int uniq id
+	 * @return array array('link','target')
+	 * @static
+	 * @access	public
+	 */
+	function _getLinkToObject($a_id)
+	{
+		return array("repository.php?ref_id=".$a_id."&set_mode=flat&cmdClass=ilobjilinccoursegui","");
 	}
 } // END class.ilObjiLincCourse
 ?>
