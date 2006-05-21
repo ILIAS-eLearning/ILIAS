@@ -5445,8 +5445,8 @@ survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class=\"bold\">%s</span><br />Please enter it in the text field below. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class=\"bold\">%s</span><br />Please enter it in the text field below. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
@@ -5619,7 +5619,7 @@ survey#:#invitation_mode#:#Invitation mode
 survey#:#invite_participants#:#Invite participants
 survey#:#invited_groups#:#Invited groups
 survey#:#invited_users#:#Invited users
-survey#:#label_resume_survey#:#Enter your 32 digit survey code
+survey#:#label_resume_survey#:#Enter your 5 digit survey code
 survey#:#last_update#:#Last update
 survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower limit
@@ -5634,7 +5634,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#between
 survey#:#menuback#:#Back
 survey#:#menubacktosurvey#:#Back to the survey
-survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
+survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 5 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
 survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!
 survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
@@ -5674,6 +5674,7 @@ survey#:#percentage_of_entered_values#:#Percentage of users that entered this va
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers
 survey#:#percentage_of_selections#:#Percentage of users that selected this answer
 survey#:#phrase_saved#:#The phrase was saved successfully!
+survey#:#please_select#:#-- please select --
 survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d
@@ -5756,6 +5757,7 @@ survey#:#survey_code_no_codes#:#You have not created any survey access codes yet
 survey#:#survey_code_url#:#URL for direct access
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
+survey#:#survey_codes_lang#:#Language of the survey
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#finish survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
@@ -5804,7 +5806,7 @@ survey#:#svy_status_missing_elements#:#The following elements are missing:
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
+survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
 survey#:#title_resume_survey#:#Resume the survey - Enter survey code
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited

@@ -3023,6 +3023,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "export");
 	}
 
+	function setCodeLanguageObject()
+	{
+		if (strcmp($_POST["lang"], "-1") != 0)
+		{
+			global $ilUser;
+			$ilUser->writePref("survey_code_language", $_POST["lang"]);
+		}
+		$this->ctrl->redirect($this, "codes");
+	}
+	
 	/**
 	* Display the survey access codes tab
 	*
@@ -3033,7 +3043,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function codesObject()
 	{
 		global $rbacsystem;
-
+		global $ilUser;
+		
+		$default_lang = $ilUser->getPref("survey_code_language");
+		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
@@ -3075,13 +3088,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 					else
 					{
 						$this->tpl->setVariable("CODE_URL_NAME", $this->lng->txt("survey_code_url_name"));
-						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/goto.php?cmd=run&target=svy_".$this->object->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".$row["survey_key"]);
+						$addlang = "";
+						if (strlen($default_lang))
+						{
+							$addlang = "&amp;lang=$default_lang";
+						}
+						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/goto.php?cmd=run&target=svy_".$this->object->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang);
 					}
 					$this->tpl->setVariable("CODE_USED", $state);
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
 			}
+			$languages = $this->lng->getInstalledLanguages();
+			foreach ($languages as $lang)
+			{
+				$this->tpl->setCurrentBlock("option_lang");
+				$this->tpl->setVariable("VALUE_LANG", $lang);
+				$this->tpl->setVariable("TEXT_LANG", $this->lng->txt("lang_$lang"));
+				if (strcmp($lang, $default_lang) == 0)
+				{
+					$this->tpl->setVariable("SELECTED_LANG", " selected=\"selected\"");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("SURVEY_CODE", $this->lng->txt("survey_code"));
@@ -3090,6 +3121,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("CODE_URL", $this->lng->txt("survey_code_url"));
 			$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
+			$this->tpl->setVariable("TEXT_SURVEY_CODES_LANG", $this->lng->txt("survey_codes_lang"));
+			$this->tpl->setVariable("TEXT_NO_LANGUAGE_SELECTED", $this->lng->txt("please_select"));
+			$this->tpl->setVariable("VALUE_ACTIVATE", $this->lng->txt("select"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -3669,7 +3703,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// code
 		$tabs_gui->addTarget("codes",
 			 $this->ctrl->getLinkTarget($this,'codes'),
-			 array("codes", "createSurveyCodes"),
+			 array("codes", "createSurveyCodes", "setCodeLanguage"),
 			 "");
 
 		// permissions
