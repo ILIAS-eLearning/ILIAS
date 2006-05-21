@@ -83,7 +83,7 @@ input.fullwidth_marked {
 }
 
 .tblrowmarked {
-	background-color:#ffe0e0;
+	background-color:#FFE4E4;
 	color:#222222;
 	padding:3px;
 }
@@ -103,7 +103,7 @@ input.fullwidth_marked {
 }
 
 .tblrowmarkedtop {
-	background-color:#ffe0e0;
+	background-color:#FFE4E4;
 	color:#222222;
 	padding:3px;
 	vertical-align: top;
@@ -316,7 +316,7 @@ td.option_value_center {
 }
 
 td.option_value_details {
-	background-color:#FFE0E0;
+	background-color:#FFE4E4;
 	background-image: none;
 	color:#222222;
 	padding:3px;
@@ -324,7 +324,7 @@ td.option_value_details {
 	text-align:left;
 }
 td.option_value_center_details {
-	background-color:#FFE0E0;
+	background-color:#FFE4E4;
 	background-image: none;
 	color:#222222;
 	padding:3px;
@@ -1305,6 +1305,22 @@ a.postnew, a.postnew:visited
 {
     font-style: italic;
 }
+
+blockquote.ilForumQuote
+{
+	margin: 0px 20px;
+	padding: 5px;
+	border-width:1px;
+	border-color:#B6B6B6;
+	border-style:solid;
+}
+
+div.ilForumQuoteHead
+{
+	font-style: italic;
+	margin: 0px 0px 10px 0px;
+}
+
 /* ------------------ buttons -------------- */
 
 /* not used anymore (no extra table for buttons)*/
@@ -1533,7 +1549,7 @@ td.chosenDate
 {
 	text-align: center;
 	font-size: 90%;
-	background-color: #FFE0E0;
+	background-color: #FFE4E4;
 }
 
 td.date
@@ -1565,7 +1581,7 @@ td.chosenDateMO
 	text-align: center;
 	vertical-align: top;
 	font-size: 90%;
-	background-color:  #FFE0E0;
+	background-color:  #FFE4E4;
 }
 
 td.dateMO
@@ -1855,7 +1871,7 @@ div.dropzone
 	width: 220px;
 	height:  120px;
 	border: 1px solid #000000;
-	background-color:#ffe0e0;
+	background-color:#FFE4E4;
 	color:#222222;
 	padding: 10px;
 	vertical-align: middle;
