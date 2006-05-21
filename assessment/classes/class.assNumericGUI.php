@@ -353,6 +353,18 @@ class assNumericGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	function getPreview()
+	{
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, TRUE);
+		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		return $questionoutput;
+	}
+	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

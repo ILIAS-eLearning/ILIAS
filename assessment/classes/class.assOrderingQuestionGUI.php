@@ -529,6 +529,51 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	function getPreview()
+	{
+		// shuffle output
+		$keys = array_keys($this->object->answers);
+		if ($this->object->getShuffle())
+		{
+			$keys = $this->object->pcArrayShuffle($keys);
+		}
+
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, TRUE);
+
+		foreach ($keys as $idx)
+		{
+			$answer = $this->object->answers[$idx];
+			if ($this->object->getOrderingType() == OQ_PICTURES)
+			{
+				$template->setCurrentBlock("ordering_row_standard_pictures");
+				$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
+				$template->setVariable("THUMB_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext() . ".thumb.jpg");
+				$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
+				$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
+				$template->setVariable("ANSWER_ID", $idx);
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setCurrentBlock("ordering_row_standard_text");
+				$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+				$template->setVariable("ANSWER_ID", $idx);
+				$template->parseCurrentBlock();
+			}
+			$template->setCurrentBlock("ordering_row_standard");
+			$template->setVariable("ANSWER_ID", $idx);
+			$template->parseCurrentBlock();
+		}
+
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+
+		return $questionoutput;
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// shuffle output

@@ -441,6 +441,53 @@ class assJavaAppletGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	function getPreview()
+	{
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "test_id");
+		$template->setVariable("PARAM_VALUE", $test_id);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "question_id");
+		$template->setVariable("PARAM_VALUE", $this->object->getId());
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "user_id");
+		$template->setVariable("PARAM_VALUE", $user_id);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "points_max");
+		$template->setVariable("PARAM_VALUE", $this->object->getPoints());
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "session_id");
+		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "client");
+		$template->setVariable("PARAM_VALUE", CLIENT_ID);
+		$template->parseCurrentBlock();
+
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
+		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
+		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
+		if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
+		{
+			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+		}
+		if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
+		{
+			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+		}
+		$questionoutput = $template->get();
+		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		return $questionoutput;
+	}
+	
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
