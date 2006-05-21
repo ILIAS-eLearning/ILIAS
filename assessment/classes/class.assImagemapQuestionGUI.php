@@ -823,6 +823,32 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	function getPreview()
+	{
+		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, TRUE);
+		$formaction = "#";
+		foreach ($this->object->answers as $answer_id => $answer)
+		{
+			$template->setCurrentBlock("imagemap_area");
+			$template->setVariable("HREF_AREA", $formaction);
+			$template->setVariable("SHAPE", $answer->getArea());
+			$template->setVariable("COORDS", $answer->getCoords());
+			$template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
+			$template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$template->setVariable("IMG_SRC", "$imagepath");
+		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
+		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
+		$questionoutput = $template->get();
+		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		return $questionoutput;
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

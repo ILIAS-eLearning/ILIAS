@@ -503,6 +503,26 @@ class assTextSubsetGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	function getPreview()
+	{
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", TRUE, TRUE, TRUE);
+		$width = $this->object->getMaxTextboxWidth();
+		for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++)
+		{
+			$template->setCurrentBlock("textsubset_row");
+			$template->setVariable("COUNTER", $i+1);
+			$template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i+1));
+			$template->setVariable("TEXTFIELD_SIZE", $width);
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		return $questionoutput;
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

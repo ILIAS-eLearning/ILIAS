@@ -733,6 +733,61 @@ class assClozeTestGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
+	function getPreview()
+	{
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, TRUE);
+		$cloze =& $this->object->createCloseTextArray();
+		$cloze_text = $cloze["delimiters"];
+		$counter = 0;
+		foreach ($cloze_text as $delimiter)
+		{
+			$template->setCurrentBlock("cloze_text");
+			$template->setVariable("CLOZE_TEXT", $delimiter[0]);
+			$template->parseCurrentBlock();
+			$gap = $this->object->getGap($counter);
+			if ($gap)
+			{
+				if ($gap[0]->getClozeType() == CLOZE_SELECT)
+				{
+					// shuffle output
+					$gkeys = array_keys($gap);
+					if ($gap[0]->getShuffle())
+					{
+						$gkeys = $this->object->pcArrayShuffle($gkeys);
+					}
+
+					// add answers
+					foreach ($gkeys as $index)
+					{
+						$answer = $gap[$index];
+						$template->setCurrentBlock("select_gap_option");
+						$template->setVariable("SELECT_GAP_VALUE", $index);
+						$template->setVariable("SELECT_GAP_TEXT", $answer->getAnswertext());
+						$template->parseCurrentBlock();
+					}
+					$template->setCurrentBlock("select_gap");
+					$template->setVariable("GAP_COUNTER", $counter);
+					$template->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("text_gap");
+					$template->setVariable("GAP_COUNTER", $counter);
+					$template->setVariable("TEXT_GAP_SIZE", $this->object->getColumnSize($gap));
+					$template->parseCurrentBlock();
+				}
+			}
+			$template->touchBlock("cloze_part");
+			$counter++;
+		}
+		$questionoutput = $template->get();
+		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		return $questionoutput;
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

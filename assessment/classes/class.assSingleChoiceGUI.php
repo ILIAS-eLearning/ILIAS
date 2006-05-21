@@ -657,6 +657,45 @@ class assSingleChoiceGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	function getPreview()
+	{
+		// shuffle output
+		$keys = array_keys($this->object->answers);
+		if ($this->object->getShuffle())
+		{
+			$keys = $this->object->pcArrayShuffle($keys);
+		}
+
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", TRUE, TRUE, TRUE);
+		foreach ($keys as $answer_id)
+		{
+			$answer = $this->object->answers[$answer_id];
+			if (strlen($answer->getImage()))
+			{
+				$template->setCurrentBlock("answer_image");
+				$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				$alt = $answer->getImage();
+				if (strlen($answer->getAnswertext()))
+				{
+					$alt = $answer->getAnswertext();
+				}
+				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
+				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
+				$template->parseCurrentBlock();
+			}
+			$template->setCurrentBlock("answer_row");
+			$template->setVariable("ANSWER_ID", $answer_id);
+			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questionoutput = $template->get();
+		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		return $questionoutput;
+	}
+
 	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output

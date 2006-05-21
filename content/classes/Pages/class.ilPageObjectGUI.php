@@ -62,6 +62,7 @@ class ilPageObjectGUI
 	var $citation;
 	var $sourcecode_download_script;
 	var $change_comments;
+	var $question_html;
 
 	/**
 	* Constructor
@@ -82,6 +83,7 @@ class ilPageObjectGUI
 		$this->setPageObject($a_page_object);
 		$this->output2template = true;
 		$this->question_xml = "";
+		$this->question_html = "";
 		$this->tabs_gui =& $ilTabs;
 
 		// USED FOR TRANSLATIONS
@@ -201,9 +203,19 @@ class ilPageObjectGUI
 		$this->question_xml = $question_xml;
 	}
 
+	function setQuestionHTML($question_html)
+	{
+		$this->question_html = $question_html;
+	}
+
 	function getQuestionXML()
 	{
 		return $this->question_xml;
+	}
+
+	function getQuestionHTML()
+	{
+		return $this->question_html;
 	}
 
 	function setTemplateTargetVar($a_variable)
@@ -731,7 +743,6 @@ class ilPageObjectGUI
 		$output = str_replace("&lt;","<",$output);
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;", "&", $output);
-
 		// replace latex code: todo: finish
 		$output = ilUtil::insertLatexImages($output);
 		//$output = preg_replace('/\[tex\](.*?)\[\/tex\]/ie',
@@ -747,6 +758,13 @@ class ilPageObjectGUI
 
 		// remove all newlines (important for code / pre output)
 		$output = str_replace("\n", "", $output);
+		
+		$qhtml = $this->getQuestionHTML();
+		if (strlen($qhtml))
+		{
+			$question_prefix = "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\">";
+			$output = str_replace($question_prefix, $question_prefix . $qhtml, $output);
+		}
 	
 		// output
 		if($this->outputToTemplate())
