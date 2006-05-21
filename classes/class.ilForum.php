@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -68,8 +68,8 @@ class ilForum
 	
 	var $txtQuote1 = "[quote]"; 
 	var $txtQuote2 = "[/quote]"; 
-	var $replQuote1 = "<blockquote class=\"quote\"><hr size=\"1\" color=\"#000000\">"; 
-	var $replQuote2 = "<hr size=\"1\" color=\"#000000\"/></blockquote>"; 
+	var $replQuote1 = '<blockquote class="ilForumQuote">'; 
+	var $replQuote2 = '</blockquote>'; 
 	
 	// max. datasets per page
 	var $pageHits = 30;
@@ -945,10 +945,10 @@ class ilForum
 		
 		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
         {
-			return  $lng->txt("today").", ".ilFormat::formatDate($date,"time");
+			return  $lng->txt("today").", ".ilFormat::formatDate($date,"time", true);
 		}
 		
-		return ilFormat::formatDate($date);
+		return ilFormat::formatDate($date, "datetime", true);
     }
 	
 	/**
@@ -1368,7 +1368,7 @@ class ilForum
 
 				if ($edit == 0)
 				{
-					$text = str_replace($this->txtQuote1, "<blockquote><b>".$lng->txt("quote")."</b>:</blockquote>".$this->replQuote1, $text);
+					$text = str_replace($this->txtQuote1, $this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote").'</div>', $text);
 					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);
 				}
 			}

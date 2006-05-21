@@ -626,8 +626,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$force_active = ($_GET["cmd"] == "edit")
 				? true
 				: false;
-			$tabs_gui->addTarget("import",
-				$this->ctrl->getLinkTarget($this, "import"), "import", get_class($this),
+			$tabs_gui->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
 				"", $force_active);
 		}
 	

@@ -401,7 +401,7 @@ class ilFormat
 	* @return	string	formatted date
 	* @see		Format::fmtDateTime
 	*/
-	function formatDate($a_date,$a_mode = "datetime")
+	function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false)
 	{
 		global $lng;
 		
@@ -412,7 +412,14 @@ class ilFormat
 		}
 
 		$dateformat = $lng->txt("lang_dateformat");
-		$timeformat = $lng->txt("lang_timeformat");
+		if ($a_omit_seconds && $lng->txt("lang_timeformat_no_sec") != "-lang_timeformat_no_sec-")
+		{
+			$timeformat = $lng->txt("lang_timeformat_no_sec");
+		}
+		else
+		{
+			$timeformat = $lng->txt("lang_timeformat");
+		}
 		
 		if ($dateformat == "-lang_dateformat-")
 		{
