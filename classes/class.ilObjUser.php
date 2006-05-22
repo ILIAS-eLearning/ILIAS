@@ -484,7 +484,7 @@ class ilObjUser extends ilObject
             "time_limit_message='".$this->getTimeLimitMessage()."', ".
             "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
 			$pw_update.", ".
-            "last_update=now(), ".
+            "last_update=now() ".
 		//	"ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."', ".
 		//	"ilinc_login='".ilUtil::prepareDBString($this->ilinc_login)."', ".
 		//	"ilinc_passwd='".ilUtil::prepareDBString($this->ilinc_passwd)."' ".
