@@ -1387,6 +1387,72 @@ class ilPageObject
 			return $this->update();
 		}
 	}
+	
+	/**
+	* delete multiple content objects
+	*
+	* @param	string		$a_hids		array of hierarchical ids of content objects
+	* @param	boolean		$a_update	update page in db (note: update deletes all
+	*									hierarchical ids in DOM!)
+	*/
+	function deleteContents($a_hids, $a_update = true)
+	{
+		if (!is_array($a_hids))
+		{
+			return;
+		}
+		foreach($a_hids as $a_hid)
+		{
+			$curr_node =& $this->getContentNode($a_hid);
+			if (is_object($curr_node))
+			{
+				$parent_node = $curr_node->parent_node();
+				if ($parent_node->node_name() != "TableRow")
+				{
+					$curr_node->unlink_node($curr_node);
+				}
+			}
+		}
+		if ($a_update)
+		{
+			return $this->update();
+		}
+	}
+	
+	/**
+	* gui function
+	* set enabled if is not enabled and vice versa
+	*/
+	function switchEnableMultiple($a_hids, $a_update = true) 
+	{		
+		if (!is_array($a_hids))
+		{
+			return;
+		}
+		$obj = & $this->content_obj;
+		
+		foreach($a_hids as $a_hid)
+		{
+			$curr_node =& $this->getContentNode($a_hid);
+			if (is_object($curr_node))
+			{
+				if ($curr_node->node_name() == "PageContent")
+				{
+					$cont_obj =& $this->getContentObject($a_hid);
+					if ($cont_obj->isEnabled ()) 
+						$cont_obj->disable ();
+					else
+						$cont_obj->enable ();
+				}
+			}
+		}
+	 	
+		if ($a_update)
+		{
+			return $this->update();
+		}
+	}
+
 
 	/**
 	* delete content object with hierarchical id >= $a_hid

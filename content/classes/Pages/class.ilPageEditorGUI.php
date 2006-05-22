@@ -227,6 +227,8 @@ class ilPageEditorGUI
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
 				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
 				$cmd != "copyLinkedMediaToMediaPool" &&
+				$cmd != "deleteSelected" &&
+				$cmd != "activateSelected" &&
 				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
@@ -574,6 +576,46 @@ class ilPageEditorGUI
 			"", $this->page->getParentType().":pg",
 			ilUtil::stripSlashes($_POST["change_comment"]), true);
 		sendInfo($this->lng->txt("cont_added_comment"), true);
+		$this->ctrl->returnToParent($this);
+	}
+	
+	/**
+	* delete selected items
+	*/
+	function deleteSelected()
+	{
+		if (is_array($_POST["target"]))
+		{
+			$updated = $this->page->deleteContents($_POST["target"]);
+			if($updated !== true)
+			{
+				$_SESSION["il_pg_error"] = $updated;
+			}
+			else
+			{
+				unset($_SESSION["il_pg_error"]);
+			}
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* (de-)activate selected items
+	*/
+	function activateSelected()
+	{
+		if (is_array($_POST["target"]))
+		{
+			$updated = $this->page->switchEnableMultiple($_POST["target"]);
+			if($updated !== true)
+			{
+				$_SESSION["il_pg_error"] = $updated;
+			}
+			else
+			{
+				unset($_SESSION["il_pg_error"]);
+			}
+		}
 		$this->ctrl->returnToParent($this);
 	}
 

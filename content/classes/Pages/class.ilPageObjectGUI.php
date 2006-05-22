@@ -424,6 +424,7 @@ class ilPageObjectGUI
 					$this->tpl->setCurrentBlock("adm_content");
 				}
 				
+				
 				$this->tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
 				$this->tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
 				$this->tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
@@ -456,7 +457,12 @@ class ilPageObjectGUI
 				
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
 					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
-				
+
+				// multiple actions
+				$this->tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
+				$this->tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
 				if ($this->getViewPageLink() != "")
 				{
 					$this->tpl->setCurrentBlock("view_link");
