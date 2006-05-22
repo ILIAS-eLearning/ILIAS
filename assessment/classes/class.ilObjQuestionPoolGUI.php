@@ -306,21 +306,26 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$full_path = ilObjQuestionPool::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
 		include_once "./classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
-
-		// unzip file
-		ilUtil::unzip($full_path);
-
-		// determine filenames of xml files
-		$subdir = basename($file["basename"],".".$file["extension"]);
-		$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
-		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
+		if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0)
+		{
+			$qti_file = $full_path;
+		}
+		else
+		{
+			// unzip file
+			ilUtil::unzip($full_path);
+	
+			// determine filenames of xml files
+			$subdir = basename($file["basename"],".".$file["extension"]);
+			$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
+			$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
+		}
 
 		// start verification of QTI files
 		include_once "./assessment/classes/QTI/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
 		$result = $qtiParser->startParsing();
 		$founditems =& $qtiParser->getFoundItems();
-		
 		if (count($founditems) == 0)
 		{
 			// nothing found
@@ -487,10 +492,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$result = $qtiParser->startParsing();
 
 		// import page data
-		include_once ("content/classes/class.ilContObjParser.php");
-		$contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
-		$contParser->setQuestionMapping($qtiParser->getImportMapping());
-		$contParser->startParsing();
+		if (strlen($_SESSION["qpl_import_xml_file"]))
+		{
+			include_once ("content/classes/class.ilContObjParser.php");
+			$contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
+			$contParser->setQuestionMapping($qtiParser->getImportMapping());
+			$contParser->startParsing();
+		}
 
 		// set another question pool name (if possible)
 		$qpl_name = $_POST["qpl_new"];
