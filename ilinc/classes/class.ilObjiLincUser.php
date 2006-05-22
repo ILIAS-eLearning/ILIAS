@@ -40,7 +40,7 @@ class ilObjiLincUser
 	* @access	public
 	* @param	object	ilias user 
 	*/
-	function ilObjiLincUser(&$a_user_obj)
+	function ilObjiLincUser(&$a_user_obj,$a_from_ilinc = 'false')
 	{
 		global $ilias,$lng;
 
@@ -48,10 +48,10 @@ class ilObjiLincUser
 		$this->lng =& $lng;
 		$this->user =& $a_user_obj;
 		
-		$this->__init();
+		$this->__init($a_from_ilinc);
 	}
 	
-	function __init()
+	function __init(&$a_from_ilinc)
 	{
 		global $ilErr;
 		
@@ -126,6 +126,10 @@ class ilObjiLincUser
 
 		$data["login"] = substr($a_user_login,0,3)."_".$a_user_id."_".$a_inst_id."_".time();
 		$data["passwd"] = md5(microtime().$a_user_login.rand(10000, 32000));
+
+		$this->id = '';
+		$this->login = $data['login'];
+		$this->passwd = $data['passwd'];
 		
 		return $data;
 	}
@@ -140,7 +144,8 @@ class ilObjiLincUser
 		// create login and passwd for iLinc account
 		$login_data = $this->__createLoginData($this->user->getId(),$this->user->getLogin(),$this->ilias->getSetting($inst_id));
 		
-		$this->ilincAPI->addUser($login_data,$this->user);
+		//$this->ilincAPI->addUser($login_data,$this->user);
+		$this->ilincAPI->addUser($this);
 		$response = $this->ilincAPI->sendRequest();
 
 		if ($response->isError())
@@ -164,6 +169,78 @@ class ilObjiLincUser
 		$this->update();
 		
 		return true;
+	}
+	
+	// edit user account on iLinc server
+	function edit()
+	{
+		include_once ('class.ilnetucateXMLAPI.php');
+
+		$this->ilincAPI = new ilnetucateXMLAPI();
+
+		//$this->ilincAPI->addUser($login_data,$this->user);
+		$this->ilincAPI->editUser($this);
+		$response = $this->ilincAPI->sendRequest();
+
+		if ($response->isError())
+		{
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_edit_user";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * find user account on iLinc server
+	 * Returns one user recordset, if an userid is given
+	 * or returns a list of all the users that match a specified keyword,
+	 * if a keyword in loginname or fullname is given in the order userid, loginname, fullname.
+	 * Returns the recordsets of all users, if all attribut values are empty
+	 * 
+	 * @access	public
+	 * @param	integer	ilinc_user_id
+	 * @param	string	ilinc_login
+	 * @param	string	ilinc_fullname
+	 * @return	boolean/array	false on error; array of found user record(s)
+	 */
+	function find($a_id = '',$a_login = '', $a_fullname = '')
+	{
+		include_once ('class.ilnetucateXMLAPI.php');
+
+		$this->ilincAPI = new ilnetucateXMLAPI();
+
+		$this->ilincAPI->findUser($a_id,$a_login,$a_fullname);
+		$response = $this->ilincAPI->sendRequest();
+
+		if ($response->isError())
+		{
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_find_user";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
+		}
+		
+		return $response->data;
+	}
+	
+	function setVar($a_varname, $a_value)
+	{
+		$this->$a_varname = $a_value;
 	}
 } // END class.ilObjiLincUser
 ?>

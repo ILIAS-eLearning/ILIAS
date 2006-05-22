@@ -142,6 +142,7 @@ class ilObjiLincClassroom extends ilObject
 		return trim($response->data['url']['cdata']);
 	}
 	
+	// not used yet
 	function findUser(&$a_user_obj)
 	{
 		$this->ilincAPI->findUser($a_user_obj);

@@ -163,7 +163,7 @@ exit;
 	 * @param	string	permission level (optional)
 	 *  
 	 */
-	function addUser(&$a_login_data,&$a_user_obj,$a_authority = "leader")
+	function addUserOLD(&$a_login_data,&$a_user_obj,$a_authority = "leader")
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
@@ -181,11 +181,107 @@ exit;
 		$this->xmlEndTag('netucate.Command');
 
 		$attr = array();
-		$attr['loginname'] = $a_login_data["login"];
-		$attr['fullname'] = $a_user_obj->getFullname($this->user_max_strlen);
-		$attr['password'] = $a_login_data["passwd"];
-		$attr['authority'] = $a_authority;
-		$attr['email'] = $a_user_obj->getEmail();
+		$attr['loginname'] = $a_login_data["login"]; // required; max 64 chars
+		$attr['fullname'] = $a_user_obj->getFullname($this->user_max_strlen); // required; max 32 chars
+		$attr['password'] = $a_login_data["passwd"]; // required; max 127 chars
+		$attr['authority'] = $a_authority; // optional; participant or leader, Default: leader
+		$attr['email'] = $a_user_obj->getEmail(); // optional; max 64 chars
+		$attr['homepage'] = ""; // no standard in ILIAS; optional; max 255 chars
+		$attr['contactinfo'] = $a_user_obj->getInstitution(); // optional; max 64 chars
+		$attr['comments'] = $a_user_obj->getComment(); // no standard in ILIAS; optional; max 64 chars
+		$attr['phonenumber'] = $a_user_obj->getPhoneOffice(); // optional; max 32 chars
+		$attr['akuservalue1'] = ""; // optional; max 64 chars
+		$attr['akuservalue2'] = ""; // optional; max 64 chars
+
+		$this->xmlStartTag('netucate.User',$attr);
+		$this->xmlEndTag('netucate.User');
+		
+		$this->xmlEndTag('netucate.API.Request');
+	}
+	
+	/**
+	 * add user account to iLinc
+	 * 
+	 * @param	array	login data
+	 * @param	string	user fullname
+	 * @param	string	permission level (optional)
+	 *  
+	 */
+	function addUser(&$a_ilinc_user_obj,$a_authority = "leader")
+	{
+		$this->xmlClear();
+		$this->xmlHeader();
+
+		$this->xmlStartTag('netucate.API.Request');
+		
+		$attr = array();
+		$attr['user'] = $this->reg_login;
+		$attr['password'] = $this->reg_passwd;
+		$attr['customerid'] = $this->customer_id;
+		$attr['id'] = "";
+		$attr['command'] = "Add";
+		$attr['object'] = "User";
+		$this->xmlStartTag('netucate.Command',$attr);
+		$this->xmlEndTag('netucate.Command');
+
+		$attr = array();
+		$attr['loginname'] = $a_ilinc_user_obj->login; // required; max 64 chars
+		$attr['fullname'] = $a_ilinc_user_obj->user->getFullname($this->user_max_strlen); // required; max 32 chars
+		$attr['password'] = $a_ilinc_user_obj->passwd; // required; max 127 chars
+		$attr['authority'] = $a_authority; // optional; participant or leader, Default: leader
+		$attr['email'] = $a_ilinc_user_obj->user->getEmail(); // optional; max 64 chars
+		$attr['homepage'] = ""; // no standard in ILIAS; optional; max 255 chars
+		$attr['contactinfo'] = $a_ilinc_user_obj->user->getInstitution(); // optional; max 64 chars
+		$attr['comments'] = $a_ilinc_user_obj->user->getComment(); // no standard in ILIAS; optional; max 64 chars
+		$attr['phonenumber'] = $a_ilinc_user_obj->user->getPhoneOffice(); // optional; max 32 chars
+		$attr['akuservalue1'] = $a_ilinc_user_obj->akuservalue1; // optional; max 64 chars
+		$attr['akuservalue2'] = $a_ilinc_user_obj->akuservalue2; // optional; max 64 chars
+
+		$this->xmlStartTag('netucate.User',$attr);
+		$this->xmlEndTag('netucate.User');
+		
+		$this->xmlEndTag('netucate.API.Request');
+	}
+	
+	/**
+	 * change user account in iLinc
+	 * 
+	 * @param	array	login data
+	 * @param	string	user fullname
+	 * @param	string	permission level (optional)
+	 *  
+	 */
+	function editUser(&$a_ilinc_user_obj)
+	{
+		$this->xmlClear();
+		$this->xmlHeader();
+
+		$this->xmlStartTag('netucate.API.Request');
+		
+		$attr = array();
+		$attr['user'] = $this->reg_login;
+		$attr['password'] = $this->reg_passwd;
+		$attr['customerid'] = $this->customer_id;
+		$attr['id'] = "";
+		$attr['command'] = "Edit";
+		$attr['object'] = "User";
+		$this->xmlStartTag('netucate.Command',$attr);
+		$this->xmlEndTag('netucate.Command');
+
+		$attr = array();
+		$attr['userid'] = $a_ilinc_user_obj->id; // required;
+		//$attr['loginname'] = $a_ilinc_user_obj->login; // required; max 64 chars
+		$attr['fullname'] = $a_ilinc_user_obj->user->getFullname($this->user_max_strlen); // required; max 32 chars
+		//$attr['password'] = $a_ilinc_user_obj->passwd; // required; max 127 chars
+		//$attr['authority'] = $a_authority; // optional; participant or leader, Default: leader
+		$attr['email'] = $a_ilinc_user_obj->user->getEmail(); // optional; max 64 chars
+		//$attr['homepage'] = ""; // no standard in ILIAS; optional; max 255 chars
+		$attr['contactinfo'] = $a_ilinc_user_obj->user->getInstitution(); // optional; max 64 chars
+		$attr['comments'] = $a_ilinc_user_obj->user->getComment(); // no standard in ILIAS; optional; max 64 chars
+		$attr['phonenumber'] = $a_ilinc_user_obj->user->getPhoneOffice(); // optional; max 32 chars
+		$attr['akuservalue1'] = $a_ilinc_user_obj->akuservalue1; // optional; max 64 chars
+		$attr['akuservalue2'] = $a_ilinc_user_obj->akuservalue2; // optional; max 64 chars
+
 		$this->xmlStartTag('netucate.User',$attr);
 		$this->xmlEndTag('netucate.User');
 		
@@ -298,7 +394,7 @@ exit;
 	}
 
 	// not used yet
-	function findUser(&$a_user_obj)
+	function findUser(&$a_id,&$a_login,&$a_fullname)
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
@@ -316,10 +412,10 @@ exit;
 		$this->xmlEndTag('netucate.Command');
 
 		$attr = array();
-		$attr['userid'] = "2191";
-		$attr['loginname'] = "ffuss";
-		$attr['fullname'] = "Fred Fuss";
-		$attr['lotnumber'] = "1";
+		$attr['userid'] = $a_id;
+		$attr['loginname'] = $a_login;
+		$attr['fullname'] = $a_fullname;
+		$attr['lotnumber'] = "0"; // optional; The set of matching records to return. If 0, all matching records will be returned. If 1, matches 1-25 will be returned. If 2, matches 26-50 will be returned, etc.; Default: 0
 		$this->xmlStartTag('netucate.User',$attr);
 		$this->xmlEndTag('netucate.User');
 		

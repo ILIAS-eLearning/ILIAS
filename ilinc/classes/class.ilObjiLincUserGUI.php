@@ -64,6 +64,8 @@ class ilObjiLincUserGUI
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
 		
+		$this->lng->loadLanguageModule('ilinc');
+		
 		$this->usrf_ref_id =& $a_usrf_ref_id;
 		
 		$this->user =& $a_user_obj;
@@ -112,6 +114,18 @@ class ilObjiLincUserGUI
 	
 	function view()
 	{
+		// return iLinc user account data if user already exists on iLinc server
+		if ($this->ilinc_user->id)
+		{
+			if (!$data = $this->ilinc_user->find($this->ilinc_user->id))
+			{
+				$this->ilErr->raiseError($this->ilinc_user->getErrorMsg(),$this->ilErr->MESSAGE);
+			}
+			
+			$this->ilinc_user->setVar('akuservalue1',$data['users'][$this->ilinc_user->id]['akuservalue1']);
+			$this->ilinc_user->setVar('akuservalue2',$data['users'][$this->ilinc_user->id]['akuservalue2']);
+		}
+	
 		if (!$this->ilinc_user->id)
 		{
 			$ilinc_id = $this->lng->txt("ilinc_no_account_yet");
@@ -132,26 +146,26 @@ class ilObjiLincUserGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_usr_edit.html","ilinc");
 		
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("iLinc-Einstellungen"));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("ilinc_user_settings"));
 		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 
 		$this->tpl->setVariable("TXT_SUBMIT", $submit_button_title);
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 		
-		$this->tpl->setVariable("TXT_ILINC_ID", "iLinc ID");
+		$this->tpl->setVariable("TXT_ILINC_ID", $this->lng->txt("ilinc_user_id"));
 		$this->tpl->setVariable("ILINC_ID", $ilinc_id);
 		$this->tpl->setVariable("TXT_ILINC_LOGIN", $this->lng->txt("login"));
 		$this->tpl->setVariable("ILINC_LOGIN", $ilinc_login);
 		$this->tpl->setVariable("TXT_ILINC_PASSWD", $this->lng->txt("passwd"));
 		$this->tpl->setVariable("ILINC_PASSWD", $ilinc_passwd);
 		
-		$this->tpl->setVariable("TXT_ILINC_KOSTENSTELLEN", $this->lng->txt("ilinc_Kostenstellen"));
-		$this->tpl->setVariable("TXT_ILINC_KOSTENSTELLEN_DESC", $this->lng->txt("ilinc_Kostenstellen_DESC"));
-		$this->tpl->setVariable("TXT_ILINC_KSTELLE1", "Kostenstelle1");
-		$this->tpl->setVariable("ILINC_KSTELLE1", "abc");
-		$this->tpl->setVariable("TXT_ILINC_KSTELLE2", "Kostenstelle2");
-		$this->tpl->setVariable("ILINC_KSTELLE2", "xyz");
+		$this->tpl->setVariable("TXT_ILINC_AKUSERVALUES", $this->lng->txt("ilinc_akuservalues"));
+		$this->tpl->setVariable("TXT_ILINC_AKUSERVALUES_DESC", $this->lng->txt("ilinc_akuservalues_desc"));
+		$this->tpl->setVariable("TXT_ILINC_AKUSERVALUE1", $this->lng->txt("ilinc_akuservalue1"));
+		$this->tpl->setVariable("ILINC_AKUSERVALUE1", $this->ilinc_user->akuservalue1);
+		$this->tpl->setVariable("TXT_ILINC_AKUSERVALUE2", $this->lng->txt("ilinc_akuservalue2"));
+		$this->tpl->setVariable("ILINC_AKUSERVALUE2", $this->ilinc_user->akuservalue2);
 	}
 
 	function cancel()
@@ -174,12 +188,27 @@ class ilObjiLincUserGUI
 	{
 		if (!$this->ilinc_user->id)
 		{
-			$this->ilinc_user->add();
+			$this->ilinc_user->setVar('akuservalue1',$_POST['Fobject']['ilinc_akuservalue1']);
+			$this->ilinc_user->setVar('akuservalue2',$_POST['Fobject']['ilinc_akuservalue2']);
+			
+			if (!$this->ilinc_user->add())
+			{
+				$this->ilErr->raiseError($this->ilinc_user->getErrorMsg(),$this->ilErr->MESSAGE);
+			}
+
 			$info_message = $this->lng->txt("ilinc_user_added");
 		}
 		else
 		{
-			$info_message = $this->lng->txt("ilinc_kstellen_refreshed");
+			$this->ilinc_user->setVar('akuservalue1',$_POST['Fobject']['ilinc_akuservalue1']);
+			$this->ilinc_user->setVar('akuservalue2',$_POST['Fobject']['ilinc_akuservalue2']);
+
+			if (!$this->ilinc_user->edit())
+			{
+				$this->ilErr->raiseError($this->ilinc_user->getErrorMsg(),$this->ilErr->MESSAGE);
+			}
+			
+			$info_message = $this->lng->txt("ilinc_akuservalues_refreshed");
 		}
 		
 		sendInfo($info_message,true);
@@ -188,6 +217,7 @@ class ilObjiLincUserGUI
 	}
 	
 	// init sub tabs
+	// not used yet
 	function __initSubTabs($a_cmd)
 	{
 		global $ilTabs;
