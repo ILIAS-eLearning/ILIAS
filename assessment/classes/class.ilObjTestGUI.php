@@ -806,6 +806,18 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["show_solution_details"] = 0;
 		}
+		$data["show_summary"] = 0;
+		if (!$this->object->isOnlineTest())
+		{
+			if ($_POST["chb_show_summary"] == 1)
+			{
+				$data["show_summary"] = 1;
+			}
+		}
+		else
+		{
+			$data["show_summary"] = 1;
+		}
 		$data["show_solution_printview"] = 0;
 		if (!$this->object->isOnlineTest())
 		{
@@ -981,6 +993,14 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$this->object->setShowSolutionDetails(FALSE);
+		}
+		if ($data["show_summary"])
+		{
+			$this->object->setShowSummary(TRUE);
+		}
+		else
+		{
+			$this->object->setShowSummary(FALSE);
 		}
 		if ($data["show_solution_printview"])
 		{
@@ -1380,6 +1400,21 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($this->object->getShowSolutionDetails())
 			{
 				$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
+			}
+		}
+
+		$this->tpl->setVariable("TEXT_SHOW_SUMMARY", $this->lng->txt("tst_show_summary"));
+		$this->tpl->setVariable("TEXT_SHOW_SUMMARY_DESCRIPTION", $this->lng->txt("tst_show_summary_description"));
+		if ($this->object->isOnlineTest())
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_SUMMARY", " checked=\"checked\"");
+			$this->tpl->setVariable("DISABLE_SHOW_SUMMARY", " disabled=\"disabled\"");
+		}
+		else
+		{
+			if ($this->object->getShowSummary())
+			{
+				$this->tpl->setVariable("CHECKED_SHOW_SUMMARY", " checked=\"checked\"");
 			}
 		}
 
