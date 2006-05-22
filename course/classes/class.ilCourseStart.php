@@ -132,8 +132,6 @@ class ilCourseStart
 			switch($node['type'])
 			{
 				case 'lm':
-				case 'htlm':
-				case 'alm':
 				case 'sahs':
 				case 'tst':
 					$poss_items[] = $node['ref_id'];
@@ -162,6 +160,18 @@ class ilCourseStart
 				include_once './assessment/classes/class.ilObjTestAccess.php';
 
 				if(!ilObjTestAccess::_checkCondition($tmp_obj->getId(),'finished',''))
+				{
+					$fullfilled = false;
+					continue;
+				}
+			}
+			elseif($tmp_obj->getType() == 'sahs')
+			{
+				include_once 'Services/Tracking/classes/class.ilLPStatusSCORM.php';
+
+				$completed = ilLPStatusSCORM::_getCompleted($tmp_obj->getId());
+
+				if(!in_array($user_id,$completed))
 				{
 					$fullfilled = false;
 					continue;
