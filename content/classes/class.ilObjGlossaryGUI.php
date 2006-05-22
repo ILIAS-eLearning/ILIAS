@@ -670,7 +670,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			 $this->lng->txt("language"), $this->lng->txt("cont_definitions")));
 
 		$cols = array("", "term", "language", "definitions", "id");
-		$header_params = array("ref_id" => $this->ref_id, "cmd" => "listTerms");
+		// get all ilCtrl parameters to feed the table urls
+		$header_params = $this->ctrl->getParameterArrayByClass("ilobjglossarygui", "listTerms");
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%","24%","15%","60%"));
 
