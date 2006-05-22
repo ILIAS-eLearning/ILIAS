@@ -286,6 +286,8 @@ assessment#:#log_question_removed#:#Frage entfernt
 assessment#:#log_selected_user_data_removed#:#Testdaten des Nutzers/der Nutzerin entfernen
 assessment#:#log_user_answered_question#:#Ein/e Nutzer/in beantwortet eine Frage und erhielt %s Punkte
 assessment#:#log_user_data_removed#:#Die Testdaten aller Nutzerinnen wurden entfernt
+assessment#:#log_user_entered_values#:#Der Nutzer/die Nutzerin hat Werte eingetragen
+assessment#:#log_user_not_entered_values#:#Der Nutzer/die Nutzerin hat keine Werte eingetragen
 assessment#:#maintenance#:#Wartung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
@@ -478,7 +480,7 @@ assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus einem vorigen Testdurchlauf nicht anzeigen
+assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_title_points#:#Punkte im Fragentitel
 assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
@@ -1423,7 +1425,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
+common#:#err_wrong_login#:#Benutzername oder Passwort ungültig###22 May 2006 content changed
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
@@ -5198,7 +5200,7 @@ rbac#:#perm_class_object#:#Objektspezifische Operationen
 rbac#:#perm_class_object_desc#:#Hier sind Operationen aufgeführt, die nur für den aktuellen Objekttyp verfügbar sind.
 rbac#:#perm_class_rbac#:#Rechteeinstellungen
 rbac#:#perm_class_rbac_desc#:#Hier steuern Sie den Zugriff auf die Rechteeinstellungen (dieses Menü) und die automatische Zugriffsregelung für neu erzeugte Objekte.
-rbac#:#perm_local_role#:#Lokale Rolle
+rbac#:#perm_local_role#:#Lokale Rolle###22 May 2006 content changed
 rbac#:#perm_local_role_desc#:#Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung
 rbac#:#perm_use_local_policy#:#Verwende lokale Zugriffsregelung
 rbac#:#perm_use_local_policy_desc#:#Wenn die lokale Zugriffsregelung aktiviert ist, können an dieser Stelle andere Rechtevorgaben definiert werden
@@ -5584,6 +5586,7 @@ survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragentyp
 survey#:#ratio_absolute#:#Absolutskala
 survey#:#ratio_non_absolute#:#Ratioskala
+survey#:#ratio_scale_ge_zero#:#Der Minimalwert für eine ratioskalierte Frage muss größer oder gleich Null sein
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?#
 survey#:#reset_filter#:#Filter zurücksetzen
