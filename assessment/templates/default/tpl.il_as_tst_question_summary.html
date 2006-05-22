@@ -1,0 +1,28 @@
+<!-- BEGIN enableprocessingtime -->
+<p>{USER_WORKING_TIME}</p>
+<!-- END enableprocessingtime -->
+<h2>{TEXT_RESULTS}</h2>
+<form name="test_output" method="post" action="{FORMACTION}">
+<table class="fullwidth">
+<thead>
+	<tr class="tblheader">
+		<th class="std">{QUESTION_COUNTER}</th>
+		<th class="std">{QUESTION_TITLE}</th>
+		<th class="std">{QUESTION_POINTS}</th>
+	</tr>
+</thead>
+<!-- BEGIN question -->
+<tr valign="middle">
+	<td class="{COLOR_CLASS}">{VALUE_QUESTION_COUNTER}</td>
+	<td class="{COLOR_CLASS}">{VALUE_QUESTION_HREF_GOTO}{VALUE_QUESTION_GOTO}&nbsp;{VALUE_QUESTION_TITLE}<br><small><em>{VALUE_QUESTION_DESCRIPTION}</em></small>&nbsp;</a></td>	
+	<td class="{COLOR_CLASS}">{VALUE_QUESTION_POINTS}</td>
+</tr>
+<!-- END question --> 
+</table>
+<table class="fullwidth">
+<tr class="tblfooter">
+	<!-- BEGIN back --><td><input class="submit" type="submit" name="cmd[backFromSummary]" value="{TXT_BACK}"/></td><!-- END back -->
+ 	<td align="right"><input class="submit" type="submit" name="cmd[backFromSummary]" value="{TXT_SHOW_AND_SUBMIT_ANSWERS}"/></td>
+</tr>
+</table>
+</form>
