@@ -608,6 +608,8 @@ assessment#:#tst_show_solution_details#:#Score details
 assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions
 assessment#:#tst_show_solution_printview#:#Solution printview
 assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing
+assessment#:#tst_show_summary#:#Show question summary
+assessment#:#tst_show_summary_description#:#Makes a summary page with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
 assessment#:#tst_signature#:#Signature

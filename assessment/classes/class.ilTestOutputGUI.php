@@ -402,7 +402,7 @@ class ilTestOutputGUI
 			}
 		}
 		
-		if ($this->object->isOnlineTest() && !$finish) 
+		if (($this->object->isOnlineTest() && !$finish) || ($this->object->getShowSummary())) 
 		{
 			$this->tpl->setCurrentBlock("summary");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
