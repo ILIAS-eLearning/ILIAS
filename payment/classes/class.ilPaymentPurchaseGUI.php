@@ -114,8 +114,8 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("shopping_cart");
-			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment.php");
-			$this->tpl->setVariable("LINK_BUY", "start_bmf.php");
+			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
+			$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
 			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
@@ -222,8 +222,8 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 			$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_purchase_details.html','payment');
 			$this->tpl->setCurrentBlock("shopping_cart");
-			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment.php");
-			$this->tpl->setVariable("LINK_BUY", "start_bmf.php");
+			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
+			$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
 			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
