@@ -387,13 +387,13 @@
 		</xsl:call-template>
 	</xsl:if>
 
+	<!--
 	<xsl:if test="$hier_id != 'pg'">
-		<!-- enable -->
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">switchEnable</xsl:with-param>
 			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
+	</xsl:if>-->
 
 
 	
@@ -1126,13 +1126,13 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
 	
+	<!--
 	<xsl:if test="$hier_id != 'pg'">
-		<!-- enable -->
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">switchEnable</xsl:with-param>
 			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
+	</xsl:if>-->
 
 
 	<xsl:call-template name="EditMenuInsertItems"/>
@@ -1649,13 +1649,13 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editAlias</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
 	
+	<!--
 	<xsl:if test="$hier_id != 'pg'">
-		<!-- enable -->
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">switchEnable</xsl:with-param>
 			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
+	</xsl:if>-->
 
 
 	<xsl:call-template name="EditMenuInsertItems"/>

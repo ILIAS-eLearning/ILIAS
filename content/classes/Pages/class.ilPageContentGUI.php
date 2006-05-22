@@ -303,7 +303,7 @@ class ilPageContentGUI
 	}
 
 
-/**
+	/**
 	 * gui function
 	 * set enabled if is not enabled and vice versa
 	 */

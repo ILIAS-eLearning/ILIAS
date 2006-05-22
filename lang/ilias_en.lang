@@ -3372,6 +3372,7 @@ content#:#cont_disable_js#:#JavaScript inactive
 content#:#cont_disable_media#:#Media inactive
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Downloads
+content#:#cont_delete_selected#:#Delete
 content#:#cont_downloads_desc#:#Enable download of all public export files.
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_ed_align_center#:#align: center

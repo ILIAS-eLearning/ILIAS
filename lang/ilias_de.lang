@@ -3308,6 +3308,7 @@ content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
+content#:#cont_delete_selected#:#Löschen
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Ermöglicht Anwendern freigegebene Exportdateien herunterzuladen###23 Dec 2005 content changed
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)

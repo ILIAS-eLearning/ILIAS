@@ -22,28 +22,31 @@ parent.tree.location.replace('{LINK_TREE}');
 </table>
 <table class="ilc_Page" width="100%" cellspacing="0" cellpadding="0"><tr><td class="ilc_Page">
 {PAGE_CONTENT}
-</td></tr></table>
-<!-- BEGIN med_link -->
+</td></tr>
+</table>
 <table class="fullwidth">
+<tr><td class="submit">
+<img border="0" src="{IMG_ARROW}" style="vertical-align:middle;"/>
+<input class="submit" type="submit" value="{TXT_DELETE_SELECTED}" name="cmd[deleteSelected]">
+<input class="submit" type="submit" value="{TXT_DE_ACTIVATE_SELECTED}" name="cmd[activateSelected]">
+</td></tr>
+<!-- BEGIN med_link -->
 <tr class="std">
 <td class="submit">
 <b>{TXT_LINKED_MOBS}</b> {SEL_MED_LINKS} <input class="submit" type="submit" value="{TXT_EDIT_MEDIA}" name="cmd[editLinkedMedia]">
 <input class="submit" type="submit" value="{TXT_COPY_TO_CLIPBOARD}" name="cmd[copyLinkedMediaToClipboard]">
-<!--<input class="submit" type="submit" value="{TXT_COPY_TO_POOL}" name="cmd[copyLinkedMediaToMediaPool]">-->
 </td>
 </tr>
-</table>
 <!-- END med_link -->
 <!-- BEGIN change_comment -->
-<table class="fullwidth">
 <tr class="std">
 <td class="submit">
-<textarea rows="4" cols="60" name="change_comment"></textarea>
-<br /><br /><input class="submit" type="submit" value="{TXT_ADD_COMMENT}" name="cmd[addChangeComment]">
+<textarea rows="4" cols="60" width="95%" name="change_comment"></textarea>
+<br /><input class="submit" style="margin: 3px 0px;" type="submit" value="{TXT_ADD_COMMENT}" name="cmd[addChangeComment]">
 </td>
 </tr>
-</table>
 <!-- END change_comment -->
+</table>
 </form>
 
 
