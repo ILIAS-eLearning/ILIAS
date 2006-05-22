@@ -10784,4 +10784,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#721>
+ALTER TABLE `tst_tests` ADD `show_summary` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `show_solution_printview` ;
