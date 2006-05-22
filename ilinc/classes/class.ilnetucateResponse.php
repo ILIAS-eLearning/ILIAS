@@ -177,7 +177,15 @@ class ilnetucateResponse extends ilSaxParser
 				
 			case "netucate.User":
 				$this->data['users'][$a_attribs['userid']] = array (
-																		'fullname' => $a_attribs['fullname']
+																		'fullname' => $a_attribs['fullname'],
+																		'authority' => $a_attribs['authority'],
+																		'email' => $a_attribs['email'],
+																		'homepage' => $a_attribs['homepage'],
+																		'contactinfo' => $a_attribs['contactinfo'],
+																		'comment' => $a_attribs['comments'],
+																		'phonenumber' => $a_attribs['phonenumber'],
+																		'akuservalue1' => $a_attribs['akuservalue1'],
+																		'akuservalue2' => $a_attribs['akuservalue2'],
 																		);
 				break;
 		}

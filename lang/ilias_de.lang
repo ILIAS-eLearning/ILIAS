@@ -59,7 +59,7 @@ administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen
 common#:#grp_members_gallery#:#Mitgliedergallerie
-ilinc#:#icrs_members_gallery#:#Mitgliedergallerie
+common#:#icrs_members_gallery#:#Mitgliedergallerie
 administration#:#output_options#:#Ausgabe-Optionen
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
 administration#:#purge_missing#:#Entferne fehlende Objekte
@@ -88,6 +88,14 @@ administration#:#scan_desc#:#Durchsuche System nach korrupten/ungültigen/verlor
 administration#:#scan_details#:#Details der Untersuchung
 administration#:#scan_modes#:#Benutze Untersuchungsmodi
 administration#:#scanning_system#:#Untersuche System...
+ilinc#:#ilinc_user_settings#:#iLinc Benutzerdaten
+ilinc#:#ilinc_user_id#:#iLinc UserID
+ilinc#:#ilinc_akuservalues#:#Kostenstellen
+ilinc#:#ilinc_akuservalues_desc#:#Geben Sie die Kostenstellen für diesen Benutzer an. Die Daten werden auf dem iLinc-Server gespeichert.
+ilinc#:#ilinc_akuservalue1#:#Kostenstelle 1
+ilinc#:#ilinc_akuservalue2#:#Kostenstelle 2
+ilinc#:#ilinc_akuservalues_refreshed#:#Kostenstellen aktualisiert
+ilinc#:#ilinc_user_added#:#Benutzerkonto angelegt auf iLinc-Server
 administration#:#searching_deleted_objs#:#Sucht nach gelöschten Objekten...
 administration#:#searching_invalid_childs#:#Sucht nach ungültigen Einträgen in Baumstruktur...
 administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
