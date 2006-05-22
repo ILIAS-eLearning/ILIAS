@@ -4414,6 +4414,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "setsolved":
 			case "resetsolved":
 			case "outTestSummary":
+			case "outQuestionSummary":
 			case "gotoQuestion":
 			case "selectImagemapRegion":
 			case "confirmSubmitAnswers":
@@ -4471,6 +4472,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "resetsolved":
 			case "confirmFinish":
 			case "outTestSummary":
+			case "outQuestionSummary":
 			case "gotoQuestion":
 			case "selectImagemapRegion":
 			case "confirmSubmitAnswers":
