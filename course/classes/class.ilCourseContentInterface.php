@@ -29,7 +29,7 @@
 * @version $Id$
 * This class is aggregated in folders, groups which have a parent course object
 *
-* @ilCtrl_Calls ilCourseContentInterface: ilConditionHandlerInterface
+* @ilCtrl_Calls ilCourseContentInterface: ilConditionHandlerInterface, ilCourseItemAdministrationGUI
 
 * @extends Object
 * @package ilias-core
@@ -210,10 +210,9 @@ class ilCourseContentInterface
 			}
 			$items = $this->cci_course_obj->items_obj->getAllItems();
 		}
-	
 		// NO ITEMS FOUND
 		if(!count($items))
-		{	
+		{
 			sendInfo($this->lng->txt("crs_no_items_found"));
 			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this->container));
@@ -408,6 +407,7 @@ class ilCourseContentInterface
 		}
 
 		// create table
+		include_once './classes/class.ilTableGUI.php';
 		$tbl = new ilTableGUI();
 
 		// title & header columns
@@ -559,6 +559,12 @@ class ilCourseContentInterface
 				case 'tst':
 					include_once './assessment/classes/class.ilObjTestAccess.php';
 					$accomplished = ilObjTestAccess::_checkCondition($tmp_obj->getId(),'finished','') ? 'accomplished' : 'not_accomplished';
+					break;
+
+				case 'sahs':
+					include_once './Services/Tracking/classes/class.ilLPStatusSCORM.php';
+					$completed = ilLPStatusSCORM::_getCompleted($tmp_obj->getId());
+					$accomplished = in_array($ilUser->getId(),$completed) ? 'accomplished' : 'not_accomplished';
 					break;
 
 				default:
