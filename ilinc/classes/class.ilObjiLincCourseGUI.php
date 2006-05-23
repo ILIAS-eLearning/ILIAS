@@ -1546,15 +1546,17 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		// fetch docent or student assignment form all coursemembers from iLinc server
 		$docent_ids = $this->object->getiLincMemberIds(true);
 		$student_ids = $this->object->getiLincMemberIds(false);
-
+		
 		//build data structure
 		foreach ($member_ids as $member_id)
 		{
 			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
 			$mem_status = $this->object->getMemberRoles($member_id);
-			$ilinc_data = $member->getiLincData();
+
+			include_once ('class.ilObjiLincUser.php');
+			$ilinc_user = new ilObjiLincUser($member);
 						
-			$ilinc_status = $this->object->checkiLincMemberStatus($ilinc_data['id'],$docent_ids,$student_ids);
+			$ilinc_status = $this->object->checkiLincMemberStatus($ilinc_user->id,$docent_ids,$student_ids);
 
 			$docent = 0; $student = 0;
 
@@ -1567,8 +1569,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$student = 1;
 			}
 			
-			$radio1 = ilUtil::formRadioButton($docent,"ilinc_member_status_select[".$member->getId()."][".$ilinc_data['id']."]",ILINC_MEMBER_DOCENT);
-			$radio2 = ilUtil::formRadioButton($student,"ilinc_member_status_select[".$member->getId()."][".$ilinc_data['id']."]",ILINC_MEMBER_STUDENT);
+			$radio1 = ilUtil::formRadioButton($docent,"ilinc_member_status_select[".$member->getId()."][".$ilinc_user->id."]",ILINC_MEMBER_DOCENT);
+			$radio2 = ilUtil::formRadioButton($student,"ilinc_member_status_select[".$member->getId()."][".$ilinc_user->id."]",ILINC_MEMBER_STUDENT);
 
 
 			$this->data["data"][$member->getId()]= array(
@@ -1581,6 +1583,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 		
 		unset($member);
+		unset($ilinc_user);
 		
 		infoPanel();
 
@@ -1682,16 +1685,18 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					
 					// check if user is already registered on iLinc server
 					$user_obj = new ilObjUser($user_id);
-					$ilinc_data = $user_obj->getiLincData();
 					
-					if ($ilinc_data['id'] == '0')
+					include_once ('class.ilObjiLincUser.php');
+					$ilinc_user = new ilObjiLincUser($user_obj);
+					
+					if (!$ilinc_user->id)
 					{
 						// not registered. put user on 'add list'
 						$users_to_add[] =& $user_obj;
 					}
 					else
 					{
-						$users_to_register[$ilinc_data['id']] = ILINC_MEMBER_STUDENT;
+						$users_to_register[$ilinc_user->id] = ILINC_MEMBER_STUDENT;
 					}
 					
 					continue;
@@ -1724,8 +1729,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					else
 					{
 						//echo "5";
-						$ilinc_data = $user->getiLincData();
-						$users_to_register[$ilinc_data['id']] = ILINC_MEMBER_STUDENT;
+						include_once ('class.ilObjiLincUser.php');
+						$ilinc_user = new ilObjiLincUser($user);
+						$users_to_register[$ilinc_user->id] = ILINC_MEMBER_STUDENT;
 					}
 				}
 			}
