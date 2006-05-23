@@ -808,7 +808,7 @@ class assTextSubset extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
+	function calculateReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		
@@ -817,11 +817,10 @@ class assTextSubset extends assQuestion
 		
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -842,7 +841,7 @@ class assTextSubset extends assQuestion
 			$points = $this->getMaximumPoints();
 		}
 
-		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
+		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
 	
@@ -873,45 +872,6 @@ class assTextSubset extends assQuestion
 	}
 	
 	/**
-	* Returns if the question was answered by a user or not
-	*
-	* Returns if the question was answered by a user or not
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @return boolean
-	* @access public
-	*/
-	function wasAnsweredByUser($user_id, $test_id, $pass = NULL)
-	{
-		global $ilDB;
-		$found_values = array();
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
-		);
-		$result = $ilDB->query($query);
-		if ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (strcmp($data->value1, "") != 0)
-			{
-				return TRUE;
-			}
-		}
-		else
-		{
-			return FALSE;
-		}
-		return FALSE;
-	}
-
-	/**
 	* Saves the learners input of the question to the database
 	*
 	* Saves the learners input of the question to the database
@@ -921,7 +881,7 @@ class assTextSubset extends assQuestion
 	* @access public
 	* @see $ranges
 	*/
-	function saveWorkingData($test_id, $pass = NULL)
+	function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -929,12 +889,11 @@ class assTextSubset extends assQuestion
 		$db =& $ilDB->db;
 
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$actualpass = ilObjTest::_getPass($ilUser->id, $test_id);
+		$actualpass = ilObjTest::_getPass($active_id);
 		$entered_values = 0;
 		
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($ilUser->id . ""),
-			$db->quote($test_id . ""),
+		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$db->quote($active_id . ""),
 			$db->quote($this->getId() . ""),
 			$db->quote($actualpass . "")
 		);
@@ -945,9 +904,8 @@ class assTextSubset extends assQuestion
 			{
 				if (strlen($value))
 				{
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
-						$db->quote($ilUser->id),
-						$db->quote($test_id),
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
+						$db->quote($active_id),
 						$db->quote($this->getId()),
 						$db->quote($value),
 						$db->quote($actualpass . "")
@@ -962,7 +920,7 @@ class assTextSubset extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -970,10 +928,10 @@ class assTextSubset extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-    parent::saveWorkingData($test_id, $pass);
+    parent::saveWorkingData($active_id, $pass);
 		return true;
 	}
 

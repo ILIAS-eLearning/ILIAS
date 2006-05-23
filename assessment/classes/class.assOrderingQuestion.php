@@ -231,35 +231,6 @@ class assOrderingQuestion extends assQuestion
 			$akeys = $this->pcArrayShuffle($akeys);
 		}
 
-		if ($test_output)
-		{
-			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_output, true))
-			{
-				$pass = ilObjTest::_getPass($ilUser->id, $test_output);
-			}
-			else
-			{
-				$pass = $this->getSolutionMaxPass($user_id, $test_output);
-			}
-			// create array keys from an existing solution
-			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s AND pass = %s ORDER BY value2",
-				$ilDB->quote($test_output . ""),
-				$ilDB->quote($ilUser->id . ""),
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($pass . "")
-			);
-			$queryres = $ilDB->query($query);
-			if ($queryres->numRows() == count($this->answers))
-			{
-				//$akeys = array();
-				//while ($row = $queryres->fetchRow(DB_FETCHMODE_ASSOC))
-				//{
-				//	array_push($akeys, $row["value1"]);
-				//}
-			}
-		}
-
 		// add answers
 		foreach ($akeys as $index)
 		{
@@ -931,7 +902,7 @@ class assOrderingQuestion extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
+	function calculateReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		
@@ -939,11 +910,10 @@ class assOrderingQuestion extends assQuestion
 		$found_value2 = array();
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -977,7 +947,7 @@ class assOrderingQuestion extends assQuestion
 			}
 		}
 
-		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
+		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
 
@@ -1094,7 +1064,7 @@ class assOrderingQuestion extends assQuestion
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $pass = NULL)
+	function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -1106,11 +1076,10 @@ class assOrderingQuestion extends assQuestion
 			$db =& $ilDB->db;
 	
 			include_once "./assessment/classes/class.ilObjTest.php";
-			$activepass = ilObjTest::_getPass($ilUser->id, $test_id);
+			$activepass = ilObjTest::_getPass($active_id);
 
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-				$db->quote($ilUser->id . ""),
-				$db->quote($test_id . ""),
+			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				$db->quote($active_id . ""),
 				$db->quote($this->getId() . ""),
 				$db->quote($activepass . "")
 			);
@@ -1124,9 +1093,8 @@ class assOrderingQuestion extends assQuestion
 					$ordervalue = 1;
 					foreach ($orderarray as $index)
 					{
-						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-							$db->quote($ilUser->id . ""),
-							$db->quote($test_id . ""),
+						$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+							$db->quote($active_id . ""),
 							$db->quote($this->getId() . ""),
 							$db->quote($index . ""),
 							$db->quote($ordervalue . ""),
@@ -1148,9 +1116,8 @@ class assOrderingQuestion extends assQuestion
 						{
 							if (strlen($value))
 							{
-								$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-									$db->quote($ilUser->id . ""),
-									$db->quote($test_id . ""),
+								$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+									$db->quote($active_id . ""),
 									$db->quote($this->getId() . ""),
 									$db->quote($matches[1] . ""),
 									$db->quote($value . ""),
@@ -1169,7 +1136,7 @@ class assOrderingQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -1177,10 +1144,10 @@ class assOrderingQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-    parent::saveWorkingData($test_id, $pass);
+    parent::saveWorkingData($active_id, $pass);
 		return $saveWorkingDataResult;
 	}
 
@@ -1260,42 +1227,6 @@ class assOrderingQuestion extends assQuestion
 		return $array;
 	}
 	
-	function createRandomSolution($test_id, $user_id, $pass = NULL)
-	{
-		global $ilDB;
-		global $ilUser;
-
-		$db =& $ilDB->db;
-
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($user_id . ""),
-			$db->quote($test_id . ""),
-			$db->quote($this->getId() . ""),
-			$db->quote($pass . "")
-		);
-		$result = $db->query($query);
-
-		$orders = range(1, count($this->answers));
-		$orders = $this->pc_array_shuffle($orders);
-		foreach ($this->answers as $key => $value)
-		{
-			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($user_id . ""),
-				$db->quote($test_id . ""),
-				$db->quote($this->getId() . ""),
-				$db->quote($key . ""),
-				$db->quote(array_pop($orders) . ""),
-				$db->quote($pass . "")
-			);
-			$result = $db->query($query);
-		}
-	}
-
 	/**
 	* Returns the question type of the question
 	*

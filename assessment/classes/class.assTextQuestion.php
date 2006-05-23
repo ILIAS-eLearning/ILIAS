@@ -573,18 +573,17 @@ class assTextQuestion extends assQuestion
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function setReachedPoints($user_id, $test_id, $points, $pass = NULL)
+	function setReachedPoints($active_id, $points, $pass = NULL)
 	{
 		if (($points > 0) && ($points <= $this->getPoints()))
 		{
 			if (is_null($pass))
 			{
-				$pass = $this->getSolutionMaxPass($user_id, $test_id);
+				$pass = $this->getSolutionMaxPass($active_id);
 			}
-			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 				$this->ilias->db->quote($points . ""),
-				$this->ilias->db->quote($user_id . ""),
-				$this->ilias->db->quote($test_id . ""),
+				$this->ilias->db->quote($active_id . ""),
 				$this->ilias->db->quote($this->getId() . ""),
 				$this->ilias->db->quote($pass . "")
 			);
@@ -609,7 +608,7 @@ class assTextQuestion extends assQuestion
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function _setReachedPoints($user_id, $test_id, $question_id, $points, $maxpoints, $pass = NULL)
+	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass = NULL)
 	{
 		global $ilDB;
 		
@@ -618,20 +617,20 @@ class assTextQuestion extends assQuestion
 			if (is_null($pass))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $test_id);
+				$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
 			}
-			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
+			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 				$ilDB->quote($points . ""),
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($test_id . ""),
+				$ilDB->quote($active_id . ""),
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote($pass . "")
 			);
 			$result = $this->ilias->db->query($query);
 
 			// finally update objective result
+			include_once "./assessment/classes/class.ilObjTest.php";
 			include_once 'course/classes/class.ilCourseObjectiveResult.php';
-			ilCourseObjectiveResult::_updateUserResult($user_id,$question_id,$points);
+			ilCourseObjectiveResult::_updateUserResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
 
 			return true;
 		}
@@ -707,18 +706,17 @@ class assTextQuestion extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
+	function calculateReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
 
 		$points = 0;
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($active_id . ""),
 			$this->ilias->db->quote($this->getId() . ""),
 			$this->ilias->db->quote($pass . "")
 		);
@@ -748,7 +746,7 @@ class assTextQuestion extends assQuestion
 			}
 		}
 
-		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
+		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
 
@@ -762,7 +760,7 @@ class assTextQuestion extends assQuestion
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $pass = NULL)
+	function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -770,11 +768,10 @@ class assTextQuestion extends assQuestion
 		$db =& $ilDB->db;
 
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$activepass = ilObjTest::_getPass($ilUser->id, $test_id);
+		$activepass = ilObjTest::_getPass($active_id);
 		
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($ilUser->id . ""),
-			$db->quote($test_id . ""),
+		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$db->quote($active_id . ""),
 			$db->quote($this->getId() . ""),
 			$db->quote($activepass . "")
 		);
@@ -788,9 +785,8 @@ class assTextQuestion extends assQuestion
 		$entered_values = 0;
 		if (strlen($text))
 		{
-			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
-				$db->quote($ilUser->id . ""),
-				$db->quote($test_id . ""),
+			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
+				$db->quote($active_id . ""),
 				$db->quote($this->getId() . ""),
 				$db->quote($text . ""),
 				$db->quote($activepass . "")
@@ -803,7 +799,7 @@ class assTextQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -811,10 +807,10 @@ class assTextQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-    parent::saveWorkingData($test_id, $pass);
+    parent::saveWorkingData($active_id, $pass);
 		return true;
 	}
 

@@ -926,18 +926,17 @@ class assImagemapQuestion extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
+	function calculateReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		
     $found_values = array();
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -961,7 +960,7 @@ class assImagemapQuestion extends assQuestion
 			}
 		}
 
-		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
+		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
 
@@ -975,18 +974,17 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $answers
 */
-  function saveWorkingData($test_id, $pass = NULL) 
+  function saveWorkingData($active_id, $pass = NULL) 
 	{
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
 
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$activepass = ilObjTest::_getPass($ilUser->id, $test_id);
+		$activepass = ilObjTest::_getPass($active_id);
 		
-    $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($ilUser->id . ""),
-			$db->quote($test_id . ""),
+    $query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$db->quote($active_id . ""),
 			$db->quote($this->getId() . ""),
 			$db->quote($activepass . "")
     );
@@ -994,9 +992,8 @@ class assImagemapQuestion extends assQuestion
 
 		if (strlen($_GET["selImage"]))
 		{
-			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
-				$db->quote($ilUser->id),
-				$db->quote($test_id),
+			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
+				$db->quote($active_id),
 				$db->quote($this->getId()),
 				$db->quote($_GET["selImage"]),
 				$db->quote($activepass . "")
@@ -1006,7 +1003,7 @@ class assImagemapQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -1014,11 +1011,11 @@ class assImagemapQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 
-    parent::saveWorkingData($test_id, $pass);
+    parent::saveWorkingData($active_id, $pass);
 		return true;
   }
 

@@ -889,7 +889,7 @@ class assMatchingQuestion extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
+	function calculateReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		
@@ -897,11 +897,10 @@ class assMatchingQuestion extends assQuestion
 		$found_value2 = array();
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -926,7 +925,7 @@ class assMatchingQuestion extends assQuestion
 			}
 		}
 
-		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
+		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
 
@@ -1040,7 +1039,7 @@ class assMatchingQuestion extends assQuestion
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $pass = NULL)
+	function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -1051,11 +1050,10 @@ class assMatchingQuestion extends assQuestion
 			$db =& $ilDB->db;
 	
 			include_once ("./assessment/classes/class.ilObjTest.php");
-			$activepass = ilObjTest::_getPass($ilUser->id, $test_id);
+			$activepass = ilObjTest::_getPass($active_id);
 			
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-				$db->quote($ilUser->id . ""),
-				$db->quote($test_id . ""),
+			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				$db->quote($active_id . ""),
 				$db->quote($this->getId() . ""),
 				$db->quote($activepass . "")
 			);
@@ -1069,9 +1067,8 @@ class assMatchingQuestion extends assQuestion
 						if ($value > -1) // -1 is the unselected value in the non javascript version
 						{
 							$entered_values++;
-							$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-								$db->quote($ilUser->id),
-								$db->quote($test_id),
+							$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+								$db->quote($active_id),
 								$db->quote($this->getId()),
 								$db->quote($value),
 								$db->quote($matches[1]),
@@ -1089,7 +1086,7 @@ class assMatchingQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -1097,10 +1094,10 @@ class assMatchingQuestion extends assQuestion
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $test_id, $this->getId());
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-    parent::saveWorkingData($test_id, $pass);
+    parent::saveWorkingData($active_id, $pass);
 		return $saveWorkingDataResult;
 	}
 
@@ -1202,47 +1199,6 @@ class assMatchingQuestion extends assQuestion
 		return $array;
 	}
 	
-	function createRandomSolution($test_id, $user_id, $pass = NULL)
-	{
-		global $ilDB;
-		global $ilUser;
-		$db =& $ilDB->db;
-
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
-		}
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($user_id),
-			$db->quote($test_id),
-			$db->quote($this->getId()),
-			$db->quote($pass . "")
-		);
-		$result = $db->query($query);
-
-		$terms = array();
-		$definitions = array();
-		
-		foreach ($this->matchingpairs as $key => $pair)
-		{
-			array_push($terms, $pair->getTermId());
-			array_push($definitions, $pair->getDefinitionId());
-		}
-		$definitions = $this->pc_array_shuffle($definitions);
-		foreach ($terms as $key => $value)
-		{
-			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($user_id),
-				$db->quote($test_id),
-				$db->quote($this->getId()),
-				$db->quote($value),
-				$db->quote($definitions[$key]),
-				$db->quote($pass . "")
-			);
-			$result = $db->query($query);
-		}
-	}
-
 	/**
 	* Returns the question type of the question
 	*

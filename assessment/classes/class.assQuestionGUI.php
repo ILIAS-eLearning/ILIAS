@@ -287,7 +287,7 @@ class assQuestionGUI
 	/**
 	* output question page
 	*/
-	function outQuestionPage($a_temp_var, $a_postponed = false, $test_id = "")
+	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "")
 	{
 		$postponed = "";
 		if ($a_postponed)
@@ -300,7 +300,6 @@ class assQuestionGUI
 		$this->lng->loadLanguageModule("content");
 		$page =& new ilPageObject("qpl", $this->object->getId());
 		$page_gui =& new ilPageObjectGUI($page);
-		//$page_gui->setQuestionXML($this->object->to_xml(false, false, true, $test_id, $force_image_references = true));
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);
@@ -311,7 +310,7 @@ class assQuestionGUI
 		//$page_gui->setHeader($this->object->getTitle());
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$maxpoints = " (".$this->object->getMaximumPoints()." ".$this->lng->txt("points").")";
-		if (ilObjTest::_getHideTitlePoints($test_id))
+		if (ilObjTest::_getHideTitlePoints($active_id))
 		{
 			$maxpoints = "";
 		}
@@ -853,8 +852,5 @@ class assQuestionGUI
 	{
 	}
 	
-	function getResultOutput($test_id, &$ilUser, $pass = NULL)
-	{
-	}
 }
 ?>

@@ -471,10 +471,12 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function isInUse($question_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
-			$this->ilias->db->quote("$question_id"));
+			$ilDB->quote("$question_id"));
 
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $row->solution_count;

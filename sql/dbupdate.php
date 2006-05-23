@@ -10826,3 +10826,29 @@ ALTER TABLE `tst_active_qst_sol_settings` DROP PRIMARY KEY;
 ALTER TABLE `tst_active_qst_sol_settings` ADD PRIMARY KEY ( `active_fi` , `question_fi` );
 ALTER TABLE `tst_active_qst_sol_settings` DROP `test_fi`;
 ALTER TABLE `tst_active_qst_sol_settings` DROP `user_fi`;
+<#727>
+ALTER TABLE `tst_solutions` DROP INDEX `solution_id_2`;
+ALTER TABLE `tst_solutions` DROP INDEX `solution_id`;
+ALTER TABLE `tst_solutions` ADD `active_fi` INT NOT NULL AFTER `user_fi` ;
+<#728>
+<?php
+$query = "SELECT tst_solutions.*, tst_active.active_id FROM tst_solutions, tst_active WHERE tst_solutions.test_fi = tst_active.test_fi AND tst_solutions.user_fi = tst_active.user_fi";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$update = sprintf("UPDATE tst_solutions SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
+			$ilDB->quote($row["active_id"] . ""),
+			$ilDB->quote($row["test_fi"] . ""),
+			$ilDB->quote($row["user_fi"] . "")
+		);
+		$updateresult = $ilDB->query($update);
+	}
+}
+?>
+<#729>
+ALTER TABLE `tst_solutions` DROP `test_fi`;
+ALTER TABLE `tst_solutions` DROP `user_fi`;
+ALTER TABLE `tst_solutions` ADD INDEX ( `active_fi` ) ;
+

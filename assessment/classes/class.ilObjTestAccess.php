@@ -276,7 +276,9 @@ class ilObjTestAccess extends ilObjectAccess
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$preached = assQuestion::_getReachedPoints($user_id, $test_id, $row["question_id"], $pass);
+				include_once "./assessment/classes/class.ilObjTest.php";
+				$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
+				$preached = assQuestion::_getReachedPoints($active->active_id, $row["question_id"], $pass);
 				$max_points += $row["points"];
 				$reached_points += $preached;
 			}
@@ -514,7 +516,9 @@ class ilObjTestAccess extends ilObjectAccess
 			{
 				$user_id = $row["user_fi"];
 				$test_id = $row["test_fi"];
-				$pass = ilObjTest::_getResultPass($user_id, $test_id);
+				include_once "./assessment/classes/class.ilObjTest.php";
+				$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
+				$pass = ilObjTest::_getResultPass($active->active_id);
 				$testres =& ilObjTestAccess::_getTestResult($user_id, $a_obj_id, $pass);
 
 				array_push($passed_users, 

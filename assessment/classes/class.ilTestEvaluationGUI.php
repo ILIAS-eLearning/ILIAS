@@ -649,7 +649,8 @@ class ilTestEvaluationGUI
 				if (preg_match("/(\d+)_(\d+)_(\d+)/", $key, $matches))
 				{
 					include_once "./assessment/classes/class.assTextQuestion.php";
-					assTextQuestion::_setReachedPoints($matches[1], $this->object->getTestId(), $matches[2], $value, $matches[3]);
+					$activeuser = $this->object->getActiveTestUser($matches[1]);
+					assTextQuestion::_setReachedPoints($activeuser->active_id, $matches[2], $value, $matches[3]);
 				}
 			}
 			sendInfo($this->lng->txt("text_answers_saved"));
@@ -847,7 +848,8 @@ class ilTestEvaluationGUI
 			if ($this->object->isRandomTest())
 			{
 				include_once "./assessment/classes/class.ilObjTest.php";
-				$counted_pass = ilObjTest::_getResultPass($key, $this->object->getTestId());
+				$active = $this->object->getActiveTestUser($key);
+				$counted_pass = ilObjTest::_getResultPass($active->active_id);
 				$this->object->loadQuestions($key, $counted_pass);
 				$titlerow_user = $titlerow_without_questions;
 				$i = 1;
@@ -1426,12 +1428,13 @@ class ilTestEvaluationGUI
 			$this->ctrl->redirect($this, "passDetails");
 		}
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$counted_pass = ilObjTest::_getResultPass($user_id, $this->object->getTestId());
+		$active = $this->object->getActiveTestUser($user_id);
+		$counted_pass = ilObjTest::_getResultPass($active->active_id);
 		$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_overview.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$reached_pass = $this->object->_getPass($user_id, $this->object->getTestId());
+		$reached_pass = $this->object->_getPass($active->active_id);
 		for ($pass = 0; $pass <= $reached_pass; $pass++)
 		{
 			$finishdate = $this->object->getPassFinishDate($user_id, $this->object->getTestId(), $pass);
@@ -1650,8 +1653,8 @@ class ilTestEvaluationGUI
 
 			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".&nbsp;");
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			$idx = $this->object->test_id;
-			$result_output = $question_gui->getSolutionOutput($idx, $ilUser->getId(), $pass);
+			$active = $this->object->getActiveTestUser($ilUser->getId());
+			$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock();
 			$counter ++;
