@@ -888,52 +888,6 @@ class ilTree
 
 	/**
 	* get path from a given startnode to a given endnode
-	* if startnode is not given the rootnode is startnode
-	* @access	private
-	* @param	integer		node_id of endnode
-	* @param	integer		node_id of startnode
-	* @return	object		query result
-	*/
-	function fetchPath($a_endnode_id, $a_startnode_id)
-	{
-		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
-		if (count($pathIds) == 0)
-		{
-			$this->ilErr->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilErr->WARNING);
-		}
-	
-		if ($this->table_obj_reference)
-		{
-			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON T2.child=".$this->table_obj_reference.".".$this->ref_pk." ".
-						"LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".
-				$this->table_obj_data.".".$this->obj_pk." ";
-			$select_obj_id = $this->table_obj_data.".obj_id,";
-		}
-		else
-		{
-			$leftjoin = "LEFT JOIN ".$this->table_obj_data." ON T2.child=".$this->table_obj_data.".".$this->obj_pk." ";
-		}
-
-		$q = "SELECT ".$select_obj_id.$this->table_obj_data.".title,".$this->table_obj_data.".type,child ".
-			"FROM ".$this->table_tree." ".
-			$leftjoin.
-			"WHERE child IN ('".implode("','",$pathIds)."') ".
-			"AND ".$this->tree_pk." = '".$this->tree_id."' ".
-			"ORDER BY depth";
-
-		$r = $this->ilDB->query($q);
-		if ($r->numRows() > 0)
-		{
-			return $r;
-		}
-		else
-		{
-			$this->ilErr->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilErr->WARNING);
-		}
-	}
-
-	/**
-	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode.
 	* This function chooses the algorithm to be used.
 	*
