@@ -10797,3 +10797,32 @@ ALTER TABLE `tst_test_random_question` ADD `anonymous_id` VARCHAR( 5 ) NULL AFTE
 ALTER TABLE `tst_test_random_question` ADD INDEX ( `anonymous_id` ) ;
 ALTER TABLE `tst_test_result` ADD `anonymous_id` VARCHAR( 5 ) NULL AFTER `user_fi` ;
 ALTER TABLE `tst_test_result` ADD INDEX ( `anonymous_id` ) ;
+<#723>
+ALTER TABLE `tst_active_qst_sol_settings` DROP `anonymous_id` ;
+ALTER TABLE `tst_solutions` DROP `anonymous_id` ;
+ALTER TABLE `tst_test_random_question` DROP `anonymous_id` ;
+ALTER TABLE `tst_test_result` DROP `anonymous_id` ;
+<#724>
+ALTER TABLE `tst_active_qst_sol_settings` ADD `active_fi` INT NOT NULL AFTER `user_fi` ;
+<#725>
+<?php
+$query = "SELECT tst_active_qst_sol_settings.*, tst_active.active_id FROM tst_active_qst_sol_settings, tst_active WHERE tst_active_qst_sol_settings.test_fi = tst_active.test_fi AND tst_active_qst_sol_settings.user_fi = tst_active.user_fi";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$update = sprintf("UPDATE tst_active_qst_sol_settings SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
+			$ilDB->quote($row["active_id"] . ""),
+			$ilDB->quote($row["test_fi"] . ""),
+			$ilDB->quote($row["user_fi"] . "")
+		);
+		$updateresult = $ilDB->query($update);
+	}
+}
+?>
+<#726>
+ALTER TABLE `tst_active_qst_sol_settings` DROP PRIMARY KEY;
+ALTER TABLE `tst_active_qst_sol_settings` ADD PRIMARY KEY ( `active_fi` , `question_fi` );
+ALTER TABLE `tst_active_qst_sol_settings` DROP `test_fi`;
+ALTER TABLE `tst_active_qst_sol_settings` DROP `user_fi`;
