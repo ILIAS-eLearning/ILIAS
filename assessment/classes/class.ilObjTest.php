@@ -3488,6 +3488,7 @@ class ilObjTest extends ilObject
 		$result_array = array();
 
 		$active = $this->getActiveTestUser();
+		$postponed = explode(",", $active->postponed);
 		$solved_questions = ilObjTest::_getSolvedQuestions($this->test_id, $user_id);
 		include_once "./classes/class.ilObjUser.php";
 	 	$user = new ilObjUser($user_id);
@@ -3497,22 +3498,29 @@ class ilObjTest extends ilObject
 			$val = $this->questions[$question_index];
 			$question =& ilObjTest::_instanciateQuestion($val);
 			if (is_object($question))
-			{			
-				$answers = $question->getSolutionValues($this->test_id, $user->getId());
-				$visited = count($answers);
+			{
+				$worked_through = $question->_isWorkedThrough($user_id, $this->getTestId(), $question->getId(), $pass);
 				$solved  = 0;
-				if (array_key_exists($question->getId(),$solved_questions)) {
+				if (array_key_exists($question->getId(),$solved_questions)) 
+				{
 					$solved =  $solved_questions[$question->getId()]->solved; 
+				}
+				$is_postponed = FALSE;
+				if (in_array($question->getId(), $postponed))
+				{
+					$is_postponed = TRUE;
 				}
 				
 				$row = array(
 					"nr" => "$key",					
 					"title" => $question->getTitle(),
 					"qid" => $question->getId(),
-					"visited" => $visited,
+					"visited" => $worked_through,
 					"solved" => (($solved)?"1":"0"),
 					"description" => $question->getComment(),
-					"points" => $question->getMaximumPoints()
+					"points" => $question->getMaximumPoints(),
+					"worked_through" => $worked_through,
+					"postponed" => $is_postponed
 				);
 				array_push($result_array, $row);
 				$key++;
@@ -6471,7 +6479,8 @@ class ilObjTest extends ilObject
 				$notimeleft = TRUE;
 			}
 		}
-		$result = (($active->tries > 0) || ($this->endingTimeReached()) || $notimeleft) && $this->canViewResults();
+		$result = $this->canViewResults();
+		if (($this->endingTimeReached()) || $notimeleft) $result = TRUE;
 		if ($this->getTestType() == TYPE_ONLINE_TEST)
 		{
 			return $result && $this->isActiveTestSubmitted();
@@ -6798,6 +6807,49 @@ class ilObjTest extends ilObject
 			}
 		}
 		return $passed_users;
+	}
+	
+	/**
+	* Returns a new, unused test access code
+	*
+	* @return	string A new test access code
+	*/
+	function createNewAccessCode()
+	{
+		// create a 5 character code
+		$codestring = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		mt_srand();
+		$code = "";
+		for ($i = 1; $i <=5; $i++)
+		{
+			$index = mt_rand(0, strlen($codestring)-1);
+			$code .= substr($codestring, $index, 1);
+		}
+		// verify it against the database
+		while ($this->isAccessCodeUsed($code))
+		{
+			$code = $this->createNewAccessCode();
+		}
+		return $code;
+	}
+	
+	function isAccessCodeUsed($code)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s",
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($code . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 	
 } // END class.ilObjTest

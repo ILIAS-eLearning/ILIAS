@@ -359,6 +359,15 @@ class ilTestOutputGUI
 			$use_post_solutions = true;
 		}
 		$question_gui->outQuestionForTest($formaction, $this->object->getTestId(), $ilUser->getId(), NULL, $is_postponed, $user_post_solutions);
+		if ($directfeedback)
+		{
+			$solutionoutput = $question_gui->getSolutionOutput("", "", NULL);
+			$this->tpl->setCurrentBlock("solution_output");
+			$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("correct_solution_is"));
+			$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
+			$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($ilUser->getId(), $this->object->getTestId(), NULL), $question_gui->object->getMaximumPoints()));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// Normally the first sequence is 1
 		// In course objective mode it is the first wrongly answered question
@@ -549,6 +558,7 @@ class ilTestOutputGUI
 */
 	function start()
 	{
+		$_SESSION["tst_access_code"] = $this->object->createNewAccessCode();
 		if (strlen($this->object->getPassword()))
 		{
 			global $ilUser;
@@ -688,6 +698,7 @@ class ilTestOutputGUI
 				$postpone = $this->sequence;
 				$this->object->setActiveTestUser($this->sequence, $postpone);
 				$this->outTestPage();
+				break;
 			case "setsolved":
 				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
@@ -2265,15 +2276,6 @@ class ilTestOutputGUI
 		$counter = 0;
 		
 		$result_array = & $this->object->getTestSummary($user_id);
-		
-		$img_title_nr = "";
-		$img_title_title = "";
-		$img_title_solved = "";
-		
-		$goto_question =  " <img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("goto_question.png", true) . "\" alt=\"".$this->lng->txt("tst_qst_goto")."\" />";
-		
-		$disabled = $this->isMaxProcessingTimeReached() | $this->object->endingTimeReached();
-		
 		foreach ($result_array as $key => $value) 
 		{
 			if (preg_match("/\d+/", $key)) 
@@ -2281,37 +2283,37 @@ class ilTestOutputGUI
 				$this->tpl->setCurrentBlock("question");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
-				if (!$disabled)
-				{
-					$this->ctrl->setParameter($this, "sequence", $value["nr"]);
-					$this->tpl->setVariable("VALUE_QUESTION_HREF_GOTO", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">");
-					$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-				}
-				$this->tpl->setVariable("VALUE_QUESTION_GOTO", $goto_question);
+				$this->ctrl->setParameter($this, "sequence", $value["nr"]);
+				$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $value["title"] . "</a>");
+				$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
 				$this->tpl->setVariable("VALUE_QUESTION_DESCRIPTION", $value["description"]);
+				if ($value["worked_through"])
+				{
+					$this->tpl->setVariable("VALUE_WORKED_THROUGH", ilUtil::getImagePath("icon_ok.gif"));
+					$this->tpl->setVariable("ALT_WORKED_THROUGH", $this->lng->txt("worked_through"));
+				}
+				else
+				{
+					$this->tpl->setVariable("VALUE_WORKED_THROUGH", ilUtil::getImagePath("icon_not_ok.gif"));
+					$this->tpl->setVariable("ALT_WORKED_THROUGH", $this->lng->txt("not_worked_through"));
+				}
+				if ($value["postponed"])
+				{
+					$this->tpl->setVariable("VALUE_POSTPONED", $this->lng->txt("postponed"));
+				}
 				$this->tpl->setVariable("VALUE_QUESTION_POINTS", $value["points"]."&nbsp;".$this->lng->txt("points_short"));
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
 			}
 		}
 
-		if (!$disabled) 
-		{
-			$this->tpl->setCurrentBlock("back");
-			$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
-			$this->tpl->parseCurrentBlock();
-		} 
-		else 
-		{
-			sendinfo($this->lng->txt("detail_max_processing_time_reached"));
-		}
-		
 		$this->tpl->setVariable("QUESTION_ACTION","actions");
 		$this->tpl->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_qst_order"));
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
+		$this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("worked_through"));
 		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
+		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));		
