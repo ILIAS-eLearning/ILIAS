@@ -10786,3 +10786,14 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#721>
 ALTER TABLE `tst_tests` ADD `show_summary` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `show_solution_printview` ;
+<#722>
+ALTER TABLE `tst_active` ADD `anonymous_id` VARCHAR( 5 ) NULL AFTER `user_fi` ;
+ALTER TABLE `tst_active` ADD INDEX ( `anonymous_id` ) ;
+ALTER TABLE `tst_active_qst_sol_settings` ADD `anonymous_id` VARCHAR( 5 ) NULL AFTER `user_fi` ;
+ALTER TABLE `tst_active_qst_sol_settings` ADD INDEX ( `anonymous_id` ) ;
+ALTER TABLE `tst_solutions` ADD `anonymous_id` VARCHAR( 5 ) NULL AFTER `user_fi` ;
+ALTER TABLE `tst_solutions` ADD INDEX ( `anonymous_id` ) ;
+ALTER TABLE `tst_test_random_question` ADD `anonymous_id` VARCHAR( 5 ) NULL AFTER `user_fi` ;
+ALTER TABLE `tst_test_random_question` ADD INDEX ( `anonymous_id` ) ;
+ALTER TABLE `tst_test_result` ADD `anonymous_id` VARCHAR( 5 ) NULL AFTER `user_fi` ;
+ALTER TABLE `tst_test_result` ADD INDEX ( `anonymous_id` ) ;

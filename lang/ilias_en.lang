@@ -210,6 +210,7 @@ assessment#:#edit_content#:#Edit content
 assessment#:#edit_properties#:#Edit properties
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
+assessment#:#enlarge#:#enlarge
 assessment#:#enter_enough_positive_points#:#The maxium available points for the question must be greater than 0! Please enter sufficient non negative points for your answers.
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.
@@ -297,6 +298,7 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions
 assessment#:#match_terms_and_pictures#:#Match terms and pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching pair
+assessment#:#matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material to download
 assessment#:#material_file#:#Material file
@@ -319,6 +321,7 @@ assessment#:#optional_keywords#:#Optional input of keywords
 assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
+assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
 assessment#:#participants#:#Participants
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#passed
@@ -406,7 +409,9 @@ assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#remove_solution#:#Remove suggested solution
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
+assessment#:#reset_definitions#:#Reset definition positions
 assessment#:#reset_filter#:#Reset filter
+assessment#:#reset_pictures#:#Reset picture positions
 assessment#:#result#:#Result
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
@@ -3514,8 +3519,6 @@ content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
-content#:#cont_matches#:#matches
-content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
@@ -3557,7 +3560,6 @@ content#:#cont_offline_versions#:#Offline Versions
 content#:#cont_online#:#Online
 content#:#cont_or#:#or
 content#:#cont_order#:#Order Type
-content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
 content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
 content#:#cont_orig_size#:#Original Size
@@ -3591,8 +3593,6 @@ content#:#cont_remove_fullscreen#:#Remove Full Screen
 content#:#cont_removeiln#:#really remove internal link ?
 content#:#cont_repository_item#:#Repository Item
 content#:#cont_repository_item_links#:#Repository Item Links
-content#:#cont_reset_definitions#:#Reset definition positions
-content#:#cont_reset_pictures#:#Reset picture positions
 content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.
 content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.
 content#:#cont_resize_image#:#Resize images

@@ -4254,12 +4254,12 @@ class ilObjTestGUI extends ilObjectGUI
 				else
 				{
 					sendInfo($executable["errormessage"]);
-					if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+					if ($this->object->isOnlineTest()) 
 					{
-						sendInfo($this->lng->txt("online_exam_show_answer_print_sheet"));
-					}			
-					if ($this->object->isOnlineTest() and $executable["executable"] == false) 
-					{
+						if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+						{
+							sendInfo($this->lng->txt("online_exam_show_answer_print_sheet"));
+						}			
 						if (!$this->object->isActiveTestSubmitted($ilUser->getId())) 
 						{
 							$info->addFormButton("show_answers", $this->lng->txt("save_finish"));

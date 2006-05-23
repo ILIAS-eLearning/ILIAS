@@ -8,21 +8,23 @@
 	<tr class="tblheader">
 		<th class="std">{QUESTION_COUNTER}</th>
 		<th class="std">{QUESTION_TITLE}</th>
+		<th class="std">{POSTPONED}</th>
 		<th class="std">{QUESTION_POINTS}</th>
+		<th class="std">{WORKED_THROUGH}</th>
 	</tr>
 </thead>
 <!-- BEGIN question -->
 <tr valign="middle">
 	<td class="{COLOR_CLASS}">{VALUE_QUESTION_COUNTER}</td>
-	<td class="{COLOR_CLASS}">{VALUE_QUESTION_HREF_GOTO}{VALUE_QUESTION_GOTO}&nbsp;{VALUE_QUESTION_TITLE}<br><small><em>{VALUE_QUESTION_DESCRIPTION}</em></small>&nbsp;</a></td>	
+	<td class="{COLOR_CLASS}">{VALUE_QUESTION_TITLE}<br><small><em>{VALUE_QUESTION_DESCRIPTION}</em></small></td>	
+	<td class="{COLOR_CLASS}">{VALUE_POSTPONED}</td>
 	<td class="{COLOR_CLASS}">{VALUE_QUESTION_POINTS}</td>
+	<td class="{COLOR_CLASS}"><img src="{VALUE_WORKED_THROUGH}" alt="{ALT_WORKED_THROUGH}" /></td>
 </tr>
 <!-- END question --> 
-</table>
-<table class="fullwidth">
 <tr class="tblfooter">
-	<!-- BEGIN back --><td><input class="submit" type="submit" name="cmd[backFromSummary]" value="{TXT_BACK}"/></td><!-- END back -->
- 	<td align="right"><input class="submit" type="submit" name="cmd[backFromSummary]" value="{TXT_SHOW_AND_SUBMIT_ANSWERS}"/></td>
+	<td><input class="submit" type="submit" name="cmd[backFromSummary]" value="{TXT_BACK}"/></td>
+ 	<td colspan="4" align="right"><input class="submit" type="submit" name="cmd[finishTest]" value="{TXT_SHOW_AND_SUBMIT_ANSWERS}"/></td>
 </tr>
 </table>
 </form>
