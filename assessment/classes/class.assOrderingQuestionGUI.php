@@ -443,9 +443,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
@@ -469,13 +469,13 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
 
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -483,9 +483,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$solutions = array();
-		if ($test_id)
+		if ($active_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 		}
 		else
 		{
@@ -574,7 +574,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -584,20 +584,20 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		}
 
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, TRUE);
 
 		// get the solution of the user for the active pass or from the last pass if allowed
-		if ($test_id)
+		if ($active_id)
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			if (ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
 			if ($use_post_solutions) 
 			{
@@ -612,7 +612,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			}
 			else
 			{
-				$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+				$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			}
 
 			if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)

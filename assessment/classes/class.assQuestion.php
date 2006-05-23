@@ -769,7 +769,7 @@ class assQuestion
 	* @param integer $question_id The database Id of the question
 	* @access public static
 	*/
-	function _getReachedPoints($user_id, $test_id, $question_id, $pass = NULL)
+	function _getReachedPoints($active_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -777,11 +777,10 @@ class assQuestion
 		if (is_null($pass))
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $test_id);
+			$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($question_id . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -804,18 +803,17 @@ class assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedPoints($user_id, $test_id, $pass = NULL)
+	function getReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
 
 		$points = 0;
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -850,16 +848,15 @@ class assQuestion
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $pass = NULL)
+	function saveWorkingData($active_id, $pass = NULL)
 	{
     global $ilDB;
 		global $ilUser;
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$pass = ilObjTest::_getPass($ilUser->id, $test_id);
-		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id, $pass);
-		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s, %s)",
-			$ilDB->quote($ilUser->id . ""),
-			$ilDB->quote($test_id . ""),
+		$pass = ilObjTest::_getPass($active_id);
+		$reached_points = $this->calculateReachedPoints($active_id, $pass);
+		$query = sprintf("REPLACE INTO tst_test_result (active_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s)",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . ""),
 			$ilDB->quote($reached_points . "")
@@ -868,7 +865,7 @@ class assQuestion
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()), $reached_points), $test_id, $this->getId());
+			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()), $reached_points), $active_id, $this->getId());
 		}
 	}
 
@@ -881,7 +878,7 @@ class assQuestion
 * @param integer $question_id If given, saves the question id to the database
 * @access public
 */
-	function logAction($logtext = "", $test_id = "", $question_id = "")
+	function logAction($logtext = "", $active_id = "", $question_id = "")
 	{
 		global $ilUser;
 
@@ -893,7 +890,7 @@ class assQuestion
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		include_once "./assessment/classes/class.ilObjTest.php";
-		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, $question_id, $original_id);
+		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromActiveID($active_id), $logtext, $question_id, $original_id);
 	}
 	
 	/**
@@ -960,7 +957,7 @@ class assQuestion
 	* @access public
 	* @see $answers
 	*/
-	function &getSolutionValues($test_id, $user_id, $pass = NULL)
+	function &getSolutionValues($active_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -968,9 +965,8 @@ class assQuestion
 		
 		if (is_null($pass))
 		{
-			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($test_id . ""),
+			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
+				$ilDB->quote($active_id . ""),
 				$ilDB->quote($this->getId() . "")
 			);
 			$result = $ilDB->query($query);
@@ -985,9 +981,8 @@ class assQuestion
 			}
 		}		
 
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -1832,33 +1827,33 @@ class assQuestion
 		$this->points = $a_points;
 	}
 	
-	function getSolutionCommentMCScoring($test_id)
+	function getSolutionCommentMCScoring($active_id)
 	{
 		$result = "";
 		include_once "./assessment/classes/class.ilObjTest.php";
-		if (ilObjTest::_getMCScoring($test_id) == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
+		if (ilObjTest::_getMCScoring($active_id) == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
 		{
 			$result = $this->lng->txt("solution_comment_mc_scoring");
 		}
 		return $result;
 	}
 
-	function getSolutionCommentScoreCutting($test_id)
+	function getSolutionCommentScoreCutting($active_id)
 	{
 		$result = "";
 		include_once "./assessment/classes/class.ilObjTest.php";
-		if (ilObjTest::_getScoreCutting($test_id) == SCORE_CUT_QUESTION)
+		if (ilObjTest::_getScoreCutting($active_id) == SCORE_CUT_QUESTION)
 		{
 			$result = $this->lng->txt("solution_comment_score_cutting");
 		}
 		return $result;
 	}
 
-	function getSolutionCommentCountSystem($test_id)
+	function getSolutionCommentCountSystem($active_id)
 	{
 		$result = "";
 		include_once "./assessment/classes/class.ilObjTest.php";
-		if (ilObjTest::_getCountSystem($test_id) == COUNT_CORRECT_SOLUTIONS )
+		if (ilObjTest::_getCountSystem($active_id) == COUNT_CORRECT_SOLUTIONS )
 		{
 			$result = $this->lng->txt("solution_comment_count_system");
 		}
@@ -1873,9 +1868,9 @@ class assQuestion
 * @param return integer The maximum pass of the users solution
 * @access public
 */
-	function getSolutionMaxPass($user_id, $test_id)
+	function getSolutionMaxPass($active_id)
 	{
-		return $this->_getSolutionMaxPass($this->getId(), $user_id, $test_id);
+		return $this->_getSolutionMaxPass($this->getId(), $active_id);
 	}
 
 /**
@@ -1886,13 +1881,12 @@ class assQuestion
 * @param return integer The maximum pass of the users solution
 * @access public
 */
-	function _getSolutionMaxPass($question_id, $user_id, $test_id)
+	function _getSolutionMaxPass($question_id, $active_id)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($question_id . "")
 		);
     $result = $ilDB->query($query);
@@ -1974,10 +1968,10 @@ class assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id, $pass = NULL, $points = 0)
+	function calculateReachedPoints($active_id, $pass = NULL, $points = 0)
 	{
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$count_system = ilObjTest::_getCountSystem($test_id);
+		$count_system = ilObjTest::_getCountSystem($active_id);
 		if ($count_system == 1)
 		{
 			if ($points != $this->getMaximumPoints())
@@ -1985,7 +1979,7 @@ class assQuestion
 				$points = 0;
 			}
 		}
-		$score_cutting = ilObjTest::_getScoreCutting($test_id);
+		$score_cutting = ilObjTest::_getScoreCutting($active_id);
 		if ($score_cutting == 0)
 		{
 			if ($points < 0)
@@ -2007,7 +2001,7 @@ class assQuestion
 	* @param integer $question_id The database Id of the question
 	* @access public static
 	*/
-	function _isWorkedThrough($user_id, $test_id, $question_id, $pass = NULL)
+	function _isWorkedThrough($active_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -2015,11 +2009,10 @@ class assQuestion
 		if (is_null($pass))
 		{
 			include_once "./assessment/classes/class.assQuestion.php";
-			$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $test_id);
+			$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
 		}
-		$query = sprintf("SELECT solution_id FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($question_id . ""),
 			$ilDB->quote($pass . "")
 		);

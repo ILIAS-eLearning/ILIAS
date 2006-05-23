@@ -494,18 +494,18 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();show_solution();\"");
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -516,10 +516,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$key2 = $keys;
 
 		$solutions = array();
-		if ($test_id)
+		if ($active_id)
 		{
 			include_once "./assessment/classes/class.ilObjTest.php";
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			$solution_script .= "";
 		}
 		else
@@ -632,10 +632,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -650,13 +650,13 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$keys2 = $this->object->pcArrayShuffle($keys);
 		}
 
-		if ($test_id)
+		if ($active_id)
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			if (ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
 			if ($use_post_solutions) 
 			{ 
@@ -671,7 +671,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			}
 			else
 			{ 
-				$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+				$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			}
 			$solution_script .= "";
 			foreach ($solutions as $idx => $solution_value)

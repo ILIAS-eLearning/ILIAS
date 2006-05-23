@@ -3692,7 +3692,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$question_gui = $this->object->createQuestionGUI("", $question);
 			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".");
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			$result_output = $question_gui->getSolutionOutput("", "");
+			$result_output = $question_gui->getSolutionOutput("");
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock("question");
 			$counter ++;					
@@ -4156,8 +4156,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
-			$idx = $this->object->getTestId();
-			$result_output = $question_gui->getSolutionOutput($idx, $ilUser->getId(), $pass);
+			$active = $this->object->getActiveTestUser($ilUser->getId());
+			$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock();
 			$counter ++;

@@ -230,72 +230,6 @@ class assJavaApplet extends assQuestion
 				);
 				$a_xml_writer->xmlElement("mattext", $attrs, $value["value"]);
 			}
-			if ($test_output)
-			{
-				include_once "./assessment/classes/class.ilObjTest.php";
-				$attrs = array(
-					"label" => "test_type"
-				);
-				$a_xml_writer->xmlElement("mattext", $attrs, ilObjTest::_getTestType($test_output));
-				$attrs = array(
-					"label" => "test_id"
-				);
-				$a_xml_writer->xmlElement("mattext", $attrs, $test_output);
-				$attrs = array(
-					"label" => "question_id"
-				);
-				$a_xml_writer->xmlElement("mattext", $attrs, $this->getId());
-				$attrs = array(
-					"label" => "user_id"
-				);
-				global $ilUser;
-				$a_xml_writer->xmlElement("mattext", $attrs, $ilUser->id);
-				$attrs = array(
-					"label" => "points_max"
-				);
-				$a_xml_writer->xmlElement("mattext", $attrs, $this->getPoints());
-				$attrs = array(
-					"label" => "session_id"
-				);
-				$a_xml_writer->xmlElement("mattext", $attrs, $_COOKIE["PHPSESSID"]);
-				$attrs = array(
-					"label" => "client"
-				);
-				$a_xml_writer->xmlElement("mattext", $attrs, CLIENT_ID);
-				include_once "./assessment/classes/class.ilObjTest.php";
-				$attrs = array(
-					"label" => "pass"
-				);
-				$pass = ilObjTest::_getPass($ilUser->id, $test_output);
-				$a_xml_writer->xmlElement("mattext", $attrs, $pass);
-				$attrs = array(
-					"label" => "post_url"
-				);
-//				$a_xml_writer->xmlElement("mattext", $attrs, "http://localhost/ilias36x/assessment/save_java_question_result.php");
-				$a_xml_writer->xmlElement("mattext", $attrs, ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
-
-				$info = array();
-				if (ilObjTest::_getHidePreviousResults($test_output, true))
-				{
-					$info = $this->getReachedInformation($ilUser->id, $test_output, $pass);
-				}
-				else
-				{
-					$pass = $this->getSolutionMaxPass($user_id, $test_output);
-					$info = $this->getReachedInformation($ilUser->id, $test_output, $pass);
-				}
-				foreach ($info as $kk => $infodata)
-				{
-					$attrs = array(
-						"label" => "value_" . $infodata["order"] . "_1"
-					);
-					$a_xml_writer->xmlElement("mattext", $attrs, $infodata["value1"]);
-					$attrs = array(
-						"label" => "value_" . $infodata["order"] . "_2"
-					);
-					$a_xml_writer->xmlElement("mattext", $attrs, $infodata["value2"]);
-				}
-			}
 		}
 		$a_xml_writer->xmlEndTag("material");
 		$a_xml_writer->xmlStartTag("material");
@@ -818,18 +752,17 @@ class assJavaApplet extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($user_id, $test_id, $pass = NULL)
+	function calculateReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		
 		$found_values = array();
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -840,7 +773,7 @@ class assJavaApplet extends assQuestion
 			$points += $data->points;
 		}
 
-		$points = parent::calculateReachedPoints($user_id, $test_id, $pass = NULL, $points);
+		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 	}
 
 	/**
@@ -852,16 +785,15 @@ class assJavaApplet extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedInformation($user_id, $test_id, $pass = NULL)
+	function getReachedInformation($active_id, $pass = NULL)
 	{
 		$found_values = array();
 		if (is_null($pass))
 		{
-			$pass = $this->getSolutionMaxPass($user_id, $test_id);
+			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($test_id . ""),
+		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$this->ilias->db->quote($active_id . ""),
 			$this->ilias->db->quote($this->getId() . ""),
 			$this->ilias->db->quote($pass . "")
 		);
@@ -1026,9 +958,9 @@ class assJavaApplet extends assQuestion
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($test_id, $pass = NULL)
+	function saveWorkingData($active_id, $pass = NULL)
 	{
-    parent::saveWorkingData($test_id, $pass);
+    parent::saveWorkingData($active_id, $pass);
 		return true;
   }
 

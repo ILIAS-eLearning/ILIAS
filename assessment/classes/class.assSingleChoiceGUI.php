@@ -557,50 +557,26 @@ class assSingleChoiceGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function getResultOutput($test_id, &$ilUser, $pass = NULL)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		$question_html = $this->outQuestionPage("", FALSE, $test_id);
-		// remove the question title heading
-		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
-		if ($test_id)
-		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
-			foreach ($solutions as $idx => $solution_value)
-			{
-				//replace all checked answers with x or checkbox
-				$repl_str = "dummy=\"mc".$solution_value["value1"]."\"";
-				$repl_with = "<span class=\"textanswer\">(X)</span>";
-				$question_html = preg_replace("/(<input[^>]*".$repl_str."[^>]*>)/" , $repl_with, $question_html);
-				//$question_html = $this->replaceInputElements($repl_str, "X", $question_html, "[","]");
-			}
-			// now replace all not-checked checkboxes with an 0
-			$repl_with = "<span class=\"textanswer\">(O)</span>";
-			$question_html = preg_replace("/(<input[^>]*>)/" , $repl_with, $question_html);
-			//$question_html = $this->replaceInputElements("","O", $question_html,"[","]");
-		}
-		return $question_html;
-	}
-	
-	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
-	{
-		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// shuffle output
 		$keys = array_keys($this->object->answers);
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
-		if ($test_id)
+		if ($active_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$user_solution = $solution_value["value1"];
@@ -642,7 +618,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("QUESTION_ID", $this->object->getId());
-			$template->setVariable("TEST_ID", $test_id);
+			$template->setVariable("TEST_ID", $active_id);
 			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
@@ -696,10 +672,10 @@ class assSingleChoiceGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -710,15 +686,15 @@ class assSingleChoiceGUI extends assQuestionGUI
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
-		if ($test_id)
+		if ($active_id)
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			if (ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$user_solution = $solution_value["value1"];

@@ -592,61 +592,23 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
-	function getResultOutput($test_id, &$ilUser, $pass = NULL)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		$question_html = $this->outQuestionPage("", FALSE, $test_id);
-		// remove the question title heading
-		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
-		if ($test_id)
-		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
-			if (is_array($solutions)) 
-			{
-				foreach ($solutions as $idx => $solution_value)
-				{
-					// replace text gaps
-					$repl_str = "dummy=\"tgap_".$solution_value["value1"]."\"";
-					//$repl_with = "[" . $solution_value["value2"] . "]";
-					if (strlen($solution_value["value2"]))
-					{
-						$repl_with = "<span class=\"solutionbox\">" . $solution_value["value2"] . "</span>";
-					}
-					else
-					{
-						$repl_with = "<span class=\"solutionbox\">&nbsp;</span>";
-					}
-					$question_html = preg_replace("/(<input[^>]*".$repl_str."[^>]*>)/" , $repl_with, $question_html);
-					// replace select gaps
-					$repl_str = "dummy=\"sgap_".$solution_value["value1"]."_".$solution_value["value2"]."\"";
-					$repl_with = "<span class=\"solutionbox\">&nbsp;</span>";
-					if (preg_match("/<option[^>]*" . $repl_str . "[^>]*>(.*?)<\/option>/", $question_html, $matches))
-					{
-						$repl_with = "<span class=\"solutionbox\">" . $matches[1] . "</span>";
-					}
-					$question_html = preg_replace("/(<select.*".$repl_str.".*?\/select>)/" , $repl_with, $question_html);
-				}
-			}
-		}
-		return $question_html;
-	}
-
-	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
-	{
-		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
-		if ($test_id)
+		if ($active_id)
 		{
-			$user_solution =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$user_solution =& $this->object->getSolutionValues($active_id, $pass);
 			if (!is_array($user_solution)) 
 			{
 				$user_solution = array();
@@ -788,21 +750,21 @@ class assClozeTestGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
-		if ($test_id)
+		if ($active_id)
 		{
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			if (ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$user_solution =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$user_solution =& $this->object->getSolutionValues($active_id, $pass);
 			if (!is_array($user_solution)) 
 			{
 				$user_solution = array();

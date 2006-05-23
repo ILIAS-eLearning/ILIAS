@@ -1630,13 +1630,14 @@ class ilObjTest extends ilObject
 		{
 			$user_id = $ilUser->id;
 		}
+		$active = $this->getActiveTestUser($user_id);
 		if ($this->isRandomTest())
 		{
 			if (is_null($pass))
 			{
 				if ($this->getTestType() == TYPE_VARYING_RANDOMTEST)
 				{
-					$pass = $this->_getPass($ilUser->id, $this->getTestId());
+					$pass = $this->_getPass($active->active_id);
 				}
 				else
 				{
@@ -1906,11 +1907,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $count_system
 */
-  function _getCountSystem($test_id) 
+  function _getCountSystem($active_id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT count_system FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
+		$query = sprintf("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -1986,11 +1987,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $pass_scoring
 */
-  function _getPassScoring($test_id) 
+  function _getPassScoring($active_id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT pass_scoring FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id . "")
+		$query = sprintf("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -2010,11 +2011,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $mc_scoring
 */
-  function _getMCScoring($test_id) 
+  function _getMCScoring($active_id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT  mc_scoring FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
+		$query = sprintf("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -2034,11 +2035,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $score_cutting
 */
-  function _getScoreCutting($test_id) 
+  function _getScoreCutting($active_id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT score_cutting FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id)
+		$query = sprintf("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
+			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -2129,12 +2130,12 @@ class ilObjTest extends ilObject
 * @access public
 * @see $hide_title_points
 */
-  function _getHideTitlePoints($test_id) 
+  function _getHideTitlePoints($active_id) 
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT hide_title_points FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id . "")
+		$query = sprintf("SELECT tst_tests.hide_title_points FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -2156,7 +2157,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $hide_previous_results
 */
-  function _getHidePreviousResults($test_id, $user_active_user_setting = false) 
+  function _getHidePreviousResults($active_id, $user_active_user_setting = false) 
 	{
 		global $ilDB;
 		global $ilUser;
@@ -2169,8 +2170,8 @@ class ilObjTest extends ilObject
 				$user_hide_previous_results = $ilUser->prefs["tst_hide_previous_results"];
 			}
 		}
-		$query = sprintf("SELECT hide_previous_results FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id . "")
+		$query = sprintf("SELECT tst_tests.hide_previous_results FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -2518,7 +2519,7 @@ class ilObjTest extends ilObject
 		// remove the question from tst_solutions
 		if ($question_id) 
 		{
-			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
+			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_solutions.question_fi = %s",
 				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($question_id)
 			);			
@@ -2531,7 +2532,7 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($question_id)
 			);
 		} else {
-			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
+			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
 				$this->ilias->db->quote($this->getTestId())
 			);
 			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
@@ -2590,7 +2591,7 @@ class ilObjTest extends ilObject
 		// remove the question from tst_solutions
 		foreach ($user_ids as $user_id)
 		{
-			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s",
+			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
 				$ilDB->quote($this->getTestId() . ""),
 				$ilDB->quote($user_id . "")
 			);
@@ -2654,8 +2655,9 @@ class ilObjTest extends ilObject
 	{
 		if ($user_id) 
 		{
-			$pass = $this->_getPass($user_id, $this->getTestId());
-			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND pass = %s",
+			$active = $this->getActiveTestUser($user_id);
+			$pass = $this->_getPass($active->active_id);
+			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s AND tst_solutions.pass = %s",
 				$this->ilias->db->quote($this->getTestId() . ""),
 				$this->ilias->db->quote($user_id . ""),
 				$this->ilias->db->quote($pass . "")
@@ -3059,7 +3061,7 @@ class ilObjTest extends ilObject
 		$active = $this->getActiveTestUser();
 		$sequence_array = split(",", $active->sequence);
 		$all_questions = &$this->getAllQuestions();
-		$worked_questions = &$this->getWorkedQuestions();
+		$worked_questions = &$this->getWorkedQuestions($active->active_id);
 		foreach ($sequence_array as $sequence)
 		{
 			if (in_array($this->questions[$sequence], $worked_questions))
@@ -3129,21 +3131,19 @@ class ilObjTest extends ilObject
 * @return array The question id's of the questions already worked through
 * @access	public
 */
-	function &getWorkedQuestions($pass = NULL)
+	function &getWorkedQuestions($active_id, $pass = NULL)
 	{
 		global $ilUser;
 		if (is_null($pass))
 		{
-			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = 0 GROUP BY question_fi",
-				$this->ilias->db->quote($ilUser->id),
-				$this->ilias->db->quote($this->getTestId())
+			$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = 0 GROUP BY question_fi",
+				$this->ilias->db->quote($active_id . "")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND pass = %s GROUP BY question_fi",
-				$this->ilias->db->quote($ilUser->id . ""),
-				$this->ilias->db->quote($this->getTestId() . ""),
+			$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
+				$this->ilias->db->quote($active_id . ""),
 				$this->ilias->db->quote($pass . "")
 			);
 		}
@@ -3382,12 +3382,13 @@ class ilObjTest extends ilObject
 		$result_array = array();
 		include_once "./assessment/classes/class.assQuestion.php";
 		$workedthrough = 0;
+		$active = $this->getActiveTestUser($user_id);
 		foreach ($this->questions as $value)
 		{
 			$max_points = assQuestion::_getMaximumPoints($value);
 			$total_max_points += $max_points;
-			$reached_points = assQuestion::_getReachedPoints($user_id, $this->getTestId(), $value, $pass);
-			if (assQuestion::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
+			$reached_points = assQuestion::_getReachedPoints($active->active_id, $value, $pass);
+			if (assQuestion::_isWorkedThrough($active->active_id, $value, $pass))
 			{
 				$workedthrough = 1;
 			}
@@ -3499,7 +3500,7 @@ class ilObjTest extends ilObject
 			$question =& ilObjTest::_instanciateQuestion($val);
 			if (is_object($question))
 			{
-				$worked_through = $question->_isWorkedThrough($user_id, $this->getTestId(), $question->getId(), $pass);
+				$worked_through = $question->_isWorkedThrough($active->active_id, $question->getId(), $pass);
 				$solved  = 0;
 				if (array_key_exists($question->getId(),$solved_questions)) 
 				{
@@ -3709,7 +3710,8 @@ class ilObjTest extends ilObject
 	function &evalStatistical($user_id)
 	{
 //		global $ilBench;
-		$pass = ilObjTest::_getResultPass($user_id, $this->getTestId());
+		$active = $this->getActiveTestUser($user_id);
+		$pass = ilObjTest::_getResultPass($active->active_id);
 		$test_result =& $this->getTestResult($user_id, $pass);
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
 			$this->ilias->db->quote($this->getTestId()),
@@ -3917,7 +3919,8 @@ class ilObjTest extends ilObject
 		$maximum_points = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
-			$pass = ilObjTest::_getResultPass($row->user_fi, $this->getTestId());
+			$active = $this->getActiveTestUser($row->user_fi);
+			$pass = ilObjTest::_getResultPass($active->active_id);
 			$res =& $this->getTestResult($row->user_fi, $pass);
 			if ((!$res["test"]["total_reached_points"]) or (!$res["test"]["total_max_points"])) 
 			{
@@ -4681,13 +4684,13 @@ class ilObjTest extends ilObject
 * @return integer The test type of the test
 * @access	public
 */
-	function _getTestType($test_id)
+	function _getTestType($active_id)
 	{
 		global $ilDB;
 		
 		$result = "";
-		$query = sprintf("SELECT tst_test_type.type_tag FROM tst_test_type, tst_tests WHERE tst_test_type.test_type_id = tst_tests.test_type_fi AND tst_tests.test_id = %s",
-			$ilDB->quote($test_id)
+		$query = sprintf("SELECT tst_test_type.type_tag FROM tst_test_type, tst_tests, tst_active WHERE tst_test_type.test_type_id = tst_tests.test_type_fi AND tst_tests.test_id = test_active.test_fi AND tst_active.active_id = %s",
+			$ilDB->quote($active_id . "")
 		);
 		$query_result = $ilDB->query($query);
 		if ($query_result->numRows())
@@ -5737,6 +5740,31 @@ class ilObjTest extends ilObject
 	}
 
 /**
+* Returns the ILIAS test object id for a given active id
+* 
+* Returns the ILIAS test object id for a given active id
+*
+* @param integer $active_id The active id
+* @return mixed The ILIAS test object id or FALSE if the query was not successful
+* @access public
+*/
+	function _getObjectIDFromActiveID($active_id)
+	{
+		global $ilDB;
+		$object_id = FALSE;
+		$query = sprintf("SELECT tst_tests.obj_fi FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$object_id = $row["obj_fi"];
+		}
+		return $object_id;
+	}
+
+/**
 * Returns the ILIAS test id for a given object id
 * 
 * Returns the ILIAS test id for a given object id
@@ -5776,14 +5804,14 @@ class ilObjTest extends ilObject
 		$res = "";
 		if (($user_id) && ($question_id))
 		{
+			$active = $this->getActiveTestUser($user_id);
 			if (is_null($pass))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$pass = assQuestion::_getSolutionMaxPass($question_id, $user_id, $this->getTestId());
+				$pass = assQuestion::_getSolutionMaxPass($question_id, $active->active_id);
 			}
-			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND pass = %s",
-				$this->ilias->db->quote($user_id . ""),
-				$this->ilias->db->quote($this->getTestId() . ""),
+			$query = sprintf("SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				$this->ilias->db->quote($active->active_id . ""),
 				$this->ilias->db->quote($question_id . ""),
 				$this->ilias->db->quote($pass . "")
 			);
@@ -6143,6 +6171,7 @@ class ilObjTest extends ilObject
 		foreach ($participants as $user_id => $user_rec) 
 		{
 			$row = array();		
+			$active = $this->getActiveTestUser($user_id);
 			$reached_points = 0;
 			$max_points = 0;					
 			
@@ -6155,7 +6184,7 @@ class ilObjTest extends ilObject
 				if (is_object($question))
 				{
 					$max_points += $question->getMaximumPoints();
-					$reached_points += $question->getReachedPoints($user_id, $this->getTestId()); 
+					$reached_points += $question->getReachedPoints($active->active_id); 
 				}
 			}
 			
@@ -6244,12 +6273,11 @@ class ilObjTest extends ilObject
 * @return integer The pass of the user for the given test
 * @access public
 */
-	function _getPass($user_id, $test_id)
+	function _getPass($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tries FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . "")
+		$query = sprintf("SELECT tries FROM tst_active WHERE active_id = %s",
+			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -6273,17 +6301,16 @@ class ilObjTest extends ilObject
 * @return integer The best pass of the user for the given test
 * @access public
 */
-	function _getBestPass($user_id, $test_id)
+	function _getBestPass($active_id)
 	{
 		global $ilDB;
-		$lastpass = ilObjTest::_getPass($user_id, $test_id);
+		$lastpass = ilObjTest::_getPass($active_id);
 		$bestpass = 0;
 		$maxpoints = 0;
 		for ($i = 0; $i <= $lastpass; $i++)
 		{
-			$query = sprintf("SELECT SUM(points) AS maxpoints FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($test_id . ""),
+			$query = sprintf("SELECT SUM(points) AS maxpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+				$ilDB->quote($active_id . ""),
 				$ilDB->quote($i . "")
 			);
 			$result = $ilDB->query($query);
@@ -6310,22 +6337,21 @@ class ilObjTest extends ilObject
 * @return integer The result pass of the user for the given test
 * @access public
 */
-	function _getResultPass($user_id, $test_id)
+	function _getResultPass($active_id)
 	{
 		$counted_pass = NULL;
-		if (strcmp(ilObjTest::_getTestType($test_id), "tt_varying_randomtest") == 0)
+		if (strcmp(ilObjTest::_getTestType($active_id), "tt_varying_randomtest") == 0)
 		{
-			if (ilObjTest::_getPassScoring($test_id) == SCORE_BEST_PASS)
+			if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS)
 			{
-				$counted_pass = ilObjTest::_getBestPass($user_id, $test_id);
+				$counted_pass = ilObjTest::_getBestPass($active_id);
 			}
 			else
 			{
-				$counted_pass = ilObjTest::_getPass($user_id, $test_id);
+				$counted_pass = ilObjTest::_getPass($active_id);
 				global $ilDB;
-				$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND pass = %s",
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($test_id . ""),
+				$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+					$ilDB->quote($active_id . ""),
 					$ilDB->quote($counted_pass . "")
 				);
 				$result = $ilDB->query($query);
@@ -6360,9 +6386,10 @@ class ilObjTest extends ilObject
 		}
 		include_once "./assessment/classes/class.assQuestion.php";
 		$workedthrough = 0;
+		$active = $this->getActiveTestUser($user_id);
 		foreach ($this->questions as $value)
 		{
-			if (assQuestion::_isWorkedThrough($user_id, $this->getTestId(), $value, $pass))
+			if (assQuestion::_isWorkedThrough($active->active_id, $value, $pass))
 			{
 				$workedthrough += 1;
 			}
@@ -6795,7 +6822,8 @@ class ilObjTest extends ilObject
 			{
 				$user_id = $row["user_fi"];
 				$test_id = $row["test_fi"];
-				$pass = ilObjTest::_getResultPass($user_id, $test_id);
+				$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
+				$pass = ilObjTest::_getResultPass($active->active_id);
 				include_once "./assessment/classes/class.ilObjTestAccess.php";
 				$testres =& ilObjTestAccess::_getTestResult($user_id, $a_obj_id, $pass);
 				if ((bool) $testres['passed'])
@@ -6847,6 +6875,24 @@ class ilObjTest extends ilObject
 		else
 		{
 			return FALSE;
+		}
+	}
+	
+	function _getUserIdFromActiveId($active_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT user_fi FROM tst_active WHERE active_id = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["user_fi"];
+		}
+		else
+		{
+			return -1;
 		}
 	}
 	

@@ -690,58 +690,22 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function getResultOutput($test_id, &$ilUser, $pass = NULL)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		$question_html = $this->outQuestionPage("", FALSE, $test_id);
-		// remove the question title heading
-		$question_html = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $question_html);
-		if ($test_id)
-		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser->getId(), $pass);
-			include_once "./assessment/classes/class.ilImagemapPreview.php";
-			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
-			foreach ($solutions as $idx => $solution_value)
-			{
-				if (strcmp($solution_value["value1"], "") != 0)
-				{
-					$preview->addArea($this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
-				}
-			}
-			$preview->createPreview();
-			if (count($preview->areas))
-			{
-				$pfile = $preview->getPreviewFilename();
-				if (strlen($pfile) == 0)
-				{
-					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
-					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-				}
-				else
-				{
-					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
-				}
-				$question_html = preg_replace("/usemap\=\"#qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#qmap\" src=\"$imagepath\"", $question_html);
-			}
-		}
-		return $question_html;
-	}
-
-	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
-	{
-		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 
 		$this->ctrl->setParameter($this, "formtimestamp", time());
 		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
 		include_once "./assessment/classes/class.ilObjTest.php";
-		if (ilObjTest::_getHidePreviousResults($test_id, true))
+		if (ilObjTest::_getHidePreviousResults($active_id, true))
 		{
-			$pass = ilObjTest::_getPass($user_id, $test_id);
-			$info =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$pass = ilObjTest::_getPass($active_id);
+			$info =& $this->object->getSolutionValues($active_id, $pass);
 		}
 		else
 		{
-			$info =& $this->object->getSolutionValues($test_id, $user_id, NULL);
+			$info =& $this->object->getSolutionValues($active_id, NULL);
 		}
 		if (count($info))
 		{
@@ -753,21 +717,21 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 		$solutions = array();
-		if ($test_id)
+		if ($active_id)
 		{
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id, true))
+			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 		}
 		else
 		{
@@ -849,22 +813,22 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
-		if ($test_id)
+		if ($active_id)
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			if (ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$user_solution = $solution_value["value1"];
@@ -872,15 +836,15 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 
 		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-		if ($test_id)
+		if ($active_id)
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($test_id, true))
+			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($test_id, $user_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			include_once "./assessment/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)

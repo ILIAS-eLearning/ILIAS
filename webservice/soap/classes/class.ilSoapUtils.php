@@ -101,19 +101,19 @@ class ilSoapUtils extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		include_once "./assessment/classes/class.ilObjTest.php";
+		$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
 		$ilDB = $GLOBALS['ilDB'];
 		for($i = 0; $i < count($solution); $i += 3)
 		{
 			$query = sprintf("INSERT INTO tst_solutions ".
-				"SET user_fi = %s, ".
-				"test_fi = %s, ".
+				"SET active_fi = %s, ".
 				"question_fi = %s, ".
 				"value1 = %s, ".
 				"value2 = %s, ".
 				"points = %s, ".
 				"pass = %s",
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($test_id . ""),
+				$ilDB->quote($active->active_id . ""),
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote($solution[$i]),
 				$ilDB->quote($solution[$i+1]),

@@ -147,12 +147,12 @@ class ilTestOutputGUI
 					$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 				}
 				$pass = NULL;
+				$active = $this->object->getActiveTestUser($ilUser->getId());
 				if ($this->object->isRandomTest())
 				{
-					global $ilUser;
-					$pass = $this->object->_getPass($ilUser->getId(), $this->object->getTestId());
+					$pass = $this->object->_getPass($active->active_id);
 				}
-				$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId(), $pass);
+				$this->saveResult = $question_gui->object->saveWorkingData($active->active_id, $pass);
 			}												
 		}			
 	}
@@ -358,14 +358,15 @@ class ilTestOutputGUI
 		{
 			$use_post_solutions = true;
 		}
-		$question_gui->outQuestionForTest($formaction, $this->object->getTestId(), $ilUser->getId(), NULL, $is_postponed, $user_post_solutions);
+		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solutions);
 		if ($directfeedback)
 		{
-			$solutionoutput = $question_gui->getSolutionOutput("", "", NULL);
+			$solutionoutput = $question_gui->getSolutionOutput("", NULL);
 			$this->tpl->setCurrentBlock("solution_output");
 			$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("correct_solution_is"));
 			$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
-			$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($ilUser->getId(), $this->object->getTestId(), NULL), $question_gui->object->getMaximumPoints()));
+			$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($active->active_id, NULL), $question_gui->object->getMaximumPoints()));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -986,7 +987,8 @@ class ilTestOutputGUI
 		
 		unset($_SESSION["tst_next"]);
 		
-		$actualpass = $this->object->_getPass($ilUser->id, $this->object->getTestId());
+		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$actualpass = $this->object->_getPass($active->active_id);
 		if (($confirm) && ($actualpass == $this->object->getNrOfTries() - 1))
 		{
 			// show confirmation page
@@ -1408,7 +1410,8 @@ class ilTestOutputGUI
 		$counter = 0;
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$counted_pass = ilObjTest::_getResultPass($ilUser->id, $this->object->getTestId());
-		$reached_pass = $this->object->_getPass($ilUser->id, $this->object->getTestId());
+		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$reached_pass = $this->object->_getPass($active->active_id);
 		$result_percentage = 0;
 		$result_total_reached = 0;
 		$result_total_max = 0;
@@ -1670,8 +1673,8 @@ class ilTestOutputGUI
 				$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
 				$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 				
-				$idx = $this->object->getTestId();
-				$result_output = $question_gui->getSolutionOutput($idx, $ilUser->getId(), $pass);
+				$active = $this->object->getActiveTestUser($ilUser->getId());
+				$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
 				$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
@@ -1749,8 +1752,9 @@ class ilTestOutputGUI
 		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
-		$result_output = $question_gui->getSolutionOutput($test_id, $ilUser->getId(), NULL);
-		$best_output = $question_gui->getSolutionOutput("", "");
+		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$result_output = $question_gui->getSolutionOutput($active->active_id, NULL);
+		$best_output = $question_gui->getSolutionOutput("");
 		$this->tpl->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
 		$this->tpl->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
 		$maxpoints = $question_gui->object->getMaximumPoints();
@@ -1764,7 +1768,7 @@ class ilTestOutputGUI
 		}
 		$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 		$this->tpl->setVariable("BEST_OUTPUT", $best_output);
-		$this->tpl->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($ilUser->getId(), $test_id), $maxpoints));
+		$this->tpl->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active->active_id), $maxpoints));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
@@ -1899,8 +1903,8 @@ class ilTestOutputGUI
 			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
-			$idx = $this->object->getTestId();
-			$result_output = $question_gui->getSolutionOutput($idx, $ilUser->getId(), $pass);
+			$active = $this->object->getActiveTestUser($ilUser->getId());
+			$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock();
 			$counter ++;

@@ -356,24 +356,24 @@ class assJavaAppletGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function outQuestionForTest($formaction, $test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		$test_output = $this->getTestOutput($test_id, $user_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($test_id, $user_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", TRUE, TRUE, TRUE);
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_type");
-		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($test_id));
+		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($active_id));
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_id");
@@ -401,15 +401,15 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "pass");
-		$actualpass = ilObjTest::_getPass($user_id, $test_id);
+		$actualpass = ilObjTest::_getPass($active_id);
 		$template->setVariable("PARAM_VALUE", $actualpass);
 		$template->parseCurrentBlock();
 
-		if ($test_id)
+		if ($active_id)
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			$info = $this->object->getReachedInformation($user_id, $test_id, $pass);
+			$info = $this->object->getReachedInformation($active_id, $pass);
 			foreach ($info as $kk => $infodata)
 			{
 				$template->setCurrentBlock("appletparam");
@@ -488,17 +488,17 @@ class assJavaAppletGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
-	function getTestOutput($test_id, $user_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $test_id);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_type");
-		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($test_id));
+		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($active_id));
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_id");
@@ -526,7 +526,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "pass");
-		$actualpass = ilObjTest::_getPass($user_id, $test_id);
+		$actualpass = ilObjTest::_getPass($active_id);
 		$template->setVariable("PARAM_VALUE", $actualpass);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
@@ -534,15 +534,15 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
 		$template->parseCurrentBlock();
 
-		if ($test_id)
+		if ($active_id)
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($test_id, true))
+			if (ilObjTest::_getHidePreviousResults($active_id, true))
 			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($user_id, $test_id);
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$info = $this->object->getReachedInformation($user_id, $test_id, $pass);
+			$info = $this->object->getReachedInformation($active_id, $pass);
 			foreach ($info as $kk => $infodata)
 			{
 				$template->setCurrentBlock("appletparam");
