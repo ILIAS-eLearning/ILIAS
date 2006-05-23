@@ -475,7 +475,7 @@ class ilTestOutputGUI
 		if ($this->object->isOnlineTest()) 
 		{
 			include_once "./assessment/classes/class.ilObjTest.php";
-			$solved_array = ilObjTest::_getSolvedQuestions($this->object->test_id, $ilUser->getId(), $question_gui->object->getId());
+			$solved_array = ilObjTest::_getSolvedQuestions($active->active_id, $question_gui->object->getId());
 			$solved = 0;
 			
 			if (count ($solved_array) > 0) 
