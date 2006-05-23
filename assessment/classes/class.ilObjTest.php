@@ -2521,8 +2521,8 @@ class ilObjTest extends ilObject
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
 				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($question_id)
-			);
-			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s AND question_fi=%s",
+			);			
+			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active_qst_sol_settings.question_fi = %s",
 				$this->ilias->db->quote($this->getTestId()),				
 				$this->ilias->db->quote($question_id)
 			);
@@ -2534,7 +2534,7 @@ class ilObjTest extends ilObject
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
 				$this->ilias->db->quote($this->getTestId())
 			);
-			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s",
+			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
 				$this->ilias->db->quote($this->getTestId())							
 			);			
 			$query3 = sprintf("DELETE FROM tst_test_result WHERE test_fi = %s",
@@ -2594,7 +2594,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getTestId() . ""),
 				$ilDB->quote($user_id . "")
 			);
-			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s AND user_fi = %s",
+			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
 				$ilDB->quote($this->getTestId() . ""),
 				$ilDB->quote($user_id . "")
 			);			
@@ -2677,7 +2677,7 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 			
-			$query = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s AND user_fi = %s",
+			$query = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
 				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($user_id)
 			);
@@ -3489,7 +3489,7 @@ class ilObjTest extends ilObject
 
 		$active = $this->getActiveTestUser();
 		$postponed = explode(",", $active->postponed);
-		$solved_questions = ilObjTest::_getSolvedQuestions($this->test_id, $user_id);
+		$solved_questions = ilObjTest::_getSolvedQuestions($active->active_id);
 		include_once "./classes/class.ilObjUser.php";
 	 	$user = new ilObjUser($user_id);
 		$sequence_array = split(",", $active->sequence);
@@ -6040,20 +6040,18 @@ class ilObjTest extends ilObject
 	 * 
 	 * @return array of int containing all question ids which have been set solved for the given user and test
 	 */
-	function _getSolvedQuestions($test_fi, $user_fi, $question_fi = null) 
+	function _getSolvedQuestions($active_id, $question_fi = null) 
 	{
 		global $ilDB;
 		if (is_numeric($question_fi))
 			$query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
-						 "WHERE user_fi = %s AND test_fi = %s AND question_fi=%s",
-							$ilDB->quote($user_fi),
-							$ilDB->quote($test_fi),
+						 "WHERE active_fi = %s AND question_fi=%s",
+							$ilDB->quote($active_id),
 							$question_fi
 			);
 		else $query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
-						 "WHERE user_fi = %s AND test_fi = %s",
-			$ilDB->quote($user_fi),
-			$ilDB->quote($test_fi)
+						 "WHERE active_fi = %s",
+			$ilDB->quote($active_id)
 		);
 		return ilObjTest::_getArrayData ($query, "question_fi");		
 	}
@@ -6062,13 +6060,13 @@ class ilObjTest extends ilObject
 	/**
 	 * sets question solved state to value for given user_id
 	 */
-	function setQuestionSetSolved ($value, $question_id, $user_id) 
+	function setQuestionSetSolved($value, $question_id, $user_id) 
 	{
-		$query = sprintf("REPLACE INTO tst_active_qst_sol_settings SET solved=%s, question_fi=%s, test_fi=%s, user_fi=%s",
+		$active = $this->getActiveTestUser($user_id);
+		$query = sprintf("REPLACE INTO tst_active_qst_sol_settings SET solved=%s, question_fi=%s, active_fi = %s",
 			$this->ilias->db->quote($value),
 			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->test_id),
-			$this->ilias->db->quote($user_id)
+			$this->ilias->db->quote($active->active_id)
 		);
 		
 		$this->ilias->db->query($query);				
