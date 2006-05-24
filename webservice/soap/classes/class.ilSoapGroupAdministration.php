@@ -57,6 +57,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('create',$target_id,'grp'))
 		{
@@ -133,7 +134,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
+		global $rbacsystem;
+		
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
 		{
 			$group_id = end($ref_ids = ilObject::_getAllReferences($group_id));
@@ -197,7 +199,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $rbacsystem;
 
 		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
@@ -242,7 +243,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $rbacsystem;
 
 		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')

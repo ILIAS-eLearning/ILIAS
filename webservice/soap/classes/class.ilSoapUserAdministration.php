@@ -85,6 +85,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
 		{
@@ -105,13 +106,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem, $ilUser;
 
 		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
 		{
 			return $this->__raiseError('Check access failed.','Server');
 		}
-
-		global $ilUser;
 
 		if($ilUser->getLoginByUserId($user_id))
 		{
@@ -132,13 +132,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem, $ilUser, $log;
 
 		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
 		{
 			return $this->__raiseError('Check access failed.','Server');
 		}
-
-		global $ilUser;
 
 		if(!$user_obj =& ilObjectFactory::getInstanceByObjId($user_data['usr_id'],false))
 		{
@@ -183,6 +182,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
 		{
@@ -208,6 +208,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem, $rbacreview, $log, $rbacadmin;
 
 		if(!$rbacsystem->checkAccess('create_user',USER_FOLDER_ID))
 		{
@@ -226,7 +227,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 
 		// Validate global role
-		global $rbacreview;
 
 		$global_roles = $rbacreview->getGlobalRoles();
 
@@ -289,13 +289,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem, $ilUser, $log;
 
 		if(!$rbacsystem->checkAccess('delete',USER_FOLDER_ID))
 		{
 			return $this->__raiseError('Check access failed.','Server');
 		}
-
-		global $ilUser;
 
 		if(!$ilUser->getLoginByUserId($user_id))
 		{
@@ -547,9 +546,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './classes/class.ilUserImportParser.php';
 		include_once './classes/class.ilObjRole.php';
 		include_once './classes/class.ilObjectFactory.php';
-
-
-
 		global $rbacreview, $rbacsystem, $tree, $lng;
 
 		switch ($conflict_rule)
@@ -897,7 +893,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		include_once './classes/class.ilObjRole.php';
-
 		global $ilDB, $rbacreview, $rbacsystem, $tree;
 
 

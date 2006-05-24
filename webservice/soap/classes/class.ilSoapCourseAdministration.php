@@ -56,6 +56,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('create',$target_id,'crs'))
 		{
@@ -104,7 +105,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		include_once './classes/class.ilUtil.php';
-
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
@@ -234,7 +234,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
@@ -289,7 +288,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
