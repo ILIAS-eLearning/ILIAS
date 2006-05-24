@@ -570,6 +570,26 @@ class ilInitialisation
 		exit;
 	}
 	
+	
+	/**
+	* go to login
+	*/
+	function goToLogin()
+	{
+		session_unset();
+		session_destroy();
+
+		$script = $this->updir."login.php?client_id=".$_COOKIE["ilClientId"];
+
+		// todo do it better, if JS disabled
+		// + this is, when session "ends", so
+		// we should try to prevent some information about current
+		// location
+		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";
+		exit;
+
+	}
+	
 	/**
 	* $lng initialisation
 	*/
@@ -892,26 +912,20 @@ class ilInitialisation
 			// jump to public section (to do: is this always the indended
 			// behaviour, login could be another possibility (including
 			// message)
-			if ($ilSetting->get("pub_section")
-				&& $_GET["baseClass"] != "ilStartUpGUI")
+			if ($_GET["baseClass"] != "ilStartUpGUI")
 			{
-				$this->goToPublicSection();
+				if ($ilSetting->get("pub_section"))
+				{
+					$this->goToPublicSection();
+				}
+				else
+				{
+					$this->goToLogin();
+				}
+				// we should not get here
+				exit;
 			}
-		
-			session_unset();
-			session_destroy();
-		
-			// -> go to login (to do: is redirect necessary?)
-			// to do: handle this $inactice stuff in other form
-			/*
-			if (($_GET["inactive"]) || $inactive)
-			{
-				ilUtil::redirect($this->updir."index.php?reload=true&inactive=true&return_to=".$return_to);
-			}
-			else
-			{
-				ilUtil::redirect($this->updir."index.php?client_id=".$_COOKIE["ilClientId"]."&reload=true&return_to=".$return_to);
-			}*/
+			
 		}
 		
 		//
