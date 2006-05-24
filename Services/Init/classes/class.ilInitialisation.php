@@ -520,17 +520,25 @@ class ilInitialisation
 	
 	function checkUserAgreement()
 	{
-		global $ilUser;
+		global $ilUser, $ilAuth;
+
+		// are we currently in user agreement acceptance?
+		$in_user_agreement = false;
+		if (strtolower($_GET["cmdClass"]) == "ilstartupgui" &&
+			(strtolower($_GET["cmd"]) == "getacceptance" ||
+			(is_array($_POST["cmd"]) &&
+			key($_POST["cmd"]) == "getAcceptance")))
+		{
+			$in_user_agreement = true;
+		}
 		
 		// check wether user has accepted the user agreement
 		//	echo "-".$script;
 		if (!$ilUser->hasAcceptedUserAgreement() &&
-			$this->script != "view_usr_agreement.php" &&
-			$this->script != "login.php" &&
-			strtolower($_GET["baseClass"]) != "ilstartupgui" &&
+			$ilAuth->getAuth() &&
+			!$in_user_agreement &&
 			$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-	//echo "redirect from $script for ".$ilias->account->getFirstName();
 			ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=getAcceptance");
 		}
 	}
