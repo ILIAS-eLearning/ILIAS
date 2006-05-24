@@ -49,7 +49,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
+		global $rbacreview, $rbacsystem;
 
 		if(!$tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false) or $tmp_role->getType() != 'role')
 		{
@@ -118,7 +118,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
+		global $rbacadmin;
+		
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false) and $tmp_user->getType() != 'usr')
 		{
 			return $this->__raiseError('No valid user id given. Please choose an existing id of an ILIAS user',
@@ -147,6 +148,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacreview;
 
 		if(is_array($ops = $rbacreview->getOperations()))
 		{
@@ -167,6 +169,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacadmin;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -197,6 +200,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacadmin;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -230,6 +234,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacreview;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -272,6 +277,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacreview;
 
 		if(!$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false))
 		{
@@ -309,6 +315,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacreview, $objDefinition, $rbacsystem;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -376,6 +383,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacreview, $objDefinition, $rbacsystem, $rbacadmin;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -468,7 +476,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $rbacsystem,$rbacreview,$ilAccess;
 
 
@@ -530,7 +537,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $rbacsystem, $rbacreview;
 
 		if(!$rbacsystem->checkAccess('read',ROLE_FOLDER_ID))

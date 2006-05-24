@@ -53,7 +53,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $ilLog;
 
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
@@ -78,6 +77,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $tree;
 
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
 
@@ -315,7 +315,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-
 		global $tree;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
@@ -377,6 +376,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacsystem, $objDefinition;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
 		{
@@ -510,6 +510,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 		include_once './include/inc.header.php';
+		global $objDefinition, $rbacsystem;
 
 		if(!$source_obj =& ilObjectFactory::getInstanceByRefId($a_source_id,false))
 		{
@@ -579,7 +580,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 		include_once './include/inc.header.php';
-		global $tree;
+		global $tree, $rbacsystem, $rbacadmin;
 
 		if(!$del_obj =& ilObjectFactory::getInstanceByRefId($reference_id,false))
 		{
@@ -620,7 +621,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 		include_once './include/inc.header.php';
-
+		global $rbacsystem, $tree, $ilLog;
+		
 		// get obj_id
 		if(!$obj_id = ilObject::_lookupObjIdByImportId($import_id))
 		{
@@ -644,7 +646,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Server');
 		}
 
-		global $tree;
 		// Delete all references (delete permssions and entries in object_reference)
 		foreach($ref_ids as $ref_id)
 		{
@@ -686,6 +687,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		global $rbacreview, $rbacsystem;
+		
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
 
 		$xml_parser =& new ilObjectXMLParser($a_xml);
