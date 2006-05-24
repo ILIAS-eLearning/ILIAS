@@ -242,6 +242,8 @@ class ilObjTestAccess extends ilObjectAccess
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
 			$test_result["marks"] = array();
 			$min_passed_percentage = 100;
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -256,17 +258,15 @@ class ilObjTestAccess extends ilObjectAccess
 			$test_id = ilObjTestAccess::_getTestIDFromObjectID($test_obj_id);
 			if (is_null($pass))
 			{
-				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s AND tst_test_result.pass = %s",
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($user_id . ""),
+				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.active_fi = %s AND tst_test_result.pass = %s",
+					$ilDB->quote($active->active_id . ""),
 					$ilDB->quote("0")
 				);
 			}
 			else
 			{
-				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s AND tst_test_result.pass = %s",
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($user_id . ""),
+				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.active_fi = %s AND tst_test_result.pass = %s",
+					$ilDB->quote($active->active_id . ""),
 					$ilDB->quote($pass . "")
 				);
 			}
@@ -276,8 +276,6 @@ class ilObjTestAccess extends ilObjectAccess
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				include_once "./assessment/classes/class.ilObjTest.php";
-				$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
 				$preached = assQuestion::_getReachedPoints($active->active_id, $row["question_id"], $pass);
 				$max_points += $row["points"];
 				$reached_points += $preached;

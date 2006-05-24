@@ -1417,7 +1417,7 @@ class ilTestOutputGUI
 		$result_total_max = 0;
 		for ($pass = 0; $pass <= $reached_pass; $pass++)
 		{
-			$finishdate = $this->object->getPassFinishDate($ilUser->id, $this->object->getTestId(), $pass);
+			$finishdate = $this->object->getPassFinishDate($active->active_id, $pass);
 			if ($finishdate > 0)
 			{
 				$result_array =& $this->object->getTestResult($user_id, $pass);

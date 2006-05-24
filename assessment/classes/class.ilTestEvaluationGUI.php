@@ -1437,7 +1437,7 @@ class ilTestEvaluationGUI
 		$reached_pass = $this->object->_getPass($active->active_id);
 		for ($pass = 0; $pass <= $reached_pass; $pass++)
 		{
-			$finishdate = $this->object->getPassFinishDate($user_id, $this->object->getTestId(), $pass);
+			$finishdate = $this->object->getPassFinishDate($active->active_id, $pass);
 			if ($finishdate > 0)
 			{
 				$result_array =& $this->object->getTestResult($user_id, $pass);

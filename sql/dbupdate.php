@@ -10851,4 +10851,51 @@ if ($result->numRows())
 ALTER TABLE `tst_solutions` DROP `test_fi`;
 ALTER TABLE `tst_solutions` DROP `user_fi`;
 ALTER TABLE `tst_solutions` ADD INDEX ( `active_fi` ) ;
-
+<#730>
+ALTER TABLE `tst_test_random_question` ADD `active_fi` INT NOT NULL AFTER `user_fi` ;
+<#731>
+<?php
+$query = "SELECT tst_test_random_question.*, tst_active.active_id FROM tst_test_random_question, tst_active WHERE tst_test_random_question.test_fi = tst_active.test_fi AND tst_test_random_question.user_fi = tst_active.user_fi";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$update = sprintf("UPDATE tst_test_random_question SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
+			$ilDB->quote($row["active_id"] . ""),
+			$ilDB->quote($row["test_fi"] . ""),
+			$ilDB->quote($row["user_fi"] . "")
+		);
+		$updateresult = $ilDB->query($update);
+	}
+}
+?>
+<#732>
+ALTER TABLE `tst_test_random_question` DROP `test_fi`;
+ALTER TABLE `tst_test_random_question` DROP `user_fi`;
+ALTER TABLE `tst_test_random_question` ADD INDEX ( `active_fi` ) ;
+<#733>
+ALTER TABLE `tst_test_result` ADD `active_fi` INT NOT NULL AFTER `user_fi` ;
+<#734>
+<?php
+$query = "SELECT tst_test_result.*, tst_active.active_id FROM tst_test_result, tst_active WHERE tst_test_result.test_fi = tst_active.test_fi AND tst_test_result.user_fi = tst_active.user_fi";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$update = sprintf("UPDATE tst_test_result SET active_fi = %s, TIMESTAMP = %s WHERE test_result_id = %s",
+			$ilDB->quote($row["active_id"] . ""),
+			$ilDB->quote($row["TIMESTAMP"] . ""),
+			$ilDB->quote($row["test_result_id"] . "")
+		);
+		$updateresult = $ilDB->query($update);
+	}
+}
+?>
+<#735>
+ALTER TABLE `tst_test_result` DROP `test_fi`;
+ALTER TABLE `tst_test_result` DROP `user_fi`;
+ALTER TABLE `tst_test_result` DROP INDEX `user_fi`;
+ALTER TABLE `tst_test_result` DROP INDEX `question_fi`;
+ALTER TABLE `tst_test_result` ADD UNIQUE (`active_fi` ,`question_fi`, `pass`);
