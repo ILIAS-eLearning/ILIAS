@@ -10894,8 +10894,8 @@ if ($result->numRows())
 }
 ?>
 <#735>
-ALTER TABLE `tst_test_result` DROP `test_fi`;
-ALTER TABLE `tst_test_result` DROP `user_fi`;
 ALTER TABLE `tst_test_result` DROP INDEX `user_fi`;
 ALTER TABLE `tst_test_result` DROP INDEX `question_fi`;
+ALTER TABLE `tst_test_result` DROP `test_fi`;
+ALTER TABLE `tst_test_result` DROP `user_fi`;
 ALTER TABLE `tst_test_result` ADD UNIQUE (`active_fi` ,`question_fi`, `pass`);
