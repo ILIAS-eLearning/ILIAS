@@ -550,6 +550,15 @@ class ilTestOutputGUI
 		}
 	}
 	
+	function setAnonymousId()
+	{
+		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		{
+			$this->object->setAccessCodeSession($_POST["anonymous_id"]);
+		}
+		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+	}
+
 /**
 * Start a test for the first time
 *
@@ -559,7 +568,14 @@ class ilTestOutputGUI
 */
 	function start()
 	{
-		$_SESSION["tst_access_code"] = $this->object->createNewAccessCode();
+		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		{
+			$this->object->setAccessCodeSession($this->object->createNewAccessCode());
+		}
+		else
+		{
+			$this->object->unsetAccessCodeSession();
+		}
 		if (strlen($this->object->getPassword()))
 		{
 			global $ilUser;
@@ -1024,7 +1040,7 @@ class ilTestOutputGUI
 		// Update objectives
 		include_once './course/classes/class.ilCourseObjectiveResult.php';
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
-		$tmp_obj_res->updateResults($this->object->getTestResult($ilUser->getId()));
+		$tmp_obj_res->updateResults($this->object->getTestResult($active->active_id));
 		unset($tmp_obj_res);
 
 		if($_GET['crs_show_result'])
@@ -1249,7 +1265,8 @@ class ilTestOutputGUI
 	{
 		global $ilUser;
 
-		$results = $this->object->getTestResult($ilUser->getId());
+		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$results = $this->object->getTestResult($active->active_id);
 
 		$_SESSION['crs_sequence'] = array();
 		for($i = $this->object->getFirstSequence();
@@ -1420,7 +1437,7 @@ class ilTestOutputGUI
 			$finishdate = $this->object->getPassFinishDate($active->active_id, $pass);
 			if ($finishdate > 0)
 			{
-				$result_array =& $this->object->getTestResult($user_id, $pass);
+				$result_array =& $this->object->getTestResult($active->active_id, $pass);
 				if (!$result_array["test"]["total_max_points"])
 				{
 					$percentage = 0;
@@ -1445,7 +1462,7 @@ class ilTestOutputGUI
 				}
 				$this->tpl->setVariable("VALUE_PASS", $pass + 1);
 				$this->tpl->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
-				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($ilUser->id, $this->object->getTestId(), $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
+				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active->active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
 				$this->tpl->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
 				$this->tpl->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
 				if ($this->object->canViewResults())
@@ -1566,10 +1583,11 @@ class ilTestOutputGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 		$user_id = $ilUser->id;
+		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", true);
-		$result_array =& $this->object->getTestResult($user_id, $pass);
+		$result_array =& $this->object->getTestResult($active->active_id, $pass);
 
 		if (!$result_array["test"]["total_max_points"])
 		{
@@ -1661,7 +1679,7 @@ class ilTestOutputGUI
 		{
 			if ($this->object->isRandomTest())
 			{
-				$this->object->loadQuestions($ilUser->getId(), $pass);
+				$this->object->loadQuestions($active->active_id, $pass);
 			}
 			$counter = 1;
 			// output of questions with solutions
@@ -1891,7 +1909,7 @@ class ilTestOutputGUI
 		if ($this->object->isRandomTest())
 		{
 			$pass = $this->object->_getResultPass($ilUser->getId(), $this->object->getTestId());
-			$this->object->loadQuestions($user_id, $pass);
+			$this->object->loadQuestions($active->active_id, $pass);
 		}
 		$counter = 1;
 		// output of questions with solutions
@@ -2130,10 +2148,11 @@ class ilTestOutputGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_summary.html", true);
 		$user_id = $ilUser->id;
+		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$color_class = array ("tblrow1", "tblrow2");
 		$counter = 0;
 		
-		$result_array = & $this->object->getTestSummary($user_id);
+		$result_array = & $this->object->getTestSummary($active->active_id);
 		
 		$img_title_nr = "";
 		$img_title_title = "";
@@ -2276,10 +2295,11 @@ class ilTestOutputGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_summary.html", true);
 		$user_id = $ilUser->id;
+		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$color_class = array ("tblrow1", "tblrow2");
 		$counter = 0;
 		
-		$result_array = & $this->object->getTestSummary($user_id);
+		$result_array = & $this->object->getTestSummary($active->active_id);
 		foreach ($result_array as $key => $value) 
 		{
 			if (preg_match("/\d+/", $key)) 

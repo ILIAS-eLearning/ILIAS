@@ -185,6 +185,29 @@ class ilInfoScreenGUI
 	/**
 	* add a property to current section
 	*/
+	function addPropertyTextinput($a_name, $a_input_name, $a_input_value = "", $a_input_size = "", $direct_button_command = "", $direct_button_label = "")
+	{
+		$input = "<input type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
+		if (strlen($a_input_value))
+		{
+			$input .= " value=\"" . ilUtil::prepareFormOutput($a_input_value) . "\"";
+		}
+		if (strlen($a_input_size))
+		{
+			$input .= " size=\"" . $a_input_size . "\"";
+		}
+		$input .= " />";
+		if (strlen($direct_button_command) && strlen($direct_button_label))
+		{
+			$input .= " <input type=\"submit\" class=\"submit\" name=\"cmd[$direct_button_command]\" value=\"$direct_button_label\" />";
+		}
+		$this->section[$this->sec_nr]["properties"][] =
+			array("name" => "<label for=\"$a_input_name\">$a_name</label>", "value" => $input);
+	}
+
+	/**
+	* add a property to current section
+	*/
 	function addButton($a_title, $a_link, $a_frame = "", $a_position = "top")
 	{
 		if ($a_position == "top")

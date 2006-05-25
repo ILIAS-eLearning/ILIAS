@@ -99,7 +99,10 @@ class ilObjTestAccess extends ilObjectAccess
 		switch($a_operator)
 		{
 			case 'passed':
-				$result = ilObjTestAccess::_getTestResult($ilias->account->getId(), $a_obj_id);
+				include_once "./assessment/classes/class.ilObjTest.php";
+				$test_id = ilObjTest::_getTestIDFromObjectID($a_obj_id);
+				$active_id = ilObjTest::_getActiveTestUser($ilias->account->getId(), $test_id);
+				$result = ilObjTestAccess::_getTestResult($active_id);
 				if ($result["passed"] == 1)
 				{
 					return true;
@@ -222,6 +225,60 @@ class ilObjTestAccess extends ilObjectAccess
 		return $test_id;
 	}
 	
+	function &_getTestQuestions($active_id, $pass = NULL)
+	{
+		if (is_null($pass))
+		{
+			$pass = 0;
+		}
+		$questions = array();
+		
+		global $ilDB;
+		$query = sprintf("SELECT test_fi FROM tst_active WHERE active_id = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		$test_id = "";
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$test_id = $row["test_fi"];
+		}
+		else
+		{
+			return $questions;
+		}
+		$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = %s ORDER BY tst_test_question.sequence",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			// standard test
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($questions, $row);
+			}
+		}
+		else
+		{
+			// random test
+			$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s ORDER BY tst_test_random_question.sequence",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($questions, $row);
+				}
+			}
+		}
+		return $questions;
+	}
+	
 /**
 * Calculates the results of a test for a given user
 * 
@@ -231,19 +288,17 @@ class ilObjTestAccess extends ilObjectAccess
 * @return array An array containing the test results for the given user
 * @access public
 */
-	function &_getTestResult($user_id, $test_obj_id, $pass = NULL) 
+	function &_getTestResult($active_id, $pass = NULL) 
 	{
 		global $ilDB;
 		
 		$test_result = array();
-		$query = sprintf("SELECT tst_mark.*, tst_tests.* FROM tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.obj_fi = %s ORDER BY tst_mark.minimum_level",
-			$ilDB->quote($test_obj_id . "")
+		$query = sprintf("SELECT tst_mark.*, tst_tests.* FROM tst_mark, tst_tests, tst_active WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY tst_mark.minimum_level",
+			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			include_once "./assessment/classes/class.ilObjTest.php";
-			$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
 			$test_result["marks"] = array();
 			$min_passed_percentage = 100;
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -254,29 +309,14 @@ class ilObjTestAccess extends ilObjectAccess
 				}
 				array_push($test_result["marks"], $row);
 			}
-			// count points
-			$test_id = ilObjTestAccess::_getTestIDFromObjectID($test_obj_id);
-			if (is_null($pass))
-			{
-				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.active_fi = %s AND tst_test_result.pass = %s",
-					$ilDB->quote($active->active_id . ""),
-					$ilDB->quote("0")
-				);
-			}
-			else
-			{
-				$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.active_fi = %s AND tst_test_result.pass = %s",
-					$ilDB->quote($active->active_id . ""),
-					$ilDB->quote($pass . "")
-				);
-			}
-			$result = $ilDB->query($query);
+			
+			$questions =& ilObjTestAccess::_getTestQuestions($active_id, $pass);
 			$max_points = 0;
 			$reached_points = 0;
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			foreach ($questions as $row)
 			{
 				include_once "./assessment/classes/class.assQuestion.php";
-				$preached = assQuestion::_getReachedPoints($active->active_id, $row["question_id"], $pass);
+				$preached = assQuestion::_getReachedPoints($active_id, $row["question_id"], $pass);
 				$max_points += $row["points"];
 				$reached_points += $preached;
 			}
@@ -502,8 +542,13 @@ class ilObjTestAccess extends ilObjectAccess
 		global $ilDB;
 		
 		$passed_users = array();
-		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
+/*		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
 						 "WHERE tst_tests.obj_fi = %s AND tst_active.tries > 0 ".
+						 "AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($a_obj_id . "")
+		);*/
+		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
+						 "WHERE tst_tests.obj_fi = %s ".
 						 "AND tst_active.test_fi = tst_tests.test_id",
 			$ilDB->quote($a_obj_id . "")
 		);
@@ -514,10 +559,10 @@ class ilObjTestAccess extends ilObjectAccess
 			{
 				$user_id = $row["user_fi"];
 				$test_id = $row["test_fi"];
+				$active_id = $row["active_id"];
 				include_once "./assessment/classes/class.ilObjTest.php";
-				$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
-				$pass = ilObjTest::_getResultPass($active->active_id);
-				$testres =& ilObjTestAccess::_getTestResult($user_id, $a_obj_id, $pass);
+				$pass = ilObjTest::_getResultPass($active_id);
+				$testres =& ilObjTestAccess::_getTestResult($active_id, $a_obj_id, $pass);
 
 				array_push($passed_users, 
 						   array(
