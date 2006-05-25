@@ -6986,6 +6986,19 @@ class ilObjTest extends ilObject
 		}
 	}
 	
+	function getAccessCodeSession()
+	{
+		$id = $this->getTestId();
+		if (!is_array($_SESSION["tst_access_code"]))
+		{
+			return "";
+		}
+		else
+		{
+			return $_SESSION["tst_access_code"]["$id"];
+		}
+	}
+	
 	function setAccessCodeSession($access_code)
 	{
 		$id = $this->getTestId();

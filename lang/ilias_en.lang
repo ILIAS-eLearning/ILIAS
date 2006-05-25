@@ -462,6 +462,7 @@ assessment#:#text_rating#:#Text matching method
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
 assessment#:#true#:#True
+assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests already taken
