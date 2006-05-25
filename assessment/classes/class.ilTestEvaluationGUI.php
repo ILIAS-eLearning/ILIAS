@@ -543,14 +543,16 @@ class ilTestEvaluationGUI
 	function evaluationDetail()
 	{
 		include_once "./classes/class.ilObjUser.php";
-		$answertext = $this->object->getTextAnswer($_GET["userdetail"], $_GET["answer"]);
+		$active_id = $_GET["userdetail"];
+		$answertext = $this->object->getTextAnswer($active_id, $_GET["answer"]);
 		$questiontext = $this->object->getQuestiontext($_GET["answer"]);
 		include_once "./classes/class.ilTemplate.php";
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_user_answer.html", true, true);
 		$this->tpl->setVariable("TITLE_USER_ANSWER", $this->lng->txt("tst_eval_user_answer"));
 		$this->tpl->setVariable("TEXT_USER", $this->lng->txt("user"));
 		include_once "./classes/class.ilObjUser.php";
-		$user = new ilObjUser($_GET["userdetail"]);
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+		$user = new ilObjUser($user_id);
 		$this->tpl->setVariable("TEXT_USERNAME", trim($user->getFirstname() . " " . $user->getLastname()));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_QUESTIONTEXT", $questiontext);
@@ -649,13 +651,12 @@ class ilTestEvaluationGUI
 				if (preg_match("/(\d+)_(\d+)_(\d+)/", $key, $matches))
 				{
 					include_once "./assessment/classes/class.assTextQuestion.php";
-					$activeuser = $this->object->getActiveTestUser($matches[1]);
-					assTextQuestion::_setReachedPoints($activeuser->active_id, $matches[2], $value, $matches[3]);
+					assTextQuestion::_setReachedPoints($matches[1], $matches[2], $value, $matches[3]);
 				}
 			}
 			sendInfo($this->lng->txt("text_answers_saved"));
 		}
-		if ((count($_POST) == 0) || ($export) || ($savetextanswers) || is_numeric($_GET["uid"]))
+		if ((count($_POST) == 0) || ($export) || ($savetextanswers) || is_numeric($_GET["active_id"]))
 		{
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 			$eval_statistical_settings = array(
@@ -784,7 +785,7 @@ class ilTestEvaluationGUI
 				array_push($titlerow, "&nbsp;");
 			}
 		}
-		$total_users =& $this->object->evalTotalPersonsArray($_GET["sortname"]);
+		$total_users =& $this->object->evalTotalParticipantsArray($_GET["sortname"]);
 		$selected_users = array();
 		if ($all_users == 1) 
 		{
@@ -792,7 +793,7 @@ class ilTestEvaluationGUI
 		} 
 		else 
 		{
-			$selected_users =& $this->object->getEvaluationUsers($ilUser->id, $_GET["sortname"]);
+			$selected_users =& $this->object->getEvaluationParticipants($ilUser->getId(), $_GET["sortname"]);
 		}
 //			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
 		$row = 0;
@@ -882,7 +883,7 @@ class ilTestEvaluationGUI
 				$username = $selected_users[$key];
 			}
 			array_push($evalrow, array(
-				"html" => "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "evalUserDetail")."&uid=$key\">$username</a>",
+				"html" => "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "evalUserDetail")."&active_id=$key\">$username</a>",
 				"xls"  => $username,
 				"csv"  => $username
 			));
@@ -1417,9 +1418,9 @@ class ilTestEvaluationGUI
 */
 	function evalUserDetail()
 	{
-		$user_id = $_GET["uid"];
-		$this->ctrl->saveParameter($this, "uid");		
-		if (!is_numeric($user_id))
+		$active_id = $_GET["active_id"];
+		$this->ctrl->saveParameter($this, "active_id");		
+		if (!is_numeric($active_id))
 		{
 			$this->ctrl->redirect($this, "eval_stat");
 		}
@@ -1428,19 +1429,18 @@ class ilTestEvaluationGUI
 			$this->ctrl->redirect($this, "passDetails");
 		}
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$active = $this->object->getActiveTestUser($user_id);
-		$counted_pass = ilObjTest::_getResultPass($active->active_id);
+		$counted_pass = ilObjTest::_getResultPass($active_id);
 		$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_overview.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$reached_pass = $this->object->_getPass($active->active_id);
+		$reached_pass = $this->object->_getPass($active_id);
 		for ($pass = 0; $pass <= $reached_pass; $pass++)
 		{
-			$finishdate = $this->object->getPassFinishDate($active->active_id, $pass);
+			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
 			if ($finishdate > 0)
 			{
-				$result_array =& $this->object->getTestResult($user_id, $pass);
+				$result_array =& $this->object->getTestResult($active_id, $pass);
 				if (!$result_array["test"]["total_max_points"])
 				{
 					$percentage = 0;
@@ -1462,7 +1462,7 @@ class ilTestEvaluationGUI
 				}
 				$this->tpl->setVariable("VALUE_PASS", $pass + 1);
 				$this->tpl->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
-				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($user_id, $this->object->getTestId(), $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
+				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
 				$this->tpl->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
 				$this->tpl->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
 				if ($this->object->canViewResults())
@@ -1473,6 +1473,8 @@ class ilTestEvaluationGUI
 			}
 		}
 		$this->tpl->setCurrentBlock("test_user_name");
+		include_once "./assessment/classes/class.ilObjTest.php";
+		$user_id = ilObjTest::_getUserIdFromActiveId($active_id);
 		include_once "./classes/class.ilObjUser.php";
 		$uname = ilObjUser::_lookupName($user_id);
 		$struname = trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"]);
@@ -1538,8 +1540,8 @@ class ilTestEvaluationGUI
 		}
 
 		$pass = $_GET["pass"];
-		$user_id = $_GET["uid"];
-		$this->ctrl->saveParameter($this, "uid");		
+		$active_id = $_GET["active_id"];
+		$this->ctrl->saveParameter($this, "active_id");		
 		$this->ctrl->saveParameter($this, "pass");		
 		if (!is_numeric($pass)) $pass = NULL;
 		
@@ -1547,7 +1549,7 @@ class ilTestEvaluationGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_detail.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$result_array =& $this->object->getTestResult($user_id, $pass);
+		$result_array =& $this->object->getTestResult($active_id, $pass);
 
 		if (!$result_array["test"]["total_max_points"])
 		{
@@ -1625,6 +1627,7 @@ class ilTestEvaluationGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("test_user_name");
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		include_once "./classes/class.ilObjUser.php";
 		$uname = ilObjUser::_lookupName($user_id);
 		$struname = trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"]);
@@ -1641,11 +1644,10 @@ class ilTestEvaluationGUI
 
 		if ($this->object->isRandomTest())
 		{
-			$this->object->loadQuestions($user_id, $pass);
+			$this->object->loadQuestions($active_id, $pass);
 		}
 		$counter = 1;
 		// output of questions with solutions
-		$ilUser = new ilObjUser($user_id);
 		foreach ($this->object->questions as $question_id)
 		{
 			$this->tpl->setCurrentBlock("question");
@@ -1653,8 +1655,7 @@ class ilTestEvaluationGUI
 
 			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".&nbsp;");
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			$active = $this->object->getActiveTestUser($ilUser->getId());
-			$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
+			$result_output = $question_gui->getSolutionOutput($active_id, $pass);
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock();
 			$counter ++;
@@ -1697,14 +1698,14 @@ class ilTestEvaluationGUI
 			array("eval_a"),
 			"", "");
 
-		$force_active = (is_numeric($_GET["uid"]) && $_GET["etype"] == "all") ? true	: false;
+		$force_active = (is_numeric($_GET["active_id"]) && $_GET["etype"] == "all") ? true	: false;
 		$tabs_gui->addTarget("eval_all_users", 
 			$this->ctrl->getLinkTargetByClass(get_class($this), "eval_stat"), 
 			array("eval_stat", "evalAllUsers", "evalUserDetail"),	
 			"", "", $force_active
 		);
 		
-		$force_active = (is_numeric($_GET["uid"]) && $_GET["etype"] == "selected") ? true	: false;
+		$force_active = (is_numeric($_GET["active_id"]) && $_GET["etype"] == "selected") ? true	: false;
 		$tabs_gui->addTarget("eval_selected_users", 
 			$this->ctrl->getLinkTargetByClass(get_class($this), "evalStatSelected"), 
 			array("evalStatSelected", "evalSelectedUsers", "searchForEvaluation",

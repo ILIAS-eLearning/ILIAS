@@ -3121,21 +3121,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Create random solutions for the test object for every registered user
-	*
-	* Create random solutions for the test object for every registered user
-	* NOTE: This method is only for debug and performance test reasons. Don't use it
-	* in your productive system
-	*
-	* @access	public
-	*/
-	function createSolutionsObject()
-	{
-		$this->object->createRandomSolutionsForAllUsers();
-		$this->ctrl->redirect($this, "maintenance");
-	}
-
-	/**
 	* Asks for a confirmation to delete all user data of the test object
 	*
 	* Asks for a confirmation to delete all user data of the test object
@@ -3964,7 +3949,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 
-		$result_array =& $this->object->getTestResult($user_id);
+		$result_array =& $this->object->getTestResult($active->active_id);
 
 		if (!$result_array["test"]["total_max_points"])
 		{
@@ -4187,7 +4172,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen();
 	}
-
+	
 	/**
 	* show information screen
 	*/
@@ -4330,6 +4315,10 @@ class ilObjTestGUI extends ilObjectGUI
 							$info->addPropertyCheckbox($this->lng->txt("tst_hide_previous_results"), "chb_hide_previous_results", 1, $this->lng->txt("tst_hide_previous_results_hide"), $checked_hide_results);
 						}
 					}
+				}
+				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+				{
+					$info->addPropertyTextinput($this->lng->txt("enter_anonymous_code"), "anonymous_id", "", 8, "setAnonymousId", $this->lng->txt("submit"));
 				}
 			}
 		}
@@ -4505,7 +4494,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$tabs_gui->addTarget("info",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
-					 array("infoScreen", "outIntroductionPage", "showSummary"));
+					 array("infoScreen", "outIntroductionPage", "showSummary", "setAnonymousId"));
 			}
 			
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
