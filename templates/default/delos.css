@@ -122,7 +122,7 @@ table.std {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 }
 
 table.fullwidth {
@@ -133,7 +133,7 @@ table.fullwidth {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 }
 
 table.halfwidth {
@@ -144,7 +144,7 @@ table.halfwidth {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 }
 
 table.ilPDSelectedItemBlock {
@@ -230,7 +230,7 @@ tr.tblheader {
 	background-repeat:repeat-x;
 	
 	border-top-width:1px;
-	border-top-color:#CACACA;
+	border-top-color:#9EADBA;
 	border-top-style:solid;
 
 }
@@ -262,11 +262,11 @@ td.option {
 	vertical-align:top;
 	text-align:right;
 	border-top-width:1px;
-	border-top-color:#CACACA;
+	border-top-color:#9EADBA;
 	border-top-style:solid;
-	border-right-width:1px;
-	border-right-color:#CACACA;
-	border-right-style:solid;
+	#border-right-width:1px;
+	#border-right-color:#9EADBA;
+	#border-right-style:solid;
 }
 
 td.sub_option {
@@ -277,7 +277,7 @@ td.sub_option {
 	vertical-align:top;
 	text-align:right;
 	border-top-width:1px;
-	border-top-color:#CACACA;
+	border-top-color:#9EADBA;
 	border-top-style:solid;
 }
 
@@ -291,7 +291,7 @@ td.option_subtitle {
 	text-align:left;
 	border-bottom-style:solid;
 	border-bottom-width:1px;
-	border-bottom-color:#CACACA;
+	border-bottom-color:#9EADBA;
 }
 
 td.option_value {
@@ -302,7 +302,7 @@ td.option_value {
 	vertical-align:top;
 	text-align:left;
 	border-top-width:1px;
-	border-top-color:#CACACA;
+	border-top-color:#9EADBA;
 	border-top-style:solid;
 }
 
@@ -366,10 +366,10 @@ td.submit {
 	padding:3px;
 	vertical-align:top;
 	border-top-width:1px;
-	border-top-color:#CACACA;
+	border-top-color:#9EADBA;
 	border-top-style:solid;
 	border-bottom-width:1px;
-	border-bottom-color:#CACACA;
+	border-bottom-color:#9EADBA;
 	border-bottom-style:solid;
 
 }
@@ -382,7 +382,7 @@ table.il_ContainerPageBlock {
 	border-width: 1px;
 	border-spacing: 0px;
 	border-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	border-collapse:collapse;
 	margin: 0px;
 	padding: 0px;
@@ -395,7 +395,7 @@ td.il_ContainerPageBlock
 	padding: 0px 10px 20px 10px;
 	border-left-style: solid;
 	border-right-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	border-left-width: 1px;
 	border-right-width: 1px;
 	border-top-width: 1px;
@@ -403,20 +403,23 @@ td.il_ContainerPageBlock
 	margin-bottom: 0px;
 }*/
 
-a.il_ContainerItemCommand, a.il_ContainerItemCommand:hover
+a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:hover, a.il_ContainerItemCommand:visited
 {
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:1px;
-	margin-bottom:1px;
+	padding: 1px 5px;
+	margin: 1px 0px;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #B6B6B6;
-	color: black;
+	border-top-color: #BABABA;
+	border-left-color: #BABABA;
+	border-bottom-color: #808080;
+	border-right-color: #808080;
 	white-space: nowrap;
-	background-color:#E6ECF8;
+	text-decoration:none;
+	font-weight: normal;
+	background-color: #FFFFFF;
+	background-image: url(images/ButtonsBack.gif);
+	background-position: bottom;
+	background-repeat:repeat-x;
 	font-size: 70%;
 }
 
@@ -426,6 +429,10 @@ div.il_ContainerItemCommands
 	padding-top: 2px;
 }
 
+a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerItemTitle:hover
+{
+	text-decoration: none;
+}
 
 div.il_ItemProperties
 {
@@ -481,7 +488,7 @@ table.il_ContainerBlock
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 }
 
 /* Personal Desktop Header*/
@@ -504,7 +511,7 @@ table.il_PDBlock
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 	margin-bottom:25px;
 }
 
@@ -517,7 +524,7 @@ th.il_PDBlockHeader
 	background-color: #E2EAF4;
 	text-align:left;
 	border-bottom-width:1px;
-	border-bottom-color:#CACACA;
+	border-bottom-color:#9EADBA;
 	border-bottom-style:solid;
 }
 
@@ -531,7 +538,7 @@ th.il_PDBlockSubHeader
 	padding: 2px;
 	background-color: #EDEDED;
 	border-top-width:1px;
-	border-top-color:#CACACA;
+	border-top-color:#9EADBA;
 	border-top-style:solid;
 }
 
@@ -549,7 +556,7 @@ td.il_RepHeader
 {
 	padding:0px;
 	border-style: solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 	border-width: 1px;
 	margin-bottom: 0px;
 }
@@ -645,64 +652,55 @@ form.il_Form
 }
 
 /* MainMenu Tabs */
-
 div.il_MainMenu
 {
-	margin-top: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-	margin-right: 0px;
+	background-image: url(images/MainMenuBack.gif);
+	background-repeat: repeat-x;
+	background-position: bottom;	
+	margin: 0px;
     width:100%;
-	padding-left:0px;
+	padding:0px 0px 6px 0px;
     line-height:normal;
-	background: none;
 }
 
-ul.il_MainMenu
+a.MMInactive:link, a.MMInactive:visited
 {
-	margin: 0px 0px 0px 0px;
-	padding: 0px 15px 5px 15px;
-	list-style:none;
-}
-
-li.MMInactive
-{
-	float:left;
-	background-color : #CCDBF2;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #4E83C0;
-	margin: 0px 3px 5px 0px;
-	padding: 0px 0px 0px 0px;
-}
-
-a.MMInactive, a.MMInactive:hover
-{
-	float: left;
-	display:block;
-    padding: 2px 4px;
+	color:#FFFFFF;
+    padding: 0px 0px;
 	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
 }
 
-li.MMActive
+a.MMInactive:hover
 {
-	float:left;
-	background-color : #ECFAFB;
-	color:#000000;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #4E83C0;
-	margin: 0px 3px 5px 0px;
-	padding: 0px 0px 0px 0px;
-}
-
-a.MMActive, a.MMActive:hover
-{
-	float: left;
-	display:block;
-	color:#000000;
-    padding: 2px 4px;
+	color: #8CC6FF;
+    padding: 0px 0px;
 	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
+}
+
+a.MMActive:link, a.MMActive:visited
+{
+	color:#FFFFFF;
+    padding: 0px 0px;
+	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
+}
+
+a.MMActive:hover
+{
+	color: #8CC6FF;
+    padding: 0px 0px;
+	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
 }
 
 /* Tabs */
@@ -739,13 +737,14 @@ li.tabinactive
 	border-bottom-color: #B0B0B0;
 }
 
-a.tabinactive, a.tabinactive:hover
+a.tabinactive:link, a.tabinactive:hover, a.tabinactive:visited
 {
 	float: left;
 	display:block;
 	background:url("images/TabInactiveLeftWhite.gif") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
+	text-decoration: none;
 }
 
 li.tabactive
@@ -760,13 +759,14 @@ li.tabactive
 	border-bottom-color: #FFFFFF;
 }
 
-a.tabactive, a.tabactive:hover
+a.tabactive:link, a.tabactive:hover, a.tabactive:visited
 {
 	float: left;
 	display:block;
 	background:url("images/TabActiveLeftWhite.gif") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
+	text-decoration: none;
 }
 
 li.backtab
@@ -883,7 +883,7 @@ table.il_InfoScreen
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 }
 
 th.il_InfoScreen
@@ -932,7 +932,7 @@ div.il_Explorer
 	padding:20px;
 	border-spacing: 1px;
 	border-style: outset;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	border-width: 1px;
 	margin-bottom: 0px;
 }*/
@@ -950,7 +950,7 @@ div.il_ExplorerHeader
 	background-repeat: repeat-x;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	margin:0px;
 	font-weight: bold;
 }
@@ -1052,12 +1052,6 @@ div.ilMainHeader
 	background-image: url(images/HeaderBackground3.gif);
 	background-repeat: repeat-x;
 	background-color: #8CC6FF;
-	border-bottom-color: #4E83C0;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-top-color: #4E83C0;
-	border-top-style: solid;
-	border-top-width: 1px;
 }
 
 a.ilMainHeader, a.ilMainHeader:hover
@@ -1077,33 +1071,42 @@ a.ilMainHeader, a.ilMainHeader:hover
 
 div.ilLogin
 {
-	padding:5px 20px 5px 0px;
-	margin-top:2px;
-	margin-bottom:2px;
+	background-image: url(images/login_back.gif);
+	background-position: bottom left;
+	padding:2px 20px 3px 10px;
+	margin-top:0px;
+	margin-bottom:0px;
 	white-space: nowrap;
 	float:right;
 	text-align:right;
 	font-size:90%;
 }
 
-a.ilLogin, input.ilLogin
+a.ilLogin, a.ilLogin:visited, input.ilLogin
 {
 	background-color : #ECFAFB;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #4E83C0;
+	border-top-color: #BABABA;
+	border-left-color: #BABABA;
+	border-bottom-color: #808080;
+	border-right-color: #808080;
+	color:#0033AA;
 	padding: 1px 3px;
 	margin: 0px;
 	font-size:90%;
 	text-decoration:none;
-	font-weight:bold;
+	font-weight:normal;
 	cursor:pointer;
-	color:#2255a0;
+	background-color: #FFFFFF;
+	background-image: url(images/ButtonsBack.gif);
+	background-position: bottom;
+	background-repeat:repeat-x;
 }
 
 span.il_menu
 {
-	line-height:30px;
+	line-height: 150%;
 }
 
 .ilLanguageSelection
@@ -1270,9 +1273,9 @@ div.Access {
 /* ----------------- normal links ------------- */
 
 a:link, a:visited {
-	text-decoration:none;
-	font-weight: bold;
-	color:#224499;
+	text-decoration: none;
+	#color:#224499;
+	color:#0033AA;
 }
 
 a:hover {
@@ -1283,11 +1286,13 @@ a:hover {
 a.mailread, a.mailread:visited
 {
 	font-weight: normal;
+	text-decoration: none;
 }
 
 a.mailunread, a.mailunread:visited
 {
-	font-weight: bold;
+	font-weight: normal;
+	text-decoration: underline;
 }
 
 /* ------------------- forum links ----------- */
@@ -1353,15 +1358,21 @@ div.il_ButtonGroup
 }
 
 input.submit, a.submit, a.submit:hover {
-	background-color:#E6ECF8;
+	#background-color:#E6ECF8;
+	background-color: #FFFFFF;
+	background-image: url(images/ButtonsBack.gif);
+	background-position: bottom;
+	background-repeat:repeat-x;
 	color:#2255a0;
 	border-width:1px;
-	border-color:#B6B6B6;
+	border-top-color: #BABABA;
+	border-left-color: #BABABA;
+	border-bottom-color: #808080;
+	border-right-color: #808080;
 	border-style:solid;
 	padding:2px;
 	text-decoration:none;
 	font-size: 90%;
-	font-weight:bold;
 	cursor:pointer;
 }
 
@@ -1374,7 +1385,6 @@ input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
 	padding:2px;
 	text-decoration:none;
 	font-size: 90%;
-	font-weight:bold;
 	cursor:pointer;
 }
 
@@ -1443,7 +1453,7 @@ textarea
 	background-color:#ffffff;
 	color:#000000;
 	border-width:1px;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 	border-style:inset;
 	padding:3px;
 	text-decoration:none;
@@ -1518,7 +1528,7 @@ div.dp_Menu
 	margin-bottom:2px;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	background-color: #EBEBEB;
 	width: 152px;
 	font-size: 90%;
@@ -1682,7 +1692,7 @@ table.ilc_Page {
 	border-width: 1px;
 	border-spacing: 0px;
 	border-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	border-collapse:collapse;
 	margin: 0px;
 	padding: 0px;
@@ -1694,7 +1704,7 @@ td.ilc_Page
 	padding:20px;
 	border-left-style: solid;
 	border-right-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	border-left-width: 1px;
 	border-right-width: 1px;
 	border-top-width: 1px;
@@ -1717,7 +1727,7 @@ td.ilc_LMNavigation
 {
 	padding: 3px;
 	border-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	border-left-width: 0px;
 	border-right-width: 0px;
 	border-top-width: 1px;
@@ -1766,7 +1776,7 @@ table.ilc_FileList
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#CACACA;
+	border-color:#9EADBA;
 	margin-bottom: 15px;
 	margin-top: 5px;
 }
@@ -1924,7 +1934,7 @@ div.textbox
 .surveySheet {
 	padding:20px;
 	border-style: solid;
-	border-color: #CACACA;
+	border-color: #9EADBA;
 	border-left-width: 1px;
 	border-right-width: 1px;
 	border-top-width: 1px;
