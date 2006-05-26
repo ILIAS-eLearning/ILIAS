@@ -192,42 +192,49 @@ class ilLMEditorGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.lm_edit_frameset.html", false, false, "content");
+		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+		$fs_gui = new ilFramesetGUI();
+		
+		$fs_gui->setFramesetTitle($this->lng->txt("editor"));
+		$fs_gui->setMainFrameName("content");
+		$fs_gui->setSideFrameName("tree");
+
 		if ($this->lm_obj->getType() == "dbk")
 		{
-			$this->tpl->setVariable("HREF_EXPLORER",
+			$fs_gui->setSideFrameSource(
 				$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer"));
 			if ($_GET["to_page"]== 1)
 			{
-				$this->tpl->setVariable("HREF_EDITOR",
+				$fs_gui->setMainFrameSource(
 					$this->ctrl->getLinkTargetByClass(
 						array("ilobjdlbookgui", "illmpageobjectgui"),
 						"view"));
 			}
 			else
 			{
-				$this->tpl->setVariable("HREF_EDITOR",
+				$fs_gui->setMainFrameSource(
 					$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "properties"));
 			}
 		}
 		else
 		{
-			$this->tpl->setVariable("HREF_EXPLORER",
+			$fs_gui->setSideFrameSource(
 				$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer"));
 						if ($_GET["to_page"]== 1)
 			{
-				$this->tpl->setVariable("HREF_EDITOR",
+				$fs_gui->setMainFrameSource(
 					$this->ctrl->getLinkTargetByClass(
 						array("ilobjlearningmodulegui", "illmpageobjectgui"),
 						"view"));
 			}
 			else
 			{
-				$this->tpl->setVariable("HREF_EDITOR",
+				$fs_gui->setMainFrameSource(
 					$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "properties"));
 			}
 		}
-		$this->tpl->show();
+		$fs_gui->show();
+		exit;
 	}
 	
 	

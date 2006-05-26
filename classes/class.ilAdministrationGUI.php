@@ -253,33 +253,35 @@ class ilAdministrationGUI
 	function frameset()
 	{
 		global $tree;
+		
+		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+		$fs_gui = new ilFramesetGUI();
 
-		$tpl = new ilTemplate("tpl.adm_frameset.html", false, false);
-		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-//echo "<br>-".$this->ctrl->getLinkTarget($this, "view")."-";
+		$fs_gui->setMainFrameName("content");
+		$fs_gui->setSideFrameName("tree");
+		$fs_gui->setFrameSetTitle($this->lng->txt("administration"));
 
 		if ($_GET["admin_mode"] != "repository")	// settings
 		{
 			$this->ctrl->setParameter($this, "ref_id", SYSTEM_FOLDER_ID);
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-			$tpl->setVariable("MAIN_CONTENT", $this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
+			$fs_gui->setMainFrameSource(
+				$this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
 			$this->ctrl->setParameter($this, "expand", "1");
-			$tpl->setVariable("TREE_CONTENT", $this->ctrl->getLinkTarget($this, "showTree"));
-	//echo "<br>+".$this->ctrl->getLinkTarget($this, "showTree")."+";
-			$tpl->parseCurrentBlock();
-			$tpl->show("DEFAULT", false);
+			$fs_gui->setSideFrameSource(
+				$this->ctrl->getLinkTarget($this, "showTree"));
 		}
 		else
 		{
 			$this->ctrl->setParameter($this, "ref_id", ROOT_FOLDER_ID);
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
-			$tpl->setVariable("MAIN_CONTENT", $this->ctrl->getLinkTargetByClass("ilobjrootfoldergui", "view"));
+			$fs_gui->setMainFrameSource(
+				$this->ctrl->getLinkTargetByClass("ilobjrootfoldergui", "view"));
 			$this->ctrl->setParameter($this, "expand", "1");
-			$tpl->setVariable("TREE_CONTENT", $this->ctrl->getLinkTarget($this, "showTree"));
-	//echo "<br>+".$this->ctrl->getLinkTarget($this, "showTree")."+";
-			$tpl->parseCurrentBlock();
-			$tpl->show("DEFAULT", false);
+			$fs_gui->setSideFrameSource(
+				$this->ctrl->getLinkTarget($this, "showTree"));
 		}
+		$fs_gui->show();
 		exit;
 	}
 
