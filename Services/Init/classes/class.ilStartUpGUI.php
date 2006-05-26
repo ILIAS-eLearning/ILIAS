@@ -158,20 +158,12 @@ class ilStartUpGUI
 			include_once './classes/class.ilObjForum.php';
 			ilObjForum::_updateOldAccess($ilUser->getId());
 		
-			if (!empty($_GET["return_to"]))
+			if ($_GET["rep_ref_id"] != "")
 			{
-				ilUtil::redirect(urldecode($_GET["return_to"]));
+				$_GET["ref_id"] = $_GET["rep_ref_id"];
 			}
-			else
-			{
-				if ($_GET["rep_ref_id"] != "")
-				{
-					$_GET["ref_id"] = $_GET["rep_ref_id"];
-				}
-		
-				include("start.php");
-				exit;
-			}
+			$this->processStartingPage();
+			exit;
 		}
 		
 		// Instantiate login template
@@ -647,7 +639,7 @@ class ilStartUpGUI
 		//
 		// index.php is called and public section is enabled
 		//
-		if ($ilSetting->get("pub_section"))
+		if ($ilSetting->get("pub_section") && $_POST["sendLogin"] != "1")
 		{
 			//
 			// TO DO: THE FOLLOWING BLOCK IS COPY&PASTED FROM HEADER.INC
@@ -665,34 +657,45 @@ class ilStartUpGUI
 			}
 		
 			// get user id
-			$ilInit->initUserAccount();	
-			include("start.php");
+			$ilInit->initUserAccount();
+			$this->processStartingPage();
 			exit;
 		}
 		else
 		{
 			//
 			// index.php is called and public section is disabled
-			// -> login!
-			
-			$connector = "?";
-		
-			// catch reload
-			if ($_GET["reload"])
-			{
-				if ($_GET["inactive"])
-				{
-					$start .= "?reload=true&inactive=true";
-				}
-				else
-				{
-					$start .= "?reload=true";
-				}
-				$connector = "&";
-			}
-		
-			ilUtil::redirect($start.$connector."return_to=".rawurlencode($_GET["return_to"]));
+			$this->showLogin();
 		}
+	}
+	
+	
+	/**
+	* open start page (personal desktop or repository)
+	*
+	* precondition: authentication (maybe anonymous) successfull
+	*/
+	function processStartingPage()
+	{
+		global $ilBench, $ilCtrl;
+
+		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
+		{
+			if (empty($_GET["ref_id"]))
+			{
+				$_GET["ref_id"] = ROOT_FOLDER_ID;
+			}
+			$ilCtrl->initBaseClass("");
+			$ilCtrl->setCmd("frameset");
+			$start_script = "repository.php";
+		}
+		else
+		{
+			$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
+			$start_script = "ilias.php";
+		}
+		
+		include($start_script);
 	}
 
 }
