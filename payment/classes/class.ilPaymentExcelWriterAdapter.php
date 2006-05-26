@@ -33,86 +33,14 @@
 *
 */
 
-class ilPaymentExcelWriterAdapter
-{
-	var $workbook = null;
+include_once './classes/class.ilExcelWriterAdapter.php';
 
-	var $format_bold = null;
-	var $format_header = null;
+class ilPaymentExcelWriterAdapter extends ilExcelWriterAdapter
+{
 
 	function ilPaymentExcelWriterAdapter($a_filename,$a_send = true)
 	{
-		$result = @include_once 'Spreadsheet/Excel/Writer.php';
-		if (!$result)
-		{
-			include_once './classes/Spreadsheet/Excel/Writer.php';
-		}
-		if($a_send)
-		{
-			$this->workbook =& new Spreadsheet_Excel_Writer();
-			$this->workbook->send($a_filename);
-		}
-		else
-		{
-			$this->workbook =& new Spreadsheet_Excel_Writer($a_filename);
-		}
-		$this->__initFormatBold();
-		$this->__initFormatHeader();
-		$this->__initFormatTitle();
+		parent::ilExcelWriterAdapter($a_filename,$a_send);
 	}
-
-	function &getWorkbook()
-	{
-		return $this->workbook;
-	}
-
-	function &getFormatBold()
-	{
-		return $this->format_bold;
-	}
-	function &getFormatHeader()
-	{
-		return $this->format_header;
-	}
-	function &getFormatTitle()
-	{
-		return $this->format_title;
-	}
-	function &getFormatDate()
-	{
-		return $this->format_date;
-	}
-
-	// PRIVATE
-	function __initFormatBold()
-	{
-		$this->format_bold =& $this->workbook->addFormat();
-		$this->format_bold->setBold();
-	}
-	function __initFormatHeader()
-	{
-		$this->format_header =& $this->workbook->addFormat();
-		$this->format_header->setBold();
-		$this->format_header->setTop(100);
-		$this->format_header->setColor('black');
-		$this->format_header->setPattern(1);
-		$this->format_header->setFgColor('silver');
-	}
-	function __initFormatTitle()
-	{
-		$this->format_title =& $this->workbook->addFormat();
-		$this->format_title->setBold();
-		$this->format_title->setColor('black');
-		$this->format_title->setPattern(1);
-		$this->format_title->setSize(16);
-		$this->format_title->setAlign('center');
-	}
-	function __initFormatDate()
-	{
-		$this->format_date =& $this->workbook->addFormat();
-		$this->format_date->setNumFormat("YYYY-MM-DD hh:mm:ss");
-	}
-
-
 }
 ?>

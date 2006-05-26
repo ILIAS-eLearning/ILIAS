@@ -3067,7 +3067,7 @@ common#:#today#:#Today
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#Total
-common#:#total_online#:#Time online (DD:HH:MM:SS)
+common#:#online_time#:#Time online (DD:HH:MM:SS)
 common#:#tpl_path#:#Template Path
 common#:#trac_delete#:#Delete Tracking Data
 common#:#trac_edit_permission#:#Change permission settings

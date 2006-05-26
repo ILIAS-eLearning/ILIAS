@@ -94,6 +94,76 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return true;
 	}
 
+	function learningProgressExcelExportObject()
+	{
+		global $ilErr,$rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
+		}
+
+		include_once './classes/class.ilExcelWriterAdapter.php';
+
+		$pewa =& new ilExcelWriterAdapter('learning_progress.xls');
+
+		// add/fill worksheet
+		$this->_addLearningProgressWorksheet($pewa);
+
+		// HEADER SENT
+		
+		$workbook =& $pewa->getWorkbook();
+		$workbook->close();
+	}
+		
+	function _addLearningProgressWorksheet(&$pewa)
+	{
+		include_once 'classes/class.ilExcelUtils.php';
+
+		$workbook =& $pewa->getWorkbook();
+		$worksheet =& $workbook->addWorksheet($this->lng->txt('objs_usr'));
+
+		// SHOW HEADER
+		$worksheet->mergeCells(0,0,0,4);
+		$worksheet->setColumn(1,0,32);
+		$worksheet->setColumn(1,1,32);
+		$worksheet->setColumn(1,2,32);
+		$worksheet->setColumn(1,3,32);
+		$worksheet->setColumn(1,4,32);
+
+		$title = $this->lng->txt('learning_progress');
+		$title .= ' '.$this->lng->txt('as_of').': ';
+		$title .= strftime('%Y-%m-%d %R',time());
+
+		$worksheet->writeString(0,0,$title,ilExcelUtils::_convert_text($pewa->getFormatTitle()));
+
+		$worksheet->writeString(1,0,ilExcelUtils::_convert_text($this->lng->txt('login')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,1,ilExcelUtils::_convert_text($this->lng->txt('lastname')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,2,ilExcelUtils::_convert_text($this->lng->txt('firstname')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,3,ilExcelUtils::_convert_text($this->lng->txt('online_time')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,4,ilExcelUtils::_convert_text($this->lng->txt('last_login')),$pewa->getFormatHeader());
+
+
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname",'last_login','online_time'),1);
+		$usr_data = ilUtil::sortArray($usr_data,$_SESSION["usrf_sort_by"],$_SESSION["usrf_sort_order"]);
+
+		$counter = 2;
+
+		foreach($usr_data as $user)
+		{
+			$worksheet->writeString($counter,0,$user['login']);
+			$worksheet->writeString($counter,1,$user['lastname']);
+			$worksheet->writeString($counter,2,$user['firstname']);
+			$worksheet->writeString($counter,3,ilFormat::_secondsToShortString($user['online_time']),
+									$pewa->getFormatDayTime());
+			$worksheet->writeString($counter,4,$user['last_login'],
+									$pewa->getFormatDate());
+
+			++$counter;
+		}
+	}
+
+
 	function learningProgressObject()
 	{
 		include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
@@ -107,20 +177,33 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$_SESSION['usrf_sort_by'] = $_GET['sort_by'] ? $_GET['sort_by'] : ($_SESSION['usrf_sort_by'] ? 
+																		   $_SESSION['usrf_sort_by'] : 'login');
+
+		$_SESSION['usrf_sort_order'] = $_GET['sort_order'] ? $_GET['sort_order'] : ($_SESSION['usrf_sort_order'] ? 
+																		   $_SESSION['usrf_sort_order'] : 'asc');
+
+
+		// Excel export
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// display button
+		$this->lng->loadLanguageModule('payment');
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",
+								$this->ctrl->getLinkTarget($this, "learningProgressExcelExport"));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("excel_export"));
+		$this->tpl->parseCurrentBlock();
+
 		//prepare objectlist
-		$data["cols"] = array("login", "firstname", "lastname", "total_online","last_login");
+		$data["cols"] = array("login", "firstname", "lastname", "online_time",'last_login');
 		
-		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname",'last_login'),1);
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname",'last_login','online_time'),1);
 		$num_users = count($usr_data) - 1;
 
 
-		if ($_GET["sort_by"] == "name")
-		{
-			$_GET["sort_by"] = "login";
-		}
-
 		// sort and slice array
-		$usr_data = ilUtil::sortArray($usr_data,$_GET["sort_by"],$_GET["sort_order"]);
+		$usr_data = ilUtil::sortArray($usr_data,$_SESSION["usrf_sort_by"],$_SESSION["usrf_sort_order"]);
 		$usr_data = array_slice($usr_data,$_GET["offset"],$this->max_count);
 
 		foreach ($usr_data as $val)
@@ -130,13 +213,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 continue;
             }
 			
-			$total_online = ilOnlineTracking::_getOnlineTime($val['usr_id']);
-
 			$data["data"]["$val[usr_id]"] = array(
 				"login"			=> $val["login"],
 				"firstname"		=> $val["firstname"],
 				"lastname"		=> $val["lastname"],
-				"total_online"  => ilFormat::_secondsToShortString($total_online),
+				"online_time"  => ilFormat::_secondsToShortString($val['online_time']),
 				"last_login"	=> $val['last_login']
 				);
 		}

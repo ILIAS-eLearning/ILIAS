@@ -2240,9 +2240,22 @@ class ilObjUser extends ilObject
                     unset($a_fields[$usr_id_field]);
 
                 $select = implode(",",$a_fields).",usr_data.usr_id";
+				// online time
+				if(in_array('online_time',$a_fields))
+				{
+					$select .= ",ut_online.online_time ";
+				}
             }
 
 	        $q = "SELECT ".$select." FROM usr_data ";
+
+			// Add online_time if desired
+			// Need left join here to show users that never logged in
+			if(in_array('online_time',$a_fields))
+			{
+				$q .= "LEFT JOIN ut_online ON usr_data.usr_id = ut_online.usr_id ";
+			}
+
 	        
 	        if (is_numeric($active) && $active > -1)
 	        	$q .= "WHERE active='$active'";
