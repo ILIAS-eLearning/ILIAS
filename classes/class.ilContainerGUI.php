@@ -437,13 +437,19 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function editPageFrameObject()
 	{
-		$this->tpl = new ilTemplate("tpl.container_edit_frameset.html", false, false);
-		$this->tpl->setVariable("HREF_LINK_LIST",
+		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+		$fs_gui = new ilFramesetGUI();
+		
+		$fs_gui->setFramesetTitle($this->object->getTitle());
+		$fs_gui->setMainFrameName("content");
+		$fs_gui->setSideFrameName("link_list");
+		
+		$fs_gui->setSideFrameSource(
 			$this->ctrl->getLinkTargetByClass("ilcontainerlinklistgui", "show"));
-		$this->tpl->setVariable("HREF_EDITOR",
+		$fs_gui->setMainFrameSource(
 			$this->ctrl->getLinkTargetByClass(
 				array("ilpageobjectgui"), "view"));
-		$this->tpl->show("DEFAULT", false);
+		$fs_gui->show();
 		exit;
 	}
 
