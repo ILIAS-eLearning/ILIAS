@@ -419,25 +419,32 @@ class ilRepositoryGUI
 	{
 		global $lng;
 		
-		$this->tpl = new ilTemplate("tpl.rep_frameset.html", false, false);
+		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+		$fs_gui = new ilFramesetGUI();
+
 		if ($_GET["rep_frame"] == 1)
 		{
 			// workaround for passing anchors (e.g. used in ilNoteGUI)
 			$anchor = ($_GET["anchor"] != "")
 				? "#".$_GET["anchor"]
 				: "";
-			$this->tpl->setVariable("SRC_CONTENT",
+			$fs_gui->setMainFrameSource(
 				str_replace("rep_frame", "rep_frame_done", $_SERVER["REQUEST_URI"]).$anchor);
 		}
 		else
 		{
-			$this->tpl->setVariable("SRC_CONTENT",
+			$fs_gui->setMainFrameSource(
 				"repository.php?getlast=true&ref_id=".$this->cur_ref_id);
 		}
-		$this->tpl->setVariable("REF_ID",$this->cur_ref_id);
-		$this->tpl->setVariable("TXT_EXPLORER_FRAME", $lng->txt("explorer_frame"));
-		$this->tpl->setVariable("TXT_CONTENT_FRAME", $lng->txt("repository_frame"));
-		$this->tpl->show("DEFAULT", false);
+		$fs_gui->setSideFrameSource(
+			"repository.php?cmd=showTree&ref_id=".$this->cur_ref_id);
+
+		$fs_gui->setSideFrameTitle($lng->txt("explorer_frame"));
+		$fs_gui->setMainFrameTitle($lng->txt("repository_frame"));
+		$fs_gui->setSideFrameName("tree");
+		$fs_gui->setMainFrameName("rep_content");
+		$fs_gui->setFramesetTitle($this->lng->txt("repository"));
+		$fs_gui->show();
 		exit;
 	}
 
