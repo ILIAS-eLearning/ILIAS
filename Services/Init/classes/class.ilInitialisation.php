@@ -833,7 +833,7 @@ class ilInitialisation
 				{
 					$ilAuth->start();
 					$ilias->setAuthError($ilErr->getLastError());
-					ilUtil::redirect("start.php");
+					ilUtil::redirect("index.php");
 				}
 			}
 		}

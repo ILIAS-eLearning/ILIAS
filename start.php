@@ -33,6 +33,10 @@
 */
 //require_once "./include/inc.header.php";
 
+include("index.php");
+exit;
+
+
 global $ilBench, $ilCtrl;
 
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
@@ -52,13 +56,6 @@ else
 }
 
 include($start_script);
-/*
-$tpl = new ilTemplate("tpl.start.html", true, true);
 
-$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-$tpl->setVariable("SCRIPT", $start_script);
-$tpl->setVariable("TOP_TITLE", $lng->txt("main_menu_frame"));
-$tpl->setVariable("BOTTOM_TITLE", $lng->txt("bottom_frame"));
-$tpl->show();*/
 
 ?>
