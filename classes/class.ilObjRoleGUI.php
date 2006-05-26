@@ -1399,6 +1399,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
+		
+		$this->__showButton('mailToRole',$this->lng->txt('role_mailto'),'target=\'_blank\'');
 
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -2236,6 +2238,13 @@ class ilObjRoleGUI extends ilObjectGUI
 				array("listDesktopItems", "deleteDesktopItems", "selectDesktopItem", "askDeleteDesktopItem"),
 				get_class($this));
 		}
+	}
+	
+	function mailToRoleObject()
+	{
+		$_SESSION['mail_roles'][] = "#".$this->object->getTitle();
+		$script = 'mail_new.php?type=role';
+		ilUtil::redirect($script);
 	}
 } // END class.ilObjRoleGUI
 ?>

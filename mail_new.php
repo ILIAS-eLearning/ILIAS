@@ -247,17 +247,24 @@ switch($_GET["type"])
 		break;
 
 	case 'role':
+
 		if(is_array($_POST['roles']))
 		{
 			$mail_data['rcp_to'] = implode(',',$_POST['roles']);
 		}
+		elseif(is_array($_SESSION['mail_roles']))
+		{
+			$mail_data['rcp_to'] = implode(',',$_SESSION['mail_roles']);
+		}
+
 		$mail_data['m_message'] = $_POST["additional_message_text"].chr(13).chr(10).$umail->appendSignature();
 		$_POST["additional_message_text"] = "";
+		$_SESSION['mail_roles'] = "";
 		break;
 
 	case 'address':
-			$mail_data["rcp_to"] = urldecode($_GET["rcp"]);
-			break;
+		$mail_data["rcp_to"] = urldecode($_GET["rcp"]);
+		break;
 
 	default:
 		// GET DATA FROM POST
