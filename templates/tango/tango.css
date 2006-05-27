@@ -437,10 +437,11 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited
 
 a.il_ContainerItemCommand:hover
 {
-	border-left: 1px solid #2e3436;
+/*	border-left: 1px solid #2e3436;
 	border-top: 1px solid #2e3436;
 	border-bottom: 1px solid #babdb6;
-	border-right: 1px solid #babdb6;
+	border-right: 1px solid #babdb6;*/
+	color:#000;
 }
 
 div.il_ContainerItemCommands
@@ -449,6 +450,10 @@ div.il_ContainerItemCommands
 	padding-top: 2px;
 }
 
+a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerItemTitle:hover
+{
+	text-decoration: none;
+}
 
 div.il_ItemProperties
 {
@@ -508,13 +513,12 @@ table.il_ContainerBlock
 }
 
 /* Personal Desktop Header*/
-div.il_PDTitle
+div.il_PDTitle, span.il_PDTitle
 {
-	font-family: Verdana,"Times New Roman", Times, Palatino, "Palatino Linotype", serif;
-	font-size: 140%;
+	font-size: 130%;
 	line-height: 160%;
-	color:#fff;
-	letter-spacing: 0.05em;
+	color:#eee;
+	letter-spacing: 0.03em;
 	word-spacing: -0.1em;
 	white-space: nowrap;
 }
@@ -625,10 +629,16 @@ td.il_no_style {
 }
 
 /* locator */
+/*
 table.il_Locator
 {
+	background-color: #E2EAF4;
 	background-image: url(images/TableHeaderGrey.gif);
 	background-repeat: repeat-x;
+}*/
+table.il_Locator
+{
+	background-color: none;
 }
 
 div.il_Locator {
@@ -641,6 +651,7 @@ div.il_Locator {
 a.il_LocatorLink, a.il_LocatorLink:link, a.il_LocatorLink:visited, a.il_LocatorLink:hover
 {
 	color: #224499;
+	font-weight: normal;
 }
 
 a.il_LocatorLink:hover
@@ -662,141 +673,58 @@ form.il_Form
 }
 
 /* MainMenu Tabs */
-
 div.il_MainMenu
 {
-	margin-top: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-	margin-right: 0px;
-    	width:100%;
-	padding-left:0px;
-    	line-height:15px;
-	background: none;
+	background-image: url(images/MainMenuBack.gif);
+	background-repeat: repeat-x;
+	background-position: bottom;	
+	margin: 0px;
+    width:100%;
+	padding:0px 0px 6px 0px;
+    line-height:normal;
 }
 
-ul.il_MainMenu
+a.MMInactive:link, a.MMInactive:visited
 {
-	margin: 0px 10px;
-	padding: 0px 25px;
-	list-style:none;
-	color:black;
-}
-
-.il_MainMenu a:link 
-{
-	color:#000;
-}
-
-.il_MainMenu a:hover
-{
-	float: left;
-	display:block;
-    	padding: 3px 8px;
+	color:#777;
+    padding: 0px 0px;
 	font-size: 80%;
-	color:black;
-}
-li.MMInactive
-{
-	float:left;
-	margin:0 4px;
-	padding:0;
-	color:#000;
-}
-
-.MMInactive a
-{
-	float: left;
-	display:block;
-    	padding: 3px 8px;
-	font-size: 90%;
-	color:#000;
-	background-color:lightgrey;
-	border-bottom: solid 1px black;
-        border-right: solid 1px black;
-        border-top: solid 1px grey;
-        border-left: solid 1px grey;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
 }
 
 a.MMInactive:hover
 {
-	float: left;
-	display:block;
-    	padding: 3px 8px;
-	font-size: 90%;
-	color:black;
-	background-color:#eeeeee;
-	border-bottom: solid 1px grey;
-        border-right: solid 1px grey;
-        border-top: solid 1px black;
-        border-left: solid 1px black;
-
+	color: #000;
+    padding: 0px 0px;
+	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
 }
 
-a.MMInactive:link
+a.MMActive:link, a.MMActive:visited
 {
-	float: left;
-	display:block;
-    	padding: 3px 8px;
-	font-size: 90%;
-	color:black;
-}
-
-li.MMActive
-{
-	float:left;
-	margin:0 4px;
-	padding:0;
-	color:black;
-}
-
-a.MMActive
-{
-	float: left;
-	display:block;
-    	padding: 3px 8px;
-	font-size: 90%;
-	color:black;
-	background-color:#ffffee;
-	border-bottom: solid 1px grey;
-	border-right: solid 1px grey;
-	border-top: solid 1px black;
-        border-left: solid 1px black;
+	color:#222;
+    	padding: 0px 0px;
+	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
 }
 
 a.MMActive:hover
 {
-	float: left;
-	display:block;
-    	padding: 3px 8px;
-	font-size: 90%;
-	color:#black;
-	background-color:#eeeeee;
-	border-bottom: solid 1px grey;
-        border-right: solid 1px grey;
-	border-top: solid 1px black;
-	border-left: solid 1px black;
-	
-
+	color: #000;
+    padding: 0px 0px;
+	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 0px 5px 15px;
+	font-weight: normal;
 }
-
-a.MMActive:link
-{
-	float: left;
-	display:block;
-    padding: 3px 8px;
-	font-size: 120%;
-	color:black;
-}
-
 
 /* Tabs */
-
-div.il_MainMenu
-{
-	line-height: 15px;
-	white-space: nowrap;
-}
 
 div.il_Tab
 {
@@ -836,7 +764,8 @@ a.tabinactive, a.tabinactive:hover,a.tabinactive:visited
 	background:url("images/TabInactiveLeft.gif") no-repeat left top;
 	padding: 3px 8px;
 	font-size: 75%;
-	color:#444;
+	color:#444
+	text-decoration: none;
 }
 
 li.tabactive
@@ -1123,14 +1052,10 @@ div.il_info
 
 div.il_HeaderOuter
 {
-	background-color:#fffffe;
 }
 
 div.il_Header
 {
-	;background-color:#717171;
-	background:#fffffe;
-	width: 100%;
 }
 
 div.il_HeaderInner
@@ -1149,11 +1074,11 @@ div.ilMainHeader
 {
 	background-image: url(images/HeaderBackground7.gif);
 	background-repeat: repeat-x;
-	;background-color: #F0F0F0;
-	color:#fff;
+	background-color: #8CC6FF;
+	color: #fff;
 }
 
-a.ilMainHeader
+a.ilMainHeader, a.ilMainHeader:hover
 {
 	padding-top:1px;
 	padding-left:5px;
@@ -1166,198 +1091,6 @@ a.ilMainHeader
 	border-color: #000000;
 	background-color: #FFFEEE;
 	font-size:90%;
-	padding: 0 2px 2px 22px;
-	background: #FFFEEE url(images/icon_mail.gif) left center no-repeat;
-}
-
-a.ilMainHeader:hover
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #505050;
-	background-color: #729fcf;
-	color:#FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #729fcf url(images/icon_mail.gif) left center no-repeat;
-}
-
-a.ilMainHeader1
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:5px;
-	margin-top:2px;
-	margin-bottom: 5px;
-	border-width: 0px;
-	border-color: #000000;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #FFFEEE url(images/icon_pd18.gif) left center no-repeat;
-}
-
-a.ilMainHeader1:hover
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #505050;
-	background-color: #729fcf;
-	color:#FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #729fcf url(images/icon_pd18.gif) left center no-repeat;
-}
-
-a.ilMainHeader2
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000000;
-	background-color: #FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #FFFEEE url(images/icon_root18.gif) left center no-repeat;
-}
-
-a.ilMainHeader2:hover
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #505050;
-	background-color: #729fcf;
-	color:#FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #729fcf url(images/icon_root18.gif) left center no-repeat;
-}
-
-a.ilMainHeader3
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000000;
-	background-color: #FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #FFFEEE url(images/icon_src18.gif) left center no-repeat;
-}
-
-a.ilMainHeader3:hover
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #505050;
-	background-color: #729fcf;
-	color:#FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #729fcf url(images/icon_src18.gif) left center no-repeat;
-}
-
-a.ilMainHeader4
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000000;
-	background-color: #FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #FFFEEE url(images/icon_mail18.gif) left center no-repeat;
-}
-
-a.ilMainHeader4:hover
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #505050;
-	background-color: #729fcf;
-	color:#FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #729fcf url(images/icon_mail18.gif) left center no-repeat;
-}
-a.ilMainHeader5
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000000;
-	background-color: #FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #FFFEEE url(images/icon_adm18.gif) left center no-repeat;
-}
-
-a.ilMainHeader5:hover
-{
-	padding-top:1px;
-	padding-left:5px;
-	padding-right:5px;
-	padding-bottom:1px;
-	margin-top:2px;
-	margin-bottom: 2px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #505050;
-	background-color: #729fcf;
-	color:#FFFEEE;
-	font-size:90%;
-	padding: 0 2px 1px 22px;
-	background: #729fcf url(images/icon_adm18.gif) left center no-repeat;
 }
 
 div.ilLogin
@@ -1369,6 +1102,7 @@ div.ilLogin
 	margin-top:2px;
 	margin-bottom:2px;
 	white-space: nowrap;
+	float:right;
 	text-align:right;
 	font-size:90%;
 }
@@ -1389,7 +1123,7 @@ a.loginlogout:visited {
 
 span.il_menu
 {
-	line-height:30px;
+	line-height:150%;
 }
 
 .ilLanguageSelection
@@ -1579,6 +1313,22 @@ a.postnew, a.postnew:visited
 {
     font-style: italic;
 }
+
+blockquote.ilForumQuote
+{
+	margin: 0px 20px;
+	padding: 5px;
+	border-width:1px;
+	border-color:#B6B6B6;
+	border-style:solid;
+}
+
+div.ilForumQuoteHead
+{
+	font-style: italic;
+	margin: 0px 0px 10px 0px;
+}
+
 /* ------------------ buttons -------------- */
 
 /* not used anymore (no extra table for buttons)*/
@@ -2022,10 +1772,10 @@ table.ilc_FileList
 	width: 100%;
 	border-spacing: 1px;
 	border-collapse:collapse;
-	border-style: outset;
+	border-style: solid;
 	border-color: #CACACA;
 	border-width: 1px;
-	margin-bottom: 5px;
+	margin-bottom: 15px;
 	margin-top: 5px;
 }
 
@@ -2033,14 +1783,11 @@ th.ilc_FileList
 {
 	text-align: left;
 	padding: 3px;
+	background-image: url(images/TableHeader.gif);
 }
 
 td.ilc_FileItem
 {
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 0px;
-	border-right-width: 0px;
 	background-color: #FFFFFF;
 	padding: 3px;
 }
