@@ -48,7 +48,7 @@ $exp->setOutput(0);
 $output = $exp->getOutput();
 
 $tpl->setCurrentBlock("content");
-$tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("forums_posts"));
+//$tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("forums_posts"));
 $tpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
 $tpl->setVariable("EXPLORER",$output);
 $tpl->setVariable("ACTION", "forums_menu.php?fexpand=".$_GET["fexpand"]."&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");

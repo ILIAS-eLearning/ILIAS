@@ -36,8 +36,6 @@ require_once "./classes/class.ilMailbox.php";
 
 $lng->loadLanguageModule("mail");
 
-$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.mail_frameset.html"; 
-
 // ADD FOLDER cmd comes from mail_options button
 if(isset($_POST["cmd"]["add"]))
 {
@@ -89,17 +87,23 @@ if (isset($_GET["viewmode"]))
 }
 if ($_SESSION["viewmode"] == "tree")
 {
-	$tpl = new ilTemplate("tpl.mail_frameset.html", false, false);
+	include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+	$fs_gui = new ilFramesetGUI();
+	$fs_gui->setFramesetTitle("mail");
+	$fs_gui->setMainFrameName("content");
+	$fs_gui->setSideFrameName("tree");
+
+	$fs_gui->setSideFrameSource("mail_menu.php?expand=1");
+
 	if(isset($_GET["target"]))
 	{
-		$tpl->setVariable("FRAME_RIGHT_SRC",urldecode($_GET["target"]));
+		$fs_gui->setMainFrameSource(urldecode($_GET["target"]));
 	}
 	else
 	{
-		$tpl->setVariable("FRAME_RIGHT_SRC","mail.php?mobj_id=$_GET[mobj_id]");
+		$fs_gui->setMainFrameSource("mail.php?mobj_id=$_GET[mobj_id]");
 	}
-	$tpl->show("DEFAULT", false);
-	exit;
+	$fs_gui->show();
 }
 else
 {

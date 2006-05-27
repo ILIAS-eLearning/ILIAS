@@ -945,13 +945,6 @@ div.il_ExplorerHeader
 	padding-bottom:1px;
 	vertical-align:top;
 	text-align:left;
-	background-image: url(images/TableHeader.gif);
-	background-color:#EDEDED;
-	background-repeat: repeat-x;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #9EADBA;
-	margin:0px;
 	font-weight: bold;
 }
 
@@ -1286,13 +1279,11 @@ a:hover {
 a.mailread, a.mailread:visited
 {
 	font-weight: normal;
-	text-decoration: none;
 }
 
 a.mailunread, a.mailunread:visited
 {
-	font-weight: normal;
-	text-decoration: underline;
+	font-weight: bold;
 }
 
 /* ------------------- forum links ----------- */

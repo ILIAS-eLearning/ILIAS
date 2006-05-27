@@ -101,13 +101,18 @@ class ilFramesetGUI
 	*/
 	function show()
 	{
-		$main = "LEFT";
-		$side = "RIGHT";
+		global $ilSetting;
 		
-		/*
-		$main = "RIGHT";
-		$side = "LEFT";
-		*/
+		if ($ilSetting->get("tree_frame") == "right")
+		{
+			$main = "LEFT";
+			$side = "RIGHT";
+		}
+		else
+		{
+			$main = "RIGHT";
+			$side = "LEFT";
+		}
 		
 		$main_width = "*";
 		$side_width = "25%";

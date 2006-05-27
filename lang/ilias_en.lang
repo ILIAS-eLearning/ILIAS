@@ -2458,19 +2458,19 @@ common#:#obj#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_alm#:#Learning Module AICC
-common#:#obj_assf#:#Test&Assessment
+common#:#obj_assf#:#Test and Assessment
 common#:#obj_assf_desc#:#Test&Assessment log settings.
-common#:#obj_auth#:#Authentication/Registration
+common#:#obj_auth#:#Authentication and Registration
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...) and new account registration settings here.
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
-common#:#obj_chac#:#Chat settings
+common#:#obj_chac#:#Chat Settings
 common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc#:#Exercise
-common#:#obj_extt#:#Third party software
+common#:#obj_extt#:#Third Party Software
 common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 common#:#obj_file#:#File
 common#:#obj_fold#:#Folder
@@ -2495,10 +2495,10 @@ common#:#obj_mob#:#Media Object
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
-common#:#obj_objf#:#Object definitions
+common#:#obj_objf#:#Object Definitions
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_owner#:#This Object is owned by
-common#:#obj_pays#:#Payment settings
+common#:#obj_pays#:#Payment Settings
 common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
 common#:#obj_qpl#:#Question Pool Test
@@ -2516,7 +2516,7 @@ common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
-common#:#obj_stys#:#Style Settings ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#obj_stys#:#Style and Layout
 common#:#obj_stys_desc#:#Manage system skin and style settings here
 common#:#obj_svy#:#Survey
 common#:#obj_tax#:#Taxonomy
@@ -2530,7 +2530,7 @@ common#:#obj_type#:#Object Type
 common#:#obj_url#:#URL
 common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
-common#:#obj_usrf#:#User accounts
+common#:#obj_usrf#:#User Accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#obj_webr#:#Web Resource
 common#:#object#:#Object
@@ -2764,6 +2764,10 @@ common#:#reset#:#Reset
 common#:#resources#:#Resources
 common#:#retype_password#:#Retype Password
 common#:#right#:#Right
+common#:#tree_left#:#Left
+common#:#tree_right#:#Right
+common#:#tree_frame#:#Tree Frame
+common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.
 common#:#rights#:#Rights
 common#:#role#:#Role
 common#:#role_a#:#a Role
