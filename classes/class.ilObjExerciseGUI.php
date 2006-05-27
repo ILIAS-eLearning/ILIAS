@@ -574,6 +574,8 @@ class ilObjExerciseGUI extends ilObjectGUI
       //add template for buttons
       $this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
       
+
+
       // add member button
       $this->tpl->setCurrentBlock("btn_cell");
       $this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, 'newmembers'));
@@ -586,8 +588,27 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 	  sendInfo($this->lng->txt("exc_no_members_assigned"));
 	}
-      else
+      else	
 	{
+	  // if we come from edit_comments action button
+	  if (!empty($_GET["comment_id"])) {
+
+	    //	    $tmp_obj = ilObjectFactory::getInstanceByObjId($_GET["comment_id"],false);
+	    $tmp_obj = new ilObjUser($_GET["comment_id"]);
+	    $this->tpl->setCurrentBlock("comments");
+	    $this->tpl->setVariable("COMMENTS_FORMACTION", 
+				    $this->getFormAction("saveComments", "exercise.php?ref_id=".$_GET["ref_id"]."&member_id=".$_GET["comment_id"]."&cmd=saveComments&cmdClass=ilobjexercisegui&cmdNode=1&baseClass="));
+	    $this->tpl->setVariable("NOTICE_VALUE", $this->getComments($_GET["comment_id"]));
+	    $this->tpl->setVariable("MEMBER_PICTURE", $tmp_obj->getPersonalPicturePath("xsmall"));
+	    $this->tpl->setVariable("MEMBER_ID", $_GET["comment_id"]);
+	    $this->tpl->setVariable("SAVE_COMMENTS", $this->lng->txt("save"));
+	    $this->tpl->setVariable("EDIT_COMMENTS", $this->lng->txt("edit_comments"));
+	    $this->tpl->setVariable("MEMBER_LOGIN", $tmp_obj->getLastName().", ".$tmp_obj->getFirstName());
+
+	    $this->tpl->parseCurrentBlock();
+	  }
+
+
 	  $counter = 0;
 	  foreach($this->object->members_obj->getMembers() as $member_id)
 	    {
@@ -642,7 +663,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	      $f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1);
 	      $f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSentByMember($member_id),"sent[$member_id]",1);
 
-  		  $f_result[$counter][]	= "<a class=\"il_ContainerItemCommand\" target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".$tmp_obj->getLogin()."\">".$this->lng->txt("mail_feedback")."</a>";
+	  $f_result[$counter][] =  "&nbsp;"."<a class=\"il_ContainerItemCommand\" href=\"exercise.php?ref_id=".$_GET["ref_id"]."&comment_id=".$member_id."&cmd=members&cmdClass=ilobjexercisegui&cmdNode=1&baseClass=\">".$this->lng->txt("add_comments")."</a>";
+
+
+	  $f_result[$counter][]	= "<a class=\"il_ContainerItemCommand\" target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".$tmp_obj->getLogin()."\">".$this->lng->txt("mail_feedback")."</a>";
 
 	      
 	      $member_ids[] = $member_id;
@@ -965,11 +989,34 @@ function __deassignMembers()
     }
 }
 
+
+function saveCommentsObject() {
+
+  if(!isset($_POST['comments_value']))
+    {
+      continue;
+    }
+  
+  $this->object->members_obj->setNoticeForMember($_GET["member_id"],ilUtil::stripSlashes($_POST["comments_value"]));
+  sendInfo($this->lng->txt("exc_members_comments_saved"));
+  $this->membersObject();
+		
+
+}
+
+function getComments($member_id) {
+
+  return $this->object->members_obj->getNoticeByMember($member_id);
+
+}
+
+
+
 function __saveStatus()
 {
   foreach($this->object->members_obj->getMembers() as $member)
     {
-    /*  if(!isset($_POST['notice'][$member]))
+      /*if(!isset($_POST['comments'][$member]))
 	{
 	  continue;
 	}*/
@@ -1021,7 +1068,7 @@ function __showMembersTable($a_data,$a_member_ids)
       $this->tpl->parseCurrentBlock();
     }
   
-  $this->tpl->setVariable("COLUMN_COUNTS",9);
+  $this->tpl->setVariable("COLUMN_COUNTS",11);
   $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
   
   $this->tpl->setCurrentBlock("tbl_action_select");
@@ -1031,7 +1078,7 @@ function __showMembersTable($a_data,$a_member_ids)
   $this->tpl->parseCurrentBlock();
   
   $this->tpl->setCurrentBlock("tbl_action_row");
-  $this->tpl->setVariable("COLUMN_COUNTS",10);
+  $this->tpl->setVariable("COLUMN_COUNTS",11);
   $this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
   $this->tpl->parseCurrentBlock();
   
@@ -1048,11 +1095,12 @@ function __showMembersTable($a_data,$a_member_ids)
 			     $this->lng->txt("exc_status_submitted"),
 			     $this->lng->txt("exc_status_solved"),
 			     $this->lng->txt("exc_status_sent"),
+			     $this->lng->txt("exc_notices"),
 			     $this->lng->txt("actions")));
   $tbl->setHeaderVars(array("","login","firstname","lastname","","exc_last_submission","","","",""),
 		      array("ref_id" => $this->object->getRefId(),
 			    "cmd" => "members"));
-  $tbl->setColumnWidth(array("2%","10%","15%","15%","10%","20%","5%","5%","5%","10%"));
+  $tbl->setColumnWidth(array("1%","10%","10%","10%","10%","20%","3%","3%","3%","15%","15%"));
   $tbl->disable('content');
   
   $tbl->setOrderColumn($_GET["sort_by"]);
