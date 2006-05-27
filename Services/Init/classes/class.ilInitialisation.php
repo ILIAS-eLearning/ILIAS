@@ -660,7 +660,7 @@ class ilInitialisation
 		global $ilDB, $ilUser, $ilLog, $ilErr, $ilClientIniFile, $ilIliasIniFile,
 			$ilSetting, $ilAuth, $ilias, $https, $ilObjDataCache,
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
-			$ilTabs, $ilMainMenu;
+			$ilTabs, $ilMainMenu, $rbacsystem;
 		
 		// include common code files
 		$this->requireCommonIncludes();

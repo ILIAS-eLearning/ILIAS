@@ -79,7 +79,6 @@ if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 	sendInfo($lng->txt("forums_post_deleted"));
 }
 
-$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.forums_frameset.html";
 
 $session_name = "viewmode_".$forumObj->getId();
 
@@ -94,19 +93,29 @@ if(!$_SESSION[$session_name])
 
 if ($_SESSION[$session_name] == "tree")
 {
+	include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+	$fs_gui = new ilFramesetGUI();
+	$fs_gui->setMainFrameName("content");
+	$fs_gui->setSideFrameName("tree");
+	$fs_gui->setFramesetTitle($forumObj->getTitle());
+
 	$tpl = new ilTemplate("tpl.forums_frameset.html", false, false);
 	if(isset($_GET["target"]))
 	{
-		$tpl->setVariable("FRAME_LEFT_SRC","./forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-		$tpl->setVariable("FRAME_RIGHT_SRC","./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]".
+		$fs_gui->setSideFrameSource(
+			"./forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$fs_gui->setMainFrameSource(
+			"./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]".
 						  "&pos_pk=$_GET[pos_pk]#$_GET[pos_pk]");
 	}
 	else
 	{
-		$tpl->setVariable("FRAME_LEFT_SRC","./forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-		$tpl->setVariable("FRAME_RIGHT_SRC","./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$fs_gui->setSideFrameSource(
+			"./forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$fs_gui->setMainFrameSource(
+			"./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 	}
-	$tpl->show();
+	$fs_gui->show();
 }
 else
 {

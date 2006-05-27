@@ -120,7 +120,13 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$settings = $this->ilias->getAllSettings();
 
-		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));		
+		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable("TXT_TREE_FRAME", $this->lng->txt("tree_frame"));
+		$this->tpl->setVariable("TXT_TREE_FRAME_INFO", $this->lng->txt("tree_frame_info"));
+		$this->tpl->setVariable("TXT_FRAME_LEFT", $this->lng->txt("tree_left"));
+		$this->tpl->setVariable("TXT_FRAME_RIGHT", $this->lng->txt("tree_right"));
+		
 		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("basic_settings"));
 		$this->tpl->setVariable("TXT_ICONS_IN_TYPED_LISTS", $this->lng->txt("icons_in_typed_lists"));
 		$this->tpl->setVariable("TXT_ICONS_IN_HEADER", $this->lng->txt("icons_in_header"));
@@ -135,6 +141,15 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
 		// set current values
+		if ($settings["tree_frame"] == "right")
+		{
+			$this->tpl->setVariable("SEL_FRAME_RIGHT","selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SEL_FRAME_LEFT","selected=\"selected\"");
+		}
+		
 		if ($settings["custom_icons"])
 		{
 			$this->tpl->setVariable("CHK_CUSTOM_ICONS","checked=\"checked\"");
@@ -160,6 +175,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function saveBasicStyleSettingsObject()
 	{
+		$this->ilias->setSetting("tree_frame", $_POST["tree_frame"]);
 		$this->ilias->setSetting("icon_position_in_lists", $_POST["icon_position_in_lists"]);
 		$this->ilias->setSetting("custom_icons", $_POST["custom_icons"]);
 		$this->ilias->setSetting("custom_icon_big_width", (int) $_POST["custom_icon_big_width"]);

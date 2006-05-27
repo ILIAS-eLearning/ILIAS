@@ -990,7 +990,7 @@ class ilPersonalDesktopGUI
 				$this->tpl->setCurrentBlock("tbl_mails_row");
 				$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
 				$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
-				$this->tpl->setVariable("NEW_MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
+				//$this->tpl->setVariable("NEW_MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
 				$this->tpl->setVariable("NEW_MAIL_SUBJ", $mail["m_subject"]);
 				$this->tpl->setVariable("NEW_MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
 				$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
