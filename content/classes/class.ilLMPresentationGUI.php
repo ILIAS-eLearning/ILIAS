@@ -805,7 +805,7 @@ class ilLMPresentationGUI
 	*/
 	function ilMainMenu()
 	{
-		global $ilBench;
+		global $ilBench, $ilMainMenu;
 
 		if ($this->offlineMode())
 		{
@@ -814,11 +814,13 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "ilMainMenu");
 
+		/*
 		$menu = new ilMainMenuGUI(ilFrameTargetInfo::_getFrame("MainContent"));
-			
 		$menu->setTemplate($this->tpl);
 		$menu->addMenuBlock("MAINMENU", "mainmenu");
-		$menu->setTemplateVars();
+		$menu->setTemplateVars();*/
+		
+		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 		
 		$ilBench->stop("ContentPresentation", "ilMainMenu");
 	}

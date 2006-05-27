@@ -246,18 +246,20 @@ class ilCalInterface
 	*/
 	function showLocator($tpl, $lng, $app)
 	{
-		global $ilias,$ilTabs;
+		global $ilias, $ilTabs, $ilMainMenu;
 		
 		$tpl = new ilTemplate("tpl.calendar_header.html", true, true);
 		
 		
 		// main menu
+		/*
 		require_once "./classes/class.ilMainMenuGUI.php";
 		$menu = new ilMainMenuGUI("_top");
 		$menu->setActive("desktop");
 		$menu->setTemplate($tpl);
 		$menu->addMenuBlock("MAINMENU", "navigation");
-		$menu->setTemplateVars();
+		$menu->setTemplateVars();*/
+		$tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 		
 		//tabs
 /*
