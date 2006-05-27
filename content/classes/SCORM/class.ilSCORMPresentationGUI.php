@@ -98,6 +98,7 @@ class ilSCORMPresentationGUI
 		$exp = new ilSCORMExplorer("sahs_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
+		
 		//$exp->setFiltered(true);
 
 		if ($_GET["scexpand"] == "")
@@ -110,6 +111,8 @@ class ilSCORMPresentationGUI
 			$expanded = $_GET["scexpand"];
 		}
 		$exp->setExpand($expanded);
+		
+		$exp->forceExpandAll(true, false);
 
 		// build html-output
 		//666$exp->setOutput(0);
@@ -118,8 +121,8 @@ class ilSCORMPresentationGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "content");
+		//$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "sahs_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].

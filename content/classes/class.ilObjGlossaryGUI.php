@@ -486,9 +486,15 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.glossary_frameset.html", true, true, "content");
-		$this->tpl->setVariable("HREF_EDITOR", $this->ctrl->getLinkTarget($this, "listTerms"));
-		$this->tpl->setVariable("HREF_EXPLORER", $this->ctrl->getLinkTarget($this, "quickList"));
+		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+		$fs_gui = new ilFramesetGUI();
+		$fs_gui->setFramesetTitle($this->object->getTitle());
+		$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "listTerms"));
+		$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this, "quickList"));
+		$fs_gui->setMainFrameName("content");
+		$fs_gui->setSideFrameName("tree");
+		$fs_gui->show();
+		exit;
 	}
 	
 	/**

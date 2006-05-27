@@ -159,7 +159,7 @@ class ilSCORMExplorer extends ilExplorer
 				//ask for FILTER																
 				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
 				{
-					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
+					if ($this->isVisible($object["obj_id"], $object["type"]))
 					{
 						if ($object["child"] != $this->tree->getRootId())
 						{
@@ -187,14 +187,14 @@ class ilSCORMExplorer extends ilExplorer
 						// fix explorer (sometimes explorer disappears)
 						if ($parent_index == 0)
 						{
-							if (!in_array($object["parent"],$this->expanded))
+							if (!$this->expand_all and !in_array($object["parent"],$this->expanded))
 							{
 								$this->expanded[] = $object["parent"];
 							}
 							//$this->format_options["$parent_index"]["visible"] = true;
 						}
 
-						if ($object["child"] != $this->tree->getRootId() and (!in_array($object["parent"],$this->expanded)
+						if ($object["child"] != $this->tree->getRootId() and (!$this->expand_all and !in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
@@ -205,7 +205,7 @@ class ilSCORMExplorer extends ilExplorer
 						{
 							$this->format_options["$parent_index"]["container"] = true;
 
-							if (in_array($object["parent"],$this->expanded))
+							if ($this->expand_all or in_array($object["parent"],$this->expanded))
 							{
 								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
 							}
@@ -218,7 +218,7 @@ class ilSCORMExplorer extends ilExplorer
 						++$counter;
 
 						// stop recursion if 2. level beyond expanded nodes is reached
-						if (in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
+						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
 						{
 							// recursive
 							$this->setOutput($object["child"],$a_depth);
@@ -229,6 +229,17 @@ class ilSCORMExplorer extends ilExplorer
 		} //if
 	} //function
 
+	function isVisible($a_id, $a_type)
+	{
+		if ($a_type == "sre")
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 	/**
 	* Creates output
@@ -357,7 +368,7 @@ class ilSCORMExplorer extends ilExplorer
 					$tpl->parseCurrentBlock();
 				}
 
-				if ($picture == 'minus')
+				if ($picture == 'minus' && $this->show_minus)
 				{
 					$target = $this->createTarget('-',$a_node_id);
 					$tpl->setCurrentBlock("expander");
@@ -456,8 +467,6 @@ class ilSCORMExplorer extends ilExplorer
 			else if ($statusChar=="r")
 				$status="running";
 			
-	
-	
 			$alt = $lng->txt("cont_status").": ".
 				$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status));
 
