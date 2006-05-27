@@ -655,9 +655,16 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.mep_edit_frameset.html", false, false, "content");
-		$this->tpl->setVariable("REF_ID",$this->ref_id);
-		$this->tpl->show("DEFAULT", false);
+		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+		$fs_gui = new ilFramesetGUI();
+		$fs_gui->setMainFrameName("content");
+		$fs_gui->setSideFrameName("tree");
+		$fs_gui->setMainFrameSource(
+			"mep_edit.php?cmd=listMedia&ref_id=".$this->ref_id);
+		$fs_gui->setSideFrameSource(
+			"mep_edit.php?cmd=explorer&expand=1&ref_id=".$this->ref_id);
+		$fs_gui->setFramesetTitle($this->object->getTitle());
+		$fs_gui->show();
 		exit;
 	}
 
