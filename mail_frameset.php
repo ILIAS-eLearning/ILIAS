@@ -89,7 +89,7 @@ if ($_SESSION["viewmode"] == "tree")
 {
 	include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
 	$fs_gui = new ilFramesetGUI();
-	$fs_gui->setFramesetTitle("mail");
+	$fs_gui->setFramesetTitle($lng->txt("mail"));
 	$fs_gui->setMainFrameName("content");
 	$fs_gui->setSideFrameName("tree");
 
