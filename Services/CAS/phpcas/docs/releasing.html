@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang=en xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><!-- -->
+  <head>
+    <!-- -->
+<title>phpCAS release management</title>
+<!-- -->
+    <link href="phpcas.css" rel="stylesheet" type="text/css">
+  </head>
+  <body bgColor="#ffffff" leftMargin="0" topMargin="0" marginheight="0" marginwidth="0">
+    <table cellSpacing="0" cellPadding="0" width="100%" border="0">
+      <tr>
+        <td align="left"><a href="index.html"><img height="68" alt="phpCAS" src="images/phpcas.png" width=191 border=0></a></td>
+        <td align="right" width="100%"><font color="#000000" size="-1"><small>latest
+              release v0.4.19-2 - last update
+              13-June-2005 16:14PM</small></font></td>
+        <td align="right"><a href="http://www.esup-portail.org"><img height=68 alt="" src="images/esup-portail.png" width=182 border=0></a></td>
+	  </tr>
+      <tr>
+        <td colspan="3"><hr></td>
+	  </tr>
+	</table>
+    <table cellSpacing=0 cellPadding=0 width="100%" border=0>
+      <tr>
+        <td width=20><IMG height=1 alt="" src="images/transpixel.gif" width=20 border=0></td>
+        <td vAlign=top width="100%">
+          <!-- -->
+          <h1>phpCAS release management</h1>
+          <p>esup-phpcas-devel is a  package is used by phpCAS developers to
+            maintain releases. It is contains an Ant build.xml file, of which
+            you can use the dist target to create ready-to-distribute archives
+          of the esup-phpcas and esup-phpcas-devel packages.</p>
+          <p>Both packages can get downloaded from the <a href="https://sourceforge.net/project/showfiles.php?group_id=88445">download
+              section</a> of the <a href="https://sourceforge.net/projects/esup-phpcas">project
+          page</a>.</p>
+          <p>phpCAS developers use <a href="http://www.eclipse.org">Eclipse</a> to
+              get a nice programming environment fitted to Ant.</p>
+          <h2>Ant 1.6.1+ is needed</h2>
+          <p>In order to make the &lt;concatFilter&gt; tag work within filterChains,
+            Ant 1.6.1 (at least) is needed.</p>
+          <h3>How to install a different version of Ant in Eclipse</h3>
+          <p>As Eclipse 3.0.M7 is shipped with Ant 1.6.0, you needed to change
+            the Ant program used by this version of Eclipse to get the dist target
+            working. Here is the way to get help to do it:</p>
+          <ol>
+            <li>in Eclipse, under the &quot;help&quot; menu, select &quot;Help
+            Contents&quot;;</li>
+            <li>in the left hand (content) frame of the help page,
+              expand the &quot;workbench
+            user guide&quot; book;</li>
+            <li>under the &quot;workbench user guide&quot; book,
+              expand the &quot;concepts&quot; chapter, <br>
+              then the &quot;external tools&quot; subchapter </li>
+            <li>click on the &quot;ant
+              support&quot; topic. this loads ant support
+              info in the 
+            right hand frame;</li>
+            <li>at the bottom of this is a link titled &quot;Using
+              a different version of 
+            Ant&quot; which leads to a page with all the info you need;</li>
+            <li>follow the
+                instructions to &quot;Change the Ant runtime classpath&quot; (simply replace
+              the original ant JARs by yours).</li>
+          </ol>
+          <h2> Doxygen</h2>
+          <p><a href="http://www.doxygen.org">Doxygen</a> is needed to
+                generate the source documentation included in the esup-phpcas
+              package, thus it should:</p>
+          <ol>
+            <li>install Doxygen on your system;</li>
+            <li>set the doxygenPath property accordingly in properties/build-devel.properties.</li>
+          </ol>
+          <p>Note: a <a href="http://ant-doxygen.sourceforge.net">ant_doxygen.jar</a> file
+                  is provided by the esup-phpcas-devel package (in the devel/lib/
+            folder) to call Doxygen from Ant.</p>
+          <h2>SFTP</h2>
+          <p>Documentation can be uploaded to the project web site thanks to
+            the sourceforge-upload-dist target, which performs a encrypted upload
+            to sourceforge.net.</p>
+          <p>Note: <a href="http://3sp.com/tutorials/j2ssh/sshanttask.htm">j2ssh-*.jar</a> files
+            are provided by the esup-phpcas-devel package (in the devel/lib/
+            folder) to use SFTP.</p>
+          <h2>FTP</h2>
+          <p>As ftp is an optional ant task, some additionnal libraries are neeed.
+            The commons-net library should be downloaded from <a href="http://jakarta.apache.org/commons/net">http://jakarta.apache.org/commons/net</a> and
+            added to Ant jars. To do this in Eclipse: Window -&gt; Preferences -&gt;
+            Ant -&gt; Runtime -&gt; Add External Jars -&gt; commons-net-1.1.0.jar.</p>
+          <!-- -->
+		</td>
+        <td valign="top">
+          <table border="0" cellspacing="0" cellpadding="4">
+		    <tr>
+		  	  <td>
+                <table border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="7"><img src="images/navbar_tl_1.gif" width="7" height="11" border="0" alt="" /></td>
+                    <td width="108" background="images/navbar_top_1.gif"><img src="images/transpixel.gif" width="1" height="11" border="0" alt="" /></td>
+                    <td width="12"><img src="images/navbar_tr_1.gif" width="12" height="11" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td background="images/navbar_left_1.gif"><img src="images/transpixel.gif" width="7" height="1" border="0" alt="" /></td>
+                    <td bgcolor="#F2F2F2" valign="top" align="right" class="navbar1" nowrap="nowrap">
+                      <p><font size="-1"><strong>phpCAS home</strong><br>
+                          <a href="features.html">Features</a><br>
+                          <a href="news.html">News</a></font><font size="-1"><br>
+                          <a href="license.html">License</a><br>
+                          <a href="history.html">History</a><br>
+                          <a href="todo.html">Future work</a><br>
+                          <a href="acknowledgements.html">Acknowledgements</a><br>
+                          <a href="contributors.html">Contributors</a><br>
+                          <a href="projects.html">Projects&nbsp;using&nbsp;phpCAS</a></font></p>
+                    </td>
+                    <td background="images/navbar_right_1.gif">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td><img src="images/navbar_bl_1.gif" width="7" height="9" border="0" alt="" /></td>
+                    <td background="images/navbar_bottom_1.gif"><img src="images/transpixel.gif" width="1" height="9" border="0" alt="" /></td>
+                    <td><img src="images/navbar_br_1.gif" width="12" height="9" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td width="7"><img src="images/navbar_tl_2.gif" width="7" height="11" border="0" alt="" /></td>
+                    <td width="108" background="images/navbar_top_2.gif"><img src="images/transpixel.gif" width="1" height="11" border="0" alt="" /></td>
+                    <td width="12"><img src="images/navbar_tr_2.gif" width="12" height="11" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td background="images/navbar_left_2.gif"><img src="images/transpixel.gif" width="7" height="1" border="0" alt="" /></td>
+                    <td bgcolor="#DAE8F7" valign="top" align="right" class="navbar2" nowrap="nowrap">                      <p><font size="-1">
+					    <strong>Users</strong><br>
+					    <a href="requirements.html">Requirements</a><br>
+					    <a href="download.html">Download</a><br>
+					    <a href="install.html">Install</a><br>
+					    <a href="examples.html">Examples</a><br>
+				    Troubleshooting</font><font size="-1"><br>
+			            <a href="mail.html">Mailing lists</a><br>
+			            <a href="bugs.html">Bug reports</a><br>
+		                <a href="api/index.html">Source doc</a><br>
+			            <a href="links.html">Related links</a> </font> </p>
+                      </td>
+                    <td background="images/navbar_right_2.gif"><img src="images/transpixel.gif" width="12" height="1" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td><img src="images/navbar_bl_2.gif" width="7" height="9" border="0" alt="" /></td>
+                    <td background="images/navbar_bottom_2.gif"><img src="images/transpixel.gif" width="1" height="9" border="0" alt="" /></td>
+                    <td><img src="images/navbar_br_2.gif" width="12" height="9" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td width="7"><img src="images/navbar_tl_3.gif" width="7" height="11" border="0" alt="" /></td>
+                    <td width="108" background="images/navbar_top_3.gif"><img src="images/transpixel.gif" width="1" height="11" border="0" alt="" /></td>
+                    <td width="12"><img src="images/navbar_tr_3.gif" width="12" height="11" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td background="images/navbar_left_3.gif"><img src="images/transpixel.gif" width="7" height="1" border="0" alt="" /></td>
+                    <td bgcolor="#DAF7E8" valign="top" align="right" class="navbar3" nowrap="nowrap">
+                      <p><font size="-1">
+                      <strong>Developers</strong><br>
+                      <a href="internationalization.html">Internationalization</a><br>
+                      <a href="releasing.html">Releasing</a></font></p>
+                    </td>
+                    <td background="images/navbar_right_3.gif"><img src="images/transpixel.gif" width="12" height="1" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td><img src="images/navbar_bl_3.gif" width="7" height="9" border="0" alt="" /></td>
+                    <td background="images/navbar_bottom_3.gif"><img src="images/transpixel.gif" width="1" height="9" border="0" alt="" /></td>
+                    <td><img src="images/navbar_br_3.gif" width="12" height="9" border="0" alt="" /></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td align="center">&nbsp;<br/><a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=88445&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </td>
+			</tr>
+		  </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr>
+		  <font size="-1">Copyright &copy; 2002-2004 - ESUP-Portail consortium</font></td>
+	  </tr>
+    </table>
+    <br />
+  </body>
+<!-- --></html>
+  
