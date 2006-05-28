@@ -480,11 +480,6 @@ class assClozeTestGUI extends assQuestionGUI
 							if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
 							{
 								$points = $_POST["points_$matches[1]_$matches[2]"];
-								if ($points < 0)
-								{
-									$result = 1;
-									$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-								}
 							}
 							else
 							{
@@ -500,11 +495,6 @@ class assClozeTestGUI extends assQuestionGUI
 								if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
 								{
 									$points = $_POST["points_$matches[1]_$matches[2]"];
-									if ($points < 0)
-									{
-										$result = 1;
-										$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-									}
 								}
 								else
 								{
@@ -544,11 +534,6 @@ class assClozeTestGUI extends assQuestionGUI
 						if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
 						{
 							$points = $_POST["points_$matches[1]_$matches[2]"];
-							if ($points < 0)
-							{
-								$result = 1;
-								$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-							}
 						}
 						else
 						{

@@ -96,6 +96,7 @@ define("TEST_POSTPONE", 1);
 
 define("REPORT_AFTER_QUESTION", 0);
 define("REPORT_AFTER_TEST", 1);
+define("REPORT_AFTER_FIRST_QUESTION", 2);
 
 define("TYPE_ASSESSMENT", "1");
 define("TYPE_SELF_ASSESSMENT", "2");

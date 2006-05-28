@@ -1072,6 +1072,12 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setShowSolutionPrintview($this->metadata["entry"]);
 							}
 							break;
+						case "score_reporting":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setScoreReporting($this->metadata["entry"]);
+							}
+							break;
 						case "shuffle_questions":
 							if (is_object($this->tst_object))
 							{
@@ -1106,6 +1112,12 @@ class ilQTIParser extends ilSaxParser
 							if (is_object($this->tst_object))
 							{
 								$this->tst_object->setPassScoring($this->metadata["entry"]);
+							}
+							break;
+						case "show_summary":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setShowSummary($this->metadata["entry"]);
 							}
 							break;
 						case "reporting_date":
@@ -2515,6 +2527,121 @@ class ilQTIParser extends ilSaxParser
 							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
 						}
 						break;
+					case QT_TEXTSUBSET:
+						$duration = $this->item->getDuration();
+						$questiontext = array();
+						$shuffle = 0;
+						$idents = array();
+						$now = getdate();
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						$gaps = array();
+						foreach ($presentation->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $presentation->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											array_push($questiontext, $mattext->getContent());
+										}
+									}
+									break;
+								case "response":
+									$response = $presentation->response[$entry["index"]];
+									if ($response->getResponseType() == RT_RESPONSE_STR)
+									{
+										array_push($idents, $response->getIdent());
+									}
+									break;
+							}
+						}
+						$responses = array();
+						foreach ($this->item->resprocessing as $resprocessing)
+						{
+							foreach ($resprocessing->respcondition as $respcondition)
+							{
+								$ident = "";
+								$correctness = 1;
+								$conditionvar = $respcondition->getConditionvar();
+								foreach ($conditionvar->order as $order)
+								{
+									switch ($order["field"])
+									{
+										case "varsubset":
+											$respident = $conditionvar->varsubset[$order["index"]]->getRespident();
+											$content = $conditionvar->varsubset[$order["index"]]->getContent();
+											if (!is_array($responses[$respident])) $responses[$respident] = array();
+											$vars = split(",", $content);
+											foreach ($vars as $var)
+											{
+												array_push($responses[$respident], array("solution" => $var, "points" => ""));
+											}
+											break;
+									}
+								}
+								foreach ($respcondition->setvar as $setvar)
+								{
+									if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ACTION_ADD))
+									{
+										foreach ($responses[$respident] as $idx => $solutionarray)
+										{
+											if (strlen($solutionarray["points"] == 0))
+											{
+												$responses[$respident][$idx]["points"] = $setvar->getContent();
+											}
+										}
+									}
+								}
+							}
+						}
+						include_once ("./assessment/classes/class.assTextSubset.php");
+						$question = new assTextSubset(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id,
+							$this->item->getQuestiontext()
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$textrating = $this->item->getMetadataEntry("textrating");
+						if (strlen($textrating) == 0) $textrating = "ci";
+						$question->setTextRating($textgap_rating);
+						$question->setCorrectAnswers($this->item->getMetadataEntry("correctanswers"));
+						$response = current($responses);
+						$counter = 0;
+						if (is_array($response))
+						{
+							foreach ($response as $answer)
+							{
+								$question->addAnswer($answer["solution"], $answer["points"], $counter);
+								$counter++;
+							}
+						}
+						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
+						}
+						break;
 				}
 				break;
 			case "material":
@@ -2557,13 +2684,6 @@ class ilQTIParser extends ilSaxParser
 						$this->item->addPresentationitem($this->material);
 					}
 				}
-				else if (strcmp($this->material->getLabel(), "introduction") == 0)
-				{
-					if (is_object($this->tst_object))
-					{
-						$this->tst_object->setIntroduction($this->material->mattext[0]->getContent());
-					}
-				}
 				$this->material = NULL;
 				break;
 			case "matimage";
@@ -2587,6 +2707,13 @@ class ilQTIParser extends ilSaxParser
 				if ($this->material != NULL)
 				{
 					$this->material->addMattext($this->mattext);
+					if (strcmp($this->mattext->getLabel(), "introduction") == 0)
+					{
+						if (is_object($this->tst_object))
+						{
+							$this->tst_object->setIntroduction($this->mattext->getContent());
+						}
+					}
 				}
 				$this->mattext = NULL;
 				break;

@@ -1507,7 +1507,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-		if (strlen($next_class)) return;
+		switch ($next_class)
+		{
+			case "":
+			case "ilpermissiongui":
+			case "ilmdeditorgui":
+				break;
+			default:
+				return;
+				break;
+		}
 		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0)) return;
 		// properties
 		$tabs_gui->addTarget("properties",

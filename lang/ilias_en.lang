@@ -492,7 +492,7 @@ assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all
 assessment#:#tst_eval_total_persons#:#Total number of persons who started the test
 assessment#:#tst_eval_user_answer#:#User answer
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
-assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous answer
+assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won\'t be able to enter this test again to change your answers. Do you really want to finish the test? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_general_properties#:#General properties
@@ -576,6 +576,7 @@ assessment#:#tst_random_test_description#:#If checked, the questions of the test
 assessment#:#tst_reached_points#:#Reached points
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
+assessment#:#tst_report_after_first_question#:#Offer score reporting when the test has been started
 assessment#:#tst_report_after_question#:#Report the score after every question is answered
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
@@ -616,7 +617,7 @@ assessment#:#tst_show_solution_details_description#:#Learners may see all soluti
 assessment#:#tst_show_solution_printview#:#Solution printview
 assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing
 assessment#:#tst_show_summary#:#Show question summary
-assessment#:#tst_show_summary_description#:#Makes a summary page with all test questions available for the test participants during the test
+assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
 assessment#:#tst_signature#:#Signature
@@ -687,6 +688,7 @@ assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
 assessment#:#width#:#Width
 assessment#:#with_order#:#with order
+assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
 barometer#:#add#:#Add new Feedback

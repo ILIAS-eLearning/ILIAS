@@ -618,6 +618,9 @@ class ilObjTestGUI extends ilObjectGUI
 				case "MULTIPLE CHOICE QUESTION":
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
 					break;
+				case "SINGLE CHOICE QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
+					break;
 				case "CLOZE QUESTION":
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
 					break;
@@ -738,7 +741,6 @@ class ilObjTestGUI extends ilObjectGUI
 		// Check the values the user entered in the form
 		if (!$total)
 		{
-			$data["password"] = $_POST["password"];
 			$data["count_system"] = $_POST["count_system"];
 			$data["mc_scoring"] = $_POST["mc_scoring"];
 			$data["score_cutting"] = $_POST["score_cutting"];
@@ -777,6 +779,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["title"] = ilUtil::stripSlashes($_POST["title"]);
 		$data["description"] = ilUtil::stripSlashes($_POST["description"]);
 		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
+		$data["password"] = $_POST["password"];
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
 		$introduction = preg_replace("/\n/", "<br />", $introduction);
@@ -830,7 +833,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["show_solution_printview"] = 1;
 		}
-		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST)
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
 		{
 			$data["score_reporting"] = REPORT_AFTER_TEST;
 		}
@@ -944,7 +947,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setPassword($data["password"]);
 		$this->object->setScoreCutting($data["score_cutting"]);
 		$this->object->setPassScoring($data["pass_scoring"]);
-		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST )
 		{
 			$this->object->setScoreReporting(REPORT_AFTER_TEST);
 		}
@@ -1219,6 +1222,16 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["mc_scoring"] = $this->object->getMCScoring();
 		$data["password"] = $this->object->getPassword();
 		$data["score_cutting"] = $this->object->getScoreCutting();
+		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
+		{
+			$this->tpl->setCurrentBlock("score_reporting_very_question");
+			$this->tpl->setVariable("REPORT_AFTER_QUESTION", $this->lng->txt("tst_report_after_question"));
+			if ($data["score_reporting"] == 0)
+			{
+				$this->tpl->setVariable("SELECTED_QUESTION", " selected=\"selected\"");
+			} 
+			$this->tpl->parseCurrentBlock();
+		}
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			$data["pass_scoring"] = $this->object->getPassScoring();
@@ -1364,28 +1377,25 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("HEADING_SCORE", $this->lng->txt("tst_score_reporting"));
 		$this->tpl->setVariable("TEXT_SCORE_TYPE", $this->lng->txt("tst_score_type"));
-		$this->tpl->setVariable("REPORT_AFTER_QUESTION", $this->lng->txt("tst_report_after_question"));
 		$this->tpl->setVariable("REPORT_AFTER_TEST", $this->lng->txt("tst_report_after_test"));
-		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST || $this->object->getTestType() == TYPE_ONLINE_TEST)) 
+		$this->tpl->setVariable("REPORT_AFTER_FIRST_QUESTION", $this->lng->txt("tst_report_after_first_question"));
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) 
 		{
 			$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
 			$this->tpl->setVariable("DISABLE_SCORE_REPORTING", " disabled=\"disabled\"");
-			if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) 
-			{
-				$this->tpl->setVariable("DISABLE_SEQUENCE", " disabled=\"disabled\"");
-				$this->tpl->setVariable("DISABLE_NR_OF_TRIES", " disabled=\"disabled\"");
-				$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
-			}
-		} 
+			$this->tpl->setVariable("DISABLE_SEQUENCE", " disabled=\"disabled\"");
+			$this->tpl->setVariable("DISABLE_NR_OF_TRIES", " disabled=\"disabled\"");
+			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
+		}
 		else 
 		{
-			if ($data["score_reporting"] == 0) 
-			{
-				$this->tpl->setVariable("SELECTED_QUESTION", " selected=\"selected\"");
-			} 
-			elseif ($data["score_reporting"] == 1) 
+			if ($data["score_reporting"] == 1) 
 			{
 				$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
+			}
+			elseif ($data["score_reporting"] == 2)
+			{
+				$this->tpl->setVariable("SELECTED_FIRST_QUESTION", " selected=\"selected\"");
 			}
 		}
 
@@ -1529,7 +1539,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_PASSWORD_DETAILS", $this->lng->txt("tst_password_details"));
 		if (strlen($data["password"]))
 		{
-			$this->tpl->setVariable("VALUE_PASSWORD", " value=\"". $data["password"]."\"");
+			$this->tpl->setVariable("VALUE_PASSWORD", " value=\"". ilUtil::prepareFormOutput($data["password"])."\"");
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
@@ -4255,21 +4265,23 @@ class ilObjTestGUI extends ilObjectGUI
 				if (is_object($active))
 				{
 					// test results button
-					//if (($this->object->getTestType() == TYPE_VARYING_RANDOMTEST) || ($this->object->canShowTestResults($ilUser->getId()))) 
 					if ($this->object->canShowTestResults($ilUser->getId())) 
 					{
 						$info->addFormButton("outResults", $this->lng->txt("tst_show_results"));
 					}
 				}
 			}
-			if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+			if (is_object($active))
 			{
-				if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					// it does not make sense to show always the last pass of a varying randomtest only in the print answers sheet
-					$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
+					if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+					{
+						// it does not make sense to show always the last pass of a varying randomtest only in the print answers sheet
+						$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
+					}
 				}
-			}			
+			}
 		}
 		
 		$info->enablePrivateNotes();
@@ -4335,7 +4347,20 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$info->addSection($this->lng->txt("tst_score_reporting"));
-		$info->addProperty($this->lng->txt("tst_score_reporting"), $this->lng->txt(($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)?"tst_report_after_question":"tst_report_after_test"));
+		$score_reporting_text = "";
+		switch ($this->object->getScoreReporting())
+		{
+			case REPORT_AFTER_QUESTION:
+				$score_reporting_text = $this->lng->txt("tst_report_after_question");
+				break;
+			case REPORT_AFTER_TEST:
+				$score_reporting_text = $this->lng->txt("tst_report_after_test");
+				break;
+			case REPORT_AFTER_FIRST_QUESTION:
+				$score_reporting_text = $this->lng->txt("tst_report_after_first_question");
+				break;
+		}
+		$info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text); 
 		$reporting_date = $this->object->getReportingDate();
 		if ($reporting_date)
 		{

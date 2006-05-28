@@ -657,10 +657,10 @@ class assTextQuestion extends assQuestion
 		switch ($textrating)
 		{
 			case TEXTGAP_RATING_CASEINSENSITIVE:
-				if (strpos(strtolower(utf8_decode($a_original)), strtolower(utf8_decode($a_keyword))) !== false) return TRUE;
+				if (strpos(strtolower(utf8_decode($answertext)), strtolower(utf8_decode($a_keyword))) !== false) return TRUE;
 				break;
 			case TEXTGAP_RATING_CASESENSITIVE:
-				if (strpos(utf8_decode($a_original), utf8_decode($a_keyword)) !== false) return TRUE;
+				if (strpos(utf8_decode($answertext), utf8_decode($a_keyword)) !== false) return TRUE;
 				break;
 		}
 		$answerwords = array();
@@ -738,7 +738,10 @@ class assTextQuestion extends assQuestion
 					{
 						if (!$foundkeyword)
 						{
-							if ($this->isKeywordMatching($row["value1"], $keyword)) $foundkeyword = true;
+							if ($this->isKeywordMatching($row["value1"], $keyword)) 
+							{
+								$foundkeyword = true;
+							}
 						}
 					}
 					if ($foundkeyword) $points = $this->getMaximumPoints();
