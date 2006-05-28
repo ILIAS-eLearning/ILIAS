@@ -65,6 +65,7 @@ class ilAuthUtils
 		define ("AUTH_RADIUS",3);
 		define ("AUTH_SCRIPT",4);
 		define ("AUTH_SHIBBOLETH",5);
+		define ("AUTH_CAS",6);
 
 		// get default auth mode 
 		//$default_auth_mode = $this->getSetting("auth_mode");
@@ -98,6 +99,32 @@ class ilAuthUtils
 			)
 		{
 			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
+		}
+		// check CAS authentication
+		else if ($ilSetting->get("cas_active"))
+		{
+			include_once("Services/CAS/classes/class.ilCASAuth.php");
+			$auth_params = array(
+				"server_version" => CAS_VERSION_2_0,
+				"server_hostname" => $ilSetting->get("cas_server"),
+				"server_port" => $ilSetting->get("cas_port"),
+				"server_uri" => $ilSetting->get("cas_uri"));
+
+			$ilCASAuth = new ilCASAuth($auth_params);
+			
+			if ($_GET["forceCASLogin"] == "1")
+			{
+				$ilCASAuth->forceCASAuth();
+			}
+
+			if ($ilCASAuth->checkCASAuth())
+			{
+				define ("AUTH_CURRENT", AUTH_CAS);
+			}
+			else
+			{
+				define ("AUTH_CURRENT", $user_auth_mode);
+			}
 		}
 		else
 		{
@@ -157,6 +184,11 @@ class ilAuthUtils
 				$ilAuth = new ShibAuth($auth_params,true);
 				break;
 				
+			case AUTH_CAS:
+				$ilAuth =& $ilCASAuth;
+				$ilAuth->forceCASAuth();
+				break;
+				
 			default:
 				// build option string for PEAR::Auth
 				$auth_params = array(
@@ -174,7 +206,7 @@ class ilAuthUtils
 		$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
 		$ilAuth->setExpire(0);
 		ini_set("session.cookie_lifetime", "0");
-		
+
 		$GLOBALS['ilAuth'] =& $ilAuth;
 	}
 	

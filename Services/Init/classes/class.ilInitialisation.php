@@ -117,6 +117,20 @@ class ilInitialisation
 		// include error_handling
 		require_once "classes/class.ilErrorHandling.php";
 		
+		// php5 downward complaince to php 4 dom xml and clone method
+		if (version_compare(PHP_VERSION,'5','>='))
+		{
+			require_once("include/inc.xml5compliance.php");
+			//require_once("Services/CAS/phpcas/source/CAS/domxml-php4-php5.php");
+			
+			require_once("include/inc.xsl5compliance.php");
+			require_once("include/inc.php4compliance.php");
+		}
+		else
+		{
+			require_once("include/inc.php5compliance.php");
+		}
+		
 		$ilBench->stop("Core", "HeaderInclude_IncludeFiles");
 	}
 	
@@ -658,7 +672,7 @@ class ilInitialisation
 	function initILIAS()
 	{
 		global $ilDB, $ilUser, $ilLog, $ilErr, $ilClientIniFile, $ilIliasIniFile,
-			$ilSetting, $ilAuth, $ilias, $https, $ilObjDataCache,
+			$ilSetting, $ilias, $https, $ilObjDataCache,
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
 			$ilTabs, $ilMainMenu, $rbacsystem;
 		
@@ -710,11 +724,10 @@ class ilInitialisation
 		// $ilSetting initialisation
 		$this->initSettings();
 		
-		
 		// $ilAuth initialisation
 		require_once("classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
-		
+		global $ilAuth;
 		
 		// $ilias initialisation
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
@@ -997,19 +1010,7 @@ class ilInitialisation
 					);
 			}
 		}
-		
-		// php5 downward complaince to php 4 dom xml and clone method
-		if (version_compare(PHP_VERSION,'5','>='))
-		{
-			require_once("include/inc.xml5compliance.php");
-			require_once("include/inc.xsl5compliance.php");
-			require_once("include/inc.php4compliance.php");
-		}
-		else
-		{
-			require_once("include/inc.php5compliance.php");
-		}
-		
+				
 		// provide global browser information
 		$ilBrowser = new ilBrowser();
 		$GLOBALS['ilBrowser'] =& $ilBrowser;

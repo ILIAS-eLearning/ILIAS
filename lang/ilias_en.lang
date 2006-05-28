@@ -2196,6 +2196,7 @@ common#:#login_invalid#:#The chosen login is invalid! Only the following charact
 common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth
+common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
 common#:#logout#:#Logout
 common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#logs#:#Log data
