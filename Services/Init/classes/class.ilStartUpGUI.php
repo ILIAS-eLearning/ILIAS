@@ -245,8 +245,23 @@ class ilStartUpGUI
 			$tpl->parseCurrentBlock();
 		}
 		
+		// cas login link
+		if ($ilSetting->get("cas_active"))
+		{
+			$tpl->setCurrentBlock("cas_login");
+			$tpl->setVariable("TXT_CAS_LOGIN", $lng->txt("login_to_ilias_via_cas"));
+			$tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.gif"));
+			$tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $ilSetting->get("cas_login_instructions"));
+			$this->ctrl->setParameter($this, "forceCASLogin", "1");
+			$tpl->setVariable("TARGET_CAS_LOGIN",
+				$this->ctrl->getLinkTarget($this, "showLogin"));
+			$this->ctrl->setParameter($this, "forceCASLogin", "");
+			$tpl->parseCurrentBlock();
+		}
+		
 		// login via ILIAS (this also includes radius and ldap)
-		if ($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH)
+		if ($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH &&
+			$ilSetting->get("auth_mode") != AUTH_CAS)
 		{
 			$tpl->setCurrentBlock("ilias_login");
 			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
@@ -332,7 +347,7 @@ class ilStartUpGUI
 		
 		$tpl->show("DEFAULT", false);
 	}
-	
+
 	/**
 	* show logout screen
 	*/

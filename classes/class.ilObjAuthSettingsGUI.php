@@ -796,6 +796,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			
 			$this->tpl->setVariable("CAS_SERVER", $_SESSION["error_post_vars"]["cas"]["server"]);
 			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["port"]);
+			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["uri"]);
 			$current_default_role = $_SESSION["error_post_vars"]["cas"]["user_default_role"];
 		}
 		else
@@ -806,7 +807,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			}
 			
 			$this->tpl->setVariable("CAS_SERVER", $settings["cas_server"]);
-			$this->tpl->setVariable("CAS_PORT", $settings["cas_port"]);			
+			$this->tpl->setVariable("CAS_PORT", $settings["cas_port"]);
+			$this->tpl->setVariable("CAS_URI", $settings["cas_uri"]);			
 			$current_default_role = $settings["cas_user_default_role"];
 		}
 		
@@ -833,6 +835,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAS_SERVER", $this->lng->txt("server"));
 		$this->tpl->setVariable("TXT_CAS_SERVER_DESC", $this->lng->txt("auth_cas_server_desc"));
 		$this->tpl->setVariable("TXT_CAS_PORT", $this->lng->txt("port"));
+		$this->tpl->setVariable("TXT_CAS_SERVER_DESC", $this->lng->txt("auth_cas_port_desc"));
+		$this->tpl->setVariable("TXT_CAS_URI", $this->lng->txt("uri"));
+		$this->tpl->setVariable("TXT_CAS_URI_DESC", $this->lng->txt("auth_cas_uri_desc"));
 		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_cas_user_default_role"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -863,6 +868,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		$ilSetting->set("cas_server", $_POST["cas"]["server"]);
 		$ilSetting->set("cas_port", $_POST["cas"]["port"]);
+		$ilSetting->set("cas_uri", $_POST["cas"]["uri"]);
 		$ilSetting->set("cas_active", $_POST["cas"]["active"]);
 		$ilSetting->set("cas_user_default_role", $_POST["cas"]["user_default_role"]);
 		sendInfo($this->lng->txt("auth_cas_settings_saved"),true);

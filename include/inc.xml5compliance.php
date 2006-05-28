@@ -20,7 +20,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 function staticxmlerror($errno, $errstr, $errfile, $errline, $errcontext, $ret = false)
 {
    static $errs = array();
@@ -48,12 +47,13 @@ function domxml_open_mem($str, $mode = DOMXML_LOAD_PARSING, &$error = NULL)
 	{
 		$error = $doc->error;
 	}
+	
 	return $doc;
 }
 
-function xpath_eval($xpath_context,$eval_str)
+function xpath_eval($xpath_context,$eval_str,$contextnode=null)
 {
-	return $xpath_context->query($eval_str);
+	return $xpath_context->query($eval_str,$contextnode);
 }
 
 function xpath_new_context($dom_document)
@@ -493,9 +493,16 @@ class php4DOMNode
 		}
 	}
 
-	function node_name()
+	function node_name($a_local = false)
 	{
-		return $this->myDOMNode->nodeName;
+		if ($a_local)
+		{
+			return $this->myDOMNode->localName;
+		}
+		else
+		{
+			return $this->myDOMNode->nodeName;
+		}
 	}
 
 	function node_type()

@@ -9,6 +9,26 @@
 <!-- END cookies_howto -->
 <form method="post" action="{FORMACTION}" name="formlogin">
 <input type="hidden" name="sendLogin" value="1" />
+<!-- BEGIN cas_login -->
+	<table class="std" width="400">
+		<tr class="tblheader">
+			<td class="std">
+				{TXT_CAS_LOGIN}
+			</td>
+		</tr>
+		<tr class="tblrow1">
+			<td class="std" style="text-align:center;">
+				<a href="{TARGET_CAS_LOGIN}"><img src="{TXT_CAS_LOGIN_BUTTON}" border="0" alt="CAS Login Button"></a>
+			</td>
+		</tr>
+		<tr class="tblrow1">
+			<td class="std" style="text-align:center;">
+				{TXT_CAS_LOGIN_INSTRUCTIONS}
+			</td>
+		</tr>
+	</table>
+	<br />
+<!-- END cas_login -->
 <!-- BEGIN shibboleth_login -->
 	<table class="std" width="400">
 		<tr class="tblheader">
