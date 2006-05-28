@@ -1675,7 +1675,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-		if (strlen($next_class)) return $this->getEmbeddedTabs($tabs_gui);
+		switch ($next_class)
+		{
+			case "":
+			case "ilpermissiongui":
+			case "ilmdeditorgui":
+				break;
+			default:
+				return $this->getEmbeddedTabs($tabs_gui);
+				break;
+		}
 	// properties
 		$tabs_gui->addTarget("properties",
 			 $this->ctrl->getLinkTarget($this,'properties'),

@@ -69,7 +69,15 @@
 </tr>
 <tr>
   <td class="option">{TEXT_SCORE_TYPE}:</td>
-  <td class="option_value"><select name="score_reporting"{DISABLE_SCORE_REPORTING}><option value="0"{SELECTED_QUESTION}>{REPORT_AFTER_QUESTION}</option><option value="1"{SELECTED_TEST}>{REPORT_AFTER_TEST}</option></select>
+  <td class="option_value">
+		<select name="score_reporting"{DISABLE_SCORE_REPORTING}>
+<!-- BEGIN score_reporting_very_question -->
+			<option value="0"{SELECTED_QUESTION}>{REPORT_AFTER_QUESTION}</option>
+<!-- END score_reporting_very_question -->
+			<option value="1"{SELECTED_TEST}>{REPORT_AFTER_TEST}</option>
+			<option value="2"{SELECTED_FIRST_QUESTION}>{REPORT_AFTER_FIRST_QUESTION}</option>
+		</select>
+	</td>
 </tr>
 <!-- BEGIN reporting_date -->
 <tr>

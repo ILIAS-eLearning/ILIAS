@@ -1856,7 +1856,6 @@ class ilObjTest extends ilObject
 		else 
 		{
 			$this->reporting_date = $reporting_date;
-			$this->score_reporting = REPORT_AFTER_TEST;
 		}
   }
 
@@ -4974,6 +4973,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowSummary()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// solution details
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "score_reporting");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getScoreReporting()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// solution printview
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_solution_printview");
@@ -5025,17 +5030,7 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlEndTag("objectives");
 
 		// add qti assessmentcontrol
-		$score_reporting = "No";
-		switch ($this->getScoreReporting())
-		{
-			case "1":
-				$score_reporting = "Yes";
-				break;
-		}
-		$attrs = array(
-			"solutionswitch" => "$score_reporting"
-		);
-		$a_xml_writer->xmlElement("assessmentcontrol", $attrs, NULL);
+		$a_xml_writer->xmlElement("assessmentcontrol", NULL, NULL);
 
 		$attrs = array(
 			"ident" => "1"
@@ -6597,6 +6592,10 @@ class ilObjTest extends ilObject
 			}
 		}
 		$result = $this->canViewResults();
+		if (($active->tries == 0) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
+		{
+			$result = FALSE;
+		}
 		if (($this->endingTimeReached()) || $notimeleft) $result = TRUE;
 		if ($this->getTestType() == TYPE_ONLINE_TEST)
 		{

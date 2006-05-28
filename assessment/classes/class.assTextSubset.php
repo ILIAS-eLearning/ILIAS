@@ -241,30 +241,34 @@ class assTextSubset extends assQuestion
 		// add response conditions
 		for ($counter = 1; $counter <= $this->getCorrectAnswers(); $counter++)
 		{
-			$attrs = array(
-				"continue" => "Yes"
-			);
-			$a_xml_writer->xmlStartTag("respcondition", $attrs);
-			// qti conditionvar
-			$a_xml_writer->xmlStartTag("conditionvar");
-			$attrs = array(
-				"respident" => "TEXTSUBSET_" . sprintf("%02d", $counter)
-			);
-			$a_xml_writer->xmlElement("varsubset", $attrs, $this->joinAnswers());
-			$a_xml_writer->xmlEndTag("conditionvar");
-			// qti setvar
-			$attrs = array(
-				"varname" => "matches",
-				"action" => "Add"
-			);
-			$a_xml_writer->xmlElement("setvar", $attrs, "1");
-			// qti displayfeedback
-			$attrs = array(
-				"feedbacktype" => "Response",
-				"linkrefid" => "Matches_" . sprintf("%02d", $counter)
-			);
-			$a_xml_writer->xmlElement("displayfeedback", $attrs);
-			$a_xml_writer->xmlEndTag("respcondition");
+			$scoregroups =& $this->joinAnswers();
+			foreach ($scoregroups as $points => $scoreanswers)
+			{
+				$attrs = array(
+					"continue" => "Yes"
+				);
+				$a_xml_writer->xmlStartTag("respcondition", $attrs);
+				// qti conditionvar
+				$a_xml_writer->xmlStartTag("conditionvar");
+				$attrs = array(
+					"respident" => "TEXTSUBSET_" . sprintf("%02d", $counter)
+				);
+				$a_xml_writer->xmlElement("varsubset", $attrs, join(",", $scoreanswers));
+				$a_xml_writer->xmlEndTag("conditionvar");
+				// qti setvar
+				$attrs = array(
+					"varname" => "matches",
+					"action" => "Add"
+				);
+				$a_xml_writer->xmlElement("setvar", $attrs, $points);
+				// qti displayfeedback
+				$attrs = array(
+					"feedbacktype" => "Response",
+					"linkrefid" => "Matches_" . sprintf("%02d", $counter)
+				);
+				$a_xml_writer->xmlElement("displayfeedback", $attrs);
+				$a_xml_writer->xmlEndTag("respcondition");
+			}
 		}
 		$a_xml_writer->xmlEndTag("resprocessing");
 
@@ -825,6 +829,7 @@ class assTextSubset extends assQuestion
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
+		$points = 0;
 		while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$enteredtext = $data["value1"];
@@ -832,13 +837,8 @@ class assTextSubset extends assQuestion
 			if ($index !== FALSE)
 			{
 				unset($available_answers[$index]);
-				$found_counter++;
+				$points += $this->answers[$index]->getPoints();
 			}
-		}
-		$points = 0;
-		if ($found_counter >= $this->getCorrectAnswers())
-		{
-			$points = $this->getMaximumPoints();
 		}
 
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
@@ -1017,14 +1017,18 @@ class assTextSubset extends assQuestion
 	* @return string The answer string
 	* @access public
 	*/
-	function joinAnswers()
+	function &joinAnswers()
 	{
 		$join = array();
 		foreach ($this->answers as $answer)
 		{
-			array_push($join, $answer->getAnswertext());
+			if (!is_array($join[$answer->getPoints() . ""]))
+			{
+				$join[$answer->getPoints() . ""] = array();
+			}
+			array_push($join[$answer->getPoints() . ""], $answer->getAnswertext());
 		}
-		return implode(",", $join);
+		return $join;
 	}
 	
 	/**
