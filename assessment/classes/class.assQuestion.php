@@ -1970,6 +1970,7 @@ class assQuestion
 	*/
 	function calculateReachedPoints($active_id, $pass = NULL, $points = 0)
 	{
+		echo "points = $points<br />";
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$count_system = ilObjTest::_getCountSystem($active_id);
 		if ($count_system == 1)
@@ -1987,6 +1988,7 @@ class assQuestion
 				$points = 0;
 			}
 		}
+		echo "now points = $points<br />";
 		return $points;
 	}
 
