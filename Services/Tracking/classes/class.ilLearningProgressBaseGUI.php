@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -278,7 +278,7 @@ class ilLearningProgressBaseGUI
 				break;
 			
 			case LP_STATUS_NOT_ATTEMPTED:
-				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/running.gif'));
+				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/not_attempted.gif'));
 				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
 				break;
 		}
