@@ -362,12 +362,21 @@ class ilTestOutputGUI
 		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solutions);
 		if ($directfeedback)
 		{
-			$solutionoutput = $question_gui->getSolutionOutput("", NULL);
-			$this->tpl->setCurrentBlock("solution_output");
-			$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("correct_solution_is"));
-			$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
-			$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($active->active_id, NULL), $question_gui->object->getMaximumPoints()));
-			$this->tpl->parseCurrentBlock();
+			if ($this->object->getShowSolutionDetails())
+			{
+				$solutionoutput = $question_gui->getSolutionOutput("", NULL);
+				$this->tpl->setCurrentBlock("solution_output");
+				$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("correct_solution_is"));
+				$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
+				$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($active->active_id, NULL), $question_gui->object->getMaximumPoints()));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("solution_output");
+				$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($active->active_id, NULL), $question_gui->object->getMaximumPoints()));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		// Normally the first sequence is 1
