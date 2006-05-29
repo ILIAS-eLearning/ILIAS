@@ -129,6 +129,7 @@ if (isset($_POST["cmd"]["submit"]))
 				}
 				else if($umail->moveMailsToFolder($_POST["mail_id"],$mbox->getTrashFolder()))
 				{
+					$_GET["offset"] = 0;
 					sendInfo($lng->txt("mail_moved_to_trash"));
 				}
 				else
@@ -169,6 +170,7 @@ if($mbox->getTrashFolder() == $_GET["mobj_id"])
 		}
 		else if($umail->deleteMails($_POST["mail_id"]))
 		{
+			$_GET["offset"] = 0;
 			sendInfo($lng->txt("mail_deleted"));
 		}
 		else
@@ -178,14 +180,14 @@ if($mbox->getTrashFolder() == $_GET["mobj_id"])
 	}
 	if(isset($_POST["cmd"]["cancel"]))
 	{
-		header("location: mail.php?mobj_id=$_GET[mobj_id]");
+		header("location: mail.php?mobj_id=$_GET[mobj_id]&offset=$_GET[offset]");
 		exit;
 	}
 }
 
 include("./include/inc.mail_buttons.php");
 
-$tpl->setVariable("ACTION", "mail.php?mobj_id=$_GET[mobj_id]");
+$tpl->setVariable("ACTION", "mail.php?mobj_id=$_GET[mobj_id]&offset=$_GET[offset]");
 
 // BEGIN CONFIRM_DELETE
 if($_POST["action"] == "delete" and !$error_delete and !isset($_POST["cmd"]["confirm"]) and $mbox->getTrashFolder() == $_GET["mobj_id"])
@@ -258,14 +260,14 @@ if(!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == 'flat')
 	$tpl->parseCurrentBlock();
 }
 // END SHOW_FOLDER
-$tpl->setVariable("ACTION_FLAT","mail.php");
+$tpl->setVariable("ACTION_FLAT","mail.php?offset=$_GET[offset]");
 
 // BEGIN MAILS
 $mail_data = $umail->getMailsOfFolder($_GET["mobj_id"]);
 $mail_count = count($mail_data);
 
 // TODO: READ FROM MAIL_OPTIONS
-$mail_max_hits = 20;
+$mail_max_hits = $ilUser->getPref('hits_per_page');
 $counter = 0;
 foreach ($mail_data as $mail)
 {

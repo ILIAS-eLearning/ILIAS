@@ -154,7 +154,7 @@ if(isset($_POST["cmd"]["change"]))
 // CANCEL CONFIRM DELETE
 if(isset($_POST["cmd"]["cancel"]))
 {
-	header("location:mail_addressbook.php?mobj_id=$_GET[mobj_id]");
+	header("location:mail_addressbook.php?mobj_id=$_GET[mobj_id]&offset=$_GET[offset]");
 	exit();
 }
 
@@ -205,6 +205,7 @@ if(isset($_POST["cmd"]["confirm"]))
 	}
 	else if($abook->deleteEntries($_POST["entry_id"]))
 	{
+		$_GET["offset"] = 0;
 		sendInfo($lng->txt("mail_deleted_entry"));
 	}
 	else
@@ -213,7 +214,7 @@ if(isset($_POST["cmd"]["confirm"]))
 	}
 }
 
-$tpl->setVariable("ACTION","mail_addressbook.php?mobj_id=$_GET[mobj_id]");
+$tpl->setVariable("ACTION","mail_addressbook.php?mobj_id=$_GET[mobj_id]&offset=$_GET[offset]");
 $tpl->setVariable("TXT_ENTRIES",$lng->txt("mail_addr_entries"));
 
 // CASE ENTRY EXISTS
