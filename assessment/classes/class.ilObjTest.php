@@ -3491,6 +3491,7 @@ class ilObjTest extends ilObject
 			{
 				$percentvalue = 0;
 			}
+			if ($percentvalue < 0) $percentvalue = 0.0;
 			if (assQuestion::_getSuggestedSolutionCount($value) == 1)
 			{
 				$solution_array =& assQuestion::_getSuggestedSolution($value, 0);
@@ -3536,6 +3537,7 @@ class ilObjTest extends ilObject
 		else
 		{
 			$percentage = ($total_reached_points / $total_max_points) * 100.0;
+			if ($percentage < 0) $percentage = 0.0;
 		}
 		$mark_obj = $this->mark_schema->getMatchingMark($percentage);
 		$passed = "";
@@ -3828,10 +3830,14 @@ class ilObjTest extends ilObject
 		foreach ($times as $key => $value) {
 			$max_time += $value;
 		}
-		if ((!$test_result["test"]["total_reached_points"]) or (!$test_result["test"]["total_max_points"])) {
+		if ((!$test_result["test"]["total_reached_points"]) or (!$test_result["test"]["total_max_points"])) 
+		{
 			$percentage = 0.0;
-		} else {
+		} 
+		else 
+		{
 			$percentage = ($test_result["test"]["total_reached_points"] / $test_result["test"]["total_max_points"]) * 100.0;
+			if ($percentage < 0) $percentage = 0.0;
 		}
 		$mark_obj = $this->mark_schema->getMatchingMark($percentage);
 		$first_date = getdate($first_visit);
@@ -4042,6 +4048,7 @@ class ilObjTest extends ilObject
 				else 
 			{
 				$percentage = ($res["test"]["total_reached_points"] / $res["test"]["total_max_points"]) * 100.0;
+				if ($percentage < 0) $percentage = 0.0;
 			}
 			$mark_obj = $this->mark_schema->getMatchingMark($percentage);
 			$maximum_points = $res["test"]["total_max_points"];
@@ -5303,6 +5310,7 @@ class ilObjTest extends ilObject
 				if ($max_points > 0)
 				{
 					$percentage = ($reached_points / $max_points) * 100.0;
+					if ($percentage < 0) $percentage = 0.0;
 				}
 				else
 				{
@@ -6280,6 +6288,7 @@ class ilObjTest extends ilObject
 			if ($max_points > 0)
 			{
 				$percentvalue = $reached_points / $max_points;
+				if ($percentvalue < 0) $percentvalue = 0.0;
 			}
 			else
 			{
