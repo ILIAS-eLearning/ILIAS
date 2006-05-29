@@ -337,7 +337,7 @@ assessment#:#qpl_confirm_delete_questions#:#Está seguro de que quiere borrar la
 assessment#:#qpl_copy_insert_clipboard#:#La pregunta(s) seleccionada(s) son copiadas al portapapeles
 assessment#:#qpl_copy_select_none#:#Por favor marque al menos una pregunta para copiar al portapapeles
 assessment#:#qpl_delete_describe_undeleteable_questions#:#Las siguientes preguntas estan en uso en tests aleatorios. No puede eliminar estas preguntas:
-assessment#:#qpl_delete_no_deleteable_questions#:#Todas las preguntas que intenta eliminar estan en uso en un test aleatorioassessment#:#qpl_delete_rbac_error#:#No tiene permisos para borrar esta pregunta!
+assessment#:#qpl_delete_no_deleteable_questions#:#Todas las preguntas que intenta eliminar estan en uso en un test aleatorio
 assessment#:#qpl_delete_rbac_error#:#No tiene permisos para borrar esta pregunta!
 assessment#:#qpl_delete_select_none#:#Por favor marque al menos una pregunta para eliminarla.
 assessment#:#qpl_display_fullsize_image#:#Haga Click aqui para mostrar la imagen original!
@@ -368,8 +368,8 @@ assessment#:#qt_matching#:#Pregunta de tipo \'unir parejas\' ### 2006-5-8 --- Co
 assessment#:#qt_multiple_choice#:#Pregunta de opción múltiple ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qt_multiple_choice_mr#:#Pregunta de \'opción múltiple\' (respuesta múltiple) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qt_multiple_choice_sr#:#Pregunta de \'opción múltiple\' (respuesta única) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
-assessment#:#qt_ordering#:#Pregunta de tipo \'Ordenar\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qt_numeric#:#Pregunta de tipo \'numérica\' 
+assessment#:#qt_ordering#:#Pregunta de tipo \'ordenar\' 
 assessment#:#qt_text#:#Pregunta de Respuesta Corta (texto)
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el banco de preguntas si no quiere guardarla!
 assessment#:#question_short#:#P
@@ -382,9 +382,9 @@ assessment#:#radio_unset#:#Desactivar
 assessment#:#random_accept_sample#:#Aceptar muestra
 assessment#:#random_another_sample#:#Obtener otra muestra
 assessment#:#random_selection#:#Selección aleatoria
-assessment#:#range#:#Range###22 Feb 2006 new variable
-assessment#:#range_lower_limit#:#Lower limit###22 Feb 2006 new variable
-assessment#:#range_upper_limit#:#Upper limit###22 Feb 2006 new variable
+assessment#:#range#:#Rango
+assessment#:#range_lower_limit#:#Límite inferior
+assessment#:#range_upper_limit#:#Límite superior
 assessment#:#rectangle#:#Rectángulo
 assessment#:#rectangle_click_br_corner#:#Por favor haga click en la esquina inferior derecha del area deseada.
 assessment#:#rectangle_click_tl_corner#:#Por favor haga click en la esquina superior izquierda del area deseada.
@@ -642,55 +642,55 @@ assessment#:#width#:#Anchura
 assessment#:#with_order#:#con orden
 assessment#:#working_time#:#Tiempo de Trabajo
 assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles
-barometer#:#add#:#Add new Feedback###new variable
-barometer#:#anonymous#:#Anonymous###new variable
-barometer#:#barometer_title#:#Feedback###new variable
-barometer#:#best#:#Best###new variable
-barometer#:#change_course#:#Change Course###new variable
-barometer#:#chart_type#:#Chart type###new variable
-barometer#:#chart_users#:#Chart user###new variable
-barometer#:#chart_votes#:#Chart votes###new variable
-barometer#:#create#:#Create new feedback###new variable
-barometer#:#day#:#Day###new variable
-barometer#:#days#:#Days###new variable
-barometer#:#delete#:#Delete###new variable
-barometer#:#duration#:#Duration###new variable
-barometer#:#edit#:#Edit###new variable
-barometer#:#edit_barometer#:#Edit feedback###new variable
-barometer#:#every#:#every###new variable
-barometer#:#first_vote#:#1. Vote is the###new variable
-barometer#:#from#:#from###new variable
-barometer#:#hours#:#Hours###new variable
-barometer#:#lines#:#Lines###new variable
-barometer#:#login#:#Login###new variable
-barometer#:#missing_fields#:#Please fill in all required information###new variable
-barometer#:#month#:#Month###new variable
-barometer#:#months#:#Months###new variable
-barometer#:#new_vote#:#New vote###new variable
-barometer#:#note#:#Comment###new variable
-barometer#:#optional#:#Optional###new variable
-barometer#:#options#:#Options###new variable
-barometer#:#pie#:#Pie###new variable
-barometer#:#repeat#:#Repeat###new variable
-barometer#:#required#:#Required###new variable
-barometer#:#save#:#Save###new variable
-barometer#:#save_vote#:#Submit vote###new variable
-barometer#:#skip#:#Skip###new variable
-barometer#:#statistics#:#Statistics###new variable
-barometer#:#status#:#Status###new variable
-barometer#:#table#:#Table###new variable
-barometer#:#text#:#Text###new variable
-barometer#:#text_answer#:#Text answer###new variable
-barometer#:#time#:#Running###new variable
-barometer#:#title#:#Title###new variable
-barometer#:#type#:#Type###new variable
-barometer#:#until#:#until###new variable
-barometer#:#user#:#User###new variable
-barometer#:#vote#:#Vote###new variable
-barometer#:#votes#:#Votes###new variable
-barometer#:#weeks#:#Weeks###new variable
-barometer#:#worst#:#Worst###new variable
-barometer#:#year#:#Year###new variable
+barometer#:#add#:#Añadir nueva opinión
+barometer#:#anonymous#:#Anónimo
+barometer#:#barometer_title#:#Opinión
+barometer#:#best#:#Mejor
+barometer#:#change_course#:#Cambiar curso
+barometer#:#chart_type#:#Tipo de cuadro
+barometer#:#chart_users#:#Cuadro de usuarios
+barometer#:#chart_votes#:#Cuadro de votos
+barometer#:#create#:#Crear nueva opinión
+barometer#:#day#:#Día
+barometer#:#days#:#Días
+barometer#:#delete#:#Eliminar
+barometer#:#duration#:#Duración
+barometer#:#edit#:#Editar
+barometer#:#edit_barometer#:#Editar opinión
+barometer#:#every#:#cada
+barometer#:#first_vote#:#1. Voto es el
+barometer#:#from#:#desde
+barometer#:#hours#:#Horas
+barometer#:#lines#:#Líneas
+barometer#:#login#:#Login
+barometer#:#missing_fields#:#Por favor rellene toda la información requerida
+barometer#:#month#:#Mes
+barometer#:#months#:#Meses
+barometer#:#new_vote#:#Nuevo voto
+barometer#:#note#:#Comentario
+barometer#:#optional#:#Opcional
+barometer#:#options#:#Opciones
+barometer#:#pie#:#Sector
+barometer#:#repeat#:#Repetir
+barometer#:#required#:#Requerido
+barometer#:#save#:#Guardar
+barometer#:#save_vote#:#Enviar voto
+barometer#:#skip#:#Saltar
+barometer#:#statistics#:#Estadísticas
+barometer#:#status#:#Estado
+barometer#:#table#:#Tabla
+barometer#:#text#:#Texto
+barometer#:#text_answer#:#Respuesta de texto
+barometer#:#time#:#Ejecutando
+barometer#:#title#:#Título
+barometer#:#type#:#Tipo
+barometer#:#until#:#hasta
+barometer#:#user#:#Usuario
+barometer#:#vote#:#Voto
+barometer#:#votes#:#Votos
+barometer#:#weeks#:#Semanas
+barometer#:#worst#:#Peor
+barometer#:#year#:#Año
 bibitem#:#bibitem_add#:#añadir
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#AV
@@ -900,13 +900,13 @@ common#:#add_author#:#añadir author
 common#:#add_condition#:#Crear nueva asociación
 common#:#add_member#:#Añadir miembro
 common#:#add_members#:#Añadir Miembros
-common#:#add_new_user_defined_field#:#Add new user-defined field###new variable
-common#:#add_new_user_defined_select_field#:#Add new select box###new variable
-common#:#add_new_user_defined_text_field#:#Add new text field###new variable
+common#:#add_new_user_defined_field#:#Añadir nuevo campo definido por el usuario
+common#:#add_new_user_defined_select_field#:#Añadir nueva caja de selección
+common#:#add_new_user_defined_text_field#:#Añadir nuevo campo de texto
 common#:#add_note#:#Añadir nota
 common#:#add_translation#:#Añadir Traducción
 common#:#add_user#:#Añadir usuario local
-common#:#add_user_defined_field#:#Add new field###new variable
+common#:#add_user_defined_field#:#Añadir nuevo campo
 common#:#added_new_condition#:#Crear nueva condición.
 common#:#adm_create_tax#:#Crear taxonomía
 common#:#adm_edit_permission#:#Modificar configuración de permisos
@@ -1060,10 +1060,10 @@ common#:#bookmark_target#:#URL
 common#:#bookmarks#:#Favoritos
 common#:#bookmarks_of#:#Favoritos de
 common#:#bottom_frame#:#Contenido Principal
-common#:#btn_add#:#Add###new variable
-common#:#btn_new_value#:#New value###new variable
-common#:#btn_next#:#Continue###new variable
-common#:#btn_previous#:#Back###new variable
+common#:#btn_add#:#Añadur
+common#:#btn_new_value#:#Nuevo valor
+common#:#btn_next#:#Continuar
+common#:#btn_previous#:#Atrás
 common#:#btn_remove_system#:#eliminar del sistema
 common#:#btn_undelete#:#recuperaar
 common#:#by#:#por
@@ -1239,7 +1239,7 @@ common#:#cron_forum_notification_directly#:#directamente en las nuevas entradas
 common#:#cron_forum_notification_never#:#nunca
 common#:#cron_jobs#:#Trabajos Planificados
 common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el archivo INSTALL de la documentación.
-common#:#cron_lucene_index#:#Actualizar �?ndice de Búsqueda Lucene
+common#:#cron_lucene_index#:#Actualizar Índice de Búsqueda Lucene
 common#:#cron_lucene_index_info#:#Si se habilita, el índice de búsqueda lucene será actualizado. Por favor configure el servidor lucene en \"Administración -> Búsqueda\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Curso
 common#:#crs_a#:#un Curso
@@ -1300,7 +1300,7 @@ common#:#custom_icon_size_small#:#Tamaño de icono personalizado (pequeño)
 common#:#cut#:#cortar
 common#:#cutPage#:#Cortar
 common#:#daily#:#diariamente
-common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
+common#:#data_privacy#:#Configuración de Privacidad de Datos
 common#:#database#:#Base de Datos
 common#:#database_version#:#versión actual de la base de datos
 common#:#dataset#:#Conjunto de Datos
@@ -1383,8 +1383,8 @@ common#:#enable#:#habilitar
 common#:#enable_calendar#:#Habilitar calendario
 common#:#enable_custom_icons#:#Habilitar iconos personalizados
 common#:#enable_custom_icons_info#:#Esta opción permite definir iconos personalizados para categorías, cursos y grupos. La sección de propiedades de categorías, cursos y grupos mostrarán un diálogo de carga de imágenes.
-common#:#enable_fora_statistics#:#Enable Statistics in Forum###19 Feb 2006 new variable
-common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.###19 Feb 2006 new variable
+common#:#enable_fora_statistics#:#Habilitar estadísticas en foros
+common#:#enable_fora_statistics_desc#:#Si está deshabilitado, ningún usuario puede acceder a estadísticas de foros
 common#:#enable_hist_user_comments#:#Habilitar comentarios de usuario en la historia
 common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al historial de modificaciones de páginas.
 common#:#enable_js_edit#:#Habilitar Edición JavaScript
@@ -1463,7 +1463,7 @@ common#:#execute#:#ejecutar
 common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
 common#:#exp_html#:#exportar a HTML
 common#:#expand#:#Expandir
-common#:#explorer_frame#:#�?rbol Explorador
+common#:#explorer_frame#:#Írbol Explorador
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
 common#:#export_html#:#Exportar como fichero HTML
@@ -1491,8 +1491,8 @@ common#:#faq_exercise#:#actividad FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#feedback
 common#:#feedback_recipient#:#destinatario feedback
-common#:#field_name#:#Field name###new variable
-common#:#field_type#:#Field type###new variable
+common#:#field_name#:#Nombre de campo
+common#:#field_type#:#Tipo de campo
 common#:#file#:#Archivo
 common#:#file_a#:#un Archivo
 common#:#file_add#:#Cargar archivo
@@ -1582,9 +1582,9 @@ common#:#frm_edit_permission#:#Modificar configuración de permisos
 common#:#frm_edit_post#:#Anadir nueva cadena, mensaje
 common#:#frm_new#:#Nuevo Foro
 common#:#frm_read#:#Acceso de Lecutra al Foro
-common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
-common#:#frm_status_new#:#Estado \'Nuevo\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado \'Nuevo\' en las entradas de los foros. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_statistics_ranking#:#Ranking
+common#:#frm_status_new#:#Estado \'Nuevo\' 
+common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado \'Nuevo\' en las entradas de los foros.
 common#:#frm_visible#:#El foro es visible
 common#:#frm_write#:#Editar foro
 common#:#from#:#desde
@@ -2351,7 +2351,7 @@ common#:#no_permission_to_join#:#No tiene permiso para unirse a este grupo!
 common#:#no_roles_user_can_be_assigned_to#:#No hay roles globales a los que asignar el usuario. Por tanto, no tiene permiso para añadir usuarios.
 common#:#no_title#:#sin título
 common#:#no_tst_in_personal_list#:#No hay tests en la lista personal.
-common#:#no_user_defined_fields_defined#:#No user-defined fields available.###new variable
+common#:#no_user_defined_fields_defined#:#No hay campos definidos por el usuario disponibles.
 common#:#no_users_applied#:#Por favor seleccione un usuario
 common#:#no_users_selected#:#Por favor seleccione un usuario.
 common#:#no_xml_file_found_in_zip#:#Fichero XML no encontrado dentro del archivo ZIP:
@@ -2877,7 +2877,7 @@ common#:#st_add#:#Añadir capítulo
 common#:#st_added#:#Capítulo añadido
 common#:#st_edit#:#Editar capítulo
 common#:#st_new#:#Nuevo capítulo
-common#:#standard_fields#:#Standard fields###new variable
+common#:#standard_fields#:#Campos estándar
 common#:#startpage#:#página principal
 common#:#statistic#:#Estadística
 common#:#status#:#Estado
@@ -3013,18 +3013,18 @@ common#:#txt_submitted#:#Se envió con éxito una solicitud de cuenta a ILIAS. S
 common#:#typ#:#Definición de Tipo de Objeto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#escriba su mensaje aquí
-common#:#udf_add_field#:#Add field###new variable
-common#:#udf_added_field#:#Added new filed.###new variable
-common#:#udf_delete_header#:#Delete field###new variable
-common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?###new variable
-common#:#udf_duplicate_entries#:#The values have to be unique.###new variable
-common#:#udf_field_deleted#:#Deleted field.###new variable
-common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###new variable
-common#:#udf_no_entries#:#Please enter minimum one value.###new variable
-common#:#udf_no_name_given#:#Please enter a field name.###new variable
-common#:#udf_type_select#:#Select box (fixed values)###new variable
-common#:#udf_type_text#:#Text field (optional values)###new variable
-common#:#udf_value#:#Value###new variable
+common#:#udf_add_field#:#Añadir campo
+common#:#udf_added_field#:#Nuevo campo añadido
+common#:#udf_delete_header#:#Eliminar campo
+common#:#udf_delete_sure#:#¿Está seguro de querer eliminar este campo y todos los datos de usuario asignados?
+common#:#udf_duplicate_entries#:#Los valores tienen que ser únicos.
+common#:#udf_field_deleted#:#Campo eliminado
+common#:#udf_name_already_exists#:#Este nombre de campo ya existe. Por favor elija un nombre diferente
+common#:#udf_no_entries#:#Por favor introduzca al menos un valor.
+common#:#udf_no_name_given#:#Por favor introduzca un nombre de campo
+common#:#udf_type_select#:#Caja de selección (valores fijos)
+common#:#udf_type_text#:#Campo de texto (valores opcionales)
+common#:#udf_value#:#Valor
 common#:#uid#:#uid
 common#:#unambiguousness#:#Identificación
 common#:#uncheck_all#:#deseleccionar todo
@@ -3065,8 +3065,8 @@ common#:#user_added#:#Usuario añadido
 common#:#user_assignment#:#Asignación de usuarios
 common#:#user_cant_receive_mail#:#el usuario no tiene permiso para usar el sistema de correo
 common#:#user_comment#:#comentario de Usuario
-common#:#user_defined_fields#:#User-defined fields###new variable
-common#:#user_defined_list#:#Overview user-defined fields###new variable
+common#:#user_defined_fields#:#Campos definidos por el usuario
+common#:#user_defined_list#:#Ver campos definidos por el usuario
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_import_failed#:#La importación de usuarios falló.
@@ -3205,7 +3205,7 @@ content#:#choose_public_mode#:#Los usuarios no registrados pueden acceder
 content#:#choose_public_pages#:#Escoger páginas de acceso público
 content#:#cont_act_number#:#Numeración de capítulos
 content#:#cont_active#:#Habilitar Menú
-content#:#cont_add_area#:#Añadir �?rea
+content#:#cont_add_area#:#Añadir Írea
 content#:#cont_add_change_comment#:#Añadir comentario de cambio
 content#:#cont_add_definition#:#Añadir Definición
 content#:#cont_add_fullscreen#:#Añadir Pantalla Completa
@@ -3309,7 +3309,7 @@ content#:#cont_ed_delete_item#:#eliminar item
 content#:#cont_ed_delete_row#:#eliminar fila
 content#:#cont_ed_edit#:#Editar
 content#:#cont_ed_edit_prop#:#Editar propiedades
-content#:#cont_ed_enable#:#switch enable/disable###19 Feb 2006 new variable
+content#:#cont_ed_enable#:#switch habilitar/deshabilitar
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#insertar código
 content#:#cont_ed_insert_filelist#:#insertar Lista de Ficheros
@@ -3421,7 +3421,7 @@ content#:#cont_lm_properties#:#Propiedades del Módulo de Aprendizaje
 content#:#cont_LocalFile#:#Fichero Local
 content#:#cont_lvalue#:#-Datos-
 content#:#cont_manifest#:#Manifiesto
-content#:#cont_map_areas#:#�?reas de Enlace
+content#:#cont_map_areas#:#Íreas de Enlace
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#coincide
 content#:#cont_matching_question_javascript_hint#:#Arrastre una definición/imagen en la parte derecha sobre un término de la parte izquierda y suelte la definición/imagen para to hacerla coincidir con el término.
@@ -3438,7 +3438,7 @@ content#:#cont_month#:#Mes
 content#:#cont_move_object#:#mover objeto
 content#:#cont_msg_multiple_editions#:#No es posible mostrar detalles de múltiples ediciones
 content#:#cont_name#:#Nombre
-content#:#cont_new_area#:#Nueva �?rea de Enlace
+content#:#cont_new_area#:#Nueva Írea de Enlace
 content#:#cont_new_assignment#:#Nueva asignación
 content#:#cont_new_dir#:#Nuevo Directorio
 content#:#cont_new_file#:#Nuevo Fichero
@@ -3934,7 +3934,7 @@ crs#:#crs_structure#:#Estructura del curso
 crs#:#crs_subscribers#:#Suscripciones
 crs#:#crs_subscribers_deleted#:#Usuario(s) matriculado(s) eliminado(s)
 crs#:#crs_subscription#:#Suscripción
-crs#:#crs_subscription_max_members#:#Máximo nº de miembros
+crs#:#crs_subscription_max_members#:#Máximo nÂº de miembros
 crs#:#crs_subscription_notify#:#Notificar suscripciones
 crs#:#crs_subscription_options_confirmation#:#Suscripción con confirmación
 crs#:#crs_subscription_options_deactivated#:#Desactivado
@@ -4256,17 +4256,17 @@ forum#:#forums_your_reply#:#tu respuesta
 forum#:#frm_anonymous_posting#:#Envío anónimo
 forum#:#frm_anonymous_posting_desc#:#Si se habilita, el envío anónimo será permitido dentro de este foro.
 forum#:#frm_default_view#:#Vista por defecto
-forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.###19 Feb 2006 new variable
-forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
-forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
-forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
+forum#:#frm_statistics_disabled_for_participants#:#Las estadísticas están deshabilitadas para miembros del foro.
+forum#:#frm_statistics_enabled#:#Habilitar estadísticas
+forum#:#frm_statistics_enabled_desc#:#Habilitar estadísticas de envío a foros para todos los participantes
+forum#:#frm_statistics_ranking#:#Ranking
 forum#:#frm_title_required#:#Por favor inserte un título.
 forum#:#is_read#:#marcar como leída
 forum#:#new_post#:#Nuevo mensaje
 forum#:#thread#:#Asunto
 grp#:#grp_registration_unlimited#:#Periodo de registro ilimitado
 jscalendar#:#about_calendar#:#Acerca del calendario
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\\n\\nSelección de fecha:\\n- Use los botones «, »  para seleccionar año\\n- Use los botones <, > para seleccionar mes\\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\\n\\nSelección de fecha:\\n- Use los botones Â«, Â»  para seleccionar año\\n- Use los botones <, > para seleccionar mes\\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#about_time#:#\\n\\nSelección de hora:\\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \\n- o Shift-click para decrementarlo\\n- o click y arrastrar para una selección más rápida ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Cerrar
 jscalendar#:#day_first#:#Mostrar primero %s
@@ -4408,7 +4408,7 @@ meta#:#meta_atomic#:#Atómico
 meta#:#meta_author#:#Autor
 meta#:#meta_browser#:#Navegador
 meta#:#meta_c_AD#:#Andorra
-meta#:#meta_c_AE#:#Emiratos �?rabes Unidos
+meta#:#meta_c_AE#:#Emiratos Írabes Unidos
 meta#:#meta_c_AF#:#Afghanistan
 meta#:#meta_c_AG#:#Antigua y Barbuda
 meta#:#meta_c_AI#:#Anguilla
@@ -4697,7 +4697,7 @@ meta#:#meta_higher_education#:#Educación superior
 meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identificador
-meta#:#meta_index#:#�?ndice
+meta#:#meta_index#:#Índice
 meta#:#meta_info_tlt_not_valid#:#El valor actual no es válido. Por tanto no podrá ser usado en otras secciones, e.g. para estadísticas de progreso de aprendizaje. Por favor inserte un tiempo de aprendizaje atípico en horas y/o minutos.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Remarcas de Instalación
@@ -4955,13 +4955,13 @@ payment#:#pay_added_to_shopping_cart#:#Item añadido al carritod de la compra
 payment#:#pay_all#:#Todos
 payment#:#pay_article#:#Artículo
 payment#:#pay_bank_data#:#Datos bancarios
-payment#:#pay_bill_no#:#Factura nº
+payment#:#pay_bill_no#:#Factura nÂº
 payment#:#pay_bmf_account_holder#:#Propietario de la cuenta
-payment#:#pay_bmf_account_number#:#Nº cuenta
+payment#:#pay_bmf_account_number#:#NÂº cuenta
 payment#:#pay_bmf_back#:#Volver
 payment#:#pay_bmf_bank_code#:#Código del banco
 payment#:#pay_bmf_card_holder#:#Propietario de la tarjeta
-payment#:#pay_bmf_card_number#:#Nº tarjeta
+payment#:#pay_bmf_card_number#:#NÂº tarjeta
 payment#:#pay_bmf_check_number#:#Comprobar número
 payment#:#pay_bmf_check_terms_conditions#:#Por favor confirme que ha leído los términos y condiciones y las ha aceptado.
 payment#:#pay_bmf_credit_card#:#Tarjeta de crédito
@@ -4989,7 +4989,7 @@ payment#:#pay_bmf_server_error_code#:#El servidor de pago devolvió un código d
 payment#:#pay_bmf_server_error_communication#:#Error en la comunicación con el servidor de pago.
 payment#:#pay_bmf_server_error_sysadmin#:#Por favor contacte con el administrador del sistema para más información.
 payment#:#pay_bmf_shopping_cart_empty#:#Su carrito de la compra está vacío.
-payment#:#pay_bmf_street_or_pobox#:#Por favor introduzca la calle y nº
+payment#:#pay_bmf_street_or_pobox#:#Por favor introduzca la calle y nÂº
 payment#:#pay_bmf_terms_conditions#:#Términos Generales y Condiciones
 payment#:#pay_bmf_terms_conditions_read#:#He leido los términos generales y condiciones y voy a aceptarlas.
 payment#:#pay_bmf_terms_conditions_show#:#mostrar
@@ -5000,7 +5000,7 @@ payment#:#pay_bmf_vat_included#:#IVA incluído
 payment#:#pay_bmf_your_order#:#Su pedido
 payment#:#pay_click_to_buy#:#Comprar ahora
 payment#:#pay_confirm_order#:#Por favor confirme su pedido introduciendo su contraseña.
-payment#:#pay_customer_no#:#Cliente nº.
+payment#:#pay_customer_no#:#Cliente nÂº.
 payment#:#pay_deleted_booking#:#La entrada ha sido eliminada.
 payment#:#pay_deleted_items#:#Los items seleccionados han sido eliminados.
 payment#:#pay_ending#:#-termina con-
@@ -5011,7 +5011,7 @@ payment#:#pay_goto_buyed_objects#:#Mostrar productos comprados
 payment#:#pay_goto_shopping_cart#:#Ir al carrito de la compra
 payment#:#pay_header#:#Pago
 payment#:#pay_item_already_in_sc#:#Este objeto ya existe en su carrito de la compra.
-payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. WÃ€hlen Sie ggf. eine neue Preis/Dauer-Kombination aus.
 payment#:#pay_locator#:#Pago
 payment#:#pay_message_attachment#:#Como confirmación de su pedido le enviaremos una factura (formato PDF) como adjunto.
 payment#:#pay_message_hello#:#Querido/a
@@ -5063,7 +5063,7 @@ payment#:#paya_error_update_booking#:#Error grabando datos estadísticos.
 payment#:#paya_expires#:#Expire payment
 payment#:#paya_filter_reseted#:#Filtro reseteado
 payment#:#paya_header#:#Administración de Pago
-payment#:#paya_insert_only_numbers#:#Por favor introduzca sólo nº enteros.
+payment#:#paya_insert_only_numbers#:#Por favor introduzca sólo nÂº enteros.
 payment#:#paya_locator#:#Administrador de pago
 payment#:#paya_months#:#Mes(es)
 payment#:#paya_no_booking_id_given#:#Error: no se ha introducido \'booking id\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -5183,7 +5183,7 @@ rbac#:#perm_local_role#:#Rol Local
 rbac#:#perm_local_role_desc#:#Este rol está definido localmente en el objeto actual y corresponde a una política local
 rbac#:#perm_use_local_policy#:#Usar política local
 rbac#:#perm_use_local_policy_desc#:#Si la opción política local está activada, podrá definir una configuración de permisos diferentes para el objeto actual.
-search#:#add_members_header#:#Add members###new variable
+search#:#add_members_header#:#Añadir miembros
 search#:#search_active#:#Incluir usuarios activos
 search#:#search_added_new_folder#:#Añadida nueva carpeta
 search#:#search_advanced#:#Búsqueda avanzada
@@ -5192,7 +5192,7 @@ search#:#search_all_words#:#Todas las palabras
 search#:#search_and#:#y
 search#:#search_any#:#-- Cualquiera --
 search#:#search_any_word#:#Cualquier palabra
-search#:#search_area#:#�?rea de búsqueda
+search#:#search_area#:#Írea de búsqueda
 search#:#search_area_info#:#Por favor seleccione un area donde la búsqueda debe comenzar
 search#:#search_below#:#Por debajo:
 search#:#search_change#:#Modificar
@@ -5205,12 +5205,12 @@ search#:#search_delete_sure#:#El objeto y su contenido serán eliminados serán 
 search#:#search_details_info#:#Búsqueda detallada. Por favor seleccione un o más objetos abajo.
 search#:#search_direct#:#Búsqueda directa
 search#:#search_fast_info#:#Buscar en títulos, descripciones y palabras clave en todos los tipos de objeto.
-search#:#search_for_grp_members#:#Search for group members###new variable
-search#:#search_for_role_members#:#Search for role members###new variable
-search#:#search_for_users#:#Search for users###new variable
+search#:#search_for_grp_members#:#Buscar miembros de grupo
+search#:#search_for_role_members#:#Buscar miembros de rol
+search#:#search_for_users#:#Buscar usuarios
 search#:#search_full_info#:#Escoja esta opción para buscar en una cantidad grande de datos
 search#:#search_group#:#Grupos
-search#:#search_grp_title#:#Group name###new variable
+search#:#search_grp_title#:#Nombre de grupo
 search#:#search_hits#:#Encontrado en:
 search#:#search_in_magazin#:#En el repositorio
 search#:#search_in_result#:#Buscar en los resultados
@@ -5243,9 +5243,9 @@ search#:#search_objects_moved#:#Objetos movidos.
 search#:#search_one_action#:#Seleccione una acción.
 search#:#search_or#:#o
 search#:#search_rename_title#:#Renombrar título
-search#:#search_results#:#Search results###new variable
+search#:#search_results#:#Resultados de búsqueda
 search#:#search_results_saved#:#Resultados de Búsqueda guardados
-search#:#search_role_title#:#Role name###new variable
+search#:#search_role_title#:#Nombre de rol
 search#:#search_save_as_select#:#Guardar como:
 search#:#search_search_for#:#Buscar
 search#:#search_search_no_results_saved#:#No hay resultados de búsqueda guardados
@@ -5645,100 +5645,100 @@ survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
 trac#:#info_valid_request#:#Max. tiempo valido entre dos peticiones de usuario.
 trac#:#last_login#:#Ultimo acceso
 trac#:#meta_typical_learning_time#:#Tiempo tipico de aprendizaje
-trac#:#newUT_settings#:#Learning Module Statistics###21 Feb 2006 new variable
+trac#:#newUT_settings#:#Estadísticas de Modulo de Aprendizaje
 trac#:#obj_types#:#Tipos de objeto:
 trac#:#search_area_info#:#Por favor escoja un objeto.
 trac#:#select_one#:#Por favor seleccione un objeto
-trac#:#stats_access#:#access###21 Feb 2006 new variable
-trac#:#stats_accesses#:#access###21 Feb 2006 new variable
-trac#:#stats_all#:#All###21 Feb 2006 new variable
-trac#:#stats_chapter#:#chapter###21 Feb 2006 new variable
-trac#:#stats_chapter_average_page_number#:#average number of pages per chapter###21 Feb 2006 new variable
-trac#:#stats_chapter_depth_coverage#:#degree of coverage which depth###21 Feb 2006 new variable
-trac#:#stats_chapter_fewest_access#:#fewest access###21 Feb 2006 new variable
-trac#:#stats_chapter_listing#:#chapter listing###21 Feb 2006 new variable
-trac#:#stats_chapter_longest_total_dwell_time_depth#:#longest total dwell time depth###21 Feb 2006 new variable
-trac#:#stats_chapter_most_access_depth#:#most access with depth###21 Feb 2006 new variable
-trac#:#stats_chapter_most_pages#:#most pages###21 Feb 2006 new variable
-trac#:#stats_chapter_number#:#number of chapter###21 Feb 2006 new variable
-trac#:#stats_chapter_statisics#:#Chapter Statistics###21 Feb 2006 new variable
+trac#:#stats_access#:#acceso
+trac#:#stats_accesses#:#accesos
+trac#:#stats_all#:#Todos
+trac#:#stats_chapter#:#capítulo
+trac#:#stats_chapter_average_page_number#:#número medio de páginas por capítulo
+trac#:#stats_chapter_depth_coverage#:#grado de cobertura con profundidad
+trac#:#stats_chapter_fewest_access#:#con menos accesos
+trac#:#stats_chapter_listing#:#listado de capítulo
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#máximo tiempo total de estancia (con profundidad)
+trac#:#stats_chapter_most_access_depth#:#mayoría de accesos con profundidad
+trac#:#stats_chapter_most_pages#:#mayoría de páginas
+trac#:#stats_chapter_number#:#número de capítulo
+trac#:#stats_chapter_statisics#:#Estadísticas de capítulo
 trac#:#stats_chapter_stubbiest_total_dwell_time#:#stubbiest total dwell time###21 Feb 2006 new variable
-trac#:#stats_chapter_top#:#top-chapter (variance, access, etc.)###21 Feb 2006 new variable
-trac#:#stats_chapter_total_statistic#:#Total-Chapter-Statistic###21 Feb 2006 new variable
-trac#:#stats_choice#:#Selection###21 Feb 2006 new variable
-trac#:#stats_current#:#Currently###21 Feb 2006 new variable
-trac#:#stats_depth#:#depth###21 Feb 2006 new variable
-trac#:#stats_duration#:#duration###21 Feb 2006 new variable
-trac#:#stats_equivalent#:#is equivalent to###21 Feb 2006 new variable
-trac#:#stats_hits#:#hits###21 Feb 2006 new variable
-trac#:#stats_hour#:#h###21 Feb 2006 new variable
-trac#:#stats_interval#:#interval###21 Feb 2006 new variable
-trac#:#stats_interval_dwell_time#:#interval of dwell time###21 Feb 2006 new variable
-trac#:#stats_interval_page_access#:#interval of access to pages###21 Feb 2006 new variable
-trac#:#stats_last#:#last###21 Feb 2006 new variable
-trac#:#stats_legend#:#Legend  ###21 Feb 2006 new variable
+trac#:#stats_chapter_top#:#capítulo-top (varianza, accesos, etc.)
+trac#:#stats_chapter_total_statistic#:#Estadísticas Totales de Capítulo
+trac#:#stats_choice#:#Selección
+trac#:#stats_current#:#Actualmente
+trac#:#stats_depth#:#profundidad
+trac#:#stats_duration#:#duración
+trac#:#stats_equivalent#:#es equivalente a
+trac#:#stats_hits#:#hits
+trac#:#stats_hour#:#h
+trac#:#stats_interval#:#intervalo
+trac#:#stats_interval_dwell_time#:#intervalo de tiempo de estancia
+trac#:#stats_interval_page_access#:#intervalo de acceso a páginas
+trac#:#stats_last#:#último
+trac#:#stats_legend#:#Leyenda
 trac#:#stats_measurable_hits#:#measurable hits ###21 Feb 2006 new variable
-trac#:#stats_minute#:#m###21 Feb 2006 new variable
-trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher)###21 Feb 2006 new variable
-trac#:#stats_new_selection#:#New Selection###21 Feb 2006 new variable
-trac#:#stats_occurrence#:#occurrence###21 Feb 2006 new variable
-trac#:#stats_of#:#of###21 Feb 2006 new variable
-trac#:#stats_page#:#page###21 Feb 2006 new variable
-trac#:#stats_page_average_access#:#average of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_average_dwell_time#:#average of dwell time to pages###21 Feb 2006 new variable
-trac#:#stats_page_deviation_access#:#deviation of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_deviation_dwell_time#:#deviation of dwell time to pages###21 Feb 2006 new variable
-trac#:#stats_page_fewest_access#:#fewest access###21 Feb 2006 new variable
-trac#:#stats_page_highest_deviation#:#highest deviation###21 Feb 2006 new variable
-trac#:#stats_page_highest_varcoeff#:#highest variation coefficien###21 Feb 2006 new variable
-trac#:#stats_page_least_deviation#:#least deviation###21 Feb 2006 new variable
-trac#:#stats_page_listing#:#page listing###21 Feb 2006 new variable
-trac#:#stats_page_longest_average_dwell_time#:#longest average dwell time###21 Feb 2006 new variable
-trac#:#stats_page_longest_total_dwell_time#:#longest total dwell time###21 Feb 2006 new variable
-trac#:#stats_page_lowest_varcoeff#:#lowest variation coefficient###21 Feb 2006 new variable
-trac#:#stats_page_median_access#:#median of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_median_dwell_time#:#median of dwell time to pages###21 Feb 2006 new variable
-trac#:#stats_page_mode_access#:#mode of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_most_access#:#most access###21 Feb 2006 new variable
-trac#:#stats_page_number#:#number of pages###21 Feb 2006 new variable
-trac#:#stats_page_number_access#:#number of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_range_access#:#range of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_range_dwell_time#:#range of dwell time to pages###21 Feb 2006 new variable
+trac#:#stats_minute#:#m
+trac#:#stats_navigation#:#Modelo de Navegación/Observación (requiere JRE 1.5 o mayor)
+trac#:#stats_new_selection#:#Nueva Selección
+trac#:#stats_occurrence#:#ocurrencia
+trac#:#stats_of#:#de
+trac#:#stats_page#:#página
+trac#:#stats_page_average_access#:#media de accesos a páginas
+trac#:#stats_page_average_dwell_time#:#media de tiempo de estancia en páginas
+trac#:#stats_page_deviation_access#:#desviación de accesos a páginas
+trac#:#stats_page_deviation_dwell_time#:#desviación de tiempo de estancia en páginas
+trac#:#stats_page_fewest_access#:#con menos accesos
+trac#:#stats_page_highest_deviation#:#mayor desviación
+trac#:#stats_page_highest_varcoeff#:#mayor coeficiente de variación
+trac#:#stats_page_least_deviation#:#menor desviación
+trac#:#stats_page_listing#:#listado de páginas
+trac#:#stats_page_longest_average_dwell_time#:#mayor tiempo medio de estancia
+trac#:#stats_page_longest_total_dwell_time#:#mayor tiempo total de estancia
+trac#:#stats_page_lowest_varcoeff#:#coeficiente de variación más bajo
+trac#:#stats_page_median_access#:#mediana de accesos a páginas
+trac#:#stats_page_median_dwell_time#:#mediana de tiempo de estancia en páginas
+trac#:#stats_page_mode_access#:#modo de acceso a páginas
+trac#:#stats_page_most_access#:#con más accesos
+trac#:#stats_page_number#:#número de páginas
+trac#:#stats_page_number_access#:#número de acceso a páginas
+trac#:#stats_page_range_access#:#rango de acceso a páginas
+trac#:#stats_page_range_dwell_time#:#rango de tiempo de estancia en páginas
 trac#:#stats_page_stubbiest_average_dwell_time#:#stubbiest average dwell time###21 Feb 2006 new variable
 trac#:#stats_page_stubbiest_total_dwell_time#:#stubbiest total dwell time###21 Feb 2006 new variable
-trac#:#stats_page_total_dwell_time#:#total-pages-dwell time###21 Feb 2006 new variable
-trac#:#stats_page_total_statistic#:#Total-Pages-Statistic###21 Feb 2006 new variable
-trac#:#stats_page_varcoeff_access#:#variation coefficient of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_varcoeff_dwell_time#:#variation coefficient of dwell time to pages###21 Feb 2006 new variable
-trac#:#stats_page_variance_access#:#variance of access to pages###21 Feb 2006 new variable
-trac#:#stats_page_variance_dwell_time#:#variance of dwell time to pages###21 Feb 2006 new variable
-trac#:#stats_pages#:#pages###21 Feb 2006 new variable
-trac#:#stats_pages_statisics#:#Page Statistics###21 Feb 2006 new variable
-trac#:#stats_sec#:#sec###21 Feb 2006 new variable
-trac#:#stats_sel_lng#:#english###21 Feb 2006 new variable
-trac#:#stats_session#:#session###21 Feb 2006 new variable
-trac#:#stats_session_average_length#:#average session length###21 Feb 2006 new variable
-trac#:#stats_session_average_page_access#:#average access to pages per session###21 Feb 2006 new variable
-trac#:#stats_session_evaluable#:#evaluable sessions###21 Feb 2006 new variable
-trac#:#stats_session_evaluable_access#:#evaluable session access###21 Feb 2006 new variable
-trac#:#stats_session_evaluable_usr#:#evaluable user###21 Feb 2006 new variable
-trac#:#stats_session_involved_usr#:#number of involved users###21 Feb 2006 new variable
-trac#:#stats_session_listing#:#session listing###21 Feb 2006 new variable
-trac#:#stats_session_longest#:#longest session###21 Feb 2006 new variable
-trac#:#stats_session_longest_total_duration_usr#:#longest total duration per user###21 Feb 2006 new variable
-trac#:#stats_session_most#:#most sessions###21 Feb 2006 new variable
-trac#:#stats_session_number#:#number of sessions###21 Feb 2006 new variable
-trac#:#stats_session_total_duration#:#total duration of all sessions###21 Feb 2006 new variable
-trac#:#stats_session_total_statistic#:#Total-Session-Statistic###21 Feb 2006 new variable
-trac#:#stats_sessions#:#sessions###21 Feb 2006 new variable
-trac#:#stats_sessions_statisics#:#Session Statistics###21 Feb 2006 new variable
-trac#:#stats_start#:#start###21 Feb 2006 new variable
-trac#:#stats_summation#:#summation###21 Feb 2006 new variable
-trac#:#stats_tracked_user#:#Selected Users###21 Feb 2006 new variable
-trac#:#stats_until#:#until###21 Feb 2006 new variable
-trac#:#stats_user#:#User(s)###21 Feb 2006 new variable
-trac#:#stats_user_selected#:#User selected###21 Feb 2006 new variable
-trac#:#stats_with#:#with###21 Feb 2006 new variable
+trac#:#stats_page_total_dwell_time#:#tiempo total de estancia en páginas
+trac#:#stats_page_total_statistic#:#Estadísticas totales de páginas
+trac#:#stats_page_varcoeff_access#:#coeficiente de variación de acceso a páginas
+trac#:#stats_page_varcoeff_dwell_time#:#coeficiente de variación de tiempos de estancia en páginas
+trac#:#stats_page_variance_access#:#varianza de accesos a páginas
+trac#:#stats_page_variance_dwell_time#:#varianza de tiempos de estancia en páginas
+trac#:#stats_pages#:#páginas
+trac#:#stats_pages_statisics#:#Estadísticas de Página
+trac#:#stats_sec#:#seg
+trac#:#stats_sel_lng#:#inglés
+trac#:#stats_session#:#sesión
+trac#:#stats_session_average_length#:#longitud media de sesión
+trac#:#stats_session_average_page_access#:#media de acceso a páginas por sesión
+trac#:#stats_session_evaluable#:#sesiones evaluables
+trac#:#stats_session_evaluable_access#:#acceso a sesión evaluable
+trac#:#stats_session_evaluable_usr#:#usuario evaluable
+trac#:#stats_session_involved_usr#:#número de usuarios involucrados
+trac#:#stats_session_listing#:#listado de sesión
+trac#:#stats_session_longest#:#sesión más larga
+trac#:#stats_session_longest_total_duration_usr#:#duración total mas larga por usuario
+trac#:#stats_session_most#:#mayoría de sesiones
+trac#:#stats_session_number#:#número de sesiones
+trac#:#stats_session_total_duration#:#duración total de todas las sesiones
+trac#:#stats_session_total_statistic#:#Estadísticas Totales de Sesiones
+trac#:#stats_sessions#:#sesiones
+trac#:#stats_sessions_statisics#:#Estadísticas de Sesión
+trac#:#stats_start#:#comienzo
+trac#:#stats_summation#:#sumatoria
+trac#:#stats_tracked_user#:#Usuarios Seleccionados
+trac#:#stats_until#:#hasta
+trac#:#stats_user#:#Usuario(s)
+trac#:#stats_user_selected#:#Usuario seleccionado
+trac#:#stats_with#:#con
 trac#:#trac_activated#:#Tracking activado
 trac#:#trac_active_both#:#Seguimiento de usuario y progreso de aprendizaje activados
 trac#:#trac_active_lp_only#:#Progreso de aprendizaje activado
