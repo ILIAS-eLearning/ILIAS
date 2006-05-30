@@ -125,7 +125,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				{
 					$imagepath = $this->object->getImagePathWeb() . $thisanswer->getAnswertext();
 					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->getAnswertext() . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", htmlspecialchars($thisanswer->getAnswertext()));
+					$this->tpl->setVariable("IMAGE_FILENAME", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
 					$this->tpl->setVariable("VALUE_ANSWER", "");
 					//$thisanswer->getAnswertext()
 				}
@@ -137,7 +137,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->getOrder() + 1);
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($thisanswer->getAnswertext()));
+				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
 			}
 			$this->tpl->parseCurrentBlock();
 
@@ -231,12 +231,12 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
 		}
 		$this->tpl->setVariable("ORDERING_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_ORDERING_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_ORDERING_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));

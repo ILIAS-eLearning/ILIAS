@@ -1108,6 +1108,111 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* Creates a detailed print view for a question pool
+	*
+	* Creates a detailed print view for a question pool
+	*
+	* @access	public
+	*/
+	function printDetailedObject()
+	{
+		$this->printObject(TRUE);
+	}
+	
+	/**
+	* Creates a print view for a question pool
+	*
+	* Creates a print view for a question pool
+	*
+	* @access	public
+	*/
+	function printObject($detailed = FALSE)
+	{
+		$sort = "title";
+		if (strlen($_POST["sortorder"]))
+		{
+			$sort = $_POST["sortorder"];
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_printview.html", true);
+		$sortorder = array(
+			"title" => $this->lng->txt("title"),
+			"comment" => $this->lng->txt("description"),
+			"type" => $this->lng->txt("question_type"),
+			"author" => $this->lng->txt("author"),
+			"created" => $this->lng->txt("create_date"),
+			"updated" => $this->lng->txt("last_update")
+		);
+		foreach ($sortorder as $value => $text)
+		{
+			$this->tpl->setCurrentBlock("sortorder");
+			$this->tpl->setVariable("VALUE_SORTORDER", $value);
+			$this->tpl->setVariable("TEXT_SORTORDER", $text);
+			if (strcmp($sort, $value) == 0)
+			{
+				$this->tpl->setVariable("SELECTED_SORTORDER", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		$table =& $this->object->getPrintviewQuestions($sort);
+		$colors = array("tblrow1top", "tblrow2top");
+		$counter = 1;
+		include_once "./classes/class.ilFormat.php";
+		foreach ($table as $row)
+		{
+			if ($detailed == TRUE)
+			{
+				$this->tpl->setCurrentBlock("overview_row_detail");
+				$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
+				include_once "./assessment/classes/class.assQuestion.php";
+				$question_type_gui = assQuestion::_getQuestionType($row["question_id"]) . "GUI";
+				include_once "./assessment/classes/class.".$question_type_gui.".php";
+				$question_gui = new $question_type_gui();
+				$question_gui->object->loadFromDb($row["question_id"]);
+				$this->tpl->setVariable("PREVIEW", $question_gui->getSolutionOutput(""));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("overview_row");
+			$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
+			$this->tpl->setVariable("TEXT_COUNTER", $counter);
+			$this->tpl->setVariable("TEXT_TITLE", ilUtil::prepareFormOutput($row["title"]));
+			$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($row["comment"]));
+			$this->tpl->setVariable("TEXT_QUESTIONTYPE", $this->lng->txt($row["type_tag"]));
+			$this->tpl->setVariable("TEXT_AUTHOR", $row["author"]);
+			$this->tpl->setVariable("TEXT_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["created"]), "date"));
+			$this->tpl->setVariable("TEXT_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date"));
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		$this->tpl->setCurrentBlock("overview");
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TEXT_QUESTIONTYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
+		$this->tpl->setVariable("TEXT_CREATED", $this->lng->txt("create_date"));
+		$this->tpl->setVariable("TEXT_UPDATED", $this->lng->txt("last_update"));
+		$this->tpl->parseCurrentBlock();
+		if ($detailed == TRUE)
+		{
+			$this->tpl->setVariable("OVERVIEW_OUTPUT", $this->lng->txt("overview"));
+		}
+		else
+		{
+			$this->tpl->setVariable("DETAILED_OUTPUT", $this->lng->txt("detailed_output"));
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("SORT_TEXT", $this->lng->txt("sort_by_this_column"));
+		$this->tpl->setVariable("TEXT_SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable("PRINT", $this->lng->txt("print"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("PAGETITLE", " - " . $this->object->getTitle());
+	}
+
 	function updateObject()
 	{
 //		$this->update = $this->object->updateMetaData();
@@ -1415,7 +1520,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
-
+	
 	/**
 	* form for new content object creation
 	*/
@@ -1734,6 +1839,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"addParameter", "assessment", "addGIT", "addST", "addPG", "delete",
 				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage"),
 			 "", "", $force_active);
+
+		// print view
+		$tabs_gui->addTarget("print_view",
+			 $this->ctrl->getLinkTarget($this,'print'),
+			 array("print", "printDetailed"),
+			 "", "");
 
 		// export
 		$tabs_gui->addTarget("export",

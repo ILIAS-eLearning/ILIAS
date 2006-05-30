@@ -123,7 +123,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$this->tpl->setCurrentBlock("definitions");
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
 				$this->tpl->setVariable("DEFINITION_ID", $thispair->getDefinitionId());
-				$this->tpl->setVariable("VALUE_DEFINITION", htmlspecialchars($thispair->getDefinition()));
+				$this->tpl->setVariable("VALUE_DEFINITION", ilUtil::prepareFormOutput($thispair->getDefinition()));
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			}
 			$this->tpl->parseCurrentBlock();
@@ -131,7 +131,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
 			$this->tpl->setVariable("ANSWER_ORDER", $i);
 			$this->tpl->setVariable("TERM_ID", $thispair->getTermId());
-			$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($thispair->getTerm()));
+			$this->tpl->setVariable("VALUE_TERM", ilUtil::prepareFormOutput($thispair->getTerm()));
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", $thispair->getPoints()));
 			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
@@ -271,12 +271,12 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
 		}
 		$this->tpl->setVariable("MATCHING_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_MATCHING_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_MATCHING_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_MATCHING_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_MATCHING_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_MATCHING_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_MATCHING_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_matching_pair"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS_PICTURES", $this->lng->txt("match_terms_and_pictures"));

@@ -674,6 +674,53 @@ class ilObjQuestionPool extends ilObject
 	}
 
 	/**
+	* Calculates the data for the print view of the questionpool
+	*
+	* Calculates the data for the print view of the questionpool
+	*
+	* @access public
+	*/
+	function &getPrintviewQuestions($sort)
+	{
+		global $ilDB;
+		
+	    // build sort order for sql query
+		$order = "";
+		switch($sort)
+		{
+			case "title":
+				$order = " ORDER BY title";
+				break;
+			case "comment":
+				$order = " ORDER BY comment,title";
+				break;
+			case "type":
+				$order = " ORDER BY question_type_id,title";
+				break;
+			case "author":
+				$order = " ORDER BY author,title";
+				break;
+			case "created":
+				$order = " ORDER BY created,title";
+				break;
+			case "updated":
+				$order = " ORDER BY TIMESTAMP14,title";
+				break;
+		}
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
+		$query_result = $ilDB->query($query);
+		$rows = array();
+		if ($query_result->numRows())
+		{
+			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($rows, $row);
+			}
+		}
+		return $rows;
+	}
+
+	/**
 	* export pages of test to xml (see ilias_co.dtd)
 	*
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the

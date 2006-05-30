@@ -175,6 +175,7 @@ assessment#:#description_maxchars#:#If nothing entered the maximum number of cha
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn\'t available since %s ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
+assessment#:#detailed_output#:#Detailed output
 assessment#:#direct_feedback#:#Verify your solution
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
@@ -345,6 +346,7 @@ assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#print_answers#:#Print Answers
+assessment#:#print_view#:#Print view
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
