@@ -156,7 +156,7 @@ class assNumericGUI extends assQuestionGUI
 		$this->ctrl->setParameter($this, "sel_question_types", "assNumeric");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assNumeric"));
-		$this->checkAdvancedEditor();
+		$this->checkAdvancedEditor(array("latex"), array("latex"));
 		
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");

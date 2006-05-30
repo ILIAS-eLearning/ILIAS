@@ -252,7 +252,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->outOtherQuestionData();
 
 		$this->tpl->parseCurrentBlock();
-		$this->checkAdvancedEditor();
+		$this->checkAdvancedEditor(array("latex"), array("latex"));
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 

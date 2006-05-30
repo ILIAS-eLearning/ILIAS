@@ -293,7 +293,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
 
 		$this->tpl->parseCurrentBlock();
-		$this->checkAdvancedEditor();
+		$this->checkAdvancedEditor(array("latex"), array("latex"));
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 

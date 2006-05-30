@@ -317,7 +317,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			sendInfo($this->error);
 		}
-		$this->checkAdvancedEditor();
+		$this->checkAdvancedEditor(array("latex"), array("latex"));
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
