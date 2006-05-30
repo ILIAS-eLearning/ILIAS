@@ -508,7 +508,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("ordering_row_standard");
@@ -560,7 +560,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 				$template->setVariable("ANSWER_ID", $idx);
 				$template->parseCurrentBlock();
 			}
@@ -667,7 +667,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_standard_text");
-					$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+					$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
 				}
@@ -707,7 +707,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_javascript_text");
-					$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+					$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
 				}

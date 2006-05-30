@@ -620,7 +620,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			foreach ($user_solution as $mc_solution)
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
@@ -669,7 +669,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
@@ -730,7 +730,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			foreach ($user_solution as $mc_solution)
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)

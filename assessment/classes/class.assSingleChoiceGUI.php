@@ -619,7 +619,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("QUESTION_ID", $this->object->getId());
 			$template->setVariable("TEST_ID", $active_id);
-			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
@@ -665,7 +665,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
@@ -726,7 +726,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
