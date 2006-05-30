@@ -1918,6 +1918,9 @@ class ilUtil
 		// be removed as unused template variable
 		$a_str = str_replace("{", "&#123;", $a_str);
 		$a_str = str_replace("}", "&#125;", $a_str);
+		// needed for LaTeX conversion \\ in LaTeX is a line break
+		// but without this replacement, php changes \\ to \
+		$a_str = str_replace("\\", "&#92;", $a_str);
 		return $a_str;
 	}
 
