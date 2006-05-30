@@ -545,7 +545,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				$template->setVariable("DEFINITION", $answer->getDefinition());
+				$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition()));
 				$template->parseCurrentBlock();
 			}
 
@@ -559,7 +559,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					{
 						if ($pair->getTermId() == $solution["value1"])
 						{
-							$template->setVariable("SOLUTION", $pair->getTerm());
+							$template->setVariable("SOLUTION", ilUtil::prepareFormOutput($pair->getTerm()));
 						}
 					}
 				}
@@ -600,7 +600,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$comboanswer = $this->object->matchingpairs[$comboidx];
 				$template->setCurrentBlock("matching_selection");
 				$template->setVariable("VALUE_SELECTION", $comboanswer->getTermId());
-				$template->setVariable("TEXT_SELECTION", $comboanswer->getTerm());
+				$template->setVariable("TEXT_SELECTION", ilUtil::prepareFormOutput($comboanswer->getTerm()));
 				$template->parseCurrentBlock();
 			}
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
@@ -616,7 +616,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				$template->setVariable("DEFINITION", $answer->getDefinition());
+				$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition()));
 				$template->parseCurrentBlock();
 			}
 
@@ -725,7 +725,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				{
 					$template->setCurrentBlock("matching_terms");
 					$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
-					$template->setVariable("DEFINITION_TEXT", $answer->getDefinition());
+					$template->setVariable("DEFINITION_TEXT", ilUtil::prepareFormOutput($answer->getDefinition()));
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock("javascript_matching_row");
@@ -758,7 +758,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$comboanswer = $this->object->matchingpairs[$comboidx];
 					$template->setCurrentBlock("matching_selection");
 					$template->setVariable("VALUE_SELECTION", $comboanswer->getTermId());
-					$template->setVariable("TEXT_SELECTION", $comboanswer->getTerm());
+					$template->setVariable("TEXT_SELECTION", ilUtil::prepareFormOutput($comboanswer->getTerm()));
 					foreach ($solutions as $solution)
 					{
 						if (($comboanswer->getTermId() == $solution["value1"]) && ($answer->getDefinitionId() == $solution["value2"]))
