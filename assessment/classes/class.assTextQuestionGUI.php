@@ -129,19 +129,19 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("TEXT_QUESTION_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_TEXT_QUESTION_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_TEXT_QUESTION_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_TEXT_QUESTION_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_TEXT_QUESTION_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_TEXT_QUESTION_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_TEXT_QUESTION_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$keywords = $this->object->getKeywords();
 		$keywords = preg_replace("/<br \/>/", "\n", $keywords);
-		$this->tpl->setVariable("VALUE_KEYWORDS", htmlspecialchars($keywords));
-		$this->tpl->setVariable("VALUE_POINTS", htmlspecialchars($this->object->getPoints()));
+		$this->tpl->setVariable("VALUE_KEYWORDS", ilUtil::prepareFormOutput($keywords));
+		$this->tpl->setVariable("VALUE_POINTS", ilUtil::prepareFormOutput($this->object->getPoints()));
 		if ($this->object->getMaxNumOfChars())
 		{
-			$this->tpl->setVariable("VALUE_MAXCHARS", htmlspecialchars($this->object->getMaxNumOfChars()));
+			$this->tpl->setVariable("VALUE_MAXCHARS", ilUtil::prepareFormOutput($this->object->getMaxNumOfChars()));
 		}
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));

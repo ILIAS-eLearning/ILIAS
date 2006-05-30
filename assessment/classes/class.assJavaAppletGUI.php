@@ -210,12 +210,12 @@ class assJavaAppletGUI extends assQuestionGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("JAVAAPPLET_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));

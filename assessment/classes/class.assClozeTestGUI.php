@@ -126,7 +126,7 @@ class assClozeTestGUI extends assQuestionGUI
 				foreach ($gap as $key => $value)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP", htmlspecialchars($value->getAnswertext()));
+					$this->tpl->setVariable("VALUE_TEXT_GAP", ilUtil::prepareFormOutput($value->getAnswertext()));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $key);
@@ -175,7 +175,7 @@ class assClozeTestGUI extends assQuestionGUI
 				foreach ($gap as $key => $value)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP", htmlspecialchars($value->getAnswertext()));
+					$this->tpl->setVariable("VALUE_SELECT_GAP", ilUtil::prepareFormOutput($value->getAnswertext()));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $key);
@@ -294,9 +294,9 @@ class assClozeTestGUI extends assQuestionGUI
 		}
 		
 		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("VALUE_CLOZE_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_CLOZE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$cloze_text = $this->object->getClozeText();
 		$cloze_text = preg_replace("/<br \/>/", "\n", $cloze_text);
 		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $cloze_text);
@@ -307,7 +307,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
-		$this->tpl->setVariable("TEXT_CLOSE_HINT", htmlspecialchars($this->lng->txt("close_text_hint")));
+		$this->tpl->setVariable("TEXT_CLOSE_HINT", ilUtil::prepareFormOutput($this->lng->txt("close_text_hint")));
 		$this->tpl->setVariable("TEXTGAP_RATING", $this->lng->txt("cloze_textgap_rating"));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));

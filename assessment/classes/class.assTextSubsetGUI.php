@@ -97,8 +97,8 @@ class assTextSubsetGUI extends assQuestionGUI
 			$answer = $this->object->getAnswer($i);
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
-			$this->tpl->setVariable("VALUE_POINTS", htmlspecialchars($answer->getPoints()));
+			$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
+			$this->tpl->setVariable("VALUE_POINTS", ilUtil::prepareFormOutput($answer->getPoints()));
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->object->getAnswerCount() > 0)
@@ -204,14 +204,14 @@ class assTextSubsetGUI extends assQuestionGUI
 
 		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("TEXTSUBSET_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_TEXTSUBSET_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_TEXTSUBSET_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_TEXTSUBSET_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_TEXTSUBSET_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_TEXTSUBSET_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_TEXTSUBSET_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$this->tpl->setVariable("VALUE_CORRECTANSWERS", $this->object->getCorrectAnswers());
 		$this->tpl->setVariable("VALUE_POINTS", $this->object->getMaximumPoints());
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));

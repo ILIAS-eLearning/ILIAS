@@ -142,7 +142,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					$this->tpl->setVariable("IMAGE_FILE", $imagepath);
 					if (strlen($answer->getAnswertext()))
 					{
-						$this->tpl->setVariable("IMAGE_ALT", htmlspecialchars($answer->getAnswertext()));
+						$this->tpl->setVariable("IMAGE_ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 					}
 					else
 					{
@@ -162,7 +162,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_CHECKED", sprintf("%d", $answer->getPoints()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED", sprintf("%d", $answer->getPointsUnchecked()));
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
+			$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -236,9 +236,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
 		if ($this->object->getGraphicalAnswerSetting() == 1)
 		{

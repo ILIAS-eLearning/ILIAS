@@ -140,7 +140,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 					$this->tpl->setVariable("IMAGE_FILE", $imagepath);
 					if (strlen($answer->getAnswertext()))
 					{
-						$this->tpl->setVariable("IMAGE_ALT", htmlspecialchars($answer->getAnswertext()));
+						$this->tpl->setVariable("IMAGE_ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 					}
 					else
 					{
@@ -158,7 +158,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->getAnswertext()));
+			$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
 			$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 			$this->tpl->parseCurrentBlock();
@@ -238,12 +238,12 @@ class assSingleChoiceGUI extends assQuestionGUI
 
 		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
 		if ($this->object->getGraphicalAnswerSetting() == 1)
