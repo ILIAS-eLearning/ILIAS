@@ -126,7 +126,7 @@ assessment#:#ass_create_export_test_results#:#Exportar Resultados del Test
 assessment#:#ass_export_files#:#Exportar ficheros
 assessment#:#ass_file#:#Archivo
 assessment#:#ass_question#:#Pregunta
-assessment#:#assQuestions#:#Questions###new variable
+assessment#:#assQuestions#:#Preguntas
 assessment#:#ass_size#:#Tamaño
 assessment#:#available_points#:#Puntos disponibles
 assessment#:#average_reached_points#:#Puntuación media alcanzada
@@ -168,7 +168,7 @@ assessment#:#create_imagemap#:#Crear un mapa de imagen
 assessment#:#create_new#:#Crear nuevo
 assessment#:#definition#:#Definición
 assessment#:#delete_area#:#Borrar area
-assessment#:#delete_image#:#Delete image###new variable
+assessment#:#delete_image#:#Eliminar imagen
 assessment#:#delete_user_data#:#Eliminar datos de test de los usuarios seleccionados
 assessment#:#description_maxchars#:#Si no introduce ningun valor, el máximo número de caracteres para esta respuesta es ilimitada.
 assessment#:#detail_ending_time_reached#:#Se ha terminado el tiempo para el test. El test no está disponible desde %s
@@ -178,7 +178,7 @@ assessment#:#direct_feedback#:#Verifique su solución
 assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
 assessment#:#duplicate_order_values_entered#:#¡Ha introducido un orden de valores duplicado!
-assessment#:#duplicate_qpl#:#Duplicate question pool for test###new variable
+assessment#:#duplicate_qpl#:#Duplicar banco de preguntas para test
 assessment#:#duplicate_tst#:#Duplicar Test
 assessment#:#ects_allow_ects_grades#:#Mostrar la nota ECTS además de la nota recibida
 assessment#:#ects_fill_out_all_values#:#¡Por favor introduzca un valor para cada nota ECTS!
@@ -209,8 +209,8 @@ assessment#:#edit_content#:#Editar contenido
 assessment#:#edit_properties#:#Editar propiedades
 assessment#:#end_tag#:#Marca de Fin
 assessment#:#ending_time_reached#:#Se ha alcanzado el tiempo límite
-assessment#:#enlarge#:#enlarge###new variable
-assessment#:#enter_anonymous_code#:#Enter anonymous access code###new variable
+assessment#:#enlarge#:#alargar
+assessment#:#enter_anonymous_code#:#Introducir codigo de acceso anonimo
 assessment#:#enter_enough_positive_points#:#The maxium available points for the question must be greater than 0! Please enter sufficient non negative points for your answers.###new variable
 assessment#:#error_image_upload_copy_file#:#Ocurrió un error moviendo la imagen cargada a su carpeta de destino!
 assessment#:#error_image_upload_wrong_format#:#Por favor cargue un archivo de imagen válido! Los formatos de imagen soportados son gif, jpeg y png
@@ -330,7 +330,7 @@ assessment#:#percentage_solved#:#Usted ha solucionado el %.2f por ciento de esta
 assessment#:#percentile#:#Percentil
 assessment#:#picture#:#Imagen
 assessment#:#please_select#:#---- por favor seleccione ----
-assessment#:#point#:#Point###new variable
+assessment#:#point#:#Punto
 assessment#:#points#:#Puntos
 assessment#:#points_checked#:#Points when checked###new variable
 assessment#:#points_short#:#Puntos
@@ -1339,7 +1339,7 @@ common#:#crs_leave#:#Darse de baja en el Curso
 common#:#crs_management_system#:#Sistema de Gestión de Cursos
 common#:#crs_member_not_passed#:#No superado
 common#:#crs_member_passed#:#Superado
-common#:#crs_members_gallery#:#Course members gallery###new variable
+common#:#crs_members_gallery#:#Galeria del curso
 common#:#crs_new#:#Nuevo Curso
 common#:#crs_no_content#:#Sin contenido
 common#:#crs_read#:#Acceso de lectura al Curso
@@ -1407,7 +1407,7 @@ common#:#delete_tr_data#:#Eliminar datos de Seguimiento
 common#:#deleted#:#borrados
 common#:#deleted_user#:#El usuario ha sido eliminado
 common#:#deleted_users#:#Usuarios eliminados
-common#:#deliver#:#Enviar ejercicio
+common#:#deliver#:#Enviar actividad
 common#:#department#:#Departamento
 common#:#desc#:#Descripción
 common#:#descending_order#:#Orden descendiente
@@ -1425,7 +1425,7 @@ common#:#download_all_returned_files#:#Descargar todos los archivos entregados
 common#:#drafts#:#borradores
 common#:#drop#:#descartar
 common#:#edit#:#editar
-common#:#edit_comments#:#Edit comments for the selected user###new variable
+common#:#edit_comments#:#Editar comentarios para el usuario seleccionado
 common#:#edit_content#:#Editar contenido
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
@@ -1437,7 +1437,7 @@ common#:#edit_stylesheet#:#Editar hoja de estilos
 common#:#edited_at#:#editado en
 common#:#editor#:#editor
 common#:#email#:#E-mail
-common#:#email_feedback#:#Mail feedback###new variable
+common#:#email_feedback#:#Mail feedback
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#La dirección de correo electrónico introducida no es válida!
 common#:#enable#:#habilitar
@@ -1488,7 +1488,7 @@ common#:#exc_create#:#Crear Actividad
 common#:#exc_date_not_valid#:#La fecha no es válida
 common#:#exc_deassign_members#:#Eliminar miembro(s)
 common#:#exc_delete#:#Eliminar Actividad
-common#:#exc_details#:#Exercise details###new variable
+common#:#exc_details#:#Detalles de la actividad
 common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
 common#:#exc_edit_permission#:#Modificar configuración de permisos
@@ -1499,10 +1499,10 @@ common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Actividad (miembros)
 common#:#exc_instruction#:#Instrucciones de trabajo
 common#:#exc_last_submission#:#Last submission###new variable
-common#:#exc_mail_users#:#Send mail to user(s)###new variable
+common#:#exc_mail_users#:#Enviar correo a usuario(s) seleccionado(s)
 common#:#exc_members_already_assigned#:#Estos usuarios están ya asignados a esta actividad
 common#:#exc_members_assigned#:#Miembros asignados
-common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved###new variable
+common#:#exc_members_comments_saved#:#Los comentarios de la actividad para el usuario seleccionado han sido guardados
 common#:#exc_new#:#Nueva Actividad
 common#:#exc_no_members_assigned#:#Ningún miembro asignado
 common#:#exc_notices#:#Comentarios
@@ -1517,9 +1517,9 @@ common#:#exc_send_exercise#:#Enviar actividad
 common#:#exc_sent#:#La actividad ha sido enviada a los usuarios seleccionados
 common#:#exc_status_resubmitted#:#Resubmitted###new variable
 common#:#exc_status_saved#:#Actividad Actualizada
-common#:#exc_status_sent#:#Delivered###new variable
+common#:#exc_status_sent#:#Por correo
 common#:#exc_status_solved#:#corregido
-common#:#exc_status_submitted#:#Submitted###new variable
+common#:#exc_status_submitted#:#Entregado
 common#:#exc_time_over_short#:#el tiempo de entrega finalizo
 common#:#exc_time_to_send#:#Tiempo de trabajo restante
 common#:#exc_upload_error#:#Error cargando archivo
@@ -1528,7 +1528,7 @@ common#:#exc_visible#:#Actividad es visible
 common#:#exc_write#:#Editar actividad
 common#:#excs#:#Actividades
 common#:#execute#:#ejecutar
-common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar archivos!
+common#:#exercise_time_over#:#Ha alcanzado el tiempo límite de la actividad. ¡Ya no puede enviar archivos!
 common#:#exp_html#:#exportar a HTML
 common#:#expand#:#Expandir
 common#:#explorer_frame#:#Írbol Explorador
@@ -1729,9 +1729,9 @@ common#:#group_status#:#Estado del Grupo
 common#:#group_status_closed#:#Cerrado
 common#:#group_status_desc#:#Determina el estado inicial del grupo usando la configuración de permisos de las plantillas de rol \'il_grp_status_closed\' or \'il_grp_status_open\' <br/>Público: El grupo es visible; El usuario puede subscribirse. <br/> Cerrado: El grupo no es visible para los no-miembros; El usuario tiene que ser invitado por un miembro del grupo para unirse. 
 common#:#group_status_public#:#Público
-common#:#groupings#:#Membership Limitations###new variable
-common#:#groupings_assigned_obj_crs#:#Assigned Courses###new variable
-common#:#groupings_assigned_obj_grp#:#Assigned Groups###new variable
+common#:#groupings#:#Limitaciones de pertenencia
+common#:#groupings_assigned_obj_crs#:#Cursos asignados
+common#:#groupings_assigned_obj_grp#:#Grupos asignados
 common#:#groups#:#Grupos
 common#:#groups_overview#:#Resumen de grupos
 common#:#grp#:#Grupo
@@ -1788,8 +1788,8 @@ common#:#grp_mail_subj_subscription_cancelled#:#Suscripción cancelada
 common#:#grp_mem_change_status#:#Modificar el estado del miembro
 common#:#grp_mem_leave#:#Dar de baja Miembro del Grupo
 common#:#grp_mem_send_mail#:#Enviar al miembro un mensaje
-common#:#grp_members_gallery#:#Group members gallery###new variable
-common#:#icrs_members_gallery#:#Seminar members gallery###new variable
+common#:#grp_members_gallery#:#Galeria del grupo
+common#:#icrs_members_gallery#:#Galeria del Seminario
 common#:#grp_msg_applicants_assigned#:#Solicitante(s) asignado(s) como miembro(s) de grupo
 ilinc#:#ilinc_user_settings#:#iLinc User settings###new variable
 ilinc#:#ilinc_user_id#:#iLinc UserID###new variable
@@ -1853,7 +1853,7 @@ common#:#hlm_write#:#Editar Módulo de aprendizaje HACP
 common#:#hobby#:#Intereses/hobbies
 common#:#home#:#Inicio
 common#:#host#:#host
-common#:#hour#:#hour###new variable
+common#:#hour#:#hora
 common#:#hours#:#hora(s)
 common#:#hours_of_day#:#Horas del día
 common#:#htlm#:#Módulo de aprendizaje HTML
@@ -2073,7 +2073,7 @@ common#:#lang_sq#:#Albano
 common#:#lang_sr#:#Serbio
 common#:#lang_sv#:#Sueco
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_timeformat_no_sec#:#H:i###new variable
+common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uk#:#Ukraniano
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamita
@@ -2114,7 +2114,7 @@ common#:#ldap_write#:#Editar configuración LDAP
 common#:#learning module#:#Módulo de aprendizaje
 common#:#learning_objects#:#Objetos de aprendizaje
 common#:#learning_progress#:#Seguimiento
-common#:#learning_resourc#:#Learning Resourc###new variable
+common#:#learning_resourc#:#Recurso de aprendizaje
 common#:#learning_resource#:#Recurso de aprendizaje
 common#:#learning_resources#:#Recursos de aprendizaje
 common#:#level#:#nivel
@@ -2213,7 +2213,7 @@ common#:#mail_delete_error#:#Error borrando correo(s)
 common#:#mail_delete_error_file#:#Error borrando archivo(s)
 common#:#mail_e_sent#:#Enviado
 common#:#mail_edit_permission#:#Modificar configuración de permisos
-common#:#mail_feedback#:#Mail feedback###new variable
+common#:#mail_feedback#:#Mail feedback
 common#:#mail_folders#:#Carpetas
 common#:#mail_import#:#Importar
 common#:#mail_import_file#:#archivo en formato exportado por ILIAS 2
@@ -2269,7 +2269,7 @@ common#:#message_to#:#mensaje a:
 common#:#meta_data#:#Meta Datos
 common#:#migrate#:#migrar
 common#:#min_time#:#Tiempo Mínimo
-common#:#minute#:#Minute###new variable
+common#:#minute#:#Minuto
 common#:#minutes#:#Minutos
 common#:#missing#:#No disponible
 common#:#mob#:#Objeto Multimedia
@@ -2436,7 +2436,7 @@ common#:#no_parent_access#:#No tiene acceso a un objeto -superordinated-!
 common#:#no_permission#:#No posee el permiso necesario.
 common#:#no_permission_to_join#:#No tiene permiso para unirse a este grupo!
 common#:#no_roles_user_can_be_assigned_to#:#No hay roles globales a los que asignar el usuario. Por tanto, no tiene permiso para añadir usuarios.
-common#:#no_submission_made#:#---###new variable
+common#:#no_submission_made#:#---
 common#:#no_title#:#sin título
 common#:#no_tst_in_personal_list#:#No hay tests en la lista personal.
 common#:#no_user_defined_fields_defined#:#No hay campos definidos por el usuario disponibles.
@@ -2610,7 +2610,7 @@ common#:#parameter#:#Parámetro
 common#:#parse#:#Analizar
 common#:#passed#:#Superado
 common#:#passwd#:#contraseña
-common#:#passwd_generation#:#Password Generation###new variable
+common#:#passwd_generation#:#Generacion de Passwords
 common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.###new variable
 common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
 common#:#passwd_not_match#:#La introducción de nueva contraseña es distinta! Por favor introdúzca de nuevo las dos repeticiones
@@ -2683,7 +2683,7 @@ common#:#pub_section#:#sección pública
 common#:#public#:#público
 common#:#public_notes#:#Notas publicas
 common#:#public_profile#:#Perfil público
-common#:#public_profile_not_visible#:#The User Profile is not public###new variable
+common#:#public_profile_not_visible#:#El perfil de usuario no es publico
 common#:#publication#:#publicación
 common#:#publication_date#:#fecha de publicación
 common#:#published#:#publicado
@@ -2769,9 +2769,9 @@ common#:#reset#:#resetear
 common#:#resources#:#Recursos
 common#:#retype_password#:#reescribir contraseña
 common#:#right#:#right
-common#:#tree_left#:#Left###new variable
-common#:#tree_right#:#Right###new variable
-common#:#tree_frame#:#Tree Frame###new variable
+common#:#tree_left#:#Izquierda
+common#:#tree_right#:#Derecha
+common#:#tree_frame#:#Marco arbol
 common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.###new variable
 common#:#rights#:#derechos
 common#:#role#:#rol
@@ -2876,7 +2876,7 @@ common#:#seas_search#:#Permitir el uso del sistema de búsqueda
 common#:#seas_settings#:#Configuración del motor de búsqueda
 common#:#seas_visible#:#Configuración del motor de búsqueda visible
 common#:#seas_write#:#Editar configuración del motor de búsqueda
-common#:#second#:#Second###new variable
+common#:#second#:#Segundo
 common#:#seconds#:#Segundos
 common#:#sections#:#secciones
 common#:#select#:#Seleccionar
@@ -3310,8 +3310,8 @@ content#:#choose_public_pages#:#Escoger páginas de acceso público
 content#:#cont_act_number#:#Numeración de capítulos
 content#:#cont_active#:#Habilitar Menú
 content#:#cont_add_area#:#Añadir Írea
-content#:#selectHeader#:#Select As Header###new variable
-content#:#selectFooter#:#Select As Footer###new variable
+content#:#selectHeader#:#Seleccionar como cabecera
+content#:#selectFooter#:#Seleccionar como pie de pagina
 content#:#cont_add_change_comment#:#Añadir comentario de cambio
 content#:#cont_add_definition#:#Añadir Definición
 content#:#cont_add_fullscreen#:#Añadir Pantalla Completa
@@ -3398,7 +3398,7 @@ content#:#cont_disable_js#:#Deshabilitar JavaScript
 content#:#cont_disable_media#:#Deshabilitar Multimedia
 content#:#cont_download_title#:#Nombre del archivo de descarga
 content#:#cont_downloads#:#Descargas
-content#:#cont_delete_selected#:#Delete###new variable
+content#:#cont_delete_selected#:#Eliminar
 content#:#cont_downloads_desc#:#Habilita la descarga de todos los archivos públicos de exportación.
 content#:#cont_downloads_public_desc#:#Permitir descarga incluso para usuarios anónimos (en área pública)
 content#:#cont_ed_align_center#:#alinear: centro
@@ -3535,14 +3535,14 @@ content#:#cont_media_source#:#Fuente Multimedia
 content#:#cont_mep_structure#:#Estructura Banco Multimedia
 content#:#cont_missing_preconditions#:#Necesita cumplir las siguientes precondiciones para acceder al capítulo \"%s\". 
 content#:#cont_Mnemonic#:#Nemónico
-content#:#cont_header#:#Header###new variable
-content#:#cont_footer#:#Footer###new variable
+content#:#cont_header#:#Cabecera
+content#:#cont_footer#:#Pie de pagina
 content#:#cont_mob_files#:#Ficheros Multimedia
 content#:#cont_mob_inst_prop#:#Propiedades de Instancia
 content#:#cont_mob_prop#:#Propiedades de Objeto
 content#:#cont_mob_usages#:#Uso
 content#:#cont_month#:#Mes
-content#:#cont_usage#:#Usage###new variable
+content#:#cont_usage#:#Uso
 content#:#cont_move_object#:#mover objeto
 content#:#cont_msg_multiple_editions#:#No es posible mostrar detalles de múltiples ediciones
 content#:#cont_name#:#Nombre
@@ -3823,7 +3823,7 @@ crs#:#crs_dismiss_member#:#Pertenencia al curso
 crs#:#crs_dismiss_member_body#:#Su pertenencia ha finalizado
 crs#:#crs_edit_archive#:#Crear Archivos de Curso
 crs#:#crs_edit_content#:#Editar items
-crs#:#crs_edit_start_objects#:#Edit Start Objects###new variable
+crs#:#crs_edit_start_objects#:#Editar Objetos Iniciales
 crs#:#crs_end#:#Fin
 crs#:#crs_export#:#Exportar Curso
 crs#:#crs_file_name#:#Nombre de Fichero
@@ -4506,9 +4506,9 @@ mail#:#mail_to_search#:#Buscar To
 mail#:#mail_user_addr_n_valid#:#Los siguientes usuarios no tienen una dirección de correo válida
 mail#:#search_bc_recipient#:#Buscar Destinatario BC
 mail#:#search_cc_recipient#:#Buscar Destinatario CC
-meta#:#md_days#:#Days:###new variable
-meta#:#md_months#:#Month:###new variable
-meta#:#md_time#:#Time:###new variable
+meta#:#md_days#:#Dias:
+meta#:#md_months#:#Mes:
+meta#:#md_time#:#Hora:
 meta#:#meta_accessibility_restrictions#:#Restricciones de Accesibilidad
 meta#:#meta_active#:#Activo
 meta#:#meta_add#:#Añadir
@@ -5697,7 +5697,7 @@ survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron 
 survey#:#percentage_of_offered_answers#:#Porcentaje de respuestas ofrecidas
 survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
 survey#:#phrase_saved#:#El conjunto fue grabado con éxito
-survey#:#please_select#:#-- please select --###new variable
+survey#:#please_select#:#-- por favor elija --
 survey#:#predefined_users#:#Conjunto predefinido de usuarios
 survey#:#preview#:#Vista previa
 survey#:#previous_question_rows#:#<< Preguntas %d - %d de %d
@@ -5780,7 +5780,7 @@ survey#:#survey_code_no_codes#:#Aún no ha creado ningún código de acceso
 survey#:#survey_code_url#:#URL para acceso directo
 survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copiar la URL)
 survey#:#survey_code_used#:#Código fue usado
-survey#:#survey_codes_lang#:#Language of the survey###new variable
+survey#:#survey_codes_lang#:#Idioma de la encuesta
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###new variable
 survey#:#survey_finish#:#Salvar y terminar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
@@ -5988,7 +5988,7 @@ trac#:#trac_marks#:#Notas
 trac#:#trac_mode#:#Modo
 trac#:#trac_mode_collection#:#Coleccion de objetos
 trac#:#trac_mode_deactivated#:#Desactivado
-trac#:#trac_mode_exercise_returned#:#Exercise returned###new variable
+trac#:#trac_mode_exercise_returned#:#Actividad entregada
 trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_objectives#:#Objetivos de aprendizaje
 trac#:#trac_mode_scorm#:#SCORM/AICC
