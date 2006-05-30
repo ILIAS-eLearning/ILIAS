@@ -1,46 +1,43 @@
-	<form action="{FILTER_ACTION}" class="il_Form" METHOD="post">
-	  <h3>{TBL_TITLE}</h3>
-	  <table width="60%" cellpadding="3">
-		<tr>
-		  <td>
-			{TYPES}
-		  </td>
-		  <td>
-			{TYPE_SELECTOR}
-		  </td>
-		</tr>
-		<tr>
-		  <td>
-			{TXT_AREA}
-		  </td>
-		  <td>
-			{FILTER_AREA}&nbsp;
-			<a class="il_ContainerItemCommand" href="{HREF_UPDATE_AREA}">{UPDATE_AREA}</a>
-		  </td>
-		</tr>
-		<tr>
-		  <td>
-			{TXT_QUERY}
-		  </td>
-		  <td>
-			<input type="text" name="query" value="{QUERY}" size="32" maxsize="64" />
-		  </td>
-		</tr>
-		<tr>
-		  <td>
-			{TXT_HIDDEN}
-		  </td>
-		  <td nowrap="{NOWRAP}">
+<form action="{FILTER_ACTION}" class="il_Form" METHOD="post">
+	<table class="std">
+	<tr class="tblheader">
+		<td class="std" rowspan="3">{TBL_TITLE}
+		</td>
+		<td class="option">
+		{TXT_QUERY}
+		</td>
+		<td class="option_value">
+		<input type="text" name="query" value="{QUERY}" size="32" maxsize="64" />
+		</td>
+		<td class="option">
+		{TYPES}
+		</td>
+		<td class="option_value">
+		{TYPE_SELECTOR}
+		</td>
+	</tr>
+	<tr>
+		<td class="option">
+		{TXT_HIDDEN}
+		</td>
+		<td nowrap="{NOWRAP}"  class="option_value">
 			{HIDDEN_SELECTOR}
 			<!-- BEGIN editable -->
 			<input class="submit" type="SUBMIT" name="cmd[updateHidden]" value="{BTN_SHOW}"/>
 			<!-- END editable -->
-		  </td>
-		</tr>
-		<tr>
-		  <td valign="center" align="left" valign="center" colspan="2">
-			<img src="{DOWNRIGHT}" border="0" />&nbsp;
-			<input class="submit" type="SUBMIT" name="cmd[refresh]" value="{BTN_REFRESH}"/>
-		</tr>
-	  </table>
-	</form>
+		</td>
+		<td  class="option">
+		{TXT_AREA}
+		</td>
+		<td  class="option_value">
+		{FILTER_AREA}&nbsp;
+		<a class="il_ContainerItemCommand" href="{HREF_UPDATE_AREA}">{UPDATE_AREA}</a>
+		</td>
+	</tr>
+	<tr>
+		<td class="submit" colspan="4" style="text-align:right;">
+		<input class="submit" type="SUBMIT" name="cmd[refresh]" value="{BTN_REFRESH}"/>
+		</td>
+	</tr>
+	</table>
+</form>
