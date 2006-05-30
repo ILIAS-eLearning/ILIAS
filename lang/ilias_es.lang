@@ -80,13 +80,13 @@ administration#:#restoring_missing_objs#:#Restaurando objetos desaparecidos...
 administration#:#restoring_trash#:#Restaurando la papelera \'trash\'.... 
 administration#:#restoring_unbound_objs#:#Restaurando objetos y subobjetos sobredimensionados ...
 administration#:#scan#:#Escanear
-administration#:#scan_completed#:#Exploracion completada
+administration#:#scan_completed#:#Exploración completada
 administration#:#scan_desc#:#Escanear sistema en busca de objetos corruptos/inválidos/inexistentes/descolocados
 administration#:#scan_details#:#Detalles de la Exploración
 administration#:#scan_modes#:#Modos de Exploración usados
 administration#:#scanning_system#:#Explorando sistema
 administration#:#searching_deleted_objs#:#Buscando objetos borrados...
-administration#:#searching_invalid_childs#:#Buscando nodos del arbol no válidos...
+administration#:#searching_invalid_childs#:#Buscando nodos del árbol no válidos...
 administration#:#searching_invalid_refs#:#Buscando referencias no válidas...
 administration#:#searching_invalid_rolfs#:#Buscando carpetas de rol no válidas
 administration#:#searching_missing_objs#:#Buscando objetos desaparecidos...
@@ -211,7 +211,7 @@ assessment#:#end_tag#:#Marca de Fin
 assessment#:#ending_time_reached#:#Se ha alcanzado el tiempo límite
 assessment#:#enlarge#:#alargar
 assessment#:#enter_anonymous_code#:#Introducir codigo de acceso anonimo
-assessment#:#enter_enough_positive_points#:#The maxium available points for the question must be greater than 0! Please enter sufficient non negative points for your answers.###new variable
+assessment#:#enter_enough_positive_points#:#La puntuación máxima disponible para la pregunta debe ser mayor que cero! Por favor introduzca puntos suficientes para sus respuestas.
 assessment#:#error_image_upload_copy_file#:#Ocurrió un error moviendo la imagen cargada a su carpeta de destino!
 assessment#:#error_image_upload_wrong_format#:#Por favor cargue un archivo de imagen válido! Los formatos de imagen soportados son gif, jpeg y png
 assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta(s) desde el archivo seleccionado!
@@ -258,11 +258,11 @@ assessment#:#filter_show_question_types#:#Mostrar tipos de preguntas
 assessment#:#filter_show_questionpools#:#Mostrar bancos de preguntas
 assessment#:#gap#:#Hueco
 assessment#:#gap_definition#:#Definición de hueco
-assessment#:#gap_selection#:#Hueco de seleccion
+assessment#:#gap_selection#:#Hueco de selección
 assessment#:#glossary_term#:#Término de glosario
-assessment#:#graphical_answers#:#Graphical answer support###new variable
-assessment#:#graphical_answers_hide#:#Hide graphical answer support###new variable
-assessment#:#graphical_answers_show#:#Show graphical answer support###new variable
+assessment#:#graphical_answers#:#Soporte de respuesta gráfica
+assessment#:#graphical_answers_hide#:#Ocultar soporte de respuesta gráfica
+assessment#:#graphical_answers_show#:#Mostrar soporte de respuesta gráfica
 assessment#:#height#:#Altura
 assessment#:#imagemap#:#Mapa de imagen
 assessment#:#imagemap_file#:#Archivo mapa de imagen
@@ -276,7 +276,7 @@ assessment#:#internal_links_update#:#Actualizar
 assessment#:#javaapplet#:#Applet Java
 assessment#:#javaapplet_successful_saved#:#Sus resultados han sido grabados satisfactoriamente!
 assessment#:#javaapplet_unsuccessful_saved#:#Ocurrió un error grabando los resultados de pregunta!
-assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.###new variable
+assessment#:#keywords_hint#:#Introduzca una lista de palabras clave, separadas por espacios o saltos de línea para añadir la opción de puntuación automática a la pregunta -essay-. Si cualquiera de las palabras clave fuera encontrada en el texto de respuesta del estudiante, la puntuación por defecto se pondrá al máximo de puntos disponibles en vez de a 0 puntos.
 assessment#:#last_update#:#Ultima actualización
 assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
@@ -298,13 +298,13 @@ assessment#:#match_terms_and_definitions#:#Emparejar términos y definiciones
 assessment#:#match_terms_and_pictures#:#Emparejar términos e imágenes
 assessment#:#matches#:#coincide
 assessment#:#matching_pair#:#Pareja coincidente
-assessment#:#matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###new variable
+assessment#:#matching_question_javascript_hint#:#Por favor arrastre una definición/imagen en la parte derecha sobre un término en la izquierda y suelte la definción/imagen para hacer coincidir el término con la definition/imagen.
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material para descargar
 assessment#:#material_file#:#Archivo de Material
 assessment#:#maxchars#:#Máximo número de caracteres
 assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. El test no puede ser introducido!
-assessment#:#maximum_points#:#Maxium available points###new variable
+assessment#:#maximum_points#:#Máximo de puntos disponibles
 assessment#:#meaning#:#Significado
 assessment#:#min_percentage_ne_0#:#¡Debe definir un porcentaje mínimo de 0 por ciento! El esquema de calificación no fue grabado.
 assessment#:#negative_points_not_allowed#:#¡No está permitido introducir puntos negativos!
@@ -314,16 +314,16 @@ assessment#:#no_question_selected_for_move#:#Por favor marque al menos una pregu
 assessment#:#no_questions_available#:#No hay preguntas disponibles!
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
 assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué está buscando (usuarios y/o grupos)
-assessment#:#nr_of_correct_answers#:#Number of requested answers###new variable
+assessment#:#nr_of_correct_answers#:#Número de respuestas requeridas
 assessment#:#online_exam_show_answer_print_sheet#:#Ha finalizado su examen online. Para ver la vista de impresión de respuestas para imprimir sus resultados de test por favor haga click en el botón &quot;Vista de impresión de respuestas&quot;.
 assessment#:#online_exam_show_finish_test#:#Todavía tiene que llegar al envío final de su examen online. Por favor haga click en el botón &quot;Finalizar el test&quot; para enviar el examen.
-assessment#:#optional_keywords#:#Optional input of keywords###new variable
+assessment#:#optional_keywords#:#Entrada opcional de palabras clave
 assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordenar imágenes
 assessment#:#order_terms#:#Ordenar términos
-assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###new variable
+assessment#:#ordering_question_javascript_hint#:#Por favor arrastre una definición/imagen sobre la definición/imagen donde la quiera dejar y suéltela. La definición/imagen debajo y todas las definiciones/imágenes siguientes se moverán hacia abajo.
 assessment#:#participants#:#Participantes
-assessment#:#pass#:#Pass
+assessment#:#pass#:#Aprobar
 assessment#:#passed_official#:#superado
 assessment#:#passed_short#:#superado
 assessment#:#percentage_solved#:#Usted ha solucionado el %.2f por ciento de esta pregunta!
@@ -332,9 +332,9 @@ assessment#:#picture#:#Imagen
 assessment#:#please_select#:#---- por favor seleccione ----
 assessment#:#point#:#Punto
 assessment#:#points#:#Puntos
-assessment#:#points_checked#:#Points when checked###new variable
+assessment#:#points_checked#:#Puntos cuando se marque
 assessment#:#points_short#:#Puntos
-assessment#:#points_unchecked#:#Points when unchecked###new variable
+assessment#:#points_unchecked#:#Puntos cuando no se marque
 assessment#:#polygon#:#Polígono
 assessment#:#polygon_click_next_or_save#:#Por favor haga click en el siguiente punto del polígono o grabe el area. (No es necesario hacer click de nuevo en el punto inicial de este polígono !)
 assessment#:#polygon_click_next_point#:#Por favor haga click en el siguiente punto del polígono.
@@ -344,7 +344,7 @@ assessment#:#postponed#:#Pospuesta
 assessment#:#preview#:#Previsualizar
 assessment#:#previous_question_rows#:#<< Preguntas %d - %d de %d
 assessment#:#print_answers#:#Imprimir respuestas
-assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!###new variable
+assessment#:#qpl_answertext_fields_not_filled#:#La pregunta sólo puede ser grabada, si rellena todos los campos de texto de respuesta
 assessment#:#qpl_assessment_no_assessment_of_questions#:#No hay evaluación disponible para la pregunta seleccionada. La pregunta nunca se ha usado en un test.
 assessment#:#qpl_assessment_of_questions#:#Evaluación (por preguntas)
 assessment#:#qpl_assessment_total_of_answers#:#Total de respuestas
@@ -359,7 +359,7 @@ assessment#:#qpl_delete_select_none#:#Por favor marque al menos una pregunta par
 assessment#:#qpl_display_fullsize_image#:#Haga Click aqui para mostrar la imagen original!
 assessment#:#qpl_duplicate_select_none#:#Por favor marque al menos una pregunta para duplicarla
 assessment#:#qpl_edit_rbac_error#:#No tiene permisos para editar esta pregunta!
-assessment#:#qpl_edit_select_multiple#:#Por favor marque solo una pregunta para editar
+assessment#:#qpl_edit_select_multiple#:#Por favor marque sólo una pregunta para editar
 assessment#:#qpl_edit_select_none#:#Por favor marque una pregunta para editar
 assessment#:#qpl_export_select_none#:#Por favor marque al menos una pregunta para exportarla
 assessment#:#qpl_general_properties#:#Propiedades Generales
@@ -377,17 +377,17 @@ assessment#:#qpl_paste_success#:#La(s) pregunta(s) han sido pegadas en el banco 
 assessment#:#qpl_question_is_in_use#:#La pregunta que va a editar existe en el/los test(s) %s. Si modifica esta pregunta, NO cambiará la pregunta(s) en el/los test(s), porque el sistema crea una copia de una pregunta cuando se inserta en un test!
 assessment#:#qpl_questions_deleted#:#Pregunta(s) eliminada(s).
 assessment#:#qpl_select_file_for_import#:#Debe seleccionar un fichero a importar!
-assessment#:#assClozeTest#:#Cloze Question###new variable
-assessment#:#assImagemapQuestion#:#Image Map Question###new variable
-assessment#:#assJavaApplet#:#Java Applet Question###new variable
-assessment#:#assMatchingQuestion#:#Matching Question###new variable
-assessment#:#qt_multiple_choice#:#Pregunta de opción múltiple 
-assessment#:#assMultipleChoice#:#Multiple Choice Question (multiple response)###new variable
-assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###new variable
-assessment#:#assNumeric#:#Numeric question###new variable
-assessment#:#assOrderingQuestion#:#Ordering Question###new variable
-assessment#:#assTextQuestion#:#Essay Question###new variable
-assessment#:#assTextSubset#:#Text subset question###new variable
+assessment#:#assClozeTest#:#Pregunta Rellenar Huecos
+assessment#:#assImagemapQuestion#:#Pregunta Mapa de Imagen
+assessment#:#assJavaApplet#:#Pregunta Applet Java
+assessment#:#assMatchingQuestion#:#Pregunta de Unir Parejas
+assessment#:#qt_multiple_choice#:#Pregunta de Opción Múltiple 
+assessment#:#assMultipleChoice#:#Pregunta de Opción Múltiple (múltiple respuesta)
+assessment#:#assSingleChoice#:#Pregunta de Opción Múltiple (respuesta única)
+assessment#:#assNumeric#:#Pregunta numérica
+assessment#:#assOrderingQuestion#:#Pregunta de Ordenación
+assessment#:#assTextQuestion#:#Pregunta de Respuesta Corta
+assessment#:#assTextSubset#:#Pregunta Subconjunto de 
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el archivo cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el banco de preguntas si no quiere guardarla!
 assessment#:#question_short#:#P
 assessment#:#question_title#:#Titulo de la pregunta
@@ -409,9 +409,9 @@ assessment#:#region#:#Región
 assessment#:#remove_question#:#Borrar
 assessment#:#remove_solution#:#Eliminar solución recomendada
 assessment#:#report_date_not_reached#:#No ha alcanzado la fecha de reporte. Será capaz de ver los resultados del test a partir de %s
-assessment#:#reset_definitions#:#Reset definition positions###new variable
+assessment#:#reset_definitions#:#Reiniciar posiciones de definición
 assessment#:#reset_filter#:#Reiniciar filtro
-assessment#:#reset_pictures#:#Reset picture positions###new variable
+assessment#:#reset_pictures#:#Reinicar posiciones de imagen
 assessment#:#result#:#Resultado
 assessment#:#save_before_upload_imagemap#:#Debe aplicar los cambios antes de poder cargar un mapa de imagen!
 assessment#:#save_before_upload_javaapplet#:#Debe aplicar los camibos antes de poder cargar un applet java!
@@ -429,11 +429,11 @@ assessment#:#search_term#:#Buscar término
 assessment#:#search_users#:#Buscar Usuarios
 assessment#:#see_details_for_further_information#:#Ver detalles de las soluciones recomendadas
 assessment#:#select_an_answer#:#--- Por favor seleccione una respuesta ---
-assessment#:#select_gap#:#Hueco de seleccion
+assessment#:#select_gap#:#Hueco de selección
 assessment#:#select_max_one_item#:#Por favor seleccione un único item
 assessment#:#select_one_submitted_test#:#Por favor seleccione al menos un usuario que haya finalizado el test
 assessment#:#select_one_user#:#Por favor seleccione al menos un usuario
-assessment#:#select_qpl_option#:#--- Please select a question pool ---###new variable
+assessment#:#select_qpl_option#:#--- Por favor selecciones un banco de preguntas ---
 assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones \'insertar\'! 
 assessment#:#select_tst_option#:#--- Por favor seleccione un test ---
 assessment#:#selected_image#:#Imagen seleccionada
@@ -442,9 +442,9 @@ assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Barajar respuestas
 assessment#:#solution_comment_count_system#:#Las preguntas contestadas parcialmente correctas se puntuarán con 0 puntos
 assessment#:#solution_comment_mc_scoring#:#Las preguntas de múltiple elección sin respuesta seleccionada serán puntuadas con 0 puntos
-assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points###new variable
+assessment#:#solution_comment_score_cutting#:#Si el resultado de la pregunta es negativo, la puntuación se truncará a 0 puntos
 assessment#:#solution_hint#:#Solución recomendada
-assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords###new variable
+assessment#:#solution_may_contain_keywords#:#La solución puede contener una de las siguientes palabras clave
 assessment#:#solution_order#:#Orden solución
 assessment#:#start_tag#:#Marca de comienzo
 assessment#:#starting_time_not_reached#:#No ha alcanzado el tiempo de comienzo
@@ -457,17 +457,17 @@ assessment#:#test_cancelled#:#El test fue cancelado
 assessment#:#text_answers_saved#:#¡Puntuación de la pregunta de texto modificados!
 assessment#:#text_gap#:#Hueco de texto
 assessment#:#text_maximum_chars_allowed#:#Por favor no introduzca más de %s caracteres. Cualquier caracter extra será truncado.
-assessment#:#text_rating#:#Text matching method###new variable
+assessment#:#text_rating#:#Método de coincidencia de texto
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Por favor rellene los parámetros vacíos para el applet antes de añadir un nuevo parámetro!
 assessment#:#true#:#Verdadero
-assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.###new variable
+assessment#:#tst_access_code_created#:#Para proporcionarle acceso permanente a sus resultados de test y ofrecerle la posibilidad de retomar este test, un código de acceso único fue creado. Por favor, anote este código y úselo en acciones posteriores.
 assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!
 assessment#:#tst_already_submitted#:#El Test ya ha sido finalizado y enviado
 assessment#:#tst_already_taken#:#Tests realizados
 assessment#:#tst_answer_sheet#:#Hoja de Respuestas de Test
 assessment#:#tst_answered_questions#:#Preguntas contestadas
-assessment#:#tst_best_solution_is#:#The best solution is###new variable
+assessment#:#tst_best_solution_is#:#La mejor solución es
 assessment#:#tst_browse_for_questions#:#Explorar en busca de preguntas
 assessment#:#tst_confirm_delete_results#:#Va usted a borrar todas sus resultados de preguntas de este test. Esto reiniciará todas las preguntas a sus valores por defecto. Por favor advierta que no puede reiniciar el número de intentos que necesita para este test. Quiere reiniciar los resultados de lo anteriormente rellenado?
 assessment#:#tst_confirm_delete_results_info#:#Los resultados de preguntas anteriormente completadas han sido eliminados. Se ha reiniciado satisfactoriamente el test!
@@ -487,7 +487,7 @@ assessment#:#tst_eval_total_finished#:#Total de tests finalizados
 assessment#:#tst_eval_total_finished_average_time#:#Tiempo de proceso medio para los tests finalizados
 assessment#:#tst_eval_total_passed#:#Total de tests superados
 assessment#:#tst_eval_total_passed_average_points#:#Puntuación media de tests superados
-assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests###new variable
+assessment#:#tst_eval_total_passed_average_time#:#Tiempo de proceso medio de todos los tests aprobados
 assessment#:#tst_eval_total_persons#:#Número total de personas que realizaron el test
 assessment#:#tst_eval_user_answer#:#Respuesta del usuario
 assessment#:#tst_finish_confirm_button#:#Si, quiero finalizar el test
@@ -523,7 +523,7 @@ assessment#:#tst_missing_author#:#No ha introducido el nombre de los autores en 
 assessment#:#tst_missing_marks#:#No tiene un esquema de calificación en el test! Por favor añada al menos un esquema simple de calificación en el test.
 assessment#:#tst_missing_questions#:#No tiene ninguna pregunta en el test! Por favor añada al menos una pregunta al test.
 assessment#:#tst_missing_title#:#No ha introducido un título para el test! Por favor diríjase a la sección de metadatos e introduzca un título.
-assessment#:#tst_must_be_online_exam#:#¡Esta opción está solo disponible para exámenes online!
+assessment#:#tst_must_be_online_exam#:#¡Esta opción está sólo disponible para exámenes online!
 assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor cree al menos un esquema simple de calificación.
 assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
@@ -540,10 +540,10 @@ assessment#:#tst_pass_best_pass#:#Puntuar la mejor ejecución de un usuario
 assessment#:#tst_pass_details#:#Mostrar detalles
 assessment#:#tst_pass_last_pass#:#Puntuar la última ejecución de un usuario
 assessment#:#tst_pass_scoring#:#Puntuar múltiples ejecuciones
-assessment#:#tst_password#:#Test password###new variable
-assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test###new variable
-assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!###new variable
-assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test###new variable
+assessment#:#tst_password#:#Contraseña del test
+assessment#:#tst_password_details#:#Si define una contraseña de test, todos los usuarios con acceso al test deberán introducir esta contraseña para comenzarlo
+assessment#:#tst_password_entered_wrong_password#:#No puede comenzar el test porque introdujo una contraseña de test incorrecta
+assessment#:#tst_password_introduction#:#Este test sólo puede ser accedido con una contraseña. Por favor introduzca la contraseña del test para comenzar el test
 assessment#:#tst_percent_solved#:#Porcentaje resuelto
 assessment#:#tst_print#:#Vista de Impresión de Test
 assessment#:#tst_print_date#:#Fecha de Impresión
@@ -568,14 +568,14 @@ assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?
 assessment#:#tst_random_qpl_unselected#:#Hay al menos un banco no seleccionado! No necesita añadir un nuevo banco de preguntas
 assessment#:#tst_random_questionpools#:#Bancos de preguntas origen
 assessment#:#tst_random_select_questionpool#:#Seleccione el banco de preguntas desde el que desea elegir preguntas
-assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.###new variable
-assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.###new variable
+assessment#:#tst_random_selection_question_count_too_high#:#El número de preguntas que introdujo es mayor que el máximo número de preguntas disponibles. El número de preguntas ha sido reducido automáticamente.
+assessment#:#tst_random_selection_question_total_count_too_high#:#El número de preguntas que introdujo es mayor que el máximo número de preguntas disponibles para todos los bancos de pregunta seleccionados. El número de preguntas ha sido reducido automáticamente.
 assessment#:#tst_random_test#:#Test aleatorio
 assessment#:#tst_random_test_description#:#Si se activa, las preguntas del test serán generadas de modo aleatorio
 assessment#:#tst_reached_points#:#Puntos conseguidos
 assessment#:#tst_remove_questions#:#Está seguro de que quiere eliminar las siguiente(s) preguntas del test?
 assessment#:#tst_remove_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s).Eliminar preguntas de este test eliminará todos los resultados de test de estos usuarios. Está seguro de que quiere eliminar las siguientes pregunta(s) del test?
-assessment#:#tst_report_after_first_question#:#Offer score reporting when the test has been started###new variable
+assessment#:#tst_report_after_first_question#:#Ofrecer informe de puntuación cuando el test ha sido comenzado
 assessment#:#tst_report_after_question#:#Informar de la puntuación después de contestar cada pregunta
 assessment#:#tst_report_after_test#:#Informar de la puntuación después de realizar el test completo
 assessment#:#tst_result_congratulations#:#Felicidades! Ha superado el test.
@@ -587,9 +587,9 @@ assessment#:#tst_results_back_evaluation#:#Volver al resumen de la evaluación
 assessment#:#tst_results_back_introduction#:#Volver a la introducción
 assessment#:#tst_results_back_overview#:#Volver al resumen de resultados
 assessment#:#tst_resume_test#:#retomar el test
-assessment#:#tst_score_cut_question#:#Cut negative points for every question###new variable
-assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results###new variable
-assessment#:#tst_score_cutting#:#Cut negative points###new variable
+assessment#:#tst_score_cut_question#:#Redondear puntos negativos para cada pregunta
+assessment#:#tst_score_cut_test#:#Redondear puntos negativos para la suma de todos los resultados de preguntas
+assessment#:#tst_score_cutting#:#Redondear puntos negativos
 assessment#:#tst_score_mcmr_questions#:#Preguntas de múltiple elección
 assessment#:#tst_score_mcmr_use_scoring_system#:#Definir la puntuación, incluso cuando no se eligió una respuesta
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Puntuar con 0 puntos cuando no se eligió una respuesta
@@ -597,7 +597,7 @@ assessment#:#tst_score_reporting#:#Informe de puntuación
 assessment#:#tst_score_reporting_date#:#Fecha del informe de puntuación
 assessment#:#tst_score_type#:#Tipo de informe de puntuación
 assessment#:#tst_select_file_for_import#:#¡Debe seleccionar un fichero para importar!
-assessment#:#tst_select_qpls#:#Please select a question pool for duplication###new variable
+assessment#:#tst_select_qpls#:#Por favor seleccione un banco de preguntas para duplicar
 assessment#:#tst_select_questionpool#:#Por favor seleccione un banco de preguntas para almacenar la pregunta creada
 assessment#:#tst_select_questionpools#:#Por favor seleccione un banco de preguntas para almacenar las preguntas importadas
 assessment#:#tst_select_random_questions#:#Seleccione los bancos y la cantidad de preguntas para el test aleatorio
@@ -611,14 +611,13 @@ assessment#:#tst_session_settings#:#Configuración de Sesión
 assessment#:#tst_show_answer_print_sheet#:#Vista de impresión de respuestas
 assessment#:#tst_show_answer_sheet#:#mostrar respuestas
 assessment#:#tst_show_results#:#Mostrar resultados del test
-assessment#:#tst_show_solution_details#:#Score details###new variable
-assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions###new variable
-assessment#:#tst_show_solution_printview#:#Solution printview###new variable
-assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing###new variable
-assessment#:#tst_show_summary#:#Show question summary###new variable
-assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test###new variable
-assessment#:#tst_shuffle_questions#:#Shuffle questions###new variable
-assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###new variable
+assessment#:#tst_show_solution_details#:#Detalles de puntuación
+assessment#:#tst_show_solution_details_description#:#Los estudiantes podrán ver los detalles de las soluciones de sus preguntas contestadas
+assessment#:#tst_show_solution_printview#:#Vista de impresión de soluciones
+assessment#:#tst_show_solution_printview_description#:#Los estudiantes pueden ver los resultados completos de test para impresiónt#:#tst_show_summary#:#Mostrar sumario de preguntas
+assessment#:#tst_show_summary_description#:#Ofrecer una página resumen con todas las preguntas del test disponibles para los participantes durante el test
+assessment#:#tst_shuffle_questions#:#Aleatorizar preguntas
+assessment#:#tst_shuffle_questions_description#:#Aleatorizar la secuencia de preguntas para cada usuario al comienzo del test
 assessment#:#tst_signature#:#Firma
 assessment#:#tst_start_test#:#Comenzar el Test
 assessment#:#tst_started#:#Test comenzado
@@ -676,18 +675,18 @@ assessment#:#tt_varying_randomtest#:#Test aleatorio variable
 assessment#:#unlimited#:#ilimitado
 assessment#:#unlock#:#Desbloquear
 assessment#:#unlock_question#:#Esta pregunta está en uso de al menos un test y hay %s resultados enviados. Si elige desbloquear la pregunta el  resultado de test al completo de los usuarios afectados será borrado después de grabar esta pregunta. Si quiere usar una versión modificada de esta pregunta pero no quiere eliminar los resultados de los usuarios, puede duplicar la pregunta en el banco de preguntas y modificar esa nueva versión.
-assessment#:#upload_image#:#Upload image###new variable
+assessment#:#upload_image#:#Cargar imagen
 assessment#:#upload_imagemap#:#Cargar un mapa de imagen
 assessment#:#uploaded_material#:#Material Cargado
 assessment#:#user_not_invited#:#Usted no debe hacer este examen
 assessment#:#user_wrong_clientip#:#No tiene la IP correcta usando este Test
-assessment#:#value_between_x_and_y#:#The value should be between %s and %s###new variable
+assessment#:#value_between_x_and_y#:#El valor debería estar entre %s y %s
 assessment#:#warning_question_not_complete#:#La pregunta no está completa!
 assessment#:#warning_test_not_complete#:#El test no está completo
 assessment#:#when#:#cuando
 assessment#:#width#:#Anchura
 assessment#:#with_order#:#con orden
-assessment#:#worked_through#:#Answered###new variable
+assessment#:#worked_through#:#Contestada
 assessment#:#working_time#:#Tiempo de Trabajo
 assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles
 barometer#:#add#:#Añadir nueva opinión
@@ -945,7 +944,7 @@ common#:#active#:#Activo
 common#:#active_roles#:#Roles activos
 common#:#add#:#añadir
 common#:#add_author#:#añadir author
-common#:#add_comments#:#Edit comments###new variable
+common#:#add_comments#:#Editar comentarios
 common#:#add_condition#:#Crear nueva asociación
 common#:#add_member#:#Añadir miembro
 common#:#add_members#:#Añadir Miembros
@@ -1027,9 +1026,9 @@ common#:#assessment_log_user_answer#:#El usuario respondió una pregunta
 common#:#assessment_log_user_answers#:#Mostrar acciones de usuario
 common#:#assessment_settings#:#Configuración de la herramienta de Test
 common#:#assessment_settings_reporting_language#:#Idioma del informe
-common#:#assessment_settings_advanced_editing#:#Advanced editing###new variable
-common#:#assessment_settings_allow_html_tags#:#Allow the selected HTML tags in Test & Assessment###new variable
-common#:#assessment_settings_allow_javascript_editor#:#Enable a JavaScript editor###new variable
+common#:#assessment_settings_advanced_editing#:#Edición avanzada
+common#:#assessment_settings_allow_html_tags#:#Permitir los tags HTML seleccionados en Test & Assessment
+common#:#assessment_settings_allow_javascript_editor#:#Habilitar un editor JavaScript
 common#:#assf_edit_permission#:#Modificar configuración de permisos
 common#:#assf_read#:#Acceso a la administración de Tests
 common#:#assf_visible#:#La administración de Test es visible
@@ -1071,24 +1070,24 @@ common#:#auth_radius_port#:#Puerto
 common#:#auth_radius_server#:#Servidores
 common#:#auth_radius_server_desc#:#Puede añadir múltiples servidores separados por comas. Los servidores rotan a modo \"Round-robin\" cuando son consultados. 
 common#:#auth_radius_settings_saved#:#Configuración RADIUS salvada
-common#:#auth_cas_settings_saved#:#CAS settings saved###new variable
-common#:#auth_soap_settings_saved#:#SOAP authentication settings saved###new variable
+common#:#auth_cas_settings_saved#:#Configuración CAS salvada
+common#:#auth_soap_settings_saved#:#Configuración de autenticación SOAP
 common#:#auth_radius_shared_secret#:#Secreto compartido
 common#:#auth_read#:#Configuración de autenticación
-common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo por defecto (login,password) no puede ser cambiado de nuevo y la opción de \'nuevo registro\' queda deshabilitada 
+common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo por defecto (login,contraseña) no puede ser cambiado de nuevo y la opción de \'nuevo registro\' queda deshabilitada 
 common#:#auth_role_auth_mode#:#Modo de Autenticación
 common#:#auth_script#:#Personalizado
 common#:#auth_script_desc#:#Autenticar usuarios mediante un script externo
 common#:#auth_select#:#Seleccionar modo de autenticación
 common#:#auth_shib#:#Shibboleth
-common#:#auth_cas#:#CAS###new variable
-common#:#auth_soap#:#SOAP###new variable
+common#:#auth_cas#:#CAS
+common#:#auth_soap#:#SOAP
 common#:#auth_shib_desc#:#Autenficación usuarios via Shibboleth, puede ser usado como segundo método de autentificación
 common#:#auth_shib_not_configured#:#Shibboleth no está configurado aún
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_visible#:#Configuración de autenticación visible
 common#:#auth_write#:#Editar Configuración de autenticación
-common#:#authentication_settings#:#Authentication###new variable
+common#:#authentication_settings#:#Autenticación
 common#:#author#:#Autor
 common#:#authors#:#Autores
 common#:#auto_registration#:#Admitir nuevos registros automáticamente
@@ -1202,7 +1201,7 @@ common#:#changed_to#:#modificado a
 common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número de capítulo
 common#:#chapter_title#:#Título del capítulo
-common#:#characters#:#characters###new variable
+common#:#characters#:#caracteres
 common#:#chat#:#Chat
 common#:#chat_active_in#:#presente en la sala--> 
 common#:#chat_add#:#añadir Chat
@@ -1292,7 +1291,7 @@ common#:#create_stylesheet#:#Crear Estilo
 common#:#created#:#Crear fecha
 common#:#cron_forum_notification#:#Enviar notificacion de foros
 common#:#cron_forum_notification_cron#:#regularmente por medio de un trabajo cron
-common#:#cron_forum_notification_desc#:#Si se habilita, todos los usuarios que quieren ser informados sobre nuevos mensajes en los asuntos de foros especificados, recibiran notificacion por e-mail.
+common#:#cron_forum_notification_desc#:#Si se habilita, todos los usuarios que quieren ser informados sobre nuevos mensajes en los asuntos de foros especificados, recibiran notificación por e-mail.
 common#:#cron_forum_notification_directly#:#directamente en las nuevas entradas
 common#:#cron_forum_notification_never#:#nunca
 common#:#cron_jobs#:#Trabajos Planificados
@@ -1344,7 +1343,7 @@ common#:#crs_new#:#Nuevo Curso
 common#:#crs_no_content#:#Sin contenido
 common#:#crs_read#:#Acceso de lectura al Curso
 common#:#crs_status_blocked#:#[Acceso denegado]
-common#:#crs_status_pending#:#[Esperando confirmacion de matricula]
+common#:#crs_status_pending#:#[Esperando confirmación de matricula]
 common#:#crs_subscribers_assigned#:#Nuevo(s) usuario(s) asignado(s)
 common#:#crs_visible#:#El Curso es visible
 common#:#crs_write#:#Editar Curso
@@ -1373,7 +1372,7 @@ common#:#db_need_update#:#La Base de Datos necesita una actualización!
 common#:#db_pass#:#contraseña de la base de datos
 common#:#db_type#:#tipo de base de datos
 common#:#db_user#:#usuario de conexión
-common#:#db_version#:#Version de la Base de Datos
+common#:#db_version#:#Versión de la Base de Datos
 common#:#dbk#:#Libro Digital
 common#:#dbk_a#:#un Digilib Book
 common#:#dbk_add#:#Añadir Digilib Book
@@ -1429,7 +1428,7 @@ common#:#edit_comments#:#Editar comentarios para el usuario seleccionado
 common#:#edit_content#:#Editar contenido
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
-common#:#edit_page#:#Edit Page###new variable
+common#:#edit_page#:#Editar Página
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto
 common#:#edit_properties#:#Editar propiedades
 common#:#edit_roleassignment#:#Editar asignación de rol
@@ -1498,7 +1497,7 @@ common#:#exc_files_returned#:#Archivos entregados
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Actividad (miembros)
 common#:#exc_instruction#:#Instrucciones de trabajo
-common#:#exc_last_submission#:#Last submission###new variable
+common#:#exc_last_submission#:#Último envío
 common#:#exc_mail_users#:#Enviar correo a usuario(s) seleccionado(s)
 common#:#exc_members_already_assigned#:#Estos usuarios están ya asignados a esta actividad
 common#:#exc_members_assigned#:#Miembros asignados
@@ -1564,7 +1563,7 @@ common#:#field_type#:#Tipo de campo
 common#:#file#:#Archivo
 common#:#file_a#:#un Archivo
 common#:#file_add#:#Cargar archivo
-common#:#file_add_and_metadata#:#Upload File and Edit Metadata###new variable
+common#:#file_add_and_metadata#:#Cargar fichero y editar metadatos
 common#:#file_added#:#Archivo cargado
 common#:#file_delete#:#Eliminar archivo
 common#:#file_edit#:#Editar archivo
@@ -1578,7 +1577,7 @@ common#:#file_not_valid#:#Archivo no válido
 common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de 
 common#:#file_read#:#Descarga archivo
 common#:#file_valid#:#Archivo válido
-common#:#file_version#:#version facilitada en el archivo
+common#:#file_version#:#versión facilitada en el archivo
 common#:#file_visible#:#El archivo es visible
 common#:#file_write#:#Editar archivo
 common#:#filename#:#Nombre de archivo
@@ -1701,7 +1700,7 @@ common#:#group_details#:#Detalles de Grupo
 common#:#group_filesharing#:#Compartir archivos en grupo
 common#:#group_import#:#Importar Grupo
 common#:#group_import_file#:#Importar fichero
-common#:#group_info_reg#:#Procedimiento de admision
+common#:#group_info_reg#:#Procedimiento de admisión
 common#:#group_members#:#Miembros de Grupo
 common#:#group_memstat#:#Estado de Miembro
 common#:#group_memstat_admin#:#Administrador
@@ -1776,7 +1775,7 @@ common#:#grp_err_error#:#Ocurrió un error
 common#:#grp_err_last_member#:#El último miembro no pudo ser eliminado, por favor, en su lugar, elimine el grupo
 common#:#grp_err_member_could_not_be_removed#:#El Miembro no pudo ser eliminado. Por favor, verifique todas las dependencias de este usuario.
 common#:#grp_err_no_permission#:#No tiene permiso para esta operación.
-common#:#grp_err_registration_data#:#Por favor introduzca un password, la fecha de expiración y un período de registro válido!
+common#:#grp_err_registration_data#:#Por favor introduzca una contraseña, la fecha de expiración y un período de registro válido!
 common#:#grp_header_edit_members#:#Editar Miembros
 common#:#grp_join#:#El Usuario puede unirse al Grupo
 common#:#grp_leave#:#El Usuario puede dejar el Grupo
@@ -1791,14 +1790,14 @@ common#:#grp_mem_send_mail#:#Enviar al miembro un mensaje
 common#:#grp_members_gallery#:#Galeria del grupo
 common#:#icrs_members_gallery#:#Galeria del Seminario
 common#:#grp_msg_applicants_assigned#:#Solicitante(s) asignado(s) como miembro(s) de grupo
-ilinc#:#ilinc_user_settings#:#iLinc User settings###new variable
-ilinc#:#ilinc_user_id#:#iLinc UserID###new variable
-ilinc#:#ilinc_akuservalues#:#Cost centres###new variable
-ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost centre(s) for this user. These values will be stored at the iLinc server.###new variable
-ilinc#:#ilinc_akuservalue1#:#Cost centre 1###new variable
-ilinc#:#ilinc_akuservalue2#:#Cost centre 2###new variable
-ilinc#:#ilinc_akuservalues_refreshed#:#Cost centres updated###new variable
-ilinc#:#ilinc_user_added#:#User account created on iLinc server###new variable
+ilinc#:#ilinc_user_settings#:#Configuración de usuario iLinc
+ilinc#:#ilinc_user_id#:#iLinc UserID
+ilinc#:#ilinc_akuservalues#:#Centros de gasto
+ilinc#:#ilinc_akuservalues_desc#:#Introduzca el código del centro de gasto para este usuario. Estos valores serán almacenados en el servidor iLinc.
+ilinc#:#ilinc_akuservalue1#:#Centro de gasto 1
+ilinc#:#ilinc_akuservalue2#:#Centro de gasto 2
+ilinc#:#ilinc_akuservalues_refreshed#:#Centros de gasto actualizados
+ilinc#:#ilinc_user_added#:#Cuentas de usuario creadas en el servidor iLinc
 common#:#grp_msg_applicants_removed#:#Solicitante(s) eliminados de la lista.
 common#:#grp_msg_member_assigned#:#Usuario(s) asignado(s) como miembro(s) del grupo.
 common#:#grp_msg_membership_annulled#:#Pertenencia al Grupo anulada
@@ -1908,7 +1907,7 @@ common#:#il_grp_admin#:#Administrador
 common#:#il_grp_member#:#Miembro
 common#:#il_icrs_admin#:#Administrador Seminario LearnLinc
 common#:#il_icrs_member#:#Miembro Seminario LearnLinc
-common#:#ilias_version#:#version de ILIAS
+common#:#ilias_version#:#versión de ILIAS
 common#:#ilinc_add_user#:#Añadir usuario(s)
 common#:#ilinc_classroom_always_open#:#El Aula está siempre abierta
 common#:#ilinc_classroom_closed#:#El Aula está cerrada
@@ -2108,7 +2107,7 @@ common#:#ldap_server#:#URL del servidor LDAP
 common#:#ldap_tls#:#Usar LDAP TLS
 common#:#ldap_v2#:#LDAPv2
 common#:#ldap_v3#:#LDAPv3
-common#:#ldap_version#:#version de protocolo LDAP
+common#:#ldap_version#:#versión de protocolo LDAP
 common#:#ldap_visible#:#La configuración LDAP es visible
 common#:#ldap_write#:#Editar configuración LDAP
 common#:#learning module#:#Módulo de aprendizaje
@@ -2195,7 +2194,7 @@ common#:#login_invalid#:#El login escogido es inválido! Sólo los siguientes ca
 common#:#login_time#:#Tiempo online
 common#:#login_to_ilias#:#entrada a ILIAS
 common#:#login_to_ilias_via_shibboleth#:#Entrar a ILIAS via Shibboleth
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###new variable
+common#:#login_to_ilias_via_cas#:#Entrar a ILIAS via CAS(Central Authentication Service)
 common#:#logout#:#Salir
 common#:#logout_text#:#Ha abandonado ILIAS. Su sesión ha sido cerrada.
 common#:#logs#:#Datos de Log
@@ -2417,7 +2416,7 @@ common#:#no_access_link_object#:#No tiene permisos para enlazar este objeto
 common#:#no_bm_in_personal_list#:#No hay favoritos definidos
 common#:#no_chat_in_personal_list#:#No hay chats en la lista personal
 common#:#no_checkbox#:#No se ha marcado ningún checkbox!
-common#:#no_condition_selected#:#Por favor seleccione una precondicion
+common#:#no_condition_selected#:#Por favor seleccione una precondición
 common#:#no_conditions_found#:#No se crearon precondiciones
 common#:#no_datasets#:#La tabla está vacía
 common#:#no_date#:#No hay fecha
@@ -2610,8 +2609,8 @@ common#:#parameter#:#Parámetro
 common#:#parse#:#Analizar
 common#:#passed#:#Superado
 common#:#passwd#:#contraseña
-common#:#passwd_generation#:#Generacion de Passwords
-common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.###new variable
+common#:#passwd_generation#:#Generación de contraseñas
+common#:#passwd_generation_info#:#Si se habilita, las contraseñas sólo se pueden seleccionar de una lista
 common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
 common#:#passwd_not_match#:#La introducción de nueva contraseña es distinta! Por favor introdúzca de nuevo las dos repeticiones
 common#:#passwd_wrong#:#La contraseña introducida es incorrecta!
@@ -2667,7 +2666,7 @@ common#:#please_select_a_delivered_file_to_download#:#¡Debe seleccionar al meno
 common#:#please_wait#:#Por favor espere...
 common#:#port#:#puerto
 common#:#position#:#posición
-common#:#precondition_not_accessible#:#You do not have sufficient permission to view the precondition(s) of this item.###new variable
+common#:#precondition_not_accessible#:#No tiene suficientes permisos para ver las precondiciones de este item.
 common#:#preconditions#:#Precondiciones
 common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#presentation_options#:#opciones de presentación
@@ -2771,8 +2770,8 @@ common#:#retype_password#:#reescribir contraseña
 common#:#right#:#right
 common#:#tree_left#:#Izquierda
 common#:#tree_right#:#Derecha
-common#:#tree_frame#:#Marco arbol
-common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.###new variable
+common#:#tree_frame#:#Marco árbol
+common#:#tree_frame_info#:#Define si el marco de árbol (e.g. árbol de contenidos/administración) debe aparecer a la izquierda o a la derecha
 common#:#rights#:#derechos
 common#:#role#:#rol
 common#:#role_a#:#un Rol
@@ -2937,10 +2936,10 @@ common#:#shib_street#:#Atributo para calle
 common#:#shib_title#:#Atributo para estado
 common#:#shib_update#:#Actualizar este campo al entrar
 common#:#shib_user_default_role#:#Rol por defecto asignado a usuarios Shibboleth
-common#:#auth_cas_user_default_role#:#Default role assigned to CAS users###new variable
-common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###new variable
-common#:#auth_cas_auth#:#Configure CAS Authentication###new variable
-common#:#auth_soap_auth#:#Configure SOAP Authentication###new variable
+common#:#auth_cas_user_default_role#:#Rol por defecto asignado a usuarios CAS
+common#:#auth_soap_user_default_role#:#Rol por defecto asignado a usuarios SOAP
+common#:#auth_cas_auth#:#Configurar autenticación CAS
+common#:#auth_soap_auth#:#Configurar autenticación SOAP
 common#:#shib_visible#:#Configuración Shibboleth visible
 common#:#shib_write#:#Editar configuración Shibboleth
 common#:#shib_zipcode#:#Atributo para código zip
@@ -3076,7 +3075,7 @@ common#:#today#:#hoy
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#total
-common#:#online_time#:#Time online (DD:HH:MM:SS)###new variable
+common#:#online_time#:#Time online (DD:HH:MM:SS)
 common#:#tpl_path#:#ruta de plantilla
 common#:#trac_delete#:#Eliminar Datos de Seguimiento
 common#:#trac_edit_permission#:#Modificar configuración de permisos
@@ -3089,7 +3088,7 @@ common#:#tracking_data_deleted#:#Datos de seguimiento eliminados
 common#:#tracking_settings#:#Configuración de Seguimiento
 common#:#translation#:#Traducción
 common#:#trash#:#papelera
-common#:#treeview#:#Vista Arbol
+common#:#treeview#:#Vista árbol
 common#:#tst#:#Test
 common#:#tst_add#:#Añadir Test
 common#:#tst_anon_eval#:#Resultados
@@ -3125,11 +3124,11 @@ common#:#udf_no_entries#:#Por favor introduzca al menos un valor.
 common#:#udf_no_name_given#:#Por favor introduzca un nombre de campo
 common#:#udf_type_select#:#Caja de selección (valores fijos)
 common#:#udf_type_text#:#Campo de texto (valores opcionales)
-common#:#udf_update_select_field#:#Edit select box###new variable
-common#:#udf_update_success#:#Saved modifications.###new variable
-common#:#udf_update_text_field#:#Edit text field###new variable
+common#:#udf_update_select_field#:#Editar caja de selección
+common#:#udf_update_success#:#Modificaciones guardadas
+common#:#udf_update_text_field#:#Editar campo de texto
 common#:#udf_value#:#Valor
-common#:#udf_value_deleted#:#The value has been deleted.###new variable
+common#:#udf_value_deleted#:#El valor ha sido eliminado.
 common#:#uid#:#uid
 common#:#unambiguousness#:#Identificación
 common#:#uncheck_all#:#deseleccionar todo
@@ -3670,7 +3669,7 @@ content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
 content#:#cont_synchronize_frames#:#Sincronizar marcos
-content#:#cont_synchronize_frames_desc#:#Esta opcion sincroniza el marco de la tabla de contenidos con el marco de contenidos y actualiza los marcos adicionales (ej. en vista \'3window\'). Pero tambien supone una reduccion del rendimiento. 
+content#:#cont_synchronize_frames_desc#:#Esta opción sincroniza el marco de la tabla de contenidos con el marco de contenidos y actualiza los marcos adicionales (ej. en vista \'3window\'). Pero tambien supone una reduccion del rendimiento. 
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
 content#:#cont_table_cellpadding#:#Relleno de Celdas (Tabla)
@@ -3713,7 +3712,7 @@ content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#Este objeto media está en el portapapeles de
 content#:#cont_users_have_mob_in_clip2#:#usuario(s).
 content#:#cont_validate_file#:#Validar Fichero
-content#:#cont_version#:#version
+content#:#cont_version#:#versión
 content#:#cont_view_last_export_log#:#Último Log de Exportación
 content#:#cont_where_published#:#Donde se publica
 content#:#cont_width#:#Anchura
@@ -3895,7 +3894,7 @@ crs#:#crs_moved_objective#:#Objetivo de aprendizaje \'movido\'
 crs#:#crs_new_search#:#Nueva Búsqueda
 crs#:#crs_new_subscription#:#Nueva suscripción a curso
 crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario
-crs#:#crs_new_subscription_request#:#Peticion para matricularse en el curso \"%s\" 
+crs#:#crs_new_subscription_request#:#Petición para matricularse en el curso \"%s\" 
 crs#:#crs_new_subscription_request_body#:#Un usuario ha solicitado matricularse en el curso \"%s\" 
 crs#:#crs_no_archive_selected#:#No hay archivos seleccionados
 crs#:#crs_no_archives_available#:#No hay archivos disponibles
@@ -3925,7 +3924,7 @@ crs#:#crs_no_users_added#:#No se añadieron miembros
 crs#:#crs_no_users_selected#:#No ha seleccionado ningún usuario
 crs#:#crs_no_valid_member_id_given#:#Id de miembro no válido
 crs#:#crs_not_available#:#No disponible
-crs#:#crs_notification#:#Notificacion
+crs#:#crs_notification#:#Notificación
 crs#:#crs_notify#:#Notificar nuevos registros
 crs#:#crs_nr#:#Num
 crs#:#crs_number_users_added#:#El siguiente número de usuarios ha sido asignado al curso
@@ -3984,7 +3983,7 @@ crs#:#crs_reg_deactivated#:#Deshabilitado
 crs#:#crs_reg_lim_info#:#La matrícula es únicamente posible durante un período fijo de tiempo.
 crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignado a este curso. \'0\' significa ilimitado. 
 crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado \'Notificar\' serán informados vía e-mail de los nuevas matrícula en el curso. 
-crs#:#crs_reg_subscription_deactivated#:#Matrículacion deshabilitada
+crs#:#crs_reg_subscription_deactivated#:#Matriculación deshabilitada
 crs#:#crs_reg_subscription_end_earlier#:#El período de matrícula ha finalizado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
 crs#:#crs_reg_subscription_start_later#:#El período de matrícula comienza más tarde
@@ -4178,7 +4177,7 @@ dateplaner#:#help_filename#:#dp_help_es.html
 dateplaner#:#help_fullday#:#fecha de jornada completa - sintaxis[on/off]
 dateplaner#:#help_fullday_l#:#Si la cita se prolonga durante todo el día, por favor escoja esta opción.<br> Por lo tanto la hora de comienzo, la hora de fin y la fecha de fin se encuentran ocultas.
 dateplaner#:#help_further#:#<br><b>haga click aquí para más información</b>
-dateplaner#:#help_group#:#Seleccion de fechas de grupo
+dateplaner#:#help_group#:#Selección de fechas de grupo
 dateplaner#:#help_group_l#:#Contiene los grupos para los que el usuario identificado tiene derechos de administrador y para el que una cita puede ser creada. <br> Despues de escoger esto es posible ver el tiempo libre del grupo.
 dateplaner#:#help_inbox#:#Bandeja de entrada del Calendario
 dateplaner#:#help_inbox_l#:#Aqui se muestran todas las citas nuevas, modificadas y eliminadas
@@ -4320,10 +4319,10 @@ forum#:#forums_count_art#:#número de mensajes
 forum#:#forums_count_thr#:#número de cadenas
 forum#:#forums_created_by#:#creado por
 forum#:#forums_delete_file#:#eliminar adjunto
-forum#:#forums_disable_notification#:#Deshabilitar notificacion
+forum#:#forums_disable_notification#:#Deshabilitar notificación
 forum#:#forums_download_attachment#:#Descargar archivo
 forum#:#forums_edit_post#:#Editar mensaje
-forum#:#forums_enable_notification#:#Habilitar notificacion
+forum#:#forums_enable_notification#:#Habilitar notificación
 forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este mensaje?
 forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
 forum#:#forums_info_delete_post#:#¿Está seguro de que quiere eliminar este mensaje incluyendo sus respuestas?
@@ -4331,11 +4330,11 @@ forum#:#forums_mark_read#:#marcar todas como leídas
 forum#:#forums_new_entries#:#nuevas entradas en foro
 forum#:#forums_new_thread#:#nueva cadena
 forum#:#forums_not_available#:#foros no disponibles
-forum#:#forums_notification#:#Notificacion
-forum#:#forums_notification_enabled#:#Notificacion habilitado
-forum#:#forums_notification_intro#:#Este e-mail fue enviado automaticamente por la instalacion ILIAS %s, %s
-forum#:#forums_notification_is_disabled#:#La notificacion sobre nuevos mensajes en esta cadena no ha sido (aun) habilitada
-forum#:#forums_notification_is_enabled#:#La notificacion sobre nuevos mensajes en esta cadena ya esta habilitada
+forum#:#forums_notification#:#Notificación
+forum#:#forums_notification_enabled#:#Notificación habilitado
+forum#:#forums_notification_intro#:#Este e-mail fue enviado automaticamente por la instalación ILIAS %s, %s
+forum#:#forums_notification_is_disabled#:#La notificación sobre nuevos mensajes en esta cadena no ha sido (aun) habilitada
+forum#:#forums_notification_is_enabled#:#La notificación sobre nuevos mensajes en esta cadena ya esta habilitada
 forum#:#forums_notification_show_post#:#Mostrar mensaje: %s
 forum#:#forums_notification_subject#:#Mostrar mensaje en un asunto de foro
 forum#:#forums_overview#:#resumen de foros
@@ -4799,7 +4798,7 @@ meta#:#meta_graph#:#Gráfico
 meta#:#meta_graphicaldesigner#:#Diseñador Gráfico
 meta#:#meta_has_format#:#Tiene Formato
 meta#:#meta_has_part#:#Tiene Partes
-meta#:#meta_has_version#:#Tiene Version
+meta#:#meta_has_version#:#Tiene Versión
 meta#:#meta_hierarchical#:#Jerárquico
 meta#:#meta_high#:#superior
 meta#:#meta_higher_education#:#Educación superior
@@ -5048,7 +5047,7 @@ meta#:#meta_unix#:#Unix
 meta#:#meta_unknown#:#Desconocido
 meta#:#meta_validator#:#Validador
 meta#:#meta_value#:#Valor
-meta#:#meta_version#:#Version
+meta#:#meta_version#:#Versión
 meta#:#meta_very_difficult#:#Muy difícil
 meta#:#meta_very_easy#:#Muy fácil
 meta#:#meta_very_high#:#Muy alto
@@ -5272,10 +5271,10 @@ pwassist#:#pwassist_update_error#:#Por favor contacte con su administrador de si
 pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\\n%s\\n\\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\\n\\t%s\\n\\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo \'%s\'.\\n\\nPor favor compruebe lo siguiente y actue como se sugiere::\\n\\n-Usted ha solicitado este mail por accidente::\\nElimine este correo.\\n\\n-Está seguro de que nunca solicitó este correo::\\nPor favor contacte con %s.\\n\\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\\n\\n1. Ejecute su navegador de internet.\\n\\n2. Introduzca la siguiente URL:\\n\\t%s\\n\\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\\n\\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña. 
 rbac#:#edit_learning_progress#:#Editar progreso de aprendizaje
 rbac#:#filter_all_roles#:#Mostrar todos los roles del contexto actual
-rbac#:#filter_global_roles#:#Mostrar solo roles globales
-rbac#:#filter_local_roles#:#Mostrar solo roles locales del contexto actual
-rbac#:#filter_local_roles_object#:#Mostrar solo roles locales definidos en esta posicion
-rbac#:#filter_roles_local_policy#:#Mostrar solo roles usando una politica local en esta posicion
+rbac#:#filter_global_roles#:#Mostrar sólo roles globales
+rbac#:#filter_local_roles#:#Mostrar sólo roles locales del contexto actual
+rbac#:#filter_local_roles_object#:#Mostrar sólo roles locales definidos en esta posición
+rbac#:#filter_roles_local_policy#:#Mostrar sólo roles usando una politica local en esta posición
 rbac#:#info_user_view_changed#:#Vista de usuario modificada
 rbac#:#leave#:#Abandonar
 rbac#:#msg_no_roles_of_type#:#No hay roles disponibles para el filtro seleccionado
@@ -5292,40 +5291,40 @@ rbac#:#perm_local_role#:#Rol Local
 rbac#:#perm_local_role_desc#:#Este rol está definido localmente en el objeto actual y corresponde a una política local
 rbac#:#perm_use_local_policy#:#Usar política local
 rbac#:#perm_use_local_policy_desc#:#Si la opción política local está activada, podrá definir una configuración de permisos diferentes para el objeto actual.
-registration#:#reg_add_assignment#:#New Assignment###new variable
-registration#:#reg_added_assignment#:#Added new assignment.###new variable
-registration#:#reg_approve#:#Registration with Approvement###new variable
-registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.###new variable
-registration#:#reg_available_roles#:#Available Roles:###new variable
-registration#:#reg_default#:#Default###new variable
-registration#:#reg_deleted_assignment#:#Deleted assignment(s).###new variable
-registration#:#reg_direct#:#Direct Registration###new variable
-registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.###new variable
-registration#:#reg_disabled#:#No Registration Possible###new variable
-registration#:#reg_domain#:#Domain###new variable
-registration#:#reg_email#:#Automatic Role Assignment###new variable
-registration#:#reg_email_role_assignment#:#Role Assignment By Domain###new variable
-registration#:#reg_fixed#:#Selection From Specified List###new variable
-registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.###new variable
-registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.###new variable
-registration#:#reg_mail_body_profile#:#Profile data:###new variable
-registration#:#reg_mail_body_profile_changed#:#your profile has changed !###new variable
-registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.###new variable
-registration#:#reg_mail_new_user_body#:#A new user has been registered.###new variable
-registration#:#reg_missing_domain#:#Please fill out all fields.###new variable
-registration#:#reg_missing_role#:#Please fill out all fields.###new variable
-registration#:#reg_notification#:#Notifications###new variable
-registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.###new variable
-registration#:#reg_role_assignment#:#Role Assignment###new variable
-registration#:#reg_role_info#:#Assigned Roles###new variable
-registration#:#reg_select_one#:#Please select one entry.###new variable
-registration#:#reg_selectable_roles#:#Selectable Roles###new variable
-registration#:#reg_settings_header#:#New Registration Settings###new variable
-registration#:#reg_type#:#Registration Type###new variable
-registration#:#reg_unknown_recipients#:#The following logins are not valid:###new variable
-registration#:#registration_settings#:#New Registrations###new variable
+registration#:#reg_add_assignment#:#Nueva asignación
+registration#:#reg_added_assignment#:#Añadida nueva asignación
+registration#:#reg_approve#:#Registro con aprobación
+registration#:#reg_approve_info#:#Si se marca cualquier registro de nuevo usuario tiene que ser aprobado por un administrador
+registration#:#reg_available_roles#:#Roles disponibles:
+registration#:#reg_default#:#Por defecto
+registration#:#reg_deleted_assignment#:#Asignaciones eliminadas
+registration#:#reg_direct#:#Registro directo
+registration#:#reg_direct_info#:#Si se marca, cualquier registro de nuevo usuario es aprobado automáticamente
+registration#:#reg_disabled#:#No es posible el registro
+registration#:#reg_domain#:#Dominio
+registration#:#reg_email#:#Asignación de Rol Automática
+registration#:#reg_email_role_assignment#:#Asignación de Rol por Dominio
+registration#:#reg_fixed#:#Selección de la lista especificada
+registration#:#reg_info_pwd#:#Si se habilita, las contraseñas serán enviadas automáticamente a los nuevos usuarios via e-mail
+registration#:#reg_mail_body_approve#:#Se ha registrado en ILIAS y recibió un correo con sus datos de acceso. Su cuenta ha sido aprobada por un administrador.
+registration#:#reg_mail_body_profile#:#Datos del perfil:
+registration#:#reg_mail_body_profile_changed#:#Su perfil ha cambiado.
+registration#:#reg_mail_body_pwd_generation#:#Su petición de acceso será revisada por un administrador, y debe ser activada en 48 horas. Será informado sobre la aprobación por email.
+registration#:#reg_mail_new_user_body#:#Un nuevo usuario ha sido registrado.
+registration#:#reg_missing_domain#:#Por favor rellene todos los campos.
+registration#:#reg_missing_role#:#Por favor rellene todos los campos.
+registration#:#reg_notification#:#Notificaciones
+registration#:#reg_notification_info#:#Introduzca uno o más id's de entrada de usuarios (separados por coma) que serán informados sobre los nuevos registros de usuario via e-mail.
+registration#:#reg_role_assignment#:#Asignación de Rol
+registration#:#reg_role_info#:#Roles asignados
+registration#:#reg_select_one#:#Por favor seleccione una entrada.
+registration#:#reg_selectable_roles#:#Roles eligibles
+registration#:#reg_settings_header#:#Configuración de nuevos registros
+registration#:#reg_type#:#Tipo de registro
+registration#:#reg_unknown_recipients#:#Los siguientes id's de entrada no son válidos:
+registration#:#registration_settings#:#Nuevos registros
 search#:#add_members_header#:#Añadir miembros
-search#:#append_results#:#Append results###new variable
+search#:#append_results#:#Añadir resultados
 search#:#search_active#:#Incluir usuarios activos
 search#:#search_added_new_folder#:#Añadida nueva carpeta
 search#:#search_advanced#:#Búsqueda avanzada
@@ -5470,11 +5469,11 @@ survey#:#add_standard_numbers#:#Añadir números estandar
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente
 survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class=\"bold\">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior. 
-survey#:#anonymize_personalized#:#No anonymization###new variable
+survey#:#anonymize_personalized#:#Sin anonimato
 survey#:#anonymize_resume_introduction#:#Por favor introduzca su código de acceso a la encuesta. Le fué enviado a su bandeja de entrada cuando comenzó la encuesta.
 survey#:#anonymize_survey#:#Ocultar datos de usuario en la encuesta
-survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###new variable
-survey#:#anonymize_without_code#:#Anonymization with free access to the survey###new variable
+survey#:#anonymize_with_code#:#Anonimato con acceso personal usando un código de encuesta
+survey#:#anonymize_without_code#:#Anonimato con acceso libre a la encuesta
 survey#:#anonymous_with_personalized_survey#:#¡Debe ser un usuario registrado para ejecutar una encuesta personalizada!
 survey#:#answer#:#Respuesta
 survey#:#apply#:#Aplicar
@@ -5574,12 +5573,12 @@ survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Niveles Actitud (debe
 survey#:#dp_standard_behaviour_certainly5#:#Niveles Comportamiento (most certainly-más positivo-indeciso-más negativo-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Niveles Comportamiento (si-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Niveles Comportamiento (si-indeciso-no)
-survey#:#dp_standard_beliefs_always_never#:#Niveles Opinion (siempre-nunca)
-survey#:#dp_standard_beliefs_always_sometimes_never#:#Niveles Opinion (siempre-a veces-nunca)
-survey#:#dp_standard_beliefs_always5#:#Niveles Opinion (siempre-muchas veces-variable-rara vez-nunca)
-survey#:#dp_standard_beliefs_true_false#:#Niveles Opinion (verdadero-falso)
-survey#:#dp_standard_beliefs_true_undecided_false#:#Niveles Opinion (verdadero-indeciso-falso)
-survey#:#dp_standard_beliefs_true5#:#Niveles Opinion (Absolutamente cierto-cierto-indeciso-falso-absolutamente falso)
+survey#:#dp_standard_beliefs_always_never#:#Niveles Opinión (siempre-nunca)
+survey#:#dp_standard_beliefs_always_sometimes_never#:#Niveles Opinión (siempre-a veces-nunca)
+survey#:#dp_standard_beliefs_always5#:#Niveles Opinión (siempre-muchas veces-variable-rara vez-nunca)
+survey#:#dp_standard_beliefs_true_false#:#Niveles Opinión (verdadero-falso)
+survey#:#dp_standard_beliefs_true_undecided_false#:#Niveles Opinión (verdadero-indeciso-falso)
+survey#:#dp_standard_beliefs_true5#:#Niveles Opinión (Absolutamente cierto-cierto-indeciso-falso-absolutamente falso)
 survey#:#dp_standard_numbers#:#Niveles Números 
 survey#:#duplicate#:#Duplicar
 survey#:#duplicate_svy#:#Duplicar encuesta
@@ -5733,7 +5732,7 @@ survey#:#questions_removed#:#Pregunta(s) y/o bloque(s) de pregunta(s) eliminado(
 survey#:#questiontype#:#Tipo de pregunta
 survey#:#ratio_absolute#:#Porcentaje absoluto
 survey#:#ratio_non_absolute#:#Porcentaje no absoluto
-survey#:#ratio_scale_ge_zero#:#The minimum value for a ratio scale must be greater or equal zero###new variable
+survey#:#ratio_scale_ge_zero#:#El valor mínimo para una escala de porcentaje debe ser mayor o igual a cero
 survey#:#remove_question#:#Eliminar
 survey#:#remove_questions#:#¿Está seguro de que quiere eliminar las siguiente(s) preguntas del test?
 survey#:#reset_filter#:#Reiniciar filtro
@@ -5781,10 +5780,10 @@ survey#:#survey_code_url#:#URL para acceso directo
 survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copiar la URL)
 survey#:#survey_code_used#:#Código fue usado
 survey#:#survey_codes_lang#:#Idioma de la encuesta
-survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###new variable
+survey#:#survey_error_insert_incomplete_question#:#¡Intentó añadir una pregunta incompleta a la encuesta!. La pregunta no ha sido añadida.
 survey#:#survey_finish#:#Salvar y terminar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
-survey#:#survey_has_datasets_warning#:#La encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine dichos datos en la seccion mantenimiento.
+survey#:#survey_has_datasets_warning#:#La encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine dichos datos en la sección mantenimiento.
 survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
 survey#:#survey_next#:#salvar y pasar a siguiente página >>>
 survey#:#survey_offline_message#:#No puede invitar usuarios. ¡La encuesta está offline!
@@ -5798,10 +5797,10 @@ survey#:#survey_skip_next#:#saltar e ir a siguiente página >>>
 survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior
 survey#:#survey_skip_start#:#<<< saltar e ir a página inicial
 survey#:#survey_start#:#<<< salvar e ir a página inicial
-survey#:#SurveyMetricQuestion#:#Metric question###new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###new variable
-survey#:#SurveyTextQuestion#:#Essay###new variable
+survey#:#SurveyMetricQuestion#:#Pregunta métrica
+survey#:#SurveyNominalQuestion#:#Pregunta nominal
+survey#:#SurveyOrdinalQuestion#:#Pregunta ordinal
+survey#:#SurveyTextQuestion#:#Pregunta de respuesta corta
 survey#:#svy_all_user_data_deleted#:#¡Todos los datos de usuario de esta encuesta han sido eliminados!
 survey#:#svy_check_evaluation_access_introduction#:#Ya que la evaluación de esta encuesta está sólo disponible para participantes de la encuesta necesita introducir su código de acceso para entrar en la evaluación.
 survey#:#svy_check_evaluation_authentication_needed#:#Necesita Identificación
@@ -5846,7 +5845,7 @@ survey#:#view_constraints_introduction#:#Está viendo las restricciones de las s
 survey#:#view_phrase#:#Ver conjunto
 survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
-trac#:#info_valid_request#:#Max. tiempo valido entre dos peticiones de usuario.
+trac#:#info_valid_request#:#Max. tiempo válido entre dos peticiones de usuario.
 trac#:#last_login#:#Ultimo acceso
 trac#:#meta_typical_learning_time#:#Tiempo tipico de aprendizaje
 trac#:#newUT_settings#:#Estadísticas de Modulo de Aprendizaje
@@ -5986,7 +5985,7 @@ trac#:#trac_lp_filter#:#Filtro
 trac#:#trac_mark#:#Nota
 trac#:#trac_marks#:#Notas
 trac#:#trac_mode#:#Modo
-trac#:#trac_mode_collection#:#Coleccion de objetos
+trac#:#trac_mode_collection#:#Colección de objetos
 trac#:#trac_mode_deactivated#:#Desactivado
 trac#:#trac_mode_exercise_returned#:#Actividad entregada
 trac#:#trac_mode_manual#:#Manual
@@ -5997,7 +5996,7 @@ trac#:#trac_mode_test_finished#:#Test finalizado
 trac#:#trac_mode_test_passed#:#Test superado
 trac#:#trac_mode_tlt#:#Tiempo tipico de aprendizaje
 trac#:#trac_mode_visits#:#Numero de visitas
-trac#:#trac_modifications_saved#:#Configuracion salvada
+trac#:#trac_modifications_saved#:#Configuración salvada
 trac#:#trac_modus#:#Modo
 trac#:#trac_no_attempted#:#No visitado
 trac#:#trac_no_content#:#No hay información disponible sobre el progreso de aprendizaje
@@ -6012,20 +6011,20 @@ trac#:#trac_occurrences#:#Ruta:
 trac#:#trac_processing_time#:#Tiempo de proceso asumido
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:
-trac#:#trac_reached_points#:#Puntuacion conseguida
+trac#:#trac_reached_points#:#Puntuación conseguida
 trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
 trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_sahs_relevant_items#:#SCO\'s 
 trac#:#trac_select_one#:#No hizo selección
-trac#:#trac_settings#:#Configuracion
-trac#:#trac_settings_saved#:#Configuracion guardada.
+trac#:#trac_settings#:#Configuración
+trac#:#trac_settings_saved#:#Configuración guardada.
 trac#:#trac_show#:#Mostrar progreso
 trac#:#trac_show_hidden#:#Mostrar
 trac#:#trac_spent_time#:#Tiempo empleado
 trac#:#trac_status#:#Estado
 trac#:#trac_total_online#:#Tiempo total online
-trac#:#trac_update_edit_user#:#Configuracion grabada
+trac#:#trac_update_edit_user#:#Configuración grabada
 trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
 trac#:#trac_user_data#:#Datos de usuario
 trac#:#trac_usr_list#:#Usuarios
@@ -6034,5 +6033,5 @@ trac#:#trac_view_crs#:#Volver al curso
 trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
-trac#:#tracking_time_span_not_valid#:#Introduzca un numero valido de segundos.
+trac#:#tracking_time_span_not_valid#:#Introduzca un numero válido de segundos.
 common#:#crs_activation_start_invalid#:#The start and the end time is not valid.###new variable
