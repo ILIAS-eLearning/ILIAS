@@ -744,7 +744,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", TRUE, TRUE, TRUE);
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
@@ -771,7 +773,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
@@ -851,7 +855,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));

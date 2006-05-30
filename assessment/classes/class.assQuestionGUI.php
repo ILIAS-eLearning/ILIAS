@@ -848,6 +848,11 @@ class assQuestionGUI
 		}
 	}
 
+	function getLatexCGI()
+	{
+		return "http://aurealis.de/cgi-bin/mimetex.cgi";
+	}
+	
 	function outAdditionalOutput()
 	{
 	}
