@@ -2841,15 +2841,18 @@ class ilUtil
 	
 	/**
 	* replace [text]...[/tex] tags with formula image code
+	* ////////
+	* added additional parameters to make this method usable
+	* for other start and end tags as well
 	*/
-	function insertLatexImages($a_text)
+	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = "/cgi-bin/mimetex.cgi")
 	{
 		// todo:
 		// - provide custom path for mimetex.cgi
 		// - take care of html exports
-		$a_text = preg_replace('/\[tex\](.*?)\[\/tex\]/ie',
-			"'<img alt=\"'.htmlentities('$1').'\" src=\"/cgi-bin/mimetex.cgi?'.rawurlencode('$1').'\" ".
-			" />'", $a_text);
+		$a_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+			"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
+			"align\=\"middle\" />'", $a_text);
 
 		return $a_text;
 	}

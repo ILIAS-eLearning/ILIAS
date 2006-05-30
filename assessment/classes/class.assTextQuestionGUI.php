@@ -291,7 +291,9 @@ class assTextQuestionGUI extends assQuestionGUI
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, TRUE);
 		$template->setVariable("ESSAY", $user_solution);
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -315,7 +317,9 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 		return $questionoutput;
@@ -359,7 +363,9 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$template->setVariable("ESSAY", $user_solution);
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		return $questionoutput;

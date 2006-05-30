@@ -250,7 +250,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		}
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
@@ -287,7 +287,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->checkAdvancedEditor();
+		$this->checkAdvancedEditor(array("latex"), array("latex"));
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
@@ -630,7 +630,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -668,16 +670,11 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("ANSWER_TEXT", $answer->getAnswertext());
-			foreach ($user_solution as $mc_solution)
-			{
-				if (strcmp($mc_solution, $answer_id) == 0)
-				{
-					$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
-				}
-			}
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 		return $questionoutput;
@@ -743,7 +740,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$questiontext = $this->object->getQuestion();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		return $questionoutput;
