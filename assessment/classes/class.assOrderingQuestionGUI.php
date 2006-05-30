@@ -134,8 +134,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			elseif ($this->object->getOrderingType() == OQ_TERMS)
 			{
 				$this->tpl->setCurrentBlock("order_terms");
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->getOrder() + 1);
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
 				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
 			}
@@ -143,11 +141,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 			$this->tpl->setCurrentBlock("answers");
 			$anchor = "#answer_" . ($thisanswer->getOrder() + 1);
-			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
 			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->getOrder());
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 			$this->tpl->setVariable("VALUE_ORDER", $thisanswer->getSolutionOrder());
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", $thisanswer->getPoints()));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -158,16 +154,12 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			{
 				$this->tpl->setCurrentBlock("order_pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->getAnswerCount() + 1);
 				$this->tpl->setVariable("VALUE_ANSWER", "");
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
-				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
 			}
 			elseif ($this->object->getOrderingType() == OQ_TERMS)
 			{
 				$this->tpl->setCurrentBlock("order_terms");
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->getAnswerCount() + 1);
 				$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
 				$this->tpl->setVariable("VALUE_ASNWER", "");
 			}
@@ -181,11 +173,26 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
 			$this->tpl->setVariable("VALUE_ORDER", $this->object->getMaxSolutionOrder() + 1);
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
 			$this->tpl->parseCurrentBlock();
 		}
 		// call to other question data i.e. estimated working time block
+		if ($this->object->getAnswerCount())
+		{
+			$this->tpl->setCurrentBlock("answerheader");
+			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+			if ($this->object->getOrderingType() == OQ_PICTURES)
+			{
+				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+			}
+			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->outOtherQuestionData();
 		
 		$internallinks = array(
@@ -508,7 +515,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
+				$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+				$template->setVariable("ANSWER_TEXT", $answertext);
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("ordering_row_standard");
@@ -560,7 +568,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
+				$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+				$template->setVariable("ANSWER_TEXT", $answertext);
 				$template->setVariable("ANSWER_ID", $idx);
 				$template->parseCurrentBlock();
 			}
@@ -667,7 +676,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_standard_text");
-					$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
+					$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+					$template->setVariable("ANSWER_TEXT", $answertext);
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
 				}
@@ -707,7 +717,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_javascript_text");
-					$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
+					$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+					$template->setVariable("ANSWER_TEXT", $answertext);
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
 				}

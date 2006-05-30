@@ -545,7 +545,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition()));
+				$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+				$template->setVariable("DEFINITION", $answertext);
 				$template->parseCurrentBlock();
 			}
 
@@ -616,7 +617,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition()));
+				$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+				$template->setVariable("DEFINITION", $answertext);
 				$template->parseCurrentBlock();
 			}
 
@@ -725,7 +727,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				{
 					$template->setCurrentBlock("matching_terms");
 					$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
-					$template->setVariable("DEFINITION_TEXT", ilUtil::prepareFormOutput($answer->getDefinition()));
+					$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+					$template->setVariable("DEFINITION_TEXT", $answertext);
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock("javascript_matching_row");
@@ -781,7 +784,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("standard_matching_terms");
-					$template->setVariable("DEFINITION", $answer->getDefinition());
+					$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+					$template->setVariable("DEFINITION", $answertext);
 					$template->parseCurrentBlock();
 				}
 
