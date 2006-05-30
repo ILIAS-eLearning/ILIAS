@@ -66,7 +66,10 @@
 		<td class="{COLOR_CLASS}" width="20"><input type="checkbox" value="{ANSWER_ORDER}" name="chb_answer[]" /></td>
 		<!--td class="option">{TEXT_MATCHING_PAIR} {VALUE_ANSWER_COUNTER}:</td-->
 		<!-- BEGIN definitions -->
-		<td class="{COLOR_CLASS}" width="25%"><input class="fullwidth" name="definition_{ANSWER_ORDER}_{DEFINITION_ID}" type="text" id="definition_{ANSWER_ORDER}_{DEFINITION_ID}" size="20" value="{VALUE_DEFINITION}" /></td>
+		<td class="{COLOR_CLASS}" width="25%">
+			<!--textarea cols="80" rows="4" name="definition_{ANSWER_ORDER}_{DEFINITION_ID}" id="definition_{ANSWER_ORDER}_{DEFINITION_ID}">{VALUE_DEFINITION}</textarea-->
+			<input class="fullwidth" name="definition_{ANSWER_ORDER}_{DEFINITION_ID}" type="text" id="definition_{ANSWER_ORDER}_{DEFINITION_ID}" size="20" value="{VALUE_DEFINITION}" />
+		</td>
 		<!-- END definitions -->
 		<!-- BEGIN pictures -->
 		<td class="{COLOR_CLASS}">
@@ -80,7 +83,9 @@
 		</td>
 		<!-- END pictures -->
 		<td class="{COLOR_CLASS}"><div align="center">{TEXT_MATCHES}</div></td>
-		<td class="{COLOR_CLASS}" width="25%"><input class="fullwidth" name="term_{ANSWER_ORDER}_{TERM_ID}" type="text" id="term_{ANSWER_ORDER}_{TERM_ID}" size="20" value="{VALUE_TERM}" /></td>
+		<td class="{COLOR_CLASS}" width="25%">
+			<input class="fullwidth" name="term_{ANSWER_ORDER}_{TERM_ID}" type="text" id="term_{ANSWER_ORDER}_{TERM_ID}" size="20" value="{VALUE_TERM}" />
+		</td>
 		<td class="{COLOR_CLASS}"><input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHINGPAIR_POINTS}" /></td>
 	</tr>
 	<!-- END answers -->

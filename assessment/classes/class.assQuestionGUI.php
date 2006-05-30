@@ -850,7 +850,7 @@ class assQuestionGUI
 
 	function getLatexCGI()
 	{
-		return "http://aurealis.de/cgi-bin/mimetex.cgi";
+		return "http://aurealis.de/blahtex.php";
 	}
 	
 	function outAdditionalOutput()
