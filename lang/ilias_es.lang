@@ -614,7 +614,8 @@ assessment#:#tst_show_results#:#Mostrar resultados del test
 assessment#:#tst_show_solution_details#:#Detalles de puntuación
 assessment#:#tst_show_solution_details_description#:#Los estudiantes podrán ver los detalles de las soluciones de sus preguntas contestadas
 assessment#:#tst_show_solution_printview#:#Vista de impresión de soluciones
-assessment#:#tst_show_solution_printview_description#:#Los estudiantes pueden ver los resultados completos de test para impresiónt#:#tst_show_summary#:#Mostrar sumario de preguntas
+assessment#:#tst_show_solution_printview_description#:#Los estudiantes pueden ver los resultados completos de test para impresión
+assessment#:#tst_show_summary#:#Mostrar sumario de preguntas
 assessment#:#tst_show_summary_description#:#Ofrecer una página resumen con todas las preguntas del test disponibles para los participantes durante el test
 assessment#:#tst_shuffle_questions#:#Aleatorizar preguntas
 assessment#:#tst_shuffle_questions_description#:#Aleatorizar la secuencia de preguntas para cada usuario al comienzo del test
