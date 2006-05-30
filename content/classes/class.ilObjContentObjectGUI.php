@@ -88,6 +88,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->setTabs();
 
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$new_gui->activateStatistics();
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;
