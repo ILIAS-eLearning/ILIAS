@@ -5851,7 +5851,7 @@ trac#:#info_valid_request#:#The maximum valid time between two requests of an us
 trac#:#last_login#:#Last login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#newUT_settings#:#Learning Module Statistics
-trac#:#obj_types#:#Object types:
+trac#:#obj_types#:#Object Types
 trac#:#search_area_info#:#Please choose one object.
 trac#:#select_one#:#Please select one object
 trac#:#stats_access#:#access
@@ -5972,8 +5972,8 @@ trac#:#trac_edit_progress#:#Edit learning progress
 trac#:#trac_edit_time#:#Processing time
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
 trac#:#trac_edited_scos#:#Processed content
-trac#:#trac_filter_area#:#Area:
-trac#:#trac_filter_hidden#:#Hidden:
+trac#:#trac_filter_area#:#Area
+trac#:#trac_filter_hidden#:#Hidden
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
 trac#:#trac_filter_no_access#:#No objects found
 trac#:#trac_filter_none#:#None
@@ -5983,7 +5983,7 @@ trac#:#trac_in_progress#:#In progress
 trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated
 trac#:#trac_info_edited#:#Set the status to \'Completed\' if you think you have processed all content. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Last access
-trac#:#trac_learning_progress#:#Learning progress
+trac#:#trac_learning_progress#:#Learning Progress
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
 trac#:#trac_lm_statistics#:#Access Statistics
 trac#:#trac_lp_filter#:#Filter
@@ -6015,7 +6015,7 @@ trac#:#trac_objects#:#Learning progress of users
 trac#:#trac_occurrences#:#Path:
 trac#:#trac_processing_time#:#Assumed processing time
 trac#:#trac_progress#:#Personal learning progress
-trac#:#trac_query#:#Title/description:
+trac#:#trac_query#:#Title / Description:
 trac#:#trac_reached_points#:#Achieved score
 trac#:#trac_reached_visits#:#Required visits
 trac#:#trac_refresh#:#Refresh
