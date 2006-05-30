@@ -5953,6 +5953,9 @@ trac#:#trac_anonymized#:#Anonymized
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
 trac#:#trac_assigned#:#Assigned
 trac#:#trac_assignments#:#Assignments
+trac#:#trac_lp_determination#:#Learning Progress Status Determination
+trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.
+trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status of the course.
 trac#:#trac_below#:#Below:
 trac#:#trac_collection_assign#:#Assign
 trac#:#trac_collection_deassign#:#Deassign

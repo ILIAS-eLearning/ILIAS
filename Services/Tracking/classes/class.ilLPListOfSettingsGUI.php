@@ -163,6 +163,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		sendInfo($this->lng->txt('trac_settings_saved'));
 		$this->show();
 	}
+	
 	function __showTablesByMode()
 	{
 		switch($this->obj_settings->getMode())
@@ -200,11 +201,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 		$tpl =& new ilTemplate('tpl.trac_collections.html',true,true,'Services/Tracking');
 
-		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_assignments'));
+		//$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_assignments'));
+		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_lp_determination'));
 		$tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_trac.gif'));
-		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_assignments'));
-		$tpl->setVariable("ITEM_DESC",$this->lng->txt('description'));
-		$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
+		//$tpl->setVariable("TABLE_TITLE", $this->lng->txt('trac_assignments'));
+		$tpl->setVariable("TABLE_TITLE", $this->lng->txt('trac_lp_determination'));
+		$tpl->setVariable("TABLE_INFO", $this->lng->txt('trac_lp_determination_info_sco'));
+		//$tpl->setVariable("ITEM_DESC",$this->lng->txt('description'));
+		//$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
 
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$tpl->setVariable("BTN_ASSIGN",$this->lng->txt('trac_collection_assign'));
@@ -252,9 +256,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 		$tpl =& new ilTemplate('tpl.trac_collections.html',true,true,'Services/Tracking');
 
-		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_assignments'));
+		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_lp_determination'));
 		$tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_trac.gif'));
-		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_crs_assignments'));
+		//$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_crs_assignments'));
+		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_lp_determination'));
+		$tpl->setVariable("TABLE_INFO",$this->lng->txt('trac_lp_determination_info_crs'));
 		$tpl->setVariable("ITEM_DESC",$this->lng->txt('trac_crs_items'));
 		$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
 

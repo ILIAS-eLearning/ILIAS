@@ -217,6 +217,12 @@ th.il_invisible, td.il_invisible {
 	background-repeat:repeat-x;
 }
 
+tr.tbltitle {
+	border-bottom-width:1px;
+	border-bottom-color:#9EADBA;
+	border-bottom-style:solid;
+}
+
 .tblheader {
 	color: #000000;
 	font-weight:bold;

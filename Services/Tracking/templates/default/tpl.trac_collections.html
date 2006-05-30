@@ -1,27 +1,27 @@
 	<br />
 	<table class="std" width="75%" border="0">
 		<tr class="tbltitle">
-		  <td colspan="4">
-			<table class="fullwidth_invisible" cellspacing="0">
-				<tr class="tbltitle">
-				  <td width="10"><img src="{COLL_TITLE_IMG}" alt="{COLL_TITLE_IMG_ALT}" title="{COLL_TITLE_IMG_ALT}" border="0" /></td>
-				  <td class="tbltitle" align="left">{TABLE_TITLE} </td>
-				</tr>
-			</table>
+		  <td colspan="4" class="std">
+			<img src="{COLL_TITLE_IMG}" style="vertical-align:middle;" alt="{COLL_TITLE_IMG_ALT}" title="{COLL_TITLE_IMG_ALT}" border="0" />
+			{TABLE_TITLE}
 		  </td>
 		</tr>
+		<tr>
+			<td class="tblrow1" colspan="4"><div class="il_info">{TABLE_INFO}</div></td>
+		</tr>
+		<!--
 		<tr class="tblheader">
 		  <td class="std" nowrap="nowrap" width="1%"></td>
 		  <td class="std" nowrap="nowrap" width="80%">{ITEM_DESC}</td>
 		  <td class="std" nowrap="nowrap" width="20%"><div align="center">{ITEM_ASSIGNED}</div></td>
-		</tr>
+		</tr>-->
 		<!-- BEGIN trac_row -->
 		<tr>
-		  <td class="{ROW_CLASS}">
+		  <td class="{ROW_CLASS}" width="1%">
 			{CHECK_TRAC}
 		  </td>
 		  <td class="{ROW_CLASS}">
-			<b>{COLL_TITLE}</b>
+			{COLL_TITLE}
 			<!-- BEGIN description -->
 			<div class="il_Description_no_margin">{COLL_DESC}</div>
 			<!-- END description -->

@@ -58,6 +58,8 @@ class ilLearningProgressBaseGUI
 	var $ref_id = 0;
 
 	var $mode = 0;
+	
+	var $statistics_activated = false;	// show sub tab for access statistics
 
 	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0,$a_usr_id = 0)
 	{
@@ -109,6 +111,11 @@ class ilLearningProgressBaseGUI
 		}
 		return 0;
 	}
+	
+	function activateStatistics($a_act = true)
+	{
+		$this->statistics_activated = $a_act;
+	}
 
 	// Protected
 	function __getDefaultCommand()
@@ -158,13 +165,18 @@ class ilLearningProgressBaseGUI
 														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 														 "","","",$a_active == LP_ACTIVE_OBJECTS);
 					}
-					$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
-													 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
-													 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);													 
+
+					if ($this->statistics_activated)
+					{
+						$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
+														 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
+														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
+					}
 
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
 													 "","","",$a_active == LP_ACTIVE_SETTINGS);
+
 				}
 				break;
 
