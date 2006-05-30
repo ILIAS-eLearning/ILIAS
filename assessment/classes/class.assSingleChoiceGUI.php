@@ -620,7 +620,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->setVariable("QUESTION_ID", $this->object->getId());
 			$template->setVariable("TEST_ID", $active_id);
 			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
-			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answertext));
+			$template->setVariable("ANSWER_TEXT", $answertext);
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
@@ -667,7 +667,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
-			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answertext));
+			$template->setVariable("ANSWER_TEXT", $answertext);
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
@@ -729,7 +729,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
-			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answertext));
+			$template->setVariable("ANSWER_TEXT", $answertext);
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
