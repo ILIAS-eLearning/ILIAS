@@ -2852,7 +2852,7 @@ class ilUtil
 		// - take care of html exports
 		$a_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
 			"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
-			"align\=\"middle\" />'", $a_text);
+			" />'", $a_text);
 
 		return $a_text;
 	}
