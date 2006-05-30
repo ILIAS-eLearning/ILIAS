@@ -1912,7 +1912,13 @@ class ilUtil
 		{
 			$a_str = ilUtil::stripSlashes($a_str);
 		}
-		return htmlspecialchars($a_str);
+		$a_str = htmlspecialchars($a_str);
+		// Added replacement of curly brackets to prevent
+		// problems with PEAR templates, because {xyz} will
+		// be removed as unused template variable
+		$a_str = str_replace("{", "&#123;", $a_str);
+		$a_str = str_replace("}", "&#125;", $a_str);
+		return $a_str;
 	}
 
 
