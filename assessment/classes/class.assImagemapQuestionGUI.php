@@ -442,7 +442,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();
-			$this->checkAdvancedEditor();
+			$this->checkAdvancedEditor(array("latex"), array("latex"));
 
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
