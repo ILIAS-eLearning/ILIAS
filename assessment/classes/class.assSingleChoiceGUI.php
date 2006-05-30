@@ -666,7 +666,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
+			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answertext));
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
@@ -727,7 +728,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext()));
+			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+			$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answertext));
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
