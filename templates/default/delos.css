@@ -1354,8 +1354,8 @@ div.il_ButtonGroup
 	display: block;
 }
 
-input.submit, a.submit, a.submit:hover {
-	#background-color:#E6ECF8;
+input.submit, a.submit, a.submit:hover
+{
 	background-color: #FFFFFF;
 	background-image: url(images/ButtonsBack.gif);
 	background-position: bottom;
