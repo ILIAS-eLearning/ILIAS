@@ -565,6 +565,12 @@ class ilInitialisation
 	{
 		global $ilAuth;
 
+		//session_unset();
+		//session_destroy();
+		//session_start();
+
+		$ilAuth->logout();
+		
 		// auth as anonymous
 		$_POST["username"] = "anonymous";
 		$_POST["password"] = "anonymous";
@@ -578,10 +584,8 @@ class ilInitialisation
 		{
 			die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 		}
-		if (empty($_GET["ref_id"]))
-		{
-			$_GET["ref_id"] = ROOT_FOLDER_ID;
-		}
+		
+		$_GET["ref_id"] = ROOT_FOLDER_ID;
 		
 		$_GET["cmd"] = "frameset";
 		$jump_script = "repository.php";

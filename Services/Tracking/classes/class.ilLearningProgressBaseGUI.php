@@ -409,6 +409,32 @@ class ilLearningProgressBaseGUI
 		}
 	}
 
+	function __readSCORMStatus($sco_id, $a_user_id = 0)
+	{
+		$user_id = $a_user_id > 0
+			? $a_user_id
+			: $this->tracked_user->getId();
+		
+		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+
+		$in_progress = ilObjSCORMTracking::_getInProgress($sco_id);
+		$completed = ilObjSCORMTracking::_getCompleted($sco_id);
+
+		if(in_array($user_id, $in_progress) and !in_array($user_id, $completed))
+		{
+			return $status = LP_STATUS_IN_PROGRESS;
+		}
+		elseif(in_array($user_id, $completed))
+		{
+			return $status = LP_STATUS_COMPLETED;
+		}
+		else
+		{
+			return $status = LP_STATUS_NOT_ATTEMPTED;
+		}
+	}
+
+
 	function __showButton($a_link,$a_text,$a_target = '')
 	{
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -566,6 +592,26 @@ class ilLearningProgressBaseGUI
 
 		$this->scorm_data[$a_obj_id] = ilObjSCORMTracking::_getCountCompletedPerUser(ilLPCollections::_getItems($a_obj_id));
 		return $this->scorm_data[$a_obj_id];
-	}	
+	}
+	
+	function __getLegendHTML()
+	{
+		global $lng;
+		
+		$tpl = new ilTemplate("tpl.lp_legend.html", true, true, "Services/Tracking");
+		$tpl->setVariable("IMG_NOT_ATTEMPTED",
+			ilUtil::getImagePath("scorm/not_attempted.gif"));
+		$tpl->setVariable("IMG_IN_PROGRESS",
+			ilUtil::getImagePath("scorm/incomplete.gif"));
+		$tpl->setVariable("IMG_COMPLETED",
+			ilUtil::getImagePath("scorm/completed.gif"));
+		$tpl->setVariable("TXT_NOT_ATTEMPTED",
+			$lng->txt("trac_not_attempted"));
+		$tpl->setVariable("TXT_IN_PROGRESS",
+			$lng->txt("trac_in_progress"));
+		$tpl->setVariable("TXT_COMPLETED",
+			$lng->txt("trac_completed"));
+		return $tpl->get();
+	}
 }
 ?>

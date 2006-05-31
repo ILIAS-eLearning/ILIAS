@@ -284,16 +284,20 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			}
 			
 			// Details for course mode collection
-			if($this->details_mode == LP_MODE_COLLECTION)
+			if($this->details_mode == LP_MODE_COLLECTION ||
+				$this->details_mode == LP_MODE_SCORM)
 			{
 				// estimated processing time
-				$processing_time_info = $this->__readProcessingTime($user_id);
-				if($this->tlt_sum and $processing_time_info['total_percent'] != "0.00%")
+				if ($this->details_mode == LP_MODE_COLLECTION)
 				{
-					$this->tpl->setCurrentBlock("tlt_prop");
-					$this->tpl->setVariable("TXT_PROP_TLT",$this->lng->txt('trac_processing_time'));
-					$this->tpl->setVariable("VAL_PROP_TLT",$processing_time_info['total_percent']);
-					$this->tpl->parseCurrentBlock();
+					$processing_time_info = $this->__readProcessingTime($user_id);
+					if($this->tlt_sum and $processing_time_info['total_percent'] != "0.00%")
+					{
+						$this->tpl->setCurrentBlock("tlt_prop");
+						$this->tpl->setVariable("TXT_PROP_TLT",$this->lng->txt('trac_processing_time'));
+						$this->tpl->setVariable("VAL_PROP_TLT",$processing_time_info['total_percent']);
+						$this->tpl->parseCurrentBlock();
+					}
 				}
 
 				// user check
@@ -312,7 +316,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			}				
 			
 
-			if($this->details_mode == LP_MODE_COLLECTION and $this->__detailsShown($user_id))
+			// show course details
+			if($this->details_mode == LP_MODE_COLLECTION &&
+				$this->__detailsShown($user_id))
 			{
 				foreach(ilLPCollections::_getItems($this->details_id) as $obj_id)
 				{
@@ -349,18 +355,59 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 						$this->tpl->setVariable("ITEM_STATUS_VAL",$status_info[1]);
 						$this->tpl->parseCurrentBlock();
 					}
-
-					$this->tpl->setVariable("ITEM_CSSROW",$cssrow);
+					
+					$this->tpl->setCurrentBlock("item_image");
 					$this->tpl->setVariable("ITEM_IMG",ilUtil::getImagePath('icon_'.$ilObjDataCache->lookupType($obj_id).'.gif'));
 					$this->tpl->setVariable("ITEM_ALT",$this->lng->txt('obj_'.$ilObjDataCache->lookupType($obj_id)));
+					$this->tpl->parseCurrentBlock();
 
+					$this->ctrl->setParameter($this,'user_id',$user_id);
+					$this->ctrl->setParameter($this,"item_id",$obj_id);
+					$this->ctrl->setParameter($this,'details_id',$this->details_id);
+					$this->tpl->setCurrentBlock("edit_command");
+					$this->tpl->setVariable("ITEM_EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
+					$this->tpl->setVariable("ITEM_TXT_COMMAND",$this->lng->txt('edit'));
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setVariable("ITEM_CSSROW",$cssrow);
 					$this->tpl->setVariable("ITEM_MARK",ilLPMarks::_lookupMark($user_id,$obj_id));
 
+					$this->tpl->setCurrentBlock("item_row");
+					$this->tpl->parseCurrentBlock();
+				}			
+			}
+
+			// show scorm details 
+			if($this->details_mode == LP_MODE_SCORM &&
+				$this->__detailsShown($user_id))
+			{
+				include_once './content/classes/SCORM/class.ilSCORMItem.php';
+				foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
+				{
+					// show item_info
+					$this->tpl->setVariable("ITEM_TITLE",ilSCORMItem::_lookupTitle($item_id));
+
+					// Status
+					//$status = $this->__readStatus($obj_id,$user_id);
+					$status = $this->__readSCORMStatus($item_id,$user_id);
+					$this->tpl->setVariable("ITEM_PROP",$this->lng->txt('trac_status'));
+					$this->tpl->setVariable("ITEM_VAL",$this->lng->txt($status));
+					$this->__showImageByStatus($this->tpl,$status,'ITEM_');
+					
+
+					$this->tpl->setVariable("ITEM_CSSROW", $cssrow);
+					//$this->tpl->setVariable("ITEM_IMG",ilUtil::getImagePath('icon_'.$ilObjDataCache->lookupType($obj_id).'.gif'));
+					//$this->tpl->setVariable("ITEM_ALT",$this->lng->txt('obj_'.$ilObjDataCache->lookupType($obj_id)));
+
+					//$this->tpl->setVariable("ITEM_MARK",ilLPMarks::_lookupMark($user_id,$obj_id));
+
+					/*
 					$this->ctrl->setParameter($this,'user_id',$user_id);
 					$this->ctrl->setParameter($this,"item_id",$obj_id);
 					$this->ctrl->setParameter($this,'details_id',$this->details_id);
 					$this->tpl->setVariable("ITEM_EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
 					$this->tpl->setVariable("ITEM_TXT_COMMAND",$this->lng->txt('edit'));
+					*/
 
 					$this->tpl->setCurrentBlock("item_row");
 					$this->tpl->parseCurrentBlock();
@@ -373,7 +420,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				
 		}
 		// show commands
-		if($this->details_mode == LP_MODE_COLLECTION)
+		if($this->details_mode == LP_MODE_COLLECTION ||
+			$this->details_mode == LP_MODE_SCORM)
 		{
 			$this->tpl->setCurrentBlock("button_footer");
 			$this->tpl->setVariable("FOOTER_CMD",'showDetails');
@@ -406,6 +454,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setCurrentBlock("no_content");
 			$this->tpl->setVariable("NO_CONTENT",$this->lng->txt('trac_no_content'));
 			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
 		}
 		
 		return true;
