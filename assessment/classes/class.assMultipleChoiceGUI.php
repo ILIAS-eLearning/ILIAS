@@ -522,8 +522,10 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				{
 					$points_unchecked = 0.0;
 				}
+				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
+				$answertext = preg_replace("/\n/", "<br />", $answertext);
 				$this->object->addAnswer(
-					ilUtil::stripSlashes($_POST["$key"]),
+					$answertext,
 					ilUtil::stripSlashes($points),
 					ilUtil::stripSlashes($points_unchecked),
 					ilUtil::stripSlashes($matches[1]),

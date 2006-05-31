@@ -525,7 +525,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
 				$answertext = preg_replace("/\n/", "<br />", $answertext);
 				$this->object->addAnswer(
-					ilUtil::stripSlashes($answertext),
+					$answertext,
 					ilUtil::stripSlashes($points),
 					0,
 					ilUtil::stripSlashes($matches[1]),
