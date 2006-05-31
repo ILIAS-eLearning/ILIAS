@@ -424,7 +424,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
@@ -474,7 +474,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
@@ -561,7 +561,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());

@@ -515,7 +515,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+				$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 				$template->setVariable("ANSWER_TEXT", $answertext);
 				$template->parseCurrentBlock();
 			}
@@ -530,7 +530,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
@@ -568,7 +568,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+				$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 				$template->setVariable("ANSWER_TEXT", $answertext);
 				$template->setVariable("ANSWER_ID", $idx);
 				$template->parseCurrentBlock();
@@ -579,7 +579,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		}
 
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
@@ -676,7 +676,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_standard_text");
-					$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+					$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 					$template->setVariable("ANSWER_TEXT", $answertext);
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
@@ -717,7 +717,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_javascript_text");
-					$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+					$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 					$template->setVariable("ANSWER_TEXT", $answertext);
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
@@ -735,7 +735,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
