@@ -775,8 +775,13 @@ class ilCourseContentInterface
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("tbl_header_columns_or");
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_OR","95%");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_OR","75%");
 		$this->tpl->setVariable("TBL_HEADER_NAME_OR",$this->lng->txt('description'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_or");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_OR","20%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_OR",$this->lng->txt('actions'));
 		$this->tpl->parseCurrentBlock();
 
 		$counter = 1;
@@ -875,8 +880,13 @@ class ilCourseContentInterface
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("tbl_header_columns_lms");
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","95%");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","75%");
 		$this->tpl->setVariable("TBL_HEADER_NAME_LMS",$this->lng->txt('description'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_lms");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","20%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_LMS",$this->lng->txt('actions'));
 		$this->tpl->parseCurrentBlock();
 
 		$counter = 1;
@@ -1034,8 +1044,13 @@ class ilCourseContentInterface
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("tbl_header_columns_tst");
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_TST","95%");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_TST","75%");
 		$this->tpl->setVariable("TBL_HEADER_NAME_TST",$this->lng->txt('description'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_tst");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_TST","20%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_TST",$this->lng->txt('actions'));
 		$this->tpl->parseCurrentBlock();
 
 		$counter = 1;
