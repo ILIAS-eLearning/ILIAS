@@ -755,8 +755,10 @@ class ilUserImportParser extends ilSaxParser
 						}
 						else
 						{
-							switch ($this->currPasswordType)
-							{
+
+						    if (!strlen($this->currPassword)==0)
+						      switch ($this->currPasswordType)
+							 {
 								case "ILIAS2":
 									$this->userObj->setPasswd($this->currPassword, IL_PASSWD_CRYPT);
 									break;
@@ -764,6 +766,16 @@ class ilUserImportParser extends ilSaxParser
 								case "ILIAS3":
 									$this->userObj->setPasswd($this->currPassword, IL_PASSWD_MD5);
 									break;
+
+							 }
+							else
+							{
+							    // this does the trick for empty passwords
+							    // since a MD5 string has always 32 characters,
+							    // no hashed password combination will ever equal to
+							    // an empty string
+ 							    $this->userObj->setPasswd("", IL_PASSWD_MD5);
+
 							}
 
 							$this->userObj->setTitle($this->userObj->getFullname());
@@ -777,8 +789,8 @@ class ilUserImportParser extends ilSaxParser
 								$this->userObj->setTimeLimitMessage(0);
 								$this->userObj->setApproveDate(date("Y-m-d H:i:s"));
 							}
-							$ilincdata = $ilUser->getiLincData();
-							$this->userObj->setiLincData($ilincdata["id"], $ilincdata["login"], $ilincdata["password"]);
+
+
 							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive), $ilUser->getId());
 
 							$this->userObj->create();
@@ -809,6 +821,15 @@ class ilUserImportParser extends ilSaxParser
 										unlink($tmp_name);
 									}
 								}
+							}
+
+							if ($this->ilincdata["id"]) {
+							    include_once './ilinc/classes.ilObjiLincUser.php';
+                                $ilinc_user = new ilObjiLincUser($this->userObj);
+                                $ilinc_user->setVar("id", $this->ilincdata["id"]);
+                                $ilinc_user->setVar("login", $this->ilincdata["login"]);
+                                $ilinc_user->setVar("passwd", $this->ilincdata["password"]);
+                                $ilinc_user->update();
 							}
 
 							//set role entries
@@ -873,10 +894,17 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getTimeLimitUntil())) $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
 							if (! is_null($this->userObj->getTimeLimitMessage())) $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
 							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
-							$ilincdata = $this->userObj->getiLincData();
-							if (! is_null($ilincdata)) $updateUser->setiLincData($ilincdata["id"], $ilincdata["login"], $ilincdata["password"]);
 
 							$updateUser->update();
+
+							if ($this->ilincdata["id"]) {
+							    include_once './ilinc/classes.ilObjiLincUser.php';
+                                $ilinc_user = new ilObjiLincUser($updateUser);
+                                $ilinc_user->setVar("id", $this->ilincdata["id"]);
+                                $ilinc_user->setVar("login", $this->ilincdata["login"]);
+                                $ilinc_user->setVar("passwd", $this->ilincdata["password"]);
+                                $ilinc_user->update();
+							}
 
 							if (!is_null($this->userObj->getLogin()) && $this->user_id != -1)
 								$updateUser->updateLogin($this->userObj->getLogin());
@@ -1054,16 +1082,16 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "iLincID":
-				$ilincdata["id"] = $this->cdata;
+				$this->ilincdata["id"] = $this->cdata;
 				break;
 
 			case "iLincLogin":
-				$ilincdata["login"] = $this->cdata;
+				$this->$ilincdata["login"] = $this->cdata;
 				break;
 
 			case "iLincPasswd":
-				$ilincdata["passwd"] = $this->cdata;
-				$this->userObj->setiLincData($this->ilincdata);
+				$this->$ilincdata["password"] = $this->cdata;
+				//$this->userObj->setiLincData($this->ilincdata);
 				break;
 		}
 	}
