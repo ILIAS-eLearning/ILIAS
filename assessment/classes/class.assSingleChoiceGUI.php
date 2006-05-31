@@ -619,7 +619,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("QUESTION_ID", $this->object->getId());
 			$template->setVariable("TEST_ID", $active_id);
-			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 			$template->setVariable("ANSWER_TEXT", $answertext);
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
@@ -628,7 +628,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
@@ -666,12 +666,12 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 			$template->setVariable("ANSWER_TEXT", $answertext);
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
@@ -728,7 +728,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<latex>", "\<\/latex>", $this->getLatexCGI());
+			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 			$template->setVariable("ANSWER_TEXT", $answertext);
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
@@ -737,7 +737,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<latex>", "\<\/latex>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
