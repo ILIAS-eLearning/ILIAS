@@ -163,6 +163,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				{
 					$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_sco_details.html','Services/Tracking');
 					$this->__showSCORMDetails();
+					$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
 				}
 				else
 				{
@@ -532,27 +533,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->details_id = $a_details_id;
 			$this->details_type = $ilObjDataCache->lookupType($this->details_id);
 			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_id);
-		}
-	}
-
-	function __readSCORMStatus($sco_id)
-	{
-		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
-
-		$in_progress = ilObjSCORMTracking::_getInProgress($sco_id);
-		$completed = ilObjSCORMTracking::_getCompleted($sco_id);
-
-		if(in_array($this->tracked_user->getId(),$in_progress) and !in_array($this->tracked_user->getId(),$completed))
-		{
-			return $status = LP_STATUS_IN_PROGRESS;
-		}
-		elseif(in_array($this->tracked_user->getId(),$completed))
-		{
-			return $status = LP_STATUS_COMPLETED;
-		}
-		else
-		{
-			return $status = LP_STATUS_NOT_ATTEMPTED;
 		}
 	}
 

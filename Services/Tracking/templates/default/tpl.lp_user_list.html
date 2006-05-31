@@ -27,7 +27,7 @@
 			{CHECK_USER}
 		  </td>
 		  <td class="{TDCSS}" valign="top" nowrap="nowrap" align="center">
-			<img border="0" src="{TYPE_IMG}" alt="{TYPE_ALT} title="{TYPE_ALT}" />&nbsp;
+			<img border="0" src="{TYPE_IMG}" alt="{TYPE_ALT}" title="{TYPE_ALT}" />&nbsp;
 		  </td>
 		  <td class="{TDCSS}" colspan="2">
 			<b>{TXT_TITLE}</b>&nbsp;{TXT_DESC}
@@ -72,7 +72,9 @@
 		  <td class="{ITEM_TDCSS}"></td>
 		  <td class="{ITEM_TDCSS}" valign="top" align="center"></td>
 		  <td class="{ITEM_TDCSS}" valign="top">
-			<img border="0" src="{ITEM_IMG}" alt="{ITEM_ALT} title="{ITEM_ALT}" />
+		  	<!-- BEGIN item_image -->
+			<img border="0" src="{ITEM_IMG}" alt="{ITEM_ALT}" title="{ITEM_ALT}" />
+			<!-- END item_image -->
 		  </td>
 		  <td class="{ITEM_TDCSS}">
 			<b>{ITEM_TITLE}</b>
@@ -106,7 +108,9 @@
 			</div>
 		  </td>
 		  <td class="{ITEM_TDCSS}" valign="top">
+		  	<!-- BEGIN edit_command -->
 			<a class="il_ContainerItemCommand" href="{ITEM_EDIT_COMMAND}">{ITEM_TXT_COMMAND}</a>
+			<!-- END edit_command -->
 		  </td>
 		</tr>
 		<!-- END item_row -->
@@ -143,3 +147,5 @@
 		<!-- END footer -->
 	  </table>
 	</form>
+<br />
+{LEGEND}
