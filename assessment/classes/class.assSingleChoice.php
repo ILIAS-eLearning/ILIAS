@@ -930,7 +930,7 @@ class assSingleChoice extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilias,$ilDB;
 		if ($this->original_id)
 		{
 			$complete = 0;
