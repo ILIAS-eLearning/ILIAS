@@ -30,7 +30,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
-// to the corresponding mode!
+// to the corresponding Mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analysis_options#:#Opciones de análisis
@@ -52,7 +52,7 @@ administration#:#found#:#Encontrado
 administration#:#found_none#:#Ninguno encontrado
 administration#:#initializing_gaps#:#Inicializando huecos en el árbol...
 administration#:#log_scan#:#resultados del Log de Exploración
-administration#:#log_scan_desc#:#Escribir resultados de la exploración a \'scanlog.log\' en el directorio de datos cliente 
+administration#:#log_scan_desc#:#Escribir resultados de la exploración a 'scanlog.log' en el directorio de datos cliente 
 administration#:#nothing_to_purge#:#Nada que eliminar...
 administration#:#nothing_to_remove#:#Nada que eliminar...
 administration#:#nothing_to_restore#:#Nada que restaurar...
@@ -77,7 +77,7 @@ administration#:#restore_trash#:#Restaurar objetos eliminados
 administration#:#restore_trash_desc#:#Restaurar todos los objetos en la papelera a la Carpeta de Recuperación
 administration#:#restoring#:#Restaurando...
 administration#:#restoring_missing_objs#:#Restaurando objetos desaparecidos...
-administration#:#restoring_trash#:#Restaurando la papelera \'trash\'.... 
+administration#:#restoring_trash#:#Restaurando la papelera 'trash'.... 
 administration#:#restoring_unbound_objs#:#Restaurando objetos y subobjetos sobredimensionados ...
 administration#:#scan#:#Escanear
 administration#:#scan_completed#:#Exploración completada
@@ -148,7 +148,7 @@ assessment#:#circle#:#Circulo
 assessment#:#circle_click_center#:#Por favor haga click en el centro del area deseada.
 assessment#:#circle_click_circle#:#Por favor haga click en un punto del círculo del area deseada.
 assessment#:#clientip#:#IP Cliente
-assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón \'Crear huecos\' para añadir un formulario editable para cada hueco. 
+assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco. 
 assessment#:#cloze_text#:#Texto relleno
 assessment#:#cloze_textgap_case_insensitive#:#No sensible a mayúscula
 assessment#:#cloze_textgap_case_sensitive#:#Sensible a mayúscula
@@ -198,12 +198,12 @@ assessment#:#ects_grade_f_short#:#SUSPENSO
 assessment#:#ects_grade_fx#:#requiere algo más de trabajo para conseguir el reconocimiento(credit)
 assessment#:#ects_grade_fx_short#:#SUSPENSO
 assessment#:#ects_output_of_ects_grades#:#Informe de notas ECTS
-assessment#:#ects_range_error_a#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'A\'! 
-assessment#:#ects_range_error_b#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'B\'! 
-assessment#:#ects_range_error_c#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'C\'! 
-assessment#:#ects_range_error_d#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'D\'! 
-assessment#:#ects_range_error_e#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo \'E\'! 
-assessment#:#ects_use_fx_grade#:#Use la nota \'FX\', si los participantes alcanzaron al menos 
+assessment#:#ects_range_error_a#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'A'! 
+assessment#:#ects_range_error_b#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'B'! 
+assessment#:#ects_range_error_c#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'C'! 
+assessment#:#ects_range_error_d#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'D'! 
+assessment#:#ects_range_error_e#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'E'! 
+assessment#:#ects_use_fx_grade#:#Use la nota 'FX', si los participantes alcanzaron al menos 
 assessment#:#ects_use_fx_grade_part2#:#por ciento de los puntos totales.
 assessment#:#edit_content#:#Editar contenido
 assessment#:#edit_properties#:#Editar propiedades
@@ -434,7 +434,7 @@ assessment#:#select_max_one_item#:#Por favor seleccione un único item
 assessment#:#select_one_submitted_test#:#Por favor seleccione al menos un usuario que haya finalizado el test
 assessment#:#select_one_user#:#Por favor seleccione al menos un usuario
 assessment#:#select_qpl_option#:#--- Por favor selecciones un banco de preguntas ---
-assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones \'insertar\'! 
+assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones 'insertar'! 
 assessment#:#select_tst_option#:#--- Por favor seleccione un test ---
 assessment#:#selected_image#:#Imagen seleccionada
 assessment#:#set_filter#:#Activar filtro
@@ -528,7 +528,7 @@ assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor c
 assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
 assessment#:#tst_no_questionpools_for_random_test#:#No ha añadido un banco de preguntas para este test aleatorio! Por favor seleccione al menos un banco .
-assessment#:#tst_no_questions_available#:#No hay preguntas disponibles! Necesita \'crear nuevas preguntas\' o \'explorar en busca de preguntas\'. 
+assessment#:#tst_no_questions_available#:#No hay preguntas disponibles! Necesita 'crear nuevas preguntas' o 'explorar en busca de preguntas'. 
 assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de los bancos para este test aleatorio! Por favor, seleccione al menos una pregunta indicando la cantidad de preguntas para un banco dado
 assessment#:#tst_no_solution_available#:#La pregunta de respuesta corta no tiene una solución
 assessment#:#tst_no_taken_tests#:#No hay tests realizados!
@@ -664,7 +664,7 @@ assessment#:#tst_type#:#Tipo de Test
 assessment#:#tst_type_changed#:#Ha modificado el tipo de test. Todos los tests procesados anteriormente han sido eliminados
 assessment#:#tst_type_comment#:#Aviso: Modificar el tipo de test de un test en ejecución eliminará todos los tests procesados anteriormente!
 assessment#:#tst_types#:#Tipos de Test
-assessment#:#tst_use_javascript#:#Usar Javascript para acciones de \'arrastrar y soltar\' 
+assessment#:#tst_use_javascript#:#Usar Javascript para acciones de 'arrastrar y soltar' 
 assessment#:#tst_your_answer_was#:#Su respuesta fue
 assessment#:#tst_your_answers#:#Estas son tus respuestas dadas a las siguientes preguntas.
 assessment#:#tst_your_ects_mark_is#:#Su calificación ECTS es
@@ -1075,7 +1075,7 @@ common#:#auth_cas_settings_saved#:#Configuración CAS salvada
 common#:#auth_soap_settings_saved#:#Configuración de autenticación SOAP
 common#:#auth_radius_shared_secret#:#Secreto compartido
 common#:#auth_read#:#Configuración de autenticación
-common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo por defecto (login,contraseña) no puede ser cambiado de nuevo y la opción de \'nuevo registro\' queda deshabilitada 
+common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo por defecto (login,contraseña) no puede ser cambiado de nuevo y la opción de 'nuevo registro' queda deshabilitada 
 common#:#auth_role_auth_mode#:#Modo de Autenticación
 common#:#auth_script#:#Personalizado
 common#:#auth_script_desc#:#Autenticar usuarios mediante un script externo
@@ -1223,7 +1223,7 @@ common#:#check_link#:#Comprobar Enlaces
 common#:#check_link_desc#:#Si se habilita, se comprueba que todos los enlaces externos en los módulos de aprendizaje ILIAS no están rotos.
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
 common#:#check_user_accounts#:#Comprobar cuentas de usuario
-common#:#check_user_accounts_desc#:#Si se activa \'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico. 
+common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico. 
 common#:#check_web_resources#:#Comprobar Enlaces a Recursos Web
 common#:#check_web_resources_desc#:#Si se activa todos los Recursos Web serán comprobados
 common#:#checked_files#:#Ficheros importables
@@ -1477,7 +1477,7 @@ common#:#err_wrong_header#:#Razón: Cabecera Errónea
 common#:#err_wrong_login#:#Login Incorrecto
 common#:#err_wrong_password#:#Contraseña Incorrecta
 common#:#error#:#Error
-common#:#error_parser#:#Error ejecutando el \'parser\' 
+common#:#error_parser#:#Error ejecutando el 'parser' 
 common#:#error_recipient#:#destinatario de errores
 common#:#exc#:#Actividad
 common#:#exc_add#:#Añadir Actividad
@@ -1551,7 +1551,7 @@ common#:#extt_ilinc_settings_saved#:#Configuración LearnLinc grabada
 common#:#extt_ilinc_timeout#:#Máximo tiempo de espera para respuesta del servidor
 common#:#extt_name#:#Software/Servicio
 common#:#extt_read#:#Acceso a configuración de software externo
-common#:#extt_remark#:#Todo el software y servicios listados arriba no están bajo el acuerdo de licencia \'open source\' de ILIAS 
+common#:#extt_remark#:#Todo el software y servicios listados arriba no están bajo el acuerdo de licencia 'open source' de ILIAS 
 common#:#extt_title_configure#:#Configurar software externo
 common#:#extt_visible#:#Configuración de software externo visible
 common#:#extt_write#:#Configurar software externo
@@ -1652,8 +1652,8 @@ common#:#frm_edit_post#:#Anadir nueva cadena, mensaje
 common#:#frm_new#:#Nuevo Foro
 common#:#frm_read#:#Acceso de Lecutra al Foro
 common#:#frm_statistics_ranking#:#Ranking
-common#:#frm_status_new#:#Estado \'Nuevo\' 
-common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado \'Nuevo\' en las entradas de los foros.
+common#:#frm_status_new#:#Estado 'Nuevo' 
+common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado 'Nuevo' en las entradas de los foros.
 common#:#frm_visible#:#El foro es visible
 common#:#frm_write#:#Editar foro
 common#:#from#:#desde
@@ -1727,7 +1727,7 @@ common#:#group_req_registration_msg#:#Para unirse a este grupo tiene que registr
 common#:#group_reset#:#Resetear Grupo
 common#:#group_status#:#Estado del Grupo
 common#:#group_status_closed#:#Cerrado
-common#:#group_status_desc#:#Determina el estado inicial del grupo usando la configuración de permisos de las plantillas de rol \'il_grp_status_closed\' or \'il_grp_status_open\' <br/>Público: El grupo es visible; El usuario puede subscribirse. <br/> Cerrado: El grupo no es visible para los no-miembros; El usuario tiene que ser invitado por un miembro del grupo para unirse. 
+common#:#group_status_desc#:#Determina el estado inicial del grupo usando la configuración de permisos de las plantillas de rol 'il_grp_status_closed' or 'il_grp_status_open' <br/>Público: El grupo es visible; El usuario puede subscribirse. <br/> Cerrado: El grupo no es visible para los no-miembros; El usuario tiene que ser invitado por un miembro del grupo para unirse. 
 common#:#group_status_public#:#Público
 common#:#groupings#:#Limitaciones de pertenencia
 common#:#groupings_assigned_obj_crs#:#Cursos asignados
@@ -1880,7 +1880,7 @@ common#:#icon_settings#:#Configuración de Iconos
 common#:#icons_in_header#:#Fila de Cabecera
 common#:#icons_in_item_rows#:#Fila de Items
 common#:#icons_in_typed_lists#:#Posición del Icono en listas de items
-common#:#icons_in_typed_lists_info#:#Determina donde mostrar iconos en las listas de items que están ordenadas por tipo dentro de la sección \'contenidos\' y en el escritorio personal. 
+common#:#icons_in_typed_lists_info#:#Determina donde mostrar iconos en las listas de items que están ordenadas por tipo dentro de la sección 'contenidos' y en el escritorio personal. 
 common#:#icrs#:#Seminario iLinc
 common#:#icrs_add#:#Añadir Seminario iLinc
 common#:#icrs_added#:#Seminario LearnLinc añadido
@@ -1951,7 +1951,7 @@ common#:#image_gen_unsucc#:#Falló la Generación de Imagen. Póngase en contact
 common#:#import#:#importar
 common#:#import_alm#:#Importar paquete  AICC
 common#:#import_cat_localrol#:#Crear rol local para cada nueva categoría
-common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca el \'checkbox\' 
+common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca el 'checkbox' 
 common#:#import_categories#:#Importar Categorías
 common#:#import_dbk#:#Importar Libro Digital
 common#:#import_failure_log#:#Fichero de registro de fallos en la importación
@@ -1972,7 +1972,7 @@ common#:#import_spl#:#Importar Banco de preguntas para encuestas
 common#:#import_svy#:#Importar Encuesta
 common#:#import_tst#:#Importar Test
 common#:#import_users#:#Importar Usuarios
-common#:#import_warning_log#:#Importar log de \'warnings\' 
+common#:#import_warning_log#:#Importar log de 'warnings' 
 common#:#important#:#Importante
 common#:#imported#:#importado
 common#:#in#:#en
@@ -2380,7 +2380,7 @@ common#:#msg_perm_adopted_from2#:#(La configuración ha sido guardada!)
 common#:#msg_removed#:#Objeto(s) eliminado(s) del sistema
 common#:#msg_role_exists1#:#Un(a) rol/plantilla de rol con el nombre
 common#:#msg_role_exists2#:#ya existe! Por favor escoja otro nombre
-common#:#msg_role_reserved_prefix#:#El prefijo \'il_\' está reservado para roles autogenerados. Por favor escoja otro nombre 
+common#:#msg_role_reserved_prefix#:#El prefijo 'il_' está reservado para roles autogenerados. Por favor escoja otro nombre 
 common#:#msg_roleassignment_active_changed#:#Rol Activo Modificado
 common#:#msg_roleassignment_active_changed_comment#:#Esta configuración no se ha guardado en el perfil de usuario! Si el usuario vuelve a identificarse todas las asignaciones de rol activas se resetearán a los valores guardados
 common#:#msg_roleassignment_changed#:#Asignación de Rol modificada
@@ -2522,7 +2522,7 @@ common#:#obj_seas_desc#:#Gestione la configuración de búsqueda aquí
 common#:#obj_spl#:#Banco de preguntas (Encuesta)
 common#:#obj_st#:#Capítulo
 common#:#obj_stys#:#Configuración de Estilos
-common#:#obj_stys_desc#:#Gestionar \'skin\' del sistema y configuración de estilos 
+common#:#obj_stys_desc#:#Gestionar 'skin' del sistema y configuración de estilos 
 common#:#obj_svy#:#Encuesta
 common#:#obj_tax#:#Taxonomía
 common#:#obj_taxf#:#Taxonomías
@@ -2592,7 +2592,7 @@ common#:#old#:#old
 common#:#online#:#Online
 common#:#online_chapter#:#capítulo online
 common#:#online_version#:#versión online
-common#:#open_views_inside_frameset#:#Abrir vistas dentro del \'frameset\' 
+common#:#open_views_inside_frameset#:#Abrir vistas dentro del 'frameset' 
 common#:#operation#:#Operación
 common#:#optimize#:#optimizar
 common#:#options#:#Opciones
@@ -2920,7 +2920,7 @@ common#:#shib_department#:#Atributo para departamento
 common#:#shib_edit_permission#:#Modificar configuración de permisos
 common#:#shib_email#:#Atributo para dirección e-mail
 common#:#shib_firstname#:#Atributo para nombre
-common#:#shib_gender#:#Atributo para género (debe ser \'m\' o \'f\') 
+common#:#shib_gender#:#Atributo para género (debe ser 'm' o 'f') 
 common#:#shib_institution#:#Atributo para institución
 common#:#shib_instructions#:#Asegúrese de leer <a href=\"README.SHIBBOLETH.txt\" target=\"_blank\">README</a> para instrucciones sobre cómo configurar el soporte de Shibboleth para ILIAS. 
 common#:#shib_language#:#Atributo para lenguaje
@@ -3176,7 +3176,7 @@ common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_import_failed#:#La importación de usuarios falló.
 common#:#user_imported#:#Importación de Usuario completada.
-common#:#user_imported_with_warnings#:#La importación de usuarios se completó con \'warnings\'. 
+common#:#user_imported_with_warnings#:#La importación de usuarios se completó con 'warnings'. 
 common#:#user_language#:#Idioma de Usuario
 common#:#user_not_chosen#:#No escogió un miembro de grupo!
 common#:#user_not_known#:#Por favor introduzca un identificador de usuario válido
@@ -3208,7 +3208,7 @@ common#:#usr_edit#:#Editar Usuario
 common#:#usr_hits_per_page#:#Items/página en tablas
 common#:#usr_inactive_only#:#Usuarios inactivos únicamente
 common#:#usr_new#:#Nuevo Usuario
-common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando \'cuentas de usuario\' en el árbol de administración. 
+common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración. 
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario
 common#:#usr_settings_header_profile_profile#:#Configuración de perfil personal
 common#:#usr_settings_saved#:#¡Configuración de usuario global salvada con éxito!
@@ -3250,7 +3250,7 @@ common#:#vendors#:#Proveedores
 common#:#verification_failed#:#La verificación falló
 common#:#verification_failure_log#:#Log de fallo Verificación 
 common#:#verification_log#:#Log de Verificación
-common#:#verification_warning_log#:#Log de \'warning\' en Verificación 
+common#:#verification_warning_log#:#Log de 'warning' en Verificación 
 common#:#version#:#versión
 common#:#versions#:#versiones
 common#:#view#:#Ver
@@ -3291,7 +3291,7 @@ common#:#week#:#Semana
 common#:#weekly#:#semanalmente
 common#:#weeks#:#Semanas
 common#:#welcome#:#Bienvenido
-common#:#who_is_online#:#Who\'s online? 
+common#:#who_is_online#:#Who's online? 
 common#:#width_x_height#:#Anchura x Altura
 common#:#with#:#con
 common#:#write#:#escritura
@@ -3378,7 +3378,7 @@ content#:#cont_create_export_file_xml#:#Crear Fichero de Exportación (XML)
 content#:#cont_create_folder#:#Crear Carpeta
 content#:#cont_create_html_version#:#Crear Paquete HTML
 content#:#cont_create_mob#:#Crear Objeto Media
-content#:#cont_credit_mode#:#Modo \'crédito\' (para el modo de lección \'normal\') 
+content#:#cont_credit_mode#:#Modo 'crédito' (para el modo de lección 'normal') 
 content#:#cont_credit_off#:#No crédito
 content#:#cont_credit_on#:#Crédito
 content#:#cont_credits#:#Créditos
@@ -3460,7 +3460,7 @@ content#:#cont_external_url#:#URL externa
 content#:#cont_file#:#Fichero
 content#:#cont_files#:#Ficheros
 content#:#cont_fix_tree#:#Reparar estructura
-content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la estructura en árbol de este módulo está corrupta. ej: si aparecen items en blanco en la vista -\'explorer\'-. 
+content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la estructura en árbol de este módulo está corrupta. ej: si aparecen items en blanco en la vista -'explorer'-. 
 content#:#cont_format#:#Formato
 content#:#cont_format_error#:#¡Esta operación no está permitida aquí!
 content#:#cont_frame_botright#:#Detalles de Contenido (Glosario)
@@ -3557,7 +3557,7 @@ content#:#cont_no_assign_itself#:#El objeto no puede ser asignado a sí mismo
 content#:#cont_no_manifest#:#No se encontró el archivo imsmanifest.xml en el directorio principal.
 content#:#cont_no_object_found#:#No puedo encontrar algun objeto con este título
 content#:#cont_no_page#:#No se encontraron Página(s)
-content#:#cont_no_subdir_in_zip#:#El comando \'Zip\' falló o el archivo de importación es inválido.<br>No contiene una subcarpeta \'%s\'. 
+content#:#cont_no_subdir_in_zip#:#El comando 'Zip' falló o el archivo de importación es inválido.<br>No contiene una subcarpeta '%s'. 
 content#:#cont_no_zip_file#:#El archivo de importación no es un archivo zip.
 content#:#cont_none#:#Ninguno
 content#:#cont_nr_cols#:#Número de Columnas
@@ -3614,7 +3614,7 @@ content#:#cont_Roman#:#Números Romános I, II, ...
 content#:#cont_rvalue#:#Valor
 content#:#cont_saved_map_area#:#Map Area Grabada
 content#:#cont_saved_map_data#:#Grabados Datos de Mapa
-content#:#cont_sc_auto_review#:#Configurar modo de lección \'review\' si el estudiante completó -SCO- 
+content#:#cont_sc_auto_review#:#Configurar modo de lección 'review' si el estudiante completó -SCO- 
 content#:#cont_sc_less_mode_browse#:#Navegar
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Explorado
@@ -3670,7 +3670,7 @@ content#:#cont_structure#:#estructura
 content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
 content#:#cont_synchronize_frames#:#Sincronizar marcos
-content#:#cont_synchronize_frames_desc#:#Esta opción sincroniza el marco de la tabla de contenidos con el marco de contenidos y actualiza los marcos adicionales (ej. en vista \'3window\'). Pero tambien supone una reduccion del rendimiento. 
+content#:#cont_synchronize_frames_desc#:#Esta opción sincroniza el marco de la tabla de contenidos con el marco de contenidos y actualiza los marcos adicionales (ej. en vista '3window'). Pero tambien supone una reduccion del rendimiento. 
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
 content#:#cont_table_cellpadding#:#Relleno de Celdas (Tabla)
@@ -3720,7 +3720,7 @@ content#:#cont_width#:#Anchura
 content#:#cont_wysiwyg#:#Contenido WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Año
-content#:#cont_zip_file_invalid#:#El archivo no es un archivo de importación válido.<br>No contiene un archivo \'%s\'. 
+content#:#cont_zip_file_invalid#:#El archivo no es un archivo de importación válido.<br>No contiene un archivo '%s'. 
 content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
@@ -3891,7 +3891,7 @@ crs#:#crs_members_title#:#Miembros del Curso
 crs#:#crs_move_down#:#Mover abajo
 crs#:#crs_move_up#:#Mover arriba
 crs#:#crs_moved_item#:#item del curso movido
-crs#:#crs_moved_objective#:#Objetivo de aprendizaje \'movido\' 
+crs#:#crs_moved_objective#:#Objetivo de aprendizaje 'movido' 
 crs#:#crs_new_search#:#Nueva Búsqueda
 crs#:#crs_new_subscription#:#Nueva suscripción a curso
 crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario
@@ -3982,8 +3982,8 @@ crs#:#crs_question_assignment#:#Asignación de preguntas
 crs#:#crs_reg#:#Matrícula
 crs#:#crs_reg_deactivated#:#Deshabilitado
 crs#:#crs_reg_lim_info#:#La matrícula es únicamente posible durante un período fijo de tiempo.
-crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignado a este curso. \'0\' significa ilimitado. 
-crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado \'Notificar\' serán informados vía e-mail de los nuevas matrícula en el curso. 
+crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignado a este curso. '0' significa ilimitado. 
+crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado 'Notificar' serán informados vía e-mail de los nuevas matrícula en el curso. 
 crs#:#crs_reg_subscription_deactivated#:#Matriculación deshabilitada
 crs#:#crs_reg_subscription_end_earlier#:#El período de matrícula ha finalizado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
@@ -4051,7 +4051,7 @@ crs#:#crs_subscription_successful#:#Ha sido matriculado en este curso
 crs#:#crs_subscription_type#:#Tipo de matricula
 crs#:#crs_suggest_lm#:#Sugerir materiales de aprendizaje si:
 crs#:#crs_sure_delete_selected_archives#:#¿Está seguro de eliminar los archivos seleccionados?
-crs#:#crs_syllabus#:#Objetivos del curso
+crs#:#crs_syllabus#:#Contenidos del curso
 crs#:#crs_table_start_objects#:#Objetos iniciales
 crs#:#crs_test_status_complete#:#Completado
 crs#:#crs_test_status_not_complete#:#No completado
@@ -4099,7 +4099,7 @@ dateplaner#:#application#:#Calendario
 dateplaner#:#apply#:#aplicar
 dateplaner#:#back#:#Volver
 dateplaner#:#begin_date#:#Comienzo de cita
-dateplaner#:#busytime#:#tiempo \'ocupado\' en grupo 
+dateplaner#:#busytime#:#tiempo 'ocupado' en grupo 
 dateplaner#:#c_date#:#Crear cita
 dateplaner#:#changedDates#:#Citas modificadas
 dateplaner#:#changeTo#:#Modificar a:
@@ -4556,7 +4556,7 @@ meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#República Centroafricana
 meta#:#meta_c_CG#:#Congo
 meta#:#meta_c_CH#:#Suiza
-meta#:#meta_c_CI#:#Cote D\' Ivoire 
+meta#:#meta_c_CI#:#Cote D' Ivoire 
 meta#:#meta_c_CK#:#Islas Cook
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Camerún
@@ -4629,12 +4629,12 @@ meta#:#meta_c_KH#:#Cambodia
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#Korea del Norte (People\'s Republic Of Korea) 
+meta#:#meta_c_KP#:#Korea del Norte (People's Republic Of Korea) 
 meta#:#meta_c_KR#:#Korea del Sur (República de Korea)
 meta#:#meta_c_KW#:#Kuwait
 meta#:#meta_c_KY#:#Islas Cayman
 meta#:#meta_c_KZ#:#Kazakhstan
-meta#:#meta_c_LA#:#Lao People\'s Republic 
+meta#:#meta_c_LA#:#Lao People's Republic 
 meta#:#meta_c_LB#:#Lebanon
 meta#:#meta_c_LC#:#Santa Lucia
 meta#:#meta_c_LI#:#Liechtenstein
@@ -5078,7 +5078,7 @@ payment#:#pay_bmf_credit_card_data#:#Tarjeta de crédito
 payment#:#pay_bmf_credit_card_not_valid#:#La tarjeta de crédito que ha introducido no es válida. Por favor compruebe si todos los campos han sido rellenados correctamente.
 payment#:#pay_bmf_debit_entry#:#Debit entry (sólo para cuentas bancarias alemanas)
 payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you\'ve entered isn\'t valid. Please check out whether all fields are filled out correctly. 
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly. 
 payment#:#pay_bmf_description_credit_card#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra. Rellenando su tarjeta de crédito y haciendo click en el botón \"Guardar\" usted confirmará que quiere realizar su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos. 
 payment#:#pay_bmf_description_debit_entry#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra.  Rellenando sus datos para la -debit entry- y haciendo click en el botón \"Guardar\" usted confirmará que desea hacer su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos. 
 payment#:#pay_bmf_description_payment_type#:#Por favor seleccione cómo realizar el pago.
@@ -5175,7 +5175,7 @@ payment#:#paya_header#:#Administración de Pago
 payment#:#paya_insert_only_numbers#:#Por favor introduzca sólo nÂº enteros.
 payment#:#paya_locator#:#Administrador de pago
 payment#:#paya_months#:#Mes(es)
-payment#:#paya_no_booking_id_given#:#Error: no se ha introducido \'booking id\' 
+payment#:#paya_no_booking_id_given#:#Error: no se ha introducido 'booking id' 
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
 payment#:#paya_no_object_selected#:#Por favor seleccione un objeto
 payment#:#paya_no_objects_assigned#:#No hay productos en venta.
@@ -5239,8 +5239,8 @@ payment#:#pays_no_username_given#:#No se ha introducido un nombre de usuario
 payment#:#pays_no_valid_username_given#:#No se ha introducido un nombre de usuario válido
 payment#:#pays_no_vendor_selected#:#No se ha seleccionado proveedor
 payment#:#pays_number_bookings#:#Reservas activas
-payment#:#pays_objects_bill_exist#:#El método de pago \'factura\' está activado para algunos objetos. Por tanto no puede ser desactivado. 
-payment#:#pays_objects_bmf_exist#:#El método de pago \'BMF\' está activado para algunos objetos. Por tanto no puede ser desactivado. 
+payment#:#pays_objects_bill_exist#:#El método de pago 'factura' está activado para algunos objetos. Por tanto no puede ser desactivado. 
+payment#:#pays_objects_bmf_exist#:#El método de pago 'BMF' está activado para algunos objetos. Por tanto no puede ser desactivado. 
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Métodos de Pago
@@ -5269,7 +5269,7 @@ pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario.
 pwassist#:#pwassist_password_assigned#:#La contraseña ha sido generada con éxito y asignada al usuario \"%1$s\". 
 pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fué enviado. 
 pwassist#:#pwassist_update_error#:#Por favor contacte con su administrador de sistema.\\nLa contraseña pudo no haber sido asignada a la cuenta de usuario debido a un error cuando se actualizaba la base de datos 
-pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\\n%s\\n\\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\\n\\t%s\\n\\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo \'%s\'.\\n\\nPor favor compruebe lo siguiente y actue como se sugiere::\\n\\n-Usted ha solicitado este mail por accidente::\\nElimine este correo.\\n\\n-Está seguro de que nunca solicitó este correo::\\nPor favor contacte con %s.\\n\\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\\n\\n1. Ejecute su navegador de internet.\\n\\n2. Introduzca la siguiente URL:\\n\\t%s\\n\\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\\n\\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña. 
+pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\\n%s\\n\\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\\n\\t%s\\n\\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.\\n\\nPor favor compruebe lo siguiente y actue como se sugiere::\\n\\n-Usted ha solicitado este mail por accidente::\\nElimine este correo.\\n\\n-Está seguro de que nunca solicitó este correo::\\nPor favor contacte con %s.\\n\\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\\n\\n1. Ejecute su navegador de internet.\\n\\n2. Introduzca la siguiente URL:\\n\\t%s\\n\\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\\n\\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña. 
 rbac#:#edit_learning_progress#:#Editar progreso de aprendizaje
 rbac#:#filter_all_roles#:#Mostrar todos los roles del contexto actual
 rbac#:#filter_global_roles#:#Mostrar sólo roles globales
@@ -5420,7 +5420,7 @@ style#:#sty_bottom#:#Bottom###new variable
 style#:#sty_clear#:#Clear###new variable
 style#:#sty_color#:#Colour###new variable
 style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles###new variable
-style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style \'%s\'. This will also delete all individual content styles. Are you sure to continue? ###new variable
+style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? ###new variable
 style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source###new variable
 style#:#sty_create_ind_style#:#Create Individual Style###new variable
 style#:#sty_create_new_stylesheet#:#Create new Style###new variable
@@ -5963,7 +5963,7 @@ trac#:#trac_crs_items#:#items del curso que pueden asignarse
 trac#:#trac_crs_members#:#Miembros del curso:
 trac#:#trac_crs_objects#:#Progreso de aprendizaje de los miembros del curso
 trac#:#trac_crs_releavant_items#:#Items del curso
-trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es \'Completado\', el curso en su totalidad ha sido completado por el usuario. 
+trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario. 
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_edit_time#:#Tiempo de proceso
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
@@ -5977,7 +5977,7 @@ trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
 trac#:#trac_inactive_both#:#Seguimiento de usuario y progreso de aprendizaje desactivados
-trac#:#trac_info_edited#:#Cambia el estado a \'Completado\' si piensas que has procesado todo el contenido. 
+trac#:#trac_info_edited#:#Cambia el estado a 'Completado' si piensas que has procesado todo el contenido. 
 trac#:#trac_last_access#:#Último acceso
 trac#:#trac_learning_progress#:#Progreso de aprendizaje
 trac#:#trac_learning_progress_tbl_header#:#Progreso de:
@@ -6016,7 +6016,7 @@ trac#:#trac_reached_points#:#Puntuación conseguida
 trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
 trac#:#trac_required_visits#:#Número de visitas requeridas
-trac#:#trac_sahs_relevant_items#:#SCO\'s 
+trac#:#trac_sahs_relevant_items#:#SCO's 
 trac#:#trac_select_one#:#No hizo selección
 trac#:#trac_settings#:#Configuración
 trac#:#trac_settings_saved#:#Configuración guardada.
