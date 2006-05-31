@@ -2853,11 +2853,16 @@ class ilUtil
 		// todo:
 		// - provide custom path for mimetex.cgi
 		// - take care of html exports
-		$a_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+		$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
 			"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
 			" />'", $a_text);
-
-		return $a_text;
+		if (strcmp($result_text, $a_text) == 0)
+		{
+			// fix to deal with PEAR template variables
+			$result_text = str_replace("{", "&#123;", $result_text);
+			$result_text = str_replace("}", "&#125;", $result_text);
+		}
+		return $result_text;
 	}
 
 
