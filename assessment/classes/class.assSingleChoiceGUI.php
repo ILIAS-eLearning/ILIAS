@@ -96,6 +96,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 	{
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
+		$multiline_answers = $this->object->getMultilineAnswerSetting();
 		if ($graphical_answer_setting == 0)
 		{
 			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
@@ -156,9 +157,22 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
 				$this->tpl->parseCurrentBlock();
 			}
+			if ($multiline_answers)
+			{
+				$this->tpl->setCurrentBlock("show_textarea");
+				$this->tpl->setVariable("ANSWER_ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("show_textinput");
+				$this->tpl->setVariable("ANSWER_ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
 			$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 			$this->tpl->parseCurrentBlock();
@@ -246,14 +260,19 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
+		$this->tpl->setVariable("TEXT_HIDE_GRAPHICAL_ANSWER_SUPPORT", $this->lng->txt("graphical_answers_hide"));
+		$this->tpl->setVariable("TEXT_SHOW_GRAPHICAL_ANSWER_SUPPORT", $this->lng->txt("graphical_answers_show"));
 		if ($this->object->getGraphicalAnswerSetting() == 1)
 		{
-			$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_hide"));
+			$this->tpl->setVariable("SELECTED_SHOW_GRAPHICAL_ANSWER_SUPPORT", " selected=\"selected\"");
 		}
-		else
+		if ($multiline_answers)
 		{
-			$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_show"));
+			$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
 		}
+		$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_hide"));
+		$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_show"));
+		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -770,21 +789,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->getQuestionTemplate("qt_multiple_choice_sr");
 		parent::addSuggestedSolution();
 	}
-	
-	function toggleGraphicalAnswers()
-	{
-		$graphicalAnswerSetting = $this->object->getGraphicalAnswerSetting();
-		if ($graphicalAnswerSetting == 1)
-		{
-			$this->object->setGraphicalAnswerSetting(0);
-		}
-		else
-		{
-			$this->object->setGraphicalAnswerSetting(1);
-		}
-		$this->writePostData();
-		$this->editQuestion();
-	}
 
 	/**
 	* upload an image
@@ -820,6 +824,16 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$this->object->answers[$i]->setImage("");
 			}
 		}
+		$this->editQuestion();
+	}
+
+	function editMode()
+	{
+		global $ilUser;
+		
+		$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+		$this->object->setGraphicalAnswerSetting($_POST["graphicalAnswerSupport"]);
+		$this->writePostData();
 		$this->editQuestion();
 	}
 }
