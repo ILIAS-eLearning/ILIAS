@@ -3161,6 +3161,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function deleteSingleUserResultsObject()
 	{
+		if (count($_POST["chbUser"]) == 0)
+		{
+			$this->ctrl->redirect($this, "maintenance");
+		}
 		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
 
