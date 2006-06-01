@@ -17,7 +17,7 @@
 <!-- User -->
 <!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, PersonalPicture?, Gender?, Email?,
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
-	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?, 
+	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
 	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?)>
 
@@ -54,7 +54,7 @@
 <!ELEMENT Login (#PCDATA)>
 <!ELEMENT Password (#PCDATA)>
 <!ATTLIST Password
-	Type (ILIAS2 | ILIAS3) #REQUIRED
+	Type (ILIAS2 | ILIAS3 | PLAIN) #REQUIRED
 >
 <!ELEMENT Firstname (#PCDATA)>
 <!ELEMENT Lastname (#PCDATA)>
@@ -82,7 +82,7 @@
 <!ELEMENT TimeLimitUntil (#PCDATA)> <!-- content must be a unix timestamp -->
 <!ELEMENT TimeLimitMessage (#PCDATA)> <!-- content must be 0 or 1 -->
 <!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a mysql datetime *** wenn aggreedate nicht funktioniert, soll dann approvedate importiert werden? -->
-<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime *** es gibt keine methode dafür in ilObjUser. Implementieren? -->
+<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime *** es gibt keine methode dafï¿½r in ilObjUser. Implementieren? -->
 <!ELEMENT iLincID (#PCDATA)>
 <!ELEMENT iLincLogin (#PCDATA)>
 <!ELEMENT iLincPasswd (#PCDATA)>

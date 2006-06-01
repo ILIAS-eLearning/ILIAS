@@ -119,7 +119,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		global $rbacadmin;
-		
+
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false) and $tmp_user->getType() != 'usr')
 		{
 			return $this->__raiseError('No valid user id given. Please choose an existing id of an ILIAS user',
@@ -526,10 +526,16 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		return $ret_data ? $ret_data : array();
 	}
 
-	function getRoles($sid, $role_type, $ref_id)
+	/**
+	 * get roles for a specific type and id
+	 *
+	 * @param String $sid    session id
+	 * @param String  $role_type can be empty which means "local & global", "local", "global" or "user"
+	 * @param Mixed $id can be -1 for system role folder, can be ref id in case for role type "local/global", can be user id or login in case for role type is user
+	 * @return String according DTD role_3_7
+	 */
+	function getRoles($sid, $role_type, $id)
 	{
-
-
 	    if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -537,26 +543,83 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacsystem, $rbacreview;
 
-		if(!$rbacsystem->checkAccess('read',ROLE_FOLDER_ID))
-		{
-			return $this->__raiseError('Check access failed.','Server');
-		}
+		global $rbacsystem, $rbacreview, $ilUser;
 
 		$roles = array();
 
-		if ($ref_id == "-1")
-		// get all roles
+		if (strcasecmp($role_type,"user")==0)
+		// get user roles
 		{
-		      $roles = $rbacreview->getAssignableRoles(false, true);
+            $role_type = ""; // local and global roles for user
+
+            if (!is_numeric($id))
+            //assuming id is login
+            {
+                $user_id = ilObjUser::getUserIdByLogin($id);
+                if (!$user_id)
+                // could not find a valid user
+                {
+                  return $this->__raiseError('Login \''.$id.'\' does not exist!','Client');
+                }
+            } else
+            // this is an id, check for login
+            {
+                $login = ilObjUser::_lookupLogin($user_id);
+                if (!$user_id)
+                // could not find a valid user
+                {
+                  return $this->__raiseError('User \''.$id.'\' does not exist!','Client');
+                }
+
+                $user_id = $id;
+            }
+
+            if ($user_id != $ilUser->getId())
+            // check access for user folder
+            {
+                $tmpUser = new ilObjUser($user_id);
+                $timelimitOwner = $tmpUser->getTimeLimitOwner();
+                if(!$rbacsystem->checkAccess('read',$timelimitOwner))
+		        {
+			       return $this->__raiseError('Check access for time limit owner failed.','Server');
+		        }
+            }
+
+		    foreach($rbacreview->assignedRoles($user_id) as $role_id)
+		    {
+			     if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
+			     {
+				    $roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
+			     }
+		    }
+		} elseif ($id == "-1")
+		// get all roles of system role folder
+		{
+    		if(!$rbacsystem->checkAccess('read',ROLE_FOLDER_ID))
+    		{
+	   		  return $this->__raiseError('Check access failed.','Server');
+		    }
+
+
+		    $roles = $rbacreview->getAssignableRoles(false, true);
 		}
 		else
-		// get local roles
+		// get local roles for a specific repository object
+		// needs permission to read permissions of this object
 		{
-            $role_type = "local";
-		    $role_folder = $rbacreview->getRoleFolderOfObject($ref_id);
+       		if(!$rbacsystem->checkAccess('permission',$id))
+	   	    {
+		  	   return $this->__raiseError('Check access failed.','Server');
+		    }
 
+            if (!is_numeric($id)) {
+               return $this->__raiseError('Id must be numeric to process roles of a repository object.','Client');
+            }
+
+		    $role_type = "local";
+
+            $role_folder = $rbacreview->getRoleFolderOfObject($id);
 
 		    if(count($role_folder))
 		    {
@@ -567,7 +630,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	   			         $roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
 		  	   	 }
 			   }
-		     }
+		    }
 		}
 
 		include_once './webservice/soap/classes/class.ilSoapRoleObjectXMLWriter.php';

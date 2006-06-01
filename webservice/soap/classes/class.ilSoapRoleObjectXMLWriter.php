@@ -67,23 +67,23 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 	{
 		$this->roles = & $roles;
 	}
-	
-	function setType ($type) 
+
+	function setType ($type)
 	{
 		$this->role_type = $type;
 	}
-	
+
 
 	function start()
-	{		
+	{
 		if (!is_array($this->roles))
 			return false;
-			
+
 		$this->__buildHeader();
 
 		include_once './classes/class.ilObjRole.php';
 
-		foreach ($this->roles as $role) 
+		foreach ($this->roles as $role)
 		{
 			// if role type is not empty and does not match, then continue;
 			if (!empty($this->role_type) && strcasecmp ($this->role_type, $role["role_type"]) != 0 )
@@ -92,32 +92,32 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 			}
 
 			$attrs = array(	'role_type' => ucwords($role["role_type"]), 'obj_id' => $role["obj_id"], 'id' => $role["title"]);
-		
+
 			// open tag
 			$this->xmlStartTag("Role", $attrs);
-			
-			
+
+
 			$this->xmlElement('Title',null, $role["title"]);
 			$this->xmlElement('Description',null, $role["description"]);
 			$this->xmlElement('Translation',null,ilObjRole::_getTranslation($role["title"]));
-			
-			if ($ref_id = ilSoapRoleObjectXMLWriter::__extractRefId($role["title"])) 
+
+			if ($ref_id = ilSoapRoleObjectXMLWriter::__extractRefId($role["title"]))
 			{
-			
-				$ownerObj = IlObjectFactory::getInstanceByRefId($ref_id, false);			
-				
-				if (is_object($ownerObj)) 
-				{					
-					$attrs = array ("obj_id" => $ownerObj->getId(), "ref_id" => $ownerObj->getRefId(), "type" => $ownerObj->getType());			
-					$this->xmlStartTag('Owner', $attrs);			
-					$this->xmlElement ('Title', null, $ownerObj->getTitle());			
-					$this->xmlElement ('Description', null, $ownerObj->getDescription());			
-					$this->xmlEndTag ('Owner', $attrs);				
+
+				$ownerObj = IlObjectFactory::getInstanceByRefId($ref_id, false);
+
+				if (is_object($ownerObj))
+				{
+					$attrs = array ("obj_id" => $ownerObj->getId(), "ref_id" => $ownerObj->getRefId(), "type" => $ownerObj->getType());
+					$this->xmlStartTag('Owner', $attrs);
+					$this->xmlElement ('Title', null, $ownerObj->getTitle());
+					$this->xmlElement ('Description', null, $ownerObj->getDescription());
+					$this->xmlEndTag ('Owner', $attrs);
 				}
 			}
-			
+
 			$this->xmlEndTag ("Role");
-			
+
 		}
 
 		$this->__buildFooter();
@@ -129,11 +129,11 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 	{
 		return $this->xmlDumpMem(FALSE);
 	}
-	
+
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Roles SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_role_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_role_object_3_7.dtd\">");
 		$this->xmlSetGenCmt("Roles information of ilias system");
 		$this->xmlHeader();
 
@@ -146,18 +146,18 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 	{
 		$this->xmlEndTag('Roles');
 	}
-	
+
 	/**
 	*	@param role_title with format like il_crs_member_893
-	*	@return	ref id or false 
+	*	@return	ref id or false
 	*/
-	
-	function __extractRefId($role_title) 
+
+	function __extractRefId($role_title)
 	{
-		
+
 		$test_str = explode('_',$role_title);
 
-		if ($test_str[0] == 'il') 
+		if ($test_str[0] == 'il')
 		{
 			$test2 = (int) $test_str[3];
 			return is_numeric ($test2) ? (int) $test2 : false;

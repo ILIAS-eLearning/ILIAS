@@ -453,13 +453,13 @@ function getStructureObjects ($sid, $ref_id) {
 	return $sca->getStructureObjects ($sid, $ref_id);
 }
 
-function getRoles($sid, $role_type, $ref_id)
+function getRoles($sid, $role_type, $id)
 {
 	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
 	$soa =& new ilSoapRBACAdministration();
 
-	return $soa->getRoles($sid, $role_type, $ref_id);
+	return $soa->getRoles($sid, $role_type, $id);
 }
 
 function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule)
