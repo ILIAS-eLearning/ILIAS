@@ -541,6 +541,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
 
+		// this takes time but is nescessary
+   		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
+   		if ($error)
+   		{
+   		    return $this->__raiseError($error, "Client");
+   		}
+
 		// Include main header
 		include_once './include/inc.header.php';
 		include_once './classes/class.ilUserImportParser.php';
