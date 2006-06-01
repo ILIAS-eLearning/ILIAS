@@ -2026,6 +2026,24 @@ class assQuestion
 			return FALSE;
 		}
 	}
+
+	function getMultilineAnswerSetting()
+	{
+		global $ilUser;
+
+		$multilineAnswerSetting = $ilUser->getPref("tst_multiline_answers");
+		if ($multilineAnswerSetting != 1)
+		{
+			$multilineAnswerSetting = 0;
+		}
+		return $multilineAnswerSetting;
+	}
+	
+	function setMultilineAnswerSetting($a_setting = 0)
+	{
+		global $ilUser;
+		$ilUser->writePref("tst_multiline_answers", $a_setting);
+	}
 }
 
 ?>
