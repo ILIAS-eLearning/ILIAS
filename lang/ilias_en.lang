@@ -308,6 +308,8 @@ assessment#:#maxchars#:#Maximum number of characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maxium available points
 assessment#:#meaning#:#Meaning
+assessment#:#multiline_answers_hide#:#Use single-line answers
+assessment#:#multiline_answers_show#:#Use multi-line answers
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>
@@ -440,6 +442,7 @@ assessment#:#select_qpl_option#:#--- Please select a question pool ---
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#select_tst_option#:#--- Please select a test ---
 assessment#:#selected_image#:#Selected image
+assessment#:#set_edit_mode#:#Set edit mode
 assessment#:#set_filter#:#Set filter
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers

@@ -97,6 +97,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
+		$multiline_answers = $this->object->getMultilineAnswerSetting();
 		if ($graphical_answer_setting == 0)
 		{
 			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
@@ -158,11 +159,24 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
 				$this->tpl->parseCurrentBlock();
 			}
+			if ($multiline_answers)
+			{
+				$this->tpl->setCurrentBlock("show_textarea");
+				$this->tpl->setVariable("ANSWER_ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("show_textinput");
+				$this->tpl->setVariable("ANSWER_ANSWER_ORDER", $answer->getOrder());
+				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_CHECKED", sprintf("%d", $answer->getPoints()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED", sprintf("%d", $answer->getPointsUnchecked()));
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -240,14 +254,19 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
+		$this->tpl->setVariable("TEXT_HIDE_GRAPHICAL_ANSWER_SUPPORT", $this->lng->txt("graphical_answers_hide"));
+		$this->tpl->setVariable("TEXT_SHOW_GRAPHICAL_ANSWER_SUPPORT", $this->lng->txt("graphical_answers_show"));
 		if ($this->object->getGraphicalAnswerSetting() == 1)
 		{
-			$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_hide"));
+			$this->tpl->setVariable("SELECTED_SHOW_GRAPHICAL_ANSWER_SUPPORT", " selected=\"selected\"");
 		}
-		else
+		if ($multiline_answers)
 		{
-			$this->tpl->setVariable("VALUE_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers_show"));
+			$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
 		}
+		$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_hide"));
+		$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_show"));
+		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
 		$questiontext = $this->object->getQuestion();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
@@ -778,21 +797,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		parent::addSuggestedSolution();
 	}
 	
-	function toggleGraphicalAnswers()
-	{
-		$graphicalAnswerSetting = $this->object->getGraphicalAnswerSetting();
-		if ($graphicalAnswerSetting == 1)
-		{
-			$this->object->setGraphicalAnswerSetting(0);
-		}
-		else
-		{
-			$this->object->setGraphicalAnswerSetting(1);
-		}
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
 	/**
 	* upload an image
 	*/
@@ -829,5 +833,16 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		}
 		$this->editQuestion();
 	}
+
+	function editMode()
+	{
+		global $ilUser;
+		
+		$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+		$this->object->setGraphicalAnswerSetting($_POST["graphicalAnswerSupport"]);
+		$this->writePostData();
+		$this->editQuestion();
+	}
+	
 }
 ?>
