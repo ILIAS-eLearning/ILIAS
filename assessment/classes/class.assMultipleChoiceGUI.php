@@ -485,6 +485,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->object->setShuffle($_POST["shuffle"]);
 
 		$saved = $this->writeOtherPostData($result);
+		$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+		$this->object->setGraphicalAnswerSetting($_POST["graphicalAnswerSupport"]);
 
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flushAnswers();

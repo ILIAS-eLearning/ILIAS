@@ -94,6 +94,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	*/
 	function editQuestion($has_error = 0, $delete = false)
 	{
+		$multiline_answers = $this->object->getMultilineAnswerSetting();
 		$this->getQuestionTemplate("qt_matching");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
 
@@ -137,6 +138,21 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
+		{
+			/*
+			$this->tpl->setCurrentBlock("multiline_answers");
+			if ($multiline_answers)
+			{
+				$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
+			}
+			$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_definitions_hide"));
+			$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_definitions_show"));
+			$this->tpl->parseCurrentBlock();
+			*/
+		}
+		
 		if ($this->object->get_matchingpair_count())
 		{
 			$this->tpl->setCurrentBlock("answerhead");
@@ -305,6 +321,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
 		}
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -396,6 +413,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 		$this->object->setMatchingType($_POST["matching_type"]);
+		//$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
 
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flush_matchingpairs();
@@ -843,5 +861,15 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->getQuestionTemplate("qt_matching");
 		parent::addSuggestedSolution();
 	}	
+
+	function editMode()
+	{
+		global $ilUser;
+		
+		//$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+		$this->object->setMatchingType($_POST["matching_type"]);
+		$this->writePostData();
+		$this->editQuestion();
+	}
 }
 ?>
