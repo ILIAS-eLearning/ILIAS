@@ -43,10 +43,23 @@
 		</select>
 	</td>
 </tr>
-	<tr>
-		<td class="option"><label for="matching_type">{TEXT_TYPE}:</label></td>
-		<td class="option_value" colspan="5"><select name="matching_type" id="matching_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_TERMS_PICTURES}</option><option value="1"{SELECTED_DEFINITIONS}>{TEXT_TYPE_TERMS_DEFINITIONS}</option></select></td>
-	</tr>
+<tr>
+	<td class="submit">
+	</td>
+	<td class="submit" colspan="5">
+		<select name="matching_type" id="matching_type">
+			<option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_TERMS_PICTURES}</option>
+			<option value="1"{SELECTED_DEFINITIONS}>{TEXT_TYPE_TERMS_DEFINITIONS}</option>
+		</select>
+<!-- BEGIN multiline_answers -->
+		<select name="multilineAnswers">
+			<option value="0">{TEXT_HIDE_MULTILINE_ANSWERS}</option>
+			<option value="1"{SELECTED_SHOW_MULTILINE_ANSWERS}>{TEXT_SHOW_MULTILINE_ANSWERS}</option>
+		</select>
+<!-- END multiline_answers -->
+		<input type="submit" class="submit" name="cmd[editMode]" value="{SET_EDIT_MODE}" />
+	</td>
+</tr>
 </table>
 <table class="fullwidth">
 	<tr>

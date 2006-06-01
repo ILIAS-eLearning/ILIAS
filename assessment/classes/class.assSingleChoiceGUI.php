@@ -488,6 +488,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
+		$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+		$this->object->setGraphicalAnswerSetting($_POST["graphicalAnswerSupport"]);
 
 		$saved = $this->writeOtherPostData($result);
 

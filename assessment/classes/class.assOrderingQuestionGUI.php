@@ -96,6 +96,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	*/
 	function editQuestion($ok = true)
 	{
+		$multiline_answers = $this->object->getMultilineAnswerSetting();
 		$this->getQuestionTemplate("qt_ordering");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
 
@@ -133,9 +134,20 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			}
 			elseif ($this->object->getOrderingType() == OQ_TERMS)
 			{
-				$this->tpl->setCurrentBlock("order_terms");
-				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
+				if ($multiline_answers)
+				{
+					$this->tpl->setCurrentBlock("show_textarea");
+					$this->tpl->setVariable("ANSWER_ORDER", $i);
+					$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("show_textinput");
+					$this->tpl->setVariable("ANSWER_ORDER", $i);
+					$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$this->tpl->parseCurrentBlock();
 
@@ -193,6 +205,16 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		if ($this->object->getOrderingType() == OQ_TERMS)
+		{
+			if ($multiline_answers)
+			{
+				$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
+			}
+			$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_terms_hide"));
+			$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_terms_show"));
+		}
+		
 		$this->outOtherQuestionData();
 		
 		$internallinks = array(
@@ -276,6 +298,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assOrderingQuestion");
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
 		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this));
@@ -382,6 +405,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 		$this->object->setOrderingType($_POST["ordering_type"]);
+		if ($this->object->getOrderingType() == OQ_TERMS)
+		{
+			$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+		}
 
 		// Add answers from the form
 		foreach ($_POST as $key => $value)
@@ -778,6 +805,19 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_ordering");
 		parent::addSuggestedSolution();
+	}
+
+	function editMode()
+	{
+		global $ilUser;
+		
+		if ($this->object->getOrderingType() == OQ_TERMS)
+		{
+			$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+		}
+		$this->object->setOrderingType($_POST["ordering_type"]);
+		$this->writePostData();
+		$this->editQuestion();
 	}
 }
 ?>

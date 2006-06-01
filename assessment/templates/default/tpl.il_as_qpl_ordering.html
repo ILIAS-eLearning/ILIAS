@@ -44,8 +44,21 @@
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="ordering_type">{TEXT_TYPE}:</label></td>
-  <td class="option_value" colspan="4"><select name="ordering_type" id="ordering_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_PICTURES}</option><option value="1"{SELECTED_TERMS}>{TEXT_TYPE_TERMS}</option></select></td>
+	<td class="submit">
+	</td>
+	<td class="submit" colspan="4">
+		<select name="ordering_type" id="ordering_type">
+			<option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_PICTURES}</option>
+			<option value="1"{SELECTED_TERMS}>{TEXT_TYPE_TERMS}</option>
+		</select>
+<!-- BEGIN multiline_answers -->
+		<select name="multilineAnswers">
+			<option value="0">{TEXT_HIDE_MULTILINE_ANSWERS}</option>
+			<option value="1"{SELECTED_SHOW_MULTILINE_ANSWERS}>{TEXT_SHOW_MULTILINE_ANSWERS}</option>
+		</select>
+<!-- END multiline_answers -->
+		<input type="submit" class="submit" name="cmd[editMode]" value="{SET_EDIT_MODE}" />
+	</td>
 </tr>
 
 <tr><td colspan="5" class="option"><input name="cmd[addItem]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
@@ -63,8 +76,12 @@
 <tr>
  <!-- BEGIN order_terms -->
   <td class="option_value">
+<!-- BEGIN show_textarea -->
 		<textarea cols="80" rows="4" name="answer_{ANSWER_ORDER}" id="answer_{ANSWER_ORDER}">{VALUE_ANSWER}</textarea>
-		<!--input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" /-->
+<!-- END show_textarea -->
+<!-- BEGIN show_textinput -->
+		<input class="fullwidth" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" />
+<!-- END show_textinput -->
 	</td>
  <!-- END order_terms -->
 
