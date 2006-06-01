@@ -66,30 +66,30 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 	{
 		$this->structureObject = & $structureObject;
 	}
-	
+
 
 	function start()
-	{		
+	{
 		if (!is_object($this->structureObject))
 			return false;
-			
+
 		$this->__buildHeader();
-//		
+//
 //		$this->xmlElement('Title',null,$this->structureObject->getTitle());
 //		$this->xmlElement('Description',null,$this->structureObject->getDescription());
 //		$this->xmlElement('InternalLink',null,$this->structureObject->getInternalLink());
 //		$this->xmlElement('GotoLink',null,$this->structureObject->getGotoLink());
-		
+
 		$this->structureObject->exportXML ($this);
-		
-		
-//		
+
+
+//
 //		// first level sub structure objects
 //		$structureObjects = $this->structureObject->getStructureObjects();
-//		
+//
 //		$this->__handleObject ($structureObjects);
-	
-		
+
+
 		$this->__buildFooter();
 
 		return true;
@@ -99,14 +99,14 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 	{
 		return $this->xmlDumpMem(FALSE);
 	}
-	
+
 
 //	// PRIVATE
-//	
+//
 //	function __handleObject (& $subStructureObjects) {
-//		
+//
 //		$this->xmlStartTag("StructureObjects");
-//			
+//
 //		foreach($subStructureObjects as $subObject)
 //		{
 //			$attrs = array(	'type' => $subObject->getType(),
@@ -114,44 +114,44 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 //						'ref_id' => $subObject->getRefId(),
 //					   	'parent_id' => $subObject->getParentId()
 //			);
-//			
+//
 //			// open tag
 //			$this->xmlStartTag("StructureObject", $attrs);
-//		
+//
 //			$this->xmlElement('Title',null,$subObject->getTitle());
 //			$this->xmlElement('Description',null,$subObject->getDescription());
 //			$this->xmlElement('InternalLink',null,$subObject->getInternalLink());
 //			$this->xmlElement('GotoLink',null,$subObject->getGotoLink());
-//						
+//
 //			// handle sub elements
 //			$structureObjects = $subObject->getStructureObjects();
-//			
+//
 //			$this->__handleObject ($structureObjects);
-//			
+//
 //			// close tag
-//			$this->xmlEndTag("StructureObject");			
-//			
+//			$this->xmlEndTag("StructureObject");
+//
 //		}
-//						
-//						
-//		$this->xmlEndTag("StructureObjects");		
-//		
+//
+//
+//		$this->xmlEndTag("StructureObjects");
+//
 //	}
-//	
+//
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE RepositoryObject SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_soap_structure_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_soap_structure_object_3_7.dtd\">");
 		$this->xmlSetGenCmt("Internal Structure Information of Content Objects");
 		$this->xmlHeader();
 //
 //		$attrs = array('type' => $this->structureObject->getType(),
 //					   'obj_id' => $this->structureObject->getObjId(),
 //					   'ref_id' => $this->structureObject->getRefId()
-//					   );		
+//					   );
 //
-//		
+//
 //		$this->xmlStartTag('Object', $attrs);
-				
+
 
 		return true;
 	}

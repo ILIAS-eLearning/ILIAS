@@ -758,7 +758,7 @@ class ilUserImportParser extends ilSaxParser
 
 						    if (!strlen($this->currPassword)==0)
 						      switch ($this->currPasswordType)
-							 {
+							  {
 								case "ILIAS2":
 									$this->userObj->setPasswd($this->currPassword, IL_PASSWD_CRYPT);
 									break;
@@ -766,8 +766,11 @@ class ilUserImportParser extends ilSaxParser
 								case "ILIAS3":
 									$this->userObj->setPasswd($this->currPassword, IL_PASSWD_MD5);
 									break;
+								case "PLAIN":
+									$this->userObj->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
+									break;
 
-							 }
+							  }
 							else
 							{
 							    // this does the trick for empty passwords
@@ -865,6 +868,9 @@ class ilUserImportParser extends ilSaxParser
 
 									case "ILIAS3":
 										$updateUser->setPasswd($this->currPassword, IL_PASSWD_MD5);
+										break;
+									case "PLAIN":
+										$updateUser->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
 										break;
 								}
 							}
@@ -1215,6 +1221,9 @@ class ilUserImportParser extends ilSaxParser
 
 					case "ILIAS3":
 						$this->userObj->setPasswd($this->cdata, IL_PASSWD_MD5);
+						break;
+					case "PLAIN":
+						$this->userObj->setPasswd($this->cdata, IL_PASSWD_PLAIN);
 						break;
 
 					default :

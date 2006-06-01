@@ -744,7 +744,7 @@ class ilNusoapUserAdministrationAdapter
 		// importUsers()
 		$this->server->register('importUsers',
 								array('sid' => 'xsd:string',
-										'folder_id' => 'xsd:int',
+									  'folder_id' => 'xsd:int',
 									  'usr_xml' => 'xsd:string',
 									  'conflict_rule' => 'xsd:int'),
 								array('protocol' => 'xsd:string'),
@@ -757,13 +757,13 @@ class ilNusoapUserAdministrationAdapter
 		$this->server->register('getRoles',
 								array('sid' => 'xsd:string',
 								      'role_type' => 'xsd:string',
-								      'ref_id' => 'xsd:int'),
+								      'id' => 'xsd:int'),
 								array('role_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getRoles',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getRoles():if ref_id equals -1, get all roles specified by type (global|local), if type is empty all roles with all types are delivered, if ref_id > -1 delivers all roles which belong to container with specified ref_id');
+								'ILIAS getRoles():if id equals -1, get all roles specified by type (global|local|user or empty), if type is empty all roles with all types are delivered, if id > -1 and role_type <> user, delivers all roles which belong to a repository object with specified ref_id, if roletype is user a numeric id is interpreted as userid otherwise as login.');
 
 		$this->server->register('getUsersForContainer',
 								array('sid' => 'xsd:string',

@@ -62,7 +62,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 		$this->ilias =& $ilias;
 		$this->user_id = $ilUser->getId();
 		$this->attachRoles = false;
-		$this->settings = ilSoapUserObjectXMLWriter::getExportSettings();
+		//$this->settings = ilSoapUserObjectXMLWriter::getExportSettings();
 
 	}
 
@@ -104,7 +104,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Users SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_user_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_user_3_7.dtd\">");
 		$this->xmlSetGenCmt("User of ilias system");
 		$this->xmlHeader();
 
@@ -164,12 +164,9 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 			}
 		}
 
-		/*$i2passwd = $this->__addElement ("Password", $row["i2passwd"], array ("Type" => "ILIAS2"), null, "i2passwd");
-
-		if (!$i2passwd)
-		{
-				$this->__addElement ("Password", $row["passwd"], array ("Type" => "ILIAS3"));
-		}*/
+		 /**
+		  * never export passwords!
+		  */
 
 		$this->__addElement ("Firstname", $row["firstname"]);
 		$this->__addElement ("Lastname", $row["lastname"]);
@@ -180,7 +177,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 		$this->__addElement ("Street", $row["street"]);
 		$this->__addElement ("City", $row["city"]);
 		$this->__addElement ("PostalCode", $row["zipcode"], null, "zipcode");
-		$this->__addElement ("County", $row["country"]);
+		$this->__addElement ("Country", $row["country"]);
 		$this->__addElement ("PhoneOffice", $row["phone_office"], null, "phone_office");
 		$this->__addElement ("PhoneHome", $row["phone_home"], null, "phone_home");
 		$this->__addElement ("PhoneMobile", $row["phone_mobile"],  null, "phone_mobile");
@@ -212,7 +209,10 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 	function __addElement ($tagname, $value, $attrs = null, $settingsname = null)
 	{
-		$settingsname = strlen($settingsname) ? $settingsname  : strtolower ($tagname);
+
+	    $this->xmlElement ($tagname, $attrs, $value);
+
+/*	    $settingsname = strlen($settingsname) ? $settingsname  : strtolower ($tagname);
 		if (array_search($settingsname, $this->settings) !== FALSE)
 		{
 			if (strlen($value)) {
@@ -220,10 +220,13 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 				return true;
 			}
 		}
-		return false;
+		return false;*/
 	}
 
-	function getExportSettings()
+/*
+we should not care about these settings, since they are only for export
+
+function getExportSettings()
 	{
 		global $ilDB;
 
@@ -293,7 +296,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 		array_push($export_settings, "auth_mode");
 		return $export_settings;
 	}
-
+*/
 }
 
 
