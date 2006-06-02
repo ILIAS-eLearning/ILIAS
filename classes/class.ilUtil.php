@@ -2920,18 +2920,22 @@ class ilUtil
        global $lng;
 
        if (!is_array($duration)) {
-		echo "lavin, no es un array el parametro!";
-		 return false;
+	 return false;
        }
        
        foreach ($duration as $key => $value) {
-	 	$segment_name = substr($key, 0, -1);
-		$segment_name = $lng->txt($segment_name);
-		$segment = $value . ' ' . $segment_name; 
-	 
+
 		 // Plural
-		 if ($value != 1) {
-	   		$segment .= 's';
+		 if ($value > 1) {
+		   $segment_name = substr($key, 0, -1);
+		   $segment_name = $lng->txt($segment_name);
+		   $segment = $value . ' ' . $segment_name; 
+		   $segment .= 's';
+		 }
+		 else {
+		   $segment_name = substr($key, 0, -1);
+		   $segment_name = $lng->txt($segment_name);
+		   $segment = $value . ' ' . $segment_name; 
 		 }
 	 
 		$array[] = $segment;
