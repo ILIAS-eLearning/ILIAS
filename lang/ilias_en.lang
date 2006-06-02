@@ -1523,6 +1523,7 @@ common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Deliver exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
+common#:#exc_status#:#Status
 common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_sent#:#Delivered
@@ -1861,8 +1862,8 @@ common#:#hlm_write#:#Edit HACP Learning Module
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Public Area
 common#:#host#:#Host
-common#:#hour#:#hour
-common#:#hours#:#hour(s)
+common#:#hour#:#Hour
+common#:#hours#:#Hour(s)
 common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#Learning Module HTML
 common#:#htlm_add#:#Add HTML Learning Module
@@ -3305,6 +3306,7 @@ common#:#with#:#with
 common#:#write#:#Write
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.
 common#:#year#:#Year
+common#:#years#:#Years
 common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
