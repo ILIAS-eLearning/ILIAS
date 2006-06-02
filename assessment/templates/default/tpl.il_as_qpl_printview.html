@@ -5,13 +5,12 @@
 	<option value="{VALUE_SORTORDER}"{SELECTED_SORTORDER}>{TEXT_SORTORDER}</option>
 <!-- END sortorder -->
 </select>
+{OUTPUT_MODE}: <select name="output">
+	<option value="overview">{TEXT_OVERVIEW}</option>
+	<option value="detailed"{SELECTED_DETAILED}>{TEXT_DETAILED}</option>
+	<option value="detailed_printview"{SELECTED_DETAILED_PRINTVIEW}>{TEXT_DETAILED_PRINTVIEW}</option>
+</select>
 <input type="submit" class="submit" name="cmd[print]" value="{TEXT_SUBMIT}" />
-<!-- BEGIN detailed_output -->
-<input type="submit" class="submit" name="cmd[printDetailed]" value="{DETAILED_OUTPUT}" />
-<!-- END detailed_output -->
-<!-- BEGIN overview_output -->
-<input type="submit" class="submit" name="cmd[print]" value="{OVERVIEW_OUTPUT}" />
-<!-- END overview_output -->
 <input type="button" class="submit" name="print" value="{PRINT}" onclick="javascript:window.print();" />
 </p>
 <!-- BEGIN overview -->

@@ -780,6 +780,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["description"] = ilUtil::stripSlashes($_POST["description"]);
 		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
 		$data["password"] = $_POST["password"];
+		$data["allowedUsers"] = $_POST["allowedUsers"];
+		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
 		$introduction = preg_replace("/\n/", "<br />", $introduction);
@@ -945,6 +947,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
 		$this->object->setPassword($data["password"]);
+		$this->object->setAllowedUsers($data["allowedUsers"]);
+		$this->object->setAllowedUsersTimeGap($data["allowedUsersTimeGap"]);
 		$this->object->setScoreCutting($data["score_cutting"]);
 		$this->object->setPassScoring($data["pass_scoring"]);
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST )
@@ -1222,6 +1226,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["mc_scoring"] = $this->object->getMCScoring();
 		$data["password"] = $this->object->getPassword();
 		$data["score_cutting"] = $this->object->getScoreCutting();
+		$data["allowedUsers"] = $this->object->getAllowedUsers();
+		$data["allowedUsersTimeGap"] = $this->object->getAllowedUsersTimeGap();
 		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
 		{
 			$this->tpl->setCurrentBlock("score_reporting_very_question");
@@ -1535,6 +1541,19 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("DISABLE_PASS_SCORING", " disabled=\"disabled\"");
 		}
+		$this->tpl->setVariable("TEXT_MAX_ALLOWED_USERS", $this->lng->txt("tst_max_allowed_users"));
+		$this->tpl->setVariable("TEXT_ALLOWED_USERS", $this->lng->txt("tst_allowed_users"));
+		$this->tpl->setVariable("TEXT_ALLOWED_USERS_TIME_GAP", $this->lng->txt("tst_allowed_users_time_gap"));
+		if ($data["allowedUsers"] > 0)
+		{
+			$this->tpl->setVariable("VALUE_ALLOWED_USERS", " value=\"" . $data["allowedUsers"] . "\"");
+		}
+		$this->tpl->setVariable("TEXT_ALLOWED_USERS_TIME_GAP", $this->lng->txt("tst_allowed_users_time_gap"));
+		if ($data["allowedUsersTimeGap"] > 0)
+		{
+			$this->tpl->setVariable("VALUE_ALLOWED_USERS_TIME_GAP", " value=\"" . $data["allowedUsersTimeGap"] . "\"");
+		}
+		$this->tpl->setVariable("SECONDS", $this->lng->txt("seconds"));
 		$this->tpl->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
 		$this->tpl->setVariable("TEXT_PASSWORD_DETAILS", $this->lng->txt("tst_password_details"));
 		if (strlen($data["password"]))
@@ -4383,6 +4402,10 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getEnableProcessingTime())
 		{
 			$info->addProperty($this->lng->txt("tst_processing_time"), $this->object->getProcessingTime());
+		}
+		if (strlen($this->object->getAllowedUsers()) && ($this->object->getAllowedUsersTimeGap()))
+		{
+			$info->addProperty($this->lng->txt("tst_allowed_users"), $this->object->getAllowedUsers());
 		}
 		
 		$starting_time = $this->object->getStartingTime();

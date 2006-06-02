@@ -275,21 +275,19 @@ class assNumeric extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilias;
+		global $ilDB;
 
 		$complete = 0;
 		if ($this->isComplete())
 		{
 			$complete = 1;
 		}
-		$db = & $ilias->db;
-
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
 		if ($original_id)
 		{
-			$original_id = $db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -303,29 +301,29 @@ class assNumeric extends assQuestion
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type),
-				$db->quote($this->obj_id),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->owner),
-				$db->quote($this->question),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($estw_time),
-				$db->quote("$complete"),
-				$db->quote($created),
+				$ilDB->quote($question_type),
+				$ilDB->quote($this->obj_id),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->owner),
+				$ilDB->quote($this->question),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($estw_time),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($created),
 				$original_id
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			
 			if ($result == DB_OK)
 			{
-				$this->id = $this->ilias->db->getLastInsertId();
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_numeric (question_fi, maxNumOfChars) VALUES (%s, %s)",
-					$db->quote($this->id . ""),
-					$db->quote($this->getMaxChars() . "")
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->getMaxChars() . "")
 				);
-				$db->query($query);
+				$ilDB->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -341,22 +339,22 @@ class assNumeric extends assQuestion
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->question),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($estw_time),
-				$db->quote("$complete"),
-				$db->quote($this->id)
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->question),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($estw_time),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_numeric SET maxNumOfChars = %s WHERE question_fi = %s",
-				$db->quote($this->getMaxChars() . ""),
-				$db->quote($this->id . "")
+				$ilDB->quote($this->getMaxChars() . ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 		}
 		if ($result == DB_OK)
 		{
@@ -364,21 +362,21 @@ class assNumeric extends assQuestion
 			
 			// 1. delete old ranges
 			$query = sprintf("DELETE FROM qpl_numeric_range WHERE question_fi = %s",
-				$db->quote($this->id)
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			// 2. write ranges
 			foreach ($this->ranges as $key => $range)
 			{
 				$query = sprintf("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, lastchange) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($this->id),
-				$db->quote($range->getLowerLimit()),
-				$db->quote($range->getUpperLimit() . ""),
-				$db->quote($range->getPoints() . ""),
-				$db->quote($range->getOrder() . "")
+				$ilDB->quote($this->id),
+				$ilDB->quote($range->getLowerLimit()),
+				$ilDB->quote($range->getUpperLimit() . ""),
+				$ilDB->quote($range->getPoints() . ""),
+				$ilDB->quote($range->getOrder() . "")
 				);
-				$answer_result = $db->query($query);
+				$answer_result = $ilDB->query($query);
 			}
 		}
 		parent::saveToDb($original_id);
@@ -395,12 +393,12 @@ class assNumeric extends assQuestion
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilias;
-		$db = & $ilias->db;
+		global $ilDB;
+		
     $query = sprintf("SELECT qpl_questions.*, qpl_question_numeric.* FROM qpl_questions, qpl_question_numeric WHERE question_id = %s AND qpl_questions.question_id = qpl_question_numeric.question_fi",
-			$db->quote($question_id)
+			$ilDB->quote($question_id)
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
 			if ($result->numRows() == 1)
@@ -421,10 +419,10 @@ class assNumeric extends assQuestion
 			}
 
 			$query = sprintf("SELECT * FROM qpl_numeric_range WHERE question_fi = %s ORDER BY aorder ASC",
-				$db->quote($question_id)
+				$ilDB->quote($question_id)
 			);
 
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			include_once "./assessment/classes/class.assNumericRange.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
@@ -775,18 +773,16 @@ class assNumeric extends assQuestion
 		global $ilDB;
 		global $ilUser;
 
-		$db =& $ilDB->db;
-
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$actualpass = ilObjTest::_getPass($active_id);
 		$entered_values = 0;
 		$numeric_result = str_replace(",",".",$_POST["numeric_result"]);
 		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($active_id . ""),
-			$db->quote($this->getId() . ""),
-			$db->quote($actualpass . "")
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($actualpass . "")
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		$update = $row->solution_id;
 		if ($update)
@@ -794,18 +790,18 @@ class assNumeric extends assQuestion
 			if (strlen($numeric_result))
 			{
 				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
-					$db->quote($numeric_result),
-					$db->quote($update)
+					$ilDB->quote($numeric_result),
+					$ilDB->quote($update)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 				$entered_values++;
 			}
 			else
 			{
 				$query = sprintf("DELETE FROM tst_solutions WHERE solution_id = %s",
-					$db->quote($update)
+					$ilDB->quote($update)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 			}
 		}
 		else
@@ -813,12 +809,12 @@ class assNumeric extends assQuestion
 			if (strlen($numeric_result))
 			{
 				$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
-					$db->quote($active_id),
-					$db->quote($this->getId()),
-					$db->quote($numeric_result),
-					$db->quote($actualpass . "")
+					$ilDB->quote($active_id),
+					$ilDB->quote($this->getId()),
+					$ilDB->quote($numeric_result),
+					$ilDB->quote($actualpass . "")
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 				$entered_values++;
 			}
 		}
@@ -844,7 +840,8 @@ class assNumeric extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilDB;
+		
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -852,26 +849,25 @@ class assNumeric extends assQuestion
 			{
 				$complete = 1;
 			}
-			$db = & $ilias->db;
 	
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title. ""),
-				$db->quote($this->comment. ""),
-				$db->quote($this->author. ""),
-				$db->quote($this->question. ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($estw_time. ""),
-				$db->quote($complete. ""),
-				$db->quote($this->original_id. "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title. ""),
+				$ilDB->quote($this->comment. ""),
+				$ilDB->quote($this->author. ""),
+				$ilDB->quote($this->question. ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($estw_time. ""),
+				$ilDB->quote($complete. ""),
+				$ilDB->quote($this->original_id. "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_numeric SET maxNumOfChars = %s WHERE question_fi = %s",
-				$db->quote($this->getMaxChars() . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->getMaxChars() . ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 
@@ -881,21 +877,21 @@ class assNumeric extends assQuestion
 				
 				// 1. delete old ranges
 				$query = sprintf("DELETE FROM qpl_numeric_range WHERE question_fi = %s",
-					$db->quote($this->original_id)
+					$ilDB->quote($this->original_id)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 	
 				// 2. write ranges
 				foreach ($this->ranges as $key => $range)
 				{
 					$query = sprintf("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, lastchange) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-					$db->quote($this->original_id),
-					$db->quote($range->getLowerLimit()),
-					$db->quote($range->getUpperLimit() . ""),
-					$db->quote($range->getPoints() . ""),
-					$db->quote($range->getOrder() . "")
+					$ilDB->quote($this->original_id),
+					$ilDB->quote($range->getLowerLimit()),
+					$ilDB->quote($range->getUpperLimit() . ""),
+					$ilDB->quote($range->getPoints() . ""),
+					$ilDB->quote($range->getOrder() . "")
 					);
-					$answer_result = $db->query($query);
+					$answer_result = $ilDB->query($query);
 				}
 			}
 			parent::syncWithOriginal();

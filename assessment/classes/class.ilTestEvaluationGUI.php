@@ -638,6 +638,16 @@ class ilTestEvaluationGUI
 		$savetextanswers = 0;
 		$textanswers = 0;
 		$export = 0;
+		$filter = 0;
+		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("set_filter")) == 0)
+		{
+			$filter = 1;
+		}
+		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("reset_filter")) == 0)
+		{
+			$filter = 1;
+			$_POST["userfilter"] = "";
+		}
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("export")) == 0)
 		{
 			$export = 1;
@@ -656,7 +666,7 @@ class ilTestEvaluationGUI
 			}
 			sendInfo($this->lng->txt("text_answers_saved"));
 		}
-		if ((count($_POST) == 0) || ($export) || ($savetextanswers) || is_numeric($_GET["active_id"]))
+		if ((count($_POST) == 0) || ($export) || ($filter) || ($savetextanswers) || is_numeric($_GET["active_id"]))
 		{
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 			$eval_statistical_settings = array(
@@ -795,7 +805,22 @@ class ilTestEvaluationGUI
 		{
 			$selected_users =& $this->object->getEvaluationParticipants($ilUser->getId(), $_GET["sortname"]);
 		}
-//			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
+
+		foreach ($selected_users as $key => $name)
+		{
+			if ($filter == 1)
+			{
+				if (strlen($_POST["userfilter"]))
+				{
+					$username = $selected_users[$key];
+					if (strpos(strtolower($username), strtolower($_POST["userfilter"])) === FALSE)
+					{
+						unset($selected_users[$key]);
+					}
+				}
+			}
+		}
+		//			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
 		$row = 0;
 		$question_legend = false;
 		$question_stat = array();
@@ -844,7 +869,6 @@ class ilTestEvaluationGUI
 		foreach ($selected_users as $key => $name)
 		{
 			$stat_eval = $evaluation_array[$key];
-			
 			$titlerow_user = array();
 			if ($this->object->isRandomTest())
 			{
@@ -1325,6 +1349,13 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		$this->tpl->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_FILTER_USERS", $this->lng->txt("filter_users"));
+		$this->tpl->setVariable("TEXT_FILTER", $this->lng->txt("set_filter"));
+		$this->tpl->setVariable("TEXT_RESET_FILTER", $this->lng->txt("reset_filter"));
+		if (strlen($_POST["userfilter"]) > 0)
+		{
+			$this->tpl->setVariable("VALUE_FILTER_USERS", " value=\"" . $_POST["userfilter"] . "\"");
+		}
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock("adm_content");

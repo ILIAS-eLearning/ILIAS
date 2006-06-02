@@ -269,11 +269,13 @@ class assQuestion
 	*/
 	function questionTitleExists($questionpool_id, $title)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
-			$this->ilias->db->quote($questionpool_id . ""),
-			$this->ilias->db->quote($title)
+			$ilDB->quote($questionpool_id . ""),
+			$ilDB->quote($title)
 			);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
 			if ($result->numRows() == 1)
@@ -633,11 +635,13 @@ class assQuestion
 	*/
 	function insertIntoTest($test_id)
 	{
+		global $ilDB;
+		
 		// get maximum sequence index in test
 		$query = sprintf("SELECT MAX(sequence) AS seq FROM dum_test_question WHERE test_fi=%s",
-			$this->ilias->db->quote($test_id)
+			$ilDB->quote($test_id)
 			);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$sequence = 1;
 		if ($result->numRows() == 1)
 		{
@@ -645,11 +649,11 @@ class assQuestion
 			$sequence = $data->seq + 1;
 		}
 		$query = sprintf("INSERT INTO dum_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($test_id),
-			$this->ilias->db->quote($this->getId()),
-			$this->ilias->db->quote($sequence)
+			$ilDB->quote($test_id),
+			$ilDB->quote($this->getId()),
+			$ilDB->quote($sequence)
 			);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result != DB_OK)
 		{
 		// Fehlermeldung
@@ -1005,11 +1009,13 @@ class assQuestion
 	*/
 	function isInUse($question_id = "")
 	{
+		global $ilDB;
+		
 		if ($question_id < 1) $question_id = $this->id;
 		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE original_id = %s",
-			$this->ilias->db->quote($question_id . "")
+			$ilDB->quote($question_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->question_count;
 	}
@@ -1024,11 +1030,13 @@ class assQuestion
 	*/
 	function isClone($question_id = "")
 	{
+		global $ilDB;
+		
 		if ($question_id < 1) $question_id = $this->id;
 		$query = sprintf("SELECT original_id FROM qpl_questions WHERE question_id = %s",
-			$this->ilias->db->quote($question_id . "")
+			$ilDB->quote($question_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		if ($row->original_id > 0)
 		{
@@ -1162,13 +1170,15 @@ class assQuestion
 	*/
 	function delete($question_id)
 	{
+		global $ilDB;
+		
 		if ($question_id < 1)
 		return;
 
 		$query = sprintf("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
+			$ilDB->quote($question_id)
 			);
-    	$result = $this->ilias->db->query($query);
+    	$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1184,20 +1194,20 @@ class assQuestion
 		$page->delete();
 		
 		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
+			$ilDB->quote($question_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		
 		$this->deleteAdditionalTableData($question_id);
 		$this->deleteAnswers($question_id);
 
 		// delete the question in the tst_test_question table (list of test questions)
-		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
-		$deleteresult = $this->ilias->db->query($querydelete);
+		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $ilDB->quote($question_id));
+		$deleteresult = $ilDB->query($querydelete);
 
 		// delete suggested solutions contained in the question
-		$querydelete = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s", $this->ilias->db->quote($question_id));
-		$deleteresult = $this->ilias->db->query($querydelete);
+		$querydelete = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s", $ilDB->quote($question_id));
+		$deleteresult = $ilDB->query($querydelete);
 				
 		$directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
 		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
@@ -1411,10 +1421,12 @@ class assQuestion
 */
 	function loadFromDb($question_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$this->ilias->db->quote($this->getId() . "")
+			$ilDB->quote($this->getId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$this->suggested_solutions = array();
 		if ($result->numRows())
 		{
@@ -1438,21 +1450,23 @@ class assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
+		global $ilDB;
+		
 		include_once "./content/classes/Pages/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$this->ilias->db->quote($this->getId() . "")
+			$ilDB->quote($this->getId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
 			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getId() . ""),
-				$this->ilias->db->quote($solution["internal_link"] . ""),
-				$this->ilias->db->quote($solution["import_id"] . ""),
-				$this->ilias->db->quote($index . "")
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($solution["internal_link"] . ""),
+				$ilDB->quote($solution["import_id"] . ""),
+				$ilDB->quote($index . "")
 			);
-			$this->ilias->db->query($query);
+			$ilDB->query($query);
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 			{
 				ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
@@ -1469,11 +1483,12 @@ class assQuestion
 */
 	function deleteSuggestedSolutions()
 	{
+		global $ilDB;
 		// delete the links in the qpl_suggested_solutions table
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$this->ilias->db->quote($this->getId() . "")
+			$ilDB->quote($this->getId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		// delete the links in the int_link table
 		include_once "./content/classes/Pages/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
@@ -1713,21 +1728,23 @@ class assQuestion
 
 	function syncWithOriginal()
 	{
+		global $ilDB;
+		
 		include_once "./content/classes/Pages/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$this->ilias->db->quote($this->original_id . "")
+			$ilDB->quote($this->original_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->original_id);
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
 			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->original_id . ""),
-				$this->ilias->db->quote($solution["internal_link"] . ""),
-				$this->ilias->db->quote($solution["import_id"] . ""),
-				$this->ilias->db->quote($index . "")
+				$ilDB->quote($this->original_id . ""),
+				$ilDB->quote($solution["internal_link"] . ""),
+				$ilDB->quote($solution["import_id"] . ""),
+				$ilDB->quote($index . "")
 			);
-			$this->ilias->db->query($query);
+			$ilDB->query($query);
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 			{
 				ilInternalLink::_saveLink("qst", $this->original_id, $matches[2], $matches[3], $matches[1]);
