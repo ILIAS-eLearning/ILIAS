@@ -124,17 +124,17 @@ class ASS_MarkSchema
 */
   function saveToDb($test_id)
   {
-		global $ilias, $lng;
-		$db =& $ilias->db->db;
+		global $lng;
+		global $ilDB;
 
 		$oldmarks = array();
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
-				$db->quote($test_id)
+				$ilDB->quote($test_id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -147,31 +147,31 @@ class ASS_MarkSchema
     if (!$test_id) return;
     // Delete all entries
     $query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
-      $db->quote($test_id)
+      $ilDB->quote($test_id)
     );
-    $result = $db->query($query);
+    $result = $ilDB->query($query);
     if (count($this->mark_steps) == 0) return;
     
     // Write new datasets
     foreach ($this->mark_steps as $key => $value) 
 		{
       $query = sprintf("INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-        $db->quote($test_id),
-        $db->quote($value->getShortName()), 
-        $db->quote($value->getOfficialName()), 
-        $db->quote($value->getMinimumLevel()),
-        $db->quote(sprintf("%d", $value->getPassed()))
+        $ilDB->quote($test_id),
+        $ilDB->quote($value->getShortName()), 
+        $ilDB->quote($value->getOfficialName()), 
+        $ilDB->quote($value->getMinimumLevel()),
+        $ilDB->quote(sprintf("%d", $value->getPassed()))
       );
-      $result = $db->query($query);
+      $result = $ilDB->query($query);
       if ($result == DB_OK) {
       }
     }
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
-				$db->quote($test_id)
+				$ilDB->quote($test_id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$newmarks = array();
 			if ($result->numRows())
 			{
@@ -238,15 +238,14 @@ class ASS_MarkSchema
 */
   function loadFromDb($test_id)
   {
-		global $ilias;
-		$db =& $ilias->db->db;
+		global $ilDB;
 		
     if (!$test_id) return;
     $query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
-      $db->quote($test_id)
+      $ilDB->quote($test_id)
     );
 
-    $result = $db->query($query);
+    $result = $ilDB->query($query);
     if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
         $this->addMarkStep($data->short_name, $data->official_name, $data->minimum_level, $data->passed);

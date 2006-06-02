@@ -404,15 +404,17 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function getQuestiontype($question_id)
 	{
+		global $ilDB;
+		
 		if ($question_id < 1)
 		{
 			return;
 		}
 
 		$query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.question_id = %s",
-			$this->ilias->db->quote($question_id));
+			$ilDB->quote($question_id));
 
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -569,21 +571,23 @@ class ilObjQuestionPool extends ilObject
 	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		$where = "";
 		if (strlen($filter_text) > 0)
 		{
 			switch($sel_filter_type)
 			{
 				case "title":
-					$where = " AND qpl_questions.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 
 				case "comment":
-					$where = " AND qpl_questions.comment LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND qpl_questions.comment LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 
 				case "author":
-					$where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
@@ -631,7 +635,7 @@ class ilObjQuestionPool extends ilObject
 			$maxentries = 9999;
 		}
 		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
-		$query_result = $this->ilias->db->query($query);
+		$query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -643,7 +647,7 @@ class ilObjQuestionPool extends ilObject
 		}
 		$limit = " LIMIT $startrow, $maxentries";
 		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
-		$query_result = $this->ilias->db->query($query);
+		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -1060,11 +1064,13 @@ class ilObjQuestionPool extends ilObject
 	
 	function &getAllQuestionIds()
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = %s AND complete = %s",
-			$this->ilias->db->quote($this->getId()),
-			$this->ilias->db->quote("1")
+			$ilDB->quote($this->getId()),
+			$ilDB->quote("1")
 		);
-		$query_result = $this->ilias->db->query($query);
+		$query_result = $ilDB->query($query);
 		$questions = array();
 		if ($query_result->numRows())
 		{
@@ -1529,6 +1535,20 @@ class ilObjQuestionPool extends ilObject
 		$md = new ilMD($original->getId(),0,$original->getType());
 		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
 		return $newObj->getRefId();
+	}
+	
+	function &getQuestionTypes()
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM qpl_question_type ORDER BY question_type_id";
+		$result = $ilDB->query($query);
+		$types = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($types, $row);
+		}
+		return $types;
 	}
 } // END class.ilObjQuestionPool
 ?>

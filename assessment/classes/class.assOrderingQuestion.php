@@ -372,9 +372,8 @@ class assOrderingQuestion extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilias;
+		global $ilDB;
 
-		$db =& $ilias->db;
 		$complete = 0;
 		if ($this->isComplete())
 		{
@@ -386,7 +385,7 @@ class assOrderingQuestion extends assQuestion
 
 		if ($original_id)
 		{
-			$original_id = $db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -400,28 +399,28 @@ class assOrderingQuestion extends assQuestion
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type . ""),
-				$db->quote($this->obj_id . ""),
-				$db->quote($this->title . ""),
-				$db->quote($this->comment . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->owner . ""),
-				$db->quote($this->question . ""),
-				$db->quote($estw_time . ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($complete . ""),
-				$db->quote($created . ""),
+				$ilDB->quote($question_type . ""),
+				$ilDB->quote($this->obj_id . ""),
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->comment . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->owner . ""),
+				$ilDB->quote($this->question . ""),
+				$ilDB->quote($estw_time . ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($created . ""),
 				$original_id
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			if ($result == DB_OK)
 			{
-				$this->id = $this->ilias->db->getLastInsertId();
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_ordering (question_fi, ordering_type) VALUES (%s, %s)",
-					$db->quote($this->id . ""),
-					$db->quote($this->ordering_type . "")
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->ordering_type . "")
 				);
-				$db->query($query);
+				$ilDB->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -437,44 +436,44 @@ class assOrderingQuestion extends assQuestion
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title . ""),
-				$db->quote($this->comment . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->question . ""),
-				$db->quote($estw_time . ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($complete . ""),
-				$db->quote($this->id . "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->comment . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->question . ""),
+				$ilDB->quote($estw_time . ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s WHERE question_fi = %s",
-				$db->quote($this->ordering_type . ""),
-				$db->quote($this->id . "")
+				$ilDB->quote($this->ordering_type . ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 		}
 		if ($result == DB_OK)
 		{
 			// Antworten schreiben
 			// alte Antworten löschen
 			$query = sprintf("DELETE FROM qpl_answer_ordering WHERE question_fi = %s",
-				$db->quote($this->id)
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			// Anworten wegschreiben
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
 				$query = sprintf("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, points, aorder, solution_order) VALUES (NULL, %s, %s, %s, %s, %s)",
-					$db->quote($this->id),
-					$db->quote($answer_obj->getAnswertext() . ""),
-					$db->quote($answer_obj->getPoints() . ""),
-					$db->quote($answer_obj->getOrder() . ""),
-					$db->quote($answer_obj->getSolutionOrder() . "")
+					$ilDB->quote($this->id),
+					$ilDB->quote($answer_obj->getAnswertext() . ""),
+					$ilDB->quote($answer_obj->getPoints() . ""),
+					$ilDB->quote($answer_obj->getOrder() . ""),
+					$ilDB->quote($answer_obj->getSolutionOrder() . "")
 				);
-				$answer_result = $db->query($query);
+				$answer_result = $ilDB->query($query);
 			}
 		}
 		parent::saveToDb($original_id);
@@ -491,13 +490,12 @@ class assOrderingQuestion extends assQuestion
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilias;
-		$db =& $ilias->db;
+		global $ilDB;
 
     $query = sprintf("SELECT qpl_questions.*, qpl_question_ordering.* FROM qpl_questions, qpl_question_ordering WHERE question_id = %s AND qpl_questions.question_id = qpl_question_ordering.question_fi",
-			$db->quote($question_id)
+			$ilDB->quote($question_id)
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
 			if ($result->numRows() == 1)
@@ -518,9 +516,9 @@ class assOrderingQuestion extends assQuestion
 			}
 
 			$query = sprintf("SELECT * FROM qpl_answer_ordering WHERE question_fi = %s ORDER BY aorder ASC",
-				$db->quote($question_id)
+				$ilDB->quote($question_id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			include_once "./assessment/classes/class.assAnswerOrdering.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
 			{
@@ -1073,17 +1071,15 @@ class assOrderingQuestion extends assQuestion
 		$entered_values = 0;
 		if ($saveWorkingDataResult)
 		{
-			$db =& $ilDB->db;
-	
 			include_once "./assessment/classes/class.ilObjTest.php";
 			$activepass = ilObjTest::_getPass($active_id);
 
 			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$db->quote($active_id . ""),
-				$db->quote($this->getId() . ""),
-				$db->quote($activepass . "")
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($activepass . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
 			{
 				$orderresult = $_POST["orderresult"];
@@ -1094,13 +1090,13 @@ class assOrderingQuestion extends assQuestion
 					foreach ($orderarray as $index)
 					{
 						$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-							$db->quote($active_id . ""),
-							$db->quote($this->getId() . ""),
-							$db->quote($index . ""),
-							$db->quote($ordervalue . ""),
-							$db->quote($activepass . "")
+							$ilDB->quote($active_id . ""),
+							$ilDB->quote($this->getId() . ""),
+							$ilDB->quote($index . ""),
+							$ilDB->quote($ordervalue . ""),
+							$ilDB->quote($activepass . "")
 						);
-						$result = $db->query($query);
+						$result = $ilDB->query($query);
 						$ordervalue++;
 						$entered_values++;
 					}
@@ -1117,13 +1113,13 @@ class assOrderingQuestion extends assQuestion
 							if (strlen($value))
 							{
 								$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-									$db->quote($active_id . ""),
-									$db->quote($this->getId() . ""),
-									$db->quote($matches[1] . ""),
-									$db->quote($value . ""),
-									$db->quote($activepass . "")
+									$ilDB->quote($active_id . ""),
+									$ilDB->quote($this->getId() . ""),
+									$ilDB->quote($matches[1] . ""),
+									$ilDB->quote($value . ""),
+									$ilDB->quote($activepass . "")
 								);
-								$result = $db->query($query);
+								$result = $ilDB->query($query);
 								$entered_values++;
 							}
 						}
@@ -1153,7 +1149,8 @@ class assOrderingQuestion extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilDB;
+		
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -1161,26 +1158,24 @@ class assOrderingQuestion extends assQuestion
 			{
 				$complete = 1;
 			}
-			$db = & $ilias->db;
-	
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title . ""),
-				$db->quote($this->comment . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->question . ""),
-				$db->quote($estw_time . ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($complete . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->comment . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->question . ""),
+				$ilDB->quote($estw_time . ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->original_id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s WHERE question_fi = %s",
-				$db->quote($this->ordering_type . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->ordering_type . ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 
@@ -1189,21 +1184,21 @@ class assOrderingQuestion extends assQuestion
 				// write ansers
 				// delete old answers
 				$query = sprintf("DELETE FROM qpl_answer_ordering WHERE question_fi = %s",
-					$db->quote($this->original_id)
+					$ilDB->quote($this->original_id)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 	
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
 					$query = sprintf("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, points, aorder, solution_order) VALUES (NULL, %s, %s, %s, %s, %s)",
-						$db->quote($this->original_id . ""),
-						$db->quote($answer_obj->getAnswertext() . ""),
-						$db->quote($answer_obj->getPoints() . ""),
-						$db->quote($answer_obj->getOrder() . ""),
-						$db->quote($answer_obj->getSolutionOrder() . "")
+						$ilDB->quote($this->original_id . ""),
+						$ilDB->quote($answer_obj->getAnswertext() . ""),
+						$ilDB->quote($answer_obj->getPoints() . ""),
+						$ilDB->quote($answer_obj->getOrder() . ""),
+						$ilDB->quote($answer_obj->getSolutionOrder() . "")
 					);
-					$answer_result = $db->query($query);
+					$answer_result = $ilDB->query($query);
 				}
 			}
 			parent::syncWithOriginal();

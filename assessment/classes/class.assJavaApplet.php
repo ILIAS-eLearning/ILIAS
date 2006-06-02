@@ -378,7 +378,7 @@ class assJavaApplet extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilias;
+		global $ilDB;
 
 		$complete = 0;
 		if ($this->isComplete())
@@ -386,15 +386,13 @@ class assJavaApplet extends assQuestion
 			$complete = 1;
 		}
 
-		$db = & $ilias->db;
-
 		$params = $this->buildParams();
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
 		if ($original_id)
 		{
-			$original_id = $db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -408,30 +406,30 @@ class assJavaApplet extends assQuestion
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type . ""),
-				$db->quote($this->obj_id . ""),
-				$db->quote($this->title . ""),
-				$db->quote($this->comment . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->owner . ""),
-				$db->quote($this->question . ""),
-				$db->quote($this->points . ""),
-				$db->quote($estw_time . ""),
-				$db->quote($complete . ""),
-				$db->quote($created . ""),
+				$ilDB->quote($question_type . ""),
+				$ilDB->quote($this->obj_id . ""),
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->comment . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->owner . ""),
+				$ilDB->quote($this->question . ""),
+				$ilDB->quote($this->points . ""),
+				$ilDB->quote($estw_time . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($created . ""),
 				$original_id
 			);
 
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			if ($result == DB_OK)
 			{
-				$this->id = $this->ilias->db->getLastInsertId();
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_javaapplet (question_fi, image_file, params) VALUES (%s, %s, %s)",
-					$db->quote($this->id . ""),
-					$db->quote($this->javaapplet_filename . ""),
-					$db->quote($params . "")
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->javaapplet_filename . ""),
+					$ilDB->quote($params . "")
 				);
-				$db->query($query);
+				$ilDB->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -447,23 +445,23 @@ class assJavaApplet extends assQuestion
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title . ""),
-				$db->quote($this->comment . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->question . ""),
-				$db->quote($this->points . ""),
-				$db->quote($estw_time . ""),
-				$db->quote($complete . ""),
-				$db->quote($this->id . "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->comment . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->question . ""),
+				$ilDB->quote($this->points . ""),
+				$ilDB->quote($estw_time . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_javaapplet SET image_file = %s, params = %s WHERE question_fi = %s",
-				$db->quote($this->javaapplet_filename . ""),
-				$db->quote($params . ""),
-				$db->quote($this->id . "")
+				$ilDB->quote($this->javaapplet_filename . ""),
+				$ilDB->quote($params . ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 		}
 		parent::saveToDb($original_id);
 	}
@@ -479,13 +477,12 @@ class assJavaApplet extends assQuestion
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilias;
+		global $ilDB;
 
-		$db = & $ilias->db;
     $query = sprintf("SELECT qpl_questions.*, qpl_question_javaapplet.* FROM qpl_questions, qpl_question_javaapplet WHERE question_id = %s AND qpl_questions.question_id = qpl_question_javaapplet.question_fi",
-			$db->quote($question_id)
+			$ilDB->quote($question_id)
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
@@ -787,17 +784,19 @@ class assJavaApplet extends assQuestion
 	*/
 	function getReachedInformation($active_id, $pass = NULL)
 	{
+		global $ilDB;
+		
 		$found_values = array();
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
 		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($active_id . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($pass . "")
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$counter = 1;
 		$user_result = array();
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1011,7 +1010,8 @@ class assJavaApplet extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilDB;
+		
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -1019,27 +1019,26 @@ class assJavaApplet extends assQuestion
 			{
 				$complete = 1;
 			}
-			$db = & $ilias->db;
 	
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title . ""),
-				$db->quote($this->comment . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->question . ""),
-				$db->quote($this->points . ""),
-				$db->quote($estw_time . ""),
-				$db->quote($complete . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->comment . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->question . ""),
+				$ilDB->quote($this->points . ""),
+				$ilDB->quote($estw_time . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->original_id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_javaapplet SET image_file = %s, params = %s WHERE question_fi = %s",
-				$db->quote($this->javaapplet_filename . ""),
-				$db->quote($params . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->javaapplet_filename . ""),
+				$ilDB->quote($params . ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 

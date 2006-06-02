@@ -348,6 +348,20 @@ class ilObjTest extends ilObject
 */
 	var $password;
 
+/**
+* number of allowed users for the test
+*
+* @var int
+*/
+	var $allowedUsers;
+
+/**
+* inactivity time gap of the allowed users to let new users into the test
+*
+* @var int
+*/
+	var $allowedUsersTimeGap;
+
 	/**
 	* Constructor
 	* @access	public
@@ -390,6 +404,8 @@ class ilObjTest extends ilObject
 		$this->score_cutting = SCORE_CUT_QUESTION;
 		$this->pass_scoring = SCORE_LAST_PASS;
 		$this->password = "";
+		$this->allowedUsers = "";
+		$this->allowedUsersTimeGap = "";
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -524,10 +540,12 @@ class ilObjTest extends ilObject
 */
 	function deleteTest()
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$active_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -535,56 +553,56 @@ class ilObjTest extends ilObject
 		}
 
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		if (count($active_array))
 		{
 			foreach ($active_array as $active_id)
 			{
 				$query = sprintf("DELETE FROM tst_times WHERE active_fi = %s",
-					$this->ilias->db->quote($active_id)
+					$ilDB->quote($active_id)
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 			}
 		}
 
 		$query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->removeQuestion($row->question_fi);
 		}
 
 		$query = sprintf("DELETE FROM tst_tests WHERE test_id = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		$query = sprintf("DELETE FROM tst_test_random_question USING tst_test_random_question, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_random_question.active_fi",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		$this->removeAllTestEditings();
 
 		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		// delete export files
 		include_once "./classes/class.ilUtil.php";
@@ -913,11 +931,13 @@ class ilObjTest extends ilObject
 */
   function testTitleExists($title) 
 	{
+		global $ilDB;
+		
     $query = sprintf("SELECT * FROM object_data WHERE title = %s AND type = %s",
-      $this->ilias->db->quote($title),
-			$this->ilias->db->quote("tst")
+      $ilDB->quote($title),
+			$ilDB->quote("tst")
     );
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
     if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       if ($result->numRows() == 1) {
         return TRUE;
@@ -935,6 +955,8 @@ class ilObjTest extends ilObject
 */
   function duplicate() 
 	{
+		global $ilDB;
+		
     $clone = $this;
     $clone->setId(-1);
     $counter = 2;
@@ -944,19 +966,19 @@ class ilObjTest extends ilObject
     $clone->setTitle($this->get_title() . " ($counter)");
     $clone->setOwner($this->ilias->account->id);
     $clone->setAuthor($this->ilias->account->fullname);
-    $clone->saveToDb($this->ilias->db);
+    $clone->saveToDb($ilDB);
     // Duplicate questions
     $query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
-      $this->ilias->db->quote($this->getId())
+      $ilDB->quote($this->getId())
     );
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
       $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-        $this->ilias->db->quote($clone->getId()),
-        $this->ilias->db->quote($data->question_fi),
-        $this->ilias->db->quote($data->sequence)
+        $ilDB->quote($clone->getId()),
+        $ilDB->quote($data->question_fi),
+        $ilDB->quote($data->sequence)
       );
-      $insert_result = $this->ilias->db->query($query);
+      $insert_result = $ilDB->query($query);
     }
   }
   
@@ -1057,19 +1079,18 @@ class ilObjTest extends ilObject
 */
 	function saveCompleteStatus() 
 	{
-    global $ilias;
+    global $ilDB;
 		
-    $db =& $ilias->db;
 		$complete = 0;
 		if ($this->isComplete()) {
 			$complete = 1;
 		}
     if ($this->test_id > 0) {
       $query = sprintf("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
-				$db->quote("$complete"),
-        $db->quote($this->test_id)
+				$ilDB->quote("$complete"),
+        $ilDB->quote($this->test_id)
       );
-      $result = $db->query($query);
+      $result = $ilDB->query($query);
 		}
 	}
 
@@ -1083,8 +1104,8 @@ class ilObjTest extends ilObject
 */
   function saveToDb($properties_only = FALSE)
   {
-    global $ilias;
-    $db =& $ilias->db;
+    global $ilDB;
+		
 		$complete = 0;
 		if ($this->isComplete()) {
 			$complete = 1;
@@ -1097,7 +1118,7 @@ class ilObjTest extends ilObject
 		$random_question_count = "NULL";
 		if ($this->random_question_count > 0)
 		{
-			$random_question_count = $this->ilias->db->quote($this->random_question_count . "");
+			$random_question_count = $ilDB->quote($this->random_question_count . "");
 		}
 		$shuffle_questions = 0;
 		if ($this->getShuffleQuestions())
@@ -1119,56 +1140,76 @@ class ilObjTest extends ilObject
 		{
 			$show_solution_printview = 1;
 		}
+		$allowedUsers = $this->getAllowedUsers();
+		if ($allowedUsers == 0)
+		{
+			$allowedUsers = "NULL";
+		}
+		else
+		{
+			$allowedUsers = $ilDB->quote($allowedUsers);
+		}
+		$allowedUsersTimeGap = $this->getAllowedUsersTimeGap();
+		if ($allowedUsersTimeGap == 0)
+		{
+			$allowedUsersTimeGap = "NULL";
+		}
+		else
+		{
+			$allowedUsersTimeGap = $ilDB->quote($allowedUsersTimeGap);
+		}
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
     if ($this->test_id == -1) 
 		{
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($this->getId() . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->test_type . ""),
-				$db->quote($this->introduction . ""), 
-				$db->quote($this->sequence_settings . ""),
-				$db->quote($this->score_reporting . ""),
-				$db->quote(sprintf("%d", $this->nr_of_tries) . ""),
-				$db->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
-				$db->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
-				$db->quote($this->processing_time . ""),
-				$db->quote("$this->enable_processing_time"),
-				$db->quote($this->reporting_date . ""),
-				$db->quote($this->starting_time . ""),
-				$db->quote($this->ending_time . ""),
-				$db->quote("$complete"),
-				$db->quote($this->ects_output . ""),
-				$db->quote($this->ects_grades["A"] . ""),
-				$db->quote($this->ects_grades["B"] . ""),
-				$db->quote($this->ects_grades["C"] . ""),
-				$db->quote($this->ects_grades["D"] . ""),
-				$db->quote($this->ects_grades["E"] . ""),
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->test_type . ""),
+				$ilDB->quote($this->introduction . ""), 
+				$ilDB->quote($this->sequence_settings . ""),
+				$ilDB->quote($this->score_reporting . ""),
+				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
+				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
+				$ilDB->quote($this->processing_time . ""),
+				$ilDB->quote("$this->enable_processing_time"),
+				$ilDB->quote($this->reporting_date . ""),
+				$ilDB->quote($this->starting_time . ""),
+				$ilDB->quote($this->ending_time . ""),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->ects_output . ""),
+				$ilDB->quote($this->ects_grades["A"] . ""),
+				$ilDB->quote($this->ects_grades["B"] . ""),
+				$ilDB->quote($this->ects_grades["C"] . ""),
+				$ilDB->quote($this->ects_grades["D"] . ""),
+				$ilDB->quote($this->ects_grades["E"] . ""),
 				$ects_fx,
-				$db->quote(sprintf("%d", $this->random_test) . ""),
+				$ilDB->quote(sprintf("%d", $this->random_test) . ""),
 				$random_question_count,
-				$db->quote($this->count_system . ""),
-				$db->quote($this->mc_scoring . ""),
-				$db->quote($this->getScoreCutting() . ""),
-				$db->quote($this->getPassScoring() . ""),
-				$db->quote($shuffle_questions . ""),
-				$db->quote($show_solution_details . ""),
-				$db->quote($show_summary . ""),
-				$db->quote($show_solution_printview . ""),
-				$db->quote($this->getPassword() . ""),
-				$db->quote($created)
+				$ilDB->quote($this->count_system . ""),
+				$ilDB->quote($this->mc_scoring . ""),
+				$ilDB->quote($this->getScoreCutting() . ""),
+				$ilDB->quote($this->getPassScoring() . ""),
+				$ilDB->quote($shuffle_questions . ""),
+				$ilDB->quote($show_solution_details . ""),
+				$ilDB->quote($show_summary . ""),
+				$ilDB->quote($show_solution_printview . ""),
+				$ilDB->quote($this->getPassword() . ""),
+				$allowedUsers,
+				$allowedUsersTimeGap,
+				$ilDB->quote($created)
       );
       
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_create_new_test", ilObjAssessmentFolder::_getLogLanguage()));
 			}
-      $result = $db->query($query);
+      $result = $ilDB->query($query);
       if ($result == DB_OK) {
-        $this->test_id = $this->ilias->db->getLastInsertId();
+        $this->test_id = $ilDB->getLastInsertId();
       }
     } 
 		else 
@@ -1178,56 +1219,58 @@ class ilObjTest extends ilObject
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-	        $db->quote($this->test_id)
+	        $ilDB->quote($this->test_id)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 				if ($result->numRows() == 1)
 				{
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s WHERE test_id = %s",
-        $db->quote($this->author . ""), 
-        $db->quote($this->test_type . ""), 
-        $db->quote($this->introduction . ""), 
-        $db->quote($this->sequence_settings . ""), 
-        $db->quote($this->score_reporting . ""), 
-        $db->quote(sprintf("%d", $this->nr_of_tries) . ""),
-				$db->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
-				$db->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
-        $db->quote($this->processing_time . ""),
-				$db->quote("$this->enable_processing_time"),
-        $db->quote($this->reporting_date . ""), 
-        $db->quote($this->starting_time . ""), 
-        $db->quote($this->ending_time . ""), 
-				$db->quote($this->ects_output . ""),
-				$db->quote($this->ects_grades["A"] . ""),
-				$db->quote($this->ects_grades["B"] . ""),
-				$db->quote($this->ects_grades["C"] . ""),
-				$db->quote($this->ects_grades["D"] . ""),
-				$db->quote($this->ects_grades["E"] . ""),
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+        $ilDB->quote($this->author . ""), 
+        $ilDB->quote($this->test_type . ""), 
+        $ilDB->quote($this->introduction . ""), 
+        $ilDB->quote($this->sequence_settings . ""), 
+        $ilDB->quote($this->score_reporting . ""), 
+        $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
+				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
+        $ilDB->quote($this->processing_time . ""),
+				$ilDB->quote("$this->enable_processing_time"),
+        $ilDB->quote($this->reporting_date . ""), 
+        $ilDB->quote($this->starting_time . ""), 
+        $ilDB->quote($this->ending_time . ""), 
+				$ilDB->quote($this->ects_output . ""),
+				$ilDB->quote($this->ects_grades["A"] . ""),
+				$ilDB->quote($this->ects_grades["B"] . ""),
+				$ilDB->quote($this->ects_grades["C"] . ""),
+				$ilDB->quote($this->ects_grades["D"] . ""),
+				$ilDB->quote($this->ects_grades["E"] . ""),
 				$ects_fx,
-				$db->quote(sprintf("%d", $this->random_test) . ""),
-				$db->quote("$complete"),
-				$db->quote($this->count_system . ""),
-				$db->quote($this->mc_scoring . ""),
-				$db->quote($this->getScoreCutting() . ""),
-				$db->quote($this->getPassScoring() . ""),
-				$db->quote($shuffle_questions . ""),
-				$db->quote($show_solution_details . ""),
-				$db->quote($show_summary . ""),
-				$db->quote($show_solution_printview . ""),
-				$db->quote($this->getPassword() . ""),
-        $db->quote($this->test_id)
+				$ilDB->quote(sprintf("%d", $this->random_test) . ""),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->count_system . ""),
+				$ilDB->quote($this->mc_scoring . ""),
+				$ilDB->quote($this->getScoreCutting() . ""),
+				$ilDB->quote($this->getPassScoring() . ""),
+				$ilDB->quote($shuffle_questions . ""),
+				$ilDB->quote($show_solution_details . ""),
+				$ilDB->quote($show_summary . ""),
+				$ilDB->quote($show_solution_printview . ""),
+				$ilDB->quote($this->getPassword() . ""),
+				$allowedUsers,
+				$allowedUsersTimeGap,
+        $ilDB->quote($this->test_id)
       );
-	    $result = $db->query($query);
+	    $result = $ilDB->query($query);
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-	        $db->quote($this->test_id)
+	        $ilDB->quote($this->test_id)
 				);
-				$logresult = $db->query($query);
+				$logresult = $ilDB->query($query);
 				$newrow = array();
 				if ($logresult->numRows() == 1)
 				{
@@ -1271,14 +1314,16 @@ class ilObjTest extends ilObject
 */
 	function saveQuestionsToDb() 
 	{
+		global $ilDB;
+		
 		$oldquestions = array();
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-				$this->ilias->db->quote($this->getTestId())
+				$ilDB->quote($this->getTestId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			if ($result->numRows() > 0)
 			{
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1290,25 +1335,25 @@ class ilObjTest extends ilObject
 		
 		// delete existing category relations
     $query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		// create new category relations
 		foreach ($this->questions as $key => $value) {
 			$query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getTestId() . ""),
-				$this->ilias->db->quote($value . ""),
-				$this->ilias->db->quote($key . "")
+				$ilDB->quote($this->getTestId() . ""),
+				$ilDB->quote($value . ""),
+				$ilDB->quote($key . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-				$this->ilias->db->quote($this->getTestId())
+				$ilDB->quote($this->getTestId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$newquestions = array();
 			if ($result->numRows() > 0)
 			{
@@ -1353,22 +1398,23 @@ class ilObjTest extends ilObject
 	function saveRandomQuestion($question_id, $pass = NULL) 
 	{
 		global $ilUser;
+		global $ilDB;
 		
 		if (is_null($pass)) $pass = 0;
 		$active = $this->getActiveTestUser($ilUser->getId());
 		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE active_fi = %s AND pass = %s",
-			$this->ilias->db->quote($active->active_id . ""),
-			$this->ilias->db->quote($pass . "")
+			$ilDB->quote($active->active_id . ""),
+			$ilDB->quote($pass . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		
 		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($active->active_id . ""),
-			$this->ilias->db->quote($question_id . ""),
-			$this->ilias->db->quote(($result->numRows()+1) . ""),
-			$this->ilias->db->quote($pass . "")
+			$ilDB->quote($active->active_id . ""),
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote(($result->numRows()+1) . ""),
+			$ilDB->quote($pass . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 /**
@@ -1380,11 +1426,13 @@ class ilObjTest extends ilObject
 */
 	function getNrOfResultsForPass($active_id, $pass)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-			$this->ilias->db->quote($active_id . ""),
-			$this->ilias->db->quote($pass . "")
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($pass . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		return $result->numRows();
 	}
 	
@@ -1474,16 +1522,18 @@ class ilObjTest extends ilObject
 	*/
 	function saveRandomQuestionCount($total_questions = "NULL")
 	{
+		global $ilDB;
+		
 		if (strcmp($total_questions, "NULL") != 0)
 		{
 			$this->setRandomQuestionCount($total_questions);
-			$total_questions = $this->ilias->db->quote($total_questions);
+			$total_questions = $ilDB->quote($total_questions);
 		}
 		$query = sprintf("UPDATE tst_tests SET random_question_count = %s WHERE test_id = %s",
 			$total_questions,
-			$this->ilias->db->quote($this->getTestId() . "")
+			$ilDB->quote($this->getTestId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 
 /**
@@ -1497,11 +1547,13 @@ class ilObjTest extends ilObject
 */
 	function saveRandomQuestionpools($qpl_array) 
 	{
+		global $ilDB;
+		
 		// delete existing random questionpools
     $query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		// create new random questionpools
 		foreach ($qpl_array as $key => $value) {
 			if ($value["qpl"] > -1)
@@ -1513,11 +1565,11 @@ class ilObjTest extends ilObject
 					$value["count"] = $count;
 				}
 				$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-					$this->ilias->db->quote($this->getTestId() . ""),
-					$this->ilias->db->quote($value["qpl"] . ""),
-					$this->ilias->db->quote(sprintf("%d", $value["count"]) . "")
+					$ilDB->quote($this->getTestId() . ""),
+					$ilDB->quote($value["qpl"] . ""),
+					$ilDB->quote(sprintf("%d", $value["count"]) . "")
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 			}
 		}
 	}
@@ -1533,12 +1585,14 @@ class ilObjTest extends ilObject
 */
 	function &getRandomQuestionpools() 
 	{
+		global $ilDB;
+		
 		$qpls = array();
 		$counter = 0;
 		$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
-			$this->ilias->db->quote($this->getTestId() . "")
+			$ilDB->quote($this->getTestId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1565,12 +1619,12 @@ class ilObjTest extends ilObject
 	*/
 	function loadFromDb()
 	{
-		$db = $this->ilias->db;
-
+		global $ilDB;
+		
 		$query = sprintf("SELECT * FROM tst_tests WHERE obj_fi = %s",
-		$db->quote($this->getId())
+		$ilDB->quote($this->getId())
 			);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
 			if ($result->numRows() == 1)
@@ -1611,6 +1665,8 @@ class ilObjTest extends ilObject
 				$this->mc_scoring = $data->mc_scoring;
 				$this->setScoreCutting($data->score_cutting);
 				$this->setPassword($data->password);
+				$this->setAllowedUsers($data->allowedUsers);
+				$this->setAllowedUsersTimeGap($data->allowedUsersTimeGap);
 				$this->setPassScoring($data->pass_scoring);
 				$this->loadQuestions();
 			}
@@ -1628,8 +1684,8 @@ class ilObjTest extends ilObject
 	function loadQuestions($active_id = "", $pass = NULL) 
 	{
 		global $ilUser;
+		global $ilDB;
 		
-    $db = $this->ilias->db;
 		$this->questions = array();
 		if (strcmp($active_id, "") == 0)
 		{
@@ -1651,17 +1707,17 @@ class ilObjTest extends ilObject
 				}
 			}
 			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
-				$db->quote($active_id . ""),
-				$db->quote($pass . "")
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . "")
 			);
 		}
 		else
 		{
 			$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
-				$db->quote($this->test_id . "")
+				$ilDB->quote($this->test_id . "")
 			);
 		}
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		$index = 1;
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
@@ -2495,10 +2551,12 @@ class ilObjTest extends ilObject
 */
 	function clearEvalSelectedUsers()
 	{
+		global $ilDB;
+		
 		$query = sprintf("DELETE FROM tst_eval_users WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 /**
@@ -2514,6 +2572,7 @@ class ilObjTest extends ilObject
 */
 	function removeAllTestEditings($question_id = "") 
 	{
+		global $ilDB;
 		// remove test_active entries, because test has changed
 		$this->deleteActiveTests();
 		// remove selected users/groups
@@ -2523,38 +2582,38 @@ class ilObjTest extends ilObject
 		if ($question_id) 
 		{
 			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_solutions.question_fi = %s",
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($question_id)
+				$ilDB->quote($this->getTestId()),
+				$ilDB->quote($question_id)
 			);			
 			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active_qst_sol_settings.question_fi = %s",
-				$this->ilias->db->quote($this->getTestId()),				
-				$this->ilias->db->quote($question_id)
+				$ilDB->quote($this->getTestId()),				
+				$ilDB->quote($question_id)
 			);
 			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_test_result.question_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($question_id)
+				$ilDB->quote($this->getTestId()),
+				$ilDB->quote($question_id)
 			);
 		} else {
 			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-				$this->ilias->db->quote($this->getTestId())
+				$ilDB->quote($this->getTestId())
 			);
 			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-				$this->ilias->db->quote($this->getTestId())							
+				$ilDB->quote($this->getTestId())							
 			);			
 			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
-				$this->ilias->db->quote($this->getTestId())
+				$ilDB->quote($this->getTestId())
 			);
 		}
-		$result = $this->ilias->db->query($query);
-		$result = $this->ilias->db->query($query2);
-		$result = $this->ilias->db->query($query3);
+		$result = $ilDB->query($query);
+		$result = $ilDB->query($query2);
+		$result = $ilDB->query($query3);
 
 		if ($this->isRandomTest())
 		{
 			$query = sprintf("DELETE FROM tst_test_random_question USING tst_test_random_question, tst_active WHERE tst_active.test_fi = %s AND tst_test_random_question.active_fi = tst_active.active_id",
-				$this->ilias->db->quote($this->getTestId())
+				$ilDB->quote($this->getTestId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -2577,16 +2636,6 @@ class ilObjTest extends ilObject
 	function removeSelectedTestResults($user_ids) 
 	{
 		global $ilDB;
-		
-		// remove test_active entries of selected users
-		foreach ($user_ids as $user_id)
-		{
-			$query = sprintf("DELETE FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($this->getTestId() . "")
-			);
-			$result = $ilDB->query($query);
-		}
 		
 		// remove selected users/groups
 		$this->clearEvalSelectedUsers();
@@ -2618,6 +2667,7 @@ class ilObjTest extends ilObject
 				);
 				$result = $ilDB->query($query);
 			}
+
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -2625,6 +2675,16 @@ class ilObjTest extends ilObject
 				$uname = ilObjUser::_lookupName($user_id);
 				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
 			}
+		}
+
+		// remove test_active entries of selected users
+		foreach ($user_ids as $user_id)
+		{
+			$query = sprintf("DELETE FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($this->getTestId() . "")
+			);
+			$result = $ilDB->query($query);
 		}
 	}
 	
@@ -2638,10 +2698,12 @@ class ilObjTest extends ilObject
 */
 	function deleteActiveTests() 
 	{
+		global $ilDB;
+		
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 /**
@@ -2656,36 +2718,38 @@ class ilObjTest extends ilObject
 */
 	function deleteResults($user_id = "") 
 	{
+		global $ilDB;
+		
 		if ($user_id) 
 		{
 			$active = $this->getActiveTestUser($user_id);
 			$pass = $this->_getPass($active->active_id);
 			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s AND tst_solutions.pass = %s",
-				$this->ilias->db->quote($this->getTestId() . ""),
-				$this->ilias->db->quote($user_id . ""),
-				$this->ilias->db->quote($pass . "")
+				$ilDB->quote($this->getTestId() . ""),
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($pass . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-				$this->ilias->db->quote($active->active_id . ""),
-				$this->ilias->db->quote($pass . "")
+				$ilDB->quote($active->active_id . ""),
+				$ilDB->quote($pass . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$sequence_arr = array_flip($this->questions);
 			$sequence = join($sequence_arr, ",");
 			$query = sprintf("UPDATE tst_active SET sequence = %s, lastindex = %s WHERE test_fi = %s and user_fi = %s",
-				$this->ilias->db->quote($sequence),
-				$this->ilias->db->quote("1"),
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($user_id)
+				$ilDB->quote($sequence),
+				$ilDB->quote("1"),
+				$ilDB->quote($this->getTestId()),
+				$ilDB->quote($user_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			
 			$query = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($user_id)
+				$ilDB->quote($this->getTestId()),
+				$ilDB->quote($user_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 	}
 	
@@ -2700,33 +2764,35 @@ class ilObjTest extends ilObject
 */
 	function questionMoveUp($question_id) 
 	{
+		global $ilDB;
+		
 		// Move a question up in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->quote($this->getTestId()),
-			$this->ilias->db->quote($question_id)
+			$ilDB->quote($this->getTestId()),
+			$ilDB->quote($question_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		if ($data->sequence > 1) {
 			// OK, it's not the top question, so move it up
 			$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($data->sequence - 1)
+				$ilDB->quote($this->getTestId()),
+				$ilDB->quote($data->sequence - 1)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$data_previous = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			// change previous dataset
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->quote($data->sequence),
-				$this->ilias->db->quote($data_previous->test_question_id)
+				$ilDB->quote($data->sequence),
+				$ilDB->quote($data_previous->test_question_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			// move actual dataset up
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->quote($data->sequence - 1),
-				$this->ilias->db->quote($data->test_question_id)
+				$ilDB->quote($data->sequence - 1),
+				$ilDB->quote($data->test_question_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -2747,34 +2813,36 @@ class ilObjTest extends ilObject
 */
 	function questionMoveDown($question_id) 
 	{
+		global $ilDB;
+		
 		// Move a question down in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->quote($this->getTestId()),
-			$this->ilias->db->quote($question_id)
+			$ilDB->quote($this->getTestId()),
+			$ilDB->quote($question_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-			$this->ilias->db->quote($this->getTestId()),
-			$this->ilias->db->quote($data->sequence + 1)
+			$ilDB->quote($this->getTestId()),
+			$ilDB->quote($data->sequence + 1)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 1) 
 		{
 			// OK, it's not the last question, so move it down
 			$data_next = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			// change next dataset
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->quote($data->sequence),
-				$this->ilias->db->quote($data_next->test_question_id)
+				$ilDB->quote($data->sequence),
+				$ilDB->quote($data_next->test_question_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			// move actual dataset down
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->quote($data->sequence + 1),
-				$this->ilias->db->quote($data->test_question_id)
+				$ilDB->quote($data->sequence + 1),
+				$ilDB->quote($data->test_question_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -2812,13 +2880,15 @@ class ilObjTest extends ilObject
 */
 	function insertQuestion($question_id)
 	{
+		global $ilDB;
+		
 		$duplicate_id = $this->duplicateQuestionForTest($question_id);
 
 		// get maximum sequence index in test
 		$query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 			);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$sequence = 1;
 
 		if ($result->numRows() == 1)
@@ -2828,11 +2898,11 @@ class ilObjTest extends ilObject
 		}
 
 		$query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($this->getTestId()),
-			$this->ilias->db->quote($duplicate_id),
-			$this->ilias->db->quote($sequence)
+			$ilDB->quote($this->getTestId()),
+			$ilDB->quote($duplicate_id),
+			$ilDB->quote($sequence)
 			);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result != DB_OK)
 		{
 			// Error
@@ -2847,9 +2917,9 @@ class ilObjTest extends ilObject
 		}
 		// remove test_active entries, because test has changed
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 			);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$this->loadQuestions();
 		$this->saveCompleteStatus();
 	}
@@ -2893,10 +2963,12 @@ class ilObjTest extends ilObject
 */
 	function getQuestionDataset($question_id) 
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-			$this->ilias->db->quote("$question_id")
+			$ilDB->quote("$question_id")
 		);
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row;
 	}
@@ -2912,11 +2984,12 @@ class ilObjTest extends ilObject
 	function &get_qpl_titles() 
 	{
 		global $rbacsystem;
+		global $ilDB;
 		
 		$qpl_titles = array();
 		// get all available questionpools and remove the trashed questionspools
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
@@ -2942,23 +3015,25 @@ class ilObjTest extends ilObject
 	function &getExistingQuestions($pass = NULL) 
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		$existing_questions = array();
 		$active = $this->getActiveTestUser($ilUser->getId());
 		if ($this->isRandomTest())
 		{
 			if (is_null($pass)) $pass = 0;
 			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.active_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.pass = %s",
-				$this->ilias->db->quote($active->active_id . ""),
-				$this->ilias->db->quote($pass . "")
+				$ilDB->quote($active->active_id . ""),
+				$ilDB->quote($pass . "")
 			);
 		}
 		else
 		{
 			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
-				$this->ilias->db->quote($this->getTestId())
+				$ilDB->quote($this->getTestId())
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			array_push($existing_questions, $data->original_id);
 		}
@@ -2976,12 +3051,14 @@ class ilObjTest extends ilObject
 */
   function getQuestionType($question_id) 
 	{
+		global $ilDB;
+		
     if ($question_id < 1)
       return -1;
     $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-      $this->ilias->db->quote($question_id)
+      $ilDB->quote($question_id)
     );
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
     if ($result->numRows() == 1) {
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
       return $data->type_tag;
@@ -3000,18 +3077,20 @@ class ilObjTest extends ilObject
 */
 	function startWorkingTime($user_id) 
 	{
+		global $ilDB;
+		
 		$result = "";
 		if (!($result = $this->getActiveTestUser($user_id))) {
 			$this->setActiveTestUser();
 			$result = $this->getActiveTestUser($user_id);
 		}
 		$q = sprintf("INSERT INTO tst_times (times_id, active_fi, started, finished, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($result->active_id),
-			$this->ilias->db->quote(strftime("%Y-%m-%d %H:%M:%S")),
-			$this->ilias->db->quote(strftime("%Y-%m-%d %H:%M:%S"))
+			$ilDB->quote($result->active_id),
+			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
+			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S"))
 		);
-		$result = $this->ilias->db->query($q);
-		return $this->ilias->db->getLastInsertId();
+		$result = $ilDB->query($q);
+		return $ilDB->getLastInsertId();
 	}
 	
 /**
@@ -3024,11 +3103,13 @@ class ilObjTest extends ilObject
 */
 	function updateWorkingTime($times_id)
 	{
+		global $ilDB;
+		
 		$q = sprintf("UPDATE tst_times SET finished = %s WHERE times_id = %s",
-			$this->ilias->db->quote(strftime("%Y-%m-%d %H:%M:%S")),
-			$this->ilias->db->quote($times_id)
+			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
+			$ilDB->quote($times_id)
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 	}
   
 /**
@@ -3138,20 +3219,22 @@ class ilObjTest extends ilObject
 	function &getWorkedQuestions($active_id, $pass = NULL)
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		if (is_null($pass))
 		{
 			$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = 0 GROUP BY question_fi",
-				$this->ilias->db->quote($active_id . "")
+				$ilDB->quote($active_id . "")
 			);
 		}
 		else
 		{
 			$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
-				$this->ilias->db->quote($active_id . ""),
-				$this->ilias->db->quote($pass . "")
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . "")
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$result_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -3171,21 +3254,22 @@ class ilObjTest extends ilObject
 	function &getAllQuestions($pass = NULL)
 	{
 		global $ilUser;
+		global $ilDB;
 
 		if ($this->isRandomTest())
 		{
 			$active = $this->getActiveTestUser($ilUser->getId());
 			if (is_null($pass)) $pass = 0;
 			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")",
-				$this->ilias->db->quote($active->active_id . ""),
-				$this->ilias->db->quote($pass . "")
+				$ilDB->quote($active->active_id . ""),
+				$ilDB->quote($pass . "")
 			);
 		}
 		else
 		{
 			$query = "SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")";
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$result_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -3222,7 +3306,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		global $ilUser;
-		$db =& $ilDB->db;
+
 		if (!$user_id) 
 		{
 			$user_id = $ilUser->id;
@@ -3230,17 +3314,17 @@ class ilObjTest extends ilObject
 		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
 		{
 			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-				$db->quote($user_id),
-				$db->quote($this->test_id),
-				$db->quote($_SESSION["tst_access_code"][$this->getTestId()])
+				$ilDB->quote($user_id),
+				$ilDB->quote($this->test_id),
+				$ilDB->quote($_SESSION["tst_access_code"][$this->getTestId()])
 			);
 		}
 		else if (strlen($anonymous_id))
 		{
 			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-				$db->quote($user_id),
-				$db->quote($this->test_id),
-				$db->quote($anonymous_id)
+				$ilDB->quote($user_id),
+				$ilDB->quote($this->test_id),
+				$ilDB->quote($anonymous_id)
 			);
 		}
 		else
@@ -3250,11 +3334,11 @@ class ilObjTest extends ilObject
 				return NULL;
 			}
 			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-				$db->quote($user_id),
-				$db->quote($this->test_id)
+				$ilDB->quote($user_id),
+				$ilDB->quote($this->test_id)
 			);
 		}
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows()) 
 		{
 			$this->active = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -3280,7 +3364,6 @@ class ilObjTest extends ilObject
 		global $ilDB;
 		global $ilUser;
 		
-		$db =& $ilDB->db;
 		if (!$user_id) {
 			$user_id = $ilUser->id;
 		}
@@ -3289,11 +3372,11 @@ class ilObjTest extends ilObject
 			return "";
 		}
 		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-			$db->quote($user_id),
-			$db->quote($test_id)
+			$ilDB->quote($user_id),
+			$ilDB->quote($test_id)
 		);
 		
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows()) {
 			return $result->fetchRow(DB_FETCHMODE_OBJECT);
 		} else {
@@ -3319,7 +3402,7 @@ class ilObjTest extends ilObject
 		global $ilUser;
 		
 		if ($lastindex < 1) $lastindex = 1;
-		$db =& $ilDB->db;
+
 		$old_active = $this->getActiveTestUser();
 		if ($old_active) 
 		{
@@ -3344,12 +3427,12 @@ class ilObjTest extends ilObject
 				$tries++;
 			}
 			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s WHERE user_fi = %s AND test_fi = %s",
-				$db->quote($lastindex),
-				$db->quote($sequence),
-				$db->quote($postponed),
-				$db->quote($tries),
-				$db->quote($ilUser->id),
-				$db->quote($this->test_id)
+				$ilDB->quote($lastindex),
+				$ilDB->quote($sequence),
+				$ilDB->quote($postponed),
+				$ilDB->quote($tries),
+				$ilDB->quote($ilUser->id),
+				$ilDB->quote($this->test_id)
 			);
 		}
 		else 
@@ -3363,23 +3446,23 @@ class ilObjTest extends ilObject
 			$sequence = join($sequence_arr, ",");
 			if ($_SESSION["tst_access_code"][$this->getTestId()])
 			{
-				$anonymous_id = $db->quote($_SESSION["tst_access_code"][$this->getTestId()]);
+				$anonymous_id = $ilDB->quote($_SESSION["tst_access_code"][$this->getTestId()]);
 			}
 			else
 			{
 				$anonymous_id = "NULL";
 			}
 			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, anonymous_id, sequence, postponed, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($ilUser->id),
-				$db->quote($this->test_id),
+				$ilDB->quote($ilUser->id),
+				$ilDB->quote($this->test_id),
 				$anonymous_id,
-				$db->quote($sequence),
-				$db->quote(""),
-				$db->quote($lastindex),
-				$db->quote(0)
+				$ilDB->quote($sequence),
+				$ilDB->quote(""),
+				$ilDB->quote($lastindex),
+				$ilDB->quote(0)
 			);
 		}
-		$db->query($query);
+		$ilDB->query($query);
 	}
 	
 	/**
@@ -3630,10 +3713,12 @@ class ilObjTest extends ilObject
 */
 	function evalTotalPersons()
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->total;
 	}
@@ -3677,10 +3762,12 @@ class ilObjTest extends ilObject
 */
 	function evalLoadStatisticalSettings($user_id)
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT * FROM tst_eval_settings WHERE user_fi = %s",
-			$this->ilias->db->quote("$user_id")
+			$ilDB->quote("$user_id")
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		if (!$result->numRows()) 
 		{
 			$row = array(
@@ -3713,10 +3800,12 @@ class ilObjTest extends ilObject
 */
 	function evalSaveStatisticalSettings($settings_array, $user_id)
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT * FROM tst_eval_settings WHERE user_fi = %s",
-			$this->ilias->db->quote("$user_id")
+			$ilDB->quote("$user_id")
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		if ($result->numRows() > 0)
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -3727,16 +3816,16 @@ class ilObjTest extends ilObject
 					 "(eval_settings_id, user_fi, qworkedthrough, pworkedthrough, timeofwork, atimeofwork, firstvisit, " .
 					 "lastvisit, resultspoints, resultsmarks, distancemedian, TIMESTAMP) VALUES " .
 					 "(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote("$user_id"),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["timeofwork"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["atimeofwork"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["firstvisit"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["lastvisit"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultspoints"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultsmarks"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancemedian"]))
+				$ilDB->quote("$user_id"),
+				$ilDB->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["timeofwork"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["atimeofwork"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["firstvisit"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["lastvisit"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["resultspoints"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["resultsmarks"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["distancemedian"]))
 			);
 		} 
 			else 
@@ -3745,19 +3834,19 @@ class ilObjTest extends ilObject
 					 "qworkedthrough = %s, pworkedthrough = %s, timeofwork = %s, atimeofwork = %s, firstvisit = %s, " .
 					 "lastvisit = %s, resultspoints = %s, resultsmarks = %s, distancemedian = %s " .
 					 "WHERE eval_settings_id = %s",
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["timeofwork"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["atimeofwork"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["firstvisit"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["lastvisit"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultspoints"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultsmarks"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancemedian"])),
-				$this->ilias->db->quote("$update")
+				$ilDB->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["timeofwork"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["atimeofwork"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["firstvisit"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["lastvisit"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["resultspoints"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["resultsmarks"])),
+				$ilDB->quote(sprintf("%01d", $settings_array["distancemedian"])),
+				$ilDB->quote("$update")
 			);
 		}
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 	}
 
 /**
@@ -3770,11 +3859,13 @@ class ilObjTest extends ilObject
 */
 	function getCompleteWorkingTime($user_id)
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
-			$this->ilias->db->quote($this->getTestId()),
-			$this->ilias->db->quote($user_id)
+			$ilDB->quote($this->getTestId()),
+			$ilDB->quote($user_id)
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$time = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
@@ -3797,13 +3888,14 @@ class ilObjTest extends ilObject
 */
 	function &evalStatistical($active_id)
 	{
+		global $ilDB;
 //		global $ilBench;
 		$pass = ilObjTest::_getResultPass($active_id);
 		$test_result =& $this->getTestResult($active_id, $pass);
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.active_id = %s AND tst_active.active_id = tst_times.active_fi",
-			$this->ilias->db->quote($active_id)
+			$ilDB->quote($active_id)
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$times = array();
 		$first_visit = 0;
 		$last_visit = 0;
@@ -3958,10 +4050,12 @@ class ilObjTest extends ilObject
 */
 	function &evalTotalPersonsArray($name_sort_order = "asc")
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($name_sort_order), 
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$persons_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -4010,10 +4104,12 @@ class ilObjTest extends ilObject
 */
 	function evalTotalFinished()
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s AND tries > 0",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->total;
 	}
@@ -4029,10 +4125,12 @@ class ilObjTest extends ilObject
 */
 	function evalTotalFinishedPassed()
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT * FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$points = array();
 		$passed_tests = 0;
 		$failed_tests = 0;
@@ -4097,10 +4195,12 @@ class ilObjTest extends ilObject
 */
 	function evalTotalFinishedAverageTime()
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.tries > 0 AND tst_active.active_id = tst_times.active_fi",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$times = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
@@ -4138,10 +4238,12 @@ class ilObjTest extends ilObject
 */
 	function evalTotalStartedAverageTime()
 	{
+		global $ilDB;
+		
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$times = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
@@ -4179,12 +4281,14 @@ class ilObjTest extends ilObject
 */
 	function evalTotalPassedAverageTime()
 	{
+		global $ilDB;
+		
 		include_once "./assessment/classes/class.ilObjTestAccess.php";
 		$passed_users =& ilObjTest::_getPassedUsers($this->getId());
 		$q = sprintf("SELECT tst_times.*, tst_active.active_id FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($q);
+		$result = $ilDB->query($q);
 		$times = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
@@ -4226,10 +4330,11 @@ class ilObjTest extends ilObject
 	function &getAvailableQuestionpoolIDs()
 	{
 		global $rbacsystem;
+		global $ilDB;
 		
 		$result_array = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
@@ -4255,10 +4360,11 @@ class ilObjTest extends ilObject
 	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false)
 	{
 		global $rbacsystem;
+		global $ilDB;
 		
 		$result_array = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
@@ -4323,6 +4429,7 @@ class ilObjTest extends ilObject
 	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0, $qpls = "", $pass = NULL)
 	{
 		global $rbacsystem;
+		global $ilDB;
 		// get the questionpool id if a questionpool ref id was entered
 		if ($questionpool != 0)
 		{
@@ -4330,9 +4437,9 @@ class ilObjTest extends ilObject
 			if (!$use_obj_id)
 			{
 				$query = sprintf("SELECT obj_id FROM object_reference WHERE ref_id = %s",
-					$this->ilias->db->quote("$questionpool")
+					$ilDB->quote("$questionpool")
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
 				$questionpool = $row[0];
 			}
@@ -4340,9 +4447,9 @@ class ilObjTest extends ilObject
 		
 		// get all existing questions in the test
 		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
-			$this->ilias->db->quote($this->getTestId() . "")
+			$ilDB->quote($this->getTestId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$original_ids = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
 		{
@@ -4393,10 +4500,10 @@ class ilObjTest extends ilObject
 			else
 		{
 			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s$original_clause",
-				$this->ilias->db->quote("$questionpool")
+				$ilDB->quote("$questionpool")
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
 		if (($row[0]) <= $nr_of_questions)
 		{
@@ -4408,10 +4515,10 @@ class ilObjTest extends ilObject
 				else
 			{
 				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.complete = '1'$original_clause",
-					$this->ilias->db->quote("$questionpool")
+					$ilDB->quote("$questionpool")
 				);
 			}
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
 			{
 				if ((!in_array($row[0], $this->questions)) && (strcmp($row[0], "") != 0))
@@ -4435,10 +4542,10 @@ class ilObjTest extends ilObject
 					else
 				{
 					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1",
-						$this->ilias->db->quote("$questionpool")
+						$ilDB->quote("$questionpool")
 					);
 				}
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				$result_row = $result->fetchRow(DB_FETCHMODE_ARRAY);
 				if ((!in_array($result_row[0], $this->questions)) && (strcmp($result_row[0], "") != 0))
 				{
@@ -4648,24 +4755,26 @@ class ilObjTest extends ilObject
 	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		$where = "";
 		if (strlen($filter_text) > 0) {
 			switch($sel_filter_type) {
 				case "title":
-					$where = " AND qpl_questions.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "comment":
-					$where = " AND qpl_questions.comment LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND qpl_questions.comment LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
 		
 		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
 		{
-			$where .= " AND qpl_question_type.type_tag = " . $this->ilias->db->quote($filter_question_type);
+			$where .= " AND qpl_question_type.type_tag = " . $ilDB->quote($filter_question_type);
 		}
 		
 		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
@@ -4730,14 +4839,14 @@ class ilObjTest extends ilObject
 		}
 		if ($completeonly)
 		{
-			$available .= " AND qpl_questions.complete = " . $this->ilias->db->quote("1");
+			$available .= " AND qpl_questions.complete = " . $ilDB->quote("1");
 		}
 
 		// get all questions in the test
 		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
-			$this->ilias->db->quote($this->getTestId() . "")
+			$ilDB->quote($this->getTestId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$original_ids = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
 		{
@@ -4753,7 +4862,7 @@ class ilObjTest extends ilObject
 		}
 
 		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type WHERE $original_clause$available AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+    $query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -4765,7 +4874,7 @@ class ilObjTest extends ilObject
 		}
 		$limit = " LIMIT $startrow, $maxentries";
 		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE $original_clause $available AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+    $query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -4921,6 +5030,18 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "password");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getPassword());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// allowed users
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "allowedUsers");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAllowedUsers());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// allowed users time gap
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "allowedUsersTimeGap");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAllowedUsersTimeGap());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// pass scoring
@@ -5397,22 +5518,24 @@ class ilObjTest extends ilObject
 */
 	function cloneRandomQuestions($new_id)
 	{
+		global $ilDB;
+		
 		if ($new_id > 0)
 		{
 			$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s",
-				$this->ilias->db->quote($this->getTestId() . "")
+				$ilDB->quote($this->getTestId() . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-						$this->ilias->db->quote($new_id . ""),
-						$this->ilias->db->quote($row["questionpool_fi"] . ""),
-						$this->ilias->db->quote($row["num_of_q"] . "")
+						$ilDB->quote($new_id . ""),
+						$ilDB->quote($row["questionpool_fi"] . ""),
+						$ilDB->quote($row["num_of_q"] . "")
 					);
-					$insertresult = $this->ilias->db->query($query);
+					$insertresult = $ilDB->query($query);
 				}
 			}
 		}
@@ -5520,12 +5643,14 @@ class ilObjTest extends ilObject
 */
 	function &getEvaluationUsers($user_id, $sort_name_option = "asc")
 	{
+		global $ilDB;
+		
 		$users = array();
 		$query = sprintf("SELECT tst_eval_users.user_fi, usr_data.firstname, usr_data.lastname FROM tst_eval_users, usr_data WHERE tst_eval_users.test_fi = %s AND tst_eval_users.evaluator_fi = %s AND tst_eval_users.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($sort_name_option),
-			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($user_id . "")
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($user_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -5545,12 +5670,14 @@ class ilObjTest extends ilObject
 */
 	function &getEvaluationParticipants($user_id, $sort_name_option = "asc")
 	{
+		global $ilDB;
+		
 		$users = array();
 		$query = sprintf("SELECT tst_eval_users.user_fi, usr_data.firstname, usr_data.lastname FROM tst_eval_users, usr_data WHERE tst_eval_users.test_fi = %s AND tst_eval_users.evaluator_fi = %s AND tst_eval_users.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($sort_name_option),
-			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($user_id . "")
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($user_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -5575,12 +5702,14 @@ class ilObjTest extends ilObject
 */
 	function removeSelectedUser($user_id, $evaluator_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("DELETE FROM tst_eval_users WHERE test_fi = %s AND user_fi = %s AND evaluator_fi = %s",
-			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($evaluator_id . "")
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($evaluator_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 
 /**
@@ -5593,19 +5722,21 @@ class ilObjTest extends ilObject
 */
 	function addSelectedUser($user_id, $evaluator_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT user_fi FROM tst_active WHERE test_fi = %s AND user_fi = %s",
-			$this->ilias->db->quote($this->getTestId() . ""),
-			$this->ilias->db->quote($user_id . "")
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($user_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			$query = sprintf("REPLACE INTO tst_eval_users (test_fi, evaluator_fi, user_fi) VALUES (%s, %s, %s)",
-				$this->ilias->db->quote($this->getTestId() . ""),
-				$this->ilias->db->quote($evaluator_id . ""),
-				$this->ilias->db->quote($user_id . "")
+				$ilDB->quote($this->getTestId() . ""),
+				$ilDB->quote($evaluator_id . ""),
+				$ilDB->quote($user_id . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 	}
 
@@ -5760,12 +5891,14 @@ class ilObjTest extends ilObject
 */
 	function removeNonRandomTestData()
 	{
+		global $ilDB;
+		
 		// delete eventually set questions of a previous non-random test
 		$this->removeAllTestEditings();
 		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$this->questions = array();
 		$this->saveCompleteStatus();
 	}
@@ -5779,12 +5912,13 @@ class ilObjTest extends ilObject
 */
 	function removeRandomTestData()
 	{
+		global $ilDB;
 		// delete eventually set random question pools of a previous random test
 		$this->removeAllTestEditings();
 		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
+			$ilDB->quote($this->getTestId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$this->questions = array();
 		$this->saveCompleteStatus();
 	}
@@ -5899,6 +6033,8 @@ class ilObjTest extends ilObject
 */
 	function getTextAnswer($active_id, $question_id, $pass = NULL)
 	{
+		global $ilDB;
+		
 		$res = "";
 		if (($active_id) && ($question_id))
 		{
@@ -5908,11 +6044,11 @@ class ilObjTest extends ilObject
 				$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
 			}
 			$query = sprintf("SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$this->ilias->db->quote($active_id . ""),
-				$this->ilias->db->quote($question_id . ""),
-				$this->ilias->db->quote($pass . "")
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($pass . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			if ($result->numRows() == 1)
 			{
 				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -5933,13 +6069,15 @@ class ilObjTest extends ilObject
 */
 	function getQuestiontext($question_id)
 	{
+		global $ilDB;
+		
 		$res = "";
 		if ($question_id)
 		{
 			$query = sprintf("SELECT question_text FROM qpl_questions WHERE question_id = %s",
-				$this->ilias->db->quote($question_id . "")
+				$ilDB->quote($question_id . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			if ($result->numRows() == 1)
 			{
 				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -5959,6 +6097,8 @@ class ilObjTest extends ilObject
 */
 	function &getInvitedUsers($user_id="", $order="login, lastname, firstname")
 	{
+		global $ilDB;
+		
 		$result_array = array();
 
 		if (is_numeric($user_id))
@@ -5967,7 +6107,7 @@ class ilObjTest extends ilObject
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
 							 "WHERE t.test_fi = %s and t.user_fi=usr_id AND usr_id=%s ".
 							 "ORDER BY %s",
-				$this->ilias->db->quote($this->test_id),
+				$ilDB->quote($this->test_id),
 				$user_id,
 				$order
 			);
@@ -5978,7 +6118,7 @@ class ilObjTest extends ilObject
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
 							 "WHERE t.test_fi = %s and t.user_fi=usr_id ".
 							 "ORDER BY %s",
-				$this->ilias->db->quote($this->test_id),
+				$ilDB->quote($this->test_id),
 				$order
 			);
 		}
@@ -6113,11 +6253,13 @@ class ilObjTest extends ilObject
 */
 	function disinviteUser($user_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-			$this->ilias->db->quote($this->test_id),
-			$this->ilias->db->quote($user_id)
+			$ilDB->quote($this->test_id),
+			$ilDB->quote($user_id)
 		);
-		$result = $this->ilias->db->query($query);	
+		$result = $ilDB->query($query);	
 	}
 
 /**
@@ -6130,23 +6272,25 @@ class ilObjTest extends ilObject
 */
 	function inviteUser($user_id, $client_ip="")
 	{
+		global $ilDB;
+		
 		$query = sprintf("INSERT IGNORE INTO tst_invited_user (test_fi, user_fi, clientip) VALUES (%s, %s, %s)",
-			$this->ilias->db->quote($this->test_id),
-			$this->ilias->db->quote($user_id),
-			$this->ilias->db->quote($client_ip)
+			$ilDB->quote($this->test_id),
+			$ilDB->quote($user_id),
+			$ilDB->quote($client_ip)
 		);
 		
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 		
 	function setClientIP($user_id, $client_ip) {		
 		$query = sprintf("UPDATE tst_invited_user SET clientip=%s WHERE test_fi=%s and user_fi=%s",
-				$this->ilias->db->quote($client_ip),
-				$this->ilias->db->quote($this->test_id),
-				$this->ilias->db->quote($user_id)
+				$ilDB->quote($client_ip),
+				$ilDB->quote($this->test_id),
+				$ilDB->quote($user_id)
 		);
-		$insertresult = $this->ilias->db->query($query);
+		$insertresult = $ilDB->query($query);
 	}
 	
 	/**
@@ -6187,14 +6331,16 @@ class ilObjTest extends ilObject
 	 */
 	function setQuestionSetSolved($value, $question_id, $user_id) 
 	{
+		global $ilDB;
+		
 		$active = $this->getActiveTestUser($user_id);
 		$query = sprintf("REPLACE INTO tst_active_qst_sol_settings SET solved=%s, question_fi=%s, active_fi = %s",
-			$this->ilias->db->quote($value),
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($active->active_id)
+			$ilDB->quote($value),
+			$ilDB->quote($question_id),
+			$ilDB->quote($active->active_id)
 		);
 		
-		$this->ilias->db->query($query);				
+		$ilDB->query($query);				
 	}
 	
 	
@@ -6203,11 +6349,13 @@ class ilObjTest extends ilObject
 	 */
 	function setActiveTestSubmitted($user_id) 
 	{
+		global $ilDB;
+		
 		$query = sprintf("UPDATE tst_active SET submitted=1, tries=1, submittimestamp=NOW() WHERE test_fi=%s AND user_fi=%s",
-			$this->ilias->db->quote($this->test_id),
-			$this->ilias->db->quote($user_id)
+			$ilDB->quote($this->test_id),
+			$ilDB->quote($user_id)
 		);		
-		$this->ilias->db->query($query);				
+		$ilDB->query($query);				
 		
 	}
 	
@@ -6217,14 +6365,16 @@ class ilObjTest extends ilObject
 	function isActiveTestSubmitted($user_id = null) 
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		if (!is_numeric($user_id))
 			$user_id = $ilUser->getId();
 			
 		$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
-			$this->ilias->db->quote($this->test_id),
-			$this->ilias->db->quote($user_id)
+			$ilDB->quote($this->test_id),
+			$ilDB->quote($user_id)
 		);		
-		$result = $this->ilias->db->query($query);		
+		$result = $ilDB->query($query);		
 		
 		return 	$result->numRows() == 1;
 		
@@ -7021,6 +7171,59 @@ class ilObjTest extends ilObject
 	{
 		$id = $this->getTestId();
 		unset($_SESSION["tst_access_code"]["$id"]);
+	}
+	
+	function getAllowedUsers()
+	{
+		return $this->allowedUsers;
+	}
+	
+	function setAllowedUsers($a_allowed_users)
+	{
+		$this->allowedUsers = $a_allowed_users;
+	}
+	
+	function getAllowedUsersTimeGap()
+	{
+		return $this->allowedUsersTimeGap;
+	}
+	
+	function setAllowedUsersTimeGap($a_allowed_users_time_gap)
+	{
+		$this->allowedUsersTimeGap = $a_allowed_users_time_gap;
+	}
+	
+	function checkMaximumAllowedUsers()
+	{
+		global $ilDB;
+		
+		$nr_of_users = $this->getAllowedUsers();
+		$time_gap = $this->getAllowedUsersTimeGap();
+		if (($nr_of_users > 0) && ($time_gap > 0))
+		{
+			$now = mktime();
+			$time_border = $now - $time_gap;
+			$str_time_border = strftime("%Y%m%d%H%M%S", $time_border);
+			$query = sprintf("SELECT DISTINCT tst_times.active_fi, tst_times.times_id FROM tst_times, tst_active WHERE tst_times.TIMESTAMP > %s AND tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+				$ilDB->quote($str_time_border),
+				$ilDB->quote($this->getTestId() . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows() >= $nr_of_users)
+			{
+				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+				{
+					include_once ("./classes/class.ilObjAssessmentFolder.php");
+					$this->logAction($this->lng->txtlng("assessment", "log_could_not_enter_test_due_to_simultaneous_users", ilObjAssessmentFolder::_getLogLanguage()));
+				}
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+		return TRUE;
 	}
 } // END class.ilObjTest
 

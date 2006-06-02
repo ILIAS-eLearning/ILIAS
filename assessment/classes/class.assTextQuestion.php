@@ -273,21 +273,19 @@ class assTextQuestion extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilias;
+		global $ilDB;
 
 		$complete = 0;
 		if ($this->isComplete())
 		{
 			$complete = 1;
 		}
-		$db = & $ilias->db;
-
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
 		if ($original_id)
 		{
-			$original_id = $db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -301,31 +299,31 @@ class assTextQuestion extends assQuestion
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type),
-				$db->quote($this->obj_id),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->owner),
-				$db->quote($this->getPoints() . ""),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote("$complete"),
-				$db->quote($created),
+				$ilDB->quote($question_type),
+				$ilDB->quote($this->obj_id),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->owner),
+				$ilDB->quote($this->getPoints() . ""),
+				$ilDB->quote($this->question),
+				$ilDB->quote($estw_time),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($created),
 				$original_id
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			
 			if ($result == DB_OK)
 			{
-				$this->id = $this->ilias->db->getLastInsertId();
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_essay (question_fi, maxNumOfChars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",
-					$db->quote($this->id . ""),
-					$db->quote($this->getMaxNumOfChars()),
-					$db->quote($this->getKeywords() . ""),
-					$db->quote($this->getTextRating() . "")
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->getMaxNumOfChars()),
+					$ilDB->quote($this->getKeywords() . ""),
+					$ilDB->quote($this->getTextRating() . "")
 				);
-				$db->query($query);
+				$ilDB->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -341,24 +339,24 @@ class assTextQuestion extends assQuestion
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, points = %s, question_text = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->getPoints() . ""),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote("$complete"),
-				$db->quote($this->id)
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->getPoints() . ""),
+				$ilDB->quote($this->question),
+				$ilDB->quote($estw_time),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_essay SET maxNumOfChars = %s, keywords = %s, textgap_rating = %s WHERE question_fi = %s",
-				$db->quote($this->getMaxNumOfChars()),
-				$db->quote($this->getKeywords() . ""),
-				$db->quote($this->getTextRating() . ""),
-				$db->quote($this->id . "")
+				$ilDB->quote($this->getMaxNumOfChars()),
+				$ilDB->quote($this->getKeywords() . ""),
+				$ilDB->quote($this->getTextRating() . ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 		}
 		parent::saveToDb($original_id);
 	}
@@ -374,13 +372,12 @@ class assTextQuestion extends assQuestion
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilias;
+		global $ilDB;
 
-		$db = & $ilias->db;
     $query = sprintf("SELECT qpl_questions.*, qpl_question_essay.* FROM qpl_questions, qpl_question_essay WHERE question_id = %s AND qpl_questions.question_id = qpl_question_essay.question_fi",
-			$db->quote($question_id)
+			$ilDB->quote($question_id)
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
 			if ($result->numRows() == 1)
@@ -575,6 +572,8 @@ class assTextQuestion extends assQuestion
 	*/
 	function setReachedPoints($active_id, $points, $pass = NULL)
 	{
+		global $ilDB;
+		
 		if (($points > 0) && ($points <= $this->getPoints()))
 		{
 			if (is_null($pass))
@@ -582,12 +581,12 @@ class assTextQuestion extends assQuestion
 				$pass = $this->getSolutionMaxPass($active_id);
 			}
 			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$this->ilias->db->quote($points . ""),
-				$this->ilias->db->quote($active_id . ""),
-				$this->ilias->db->quote($this->getId() . ""),
-				$this->ilias->db->quote($pass . "")
+				$ilDB->quote($points . ""),
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($pass . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			return true;
 		}
 			else
@@ -625,7 +624,7 @@ class assTextQuestion extends assQuestion
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote($pass . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 
 			// finally update objective result
 			include_once "./assessment/classes/class.ilObjTest.php";
@@ -716,11 +715,11 @@ class assTextQuestion extends assQuestion
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
 		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$this->ilias->db->quote($active_id . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($pass . "")
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($pass . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -768,17 +767,15 @@ class assTextQuestion extends assQuestion
 		global $ilDB;
 		global $ilUser;
 
-		$db =& $ilDB->db;
-
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$activepass = ilObjTest::_getPass($active_id);
 		
 		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($active_id . ""),
-			$db->quote($this->getId() . ""),
-			$db->quote($activepass . "")
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($activepass . "")
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 
 		$text = ilUtil::stripSlashes($_POST["TEXT"]);
 		if ($this->getMaxNumOfChars())
@@ -789,12 +786,12 @@ class assTextQuestion extends assQuestion
 		if (strlen($text))
 		{
 			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
-				$db->quote($active_id . ""),
-				$db->quote($this->getId() . ""),
-				$db->quote($text . ""),
-				$db->quote($activepass . "")
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($text . ""),
+				$ilDB->quote($activepass . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$entered_values++;
 		}
 		if ($entered_values)
@@ -819,7 +816,8 @@ class assTextQuestion extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilDB;
+		
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -827,27 +825,25 @@ class assTextQuestion extends assQuestion
 			{
 				$complete = 1;
 			}
-			$db = & $ilias->db;
-	
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title. ""),
-				$db->quote($this->comment. ""),
-				$db->quote($this->author. ""),
-				$db->quote($this->question. ""),
-				$db->quote($estw_time. ""),
-				$db->quote($complete. ""),
-				$db->quote($this->original_id. "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title. ""),
+				$ilDB->quote($this->comment. ""),
+				$ilDB->quote($this->author. ""),
+				$ilDB->quote($this->question. ""),
+				$ilDB->quote($estw_time. ""),
+				$ilDB->quote($complete. ""),
+				$ilDB->quote($this->original_id. "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_essay SET maxNumOfChars = %s, keywords = %s, textgap_rating = %s WHERE question_fi = %s",
-				$db->quote($this->maxNumOfChars. ""),
-				$db->quote($this->getKeywords() . ""),
-				$db->quote($this->getTextRating() . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->maxNumOfChars. ""),
+				$ilDB->quote($this->getKeywords() . ""),
+				$ilDB->quote($this->getTextRating() . ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 

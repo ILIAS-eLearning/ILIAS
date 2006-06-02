@@ -176,6 +176,8 @@ assessment#:#detail_ending_time_reached#:#You have reached the ending time of th
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
 assessment#:#detailed_output#:#Detailed output
+assessment#:#detailed_output_solutions#:#Detailed output with question solutions
+assessment#:#detailed_output_printview#:#Detailed output with question printviews
 assessment#:#direct_feedback#:#Verify your solution
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
@@ -258,6 +260,7 @@ assessment#:#filter_all_question_types#:#All question types
 assessment#:#filter_all_questionpools#:#All question pools
 assessment#:#filter_show_question_types#:#Show question types
 assessment#:#filter_show_questionpools#:#Show question pools
+assessment#:#filter_users#:#Filter users
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
@@ -282,6 +285,7 @@ assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or ne
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
+assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
@@ -328,6 +332,7 @@ assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
 assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
+assessment#:#output_mode#:#Output mode
 assessment#:#participants#:#Participants
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#passed
@@ -471,6 +476,8 @@ assessment#:#too_many_empty_parameters#:#Please fill out your empty applet param
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
+assessment#:#tst_allowed_users#:#Maximum number of users running the test simultaneously
+assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
@@ -526,6 +533,9 @@ assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
+assessment#:#tst_max_allowed_users#:#Participants restriction
+assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
+assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
 assessment#:#tst_maximum_points#:#Maximum points
 assessment#:#tst_missing_author#:#You have not entered the authors name in the test properties! Please add an authors name.
 assessment#:#tst_missing_marks#:#You do not have a mark schema in the test! Please add at least a simple mark schema to the test.

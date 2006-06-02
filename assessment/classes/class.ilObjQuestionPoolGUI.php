@@ -1054,16 +1054,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			// "create question" form
 			$this->tpl->setCurrentBlock("QTypes");
-			$query = "SELECT * FROM qpl_question_type ORDER BY question_type_id";
-			$query_result = $this->ilias->db->query($query);
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			$types =& $this->object->getQuestionTypes();
+			foreach ($types as $data)
 			{
-					if ($data->question_type_id == $lastquestiontype)
+					if ($data["question_type_id"] == $lastquestiontype)
 					{
 						$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
 					}
-					$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->parseCurrentBlock();
 //				}
 			}
@@ -1109,25 +1108,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* Creates a detailed print view for a question pool
-	*
-	* Creates a detailed print view for a question pool
-	*
-	* @access	public
-	*/
-	function printDetailedObject()
-	{
-		$this->printObject(TRUE);
-	}
-	
-	/**
 	* Creates a print view for a question pool
 	*
 	* Creates a print view for a question pool
 	*
 	* @access	public
 	*/
-	function printObject($detailed = FALSE)
+	function printObject()
 	{
 		$sort = "title";
 		if (strlen($_POST["sortorder"]))
@@ -1160,7 +1147,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		include_once "./classes/class.ilFormat.php";
 		foreach ($table as $row)
 		{
-			if ($detailed == TRUE)
+			if ((strcmp($_POST["output"], "detailed") == 0) || (strcmp($_POST["output"], "detailed_printview") == 0))
 			{
 				$this->tpl->setCurrentBlock("overview_row_detail");
 				$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
@@ -1169,7 +1156,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				include_once "./assessment/classes/class.".$question_type_gui.".php";
 				$question_gui = new $question_type_gui();
 				$question_gui->object->loadFromDb($row["question_id"]);
-				$this->tpl->setVariable("PREVIEW", $question_gui->getSolutionOutput(""));
+				if (strcmp($_POST["output"], "detailed") == 0)
+				{
+					$this->tpl->setVariable("PREVIEW", $question_gui->getSolutionOutput(""));
+				}
+				else
+				{
+					$this->tpl->setVariable("PREVIEW", $question_gui->getPreview());
+				}
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("overview_row_detail");
+				$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("overview_row");
@@ -1192,15 +1189,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_CREATED", $this->lng->txt("create_date"));
 		$this->tpl->setVariable("TEXT_UPDATED", $this->lng->txt("last_update"));
 		$this->tpl->parseCurrentBlock();
-		if ($detailed == TRUE)
-		{
-			$this->tpl->setVariable("OVERVIEW_OUTPUT", $this->lng->txt("overview"));
-		}
-		else
-		{
-			$this->tpl->setVariable("DETAILED_OUTPUT", $this->lng->txt("detailed_output"));
-		}
 		$this->tpl->setCurrentBlock("adm_content");
+		if (strcmp($_POST["output"], "detailed") == 0)
+		{
+			$this->tpl->setVariable("SELECTED_DETAILED", " selected=\"selected\"");
+		}
+		else if (strcmp($_POST["output"], "detailed_printview") == 0)
+		{
+			$this->tpl->setVariable("SELECTED_DETAILED_PRINTVIEW", " selected=\"selected\"");
+		}
+		$this->tpl->setVariable("TEXT_DETAILED", $this->lng->txt("detailed_output_solutions"));
+		$this->tpl->setVariable("TEXT_DETAILED_PRINTVIEW", $this->lng->txt("detailed_output_printview"));
+		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("overview"));
+		$this->tpl->setVariable("OUTPUT_MODE", $this->lng->txt("output_mode"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SORT_TEXT", $this->lng->txt("sort_by_this_column"));
 		$this->tpl->setVariable("TEXT_SUBMIT", $this->lng->txt("submit"));
@@ -1843,7 +1844,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// print view
 		$tabs_gui->addTarget("print_view",
 			 $this->ctrl->getLinkTarget($this,'print'),
-			 array("print", "printDetailed"),
+			 array("print"),
 			 "", "");
 
 		// export

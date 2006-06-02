@@ -388,9 +388,8 @@ class assMatchingQuestion extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilias;
+		global $ilDB;
 
-		$db =& $ilias->db;
 		$complete = 0;
 		if ($this->isComplete())
 		{
@@ -401,7 +400,7 @@ class assMatchingQuestion extends assQuestion
 
 		if ($original_id)
 		{
-			$original_id = $db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -415,30 +414,30 @@ class assMatchingQuestion extends assQuestion
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type. ""),
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title. ""),
-				$db->quote($this->comment. ""),
-				$db->quote($this->author. ""),
-				$db->quote($this->owner. ""),
-				$db->quote($this->question. ""),
-				$db->quote($estw_time. ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($complete. ""),
-				$db->quote($created. ""),
+				$ilDB->quote($question_type. ""),
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title. ""),
+				$ilDB->quote($this->comment. ""),
+				$ilDB->quote($this->author. ""),
+				$ilDB->quote($this->owner. ""),
+				$ilDB->quote($this->question. ""),
+				$ilDB->quote($estw_time. ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($complete. ""),
+				$ilDB->quote($created. ""),
 				$original_id
 			);
 
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			if ($result == DB_OK)
 			{
-				$this->id = $this->ilias->db->getLastInsertId();
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type) VALUES (%s, %s, %s)",
-					$db->quote($this->id . ""),
-					$db->quote($this->shuffle . ""),
-					$db->quote($this->matching_type. "")
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->shuffle . ""),
+					$ilDB->quote($this->matching_type. "")
 				);
-				$db->query($query);
+				$ilDB->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -454,23 +453,23 @@ class assMatchingQuestion extends assQuestion
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, points = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title. ""),
-				$db->quote($this->comment. ""),
-				$db->quote($this->author. ""),
-				$db->quote($this->question. ""),
-				$db->quote($estw_time. ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($complete. ""),
-				$db->quote($this->id. "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title. ""),
+				$ilDB->quote($this->comment. ""),
+				$ilDB->quote($this->author. ""),
+				$ilDB->quote($this->question. ""),
+				$ilDB->quote($estw_time. ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($complete. ""),
+				$ilDB->quote($this->id. "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_matching SET shuffle = %s, matching_type = %s WHERE question_fi = %s",
-				$db->quote($this->shuffle . ""),
-				$db->quote($this->matching_type. ""),
-				$db->quote($this->id . "")
+				$ilDB->quote($this->shuffle . ""),
+				$ilDB->quote($this->matching_type. ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 		}
 
 		if ($result == DB_OK)
@@ -478,23 +477,23 @@ class assMatchingQuestion extends assQuestion
 			// Antworten schreiben
 			// alte Antworten löschen
 			$query = sprintf("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
-				$db->quote($this->id)
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			// Anworten wegschreiben
 			foreach ($this->matchingpairs as $key => $value)
 			{
 				$matching_obj = $this->matchingpairs[$key];
 				$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-					$db->quote($this->id),
-					$db->quote($matching_obj->getTerm() . ""),
-					$db->quote($matching_obj->getPoints() . ""),
-					$db->quote($matching_obj->getTermId() . ""),
-					$db->quote($matching_obj->getDefinition() . ""),
-					$db->quote($matching_obj->getDefinitionId() . "")
+					$ilDB->quote($this->id),
+					$ilDB->quote($matching_obj->getTerm() . ""),
+					$ilDB->quote($matching_obj->getPoints() . ""),
+					$ilDB->quote($matching_obj->getTermId() . ""),
+					$ilDB->quote($matching_obj->getDefinition() . ""),
+					$ilDB->quote($matching_obj->getDefinitionId() . "")
 				);
-				$matching_result = $db->query($query);
+				$matching_result = $ilDB->query($query);
 			}
 		}
 		parent::saveToDb($original_id);
@@ -511,13 +510,12 @@ class assMatchingQuestion extends assQuestion
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilias;
-		$db =& $ilias->db;
+		global $ilDB;
 
     $query = sprintf("SELECT qpl_questions.*, qpl_question_matching.* FROM qpl_questions, qpl_question_matching WHERE question_id = %s AND qpl_questions.question_id = qpl_question_matching.question_fi",
-			$db->quote($question_id)
+			$ilDB->quote($question_id)
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
 			if ($result->numRows() == 1)
@@ -539,9 +537,9 @@ class assMatchingQuestion extends assQuestion
 			}
 
 			$query = sprintf("SELECT * FROM qpl_answer_matching WHERE question_fi = %s ORDER BY answer_id ASC",
-				$db->quote($question_id)
+				$ilDB->quote($question_id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			include_once "./assessment/classes/class.assAnswerMatching.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
 			{
@@ -1043,21 +1041,20 @@ class assMatchingQuestion extends assQuestion
 	{
 		global $ilDB;
 		global $ilUser;
+		
 		$saveWorkingDataResult = $this->checkSaveData();
 		$entered_values = 0;
 		if ($saveWorkingDataResult)
 		{
-			$db =& $ilDB->db;
-	
 			include_once ("./assessment/classes/class.ilObjTest.php");
 			$activepass = ilObjTest::_getPass($active_id);
 			
 			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$db->quote($active_id . ""),
-				$db->quote($this->getId() . ""),
-				$db->quote($activepass . "")
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($activepass . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			foreach ($_POST as $key => $value)
 			{
 				if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
@@ -1068,13 +1065,13 @@ class assMatchingQuestion extends assQuestion
 						{
 							$entered_values++;
 							$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-								$db->quote($active_id),
-								$db->quote($this->getId()),
-								$db->quote($value),
-								$db->quote($matches[1]),
-								$db->quote($activepass . "")
+								$ilDB->quote($active_id),
+								$ilDB->quote($this->getId()),
+								$ilDB->quote($value),
+								$ilDB->quote($matches[1]),
+								$ilDB->quote($activepass . "")
 							);
-							$result = $db->query($query);
+							$result = $ilDB->query($query);
 						}
 					}
 				}
@@ -1123,7 +1120,8 @@ class assMatchingQuestion extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilDB;
+		
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -1131,27 +1129,26 @@ class assMatchingQuestion extends assQuestion
 			{
 				$complete = 1;
 			}
-			$db = & $ilias->db;
 	
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, points = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title. ""),
-				$db->quote($this->comment. ""),
-				$db->quote($this->author. ""),
-				$db->quote($this->question. ""),
-				$db->quote($estw_time. ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($complete. ""),
-				$db->quote($this->original_id. "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title. ""),
+				$ilDB->quote($this->comment. ""),
+				$ilDB->quote($this->author. ""),
+				$ilDB->quote($this->question. ""),
+				$ilDB->quote($estw_time. ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($complete. ""),
+				$ilDB->quote($this->original_id. "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_matching SET shuffle = %, matching_type = %s WHERE question_fi = %s",
-				$db->quote($this->shuffle . ""),
-				$db->quote($this->matching_type. ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->shuffle . ""),
+				$ilDB->quote($this->matching_type. ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 
@@ -1160,22 +1157,22 @@ class assMatchingQuestion extends assQuestion
 				// write answers
 				// delete old answers
 				$query = sprintf("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
-					$db->quote($this->original_id)
+					$ilDB->quote($this->original_id)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 	
 				foreach ($this->matchingpairs as $key => $value)
 				{
 					$matching_obj = $this->matchingpairs[$key];
 					$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-						$db->quote($this->original_id . ""),
-						$db->quote($matching_obj->getTerm() . ""),
-						$db->quote($matching_obj->getPoints() . ""),
-						$db->quote($matching_obj->getTermId() . ""),
-						$db->quote($matching_obj->getDefinition() . ""),
-						$db->quote($matching_obj->getDefinitionId() . "")
+						$ilDB->quote($this->original_id . ""),
+						$ilDB->quote($matching_obj->getTerm() . ""),
+						$ilDB->quote($matching_obj->getPoints() . ""),
+						$ilDB->quote($matching_obj->getTermId() . ""),
+						$ilDB->quote($matching_obj->getDefinition() . ""),
+						$ilDB->quote($matching_obj->getDefinitionId() . "")
 					);
-					$matching_result = $db->query($query);
+					$matching_result = $ilDB->query($query);
 				}
 			}
 			parent::syncWithOriginal();

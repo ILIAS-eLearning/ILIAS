@@ -10899,3 +10899,7 @@ ALTER TABLE `tst_test_result` DROP INDEX `question_fi`;
 ALTER TABLE `tst_test_result` DROP `test_fi`;
 ALTER TABLE `tst_test_result` DROP `user_fi`;
 ALTER TABLE `tst_test_result` ADD UNIQUE (`active_fi` ,`question_fi`, `pass`);
+<#736>
+ALTER TABLE `tst_tests` ADD `allowedUsers` INT NULL AFTER `password` ;
+ALTER TABLE `tst_tests` ADD `allowedUsersTimeGap` INT NULL AFTER `allowedUsers` ;
+

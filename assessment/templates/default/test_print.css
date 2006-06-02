@@ -50,7 +50,7 @@ input[type="submit"], input[type="button"] {
 .tblheader {
 	border-collapse: collapse;
 	border-spacing: 0px;
-	border: 1px solid gray;
+	border: 1px solid double gray;
 	font-weight: bold;
 	vertical-align: top;
 }

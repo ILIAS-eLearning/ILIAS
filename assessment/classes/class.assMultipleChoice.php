@@ -374,21 +374,20 @@ class assMultipleChoice extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilias;
+		global $ilDB;
 
 		$complete = 0;
 		if ($this->isComplete())
 		{
 			$complete = 1;
 		}
-		$db = & $ilias->db;
 
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
 		if ($original_id)
 		{
-			$original_id = $db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -402,29 +401,29 @@ class assMultipleChoice extends assQuestion
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type),
-				$db->quote($this->obj_id),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->owner),
-				$db->quote($this->question),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($estw_time),
-				$db->quote("$complete"),
-				$db->quote($created),
+				$ilDB->quote($question_type),
+				$ilDB->quote($this->obj_id),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->owner),
+				$ilDB->quote($this->question),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($estw_time),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($created),
 				$original_id
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			
 			if ($result == DB_OK)
 			{
-				$this->id = $this->ilias->db->getLastInsertId();
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_multiplechoice (question_fi, shuffle) VALUES (%s, %s)",
-					$db->quote($this->id . ""),
-					$db->quote("$this->shuffle")
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote("$this->shuffle")
 				);
-				$db->query($query);
+				$ilDB->query($query);
 
 				// create page object of question
 				$this->createPageObject();
@@ -440,45 +439,45 @@ class assMultipleChoice extends assQuestion
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->question),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($estw_time),
-				$db->quote("$complete"),
-				$db->quote($this->id)
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->question),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($estw_time),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_multiplechoice SET shuffle = %s WHERE question_fi = %s",
-				$db->quote("$this->shuffle"),
-				$db->quote($this->id . "")
+				$ilDB->quote("$this->shuffle"),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 		}
 		if ($result == DB_OK)
 		{
 			// Antworten schreiben
 			// alte Antworten löschen
 			$query = sprintf("DELETE FROM qpl_answer_multiplechoice WHERE question_fi = %s",
-				$db->quote($this->id)
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			// Anworten wegschreiben
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
 				$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-					$db->quote($this->id),
-					$db->quote($answer_obj->getAnswertext()),
-					$db->quote($answer_obj->getPoints() . ""),
-					$db->quote($answer_obj->getPointsUnchecked() . ""),
-					$db->quote($answer_obj->getOrder() . ""),
-					$db->quote($answer_obj->getImage() . "")
+					$ilDB->quote($this->id),
+					$ilDB->quote($answer_obj->getAnswertext()),
+					$ilDB->quote($answer_obj->getPoints() . ""),
+					$ilDB->quote($answer_obj->getPointsUnchecked() . ""),
+					$ilDB->quote($answer_obj->getOrder() . ""),
+					$ilDB->quote($answer_obj->getImage() . "")
 				);
-				$answer_result = $db->query($query);
+				$answer_result = $ilDB->query($query);
 			}
 		}
 		parent::saveToDb($original_id);
@@ -495,12 +494,11 @@ class assMultipleChoice extends assQuestion
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilias;
+		global $ilDB;
 
-		$db = & $ilias->db;
     $query = sprintf("SELECT qpl_questions.*, qpl_question_multiplechoice.* FROM qpl_questions, qpl_question_multiplechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_multiplechoice.question_fi",
-		$db->quote($question_id));
-		$result = $db->query($query);
+		$ilDB->quote($question_id));
+		$result = $ilDB->query($query);
 		if (strcmp(strtolower(get_class($result)), db_result) == 0)
 		{
 			if ($result->numRows() == 1)
@@ -521,9 +519,9 @@ class assMultipleChoice extends assQuestion
 			}
 
 			$query = sprintf("SELECT * FROM qpl_answer_multiplechoice WHERE question_fi = %s ORDER BY aorder ASC",
-				$db->quote($question_id));
+				$ilDB->quote($question_id));
 
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			include_once "./assessment/classes/class.assAnswerMultipleResponseImage.php";
 			if (strcmp(strtolower(get_class($result)), db_result) == 0)
@@ -922,18 +920,16 @@ class assMultipleChoice extends assQuestion
 		global $ilDB;
 		global $ilUser;
 
-		$db =& $ilDB->db;
-
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$activepass = ilObjTest::_getPass($active_id);
 
 		$entered_values = 0;
 		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($active_id . ""),
-			$db->quote($this->getId() . ""),
-			$db->quote($activepass . "")
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($activepass . "")
 		);
-		$result = $db->query($query);
+		$result = $ilDB->query($query);
 		foreach ($_POST as $key => $value)
 		{
 			if (preg_match("/^multiple_choice_result_(\d+)/", $key, $matches))
@@ -941,12 +937,12 @@ class assMultipleChoice extends assQuestion
 				if (strlen($value))
 				{
 					$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
-						$db->quote($active_id),
-						$db->quote($this->getId()),
-						$db->quote($value),
-						$db->quote($activepass . "")
+						$ilDB->quote($active_id),
+						$ilDB->quote($this->getId()),
+						$ilDB->quote($value),
+						$ilDB->quote($activepass . "")
 					);
-					$result = $db->query($query);
+					$result = $ilDB->query($query);
 					$entered_values++;
 				}
 			}
@@ -973,7 +969,8 @@ class assMultipleChoice extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilDB;
+		
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -981,26 +978,24 @@ class assMultipleChoice extends assQuestion
 			{
 				$complete = 1;
 			}
-			$db = & $ilias->db;
-	
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title. ""),
-				$db->quote($this->comment. ""),
-				$db->quote($this->author. ""),
-				$db->quote($this->question. ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($estw_time. ""),
-				$db->quote($complete. ""),
-				$db->quote($this->original_id. "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title. ""),
+				$ilDB->quote($this->comment. ""),
+				$ilDB->quote($this->author. ""),
+				$ilDB->quote($this->question. ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($estw_time. ""),
+				$ilDB->quote($complete. ""),
+				$ilDB->quote($this->original_id. "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_multiplechoice SET shuffle = %s WHERE question_fi = %s",
-				$db->quote($this->shuffle. ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->shuffle. ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 
@@ -1009,22 +1004,22 @@ class assMultipleChoice extends assQuestion
 				// write answers
 				// delete old answers
 				$query = sprintf("DELETE FROM qpl_answer_multiplechoice WHERE question_fi = %s",
-					$db->quote($this->original_id)
+					$ilDB->quote($this->original_id)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 				$points_unchecked = 0;
 				$points_unchecked = $answer_obj->getPointsUnchecked();
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
 					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, points_unchecked) VALUES (NULL, %s, %s, %s, %s, %s)",
-					$db->quote($this->original_id. ""),
-					$db->quote($answer_obj->getAnswertext(). ""),
-					$db->quote($answer_obj->getPoints() . ""),
-					$db->quote($answer_obj->getOrder() . ""),
-					$db->quote($points_unchecked . "")
+						$ilDB->quote($this->original_id. ""),
+						$ilDB->quote($answer_obj->getAnswertext(). ""),
+						$ilDB->quote($answer_obj->getPoints() . ""),
+						$ilDB->quote($answer_obj->getOrder() . ""),
+						$ilDB->quote($points_unchecked . "")
 					);
-					$answer_result = $db->query($query);
+					$answer_result = $ilDB->query($query);
 				}
 			}
 			parent::syncWithOriginal();

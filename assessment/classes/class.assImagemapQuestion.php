@@ -146,7 +146,7 @@ class assImagemapQuestion extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilias;
+		global $ilDB;
 
 		$complete = 0;
 		if ($this->isComplete())
@@ -154,13 +154,11 @@ class assImagemapQuestion extends assQuestion
 			$complete = 1;
 		}
 
-		$db = & $ilias->db;
-
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 		if ($original_id)
 		{
-			$original_id = $db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -174,28 +172,28 @@ class assImagemapQuestion extends assQuestion
 			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type),
-				$db->quote($this->obj_id),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->owner),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote("$complete"),
-				$db->quote($created),
+				$ilDB->quote($question_type),
+				$ilDB->quote($this->obj_id),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->owner),
+				$ilDB->quote($this->question),
+				$ilDB->quote($estw_time),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($created),
 				$original_id
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			if ($result == DB_OK)
 			{
-				$this->id = $db->getLastInsertId();
+				$this->id = $ilDB->getLastInsertId();
 				$insertquery = sprintf("INSERT INTO qpl_question_imagemap (question_fi, image_file) VALUES (%s, %s)",
-					$db->quote($this->id . ""),
-					$db->quote($this->image_filename)
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->image_filename)
 				);
-				$db->query($insertquery);
+				$ilDB->query($insertquery);
 				// create page object of question
 				$this->createPageObject();
 
@@ -210,46 +208,46 @@ class assImagemapQuestion extends assQuestion
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote("$complete"),
-				$db->quote($this->id)
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->comment),
+				$ilDB->quote($this->author),
+				$ilDB->quote($this->question),
+				$ilDB->quote($estw_time),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_imagemap SET image_file = %s WHERE question_fi = %s",
-				$db->quote($this->image_filename),
-				$db->quote($this->id)
+				$ilDB->quote($this->image_filename),
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 				
 		}
 
 		if ($result == DB_OK)
 		{
 			$query = sprintf("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
-				$db->quote($this->id)
+				$ilDB->quote($this->id)
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			// Anworten wegschreiben
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
 				//print "id:".$this->id." answer tex:".$answer_obj->getAnswertext()." answer_obj->getOrder():".$answer_obj->getOrder()." answer_obj->getCoords():".$answer_obj->getCoords()." answer_obj->getArea():".$answer_obj->getArea();
 				$query = sprintf("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, correctness, coords, area) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
-					$db->quote($this->id),
-					$db->quote($answer_obj->getAnswertext() . ""),
-					$db->quote($answer_obj->getPoints() . ""),
-					$db->quote($answer_obj->getOrder() . ""),
-					$db->quote($answer_obj->getState() . ""),
-					$db->quote($answer_obj->getCoords() . ""),
-					$db->quote($answer_obj->getArea() . "")
+					$ilDB->quote($this->id),
+					$ilDB->quote($answer_obj->getAnswertext() . ""),
+					$ilDB->quote($answer_obj->getPoints() . ""),
+					$ilDB->quote($answer_obj->getOrder() . ""),
+					$ilDB->quote($answer_obj->getState() . ""),
+					$ilDB->quote($answer_obj->getCoords() . ""),
+					$ilDB->quote($answer_obj->getArea() . "")
 					);
-				$answer_result = $db->query($query);
+				$answer_result = $ilDB->query($query);
 				}
 		}
 		parent::saveToDb($original_id);
@@ -378,13 +376,12 @@ class assImagemapQuestion extends assQuestion
 */
   function loadFromDb($question_id)
   {
-    global $ilias;
+		global $ilDB;
 
-    $db = & $ilias->db;
     $query = sprintf("SELECT qpl_questions.*, qpl_question_imagemap.* FROM qpl_questions, qpl_question_imagemap WHERE question_id = %s AND qpl_questions.question_id = qpl_question_imagemap.question_fi",
-      $db->quote($question_id)
+      $ilDB->quote($question_id)
     );
-    $result = $db->query($query);
+    $result = $ilDB->query($query);
     if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       if ($result->numRows() == 1) {
         $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -402,9 +399,9 @@ class assImagemapQuestion extends assQuestion
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       $query = sprintf("SELECT * FROM qpl_answer_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
-        $db->quote($question_id)
+        $ilDB->quote($question_id)
       );
-      $result = $db->query($query);
+      $result = $ilDB->query($query);
 			include_once "./assessment/classes/class.assAnswerImagemap.php";
       if (strcmp(strtolower(get_class($result)), db_result) == 0) 
 			{
@@ -978,27 +975,26 @@ class assImagemapQuestion extends assQuestion
 	{
     global $ilDB;
 		global $ilUser;
-    $db =& $ilDB->db;
 
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$activepass = ilObjTest::_getPass($active_id);
 		
     $query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$db->quote($active_id . ""),
-			$db->quote($this->getId() . ""),
-			$db->quote($activepass . "")
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($activepass . "")
     );
-    $result = $db->query($query);
+    $result = $ilDB->query($query);
 
 		if (strlen($_GET["selImage"]))
 		{
 			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
-				$db->quote($active_id),
-				$db->quote($this->getId()),
-				$db->quote($_GET["selImage"]),
-				$db->quote($activepass . "")
+				$ilDB->quote($active_id),
+				$ilDB->quote($this->getId()),
+				$ilDB->quote($_GET["selImage"]),
+				$ilDB->quote($activepass . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -1021,7 +1017,8 @@ class assImagemapQuestion extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilias;
+		global $ilDB;
+		
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -1029,27 +1026,26 @@ class assImagemapQuestion extends assQuestion
 			{
 				$complete = 1;
 			}
-			$db = & $ilias->db;
 	
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
 			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, image_file = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->obj_id. ""),
-				$db->quote($this->title . ""),
-				$db->quote($this->comment . ""),
-				$db->quote($this->author . ""),
-				$db->quote($this->question . ""),
-				$db->quote($estw_time . ""),
-				$db->quote($this->getMaximumPoints() . ""),
-				$db->quote($this->image_filename . ""),
-				$db->quote($complete . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->obj_id. ""),
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->comment . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->question . ""),
+				$ilDB->quote($estw_time . ""),
+				$ilDB->quote($this->getMaximumPoints() . ""),
+				$ilDB->quote($this->image_filename . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->original_id . "")
 			);
-			$result = $db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE qpl_question_imagemap SET image_file = %s WHERE question_fi = %s",
-				$db->quote($this->image_filename . ""),
-				$db->quote($this->original_id . "")
+				$ilDB->quote($this->image_filename . ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 
@@ -1058,23 +1054,23 @@ class assImagemapQuestion extends assQuestion
 				// write answers
 				// delete old answers
 				$query = sprintf("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
-					$db->quote($this->original_id)
+					$ilDB->quote($this->original_id)
 				);
-				$result = $db->query($query);
+				$result = $ilDB->query($query);
 	
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
 					$query = sprintf("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, correctness, coords, area) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
-						$db->quote($this->original_id . ""),
-						$db->quote($answer_obj->getAnswertext() . ""),
-						$db->quote($answer_obj->getPoints() . ""),
-						$db->quote($answer_obj->getOrder() . ""),
-						$db->quote($answer_obj->getState() . ""),
-						$db->quote($answer_obj->getCoords() . ""),
-						$db->quote($answer_obj->getArea() . "")
+						$ilDB->quote($this->original_id . ""),
+						$ilDB->quote($answer_obj->getAnswertext() . ""),
+						$ilDB->quote($answer_obj->getPoints() . ""),
+						$ilDB->quote($answer_obj->getOrder() . ""),
+						$ilDB->quote($answer_obj->getState() . ""),
+						$ilDB->quote($answer_obj->getCoords() . ""),
+						$ilDB->quote($answer_obj->getArea() . "")
 						);
-					$answer_result = $db->query($query);
+					$answer_result = $ilDB->query($query);
 				}
 			}
 			parent::syncWithOriginal();

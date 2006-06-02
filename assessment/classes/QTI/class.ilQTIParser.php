@@ -1108,6 +1108,18 @@ class ilQTIParser extends ilSaxParser
 								$this->tst_object->setPassword($this->metadata["entry"]);
 							}
 							break;
+						case "allowedUsers":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setAllowedUsers($this->metadata["entry"]);
+							}
+							break;
+						case "allowedUsersTimeGap":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setAllowedUsersTimeGap($this->metadata["entry"]);
+							}
+							break;
 						case "pass_scoring":
 							if (is_object($this->tst_object))
 							{

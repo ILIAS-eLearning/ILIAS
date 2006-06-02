@@ -333,7 +333,6 @@ class ilTestOutputGUI
 		{
 			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 		}
-//		$this->tpl->addBlockFile("QUESTION_CONTENT", "question_content", "tpl.il_as_preview.html", true);
 
 		$is_postponed = false;
 		if (is_object($active))
@@ -577,6 +576,10 @@ class ilTestOutputGUI
 */
 	function start()
 	{
+		if ($this->object->checkMaximumAllowedUsers() == FALSE)
+		{
+			return $this->showMaximumAllowedUsersReachedMessage();
+		}
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
 			$this->object->setAccessCodeSession($this->object->createNewAccessCode());
@@ -627,7 +630,7 @@ class ilTestOutputGUI
 		$this->ctrl->setParameter($this, "activecommand", "start");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
-	
+
 /**
 * Resume a test at the last position
 *
@@ -637,6 +640,10 @@ class ilTestOutputGUI
 */
 	function resume()
 	{
+		if ($this->object->checkMaximumAllowedUsers() == FALSE)
+		{
+			return $this->showMaximumAllowedUsersReachedMessage();
+		}
 		$this->readFullSequence();
 		$this->handleStartCommands();
 		$this->ctrl->setParameter($this, "activecommand", "resume");
@@ -2374,5 +2381,16 @@ class ilTestOutputGUI
 			$this->outProcessingTime();
 	}
 	
+	function showMaximumAllowedUsersReachedMessage()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_max_allowed_users_reached.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("MAX_ALLOWED_USERS_MESSAGE", sprintf($this->lng->txt("tst_max_allowed_users_message"), $this->object->getAllowedUsersTimeGap()));
+		$this->tpl->setVariable("MAX_ALLOWED_USERS_HEADING", sprintf($this->lng->txt("tst_max_allowed_users_heading"), $this->object->getAllowedUsersTimeGap()));
+		$this->tpl->setVariable("BACK_TO_INTRODUCTION", $this->lng->txt("tst_results_back_introduction"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+ 
 }
 ?>
