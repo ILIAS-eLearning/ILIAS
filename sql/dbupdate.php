@@ -10902,4 +10902,13 @@ ALTER TABLE `tst_test_result` ADD UNIQUE (`active_fi` ,`question_fi`, `pass`);
 <#736>
 ALTER TABLE `tst_tests` ADD `allowedUsers` INT NULL AFTER `password` ;
 ALTER TABLE `tst_tests` ADD `allowedUsersTimeGap` INT NULL AFTER `allowedUsers` ;
+<#737>
+ALTER TABLE `tst_active` DROP INDEX `active_id_2`;
+ALTER TABLE `tst_active` DROP INDEX `active_id`;
+ALTER TABLE `tst_mark` DROP INDEX `mark_id_2`;
+ALTER TABLE `tst_mark` DROP INDEX `mark_id`;
+ALTER TABLE `tst_tests` DROP INDEX `test_id_2`;
+ALTER TABLE `tst_tests` DROP INDEX `test_id`;
+ALTER TABLE `tst_test_type` DROP INDEX `test_type_id_2`;
+ALTER TABLE `tst_test_type` DROP INDEX `test_type_id`;
 
