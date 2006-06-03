@@ -1014,6 +1014,7 @@ common#:#already_delivered_files#:#Already delivered files
 common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
+common#:#anonymous#:#Anonymous
 common#:#answers#:#Answers
 common#:#any_language#:#Any language
 common#:#append_search#:#Append search results
@@ -2105,7 +2106,7 @@ common#:#languages#:#Languages
 common#:#languages_already_installed#:#Selected language(s) are already installed
 common#:#languages_already_uninstalled#:#Selected language(s) are already uninstalled
 common#:#languages_updated#:#All installed languages have been updated
-common#:#last_access#:#Last access:
+common#:#last_access#:#Last access
 common#:#last_change#:#Last Change
 common#:#last_edited_on#:#Last edited on
 common#:#last_login#:#Last login
@@ -5526,6 +5527,7 @@ survey#:#codes#:#Access codes
 survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
+survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraint_add#:#Add precondition
@@ -5576,6 +5578,7 @@ survey#:#dc_varying#:#varying
 survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define question block
+survey#:#delete_user_data#:#Delete the survey data of the selected users
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#disinvite#:#Disinvite
 survey#:#display_all_available#:#Display all available
@@ -5813,6 +5816,7 @@ survey#:#survey_previous#:#<<< previous
 survey#:#survey_question_obligatory#:#This question is obligatory. You must answer the question!
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions
+survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
 survey#:#survey_skip_finish#:#skip and finish survey
 survey#:#survey_skip_next#:#skip >>>
 survey#:#survey_skip_previous#:#<<< skip
@@ -5833,6 +5837,7 @@ survey#:#svy_eval_detail#:#Cumulated results (details)
 survey#:#svy_eval_user#:#User specific results
 survey#:#svy_export_files#:#Export files
 survey#:#svy_file#:#File
+survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.
 survey#:#svy_missing_title#:#You have not entered a survey title! Please go to the metadata section and enter a title.
@@ -5841,6 +5846,7 @@ survey#:#svy_page_errors#:#There were errors answering the survey questions. Ple
 survey#:#svy_select_file_for_import#:#You must select a file for import!
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions
 survey#:#svy_select_surveys#:#Please select a survey for duplication
+survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
 survey#:#svy_show_questiontitles#:#Show question titles in survey
 survey#:#svy_size#:#Size
 survey#:#svy_statistical_evaluation#:#Statistical evaluation

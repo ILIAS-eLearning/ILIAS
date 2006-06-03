@@ -372,6 +372,78 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 	}
+	
+	/**
+	* Deletes the user data of a given array of survey participants
+	* 
+	* Deletes the user data of a given array of survey participants
+	* 
+	* @access	public
+	*/
+	function removeSelectedSurveyResults($finished_ids)
+	{
+		global $ilDB;
+		
+		foreach ($finished_ids as $finished_id)
+		{
+			$query = sprintf("SELECT * FROM survey_finished WHERE finished_id = %s",
+				$ilDB->quote($finished_id . "")
+			);
+			$result = $ilDB->query($query);
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+
+			// disinvite the user if the user was invited
+			if ($row["user_fi"] > 0) $this->disinviteUser($row["user_fi"]);
+			
+			$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND user_fi = %s AND anonymous_id = %s",
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($row["user_fi"] . ""),
+				$ilDB->quote($row["anonymous_id"] . "")
+			);
+			$result = $ilDB->query($query);
+
+			if (strlen($row["anonymous_id"]))
+			{
+				$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s AND survey_key = %s",
+					$ilDB->quote($this->getSurveyId()),
+					$ilDB->quote($row["anonymous_id"] . "")
+				);
+				$result = $ilDB->query($query);
+			}
+
+			$query = sprintf("DELETE FROM survey_finished WHERE finished_id = %s",
+				$ilDB->quote($finished_id . "")
+			);
+			$result = $ilDB->query($query);
+		}
+	}
+	
+	function &getSurveyParticipants()
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s ORDER BY user_fi",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
+		$result = $ilDB->query($query);
+		$participants = array();
+		if ($result->numRows() > 0)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (strlen($row["anonymous_id"]))
+				{
+					$participants[$row["finished_id"]] = $this->lng->txt("anonymous");
+				}
+				else
+				{
+					$uname = ilObjUser::_lookupName($row["user_fi"]);
+					$participants[$row["finished_id"]] = $uname["lastname"] . ", " . $uname["firstname"];
+				}
+			}
+		}
+		return $participants;
+	}
 
 	/**
 	* notifys an object about an event occured
@@ -4654,6 +4726,22 @@ class ilObjSurvey extends ilObject
 			}
 		}
 		return $resultarray;
+	}
+
+	function _getLastAccess($finished_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT survey_answer.TIMESTAMP+0 AS TIMESTAMP14 FROM survey_answer, survey_finished WHERE survey_finished.user_fi = survey_answer.user_fi AND survey_finished.anonymous_id = survey_answer.anonymous_id AND survey_finished.finished_id = %s ORDER BY survey_answer.TIMESTAMP DESC",
+			$ilDB->quote($finished_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["TIMESTAMP14"];
+		}
+		return "";
 	}
 } // END class.ilObjSurvey
 ?>

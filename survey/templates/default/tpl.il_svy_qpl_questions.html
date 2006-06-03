@@ -23,14 +23,14 @@
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}">
 <!-- BEGIN checkable -->
-<input type="checkbox" name="cb_{QUESTION_ID}" value="1" />
+<input type="checkbox" name="cb_{QUESTION_ID}" id="cb_{QUESTION_ID}" value="1" />
 <!-- END checkable -->
 </td>
 <td class="{COLOR_CLASS}">
 <!-- BEGIN qpl_warning -->	
 <img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
 <!-- END qpl_warning -->
-{QUESTION_TITLE}
+<label for="cb_{QUESTION_ID}">{QUESTION_TITLE}</label>
 </td>
 <td class="{COLOR_CLASS}">
 <!-- BEGIN url_edit -->
