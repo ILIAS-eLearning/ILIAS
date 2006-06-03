@@ -3225,17 +3225,19 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
-			$total = $this->object->evalTotalPersonsArray();
+			$total =& $this->object->evalTotalParticipantsArray();
 			if (count($total))
 			{
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				foreach ($total as $user_id => $user_name)
+				foreach ($total as $active_id => $user_name)
 				{
 					$this->tpl->setCurrentBlock("userrow");
 					$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("USER_ID", $user_id);
+					$this->tpl->setVariable("USER_ID", $active_id);
 					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
+					$last_access = $this->object->_getLastAccess($active_id);
+					$this->tpl->setVariable("LAST_ACCESS", ilFormat::formatDate($last_access));
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
@@ -3246,6 +3248,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("participanttable");
 				$this->tpl->setVariable("USER_NAME", $this->lng->txt("username"));
+				$this->tpl->setVariable("LAST_ACCESS", $this->lng->txt("last_access"));
 				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 				$this->tpl->setVariable("DELETE", $this->lng->txt("delete_user_data"));
 				$this->tpl->parseCurrentBlock();

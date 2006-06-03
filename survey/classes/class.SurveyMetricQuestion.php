@@ -715,9 +715,16 @@ class SurveyMetricQuestion extends SurveyQuestion
 
 		if (strlen($this->getMaximum()))
 		{
-			if ($entered_value > $this->getMaximum())
+			if (($this->getMaximum() == 1) && ($this->getMaximum() < $this->getMinimum()))
 			{
-				return $this->lng->txt("metric_question_out_of_bounds");
+				// old &infty; values as maximum
+			}
+			else
+			{
+				if ($entered_value > $this->getMaximum())
+				{
+					return $this->lng->txt("metric_question_out_of_bounds");
+				}
 			}
 		}
 

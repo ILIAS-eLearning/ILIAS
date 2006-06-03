@@ -2469,12 +2469,64 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Creates the maintenance form for a survey
+	* Deletes all user data for the test object
 	*
-	* Creates the maintenance form for a survey
+	* Deletes all user data for the test object
 	*
 	* @access	public
 	*/
+	function confirmDeleteSelectedUserDataObject()
+	{
+		$this->object->removeSelectedSurveyResults($_POST["chbUser"]);
+		sendInfo($this->lng->txt("svy_selected_user_data_deleted"), true);
+		$this->ctrl->redirect($this, "maintenance");
+	}
+	
+	/**
+	* Cancels the deletion of all user data for the test object
+	*
+	* Cancels the deletion of all user data for the test object
+	*
+	* @access	public
+	*/
+	function cancelDeleteSelectedUserDataObject()
+	{
+		$this->ctrl->redirect($this, "maintenance");
+	}
+	
+	/**
+	* Asks for a confirmation to delete selected user data of the test object
+	*
+	* Asks for a confirmation to delete selected user data of the test object
+	*
+	* @access	public
+	*/
+	function deleteSingleUserResultsObject()
+	{
+		if (count($_POST["chbUser"]) == 0)
+		{
+			$this->ctrl->redirect($this, "maintenance");
+		}
+		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
+
+		$this->tpl->setCurrentBlock("confirm_delete_selected");
+		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_DELETE_SELECTED", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+		
+		foreach ($_POST["chbUser"] as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("USER_ID", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	function maintenanceObject()
 	{
 		global $rbacsystem;
@@ -2488,17 +2540,51 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
-
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
-			$this->tpl->setCurrentBlock("delete_button");
-			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("svy_delete_all_user_data"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
+			$total =& $this->object->getSurveyParticipants();
+			if (count($total))
+			{
+				$color_class = array("tblrow1", "tblrow2");
+				$counter = 0;
+				foreach ($total as $finished_id => $user_name)
+				{
+					$this->tpl->setCurrentBlock("userrow");
+					$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("USER_ID", $finished_id);
+					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
+					$last_access = $this->object->_getLastAccess($finished_id);
+					$this->tpl->setVariable("LAST_ACCESS", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($last_access)));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("selectall");
+				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+				$counter++;
+				$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("participanttable");
+				$this->tpl->setVariable("USER_NAME", $this->lng->txt("username"));
+				$this->tpl->setVariable("LAST_ACCESS", $this->lng->txt("last_access"));
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+				$this->tpl->setVariable("ARROW", $this->lng->txt("arrow_downright"));
+				$this->tpl->setVariable("DELETE", $this->lng->txt("delete_user_data"));
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("adm_content");
+				$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("svy_delete_all_user_data"));
+	//			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
+				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("maintenance_information");
+				$this->tpl->setVariable("MAINTENANCE_INFORMATION", $this->lng->txt("svy_maintenance_information_no_results"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		else
 		{

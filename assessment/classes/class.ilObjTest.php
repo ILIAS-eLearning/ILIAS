@@ -2633,7 +2633,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function removeSelectedTestResults($user_ids) 
+	function removeSelectedTestResults($active_ids) 
 	{
 		global $ilDB;
 		
@@ -2641,19 +2641,16 @@ class ilObjTest extends ilObject
 		$this->clearEvalSelectedUsers();
 		
 		// remove the question from tst_solutions
-		foreach ($user_ids as $user_id)
+		foreach ($active_ids as $active_id)
 		{
-			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($user_id . "")
+			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s",
+				$ilDB->quote($active_id . "")
 			);
-			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($user_id . "")
+			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE active_fi = %s",
+				$ilDB->quote($active_id . "")
 			);			
-			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.user_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($user_id . "")
+			$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
+				$ilDB->quote($active_id . "")
 			);
 			$result = $ilDB->query($query);
 			$result = $ilDB->query($query2);
@@ -2661,9 +2658,8 @@ class ilObjTest extends ilObject
 	
 			if ($this->isRandomTest())
 			{
-				$active = $this->getActiveTestUser($user_id);
 				$query = sprintf("DELETE FROM tst_test_random_question WHERE active_fi = %s",
-					$ilDB->quote($active->active_id . "")
+					$ilDB->quote($active_id . "")
 				);
 				$result = $ilDB->query($query);
 			}
@@ -2672,17 +2668,16 @@ class ilObjTest extends ilObject
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				include_once ("./classes/class.ilObjUser.php");
-				$uname = ilObjUser::_lookupName($user_id);
+				$uname = ilObjUser::_lookupName($this->_getUserIdFromActiveId($active_id));
 				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
 			}
 		}
 
 		// remove test_active entries of selected users
-		foreach ($user_ids as $user_id)
+		foreach ($active_ids as $active_id)
 		{
-			$query = sprintf("DELETE FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($this->getTestId() . "")
+			$query = sprintf("DELETE FROM tst_active WHERE active_id = %s",
+				$ilDB->quote($active_id . "")
 			);
 			$result = $ilDB->query($query);
 		}
@@ -7224,6 +7219,22 @@ class ilObjTest extends ilObject
 			}
 		}
 		return TRUE;
+	}
+	
+	function _getLastAccess($active_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT finished FROM tst_times WHERE active_fi = %s ORDER BY finished DESC",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["finished"];
+		}
+		return "";
 	}
 } // END class.ilObjTest
 
