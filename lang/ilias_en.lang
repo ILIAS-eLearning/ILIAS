@@ -1850,14 +1850,15 @@ common#:#hide_details#:#Hide Details
 common#:#hide_private_notes#:#Hide private notes
 common#:#hide_public_notes#:#Hide public notes
 common#:#hide_structure#:#Disable Structured-View
-common#:#hist_dbk#:#Page changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_create#:#File created, file name is \"%1\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#File replaced, new file name is \"%1\", new version is %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_lm#:#Page changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_dbk#:#Page changed ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#File created, file name is "%1". ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2. ### 2006-5-8 --- Content changed
+common#:#hist_lm#:#Page changed ### 2006-5-8 --- Content changed
+common#:#hist_dbk#:#Page changed ### 2006-5-8 --- Content changed
 common#:#hist_no_entries#:#No entries in history.
-common#:#hist_webr_add#:#Added new Web Resource with title: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_delete#:#Deleted Web Resource. Title: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_update#:#Update Web Resource. Title: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_add#:#Added new Web Resource with title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_update#:#Update Web Resource. Title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -2633,11 +2634,11 @@ common#:#passwd#:#Password
 common#:#passwd_generation#:#Password Generation
 common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.
 common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
-common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password. ### 2006-5-8 --- Content changed
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.
-common#:#password_assistance_info#:#If password assistance is enabled, a link with the text \"Forgot Password?\" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Paste
 common#:#paste_clipboard_items#:#Paste items from clipboard
 common#:#pasteChapter#:#Paste
@@ -2942,7 +2943,7 @@ common#:#shib_email#:#Attribute for email address
 common#:#shib_firstname#:#Attribute for firstname
 common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_institution#:#Attribute for institution
-common#:#shib_instructions#:#Be sure to read the <a href=\"README.SHIBBOLETH.txt\" target=\"_blank\">README</a> for instructions on how to configure Shibboleth support for ILIAS. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS. ### 2006-5-8 --- Content changed
 common#:#shib_language#:#Attribute for language
 common#:#shib_lastname#:#Attribute for lastname
 common#:#shib_login#:#Unique Shibboleth attribute
@@ -3247,20 +3248,20 @@ common#:#usrf_write#:#Edit user accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
-common#:#usrimport_cant_delete#:#Can't perform \"Delete\" action. No such user in database. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_insert#:#Can't perform \"Insert\" action. User is already in database. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_update#:#Can't perform \"Update\" action. No such user in database. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_conflict_handling_info#:#When \"Ignore on conflict\" is selected, ILIAS ignores an action, if it can not be performed (e. g. an \"Insert\" action is not done, if there is already a user with the same login in the database.)\\nWhen \"Update on conflict\" is selected, ILIAS updates the database if an action can not be performed. (e. g. an \"Insert\" action is replaced by an \"Update\" action, if a user with the same login exists in the database). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for \"%1$s\" action. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database. ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database. ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database. ### 2006-5-8 --- Content changed
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ### 2006-5-8 --- Content changed
+common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action. ### 2006-5-8 --- Content changed
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
-common#:#usrimport_xml_attribute_missing#:#Attribute \"%2$s\" in element \"%1$s\" is missing. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_illegal#:#Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is illegal. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value \"%3$s\" of attribute \"%2$s\" in element \"%1$s\" is inapplicable for \"%4$s\" action. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_content_illegal#:#Content \"%2$s\" of element \"%1$s\" is illegal. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_for_action_required#:#Element \"%1$s\" must be specified for \"%2$s\" action. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_inapplicable#:#Element \"%1$s\" is inapplicable for \"%2$s\" action. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing. ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal. ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action. ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal. ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action. ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action. ### 2006-5-8 --- Content changed
 common#:#valid#:#Valid
 common#:#validate#:#Validate
 common#:#value#:#Value
@@ -3554,7 +3555,7 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s". ### 2006-5-8 --- Content changed
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_header#:#Header
 content#:#cont_footer#:#Footer
@@ -3772,8 +3773,8 @@ content#:#start export#:#Start Export
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#assigned#:#Assigned
 crs#:#contact_email_not_valid#:#the contact email is not valid.
-crs#:#crs_accept_subscriber#:#Admission to course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_accept_subscriber_body#:#You have been admitted to course \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_accept_subscriber#:#Admission to course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s". ### 2006-5-8 --- Content changed
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Create a HTML Archive
@@ -3786,8 +3787,8 @@ crs#:#crs_add_objective#:#Add objective
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
-crs#:#crs_added_member#:#Addmission to course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_added_member_body#:#You have been admitted to course \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_added_member#:#Addmission to course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_added_member_body#:#You have been admitted to course "%s". ### 2006-5-8 --- Content changed
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
 crs#:#crs_added_starters#:#Assigned start object(s).
@@ -3812,10 +3813,10 @@ crs#:#crs_availability_limitless_info#:#Choose this mode for making the course a
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
 crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.
 crs#:#crs_blocked#:#Access refused
-crs#:#crs_blocked_member#:#Membership status in course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_blocked_member_body#:#Your membership for course \"%s\" has been blocked. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription#:#Resigned from course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription_body#:#A member has resigned from course \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_blocked_member#:#Membership status in course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_blocked_member_body#:#Your membership for course "%s" has been blocked. ### 2006-5-8 --- Content changed
+crs#:#crs_cancel_subscription#:#Resigned from course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s". ### 2006-5-8 --- Content changed
 crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
 crs#:#crs_contact#:#Contact
@@ -3840,8 +3841,8 @@ crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected o
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
 crs#:#crs_details#:#Course Details
-crs#:#crs_dismiss_member#:#Terminated membership for course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_dismiss_member_body#:#You membership for course \"%s\" has been terminated ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_dismiss_member#:#Terminated membership for course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_dismiss_member_body#:#You membership for course "%s" has been terminated ### 2006-5-8 --- Content changed
 crs#:#crs_edit_archive#:#Edit Archives
 crs#:#crs_edit_content#:#Edit items
 crs#:#crs_edit_start_objects#:#Edit Start Objects
@@ -3914,10 +3915,10 @@ crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
 crs#:#crs_moved_objective#:#Moved learning objective.
 crs#:#crs_new_search#:#New search
-crs#:#crs_new_subscription#:#User joined course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_body#:#A user has joined course \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request#:#Request to join course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription#:#User joined course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_body#:#A user has joined course "%s". ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s". ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
@@ -4019,8 +4020,8 @@ crs#:#crs_registration_deactivated#:#Choose this option for disabling course reg
 crs#:#crs_registration_limited#:#Limited registration period
 crs#:#crs_registration_type#:#Registration procedure
 crs#:#crs_registration_unlimited#:#Unlimited registration period
-crs#:#crs_reject_subscriber#:#Declined for course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_reject_subscriber_body#:#Your request to join course \"%s\" has been declined. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_reject_subscriber#:#Declined for course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined. ### 2006-5-8 --- Content changed
 crs#:#crs_reset_results#:#Reset results
 crs#:#crs_role#:#Role
 crs#:#crs_role_status#:#Role / Status
@@ -4055,8 +4056,8 @@ crs#:#crs_start_objects#:#Start Objects
 crs#:#crs_starter_deleted#:#Removed assignment.
 crs#:#crs_starters_already_assigned#:#This object was already assigned.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Status in course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_status_changed_body#:#Your status in course \"%s\" has been changed. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_status_changed#:#Status in course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_status_changed_body#:#Your status in course "%s" has been changed. ### 2006-5-8 --- Content changed
 crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribers#:#Subscribers
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
@@ -4083,8 +4084,8 @@ crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
 crs#:#crs_unblocked#:#Free entrance
-crs#:#crs_unblocked_member#:#Status in course \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_unblocked_member_body#:#Your membership in course \"%s\" has been restored ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_unblocked_member#:#Status in course "%s" ### 2006-5-8 --- Content changed
+crs#:#crs_unblocked_member_body#:#Your membership in course "%s" has been restored ### 2006-5-8 --- Content changed
 crs#:#crs_unlimited#:#Unlimited
 crs#:#crs_unsubscribe#:#Unsubscribe
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
@@ -4218,7 +4219,7 @@ dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click
 dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
 dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.
 dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
-dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \\\"new\\\". Important: max. 20 characters. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters. ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Display time for day view/week view
 dateplaner#:#help_properties_time_l#:#The standard display time for the day view and week view can be changed. If dates are outside of the display time for a given days or week, the display time will be changed for that time span. Standard is 8h -18h.
 dateplaner#:#help_rotation#:#Recurrence
@@ -4393,8 +4394,8 @@ forum#:#new_post#:#New post
 forum#:#thread#:#Topic
 grp#:#grp_registration_unlimited#:#Unlimited registration period
 jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\\n\\nDate selection:\\n- Use the «, » buttons to select year\\n- Use the <, > buttons to select month\\n- Hold mouse button on any of the above buttons for faster selection. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\\n\\nTime selection:\\n- Click on any of the time parts to increase it\\n- or Shift-click to decrease it\\n- or click and drag for faster selection. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection. ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection. ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -5096,16 +5097,16 @@ payment#:#pay_bmf_check_number#:#Check number
 payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_credit_card#:#Credit card
 payment#:#pay_bmf_credit_card_data#:#Credit card
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)
 payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the \"Save\"-button you confirm your wish to order, that starts immediately. The data check may take some seconds. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the \"Save\"-button you confirm your wish to order, that starts immediately. The data check may take some seconds. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds. ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds. ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
 payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
 payment#:#pay_bmf_house_number#:#House number
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button \"shopping cart\" on your personal desktop.  You are going to gain immediate access to a chosen object and period. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period. ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#or
 payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -5277,20 +5278,20 @@ payment#:#price_a#:#Price
 payment#:#prices#:#Prices
 payment#:#update#:#Update
 pwassist#:#password_assistance#:#Password Assistance
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated email address in the fields shown below.\\nILIAS will send a message to that email address. The message contains an address for a web page, where you can enter a new password for the user account.\\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an email to %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated email address in the fields shown below.\nILIAS will send a message to that email address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an email to %1$s. ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\\nThe given email address could not be found in the database. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\\nThe user name and email address you have entered do not match an entry in the database. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Please enter another user name.\\nThe user name you have entered does not match the user name for which you had asked for password assistance. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\\n\\t%1$s\\n\\nThis message has been generated automatically by the ILIAS server\\n\\t%2$s\\n\\nYou (or someone at %3$s) has asked for password assistance for the user account \"%4$s\".\\n\\nPlease check carefully the conditions listed below, and proceed accordingly:\\n\\n- If you have used the password assistance form on the ILIAS server by accident:\\nDelete this mail.\\n\\n- If you are certain, that you never asked for password assistance at this ILIAS server:\\nPlease contact %5$s.\\n\\n- If you asked for password assistance, please proceed as follows:\\n\\n1. Open your browser.\\n\\n2. Enter the following address in your browser:\\n\\t%1$s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. On the web page shown by your browser, enter a new password for your user account.\\n\\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\\nPlease check your mail box. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and email address you have entered do not match an entry in the database. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box. ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\\nPassword assistance is not permitted for the user name you have entered. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been emailed to you more than once, or because too much time has passed since the link has been sent to you. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Please contact your system administrator.\\nThe password could not be assigned to the user account due to an error whe updating the data base. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s". ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been emailed to you more than once, or because too much time has passed since the link has been sent to you. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password. ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Edit learning progress
 rbac#:#filter_all_roles#:#Show all roles of current context
 rbac#:#filter_global_roles#:#Show only global roles
@@ -5490,7 +5491,7 @@ survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class=\"bold\">%s</span><br />Please enter it in the text field below. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below. ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
@@ -5795,7 +5796,7 @@ survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey
-survey#:#subject_mail_survey_id#:#Your survey code for \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Your survey code for "%s" ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Subtype
 survey#:#survey_code#:#Survey access code
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
