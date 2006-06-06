@@ -158,7 +158,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#cloze_textgap_case_insensitive#:#Groß-/Kleinschreibung beachten
 assessment#:#cloze_textgap_case_sensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
@@ -212,7 +212,7 @@ assessment#:#ects_range_error_b#:#Bitte geben Sie einen Wert zwischen 0 und 100 
 assessment#:#ects_range_error_c#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note C an!
 assessment#:#ects_range_error_d#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note D an!
 assessment#:#ects_range_error_e#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note E an!
-assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#edit_content#:#Inhalt bearbeiten
 assessment#:#edit_properties#:#Eigenschaften bearbeiten
@@ -540,7 +540,7 @@ assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
 assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
 assessment#:#tst_qst_setsolved#:#markiere als gelöst
-assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
 assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
 assessment#:#tst_question_selection#:#Fragenauswahl
@@ -5336,7 +5336,7 @@ survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#add_standard_numbers#:#Standardzahlen hinzufügen
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
-survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
 survey#:#anonymize_survey_explanation#:#Wenn aktiviert, werden alle Teilnehmerinnendaten anonymisiert und können nicht zurückverfolgt werden
@@ -5636,7 +5636,7 @@ survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import aus
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
-survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s"
 survey#:#subtype#:#Untertyp
 survey#:#survey_code#:#Zugangscode für die Umfrage
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
