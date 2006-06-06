@@ -121,6 +121,132 @@ class assJavaApplet extends assQuestion
 
 
 	/**
+	* Creates a question from a QTI file
+	*
+	* Receives parameters from a QTI parser and creates a valid ILIAS question object
+	*
+	* @param object $item The QTI item object
+	* @param integer $questionpool_id The id of the parent questionpool
+	* @param integer $tst_id The id of the parent test if the question is part of a test
+	* @param object $tst_object A reference to the parent test object
+	* @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
+	* @param array $import_mapping An array containing references to included ILIAS objects
+	* @access public
+	*/
+	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+	{
+		global $ilUser;
+		//global $ilLog;
+		
+		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
+		$presentation = $item->getPresentation(); 
+		$duration = $item->getDuration();
+		$now = getdate();
+		$applet = NULL;
+		$maxpoints = 0;
+		$javacode = "";
+		$params = array();
+		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+		$answers = array();
+		foreach ($presentation->order as $entry)
+		{
+			switch ($entry["type"])
+			{
+				case "material":
+					$material = $presentation->material[$entry["index"]];
+					if (count($material->mattext))
+					{
+						foreach ($material->mattext as $mattext)
+						{
+							if ((strlen($mattext->getLabel()) == 0) && (strlen($item->getQuestiontext()) == 0))
+							{
+								$item->setQuestiontext($mattext->getContent());
+							}
+							if (strcmp($mattext->getLabel(), "points") == 0)
+							{
+								$maxpoints = $mattext->getContent();
+							}
+							else if (strcmp($mattext->getLabel(), "java_code") == 0)
+							{
+								$javacode = $mattext->getContent();
+							}
+							else if (strlen($mattext->getLabel()) > 0)
+							{
+								array_push($params, array("key" => $mattext->getLabel(), "value" => $mattext->getContent()));
+							}
+						}
+					}
+					if (count($material->matapplet))
+					{
+						foreach ($material->matapplet as $matapplet)
+						{
+							$applet = $matapplet;
+						}
+					}
+					break;
+			}
+		}
+
+		$this->setTitle($item->getTitle());
+		$this->setComment($item->getComment());
+		$this->setAuthor($item->getAuthor());
+		$this->setOwner($ilUser->getId());
+		$this->setQuestion($item->getQuestiontext());
+		$this->setObjId($questionpool_id);
+		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+		$this->javaapplet_filename = $applet->getUri();
+		$this->setJavaWidth($applet->getWidth());
+		$this->setJavaHeight($applet->getHeight());
+		$this->setJavaCode($javacode);
+		$this->setPoints($maxpoints);
+		foreach ($params as $pair)
+		{
+			$this->addParameter($pair["key"], $pair["value"]);
+		}
+		$this->saveToDb();
+		if (count($item->suggested_solutions))
+		{
+			foreach ($item->suggested_solutions as $suggested_solution)
+			{
+				$this->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+			}
+			$this->saveToDb();
+		}
+		$javaapplet =& base64_decode($applet->getContent());
+		$javapath = $this->getJavaPath();
+		if (!file_exists($javapath))
+		{
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::makeDirParents($javapath);
+		}
+		$javapath .=  $this->javaapplet_filename;
+		$fh = fopen($javapath, "wb");
+		if ($fh == false)
+		{
+//									global $ilErr;
+//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+//									return;
+		}
+		else
+		{
+			$javafile = fwrite($fh, $javaapplet);
+			fclose($fh);
+		}
+		if ($tst_id > 0)
+		{
+			$q_1_id = $this->getId();
+			$question_id = $this->duplicate(true);
+			$tst_object->questions[$question_counter++] = $question_id;
+			$import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+		}
+		else
+		{
+			$import_mapping[$item->getIdent()] = array("pool" => $this->getId(), "test" => 0);
+		}
+		//$ilLog->write(strftime("%D %T") . ": finished import multiple choice question (single response)");
+	}
+
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal

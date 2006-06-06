@@ -112,6 +112,199 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
+	* Creates a question from a QTI file
+	*
+	* Receives parameters from a QTI parser and creates a valid ILIAS question object
+	*
+	* @param object $item The QTI item object
+	* @param integer $questionpool_id The id of the parent questionpool
+	* @param integer $tst_id The id of the parent test if the question is part of a test
+	* @param object $tst_object A reference to the parent test object
+	* @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
+	* @param array $import_mapping An array containing references to included ILIAS objects
+	* @access public
+	*/
+	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+	{
+		global $ilUser;
+		//global $ilLog;
+		
+		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
+		$presentation = $item->getPresentation(); 
+		$duration = $item->getDuration();
+		$questiontext = array();
+		$shuffle = 0;
+		$now = getdate();
+		$foundimage = FALSE;
+		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+		$answers = array();
+		foreach ($presentation->order as $entry)
+		{
+			switch ($entry["type"])
+			{
+				case "material":
+					$material = $presentation->material[$entry["index"]];
+					if (count($material->mattext))
+					{
+						foreach ($material->mattext as $mattext)
+						{
+							array_push($questiontext, $mattext->getContent());
+						}
+					}
+					break;
+				case "response":
+					$response = $presentation->response[$entry["index"]];
+					$rendertype = $response->getRenderType(); 
+					switch (strtolower(get_class($rendertype)))
+					{
+						case "ilqtirenderchoice":
+							$shuffle = $rendertype->getShuffle();
+							$answerorder = 0;
+							foreach ($rendertype->response_labels as $response_label)
+							{
+								$ident = $response_label->getIdent();
+								$answertext = "";
+								foreach ($response_label->material as $mat)
+								{
+									foreach ($mat->mattext as $matt)
+									{
+										$answertext .= $matt->getContent();
+									}
+									foreach ($mat->matimage as $matimage)
+									{
+										$foundimage = TRUE;
+										$answerimage = array(
+											"imagetype" => $matimage->getImageType(),
+											"label" => $matimage->getLabel(),
+											"content" => $matimage->getContent()
+										);
+									}
+								}
+								$answers[$ident] = array(
+									"answertext" => $answertext,
+									"answerimage" => $answerimage,
+									"points" => 0,
+									"answerorder" => $answerorder++,
+									"correctness" => "",
+									"action" => ""
+								);
+							}
+							break;
+					}
+					break;
+			}
+		}
+		$responses = array();
+		foreach ($item->resprocessing as $resprocessing)
+		{
+			foreach ($resprocessing->respcondition as $respcondition)
+			{
+				$ident = "";
+				$correctness = 1;
+				$conditionvar = $respcondition->getConditionvar();
+				foreach ($conditionvar->order as $order)
+				{
+					switch ($order["field"])
+					{
+						case "arr_not":
+							$correctness = 0;
+							break;
+						case "varequal":
+							$ident = $conditionvar->varequal[$order["index"]]->getContent();
+							$orderindex = $conditionvar->varequal[$order["index"]]->getIndex();
+							break;
+					}
+				}
+				foreach ($respcondition->setvar as $setvar)
+				{
+					if (strcmp($ident, "") != 0)
+					{
+						$answers[$ident]["solutionorder"] = $orderindex;
+						$answers[$ident]["action"] = $setvar->getAction();
+						$answers[$ident]["points"] = $setvar->getContent();
+					}
+				}
+			}
+		}
+		include_once ("./assessment/classes/class.$qt.php");
+		$type = 1; // terms
+		if ($foundimage)
+		{
+			$type = 0; // pictures
+		}
+		$this->setTitle($item->getTitle());
+		$this->setComment($item->getComment());
+		$this->setAuthor($item->getAuthor());
+		$this->setOwner($ilUser->getId());
+		$this->setQuestion($item->getQuestiontext());
+		$this->setOrderingType($type);
+		$this->setObjId($questionpool_id);
+		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+		$this->setShuffle($shuffle);
+		foreach ($answers as $answer)
+		{
+			if ($type == 1)
+			{
+				$this->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["solutionorder"]);
+			}
+			else
+			{
+				$this->addAnswer($answer["answerimage"]["label"], $answer["points"], $answer["answerorder"], $answer["solutionorder"]);
+			}
+		}
+		$this->saveToDb();
+		if (count($item->suggested_solutions))
+		{
+			foreach ($item->suggested_solutions as $suggested_solution)
+			{
+				$this->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+			}
+			$this->saveToDb();
+		}
+		foreach ($answers as $answer)
+		{
+			if ($type == 0)
+			{
+				include_once "./classes/class.ilUtil.php";
+				$image =& base64_decode($answer["answerimage"]["content"]);
+				$imagepath = $this->getImagePath();
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
+				$imagepath .=  $answer["answerimage"]["label"];
+				$fh = fopen($imagepath, "wb");
+				if ($fh == false)
+				{
+//									global $ilErr;
+//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+//									return;
+				}
+				else
+				{
+					$imagefile = fwrite($fh, $image);
+					fclose($fh);
+				}
+				// create thumbnail file
+				$thumbpath = $imagepath . "." . "thumb.jpg";
+				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+			}
+		}
+		if ($tst_id > 0)
+		{
+			$q_1_id = $this->getId();
+			$question_id = $this->duplicate(true);
+			$tst_object->questions[$question_counter++] = $question_id;
+			$import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+		}
+		else
+		{
+			$import_mapping[$item->getIdent()] = array("pool" => $this->getId(), "test" => 0);
+		}
+		//$ilLog->write(strftime("%D %T") . ": finished import multiple choice question (single response)");
+	}
+
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal
