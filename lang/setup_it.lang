@@ -47,7 +47,7 @@ change#:#Cambia
 change_basic_settings#:#Cambia le impostazioni base
 change_password#:#Cambia la password
 change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
-check_db_versions#:#Verifica che la versione del database rilevata da ILIAS coincide con la versione installata (di solito &#232; corretta). In caso negativo, la versione del database non &#232; supportata.<br>Esempio 1: se la versione rilevata &#232; 'MySQL 4.1.x o superiore' e la versione del tuo database &#232; '4.0.12' allora non &#232; supportata (in questo caso contatta il team di ILIAS). <br/>Esempio 2: se la versione rilevata &#232; 'MySQL 4.1.x o superiore' e il database &#232; '4.1.14' allora &#232; tutto a posto.
+check_db_versions#:#Verifica che la versione del database rilevata da ILIAS coincide con la versione installata (di solito &#232; corretta). In caso negativo, la versione del database non &#232; supportata.<br><br>Esempio 1:<br>se la versione rilevata &#232; 'MySQL 4.1.x o superiore' e la versione del tuo database &#232; '4.0.12' allora non &#232; supportata (in questo caso contatta il team di ILIAS). <br/><br>Esempio 2:<br>se la versione rilevata &#232; 'MySQL 4.1.x o superiore' e il database &#232; '4.1.14' allora &#232; tutto a posto.
 check_failed_convert#:#Test di conversione fallito
 check_failed_htmldoc#:#Test HTMLdoc fallito
 check_failed_java#:#Test Java fallito
@@ -336,7 +336,7 @@ pre_php_version_4.2#:#DOMXML e XSLT non vengono supportati correttamente con que
 pre_php_version_5#:#ILIAS 3 non &#232; stato ancora testato con PHP 5. Lo usi a tuo rischio.
 pre_php_version_unknown#:#L&#039;installazione di ILIAS 3 non ha riconosciuto questa versione di PHP. Lo usi a tuo rischio!
 preliminaries#:#Preliminari
-prev#:#Precedente
+prev#:#Torna indietro
 reload#:#Ripristina
 required_field#:#Campi richiesti
 reset#:#Reset
@@ -378,12 +378,12 @@ setup_pass_title#:#Imposta la password di Amministratore
 setup_password#:#Creazione password
 setup_password_desc#:#creare una password per poter accedere in futuro alla procedura di installazione (per eventuali aggiornamenti)
 setup_process_status#:#Stato del processo di installazione
-setup_process_step_contact#:#inserisci le informazioni personali
-setup_process_step_db#:#crea e aggiorna il database
-setup_process_step_finish#:#termina l&#039;installazione
-setup_process_step_ini#:#imposta i dati di base
-setup_process_step_lang#:#installa le lingue di sistema
-setup_process_step_nic#:#procurati un NIC-ID
+setup_process_step_contact#:#inserimento dei dati del client
+setup_process_step_db#:#creazione e aggiornamento del database
+setup_process_step_finish#:#conclusione dell&#039;installazione
+setup_process_step_ini#:#impostazione dei dati di base
+setup_process_step_lang#:#installazione delle lingue
+setup_process_step_nic#:#registrazione del NIC-ID
 setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
 setup_welcome#:#Benvenuti nel programma di installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
 sophos#:#Sophos
