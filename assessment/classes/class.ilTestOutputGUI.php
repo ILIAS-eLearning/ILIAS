@@ -1943,7 +1943,7 @@ class ilTestOutputGUI
 		$pass = NULL;
 		if ($this->object->isRandomTest())
 		{
-			$pass = $this->object->_getResultPass($ilUser->getId(), $this->object->getTestId());
+			$pass = $this->object->_getResultPass($active->active_id);
 			$this->object->loadQuestions($active->active_id, $pass);
 		}
 		$counter = 1;
