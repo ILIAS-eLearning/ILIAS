@@ -1461,8 +1461,8 @@ class ilTestOutputGUI
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$counted_pass = ilObjTest::_getResultPass($ilUser->id, $this->object->getTestId());
 		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$counted_pass = ilObjTest::_getResultPass($active->active_id);
 		$reached_pass = $this->object->_getPass($active->active_id);
 		$result_percentage = 0;
 		$result_total_reached = 0;
