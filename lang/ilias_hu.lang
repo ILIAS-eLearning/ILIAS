@@ -55,7 +55,7 @@ administration#:#found#:#találat.
 administration#:#found_none#:#nincs találat.
 administration#:#initializing_gaps#:#Üres helyek inicializálása a fában …
 administration#:#log_scan#:#Eseménynapló eredmények
-administration#:#log_scan_desc#:#Keresési eredmények kliens adatkönyvtár \'scanlog.log\'-jába írása. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Keresési eredmények kliens adatkönyvtár 'scanlog.log'-jába írása. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#nothing_to_purge#:#Semmi nem került eltávolításra ….
 administration#:#nothing_to_remove#:#Semmi nem került eltávolításra …
 administration#:#nothing_to_restore#:#Semmi nem került helyreállításra …
@@ -152,7 +152,7 @@ assessment#:#circle#:#Kör
 assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjába!
 assessment#:#circle_click_circle#:#Kattintson a kívánt terület körvonalának egy pontjára!
 assessment#:#clientip#:#Kliens-IP
-assessment#:#close_text_hint#:#Kitöltendő üres helyet a szövegben a <gap> </gap> tag-ek megadásával hozhat létre az ön által kiválasztott helyen. A tag-ek között legyen egy szóköz! Ez után a \'Kitöltendő helyek\' gombot megnyomva az egyes kitöltendő helyek szerkeszthető beviteli mezőjét veheti fel. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Kitöltendő üres helyet a szövegben a <gap> </gap> tag-ek megadásával hozhat létre az ön által kiválasztott helyen. A tag-ek között legyen egy szóköz! Ez után a 'Kitöltendő helyek' gombot megnyomva az egyes kitöltendő helyek szerkeszthető beviteli mezőjét veheti fel. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Kiegészítendő szöveg
 assessment#:#cloze_textgap_case_insensitive#:#Kis-/nagybetűre nem érzékeny
 assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
@@ -200,12 +200,12 @@ assessment#:#ects_grade_f_short#:#ELÉGTELEN
 assessment#:#ects_grade_fx#:#kis munka szükséges még a hitel odaítéléséhez
 assessment#:#ects_grade_fx_short#:#ELÉGTELEN
 assessment#:#ects_output_of_ects_grades#:#ECTS minősítés eredménye
-assessment#:#ects_range_error_a#:#Adjon meg egy 0..100 közti értéket az \"A\" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-assessment#:#ects_range_error_b#:#Adjon meg egy 0..100 közötti értéket a \"B\" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-assessment#:#ects_range_error_c#:#Adjon meg egy 0..100 közötti értéket a \"C\" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-assessment#:#ects_range_error_d#:#Adjon meg egy 0..100 közötti értéket a \"D\" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-assessment#:#ects_range_error_e#:#Adjon meg egy 0..100 közötti értéket az \"E\" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-assessment#:#ects_use_fx_grade#:#Használja az \"FX\" osztályzatot, ha a résztvevők nem érték el az összes pont legalább ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_a#:#Adjon meg egy 0..100 közti értéket az "A" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_b#:#Adjon meg egy 0..100 közötti értéket a "B" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_c#:#Adjon meg egy 0..100 közötti értéket a "C" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_d#:#Adjon meg egy 0..100 közötti értéket a "D" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_range_error_e#:#Adjon meg egy 0..100 közötti értéket az "E" ECTS minősítéshez! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Használja az "FX" osztályzatot, ha a résztvevők nem érték el az összes pont legalább ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#ects_use_fx_grade_part2#:#százalékát.
 assessment#:#edit_content#:#Tartalom szerkesztése
 assessment#:#edit_properties#:#Tulajdonságok szerkesztése
@@ -242,7 +242,7 @@ assessment#:#exp_type_spss#:#Vesszővel tagolt szöveg (CSV)
 assessment#:#export#:#Export
 assessment#:#failed_official#:#elégtelen
 assessment#:#failed_short#:#elégtelen
-assessment#:#false#:#\"Hamis\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#false#:#"Hamis" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#fill_out_all_answer_fields#:#Töltsön ki minden válaszszövegmezőt, mielőtt újat vesz fel!
 assessment#:#fill_out_all_matching_pairs#:#Töltsön ki minden illeszkedő párt, mielőtt újat vesz fel!
 assessment#:#fill_out_all_required_fields_add_answer#:#Töltsön ki minden megkívánt mezőt, mielőtt válaszokat vesz fel!
@@ -435,7 +435,7 @@ assessment#:#text_gap#:#Szöveghely
 assessment#:#text_maximum_chars_allowed#:#Ne adjon meg több karaktert, mint %s. Az e fölötti karakterek elvesznek.
 assessment#:#time_format#:#ÓÓ PP MM
 assessment#:#too_many_empty_parameters#:#Töltse ki az üres applet-paramétereket mielőtt új paramétert ad hozzá!
-assessment#:#true#:#\"Igaz\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#true#:#"Igaz" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adata törlésre került.
 assessment#:#tst_already_submitted#:#A teszt befejeződött és leadásra került.
 assessment#:#tst_already_taken#:#A tesztek már használatban vannak.
@@ -535,7 +535,7 @@ assessment#:#tst_random_qpl_unselected#:#Legalább egy kiválasztatlan kérdésg
 assessment#:#tst_random_questionpools#:#Forrás-kérdésgyűjtemények
 assessment#:#tst_random_select_questionpool#:#Válassza ki a kérdésgyűjteményt, hogy választhasson a kérdések közül
 assessment#:#tst_random_test#:#Véletlen kiválasztásos kérdés
-assessment#:#tst_random_test_description#:#\"Ellenőrző teszt\" esetén a teszt kérdései véletlen-kiválasztással legyenek generálva. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_random_test_description#:#"Ellenőrző teszt" esetén a teszt kérdései véletlen-kiválasztással legyenek generálva. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_reached_points#:#Elért pontszám
 assessment#:#tst_remove_questions#:#Biztosan el akarja távolítani az alábbi kérdés(eke)t a tesztből?
 assessment#:#tst_remove_questions_and_results#:#Ezt a tesztet % felhasználó hajtotta végre. Ha kérdéseket távolít el ebből a tesztből, ezen felhasználók minden teszteredménye eltávolításra kerül. Biztosan el akarja távolítani az alábbi kérdés(eke)t?
@@ -615,7 +615,7 @@ assessment#:#tst_type#:#Teszttípus
 assessment#:#tst_type_changed#:#Megváltoztatta a teszt típusát. Minden korábbi folyamatban levő teszt törlésre került.
 assessment#:#tst_type_comment#:#Figyelmeztetés: Egy futó teszt típusának megváltoztatása törölni fogja a korábban folyamatban levő teszteket.
 assessment#:#tst_types#:#Teszttípus
-assessment#:#tst_use_javascript#:#Használjon Javascript-et a \"fogd és vidd\" műveletekhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_use_javascript#:#Használjon Javascript-et a "fogd és vidd" műveletekhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_your_answer_was#:#Az Ön által adott válasz
 assessment#:#tst_your_answers#:#Ezek az Ön által adott válaszok az alábbi kérdésekre.
 assessment#:#tst_your_ects_mark_is#:#Az Ön ECTS osztályzata
@@ -1179,7 +1179,7 @@ common#:#cron_forum_notification_never#:#soha
 common#:#cron_jobs#:#Cron-job-ok
 common#:#cron_jobs_desc#:#A cron-job automatizált folyamat, amely előre definiált időintervallumokban működik. A telepítési dokumentációban talál információt a setup-ról.
 common#:#cron_lucene_index#:#Lucene keresési index aktualizálása
-common#:#cron_lucene_index_info#:#Ha engedélyezett, a lucene keresési index frissítésre kerül. Konfigurálja a lucene szervert a következő helyen: \'Adminisztráció -> Keresés\'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_lucene_index_info#:#Ha engedélyezett, a lucene keresési index frissítésre kerül. Konfigurálja a lucene szervert a következő helyen: 'Adminisztráció -> Keresés'! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Kurzus
 common#:#crs_a#:#egy kurzus
 common#:#crs_add#:#Kurzus hozzáadása
@@ -1509,8 +1509,8 @@ common#:#frm_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#frm_edit_post#:#Új téma felvétele, elküldése
 common#:#frm_new#:#Új fórum
 common#:#frm_read#:#Olvasási elérés a fórumhoz
-common#:#frm_status_new#:#Új\' állapot ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#frm_status_new_desc#:#Válasszon egy időtartamot, hogy meddig legyenek \'Új\' állapotúak a fórumbejegyzések! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new#:#Új' állapot ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new_desc#:#Válasszon egy időtartamot, hogy meddig legyenek 'Új' állapotúak a fórumbejegyzések! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#frm_visible#:#A fórum látható
 common#:#frm_write#:#Fórum szerkesztése
 common#:#from#:#&#205;rta:
@@ -1570,7 +1570,7 @@ common#:#group_no_registration_msg#:#Közvetlenül csatlkozhat ehhez a csoportho
 common#:#group_not_available#:#Nincs elérhető csoport
 common#:#group_objects#:#Csoportobjektumok
 common#:#group_password_registration_expired_msg#:#Ennek a csoportnak a regisztrációs periódusa letelt, a hirdetmények nem érhetők el tovább. Vegye fel a kapcsolatot a megfelelő csoporttulajdonossal vagy adminisztrátorral!
-common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don\'t know the password. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_registration#:#Regisztráció
 common#:#group_registration_expiration_date#:#Lejárati dátum
 common#:#group_registration_expiration_time#:#Lejárati idő
@@ -1585,7 +1585,7 @@ common#:#group_req_registration_msg#:#Kérheti a csoporttagságot ehhez a csopor
 common#:#group_reset#:#Csoportjogok visszaállítása
 common#:#group_status#:#A csoportstátusz
 common#:#group_status_closed#:#Zárt
-common#:#group_status_desc#:#A csoport kezdeti státuszának meghatározásai az engedélyezési beállítások használatával az \'il_grp_statusz_closed\' vagy \'il_grp_status_open\' szerepsablonokból. <br />Nyilvános: A csoport látható. A felhasználó kiteheti munkaasztalára a csoport linkjét.<br />Zárt: A csoport nem látható a csoporttagokon kívüli felhasználók számára. A felhasználót meg kell hívnia egy tagnak, hogy csatlakozhasson a csoporthoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#A csoport kezdeti státuszának meghatározásai az engedélyezési beállítások használatával az 'il_grp_statusz_closed' vagy 'il_grp_status_open' szerepsablonokból. <br />Nyilvános: A csoport látható. A felhasználó kiteheti munkaasztalára a csoport linkjét.<br />Zárt: A csoport nem látható a csoporttagokon kívüli felhasználók számára. A felhasználót meg kell hívnia egy tagnak, hogy csatlakozhasson a csoporthoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Nyilvános
 common#:#groups#:#Csoportok
 common#:#groups_overview#:#Csoportok áttekintése
@@ -1674,13 +1674,13 @@ common#:#hide_private_notes#:#Személyes feljegyzések elrejtése
 common#:#hide_public_notes#:#Nyilvána feljegyzések elrejtése
 common#:#hide_structure#:#Tiltott struktúranézet
 common#:#hist_dbk#:#Lap létrehozva.
-common#:#hist_file_create#:#Fájl létrehozva, a fájl neve \"%1\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#Fájl lecserélve, az új fájl neve \"%1\", az új verzió %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#Fájl létrehozva, a fájl neve "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#Fájl lecserélve, az új fájl neve "%1", az új verzió %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_lm#:#Lap létrehozva.
 common#:#hist_no_entries#:#Nincs bejegyzés a történetében.
-common#:#hist_webr_add#:#Új webforrás felvéve, címe: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_delete#:#Webforrás törölve. Címe: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_update#:#Webforrás frissítése. Címe: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_add#:#Új webforrás felvéve, címe: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_delete#:#Webforrás törölve. Címe: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_update#:#Webforrás frissítése. Címe: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#history#:#Történet
 common#:#hits_per_page#:#Találat/Lap
 common#:#hlm#:#HACP-tananyag
@@ -2030,7 +2030,7 @@ common#:#locator#:#Hely:
 common#:#log_in#:#Bejelentkezés
 common#:#logic_and#:#és
 common#:#logic_or#:#vagy
-common#:#login#:#  <b><blink><font color=\"#FF0000\">Bejelentkezés</font></blink></b> ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#login#:#  <b><blink><font color="#FF0000">Bejelentkezés</font></blink></b> ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#login_as#:#Bejelentkezett:
 common#:#login_data#:#Bejelentkezési adatok
 common#:#login_exists#:#Már van ilyen bejelentkezési nevű felhasználó. Válasszon másik nevet!
@@ -2220,7 +2220,7 @@ common#:#msg_perm_adopted_from2#:#(Beállítások elmentve.)
 common#:#msg_removed#:#Az objektum(ok) eltávolításra kerültek a rendszerből.
 common#:#msg_role_exists1#:#Szerep / szerepminta ezen a néven:
 common#:#msg_role_exists2#:#már létezik. Válasszon másik megnevezést
-common#:#msg_role_reserved_prefix#:#Az \'il_\' prefix az automatikusan generált szerepekhez van fenntartva. Válasszon másik megnevezést. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#Az 'il_' prefix az automatikusan generált szerepekhez van fenntartva. Válasszon másik megnevezést. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Aktív szerepösszerendelés cserélve.
 common#:#msg_roleassignment_active_changed_comment#:#Ez a beállítás nem került elmentésre a felhasználói profilba. Ha a felhasználó újra bejelentkezik, minden aktív szerep-összerendelés visszaáll mentett értékére.
 common#:#msg_roleassignment_changed#:#Szerep-összerendelés megváltoztatva.
@@ -2453,7 +2453,7 @@ common#:#passwd_not_match#:#A begépelt nem illeszkedik az új jelszóra. Adja m
 common#:#passwd_wrong#:#A megadott jelszó hibás.
 common#:#password#:#Jelszó
 common#:#password_assistance_disabled#:#A jelszótámogatás csak akkor érhető el, ha a felhasználó-azonosítás a helyi ILIAS adatbázison keresztül történik.
-common#:#password_assistance_info#:#Ha engedélyezett a jelszótámogatás, \"Elfelejtette jelszavát?\" szövegű link jelenik meg az ILIAS bejelentkező képernyőjén. A felhasználók a link segítségével új jelszót adhatnak meg bejelentkezésükhöz, a rendszeradminisztrátor segítségének igénybevétele nélkül. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#Ha engedélyezett a jelszótámogatás, "Elfelejtette jelszavát?" szövegű link jelenik meg az ILIAS bejelentkező képernyőjén. A felhasználók a link segítségével új jelszót adhatnak meg bejelentkezésükhöz, a rendszeradminisztrátor segítségének igénybevétele nélkül. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Beillesztés
 common#:#paste_clipboard_items#:#Tételek bemásolása a vágólapról
 common#:#pasteChapter#:#Beillesztés
@@ -2746,9 +2746,9 @@ common#:#shib_department#:#Tulajdonságok az osztályhoz
 common#:#shib_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#shib_email#:#Tulajdonságok az e-mail címhez
 common#:#shib_firstname#:#Tulajdonságok vezetéknévhez
-common#:#shib_gender#:#Tulajdonságok a nemhez (\'f\' vagy \'n\' kell legyen) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_gender#:#Tulajdonságok a nemhez ('f' vagy 'n' kell legyen) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_institution#:#Tulajdonságok az intézményhez
-common#:#shib_instructions#:#Bizonyosodjon meg arról, hogy elolvasta a <a href=\"README.SHIBBOLETH.txt\" target=\"_blank\">README</a> fájlt, amelyben utasításokat talál arról, hogyan konfigurálja a Shibboleth támogatást az ILIAS-hoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_instructions#:#Bizonyosodjon meg arról, hogy elolvasta a <a href="README.SHIBBOLETH.txt" target="_blank">README</a> fájlt, amelyben utasításokat talál arról, hogyan konfigurálja a Shibboleth támogatást az ILIAS-hoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_language#:#Tulajdonságok nyelvhez
 common#:#shib_lastname#:#Tulajdonságok a keresztnévhez
 common#:#shib_login#:#Egyedi Shibboleth tulajdonságok
@@ -3009,7 +3009,7 @@ common#:#usr_edit#:#Felhasználó szerkesztése
 common#:#usr_hits_per_page#:#Listákban egyszerre megjelenített elemszám
 common#:#usr_inactive_only#:#Csak inaktív felhasználók
 common#:#usr_new#:#Új felhasználó
-common#:#usr_settings_explanation_profile#:#Ellenőrizze a regisztrációs lap és a Munkaasztal Felhasználói adatok mezőinek láthatóvá tételét jelző \'Látható\' jelölőnégyzeteket. Ellenőrizze a \'Változtatható\' jelölőnégyzeteket, amelyekkel lehetővé teszi a felhasználónak, hogy megváltoztassa személyes adatait. Ne felejtse el, hogy a látható mezők mindig szerkeszthetők a regisztrációs lapon. A kötelező adatok a regisztrációs űrlapon és a Felhasználói adatok űrlapon kötelezőek. Ettől függetlenül bármelyik adat megváltoztatható az adminisztrációs felületen. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usr_settings_explanation_profile#:#Ellenőrizze a regisztrációs lap és a Munkaasztal Felhasználói adatok mezőinek láthatóvá tételét jelző 'Látható' jelölőnégyzeteket. Ellenőrizze a 'Változtatható' jelölőnégyzeteket, amelyekkel lehetővé teszi a felhasználónak, hogy megváltoztassa személyes adatait. Ne felejtse el, hogy a látható mezők mindig szerkeszthetők a regisztrációs lapon. A kötelező adatok a regisztrációs űrlapon és a Felhasználói adatok űrlapon kötelezőek. Ettől függetlenül bármelyik adat megváltoztatható az adminisztrációs felületen. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usr_settings_header_profile#:#Felhasználói adatok beállításai
 common#:#usr_settings_header_profile_profile#:#Felhasználói adatok beállítás
 common#:#usr_settings_saved#:#A globális felhasználói beállítások sikeresen mentésre kerültek.
@@ -3028,20 +3028,20 @@ common#:#usrf_write#:#Felhasználói fiókok szerkesztése
 common#:#usrimport_action_failed#:#%1$ nem sikerült.
 common#:#usrimport_action_ignored#:#%1$ elutasítva.
 common#:#usrimport_action_replaced#:#Lecserélve %1$ -> %2$.
-common#:#usrimport_cant_delete#:#Nem hajtható végre a \"Törlés\". Nincs ilyen felhasználó az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_insert#:#Nem hajtható végre a \"Beszúrás\". Már van ilyen felhasználó az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_update#:#Nem hajtható végre a \"Frissítés\". Nincs ilyen felhasználó az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_conflict_handling_info#:#Ha az \"Ellentmondás figyelmen kívül hagyása\" van kiválasztva, az ILIAS elutasítja a tevékenységet, ha nem hajtható végre (pl. a \"Beszúrás\" tevékenység nem hajtódik végre, ha már van felhasználó a megadott bejelentkezési névvel az adatbázisban).\\nHa a \"Frissítés konfliktus esetén\" van kiválasztva, az ILIAS frissíti az adatbázist, ha nem hajtható végre egy tevékenység (pl. a \"Beszúrás\" tevékenységet lecseréli a \"Frissítés\"-sel, ha ugyanazon a felhasználói néven létezik már felhasználó a rendszerben). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_global_role_for_action_required#:#Legalább egy globális szerepet meg kell határozni a \"%1$s\" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_delete#:#Nem hajtható végre a "Törlés". Nincs ilyen felhasználó az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_insert#:#Nem hajtható végre a "Beszúrás". Már van ilyen felhasználó az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_update#:#Nem hajtható végre a "Frissítés". Nincs ilyen felhasználó az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_conflict_handling_info#:#Ha az "Ellentmondás figyelmen kívül hagyása" van kiválasztva, az ILIAS elutasítja a tevékenységet, ha nem hajtható végre (pl. a "Beszúrás" tevékenység nem hajtódik végre, ha már van felhasználó a megadott bejelentkezési névvel az adatbázisban).\nHa a "Frissítés konfliktus esetén" van kiválasztva, az ILIAS frissíti az adatbázist, ha nem hajtható végre egy tevékenység (pl. a "Beszúrás" tevékenységet lecseréli a "Frissítés"-sel, ha ugyanazon a felhasználói néven létezik már felhasználó a rendszerben). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_global_role_for_action_required#:#Legalább egy globális szerepet meg kell határozni a "%1$s" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usrimport_ignore_role#:#Mellőzött szerep
 common#:#usrimport_login_is_not_unique#:#Nem egyedi a bejelentkezési név.
 common#:#usrimport_with_specified_role_not_permitted#:#Az import a megadott szereppel nem engedélyezett.
-common#:#usrimport_xml_attribute_missing#:#Hiányzik a \"%2$s\" tulajdonság a \"%1$s\" elemből. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_illegal#:#Nem érvényes a \"%2$s\" tulajdonság \"%3$s\" értéke  a \"%1$s\" elemben. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_inapplicable#:#\"%2$s\" attribútum \"%3$s\" értéke \"%1$s\" elemben nem használható \"%4$s\" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_content_illegal#:#\"%1$s\" elem \"%2$s\" tartalma illegális. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_for_action_required#:#\"%1$s\" elemet specifikálni kell \"%2$s\" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_inapplicable#:#\"%1$s\" elem nem alkalmazható \"%2$s\" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_missing#:#Hiányzik a "%2$s" tulajdonság a "%1$s" elemből. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_illegal#:#Nem érvényes a "%2$s" tulajdonság "%3$s" értéke  a "%1$s" elemben. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_inapplicable#:#"%2$s" attribútum "%3$s" értéke "%1$s" elemben nem használható "%4$s" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_content_illegal#:#"%1$s" elem "%2$s" tartalma illegális. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_for_action_required#:#"%1$s" elemet specifikálni kell "%2$s" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_inapplicable#:#"%1$s" elem nem alkalmazható "%2$s" tevékenységhez. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#valid#:#Érvényes
 common#:#validate#:#Érvényesítés
 common#:#value#:#Érték
@@ -3178,7 +3178,7 @@ content#:#cont_create_export_file_xml#:#Exportfájl létrehozása (XML)
 content#:#cont_create_folder#:#Mappa létrehozása
 content#:#cont_create_html_version#:#HTML-csomag létrehozása
 content#:#cont_create_mob#:#Médiaobjektum létrehozása
-content#:#cont_credit_mode#:#Kreditmód (a \'normál\' leckemódhoz) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Kreditmód (a 'normál' leckemódhoz) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_credit_off#:#Nincs kredit
 content#:#cont_credit_on#:#Kredit
 content#:#cont_credits#:#Kreditek
@@ -3328,7 +3328,7 @@ content#:#cont_matching_question_javascript_hint#:#Húzzon egy jobb oldalon lev�
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Médiaforrás
 content#:#cont_mep_structure#:#Médiagyűjtemény-struktúra
-content#:#cont_missing_preconditions#:#Az alábbi előfeltételeket kell teljesítenie, hogy elérje a \"%s\" fejezetet. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#Az alábbi előfeltételeket kell teljesítenie, hogy elérje a "%s" fejezetet. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_Mnemonic#:#Emlékeztető
 content#:#cont_mob_files#:#Objektumfájlok
 content#:#cont_mob_inst_prop#:#Példányjellemzők
@@ -3349,7 +3349,7 @@ content#:#cont_no_assign_itself#:#Az objektum nem rendelhető sajátmagához
 content#:#cont_no_manifest#:#Nem található umsmanifest.xml fájl a főkönyvtárban.
 content#:#cont_no_object_found#:#Ezen a címen nem található objektum.
 content#:#cont_no_page#:#A lap nem létezik.
-content#:#cont_no_subdir_in_zip#:#A Zip parancs végrehajtása nem sikerült, vagy érvénytelen az importfájl.<br>Nem tartalmaz almappát \'%s\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#A Zip parancs végrehajtása nem sikerült, vagy érvénytelen az importfájl.<br>Nem tartalmaz almappát '%s'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_no_zip_file#:#Az importfájl nem zip-fájl.
 content#:#cont_none#:#Semmi
 content#:#cont_nr_cols#:#Oszlopok száma
@@ -3409,7 +3409,7 @@ content#:#cont_Roman#:#Római I, II, ...
 content#:#cont_rvalue#:#Érték
 content#:#cont_saved_map_area#:#Map terület elmentve.
 content#:#cont_saved_map_data#:#Map adatok elmentve.
-content#:#cont_sc_auto_review#:#Leckemód \'ismétlés\'-re állítása, ha a hallgató befejezte az SCO-t (Shareable Content Object) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#Leckemód 'ismétlés'-re állítása, ha a hallgató befejezte az SCO-t (Shareable Content Object) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#Böngészés
 content#:#cont_sc_less_mode_normal#:#Normál
 content#:#cont_sc_stat_browsed#:#Kikeresett
@@ -3515,7 +3515,7 @@ content#:#cont_width#:#Szélesség
 content#:#cont_wysiwyg#:#Tartalom előnézete
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Év
-content#:#cont_zip_file_invalid#:#A fájl nem érvényes importfájl.<br>Nem tartalmaz fájlt \'%s\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_zip_file_invalid#:#A fájl nem érvényes importfájl.<br>Nem tartalmaz fájlt '%s'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Az alábbi források linkelnek arra a fogalomra
@@ -3560,8 +3560,8 @@ crs#:#crs_add_objective#:#Célkitűzés felvétele
 crs#:#crs_add_starter#:#Kezdőobjektum felvétele
 crs#:#crs_add_subscribers#:#Feliratkozás felvétele
 crs#:#crs_added#:#Felvett új kurzus
-crs#:#crs_added_member#:#Felvétel kurzusba \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_added_member_body#:#Fel lett véve ebbe a kurzusba \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_added_member#:#Felvétel kurzusba "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_added_member_body#:#Fel lett véve ebbe a kurzusba "%s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_added_new_archive#:#Új archív lett felvéve.
 crs#:#crs_added_objective#:#Új tananyag-célkitűzés lett létrehozva.
 crs#:#crs_added_starters#:#Engedélyezett kezdő objektum(ok).
@@ -3586,10 +3586,10 @@ crs#:#crs_availability_limitless_info#:#Válassza ezt a módot a kurzus felhaszn
 crs#:#crs_availability_until_info#:#Válassza ezt a módot a kurzus felhasználók számára elérhetővé és hozzáférhetővé tételére egy meghatározott időtartamra (az alább látható regisztrációs beállítások szerint).
 crs#:#crs_availability_unvisible_info#:#Válassza ezt a módot a kurzus elkészítésére. Csak kurzusadminisztrátorok és tutorok láthatják és szerkeszthetik a kurzust.
 crs#:#crs_blocked#:#Elérés visszautasítva.
-crs#:#crs_blocked_member#:#Tagság állapota a kurzusban \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_blocked_member_body#:#Tagsága \"%s\" kurzushoz fűződő tagsága blokkolásra került. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription#:#Lemondás a \"%s\" kurzusról ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription_body#:#Egy tag lemondott a \"%s\" kurzusról. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_blocked_member#:#Tagság állapota a kurzusban "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_blocked_member_body#:#Tagsága "%s" kurzushoz fűződő tagsága blokkolásra került. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_cancel_subscription#:#Lemondás a "%s" kurzusról ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_cancel_subscription_body#:#Egy tag lemondott a "%s" kurzusról. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_change_status#:#Változások a célkitűzés állapotában:
 crs#:#crs_chapter_already_assigned#:#Ezek a fejezetek már hozzárendeltek.
 crs#:#crs_contact#:#Kapcsolat
@@ -3614,8 +3614,8 @@ crs#:#crs_delete_objectve_sure#:#Biztosan törölni akarja a kiválasztott célk
 crs#:#crs_delete_subscribers#:#Feliratkozó törlése
 crs#:#crs_delete_subscribers_sure#:#Törölni akarja az alábbi felhasználókat?
 crs#:#crs_details#:#Kurzusrészletek
-crs#:#crs_dismiss_member#:#Lejárt tagság \"%s\" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_dismiss_member_body#:#Lejárt tagsága \"%s\" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_dismiss_member#:#Lejárt tagság "%s" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_dismiss_member_body#:#Lejárt tagsága "%s" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_edit_archive#:#Archívok szerkesztése
 crs#:#crs_edit_content#:#Elemek szerkesztése
 crs#:#crs_end#:#Vége
@@ -3687,10 +3687,10 @@ crs#:#crs_move_up#:#Mozgatás fel
 crs#:#crs_moved_item#:#�?thelyezett kurzustételek
 crs#:#crs_moved_objective#:#�?thelyezett tanulási célkitűzés
 crs#:#crs_new_search#:#Új keresés
-crs#:#crs_new_subscription#:#A felhasználó csatlakozott \"%s\" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_body#:#Egy felhasználó csatlakozott \"%s\" kurzushoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request#:#Kérés csatlakozásra \"%s\" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#Egy felhasználó kérte \"%s\" kurzushoz való csatlakozását. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription#:#A felhasználó csatlakozott "%s" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_body#:#Egy felhasználó csatlakozott "%s" kurzushoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request#:#Kérés csatlakozásra "%s" kurzushoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#Egy felhasználó kérte "%s" kurzushoz való csatlakozását. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#Nincsenek kiválasztott archívok
 crs#:#crs_no_archives_available#:#Nem érhetők el archívok.
 crs#:#crs_no_archives_selected#:#Válasszon ki egy archívot!
@@ -3774,8 +3774,8 @@ crs#:#crs_question_assignment#:#Kérdéshozzárendelés
 crs#:#crs_reg#:#Regisztráció
 crs#:#crs_reg_deactivated#:#Letiltva
 crs#:#crs_reg_lim_info#:#A regisztráció csak egy meghatározott időperiódusban lehetséges.
-crs#:#crs_reg_max_info#:#Adja meg a kurzushoz rendelhető felhasználók maximális számát. \'0\' esetén nincs meghatározva a szám. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_reg_notify_info#:#Ha engedélyezett, az \'Értesítés\' állapottal rendelkező kurzusadminisztrátorok/tutorok e-mail-ben értesít kapnak az új regisztrációkról. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_reg_max_info#:#Adja meg a kurzushoz rendelhető felhasználók maximális számát. '0' esetén nincs meghatározva a szám. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_reg_notify_info#:#Ha engedélyezett, az 'Értesítés' állapottal rendelkező kurzusadminisztrátorok/tutorok e-mail-ben értesít kapnak az új regisztrációkról. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_reg_subscription_deactivated#:#A regisztráció le van tiltva.
 crs#:#crs_reg_subscription_end_earlier#:#Lejárt a regisztrációidő
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
@@ -3826,8 +3826,8 @@ crs#:#crs_start_objects#:#Kezdőobjektumok
 crs#:#crs_starter_deleted#:#Eltávolított hozzárendelés.
 crs#:#crs_starters_already_assigned#:#Ez az objektum már hozzárendelt volt.
 crs#:#crs_status#:#�?llapot
-crs#:#crs_status_changed#:#�?llapot \"%s\" kurzusban ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_status_changed_body#:#�?llapota \"%s\" kurzusban megváltozott. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_status_changed#:#�?llapot "%s" kurzusban ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_status_changed_body#:#�?llapota "%s" kurzusban megváltozott. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_structure#:#Kurzusstruktúra
 crs#:#crs_subscribers#:#Feliratkozások
 crs#:#crs_subscribers_deleted#:#Törölt feliratkozó(k)
@@ -3854,8 +3854,8 @@ crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (értesítés nélkül)
 crs#:#crs_tutor_notify#:#Tutor (értesítéssel)
 crs#:#crs_unblocked#:#Szabad belépés
-crs#:#crs_unblocked_member#:#�?llapot \"%s\" kurzusban ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_unblocked_member_body#:#Tagsága a \"%s\" kurzusban letárolásra került ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_unblocked_member#:#�?llapot "%s" kurzusban ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_unblocked_member_body#:#Tagsága a "%s" kurzusban letárolásra került ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_unlimited#:#Nem limitált
 crs#:#crs_unsubscribe#:#Leiratkozás
 crs#:#crs_unsubscribe_sure#:#Le akar iratkozni erről a kurzusról?
@@ -3944,7 +3944,7 @@ dateplaner#:#ERROR_ENDDATE#:#Hibás a végdátum megadása. Formátum: dd/mm/yyy
 dateplaner#:#ERROR_ENDTIME#:#Hibás végdátum. Formátum: hh:mm
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Érvényes vesszővel szeparált értékű fájlt adjon meg4
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>az Ön böngészője nem fogadja a JavaScript-et.<BR />A manuális bevitel után zárja be ezt az ablakot!<BR></CENTER></B>
-dateplaner#:#error_minical_img#:#Nem hozható létre \'GD-picture-stream\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#error_minical_img#:#Nem hozható létre 'GD-picture-stream' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#ERROR_ROT_END_START#:#Hibás ismétlődő végdátum megadására került sor. A végdátum a kezdődátum előtti.
 dateplaner#:#ERROR_ROTATIONEND#:#Hibás ismétlődő dátum megadásra került sor. Formátum: dd/mm/yyyy
 dateplaner#:#ERROR_SHORTTEXT#:#Hibás a rövid szöveg megadása. Rövid szöveg megadása szükséges.
@@ -3989,7 +3989,7 @@ dateplaner#:#help_properties_del_l#:#Válasszon ki egy kulcsszót a párbeszédd
 dateplaner#:#help_properties_import#:#Outlook-fáj importja - vesszővel szeparált értékűek -
 dateplaner#:#help_properties_import_l#:#Itt CSC-fájl választható ki, amely Outlook eseményeket tartalmaz. Ezek az események kerülnek importálásra a határidőnaplóba.
 dateplaner#:#help_properties_new#:#Kulcsszó hozzáadása - maximum 20 karakteres
-dateplaner#:#help_properties_new_l#:#Új kulcsszó hozzáadása az \\\"új\\\" mezőhöz. Fontos: maximum 20 karakter legyen. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Új kulcsszó hozzáadása az \"új\" mezőhöz. Fontos: maximum 20 karakter legyen. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Időmegjelenítés napi nézethez / heti nézethez
 dateplaner#:#help_properties_time_l#:#A szabványos napi és heti nézet megjelenítési idő változtatható. Ha a dátumok kívül vannak megjelenítési időn egy adott napon vagy héten, a megjelenítési idő arra az időtartamra fog megváltozni . A szabvány 8 - 18 óra.
 dateplaner#:#help_rotation#:#Ismétlődés
@@ -4164,8 +4164,8 @@ forum#:#is_read#:#Megjelölés olvasottnak
 forum#:#new_post#:#Új hozzászólás
 forum#:#thread#:#Téma
 jscalendar#:#about_calendar#:#A határidőnaplóról
-jscalendar#:#about_calendar_long#:#DHTML dáum/idő választó\\n(c) dynarch.com 2002-2003\\nLegfrissebb verzió: http://dynarch.com/mishoo/calendar.epl\\nTerjeszti a GNU LGPL.  Lásd http://gnu.org/licenses/lgpl.html a részletekért.\\n\\nDátumválasztó:\\n- Használja a «, » gombokat az év kiválasztásához\\n- Használja a <, > gombokat a hónap kiválasztásához\\n- Tartsa lenyomva az egérgombot a megfelelő fenti gombon a funkciók gyorsabb kiválasztáshoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\\n\\nIdőválasztó:\\n- Kattintson a megfelelő időrészen megnöveléséhez\\n- vagy Shift-kattintással csökkentéséhez\\n- vagy kattintás-húzás a gyorsabb kiválasztáshoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML dáum/idő választó\n(c) dynarch.com 2002-2003\nLegfrissebb verzió: http://dynarch.com/mishoo/calendar.epl\nTerjeszti a GNU LGPL.  Lásd http://gnu.org/licenses/lgpl.html a részletekért.\n\nDátumválasztó:\n- Használja a «, » gombokat az év kiválasztásához\n- Használja a <, > gombokat a hónap kiválasztásához\n- Tartsa lenyomva az egérgombot a megfelelő fenti gombon a funkciók gyorsabb kiválasztáshoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\n\nIdőválasztó:\n- Kattintson a megfelelő időrészen megnöveléséhez\n- vagy Shift-kattintással csökkentéséhez\n- vagy kattintás-húzás a gyorsabb kiválasztáshoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Bezárás
 jscalendar#:#day_first#:#Megjelenítés %s először
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -4869,12 +4869,12 @@ payment#:#pay_bmf_credit_card_not_valid#:#Az Ön által megadott hitelkártyaada
 payment#:#pay_bmf_debit_entry#:#Betéti bejegyzés (csak német banki számlák)
 payment#:#pay_bmf_debit_entry_data#:#Betéti bejegyzés
 payment#:#pay_bmf_debit_entry_not_valid#:#Az Ön által megadott betéti adatok nem érvényesek. Ellenőrizze, hogy minden mező helyesen lett-e kitöltve.
-payment#:#pay_bmf_description_credit_card#:#Ellenőrizze, hogy minden cikk, amit meg szeretett volna rendelni, a bevásárlókosarában van-e. Kitöltve hitelkártyája adataival és a \"Mentés\" gombra kattintva, megerősíti rendelési szándékát, amely azonnal érvénybe is lép. Az adatellenőrzés igénybe vehet néhány másodpercet. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Ellenőrizze, hogy minden cikk, amit meg szeretett volna rendelni, a bevásárlókosarában van-e. Kitöltve betéti kártyája adataival és a \"Mentés\" gombra kattintva, megerősíti rendelési szándékát, amely azonnal érvénybe is lép. Az adatellenőrzés igénybe vehet n ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_credit_card#:#Ellenőrizze, hogy minden cikk, amit meg szeretett volna rendelni, a bevásárlókosarában van-e. Kitöltve hitelkártyája adataival és a "Mentés" gombra kattintva, megerősíti rendelési szándékát, amely azonnal érvénybe is lép. Az adatellenőrzés igénybe vehet néhány másodpercet. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_debit_entry#:#Ellenőrizze, hogy minden cikk, amit meg szeretett volna rendelni, a bevásárlókosarában van-e. Kitöltve betéti kártyája adataival és a "Mentés" gombra kattintva, megerősíti rendelési szándékát, amely azonnal érvénybe is lép. Az adatellenőrzés igénybe vehet n ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Válassza ki a fizetési módot!
 payment#:#pay_bmf_description_personal_data#:#Teljesen töltse ki az alábbi nyomtatvány!
 payment#:#pay_bmf_house_number#:#Házszám
-payment#:#pay_bmf_info#:#A következő anyagok nem érhetők el szabadon. Ha bizonyos tanyagokhoz hozzáférést szeretne, válasszon ki egy árat. A Munkaasztalán levő \"bevásárlókosár\" gomb használatával egy vagy több tananyagot vásárolhat. Ez után azonnal hozzáfér a kiválasztott objektumhoz és periódushoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_info#:#A következő anyagok nem érhetők el szabadon. Ha bizonyos tanyagokhoz hozzáférést szeretne, válasszon ki egy árat. A Munkaasztalán levő "bevásárlókosár" gomb használatával egy vagy több tananyagot vásárolhat. Ez után azonnal hozzáfér a kiválasztott objektumhoz és periódushoz. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#opcionális
 payment#:#pay_bmf_or#:#vagy
 payment#:#pay_bmf_password_not_valid#:#Jelszava nem volt érvényes.
@@ -4965,7 +4965,7 @@ payment#:#paya_header#:#Fizetési adminisztráció
 payment#:#paya_insert_only_numbers#:#Csak egészeket adjon meg!
 payment#:#paya_locator#:#Fizetési adminisztráció
 payment#:#paya_months#:#Hónap(ok)
-payment#:#paya_no_booking_id_given#:#Hiba: nincs megadva \'foglalási azonosító\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_no_booking_id_given#:#Hiba: nincs megadva 'foglalási azonosító' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_no_bookings#:#Nincs elérhető statisztika.
 payment#:#paya_no_object_selected#:#Egy objektumot válasszon ki!
 payment#:#paya_no_objects_assigned#:#Nincsenek eladható objektumok.
@@ -5029,8 +5029,8 @@ payment#:#pays_no_username_given#:#Nincs kiválasztva felhasználói név.
 payment#:#pays_no_valid_username_given#:#Nincs megadva érvényes felhasználói név.
 payment#:#pays_no_vendor_selected#:#Nincs kiválasztva eladó.
 payment#:#pays_number_bookings#:#Aktív foglalások
-payment#:#pays_objects_bill_exist#:#A \'számla\' fizetési mód aktiválva lett néhány objektumhoz. �?gy nem szüntethető meg az aktivitása. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#A \'BMF\' fizetési mód aktiválva lett néhány objektumhoz. �?gy nem szüntethető meg az aktivitása. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#A 'számla' fizetési mód aktiválva lett néhány objektumhoz. �?gy nem szüntethető meg az aktivitása. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bmf_exist#:#A 'BMF' fizetési mód aktiválva lett néhány objektumhoz. �?gy nem szüntethető meg az aktivitása. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_offline#:#Off-line
 payment#:#pays_online#:#On-line
 payment#:#pays_pay_methods#:#Fizetési módok
@@ -5046,20 +5046,20 @@ payment#:#price_a#:#�?r
 payment#:#prices#:#�?rak
 payment#:#update#:#Frissítés
 pwassist#:#password_assistance#:#Jelszótámogatás
-pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet és küldje el az űrlapot.\\nAz ILIAS egy e-mailt fog küldeni a megadott címre. Az e-mail tartalmazni fogja az összes felhasználónevet, amely ezt az e-mail címet adta meg.\\nVálasszon egy megfelelő felhasználói nevet, és használja a jelszószolgáltatást egy új jelszó megszerzéséhez. Ha nem kap e-mail-t ettől a szolgáltatástól, vegye fel a kapcsolatot a kurzusadminisztrátorral vagy %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzátartozó e-mail címet az alábbi mezőkben.\\nAz ILIAS üzenetet fog küldeni az e-mail címre. Az üzenet egy weblap címét fogja tartalmazni, ahol új jelszót adhat meg felhasználói bejelentkezéséhez.\\nHa nem tud jelszót rendelni bejelentkezéséhez így, lépjen kapcsolatba kurzusadminisztrátorával, vagy küldjön egy e-mailt ide: %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet és küldje el az űrlapot.\nAz ILIAS egy e-mailt fog küldeni a megadott címre. Az e-mail tartalmazni fogja az összes felhasználónevet, amely ezt az e-mail címet adta meg.\nVálasszon egy megfelelő felhasználói nevet, és használja a jelszószolgáltatást egy új jelszó megszerzéséhez. Ha nem kap e-mail-t ettől a szolgáltatástól, vegye fel a kapcsolatot a kurzusadminisztrátorral vagy %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzátartozó e-mail címet az alábbi mezőkben.\nAz ILIAS üzenetet fog küldeni az e-mail címre. Az üzenet egy weblap címét fogja tartalmazni, ahol új jelszót adhat meg felhasználói bejelentkezéséhez.\nHa nem tud jelszót rendelni bejelentkezéséhez így, lépjen kapcsolatba kurzusadminisztrátorával, vagy küldjön egy e-mailt ide: %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Adja meg az alábbi mezőkben a felhasználó nevet és az  új jelszót!
-pwassist#:#pwassist_invalid_email#:#Javítsa ki e-mail címét!\\nA megadott e-mail cím nem található meg az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Javítsa ki a szöveget a mezőkben!\\n A megadott felhasználói név és e-mail cím nem azonos az adatbázisban tárolttal. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg!\\nA megadott felhasználói név nem egyezik meg azzal, amelyet a jelszótámogatástól kért. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót felhasználói bejelentkezéséhez:\\n\\t%1$s\\n\\nEzt az üzenetet automatikusan generálta az alábbi ILIAS szerver\\n\\t%2$s\\n\\nÖnt (vagy valakit %3$s) megkérünk a jelszótámogatásra a \"%4$s\" felhasználói bejelentkezéshez.\\n\\nGondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:\\n\\n- Ha esetleg az ILIAS szerveren levő jelszótámogatási űrlapot használta volna:\\nTörölje ezt a levelet.\\n\\n- Ha biztos benne, hogy soha nem kért jelszótámogatást ettől az ILIAS szervertől:\\nVegye fel a kapcsolatot: %5$s.\\n\\n- Ha kért jelszótámogatást, járjon el az alábbiak szerint:\\n\\n1. Nyissa meg böngészőjét.\\n\\n2. Adja meg a következő címet böngészőjében:\\n\\t%1$s\\n\\nFontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.\\n\\n3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.\\n\\nEmlékezzen rá, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszótámogatást kell újra használnia. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#Üzenet került elküldésre, címe %1$s.\\nEllenőrizze postaládáját! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_email#:#Javítsa ki e-mail címét!\nA megadott e-mail cím nem található meg az adatbázisban. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Javítsa ki a szöveget a mezőkben!\n A megadott felhasználói név és e-mail cím nem azonos az adatbázisban tárolttal. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg!\nA megadott felhasználói név nem egyezik meg azzal, amelyet a jelszótámogatástól kért. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót felhasználói bejelentkezéséhez:\n\t%1$s\n\nEzt az üzenetet automatikusan generálta az alábbi ILIAS szerver\n\t%2$s\n\nÖnt (vagy valakit %3$s) megkérünk a jelszótámogatásra a "%4$s" felhasználói bejelentkezéshez.\n\nGondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:\n\n- Ha esetleg az ILIAS szerveren levő jelszótámogatási űrlapot használta volna:\nTörölje ezt a levelet.\n\n- Ha biztos benne, hogy soha nem kért jelszótámogatást ettől az ILIAS szervertől:\nVegye fel a kapcsolatot: %5$s.\n\n- Ha kért jelszótámogatást, járjon el az alábbiak szerint:\n\n1. Nyissa meg böngészőjét.\n\n2. Adja meg a következő címet böngészőjében:\n\t%1$s\n\nFontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.\n\n3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.\n\nEmlékezzen rá, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszótámogatást kell újra használnia. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#Üzenet került elküldésre, címe %1$s.\nEllenőrizze postaládáját! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#ILIAS jelszótámogatás
-pwassist#:#pwassist_not_permitted#:#Adjon meg másik felhasználói nevet!\\nA jelszótámogatás nincs engedélyezve az Ön által megadott felhasználói névre. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#A jelszó sikeresen hozzárendelésre került a felhasználóhoz  \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot!\\nJelszótámogatási ülése lejárt. Ez azért történhetett, mert megpróbált használni egy olyan linket, amely több mint egyszer lett e-mail-ben elküldve Önnek, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Vegye fel a kapcsolatot rendszeradminisztrátorával.\\nA jelszó nem került hozzárendelésre a felhasználói bejelentkezéshez az adatbázis frissítésekor egy hiba miatt. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_username_mail_body#:#Ezek az aktív felhasználói nevek találhatók a megadott e-mail címhez:\\n%s\\n\\nEzt az üzenetet automatikusan állította elő az alábbi ILIAS szerver:\\n\\t%s\\n\\nÖnt (vagy valakit a %s IP-vel) keresünk a következő e-mail címhez elfejeltett felhasználói név miatt: \'%s\'.\\n\\nKérjük, ellenőrizze az alábbiakat, és tegyen a javasoltak szerint::\\n\\n-Lehet, hogy véletlenül kapta ezt a levelet:\\nTörölje ezt a levelet.\\n\\n-Biztos lehet benne, hogy többé nem keressük meg ilyen e-mail-lel:\\nVegye fel a kapcsolatot a következővel: %s.\\n\\n- Ha megkapta ezt az e-mailt, tegyen az alábbiak szerint::\\n\\n1. Indítsa el internet-böngészőjét.\\n\\n2. Adja meg a következő url-t:\\n\\t%s\\n\\nFontos: A cím egy soros. Ha több sorba törve látja a címet, az Ön levelezőprogramja sortöréseket illesztett be a címbe.\\n\\n3. Böngészőjében megjelenik a jelszószolgáltatás. Használja ezt a lapot az e-mail cím szerinti felhasználói nevek egyikével, hogy új jelszót kapjon. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Adjon meg másik felhasználói nevet!\nA jelszótámogatás nincs engedélyezve az Ön által megadott felhasználói névre. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#A jelszó sikeresen hozzárendelésre került a felhasználóhoz  "%1$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot!\nJelszótámogatási ülése lejárt. Ez azért történhetett, mert megpróbált használni egy olyan linket, amely több mint egyszer lett e-mail-ben elküldve Önnek, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Vegye fel a kapcsolatot rendszeradminisztrátorával.\nA jelszó nem került hozzárendelésre a felhasználói bejelentkezéshez az adatbázis frissítésekor egy hiba miatt. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_username_mail_body#:#Ezek az aktív felhasználói nevek találhatók a megadott e-mail címhez:\n%s\n\nEzt az üzenetet automatikusan állította elő az alábbi ILIAS szerver:\n\t%s\n\nÖnt (vagy valakit a %s IP-vel) keresünk a következő e-mail címhez elfejeltett felhasználói név miatt: '%s'.\n\nKérjük, ellenőrizze az alábbiakat, és tegyen a javasoltak szerint::\n\n-Lehet, hogy véletlenül kapta ezt a levelet:\nTörölje ezt a levelet.\n\n-Biztos lehet benne, hogy többé nem keressük meg ilyen e-mail-lel:\nVegye fel a kapcsolatot a következővel: %s.\n\n- Ha megkapta ezt az e-mailt, tegyen az alábbiak szerint::\n\n1. Indítsa el internet-böngészőjét.\n\n2. Adja meg a következő url-t:\n\t%s\n\nFontos: A cím egy soros. Ha több sorba törve látja a címet, az Ön levelezőprogramja sortöréseket illesztett be a címbe.\n\n3. Böngészőjében megjelenik a jelszószolgáltatás. Használja ezt a lapot az e-mail cím szerinti felhasználói nevek egyikével, hogy új jelszót kapjon. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Tanulmányokban való előrehaladás szerkesztése
 rbac#:#filter_all_roles#:#Érvényes tartalom minden szerepének megjelenítése
 rbac#:#filter_global_roles#:#Csak a globális szerepek megjelenítése
@@ -5071,7 +5071,7 @@ rbac#:#perm_administrate#:#Adminisztrálás
 rbac#:#perm_class_create#:#Új objektumok létrehozása
 rbac#:#perm_class_create_desc#:#Annak meghatározása, hogy mely objektumtípusok hozhatók létre a jelenlegi objektum alatt!
 rbac#:#perm_class_general#:#�?ltalános műveletek
-rbac#:#perm_class_general_desc#:#Minden objektumhoz elérhetők az általános műveletek. Az \"egérmutató fölötte\" művelethez további információk kaphatók. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+rbac#:#perm_class_general_desc#:#Minden objektumhoz elérhetők az általános műveletek. Az "egérmutató fölötte" művelethez további információk kaphatók. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#perm_class_object#:#Speciáli sműveletek
 rbac#:#perm_class_object_desc#:#Az objektumspecifikus műveletek csak bizonyos objektumtípusokhoz elérhetők.
 rbac#:#perm_class_rbac#:#Jogosultsági beállítások
@@ -5161,7 +5161,7 @@ survey#:#add_phrase_introduction#:#Válasszon egy mondatot:
 survey#:#add_standard_numbers#:#Standard számok felvétele
 survey#:#already_completed_survey#:#Számtani értelmezés
 survey#:#anonymize_anonymous_introduction#:#Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kérdőívkódot kell megadni, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg az alábbi szövegmezőben.
-survey#:#anonymize_key_introduction#:#A kérdőív hallgatónként csak egyszer tölthető ki. Kitöltését a kurzus befejezését követően javasoljuk.<br><br>Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kódot hozott létre a rendszer, amelyet elküld az Ön ILIAS postafiókjába, a kérdőív kitöltésének megkezdésekor (az első kérdés megválaszolása után).<br> Az Ön kérdőívhez tartozó kódja<br/><br/><span class=\"bold\">%s</span><br/><br/>Adja meg az alábbi szövegmezőben. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#A kérdőív hallgatónként csak egyszer tölthető ki. Kitöltését a kurzus befejezését követően javasoljuk.<br><br>Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kódot hozott létre a rendszer, amelyet elküld az Ön ILIAS postafiókjába, a kérdőív kitöltésének megkezdésekor (az első kérdés megválaszolása után).<br> Az Ön kérdőívhez tartozó kódja<br/><br/><span class="bold">%s</span><br/><br/>Adja meg az alábbi szövegmezőben. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Adja meg a kérdőívhez tartozó kódját a kérdőív folytatásához! Megküldésre került az Ön ILIAS postafiókjába, amikor megkezdte a kérdőív kitöltését.
 survey#:#anonymize_survey#:#Anonimizált kérdőívi adatok
 survey#:#anonymize_survey_explanation#:#Ha aktiválta, minden felhasználói adat anonim lesz, és nem lesz lehetőség a nyomkövetésre.
@@ -5218,7 +5218,7 @@ survey#:#dc_definitelytrue#:#definíciószerűen igaz
 survey#:#dc_desired#:#kívánatos
 survey#:#dc_disagree#:#nem értek egyet
 survey#:#dc_fair#:#korrekt
-survey#:#dc_false#:#\"hamis\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#dc_false#:#"hamis" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#dc_good#:#jó
 survey#:#dc_manytimes#:#többször
 survey#:#dc_morenegative#:#negatívabb
@@ -5467,7 +5467,7 @@ survey#:#spl_select_file_for_import#:#Ki kell választania egy fájlt az import�
 survey#:#start_date#:#Kezdődátum
 survey#:#start_date_not_reached#:#Nem kezdheti meg a kérdőívhez kitöltését a megadott kezdődátum előtt.
 survey#:#start_survey#:#Kérdőív kitöltésének megkezdése
-survey#:#subject_mail_survey_id#:#Az Ön kérdőívkódja \"%s\"-hoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Az Ön kérdőívkódja "%s"-hoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Altípus
 survey#:#survey_code#:#Kérdőív hozzáférési kódja
 survey#:#survey_code_message_sent#:#A kérdőív folytatását lehetővé tevő kérdőívi kód el lett küldve postaládájába.
@@ -5552,7 +5552,7 @@ trac#:#trac_comment#:#Megjegyzés
 trac#:#trac_comments#:#Megjegyzések
 trac#:#trac_completed#:#Befejezett
 trac#:#trac_crs_releavant_items#:#Kurzustételek
-trac#:#trac_edit_collection#:#Jelölje meg a kurzustételeket! Ha minden megjelölt tétel állapota \'Befejezett\', a felhasználó a teljes kurzust befejezte. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_edit_collection#:#Jelölje meg a kurzustételeket! Ha minden megjelölt tétel állapota 'Befejezett', a felhasználó a teljes kurzust befejezte. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_visits#:#Definiálja azt a látogatásszámot, amely ennek az objektumnak a teljesítéséhez szükséges!
 trac#:#trac_filter_area#:#Terület:
 trac#:#trac_filter_hidden#:#Elrejtve:
@@ -5589,7 +5589,7 @@ trac#:#trac_occurrences#:#Útvonal:
 trac#:#trac_progress#:#Egyéni tanulmányi előmenetel
 trac#:#trac_query#:#Cím/leírás:
 trac#:#trac_refresh#:#Firssít
-trac#:#trac_sahs_relevant_items#:#SCO\'s ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_sahs_relevant_items#:#SCO's ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_settings#:#Beállítások
 trac#:#trac_settings_saved#:#Mentett beállítások.
 trac#:#trac_show_hidden#:#Mutat

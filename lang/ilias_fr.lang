@@ -344,7 +344,7 @@ assessment#:#qpl_edit_select_none#:#Veuillez sélectionner une question à modif
 assessment#:#qpl_export_select_none#:#Veuillez saisir au moins une question pour l'exporter###07 Apr 2005 content changed
 assessment#:#qpl_general_properties#:#Propriétés générales###08 may 2006 content changed
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS ne peut pas créer le fichier temporaire de prévisualisation contenant les zones réactives de l'image. L'image d'origine est affichée à la place. Cela signifie, soit que l'outil ImageMagik n'est pas configuré correctement sur le serveur, soit qu'il n'a pas les droits d'écriture dans le répertoire temporaire. Prenez contact avec l'administrateur de votre système ILIAS, SVP.###08 may 2006 content changed
-assessment#:#qpl_import_create_new_qpl#:#Importer les questions dans un nouveau jeu de question###06 oct 2005 content changed 
+assessment#:#qpl_import_create_new_qpl#:#Importer les questions dans un nouveau jeu de question###06 oct 2005 content changed
 assessment#:#qpl_import_no_items#:#Erreur : le fichier d'importation ne contient aucune question !### 06 oct 2005 content changed
 assessment#:#qpl_import_non_ilias_files#:#Erreur. Le fichier d'importation contient des fichiers QTI qui n'ont pas été créés avec ILIAS. Prenez contact avec l'équipe de développement d'ILIAS pour obtenir un filtre d'importation correspondant au format de vos fichiers QTI.###08 may 2006 content changed
 assessment#:#qpl_import_verify_found_questions#:#ILIAS A trouvé les questions suivantes dans le fichier d'importation. Sélectionnez les questions que vous souhaitez importer.###08 may 2006 content changed
@@ -822,7 +822,7 @@ chat#:#chats#:#Chats###07 Apr 2005 content changed
 chat#:#my_chats#:#Mes chats###07 Apr 2005 content changed
 common#:#3rd_party_software#:#Logiciels tierce partie###07 Apr 2005 content changed
 common#:#DD.MM.YYYY#:#JJ.MM.AAAA###07 Apr 2005 content changed
-common#:#HH:MM#:#HH:MM###07 Apr 2005 content changed
+common#:#HH#:#HH:MM###07 Apr 2005 content changed
 common#:#absolute_path#:#Chemin absolu###07 Apr 2005 content changed
 common#:#accept_usr_agreement#:#Accepter la charte d'utilisation ?###07 Apr 2005 content changed
 common#:#access#:#Accès###07 Apr 2005 content changed
@@ -1669,16 +1669,16 @@ common#:#hide_details#:#cacher détails###07 Apr 2005 content changed
 common#:#hide_private_notes#:#Cacher les notes personnelles###08 may 2006 content changed
 common#:#hide_public_notes#:#Cacher les notes publiques###08 may 2006 content changed
 common#:#hide_structure#:#Désactiver vue structurée###07 Apr 2005 content changed
-common#:#hist_dbk:pg_create#:#Page créée###07 Apr 2005 content changed
-common#:#hist_dbk:pg_cut#:#Page coupée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_dbk:pg_paste#:#Page collée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_dbk:pg_update#:#Page modifiée###07 Apr 2005 content changed
+common#:#hist_dbk#:#Page créée###07 Apr 2005 content changed
+common#:#hist_dbk#:#Page coupée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
+common#:#hist_dbk#:#Page collée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
+common#:#hist_dbk#:#Page modifiée###07 Apr 2005 content changed
 common#:#hist_file_create#:#Fichier créé, le nom de fichier est "%1".###07 Apr 2005 content changed
 common#:#hist_file_replace#:#Fichier remplacé, le nouveau nom de fichier est  "%1", la nouvelle  version est %2.###07 Apr 2005 content changed
-common#:#hist_lm:pg_create#:#Page créée###07 Apr 2005 content changed
-common#:#hist_lm:pg_cut#:#Page coupé dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_lm:pg_paste#:#Page collée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_lm:pg_update#:#Page modifiée###07 Apr 2005 content changed
+common#:#hist_lm#:#Page créée###07 Apr 2005 content changed
+common#:#hist_lm#:#Page coupé dans le chapitre "%1" [%2]###07 Apr 2005 content changed
+common#:#hist_lm#:#Page collée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
+common#:#hist_lm#:#Page modifiée###07 Apr 2005 content changed
 common#:#hist_no_entries#:#Pas d'entrées dans l'historique###07 Apr 2005 content changed
 common#:#hist_webr_add#:#Nouvelle ressource web ajoutée avec le titre : "%1"###07 Apr 2005 content changed
 common#:#hist_webr_delete#:#Ressource web détruite : "%1"###07 Apr 2005 content changed
@@ -3035,7 +3035,7 @@ common#:#usrimport_action_replaced#:#Action %1$s remplacée par %2$s###07 Apr 20
 common#:#usrimport_cant_delete#:#Suppression impossible : aucun utilisateur ne correspond.###07 Apr 2005 content changed
 common#:#usrimport_cant_insert#:#Insertion impossible :  l'utilisateur existe déjà.###07 Apr 2005 content changed
 common#:#usrimport_cant_update#:#Mise à jour impossible : aucun utilisateur ne correspond###07 Apr 2005 content changed
-common#:#usrimport_conflict_handling_info#:#Quand 'Ignorer les conflits' est sélectionné, ILIAS ignore une action s'il ne peut pas la réaliser (par exemple, une insertion n'est pas faite si un utilisateur avec le même login existe déjà dans la base de données)\nQuand 'Mettre à jour en cas de conflit' est sélectionné, ILIAS met la base à jour si une action ne peut pas être réalisée (par exemple, une action 'insertion' est remplacée par une action 'mise à jour' si un utilisateur portant le même login existe déjà).###07 Apr 2005 content changed
+common#:#usrimport_conflict_handling_info#:#Quand 'Ignorer les conflits' est sélectionné, ILIAS ignore une action s'il ne peut pas la réaliser (par exemple, une insertion n'est pas faite si un utilisateur avec le même login existe déjà dans la base de données)nQuand 'Mettre à jour en cas de conflit' est sélectionné, ILIAS met la base à jour si une action ne peut pas être réalisée (par exemple, une action 'insertion' est remplacée par une action 'mise à jour' si un utilisateur portant le même login existe déjà).###07 Apr 2005 content changed
 common#:#usrimport_global_role_for_action_required#:#Au moins un rôle global doit être spécifié pour l'action "%1$s".###07 Apr 2005 content changed
 common#:#usrimport_ignore_role#:#Ignorer le rôle### 06 oct 2005 content changed
 common#:#usrimport_login_is_not_unique#:#Le login n'est unique.###07 Apr 2005 content changed
@@ -4020,7 +4020,7 @@ dateplaner#:#help_properties_del_l#:#Choisissez un mot-clé dans la boîte de di
 dateplaner#:#help_properties_import#:#Importer un fichier CSV depuis Outlook###07 Apr 2005 content changed
 dateplaner#:#help_properties_import_l#:#Ici, un fichier csv contenant l'agenda d'Outlook peut être sélectionné. Les RDV contenus dans ce fichier seront importés dans l'Agenda en ligne.###07 Apr 2005 content changed
 dateplaner#:#help_properties_new#:#Ajoutez un mot clé, 20 caractères max.###07 Apr 2005 content changed
-dateplaner#:#help_properties_new_l#:#Ajouter un nouveau mot-clé dans le champ \"new\". Important : max. 20 caractères.###07 Apr 2005 content changed
+dateplaner#:#help_properties_new_l#:#Ajouter un nouveau mot-clé dans le champ "new". Important : max. 20 caractères.###07 Apr 2005 content changed
 dateplaner#:#help_properties_time#:#Plage horaire pour vue journée ou vue semaine###07 Apr 2005 content changed
 dateplaner#:#help_properties_time_l#:#La plage horaire standard pour la vue journée et la vue semaine peut être modifiée.  Si les événements dépassent la plage d'horaire, celle-ci peut être changée. Par défaut, l'affichage est de 8h à 18h.###07 Apr 2005 content changed
 dateplaner#:#help_rotation#:#Périodicité###07 Apr 2005 content changed
@@ -4172,8 +4172,8 @@ forum#:#is_read#:#marqué comme lu###07 Apr 2005 content changed
 forum#:#new_post#:#Nouveau message###08 may 2006 content changed
 forum#:#thread#:#Sujet###08 may 2006 content changed
 jscalendar#:#about_calendar#:#A propos du calendrier###07 Apr 2005 content changed
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPour la dernière version, voir : http://dynarch.com/mishoo/calendar.epl\nDistribué  selon les termes de la licence GNU LGPL.  Voir http://gnu.org/licenses/lgpl.html pour plus de détails.\n\nSélection de la date:\n- Utiliser les boutons << et >> pour sélectionner l'année\n- Utiliser les boutons < et > pour sélectionner le mois\n- Maintenir le bouton de la souris appuyé plus longtemps pour une sélection rapide.###07 Apr 2005 content changed
-jscalendar#:#about_time#:#\n\nSélection de l'heure :\n- Cliquer sur n'importe quelle partie de l'heure pour l'augmenter\n- cliquer en maintenant la touche 'Shift' (majuscule) du clavier appuyée pour la diminuer, ou cliquez et déplacez la souris pour une sélection rapide.###07 Apr 2005 content changed
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selectorn(c) dynarch.com 2002-2003nPour la dernière version, voir : http://dynarch.com/mishoo/calendar.eplnDistribué  selon les termes de la licence GNU LGPL.  Voir http://gnu.org/licenses/lgpl.html pour plus de détails.nnSélection de la date:n- Utiliser les boutons << et >> pour sélectionner l'annéen- Utiliser les boutons < et > pour sélectionner le moisn- Maintenir le bouton de la souris appuyé plus longtemps pour une sélection rapide.###07 Apr 2005 content changed
+jscalendar#:#about_time#:#nnSélection de l'heure :n- Cliquer sur n'importe quelle partie de l'heure pour l'augmentern- cliquer en maintenant la touche 'Shift' (majuscule) du clavier appuyée pour la diminuer, ou cliquez et déplacez la souris pour une sélection rapide.###07 Apr 2005 content changed
 jscalendar#:#close#:#Fermer###07 Apr 2005 content changed
 jscalendar#:#day_first#:#Afficher %s en premier###07 Apr 2005 content changed
 jscalendar#:#def_date_format#:#%d-%m-%Y###07 Apr 2005 content changed
@@ -5056,20 +5056,20 @@ payment#:#price_a#:#Prix###07 Apr 2005 content changed
 payment#:#prices#:#Prix###07 Apr 2005 content changed
 payment#:#update#:#Mise à jour###07 Apr 2005 content changed
 pwassist#:#password_assistance#:#Assistance pour les mots de passe###07 Apr 2005 content changed
-pwassist#:#pwassist_enter_email#:#Saisissez une adresse électronique et envoyez le formulaire.\n Ilias va envoyer un message à cette adresse. Le message contient tous les noms d'utilisateurs  qui ont déjà cette adresse électronique. \nChoisissez le nom d'utilisateur correspondant et utilisez le service 'mot de passe' pour obtenir un nouveau mot de passe. Si vous n'obtenez aucun message par ce moyen, prenez contact avec votre administrateur ou %1$s.###06 oct 2005 Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Saisissez un nom d'utilisateur et l'adresse email associée dans les champs ci-dessous.\nILIAS enverra un message à cette adresse. Le message contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur. Si vous ne parvenez à obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un message à %1$s###07 Apr 2005 content changed
+pwassist#:#pwassist_enter_email#:#Saisissez une adresse électronique et envoyez le formulaire.n Ilias va envoyer un message à cette adresse. Le message contient tous les noms d'utilisateurs  qui ont déjà cette adresse électronique. nChoisissez le nom d'utilisateur correspondant et utilisez le service 'mot de passe' pour obtenir un nouveau mot de passe. Si vous n'obtenez aucun message par ce moyen, prenez contact avec votre administrateur ou %1$s.###06 oct 2005 Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Saisissez un nom d'utilisateur et l'adresse email associée dans les champs ci-dessous.nILIAS enverra un message à cette adresse. Le message contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur. Si vous ne parvenez à obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un message à %1$s###07 Apr 2005 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Saisissez le nom d'utilisateur et le nouveau mot de passe dans les champs ci-dessous.###07 Apr 2005 content changed
-pwassist#:#pwassist_invalid_email#:#Corrigez votre adresse électronique.\nL'adresse électronique saisie précédemment est introuvable dans la base de données.### 06 oct 2005 Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Veuillez corriger vos saisies.\nLe nom d'utilisateur et l'adresse email que vous avez saisis ne correspondent à aucune entrée dans la base de données.###07 Apr 2005 content changed
-pwassist#:#pwassist_login_not_match#:#Veuillez saisir un autre nom d'utilisateur.\nLe nom d'utilisateur que vous avez saisi ne correspond pas au nom d'utilisateur pour lequel vous avez demandé une assistance.###07 Apr 2005 content changed
-pwassist#:#pwassist_mail_body#:#Enregistrer un nouveau mot de passe pour votre compte utilisateur:\n\t%1$s\n\nCe message a été généré automatiquement par le serveur ILIAS\n\t%2$s\n\nVous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur "%4$s".\n\nVeuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :\n\n- Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :\n détruisez ce message\n\n- Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :\veuillez contacter %5$s.\n\n- Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :\n\n1. Ouvrez votre navigateur web.\n\n2. Saisissez l'adresse suivante dans le navigateur :\n\t%1$s\n\nImportant : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de messagerie qui a ajouté ces retours à la ligne.\n\n3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.\n\nAttention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à nouveau.###07 Apr 2005 content changed
-pwassist#:#pwassist_mail_sent#:#Un message a été envoyé à l'adresse %1$s.\nVeuillez regarder votre boîte aux lettres.###07 Apr 2005 content changed
+pwassist#:#pwassist_invalid_email#:#Corrigez votre adresse électronique.nL'adresse électronique saisie précédemment est introuvable dans la base de données.### 06 oct 2005 Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Veuillez corriger vos saisies.nLe nom d'utilisateur et l'adresse email que vous avez saisis ne correspondent à aucune entrée dans la base de données.###07 Apr 2005 content changed
+pwassist#:#pwassist_login_not_match#:#Veuillez saisir un autre nom d'utilisateur.nLe nom d'utilisateur que vous avez saisi ne correspond pas au nom d'utilisateur pour lequel vous avez demandé une assistance.###07 Apr 2005 content changed
+pwassist#:#pwassist_mail_body#:#Enregistrer un nouveau mot de passe pour votre compte utilisateur:nt%1$snnCe message a été généré automatiquement par le serveur ILIASnt%2$snnVous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur "%4$s".nnVeuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :nn- Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :n détruisez ce messagenn- Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :veuillez contacter %5$s.nn- Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :nn1. Ouvrez votre navigateur web.nn2. Saisissez l'adresse suivante dans le navigateur :nt%1$snnImportant : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de messagerie qui a ajouté ces retours à la ligne.nn3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.nnAttention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à nouveau.###07 Apr 2005 content changed
+pwassist#:#pwassist_mail_sent#:#Un message a été envoyé à l'adresse %1$s.nVeuillez regarder votre boîte aux lettres.###07 Apr 2005 content changed
 pwassist#:#pwassist_mail_subject#:#Assistance de mot de passe ILIAS###07 Apr 2005 content changed
-pwassist#:#pwassist_not_permitted#:#Veuillez saisir un autre nom d'utilisateur.\·nL'assistance de mot de passe n'est pas autorisée pour le nom d'utilisateur que vous avez saisi.###07 Apr 2005 content changed
+pwassist#:#pwassist_not_permitted#:#Veuillez saisir un autre nom d'utilisateur.·nL'assistance de mot de passe n'est pas autorisée pour le nom d'utilisateur que vous avez saisi.###07 Apr 2005 content changed
 pwassist#:#pwassist_password_assigned#:#Le mot de passe a été assigné avec succès à l'utilisateur %1$s.###07 Apr 2005 content changed
-pwassist#:#pwassist_session_expired#:#Veuillez remplir le formulaire à nouveau.\nVotre session d'assistance de mot de passe a expiré. Cela peut être dû au fait que vous avez essayé d'utiliser plusieurs fois le lien que vous avez reçu, ou bien parce que trop de temps est passé depuis que le message vous a été envoyé.###07 Apr 2005 content changed
-pwassist#:#pwassist_update_error#:#Veuillez contacter votre adminsitrateur système.\nLe mot de passe n'a pas pu être assigné à l'utilisateur à cause d'une erreur lors de la modification de la base de données.###07 Apr 2005 content changed
-pwassist#:#pwassist_username_mail_body#:#Ce sont les noms d'utilisateur correspondant à l'adresse électronique donnée :\n%s\n\n\. Ce message a été créé automatiquement par le serveur ILIAS suivant : n\t%s\n\n Vous (ou quelqu'un avec le numéro IP %s) a demandé le support d'aide 'nom d'utilisateur oublié' pour l'adresse électronique '%s'.n\n\Vérifiez les informations contenues dans ce message et suivez les indications ::n\n\-Vous avez fait cette demande par erreur :\nSupprimer ce message.\n\nVous êtes certain de n'avoir jamais fait une telle demande :\nContactez %s.\n\n-Si vous avez fait cette demande, procédez comme suit ::\n\n1. Ouvrez votre navigateur internet.\n\n2. Saisissez l'adresse internet (URL) suivante :\n\t%s\n\nImportant : l'adresse est d'une seule ligne. Si vous voyez cette adresse tronquée en plusieurs lignes, c'est que votre programme logiciel de messagerie a inséré des retours chariot.\n\n3. Votre navigateur internet affiche maintenant le service 'mot de passe'. Utilisez cette page avec l'un des nom d'utilisateur et l'adresse électronique correspondante pour obtenir un nouveau mot de passe.### 06 oct 2005 Content changed
+pwassist#:#pwassist_session_expired#:#Veuillez remplir le formulaire à nouveau.nVotre session d'assistance de mot de passe a expiré. Cela peut être dû au fait que vous avez essayé d'utiliser plusieurs fois le lien que vous avez reçu, ou bien parce que trop de temps est passé depuis que le message vous a été envoyé.###07 Apr 2005 content changed
+pwassist#:#pwassist_update_error#:#Veuillez contacter votre adminsitrateur système.nLe mot de passe n'a pas pu être assigné à l'utilisateur à cause d'une erreur lors de la modification de la base de données.###07 Apr 2005 content changed
+pwassist#:#pwassist_username_mail_body#:#Ce sont les noms d'utilisateur correspondant à l'adresse électronique donnée :n%snn. Ce message a été créé automatiquement par le serveur ILIAS suivant : nt%snn Vous (ou quelqu'un avec le numéro IP %s) a demandé le support d'aide 'nom d'utilisateur oublié' pour l'adresse électronique '%s'.nnVérifiez les informations contenues dans ce message et suivez les indications ::nn-Vous avez fait cette demande par erreur :nSupprimer ce message.nnVous êtes certain de n'avoir jamais fait une telle demande :nContactez %s.nn-Si vous avez fait cette demande, procédez comme suit ::nn1. Ouvrez votre navigateur internet.nn2. Saisissez l'adresse internet (URL) suivante :nt%snnImportant : l'adresse est d'une seule ligne. Si vous voyez cette adresse tronquée en plusieurs lignes, c'est que votre programme logiciel de messagerie a inséré des retours chariot.nn3. Votre navigateur internet affiche maintenant le service 'mot de passe'. Utilisez cette page avec l'un des nom d'utilisateur et l'adresse électronique correspondante pour obtenir un nouveau mot de passe.### 06 oct 2005 Content changed
 rbac#:#edit_learning_progress#:#Editer suivi###08 may 2006 content changed
 rbac#:#filter_all_roles#:#Afficher tous les rôles du contexte courant###08 may 2006 content changed
 rbac#:#filter_global_roles#:#Afficher seulement les rôles globaux###08 may 2006 content changed
@@ -5108,7 +5108,7 @@ search#:#search_content#:#Contenu de page###07 Apr 2005 content changed
 search#:#search_dbk_content#:#Bibliothèque digitale (contenu)###07 Apr 2005 content changed
 search#:#search_dbk_meta#:#Bibliothèque digitale (méta-données)###07 Apr 2005 content changed
 search#:#search_delete_sure#:#L'objet et son contenu seront détruits de façon permanente.###07 Apr 2005 content changed
-search#:#search_details_info#:#Recherche détaillée. Choisissez au moins un objet au-dessus.###06 oct 2005 Content changed 
+search#:#search_details_info#:#Recherche détaillée. Choisissez au moins un objet au-dessus.###06 oct 2005 Content changed
 search#:#search_direct#:#Recherche directe### 06 oct 2005 Content changed
 search#:#search_fast_info#:#Recherche dans les titres, descriptions et mot-clé de tous les types d'objets### 06 oct 2005 Content changed
 search#:#search_full_info#:#Choisissez cette option pour effectuer une recherche dans la totalité des données.### 06 oct 2005 Content changed
@@ -5395,7 +5395,7 @@ survey#:#or#:#ou###07 Apr 2005 content changed
 survey#:#ordinal_question_not_checked#:#Veuillez cocher une des réponses proposées.###07 Apr 2005 content changed
 survey#:#orientation#:#Orientation###07 Apr 2005 content changed
 survey#:#percentage_of_entered_values#:#Pourcentage des utilisateurs qui ont saisi cette valeur###07 Apr 2005 content changed
-survey#:#percentage_of_offered_answers#:#Pourcentage de réponses fournies### Floating point 
+survey#:#percentage_of_offered_answers#:#Pourcentage de réponses fournies### Floating point
 survey#:#percentage_of_selections#:#Pourcentage des utilisateurs qui ont sélectionné cette catégorie###07 Apr 2005 content changed
 survey#:#phrase_saved#:#L'expression a été enregistrée###07 Apr 2005 content changed
 survey#:#please_wait#:#Patientez ...###13 may 2006 content changed

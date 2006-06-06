@@ -53,7 +53,7 @@ administration#:#found#:#намерени.
 administration#:#found_none#:#н�?ма намерени.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Документиране на резултатите от �?канирането
-administration#:#log_scan_desc#:#Запи�? на резултатите от �?канирането във файл \'scanlog.log\' в директори�?та �? данни на клиента. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Запи�? на резултатите от �?канирането във файл 'scanlog.log' в директори�?та �? данни на клиента. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#nothing_to_purge#:#�?ищо за почи�?тване...
 administration#:#nothing_to_remove#:#�?ищо за премахване...
 administration#:#nothing_to_restore#:#�?ищо за въз�?танов�?ване...
@@ -145,7 +145,7 @@ assessment#:#checkbox_unchecked#:#�?е маркирано
 assessment#:#circle#:#Заграждане
 assessment#:#circle_click_center#:#Мол�?, кликнете в центъра на желаната обла�?т.
 assessment#:#circle_click_circle#:#Мол�?, кликнете на точка от кръга на желаната обла�?т.
-assessment#:#close_text_hint#:#Можете да дефинирате празнина, като въведете <gap></gap> в избраната от ва�? позици�? в тек�?та. �?ати�?нете бутона \'Създаване на празнини\', за да добавите форма за редактиране за в�?�?ка от празнините. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Можете да дефинирате празнина, като въведете <gap></gap> в избраната от ва�? позици�? в тек�?та. �?ати�?нете бутона 'Създаване на празнини', за да добавите форма за редактиране за в�?�?ка от празнините. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Затвар�?не на тек�?та
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -197,7 +197,7 @@ assessment#:#ects_range_error_b#:#Мол�?, въведете �?тойно�?т м
 assessment#:#ects_range_error_c#:#Мол�?, въведете �?тойно�?т между 0 и 100 за оценка C от ECTS!
 assessment#:#ects_range_error_d#:#Мол�?, въведете �?тойно�?т между 0 и 100 за оценка D от ECTS!
 assessment#:#ects_range_error_e#:#Мол�?, въведете �?тойно�?т между 0 и 100 за оценка E от ECTS!
-assessment#:#ects_use_fx_grade#:#Използвайте оценката \'FX\', ако не издържали изпита уча�?тници �?а до�?тигнали поне ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Използвайте оценката 'FX', ако не издържали изпита уча�?тници �?а до�?тигнали поне ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#ects_use_fx_grade_part2#:#процента от общи�? брой точки.
 assessment#:#edit_content#:#Редактиране на �?ъдържанието
 assessment#:#edit_properties#:#Редактиране на характери�?тиките
@@ -335,7 +335,7 @@ assessment#:#qpl_edit_select_multiple#:#Мол�?, маркирайте �?амо 
 assessment#:#qpl_edit_select_none#:#Мол�?, маркирайте един въпро�? за редактиране
 assessment#:#qpl_export_select_none#:#Мол�?, маркирайте поне един въпро�?, за да го ек�?портирате
 assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver\'s ImageMagick tool isn\'t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
@@ -1118,9 +1118,9 @@ common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be in
 common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
 common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Хронологично определени задачи
-common#:#cron_jobs_desc#:#Хронологично определена задача е автоматизиран проце�?, който функционира на предварително определени интервали от време. Ще намерите информаци�? за на�?тройването в \'И�?СТ�?Л�?ЦИО�?�?�?Т�? документаци�?. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_jobs_desc#:#Хронологично определена задача е автоматизиран проце�?, който функционира на предварително определени интервали от време. Ще намерите информаци�? за на�?тройването в 'И�?СТ�?Л�?ЦИО�?�?�?Т�? документаци�?. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at \'Administration -> Search\'.###26 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Кур�?ове
 common#:#crs_a#:#Кур�?
 common#:#crs_add#:#Добав�?не на кур�?
@@ -1169,7 +1169,7 @@ common#:#crs_write#:#Редактиране на кур�?
 common#:#cumulative_time#:#�?атрупано време
 common#:#cur_number_rec#:#Текущ брой запи�?и
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won\'t be able to access the system with this profile anymore.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#current_password#:#Текуща парола
 common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
@@ -1488,7 +1488,7 @@ common#:#group_req_registration_msg#:#За да �?е при�?ъедините к
 common#:#group_reset#:#�?улиране на груповите разрешени�?
 common#:#group_status#:#Групата е
 common#:#group_status_closed#:#Закрита
-common#:#group_status_desc#:#Определ�? първоначални�? �?тату�? на групата, като използва разрешителните на�?тройки от шаблоните �? ролите \'il_grp_status_closed\' или \'il_grp_status_open\'<br />Публична: Групата е видима; Потребител�?т може да �?е абонира.<br />Закрита: Групата не е видима за нечленовете; Потребител�?т тр�?бва да бъде поканен от член, за да �?е при�?ъедини. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#Определ�? първоначални�? �?тату�? на групата, като използва разрешителните на�?тройки от шаблоните �? ролите 'il_grp_status_closed' или 'il_grp_status_open'<br />Публична: Групата е видима; Потребител�?т може да �?е абонира.<br />Закрита: Групата не е видима за нечленовете; Потребител�?т тр�?бва да бъде поканен от член, за да �?е при�?ъедини. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Публична
 common#:#groups#:#Групи
 common#:#groups_overview#:#Преглед на групите
@@ -1576,8 +1576,8 @@ common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
 common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#Изключване на �?труктурирани�? изглед
 common#:#hist_dbk#:#Страницата �?ъздадена
-common#:#hist_file_create#:#Файлът �?ъздаден, името му е \"%1\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#Файлът заменен, името на нови�? файл е \"%1\", новата вер�?и�? е %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#Файлът �?ъздаден, името му е "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#Файлът заменен, името на нови�? файл е "%1", новата вер�?и�? е %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_lm#:#Страницата �?ъздадена
 common#:#hist_no_entries#:#�?�?ма запи�?и в и�?ториче�?ки�? архив.
 common#:#history#:#И�?тори�?
@@ -1647,7 +1647,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cance
 common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
-common#:#ilinc_mem_change_status#:#Change user\'s status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
 common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
@@ -2048,7 +2048,7 @@ common#:#msg_perm_adopted_from2#:#(�?а�?тройките б�?ха �?ъхран�
 common#:#msg_removed#:#Обектът(ите) премахнат(и) от �?и�?темата.
 common#:#msg_role_exists1#:#Рол�?/шаблон �? роли �? името
 common#:#msg_role_exists2#:#вече �?ъще�?твува! Мол�?, изберете друго име
-common#:#msg_role_reserved_prefix#:#Пред�?тавката \'il_\' е резервирана за автоматично генерирани роли. Мол�?, изберете друго име ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#Пред�?тавката 'il_' е резервирана за автоматично генерирани роли. Мол�?, изберете друго име ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Пром�?на в разпределението на активна рол�?
 common#:#msg_roleassignment_active_changed_comment#:#Тази на�?тройка не е �?ъхранена в профила на потребител�?! �?ко потребител�?т �?е реги�?трира отново, в�?ички задавани�? на активни роли �?е връщат към техните �?ъхранени �?тойно�?ти.
 common#:#msg_roleassignment_changed#:#Задаването на рол�?та променено
@@ -2260,7 +2260,7 @@ common#:#passwd_not_match#:#Вашите въвеждани�? на новата 
 common#:#passwd_wrong#:#Въведената от ва�? парола е грешна!
 common#:#password#:#Парола
 common#:#password_assistance_disabled#:#Помощта за забравена парола е налице �?амо тогава, когато идентифицирането на потребител�? �?е извършва чрез локална ILIAS база данни.
-common#:#password_assistance_info#:#�?ко помощта за забравена парола е включена, линк �? тек�?та \"Забравена парола?\" �?е показва на �?траницата за реги�?траци�? в ILIAS. Потребителите могат да използват този линк, за да зададат нова парола на техни�? потребител�?ки акаунт без да е необходима помощ от �?и�?темни�? админи�?тратор. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#�?ко помощта за забравена парола е включена, линк �? тек�?та "Забравена парола?" �?е показва на �?траницата за реги�?траци�? в ILIAS. Потребителите могат да използват този линк, за да зададат нова парола на техни�? потребител�?ки акаунт без да е необходима помощ от �?и�?темни�? админи�?тратор. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Залепване
 common#:#pasteChapter#:#Залепване
 common#:#pastePage#:#Залепване
@@ -2651,7 +2651,7 @@ common#:#tst_new#:#�?ов те�?т
 common#:#tst_read#:#До�?тъп за четене от те�?т
 common#:#tst_upload_file#:#Зареждане на файл
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don\'t have the right ip using this test###06 Aug 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#tst_visible#:#Те�?тът е видим
 common#:#tst_write#:#Редактиране на те�?т
 common#:#txt_add_object_instruction1#:#Използвайте навигаци�?, за да до�?тигнете м�?�?тото, където желаете да добавите
@@ -2844,7 +2844,7 @@ content#:#cont_create_export_file_xml#:#Създаване на файл за е
 content#:#cont_create_folder#:#Създаване на папка
 content#:#cont_create_html_version#:#Създаване на HTML пакет
 content#:#cont_create_mob#:#Създаване а медиен обект
-content#:#cont_credit_mode#:#Кредитен режим (за \'нормален\' режим на уроците) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Кредитен режим (за 'нормален' режим на уроците) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_credit_off#:#�?�?ма кредит
 content#:#cont_credit_on#:#Кредит
 content#:#cont_credits#:#Кредити
@@ -2999,7 +2999,7 @@ content#:#cont_matching_question_javascript_hint#:#Мол�?, изтеглете 
 content#:#cont_max_time_allowed#:#adlcp:мак�?имално разрешено време
 content#:#cont_media_source#:#Медиен източник
 content#:#cont_mep_structure#:#Структура на медиа пул
-content#:#cont_missing_preconditions#:#Тр�?бва да изпълните �?ледните предварителни у�?лови�?, за да имате до�?тъп до главата \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#Тр�?бва да изпълните �?ледните предварителни у�?лови�?, за да имате до�?тъп до главата "%s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_Mnemonic#:#Мнемонично
 content#:#cont_mob_files#:#Обектни файлове
 content#:#cont_mob_inst_prop#:#Примерни характери�?тики
@@ -3020,7 +3020,7 @@ content#:#cont_no_assign_itself#:#Обектът не може да бъде р�
 content#:#cont_no_manifest#:#�?е е открит никакъв файл imsmanifest.xml в главната директори�?.
 content#:#cont_no_object_found#:#�?е може да �?е намери никакъв обект �? това заглавие
 content#:#cont_no_page#:#�?е е открита �?траница.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder \'%s\'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#�?�?ма
 content#:#cont_nr_cols#:#Брой колони
@@ -3072,7 +3072,7 @@ content#:#cont_Roman#:#Рим�?ки I, II, ...
 content#:#cont_rvalue#:#Стойно�?т
 content#:#cont_saved_map_area#:#Съхранена обла�?т от карта
 content#:#cont_saved_map_data#:#Съхранени данни за карта
-content#:#cont_sc_auto_review#:#Задаване режим на обучение \'преглед\', ако учащи�?т е завършил SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#Задаване режим на обучение 'преглед', ако учащи�?т е завършил SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#�?авигаци�?
 content#:#cont_sc_less_mode_normal#:#�?ормален
 content#:#cont_sc_stat_browsed#:#Претър�?ен �? навигаци�?
@@ -3167,7 +3167,7 @@ content#:#cont_width#:#Ширина
 content#:#cont_wysiwyg#:#Съдържание WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Година
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file \'%s\'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#copied_to_clipboard#:#Копиран(и) обект(и) в клипборда.
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#HTML export#:#HTML ек�?портиране
@@ -3276,8 +3276,8 @@ crs#:#crs_moved_item#:#Преме�?тен елемент от кур�?а
 crs#:#crs_new_search#:#�?ово тър�?ене
 crs#:#crs_new_subscription#:#�?бонамент за нов кур�?###23 Dec 2005 content changed
 crs#:#crs_new_subscription_body#:#�?ов потребител �?е абонира###23 Dec 2005 content changed
-crs#:#crs_new_subscription_request#:#Request to join course \"%s\"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course \"%s\".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#�?е �?а избрани архиви
 crs#:#crs_no_archives_available#:#�?�?ма налични архиви
 crs#:#crs_no_archives_selected#:#Мол�?, изберете архив
@@ -3478,7 +3478,7 @@ dateplaner#:#help_properties_del_l#:#Изберете ключова дума о
 dateplaner#:#help_properties_import#:#Импортиране на Outlook-CSV-файлове
 dateplaner#:#help_properties_import_l#:#Тук може да бъде избран CSC-файл, който �?ъдържа Outlook-дати. Тези дати ще бъдат импортирани в календара.
 dateplaner#:#help_properties_new#:#Добав�?не на ключова дума, мак�?. 20 �?имвола
-dateplaner#:#help_properties_new_l#:#Добав�?не на нова ключова дума в полето \\\"нова\\\". Важно: мак�?. 20 �?имвола. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Добав�?не на нова ключова дума в полето \"нова\". Важно: мак�?. 20 �?имвола. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Показване на ча�?а в дневни�?/�?едмични�? преглед
 dateplaner#:#help_properties_time_l#:#Стандартното показване на ча�?а в дневни�? и �?едмични�? преглед може да бъде променено. �?ко датите �?а извън показаното време за дадени дни или �?едмица, показаното време ще бъде променено �?пр�?мо този период от време. Стандартът е 8h -18h.
 dateplaner#:#help_rotation#:#Повторение
@@ -3587,7 +3587,7 @@ dateplaner#:#week#:#�?едмица
 dateplaner#:#Week_long#:#Преглед на �?едмицата
 dateplaner#:#year#:#година
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won\'t be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 forum#:#forums#:#Форуми
 forum#:#forums_attachments#:#Прикачени
 forum#:#forums_attachments_add#:#Добав�?не на прикачени
@@ -3648,8 +3648,8 @@ forum#:#is_read#:#маркиране като прочетени
 forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#За календара
-jscalendar#:#about_calendar_long#:#DHTML �?електор за дата/ча�?\\n(c) dynarch.com 2002-2003\\nЗа най-новата вер�?и�? по�?етете: http://dynarch.com/mishoo/calendar.epl\\nРазпро�?тран�?ва �?е �?ъгла�?но GNU LGPL.  Вижте http://gnu.org/licenses/lgpl.html за подробно�?ти.\\n\\nИзбор на дата:\\n- Използвайте «, » бутоните, за да изберете година\\n- Използвайте <, > бутоните, за да изберете ме�?ец\\n- Задръжте бутона на мишката над н�?кой от горните бутони за по-бърз избор. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\\n\\nИзбор на ча�?:\\n- Кликнете на н�?кой от елементите за ча�?а, за да го придвижите напред\\n- или Shift-кликване за придвижване назад\\n- или кликнете и влачете за по-бърз избор. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML �?електор за дата/ча�?\n(c) dynarch.com 2002-2003\nЗа най-новата вер�?и�? по�?етете: http://dynarch.com/mishoo/calendar.epl\nРазпро�?тран�?ва �?е �?ъгла�?но GNU LGPL.  Вижте http://gnu.org/licenses/lgpl.html за подробно�?ти.\n\nИзбор на дата:\n- Използвайте «, » бутоните, за да изберете година\n- Използвайте <, > бутоните, за да изберете ме�?ец\n- Задръжте бутона на мишката над н�?кой от горните бутони за по-бърз избор. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\n\nИзбор на ча�?:\n- Кликнете на н�?кой от елементите за ча�?а, за да го придвижите напред\n- или Shift-кликване за придвижване назад\n- или кликнете и влачете за по-бърз избор. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Затвар�?не
 jscalendar#:#day_first#:#Показване най-напред на %s
 jscalendar#:#def_date_format#:#%Г-%м-%д
@@ -4433,7 +4433,7 @@ payment#:#paya_header#:#�?дмини�?триране на плащани�?та
 payment#:#paya_insert_only_numbers#:#Мол�?, вмъквайте �?амо целочи�?лени �?тойно�?ти.
 payment#:#paya_locator#:#�?дмини�?триране на плащани�?та
 payment#:#paya_months#:#Ме�?ец(и)
-payment#:#paya_no_booking_id_given#:#Грешка: н�?ма дадено \'�?четоводно ID\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_no_booking_id_given#:#Грешка: н�?ма дадено '�?четоводно ID' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_no_bookings#:#�?�?ма налична �?тати�?тика.
 payment#:#paya_no_object_selected#:#Мол�?, изберете един обект.
 payment#:#paya_no_objects_assigned#:#�?�?ма обекти за продажба.
@@ -4497,8 +4497,8 @@ payment#:#pays_no_username_given#:#�?�?ма дадено потребител�?�
 payment#:#pays_no_valid_username_given#:#�?�?ма дадено валидно потребител�?ко име
 payment#:#pays_no_vendor_selected#:#�?�?ма избран до�?тавчик
 payment#:#pays_number_bookings#:#�?ктивни резервации
-payment#:#pays_objects_bill_exist#:#�?ачинът на разплащане \'фактурирана �?метка\' е активиран за н�?кои обекти. Затова не може да бъде деактивиран. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#�?ачинът на разплащане \'BMF\' е активиран за н�?кои обекти. Затова не може да бъде деактивиран. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#�?ачинът на разплащане 'фактурирана �?метка' е активиран за н�?кои обекти. Затова не може да бъде деактивиран. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bmf_exist#:#�?ачинът на разплащане 'BMF' е активиран за н�?кои обекти. Затова не може да бъде деактивиран. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_offline#:#Офлайн
 payment#:#pays_online#:#Онлайн
 payment#:#pays_pay_methods#:#�?ачини на разплащане
@@ -4514,17 +4514,17 @@ payment#:#price_a#:#Цена
 payment#:#prices#:#Цени
 payment#:#update#:#�?ктуализиране
 pwassist#:#password_assistance#:#Помощ при забравена парола
-pwassist#:#pwassist_enter_username_and_email#:#Въведете потребител�?ко име и �?ъответни�? email адре�? в показаните по-долу полета.\\nILIAS ще изпрати �?ъобщение на този email адре�?. Съобщението �?ъдържа адре�? на уеб-�?траница, където можете да въведете нова парола за потребител�?ки�? акаунт.\\nВ �?лучай, че използвайки този формул�?р, не можете да зададете нова парола за ваши�? потребител�?ки акаунт, обърнете �?е към вашите кур�?ови админи�?тратори или изпратете email на %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Въведете потребител�?ко име и �?ъответни�? email адре�? в показаните по-долу полета.\nILIAS ще изпрати �?ъобщение на този email адре�?. Съобщението �?ъдържа адре�? на уеб-�?траница, където можете да въведете нова парола за потребител�?ки�? акаунт.\nВ �?лучай, че използвайки този формул�?р, не можете да зададете нова парола за ваши�? потребител�?ки акаунт, обърнете �?е към вашите кур�?ови админи�?тратори или изпратете email на %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Въведете потребител�?кото име и новата парола в полетата по-долу.
-pwassist#:#pwassist_invalid_username_or_email#:#Мол�?, коригирайте тек�?та в полетата за въвеждане.\\nВъведените от ва�? потребител�?ко име и email адре�? не �?ъвпадат �? никой запи�? в базата данни. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Мол�?, въведете друго потребител�?ко име.\\nВъведеното от ва�? потребител�?ко име не �?ъвпада �? потребител�?кото име, за което вие помолихте за помощ �? паролата. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Реги�?трирайте нова парола за ваши�? потребител�?ки акаунт:\\n\\t%1$s\\n\\nТова �?ъобщение е генерирано автоматично от ILIAS �?ървъра\\n\\t%2$s\\n\\nВие (или н�?кой на %3$s) помолихте за помощ �? паролата на потребител�?ки�? акаунт \"%4$s\".\\n\\nМол�?, проверете внимателно по�?очените по-долу у�?лови�? и продължете �?ъобразно:\\n\\n- �?ко неволно �?те използвали формул�?ра за помощ �? паролата на ILIAS �?ървъра:\\nИзтрийте тази поща.\\n\\n- �?ко �?те �?игурни, че никога не �?те и�?кали помощ �? паролата на този ILIAS �?ървър:\\nМол�?, �?вържете �?е �? %5$s.\\n\\n- �?ко �?те помолили за помощ �? паролата, мол�?, продължете както �?ледва:\\n\\n1. Отворете ваши�? браузър.\\n\\n2. Въведете �?ледни�? адре�? във ваши�? браузър:\\n\\t%1$s\\n\\nВажно: �?дре�?ът е в един ред. �?ко видите този адре�? да �?е раздел�? в н�?колко реда, тогава вашата email програма е добавила тези прекъ�?вани�? на редовете.\\n\\n3. �?а показаната от ваши�? браузър уеб-�?траница въведете нова парола за ваши�? потребител�?ки акаунт.\\n\\nМол�?, забележете че по �?вързани �?ъ�? �?игурно�?тта причини можете да извършвате горепо�?очените три �?тъпки точно �?амо веднъж и �?амо за ограничено време. След това адре�?ът �?тава невалиден и тр�?бва отново да използвате �?траницата за помощ �? паролата на ILIAS �?ървъра. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#Съобщение беше изпратено до %1$s.\\nМол�?, проверете �?во�?та пощен�?ка кути�?. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Мол�?, коригирайте тек�?та в полетата за въвеждане.\nВъведените от ва�? потребител�?ко име и email адре�? не �?ъвпадат �? никой запи�? в базата данни. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Мол�?, въведете друго потребител�?ко име.\nВъведеното от ва�? потребител�?ко име не �?ъвпада �? потребител�?кото име, за което вие помолихте за помощ �? паролата. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#Реги�?трирайте нова парола за ваши�? потребител�?ки акаунт:\n\t%1$s\n\nТова �?ъобщение е генерирано автоматично от ILIAS �?ървъра\n\t%2$s\n\nВие (или н�?кой на %3$s) помолихте за помощ �? паролата на потребител�?ки�? акаунт "%4$s".\n\nМол�?, проверете внимателно по�?очените по-долу у�?лови�? и продължете �?ъобразно:\n\n- �?ко неволно �?те използвали формул�?ра за помощ �? паролата на ILIAS �?ървъра:\nИзтрийте тази поща.\n\n- �?ко �?те �?игурни, че никога не �?те и�?кали помощ �? паролата на този ILIAS �?ървър:\nМол�?, �?вържете �?е �? %5$s.\n\n- �?ко �?те помолили за помощ �? паролата, мол�?, продължете както �?ледва:\n\n1. Отворете ваши�? браузър.\n\n2. Въведете �?ледни�? адре�? във ваши�? браузър:\n\t%1$s\n\nВажно: �?дре�?ът е в един ред. �?ко видите този адре�? да �?е раздел�? в н�?колко реда, тогава вашата email програма е добавила тези прекъ�?вани�? на редовете.\n\n3. �?а показаната от ваши�? браузър уеб-�?траница въведете нова парола за ваши�? потребител�?ки акаунт.\n\nМол�?, забележете че по �?вързани �?ъ�? �?игурно�?тта причини можете да извършвате горепо�?очените три �?тъпки точно �?амо веднъж и �?амо за ограничено време. След това адре�?ът �?тава невалиден и тр�?бва отново да използвате �?траницата за помощ �? паролата на ILIAS �?ървъра. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#Съобщение беше изпратено до %1$s.\nМол�?, проверете �?во�?та пощен�?ка кути�?. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#ILIAS помощ за паролата
-pwassist#:#pwassist_not_permitted#:#Мол�?, въведете друго потребител�?ко име.\\nПомощта за паролата не е разрешена за въведеното от ва�? потребител�?ко име. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#Паролата беше у�?пешно зададена за потребител \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Мол�?, попълнете този формул�?р отново.\\nСе�?и�?та по помощта за вашата парола е изтекла. Това може да �?е е �?лучило, защото �?те �?е опитали да използвате изпратени�? на вашата поща линк повече от веднъж или защото е изминало твърде много време от изпращането на линка до ва�?. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Мол�?, обърнете �?е към ваши�? �?и�?темен админи�?тратор.\\nПаролата не може да бъде зададена за потребител�?ки�? акаунт, поради грешка при актуализиране на базата данни. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Мол�?, въведете друго потребител�?ко име.\nПомощта за паролата не е разрешена за въведеното от ва�? потребител�?ко име. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#Паролата беше у�?пешно зададена за потребител "%1$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Мол�?, попълнете този формул�?р отново.\nСе�?и�?та по помощта за вашата парола е изтекла. Това може да �?е е �?лучило, защото �?те �?е опитали да използвате изпратени�? на вашата поща линк повече от веднъж или защото е изминало твърде много време от изпращането на линка до ва�?. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Мол�?, обърнете �?е към ваши�? �?и�?темен админи�?тратор.\nПаролата не може да бъде зададена за потребител�?ки�? акаунт, поради грешка при актуализиране на базата данни. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -4617,7 +4617,7 @@ survey#:#add_phrase_introduction#:#Мол�?, изберете фраза:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#Вече завършихте Обзора! �?е можете да влезете в него отново.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Този обзор анонимизира в�?ички потребител�?ки данни. За да получите до�?тъп до обзора, тр�?бва да използвате 32-знаков обзорен код, който можете да получите от �?ъздател�?/поддържащи�? този обзор<br />Мол�?, въведете го в тек�?товото поле отдолу.
-survey#:#anonymize_key_introduction#:#Този обзор анонимизира в�?ички потребител�?ки данни. За да получите до�?тъп до обзора, 32-знаков обзорен код беше �?ъздаден от �?и�?темата и ще бъде изпратен до вашата ILIAS електронна поща, когато започнете обзора (�?лед отговора на първи�? въпро�?). Ваши�?т код за до�?тъп до обзора е<br /><span class=\"bold\">%s</span>.<br />Мол�?, въведете го в тек�?товото поле отдолу. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#Този обзор анонимизира в�?ички потребител�?ки данни. За да получите до�?тъп до обзора, 32-знаков обзорен код беше �?ъздаден от �?и�?темата и ще бъде изпратен до вашата ILIAS електронна поща, когато започнете обзора (�?лед отговора на първи�? въпро�?). Ваши�?т код за до�?тъп до обзора е<br /><span class="bold">%s</span>.<br />Мол�?, въведете го в тек�?товото поле отдолу. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Мол�?, въведете ваши�? код за до�?тъп до обзора, за да продължите �? него. Той беше изпратен до вашата ILIAS електронна поща, когато започнахте обзора.
 survey#:#anonymize_survey#:#�?нонимизиране на данните от обзора
 survey#:#anonymize_survey_explanation#:#Когато �?а активирани, в�?ички потребител�?ки данни ще бъдат анонимизирани и н�?ма да могат да �?е про�?лед�?ват.
@@ -4910,7 +4910,7 @@ survey#:#spl_select_file_for_import#:#Тр�?бва да изберете фай�
 survey#:#start_date#:#�?ачална дата
 survey#:#start_date_not_reached#:#�?е можете да започнете обзора преди да е до�?тигната началната дата!
 survey#:#start_survey#:#Започване на обзора
-survey#:#subject_mail_survey_id#:#Ваши�?т обзорен код за \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Ваши�?т обзорен код за "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Подтип
 survey#:#survey_code#:#Код за до�?тъп до обзора
 survey#:#survey_code_message_sent#:#Обзорен код, който ви позвол�?ва да продължите обзора, беше изпратен до вашата електронна поща!
@@ -5088,7 +5088,7 @@ trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new varia
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is \'Completed\' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
@@ -5101,7 +5101,7 @@ trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
-trac#:#trac_info_edited#:#Set the status to \'Completed\' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
@@ -5139,7 +5139,7 @@ trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
-trac#:#trac_sahs_relevant_items#:#SCO\'s###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
 trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable

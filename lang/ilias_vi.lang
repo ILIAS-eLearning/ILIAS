@@ -60,7 +60,7 @@ administration#:#found#:#tìm thấy.
 administration#:#found_none#:#không tìm thấy.
 administration#:#initializing_gaps#:#�?ang đi�?n các chỗ trống trên cây...
 administration#:#log_scan#:#Kết quả quét nhật ký
-administration#:#log_scan_desc#:#Viết kết quả quét vào \'scanlog.log\' trong thư mục dữ liệu máy trạm. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Viết kết quả quét vào 'scanlog.log' trong thư mục dữ liệu máy trạm. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#nothing_to_purge#:#Không có gì để thanh l�?c...
 administration#:#nothing_to_remove#:#Không có gì để loại b�?...
 administration#:#nothing_to_restore#:#Không có gì để phục hồi...
@@ -156,7 +156,7 @@ assessment#:#circle#:#Vòng tròn
 assessment#:#circle_click_center#:#Hãy kích chuột vào tâm vùng mong muốn.
 assessment#:#circle_click_circle#:#Hãy kích chuột vào một điểm trên đư�?ng tròn của vùng mong muốn.
 assessment#:#clientip#:#�?ịa chỉ IP máy trạm
-assessment#:#close_text_hint#:#Bạn có thể định nghĩa một chỗ trống bằng cách nhập <gap></gap> tại vị trí bạn ch�?n. Nhấn nút \'Tạo chỗ trống\' để thêm một khuôn dạng có thể soạn thảo được cho tất cả các chỗ trống. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Bạn có thể định nghĩa một chỗ trống bằng cách nhập <gap></gap> tại vị trí bạn ch�?n. Nhấn nút 'Tạo chỗ trống' để thêm một khuôn dạng có thể soạn thảo được cho tất cả các chỗ trống. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#�?oạn văn đi�?n chỗ trống
 assessment#:#cloze_textgap_case_insensitive#:#Không phân biệt chữ hoa chữ thư�?ng
 assessment#:#cloze_textgap_case_sensitive#:#Phân biệt chữ hoa chữ thư�?ng
@@ -209,7 +209,7 @@ assessment#:#ects_range_error_b#:#Hãy nhập giá trị tương ứng trong kho
 assessment#:#ects_range_error_c#:#Hãy nhập giá trị tương ứng trong khoảng 0-100 cho điểm ECTS grade C!
 assessment#:#ects_range_error_d#:#Hãy nhập giá trị tương ứng trong khoảng 0-100 cho điểm ECTS grade D!
 assessment#:#ects_range_error_e#:#Hãy nhập giá trị tương ứng trong khoảng 0-100 cho điểm ECTS grade E!
-assessment#:#ects_use_fx_grade#:#Sử dụng điểm \'FX\' grade, nếu những ngư�?i sử dụng trượt sát nút ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Sử dụng điểm 'FX' grade, nếu những ngư�?i sử dụng trượt sát nút ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#ects_use_fx_grade_part2#:#phần trăm của tổng điểm.
 assessment#:#edit_content#:#Sửa nội dung
 assessment#:#edit_properties#:#Sửa thuộc tính
@@ -1174,7 +1174,7 @@ common#:#cron_forum_notification_never#:#không bao gi�?
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Một cron job là một tiến trình tự động thực hiện vào một chu kỳ th�?i gian định trước. Bạn sẽ tìm thấy thông tin v�? cài đặt trong Hướng dẫn cài đặt ILIAS <�?ỗ Xuân Tiến 091 2283720>.
 common#:#cron_lucene_index#:#Cập nhật chỉ mục tìm kiếm Lucene
-common#:#cron_lucene_index_info#:#Nếu cho phép, chỉ mục tìm kiếm lucene sẽ được cập nhật. Hãy cấu hình máy chủ lucene ở \'Quản trị -> Tìm kiếm\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_lucene_index_info#:#Nếu cho phép, chỉ mục tìm kiếm lucene sẽ được cập nhật. Hãy cấu hình máy chủ lucene ở 'Quản trị -> Tìm kiếm'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Khóa h�?c
 common#:#crs_a#:#một khóa h�?c
 common#:#crs_add#:#Thêm khóa h�?c
@@ -1504,8 +1504,8 @@ common#:#frm_edit_permission#:#Thay đổi thiết lập quy�?n hạn
 common#:#frm_edit_post#:#Thêm bài mới, gửi
 common#:#frm_new#:#Diễn đàn mới
 common#:#frm_read#:#�?�?c diễn đàn
-common#:#frm_status_new#:#Trạng thái \'Mới\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#frm_status_new_desc#:#Hãy ch�?n th�?i gian giữ trạng thái \'Mới\' cho các mục trên diễn đàn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new#:#Trạng thái 'Mới' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new_desc#:#Hãy ch�?n th�?i gian giữ trạng thái 'Mới' cho các mục trên diễn đàn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#frm_visible#:#Nhìn thấy diễn đàn
 common#:#frm_write#:#Sửa diễn đàn
 common#:#from#:#Từ
@@ -1579,7 +1579,7 @@ common#:#group_req_registration_msg#:#�?ể gia nhập nhóm này bạn phải �
 common#:#group_reset#:#Reset quy�?n hạn nhóm
 common#:#group_status#:#Nhóm là
 common#:#group_status_closed#:#�?ã đóng
-common#:#group_status_desc#:#Xác định trạng thái khởi tạo của nhóm bằng cách sử dụng thiết lập quy�?n hạn từ các vai trò mẫu \'il_grp_status_closed\' hoặc \'il_grp_status_open\'<br />Công khai: Nhìn thấy nhóm; Ngư�?i sử dụng có thể đăng ký.<br />�?ã đóng: Không nhìn thấy nhóm nếu không là thành viên; Ngư�?i sử dụng phải được m�?i gia nhập bởi thành viên. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#Xác định trạng thái khởi tạo của nhóm bằng cách sử dụng thiết lập quy�?n hạn từ các vai trò mẫu 'il_grp_status_closed' hoặc 'il_grp_status_open'<br />Công khai: Nhìn thấy nhóm; Ngư�?i sử dụng có thể đăng ký.<br />�?ã đóng: Không nhìn thấy nhóm nếu không là thành viên; Ngư�?i sử dụng phải được m�?i gia nhập bởi thành viên. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Công cộng
 common#:#groups#:#Nhóm
 common#:#groups_overview#:#Tổng quan nhóm
@@ -1668,13 +1668,13 @@ common#:#hide_private_notes#:#Ẩn các ghi chép cá nhân
 common#:#hide_public_notes#:#Ẩn các ghi chép công khai
 common#:#hide_structure#:#Khóa Xem cấu trúc
 common#:#hist_dbk#:#Tạo trang
-common#:#hist_file_create#:#File được tạo, tên file là \"%1\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#File đã thay thế, tên file mới là \"%1\", phiên bản mới là %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#File được tạo, tên file là "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#File đã thay thế, tên file mới là "%1", phiên bản mới là %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_lm#:#Tạo trang
 common#:#hist_no_entries#:#Không có mục nào trong lịch sử.
-common#:#hist_webr_add#:#Thêm tài nguyên web mới với tiêu đ�?: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_delete#:#Xóa tài nguyên web. Tiêu đ�?: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_update#:#Cập nhật tài nguyên web. Tiêu đ�?: \"%1\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_add#:#Thêm tài nguyên web mới với tiêu đ�?: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_delete#:#Xóa tài nguyên web. Tiêu đ�?: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_update#:#Cập nhật tài nguyên web. Tiêu đ�?: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#history#:#Lịch sử
 common#:#hits_per_page#:#Số truy cập/Trang
 common#:#hlm#:#H�?c phần HACP
@@ -2208,7 +2208,7 @@ common#:#msg_perm_adopted_from2#:#(Thiết lập đã ghi!)
 common#:#msg_removed#:#�?ã xóa (các) đối tượng kh�?i hệ thống.
 common#:#msg_role_exists1#:#Một vai trò/vai trò mẫu với tên
 common#:#msg_role_exists2#:#đang tồn tại! Hãy ch�?n tên khác
-common#:#msg_role_reserved_prefix#:#Ti�?n tố \'il_\' dành riêng cho các vai trò sinh tự động. Hãy ch�?n tên khác ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#Ti�?n tố 'il_' dành riêng cho các vai trò sinh tự động. Hãy ch�?n tên khác ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Vai trò chỉ định hoạt động đã thay đổi
 common#:#msg_roleassignment_active_changed_comment#:#Thiết lập này chưa được ghi vào hồ sơ ngư�?i sử dụng! Nếu ngư�?i sử dụng đăng nhập lại, tất cả vai trò chỉ định hoạt động reset v�? giá trị đã ghi.
 common#:#msg_roleassignment_changed#:#Chỉ định vai trò đã thay đổi
@@ -2441,7 +2441,7 @@ common#:#passwd_not_match#:#Mật khẩu mới không trùng khớp! Hãy nhập
 common#:#passwd_wrong#:#Mật khẩu nhập sai!
 common#:#password#:#Mật khẩu
 common#:#password_assistance_disabled#:#Trợ giúp mật khẩu chỉ có thể sử dụng được, khi xác thực ngư�?i sử dụng qua cơ sở dữ liệu ILIAS nội bộ.
-common#:#password_assistance_info#:#Nếu trợ giúp mật khẩu được cho phép, những liên kết \"Quên mật khẩu?\" và \"Quên tên đăng nhập?\" sẽ hiện trên trang đăng nhập của ILIAS. Ngư�?i sử dụng có thể sử dụng những liên kết này để lấy mật khẩu mới cho tài khoản của h�? cũng như là tên đăng nhập, mà không cần trợ giúp từ quản trị hệ thống. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#Nếu trợ giúp mật khẩu được cho phép, những liên kết "Quên mật khẩu?" và "Quên tên đăng nhập?" sẽ hiện trên trang đăng nhập của ILIAS. Ngư�?i sử dụng có thể sử dụng những liên kết này để lấy mật khẩu mới cho tài khoản của h�? cũng như là tên đăng nhập, mà không cần trợ giúp từ quản trị hệ thống. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Dán
 common#:#paste_clipboard_items#:#Dán mục từ bộ nhớ đệm
 common#:#pasteChapter#:#Dán chương
@@ -2735,9 +2735,9 @@ common#:#shib_department#:#Phòng (khoa)
 common#:#shib_edit_permission#:#Thay đổi thiết lập quy�?n hạn
 common#:#shib_email#:#�?ịa chỉ email
 common#:#shib_firstname#:#H�?
-common#:#shib_gender#:#Giới tính (phải là \'m\' hoặc \'f\') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_gender#:#Giới tính (phải là 'm' hoặc 'f') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_institution#:#Trư�?ng (viện)
-common#:#shib_instructions#:#Hãy đ�?c <a href=\"README.SHIBBOLETH.txt\" target=\"_blank\">README</a> để xem chỉ dẫn cấu hình hỗ trợ Shibboleth trên ILIAS. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_instructions#:#Hãy đ�?c <a href="README.SHIBBOLETH.txt" target="_blank">README</a> để xem chỉ dẫn cấu hình hỗ trợ Shibboleth trên ILIAS. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_language#:#Ngôn ngữ
 common#:#shib_lastname#:#Tên
 common#:#shib_login#:#�?ăng nhập Shibboleth
@@ -3017,20 +3017,20 @@ common#:#usrf_write#:#Sửa tài khoản ngư�?i sử dụng
 common#:#usrimport_action_failed#:#Thao tác %1$s thất bại.
 common#:#usrimport_action_ignored#:#B�? qua thao tác %1$s.???
 common#:#usrimport_action_replaced#:#Thay thế thao tác %1$s bằng %2$s.???
-common#:#usrimport_cant_delete#:#Không thực hiện được thao tác \"XÓA\". Không có ngư�?i sử dụng nào trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_insert#:#Không thực hiện được thao tác \"THÊM\". Ngư�?i sử dụng đang tồn tại trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_update#:#Không thực hiện được thao tác \"CẬP NHẬT\". Không có ngư�?i sử dụng nào trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_conflict_handling_info#:#Nếu ch�?n \"B�? qua nếu xung đột\", ILIAS b�? qua thao tác, nếu không thực hiện được (ví dụ thao tác \"Thêm\" sẽ không hoàn thành được, nếu đã có ngư�?i sử dụng trùng tên đăng nhập trong cơ sở dữ liệu.)\\nNếu ch�?n \"Cập nhật nếu xung đột\", ILIAS sẽ cập nhật cơ sở dữ liệu nếu một thao tác không thực hiện được. (ví dụ một thao tác \"Thêm\" sẽ được thay thế bằng thao tác \"Cập nhật\", nếu một ngư�?i sử dụng trùng tên đăng nhập đã tồn tại trong cơ sở dữ liệu). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_global_role_for_action_required#:#�?t nhất một vai trò toàn cục phải được xác định cho thao tác \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_delete#:#Không thực hiện được thao tác "XÓA". Không có ngư�?i sử dụng nào trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_insert#:#Không thực hiện được thao tác "THÊM". Ngư�?i sử dụng đang tồn tại trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_update#:#Không thực hiện được thao tác "CẬP NHẬT". Không có ngư�?i sử dụng nào trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_conflict_handling_info#:#Nếu ch�?n "B�? qua nếu xung đột", ILIAS b�? qua thao tác, nếu không thực hiện được (ví dụ thao tác "Thêm" sẽ không hoàn thành được, nếu đã có ngư�?i sử dụng trùng tên đăng nhập trong cơ sở dữ liệu.)\nNếu ch�?n "Cập nhật nếu xung đột", ILIAS sẽ cập nhật cơ sở dữ liệu nếu một thao tác không thực hiện được. (ví dụ một thao tác "Thêm" sẽ được thay thế bằng thao tác "Cập nhật", nếu một ngư�?i sử dụng trùng tên đăng nhập đã tồn tại trong cơ sở dữ liệu). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_global_role_for_action_required#:#�?t nhất một vai trò toàn cục phải được xác định cho thao tác "%1$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usrimport_ignore_role#:#B�? qua vai trò
 common#:#usrimport_login_is_not_unique#:#Tên đăng nhập không duy nhất.
 common#:#usrimport_with_specified_role_not_permitted#:#Không được phép nhập với vai trò xác định.
-common#:#usrimport_xml_attribute_missing#:#Thuộc tính \"%2$s\" trong yếu tố \"%1$s\" bị thiếu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_illegal#:#Giá trị \"%3$s\" của thuộc tính \"%2$s\" trong yếu tố \"%1$s\" là trái luật. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_inapplicable#:#Giá trị \"%3$s\" của thuộc tính \"%2$s\" trong yếu tố \"%1$s\" không thích hợp cho thao tác \"%4$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_content_illegal#:#Nội dung \"%2$s\" của yếu tố \"%1$s\" là trái luật. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_for_action_required#:#Yếu tố \"%1$s\" phải được xác định cho thao tác \"%2$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_inapplicable#:#Yếu tố \"%1$s\" không thích hợp cho thao tác \"%2$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_missing#:#Thuộc tính "%2$s" trong yếu tố "%1$s" bị thiếu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_illegal#:#Giá trị "%3$s" của thuộc tính "%2$s" trong yếu tố "%1$s" là trái luật. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_inapplicable#:#Giá trị "%3$s" của thuộc tính "%2$s" trong yếu tố "%1$s" không thích hợp cho thao tác "%4$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_content_illegal#:#Nội dung "%2$s" của yếu tố "%1$s" là trái luật. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_for_action_required#:#Yếu tố "%1$s" phải được xác định cho thao tác "%2$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_inapplicable#:#Yếu tố "%1$s" không thích hợp cho thao tác "%2$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#valid#:#Hợp lệ
 common#:#validate#:#Thẩm định
 common#:#value#:#Giá trị
@@ -3165,7 +3165,7 @@ content#:#cont_create_export_file_xml#:#Tạo file xuất ra (XML)
 content#:#cont_create_folder#:#Tạo thư mục
 content#:#cont_create_html_version#:#Tạo gói HTML
 content#:#cont_create_mob#:#Tạo phương tiện
-content#:#cont_credit_mode#:#Credit mode (for lesson mode \'normal\')/// ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')/// ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_credit_off#:#No Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credits
@@ -3315,7 +3315,7 @@ content#:#cont_matching_question_javascript_hint#:#Hãy kéo định nghĩa/ản
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Nguồn phương tiện
 content#:#cont_mep_structure#:#Cấu trúc thư viện phương tiện
-content#:#cont_missing_preconditions#:#�?ể truy cập chương \"%s\", bạn cần đáp ứng các đi�?u kiện tiên quyết sau. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#�?ể truy cập chương "%s", bạn cần đáp ứng các đi�?u kiện tiên quyết sau. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_Mnemonic#:#Giúp trí nhớ
 content#:#cont_mob_files#:#File của đối tượng
 content#:#cont_mob_inst_prop#:#Thuộc tính hiển thị
@@ -3336,7 +3336,7 @@ content#:#cont_no_assign_itself#:#�?ối tượng không thể được chỉ đ
 content#:#cont_no_manifest#:#Không có file imsmanifest.xml trong thư mục chính.
 content#:#cont_no_object_found#:#Không tìm thấy đối tượng nào có tiêu đ�? như vậy
 content#:#cont_no_page#:#Kh&
-content#:#cont_no_subdir_in_zip#:#Lệnh nén thất bại hoặc file nhập không hợp lệ.<br>Nó không chứa thư mục con \'%s\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#Lệnh nén thất bại hoặc file nhập không hợp lệ.<br>Nó không chứa thư mục con '%s'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_no_zip_file#:#File nhập không phải là file nén (zip).
 content#:#cont_none#:#Không có gì
 content#:#cont_nr_cols#:#Số cột
@@ -3396,7 +3396,7 @@ content#:#cont_Roman#:#La Mã I, II, ...
 content#:#cont_rvalue#:#Giá trị
 content#:#cont_saved_map_area#:#�?ã ghi vùng bản đồ
 content#:#cont_saved_map_data#:#�?ã ghi dữ liệu bản đồ
-content#:#cont_sc_auto_review#:#�?ặt lesson mode \'review\' nếu sinh viên hoàn thành SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#�?ặt lesson mode 'review' nếu sinh viên hoàn thành SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#Xem lướt
 content#:#cont_sc_less_mode_normal#:#Bình thư�?ng
 content#:#cont_sc_stat_browsed#:#�?ã xem lướt
@@ -3502,7 +3502,7 @@ content#:#cont_width#:#�?ộ rộng
 content#:#cont_wysiwyg#:#Soạn nội dung kiểu thấy gì có nấy - WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Năm
-content#:#cont_zip_file_invalid#:#File nhập không hợp lệ.<br>Nó không chứa một file \'%s\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_zip_file_invalid#:#File nhập không hợp lệ.<br>Nó không chứa một file '%s'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#copied_to_clipboard#:#�?ã sao chép (các) đối tượng vào bộ nhớ đệm.
 content#:#glo_definition_abbr#:#�?N.
 content#:#glo_term_used_in#:#Các tài nguyên sau liên kết tới thuật ngữ đó
@@ -3676,8 +3676,8 @@ crs#:#crs_moved_objective#:#Mục tiêu h�?c tập đã di chuyển.
 crs#:#crs_new_search#:#Tìm kiếm mới
 crs#:#crs_new_subscription#:#�?ăng ký mới khóa h�?c
 crs#:#crs_new_subscription_body#:#Một ngư�?i sử dụng mới đã đăng ký
-crs#:#crs_new_subscription_request#:#Yêu cầu gia nhập khóa h�?c \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#Một ngư�?i sử dụng đã yêu cầu gia nhập khóa h�?c \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request#:#Yêu cầu gia nhập khóa h�?c "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#Một ngư�?i sử dụng đã yêu cầu gia nhập khóa h�?c "%s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#Chưa lựa ch�?n file nén nào
 crs#:#crs_no_archives_available#:#Không có file nén sử dụng được
 crs#:#crs_no_archives_selected#:#Hãy ch�?n một file nén
@@ -3761,8 +3761,8 @@ crs#:#crs_question_assignment#:#Chỉ định câu h�?i
 crs#:#crs_reg#:#�?ăng ký
 crs#:#crs_reg_deactivated#:#Khóa
 crs#:#crs_reg_lim_info#:#Chỉ có thể đăng ký trong một khoảng th�?i gian cố định.
-crs#:#crs_reg_max_info#:#�?ịnh nghĩa số tối đa ngư�?i sử dụng có thể được chỉ định cho khóa h�?c này. \'0\' được hiểu là không giới hạn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_reg_notify_info#:#Nếu cho phép tất cả quản trị khóa h�?c/trợ giáo với trạng thái \'Thông báo\' sẽ được thông báo bằng email v�? đăng ký mới. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_reg_max_info#:#�?ịnh nghĩa số tối đa ngư�?i sử dụng có thể được chỉ định cho khóa h�?c này. '0' được hiểu là không giới hạn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_reg_notify_info#:#Nếu cho phép tất cả quản trị khóa h�?c/trợ giáo với trạng thái 'Thông báo' sẽ được thông báo bằng email v�? đăng ký mới. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_reg_subscription_deactivated#:#�?ăng ký đã khóa
 crs#:#crs_reg_subscription_end_earlier#:#Th�?i gian đăng ký đã hết
 crs#:#crs_reg_subscription_max_members_reached#:#�?ã quá số tối đa ngư�?i sử dụng.
@@ -3976,7 +3976,7 @@ dateplaner#:#help_properties_del_l#:#Ch�?n a keyword from the dialog box. Click
 dateplaner#:#help_properties_import#:#Nhập của Outlook-CSV-Files
 dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the calendar.
 dateplaner#:#help_properties_new#:#Thêm a keyword, max. 20 characters
-dateplaner#:#help_properties_new_l#:#Thêm a new keyword to the field \\\"new\\\". Important: max. 20 characters. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Thêm a new keyword to the field \"new\". Important: max. 20 characters. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Display time for day khung nhìn/week khung nhìn
 dateplaner#:#help_properties_time_l#:#The standard display time for the day khung nhìn and week khung nhìn can be đã thay đổi. If dates are outside của the display time for a given days or week, the display time will be đã thay đổi for that time span. Standard is 8h -18h.
 dateplaner#:#help_rotation#:#Chu kỳ
@@ -4146,8 +4146,8 @@ forum#:#is_read#:#đánh dấu đã đ�?c
 forum#:#new_post#:#Bài mới
 forum#:#thread#:#Chủ đ�?
 jscalendar#:#about_calendar#:#V�? lịch
-jscalendar#:#about_calendar_long#:#Chương trình ch�?n ngày/th�?i gian DHTML (c) dynarch.com 2002-2003\\nPhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl\\nPhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.\\n\\nCh�?n ngày:\\n- Sử dụng các nút «, » để ch�?n năm\\n- Sử dụng các nút <, > để ch�?n tháng\\n- Nhấn giữ chuột trên các nút này để ch�?n nhanh hơn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\\n\\nLựa ch�?n th�?i gian:\\n- Kích chuột vào bất kỳ thành phần th�?i gian nào để tăng\\n- hoặc nhấn giữ phím Shift và kích chuột để giảm\\n- hoặc kích vào kéo chuột để ch�?n nhanh hơn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#Chương trình ch�?n ngày/th�?i gian DHTML (c) dynarch.com 2002-2003\nPhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl\nPhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.\n\nCh�?n ngày:\n- Sử dụng các nút «, » để ch�?n năm\n- Sử dụng các nút <, > để ch�?n tháng\n- Nhấn giữ chuột trên các nút này để ch�?n nhanh hơn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\n\nLựa ch�?n th�?i gian:\n- Kích chuột vào bất kỳ thành phần th�?i gian nào để tăng\n- hoặc nhấn giữ phím Shift và kích chuột để giảm\n- hoặc kích vào kéo chuột để ch�?n nhanh hơn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#�?óng
 jscalendar#:#day_first#:#Hiển thị %s đầu tuần
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -4327,7 +4327,7 @@ meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#Central African Republic
 meta#:#meta_c_CG#:#Cônggô
 meta#:#meta_c_CH#:#Switzerland
-meta#:#meta_c_CI#:#Cote D\' Ivoire ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_CI#:#Cote D' Ivoire ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 meta#:#meta_c_CK#:#Cook Islands
 meta#:#meta_c_CL#:#Chilê
 meta#:#meta_c_CM#:#Camơrun
@@ -4849,12 +4849,12 @@ payment#:#pay_bmf_credit_card_not_valid#:#Thông tin thẻ tín dụng bạn đ�
 payment#:#pay_bmf_debit_entry#:#Ghi nợ (chỉ tài khoản ngân hàng �?ức)
 payment#:#pay_bmf_debit_entry_data#:#Ghi nợ
 payment#:#pay_bmf_debit_entry_not_valid#:#Thông tin ghi nợ bạn đã nhập không hợp lệ. Hãy kiểm tra lại các ô đã đi�?n đúng cả chưa.
-payment#:#pay_bmf_description_credit_card#:#Hãy kiểm tra xem tất cả bài bạn muốn đặt hàng đã ở trong xe hàng. Bạn hãy đi�?n đủ thông tin thẻ tín dụng vào và kích vào nút \"Ghi\" để xác nhận đặt hàng. Việc kiểm tra lại thông tin chỉ mất vài giây. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Hãy kiểm tra xem tất cả bài bạn muốn đặt hàng đã ở trong xe hàng. Bạn hãy đi�?n đủ thông tin ghi nợ vào và kích vào nút \"Ghi\" để xác nhận đặt hàng. Việc kiểm tra lại thông tin chỉ mất vài giây. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_credit_card#:#Hãy kiểm tra xem tất cả bài bạn muốn đặt hàng đã ở trong xe hàng. Bạn hãy đi�?n đủ thông tin thẻ tín dụng vào và kích vào nút "Ghi" để xác nhận đặt hàng. Việc kiểm tra lại thông tin chỉ mất vài giây. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_debit_entry#:#Hãy kiểm tra xem tất cả bài bạn muốn đặt hàng đã ở trong xe hàng. Bạn hãy đi�?n đủ thông tin ghi nợ vào và kích vào nút "Ghi" để xác nhận đặt hàng. Việc kiểm tra lại thông tin chỉ mất vài giây. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Hãy ch�?n kiểu thanh toán.
 payment#:#pay_bmf_description_personal_data#:#Hãy đi�?n đủ vào mẫu sau.
 payment#:#pay_bmf_house_number#:#Số nhà
-payment#:#pay_bmf_info#:#Truy cập tài liệu này là không miễn phí. Nếu bạn muốn truy cập một đối tượng kiến thức cụ thể hãy ch�?n giá. Bạn có thể thanh toán một hoặc nhi�?u đối tượng kiến thức bằng cách nhấn nút \"Xe hàng\" trên bàn làm việc của bạn. Bạn sẽ có thể truy cập ngay lập tức đối tượng trong khoảng th�?i gian đã ch�?n. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_info#:#Truy cập tài liệu này là không miễn phí. Nếu bạn muốn truy cập một đối tượng kiến thức cụ thể hãy ch�?n giá. Bạn có thể thanh toán một hoặc nhi�?u đối tượng kiến thức bằng cách nhấn nút "Xe hàng" trên bàn làm việc của bạn. Bạn sẽ có thể truy cập ngay lập tức đối tượng trong khoảng th�?i gian đã ch�?n. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#tùy ch�?n
 payment#:#pay_bmf_or#:#hoặc
 payment#:#pay_bmf_password_not_valid#:#mật khẩu của bạn không hợp lệ
@@ -4945,7 +4945,7 @@ payment#:#paya_header#:#Quản trị thanh toán
 payment#:#paya_insert_only_numbers#:#Hãy nhập chỉ số nguyên.
 payment#:#paya_locator#:#Quản trị thanh toán
 payment#:#paya_months#:#tháng
-payment#:#paya_no_booking_id_given#:#Lỗi: không có \'định danh đặt hàng\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_no_booking_id_given#:#Lỗi: không có 'định danh đặt hàng' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_no_bookings#:#Không có thống kê nào.
 payment#:#paya_no_object_selected#:#Hãy ch�?n một đối tượng.
 payment#:#paya_no_objects_assigned#:#Không có đối tượng bán được.
@@ -5004,13 +5004,13 @@ payment#:#pays_deleted_number_vendors#:#Số ngư�?i bán hàng đã bị xóa:
 payment#:#pays_edit_vendor#:#Sửa ngư�?i sử dụng
 payment#:#pays_general_settings#:#Thiết lập chung
 payment#:#pays_general_settings_not_valid#:#Thiết lập chung của bạn không hợp lệ. Hãy kiểm tra lại tất cả các ô đã đi�?n chính xác chưa.
-payment#:#pays_header_select_vendor#:#Lựa ch�?n ngư�?i bán hàng. Phương thức thanh toán \'hóa đơn\' đã kích hoạt trên một số đối tượng. Do đó không thể khử kích hoạt nó. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_header_select_vendor#:#Lựa ch�?n ngư�?i bán hàng. Phương thức thanh toán 'hóa đơn' đã kích hoạt trên một số đối tượng. Do đó không thể khử kích hoạt nó. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_no_username_given#:#Không có tên đăng nhập của ngư�?i sử dụng nào
 payment#:#pays_no_valid_username_given#:#Không có tên đăng nhập hợp lệ nào
 payment#:#pays_no_vendor_selected#:#Chưa ch�?n ngư�?i bán hàng nào
 payment#:#pays_number_bookings#:#�?ặt hàng hoạt động
-payment#:#pays_objects_bill_exist#:#Phương thức thanh toán \'hóa đơn\' đã kích hoạt trên một số đối tượng. Do đó không thể khử kích hoạt nó. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#Phương thức thanh toán \'BMF\' đã kích hoạt trên một số đối tượng. Do đó không thể khử kích hoạt nó. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#Phương thức thanh toán 'hóa đơn' đã kích hoạt trên một số đối tượng. Do đó không thể khử kích hoạt nó. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bmf_exist#:#Phương thức thanh toán 'BMF' đã kích hoạt trên một số đối tượng. Do đó không thể khử kích hoạt nó. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Các phương thức thanh toán
@@ -5026,20 +5026,20 @@ payment#:#price_a#:#Giá
 payment#:#prices#:#Giá
 payment#:#update#:#Cập nhật
 pwassist#:#password_assistance#:#Trợ giúp phục hồi mật khẩu
-pwassist#:#pwassist_enter_email#:#Hãy nhập địa chỉ email và đệ trình mẫu đơn.\\nILIAS sẽ gửi email tới địa chỉ đó. Email đó chứa tất cả tên đăng nhập đã sử dụng địa chỉ email này.\\nCh�?n tên đăng nhập và sử dụng dịch vụ mật khẩu để tạo mật khẩu mới. Nếu bạn không nhận được email xin liên hệ quản trị khóa h�?c của bạn hoặc %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Nhập tên đăng nhập và địa chỉ email tương ứng vào các ô dưới đây.\\nChúng tôi sẽ gửi thư tới địa chỉ email đó. Thư chứa một địa chỉ trang web, tại đó bạn có thể nhập vào mật khẩu mới cho tài khoản sử dụng.\\nTrong trư�?ng hợp bạn không thể đặt được mật khẩu cho tài khoản ngư�?i sử dụng theo mẫu đó, hãy liên hệ quản trị khóa h�?c hoặc gửi email tới %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_email#:#Hãy nhập địa chỉ email và đệ trình mẫu đơn.\nILIAS sẽ gửi email tới địa chỉ đó. Email đó chứa tất cả tên đăng nhập đã sử dụng địa chỉ email này.\nCh�?n tên đăng nhập và sử dụng dịch vụ mật khẩu để tạo mật khẩu mới. Nếu bạn không nhận được email xin liên hệ quản trị khóa h�?c của bạn hoặc %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Nhập tên đăng nhập và địa chỉ email tương ứng vào các ô dưới đây.\nChúng tôi sẽ gửi thư tới địa chỉ email đó. Thư chứa một địa chỉ trang web, tại đó bạn có thể nhập vào mật khẩu mới cho tài khoản sử dụng.\nTrong trư�?ng hợp bạn không thể đặt được mật khẩu cho tài khoản ngư�?i sử dụng theo mẫu đó, hãy liên hệ quản trị khóa h�?c hoặc gửi email tới %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Nhập tên đăng nhập và mật khẩu mới vào các ô dưới đây.
-pwassist#:#pwassist_invalid_email#:#Hãy đi�?n đúng địa chỉ email.\\n�?ịa chỉ email đã nhập không tìm thấy trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Hãy chuẩn hóa thông tin nhập vào.\\nTên ngư�?i sử dụng và địa chỉ email bạn đã nhập không trùng với trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Hãy nhập vào tên đăng nhập khác.\\nTên đăng nhập bạn đã nhập không trùng khớp với tên đăng nhập yêu cầu trợ giúp phục hồi mật khẩu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#�?ăng ký mật khẩu mới cho tài khoản sử dụng:\\n\\t%1$s\\n\\nThư này được sinh tự động bởi máy chủ\\n\\t%2$s\\n\\nBạn (hoặc ai khác %3$s) đã yêu cầu trợ giúp mật khẩu cho tài khoản ngư�?i sử dụng \"%4$s\".\\n\\nHãy kiểm tra cẩn thận các đi�?u kiện dưới đây, và tiếp tục theo đó:\\n\\n- Nếu bạn lỡ tay yêu cầu trợ giúp mật khẩu từ máy chủ:\\nXóa thư này.\\n\\n- Nếu bạn chắc chắn, chưa bao gi�? yêu cầu trợ giúp mật khẩu tại máy chủ:\\nHãy liên hệ %5$s.\\n\\n- Nếu bạn yêu cầu trợ giúp mật khẩu, hãy tiếp tục như sau:\\n\\n1. Mở trình duyệt web.\\n\\n2. nhập địa chỉ web dưới đây vào trình duyệt:\\n\\t%1$s\\n\\nQuan tr�?ng cần chú ý: �?ịa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhi�?u dòng, đó là chương trình email của bạn ngắt ra.\\n\\n3. Trên trang web hiển thị tại trình duyệt, nhập mật khẩu mới cho tài khoản ngư�?i sử dụng.\\n\\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong th�?i gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ phải sử dụng trang trợ giúp mật khẩu trên máy chủ. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#Một thư đã được gửi tới %1$s.\\nHãy kiểm tra hộp thư của bạn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_email#:#Hãy đi�?n đúng địa chỉ email.\n�?ịa chỉ email đã nhập không tìm thấy trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Hãy chuẩn hóa thông tin nhập vào.\nTên ngư�?i sử dụng và địa chỉ email bạn đã nhập không trùng với trong cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Hãy nhập vào tên đăng nhập khác.\nTên đăng nhập bạn đã nhập không trùng khớp với tên đăng nhập yêu cầu trợ giúp phục hồi mật khẩu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#�?ăng ký mật khẩu mới cho tài khoản sử dụng:\n\t%1$s\n\nThư này được sinh tự động bởi máy chủ\n\t%2$s\n\nBạn (hoặc ai khác %3$s) đã yêu cầu trợ giúp mật khẩu cho tài khoản ngư�?i sử dụng "%4$s".\n\nHãy kiểm tra cẩn thận các đi�?u kiện dưới đây, và tiếp tục theo đó:\n\n- Nếu bạn lỡ tay yêu cầu trợ giúp mật khẩu từ máy chủ:\nXóa thư này.\n\n- Nếu bạn chắc chắn, chưa bao gi�? yêu cầu trợ giúp mật khẩu tại máy chủ:\nHãy liên hệ %5$s.\n\n- Nếu bạn yêu cầu trợ giúp mật khẩu, hãy tiếp tục như sau:\n\n1. Mở trình duyệt web.\n\n2. nhập địa chỉ web dưới đây vào trình duyệt:\n\t%1$s\n\nQuan tr�?ng cần chú ý: �?ịa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhi�?u dòng, đó là chương trình email của bạn ngắt ra.\n\n3. Trên trang web hiển thị tại trình duyệt, nhập mật khẩu mới cho tài khoản ngư�?i sử dụng.\n\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong th�?i gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ phải sử dụng trang trợ giúp mật khẩu trên máy chủ. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#Một thư đã được gửi tới %1$s.\nHãy kiểm tra hộp thư của bạn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#Trợ giúp phục hồi mật khẩu ILIAS
-pwassist#:#pwassist_not_permitted#:#Hãy nhập vào tên đăng nhập khác.\\nTrợ giúp mật khẩu không cho phép tên đăng nhập bạn đã nhập. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#Mật khẩu đã được chỉ định thành công cho ngư�?i sử dụng \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Hãy đi�?n lại mẫu sau.\\nPhiên làm việc trợ giúp mật khẩu của bạn đã hết hạn. �?i�?u này có thể xảy ra, vì bạn đã cố sử dụng hai lần liên kết được gửi cho bạn qua email, hoặc đã quá hạn th�?i gian kể từ khi liên kết được gửi cho bạn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Hãy liên hệ quản trị hệ thống.\\nMật khẩu không thể chỉ định được cho tài khoản ngư�?i sử dụng vì không thể cập nhật cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_username_mail_body#:#Có những ngư�?i sử dụng hoạt động sau được tìm thấy tương ứng với địa chỉ email đã cho:\\n%s\\n\\nThông điệp này được tạo tự động bởi máy chủ ILIAS:\\n\\t%s\\n\\nBạn (hoặc ai đó với địa chỉ IP  %s) đã yêu cầu hỗ trợ phục hồi tên đăng nhập cho địa chỉ email \'%s\'.\\n\\nHãy xem dưới đây và hành động theo hướng dẫn::\\n\\n- Nếu bạn lỡ tay yêu cầu trợ giúp tên đăng nhập từ máy chủ:\\nXóa thư này.\\n\\n- Nếu bạn chắc chắn, chưa bao gi�? yêu cầu trợ giúp tên đăng nhập tại máy chủ:\\nHãy liên hệ %5$s.\\n\\n- Nếu bạn yêu cầu trợ giúp tên đăng nhập, hãy tiếp tục như sau:\\n\\n1. Mở trình duyệt web.\\n\\n2. nhập địa chỉ web dưới đây vào trình duyệt:\\n\\t%1$s\\n\\nQuan tr�?ng cần chú ý: �?ịa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhi�?u dòng, đó là chương trình email của bạn ngắt ra.\\n\\n3. Trên trang web hiển thị tại trình duyệt, nhập tên đăng nhập và mật khẩu mới cho tài khoản ngư�?i sử dụng.\\n\\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong th�?i gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ lại phải sử dụng trang trợ giúp tên đăng nhập trên máy chủ. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Hãy nhập vào tên đăng nhập khác.\nTrợ giúp mật khẩu không cho phép tên đăng nhập bạn đã nhập. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#Mật khẩu đã được chỉ định thành công cho ngư�?i sử dụng "%1$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Hãy đi�?n lại mẫu sau.\nPhiên làm việc trợ giúp mật khẩu của bạn đã hết hạn. �?i�?u này có thể xảy ra, vì bạn đã cố sử dụng hai lần liên kết được gửi cho bạn qua email, hoặc đã quá hạn th�?i gian kể từ khi liên kết được gửi cho bạn. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Hãy liên hệ quản trị hệ thống.\nMật khẩu không thể chỉ định được cho tài khoản ngư�?i sử dụng vì không thể cập nhật cơ sở dữ liệu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_username_mail_body#:#Có những ngư�?i sử dụng hoạt động sau được tìm thấy tương ứng với địa chỉ email đã cho:\n%s\n\nThông điệp này được tạo tự động bởi máy chủ ILIAS:\n\t%s\n\nBạn (hoặc ai đó với địa chỉ IP  %s) đã yêu cầu hỗ trợ phục hồi tên đăng nhập cho địa chỉ email '%s'.\n\nHãy xem dưới đây và hành động theo hướng dẫn::\n\n- Nếu bạn lỡ tay yêu cầu trợ giúp tên đăng nhập từ máy chủ:\nXóa thư này.\n\n- Nếu bạn chắc chắn, chưa bao gi�? yêu cầu trợ giúp tên đăng nhập tại máy chủ:\nHãy liên hệ %5$s.\n\n- Nếu bạn yêu cầu trợ giúp tên đăng nhập, hãy tiếp tục như sau:\n\n1. Mở trình duyệt web.\n\n2. nhập địa chỉ web dưới đây vào trình duyệt:\n\t%1$s\n\nQuan tr�?ng cần chú ý: �?ịa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhi�?u dòng, đó là chương trình email của bạn ngắt ra.\n\n3. Trên trang web hiển thị tại trình duyệt, nhập tên đăng nhập và mật khẩu mới cho tài khoản ngư�?i sử dụng.\n\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong th�?i gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ lại phải sử dụng trang trợ giúp tên đăng nhập trên máy chủ. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Sửa tiến trình h�?c tập
 rbac#:#filter_all_roles#:#Hiện tất cả vai trò của ngữ cảnh hiện th�?i
 rbac#:#filter_global_roles#:#Chỉ hiện những vai trò toàn cục
@@ -5141,7 +5141,7 @@ survey#:#add_phrase_introduction#:#Hãy ch�?n một cụm từ:
 survey#:#add_standard_numbers#:#Add standard numbers///
 survey#:#already_completed_survey#:#Bạn đã hoàn thành khảo sát! Bạn không thể vào khảo sát lần nữa.
 survey#:#anonymize_anonymous_introduction#:#Khảo sát này vô danh hóa tất cả thông tin ngư�?i sử dụng. �?ể truy cập khảo sát, bạn phải sử dụng mã khảo sát 32-ký tự do ngư�?i tạo/ngư�?i duy trì khảo sát này cung cấp<br />Hãy nhập vào ô phía dưới.
-survey#:#anonymize_key_introduction#:#Khảo sát này vô danh hóa tất cả thông tin ngư�?i sử dụng. �?ể truy cập khảo sát, mã 32-ký tự sẽ được tạo bởi hệ thống và được gửi tới hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát (sau khi trả l�?i câu h�?i thứ nhất). Mã truy cập khảo sát là<br /><span class=\"bold\">%s</span><br />Hãy nhập nó vào ô phía dưới. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#Khảo sát này vô danh hóa tất cả thông tin ngư�?i sử dụng. �?ể truy cập khảo sát, mã 32-ký tự sẽ được tạo bởi hệ thống và được gửi tới hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát (sau khi trả l�?i câu h�?i thứ nhất). Mã truy cập khảo sát là<br /><span class="bold">%s</span><br />Hãy nhập nó vào ô phía dưới. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Hãy nhập vào mã truy cập khảo sát để tiếp tục khảo sát. Thư chứa mã đã được gửi vào hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát.
 survey#:#anonymize_survey#:#Vô danh hóa thông tin khảo sát
 survey#:#anonymize_survey_explanation#:#Khi được kích hoạt, tất cả thông tin ngư�?i sử dụng sẽ được vô danh hóa và không thể theo dõi được.
@@ -5441,7 +5441,7 @@ survey#:#spl_select_file_for_import#:#Bạn phải ch�?n một file để nhậ
 survey#:#start_date#:#Ngày bắt đầu
 survey#:#start_date_not_reached#:#Bạn không thể bắt đầu khảo sát cho đến ngày bắt đầu!
 survey#:#start_survey#:#Bắt đầu khảo sát
-survey#:#subject_mail_survey_id#:#Mã khảo sát của bạn cho \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Mã khảo sát của bạn cho "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Kiểu phụ
 survey#:#survey_code#:#Mã truy cập khảo sát
 survey#:#survey_code_message_sent#:#Một mã khảo sát cho phép bạn tiếp tục khảo sát đã được gửi tới HỘP THƯ �?ẾN của bạn!
@@ -5528,7 +5528,7 @@ trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new varia
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Các mục khóa h�?c
-trac#:#trac_edit_collection#:#Hãy chỉ định các mục khóa h�?c. Nếu trạng thái của m�?i đối tượng được chỉ định là \'�?ã hoàn thành\' ngư�?i sử dụng sẽ được tính là hoàn thành toàn bộ khóa h�?c. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_edit_collection#:#Hãy chỉ định các mục khóa h�?c. Nếu trạng thái của m�?i đối tượng được chỉ định là '�?ã hoàn thành' ngư�?i sử dụng sẽ được tính là hoàn thành toàn bộ khóa h�?c. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Hãy định nghĩa số lần truy cập cần thiết để hoàn thành đối tượng này.
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
@@ -5570,7 +5570,7 @@ trac#:#trac_query#:#Tiêu đ�?/mô tả:
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Cập nhật
-trac#:#trac_sahs_relevant_items#:#SCO\'s/// ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_sahs_relevant_items#:#SCO's/// ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_settings#:#Thiết lập
 trac#:#trac_settings_saved#:#�?ã ghi các thiết lập.
 trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable

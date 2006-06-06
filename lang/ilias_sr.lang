@@ -53,7 +53,7 @@ administration#:#found#:#nadeno.
 administration#:#found_none#:#nije nadeno.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Registruj skenirane rezultate
-administration#:#log_scan_desc#:#Unesite skenirane rezultate na \'scanlog.log\' u registru podataka klijenta. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Unesite skenirane rezultate na 'scanlog.log' u registru podataka klijenta. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#nothing_to_purge#:#Nema nicega za brisanje....
 administration#:#nothing_to_remove#:#Nema nicega za uklanjanje....
 administration#:#nothing_to_restore#:#Nema nicega za obnavljanje...
@@ -147,7 +147,7 @@ assessment#:#checkbox_unchecked#:#Neprovereno
 assessment#:#circle#:#Opseg
 assessment#:#circle_click_center#:#Molimo vas da kliknete u centar željenog podrucja.
 assessment#:#circle_click_circle#:#Molimo vas da kliknete mesto opsega željenog podrucja.
-assessment#:#close_text_hint#:#Možete definisati razmak unošenjem <gap></gap> na mesto vašeg izbora u tekstu. Pritisnite dugme \'Create gaps\' da biste dodali formu za uredivanje za svaki razmak. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Možete definisati razmak unošenjem <gap></gap> na mesto vašeg izbora u tekstu. Pritisnite dugme 'Create gaps' da biste dodali formu za uredivanje za svaki razmak. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Zatvori tekst###20 Jun 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -199,7 +199,7 @@ assessment#:#ects_range_error_b#:#Molimo vas unesite vrednost izmedu 0 i 100 za 
 assessment#:#ects_range_error_c#:#Molimo vas unesite vrednost izmedu 0 i 100 za ECTS stepen C!.
 assessment#:#ects_range_error_d#:#Molimo vas unesite vrednost izmedu 0 i 100 za ECTS stepen D!.
 assessment#:#ects_range_error_e#:#Molimo vas unesite vrednost izmedu 0 i 100 za ECTS stepen E!.
-assessment#:#ects_use_fx_grade#:#Koristite \'FX\' stepen ukoliko ucesnici koji su pali na kraju završe test ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Koristite 'FX' stepen ukoliko ucesnici koji su pali na kraju završe test ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#ects_use_fx_grade_part2#:#procenat ukupnih poena.
 assessment#:#edit_content#:#Uredi sadržaj
 assessment#:#edit_properties#:#Uredi osobine
@@ -338,7 +338,7 @@ assessment#:#qpl_edit_select_multiple#:#Molimo proverite samo jedno pitanje radi
 assessment#:#qpl_edit_select_none#:#Molimo proverite jedno pitanje radi izmene
 assessment#:#qpl_export_select_none#:#Molimo proverite bar jedno pitanje radi .......
 assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver\'s ImageMagick tool isn\'t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
@@ -1182,9 +1182,9 @@ common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be in
 common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
 common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Cron poslovi
-common#:#cron_jobs_desc#:#Crone poslovi su automatizovan proces koji radi u odredenim vremenskim intervalima. Naci cete informacije o postavljanju u \'INSTAL Documentation\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_jobs_desc#:#Crone poslovi su automatizovan proces koji radi u odredenim vremenskim intervalima. Naci cete informacije o postavljanju u 'INSTAL Documentation'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at \'Administration -> Search\'.###26 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Kurs
 common#:#crs_a#:#kurs
 common#:#crs_add#:#Dodajte Kurs
@@ -1235,7 +1235,7 @@ common#:#crs_write#:#Uredi Kurs
 common#:#cumulative_time#:#Ukupno vreme
 common#:#cur_number_rec#:#Trenutni broj zapisa
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won\'t be able to access the system with this profile anymore.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#current_password#:#Važeca šifra
 common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
@@ -1584,7 +1584,7 @@ common#:#group_req_registration_msg#:#Da biste se prikljucili ovoj grupi morate 
 common#:#group_reset#:#Vratite dozvolu za grupu
 common#:#group_status#:#Grupa je
 common#:#group_status_closed#:#Zatvoreno
-common#:#group_status_desc#:#Odreduje pocetni status grupe koristeci okvir za dozvolu iz funkcije šablona \'il_grp_status_closed\' ili \'il_grp_ststus_open\'<br />Otvoreno: Grupa je vidljiva; Korisnik može da se prijavi.<br />Zatvoreno: Grupa nije vidljiva za one koji nisu clanovi; Korisnika treba da pozove clan kako bi se pridružio. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#Odreduje pocetni status grupe koristeci okvir za dozvolu iz funkcije šablona 'il_grp_status_closed' ili 'il_grp_ststus_open'<br />Otvoreno: Grupa je vidljiva; Korisnik može da se prijavi.<br />Zatvoreno: Grupa nije vidljiva za one koji nisu clanovi; Korisnika treba da pozove clan kako bi se pridružio. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Javno
 common#:#groups#:#Grupe
 common#:#groups_overview#:#Pregled Grupa
@@ -1673,8 +1673,8 @@ common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
 common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#Onemoguci strukturalni pogled
 common#:#hist_dbk#:#Stranica je kreirana
-common#:#hist_file_create#:#Fajle je kreiran, ime fajla je \"%1\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#Fajl je premešten, novo ime fajla je \"%1\", nova verzija je \"%2\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#Fajle je kreiran, ime fajla je "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#Fajl je premešten, novo ime fajla je "%1", nova verzija je "%2". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_lm#:#Stranica je kreirana
 common#:#hist_no_entries#:#Nema unosa u prošlosti.
 common#:#history#:#Istorija
@@ -1771,7 +1771,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cance
 common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
-common#:#ilinc_mem_change_status#:#Change user\'s status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
 common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
@@ -1835,7 +1835,7 @@ common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
 common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
 common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
-common#:#info_remark_interrupted#:#Role is interrupted at this position. The role\'s default permission settings in effect are located in that position.###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#info_short#:#Info###20 Jun 2005 new variable
 common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Obrisani objekti
@@ -2201,7 +2201,7 @@ common#:#msg_perm_adopted_from2#:#(Podešavanja su snimljena!)
 common#:#msg_removed#:#Objekti uklonjeni iz sistema.
 common#:#msg_role_exists1#:#Funkcija/funkcija šablona sa nazivom
 common#:#msg_role_exists2#:#vec postoji! Molimo odaberite drugi naziv
-common#:#msg_role_reserved_prefix#:#Prefiks \'il_\' je rezervisan za automatsko generisanje funkcija. Molimo odaberite drugi naziv ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#Prefiks 'il_' je rezervisan za automatsko generisanje funkcija. Molimo odaberite drugi naziv ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Promenjena je aktivna funkcija raspodele
 common#:#msg_roleassignment_active_changed_comment#:#Ovo podešavanje korisnikovog profila nije sacuvano! Ako se korisnik ponovo prijavi sve aktivne funkcije raspodela vracaju se na njihove sacuvane vrednosti.
 common#:#msg_roleassignment_changed#:#Funkcija raspodele je promenjena
@@ -2427,7 +2427,7 @@ common#:#passwd_not_match#:#Unosi za novu lozinku ne odgovaraju! Molimo ponovo u
 common#:#passwd_wrong#:#Lozinka koju ste uneli je pogrešna!
 common#:#password#:#Lozinka
 common#:#password_assistance_disabled#:#Asistencija oko lozinke je dostupna samo onda kada je autentifikacija korisnika obavljena preko ILIAS baze podataka.
-common#:#password_assistance_info#:#Ukoliko je asistencija omogucena, veza sa tekstom \"Zaboravili ste vašu lozinku?\" je prikazana na ILIAS stranici za prijavljivanje. Korisnici mogu da koriste ovu vezu kako bi registrovali novu lozinku za njihov korisnicki nalog bez potrebe za asistencijom sistem administratora. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#Ukoliko je asistencija omogucena, veza sa tekstom "Zaboravili ste vašu lozinku?" je prikazana na ILIAS stranici za prijavljivanje. Korisnici mogu da koriste ovu vezu kako bi registrovali novu lozinku za njihov korisnicki nalog bez potrebe za asistencijom sistem administratora. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Zalepi
 common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#pasteChapter#:#Zalepi
@@ -2858,7 +2858,7 @@ common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Pošalji fajlove
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don\'t have the right ip using this test###06 Aug 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#tst_visible#:#Test je vidljiv
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Uredi Test
@@ -2944,7 +2944,7 @@ common#:#users#:#Korisnici
 common#:#users_not_imported#:#Sledeci korisnici ne postoje, njihove poruke ne mogu biti unete
 common#:#users_online#:#Korisnici na vezi###20 Jun 2005 content changed
 common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
-common#:#users_online_show_n#:#Don\'t show active users###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Pracenje korisnika
 common#:#usr#:#Korisnik
@@ -2975,18 +2975,18 @@ common#:#usrf_write#:#Uredi korisnicke naloge
 common#:#usrimport_action_failed#:#Akcija je %1$ neuspešna.
 common#:#usrimport_action_ignored#:#Odbacena radnja %1$s.
 common#:#usrimport_action_replaced#:#Premeštena akcija %1$s od %2$s.
-common#:#usrimport_cant_delete#:#Nije moguce izvesti akciju \"Obriši\". Ne postoji takav korisnik u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_insert#:#Nije moguce izvesti akciju \"Ubaci\". Korisnik se vec nalazi u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_update#:#Nije moguce izvesti akciju \"Ažuriraj\". Ne postoji takav korisnik u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_conflict_handling_info#:#Kada je \'Ignor on confict\' odabrano, ILIAS odbacuje radnju, ukoliko ne može biti izvršena (npr. Radnja \'insert\' nije obavljena ukoliko vec postoji korisnik sa istom prijavom u bazi podataka.) Kada je \'Update on conflict\' odabran, ILIAS ažurira bazu podataka ako radnja ne može biti izvedena. (Npr. \'Insert\' akcija je premeštena na osnovu radnje \'Update\' ukoliko korisnik sa istom prijavom postoji u bazi podataka). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_global_role_for_action_required#:#Najmanje jedna opšta uloga mora biti odredena za \"%1$s\" akciju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_delete#:#Nije moguce izvesti akciju "Obriši". Ne postoji takav korisnik u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_insert#:#Nije moguce izvesti akciju "Ubaci". Korisnik se vec nalazi u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_update#:#Nije moguce izvesti akciju "Ažuriraj". Ne postoji takav korisnik u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_conflict_handling_info#:#Kada je 'Ignor on confict' odabrano, ILIAS odbacuje radnju, ukoliko ne može biti izvršena (npr. Radnja 'insert' nije obavljena ukoliko vec postoji korisnik sa istom prijavom u bazi podataka.) Kada je 'Update on conflict' odabran, ILIAS ažurira bazu podataka ako radnja ne može biti izvedena. (Npr. 'Insert' akcija je premeštena na osnovu radnje 'Update' ukoliko korisnik sa istom prijavom postoji u bazi podataka). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_global_role_for_action_required#:#Najmanje jedna opšta uloga mora biti odredena za "%1$s" akciju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usrimport_login_is_not_unique#:#Prijava nije jedinstvena.
-common#:#usrimport_xml_attribute_missing#:#Atribut \"%2$s\" u elementu \"%1$s\" nedostaje. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_illegal#:#Vrednost \"%3$s\" atributa \"%2$s\" u elementu \"%1$s\" je nelegalna. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_inapplicable#:#Vrednost \"%3$s\" atributa \"%2$s\" u elementu \"%1$s\" je neprimenljiva za \"%4$s\" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_content_illegal#:#Sadržaj \"%2$s\" elementa \"%1$s\" je nezakonita. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_for_action_required#:#Element \"%1$s\" mora biti odredena za \"%2$s\" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_inapplicable#:#Element \"%1$s\" je neprimenljiv za \"%2$s\" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_missing#:#Atribut "%2$s" u elementu "%1$s" nedostaje. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_illegal#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je nelegalna. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_value_inapplicable#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je neprimenljiva za "%4$s" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_content_illegal#:#Sadržaj "%2$s" elementa "%1$s" je nezakonita. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" mora biti odredena za "%2$s" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" je neprimenljiv za "%2$s" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#validate#:#Potvrdi
 common#:#value#:#Vrednost
 common#:#vcard#:#Podsetnica
@@ -3092,7 +3092,7 @@ content#:#cont_create_export_file_xml#:#Kreiraj ispisan fajl (XML)
 content#:#cont_create_folder#:#Kreiraj Registrator
 content#:#cont_create_html_version#:#Creisraj HTML Paket
 content#:#cont_create_mob#:#Kreiraj Medija Objekat
-content#:#cont_credit_mode#:#Kreiraj nacin (za model lekcije \'standardno\') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Kreiraj nacin (za model lekcije 'standardno') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_credit_off#:#Nema kredita
 content#:#cont_credit_on#:#Kredit
 content#:#cont_credits#:#Krediti
@@ -3248,7 +3248,7 @@ content#:#cont_matching_question_javascript_hint#:#Molimo povucite definiciju/sl
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Izvor sredstava
 content#:#cont_mep_structure#:#Struktura baze sredstava
-content#:#cont_missing_preconditions#:#Neophodno je da ispunite sledece preduslove da biste pristupili poglavlju \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#Neophodno je da ispunite sledece preduslove da biste pristupili poglavlju "%s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_Mnemonic#:#Simbolicki
 content#:#cont_mob_files#:#Fajlovi objekta
 content#:#cont_mob_inst_prop#:#Primerne karakteristike
@@ -3269,7 +3269,7 @@ content#:#cont_no_assign_itself#:#Objekat ne može biti namenjen samom sebi
 content#:#cont_no_manifest#:#imsmanifest.xml fajl nije pronaden u glavnom direktorijumu.
 content#:#cont_no_object_found#:#Nije pronaden nijedan objekat sa ovim nazivom
 content#:#cont_no_page#:#Nijedna stranica nije pronadena.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder \'%s\'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Nijedan
 content#:#cont_nr_cols#:#Broj kolona
@@ -3325,7 +3325,7 @@ content#:#cont_Roman#:#Rimski I, II, ...
 content#:#cont_rvalue#:#Vrednost
 content#:#cont_saved_map_area#:#Mapa podrucja je sacuvana
 content#:#cont_saved_map_data#:#Mapa podataka je sacuvana
-content#:#cont_sc_auto_review#:#Namesti metod lekcije na \'proveru\' ako je student završio SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#Namesti metod lekcije na 'proveru' ako je student završio SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#Pregledaj
 content#:#cont_sc_less_mode_normal#:#Standardno
 content#:#cont_sc_stat_browsed#:#Pregledano
@@ -3429,7 +3429,7 @@ content#:#cont_width#:#Širina
 content#:#cont_wysiwyg#:#Sadržaj WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Godina
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file \'%s\'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#copied_to_clipboard#:#Objekti su kopirani u tablicu
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
@@ -3595,8 +3595,8 @@ crs#:#crs_moved_objective#:#Pomereni ciljevi ucenja.
 crs#:#crs_new_search#:#Nova pretraga
 crs#:#crs_new_subscription#:#Nova prijava na kurs###23 Dec 2005 content changed
 crs#:#crs_new_subscription_body#:#Novi korisnik je prijavljen###23 Dec 2005 content changed
-crs#:#crs_new_subscription_request#:#Request to join course \"%s\"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course \"%s\".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#Nijedna arhiva nije selektovana
 crs#:#crs_no_archives_available#:#Nema raspoloživih arhiva
 crs#:#crs_no_archives_selected#:#Molimo odaberite arhivu
@@ -3879,7 +3879,7 @@ dateplaner#:#help_properties_del_l#:#Izaberite kljucnu reci iz okvira za dijalog
 dateplaner#:#help_properties_import#:#Uvoz Outlook-CSV-datoteka
 dateplaner#:#help_properties_import_l#:#Ovde CSV-datoteka koja sadrži Outlook-sastanke može biti odabrana. Ti sastanci ce biti uneti u kalendar.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Dodaj kljucnu rec, max. 20 karaktera
-dateplaner#:#help_properties_new_l#:#Dodaj novu kljucnu rec u polje<\"\\\"new\\\". Važno: max. 20 karaktera. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Dodaj novu kljucnu rec u polje<"\"new\". Važno: max. 20 karaktera. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Prikaži vreme za dnevni pregled/mesecni pregled
 dateplaner#:#help_properties_time_l#:#Standardno prikazano vreme za dnevni i nedeljni pregled može biti promenjeno. Ako su sastanci izvan prikazanog vremena za date dane ili neh-delju, prikazano vreme bice bromenjeno za taj vremenski razmak. Standard je  8h-18h.
 dateplaner#:#help_rotation#:#Vracanje
@@ -3989,7 +3989,7 @@ dateplaner#:#Week_long#:#Nedeljni pregled
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#godina###02 Aug 2005 content changed
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won\'t be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 forum#:#forums#:#Forumi
 forum#:#forums_attachments#:#Dodaci
 forum#:#forums_attachments_add#:#Dodaj dodatak
@@ -4050,8 +4050,8 @@ forum#:#is_read#:#markiraj procitano
 forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#O Kalendaru
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\\n\\nDatum odabira:\\n- Koristite «, » dugmad kako biste odabrali godinu \\n- Koristite <, > kako biste odabrali mesec\\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\\n\\n Odabir vremena\\n- kliknite na bilo koji deo vremena kako biste ga uvecali \\n- ili Shift-klik kako biste ga umanjili\\n- ili kliknite i izvucite radi brže selekcije. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\n\nDatum odabira:\n- Koristite «, » dugmad kako biste odabrali godinu \n- Koristite <, > kako biste odabrali mesec\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\n\n Odabir vremena\n- kliknite na bilo koji deo vremena kako biste ga uvecali \n- ili Shift-klik kako biste ga umanjili\n- ili kliknite i izvucite radi brže selekcije. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Zatvori
 jscalendar#:#day_first#:#Prikaži %s prvo
 jscalendar#:#def_date_format#:#5G-%m-%d
@@ -4754,12 +4754,12 @@ payment#:#pay_bmf_credit_card_not_valid#:#Podaci o kreditnoj kartici koje ste un
 payment#:#pay_bmf_debit_entry#:#unos zaduženja (samo racuni nemacke banke)
 payment#:#pay_bmf_debit_entry_data#:#unos zaduženja
 payment#:#pay_bmf_debit_entry_not_valid#:#Podaci o zaduženju koje ste uneli nisu validni. Molimo proverite da li ste pravilno popunili sva polja.
-payment#:#pay_bmf_description_credit_card#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka sa kreditne kartice i klikom na dugme \"Sacuvaj\" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka o zaduženju i klikom na dugme \"Sacuvaj\" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_credit_card#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka sa kreditne kartice i klikom na dugme "Sacuvaj" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_debit_entry#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka o zaduženju i klikom na dugme "Sacuvaj" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Odaberite nacin placanja.
 payment#:#pay_bmf_description_personal_data#:#Popune ceo sledeci obrazac
 payment#:#pay_bmf_house_number#:#Broj kuce
-payment#:#pay_bmf_info#:#Pristup sledecim materijalima nije besplatan. Ukoliko želite da steknete pravo pristupa odredenim predmetima ucenja odaberite cenu. Možete poruciti jedan ili nekoliko predmeta za ucenje koristeci dugme \"klica za kupovinu\" na vašoj radnoj površini. Dobicete pristup odabranim objektima i periodu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_info#:#Pristup sledecim materijalima nije besplatan. Ukoliko želite da steknete pravo pristupa odredenim predmetima ucenja odaberite cenu. Možete poruciti jedan ili nekoliko predmeta za ucenje koristeci dugme "klica za kupovinu" na vašoj radnoj površini. Dobicete pristup odabranim objektima i periodu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#opciono
 payment#:#pay_bmf_or#:#Ili složen
 payment#:#pay_bmf_password_not_valid#:#Vaša lozinka je nevažeca.
@@ -4850,7 +4850,7 @@ payment#:#paya_header#:#Administracija placanja
 payment#:#paya_insert_only_numbers#:#Molimo ubacite samo cele brojeve.
 payment#:#paya_locator#:#Administracija placanja
 payment#:#paya_months#:#Mesec(i)
-payment#:#paya_no_booking_id_given#:#Greška: nije data \"identifikacija angažovanja\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_no_booking_id_given#:#Greška: nije data "identifikacija angažovanja" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_no_bookings#:#Statistika nije dostupna.
 payment#:#paya_no_object_selected#:#Molimo odaberite jedan predmet.
 payment#:#paya_no_objects_assigned#:#Nema predmeta za prodaju.
@@ -4914,8 +4914,8 @@ payment#:#pays_no_username_given#:#Nema datih korisnickih imena
 payment#:#pays_no_valid_username_given#:#Nema važecih datih korisnickih imena
 payment#:#pays_no_vendor_selected#:#Nema odabranog prodavca
 payment#:#pays_number_bookings#:#Aktiviraj angažovanje
-payment#:#pays_objects_bill_exist#:#Nacin placanja \'racun\' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#Nacin placanja \'BMF\' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#Nacin placanja 'racun' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bmf_exist#:#Nacin placanja 'BMF' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_offline#:#Nezavisno
 payment#:#pays_online#:#Na vezi
 payment#:#pays_pay_methods#:#Nacini placanja
@@ -4931,20 +4931,20 @@ payment#:#price_a#:#Cena
 payment#:#prices#:#Cene
 payment#:#update#:#Ažuriraj
 pwassist#:#password_assistance#:#Pomoc oko lozinke
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Unesite korisnicko ime i novu lozinku zu polja za unos.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\\nThe given email address could not be found in the database.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Molimo ispravite tekst u polja za unos.\\nKorisnicko ime i email adresa koje ste uneli ne odgovaraju nijednom unosu iz baze podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Molimo unesite drugo korisnicko ime.\\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Registrujte novu lozinku za vaš korisnicki nalog.\\n\\t%1$s\\n\\nOva poruka je automatski generisana uz pomoc ILIAS servera\\n\\t%2$s\\n\\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog \"%4$s\".\\n\\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\\n\\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\\nObrišite ovu poruku.\\n\\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\\nMolimo obratite se %5$s. \\n\\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\\n\\n1. Otvorite vaš pretraživac.\\n\\n2. Unesite sledecu adresu u vaš pretraživac.\\n\\t%1$s\\n\\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\\n\\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\\n\\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#Poruka je poslata %1$s.\\nMolimo proverite vaše poštansko sanduce. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Molimo ispravite tekst u polja za unos.\nKorisnicko ime i email adresa koje ste uneli ne odgovaraju nijednom unosu iz baze podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Molimo unesite drugo korisnicko ime.\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#Registrujte novu lozinku za vaš korisnicki nalog.\n\t%1$s\n\nOva poruka je automatski generisana uz pomoc ILIAS servera\n\t%2$s\n\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog "%4$s".\n\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\n\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\nObrišite ovu poruku.\n\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\nMolimo obratite se %5$s. \n\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\n\n1. Otvorite vaš pretraživac.\n\n2. Unesite sledecu adresu u vaš pretraživac.\n\t%1$s\n\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\n\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\n\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#Poruka je poslata %1$s.\nMolimo proverite vaše poštansko sanduce. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#ILIAS pomoc oko lozinke
-pwassist#:#pwassist_not_permitted#:#Molimo unesite drugo korisnicko ime. \\nPomoc oko lozinke nije dopuštena za korisnicko ime koje ste uneli. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku \"%1$s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Molimo kontaktirajte sistem administratora.\\nLozinka ne može biti prijavljena korisnickom nalogu usled greške tokom ažuriranja baze podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address \'%s\'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Molimo unesite drugo korisnicko ime. \nPomoc oko lozinke nije dopuštena za korisnicko ime koje ste uneli. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku "%1$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Molimo kontaktirajte sistem administratora.\nLozinka ne može biti prijavljena korisnickom nalogu usled greške tokom ažuriranja baze podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -5053,7 +5053,7 @@ survey#:#add_phrase_introduction#:#Molimo odaberite frazu:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#Vec ste popunili anketu! Ne možete ponovo pristupiti anketi.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi morate koristiti 32-karakterni kod za anketu koji možete dobiti od autora/administratora ove ankete<br />Molimo unesite je u polje sa tekstom ispod.
-survey#:#anonymize_key_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi, 32-karakterni kod je kreiran od strane sitema i bice poslat u vaše ILIAS poštansko sanduce kada stratujete anketu (pošto odgovorite na prvo pitanje) .Vaše pristpni kod za anketu je<br /><span class=\"bold\">%s</span>.<br />Molimo unesite je u polje sa tekstom ispod. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi, 32-karakterni kod je kreiran od strane sitema i bice poslat u vaše ILIAS poštansko sanduce kada stratujete anketu (pošto odgovorite na prvo pitanje) .Vaše pristpni kod za anketu je<br /><span class="bold">%s</span>.<br />Molimo unesite je u polje sa tekstom ispod. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Molimo unesite vaš pristupni kod za anketu da biste nastavili sa anketom. U vaše ILIAS poštansko sanduce poslato je kada ste zapoceli anketu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_survey#:#Ucini anonimnim anketne podatke
 survey#:#anonymize_survey_explanation#:#Kada su aktivirani, svi podaci o korisniku bice anonimni i ne mogu biti praceni.
@@ -5350,7 +5350,7 @@ survey#:#spl_select_file_for_import#:#Morate odabrati datoteku za unošenje!
 survey#:#start_date#:#Datum pocetka
 survey#:#start_date_not_reached#:#Ne možete zapoceti anketu dok datum pocetka nije dosegnut!
 survey#:#start_survey#:#zapocni anketu
-survey#:#subject_mail_survey_id#:#Vaš anketni kod za \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Vaš anketni kod za "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Podvrsta
 survey#:#survey_code#:#Anketni pristupni kod
 survey#:#survey_code_message_sent#:#Anketni kod koji vam dozvoljava da vratite anketu poslat je u vaše poštansko sanduce!
@@ -5530,7 +5530,7 @@ trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new varia
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is \'Completed\' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
@@ -5543,7 +5543,7 @@ trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
-trac#:#trac_info_edited#:#Set the status to \'Completed\' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
@@ -5581,7 +5581,7 @@ trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
-trac#:#trac_sahs_relevant_items#:#SCO\'s###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
 trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable

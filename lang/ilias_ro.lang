@@ -53,7 +53,7 @@ administration#:#found#:#Gasit.
 administration#:#found_none#:#Cautare fara rezultat.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Indosarierea rezultatelor scanarii
-administration#:#log_scan_desc#:#Inscrierea rezultatelor scanarii in \'scanlog.log\' in directorul de date al clientului. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Inscrierea rezultatelor scanarii in 'scanlog.log' in directorul de date al clientului. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 administration#:#nothing_to_purge#:#Nimic de filtrat...
 administration#:#nothing_to_remove#:#Nimic de sters...
 administration#:#nothing_to_restore#:#Nimic de reabilitat...
@@ -144,7 +144,7 @@ assessment#:#circle#:#Incercuiti
 assessment#:#circle_click_center#:#Va rugam apasati in centrul perimetrului dorit.
 assessment#:#circle_click_circle#:#Va rugam apasati intr-un punct al perimetrului dorit.
 assessment#:#clientip#:#Adresa IP client
-assessment#:#close_text_hint#:#Puteti crea spatii tastand <gap></gap> oriunde in text. Apasati butonul \'Creaza spatii\' pentru a forma un spatiu editabil. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Puteti crea spatii tastand <gap></gap> oriunde in text. Apasati butonul 'Creaza spatii' pentru a forma un spatiu editabil. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Text cu spatii se completat
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -197,7 +197,7 @@ assessment#:#ects_range_error_b#:#Va rugam introduceti o valoare intre 0 si 100 
 assessment#:#ects_range_error_c#:#Va rugam introduceti o valoare intre 0 si 100 pentru nota C conform ECTS!
 assessment#:#ects_range_error_d#:#Va rugam introduceti o valoare intre 0 si 100 pentru nota D conform ECTS!
 assessment#:#ects_range_error_e#:#Va rugam introduceti o valoare intre 0 si 100 pentru nota E conform ECTS!
-assessment#:#ects_use_fx_grade#:#Folositi nota \'FX\', daca participantii picati au ajuns la cel putin ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Folositi nota 'FX', daca participantii picati au ajuns la cel putin ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#ects_use_fx_grade_part2#:#procent din totalul de puncte.
 assessment#:#end_tag#:#Sfarsit eticheta
 assessment#:#ending_time_reached#:#Ati ajuns la finalui timpului
@@ -334,7 +334,7 @@ assessment#:#qpl_edit_select_multiple#:#Va rugam selectati doar o intrebare pent
 assessment#:#qpl_edit_select_none#:#Va rugam selectati o intrebare pentru a o edita
 assessment#:#qpl_export_select_none#:#Va rugam selectati cel putin o intrebare pentru a o exporta
 assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver\'s ImageMagick tool isn\'t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving###03 Nov 2005 new variable
 assessment#:#qpl_online_property#:#Online###03 Nov 2005 new variable
@@ -1100,7 +1100,7 @@ common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be in
 common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
 common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Cronometre
-common#:#cron_jobs_desc#:#Un cronometru este un proces automat care opereaza la intervale de timp predefinite. Veti casi informatii despre instalare in documentatia de \'INSTALARE\'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_jobs_desc#:#Un cronometru este un proces automat care opereaza la intervale de timp predefinite. Veti casi informatii despre instalare in documentatia de 'INSTALARE'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Curs
 common#:#crs_a#:#un Curs
 common#:#crs_add#:#Adaugati Curs
@@ -1395,8 +1395,8 @@ common#:#frm_edit_post#:#Adaugati thread nou, posta
 common#:#frm_new#:#Forum nou
 common#:#frm_read#:#Permisiune de citire a Forumului
 common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
-common#:#frm_status_new#:#Stare \'Nou\' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#frm_status_new_desc#:#Va rugam selectati durata pentru care starea \'Nou\' este pastrata pentru intrarile in forum ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new#:#Stare 'Nou' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new_desc#:#Va rugam selectati durata pentru care starea 'Nou' este pastrata pentru intrarile in forum ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#frm_visible#:#Forumul este vizibil
 common#:#frm_write#:#Editati forumul
 common#:#from#:#De la
@@ -1462,7 +1462,7 @@ common#:#group_req_registration_msg#:#Pentru a va alatura acestui grup trebuie s
 common#:#group_reset#:#Resetati Permisiunile Grupului
 common#:#group_status#:#Grupul este
 common#:#group_status_closed#:#Inchis
-common#:#group_status_desc#:#Determinati statutul initial al grupului folosind setarile de permisiune din tabelurile de roluri \'il_grp_status_closed\' sau \'il_grp_status_open\'<br />Public: Grupul este vizibil; Utilizatorul poate intra.<br />Closed: Grupul nu este vizibil celor care nu sunt membrii; Utilizatorul trebuie invitat de un membru pentru a participa. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#Determinati statutul initial al grupului folosind setarile de permisiune din tabelurile de roluri 'il_grp_status_closed' sau 'il_grp_status_open'<br />Public: Grupul este vizibil; Utilizatorul poate intra.<br />Closed: Grupul nu este vizibil celor care nu sunt membrii; Utilizatorul trebuie invitat de un membru pentru a participa. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Public
 common#:#groups#:#Grupuri
 common#:#groups_overview#:#Vedere de ansamblu a Grupurilor
@@ -1549,8 +1549,8 @@ common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
 common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#Dezafectati vederea structurata
 common#:#hist_dbk#:#Pagina creata
-common#:#hist_file_create#:#Fisier creat, numele fisierului este \"%1\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#Fisier inlocuit, noul nume al fisierului este \"%1\", versiunea noua este %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#Fisier creat, numele fisierului este "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#Fisier inlocuit, noul nume al fisierului este "%1", versiunea noua este %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_lm#:#Pagina creata
 common#:#hist_no_entries#:#Nu exista referinte anterioare.
 common#:#history#:#Istorie
@@ -1601,7 +1601,7 @@ common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this Lea
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
 common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
-common#:#ilinc_mem_change_status#:#Change user\'s status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
 common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_member_assigned#:#User(s) assigned###03 Nov 2005 new variable
@@ -1997,7 +1997,7 @@ common#:#msg_perm_adopted_from2#:#(Setarile au fost salvate!)
 common#:#msg_removed#:#Obiecte eliminate din sistem.
 common#:#msg_role_exists1#:#Un rol/tabel de roluri cu numele
 common#:#msg_role_exists2#:#exista deja! Va rugam alegeti un alt nume
-common#:#msg_role_reserved_prefix#:#Prefixul \'il_\' este rezervat pentru rolurile generate automat. Va rugam alegeti un alt nume. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#Prefixul 'il_' este rezervat pentru rolurile generate automat. Va rugam alegeti un alt nume. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Desemnarea rolurilor active a fost schimbata
 common#:#msg_roleassignment_active_changed_comment#:#Aceasta setare nu se salveaza peste profilul utilizatorului! Daca utilizatorul se logheaza din nou, toate desemnarile active de roluri se reseteaza la valorile salvate.
 common#:#msg_roleassignment_changed#:#Desemnarea rolurilor a fost schimbata
@@ -2209,7 +2209,7 @@ common#:#passwd_not_match#:#Introducerile pentru noua parola nu se potrivesc! Va
 common#:#passwd_wrong#:#Parola pe care ati introdus-o este gresita!
 common#:#password#:#Parola
 common#:#password_assistance_disabled#:#Asistenta pentru parola aste valabila doar cand autentificarea utilizatorului se face printr-o baza de date ILIAS locala.
-common#:#password_assistance_info#:#Daca asistenta pentru parola este activata, apare un link cu textul \"Ati uitat parola?\" pe pagina de login ILIAS. Uilizatorii pot folosi acest link pentru a desemna o noua parola contului lor, fara a avea nevoie de ajutor de la administratorul de sistem. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#Daca asistenta pentru parola este activata, apare un link cu textul "Ati uitat parola?" pe pagina de login ILIAS. Uilizatorii pot folosi acest link pentru a desemna o noua parola contului lor, fara a avea nevoie de ajutor de la administratorul de sistem. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Lipiti
 common#:#pasteChapter#:#Lipiti
 common#:#pastePage#:#Lipiti
@@ -2781,7 +2781,7 @@ content#:#cont_create_export_file_xml#:#Creati Fisier pentru Exportare (XML)
 content#:#cont_create_folder#:#Creati Dosar
 content#:#cont_create_html_version#:#Creati Pachet HTML
 content#:#cont_create_mob#:#Creati Obiect Media
-content#:#cont_credit_mode#:#Creditati mod (pentru mod de lectie \'normal\') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Creditati mod (pentru mod de lectie 'normal') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_credit_off#:#Fara Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credite
@@ -2936,7 +2936,7 @@ content#:#cont_matching_question_javascript_hint#:#Va rugam trageti o definitie/
 content#:#cont_max_time_allowed#:#adlcp:timpulmaximpermis
 content#:#cont_media_source#:#Sursa Media
 content#:#cont_mep_structure#:#Structura din Baza Media
-content#:#cont_missing_preconditions#:#Trebuie sa indepliniti urmatoarele preconditii pentru a accesa Capitolul \"%s\". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#Trebuie sa indepliniti urmatoarele preconditii pentru a accesa Capitolul "%s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_mob_files#:#Fisiere cu Obiecte
 content#:#cont_mob_inst_prop#:#Proprietatile Exemplului
@@ -3007,7 +3007,7 @@ content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_rvalue#:#Valoare
 content#:#cont_saved_map_area#:#Arie cu harti salvata
 content#:#cont_saved_map_data#:#Date despre harti salvate
-content#:#cont_sc_auto_review#:#Setati mod de lectie \'recapitulare\' daca studentul a completat SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#Setati mod de lectie 'recapitulare' daca studentul a completat SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#Cautati
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Cautat
@@ -3212,8 +3212,8 @@ crs#:#crs_moved_item#:#Obiect de curs mutat
 crs#:#crs_new_search#:#Cautare noua
 crs#:#crs_new_subscription#:#Inscriere noua la curs###23 Dec 2005 content changed
 crs#:#crs_new_subscription_body#:#s-a inscris un nou utilizator###23 Dec 2005 content changed
-crs#:#crs_new_subscription_request#:#Request to join course \"%s\"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course \"%s\".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_no_archive_selected#:#Nici o arhiva selectata
 crs#:#crs_no_archives_available#:#Nu exista arhive disponibile
 crs#:#crs_no_archives_selected#:#Va rugam selectati o arhiva
@@ -3418,7 +3418,7 @@ dateplaner#:#help_properties_del_l#:#Alegeti un cuvant cheie din fereastra de di
 dateplaner#:#help_properties_import#:#Importarea fisierelor Outlook-CSV
 dateplaner#:#help_properties_import_l#:#Aici poate fi selectat un fisier CSC, care contine date in Outlook. Aceste date vor fi importate in calendar.
 dateplaner#:#help_properties_new#:#Adaugati un cuvant cheie, maximum 20 caractere
-dateplaner#:#help_properties_new_l#:#Adaugati un cuvant cheie nou in campul \\\"nou\\\". Important: max. 20 caractere. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Adaugati un cuvant cheie nou in campul \"nou\". Important: max. 20 caractere. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 dateplaner#:#help_properties_time#:#Afisati timpul in vizualizarea pe zile/saptamani
 dateplaner#:#help_properties_time_l#:#Afisajul standard al timpului pentru vizualizarea pe zile/saptamani poate fi schimbat. Daca datele se afla in afara timpului afisat pentru anumite zile ale saptamanii,timpul afisat va fi schimbat pentru acea perioada de timp. Standardul este 8h -18h.
 dateplaner#:#help_rotation#:#Rotatie
@@ -3527,7 +3527,7 @@ dateplaner#:#week#:#saptamana
 dateplaner#:#Week_long#:#Vizualizarea saptamanii
 dateplaner#:#year#:#an
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won\'t be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 forum#:#forums#:#Forumuri
 forum#:#forums_attachments#:#Fisiere atasate
 forum#:#forums_attachments_add#:#Adauga fisiere atasate
@@ -3588,8 +3588,8 @@ forum#:#is_read#:#marcati drept citit
 forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 jscalendar#:#about_calendar#:#Despre calendar
-jscalendar#:#about_calendar_long#:#Selector de Data / Timp DHTML \\n(c) dynarch.com 2002-2003\\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\\n\\nSelectarea datei:\\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\\n- Folositi butoanele <, > pentru a selecta luna \\n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\\n\\nSelectarea timpului:\\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\\n- sau tineti apasat si shift pentru ai scadea valoarea\\n- sau apasati si trageti pentru o selectare mai rapida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#Selector de Data / Timp DHTML \n(c) dynarch.com 2002-2003\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\n\nSelectarea datei:\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\n- Folositi butoanele <, > pentru a selecta luna \n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_time#:#\n\nSelectarea timpului:\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\n- sau tineti apasat si shift pentru ai scadea valoarea\n- sau apasati si trageti pentru o selectare mai rapida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#close#:#Inchideti
 jscalendar#:#day_first#:#Afiseaza %s mai intai
 jscalendar#:#def_date_format#:#%A-%l-%z
@@ -4276,12 +4276,12 @@ payment#:#pay_bmf_credit_card_not_valid#:#Datele despre cordul de credit pe care
 payment#:#pay_bmf_debit_entry#:#Debit (numai conturile germane)
 payment#:#pay_bmf_debit_entry_data#:#Date debit
 payment#:#pay_bmf_debit_entry_not_valid#:#Datele despre debit pe care le-ati introdus nu sunt valabile. Va rugam verificati daca ati completat toate campurile corect.
-payment#:#pay_bmf_description_credit_card#:# Va rugam verificati daca toate articolele pe care doriti sa le comandati sunt in cosul de cumparaturi. Completand datele despre cardul de credit si apasand butonul \"Salvati\" ne confirmati dorinta de a comanda, efectiva imediat. Verificarea datelor poate dura cateva secunde. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Va rugam verificati daca toate articolele pe care doriti sa le cumparati sunt in cosul de cumparaturi. Completand datele despre debit si apasand butonul \"Salvati\" ne confirmati dorinta de a comanda, efectiva imediat. Verificarea datelor poate dura cateva secunde. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_credit_card#:# Va rugam verificati daca toate articolele pe care doriti sa le comandati sunt in cosul de cumparaturi. Completand datele despre cardul de credit si apasand butonul "Salvati" ne confirmati dorinta de a comanda, efectiva imediat. Verificarea datelor poate dura cateva secunde. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_debit_entry#:#Va rugam verificati daca toate articolele pe care doriti sa le cumparati sunt in cosul de cumparaturi. Completand datele despre debit si apasand butonul "Salvati" ne confirmati dorinta de a comanda, efectiva imediat. Verificarea datelor poate dura cateva secunde. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Va rugam selectati modalitatea de plata.
 payment#:#pay_bmf_description_personal_data#:#Va rugam completati in intregime formularul urmator.
 payment#:#pay_bmf_house_number#:#Numarul casei
-payment#:#pay_bmf_info#:#Accesul la urmatorul material nu este gratuit. Daca doriti sa obtineti accesul la anumite obiecte de studiu va rugam selectati un pret. Puteti cumpara unul sau mai multe obiecte de studiu folosind butonul \"cos de cumparaturi\" de pe desktopul personal.  Veti obtine accesul imediat la obiectul sau perioada alese. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_info#:#Accesul la urmatorul material nu este gratuit. Daca doriti sa obtineti accesul la anumite obiecte de studiu va rugam selectati un pret. Puteti cumpara unul sau mai multe obiecte de studiu folosind butonul "cos de cumparaturi" de pe desktopul personal.  Veti obtine accesul imediat la obiectul sau perioada alese. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#sau
 payment#:#pay_bmf_password_not_valid#:#Parola dumneavoastra nu a fost valabila.
@@ -4436,8 +4436,8 @@ payment#:#pays_no_username_given#:#Nu s-a acordat nume de utilizator
 payment#:#pays_no_valid_username_given#:#Nu s-a acordat un nume de utilizator valabil
 payment#:#pays_no_vendor_selected#:#Nu a fost selectat nici un comerciant
 payment#:#pays_number_bookings#:#rezervari valabile
-payment#:#pays_objects_bill_exist#:#Metoda de plata \'factura\' este activata pentru unele obiecte. Prin urmare, nu poate fi dezactivata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#Metoda de plata \'BMF\' este activata pentru unele obiecte. Prin urmare, nu poate fi dezactivata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#Metoda de plata 'factura' este activata pentru unele obiecte. Prin urmare, nu poate fi dezactivata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bmf_exist#:#Metoda de plata 'BMF' este activata pentru unele obiecte. Prin urmare, nu poate fi dezactivata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Modalitati de plata
@@ -4453,17 +4453,17 @@ payment#:#price_a#:#Pret
 payment#:#prices#:#Preturi
 payment#:#update#:#Actualizare
 pwassist#:#password_assistance#:#Ajutor pentru parola
-pwassist#:#pwassist_enter_username_and_email#:#Introduceti un nume de utilizator si adresa de mail asociata in campurile de mai jos.\\nILIAS va trimite un mesaj la adresa mentionata. Mesajul contine adresa unei pagini de web, unde puteti introduce o parola noua pentru contul de utilizator.\\nIn cazul in care nu puteti desemna parola contului dumneavoastra de utilizator folosind aceasta metoda, contactati-l pe administratorul cursului sau trimiteti un e-mail la %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_username_and_email#:#Introduceti un nume de utilizator si adresa de mail asociata in campurile de mai jos.\nILIAS va trimite un mesaj la adresa mentionata. Mesajul contine adresa unei pagini de web, unde puteti introduce o parola noua pentru contul de utilizator.\nIn cazul in care nu puteti desemna parola contului dumneavoastra de utilizator folosind aceasta metoda, contactati-l pe administratorul cursului sau trimiteti un e-mail la %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduceti numele de utilizator si noua parola in campurile de mai jos.
-pwassist#:#pwassist_invalid_username_or_email#:#Va rugam corectati textul din campuri.\\nNumele de utilizator si adresa de e-mail pe care le-ati introdus nu corespund unei intrari din baza de date. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Va rugam introduceti un alt nume de utilizator.\\nNumele de utilizator pe care l-ati introdus nu corespunde numelui de utilizator pentru cere ati cerut ajutor pentru parola. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Inregistrati o noua parola pentru contul de utilizator  :\\n\\t%1$s\\n\\nAcest mesaj a fost generat automat de catre serverul ILIAS \\n\\t%2$s\\n\\nDumneavoastra (sau cineva de la %3$s) a cerut ajutor pentru parola pentru contul de utilizator \"%4$s\".\\n\\nVa rugam verificati cu atentie conditiile exprimate mai jossi continuati conform cu ele:\\n\\n- Daca ati folosit ajutorul pentru parola al serverului ILIAS din intamplare:\\nStergeti acest mail.\\n\\n- Daca sunteti sigur/a ca nu ati cerut niciodata ajutorul pentru parola de pe acest server ILIAS :\\nVa rugam contactati %5$s.\\n\\n- Daca ati cerut ajutor pentru parole continuati dupa cum urmeaza:\\n\\n1. Deschideti browser-ul.\\n\\n2. Introduceti urmatoarea adresa in browser:\\n\\t%1$s\\n\\nImportant: Adresa trebuie sa fie pe un singur rand. Daca adresa este impartita in randuri multiple, programul dumneavoastra de e-mail a introdus spatii pentru.\\n\\n3. Pe pagina de web deschisa de browser, introduceti o noua parola pentru contul de utilizator.\\n\\nFiti atenti ca, din motive de securitate, puteti urma cei trei pasi de mai sus numai o data si intr-un timp limitat. Dupa aceea adresa nu mai este valabila si trebuie sa folositi ajutorul pentru parola de pe serverul ILIAS din nou. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#A fost trimis un mesaj la %1$s.\\nVa rugam verificati mail-ul. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Va rugam corectati textul din campuri.\nNumele de utilizator si adresa de e-mail pe care le-ati introdus nu corespund unei intrari din baza de date. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Va rugam introduceti un alt nume de utilizator.\nNumele de utilizator pe care l-ati introdus nu corespunde numelui de utilizator pentru cere ati cerut ajutor pentru parola. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_body#:#Inregistrati o noua parola pentru contul de utilizator  :\n\t%1$s\n\nAcest mesaj a fost generat automat de catre serverul ILIAS \n\t%2$s\n\nDumneavoastra (sau cineva de la %3$s) a cerut ajutor pentru parola pentru contul de utilizator "%4$s".\n\nVa rugam verificati cu atentie conditiile exprimate mai jossi continuati conform cu ele:\n\n- Daca ati folosit ajutorul pentru parola al serverului ILIAS din intamplare:\nStergeti acest mail.\n\n- Daca sunteti sigur/a ca nu ati cerut niciodata ajutorul pentru parola de pe acest server ILIAS :\nVa rugam contactati %5$s.\n\n- Daca ati cerut ajutor pentru parole continuati dupa cum urmeaza:\n\n1. Deschideti browser-ul.\n\n2. Introduceti urmatoarea adresa in browser:\n\t%1$s\n\nImportant: Adresa trebuie sa fie pe un singur rand. Daca adresa este impartita in randuri multiple, programul dumneavoastra de e-mail a introdus spatii pentru.\n\n3. Pe pagina de web deschisa de browser, introduceti o noua parola pentru contul de utilizator.\n\nFiti atenti ca, din motive de securitate, puteti urma cei trei pasi de mai sus numai o data si intr-un timp limitat. Dupa aceea adresa nu mai este valabila si trebuie sa folositi ajutorul pentru parola de pe serverul ILIAS din nou. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_mail_sent#:#A fost trimis un mesaj la %1$s.\nVa rugam verificati mail-ul. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_subject#:#Ajutor pentru Parola ILIAS
-pwassist#:#pwassist_not_permitted#:#Va rugam introduceti un alt nume de utilizator.\\nAjutorul pentru parola nu este permis pentru numele de utilizator pe care l-ati introdus. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#Parola a fost desemnata catre utilizatorul \"%1$s\" cu succes. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Va rugam completati din nou acest formular.\\nSesiunea de ajutor pentru parola dumneavoastra a expirat. Acest lucru s-a intamplat probabil pentru ca ati incercat sa folositi link-ul trimis mai mult de o singura data, sau pentru ca a trecut prea mult timp de cand v-a fost trimis. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Va rugam contactati-l pe administratorul de sistem.\\nParola nu a putut fi desemnata contului de utilizator din cauza unei erori aparute la actualizarea bazei de date. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Va rugam introduceti un alt nume de utilizator.\nAjutorul pentru parola nu este permis pentru numele de utilizator pe care l-ati introdus. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_password_assigned#:#Parola a fost desemnata catre utilizatorul "%1$s" cu succes. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_session_expired#:#Va rugam completati din nou acest formular.\nSesiunea de ajutor pentru parola dumneavoastra a expirat. Acest lucru s-a intamplat probabil pentru ca ati incercat sa folositi link-ul trimis mai mult de o singura data, sau pentru ca a trecut prea mult timp de cand v-a fost trimis. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_update_error#:#Va rugam contactati-l pe administratorul de sistem.\nParola nu a putut fi desemnata contului de utilizator din cauza unei erori aparute la actualizarea bazei de date. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -4546,7 +4546,7 @@ survey#:#add_phrase_introduction#:#VA rugam selectati o fraza:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#Ati completat deja acest sondaj! Nu aveti permisiunea de a-l accesa din nou.###05 Feb 2006 content changed
 survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.
-survey#:#anonymize_key_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a vi se oferi accesul la acest sondaj a fost creat un cod de 32 caractere de catre sistem, care va va fi trimis in casuta de mail atunci cand incepeti completarea sondajului (dupa ce ati raspuns la prima intrebare). Codul dvs de acces in sondaj este<br /><span class=\"bold\">%s</span><br />Va rugam introduceti codul in campul de mai jos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a vi se oferi accesul la acest sondaj a fost creat un cod de 32 caractere de catre sistem, care va va fi trimis in casuta de mail atunci cand incepeti completarea sondajului (dupa ce ati raspuns la prima intrebare). Codul dvs de acces in sondaj este<br /><span class="bold">%s</span><br />Va rugam introduceti codul in campul de mai jos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_resume_introduction#:#Va rugam introduceti codul de acces pentru a va reintoarce in sondaj. V-a fost trimis pe mail in momentul in care ati raspuns la prima intrebare.
 survey#:#anonymize_survey#:#Pastrati anonime datele de utilizator din sondaj
 survey#:#anonymize_survey_explanation#:#Cand este activat, toate datele despre utilizator vor ramane anonime si nu pot fi urmarite.
@@ -4839,7 +4839,7 @@ survey#:#spl_select_file_for_import#:#Trebuie sa selectati un fisier pentru a-l 
 survey#:#start_date#:#Data de incepere
 survey#:#start_date_not_reached#:#Nu puteti incepe un sondaj inaintea datei de incepere!
 survey#:#start_survey#:#Incepeti sondaj
-survey#:#subject_mail_survey_id#:#Codul dumneavoastra de sondaj pentru \"%s\" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Codul dumneavoastra de sondaj pentru "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Subtip
 survey#:#survey_code#:#Cod de acces la sondaj
 survey#:#survey_code_message_sent#:#Un cod de acces care va permite revenirea la sondaj v-a fost trimis pe mail!
@@ -5017,7 +5017,7 @@ trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new varia
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is \'Completed\' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
@@ -5030,7 +5030,7 @@ trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
-trac#:#trac_info_edited#:#Set the status to \'Completed\' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
@@ -5068,7 +5068,7 @@ trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
-trac#:#trac_sahs_relevant_items#:#SCO\'s###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
 trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable

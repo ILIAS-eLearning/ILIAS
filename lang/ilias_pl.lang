@@ -828,7 +828,7 @@ chat#:#chats#:#Czaty
 chat#:#my_chats#:#Moje Czaty
 common#:#3rd_party_software#:#Oprogramowanie innych firm
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH:MM#:#HH:MM
+common#:#HH#:#HH:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement#:#Akceptuję zasady korzystania z systemu
 common#:#access#:#Dostęp
@@ -1677,16 +1677,16 @@ common#:#hide_details#:#Ukryj szczegóły
 common#:#hide_private_notes#:#Ukryj prywatne notatki
 common#:#hide_public_notes#:#Ukryj publiczne notatki
 common#:#hide_structure#:#Wyłącz widok strukturalny
-common#:#hist_dbk:pg_create#:#Strona została utworzona
-common#:#hist_dbk:pg_cut#:#Stona wycięta z rozdziału "%1" [%2]
-common#:#hist_dbk:pg_paste#:#Strona wklejona do rozdziału "%1" [%2]
-common#:#hist_dbk:pg_update#:#Strona została zmieniona
-common#:#hist_file_create#:#Plik został utworzony, nazwa pliku to "%1".  
+common#:#hist_dbk#:#Strona została utworzona
+common#:#hist_dbk#:#Stona wycięta z rozdziału "%1" [%2]
+common#:#hist_dbk#:#Strona wklejona do rozdziału "%1" [%2]
+common#:#hist_dbk#:#Strona została zmieniona
+common#:#hist_file_create#:#Plik został utworzony, nazwa pliku to "%1".
 common#:#hist_file_replace#:#Plik został zastąpiony, nowa nazwa pliku to "%1", nowa wersja: %2.
-common#:#hist_lm:pg_create#:#Strona została utworzona
-common#:#hist_lm:pg_cut#:#Strona wycięta z rozdziału "%1" [%2]
-common#:#hist_lm:pg_paste#:#Strona wklejona do rozdziału "%1" [%2]
-common#:#hist_lm:pg_update#:#Strona została zmieniona
+common#:#hist_lm#:#Strona została utworzona
+common#:#hist_lm#:#Strona wycięta z rozdziału "%1" [%2]
+common#:#hist_lm#:#Strona wklejona do rozdziału "%1" [%2]
+common#:#hist_lm#:#Strona została zmieniona
 common#:#hist_no_entries#:#Brak pozycji w historii.
 common#:#hist_webr_add#:#Dodano nowy zasób web o tytule: "%1"
 common#:#hist_webr_delete#:#Usunięto zasób web. Tytuł: "%1"
@@ -3044,7 +3044,7 @@ common#:#usrimport_action_replaced#:#Wymieniona akcja %1$s przez %2$s.
 common#:#usrimport_cant_delete#:#Nie można wykonać akcji "Usuń". Brak takiego użytkownika w bazie.
 common#:#usrimport_cant_insert#:#Nie można wykonać akcji "Wstaw". Taki użytkownik już istnieje w bazie.
 common#:#usrimport_cant_update#:#Nie można wykonać akcji "Uaktualnij". Brak takiego użytkownika w bazie.
-common#:#usrimport_conflict_handling_info#:#Kiedy jest wybrane "Ignoruj przy konflikcie", ILIAS ignoruje akcję, jeśli ona nie może być wykonana (np. akcja "Wstaw" nie jest wykonana, jeśli już istnieje w bazie danych użytkownik o tym samym loginie.)\nKiedy jest wybrane "Uaktualnij przy konflikcie", ILIAS uaktualnia bazę danych jeśli akcja nie może zostać wykonana. (np. akcja "Wstaw" jest zastępowana przez akcję "Uaktualnij", jeśli już istnieje w bazie danych użytkownik o takim samym loginie).
+common#:#usrimport_conflict_handling_info#:#Kiedy jest wybrane "Ignoruj przy konflikcie", ILIAS ignoruje akcję, jeśli ona nie może być wykonana (np. akcja "Wstaw" nie jest wykonana, jeśli już istnieje w bazie danych użytkownik o tym samym loginie.)nKiedy jest wybrane "Uaktualnij przy konflikcie", ILIAS uaktualnia bazę danych jeśli akcja nie może zostać wykonana. (np. akcja "Wstaw" jest zastępowana przez akcję "Uaktualnij", jeśli już istnieje w bazie danych użytkownik o takim samym loginie).
 common#:#usrimport_global_role_for_action_required#:#Conajmniej jedna globalna rola musi być określona dla akcji "%1$s".
 common#:#usrimport_ignore_role#:#Ignoruj role
 common#:#usrimport_login_is_not_unique#:#Login nie jest unikalny.
@@ -4182,8 +4182,8 @@ forum#:#new_post#:#Nowy post
 forum#:#thread#:#Temat
 grp#:#grp_registration_unlimited#:#Nielimitowany okres rejestracji
 jscalendar#:#about_calendar#:#O kalendarzu
-jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTML\n(c) dynarch.com 2002-2003\n Dla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epl\n udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html aby sprawdzić szczegóły licencji.\n\nWybór daty:\n- Użyj przycisków «, » do wyboru roku\n- Użyj przycisków <, > do wyboru miesiąca\n- Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
-jscalendar#:#about_time#:#\n\nWybór czasu:\n- Kliknij na dowolny element czasu aby go zwiększyć\n- lub z klawiszem Shift aby go zmniejszyć\n- lub kliknij i przytrzymaj aby przyspieszyć wybór.
+jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTMLn(c) dynarch.com 2002-2003n Dla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epln udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html aby sprawdzić szczegóły licencji.nnWybór daty:n- Użyj przycisków «, » do wyboru rokun- Użyj przycisków <, > do wyboru miesiącan- Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
+jscalendar#:#about_time#:#nnWybór czasu:n- Kliknij na dowolny element czasu aby go zwiększyćn- lub z klawiszem Shift aby go zmniejszyćn- lub kliknij i przytrzymaj aby przyspieszyć wybór.
 jscalendar#:#close#:#Zamknij
 jscalendar#:#day_first#:#Wyświetl najpierw %s
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -5066,20 +5066,20 @@ payment#:#price_a#:#Cena
 payment#:#prices#:#Ceny
 payment#:#update#:#Aktualizuj
 pwassist#:#password_assistance#:#Pomoc dla haseł
-pwassist#:#pwassist_enter_email#:#Podaj adres e-mail i zatwierdź formularz.\nILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się  na ten adres e-mail.\nWybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuuj się z administratorem kursu lub %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#W polach poniżej podaj nazwę użytkownika (login) i adres konta poczty elektronicznej.\nILIAS wyśle wiadomość na ten adres. Wiadomość zawiera adres strony WWW, gdzie możesz podać nowe hasło dla swojego konta w ILIAS-ie.
+pwassist#:#pwassist_enter_email#:#Podaj adres e-mail i zatwierdź formularz.nILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się  na ten adres e-mail.nWybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuuj się z administratorem kursu lub %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#W polach poniżej podaj nazwę użytkownika (login) i adres konta poczty elektronicznej.nILIAS wyśle wiadomość na ten adres. Wiadomość zawiera adres strony WWW, gdzie możesz podać nowe hasło dla swojego konta w ILIAS-ie.
 pwassist#:#pwassist_enter_username_and_new_password#:#W polach poniżej podaj nazwę użytkownika (login) i nowe hasło.
-pwassist#:#pwassist_invalid_email#:#Sprawdź swój adres e-mail.\nPodany adres e-mail nie został odnaleziony w bazie danych.
-pwassist#:#pwassist_invalid_username_or_email#:#Popraw tekst w polach wejściowych.\nWprowadzony login i adres poczty elektronicznej nie zgadzają się z danymi w bazie danych.
-pwassist#:#pwassist_login_not_match#:#Podaj inny login.\nPodana nazwa użytkownika nie jest zgodna z nazwą użytkownika dla której prosiłeś o hasło.
-pwassist#:#pwassist_mail_body#:#Zarejestruj nowe hasło dla swojego konta:\n\t%1$s\n\nTa wiadomość została wygenerowana automatycznie przez serwer ILIAS\n\t%2$s\n\nTy  (lub ktoś  %3$s) prosił o pomoc do hasła dla konta "%4$s".\n\nSprawdź uważnie warunki wypisane poniżej i wykonaj odpowiednie czynności:\n\n- Jeśli użyłeś formularza pomocy do hasła z serwera ILIAS:\nUsuń tę wiadomość.\n\n- Jeśli jesteś pewien, że nigdy nie  prosiłeś o pomoc do hasła na tym serwerze ILIAS:\nSkontakuj się z %5$s.\n\n- Jeśli prosiłeś o pomoc do hasła, wykonaj następujące czynności:\n\n1. Otwórz przeglądarkę WWW.\n\n2. Podaj następujący adres w przeglądarce:\n\t%1$s\n\nUwaga: Ten adres jest jedną linią. Jeśli jest podzielony na wiele linii to znaczy, że twój program pocztowy dodał znaki końca wiersza.\n\n3. Na stronie, która się pojawi w przeglądarce, podaj nowe hasło dla twojego konta.\n\nDla zachowania bezpieczeństwa, możesz wykonać te trzy czynności tylko raz i to w ograniczonym czasie. Jeśli tego warunku nie spełnisz to powyższy adres stanie się niedostępny i będziesz musiał ponownie użyć strony pomocy do hasła z serwera ILIAS.
-pwassist#:#pwassist_mail_sent#:#Wiadomość została wysłana do %1$s.\nSprawdź swoją skrzynkę pocztową.
+pwassist#:#pwassist_invalid_email#:#Sprawdź swój adres e-mail.nPodany adres e-mail nie został odnaleziony w bazie danych.
+pwassist#:#pwassist_invalid_username_or_email#:#Popraw tekst w polach wejściowych.nWprowadzony login i adres poczty elektronicznej nie zgadzają się z danymi w bazie danych.
+pwassist#:#pwassist_login_not_match#:#Podaj inny login.nPodana nazwa użytkownika nie jest zgodna z nazwą użytkownika dla której prosiłeś o hasło.
+pwassist#:#pwassist_mail_body#:#Zarejestruj nowe hasło dla swojego konta:nt%1$snnTa wiadomość została wygenerowana automatycznie przez serwer ILIASnt%2$snnTy  (lub ktoś  %3$s) prosił o pomoc do hasła dla konta "%4$s".nnSprawdź uważnie warunki wypisane poniżej i wykonaj odpowiednie czynności:nn- Jeśli użyłeś formularza pomocy do hasła z serwera ILIAS:nUsuń tę wiadomość.nn- Jeśli jesteś pewien, że nigdy nie  prosiłeś o pomoc do hasła na tym serwerze ILIAS:nSkontakuj się z %5$s.nn- Jeśli prosiłeś o pomoc do hasła, wykonaj następujące czynności:nn1. Otwórz przeglądarkę WWW.nn2. Podaj następujący adres w przeglądarce:nt%1$snnUwaga: Ten adres jest jedną linią. Jeśli jest podzielony na wiele linii to znaczy, że twój program pocztowy dodał znaki końca wiersza.nn3. Na stronie, która się pojawi w przeglądarce, podaj nowe hasło dla twojego konta.nnDla zachowania bezpieczeństwa, możesz wykonać te trzy czynności tylko raz i to w ograniczonym czasie. Jeśli tego warunku nie spełnisz to powyższy adres stanie się niedostępny i będziesz musiał ponownie użyć strony pomocy do hasła z serwera ILIAS.
+pwassist#:#pwassist_mail_sent#:#Wiadomość została wysłana do %1$s.nSprawdź swoją skrzynkę pocztową.
 pwassist#:#pwassist_mail_subject#:#Pomoc do haseł ILIAS
-pwassist#:#pwassist_not_permitted#:#Podaj inną nazwę użytkownika.\nPomoc do haseł nie jest dozwolona dla tego użytkownika.
+pwassist#:#pwassist_not_permitted#:#Podaj inną nazwę użytkownika.nPomoc do haseł nie jest dozwolona dla tego użytkownika.
 pwassist#:#pwassist_password_assigned#:#Hasło zostało przydzielone do użytkownika "%1$s".
-pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz.\nSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
-pwassist#:#pwassist_update_error#:#Skontaktuj się z administratorem systemu.\nHasło nie zostało przydzielone do konta z powodu błędu zapisu w bazie danych.
-pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:\n%s\n\nTa wiadomość została utworzona automatycznie przez serwer ILIAS:\n\t%s\n\nTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.\n\nSprawdź dane i wykonaj co jest sugerowane::\n\n-Jeśli żądałeś tej wiadomości:\nNa końcu usuń tę wiadomość.\n\n-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:\nSkontaktuj się z %s.\n\n- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::\n\n1. Otwórz swoją przeglądarkę www.\n\n2. Wprowadź następujący url:\n\t%s\n\nUwaga: Adres jest pojedyńczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn że twój klient pocztowy sam podzielił go na wiersze.\n\n3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony z jedną z podanych nazw uzytkowników by łącznie z adresem e-mail ukać nowe hasło.
+pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz.nSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
+pwassist#:#pwassist_update_error#:#Skontaktuj się z administratorem systemu.nHasło nie zostało przydzielone do konta z powodu błędu zapisu w bazie danych.
+pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:n%snnTa wiadomość została utworzona automatycznie przez serwer ILIAS:nt%snnTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.nnSprawdź dane i wykonaj co jest sugerowane::nn-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.nn-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:nSkontaktuj się z %s.nn- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::nn1. Otwórz swoją przeglądarkę www.nn2. Wprowadź następujący url:nt%snnUwaga: Adres jest pojedyńczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn że twój klient pocztowy sam podzielił go na wiersze.nn3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony z jedną z podanych nazw uzytkowników by łącznie z adresem e-mail ukać nowe hasło.
 rbac#:#edit_learning_progress#:#Edycja postępu nauczania
 rbac#:#filter_all_roles#:#Pokaż wszystkie role bieżącego kontekstu
 rbac#:#filter_global_roles#:#Pokaż tylko role globalne
