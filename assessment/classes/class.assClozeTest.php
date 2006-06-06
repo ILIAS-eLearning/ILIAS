@@ -527,6 +527,202 @@ class assClozeTest extends assQuestion
 	}
 	
 	/**
+	* Creates a question from a QTI file
+	*
+	* Receives parameters from a QTI parser and creates a valid ILIAS question object
+	*
+	* @param object $item The QTI item object
+	* @param integer $questionpool_id The id of the parent questionpool
+	* @param integer $tst_id The id of the parent test if the question is part of a test
+	* @param object $tst_object A reference to the parent test object
+	* @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
+	* @param array $import_mapping An array containing references to included ILIAS objects
+	* @access public
+	*/
+	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+	{
+		global $ilUser;
+		//global $ilLog;
+		
+		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
+		$presentation = $item->getPresentation(); 
+		$duration = $item->getDuration();
+		$questiontext = array();
+		$shuffle = 0;
+		$now = getdate();
+		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+		$gaps = array();
+		foreach ($presentation->order as $entry)
+		{
+			switch ($entry["type"])
+			{
+				case "material":
+					$material = $presentation->material[$entry["index"]];
+					if (count($material->mattext))
+					{
+						foreach ($material->mattext as $mattext)
+						{
+							array_push($questiontext, $mattext->getContent());
+						}
+					}
+					break;
+				case "response":
+					$response = $presentation->response[$entry["index"]];
+					$rendertype = $response->getRenderType(); 
+					array_push($questiontext, "<<" . $response->getIdent() . ">>");
+					switch (strtolower(get_class($response->getRenderType())))
+					{
+						case "ilqtirenderfib":
+							array_push($gaps, array("ident" => $response->getIdent(), "type" => "text", "answers" => array()));
+							break;
+						case "ilqtirenderchoice":
+							$answers = array();
+							$shuffle = $rendertype->getShuffle();
+							$answerorder = 0;
+							foreach ($rendertype->response_labels as $response_label)
+							{
+								$ident = $response_label->getIdent();
+								$answertext = "";
+								foreach ($response_label->material as $mat)
+								{
+									foreach ($mat->mattext as $matt)
+									{
+										$answertext .= $matt->getContent();
+									}
+								}
+								$answers[$ident] = array(
+									"answertext" => $answertext,
+									"points" => 0,
+									"answerorder" => $answerorder++,
+									"action" => "",
+									"shuffle" => $rendertype->getShuffle()
+								);
+							}
+							array_push($gaps, array("ident" => $response->getIdent(), "type" => "choice", "shuffle" => $rendertype->getShuffle(), "answers" => $answers));
+							break;
+					}
+					break;
+			}
+		}
+		$responses = array();
+		foreach ($item->resprocessing as $resprocessing)
+		{
+			foreach ($resprocessing->respcondition as $respcondition)
+			{
+				$ident = "";
+				$correctness = 1;
+				$conditionvar = $respcondition->getConditionvar();
+				foreach ($conditionvar->order as $order)
+				{
+					switch ($order["field"])
+					{
+						case "varequal":
+							$equals = $conditionvar->varequal[$order["index"]]->getContent();
+							$gapident = $conditionvar->varequal[$order["index"]]->getRespident();
+							break;
+					}
+				}
+				foreach ($respcondition->setvar as $setvar)
+				{
+					if (strcmp($gapident, "") != 0)
+					{
+						foreach ($gaps as $gi => $g)
+						{
+							if (strcmp($g["ident"], $gapident) == 0)
+							{
+								if (strcmp($g["type"], "choice") == 0)
+								{
+									foreach ($gaps[$gi]["answers"] as $ai => $answer)
+									{
+										if (strcmp($answer["answertext"], $equals) == 0)
+										{
+											$gaps[$gi]["answers"][$ai]["action"] = $setvar->getAction();
+											$gaps[$gi]["answers"][$ai]["points"] = $setvar->getContent();
+										}
+									}
+								}
+								else if (strcmp($g["type"], "text") == 0)
+								{
+									array_push($gaps[$gi]["answers"], array(
+										"answertext" => $equals,
+										"points" => $setvar->getContent(),
+										"answerorder" => count($gaps[$gi]["answers"]),
+										"action" => $setvar->getAction(),
+										"shuffle" => 1
+									));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		$this->setTitle($item->getTitle());
+		$this->setComment($item->getComment());
+		$this->setAuthor($item->getAuthor());
+		$this->setOwner($ilUser->getId());
+		$this->setObjId($questionpool_id);
+		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+		$textgap_rating = $item->getMetadataEntry("textgaprating");
+		if (strlen($textgap_rating) == 0) $textgap_rating = "ci";
+		$this->setTextgapRating($textgap_rating);
+		$gaptext = array();
+		foreach ($gaps as $gapidx => $gap)
+		{
+			$gapcontent = array();
+			$type = 0;
+			$typetext = "text";
+			$shuffletext = "";
+			if (strcmp($gap["type"], "choice") == 0)
+			{
+				$type = 1;
+				$typetext = "select";
+				if ($gap["shuffle"] == 0)
+				{
+					$shuffletext = "  shuffle=\"no\"";
+				}
+				else
+				{
+					$shuffletext = "  shuffle=\"yes\"";
+				}
+			}
+			foreach ($gap["answers"] as $index => $answer)
+			{
+				$this->addAnswer($gapidx, $answer["answertext"], $answer["points"], $answer["answerorder"], 1, $type, $gap["ident"], $answer["shuffle"]);
+				array_push($gapcontent, $answer["answertext"]);
+			}
+			$gaptext[$gap["ident"]] = "<gap type=\"$typetext\" name=\"" . $gap["ident"] . "\"$shuffletext>" . join(",", $gapcontent). "</gap>";
+		}
+		$clozetext = join("", $questiontext);
+		foreach ($gaptext as $idx => $val)
+		{
+			$clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
+		}
+		$this->cloze_text = $clozetext;
+		$this->saveToDb();
+		if (count($item->suggested_solutions))
+		{
+			foreach ($item->suggested_solutions as $suggested_solution)
+			{
+				$this->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+			}
+			$this->saveToDb();
+		}
+		if ($tst_id > 0)
+		{
+			$q_1_id = $this->getId();
+			$question_id = $this->duplicate(true);
+			$tst_object->questions[$question_counter++] = $question_id;
+			$import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+		}
+		else
+		{
+			$import_mapping[$item->getIdent()] = array("pool" => $this->getId(), "test" => 0);
+		}
+		//$ilLog->write(strftime("%D %T") . ": finished import multiple choice question (single response)");
+	}
+	
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal

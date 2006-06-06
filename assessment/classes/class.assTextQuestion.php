@@ -121,6 +121,108 @@ class assTextQuestion extends assQuestion
 	}
 
 	/**
+	* Creates a question from a QTI file
+	*
+	* Receives parameters from a QTI parser and creates a valid ILIAS question object
+	*
+	* @param object $item The QTI item object
+	* @param integer $questionpool_id The id of the parent questionpool
+	* @param integer $tst_id The id of the parent test if the question is part of a test
+	* @param object $tst_object A reference to the parent test object
+	* @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
+	* @param array $import_mapping An array containing references to included ILIAS objects
+	* @access public
+	*/
+	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+	{
+		global $ilUser;
+		//global $ilLog;
+		
+		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
+		$presentation = $item->getPresentation(); 
+		$duration = $item->getDuration();
+		$now = getdate();
+		$maxchars = 0;
+		$maxpoints = 0;
+		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+		foreach ($presentation->order as $entry)
+		{
+			switch ($entry["type"])
+			{
+				case "material":
+					$material = $presentation->material[$entry["index"]];
+					if (count($material->mattext))
+					{
+						foreach ($material->mattext as $mattext)
+						{
+							$item->setQuestiontext($mattext->getContent());
+						}
+					}
+				case "response":
+					$response = $presentation->response[$entry["index"]];
+					$rendertype = $response->getRenderType(); 
+					switch (strtolower(get_class($rendertype)))
+					{
+						case "ilqtirenderfib":
+							$maxchars = $rendertype->getMaxchars();
+							break;
+					}
+					break;
+			}
+		}
+
+		foreach ($item->resprocessing as $resprocessing)
+		{
+			$outcomes = $resprocessing->getOutcomes();
+			foreach ($outcomes->decvar as $decvar)
+			{
+				$maxpoints = $decvar->getMaxvalue();
+			}
+		}
+		
+		$this->setTitle($item->getTitle());
+		$this->setComment($item->getComment());
+		$this->setAuthor($item->getAuthor());
+		$this->setOwner($ilUser->getId());
+		$this->setQuestion($item->getQuestiontext());
+		$this->setObjId($questionpool_id);
+		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+		$this->setPoints($maxpoints);
+		$this->setMaxNumOfChars($maxchars);
+		$textrating = $item->getMetadataEntry("textrating");
+		if (strlen($textrating))
+		{
+			$this->setTextRating($textrating);
+		}
+		$keywords = $item->getMetadataEntry("keywords");
+		if (strlen($keywords))
+		{
+			$this->setKeywords($keywords);
+		}
+		$this->saveToDb();
+		if (count($item->suggested_solutions))
+		{
+			foreach ($item->suggested_solutions as $suggested_solution)
+			{
+				$this->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+			}
+			$this->saveToDb();
+		}
+		if ($tst_id > 0)
+		{
+			$q_1_id = $this->getId();
+			$question_id = $this->duplicate(true);
+			$tst_object->questions[$question_counter++] = $question_id;
+			$import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+		}
+		else
+		{
+			$import_mapping[$item->getIdent()] = array("pool" => $this->getId(), "test" => 0);
+		}
+		//$ilLog->write(strftime("%D %T") . ": finished import multiple choice question (single response)");
+	}
+
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal

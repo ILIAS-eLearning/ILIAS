@@ -21,18 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-define ("QT_UNKNOWN", 0);
-define ("QT_MULTIPLE_CHOICE_SR", 1);
-define ("QT_MULTIPLE_CHOICE_MR", 2);
-define ("QT_CLOZE", 3);
-define ("QT_MATCHING", 4);
-define ("QT_ORDERING", 5);
-define ("QT_IMAGEMAP", 6);
-define ("QT_JAVAAPPLET", 7);
-define ("QT_TEXT", 8);
-define ("QT_NUMERIC", 9);
-define ("QT_TEXTSUBSET", 10);
+define ("QT_UNKNOWN", "unknown");
+define ("QT_MULTIPLE_CHOICE_SR", "assSingleChoice");
+define ("QT_MULTIPLE_CHOICE_MR", "assMultipleChoice");
+define ("QT_CLOZE", "assClozeTest");
+define ("QT_MATCHING", "assMatchingQuestion");
+define ("QT_ORDERING", "assOrderingQuestion");
+define ("QT_IMAGEMAP", "assImagemapQuestion");
+define ("QT_JAVAAPPLET", "assJavaApplet");
+define ("QT_TEXT", "assTextQuestion");
+define ("QT_NUMERIC", "assNumeric");
+define ("QT_TEXTSUBSET", "assTextSubset");
 
 /**
 * QTI item class
@@ -298,7 +297,14 @@ class ilQTIItem
 					break;
 			}
 		}
-		return QT_UNKNOWN;
+		if (strlen($this->questiontype) == 0)
+		{
+			return QT_UNKNOWN;
+		}
+		else
+		{
+			return $this->questiontype;
+		}
 	}
 	
 	function setAuthor($a_author)
