@@ -44,12 +44,32 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	function login($client,$username,$password)
 	{
 		$this->__initAuthenticationObject();
-
 		$this->sauth->setClient($client);
 		$this->sauth->setUsername($username);
 		$this->sauth->setPassword($password);
 
+		$authenticated = true;
 		if(!$this->sauth->authenticate())
+		{
+			// Check if password is md5 crypted check for it
+			if(strlen($password) == 32)
+			{
+				$this->__initAuthenticationObject();
+				$this->sauth->setClient($client);
+				$this->sauth->setUsername($username);
+				$this->sauth->setPassword($password);
+				$this->sauth->setPasswordType(IL_AUTH_MD5);
+				if(!$this->sauth->authenticate())
+				{
+					$authenticated = false;
+				}
+			}
+			else
+			{
+				$authenticated = false;
+			}
+		}
+		if(!$authenticated)
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
