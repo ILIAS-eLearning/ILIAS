@@ -4283,8 +4283,11 @@ class ilObjTestGUI extends ilObjectGUI
 						}			
 						if (!$this->object->isActiveTestSubmitted($ilUser->getId())) 
 						{
-							$info->addFormButton("show_answers", $this->lng->txt("save_finish"));
-							sendInfo($this->lng->txt("online_exam_show_finish_test"));
+							if ($this->object->startingTimeReached() && (!$this->object->endingTimeReached()))
+							{
+								$info->addFormButton("show_answers", $this->lng->txt("save_finish"));
+								sendInfo($this->lng->txt("online_exam_show_finish_test"));
+							}
 						} 
 					} 			
 				}
