@@ -499,7 +499,4 @@ function searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_
 
 }
 
-
-
-
 ?>

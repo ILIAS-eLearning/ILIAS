@@ -34,6 +34,9 @@
 */
 include_once 'Auth/Auth.php';
 
+define('IL_AUTH_MD5',1);
+define('IL_AUTH_PLAIN',2);
+
 class ilBaseAuthentication
 {
 
@@ -131,6 +134,15 @@ class ilBaseAuthentication
 	function __setMessageCode($a_message_code)
 	{
 		$this->message_code = $a_message_code;
+	}
+
+	function setPasswordType($a_type)
+	{
+		$this->password_type = $a_type;
+	}
+	function getPasswordType()
+	{
+		return isset($this->password_type) ? $this->password_type : IL_AUTH_PLAIN;
 	}
 
 	function authenticate()
@@ -288,6 +300,11 @@ class ilBaseAuthentication
 			'usernamecol' => $this->ini->readVariable("auth", "usercol"),
 			'passwordcol' => $this->ini->readVariable("auth", "passcol")
 			);
+
+		if($this->getPasswordType() == IL_AUTH_MD5)
+		{
+			$this->auth_params['cryptType'] = 'none';
+		}
 
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
 
