@@ -1499,7 +1499,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		foreach($_SESSION["ilExportFiles"] as $file)
 		{
 			$exp_file = $export_dir."/".$file;
-			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			include_once "./classes/class.ilStr.php";
+			$exp_dir = $export_dir."/".ilStr::subStr($file, 0, ilStr::strLen($file) - 4);
 			if (@is_file($exp_file))
 			{
 				unlink($exp_file);

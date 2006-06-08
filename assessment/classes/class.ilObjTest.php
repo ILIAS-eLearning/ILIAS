@@ -1407,7 +1407,21 @@ class ilObjTest extends ilObject
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-		
+
+		$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active->active_id); 
+		if ($duplicate_id === FALSE)
+		{
+			$duplicate_id = $this->duplicateQuestionForTest($question_id);
+		}
+
+		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+			$ilDB->quote($active->active_id . ""),
+			$ilDB->quote($duplicate_id . ""),
+			$ilDB->quote(($result->numRows()+1) . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+/*		
 		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 			$ilDB->quote($active->active_id . ""),
 			$ilDB->quote($question_id . ""),
@@ -1415,6 +1429,39 @@ class ilObjTest extends ilObject
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
+*/
+	}
+	
+/**
+* Returns the question id of the duplicate of a question which is already in use in a random test
+*
+* Returns the question id of the duplicate of a question which is already in use in a random test
+*
+* @param integer $question_id Question ID of the original question
+* @param integer $active_id Active ID of the user
+* @return mixed The question ID of the duplicate or FALSE if no duplicate was found
+* @access public
+* @see $questions
+*/
+	function getRandomQuestionDuplicate($question_id, $active_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT qpl_questions.question_id FROM qpl_questions, tst_test_random_question WHERE qpl_questions.original_id = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s",
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		$num = $result->numRows();
+		if ($num > 0)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["question_id"];
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 	
 /**

@@ -26,6 +26,7 @@
 * Multi byte sensitive string functions
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 * @package ilias-core
 */
@@ -64,6 +65,30 @@ class ilStr
 		else
 		{
 			return strlen($a_string);
+		}		
+	}
+
+	function strToLower($a_string)
+	{
+		if (function_exists("mb_strtolower"))
+		{
+			return mb_strtolower($a_string, "UTF-8");
+		}
+		else
+		{
+			return strtolower($a_string);
+		}		
+	}
+
+	function strToUpper($a_string)
+	{
+		if (function_exists("mb_strtoupper"))
+		{
+			return mb_strtoupper($a_string, "UTF-8");
+		}
+		else
+		{
+			return strtoupper($a_string);
 		}		
 	}
 
