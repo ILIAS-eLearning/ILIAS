@@ -1487,7 +1487,7 @@ class ilTestOutputGUI
 				if ($pass == $counted_pass)
 				{
 					$this->tpl->setVariable("COLOR_CLASS", "tblrowmarked");
-					$this->tpl->setVariable("SCORED_VALUE", "X");
+					$this->tpl->setVariable("VALUE_SCORED", "X");
 					$result_percentage = $percentage;
 					$result_total_reached = $total_reached;
 					$result_total_max = $total_max;
