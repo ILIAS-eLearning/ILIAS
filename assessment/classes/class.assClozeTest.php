@@ -1867,7 +1867,8 @@ class assClozeTest extends assQuestion
 		$size = 0;
 		foreach ($gap as $answer)
 		{
-			$answertextsize = strlen($answer->getAnswertext());
+			include_once "./classes/class.ilStr.php";
+			$answertextsize = ilStr::strLen($answer->getAnswertext());
 			if ($answertextsize > $size) $size = $answertextsize;
 		}
 		return $size;

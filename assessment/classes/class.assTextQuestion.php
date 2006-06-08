@@ -755,13 +755,14 @@ class assTextQuestion extends assQuestion
 	{
 		$result = FALSE;
 		$textrating = $this->getTextRating();
+		include_once "./classes/class.ilStr.php";
 		switch ($textrating)
 		{
 			case TEXTGAP_RATING_CASEINSENSITIVE:
-				if (strpos(strtolower(utf8_decode($answertext)), strtolower(utf8_decode($a_keyword))) !== false) return TRUE;
+				if (ilStr::strPos(ilStr::strToLower($answertext), ilStr::strToLower($a_keyword)) !== false) return TRUE;
 				break;
 			case TEXTGAP_RATING_CASESENSITIVE:
-				if (strpos(utf8_decode($answertext), utf8_decode($a_keyword)) !== false) return TRUE;
+				if (ilStr::strPos(utf8_decode($answertext), $a_keyword) !== false) return TRUE;
 				break;
 		}
 		$answerwords = array();
@@ -882,7 +883,8 @@ class assTextQuestion extends assQuestion
 		$text = ilUtil::stripSlashes($_POST["TEXT"]);
 		if ($this->getMaxNumOfChars())
 		{
-			$text = substr($text, 0, $this->getMaxNumOfChars()); 
+			include_once "./classes/class.ilStr.php";
+			$text = ilStr::subStr($text, 0, $this->getMaxNumOfChars()); 
 		}
 		$entered_values = 0;
 		if (strlen($text))
