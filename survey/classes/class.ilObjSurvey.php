@@ -3933,7 +3933,6 @@ class ilObjSurvey extends ilObject
 						if ($question)
 						{
 							$question->from_xml("<questestinterop>$item</questestinterop>");
-							echo "<br />importing question " . $question->getTitle();
 							if ($import_results !== false)
 							{
 								$question->setObjId($survey_questionpool_id);
