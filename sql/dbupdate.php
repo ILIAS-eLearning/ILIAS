@@ -10911,4 +10911,6 @@ ALTER TABLE `tst_tests` DROP INDEX `test_id_2`;
 ALTER TABLE `tst_tests` DROP INDEX `test_id`;
 ALTER TABLE `tst_test_type` DROP INDEX `test_type_id_2`;
 ALTER TABLE `tst_test_type` DROP INDEX `test_type_id`;
-
+<#738>
+ALTER TABLE `ass_log` ADD `test_only` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `original_fi` ;
+ALTER TABLE `ass_log` ADD `ref_id` INT NULL AFTER `original_fi` ;

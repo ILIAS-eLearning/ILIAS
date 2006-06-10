@@ -1671,7 +1671,8 @@ class ilTestOutputGUI
 			$sortnr = "ASC";
 		}
 
-		foreach ($result_array as $key => $value) {
+		foreach ($result_array as $key => $value) 
+		{
 			if (preg_match("/\d+/", $key)) {
 				$this->tpl->setCurrentBlock("question");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);

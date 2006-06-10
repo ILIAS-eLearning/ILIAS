@@ -390,7 +390,7 @@ class ASS_MarkSchema
 	{
 		global $ilUser;
 		include_once "./classes/class.ilObjAssessmentFolder.php";
-		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext);
+		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", TRUE, $_GET["ref_id"]);
 	}
 }
 

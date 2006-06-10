@@ -143,6 +143,8 @@ assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 assessment#:#change_solution#:#Change suggested solution
+assessment#:#changelog_heading#:#Changelog
+assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
@@ -294,6 +296,9 @@ assessment#:#log_modified_test#:#The test was modified
 assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
+assessment#:#log_random_question_pool_added#:#Added the question pool '%s' with %s questions for the random test
+assessment#:#log_total_amount_of_questions#:#Set the total amount of questions for the random test to %s
+assessment#:#log_random_question_pool_deleted#:#Removed all random question pools for the test
 assessment#:#log_question_removed#:#Question removed
 assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
 assessment#:#log_user_answered_question#:#User answered a question and received %s points
@@ -472,6 +477,7 @@ assessment#:#text_answers_saved#:#Essay points modified!
 assessment#:#text_gap#:#Text gap
 assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 assessment#:#text_rating#:#Text matching method
+assessment#:#test_reference#:#Test reference
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
 assessment#:#true#:#True

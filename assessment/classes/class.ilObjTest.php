@@ -1581,6 +1581,12 @@ class ilObjTest extends ilObject
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$result = $ilDB->query($query);
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			if (strcmp($total_questions, "NULL") == 0) $total_questions = '0';
+			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_total_amount_of_questions", ilObjAssessmentFolder::_getLogLanguage()), $total_questions));
+		}
 	}
 
 /**
@@ -1596,11 +1602,16 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		// delete existing random questionpools
     $query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($query);
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$this->logAction($this->lng->txtlng("assessment", "log_random_question_pool_deleted", ilObjAssessmentFolder::_getLogLanguage()));
+		}
 		// create new random questionpools
 		foreach ($qpl_array as $key => $value) {
 			if ($value["qpl"] > -1)
@@ -1617,6 +1628,10 @@ class ilObjTest extends ilObject
 					$ilDB->quote(sprintf("%d", $value["count"]) . "")
 				);
 				$result = $ilDB->query($query);
+				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+				{
+					$this->logAction(sprintf($this->lng->txtlng("assessment", "log_random_question_pool_added", ilObjAssessmentFolder::_getLogLanguage()), $value["title"] . " (" . $value["qpl"] . ")", $value["count"]));
+				}
 			}
 		}
 	}
@@ -3594,8 +3609,11 @@ class ilObjTest extends ilObject
 		$result_array = array();
 		include_once "./assessment/classes/class.assQuestion.php";
 		$workedthrough = 0;
-		foreach ($this->questions as $value)
+		$active_object = $this->getActiveTestUserFromActiveId($active_id);
+		$user_sequence = split(",", $active_object->sequence);
+		foreach ($user_sequence as $questionindex)
 		{
+			$value = $this->questions[$questionindex];
 			$max_points = assQuestion::_getMaximumPoints($value);
 			$total_max_points += $max_points;
 			$reached_points = assQuestion::_getReachedPoints($active_id, $value, $pass);
@@ -5985,7 +6003,7 @@ class ilObjTest extends ilObject
 			$original_id = assQuestion::_getOriginalId($question_id);
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
-		ilObjAssessmentFolder::_addLog($ilUser->id, $this->getId(), $logtext, $question_id, $original_id);
+		ilObjAssessmentFolder::_addLog($ilUser->id, $this->getId(), $logtext, $question_id, $original_id, TRUE, $this->getRefId());
 	}
 	
 /**
