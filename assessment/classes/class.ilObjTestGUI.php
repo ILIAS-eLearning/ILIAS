@@ -1461,11 +1461,15 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["hide_previous_results"] = 1;
 		}
+		if ($data["sel_test_types"] == TYPE_ONLINE_TEST)
+		{
+			$data["hide_previous_results"] = 0;
+		}
 		if ($data["hide_previous_results"] == 1)
 		{
 			$this->tpl->setVariable("CHECKED_HIDE_PREVIOUS_RESULTS",  " checked=\"checked\"");
 		}
-		if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
+		if (($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST) || ($data["sel_test_types"] == TYPE_ONLINE_TEST))
 		{
 			$this->tpl->setVariable("DISABLE_HIDE_PREVIOUS_RESULTS", " disabled=\"disabled\"");
 		}
@@ -2193,7 +2197,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$found_qpls[$matches[1]] = array(
 					"index" => $matches[1],
 					"count" => sprintf("%d", $value),
-					"qpl"   => $_POST["qpl_" . $matches[1]]
+					"qpl"   => $_POST["qpl_" . $matches[1]],
+					"title" => $available_qpl[$_POST["qpl_" . $matches[1]]]
 				);
 				if ($_POST["qpl_" . $matches[1]] == -1)
 				{
@@ -3281,6 +3286,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function statusObject()
 	{
+		global $rbacsystem;
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_status.html", true);
 		if (!$this->object->isComplete())
 		{
@@ -3345,6 +3352,43 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ELEMENT", sprintf($this->lng->txt("tst_in_use_edit_questions_disabled"), $total));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			include_once "./classes/class.ilObjAssessmentFolder.php";
+			$log =& ilObjAssessmentFolder::_getLog("19700101000000", strftime("%Y%m%d%H%M%S"), $this->object->getId(), TRUE);
+			if (count($log))
+			{
+				$tblrow = array("tblrow1", "tblrow2");
+				$counter = 0;
+				include_once "./classes/class.ilObjUser.php";
+				foreach ($log as $entry)
+				{
+					$this->tpl->setCurrentBlock("changelog_row");
+					$this->tpl->setVariable("ROW_CLASS", $tblrow[$counter % 2]);
+					$user = ilObjUser::_lookupName($entry["user_fi"]);
+					$this->tpl->setVariable("TXT_USER", trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"]));
+					$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($entry["TIMESTAMP14"]), "datetime"));
+					if (strlen($entry["ref_id"]))
+					{
+						$this->tpl->setVariable("TXT_TEST_REFERENCE", $entry["ref_id"]);
+						$this->tpl->setVariable("HREF_REFERENCE", "goto.php?target=tst_" . $entry["ref_id"] . "&amp;client_id=" . CLIENT_ID);
+					}
+					$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($entry["logtext"])));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("changelog");
+				$this->tpl->setVariable("HEADER_DATETIME", $this->lng->txt("assessment_log_datetime"));
+				$this->tpl->setVariable("HEADER_USER", $this->lng->txt("user"));
+				$this->tpl->setVariable("HEADER_LOGTEXT", $this->lng->txt("assessment_log_text"));
+				$this->tpl->setVariable("HEADER_TEST_REFERENCE", $this->lng->txt("test_reference"));
+				$this->tpl->setVariable("HEADING_CHANGELOG", $this->lng->txt("changelog_heading"));
+				$this->tpl->setVariable("DESCRIPTION_CHANGELOG", $this->lng->txt("changelog_description"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		if ($this->object->isComplete())
 		{

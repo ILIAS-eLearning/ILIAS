@@ -274,7 +274,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $original_id The database id of the original of a modified question (optional)
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "")
+	function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = FALSE, $ref_id = NULL)
 	{
 		global $ilUser, $ilDB;
 		if (strlen($question_id) == 0)
@@ -293,12 +293,24 @@ class ilObjAssessmentFolder extends ilObject
 		{
 			$original_id = $ilDB->quote($original_id . "");
 		}
-		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+		$only = "0";
+		if ($test_only == TRUE)
+		{
+			$only = "1";
+		}
+		$test_ref_id = "NULL";
+		if ($ref_id > 0)
+		{
+			$test_ref_id = $ilDB->quote($ref_id . "");
+		}
+		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, test_only, ref_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($object_id . ""),
 			$ilDB->quote($logtext . ""),
 			$question_id,
-			$original_id
+			$original_id,
+			$ilDB->quote($only . ""),
+			$test_ref_id
 		);
 		$result = $ilDB->query($query);
 	}
@@ -313,15 +325,81 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $test_id Database id of the ILIAS test object
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function &getLog($ts_from, $ts_to, $test_id)
+	function &getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
 		$log = array();
-		$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY TIMESTAMP14",
-			$this->ilias->db->quote($test_id . ""),
-			$this->ilias->db->quote($ts_from . ""),
-			$this->ilias->db->quote($ts_to . "")
-		);
+		if ($test_only == TRUE)
+		{
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY TIMESTAMP14",
+				$this->ilias->db->quote($test_id . ""),
+				$this->ilias->db->quote($ts_from . ""),
+				$this->ilias->db->quote($ts_to . ""),
+				$this->ilias->db->quote("1")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY TIMESTAMP14",
+				$this->ilias->db->quote($test_id . ""),
+				$this->ilias->db->quote($ts_from . ""),
+				$this->ilias->db->quote($ts_to . "")
+			);
+		}
 		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (!array_key_exists($row["TIMESTAMP14"], $log))
+			{
+				$log[$row["TIMESTAMP14"]] = array();
+			}
+			array_push($log[$row["TIMESTAMP14"]], $row);
+		}
+		ksort($log);
+		// flatten array
+		$log_array = array();
+		foreach ($log as $key => $value)
+		{
+			foreach ($value as $index => $row)
+			{
+				array_push($log_array, $row);
+			}
+		}
+		return $log_array;
+	}
+	
+	/**
+	* Retrieve assessment log datasets from the database
+	*
+	* Retrieve assessment log datasets from the database
+	*
+	* @param string $ts_from Timestamp of the starting date/time period
+	* @param string $ts_to Timestamp of the ending date/time period
+	* @param integer $test_id Database id of the ILIAS test object
+	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
+	*/
+	function &_getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
+	{
+		global $ilDB;
+		
+		$log = array();
+		if ($test_only == TRUE)
+		{
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY TIMESTAMP14",
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($ts_from . ""),
+				$ilDB->quote($ts_to . ""),
+				$ilDB->quote("1")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY TIMESTAMP14",
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($ts_from . ""),
+				$ilDB->quote($ts_to . "")
+			);
+		}
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if (!array_key_exists($row["TIMESTAMP14"], $log))

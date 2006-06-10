@@ -292,7 +292,7 @@ assessment#:#log_no_test_fields_changed#:#Ohne Änderungen gespeichert
 assessment#:#log_question_added#:#Frage hinzugefügt an Position
 assessment#:#log_question_position_changed#:#Fragenposition geändert
 assessment#:#log_question_removed#:#Frage entfernt
-assessment#:#log_selected_user_data_removed#:#Testdaten des Nutzers/der Nutzerin entfernen
+assessment#:#log_selected_user_data_removed#:#Testdaten des Nutzers/der Nutzerin %s entfernen
 assessment#:#log_user_answered_question#:#Ein/e Nutzer/in beantwortet eine Frage und erhielt %s Punkte
 assessment#:#log_user_data_removed#:#Die Testdaten aller Nutzerinnen wurden entfernt
 assessment#:#log_user_entered_values#:#Der Nutzer/die Nutzerin hat Werte eingetragen
