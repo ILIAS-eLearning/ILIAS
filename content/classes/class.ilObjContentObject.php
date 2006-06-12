@@ -1593,7 +1593,23 @@ class ilObjContentObject extends ilObject
 		$attrs = array("Name" => "HistoryUserComments", "Value" =>
 			ilUtil::tf2yn($this->isActiveHistoryUserComments()));
 		$a_xml_writer->xmlElement("Property", $attrs);
-		
+
+		// Header Page
+		if ($this->getHeaderPage() > 0)
+		{
+			$attrs = array("Name" => "HeaderPage", "Value" =>
+				"il_".IL_INST_ID."_pg_".$this->getHeaderPage());
+			$a_xml_writer->xmlElement("Property", $attrs);
+		}
+
+		// Footer Page
+		if ($this->getFooterPage() > 0)
+		{
+			$attrs = array("Name" => "FooterPage", "Value" =>
+				"il_".IL_INST_ID."_pg_".$this->getFooterPage());
+			$a_xml_writer->xmlElement("Property", $attrs);
+		}
+
 		$a_xml_writer->xmlEndTag("Properties");
 	}
 

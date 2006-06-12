@@ -616,6 +616,12 @@ div.il_editarea
 	border-width: 1px;
 }
 
+div.ilc_Disabled {
+	margin-left: -10px;
+	padding-left: 10px;
+	border-left: 3px dotted red;
+}
+
 
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */

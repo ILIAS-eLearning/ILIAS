@@ -690,8 +690,30 @@ class ilContObjParser extends ilMDSaxParser
 							$this->content_object->setHistoryUserComments(
 								ilUtil::yn2tf($a_attribs["Value"]));
 							break;
+							
+						case "HeaderPage":
+							if ($a_attribs["Value"] != "")
+							{
+								if ($this->pg_mapping[$a_attribs["Value"]] > 0)
+								{
+									$this->content_object->setHeaderPage(
+										$this->pg_mapping[$a_attribs["Value"]]);
+								}
+							}
+							break;
 
+						case "FooterPage":
+							if ($a_attribs["Value"] != "")
+							{
+								if ($this->pg_mapping[$a_attribs["Value"]] > 0)
+								{
+									$this->content_object->setFooterPage(
+										$this->pg_mapping[$a_attribs["Value"]]);
+								}
+							}
+							break;
 					}
+			//echo "<br>+".$a_attribs["Name"]."+";
 				}
 				break;
 

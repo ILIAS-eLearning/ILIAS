@@ -1304,7 +1304,7 @@ class ilLMPresentationGUI
 	/**
 	* process <ilPage> content tag
 	*/
-	function ilPage(&$a_page_node)
+	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
 		global $ilBench,$ilUser;
 
@@ -1325,13 +1325,24 @@ class ilLMPresentationGUI
 
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		require_once("content/classes/class.ilLMPageObject.php");
-		$page_id = $this->getCurrentPageId();
+		
+		// page id is e.g. > 0 when footer or header page is processed
+		if ($a_page_id == 0)
+		{
+			$page_id = $this->getCurrentPageId();
+		}
+		else
+		{
+			$page_id = $a_page_id;
+		}
+		
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 		$page_object->buildDom();
 		$page_object->registerOfflineHandler($this);
 		$int_links = $page_object->getInternalLinks();
 		$page_object_gui =& new ilPageObjectGUI($page_object);
-
+		$page_object_gui->setTemplateOutput(false);
+		
 		// Update personal desktop items
 		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
 
@@ -1366,9 +1377,16 @@ class ilLMPresentationGUI
 		}		
 		$page_object_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
 		$page_object_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
-		$page_object_gui->setPresentationTitle(
-			ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
-			$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+		
+		
+		// page title (not for header or footer page)
+		if ($page_id == 0 || ($page_id != $this->lm->getHeaderPage() &&
+			$page_id != $this->lm->getFooterPage()))
+		{
+			$page_object_gui->setPresentationTitle(
+				ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+		}
 
 		// ADDED FOR CITATION
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
@@ -1414,7 +1432,27 @@ class ilLMPresentationGUI
 
 		$ilBench->stop("ContentPresentation", "ilPage");
 		
-		return $page_object_gui->presentation($page_object_gui->getOutputMode());
+		$ret = $page_object_gui->presentation($page_object_gui->getOutputMode());
+		
+		// process header
+		if ($this->lm->getHeaderPage() > 0 && 
+			$page_id != $this->lm->getHeaderPage() &&
+			($page_id == 0 || $page_id != $this->lm->getFooterPage()))
+		{
+			$head = $this->ilPage($a_page_node, $this->lm->getHeaderPage());
+		}
+
+		// process footer
+		if ($this->lm->getFooterPage() > 0 && 
+			$page_id != $this->lm->getFooterPage() &&
+			($page_id == 0 || $page_id != $this->lm->getHeaderPage()))
+		{
+			$foot = $this->ilPage($a_page_node, $this->lm->getFooterPage());
+		}
+		
+		$this->tpl->setVariable("PAGE_CONTENT", $head.$ret.$foot); 
+//echo htmlentities("-".$ret."-");
+		return $head.$ret.$foot;
 
 	}
 

@@ -2669,7 +2669,10 @@ common#:#per_object#:#Access per object
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
-common#:#permission_settings#:#Permission settings
+common#:#permission_settings#:#Object Permission Settings
+common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.
+common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.
+common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.
 common#:#person_title#:#Title
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
@@ -3444,7 +3447,7 @@ content#:#cont_ed_delete_item#:#delete item
 content#:#cont_ed_delete_row#:#delete row
 content#:#cont_ed_edit#:#edit
 content#:#cont_ed_edit_prop#:#edit properties
-content#:#cont_ed_enable#:#switch enable/disable
+content#:#cont_ed_enable#:#(De-)Activate Elements
 content#:#cont_ed_go#:#Go
 content#:#cont_ed_insert_code#:#insert Code
 content#:#cont_ed_insert_filelist#:#insert File List

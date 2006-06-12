@@ -122,15 +122,6 @@ class ilPermissionGUI
 
 		$this->gui_obj->getTemplateFile("perm");
 
-		// render filter form
-	    $this->tpl->setCurrentBlock("filter");
-	    $this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
-	    $this->tpl->setVariable("SELECT_FILTER",$this->__buildRoleFilterSelect());
-	    $this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this)."&cmd=perm");
-	    $this->tpl->setVariable("FILTER_NAME",'view');
-	    $this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
-	    $this->tpl->parseCurrentBlock();
-
 		$this->num_roles = count($this->roles);
 
 		// don't display table if no role in list
@@ -141,8 +132,23 @@ class ilPermissionGUI
 			return true;
 		}
 		
+		// render filter form
+	    $this->tpl->setCurrentBlock("filter");
+	    $this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
+	    $this->tpl->setVariable("SELECT_FILTER",$this->__buildRoleFilterSelect());
+	    $this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this)."&cmd=perm");
+	    $this->tpl->setVariable("FILTER_NAME",'view');
+	    $this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
+	    $this->tpl->parseCurrentBlock();
+
 		$this->tpl->addBlockFile("PERM_PERMISSIONS", "permissions", "tpl.obj_perm_permissions.html");
+
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("permission_settings"));
+		$this->tpl->setVariable("IMG_PERM", ilUtil::getImagePath("icon_perm.gif"));
+		$this->tpl->setVariable("TXT_TITLE_INFO",
+			sprintf($this->lng->txt("permission_settings_info"),
+			$this->gui_obj->object->getTitle()
+			));
 		$this->tpl->setVariable("COLSPAN", $this->num_roles);
 		$this->tpl->setVariable("FORMACTION",
 			$this->gui_obj->getFormAction("permSave",$this->ctrl->getLinkTarget($this,"permSave")));

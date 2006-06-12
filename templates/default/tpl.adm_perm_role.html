@@ -22,14 +22,10 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <form action="{FORMACTION}" name="ObjectItems" method="post">
   <table class="fullwidth">
   <tr class="tbltitle">
-    <td colspan="4">
-	<table class="fullwidth_invisible">
-	  <tr class="tbltitle">
-	    <td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
-		<td class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
-		<td align="right">&nbsp;</td>
-	  </tr>
-	</table>
+    <td class="std" colspan="4">
+	    <img src="{TBL_TITLE_IMG}" style="vertical-align:middle;" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />
+		{TBL_TITLE}<br />
+		<span class="il_Helptext">{TXT_TITLE_INFO}</span>
     </td>
   </tr>
 <!-- BEGIN object_type -->

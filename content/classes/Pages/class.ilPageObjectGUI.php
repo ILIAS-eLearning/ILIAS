@@ -414,6 +414,7 @@ class ilPageObjectGUI
 			{
 //echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "content");
+				$this->tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
 				
 				// user comment
 				if ($this->isEnabledChangeComments())
@@ -553,7 +554,6 @@ class ilPageObjectGUI
 				}
 				$this->tpl->parseCurrentBlock();
 			}
-
 		}
 		
 		// get content
