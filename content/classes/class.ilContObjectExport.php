@@ -266,6 +266,7 @@ class ilContObjectExport
 
 		// zip the file
 		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
+//echo "-".$this->export_dir."/".$this->subdir."-";
 		ilUtil::zip($this->export_dir."/".$this->subdir,
 			$this->export_dir."/".$this->subdir.".zip");
 		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");

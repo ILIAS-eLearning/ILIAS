@@ -380,6 +380,13 @@ td.submit {
 
 }
 
+/* special styles for permission screens */
+
+tr.obj_perm {
+	background-color: #F0FFF0;
+}
+
+
 /* Container  list related styles */
 
 /* --- content styles (will move to content.css) --- */
@@ -1189,6 +1196,7 @@ td.il_RightColumn
 /* ------- Helptext --------- */
 span.il_Helptext {
 	font-size: 90%;
+	font-weight: normal;
 }
 
 /* ----------------- alternative text styles ------------- */
@@ -1709,6 +1717,19 @@ td.ilc_Page
 	margin-bottom: 0px;
 }
 
+td.ilc_PageDisabled
+{
+	padding:20px;
+	border-right-style: solid;
+	border-color: #9EADBA;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-bottom: 0px;
+	border-left: 3px dotted red;
+
+}
+
 table.ilc_LMNavigation {
 	border-width: 0px;
 	border-spacing: 0px;
@@ -1820,6 +1841,12 @@ div.ilc_TableOfContents
 	border-color: #EEEEEE;
 	border-width: 1px;
 	margin-bottom: 0px;
+}
+
+div.ilc_Disabled {
+	margin-left: -10px;
+	padding-left: 10px;
+	border-left: 3px dotted red;
 }
 
 /* --- Test & Assessment styles --- */

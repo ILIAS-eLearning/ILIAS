@@ -1,12 +1,16 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
 <table class="il_InfoScreen">
 <tr class="tbltitle">
-  <td class="std" colspan="{COLSPAN}">{TXT_TITLE}</td>
+	<th class="std" colspan="{COLSPAN}">
+	<img src="{IMG_PERM}" style="vertical-align:middle;" border="0" alt="{TXT_TITLE}"/>
+	{TXT_TITLE}<br />
+	<span class="il_Helptext">{TXT_TITLE_INFO}</span>
+	</th>
 </tr>
 
 <tr class="tblheader">
 <!-- BEGIN role_infos -->
-  <td class="std">
+  <th class="std">
 <!-- BEGIN rolelink_open -->
 <a href="{LINK_ROLE_RULESET}" alt="{TXT_ROLE_RULESET}" title="{TXT_ROLE_RULESET}">
 <!-- END rolelink_open -->
@@ -15,7 +19,7 @@
 </a>
 <!-- END rolelink_close -->
 <br/><span class="small">{ROLE_CONTEXT_TYPE}<br/>{ROLE_CONTEXT}</span>
-  </td>
+  </th>
 <!-- END role_infos -->
 </tr>
 
@@ -47,7 +51,7 @@
 
 <tr class="tblfooter">
   <td class="std" align="right" colspan="{COLSPAN}">
-    <input class="submit" type="submit" value="{TXT_SAVE}" />
+    <input class="submit" type="submit" name="cmd[permSave]" value="{TXT_SAVE}" />
   </td>
 </tr>
 

@@ -3272,7 +3272,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->object->setHeaderPage($_POST["id"][0]);
+		if ($_POST["id"][0] != $this->object->getHeaderPage())
+		{
+			$this->object->setHeaderPage($_POST["id"][0]);
+		}
+		else
+		{
+			$this->object->setHeaderPage(0);
+		}
 		$this->object->updateProperties();
 		$this->ctrl->redirect($this, "pages");
 	}
@@ -3290,7 +3297,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->object->setFooterPage($_POST["id"][0]);
+		if ($_POST["id"][0] != $this->object->getFooterPage())
+		{
+			$this->object->setFooterPage($_POST["id"][0]);
+		}
+		else
+		{
+			$this->object->setFooterPage(0);
+		}
 		$this->object->updateProperties();
 		$this->ctrl->redirect($this, "pages");
 	}
