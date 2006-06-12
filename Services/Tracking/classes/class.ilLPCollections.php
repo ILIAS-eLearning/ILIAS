@@ -138,12 +138,14 @@ class ilLPCollections
 
 		switch(ilObjSAHSLearningModule::_lookupSubType($target_id))
 		{
+			case 'hacp':
 			case 'aicc':
 				include_once './content/classes/class.ilObjAICCLearningModule.php';
 
 				foreach(ilObjAICCLearningModule::_getTrackingItems($target_id) as $item)
 				{
-					$items[$item->getId()]['title'] = $item->getTitle();
+					$items["$item[obj_id]"]['title'] = $item['title'];
+					#$items[$item->getId()]['title'] = $item->getTitle();
 				}
 				return $items ? $items : array();
 

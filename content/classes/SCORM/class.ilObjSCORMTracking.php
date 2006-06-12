@@ -166,7 +166,7 @@ class ilObjSCORMTracking
 	}
 
 
-	function _getInProgress($scorm_item_id)
+	function _getInProgress($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -175,10 +175,13 @@ class ilObjSCORMTracking
 			$where = "WHERE sco_id IN('";
 			$where .= implode("','",$scorm_item_id);
 			$where .= "') ";
+			$where .= ("AND obj_id = '".$a_obj_id."'");
+			   
 		}
 		else
 		{
-			$where = "WHERE sco_id = '".$scorm_item_id."'";
+			$where = "WHERE sco_id = '".$scorm_item_id."' ";
+			$where .= ("AND obj_id = '".$a_obj_id."'");
 		}
 				
 
@@ -187,8 +190,6 @@ class ilObjSCORMTracking
 #			"AND lvalue = 'cmi.core.lesson_status' ".
 #			"AND rvalue = 'incomplete'";
 
-			
-
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -197,15 +198,16 @@ class ilObjSCORMTracking
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getCompleted($scorm_item_id)
+	function _getCompleted($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 
 		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
 			"WHERE sco_id = '".$scorm_item_id."' ".
+			"AND obj_id = '".$a_obj_id."' ".
 			"AND lvalue = 'cmi.core.lesson_status' ".
-			"AND rvalue = 'completed'";
-
+			"AND ( rvalue = 'completed' ".
+			"OR rvalue = 'passed')";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -214,19 +216,21 @@ class ilObjSCORMTracking
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getCountCompletedPerUser($a_scorm_item_ids)
+	function _getCountCompletedPerUser($a_scorm_item_ids,$a_obj_id)
 	{
 		global $ilDB;
 
 		$where = "WHERE sco_id IN('";
 		$where .= implode("','",$a_scorm_item_ids);
 		$where .= "') ";
+		$where .= ("AND obj_id = '".$a_obj_id."'");
 		
 
 		$query = "SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking ".
 			$where.
 			"AND lvalue = 'cmi.core.lesson_status' ".
-			"AND rvalue = 'completed' ".
+			"AND (rvalue = 'completed' OR ".
+			"rvalue = 'passed') ".
 			"GROUP BY user_id";
 
 		$res = $ilDB->query($query);

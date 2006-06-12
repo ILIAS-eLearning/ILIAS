@@ -34,7 +34,7 @@ require_once("content/classes/class.ilObjAICCLearningModule.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjAICCLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjAICCLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core

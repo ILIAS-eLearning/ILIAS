@@ -49,7 +49,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 
-		return  array_diff(ilObjSCORMTracking::_getInProgress(ilLPCollections::_getItems($a_obj_id)),
+		return  array_diff(ilObjSCORMTracking::_getInProgress(ilLPCollections::_getItems($a_obj_id),$a_obj_id),
 						   ilLPStatusSCORM::_getCompleted($a_obj_id));
 	}
 
@@ -63,7 +63,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		$counter = 0;
 		foreach(ilLPCollections::_getItems($a_obj_id) as $sco_id)
 		{
-			$tmp_users = ilObjSCORMTracking::_getCompleted($sco_id);
+			$tmp_users = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
 			if(!$counter++)
 			{
 				$users = $tmp_users;

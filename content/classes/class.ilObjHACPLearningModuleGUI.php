@@ -9,7 +9,7 @@ require_once("content/classes/class.ilObjHACPLearningModule.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjHACPLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjHACPLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core

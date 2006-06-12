@@ -389,7 +389,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 					// Status
 					//$status = $this->__readStatus($obj_id,$user_id);
-					$status = $this->__readSCORMStatus($item_id,$user_id);
+					$status = $this->__readSCORMStatus($item_id,$this->details_id,$user_id);
 					$this->tpl->setVariable("ITEM_PROP",$this->lng->txt('trac_status'));
 					$this->tpl->setVariable("ITEM_VAL",$this->lng->txt($status));
 					$this->__showImageByStatus($this->tpl,$status,'ITEM_');
