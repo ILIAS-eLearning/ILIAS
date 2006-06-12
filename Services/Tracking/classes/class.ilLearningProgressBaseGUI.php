@@ -409,7 +409,7 @@ class ilLearningProgressBaseGUI
 		}
 	}
 
-	function __readSCORMStatus($sco_id, $a_user_id = 0)
+	function __readSCORMStatus($sco_id, $a_obj_id,$a_user_id = 0)
 	{
 		$user_id = $a_user_id > 0
 			? $a_user_id
@@ -417,8 +417,8 @@ class ilLearningProgressBaseGUI
 		
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 
-		$in_progress = ilObjSCORMTracking::_getInProgress($sco_id);
-		$completed = ilObjSCORMTracking::_getCompleted($sco_id);
+		$in_progress = ilObjSCORMTracking::_getInProgress($sco_id,$a_obj_id);
+		$completed = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
 
 		if(in_array($user_id, $in_progress) and !in_array($user_id, $completed))
 		{
@@ -590,7 +590,7 @@ class ilLearningProgressBaseGUI
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 
-		$this->scorm_data[$a_obj_id] = ilObjSCORMTracking::_getCountCompletedPerUser(ilLPCollections::_getItems($a_obj_id));
+		$this->scorm_data[$a_obj_id] = ilObjSCORMTracking::_getCountCompletedPerUser(ilLPCollections::_getItems($a_obj_id),$a_obj_id);
 		return $this->scorm_data[$a_obj_id];
 	}
 	

@@ -156,6 +156,24 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	*/
 	function _getTrackingItems($a_obj_id)
 	{
+		global $ilDB;
+
+		include_once("content/classes/AICC/class.ilAICCUnit.php");
+
+		$query = "SELECT obj_id,title FROM aicc_object ".
+			"WHERE slm_id = '".$a_obj_id."' ".
+			"AND type = 'sau'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$items[$row->obj_id]['obj_id'] = $row->obj_id;
+			$items[$row->obj_id]['title'] = $row->title;
+
+		}
+		return $items ? $items : array();
+
+		/*
 		include_once("content/classes/SCORM/class.ilSCORMTree.php");
 		$tree = new ilSCORMTree($a_obj_id);
 		$root_id = $tree->readRootId();
@@ -173,6 +191,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		}
 
 		return $items;
+		*/
 	}
 
 	/**
