@@ -1550,5 +1550,21 @@ class ilObjQuestionPool extends ilObject
 		}
 		return $types;
 	}
+
+	function &getQuestionList()
+	{
+		global $ilDB;
+		
+		$questions = array();
+		$query = sprintf("SELECT qpl_questions.*, qpl_questions.TIMESTAMP+0 AS TIMESTAMP14, qpl_question_type.* FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questions, $row);
+		}
+		return $questions;
+	}
 } // END class.ilObjQuestionPool
 ?>

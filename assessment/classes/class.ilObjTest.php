@@ -6344,7 +6344,10 @@ class ilObjTest extends ilObject
 	}
 	
 		
-	function setClientIP($user_id, $client_ip) {		
+	function setClientIP($user_id, $client_ip) 
+	{
+		global $ilDB;
+
 		$query = sprintf("UPDATE tst_invited_user SET clientip=%s WHERE test_fi=%s and user_fi=%s",
 				$ilDB->quote($client_ip),
 				$ilDB->quote($this->test_id),
