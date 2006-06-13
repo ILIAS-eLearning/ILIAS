@@ -418,7 +418,6 @@ class ilGlossaryTerm
 			{
 				$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 			}
-			
 			ilUtil::redirect(
 					"./content/glossary_presentation.php?ref_id=".$a_target);				
 		}
