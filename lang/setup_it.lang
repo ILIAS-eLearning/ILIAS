@@ -62,13 +62,13 @@ client#:#Client
 client_access_mode_changed#:#Tipo di accesso del client cambiato
 client_data#:#Dati del client
 client_id#:#Client ID
-client_info#:#Descrizione del client
+client_info#:#Dati di base
 client_institution#:#Client associato a 
 client_login#:#Entra con il tuo Client ID
 client_name#:#Nome
 client_setup_not_finished#:#L&#039;installazione del client non &#232; ancora terminata
 collation#:#Ordinamento caratteri
-contact#:#Informazioni utente
+contact#:#Informazioni sul client
 contact_data#:#Dati dell'amministratore
 convert_path#:#Percorso del programma di conversione di immagini
 convert_path_comment#:#Richiesto per poter mostrare le immagini in formato piccolo.
@@ -140,7 +140,7 @@ file_does_not_exist#:#Il file non esiste.
 file_version#:#Versione del file
 fill_both_fields#:#Per favore, riempi entambi i campi!
 fill_out_required_fields#:#Mancano alcuni campi obbligatori
-filled_out#:#Riempito correttamente
+filled_out#:#Compilato correttamente
 finish#:#Concludi
 finish_initial_setup_first#:#Per favore, prima devi concludere l'installazione
 finish_setup#:#Installazione conclusa
@@ -155,7 +155,7 @@ http_path#:#percorso HTTP
 id#:#ID
 ilias_db_mode#:#Tipo di database
 ilias_homepage#:#Homepage ILIAS 3
-ilias_nic#:#Registrazione del NIC
+ilias_nic#:#Registrazione del NIC-ID
 ilias_nic_id#:#NIC-ID (Network Information Center)
 ilias_setup#:#Installazione di ILIAS 3
 ilias_version#:#Versione di ILIAS 3
@@ -260,7 +260,7 @@ next#:#Prosegui
 nic_not_disabled#:#Nessun NIC-ID e non disabilitato.
 nic_reg_disable#:#disabilita la registrazione NIC-ID
 nic_reg_disable_comment#:#(registra successivamente)
-nic_reg_disabled#:#Registrazione NIC-ID disabilitata.
+nic_reg_disabled#:#Registrazione NIC-ID disabilitata
 nic_reg_email#:#registrati tramite Email
 nic_reg_enabled#:#Registrazione NIC-ID abilitata!
 nic_reg_enter_checksum#:#scrivi il checksum 
@@ -295,7 +295,7 @@ online#:#Abilitato
 or#:#o
 out_of_webspace#:#(esaurito lo spazio nella cartella webdata)
 overall_status#:#Stato complessivo
-overview#:#Descrizione
+overview#:#Impostazioni generali
 pass_does_not_match#:#La password specificata non &#232; corretta.
 password#:#Password
 password_changed#:#Password modificata.
