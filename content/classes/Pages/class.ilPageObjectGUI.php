@@ -414,6 +414,8 @@ class ilPageObjectGUI
 			{
 //echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "content");
+				
+				// to do: status dependent class
 				$this->tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
 				
 				// user comment

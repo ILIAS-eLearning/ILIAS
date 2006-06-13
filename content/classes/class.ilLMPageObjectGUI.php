@@ -272,14 +272,19 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 					case "GlossaryItem":
 						$ltarget = $nframe = "_new";
-						$href = "content/lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
+						$href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;".
+							"obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
 							"&amp;obj_id=".$target_id."&amp;frame=$nframe";
+						//$href = "content/lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
+						//	"&amp;obj_id=".$target_id."&amp;frame=$nframe";
 						break;
 
 					case "MediaObject":
 						$ltarget = $nframe = "_new";
-						$href = "content/lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
+						$href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
 							"&amp;mob_id=".$target_id."&amp;frame=$nframe";
+						//$href = "content/lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
+						//	"&amp;mob_id=".$target_id."&amp;frame=$nframe";
 						break;
 						
 					case "RepositoryItem":
