@@ -1407,6 +1407,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_IMPORT_SPL", $this->lng->txt("import_spl"));
 			$this->tpl->setVariable("TXT_SPL_FILE", $this->lng->txt("spl_upload_file"));
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+
+			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_spl.gif'));
+			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_spl"));
+			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_spl.gif'));
+			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_spl"));
 		}
 	}
 

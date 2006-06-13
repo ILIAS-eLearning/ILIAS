@@ -2947,6 +2947,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_SELECT_SVY", $this->lng->txt("obj_svy"));
 			$this->tpl->setVariable("OPTION_SELECT_SVY", $this->lng->txt("select_svy_option"));
 			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
+
+			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_svy.gif'));
+			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_svy"));
+			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_svy.gif'));
+			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_svy"));
+			$this->tpl->setVariable("TYPE_IMG3", ilUtil::getImagePath('icon_svy.gif'));
+			$this->tpl->setVariable("ALT_IMG3",$this->lng->txt("obj_svy"));
 		}
 	}
 	

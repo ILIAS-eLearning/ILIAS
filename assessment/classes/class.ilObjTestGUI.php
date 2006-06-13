@@ -3494,6 +3494,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_SELECT_TST", $this->lng->txt("obj_tst"));
 			$this->tpl->setVariable("OPTION_SELECT_TST", $this->lng->txt("select_tst_option"));
 			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
+			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_tst.gif'));
+			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_tst"));
+			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_tst.gif'));
+			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_tst"));
+			$this->tpl->setVariable("TYPE_IMG3", ilUtil::getImagePath('icon_tst.gif'));
+			$this->tpl->setVariable("ALT_IMG3",$this->lng->txt("obj_tst"));
 			$this->tpl->setVariable("NEW_TYPE", $this->type);
 			$this->tpl->parseCurrentBlock();
 		}
