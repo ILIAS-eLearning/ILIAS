@@ -442,6 +442,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["password_assistance"] = $_POST["password_assistance"];
 			$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
 			$settings["js_edit"] = $_POST["js_edit"];
+			$settings["enable_trash"] = $_POST["enable_trash"];
 			$settings["https"] = $_POST["https"];
 			
 			// contact
@@ -520,6 +521,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting('passwd_auto_generate',$_POST['passwd_auto_generate']);
 
 			$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
+			$this->ilias->setSetting('enable_trash',$_POST['enable_trash']);
 
 			// contact
 			$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -644,7 +646,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_JS_EDIT", $this->lng->txt("enable_js_edit"));
 		$this->tpl->setVariable("TXT_JS_EDIT_INFO", $this->lng->txt("enable_js_edit_info"));
 		
-
+		$this->tpl->setVariable("TXT_DYNAMIC_LINKS",$this->lng->txt('links_dynamic'));
+		$this->tpl->setVariable("INFO_DYNAMIC_LINKS",$this->lng->txt('links_dynamic_info'));
+		
+		$this->tpl->setVariable("TXT_ENABLE_TRASH",$this->lng->txt('enable_trash'));
+		$this->tpl->setVariable("INFO_ENABLE_TRASH",$this->lng->txt('enable_trash_info'));
+		
 		// paths
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("path_to_convert"));
@@ -686,11 +693,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS",$this->lng->txt('enable_fora_statistics'));
 		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS_DESC",$this->lng->txt('enable_fora_statistics_desc'));
 		
-
-		$this->tpl->setVariable("TXT_DYNAMIC_LINKS",$this->lng->txt('links_dynamic'));
-		$this->tpl->setVariable("INFO_DYNAMIC_LINKS",$this->lng->txt('links_dynamic_info'));
-		
-
 		// forums
 		$this->tpl->setVariable("TXT_FORUMS",$this->lng->txt('obj_frm'));
 		$this->tpl->setVariable("TXT_STATUS_NEW",$this->lng->txt('frm_status_new'));
@@ -819,6 +821,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if($settings['links_dynamic'])
 		{
 			$this->tpl->setVariable("LINKS_DYNAMIC_CHECKED","checked=\"checked\"");
+		}
+
+		if($settings['enable_trash'])
+		{
+			$this->tpl->setVariable("ENABLE_TRASH_CHECKED","checked=\"checked\"");
 		}
 
 		if ($settings["require_login"])

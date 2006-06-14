@@ -1166,12 +1166,19 @@ class ilObjectGUI
 			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
 		}
 		
-		// Feedback
-		sendInfo($this->lng->txt("info_deleted"),true);
+		if ($this->ilias->getSetting('enable_trash'))
+		{
+			// Feedback
+			sendInfo($this->lng->txt("info_deleted"),true);
 		
-		//ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-		$this->ctrl->returnToParent($this);
-
+			$this->ctrl->returnToParent($this);
+		}
+		else  // skip trash if 'enable_trash' is 0
+		{
+			$_POST["trash_id"] = $_SESSION["saved_post"];
+			
+			$this->removeFromSystemObject();
+		}
 	}
 
 	/**
@@ -1247,9 +1254,7 @@ class ilObjectGUI
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
 
-		//ilUtil::redirect($this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
 		$this->ctrl->returnToParent($this);
-
 	}
 
 	/**
@@ -2003,7 +2008,14 @@ class ilObjectGUI
 
 		if(!$a_error)
 		{
-			sendInfo($this->lng->txt("info_delete_sure"));
+			$msg = $this->lng->txt("info_delete_sure");
+			
+			if (!$this->ilias->getSetting('enable_trash'))
+			{
+				$msg .= "<br/>".$this->lng->txt("info_delete_warning_no_trash");
+			}
+			
+			sendInfo($msg);
 		}
 
 		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",

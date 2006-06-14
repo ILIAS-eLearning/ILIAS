@@ -2076,6 +2076,9 @@ common#:#links_add_param#:#Parameter hinzufügen:
 common#:#links_dyn_parameter#:#Dynamische Parameter
 common#:#links_dynamic#:#Dynamische Parameter
 common#:#links_dynamic_info#:#Wenn aktiviert, können Web-Links dynamische Parameter wie z.B die ILIAS Benutzer-Id oder der Benutzername hinzugefügt werden.
+common#:#enable_trash#:#Papierkorb verwenden
+common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Papierkorb verschoben und können später wieder hergestellt werden. Ist der Papierkorb deaktiviert, werden gelöschte Objekte unwiderruflich aus dem System entfernt!
+common#:#info_delete_warning_no_trash#:#(WARNUNG: Papierkorb ist deaktiviert. Die Objekte werden unwiderruflich aus dem System entfernt!)
 common#:#links_existing_params#:#Vorhandene Parameter:
 common#:#links_name#:#Parameter Name
 common#:#links_no_name_given#:#Bitte geben Sie einen Parameternamen ein.
