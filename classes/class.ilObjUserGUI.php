@@ -2320,7 +2320,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
 				$this->object->getRefId() != SYSTEM_FOLDER_ID)
 			{
-				$par_id = $tree->getParentId($this->object->getRefId());
+				$par_id = $tree->getParentId($this->usrf_ref_id);
 				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
 			}
 		}

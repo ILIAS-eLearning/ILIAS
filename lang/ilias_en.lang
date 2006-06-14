@@ -2142,7 +2142,7 @@ common#:#ldap_write#:#Edit LDAP settings
 common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
 common#:#learning_progress#:#Learning Progress
-common#:#learning_resourc#:#Learning Resourc
+common#:#learning_resourc#:#Learning Resource
 common#:#learning_resource#:#Learning Resource
 common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
@@ -2162,6 +2162,9 @@ common#:#links_add_param#:#Add parameter:
 common#:#links_dyn_parameter#:#Dynamic parameters
 common#:#links_dynamic#:#Dynamic Web Links parameters
 common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
+common#:#enable_trash#:#Enable Trash
+common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are irreversibly removed from the System!
+common#:#info_delete_warning_no_trash#:#(WARNING: Trash is disabled. The Objects will be irreversibly removed from System!)
 common#:#links_existing_params#:#Existing parameters:
 common#:#links_name#:#Parameter name
 common#:#links_no_name_given#:#Please choose a parameter name.
