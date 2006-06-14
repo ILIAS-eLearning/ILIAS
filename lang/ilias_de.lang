@@ -2078,7 +2078,7 @@ common#:#links_dynamic#:#Dynamische Parameter
 common#:#links_dynamic_info#:#Wenn aktiviert, können Web-Links dynamische Parameter wie z.B die ILIAS Benutzer-Id oder der Benutzername hinzugefügt werden.
 common#:#enable_trash#:#Papierkorb verwenden
 common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Papierkorb verschoben und können später wieder hergestellt werden. Ist der Papierkorb deaktiviert, werden gelöschte Objekte unwiderruflich aus dem System entfernt!
-common#:#info_delete_warning_no_trash#:#(WARNUNG: Papierkorb ist deaktiviert. Die Objekte werden unwiderruflich aus dem System entfernt!)
+common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
 common#:#links_existing_params#:#Vorhandene Parameter:
 common#:#links_name#:#Parameter Name
 common#:#links_no_name_given#:#Bitte geben Sie einen Parameternamen ein.
@@ -2103,6 +2103,7 @@ common#:#lm_delete#:#ILIAS Lernmodul löschen
 common#:#lm_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#ILIAS Lernmodul abonnieren
+common#:#role_mailto#:#Mail an alle zugewiesenen Benutzer
 common#:#lm_leave#:#ILIAS Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues ILIAS Lernmodul
 common#:#lm_read#:#ILIAS Lernmodul lesen
