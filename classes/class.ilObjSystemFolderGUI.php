@@ -103,7 +103,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->objectList = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
-		$this->data["cols"] = array("type", "title", "last_change");
+		$this->data["cols"] = array("type", "title");
 
 		$childs = $this->tree->getChilds($this->object->getRefId(),$_GET["order"],$_GET["direction"]);
 
@@ -131,8 +131,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->data["data"][] = array(
 										"type" => $val["type"],
 										"title" => $val["title"]."#separator#".$val["desc"],
-										//"description" => $val["desc"],
-										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);
 
@@ -145,7 +143,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				"type" => "root",
 				"title" => $this->lng->txt("repository_admin")."#separator#".
 					$this->lng->txt("repository_admin_desc"),
-				"last_change" => "",
 				"ref_id" => ROOT_FOLDER_ID
 			);
 
@@ -167,8 +164,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 											);
 
 			unset($this->data["data"][$key]["ref_id"]);
-						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+			//$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
+		
+		//var_dump("<pre>",$this->data,"</pre>");
 
 		// display admin subpanels
 		$this->displayList();
@@ -205,26 +204,27 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
-
 		// create table
 		$tbl = new ilTableGUI();
 		
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType()),"icon_".$this->object->getType().".gif",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		
+		/*
 		foreach ($this->data["cols"] as $val)
 		{
 			$header_names[] = $this->lng->txt($val);
-		}
+		}*/
+		
+		$header_names[] = "";
+		$header_names[] = $this->lng->txt("obj_cat");
 		
 		$tbl->setHeaderNames($header_names);
 		
 		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		$tbl->setColumnWidth(array("15","75%","25%"));
+		$tbl->setColumnWidth(array("15","99%"));
 		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -248,7 +248,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
 				
-
 				// color changing
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
@@ -303,7 +302,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 						}
 					
 						$this->tpl->parseCurrentBlock();
-	
 						$this->tpl->setCurrentBlock("table_cell");
 						$this->tpl->parseCurrentBlock();
 	
@@ -313,11 +311,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				{
 					//$this->tpl->parseCurrentBlock();
 
-					$val = ilUtil::getImageTagByType("root",$this->tpl->tplPath);
-					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
-					$this->tpl->touchBlock("table_cell");
-				
 					// link
 					$this->tpl->setCurrentBlock("begin_link");
 					$this->ctrl->setParameterByClass("iladministrationgui",
@@ -330,18 +323,26 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 						" target=\"".ilFrameTargetInfo::_getFrame("MainContent")."\"");
 					$this->ctrl->clearParametersByClass("iladministrationgui");
 					$this->tpl->parseCurrentBlock();
+					$this->tpl->touchBlock("end_link");
+					
+					// icon
+					$val = ilUtil::getImageTagByType("root",$this->tpl->tplPath);
+					$this->tpl->setCurrentBlock("text");
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
 					
 					// text
 					$name_field = explode("#separator#", $data["title"]);
 					$this->tpl->setCurrentBlock("text");
 					$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
-					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("subtitle");
 					$this->tpl->setVariable("DESC", $name_field[1]);
 					$this->tpl->parseCurrentBlock();
 					
-					$this->tpl->touchBlock("end_link");
-					$this->tpl->touchBlock("table_cell");
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
 	
 				}
 
