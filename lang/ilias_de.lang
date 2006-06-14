@@ -1021,6 +1021,7 @@ common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformul
 common#:#auth_configure#:#konfigurieren...
 common#:#auth_default#:#Standardeinstellung
 common#:#auth_default_mode_changed_to#:#Standard-Authentifizierungsmodus gewechselt nach
+common#:#auth_mode_roles_changed#:#Authentifizierungsmodus für diese Rolle geändert
 common#:#auth_edit_permission#:#Rechteeinstellungen ändern
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server

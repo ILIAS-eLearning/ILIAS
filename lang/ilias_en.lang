@@ -1078,6 +1078,7 @@ common#:#auth_active_roles#:#Global roles available on registration form
 common#:#auth_configure#:#configure...
 common#:#auth_default#:#Default setting
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
+common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
 common#:#auth_edit_permission#:#Change permission settings
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
