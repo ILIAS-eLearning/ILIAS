@@ -1028,7 +1028,7 @@ class ilPersonalDesktopGUI
 	*/
 	function displayUsersOnline()
 	{
-		global $ilias;
+		global $ilias, $ilUser;
 		
 		$users_online_pref = $ilias->account->getPref("show_users_online");
 		if ($users_online_pref != "y" && $users_online_pref != "associated")
@@ -1046,6 +1046,13 @@ class ilPersonalDesktopGUI
 			$users = ilUtil::getUsersOnline();
 		}
 		$num = 0;
+		
+		$users[$ilUser->getId()] =
+			array("user_id" => $ilUser->getId(),
+				"firstname" => $ilUser->getFirstname(),
+				"lastname" => $ilUser->getLastname(),
+				"title" => $ilUser->getTitle(),
+				"login" => $ilUser->getLogin());
 		
 		foreach ($users as $user_id => $user)
 		{
