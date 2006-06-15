@@ -691,7 +691,7 @@ a.MMInactive:hover
 
 a.MMActive:link, a.MMActive:visited
 {
-	color:#FFFFFF;
+	color: #8CC6FF;
     padding: 0px 0px;
 	font-size: 80%;
 	text-decoration:none;
