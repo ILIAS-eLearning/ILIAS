@@ -2676,7 +2676,9 @@ common#:#permission_denied#:#Permission Denied
 common#:#permission_settings#:#Object Permission Settings
 common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.
 common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.
-common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.
+common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.
+common#:#perm_role_info_glob_1#:#This form determines the permissions of role '%s' for newly created objects in the repository.
+common#:#perm_role_info_glob_2#:#If you want to change the permissions of role '%s' for all existing objects in the repository you must check the option 'Change Existing Objects' at the bottom of the screen.
 common#:#person_title#:#Title
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop

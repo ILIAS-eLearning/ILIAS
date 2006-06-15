@@ -652,7 +652,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
 				$ops_ids[] = $operation["ops_id"];
 				
-				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+				//$css_row = ilUtil::switchColor($j++, "tblrow1", "tblrow2");
+				$css_row = "tblrow1";
 				$this->tpl->setVariable("CSS_ROW",$css_row);
 				$this->tpl->setVariable("PERMISSION",$operation["name"]);
 				if (substr($operation["title"], 0, 7) == "create_")
@@ -782,10 +783,20 @@ class ilObjRoleGUI extends ilObjectGUI
 		// info text
 		$pid = $tree->getParentId($this->rolf_ref_id);
 		$ptitle = ilObject::_lookupTitle(ilObject::_lookupObjId($pid));
-		$info = sprintf($this->lng->txt("perm_role_info_1"),
-			$this->object->getTitle(), $ptitle)." ".
-			sprintf($this->lng->txt("perm_role_info_2"),
-			$this->object->getTitle(), $ptitle);
+		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
+		{
+			$info = sprintf($this->lng->txt("perm_role_info_1"),
+				$this->object->getTitle(), $ptitle)." ".
+				sprintf($this->lng->txt("perm_role_info_2"),
+				$this->object->getTitle(), $ptitle);
+		}
+		else
+		{
+			$info = sprintf($this->lng->txt("perm_role_info_glob_1"),
+				$this->object->getTitle(), $ptitle)." ".
+				sprintf($this->lng->txt("perm_role_info_glob_2"),
+				$this->object->getTitle(), $ptitle);
+		}
 		$this->tpl->setVariable("TXT_TITLE_INFO", $info);
 		
 		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
