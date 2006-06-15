@@ -350,6 +350,16 @@ class ilCtrl
 		{
 			$this->readCallStructure($a_class, $a_nr, $a_parent);
 		}
+		
+		// check whether command node and command class fit together
+		if ($_GET["cmdNode"] > 0)
+		{
+			if (strtolower($this->call_node[$_GET["cmdNode"]]["class"]) !=
+				strtolower($_GET["cmdClass"]))
+			{
+				die ("Internal Error: ilCtrl Node Error.");
+			}
+		}
 	}
 
 	/**

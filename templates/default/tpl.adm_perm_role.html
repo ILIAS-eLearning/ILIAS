@@ -31,17 +31,13 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN object_type -->
   <tr class="tblheader">
   <td class="std" colspan="4">
-  <table class="fullwidth_invisible"><tr class="tblheader">
-	<td class="std" align="left">{TXT_OBJ_TYPE} <span class="alert">{TXT_NOT_IMPL}</span></td>
-	<td class="std" style="text-align:right;">
 <!-- BEGIN obj_action_toggle_checkboxes -->
-	<div class="il_ContainerItemCommands">
+	<div class="il_ContainerItemCommands" style="float:right;">
 		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
 		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
 	</div>
-<!-- END obj_action_toggle_checkboxes -->	
-	</td>
-	</tr></table>
+<!-- END obj_action_toggle_checkboxes -->
+	{TXT_OBJ_TYPE} <span class="alert">{TXT_NOT_IMPL}</span>
 	</td>
   </tr>
 <!-- BEGIN object_operations -->
