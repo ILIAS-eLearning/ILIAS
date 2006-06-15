@@ -1052,6 +1052,7 @@ div.ilMainHeader
 	background-image: url(images/HeaderBackground3.gif);
 	background-repeat: repeat-x;
 	background-color: #8CC6FF;
+	right: 0px;
 }
 
 a.ilMainHeader, a.ilMainHeader:hover
