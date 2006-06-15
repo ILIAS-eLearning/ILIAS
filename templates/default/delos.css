@@ -621,16 +621,9 @@ td.il_no_style {
 }
 
 /* locator */
-/*
 table.il_Locator
 {
-	background-color: #E2EAF4;
-	background-image: url(images/TableHeaderBlue.gif);
-	background-repeat: repeat-x;
-}*/
-table.il_Locator
-{
-	background-color: none;
+	background-color: #FFFFFF;
 }
 
 div.il_Locator {
@@ -959,6 +952,7 @@ div.il_ExplorerHeader
 	vertical-align:top;
 	text-align:left;
 	font-weight: bold;
+	background-color: #FFFFFF;
 }
 
 ul.il_Explorer
