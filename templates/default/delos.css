@@ -1040,10 +1040,8 @@ div.il_Header
 div.il_HeaderInner
 {
 	float:left;
-	margin-left:15px;
-	margin-right:15px;
-	margin-top:12px;
-	margin-bottom:5px;
+	margin: 0px;
+	padding: 12px 15px 5px 15px;
 	color:#222222;
 }
 
