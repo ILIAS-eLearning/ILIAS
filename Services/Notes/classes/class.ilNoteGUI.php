@@ -711,10 +711,12 @@ class ilNoteGUI
 			$target = $note->getObject();
 			if ($showdetails)
 			{
+				$tpl->setCurrentBlock("details");
 				$tpl->setVariable("NOTE_TEXT",
 					ilUtil::shortenText($note->getText(), 150, true, true));
-				$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
+				//$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
 				$tpl->setVariable("VAL_DATE", substr($note->getCreationDate(),0,10));
+				$tpl->parseCurrentBlock();
 				
 				// target objects
 				$this->showTargets($tpl, $target["rep_obj_id"], $note->getId(),
