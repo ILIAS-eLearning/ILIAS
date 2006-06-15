@@ -929,7 +929,8 @@ td.il_InfoScreenPropertyValue
 
 div.il_Explorer
 {
-	margin:3px;
+	margin:0px;
+	padding:3px;
 	background-color: #FFFFFF;
 }
 
