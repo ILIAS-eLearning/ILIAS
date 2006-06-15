@@ -996,6 +996,10 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Adopt
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
+common#:#adve_edit_permission#:#Change permission settings
+common#:#adve_read#:#Access advanced editing administration
+common#:#adve_visible#:#Advanced editing administration is visible
+common#:#adve_write#:#Advanced editing administration
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#All authors
 common#:#all_global_roles#:#Global roles
@@ -1053,9 +1057,11 @@ common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Test&Assessment Administration Settings
 common#:#assessment_settings_reporting_language#:#Reporting language
-common#:#assessment_settings_advanced_editing#:#Advanced editing
-common#:#assessment_settings_allow_html_tags#:#Allow the selected HTML tags in Test & Assessment
-common#:#assessment_settings_allow_javascript_editor#:#Enable a JavaScript editor
+common#:#advanced_editing_no_rte#:#Don't use rich text editing
+common#:#advanced_editing_tinymce#:#TinyMCE editor
+common#:#advanced_editing_settings#:#Advanced editing settings
+common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
+common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment Administration
 common#:#assf_visible#:#Test&Assessment administration is visible
@@ -2493,6 +2499,8 @@ common#:#number_of_records#:#Number of records
 common#:#obj#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
+common#:#obj_adve#:#Advanced editing
+common#:#obj_adve_desc#:#Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc..
 common#:#obj_alm#:#Learning Module AICC
 common#:#obj_assf#:#Test and Assessment
 common#:#obj_assf_desc#:#Test&Assessment log settings.

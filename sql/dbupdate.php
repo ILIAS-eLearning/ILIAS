@@ -10916,3 +10916,59 @@ ALTER TABLE `ass_log` ADD `test_only` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTE
 ALTER TABLE `ass_log` ADD `ref_id` INT NULL AFTER `original_fi` ;
 <#739>
 REPLACE INTO settings (module, keyword, value) VALUES ('common', 'enable_trash', 1);
+<#740>
+<?php
+// register new object type 'adve' for Advanced editing settings in the administration
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'adve', 'Advanced editing object', -1, now(), now())";
+$this->db->query($query);
+
+// ADD NODE IN SYSTEM SETTINGS FOLDER
+// create object data entry
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('adve', '__AdvancedEditing', 'Advanced Editing', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+
+// register RECOVERY_FOLDER_ID in table settings
+$query = "INSERT INTO settings (keyword,value) VALUES('sys_advanced_editing_id','".$row->id."')";
+$res = $this->db->query($query);
+
+// retrieve assessment folder definition from object_data
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'adve'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add rbac operations to assessment folder
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+?>
+<#741>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

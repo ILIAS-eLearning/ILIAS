@@ -119,22 +119,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_settings.html");
 		
-		$alltags =& $this->object->getHTMLTags();
-		$usedtags =& $this->object->_getUsedHTMLTags();
-		foreach ($alltags as $tag)
-		{
-			$this->tpl->setCurrentBlock("html_tag_row");
-			$this->tpl->setVariable("HTML_TAG", $tag);
-			if (is_array($usedtags))
-			{
-				if (in_array($tag, $usedtags))
-				{
-					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ACTIVATE_ASSESSMENT_LOGGING", $this->lng->txt("activate_assessment_logging"));
@@ -156,17 +140,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("LANG_SELECTED", " selected=\"selected\"");
 			}
 			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("TXT_ADVANCED_EDITING", $this->lng->txt("assessment_settings_advanced_editing"));
-		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("assessment_settings_allow_html_tags"));
-		if (file_exists(ilUtil::getJSPath("tiny_mce/tiny_mce.js")))
-		{
-			$this->tpl->setVariable("TXT_ALLOW_JAVASCRIPT_EDITOR", $this->lng->txt("assessment_settings_allow_javascript_editor"));
-			if ($this->object->_getJavascriptEditor())
-			{
-				$this->tpl->setVariable("CHECKED_JAVASCRIPT_EDITOR", " checked=\"checked\"");
-			}
 		}
 		
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -193,8 +166,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$this->object->_enableAssessmentLogging(0);
 		}
 		$this->object->_setLogLanguage($_POST["reporting_language"]);
-		$this->object->_setUsedHTMLTags($_POST["html_tags"]);
-		$this->object->_setJavascriptEditor($_POST["javascript_editor"]);
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');

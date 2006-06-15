@@ -803,51 +803,6 @@ class assQuestionGUI
 		$this->errormessage = $errormessage;
 	}
 	
-	/**
-	* Checks for an advanced Javascript editor
-	*
-	* Checks for an advanced Javascript editor and if it could be displayed
-	* uses it for all textarea fields
-	*
-	* @access public
-	*/
-	function checkAdvancedEditor($extended_valid_elements = "", $additional_buttons = "")
-	{
-		include_once "./classes/class.ilObjAssessmentFolder.php";
-		if (ilObjAssessmentFolder::_getJavascriptEditor())
-		{
-			if (file_exists(ilUtil::getJSPath("tiny_mce/tiny_mce.js")))
-			{
-				$this->tpl->addBlockFile("CONTENT_BLOCK", "tinymce", "tpl.editor.js.html");
-				include_once "./classes/class.ilTinyMCE.php";
-				$tags =& ilObjAssessmentFolder::_getUsedHTMLTags();
-				$this->tpl->setCurrentBlock("tinymce");
-				$this->tpl->setVariable("JAVASCRIPT_LOCATION", ilUtil::getJSPath("tiny_mce/tiny_mce.js"));
-				$this->tpl->setVariable("BLOCKFORMATS", ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($tags));
-				$this->tpl->setVariable("VALID_ELEMENTS", ilTinyMCE::_getValidElementsFromHTMLTags($tags));
-				if (is_array($extended_valid_elements))
-				{
-					if (count($extended_valid_elements) > 0)
-					{
-						$this->tpl->setVariable("EXTENDED_VALID_ELEMENTS", join(",", $extended_valid_elements));
-					}
-				}
-				$more_buttons = "";
-				if (is_array($additional_buttons))
-				{
-					if (count($additional_buttons) > 0)
-					{
-						$more_buttons = ",separator," . join(",", $additional_buttons);
-					}
-				}
-				$this->tpl->setVariable("BUTTONS", ilTinyMCE::_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
-				$this->tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getStyleSheetLocation());
-				$this->tpl->setVariable("LANG", ilTinyMCE::_getEditorLanguage());
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-	}
-
 	function getLatexCGI()
 	{
 		return "http://aurealis.de/blahtex.php";
