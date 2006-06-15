@@ -63,7 +63,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->prepareOutput();
-
 		switch($next_class)
 		{
 			case 'ilpermissiongui':

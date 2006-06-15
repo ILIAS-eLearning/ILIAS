@@ -41,7 +41,7 @@ class ilValidator extends PEAR
 	* list of object types to exclude from recovering
 	* @var	array
 	*/
-	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth","rolf","file","assf","extt");
+	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth","rolf","file","assf","extt","adve");
 	
 	/**
 	* set mode

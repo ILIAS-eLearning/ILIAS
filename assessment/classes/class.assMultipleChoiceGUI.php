@@ -306,7 +306,12 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->checkAdvancedEditor(array("latex"), array("latex"));
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addPlugin("latex");
+		$rte->addRTESupport();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
@@ -477,8 +482,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./classes/class.ilObjAssessmentFolder.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
@@ -543,7 +548,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				{
 					$points_unchecked = 0.0;
 				}
-				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAssessmentFolder::_getUsedHTMLTagsAsString());
+				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
 				$answertext = preg_replace("/\n/", "<br />", $answertext);
 				$this->object->addAnswer(
 					$answertext,
