@@ -386,7 +386,7 @@ class ilObjUser extends ilObject
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
-                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,profile_incomplete) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
                 . "'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', "
@@ -401,7 +401,9 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::prepareDBString($this->referral_comment)."', '".ilUtil::prepareDBString($this->matriculation)."', '".
 				ilUtil::prepareDBString($this->client_ip)."', '".$this->approve_date."','".$this->active."', "
                 . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
-				$this->getTimeLimitOwner()."'"
+				$this->getTimeLimitOwner()."',"
+				."'".$this->getAuthMode()."', "
+				."'".$this->getProfileIncomplete()."'"
                 . ")";
 		}
 
@@ -434,7 +436,7 @@ class ilObjUser extends ilObject
 	*/
 	function update()
 	{
-		global $ilErr;
+		global $ilErr, $ilDB;
 
 		//$this->id = $this->data["Id"];
 

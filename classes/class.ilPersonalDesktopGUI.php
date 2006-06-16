@@ -71,8 +71,17 @@ class ilPersonalDesktopGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilUser;
+		
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
+		
+		// check whether personal profile of user is incomplete
+		if ($ilUser->getProfileIncomplete() && $next_class != "ilpersonalprofilegui")
+		{
+			$this->ctrl->redirectByClass("ilpersonalprofilegui");
+		}
+		
 		switch($next_class)
 		{
 			//Feedback
