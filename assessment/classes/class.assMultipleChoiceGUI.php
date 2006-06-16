@@ -268,7 +268,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_show"));
 		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
 		$questiontext = $this->object->getQuestion();
-		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
@@ -484,7 +483,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
+		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -549,7 +548,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					$points_unchecked = 0.0;
 				}
 				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-				$answertext = preg_replace("/\n/", "<br />", $answertext);
+				$answertext = preg_replace("/[\n\r]+/", "<br />", $answertext);
 				$this->object->addAnswer(
 					$answertext,
 					ilUtil::stripSlashes($points),

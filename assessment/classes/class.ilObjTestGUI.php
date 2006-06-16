@@ -784,7 +784,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-		$introduction = preg_replace("/\n/", "<br />", $introduction);
+		$introduction = preg_replace("/[\n\r]+/", "<br />", $introduction);
 		$data["introduction"] = $introduction;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
 		$data["shuffle_questions"] = 0;
@@ -4327,7 +4327,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (strlen($this->object->getIntroduction()))
 		{
 			$info->addSection($this->lng->txt("tst_introduction"));
-			$info->addProperty("", str_replace("\n", "<br />", $this->object->getIntroduction()));
+			$info->addProperty("", $this->object->getIntroduction());
 		}
 
 		$info->addSection($this->lng->txt("tst_general_properties"));

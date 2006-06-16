@@ -104,9 +104,13 @@ class assSingleChoice extends assQuestion
 	{
 		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0))
 		{
+			foreach ($this->answers as $answer)
+			{
+				if (strlen($answer->getAnswertext()) == 0) return false;
+			}
 			return true;
 		}
-			else
+		else
 		{
 			return false;
 		}

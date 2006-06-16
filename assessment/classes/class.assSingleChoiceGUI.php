@@ -256,7 +256,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
-		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
+		//$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
@@ -489,7 +489,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
+		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -549,7 +549,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 					$points = 0.0;
 				}
 				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-				$answertext = preg_replace("/\n/", "<br />", $answertext);
+				$answertext = preg_replace("/[\n\r]+/", "<br />", $answertext);
 				$this->object->addAnswer(
 					$answertext,
 					ilUtil::stripSlashes($points),
