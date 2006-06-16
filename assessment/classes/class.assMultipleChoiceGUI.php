@@ -647,15 +647,22 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("answer_row");
-			$template->setVariable("ANSWER_ID", $answer_id);
 			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 			$template->setVariable("ANSWER_TEXT", $answertext);
+			$checked = FALSE;
 			foreach ($user_solution as $mc_solution)
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("checkbox_checked.gif"));
+					$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+					$checked = TRUE;
 				}
+			}
+			if (!$checked)
+			{
+				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("checkbox_unchecked.gif"));
+				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
 			}
 			$template->parseCurrentBlock();
 		}
