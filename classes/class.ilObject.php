@@ -560,12 +560,22 @@ class ilObject
 
 		$this->title = ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots);
 		$this->desc = ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots);
+		
+		// determine owner
+		if ($this->getOwner() > 0)
+		{
+			$owner = $this->getOwner();
+		}
+		else
+		{
+			$owner = $ilUser->getId();
+		}
 
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
 			 "('".$this->type."',".$ilDB->quote($this->getTitle()).",'".ilUtil::prepareDBString($this->getDescription())."',".
-			 "'".$ilUser->getId()."',now(),now(),'".
+			 "'".$owner."',now(),now(),'".
 			$this->getImportId()."')";
 
 		$ilDB->query($q);
@@ -596,7 +606,7 @@ class ilObject
 		$this->create_date = $obj_rec["create_date"];
 
 		// set owner for new objects
-		$this->setOwner($ilUser->getId());
+		$this->setOwner($owner);
 
 		// write log entry
 		$log->write("ilObject::create(), finished, obj_id: ".$this->id.", type: ".

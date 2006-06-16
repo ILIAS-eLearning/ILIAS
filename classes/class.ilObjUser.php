@@ -309,6 +309,9 @@ class ilObjUser extends ilObject
         $this->setTimeLimitFrom($a_data["time_limit_from"]);
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
 		$this->setTimeLimitMessage($a_data['time_limit_message']);
+		
+		// user profile incomplete?
+		$this->setProfileIncomplete($a_data["profile_incomplete"]);
 
 		//iLinc
 		//$this->setiLincData($a_data['ilinc_id'],$a_data['ilinc_login'],$a_data['ilinc_passwd']);
@@ -357,7 +360,7 @@ class ilObjUser extends ilObject
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
-                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode) "
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,profile_incomplete) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
                 . "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', "
@@ -373,7 +376,8 @@ class ilObjUser extends ilObject
 				ilUtil::addSlashes($this->client_ip) . "', '" .$this->approve_date."', '".$this->active."', "
                 . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
 				$this->getTimeLimitOwner()."', "
-                . "'".$this->getAuthMode()."')";
+                . "'".$this->getAuthMode()."', "
+				. "'".$this->getProfileIncomplete()."')";
 		}
 		else
 		{
@@ -482,6 +486,7 @@ class ilObjUser extends ilObject
             "time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
             "time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
             "time_limit_message='".$this->getTimeLimitMessage()."', ".
+			"profile_incomplete = ".$ilDB->quote($this->getProfileIncomplete()).", ".
             "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
 			$pw_update.", ".
             "last_update=now() ".
@@ -1835,6 +1840,14 @@ class ilObjUser extends ilObject
 		}
 		return false;
 	}
+    function setProfileIncomplete($a_prof_inc)
+    {
+        $this->profile_incomplete = (boolean) $a_prof_inc;
+    }
+    function getProfileIncomplete()
+    {
+        return $this->profile_incomplete;
+    }
 
 	function &getAppliedUsers()
 	{

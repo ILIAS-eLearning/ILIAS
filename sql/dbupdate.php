@@ -10971,4 +10971,6 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#742>
+ALTER TABLE usr_data ADD COLUMN `profile_incomplete` int(2) default '0';
 
