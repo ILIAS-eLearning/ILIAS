@@ -133,10 +133,8 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_TEXT_QUESTION_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_TEXT_QUESTION_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
-		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$keywords = $this->object->getKeywords();
-		$keywords = preg_replace("/<br \/>/", "\n", $keywords);
 		$this->tpl->setVariable("VALUE_KEYWORDS", ilUtil::prepareFormOutput($keywords));
 		$this->tpl->setVariable("VALUE_POINTS", ilUtil::prepareFormOutput($this->object->getPoints()));
 		if ($this->object->getMaxNumOfChars())
@@ -225,7 +223,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
+		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setPoints($_POST["points"]);
 		if ($_POST["points"] < 0)

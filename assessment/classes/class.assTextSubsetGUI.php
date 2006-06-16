@@ -210,7 +210,6 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_CORRECTANSWERS", $this->object->getCorrectAnswers());
 		$this->tpl->setVariable("VALUE_POINTS", $this->object->getMaximumPoints());
 		$questiontext = $this->object->getQuestion();
-		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -395,7 +394,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
+		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setCorrectAnswers($_POST["correctanswers"]);
