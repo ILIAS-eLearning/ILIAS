@@ -311,7 +311,7 @@ class ilObjectGUI
 	{
 		$this->tpl->setTitle($this->object->getTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
 	}
 	
 	function showUpperIcon()

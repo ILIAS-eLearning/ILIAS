@@ -1677,13 +1677,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 			$this->tpl->setTitle($title);
 			$this->tpl->setDescription($q_gui->object->getComment());
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_qpl"));
 		}
 		else
 		{
 			$this->tpl->setTitle($this->object->getTitle());
 			$this->tpl->setDescription($this->object->getLongDescription());
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_qpl"));
 		}
 	}
 
