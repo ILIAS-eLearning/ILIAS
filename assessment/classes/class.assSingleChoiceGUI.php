@@ -644,14 +644,17 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("answer_row");
-			$template->setVariable("ANSWER_ID", $answer_id);
-			$template->setVariable("QUESTION_ID", $this->object->getId());
-			$template->setVariable("TEST_ID", $active_id);
 			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
 			$template->setVariable("ANSWER_TEXT", $answertext);
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
-				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("radiobutton_checked.gif"));
+				$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+			}
+			else
+			{
+				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("radiobutton_unchecked.gif"));
+				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
 			}
 			$template->parseCurrentBlock();
 		}
