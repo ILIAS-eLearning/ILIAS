@@ -519,7 +519,9 @@ class ilPersonalProfileGUI
 				$ilUser->setPref("show_notes","n");
 			}
 
-	
+			// profile ok
+			$ilUser->setProfileIncomplete(false);
+			
 			// save user data & object_data
 			$ilUser->setTitle($ilUser->getFullname());
 			$ilUser->setDescription($ilUser->getEmail());
@@ -555,7 +557,7 @@ class ilPersonalProfileGUI
 	*/
 	function showProfile()
 	{
-		global $ilUser, $styleDefinition, $rbacreview, $ilias;
+		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng;
 		
 		$settings = $ilias->getAllSettings();
 		
@@ -580,7 +582,16 @@ class ilPersonalProfileGUI
 */
 		
 		// catch feedback message
-		sendInfo();
+		if ($ilUser->getProfileIncomplete())
+		{
+			sendInfo($lng->txt("profile_incomplete"));
+		}
+		else
+		{
+			sendInfo();
+		}
+		
+		
 		// display infopanel if something happened
 		infoPanel();
 

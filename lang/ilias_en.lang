@@ -2936,6 +2936,7 @@ common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
+common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
 common#:#send_mail_admins#:#Mail to administrators
 common#:#send_mail_members#:#Mail to members
 common#:#send_mail_tutors#:#Mail to tutors
