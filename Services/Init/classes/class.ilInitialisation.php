@@ -779,7 +779,20 @@ class ilInitialisation
 		$ilLog =& $log;
 		$GLOBALS['ilLog'] =& $ilLog;
 		
-		
+		// $objDefinition initialisation
+		$ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
+		$objDefinition = new ilObjectDefinition();
+		$GLOBALS['objDefinition'] =& $objDefinition;
+		$objDefinition->startParsing();
+		$ilBench->stop("Core", "HeaderInclude_getObjectDefinitions");
+
+		// $ilAccess and $rbac... initialisation
+		$this->initAccessHandling();
+
+		// init tree
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$GLOBALS['tree'] =& $tree;
+
 		// authenticate & start session
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 		$ilBench->start("Core", "HeaderInclude_Authentication");
@@ -801,16 +814,7 @@ class ilInitialisation
 		if (!$ilias->getSetting("setup_ok"))
 		{
 			die("Setup is not completed. Please run setup routine again.");
-		}
-		
-		
-		// $objDefinition initialisation
-		$ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
-		$objDefinition = new ilObjectDefinition();
-		$GLOBALS['objDefinition'] =& $objDefinition;
-		$objDefinition->startParsing();
-		$ilBench->stop("Core", "HeaderInclude_getObjectDefinitions");
-		
+		}		
 		
 		// $ilUser initialisation (1)
 		$ilBench->start("Core", "HeaderInclude_getCurrentUser");
@@ -960,12 +964,8 @@ class ilInitialisation
 		// $lng initialisation
 		$this->initLanguage();
 		
-		// $ilAccess and $rbac... initialisation
-		$this->initAccessHandling();
-				
-		// init tree
-		$tree = new ilTree(ROOT_FOLDER_ID);
-		$GLOBALS['tree'] =& $tree;
+		// store user language in tree
+		$GLOBALS['tree']->initLangCode();
 		
 		// instantiate main template
 		$tpl = new ilTemplate("tpl.main.html", true, true);

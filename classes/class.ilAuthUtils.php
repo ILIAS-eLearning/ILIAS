@@ -263,7 +263,11 @@ class ilAuthUtils
 			case "shibboleth":
 				return AUTH_SHIBBOLETH;
 				break;
-				
+
+			case "cas":
+				return AUTH_CAS;
+				break;
+
 			default:
 				$q = "SELECT value FROM settings WHERE ".
 			 		 "keyword='auth_mode'";

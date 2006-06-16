@@ -142,7 +142,7 @@ class ilTree
 	*/
 	function ilTree($a_tree_id, $a_root_id = 0)
 	{
-		global $ilDB,$ilErr,$ilUser,$ilias,$ilLog;
+		global $ilDB,$ilErr,$ilias,$ilLog;
 
 		// set db & error handler
 		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
@@ -157,16 +157,8 @@ class ilTree
 			$this->ilErr =& $ilErr;
 		}
 
-		// lang_code is only required in $this->fetchnodedata
-		if (!is_object($ilUser))
-		{
-			$this->lang_code = "en";
-		}
-		else
-		{
-			$this->lang_code = $ilUser->getCurrentLanguage();
-		}
-
+		$this->lang_code = "en";
+		
 		if (!isset($a_tree_id) or (func_num_args() == 0) )
 		{
 			$this->ilErr->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilErr->WARNING);
@@ -198,6 +190,23 @@ class ilTree
 		// By default, we create gaps in the tree sequence numbering for 50 nodes 
 		$this->gap = 50;
 	}
+	
+	// store user language
+	function initLangCode()
+	{
+		global $ilUser;
+		
+		// lang_code is only required in $this->fetchnodedata
+		if (!is_object($ilUser))
+		{
+			$this->lang_code = "en";
+		}
+		else
+		{
+			$this->lang_code = $ilUser->getCurrentLanguage();
+		}
+	}
+
 
 	/**
 	* set table names

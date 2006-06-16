@@ -115,13 +115,19 @@ class ilMailbox
 			$this->mtree->setTableNames($this->table_tree,$this->table_mail_obj_data);
 		}
 
-		$this->lng->loadLanguageModule("mail");
-		$this->actions = array(
-			"move"        => $this->lng->txt("mail_move_to"),
-			"mark_read"   => $this->lng->txt("mail_mark_read"),
-			"mark_unread" => $this->lng->txt("mail_mark_unread"),
-			"delete"      => $this->lng->txt("delete"));
+		// i added this, becaus if i create a new user automatically during
+		// CAS authentication, we have no $lng variable (alex, 16.6.2006)
+		// (alternative: make createDefaultFolder call static in ilObjUser->saveAsNew())
+		if (is_object($this->lng))
+		{
+			$this->lng->loadLanguageModule("mail");
 
+			$this->actions = array(
+				"move"        => $this->lng->txt("mail_move_to"),
+				"mark_read"   => $this->lng->txt("mail_mark_read"),
+				"mark_unread" => $this->lng->txt("mail_mark_unread"),
+				"delete"      => $this->lng->txt("delete"));
+		}
 		
 		// array contains basic folders and there lng translation for every new user
 		$this->default_folder = array(
@@ -500,8 +506,8 @@ class ilMailbox
 	
 	/**
 	* deletes user's mailbox and all db entries related to mailbox
-	* TODO: stefan, bitte nochmal kontrollieren, ob auch wirklich alles gelöscht wird.
-	* Vielleicht hab ich was übersehen. - shofmann, 15.7.03
+	* TODO: stefan, bitte nochmal kontrollieren, ob auch wirklich alles gelï¿½scht wird.
+	* Vielleicht hab ich was ï¿½bersehen. - shofmann, 15.7.03
 	*
 	* @access	public
 	* @return	boolean	true on successful deletion

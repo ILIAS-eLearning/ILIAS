@@ -249,7 +249,7 @@ class ilCASAuth extends Auth
 	*/
 	function login()
 	{
-		global $ilias, $rbacadmin;
+		global $ilias, $rbacadmin, $lng, $ilSetting;
 		
 		if (phpCAS::getUser() != "")
 		{
@@ -263,26 +263,27 @@ class ilCASAuth extends Auth
 			else
 			{
 				$userObj = new ilObjUser();
-/*				
+				
 				$newUser["firstname"] = $username;
 				$newUser["lastname"] = "";
 				
 				$newUser["login"] = $username;
 				
-				// Password must be random to prevent users from manually log in using the login data from Shibboleth users
-				$newUser["passwd"] = rand(); 
-				$newUser["passwd_type"] = IL_PASSWD_PLAIN; 
+				// set "plain md5" password (= no valid password)
+				$newUser["passwd"] = ""; 
+				$newUser["passwd_type"] = IL_PASSWD_MD5; 
 				
-				$newUser["gender"] = "m";
+				//$newUser["gender"] = "m";
 				$newUser["auth_mode"] = "cas";
+				$newUser["profile_incomplete"] = 1;
 				
 				// system data
 				$userObj->assignData($newUser);
 				$userObj->setTitle($userObj->getFullname());
 				$userObj->setDescription($userObj->getEmail());
 			
-				// to do: use system language here
-				$userObj->setLanguage("en");
+				// set user language to system language
+				$userObj->setLanguage($lng->lang_default);
 				
 				// Time limit
 				$userObj->setTimeLimitOwner(7);
@@ -290,7 +291,8 @@ class ilCASAuth extends Auth
 				$userObj->setTimeLimitFrom(time());
 				$userObj->setTimeLimitUntil(time());
 								
-				// Create use in DB
+				// Create user in DB
+				$userObj->setOwner(6);
 				$userObj->create();
 				$userObj->setActive(1, 6);
 				
@@ -303,15 +305,17 @@ class ilCASAuth extends Auth
 				$userObj->writePrefs();
 				
 				// to do: test this
-				$rbacadmin->assignUser($ilSetting('cas_user_default_role'), $userObj->getId(),true);
+				$rbacadmin->assignUser($ilSetting->get('cas_user_default_role'), $userObj->getId(),true);
 				
 				unset($userObj);
-*/
+				
+				$this->setAuth($username);
+
 			}
 		}
 		else
 		{
-			// This should never occur unless Shibboleth is not configured properly
+			// This should never occur unless CAS is not configured properly
 			$this->status = AUTH_WRONG_LOGIN;
 		}
 	}
