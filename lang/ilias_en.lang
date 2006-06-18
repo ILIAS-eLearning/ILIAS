@@ -681,7 +681,8 @@ assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting 
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test output
 assessment#:#tst_text_count_system#:#Scoring system
-assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s. You have %s left.
+assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
+assessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_total_questions#:#Total amount of questions
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_tst_date#:#Date of Test
