@@ -2080,6 +2080,7 @@ class ilTestOutputGUI
 			$str_time_left .= $time_left_seconds . " " . $this->lng->txt("seconds");
 		}
 		$date = getdate($starting_time);
+		$datenow = getdate();
 		$this->tpl->setCurrentBlock("enableprocessingtime");
 		$this->tpl->setVariable("USER_WORKING_TIME", 
 			sprintf($this->lng->txt("tst_time_already_spent"),
@@ -2091,11 +2092,37 @@ class ilTestOutputGUI
 					sprintf("%02d", $date["minutes"]).":".
 					sprintf("%02d", $date["seconds"])
 				),
-				$str_processing_time,
-				$str_time_left
+				$str_processing_time
 			)
+			. " <span id=\"timeleft\">" . sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left) . "</span>"
 		);
 		$this->tpl->parseCurrentBlock();
+		$template = new ilTemplate("tpl.workingtime.js.html", TRUE, TRUE, TRUE);
+		$template->setVariable("STRING_MINUTE", $this->lng->txt("minute"));
+		$template->setVariable("STRING_MINUTES", $this->lng->txt("minutes"));
+		$template->setVariable("STRING_SECOND", $this->lng->txt("second"));
+		$template->setVariable("STRING_SECONDS", $this->lng->txt("seconds"));
+		$template->setVariable("STRING_TIMELEFT", $this->lng->txt("tst_time_already_spent_left"));
+		$template->setVariable("AND", strtolower($this->lng->txt("and")));
+		$template->setVariable("YEAR", $date["year"]);
+		$template->setVariable("MONTH", $date["mon"]-1);
+		$template->setVariable("DAY", $date["mday"]);
+		$template->setVariable("HOUR", $date["hours"]);
+		$template->setVariable("MINUTE", $date["minutes"]);
+		$template->setVariable("SECOND", $date["seconds"]);
+		$template->setVariable("YEARNOW", $datenow["year"]);
+		$template->setVariable("MONTHNOW", $datenow["mon"]-1);
+		$template->setVariable("DAYNOW", $datenow["mday"]);
+		$template->setVariable("HOURNOW", $datenow["hours"]);
+		$template->setVariable("MINUTENOW", $datenow["minutes"]);
+		$template->setVariable("SECONDNOW", $datenow["seconds"]);
+		$template->setVariable("PTIME_M", $processing_time_minutes);
+		$template->setVariable("PTIME_S", $processing_time_seconds);
+		
+		$this->tpl->setCurrentBlock("HeadContent");
+		$this->tpl->setVariable("CONTENT_BLOCK", $template->get());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"window.setInterval('setWorkingTime()',1000)\"");
 	}
 	
 /**
