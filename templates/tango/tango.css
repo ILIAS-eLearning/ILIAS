@@ -230,6 +230,12 @@ th.il_invisible, td.il_invisible {
 	background-repeat:repeat-x;
 }
 
+tr.tbltitle {
+	border-bottom-width:1px;
+	border-bottom-color:#9EADBA;
+	border-bottom-style:solid;
+}
+
 .tblheader {
 	color: #000000;
 	font-weight:bold;
@@ -387,6 +393,12 @@ td.submit {
 	border-bottom-style:solid;
 
 }
+/* special styles for permission screens */
+
+tr.obj_perm {
+	background-color: #F0FFF0;
+}
+
 
 /* Container  list related styles */
 
@@ -632,7 +644,7 @@ td.il_no_style {
 /*
 table.il_Locator
 {
-	background-color: #E2EAF4;
+	background-color: #FFF;
 	background-image: url(images/TableHeaderGrey.gif);
 	background-repeat: repeat-x;
 }*/
@@ -944,7 +956,9 @@ td.il_InfoScreenPropertyValue
 
 div.il_Explorer
 {
-	margin:3px;
+	margin:0px;
+	padding:3px;
+	background-color: #FFFFFF;
 }
 
 /*div.il_RepExplorer
@@ -966,13 +980,7 @@ div.il_ExplorerHeader
 	padding-bottom:1px;
 	vertical-align:top;
 	text-align:left;
-	background-image: url(images/TableHeader.gif);
 	background-color:#EDEDED;
-	background-repeat: repeat-x;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #CACACA;
-	margin:0px;
 	font-weight: bold;
 }
 
@@ -1207,6 +1215,7 @@ td.il_RightColumn
 /* ------- Helptext --------- */
 span.il_Helptext {
 	font-size: 90%;
+	font-weight: normal;
 }
 
 /* ----------------- alternative text styles ------------- */
@@ -1710,6 +1719,19 @@ td.ilc_Page
 	margin-bottom: 0px;
 }
 
+td.ilc_PageDisabled
+{
+	padding:20px;
+	border-right-style: solid;
+	border-color: #9EADBA;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-bottom: 0px;
+	border-left: 3px dotted red;
+
+}
+
 table.ilc_LMNavigation {
 	border-width: 0px;
 	border-spacing: 0px;
@@ -1821,6 +1843,12 @@ div.ilc_TableOfContents
 	border-color: #EEEEEE;
 	border-width: 1px;
 	margin-bottom: 0px;
+}
+
+div.ilc_Disabled {
+	margin-left: -10px;
+	padding-left: 10px;
+	border-left: 3px dotted red;
 }
 
 /* --- Test & Assessment styles --- */
