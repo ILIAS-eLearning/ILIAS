@@ -425,7 +425,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		}
 
 		$maximum_points = $this->object->getMaximumPoints();
-		if ($maximum_points <= 0)
+		if (($maximum_points <= 0) && (count($this->object->answers) > 0))
 		{
 			$result = 1;
 			$this->setErrorMessage($this->lng->txt("enter_enough_positive_points"));

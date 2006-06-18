@@ -171,9 +171,18 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			}
 			elseif ($this->object->getOrderingType() == OQ_TERMS)
 			{
-				$this->tpl->setCurrentBlock("order_terms");
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
-				$this->tpl->setVariable("VALUE_ASNWER", "");
+				if ($multiline_answers)
+				{
+					$this->tpl->setCurrentBlock("show_textarea");
+					$this->tpl->setVariable("ANSWER_ORDER", $i);
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("show_textinput");
+					$this->tpl->setVariable("ANSWER_ORDER", $i);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$this->tpl->parseCurrentBlock();
 
@@ -183,6 +192,15 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 			$anchor = "#answer_" . ($this->object->getAnswerCount() + 1);
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
+			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+			if ($this->object->getOrderingType() == OQ_PICTURES)
+			{
+				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+			}
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
 			$this->tpl->setVariable("VALUE_ORDER", $this->object->getMaxSolutionOrder() + 1);
 			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
@@ -336,9 +354,16 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			{
 				if (preg_match("/answer_(\d+)/", $key, $matches))
 				{
-					if (!$value)
+					if ((!$value) && ($this->object->getOrderingType() == OQ_TERMS))
 					{
 						$ok = false;
+					}
+					if ($this->object->getOrderingType() == OQ_PICTURES)
+					{
+						if ((!$_FILES[$key]["tmp_name"]) && (!$value))
+						{
+							$ok = false;
+						}
 					}
 			 	}
 			}
