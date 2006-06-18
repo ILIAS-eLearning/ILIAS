@@ -1880,6 +1880,15 @@ span.solutionbox {
 	border-color:black;
 }
 
+td.middle {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	border: transparent;
+	padding: 3px;
+	vertical-align: middle;
+}
+
 /* --- Test tool javascript styles --- */
 
 div.termtext

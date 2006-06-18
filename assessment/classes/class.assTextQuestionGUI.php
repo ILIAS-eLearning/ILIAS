@@ -195,7 +195,7 @@ class assTextQuestionGUI extends assQuestionGUI
 	{
 		$cmd = $this->ctrl->getCmd();
 
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["points"]))
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (strlen($_POST["points"]) == 0))
 		{
 			return false;
 		}
@@ -213,7 +213,7 @@ class assTextQuestionGUI extends assQuestionGUI
 	function writePostData()
 	{
 		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["points"]))
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (strlen($_POST["points"]) == 0))
 		{
 			$result = 1;
 		}
