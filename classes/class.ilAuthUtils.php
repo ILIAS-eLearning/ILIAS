@@ -323,9 +323,41 @@ class ilAuthUtils
 		if ($ilias->getSetting("radius_active")) $modes['radius'] = AUTH_RADIUS;
 		if ($ilias->getSetting("shibboleth_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
 		if ($ilias->getSetting("script_active")) $modes['script'] = AUTH_SCRIPT;
+		if ($ilias->getSetting("cas_active")) $modes['cas'] = AUTH_CAS;
+		if ($ilias->getSetting("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
 
 		return $modes;
 	}
 	
+	/**
+	* generate free login by starting with a default string and adding
+	* postfix numbers
+	*/
+	function _generateLogin($a_login)
+	{
+		global $ilDB;
+		
+		// Check if username already exists
+		$found = false;
+		$postfix = 0;
+		$c_login = $a_login;
+		while(!$found)
+		{
+			$r = $ilDB->query("SELECT login FROM usr_data WHERE login = ".
+				$ilDB->quote($c_login));
+			if ($r->numRows() > 0)
+			{
+				$postfix++;
+				$c_login = $a_login.$postfix;
+			}
+			else
+			{
+				$found = true;
+			}
+		}
+		
+		return $c_login;
+	}
+
 }
 ?>

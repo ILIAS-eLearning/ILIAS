@@ -306,7 +306,7 @@ class CASClient
 		  
 	// to do: undo this
 	//$this->_server['base_url'] = 'https://'
-	$this->_server['base_url'] = 'https://'
+	$this->_server['base_url'] = 'http://'
 	  .$this->getServerHostname()
 	  .':'
 	  .$this->getServerPort()

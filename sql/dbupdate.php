@@ -10973,4 +10973,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#742>
 ALTER TABLE usr_data ADD COLUMN `profile_incomplete` int(2) default '0';
-
+<#743>
+ALTER TABLE `usr_data` MODIFY `auth_mode` ENUM( 'default','local', 'ldap', 'radius', 'shibboleth','script','cas','soap') DEFAULT 'default' NOT NULL;
+ALTER TABLE `role_data` MODIFY `auth_mode` ENUM( 'default', 'local', 'ldap', 'radius', 'shibboleth', 'script','cas','soap') DEFAULT 'default' NOT NULL;
+ALTER TABLE `usr_data` ADD COLUMN ext_account CHAR(50);

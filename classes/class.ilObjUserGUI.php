@@ -192,7 +192,8 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $ilias, $rbacsystem, $rbacreview, $styleDefinition;
+		global $ilias, $rbacsystem, $rbacreview, $styleDefinition, $ilSetting;
+		
 		//load ILIAS settings
 		$settings = $ilias->getAllSettings();
 		
@@ -269,6 +270,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["passwd"] = "";
 		$data["fields"]["passwd2"] = "";
 		$data["fields"]["title"] = "";
+		$data["fields"]["ext_account"] = "";
 		$data["fields"]["gender"] = "";
 		$data["fields"]["firstname"] = "";
 		$data["fields"]["lastname"] = "";
@@ -349,6 +351,20 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
+		
+		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active"))
+		{
+			$this->tpl->setCurrentBlock("ext_account");
+			$this->tpl->setVariable("TXT_EXT_ACCOUNT",$this->lng->txt("user_ext_account"));
+			$this->tpl->setVariable("TXT_EXT_ACCOUNT_DESC",$this->lng->txt("user_ext_account_desc"));
+			if (isset($_SESSION["error_post_vars"]["Fobject"]["ext_account"]))
+			{
+				$this->tpl->setVariable("EXT_ACCOUNT",
+					$_SESSION["error_post_vars"]["Fobject"]["ext_account"]);
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
 		
 		//$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").
 		//	$_SERVER["REMOTE_ADDR"]);
@@ -792,7 +808,8 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
     function editObject()
     {
-        global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser;
+        global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
+			,$ilSetting;
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -818,6 +835,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["login"] = $this->object->getLogin();
 		$data["fields"]["passwd"] = "********";	// will not be saved
 		$data["fields"]["passwd2"] = "********";	// will not be saved
+		$data["fields"]["ext_account"] = $this->object->getExternalAccount();
 		$data["fields"]["title"] = $this->object->getUTitle();
 		$data["fields"]["gender"] = $this->object->getGender();
 		$data["fields"]["firstname"] = $this->object->getFirstname();
@@ -841,6 +859,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["approve_date"] = $this->object->getApproveDate();
 		$data["fields"]["active"] = $this->object->getActive();
 		$data["fields"]["auth_mode"] = $this->object->getAuthMode();
+		$data["fields"]["ext_account"] = $this->object->getExternalAccount();
 
 		if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
 		{
@@ -1001,7 +1020,27 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		if ($this->object->getAuthMode(true) != AUTH_LOCAL)
+		// external account
+		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active"))
+		{
+			$this->tpl->setCurrentBlock("ext_account");
+			$this->tpl->setVariable("TXT_EXT_ACCOUNT",$this->lng->txt("user_ext_account"));
+			$this->tpl->setVariable("TXT_EXT_ACCOUNT_DESC",$this->lng->txt("user_ext_account_desc"));
+			if (isset($_SESSION["error_post_vars"]["Fobject"]["ext_account"]))
+			{
+				$this->tpl->setVariable("EXT_ACCOUNT",
+					$_SESSION["error_post_vars"]["Fobject"]["ext_account"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("EXT_ACCOUNT",
+					$data["fields"]["ext_account"]);
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
+			$this->object->getAuthMode(true) != AUTH_CAS)
 		{
 			$this->tpl->setVariable("OPTION_DISABLED", "\"disabled=disabled\"");
 		}
@@ -1038,7 +1077,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// auth mode selection
 		include_once('classes/class.ilAuthUtils.php');
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
-
+//var_dump($active_auth_modes);
 		// preselect previous chosen auth mode otherwise default auth mode
 		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ? $_SESSION["error_post_vars"]["Fobject"]["auth_mode"] : $this->object->getAuthMode();
 
@@ -1291,7 +1330,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-        global $ilias, $rbacsystem, $rbacadmin;
+        global $ilias, $rbacsystem, $rbacadmin, $ilSetting;
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -1379,8 +1418,6 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-
-
 		// TODO: check if login or passwd already exists
 		// TODO: check length of login and passwd
 
@@ -1398,6 +1435,11 @@ class ilObjUserGUI extends ilObjectGUI
 		$userObj->setUserDefinedData($_POST['udf']);
 
 		$userObj->create();
+		
+		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active"))
+		{
+			$userObj->setExternalAccount($_POST["Fobject"]["ext_account"]);
+		}
 
 		//$user->setId($userObj->getId());
 

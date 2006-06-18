@@ -250,24 +250,29 @@ class ilCASAuth extends Auth
 	function login()
 	{
 		global $ilias, $rbacadmin, $lng, $ilSetting;
-		
+
 		if (phpCAS::getUser() != "")
 		{
+
 			$username = phpCAS::getUser();
-			
+
 			// Authorize this user
-			if (loginExists($username))
+			$local_user = ilObjUser::_checkExternalAuthAccount("cas", $username);
+
+			if ($local_user != "")
 			{
-				$this->setAuth($username);
+				$this->setAuth($local_user);
 			}
 			else
 			{
 				$userObj = new ilObjUser();
 				
-				$newUser["firstname"] = $username;
+				$local_user = ilAuthUtils::_generateLogin($username);
+				
+				$newUser["firstname"] = $local_user;
 				$newUser["lastname"] = "";
 				
-				$newUser["login"] = $username;
+				$newUser["login"] = $local_user;
 				
 				// set "plain md5" password (= no valid password)
 				$newUser["passwd"] = ""; 
@@ -275,6 +280,7 @@ class ilCASAuth extends Auth
 				
 				//$newUser["gender"] = "m";
 				$newUser["auth_mode"] = "cas";
+				$newUser["ext_account"] = $username;
 				$newUser["profile_incomplete"] = 1;
 				
 				// system data
@@ -309,7 +315,7 @@ class ilCASAuth extends Auth
 				
 				unset($userObj);
 				
-				$this->setAuth($username);
+				$this->setAuth($local_user);
 
 			}
 		}

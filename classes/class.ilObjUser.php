@@ -318,6 +318,7 @@ class ilObjUser extends ilObject
 		
 		//authentication
 		$this->setAuthMode($a_data['auth_mode']);
+		$this->setExternalAccount($a_data['ext_account']);
 	}
 
 	/**
@@ -360,7 +361,7 @@ class ilObjUser extends ilObject
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
-                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,profile_incomplete) "
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
                 . "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', "
@@ -377,6 +378,7 @@ class ilObjUser extends ilObject
                 . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
 				$this->getTimeLimitOwner()."', "
                 . "'".$this->getAuthMode()."', "
+				. "'".$this->getExternalAccount()."', "
 				. "'".$this->getProfileIncomplete()."')";
 		}
 		else
@@ -386,7 +388,7 @@ class ilObjUser extends ilObject
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
-                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,profile_incomplete) "
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
                 . "'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', "
@@ -403,6 +405,7 @@ class ilObjUser extends ilObject
                 . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
 				$this->getTimeLimitOwner()."',"
 				."'".$this->getAuthMode()."', "
+				."'".$this->getExternalAccount()."', "
 				."'".$this->getProfileIncomplete()."'"
                 . ")";
 		}
@@ -490,6 +493,7 @@ class ilObjUser extends ilObject
             "time_limit_message='".$this->getTimeLimitMessage()."', ".
 			"profile_incomplete = ".$ilDB->quote($this->getProfileIncomplete()).", ".
             "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
+			"ext_account='".ilUtil::prepareDBString($this->getExternalAccount())."', ".
 			$pw_update.", ".
             "last_update=now() ".
 		//	"ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."', ".
@@ -2644,6 +2648,52 @@ class ilObjUser extends ilObject
 		return ilAuthUtils::_getAuthMode($this->auth_mode);
 	}
 
+	/**
+    * set external account
+	*
+	* note: 3.7.0 uses this field only for cas and soap authentication.
+	*
+	* @access	public
+	*/
+	function setExternalAccount($a_str)
+	{
+		$this->ext_account = $a_str;
+	}
+	
+	/**
+    * get external account
+	*
+	* note: 3.7.0 uses this field only for cas and soap authentication.
+	*
+	* @access	public
+	*/
+	function getExternalAccount()
+	{
+		return $this->ext_account;
+	}
+	
+	/**
+	* check whether external account and authentication method
+	* matches with a user
+	*
+	*/
+	function _checkExternalAuthAccount($a_auth, $a_account)
+	{
+		global $ilDB;
+		
+		$r = $ilDB->query("SELECT * FROM usr_data WHERE ".
+			" ext_account = ".$ilDB->quote($a_account)." AND ".
+			" auth_mode = ".$ilDB->quote($a_auth));
+		if ($usr = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $usr["login"];
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	* Create a personal picture image file from a temporary image file
 	*

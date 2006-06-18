@@ -1,7 +1,9 @@
 <form action="{FORMACTION}" name="CASOptions" method="post">
 <table class="fullwidth">
 <tr class="tblheader">
-	<td class="std" colspan="3">{TXT_CAS_TITLE}</td>
+	<td class="std" colspan="3">{TXT_CAS_TITLE}<br />
+	<span class="subtitle">{TXT_CAS_DESC}</span>
+	</td>
 </tr>
 <tr>
 	<td class="option">{TXT_CAS_ACTIVE}</td>
@@ -23,12 +25,22 @@
 	<br/><span class="small"><i>{TXT_CAS_URI_DESC}</i></span></td>
 </tr>
 <tr>
+	<td class="option">{TXT_CREATE_USERS}</td>
+	<td class="option_value"><input type="checkbox" name="cas[create_users]" value="1" {CHK_CREATE_USERS}/>
+	<br/><span class="small"><i>{TXT_CREATE_USERS_DESC}</i></span></td>
+</tr>
+<tr>
 	<td class="option">
-	{TXT_CAS_USER_DEFAULT_ROLE} <span class="asterisk">*</span>
+	{TXT_CAS_USER_DEFAULT_ROLE}
 	</td>
 	<td class="option_value">
 	{CAS_USER_DEFAULT_ROLE}
-	</td>
+	<br/><span class="small"><i>{TXT_CAS_USER_DEFAULT_ROLE_DESC}</i></span></td>
+</tr>
+<tr>
+	<td class="option">{TXT_ALLOW_LOCAL}</td>
+	<td class="option_value"><input type="checkbox" name="cas[allow_local]" value="1" {CHK_ALLOW_LOCAL}/>
+	<br/><span class="small"><i>{TXT_ALLOW_LOCAL_DESC}</i></span></td>
 </tr>
 <tr>
 	<td class="submit" colspan="3" align="left">
