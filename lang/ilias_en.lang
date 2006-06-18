@@ -2983,14 +2983,24 @@ common#:#shib_street#:#Attribute for street
 common#:#shib_title#:#Attribute for title
 common#:#shib_update#:#Update this field on login
 common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
-common#:#auth_cas_user_default_role#:#Default role assigned to CAS users
+common#:#auth_cas_user_default_role#:#Default Role
+common#:#auth_cas_allow_local#:#Allow Local Authentication
+common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
+common#:#auth_cas_user_default_role_desc#:#This role is assigned to automatically created CAS users.
+common#:#auth_cas_create_users#:#Create non-existing users automatically
+common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_cas_auth#:#Configure CAS Authentication
+common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)
+common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
+common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
+common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_soap_auth#:#Configure SOAP Authentication
 common#:#shib_visible#:#Shibboleth settings are visible
 common#:#shib_write#:#Edit Shibboleth settings
 common#:#shib_zipcode#:#Attribute for zipcode
 common#:#show#:#Show
+common#:#uri#:#URI
 common#:#show_details#:#Show Details
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
@@ -3228,6 +3238,8 @@ common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_other#:#Other Information
 common#:#user_statistics#:#Statistical Data
+common#:#user_ext_account#:#External Account
+common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)
 common#:#userdata#:#User data
 common#:#userfolder_export_csv#:#Comma Separated Values
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
